@@ -8,6 +8,7 @@ import io.vertx.tp.is.uca.FsKit;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class ExPath extends AbstractExPath {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             futures.add(this.commandMkdir(compared.getOrDefault(ChangeFlag.ADD, new JsonArray()), config));
             futures.add(this.commandMkdir(compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray()), queried));
-            return Ux.thenCombineArray(futures);
+            return Ux.thenCombineArray(futures)
+                .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE));
         });
     }
 

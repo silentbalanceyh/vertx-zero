@@ -31,12 +31,7 @@ public class FsKit {
     public static Future<JsonArray> queryDirectory(final JsonObject condition) {
         return Ux.Jooq.on(IDirectoryDao.class)
             .fetchJAsync(condition)
-            .compose(Ut.ifJArray(
-                KName.METADATA,
-                KName.VISIT_GROUP,
-                KName.VISIT_ROLE,
-                KName.VISIT_MODE
-            ));
+            .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE));
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareDirectory(final JsonArray input, final List<IDirectory> directories) {
