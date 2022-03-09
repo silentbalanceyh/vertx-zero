@@ -31,6 +31,7 @@ public class FsReadOnly extends AbstractFs {
         final JsonObject metadata = new JsonObject();
         metadata.put("deletion", Boolean.FALSE);
         metadata.put("edition", Boolean.FALSE);
+        directory.setMetadata(metadata.encode());
         return directory.setType(TypeDirectory.STORE.name());
     }
 
