@@ -11,11 +11,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,16 +40,19 @@ public class FsKit {
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareDirectory(final JsonArray input, final List<IDirectory> directories) {
-        final Set<String> storePath = directories.stream()
-            .filter(Objects::nonNull)
-            .map(IDirectory::getStorePath).collect(Collectors.toSet());
+        /*
+         *  IDirectory
+         */
+        final ConcurrentMap<String, IDirectory> directoryMap = Ut.elementMap(directories, IDirectory::getStorePath);
         final JsonArray queueAD = new JsonArray();
         final JsonArray queueUP = new JsonArray();
+
         Ut.itJArray(input).forEach(json -> {
             final String path = json.getString(KName.STORE_PATH);
-            if (storePath.contains(path)) {
+            if (directoryMap.containsKey(path)) {
                 // UPDATE Queue
-                queueUP.add(json);
+                final JsonObject normalized = Ux.toJson(directoryMap.getOrDefault(path, null));
+                queueUP.add(normalized);
             } else {
                 // ADD Queue
                 queueAD.add(json);
