@@ -53,6 +53,10 @@ public abstract class AbstractExPath implements ExIo {
         if (Ut.isNil(queueAd)) {
             return Ux.futureA();
         }
+        // Injection `runComponent` to replace the default `runComponent`
+        if (config.containsKey(KName.Component.RUN_COMPONENT)) {
+            Ut.itJArray(queueAd).forEach(json -> json.put(KName.Component.RUN_COMPONENT, config.getString(KName.Component.RUN_COMPONENT)));
+        }
         // Group queueAd, Re-Calculate `directoryId` here.
         return this.componentRun(queueAd, (fs, dataGroup) -> fs.mkdir(dataGroup, config)).compose(inserted -> {
             /*
@@ -74,7 +78,16 @@ public abstract class AbstractExPath implements ExIo {
             if (Ut.notNil(storePath)) {
                 final IDirectory store = storeMap.get(storePath);
                 if (Objects.nonNull(store)) {
+                    // directoryId
                     json.put(KName.DIRECTORY_ID, store.getKey());
+                    /*
+                     * visit information
+                     * -- visit ( owner )
+                     * -- visitMode
+                     * -- visitRole
+                     * -- visitGroup
+                     */
+                    json.put(KName.VISIT_MODE, Ut.toJArray(store.getVisitMode()));
                 }
             }
         });

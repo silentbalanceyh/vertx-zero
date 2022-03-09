@@ -49,6 +49,7 @@ public abstract class AbstractFs implements Fs {
              * -- parentPath = Data
              */
             final List<IDirectory> inserted = new ArrayList<>();
+            final JsonObject initialize = config.getJsonObject(KName.INITIALIZE, new JsonObject());
             storeParent.forEach((pathParent, dataGroup) -> {
                 /*
                  * Initialized for queueAdd
@@ -57,14 +58,23 @@ public abstract class AbstractFs implements Fs {
                 final JsonObject storeInput = stored.get(pathParent);
                 Ut.itJArray(dataGroup).forEach(json -> {
                     final JsonObject dataRecord = json.copy();
-                    inserted.add(this.syncDirectory(dataRecord, storeObj, storeInput));
+                    /*
+                     * sync 2 steps
+                     * 1. basic information
+                     * 2. parent information
+                     */
+                    final JsonObject directoryJ = this.syncDirectory(dataRecord, initialize);
+                    final IDirectory normalized = this.syncDirectory(directoryJ, storeObj, storeInput);
+
+
+                    inserted.add(normalized);
                 });
             });
             return Ux.Jooq.on(IDirectoryDao.class).insertJAsync(inserted);
         });
     }
 
-    protected IDirectory syncDirectory(final JsonObject data, final IDirectory parentD, final JsonObject parentJ) {
+    protected JsonObject syncDirectory(final JsonObject data, final JsonObject initialize) {
         final JsonObject directoryJ = new JsonObject();
         Ut.elementCopy(directoryJ, data,
             // key for inserted
@@ -85,6 +95,19 @@ public abstract class AbstractFs implements Fs {
         directoryJ.put(KName.UPDATED_BY, USER_SYSTEM);
         directoryJ.put(KName.CREATED_BY, USER_SYSTEM);
         directoryJ.put(KName.OWNER, USER_SYSTEM);
+        // Visit
+        directoryJ.put(KName.VISIT, Boolean.TRUE);
+        final JsonArray visitMode;
+        if (initialize.containsKey(KName.VISIT_MODE)) {
+            visitMode = initialize.getJsonArray(KName.VISIT_MODE);
+        } else {
+            visitMode = new JsonArray().add("r").add("w").add("x");
+        }
+        directoryJ.put(KName.VISIT_MODE, visitMode.encode());
+        return directoryJ;
+    }
+
+    protected IDirectory syncDirectory(final JsonObject directoryJ, final IDirectory parentD, final JsonObject parentJ) {
         {
             // Calculated by Parent
             if (Objects.nonNull(parentD)) {
@@ -97,9 +120,6 @@ public abstract class AbstractFs implements Fs {
                 directoryJ.put(KName.PARENT_ID, parentJ.getValue(KName.KEY));
             }
         }
-        // Visit
-        directoryJ.put("visit", Boolean.TRUE);
-        directoryJ.put("visitMode", new JsonArray().add("r").add("w").add("x").encode());
         {
             if (Objects.nonNull(parentD)) {
                 directoryJ.put("visitRole", parentD.getVisitRole());

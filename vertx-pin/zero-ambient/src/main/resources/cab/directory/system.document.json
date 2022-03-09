@@ -1,6 +1,6 @@
 {
-    "mapping": {
-        "deptId": "parentId"
+    "query": {
+        "type": "zero.document.default"
     },
     "store": {
         "runComponent": "io.vertx.tp.is.uca.FsReadOnly"

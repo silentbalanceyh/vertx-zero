@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ExPath extends AbstractExPath {
 
     @Override
-    public Future<JsonArray> mkdir(final JsonArray data, final JsonObject config) {
+    public Future<JsonArray> dirMk(final JsonArray data, final JsonObject config) {
         /*
          * 1. Fetch all data of IDirectory
          * -- The condition is `storePath` instead of other information
@@ -38,4 +38,21 @@ public class ExPath extends AbstractExPath {
         });
     }
 
+    @Override
+    public Future<JsonArray> dirLs(final String directoryId) {
+        /*
+         * Fetch data which `parentId` = `directoryId`
+         */
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.PARENT_ID, directoryId);
+        return FsKit.queryDirectory(condition);
+    }
+
+    @Override
+    public Future<JsonArray> dirLsR(final String sigma) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put("parentId,n", "");
+        condition.put(KName.SIGMA, sigma);
+        return FsKit.queryDirectory(condition);
+    }
 }

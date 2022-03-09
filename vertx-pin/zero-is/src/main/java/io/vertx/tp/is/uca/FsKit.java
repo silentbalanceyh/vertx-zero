@@ -31,6 +31,17 @@ public class FsKit {
         return Ux.Jooq.on(IDirectoryDao.class).fetchAsync(condition);
     }
 
+    public static Future<JsonArray> queryDirectory(final JsonObject condition) {
+        return Ux.Jooq.on(IDirectoryDao.class)
+            .fetchJAsync(condition)
+            .compose(Ut.ifJArray(
+                KName.METADATA,
+                KName.VISIT_GROUP,
+                KName.VISIT_ROLE,
+                KName.VISIT_MODE
+            ));
+    }
+
     public static ConcurrentMap<ChangeFlag, JsonArray> compareDirectory(final JsonArray input, final List<IDirectory> directories) {
         final Set<String> storePath = directories.stream()
             .filter(Objects::nonNull)
@@ -40,9 +51,11 @@ public class FsKit {
         Ut.itJArray(input).forEach(json -> {
             final String path = json.getString(KName.STORE_PATH);
             if (storePath.contains(path)) {
-                queueAD.add(json);
-            } else {
+                // UPDATE Queue
                 queueUP.add(json);
+            } else {
+                // ADD Queue
+                queueAD.add(json);
             }
         });
         return new ConcurrentHashMap<>() {

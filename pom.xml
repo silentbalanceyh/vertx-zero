@@ -134,7 +134,7 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.44.1</grpc.version>
+        <grpc.version>1.45.0</grpc.version>
         <protobuf.version>3.19.4</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.9.0</gson.version>

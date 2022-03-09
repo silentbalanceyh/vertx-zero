@@ -189,6 +189,15 @@ public interface KName {
     String INTEGRATION_ID = "integrationId";
     String PARENT_ID = "parentId";
     String DIRECTORY_ID = "directoryId";
+    String DIRECTORY = "directory";
+    String INITIALIZE = "initialize";
+    String KEY_WORD = "keyword";
+
+    String VISIT = "visit";
+    String VISIT_MODE = "visitMode";
+    String VISIT_ROLE = "visitRole";
+    String VISIT_GROUP = "visitGroup";
+    String VISIT_COMPONENT = "visitComponent";
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */

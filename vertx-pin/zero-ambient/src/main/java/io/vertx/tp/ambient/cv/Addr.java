@@ -51,6 +51,10 @@ public interface Addr {
         String MY_QUEUE = Prefix._EVENT + "X-ATTACHMENT/MY/QUEUE";
 
         String BY_KEY = Prefix._EVENT + "X-ATTACHMENT/BY/KEY";
+
+        String BY_DIRECTORY = Prefix._EVENT + "X-ATTACHMENT/BY/DIRECTORY";
+
+        String BY_KEYWORD = Prefix._EVENT + "X-ATTACHMENT/BY/KEYWORD";
     }
 
     interface Datum {

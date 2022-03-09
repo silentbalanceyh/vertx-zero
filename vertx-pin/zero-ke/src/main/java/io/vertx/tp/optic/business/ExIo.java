@@ -15,5 +15,12 @@ public interface ExIo {
     /*
      * File System Processing
      */
-    Future<JsonArray> mkdir(JsonArray data, JsonObject config);
+    Future<JsonArray> dirMk(JsonArray data, JsonObject config);
+
+    /*
+     * Query Data Only
+     */
+    Future<JsonArray> dirLs(String directoryId);
+
+    Future<JsonArray> dirLsR(String sigma);
 }

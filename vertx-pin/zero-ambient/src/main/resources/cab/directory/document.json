@@ -1,2 +1,5 @@
 {
+    "store": {
+        "runComponent": "io.vertx.tp.is.uca.FsReadOnly"
+    }
 }
