@@ -192,6 +192,7 @@ public interface KName {
     String DIRECTORY = "directory";
     String INITIALIZE = "initialize";
     String KEY_WORD = "keyword";
+    String SORT = "sort";
 
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";

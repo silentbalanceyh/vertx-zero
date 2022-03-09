@@ -11,6 +11,6 @@ import io.vertx.tp.optic.phantom.AbstractArbor;
 public class WholeArbor extends AbstractArbor {
     @Override
     public Future<JsonArray> generate(final JsonObject category, final JsonObject configuration) {
-        return this.ensureChildren(category, null, configuration);
+        return this.combineArbor(category, null, configuration);
     }
 }

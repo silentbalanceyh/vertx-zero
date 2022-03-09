@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public abstract class AbstractArbor implements Arbor {
 
-    protected Future<JsonArray> ensureChildren(final JsonObject category, final JsonArray children, final JsonObject configuration) {
+    protected Future<JsonArray> combineArbor(final JsonObject category, final JsonArray children, final JsonObject configuration) {
         /*
          * Extract data to calculate the default `store`
          * The input JsonArray should be as following
@@ -39,18 +39,20 @@ public abstract class AbstractArbor implements Arbor {
             final String storePath = category.getString(KName.STORE_PATH);
             final JsonArray valid = new JsonArray();
             Ut.itJArray(processed).forEach(json -> {
+                // Copy JsonObject
+                json = json.copy();
                 if (storePath.equals(json.getString(KName.STORE_PATH))) {
-                    category.put(KName.DIRECTORY_ID, json.getString(KName.DIRECTORY_ID));
-                } else {
-                    valid.add(json);
+                    /* Add `sort` to root node for root sorting */
+                    json.put(KName.SORT, category.getInteger(KName.SORT));
                 }
+                valid.add(json);
             });
             return Ux.future(valid);
         });
     }
 
-    protected Future<JsonArray> ensureChildren(final JsonObject category, final JsonObject configuration) {
-        return this.ensureChildren(category, null, configuration);
+    protected Future<JsonArray> combineArbor(final JsonObject category, final JsonObject configuration) {
+        return this.combineArbor(category, null, configuration);
     }
 
     /*

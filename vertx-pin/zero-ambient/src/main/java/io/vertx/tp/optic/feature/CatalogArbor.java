@@ -26,6 +26,6 @@ public class CatalogArbor extends AbstractArbor {
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG
             ))
-            .compose(children -> this.ensureChildren(category, children, configuration));
+            .compose(children -> this.combineArbor(category, children, configuration));
     }
 }

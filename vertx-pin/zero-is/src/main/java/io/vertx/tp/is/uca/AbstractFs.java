@@ -66,7 +66,6 @@ public abstract class AbstractFs implements Fs {
                     final JsonObject directoryJ = this.syncDirectory(dataRecord, initialize);
                     final IDirectory normalized = this.syncDirectory(directoryJ, storeObj, storeInput);
 
-
                     inserted.add(normalized);
                 });
             });
@@ -86,7 +85,9 @@ public abstract class AbstractFs implements Fs {
             // active, language, sigma
             KName.ACTIVE,
             KName.LANGUAGE,
-            KName.SIGMA
+            KName.SIGMA,
+            // runComponent
+            KName.Component.RUN_COMPONENT
         );
         final String USER_SYSTEM = "zero-environment";
         // updatedAt, updatedBy, createdAt, createdBy, owner
@@ -118,6 +119,9 @@ public abstract class AbstractFs implements Fs {
                 directoryJ.put(KName.PARENT_ID, parentD.getKey());
             } else if (Ut.notNil(parentJ)) {
                 directoryJ.put(KName.PARENT_ID, parentJ.getValue(KName.KEY));
+                if (!directoryJ.containsKey(KName.Component.RUN_COMPONENT)) {
+                    directoryJ.put(KName.Component.RUN_COMPONENT, parentJ.getString(KName.Component.RUN_COMPONENT));
+                }
             }
         }
         {

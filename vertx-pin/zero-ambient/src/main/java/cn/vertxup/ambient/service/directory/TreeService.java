@@ -33,40 +33,23 @@ public class TreeService implements TreeStub {
     @Override
     public Future<JsonArray> seekAsync(final String appId, final String type) {
         return this.stub.treeApp(appId, type).compose(categories -> {
-            final List<Future<JsonObject>> futures = new ArrayList<>();
+            final List<Future<JsonArray>> futures = new ArrayList<>();
             Ut.itJArray(categories).map(this::seekAsync).forEach(futures::add);
-            return Ux.thenCombine(futures);
+            return Ux.thenCombineArray(futures);
         });
     }
 
-    private Future<JsonObject> seekAsync(final JsonObject input) {
+    private Future<JsonArray> seekAsync(final JsonObject input) {
         final String runComponent = input.getString(KName.Component.TREE_COMPONENT);
         final Class<?> arborCls = Ut.clazz(runComponent, null);
         if (Objects.isNull(arborCls) || !Ut.isImplement(arborCls, Arbor.class)) {
             // Nothing To Do
-            return Ux.future(input);
+            return Ux.futureA();
         }
         final JsonObject configuration = this.seekConfig(input);
         final Arbor arbor = Fn.poolThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
         At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
-        return arbor.generate(input, configuration).compose(children -> {
-            /*
-             * Configuration Extract Mapping
-             * {
-             *      "field1": "treeField1",
-             *      "field2": "treeField2",
-             *      "field3": "treeField3",
-             *      "field4": "treeField4",
-             * }
-             */
-            final JsonObject mapping = configuration.getJsonObject(KName.MAPPING, new JsonObject());
-            mapping.fieldNames().forEach(from -> {
-                final String to = mapping.getString(from);
-                Ut.itJArray(children).forEach(child -> child.put(to, child.getValue(from)));
-            });
-            input.put(KName.CHILDREN, children);
-            return Ux.future(input);
-        });
+        return arbor.generate(input, configuration);
     }
 
     private JsonObject seekConfig(final JsonObject input) {
