@@ -32,14 +32,7 @@ public class FsDefault extends AbstractFs {
 
     @Override
     public Future<JsonArray> mkdir(final JsonArray data) {
-        this.runRoot(root -> {
-            final Set<String> dirSet = new HashSet<>();
-            Ut.itJArray(data).forEach(json -> {
-                final String path = json.getString(KName.STORE_PATH);
-                dirSet.add(Ut.ioPath(root, path));
-            });
-            dirSet.forEach(Ut::ioMkdir);
-        });
+        this.runRoot(data, dirSet -> dirSet.forEach(Ut::ioMkdir));
         return Ux.future(data);
     }
 
@@ -50,6 +43,17 @@ public class FsDefault extends AbstractFs {
             Is.Log.warnPath(this.getClass(), "The `storeRoot` of integration service is null");
         }
         fsRoot.accept(rootPath);
+    }
+
+    private void runRoot(final JsonArray data, final Consumer<Set<String>> fsRoot) {
+        this.runRoot(root -> {
+            final Set<String> dirSet = new HashSet<>();
+            Ut.itJArray(data).forEach(json -> {
+                final String path = json.getString(KName.STORE_PATH);
+                dirSet.add(Ut.ioPath(root, path));
+            });
+            fsRoot.accept(dirSet);
+        });
     }
 
     @Override
@@ -65,5 +69,11 @@ public class FsDefault extends AbstractFs {
     public Future<JsonArray> synchronize(final JsonArray data, final JsonObject config) {
         // Data Part for I_DIRECTORY Initializing
         return this.initialize(data, config).compose(this::mkdir);
+    }
+
+    @Override
+    public Future<JsonArray> rm(final JsonArray data) {
+        this.runRoot(data, dirSet -> dirSet.forEach(Ut::ioRm));
+        return Ux.future(data);
     }
 }

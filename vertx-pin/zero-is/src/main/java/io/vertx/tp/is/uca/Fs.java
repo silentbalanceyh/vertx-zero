@@ -22,6 +22,7 @@ public interface Fs {
      */
     Future<JsonArray> synchronize(JsonArray data, JsonObject config);
 
+    // ------------------- Cmd --------------------
     /*
      * Command: mkdir
      * - JsonArray
@@ -30,4 +31,10 @@ public interface Fs {
     Future<JsonArray> mkdir(JsonArray data);
 
     Future<JsonObject> mkdir(JsonObject data);
+
+    /*
+     * Command: rm
+     * - JsonArray
+     */
+    Future<JsonArray> rm(JsonArray data);
 }

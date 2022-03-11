@@ -9,4 +9,6 @@ import io.vertx.core.json.JsonObject;
 public interface DirStub {
 
     Future<JsonObject> create(JsonObject directoryJ);
+
+    Future<Boolean> remove(String key, boolean actual);
 }

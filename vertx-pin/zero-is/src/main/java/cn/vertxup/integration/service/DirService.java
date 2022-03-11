@@ -4,10 +4,16 @@ import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.is.uca.Fs;
 import io.vertx.tp.is.uca.FsHelper;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -33,5 +39,46 @@ public class DirService implements DirStub {
                 ))
                 .compose(fs::mkdir);
         });
+    }
+
+    /*
+     * actual = true
+     * 1. Delete folder records.
+     * 1. Remove the folder actually
+     *
+     * actual = false
+     * 1. Move `file` to `.Trash` folder instead of other operations.
+     * 2. Mark each folder with prefix `DELETE`
+     * 3. Update folder records `deleted = true`
+     */
+    @Override
+    public Future<Boolean> remove(final String key, final boolean actual) {
+        if (actual) {
+            final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+            return jq.<IDirectory>fetchByIdAsync(key)
+                .compose(directory -> {
+                    if (Objects.isNull(directory)) {
+                        return Ux.futureL();
+                    } else {
+                        final JsonObject condition = Ux.whereAnd();
+                        condition.put(KName.SIGMA, directory.getSigma());
+                        condition.put(KName.STORE_PATH + ",s", directory.getStorePath());
+                        return jq.<IDirectory>fetchAsync(condition).compose(queried -> {
+                            final List<IDirectory> directories = new ArrayList<>();
+                            directories.add(directory);
+                            directories.addAll(queried);
+                            return Ux.future(directories);
+                        });
+                    }
+                })
+                // Delete Records
+                .compose(jq::deleteJAsync)
+                // Helper execute `rm` command to remove folders
+                .compose(removed -> FsHelper.componentRun(removed, Fs::rm))
+                .compose(nil -> Ux.futureT());
+        } else {
+
+            return null;
+        }
     }
 }

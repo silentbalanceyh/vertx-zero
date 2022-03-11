@@ -279,8 +279,28 @@ final class IO {
 
     static boolean rmFile(final String filename) {
         final File file = getFile(filename);
-        file.deleteOnExit();
-        return true;
+        if (file.exists()) {
+            return rmLoop(file);
+        }
+        return false;
+    }
+
+    private static boolean rmLoop(final File directory) {
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (Objects.isNull(files)) {
+                files = new File[]{};
+            }
+            // Remove in loop
+            for (final File file : files) {
+                final boolean success = rmLoop(file);
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // If Directory, it's empty
+        return directory.delete();
     }
 
     static boolean mkdirFile(final String filename) {

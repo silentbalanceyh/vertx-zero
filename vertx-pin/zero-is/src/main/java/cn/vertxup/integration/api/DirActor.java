@@ -31,8 +31,13 @@ public class DirActor {
         return null;
     }
 
+    /*
+     * Hard Delete for directory.
+     * 1. Delete `I_DIRECTORY` records
+     * 2. Remove folder from `admin`
+     */
     @Address(Addr.Directory.DELETE)
-    public Future<JsonObject> remove(final String key) {
-        return null;
+    public Future<Boolean> remove(final String key) {
+        return this.stub.remove(key, true);
     }
 }
