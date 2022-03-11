@@ -24,7 +24,6 @@ final class IsConfiguration {
     }
 
     static IsConfig getConfig() {
-        init();
         return CONFIG;
     }
 }
