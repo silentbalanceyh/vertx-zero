@@ -36,7 +36,7 @@ public abstract class AbstractFs implements Fs {
         /*
          * Fetch by `parent`
          */
-        return FsKit.queryDirectory(formatted, KName.STORE_PARENT).compose(queried -> {
+        return FsHelper.directoryQuery(formatted, KName.STORE_PARENT).compose(queried -> {
             /*
              * Apply data by storeParent
              */

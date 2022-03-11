@@ -11,7 +11,17 @@ import io.vertx.core.json.JsonObject;
  */
 public interface Fs {
     /*
-     * Command: mkdir
+     * 1. Sync Data between ( Actual / Database )
+     * 2. Command: mkdir
      */
-    Future<JsonArray> mkdir(JsonArray data, JsonObject config);
+    Future<JsonArray> synchronize(JsonArray data, JsonObject config);
+
+    /*
+     * Command: mkdir
+     * - JsonArray
+     * - JsonObject
+     */
+    Future<JsonArray> mkdir(JsonArray data);
+
+    Future<JsonObject> mkdir(JsonObject data);
 }

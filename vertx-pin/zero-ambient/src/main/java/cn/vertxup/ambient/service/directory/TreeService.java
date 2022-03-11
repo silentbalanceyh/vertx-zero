@@ -72,7 +72,6 @@ public class TreeService implements TreeStub {
          * The configuration data came from `treeConfig`, combine the configuration information attached into
          * {
          *      "store": {
-         *          "storeRoot": ""
          *          "storePath": "",
          *          "runComponent": "Default `Fs` interface component that will be stored into I_DIRECTORY",
          *          "initialize": {
@@ -84,7 +83,6 @@ public class TreeService implements TreeStub {
          * }
          */
         final AtConfig config = AtPin.getConfig();
-        storeRef.put(KName.STORE_ROOT, config.getStoreRoot());
         storeRef.put(KName.STORE_PATH, config.getStorePath());
         configuration.put(KName.STORE, storeRef);
 

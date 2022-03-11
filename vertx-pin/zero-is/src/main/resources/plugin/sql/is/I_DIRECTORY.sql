@@ -17,7 +17,8 @@ CREATE TABLE `I_DIRECTORY`
      *
      * 关于文件路径 / 目录路径的计算流程
      */
-    `STORE_PATH`      VARCHAR(512) NOT NULL COMMENT '「storePath」- 目录相对路径',
+    `STORE_PATH`      VARCHAR(512) COMMENT '「storePath」- 目录相对路径',
+    `LINKED_PATH`     VARCHAR(521) COMMENT '「linkedPath」- 链接路径，type = LINK 时专用',
     `PARENT_ID`       VARCHAR(36) COMMENT '「parentId」- 父目录ID',
     `CATEGORY`        VARCHAR(36) COMMENT '「category」- 目录连接的类型树',
 
@@ -55,5 +56,7 @@ CREATE TABLE `I_DIRECTORY`
 -- changeset Lang:i-directory-2
 ALTER TABLE I_DIRECTORY
     ADD UNIQUE (`CODE`, `SIGMA`);
+ALTER TABLE I_DIRECTORY
+    ADD UNIQUE (`NAME`, `PARENT_ID`, `SIGMA`);
 ALTER TABLE I_DIRECTORY
     ADD UNIQUE (`STORE_PATH`, `SIGMA`);

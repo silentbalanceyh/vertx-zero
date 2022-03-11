@@ -44,7 +44,12 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      * The column <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
      * 目录相对路径
      */
-    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512).nullable(false), this, "「storePath」- 目录相对路径");
+    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512), this, "「storePath」- 目录相对路径");
+    /**
+     * The column <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    public final TableField<IDirectoryRecord, String> LINKED_PATH = createField(DSL.name("LINKED_PATH"), SQLDataType.VARCHAR(521), this, "「linkedPath」- 链接路径，type = LINK 时专用");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
@@ -190,7 +195,7 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
 
     @Override
     public List<UniqueKey<IDirectoryRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_I_DIRECTORY_CODE, Keys.KEY_I_DIRECTORY_STORE_PATH);
+        return Arrays.asList(Keys.KEY_I_DIRECTORY_NAME, Keys.KEY_I_DIRECTORY_CODE, Keys.KEY_I_DIRECTORY_STORE_PATH);
     }
 
     @Override

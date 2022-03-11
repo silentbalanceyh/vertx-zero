@@ -24,6 +24,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
     private String        name;
     private String        code;
     private String        storePath;
+    private String        linkedPath;
     private String        parentId;
     private String        category;
     private String        type;
@@ -51,6 +52,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.name = value.getName();
         this.code = value.getCode();
         this.storePath = value.getStorePath();
+        this.linkedPath = value.getLinkedPath();
         this.parentId = value.getParentId();
         this.category = value.getCategory();
         this.type = value.getType();
@@ -77,6 +79,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         String        name,
         String        code,
         String        storePath,
+        String        linkedPath,
         String        parentId,
         String        category,
         String        type,
@@ -101,6 +104,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.name = name;
         this.code = code;
         this.storePath = storePath;
+        this.linkedPath = linkedPath;
         this.parentId = parentId;
         this.category = category;
         this.type = type;
@@ -194,6 +198,25 @@ public class IDirectory implements VertxPojo, IIDirectory {
     @Override
     public IDirectory setStorePath(String storePath) {
         this.storePath = storePath;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public String getLinkedPath() {
+        return this.linkedPath;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public IDirectory setLinkedPath(String linkedPath) {
+        this.linkedPath = linkedPath;
         return this;
     }
 
@@ -558,6 +581,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(storePath);
+        sb.append(", ").append(linkedPath);
         sb.append(", ").append(parentId);
         sb.append(", ").append(category);
         sb.append(", ").append(type);
@@ -592,6 +616,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
         setName(from.getName());
         setCode(from.getCode());
         setStorePath(from.getStorePath());
+        setLinkedPath(from.getLinkedPath());
         setParentId(from.getParentId());
         setCategory(from.getCategory());
         setType(from.getType());

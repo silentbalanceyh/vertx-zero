@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.uca.AbstractExPath;
-import io.vertx.tp.is.uca.FsKit;
+import io.vertx.tp.is.uca.FsHelper;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
@@ -26,8 +26,8 @@ public class ExPath extends AbstractExPath {
          * -- The condition is `storePath` instead of other information
          * 2. Build the map of `storePath = IDirectory`, here will put `directoryId` into each data
          */
-        return FsKit.queryDirectory(data, KName.STORE_PATH).compose(queried -> {
-            final ConcurrentMap<ChangeFlag, JsonArray> compared = FsKit.compareDirectory(data, queried);
+        return FsHelper.directoryQuery(data, KName.STORE_PATH).compose(queried -> {
+            final ConcurrentMap<ChangeFlag, JsonArray> compared = FsHelper.directoryDiff(data, queried);
             /*
              * 1. ADD queue ( attach `directoryId` in processed )
              * 2. UPDATE queue ( attach `directoryId` )
@@ -47,7 +47,7 @@ public class ExPath extends AbstractExPath {
          */
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.PARENT_ID, directoryId);
-        return FsKit.queryDirectory(condition);
+        return FsHelper.directoryQuery(condition);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class ExPath extends AbstractExPath {
         final JsonObject condition = Ux.whereAnd();
         condition.put("parentId,n", "");
         condition.put(KName.SIGMA, sigma);
-        return FsKit.queryDirectory(condition);
+        return FsHelper.directoryQuery(condition);
     }
 }
