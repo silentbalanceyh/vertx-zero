@@ -30,6 +30,11 @@ public class TreeService implements TreeStub {
     @Inject
     private transient DatumStub stub;
 
+    /*
+     * Here the parameters are mapped to
+     * -- appId: X_APP -> KEY
+     * -- type:  X_CATEGORY -> TYPE
+     */
     @Override
     public Future<JsonArray> seekAsync(final String appId, final String type) {
         return this.stub.treeApp(appId, type).compose(categories -> {
@@ -39,31 +44,42 @@ public class TreeService implements TreeStub {
         });
     }
 
+    /*
+     * Each category node should contain two dim operations:
+     * -- treeComponent/treeConfig
+     * -- runComponent/runConfig
+     *
+     * Terminal when comment in following situations
+     * -- 1. treeComponent is null or it's not implement from Arbor interface.
+     */
     private Future<JsonArray> seekAsync(final JsonObject input) {
         final String runComponent = input.getString(KName.Component.TREE_COMPONENT);
         final Class<?> arborCls = Ut.clazz(runComponent, null);
+
+
+        // Terminal 1:
         if (Objects.isNull(arborCls) || !Ut.isImplement(arborCls, Arbor.class)) {
-            // Nothing To Do
             return Ux.futureA();
         }
-        final JsonObject configuration = this.seekConfig(input);
-        final Arbor arbor = Fn.poolThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
-        At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
-        return arbor.generate(input, configuration);
-    }
 
-    private JsonObject seekConfig(final JsonObject input) {
+
         final JsonObject configuration = input.getJsonObject(KName.Component.TREE_CONFIG);
         JsonObject storeRef = configuration.getJsonObject(KName.STORE);
         if (Ut.isNil(storeRef)) {
             storeRef = new JsonObject();
         }
         /*
-         * Combine the configuration information attached into
+         * The configuration data came from `treeConfig`, combine the configuration information attached into
          * {
          *      "store": {
          *          "storeRoot": ""
-         *          "storePath": ""
+         *          "storePath": "",
+         *          "runComponent": "Default `Fs` interface component that will be stored into I_DIRECTORY",
+         *          "initialize": {
+         *              "field1": "value1",
+         *              "field2": "value2",
+         *              "...": "..."
+         *          }
          *      }
          * }
          */
@@ -71,6 +87,9 @@ public class TreeService implements TreeStub {
         storeRef.put(KName.STORE_ROOT, config.getStoreRoot());
         storeRef.put(KName.STORE_PATH, config.getStorePath());
         configuration.put(KName.STORE, storeRef);
-        return configuration;
+
+        final Arbor arbor = Fn.poolThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
+        At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
+        return arbor.generate(input, configuration);
     }
 }

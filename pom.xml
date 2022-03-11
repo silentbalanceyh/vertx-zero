@@ -76,7 +76,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.4</jooq.version>
+        <jooq.version>3.16.5</jooq.version>
         <vertx.jooq.version>6.5.0</vertx.jooq.version>
         <mysql.version>8.0.28</mysql.version>
 
@@ -106,7 +106,7 @@
         <mongodb.async.version>3.12.10</mongodb.async.version>
         <poi.version>5.2.0</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
-        <jedis.version>4.1.1</jedis.version>
+        <jedis.version>4.2.0-m1</jedis.version>
         <j2objc.version>1.3</j2objc.version>
         <checker.version>3.21.3</checker.version>
 
@@ -114,7 +114,7 @@
         <elasticsearch.version>7.17.1</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.3</neo4j.version>
+        <neo4j.version>4.4.4</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -147,7 +147,7 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
         <netty.tcnative.version>2.0.50.Final</netty.tcnative.version>
-        <netty.version>4.1.74.Final</netty.version>
+        <netty.version>4.1.75.Final</netty.version>
         <!-- Upload Issue -->
         <hazelcast.version>5.1</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>

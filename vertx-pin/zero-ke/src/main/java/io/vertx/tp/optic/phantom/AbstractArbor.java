@@ -19,7 +19,14 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractArbor implements Arbor {
-
+    /*
+     * Here the input object is as following
+     * category:
+     * {
+     *      "key": "primary key",
+     *      "parentId": "parent node key here"
+     * }
+     */
     protected Future<JsonArray> combineArbor(final JsonObject category, final JsonArray children, final JsonObject configuration) {
         /*
          * Extract data to calculate the default `store`
