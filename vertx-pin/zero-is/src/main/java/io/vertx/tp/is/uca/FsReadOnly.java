@@ -9,8 +9,7 @@ import io.vertx.up.util.Ut;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FsReadOnly extends FsDefault {
-    @Override
-    protected IDirectory syncDirectory(final IDirectory directory) {
+    public IDirectory initialize(final IDirectory directory) {
         /*
          * Store
          */

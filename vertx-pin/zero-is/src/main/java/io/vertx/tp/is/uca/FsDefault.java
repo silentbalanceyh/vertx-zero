@@ -21,10 +21,11 @@ import java.util.function.Consumer;
  */
 public class FsDefault extends AbstractFs {
     @Override
-    protected IDirectory syncDirectory(final IDirectory directory) {
+    public IDirectory initialize(final JsonObject directoryJ) {
         /*
          * Store
          */
+        final IDirectory directory = Ux.fromJson(directoryJ, IDirectory.class);
         directory.setCode(Ut.encryptMD5(directory.getStorePath()));
         return directory.setType(TypeDirectory.STORE.name());
     }
@@ -63,6 +64,6 @@ public class FsDefault extends AbstractFs {
     @Override
     public Future<JsonArray> synchronize(final JsonArray data, final JsonObject config) {
         // Data Part for I_DIRECTORY Initializing
-        return this.syncDirectory(data, config).compose(inserted -> this.mkdir(data));
+        return this.initialize(data, config).compose(this::mkdir);
     }
 }

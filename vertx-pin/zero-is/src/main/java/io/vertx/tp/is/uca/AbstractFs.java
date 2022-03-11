@@ -24,7 +24,7 @@ public abstract class AbstractFs implements Fs {
      *  storeParent calculating
      *  1. Here the integrationId must be the same
      */
-    protected Future<JsonArray> syncDirectory(final JsonArray data, final JsonObject config) {
+    protected Future<JsonArray> initialize(final JsonArray data, final JsonObject config) {
         final JsonArray formatted = data.copy();
         Ut.itJArray(formatted).forEach(json -> json.put(KName.KEY, UUID.randomUUID().toString()));
         /*
@@ -63,8 +63,8 @@ public abstract class AbstractFs implements Fs {
                      * 1. basic information
                      * 2. parent information
                      */
-                    final JsonObject directoryJ = this.syncDirectory(dataRecord, initialize);
-                    final IDirectory normalized = this.syncDirectory(directoryJ, storeObj, storeInput);
+                    final JsonObject directoryJ = this.initialize(dataRecord, initialize);
+                    final IDirectory normalized = this.initialize(directoryJ, storeObj, storeInput);
 
                     inserted.add(normalized);
                 });
@@ -73,7 +73,7 @@ public abstract class AbstractFs implements Fs {
         });
     }
 
-    protected JsonObject syncDirectory(final JsonObject data, final JsonObject initialize) {
+    protected JsonObject initialize(final JsonObject data, final JsonObject initialize) {
         final JsonObject directoryJ = new JsonObject();
         Ut.elementCopy(directoryJ, data,
             // key for inserted
@@ -108,7 +108,7 @@ public abstract class AbstractFs implements Fs {
         return directoryJ;
     }
 
-    protected IDirectory syncDirectory(final JsonObject directoryJ, final IDirectory parentD, final JsonObject parentJ) {
+    protected IDirectory initialize(final JsonObject directoryJ, final IDirectory parentD, final JsonObject parentJ) {
         {
             // Calculated by Parent
             if (Objects.nonNull(parentD)) {
@@ -131,9 +131,6 @@ public abstract class AbstractFs implements Fs {
                 directoryJ.put("visitComponent", parentD.getVisitComponent());
             }
         }
-        final IDirectory directory = Ux.fromJson(directoryJ, IDirectory.class);
-        return this.syncDirectory(directory);
+        return this.initialize(directoryJ);
     }
-
-    protected abstract IDirectory syncDirectory(final IDirectory directory);
 }
