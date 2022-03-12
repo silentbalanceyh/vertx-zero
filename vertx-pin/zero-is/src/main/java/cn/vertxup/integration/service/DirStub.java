@@ -10,5 +10,7 @@ public interface DirStub {
 
     Future<JsonObject> create(JsonObject directoryJ);
 
+    Future<JsonObject> update(String key, JsonObject directoryJ);
+
     Future<Boolean> remove(String key, boolean actual);
 }

@@ -22,21 +22,15 @@ public class DirService implements DirStub {
     @Override
     public Future<JsonObject> create(final JsonObject directoryJ) {
         return FsHelper.componentRun(directoryJ, fs -> {
-            // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
-            Ut.ifString(directoryJ,
-                KName.METADATA,
-                KName.VISIT_GROUP,
-                KName.VISIT_ROLE,
-                KName.VISIT_MODE
-            );
-            final IDirectory directory = fs.initialize(directoryJ);
+            // JsonArray serialization
+            final JsonObject inputJ = this.inJ(directoryJ);
+            // IDirectory Building
+            final IDirectory directory = fs.initialize(inputJ);
+            // Insert into database
             return Ux.Jooq.on(IDirectoryDao.class).insertJAsync(directory)
-                .compose(Ut.ifJObject(
-                    KName.METADATA,
-                    KName.VISIT_GROUP,
-                    KName.VISIT_ROLE,
-                    KName.VISIT_MODE
-                ))
+                // JsonArray Deserialization
+                .compose(this::outJ)
+                // Actual Directory Processing
                 .compose(fs::mkdir);
         });
     }
@@ -54,31 +48,67 @@ public class DirService implements DirStub {
     @Override
     public Future<Boolean> remove(final String key, final boolean actual) {
         if (actual) {
-            final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-            return jq.<IDirectory>fetchByIdAsync(key)
-                .compose(directory -> {
-                    if (Objects.isNull(directory)) {
-                        return Ux.futureL();
-                    } else {
-                        final JsonObject condition = Ux.whereAnd();
-                        condition.put(KName.SIGMA, directory.getSigma());
-                        condition.put(KName.STORE_PATH + ",s", directory.getStorePath());
-                        return jq.<IDirectory>fetchAsync(condition).compose(queried -> {
-                            final List<IDirectory> directories = new ArrayList<>();
-                            directories.add(directory);
-                            directories.addAll(queried);
-                            return Ux.future(directories);
-                        });
-                    }
-                })
-                // Delete Records
-                .compose(jq::deleteJAsync)
-                // Helper execute `rm` command to remove folders
-                .compose(removed -> FsHelper.componentRun(removed, Fs::rm))
-                .compose(nil -> Ux.futureT());
+            // Hard Removing
+            return this.removePermanent(key);
         } else {
-
+            // Soft Removing
             return null;
         }
+    }
+
+    private Future<Boolean> removePermanent(final String key) {
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.<IDirectory>fetchByIdAsync(key)
+            .compose(directory -> this.fetchTree(directory).compose(queried -> {
+                final List<IDirectory> directories = new ArrayList<>();
+                // Current Folder
+                if (Objects.nonNull(directory)) {
+                    directories.add(directory);
+                }
+                // All Children Folders
+                directories.addAll(queried);
+                return Ux.future(directories);
+            }))
+            // Delete Records
+            .compose(Ux.Jooq.on(IDirectoryDao.class)::deleteJAsync)
+            // Helper execute `rm` command to remove folders
+            .compose(removed -> FsHelper.componentRun(removed, Fs::rm))
+            .compose(nil -> Ux.futureT());
+    }
+
+    @Override
+    public Future<JsonObject> update(final String key, final JsonObject directoryJ) {
+        return null;
+    }
+
+    private Future<List<IDirectory>> fetchTree(final IDirectory directory) {
+        if (Objects.isNull(directory)) {
+            return Ux.futureL();
+        } else {
+            final JsonObject condition = Ux.whereAnd();
+            condition.put(KName.SIGMA, directory.getSigma());
+            condition.put(KName.STORE_PATH + ",s", directory.getStorePath());
+            return Ux.Jooq.on(IDirectoryDao.class).fetchAsync(condition);
+        }
+    }
+
+    private JsonObject inJ(final JsonObject directoryJ) {
+        // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
+        Ut.ifString(directoryJ,
+            KName.METADATA,
+            KName.VISIT_GROUP,
+            KName.VISIT_ROLE,
+            KName.VISIT_MODE
+        );
+        return directoryJ;
+    }
+
+    private Future<JsonObject> outJ(final JsonObject response) {
+        return Ut.ifJObject(
+            KName.METADATA,
+            KName.VISIT_GROUP,
+            KName.VISIT_ROLE,
+            KName.VISIT_MODE
+        ).apply(response);
     }
 }

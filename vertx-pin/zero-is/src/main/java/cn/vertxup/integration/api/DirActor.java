@@ -28,7 +28,7 @@ public class DirActor {
     @Me
     @Address(Addr.Directory.UPDATE)
     public Future<JsonObject> update(final String key, final JsonObject data) {
-        return null;
+        return this.stub.update(key, data);
     }
 
     /*
