@@ -1,19 +1,20 @@
-package io.vertx.tp.is.uca;
+package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.cv.em.TypeDirectory;
-import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FsReadOnly extends FsDefault {
-    public IDirectory initialize(final IDirectory directory) {
+
+    @Override
+    public IDirectory initialize(final JsonObject directoryJ) {
         /*
          * Store
          */
-        directory.setCode(Ut.encryptMD5(directory.getStorePath()));
+        final IDirectory directory = super.initialize(directoryJ);
         /*
          * metadata: {
          *      "deletion": false,

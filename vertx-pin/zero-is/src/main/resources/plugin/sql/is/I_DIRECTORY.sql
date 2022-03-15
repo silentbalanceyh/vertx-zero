@@ -35,6 +35,16 @@ CREATE TABLE `I_DIRECTORY`
     -- 目录计算专用规则（以目录为核心权限）
     -- 私有目录只能通过创建的方式操作，不可由系统设置，且私有目录只能用户自己访问，且私有必定包含 owner
     `VISIT`           BIT COMMENT '「visit」- 公有 / 私有',
+
+    /*
+     * 「目录」
+     *   r - 只读权限，可读取目录以及打开目录，下载目录中的文件
+     *   w - 可写权限，可以在目录中创建新目录，上传文件
+     *   x - 执行权限，可重命名目录、删除目录（软删除硬删除）
+     * 「文件」
+     *   r - 可下载（目录内）
+     *   w - 可上传（目录内）
+     */
     `VISIT_MODE`      VARCHAR(36) COMMENT '「visitMode」- 目录模式：只读 / 可写，以后扩展为其他',
     `VISIT_ROLE`      TEXT COMMENT '「visitRole」- 目录访问角色',
     `VISIT_GROUP`     TEXT COMMENT '「visitGroup」- 目录访问组',
@@ -43,6 +53,13 @@ CREATE TABLE `I_DIRECTORY`
     -- 特殊字段
     `SIGMA`           VARCHAR(32) COMMENT '「sigma」- 统一标识',
     `LANGUAGE`        VARCHAR(10) COMMENT '「language」- 使用的语言',
+
+    /*
+     * 回收站中 active = false
+     * 软删除，放在根目录下：/.Trash 的目录中，即：
+     * active = true，目录路径 = storePath
+     * active = false，目录路径 = /.Trash/storePath
+     */
     `ACTIVE`          BIT COMMENT '「active」- 是否启用',
     `METADATA`        TEXT COMMENT '「metadata」- 附加配置数据',
 

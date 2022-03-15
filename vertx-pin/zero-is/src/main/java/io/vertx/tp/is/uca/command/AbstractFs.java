@@ -1,4 +1,4 @@
-package io.vertx.tp.is.uca;
+package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
@@ -97,7 +97,7 @@ public abstract class AbstractFs implements Fs {
         directoryJ.put(KName.CREATED_BY, USER_SYSTEM);
         directoryJ.put(KName.OWNER, USER_SYSTEM);
         // Visit
-        directoryJ.put(KName.VISIT, Boolean.TRUE);
+        directoryJ.put(KName.VISIT, Boolean.FALSE);
         final JsonArray visitMode;
         if (initialize.containsKey(KName.VISIT_MODE)) {
             visitMode = initialize.getJsonArray(KName.VISIT_MODE);

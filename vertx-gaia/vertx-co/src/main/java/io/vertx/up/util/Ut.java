@@ -661,23 +661,6 @@ public final class Ut {
         return Jackson.sureJArray(IO.getJArray(filename));
     }
 
-    public static boolean ioRm(final String filename) {
-        return IO.rmFile(filename);
-    }
-
-    public static boolean ioMkdir(final String filename) {
-        return IO.mkdirFile(filename);
-    }
-
-    public static boolean ioDelete(final String filename) {
-        return IO.deleteFile(filename);
-    }
-
-    public static boolean ioDelete(final Set<String> filename) {
-        filename.forEach(Ut::ioDelete);
-        return true;
-    }
-
     public static JsonObject ioJObject(final String filename) {
         return Jackson.sureJObject(IO.getJObject(filename));
     }
@@ -754,6 +737,33 @@ public final class Ut {
 
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
+    }
+
+    /*
+     * Command
+     * 1. cmdRm / cmdRmFile
+     * 2. cmdMkdir
+     * 3. cmdRename
+     */
+    public static boolean cmdRmFile(final String filename) {
+        return IOCmd.rmFile(filename);
+    }
+
+    public static boolean cmdRmFile(final Set<String> filename) {
+        filename.forEach(Ut::cmdRmFile);
+        return true;
+    }
+
+    public static boolean cmdRm(final String filename) {
+        return IOCmd.rm(filename);
+    }
+
+    public static boolean cmdMkdir(final String filename) {
+        return IOCmd.mkdir(filename);
+    }
+
+    public static boolean cmdRename(final String filename, final String to) {
+        return IOCmd.rename(filename, to);
     }
 
     /*
@@ -1145,6 +1155,14 @@ public final class Ut {
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         return Types.isEqual(record, field, expected);
+    }
+
+    public static boolean isEqual(final String left, final String right) {
+        return Types.isEqual(left, right);
+    }
+
+    public static boolean isDiff(final String left, final String right) {
+        return !isEqual(left, right);
     }
 
     public static boolean notNil(final String input) {

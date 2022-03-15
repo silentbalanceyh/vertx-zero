@@ -1,4 +1,4 @@
-package io.vertx.tp.is.uca;
+package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
@@ -22,7 +22,7 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FsHelper {
-    private static final String FS_DEFAULT = "io.vertx.tp.is.uca.FsDefault";
+    private static final String FS_DEFAULT = "io.vertx.tp.is.uca.command.FsDefault";
 
     // ---------------------- Component Processing ----------------------
 

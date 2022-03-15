@@ -93,7 +93,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.2.3.Final</hibernate.validator.version>
 
-        <jwt.version>3.18.3</jwt.version>
+        <jwt.version>3.19.0</jwt.version>
         <jetbrains.version>23.0.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>

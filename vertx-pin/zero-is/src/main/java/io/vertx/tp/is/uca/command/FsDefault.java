@@ -1,4 +1,4 @@
-package io.vertx.tp.is.uca;
+package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
@@ -20,6 +20,7 @@ import java.util.function.Consumer;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class FsDefault extends AbstractFs {
+
     @Override
     public IDirectory initialize(final JsonObject directoryJ) {
         /*
@@ -32,7 +33,7 @@ public class FsDefault extends AbstractFs {
 
     @Override
     public Future<JsonArray> mkdir(final JsonArray data) {
-        this.runRoot(data, dirSet -> dirSet.forEach(Ut::ioMkdir));
+        this.runRoot(data, dirSet -> dirSet.forEach(Ut::cmdMkdir));
         return Ux.future(data);
     }
 
@@ -60,7 +61,7 @@ public class FsDefault extends AbstractFs {
     public Future<JsonObject> mkdir(final JsonObject data) {
         this.runRoot(root -> {
             final String path = data.getString(KName.STORE_PATH);
-            Ut.ioMkdir(Ut.ioPath(root, path));
+            Ut.cmdMkdir(Ut.ioPath(root, path));
         });
         return Ux.future(data);
     }
@@ -73,7 +74,17 @@ public class FsDefault extends AbstractFs {
 
     @Override
     public Future<JsonArray> rm(final JsonArray data) {
-        this.runRoot(data, dirSet -> dirSet.forEach(Ut::ioRm));
+        this.runRoot(data, dirSet -> dirSet.forEach(Ut::cmdRm));
         return Ux.future(data);
+    }
+
+    @Override
+    public Future<Boolean> rename(final String from, final String to) {
+        this.runRoot(root -> {
+            final String fromPath = Ut.ioPath(root, from);
+            final String toPath = Ut.ioPath(root, to);
+            Ut.cmdRename(fromPath, toPath);
+        });
+        return Ux.futureT();
     }
 }

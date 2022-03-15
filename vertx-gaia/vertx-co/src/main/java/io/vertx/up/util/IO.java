@@ -276,47 +276,4 @@ final class IO {
         final byte[] compressed = Compressor.decompress(bytes);
         return new String(compressed, Values.DEFAULT_CHARSET);
     }
-
-    static boolean rmFile(final String filename) {
-        final File file = getFile(filename);
-        if (file.exists()) {
-            return rmLoop(file);
-        }
-        return false;
-    }
-
-    private static boolean rmLoop(final File directory) {
-        if (directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (Objects.isNull(files)) {
-                files = new File[]{};
-            }
-            // Remove in loop
-            for (final File file : files) {
-                final boolean success = rmLoop(file);
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        // If Directory, it's empty
-        return directory.delete();
-    }
-
-    static boolean mkdirFile(final String filename) {
-        final File file = new File(filename);
-        if (!file.exists()) {
-            return file.mkdirs();
-        }
-        return true;
-    }
-
-    static boolean deleteFile(final String filename) {
-        final File file = getFile(filename);
-        boolean deleted = false;
-        if (Objects.nonNull(file) && file.exists()) {
-            deleted = file.delete();
-        }
-        return deleted;
-    }
 }

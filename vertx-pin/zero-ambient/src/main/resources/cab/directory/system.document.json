@@ -3,6 +3,12 @@
         "type": "zero.document.default"
     },
     "store": {
-        "runComponent": "io.vertx.tp.is.uca.FsReadOnly"
+        "runComponent": "io.vertx.tp.is.uca.command.FsReadOnly",
+        "initialize": {
+            "visitMode": [
+                "r",
+                "w"
+            ]
+        }
     }
 }

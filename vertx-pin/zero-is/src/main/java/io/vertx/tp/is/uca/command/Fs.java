@@ -1,4 +1,4 @@
-package io.vertx.tp.is.uca;
+package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
@@ -37,4 +37,10 @@ public interface Fs {
      * - JsonArray
      */
     Future<JsonArray> rm(JsonArray data);
+
+    /*
+     * Command: none
+     * - Rename folder
+     */
+    Future<Boolean> rename(String from, String to);
 }
