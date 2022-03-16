@@ -745,12 +745,8 @@ public final class Ut {
      * 2. cmdMkdir
      * 3. cmdRename
      */
-    public static boolean cmdRmFile(final String filename) {
-        return IOCmd.rmFile(filename);
-    }
-
-    public static boolean cmdRmFile(final Set<String> filename) {
-        filename.forEach(Ut::cmdRmFile);
+    public static boolean cmdRm(final Set<String> filename) {
+        filename.forEach(Ut::cmdRm);
         return true;
     }
 

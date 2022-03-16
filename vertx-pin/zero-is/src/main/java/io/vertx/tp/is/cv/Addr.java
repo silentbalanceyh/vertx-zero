@@ -17,5 +17,7 @@ public interface Addr {
         String UPDATE = Prefix._EVENT + "I-DIRECTORY/UPDATE";
 
         String DELETE = Prefix._EVENT + "I-DIRECTORY/DELETE";
+
+        String DELETE_TRASH = Prefix._EVENT + "I-DIRECTORY/DELETE-TRASH";
     }
 }

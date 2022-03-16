@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.atom.IsConfig;
+import io.vertx.tp.is.cv.IsFolder;
 import io.vertx.tp.is.cv.em.TypeDirectory;
 import io.vertx.tp.is.init.IsPin;
 import io.vertx.tp.is.refine.Is;
@@ -14,6 +15,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -35,26 +38,6 @@ public class FsDefault extends AbstractFs {
     public Future<JsonArray> mkdir(final JsonArray data) {
         this.runRoot(data, dirSet -> dirSet.forEach(Ut::cmdMkdir));
         return Ux.future(data);
-    }
-
-    private void runRoot(final Consumer<String> fsRoot) {
-        final IsConfig config = IsPin.getConfig();
-        final String rootPath = config.getStoreRoot();
-        if (Ut.isNil(rootPath)) {
-            Is.Log.warnPath(this.getClass(), "The `storeRoot` of integration service is null");
-        }
-        fsRoot.accept(rootPath);
-    }
-
-    private void runRoot(final JsonArray data, final Consumer<Set<String>> fsRoot) {
-        this.runRoot(root -> {
-            final Set<String> dirSet = new HashSet<>();
-            Ut.itJArray(data).forEach(json -> {
-                final String path = json.getString(KName.STORE_PATH);
-                dirSet.add(Ut.ioPath(root, path));
-            });
-            fsRoot.accept(dirSet);
-        });
     }
 
     @Override
@@ -79,6 +62,56 @@ public class FsDefault extends AbstractFs {
     }
 
     @Override
+    public Future<JsonObject> rm(final JsonObject data) {
+        this.runRoot(root -> {
+            final String path = data.getString(KName.STORE_PATH);
+            Ut.cmdRm(Ut.ioPath(root, path));
+        });
+        return Ux.future(data);
+    }
+
+    @Override
+    public Future<JsonObject> trash(final JsonObject data) {
+        this.runTrash((root, trash) -> {
+            final String path = data.getString(KName.STORE_PATH);
+            final String from = Ut.ioPath(root, path);
+            final String to = Ut.ioPath(trash, path);
+            Ut.cmdRename(from, to);
+        });
+        return Ux.future(data);
+    }
+
+    @Override
+    public Future<JsonArray> trash(final JsonArray data) {
+        this.runTrash((root, trash) -> Ut.itJArray(data).forEach(json -> {
+            final String path = json.getString(KName.STORE_PATH);
+            final String from = Ut.ioPath(root, path);
+            final String to = Ut.ioPath(trash, path);
+            Ut.cmdRename(from, to);
+        }));
+        return Ux.future(data);
+    }
+
+    private void ensureTrash() {
+        this.runRoot(root -> {
+            final String path = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
+            Ut.cmdMkdir(path);
+        });
+    }
+
+    @Override
+    public Future<Boolean> rename(final ConcurrentMap<String, String> transfer) {
+        if (!transfer.isEmpty()) {
+            this.runRoot(root -> transfer.forEach((from, to) -> {
+                final String fromPath = Ut.ioPath(root, from);
+                final String toPath = Ut.ioPath(root, to);
+                Ut.cmdRename(fromPath, toPath);
+            }));
+        }
+        return Ux.futureT();
+    }
+
+    @Override
     public Future<Boolean> rename(final String from, final String to) {
         this.runRoot(root -> {
             final String fromPath = Ut.ioPath(root, from);
@@ -86,5 +119,35 @@ public class FsDefault extends AbstractFs {
             Ut.cmdRename(fromPath, toPath);
         });
         return Ux.futureT();
+    }
+
+    // ----------------- Run Private Method for Folder Calculation -----------------
+
+    private void runTrash(final BiConsumer<String, String> fsTrash) {
+        this.runRoot(root -> {
+            final String rootTrash = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
+            Ut.cmdMkdir(rootTrash);
+            fsTrash.accept(root, rootTrash);
+        });
+    }
+
+    private void runRoot(final Consumer<String> fsRoot) {
+        final IsConfig config = IsPin.getConfig();
+        final String rootPath = config.getStoreRoot();
+        if (Ut.isNil(rootPath)) {
+            Is.Log.warnPath(this.getClass(), "The `storeRoot` of integration service is null");
+        }
+        fsRoot.accept(rootPath);
+    }
+
+    private void runRoot(final JsonArray data, final Consumer<Set<String>> fsRoot) {
+        this.runRoot(root -> {
+            final Set<String> dirSet = new HashSet<>();
+            Ut.itJArray(data).forEach(json -> {
+                final String path = json.getString(KName.STORE_PATH);
+                dirSet.add(Ut.ioPath(root, path));
+            });
+            fsRoot.accept(dirSet);
+        });
     }
 }

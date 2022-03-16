@@ -46,31 +46,17 @@ public class DirService implements DirStub {
     }
 
     /*
+     * 1. Delete current folder and all children:  Start with storePath
+     * 2. Remove all folders of current folder include all files/directories under this folder
+     *
+     * Old Comment:
+     *
      * actual = true
      * 1. Delete folder records.
      * 1. Remove the folder actually
-     *
-     * actual = false
-     * 1. Move `file` to `.Trash` folder instead of other operations.
-     * 2. Mark each folder with prefix `DELETE`
-     * 3. Update folder records `deleted = true`
      */
     @Override
-    public Future<Boolean> remove(final String key, final boolean actual) {
-        if (actual) {
-            // Hard Removing
-            return this.removePermanent(key);
-        } else {
-            // Soft Removing
-            return null;
-        }
-    }
-
-    /*
-     * 1. Delete current folder and all children:  Start with storePath
-     * 2. Remove all folders of current folder include all files/directories under this folder
-     */
-    private Future<Boolean> removePermanent(final String key) {
+    public Future<Boolean> remove(final String key) {
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
         return jq.<IDirectory>fetchByIdAsync(key)
             .compose(directory -> this.fetchTree(directory).compose(queried -> {
@@ -88,6 +74,36 @@ public class DirService implements DirStub {
             // Helper execute `rm` command to remove folders
             .compose(removed -> FsHelper.componentRun(removed, Fs::rm))
             .compose(nil -> Ux.futureT());
+    }
+
+    /*
+     * actual = false
+     * 1. Move `file` to `.Trash` folder instead of other operations.
+     * 2. Mark each folder with prefix `DELETE`
+     * 3. Update folder records `deleted = true`
+     */
+    @Override
+    public Future<Boolean> remove(final String key, final String userId) {
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.<IDirectory>fetchByIdAsync(key)
+            .compose(directory -> this.fetchTree(directory).compose(queried -> {
+                final List<IDirectory> directories = new ArrayList<>();
+                // Current Folder
+                if (Objects.nonNull(directory)) {
+                    directories.add(directory);
+                }
+                directories.addAll(queried);
+                directories.forEach(item -> {
+                    item.setActive(Boolean.FALSE);
+                    item.setUpdatedBy(userId);
+                    item.setUpdatedAt(LocalDateTime.now());
+                });
+                return jq.updateAsync(directories).compose(nil -> {
+                    final JsonObject directoryJ = Ux.toJson(directory);
+                    return FsHelper.componentRun(directoryJ, fs -> fs.trash(directoryJ));
+                });
+            }))
+            .compose(removed -> Ux.futureT());
     }
 
     @Override

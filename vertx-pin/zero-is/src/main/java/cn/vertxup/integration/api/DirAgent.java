@@ -35,4 +35,9 @@ public interface DirAgent {
     @Path("/i-directory/:key")
     @Address(Addr.Directory.DELETE)
     JsonObject remove(@PathParam(KName.KEY) String key);
+
+    @DELETE
+    @Path("/i-directory/trash/:key")
+    @Address(Addr.Directory.DELETE_TRASH)
+    JsonObject trash(@PathParam(KName.KEY) String key);
 }

@@ -5,6 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * File System Here for integration
  *
@@ -38,9 +40,18 @@ public interface Fs {
      */
     Future<JsonArray> rm(JsonArray data);
 
+    Future<JsonObject> rm(JsonObject data);
+
+    Future<JsonArray> trash(JsonArray data);
+
+    Future<JsonObject> trash(JsonObject data);
+
     /*
      * Command: none
      * - Rename folder
      */
     Future<Boolean> rename(String from, String to);
+
+    Future<Boolean> rename(ConcurrentMap<String, String> transfer);
+
 }

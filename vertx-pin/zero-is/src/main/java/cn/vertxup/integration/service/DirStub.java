@@ -15,5 +15,7 @@ public interface DirStub {
 
     Future<JsonObject> updateBranch(IDirectory directory);
 
-    Future<Boolean> remove(String key, boolean actual);
+    Future<Boolean> remove(String key);
+
+    Future<Boolean> remove(String key, String userId);
 }

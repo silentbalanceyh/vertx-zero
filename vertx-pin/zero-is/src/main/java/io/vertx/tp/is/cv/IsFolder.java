@@ -6,4 +6,6 @@ package io.vertx.tp.is.cv;
 public interface IsFolder {
 
     String CONFIG_FILE = "plugin/is/configuration.json";
+
+    String TRASH_FOLDER = "/.Trash";
 }

@@ -3,10 +3,12 @@ package cn.vertxup.integration.api;
 import cn.vertxup.integration.service.DirStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.is.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 
@@ -38,6 +40,13 @@ public class DirActor {
      */
     @Address(Addr.Directory.DELETE)
     public Future<Boolean> remove(final String key) {
-        return this.stub.remove(key, true);
+        return this.stub.remove(key);
+    }
+
+
+    @Address(Addr.Directory.DELETE_TRASH)
+    public Future<Boolean> trash(final String key, final User user) {
+        final String userKey = Ux.keyUser(user);
+        return this.stub.remove(key, userKey);
     }
 }
