@@ -93,12 +93,35 @@ public class FsHelper {
     }
 
     // ---------------------- Directory Query ----------------------
-    public static Future<List<IDirectory>> directoryQuery(final JsonArray data, final String storeField) {
+    public static Future<List<IDirectory>> directoryQuery(final JsonArray data, final String storeField, final boolean strict) {
         final String sigma = Ut.valueString(data, KName.SIGMA);
         final JsonArray names = Ut.valueJArray(data, storeField);
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.SIGMA, sigma);
-        condition.put(KName.STORE_PATH + ",i", names);
+        if (strict) {
+            /*
+             * strict mode
+             * storePath in [?,?,?]
+             */
+            condition.put(KName.STORE_PATH + ",i", names);
+        } else {
+            /*
+             * non-strict mode
+             * storePath start with the shortest
+             */
+            final String found = names.stream()
+                .map(item -> (String) item)
+                .reduce((left, right) -> {
+                    if (left.length() < right.length()) {
+                        return left;
+                    } else {
+                        return right;
+                    }
+                }).orElse(null);
+            if (Ut.notNil(found)) {
+                condition.put(KName.STORE_PATH + ",s", found);
+            }
+        }
         return Ux.Jooq.on(IDirectoryDao.class).fetchAsync(condition);
     }
 
@@ -123,15 +146,25 @@ public class FsHelper {
                 // UPDATE Queue
                 final JsonObject normalized = Ux.toJson(directoryMap.getOrDefault(path, null));
                 queueUP.add(normalized);
+                directoryMap.remove(path);
             } else {
                 // ADD Queue
                 queueAD.add(json);
             }
         });
+        final JsonArray queueDft = new JsonArray();
+        if (!directoryMap.isEmpty()) {
+            directoryMap.values().forEach(item -> {
+                final JsonObject record = Ux.toJson(item);
+                record.put(KName.DIRECTORY_ID, item.getKey());
+                queueDft.add(record);
+            });
+        }
         return new ConcurrentHashMap<>() {
             {
                 this.put(ChangeFlag.ADD, queueAD);
                 this.put(ChangeFlag.UPDATE, queueUP);
+                this.put(ChangeFlag.NONE, queueDft);
             }
         };
     }

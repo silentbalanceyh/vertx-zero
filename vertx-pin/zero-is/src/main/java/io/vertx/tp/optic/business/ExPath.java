@@ -25,15 +25,17 @@ public class ExPath extends AbstractExPath {
          * -- The condition is `storePath` instead of other information
          * 2. Build the map of `storePath = IDirectory`, here will put `directoryId` into each data
          */
-        return FsHelper.directoryQuery(data, KName.STORE_PATH).compose(queried -> {
+        return FsHelper.directoryQuery(data, KName.STORE_PATH, false).compose(queried -> {
             final ConcurrentMap<ChangeFlag, JsonArray> compared = FsHelper.directoryDiff(data, queried);
             /*
              * 1. ADD queue ( attach `directoryId` in processed )
              * 2. UPDATE queue ( attach `directoryId` )
+             * 3. NONE queue ( existing )
              */
             final List<Future<JsonArray>> futures = new ArrayList<>();
             futures.add(this.commandMkdir(compared.getOrDefault(ChangeFlag.ADD, new JsonArray()), config));
             futures.add(this.commandMkdir(compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray()), queried));
+            futures.add(Ux.future(compared.getOrDefault(ChangeFlag.NONE, new JsonArray())));
             return Ux.thenCombineArray(futures)
                 .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE));
         });

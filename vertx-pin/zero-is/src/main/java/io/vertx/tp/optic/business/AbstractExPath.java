@@ -11,31 +11,12 @@ import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractExPath implements ExIo {
-
-    protected Future<JsonArray> compress(final JsonArray data) {
-        return FsHelper.directoryQuery(data, KName.STORE_PATH).compose(queried -> {
-            final Set<String> storePath = queried.stream()
-                .filter(Objects::nonNull)
-                .map(IDirectory::getStorePath).collect(Collectors.toSet());
-            final JsonArray compressed = new JsonArray();
-            Ut.itJArray(data).forEach(json -> {
-                final String path = json.getString(KName.STORE_PATH);
-                if (!storePath.contains(path)) {
-                    compressed.add(json);
-                }
-            });
-            return Ux.future(compressed);
-        });
-    }
-
     // ---------------------- mkdir -----------------------
 
     protected Future<JsonArray> commandMkdir(final JsonArray queueAd, final JsonObject config) {
