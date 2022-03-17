@@ -276,19 +276,4 @@ final class IO {
         final byte[] compressed = Compressor.decompress(bytes);
         return new String(compressed, Values.DEFAULT_CHARSET);
     }
-
-    static boolean rmFile(final String filename) {
-        final File file = getFile(filename);
-        file.deleteOnExit();
-        return true;
-    }
-
-    static boolean deleteFile(final String filename) {
-        final File file = getFile(filename);
-        boolean deleted = false;
-        if (Objects.nonNull(file) && file.exists()) {
-            deleted = file.delete();
-        }
-        return deleted;
-    }
 }

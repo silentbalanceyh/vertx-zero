@@ -95,12 +95,31 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public IDirectoryRecord setLinkedPath(String value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public String getLinkedPath() {
+        return (String) get(4);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
      */
     @Override
     public IDirectoryRecord setParentId(String value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -110,7 +129,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getParentId() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
@@ -119,7 +138,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setCategory(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -129,7 +148,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getCategory() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -138,7 +157,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setType(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -148,7 +167,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getType() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -156,7 +175,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setOwner(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -165,7 +184,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getOwner() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
@@ -174,7 +193,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setIntegrationId(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -184,7 +203,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getIntegrationId() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -193,7 +212,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setRunComponent(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -203,7 +222,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getRunComponent() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -211,7 +230,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setVisit(Boolean value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -220,7 +239,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public Boolean getVisit() {
-        return (Boolean) get(10);
+        return (Boolean) get(11);
     }
 
     /**
@@ -229,7 +248,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setVisitMode(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -239,7 +258,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getVisitMode() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -248,7 +267,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setVisitRole(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -258,7 +277,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getVisitRole() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -267,7 +286,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setVisitGroup(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -277,7 +296,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getVisitGroup() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -286,7 +305,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setVisitComponent(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -296,7 +315,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getVisitComponent() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -304,7 +323,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setSigma(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -313,7 +332,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getSigma() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -322,7 +341,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setLanguage(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -332,7 +351,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getLanguage() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -340,7 +359,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setActive(Boolean value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -349,7 +368,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(17);
+        return (Boolean) get(18);
     }
 
     /**
@@ -358,7 +377,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setMetadata(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -368,7 +387,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getMetadata() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -377,7 +396,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -387,7 +406,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(20);
     }
 
     /**
@@ -396,7 +415,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setCreatedBy(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -406,7 +425,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -415,7 +434,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -425,7 +444,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -434,7 +453,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public IDirectoryRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -444,7 +463,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     // -------------------------------------------------------------------------
@@ -466,6 +485,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
         setName(from.getName());
         setCode(from.getCode());
         setStorePath(from.getStorePath());
+        setLinkedPath(from.getLinkedPath());
         setParentId(from.getParentId());
         setCategory(from.getCategory());
         setType(from.getType());
@@ -507,13 +527,14 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
     /**
      * Create a detached, initialised IDirectoryRecord
      */
-    public IDirectoryRecord(String key, String name, String code, String storePath, String parentId, String category, String type, String owner, String integrationId, String runComponent, Boolean visit, String visitMode, String visitRole, String visitGroup, String visitComponent, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IDirectoryRecord(String key, String name, String code, String storePath, String linkedPath, String parentId, String category, String type, String owner, String integrationId, String runComponent, Boolean visit, String visitMode, String visitRole, String visitGroup, String visitComponent, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IDirectory.I_DIRECTORY);
 
         setKey(key);
         setName(name);
         setCode(code);
         setStorePath(storePath);
+        setLinkedPath(linkedPath);
         setParentId(parentId);
         setCategory(category);
         setType(type);
@@ -546,6 +567,7 @@ public class IDirectoryRecord extends UpdatableRecordImpl<IDirectoryRecord> impl
             setName(value.getName());
             setCode(value.getCode());
             setStorePath(value.getStorePath());
+            setLinkedPath(value.getLinkedPath());
             setParentId(value.getParentId());
             setCategory(value.getCategory());
             setType(value.getType());

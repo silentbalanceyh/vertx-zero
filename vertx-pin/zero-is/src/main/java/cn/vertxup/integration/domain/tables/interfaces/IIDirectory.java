@@ -60,6 +60,18 @@ public interface IIDirectory extends VertxPojo, Serializable {
     public String getStorePath();
 
     /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    public IIDirectory setLinkedPath(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    public String getLinkedPath();
+
+    /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
      */
@@ -301,6 +313,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setStorePath,json::getString,"STORE_PATH","java.lang.String");
+                setOrThrow(this::setLinkedPath,json::getString,"LINKED_PATH","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setCategory,json::getString,"CATEGORY","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
@@ -331,6 +344,7 @@ public interface IIDirectory extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("STORE_PATH",getStorePath());
+                json.put("LINKED_PATH",getLinkedPath());
                 json.put("PARENT_ID",getParentId());
                 json.put("CATEGORY",getCategory());
                 json.put("TYPE",getType());

@@ -67,6 +67,7 @@ public interface KName {
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */
     String APP_ID = "appId";                     /* XHeader for X-App-Id */
     String SIGMA = "sigma";                      /* XHeader for X-Sigma */
+    String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
 
@@ -179,6 +180,25 @@ public interface KName {
 
     String LINKAGE = "linkage";                  /* XLinkage instance */
     String QUERY = "query";                      /* XLinkage query */
+
+    // Store Path/Root
+    String STORE = "store";
+    String STORE_ROOT = "storeRoot";
+    String STORE_PATH = "storePath";
+    String STORE_PARENT = "storeParent";
+    String INTEGRATION_ID = "integrationId";
+    String PARENT_ID = "parentId";
+    String DIRECTORY_ID = "directoryId";
+    String DIRECTORY = "directory";
+    String INITIALIZE = "initialize";
+    String KEY_WORD = "keyword";
+    String SORT = "sort";
+
+    String VISIT = "visit";
+    String VISIT_MODE = "visitMode";
+    String VISIT_ROLE = "visitRole";
+    String VISIT_GROUP = "visitGroup";
+    String VISIT_COMPONENT = "visitComponent";
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
@@ -388,5 +408,14 @@ public interface KName {
             String CLASS = "class";
             String EVENT = "event";
         }
+    }
+
+    interface Component {
+        // Run Component
+        String RUN_COMPONENT = "runComponent";
+        String RUN_CONFIG = "runConfig";
+        // Tree Component
+        String TREE_COMPONENT = "treeComponent";
+        String TREE_CONFIG = "treeConfig";
     }
 }

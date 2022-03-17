@@ -17,9 +17,15 @@ CREATE TABLE IF NOT EXISTS X_CATEGORY
     `COMMENT`        TEXT COMMENT '「comment」- 备注信息',
 
     `APP_ID`         VARCHAR(255) COMMENT '「appId」- 关联的应用程序ID',
-
-    `TREE_COMPONENT` TEXT COMMENT '「treeComponent」- 目录组件',
+    /*
+     * 树构造组件
+     * 1. treeComponent/treeConfig 用于构造树的显示专用（目前使用的就是文档管理中的目录树）
+     * 2. runComponent/runConfig 用于执行树操作专用（目前未使用，但后期会用到）
+     */
+    `TREE_COMPONENT` TEXT COMMENT '「treeComponent」- 目录组件，构造树专用',
+    `TREE_CONFIG`    LONGTEXT COMMENT '「treeConfig」- 目录组件运行配置，特殊场景专用',
     `RUN_COMPONENT`  TEXT COMMENT '「runComponent」- 执行组件',
+    `RUN_CONFIG`     LONGTEXT COMMENT '「runConfig」- 执行组件相关配置',
 
     -- 特殊字段
     `ACTIVE`         BIT         DEFAULT NULL COMMENT '「active」- 是否启用',

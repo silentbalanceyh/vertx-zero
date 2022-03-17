@@ -32,7 +32,9 @@ public class XCategory implements VertxPojo, IXCategory {
     private String        comment;
     private String        appId;
     private String        treeComponent;
+    private String        treeConfig;
     private String        runComponent;
+    private String        runConfig;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -57,7 +59,9 @@ public class XCategory implements VertxPojo, IXCategory {
         this.comment = value.getComment();
         this.appId = value.getAppId();
         this.treeComponent = value.getTreeComponent();
+        this.treeConfig = value.getTreeConfig();
         this.runComponent = value.getRunComponent();
+        this.runConfig = value.getRunConfig();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -81,7 +85,9 @@ public class XCategory implements VertxPojo, IXCategory {
         String        comment,
         String        appId,
         String        treeComponent,
+        String        treeConfig,
         String        runComponent,
+        String        runConfig,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -103,7 +109,9 @@ public class XCategory implements VertxPojo, IXCategory {
         this.comment = comment;
         this.appId = appId;
         this.treeComponent = treeComponent;
+        this.treeConfig = treeConfig;
         this.runComponent = runComponent;
+        this.runConfig = runConfig;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -310,7 +318,7 @@ public class XCategory implements VertxPojo, IXCategory {
 
     /**
      * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件
+     * 「treeComponent」- 目录组件，构造树专用
      */
     @Override
     public String getTreeComponent() {
@@ -319,11 +327,30 @@ public class XCategory implements VertxPojo, IXCategory {
 
     /**
      * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件
+     * 「treeComponent」- 目录组件，构造树专用
      */
     @Override
     public XCategory setTreeComponent(String treeComponent) {
         this.treeComponent = treeComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    @Override
+    public String getTreeConfig() {
+        return this.treeConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    @Override
+    public XCategory setTreeConfig(String treeConfig) {
+        this.treeConfig = treeConfig;
         return this;
     }
 
@@ -343,6 +370,25 @@ public class XCategory implements VertxPojo, IXCategory {
     @Override
     public XCategory setRunComponent(String runComponent) {
         this.runComponent = runComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_CATEGORY.RUN_CONFIG</code>. 「runConfig」-
+     * 执行组件相关配置
+     */
+    @Override
+    public String getRunConfig() {
+        return this.runConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_CATEGORY.RUN_CONFIG</code>. 「runConfig」-
+     * 执行组件相关配置
+     */
+    @Override
+    public XCategory setRunConfig(String runConfig) {
+        this.runConfig = runConfig;
         return this;
     }
 
@@ -506,7 +552,9 @@ public class XCategory implements VertxPojo, IXCategory {
         sb.append(", ").append(comment);
         sb.append(", ").append(appId);
         sb.append(", ").append(treeComponent);
+        sb.append(", ").append(treeConfig);
         sb.append(", ").append(runComponent);
+        sb.append(", ").append(runConfig);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -538,7 +586,9 @@ public class XCategory implements VertxPojo, IXCategory {
         setComment(from.getComment());
         setAppId(from.getAppId());
         setTreeComponent(from.getTreeComponent());
+        setTreeConfig(from.getTreeConfig());
         setRunComponent(from.getRunComponent());
+        setRunConfig(from.getRunConfig());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

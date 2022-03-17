@@ -606,9 +606,13 @@ public final class Ut {
      * 5) ioJArray / ioJObject
      * 6) ioString
      * 7) ioBuffer / ioStream
-     *
+     * 8) ioPath
      * `input` operation
      */
+    public static String ioPath(final String folder, final String file) {
+        return StringUtil.path(folder, file);
+    }
+
     public static List<String> ioFiles(final String folder) {
         return Folder.listFiles(folder, null);
     }
@@ -655,19 +659,6 @@ public final class Ut {
 
     public static JsonArray ioJArray(final String filename) {
         return Jackson.sureJArray(IO.getJArray(filename));
-    }
-
-    public static boolean ioRm(final String filename) {
-        return IO.rmFile(filename);
-    }
-
-    public static boolean ioDelete(final String filename) {
-        return IO.deleteFile(filename);
-    }
-
-    public static boolean ioDelete(final Set<String> filename) {
-        filename.forEach(Ut::ioDelete);
-        return true;
     }
 
     public static JsonObject ioJObject(final String filename) {
@@ -746,6 +737,29 @@ public final class Ut {
 
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
+    }
+
+    /*
+     * Command
+     * 1. cmdRm / cmdRmFile
+     * 2. cmdMkdir
+     * 3. cmdRename
+     */
+    public static boolean cmdRm(final Set<String> filename) {
+        filename.forEach(Ut::cmdRm);
+        return true;
+    }
+
+    public static boolean cmdRm(final String filename) {
+        return IOCmd.rm(filename);
+    }
+
+    public static boolean cmdMkdir(final String filename) {
+        return IOCmd.mkdir(filename);
+    }
+
+    public static boolean cmdRename(final String filename, final String to) {
+        return IOCmd.rename(filename, to);
     }
 
     /*
@@ -1137,6 +1151,14 @@ public final class Ut {
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         return Types.isEqual(record, field, expected);
+    }
+
+    public static boolean isEqual(final String left, final String right) {
+        return Types.isEqual(left, right);
+    }
+
+    public static boolean isDiff(final String left, final String right) {
+        return !isEqual(left, right);
     }
 
     public static boolean notNil(final String input) {

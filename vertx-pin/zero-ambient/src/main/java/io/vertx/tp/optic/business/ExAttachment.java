@@ -45,7 +45,7 @@ public class ExAttachment implements Attachment {
         return jq.<XAttachment>fetchAsync(condition).compose(attachments -> {
             // Remove Actual File on Server System
             final Set<String> files = Ut.elementSet(attachments, XAttachment::getFilePath);
-            Ut.ioDelete(files);
+            Ut.cmdRm(files);
             At.infoFile(LOGGER, "Deleted files: {0}", String.valueOf(files.size()));
             return jq.deleteByAsync(condition);
         });
