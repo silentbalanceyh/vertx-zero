@@ -1,6 +1,5 @@
 package cn.vertxup.ambient.api.file;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -25,14 +24,4 @@ public interface FileAgent {
     @Path("/file/my/:key")
     @Address(Addr.File.BY_KEY)
     JsonObject fileByKey(@PathParam(KName.KEY) String key);
-
-    @GET
-    @Path("/file/by/directory")
-    @Address(Addr.File.BY_DIRECTORY)
-    JsonArray fileByDirectory(@QueryParam(KName.DIRECTORY_ID) String directoryId);
-
-    @GET
-    @Path("/file/by/keyword/:keyword")
-    @Address(Addr.File.BY_KEYWORD)
-    JsonArray fileByKeyword(@PathParam(KName.KEY_WORD) String keyword);
 }

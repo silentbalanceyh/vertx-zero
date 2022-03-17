@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service.application;
+package cn.vertxup.ambient.service.file;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -31,5 +31,5 @@ public interface DocStub {
      *      }
      * }
      */
-    Future<JsonArray> startDoc(String appId);
+    Future<JsonArray> treeAsync(String appId, String type);
 }

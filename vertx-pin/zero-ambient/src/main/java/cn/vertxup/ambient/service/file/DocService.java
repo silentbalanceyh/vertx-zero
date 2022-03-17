@@ -1,4 +1,4 @@
-package cn.vertxup.ambient.service.directory;
+package cn.vertxup.ambient.service.file;
 
 import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
@@ -24,19 +24,20 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TreeService implements TreeStub {
+public class DocService implements DocStub {
     private static final ConcurrentMap<String, Arbor> POOL_ARBOR = new ConcurrentHashMap<>();
-    private static final Annal LOGGER = Annal.get(TreeService.class);
+    private static final Annal LOGGER = Annal.get(DocService.class);
     @Inject
     private transient DatumStub stub;
 
+    // ------------------------- Document Management Tree -------------------------
     /*
      * Here the parameters are mapped to
      * -- appId: X_APP -> KEY
      * -- type:  X_CATEGORY -> TYPE
      */
     @Override
-    public Future<JsonArray> seekAsync(final String appId, final String type) {
+    public Future<JsonArray> treeAsync(final String appId, final String type) {
         return this.stub.treeApp(appId, type).compose(categories -> {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             Ut.itJArray(categories).map(this::seekAsync).forEach(futures::add);
@@ -90,4 +91,6 @@ public class TreeService implements TreeStub {
         At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
         return arbor.generate(input, configuration);
     }
+
+    // ------------------------- Document Method ( Other ) -------------------------
 }

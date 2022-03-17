@@ -178,6 +178,16 @@ public class Database implements Serializable, Json, Copyable<Database> {
         return Objects.isNull(result) ? defaultValue : result;
     }
 
+    public Long getLong(final String optionKey, final Long defaultValue) {
+        final Long result = this.getLong(optionKey);
+        return Objects.isNull(result) ? defaultValue : result;
+    }
+
+    public Long getLong(final String optionKey) {
+        final JsonObject options = this.options;
+        return options.getLong(optionKey);
+    }
+
     public JsonObject getOptions() {
         return Objects.isNull(this.options) ? new JsonObject() : this.options;
     }

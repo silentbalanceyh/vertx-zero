@@ -65,9 +65,10 @@ public class HikariDataPool implements DataPool {
             final Boolean autoCommit = this.database.getOption(OPT_AUTO_COMMIT, Boolean.TRUE);
 
             this.dataSource.setAutoCommit(autoCommit);
-            this.dataSource.setConnectionTimeout(this.database.getOption(OPT_CONNECTION_TIMEOUT, 300000L));
-            this.dataSource.setIdleTimeout(this.database.getOption(OPT_IDLE_TIMEOUT, 600000L));
-            this.dataSource.setMaxLifetime(this.database.getOption(OPT_MAX_LIFETIME, 25600000L));
+            // Fix Issue: https://github.com/silentbalanceyh/vertx-zero/issues/304
+            this.dataSource.setConnectionTimeout(this.database.getLong(OPT_CONNECTION_TIMEOUT, 300000L));
+            this.dataSource.setIdleTimeout(this.database.getLong(OPT_IDLE_TIMEOUT, 600000L));
+            this.dataSource.setMaxLifetime(this.database.getLong(OPT_MAX_LIFETIME, 25600000L));
             this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 256));
             this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 512));
 
