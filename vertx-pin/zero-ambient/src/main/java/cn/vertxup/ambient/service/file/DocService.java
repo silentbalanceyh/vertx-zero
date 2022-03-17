@@ -1,5 +1,6 @@
 package cn.vertxup.ambient.service.file;
 
+import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -7,6 +8,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.business.ExIo;
+import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -93,4 +97,72 @@ public class DocService implements DocStub {
     }
 
     // ------------------------- Document Method ( Other ) -------------------------
+
+    @Override
+    public Future<JsonArray> fetchDoc(final String sigma, final String directoryId) {
+        Objects.requireNonNull(sigma);
+        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLs(sigma, directoryId))
+            .compose(directory -> {
+                final JsonObject condition = Ux.whereAnd();
+                condition.put(KName.DIRECTORY_ID, directoryId);
+                condition.put(KName.ACTIVE, Boolean.TRUE);          // active = true
+                condition.put(KName.SIGMA, sigma);
+                return this.fetchAttachment(condition).compose(files -> {
+                    directory.addAll(files);
+                    return Ux.future(directory);
+                });
+            });
+    }
+
+    @Override
+    public Future<JsonArray> fetchTrash(final String sigma) {
+        Objects.requireNonNull(sigma);
+        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirTrashed(sigma))
+            .compose(directory -> {
+                final JsonObject condition = Ux.whereAnd();
+                condition.put(KName.ACTIVE, Boolean.FALSE);         // active = false
+                condition.put(KName.SIGMA, sigma);
+                return this.fetchAttachment(condition).compose(files -> {
+                    directory.addAll(files);
+                    return Ux.future(directory);
+                });
+            });
+    }
+
+    @Override
+    public Future<JsonArray> searchDoc(final String sigma, final String keyword) {
+        Objects.requireNonNull(sigma);
+        /* Attachment Only */
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.SIGMA, sigma);
+        condition.put(KName.ACTIVE, Boolean.TRUE);
+        /*
+         * createdBy is the owner of attachment record because here the attachment
+         * file could not be updated, there are two operation only:
+         * 1 - Upload
+         * 2 - Replaced
+         *  */
+        return Ke.channel(ExUser.class, JsonArray::new, user -> user.auditor(keyword)).compose(keys -> {
+            if (Ut.notNil(keys)) {
+                // User Matched
+                final JsonObject criteria = Ux.whereOr();
+                criteria.put(KName.NAME + ",c", keyword);
+                criteria.put(KName.CREATED_BY + ",i", keys);
+                condition.put("$Qr$", criteria);
+            } else {
+                condition.put(KName.NAME + ",c", keyword);
+            }
+            return this.fetchAttachment(condition);
+        });
+    }
+
+    private Future<JsonArray> fetchAttachment(final JsonObject condition) {
+        return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition)
+            .compose(Ut.ifJArray(KName.METADATA))
+            .compose(files -> {
+                Ut.itJArray(files).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
+                return Ux.future(files);
+            });
+    }
+
 }

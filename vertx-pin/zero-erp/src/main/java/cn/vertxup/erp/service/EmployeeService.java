@@ -151,13 +151,13 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<JsonObject> updateRef(final String key, final JsonObject data) {
-        return this.switchJ(data, (user, filters) -> user.updateRef(key, filters)
+        return this.switchJ(data, (user, filters) -> user.update(key, filters)
             .compose(Ut.ifJNil(response ->
                 Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::fetchRef).compose(Ut.ifJNil(response -> {
+        return this.switchJ(input, ExUser::fetch).compose(Ut.ifJNil(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));
@@ -170,7 +170,7 @@ public class EmployeeService implements EmployeeStub {
     private Future<JsonArray> fetchRef(final JsonArray input) {
         return this.switchA(input, (user, data) -> {
             final Set<String> keys = Ut.valueSetString(data, KName.KEY);
-            return user.fetchRef(keys);
+            return user.fetch(keys);
         }).compose(employee -> {
             final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);
             return Ux.future(merged);

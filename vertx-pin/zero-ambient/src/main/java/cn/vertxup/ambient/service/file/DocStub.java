@@ -32,4 +32,18 @@ public interface DocStub {
      * }
      */
     Future<JsonArray> treeAsync(String appId, String type);
+
+    /*
+     * Document + Directory
+     */
+    Future<JsonArray> fetchDoc(String sigma, String directoryId);
+
+    Future<JsonArray> fetchTrash(String sigma);
+
+    /*
+     * Document Only
+     * 1. keyword is owner name
+     * 2. keyword is document name
+     */
+    Future<JsonArray> searchDoc(final String sigma, String keyword);
 }
