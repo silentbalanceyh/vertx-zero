@@ -28,13 +28,12 @@ public abstract class AbstractExPath implements ExIo {
             Ut.itJArray(queueAd).forEach(json -> json.put(KName.Component.RUN_COMPONENT, config.getString(KName.Component.RUN_COMPONENT)));
         }
         // Group queueAd, Re-Calculate `directoryId` here.
-        return FsHelper.componentRun(queueAd, (fs, dataGroup) -> fs.synchronize(dataGroup, config)).compose(inserted -> {
-            /*
-             * storePath = key
-             */
-            Ut.itJArray(inserted).forEach(json -> Ut.ifJCopy(json, KName.KEY, KName.DIRECTORY_ID));
-            return Ux.future(inserted);
-        });
+        return FsHelper.componentRun(queueAd, (fs, dataGroup) -> fs.synchronize(dataGroup, config))
+            .compose(inserted -> {
+                /* storePath = key */
+                Ut.itJArray(inserted).forEach(json -> Ut.ifJCopy(json, KName.KEY, KName.DIRECTORY_ID));
+                return Ux.future(inserted);
+            });
     }
 
     protected Future<JsonArray> commandMkdir(final JsonArray queueUp, final List<IDirectory> storeList) {

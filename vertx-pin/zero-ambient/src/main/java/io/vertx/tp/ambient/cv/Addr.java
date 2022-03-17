@@ -38,8 +38,6 @@ public interface Addr {
         String CONNECT = Prefix._EVENT + "X-CONNECT";
 
         String SOURCE = Prefix._EVENT + "X-SOURCE";
-
-        String DOCUMENT = Prefix._EVENT + "X-DOCUMENT/DOCUMENT";
     }
 
     interface File {
@@ -51,10 +49,17 @@ public interface Addr {
         String MY_QUEUE = Prefix._EVENT + "X-ATTACHMENT/MY/QUEUE";
 
         String BY_KEY = Prefix._EVENT + "X-ATTACHMENT/BY/KEY";
+    }
+
+    interface Doc {
+
+        String DOCUMENT = Prefix._EVENT + "X-DOCUMENT/DOCUMENT";
 
         String BY_DIRECTORY = Prefix._EVENT + "X-ATTACHMENT/BY/DIRECTORY";
 
         String BY_KEYWORD = Prefix._EVENT + "X-ATTACHMENT/BY/KEYWORD";
+
+        String BY_TRASHED = Prefix._EVENT + "X-ATTACHMENT/BY/TRASHED";
     }
 
     interface Datum {

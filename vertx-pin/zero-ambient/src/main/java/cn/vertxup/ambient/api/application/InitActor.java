@@ -2,9 +2,7 @@ package cn.vertxup.ambient.api.application;
 
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
-import cn.vertxup.ambient.service.directory.TreeStub;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -18,8 +16,6 @@ import javax.inject.Inject;
 @Queue
 public class InitActor {
 
-    @Inject
-    private transient TreeStub treeStub;
     @Inject
     private transient InitStub stub;
     @Inject
@@ -40,11 +36,5 @@ public class InitActor {
         final Database database = Ut.deserialize(data, Database.class);
         final boolean checked = database.test();
         return Ux.futureB(checked);
-    }
-
-    @Address(Addr.Init.DOCUMENT)
-    public Future<JsonArray> startDoc(final String type,
-                                      final String appId) {
-        return this.treeStub.seekAsync(appId, type);
     }
 }

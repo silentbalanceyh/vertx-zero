@@ -18,9 +18,13 @@ public interface ExIo {
     Future<JsonArray> dirMk(JsonArray data, JsonObject config);
 
     /*
-     * Query Data Only
+     * Query Data Only, the condition should be
+     * 1. parentId = null ( WHERE SIGMA = ? )
+     * -- application scope
+     * 2. parentId is not null ( WHERE SIGMA = ? AND PARENT_ID = ? )
+     * -- parent directory scope
      */
-    Future<JsonArray> dirLs(String directoryId);
+    Future<JsonArray> dirLs(String sigma, String parentId);
 
-    Future<JsonArray> dirLsR(String sigma);
+    Future<JsonArray> dirTrashed(String sigma);
 }

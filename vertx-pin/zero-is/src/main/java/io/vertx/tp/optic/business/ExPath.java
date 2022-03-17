@@ -11,6 +11,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -42,20 +43,27 @@ public class ExPath extends AbstractExPath {
     }
 
     @Override
-    public Future<JsonArray> dirLs(final String directoryId) {
+    public Future<JsonArray> dirLs(final String sigma, final String parentId) {
         /*
-         * Fetch data which `parentId` = `directoryId`
+         *  1. sigma must be not null
+         *  2. directoryId is null when `parentId`
          */
+        Objects.requireNonNull(sigma);
         final JsonObject condition = Ux.whereAnd();
-        condition.put(KName.PARENT_ID, directoryId);
+        condition.put(KName.SIGMA, sigma);
+        condition.put(KName.ACTIVE, Boolean.TRUE);
+        if (Ut.notNil(parentId)) {
+            condition.put(KName.PARENT_ID, parentId);
+        }
         return FsHelper.directoryQuery(condition);
     }
 
     @Override
-    public Future<JsonArray> dirLsR(final String sigma) {
+    public Future<JsonArray> dirTrashed(final String sigma) {
+        Objects.requireNonNull(sigma);
         final JsonObject condition = Ux.whereAnd();
-        condition.put("parentId,n", "");
         condition.put(KName.SIGMA, sigma);
+        condition.put(KName.ACTIVE, Boolean.FALSE);
         return FsHelper.directoryQuery(condition);
     }
 }

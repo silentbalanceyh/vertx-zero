@@ -130,10 +130,15 @@ public class FsHelper {
     }
 
     public static Future<JsonArray> directoryQuery(final JsonObject condition) {
-        condition.put(KName.ACTIVE, Boolean.TRUE);
-        return Ux.Jooq.on(IDirectoryDao.class)
-            .fetchJAsync(condition)
-            .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE));
+        return Ux.Jooq.on(IDirectoryDao.class).fetchJAsync(condition)
+            .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE))
+            .compose(directory -> {
+                Ut.itJArray(directory).forEach(each -> {
+                    each.put(KName.DIRECTORY, Boolean.TRUE);
+                    Ut.ifJCopy(each, KName.KEY, KName.DIRECTORY_ID);
+                });
+                return Ux.future(directory);
+            });
     }
 
     // ---------------------- Batch: Directory Compare ----------------------
