@@ -18,6 +18,11 @@ public class Is {
             IsLog.info(logger, "Web", message, args);
         }
 
+        public static void infoFile(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            IsLog.warn(logger, "File/Directory", message, args);
+        }
+
         public static void warnPath(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             IsLog.warn(logger, "Path", message, args);

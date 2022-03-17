@@ -1,7 +1,10 @@
 package io.vertx.up.util;
 
 import io.vertx.up.fn.Fn;
+import io.vertx.up.log.Log;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Objects;
@@ -11,11 +14,14 @@ import java.util.Objects;
  */
 final class IOCmd {
 
+    private static final Logger LOGGER
+        = LoggerFactory.getLogger(IO.class);
+
     static boolean rm(final String filename) {
         final File file = IO.getFile(filename);
         if (Objects.nonNull(file) && file.exists()) {
+            Log.info(LOGGER, Info.IO_CMD_RM, file.getAbsolutePath());
             Fn.safeJvm(() -> FileUtils.forceDelete(file));
-            // return rmLoop(file);
         }
         return false;
     }
@@ -23,6 +29,7 @@ final class IOCmd {
     static boolean mkdir(final String filename) {
         final File file = new File(filename);
         if (!file.exists()) {
+            Log.info(LOGGER, Info.IO_CMD_MKDIR, file.getAbsolutePath());
             Fn.safeJvm(() -> FileUtils.forceMkdir(file));
         }
         return true;
@@ -49,6 +56,7 @@ final class IOCmd {
         final File fileSrc = new File(filename);
         if (fileSrc.exists()) {
             final File fileTo = new File(to);
+            Log.info(LOGGER, Info.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileTo.getAbsolutePath());
             if (fileSrc.isDirectory()) {
                 // Directory
                 Fn.safeJvm(() -> FileUtils.moveDirectoryToDirectory(fileSrc, fileTo, true));

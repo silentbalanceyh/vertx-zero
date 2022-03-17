@@ -18,7 +18,7 @@ import java.util.function.BiConsumer;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ExIo {
+public class ExOut {
     private static final ConcurrentMap<Class<?>, CellType> TYPE_MAP = new ConcurrentHashMap<Class<?>, CellType>() {
         private static final long serialVersionUID = 3360878434696227455L;
 
@@ -46,22 +46,22 @@ public class ExIo {
             private static final long serialVersionUID = 5714357194532329854L;
 
             {
-                this.put(String.class, ExIo::outString);
-                this.put(char.class, ExIo::outString);
-                this.put(Instant.class, ExIo::outDate);
-                this.put(LocalDate.class, ExIo::outLocalDate);
-                this.put(LocalDateTime.class, ExIo::outLocalDateTime);
-                this.put(BigDecimal.class, ExIo::outBigDecimal);
-                this.put(Integer.class, ExIo::outNumeric);
-                this.put(int.class, ExIo::outNumeric);
-                this.put(Long.class, ExIo::outNumeric);
-                this.put(long.class, ExIo::outNumeric);
-                this.put(Short.class, ExIo::outNumeric);
-                this.put(short.class, ExIo::outNumeric);
-                this.put(boolean.class, ExIo::outBoolean);
-                this.put(Boolean.class, ExIo::outBoolean);
-                this.put(JsonArray.class, ExIo::outString);
-                this.put(JsonObject.class, ExIo::outString);
+                this.put(String.class, ExOut::outString);
+                this.put(char.class, ExOut::outString);
+                this.put(Instant.class, ExOut::outDate);
+                this.put(LocalDate.class, ExOut::outLocalDate);
+                this.put(LocalDateTime.class, ExOut::outLocalDateTime);
+                this.put(BigDecimal.class, ExOut::outBigDecimal);
+                this.put(Integer.class, ExOut::outNumeric);
+                this.put(int.class, ExOut::outNumeric);
+                this.put(Long.class, ExOut::outNumeric);
+                this.put(long.class, ExOut::outNumeric);
+                this.put(Short.class, ExOut::outNumeric);
+                this.put(short.class, ExOut::outNumeric);
+                this.put(boolean.class, ExOut::outBoolean);
+                this.put(Boolean.class, ExOut::outBoolean);
+                this.put(JsonArray.class, ExOut::outString);
+                this.put(JsonObject.class, ExOut::outString);
             }
         };
 
@@ -99,6 +99,9 @@ public class ExIo {
     private static LocalDateTime outLocalDateTime(final String value) {
         final LocalDateTime dateTime = Ut.toDateTime(value);
         // 修正
+        if (Objects.isNull(dateTime)) {
+            return LocalDateTime.MIN;   // MIN instead of null value here.
+        }
         return LocalDateTime.ofInstant(dateTime.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
     }
 

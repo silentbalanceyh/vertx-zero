@@ -97,7 +97,11 @@ public class FsHelper {
         final String sigma = Ut.valueString(data, KName.SIGMA);
         final JsonArray names = Ut.valueJArray(data, storeField);
         final JsonObject condition = Ux.whereAnd();
+        /*
+         * sigma and active = true
+         */
         condition.put(KName.SIGMA, sigma);
+        condition.put(KName.ACTIVE, Boolean.TRUE);
         if (strict) {
             /*
              * strict mode
@@ -126,6 +130,7 @@ public class FsHelper {
     }
 
     public static Future<JsonArray> directoryQuery(final JsonObject condition) {
+        condition.put(KName.ACTIVE, Boolean.TRUE);
         return Ux.Jooq.on(IDirectoryDao.class)
             .fetchJAsync(condition)
             .compose(Ut.ifJArray(KName.METADATA, KName.VISIT_GROUP, KName.VISIT_ROLE, KName.VISIT_MODE));

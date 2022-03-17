@@ -45,24 +45,27 @@ public class FileActor {
         /*
          * Directory + Attachment
          */
+        final Future<JsonArray> future;
         if (Ut.isNil(directoryId)) {
-            return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLsR(header.getSigma()));
+            future = Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLsR(header.getSigma()));
         } else {
-            return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLs(directoryId)).compose(directory -> {
-                Ut.itJArray(directory).forEach(each -> {
-                    each.put(KName.DIRECTORY, Boolean.TRUE);
-                    Ut.ifJCopy(each, KName.KEY, KName.DIRECTORY_ID);
-                });
-                return Ux.future(directory);
-            }).compose(directory -> {
-                final JsonObject condition = Ux.whereAnd();
-                condition.put(KName.DIRECTORY_ID, directoryId);
-                return this.fetchFileAsync(condition).compose(files -> {
-                    directory.addAll(files);
-                    return Ux.future(directory);
-                });
-            });
+            future = Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLs(directoryId));
         }
+        return future.compose(directory -> {
+            Ut.itJArray(directory).forEach(each -> {
+                each.put(KName.DIRECTORY, Boolean.TRUE);
+                Ut.ifJCopy(each, KName.KEY, KName.DIRECTORY_ID);
+            });
+            return Ux.future(directory);
+        }).compose(directory -> {
+            final JsonObject condition = Ux.whereAnd();
+            condition.put(KName.DIRECTORY_ID, directoryId);
+            condition.put(KName.ACTIVE, Boolean.TRUE);
+            return this.fetchFileAsync(condition).compose(files -> {
+                directory.addAll(files);
+                return Ux.future(directory);
+            });
+        });
     }
 
     @Address(Addr.File.BY_KEYWORD)
@@ -70,6 +73,7 @@ public class FileActor {
         final JsonObject condition = Ux.whereAnd();
         condition.put("name,c", keyword);
         condition.put(KName.SIGMA, header.getSigma());
+        condition.put(KName.ACTIVE, Boolean.TRUE);
         return this.fetchFileAsync(condition);
     }
 

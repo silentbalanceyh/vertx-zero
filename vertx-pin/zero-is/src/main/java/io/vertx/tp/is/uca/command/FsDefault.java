@@ -74,9 +74,7 @@ public class FsDefault extends AbstractFs {
     public Future<JsonObject> trash(final JsonObject data) {
         this.runTrash((root, trash) -> {
             final String path = data.getString(KName.STORE_PATH);
-            final String from = Ut.ioPath(root, path);
-            final String to = Ut.ioPath(trash, path);
-            Ut.cmdRename(from, to);
+            this.runTrash(root, trash, path);
         });
         return Ux.future(data);
     }
@@ -85,43 +83,39 @@ public class FsDefault extends AbstractFs {
     public Future<JsonArray> trash(final JsonArray data) {
         this.runTrash((root, trash) -> Ut.itJArray(data).forEach(json -> {
             final String path = json.getString(KName.STORE_PATH);
-            final String from = Ut.ioPath(root, path);
-            final String to = Ut.ioPath(trash, path);
-            Ut.cmdRename(from, to);
+            this.runTrash(root, trash, path);
         }));
         return Ux.future(data);
-    }
-
-    private void ensureTrash() {
-        this.runRoot(root -> {
-            final String path = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
-            Ut.cmdMkdir(path);
-        });
     }
 
     @Override
     public Future<Boolean> rename(final ConcurrentMap<String, String> transfer) {
         if (!transfer.isEmpty()) {
-            this.runRoot(root -> transfer.forEach((from, to) -> {
-                final String fromPath = Ut.ioPath(root, from);
-                final String toPath = Ut.ioPath(root, to);
-                Ut.cmdRename(fromPath, toPath);
-            }));
+            this.runRoot(root -> transfer.forEach(
+                (from, to) -> this.runRename(root, from, to)));
         }
         return Ux.futureT();
     }
 
     @Override
     public Future<Boolean> rename(final String from, final String to) {
-        this.runRoot(root -> {
-            final String fromPath = Ut.ioPath(root, from);
-            final String toPath = Ut.ioPath(root, to);
-            Ut.cmdRename(fromPath, toPath);
-        });
+        this.runRoot(root -> this.runRename(root, from, to));
         return Ux.futureT();
     }
 
     // ----------------- Run Private Method for Folder Calculation -----------------
+
+    private void runRename(final String root, final String from, final String to) {
+        final String fromPath = Ut.ioPath(root, from);
+        final String toPath = Ut.ioPath(root, to);
+        Ut.cmdRename(fromPath, toPath);
+    }
+
+    private void runTrash(final String root, final String trash, final String path) {
+        final String from = Ut.ioPath(root, path);
+        final String to = Ut.ioPath(trash, path);
+        Ut.cmdRename(from, to);
+    }
 
     private void runTrash(final BiConsumer<String, String> fsTrash) {
         this.runRoot(root -> {
