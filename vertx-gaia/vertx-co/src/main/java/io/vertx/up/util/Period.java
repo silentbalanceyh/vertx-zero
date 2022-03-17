@@ -27,8 +27,6 @@ final class Period {
             this.add(Iso.RFC1123_DATE_TIME);
             this.add(Iso.COMMON);
             this.add(Iso.READBALE);
-            // Fix Date Only
-            this.addAll(DATES);
         }
     };
     private static final List<DateTimeFormatter> TIMES = new ArrayList<DateTimeFormatter>() {

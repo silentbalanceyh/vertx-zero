@@ -84,7 +84,7 @@ public class ExOut {
      * setCellValue(LocalDate)
      */
     private static void outLocalDate(final Cell cell, final Object value) {
-        final LocalDate date = outLocalDateTime(value.toString()).toLocalDate();
+        final LocalDate date = Ut.toDate(value.toString());
         cell.setCellValue(date);
     }
 
