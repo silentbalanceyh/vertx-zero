@@ -4,7 +4,9 @@ import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -14,9 +16,12 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface Fs {
     /*
-     * Default value processing
+     * Tree Directory Initialize
+     * Trash Directory Initialize
      */
-    IDirectory initialize(JsonObject directory);
+    IDirectory initTree(JsonObject directory);
+
+    void initTrash();
 
     /*
      * 1. Sync Data between ( Actual / Database )
@@ -42,15 +47,15 @@ public interface Fs {
 
     Future<JsonObject> rm(JsonObject data);
 
-    Future<JsonArray> trash(JsonArray data);
-
-    Future<JsonObject> trash(JsonObject data);
+    Future<Boolean> rm(Collection<String> storeSet);
 
     /*
      * Command: none
      * - Rename folder
      */
     Future<Boolean> rename(String from, String to);
+
+    Future<Boolean> rename(Kv<String, String> kv);
 
     Future<Boolean> rename(ConcurrentMap<String, String> transfer);
 

@@ -9,6 +9,7 @@ import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.tp.is.uca.updater.StoreMigration;
 import io.vertx.tp.is.uca.updater.StoreRename;
 import io.vertx.tp.is.uca.updater.StoreUp;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -32,13 +33,13 @@ public class DirService implements DirStub {
     public Future<JsonObject> create(final JsonObject directoryJ) {
         return Is.fsRun(directoryJ, fs -> {
             // JsonArray serialization
-            final JsonObject inputJ = Is.directoryIn(directoryJ);
+            final JsonObject inputJ = Is.dataIn(directoryJ);
             // IDirectory Building
-            final IDirectory directory = fs.initialize(inputJ);
+            final IDirectory directory = fs.initTree(inputJ);
             // Insert into database
             return Ux.Jooq.on(IDirectoryDao.class).insertJAsync(directory)
                 // JsonArray Deserialization
-                .compose(Is::directoryOut)
+                .compose(Is::dataOut)
                 // Actual Directory Processing
                 .compose(fs::mkdir);
         });
@@ -84,25 +85,30 @@ public class DirService implements DirStub {
     @Override
     public Future<Boolean> remove(final String key, final String userId) {
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-        return jq.<IDirectory>fetchByIdAsync(key)
-            .compose(directory -> Is.directoryQr(directory).compose(queried -> {
-                final List<IDirectory> directories = new ArrayList<>();
-                // Current Folder
-                if (Objects.nonNull(directory)) {
-                    directories.add(directory);
-                }
-                directories.addAll(queried);
-                directories.forEach(item -> {
-                    item.setActive(Boolean.FALSE);
-                    item.setUpdatedBy(userId);
-                    item.setUpdatedAt(LocalDateTime.now());
-                });
-                return jq.updateAsync(directories).compose(nil -> {
-                    final JsonObject directoryJ = Ux.toJson(directory);
-                    return Is.fsRun(directoryJ, fs -> fs.trash(directoryJ));
-                });
-            }))
-            .compose(removed -> Ux.futureT());
+        return jq.<IDirectory>fetchByIdAsync(key).compose(directory -> Is.directoryQr(directory).compose(queried -> {
+            final List<IDirectory> directories = new ArrayList<>();
+            // Current Folder
+            if (Objects.nonNull(directory)) {
+                directories.add(directory);
+            }
+            directories.addAll(queried);
+            directories.forEach(item -> {
+                item.setActive(Boolean.FALSE);
+                item.setUpdatedBy(userId);
+                item.setUpdatedAt(LocalDateTime.now());
+            });
+            return jq.updateAsync(directories).compose(Ux::futureJ);
+        })).compose(directoryJ -> {
+            final Kv<String, String> kv = Is.trashIn(directoryJ);
+            return Is.fsRun(directoryJ, fs -> {
+                /*
+                 * 1. .Trash folder ensure
+                 * 2. Call `rename` command in `Fs` interface
+                 */
+                fs.initTrash();
+                return fs.rename(kv).compose(renamed -> Ux.future(directoryJ));
+            });
+        }).compose(removed -> Ux.futureT());
     }
 
     @Override
@@ -114,22 +120,10 @@ public class DirService implements DirStub {
         if (Ut.isNil(parent)) {
             return Ux.futureJ(directory);
         } else {
-            return this.updateBranch(parent, directory)
+            // Update In Cycle for branch updating
+            return Is.directoryBranch(parent, directory)
                 .compose(nil -> Ux.futureJ(directory));
         }
-    }
-
-    private Future<IDirectory> updateBranch(final String key, final IDirectory directory) {
-        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-        return jq.<IDirectory>fetchByIdAsync(key).compose(queried -> {
-            if (Objects.isNull(queried)) {
-                return Ux.future();
-            }
-            queried.setUpdatedAt(LocalDateTime.now());
-            queried.setUpdatedBy(directory.getUpdatedBy());
-            return jq.updateAsync(queried)
-                .compose(updated -> this.updateBranch(updated.getParentId(), directory));
-        });
     }
 
     @Override
@@ -173,12 +167,12 @@ public class DirService implements DirStub {
             if (Objects.isNull(directory)) {
                 return Ux.futureJ();
             } else {
-                final JsonObject data = Is.directoryIn(directoryJ);
+                final JsonObject data = Is.dataIn(directoryJ);
                 final IDirectory updated = Ux.updateT(directory, data);
                 return jq.updateAsync(key, updated)
                     // Update branch
                     .compose(this::updateBranch)
-                    .compose(Is::directoryOut);
+                    .compose(Is::dataOut);
             }
         });
     }

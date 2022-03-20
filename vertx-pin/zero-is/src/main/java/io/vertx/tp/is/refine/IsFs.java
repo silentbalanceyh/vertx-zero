@@ -10,13 +10,12 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -46,6 +45,48 @@ class IsFs {
     }
 
     /*
+     * The input map
+     * -- storePath = directoryId
+     *
+     * Here `storePath` is file or directory storePath
+     */
+    static Future<ConcurrentMap<Fs, Set<String>>> group(final ConcurrentMap<String, String> fileMap) {
+        // directoryId = Set<String> ( storePath )
+        final ConcurrentMap<String, Set<String>> directoryMap = Ut.elementRevert(fileMap);
+
+        // Fetch directories by Set<String> ( keys )
+        final JsonObject criteria = new JsonObject();
+        criteria.put(KName.KEY + ",i", Ut.toJArray(directoryMap.keySet()));
+        return IsDir.query(criteria).compose(directories -> {
+
+            // Grouped List<IDirectory> by `runComponent`, transfer to runComponent = Set<String> ( keys )
+            final ConcurrentMap<String, List<String>> grouped =
+                Ut.elementGroup(directories, IDirectory::getRunComponent, IDirectory::getKey);
+
+            /*
+             * Connect to Map
+             * 1. runComponent = Set<String> ( keys )
+             * 2. key = Set<String> ( storePath )
+             */
+            final ConcurrentMap<Fs, List<String>> fsGroup = group(grouped, List::isEmpty);
+            final ConcurrentMap<Fs, Set<String>> resultMap = new ConcurrentHashMap<>();
+            fsGroup.forEach((fs, keyList) -> {
+                final Set<String> storeSet = new HashSet<>();
+                keyList.forEach(key -> {
+                    final Set<String> subSet = directoryMap.get(key);
+                    if (Objects.nonNull(subSet) && !subSet.isEmpty()) {
+                        storeSet.addAll(subSet);
+                    }
+                });
+                if (!storeSet.isEmpty()) {
+                    resultMap.put(fs, storeSet);
+                }
+            });
+            return Ux.future(resultMap);
+        });
+    }
+
+    /*
      * data structure of each json
      * {
      *      "storeRoot": "xxxx",
@@ -69,21 +110,48 @@ class IsFs {
             }
         });
 
-        final ConcurrentMap<Fs, JsonArray> groupComponent = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, JsonArray> groupIntegrated = Ut.elementGroup(queueIntegrated, KName.Component.RUN_COMPONENT);
+        final ConcurrentMap<Fs, JsonArray> groupComponent = group(groupIntegrated, JsonArray::isEmpty);
+
         /*
-         * Default component
+         * Default component Compact
          */
         if (!queueDft.isEmpty()) {
             final Fs fs = Ut.singleton(FS_DEFAULT);
-            groupComponent.put(fs, queueDft);
+            final JsonArray dataRef = groupComponent.getOrDefault(fs, new JsonArray());
+            dataRef.addAll(queueDft);
+            groupComponent.put(fs, dataRef);
         }
-        final ConcurrentMap<String, JsonArray> groupIntegrated = Ut.elementGroup(queueIntegrated, KName.Component.RUN_COMPONENT);
-        groupIntegrated.forEach((componentCls, dataArray) -> {
-            if (!dataArray.isEmpty()) {
+        return groupComponent;
+    }
+
+    static ConcurrentMap<Fs, Set<String>> combine(final ConcurrentMap<Fs, Set<String>> directoryMap,
+                                                  final ConcurrentMap<Fs, Set<String>> fileMap) {
+        /*
+         * Combine two map
+         */
+        final ConcurrentMap<Fs, Set<String>> first = new ConcurrentHashMap<>(directoryMap);
+        fileMap.forEach((fs, set) -> {
+            final Set<String> valueSet;
+            if (first.containsKey(fs)) {
+                valueSet = first.getOrDefault(fs, new HashSet<>());
+            } else {
+                valueSet = new HashSet<>();
+            }
+            valueSet.addAll(set);
+            first.put(fs, valueSet);
+        });
+        return first;
+    }
+
+    static <V> ConcurrentMap<Fs, V> group(final ConcurrentMap<String, V> map, final Predicate<V> fnKo) {
+        final ConcurrentMap<Fs, V> groupComponent = new ConcurrentHashMap<>();
+        map.forEach((componentCls, value) -> {
+            if (!fnKo.test(value)) {
                 final Class<?> clazz = Ut.clazz(componentCls, null);
                 if (Objects.nonNull(clazz) && Ut.isImplement(clazz, Fs.class)) {
                     final Fs fs = Ut.singleton(clazz);
-                    groupComponent.put(fs, dataArray);
+                    groupComponent.put(fs, value);
                 }
             }
         });

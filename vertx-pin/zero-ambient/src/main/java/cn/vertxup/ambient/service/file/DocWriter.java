@@ -44,17 +44,40 @@ public class DocWriter implements DocWStub {
      */
     @Override
     public Future<JsonArray> trashIn(final JsonArray documentA) {
-        return this.runSplit(documentA,
+        return this.trashSplit(documentA,
             // Update all attachmentA
-            (attachmentA) -> this.updateAttachment(attachmentA, Boolean.FALSE),
+            (attachmentA) -> this.attachmentU(attachmentA, Boolean.FALSE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, stub -> stub.trashIn(directoryA, fileMap));
+                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
             }
         );
     }
 
-    private Future<JsonArray> updateAttachment(final JsonArray attachmentJ, final boolean active) {
+    @Override
+    public Future<JsonArray> trashOut(final JsonArray documentA) {
+        return this.trashSplit(documentA,
+            // Update all attachmentA
+            (attachmentA) -> this.attachmentU(attachmentA, Boolean.TRUE),
+            (directoryA, attachmentA) -> {
+                final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
+                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
+            }
+        );
+    }
+
+    @Override
+    public Future<JsonArray> trashKo(final JsonArray documentA) {
+        return this.trashSplit(documentA,
+            this::attachmentD,
+            (directoryA, attachmentA) -> {
+                final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
+                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.purge(directoryA, fileMap));
+            });
+    }
+
+    // ----------------------------- Private Method -------------------------
+    private Future<JsonArray> attachmentU(final JsonArray attachmentJ, final boolean active) {
         Ut.ifStrings(attachmentJ, KName.METADATA);
         Ut.itJArray(attachmentJ).forEach(attachment -> {
             attachment.put(KName.UPDATED_AT, Instant.now());
@@ -65,21 +88,11 @@ public class DocWriter implements DocWStub {
             .compose(Ut.ifJArray(KName.METADATA));
     }
 
-    @Override
-    public Future<JsonArray> trashOut(final JsonArray documentA) {
-        return this.runSplit(documentA,
-            // Update all attachmentA
-            (attachmentA) -> this.updateAttachment(attachmentA, Boolean.TRUE),
-            (directoryA, attachmentA) -> {
-                final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, stub -> stub.trashOut(directoryA, fileMap));
-            }
-        );
-    }
-
-    @Override
-    public Future<JsonArray> trashKo(final JsonArray documentA) {
-        return null;
+    private Future<JsonArray> attachmentD(final JsonArray attachmentJ) {
+        final JsonObject criteria = new JsonObject();
+        criteria.put(KName.KEY + ",i", Ut.toJArray(Ut.valueSetString(attachmentJ, KName.KEY)));
+        return Ux.Jooq.on(XAttachmentDao.class).deleteByAsync(criteria)
+            .compose(removed -> Ux.future(attachmentJ));
     }
 
     /*
@@ -87,7 +100,7 @@ public class DocWriter implements DocWStub {
      * - directory = true,        Directory Processing
      * - directory = false,       Attachment Processing
      */
-    private Future<JsonArray> runSplit(
+    private Future<JsonArray> trashSplit(
         final JsonArray source,
         final Function<JsonArray, Future<JsonArray>> fnAttachment,
         final BiFunction<JsonArray, JsonArray, Future<JsonArray>> fnDirectory) {

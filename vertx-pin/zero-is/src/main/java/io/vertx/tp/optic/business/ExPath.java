@@ -1,14 +1,19 @@
 package io.vertx.tp.optic.business;
 
+import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
+import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.refine.Is;
+import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
+import java.time.Instant;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -23,7 +28,7 @@ public class ExPath implements ExIo {
          * -- The condition is `storePath` instead of other information
          * 2. Build the map of `storePath = IDirectory`, here will put `directoryId` into each data
          */
-        return Is.fsDocument(data, config).compose(Is::directoryOut);
+        return Is.fsDocument(data, config).compose(Is::dataOut);
     }
 
     /*
@@ -46,7 +51,7 @@ public class ExPath implements ExIo {
         if (Ut.notNil(parentId)) {
             condition.put(KName.PARENT_ID, parentId);
         }
-        return Is.directoryQr(condition);
+        return Is.directoryQr(condition).compose(Ux::futureA).compose(Is::dataOut);
     }
 
     /*
@@ -62,7 +67,7 @@ public class ExPath implements ExIo {
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.SIGMA, sigma);
         condition.put(KName.ACTIVE, Boolean.FALSE);
-        return Is.directoryQr(condition);
+        return Is.directoryQr(condition).compose(Ux::futureA).compose(Is::dataOut);
     }
 
     /*
@@ -72,12 +77,96 @@ public class ExPath implements ExIo {
      */
     @Override
     public Future<JsonArray> trashIn(final JsonArray directoryJ, final ConcurrentMap<String, String> fileMap) {
-
-        return null;
+        // active = false
+        return this.directoryU(directoryJ, false)
+            .compose(directoryMap -> Is.fsGroup(fileMap).compose(attachmentMap -> this.trashDo(
+                directoryMap, attachmentMap, false
+            )))
+            .compose(nil -> Ux.future(directoryJ));
     }
 
     @Override
     public Future<JsonArray> trashOut(final JsonArray directoryJ, final ConcurrentMap<String, String> fileMap) {
-        return null;
+        // active = true
+        return this.directoryU(directoryJ, true)
+            .compose(directoryMap -> Is.fsGroup(fileMap).compose(attachmentMap -> this.trashDo(
+                directoryMap, attachmentMap, true
+            )))
+            .compose(nil -> Ux.future(directoryJ));
+    }
+
+    @Override
+    public Future<JsonArray> purge(final JsonArray directoryJ, final ConcurrentMap<String, String> fileMap) {
+        return this.directoryD(directoryJ)
+            .compose(directoryMap -> Is.fsGroup(fileMap).compose(attachmentMap -> {
+                final ConcurrentMap<Fs, Set<String>> combine = Is.fsCombine(directoryMap, attachmentMap);
+                final List<Future<Boolean>> futures = new ArrayList<>();
+                combine.forEach((fs, storeSet) -> {
+                    final ConcurrentMap<String, String> renameMap = Is.trashIn(storeSet);
+                    futures.add(fs.rm(renameMap.values()));
+                });
+                return Ux.thenCombineT(futures);
+            }))
+            .compose(nil -> Ux.future(directoryJ));
+    }
+
+    private Future<Boolean> trashDo(final ConcurrentMap<Fs, Set<String>> directoryMap,
+                                    final ConcurrentMap<Fs, Set<String>> fileMap, final boolean active) {
+        /*
+         * Combine two map
+         */
+        final ConcurrentMap<Fs, Set<String>> combine = Is.fsCombine(directoryMap, fileMap);
+
+        /*
+         * Trash Split
+         */
+        final List<Future<Boolean>> futures = new ArrayList<>();
+        combine.forEach((fs, storeSet) -> {
+            final ConcurrentMap<String, String> renameMap;
+            if (active) {
+                // trashOut
+                renameMap = Is.trashOut(storeSet);
+            } else {
+                // trashIn
+                renameMap = Is.trashIn(storeSet);
+            }
+            futures.add(fs.rename(renameMap));
+        });
+        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+    }
+
+    private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {
+        final JsonObject criteria = new JsonObject();
+        criteria.put(KName.KEY + ",i", Ut.toJArray(Ut.valueSetString(directoryD, KName.KEY)));
+        return Ux.Jooq.on(IDirectoryDao.class).deleteByAsync(criteria).compose(removed -> {
+            // Grouped directory by runComponent
+            final ConcurrentMap<String, JsonArray> grouped =
+                Ut.elementGroup(directoryD, KName.Component.RUN_COMPONENT);
+
+
+            final ConcurrentMap<Fs, Set<String>> directoryMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<Fs, JsonArray> groupedComponents = Is.fsGroup(grouped, JsonArray::isEmpty);
+            groupedComponents.forEach((fs, jarray) -> directoryMap.put(fs, Ut.toSet(jarray)));
+            return Ux.future(directoryMap);
+        });
+    }
+
+    private Future<ConcurrentMap<Fs, Set<String>>> directoryU(final JsonArray directoryJ, final Boolean active) {
+        final JsonArray normalized = Is.dataIn(directoryJ);
+        Ut.itJArray(normalized).forEach(json -> {
+            json.put(KName.ACTIVE, active);
+            json.put(KName.UPDATED_AT, Instant.now());
+        });
+        final List<IDirectory> directories = Ux.fromJson(normalized, IDirectory.class);
+        return Ux.Jooq.on(IDirectoryDao.class).updateAsync(directories).compose(updated -> {
+            final ConcurrentMap<String, List<String>> grouped =
+                Ut.elementGroup(updated, IDirectory::getRunComponent, IDirectory::getStorePath);
+
+
+            final ConcurrentMap<Fs, Set<String>> directoryMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<Fs, List<String>> groupedComponents = Is.fsGroup(grouped, List::isEmpty);
+            groupedComponents.forEach((fs, list) -> directoryMap.put(fs, new HashSet<>(list)));
+            return Ux.future(directoryMap);
+        });
     }
 }

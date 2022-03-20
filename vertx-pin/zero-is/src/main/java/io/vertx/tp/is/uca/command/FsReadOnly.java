@@ -10,11 +10,11 @@ import io.vertx.tp.is.cv.em.TypeDirectory;
 public class FsReadOnly extends FsDefault {
 
     @Override
-    public IDirectory initialize(final JsonObject directoryJ) {
+    public IDirectory initTree(final JsonObject directoryJ) {
         /*
          * Store
          */
-        final IDirectory directory = super.initialize(directoryJ);
+        final IDirectory directory = super.initTree(directoryJ);
         /*
          * metadata: {
          *      "deletion": false,

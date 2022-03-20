@@ -130,6 +130,7 @@ public final class Ut {
      * 10) elementFlat
      * 11) elementCompress
      * 12) elementSet
+     * 13) elementRevert
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
@@ -261,6 +262,10 @@ public final class Ut {
 
     public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
         return ArrayL.compress(dataList);
+    }
+
+    public static <K, V> ConcurrentMap<V, Set<K>> elementRevert(final ConcurrentMap<K, V> dataMap) {
+        return ArrayL.revert(dataMap);
     }
 
     public static <T, V> Set<V> elementSet(final List<T> listT, final Function<T, V> executor) {

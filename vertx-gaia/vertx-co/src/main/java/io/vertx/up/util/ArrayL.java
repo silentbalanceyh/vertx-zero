@@ -140,6 +140,21 @@ final class ArrayL {
         return valueSet;
     }
 
+    static <K, V> ConcurrentMap<V, Set<K>> revert(final ConcurrentMap<K, V> map) {
+        final ConcurrentMap<V, Set<K>> resultMap = new ConcurrentHashMap<>();
+        map.forEach((k, v) -> {
+            final Set<K> valueSet;
+            if (resultMap.containsKey(v)) {
+                valueSet = resultMap.get(v);
+            } else {
+                valueSet = new HashSet<>();
+            }
+            valueSet.add(k);
+            resultMap.put(v, valueSet);
+        });
+        return resultMap;
+    }
+
     static <K, V> ConcurrentMap<K, List<V>> compress(final List<ConcurrentMap<K, List<V>>> dataList) {
         final ConcurrentMap<K, List<V>> resultMap = new ConcurrentHashMap<>();
         dataList.forEach(each -> each.forEach((k, vList) -> {

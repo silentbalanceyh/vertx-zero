@@ -56,4 +56,6 @@ public interface ExIo {
     Future<JsonArray> trashIn(JsonArray directoryJ, ConcurrentMap<String, String> fileMap);
 
     Future<JsonArray> trashOut(JsonArray directoryJ, ConcurrentMap<String, String> fileMap);
+
+    Future<JsonArray> purge(JsonArray directoryJ, ConcurrentMap<String, String> fileMap);
 }

@@ -9,14 +9,15 @@ import io.vertx.tp.is.cv.IsFolder;
 import io.vertx.tp.is.cv.em.TypeDirectory;
 import io.vertx.tp.is.init.IsPin;
 import io.vertx.tp.is.refine.Is;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -25,13 +26,21 @@ import java.util.function.Consumer;
 public class FsDefault extends AbstractFs {
 
     @Override
-    public IDirectory initialize(final JsonObject directoryJ) {
+    public IDirectory initTree(final JsonObject directoryJ) {
         /*
          * Store
          */
         final IDirectory directory = Ux.fromJson(directoryJ, IDirectory.class);
         directory.setCode(Ut.encryptMD5(directory.getStorePath()));
         return directory.setType(TypeDirectory.STORE.name());
+    }
+
+    @Override
+    public void initTrash() {
+        this.runRoot(root -> {
+            final String rootTrash = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
+            Ut.cmdMkdir(rootTrash);
+        });
     }
 
     @Override
@@ -49,6 +58,7 @@ public class FsDefault extends AbstractFs {
         return Ux.future(data);
     }
 
+
     @Override
     public Future<JsonArray> synchronize(final JsonArray data, final JsonObject config) {
         // Data Part for I_DIRECTORY Initializing
@@ -62,6 +72,12 @@ public class FsDefault extends AbstractFs {
     }
 
     @Override
+    public Future<Boolean> rm(final Collection<String> storeSet) {
+        this.runRoot(root -> storeSet.forEach(path -> Ut.cmdRm(Ut.ioPath(root, path))));
+        return Ux.futureT();
+    }
+
+    @Override
     public Future<JsonObject> rm(final JsonObject data) {
         this.runRoot(root -> {
             final String path = data.getString(KName.STORE_PATH);
@@ -71,28 +87,9 @@ public class FsDefault extends AbstractFs {
     }
 
     @Override
-    public Future<JsonObject> trash(final JsonObject data) {
-        this.runTrash((root, trash) -> {
-            final String path = data.getString(KName.STORE_PATH);
-            this.runTrash(root, trash, path);
-        });
-        return Ux.future(data);
-    }
-
-    @Override
-    public Future<JsonArray> trash(final JsonArray data) {
-        this.runTrash((root, trash) -> Ut.itJArray(data).forEach(json -> {
-            final String path = json.getString(KName.STORE_PATH);
-            this.runTrash(root, trash, path);
-        }));
-        return Ux.future(data);
-    }
-
-    @Override
     public Future<Boolean> rename(final ConcurrentMap<String, String> transfer) {
         if (!transfer.isEmpty()) {
-            this.runRoot(root -> transfer.forEach(
-                (from, to) -> this.runRename(root, from, to)));
+            this.runRoot(root -> transfer.forEach((from, to) -> this.runRename(root, from, to)));
         }
         return Ux.futureT();
     }
@@ -103,26 +100,17 @@ public class FsDefault extends AbstractFs {
         return Ux.futureT();
     }
 
+    @Override
+    public Future<Boolean> rename(final Kv<String, String> kv) {
+        return this.rename(kv.getKey(), kv.getValue());
+    }
+
     // ----------------- Run Private Method for Folder Calculation -----------------
 
     private void runRename(final String root, final String from, final String to) {
         final String fromPath = Ut.ioPath(root, from);
         final String toPath = Ut.ioPath(root, to);
         Ut.cmdRename(fromPath, toPath);
-    }
-
-    private void runTrash(final String root, final String trash, final String path) {
-        final String from = Ut.ioPath(root, path);
-        final String to = Ut.ioPath(trash, path);
-        Ut.cmdRename(from, to);
-    }
-
-    private void runTrash(final BiConsumer<String, String> fsTrash) {
-        this.runRoot(root -> {
-            final String rootTrash = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
-            Ut.cmdMkdir(rootTrash);
-            fsTrash.accept(root, rootTrash);
-        });
     }
 
     private void runRoot(final Consumer<String> fsRoot) {

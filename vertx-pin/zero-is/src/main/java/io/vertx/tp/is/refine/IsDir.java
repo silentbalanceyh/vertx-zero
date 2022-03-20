@@ -5,13 +5,18 @@ import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.is.cv.IsFolder;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,6 +25,35 @@ import java.util.concurrent.ConcurrentMap;
  */
 class IsDir {
 
+    static Kv<String, String> trash(final String path) {
+        Objects.requireNonNull(path);
+        final String trashTo = Ut.ioPath(IsFolder.TRASH_FOLDER, path);
+        return Kv.create(path, trashTo);
+    }
+
+    static ConcurrentMap<String, String> trash(final Set<String> pathSet) {
+        final ConcurrentMap<String, String> trashMap = new ConcurrentHashMap<>();
+        pathSet.forEach(path -> {
+            final String trashTo = Ut.ioPath(IsFolder.TRASH_FOLDER, path);
+            trashMap.put(path, trashTo);
+        });
+        return trashMap;
+    }
+
+    static Kv<String, String> rollback(final String path) {
+        Objects.requireNonNull(path);
+        final String trashFrom = Ut.ioPath(IsFolder.TRASH_FOLDER, path);
+        return Kv.create(trashFrom, path);
+    }
+
+    static ConcurrentMap<String, String> rollback(final Set<String> pathSet) {
+        final ConcurrentMap<String, String> trashMap = new ConcurrentHashMap<>();
+        pathSet.forEach(path -> {
+            final String trashFrom = Ut.ioPath(IsFolder.TRASH_FOLDER, path);
+            trashMap.put(trashFrom, path);
+        });
+        return trashMap;
+    }
 
     static JsonObject input(final JsonObject directoryJ) {
         // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
@@ -70,9 +104,8 @@ class IsDir {
         });
     }
 
-    static Future<JsonArray> query(final JsonObject condition) {
-        return Ux.Jooq.on(IDirectoryDao.class).fetchJAsync(condition)
-            .compose(IsDir::output);
+    static Future<List<IDirectory>> query(final JsonObject condition) {
+        return Ux.Jooq.on(IDirectoryDao.class).fetchAsync(condition);
     }
 
     static Future<List<IDirectory>> query(final IDirectory directory) {
@@ -157,5 +190,18 @@ class IsDir {
                 this.put(ChangeFlag.NONE, queueDft);
             }
         };
+    }
+
+    public static Future<IDirectory> updateBranch(final String key, final IDirectory directory) {
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.<IDirectory>fetchByIdAsync(key).compose(queried -> {
+            if (Objects.isNull(queried)) {
+                return Ux.future();
+            }
+            queried.setUpdatedAt(LocalDateTime.now());
+            queried.setUpdatedBy(directory.getUpdatedBy());
+            return jq.updateAsync(queried)
+                .compose(updated -> updateBranch(updated.getParentId(), directory));
+        });
     }
 }
