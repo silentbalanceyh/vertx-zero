@@ -7,11 +7,14 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -108,6 +111,20 @@ public class ExPath implements ExIo {
                 return Ux.thenCombineT(futures);
             }))
             .compose(nil -> Ux.future(directoryJ));
+    }
+
+    @Override
+    public Future<Boolean> rename(final JsonObject directoryJ, final Kv<String, String> renameKv) {
+        final String directoryId = directoryJ.getString(KName.KEY);
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.<IDirectory>fetchByIdAsync(directoryId)
+            .compose(directory -> {
+                directory.setUpdatedAt(LocalDateTime.now());
+                directory.setUpdatedBy(directoryJ.getString(KName.UPDATED_BY));
+                return jq.updateAsync(directory).compose(updated -> Is.directoryBranch(directoryId, updated));
+            })
+            .compose(directory -> Is.fsComponent(directory.getKey()))
+            .compose(fs -> fs.rename(renameKv));
     }
 
     private Future<Boolean> trashDo(final ConcurrentMap<Fs, Set<String>> directoryMap,

@@ -3,6 +3,7 @@ package io.vertx.tp.optic.business;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -58,4 +59,6 @@ public interface ExIo {
     Future<JsonArray> trashOut(JsonArray directoryJ, ConcurrentMap<String, String> fileMap);
 
     Future<JsonArray> purge(JsonArray directoryJ, ConcurrentMap<String, String> fileMap);
+
+    Future<Boolean> rename(JsonObject directoryId, Kv<String, String> renameKv);
 }

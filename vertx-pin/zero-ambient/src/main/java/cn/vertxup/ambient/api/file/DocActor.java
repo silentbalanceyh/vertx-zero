@@ -63,7 +63,9 @@ public class DocActor {
     // ---------------------- Write Operation -------------------------
 
     @Address(Addr.Doc.DOCUMENT_RENAME)
-    public Future<JsonObject> rename(final JsonObject documentJ) {
+    public Future<JsonObject> rename(final JsonObject documentJ, final User user) {
+        final String userKey = Ux.keyUser(user);
+        documentJ.put(KName.UPDATED_BY, userKey);
         return this.writer.rename(documentJ);
     }
 

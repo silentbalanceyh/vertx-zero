@@ -113,6 +113,10 @@ public class Is {
         return IsFs.combine(directoryMap, fileMap);
     }
 
+    public static Future<Fs> fsComponent(final String directoryId) {
+        return IsFs.component(directoryId);
+    }
+
     public static Future<JsonArray> fsDocument(final JsonArray data, final JsonObject config) {
         return IsFs.document(data, config);
     }

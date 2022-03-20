@@ -1,5 +1,6 @@
 package io.vertx.tp.is.refine;
 
+import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -123,6 +124,28 @@ class IsFs {
             groupComponent.put(fs, dataRef);
         }
         return groupComponent;
+    }
+
+    static Future<Fs> component(final String directoryId) {
+        final Fs fsDft = Ut.singleton(FS_DEFAULT);
+        if (Objects.isNull(directoryId)) {
+            return Ux.future(fsDft);
+        }
+        return Ux.Jooq.on(IDirectoryDao.class).<IDirectory>fetchByIdAsync(directoryId).compose(directory -> {
+            if (Objects.isNull(directory)) {
+                return Ux.future(fsDft);
+            }
+            final String componentCls = directory.getRunComponent();
+            if (Ut.isNil(componentCls)) {
+                return Ux.future(fsDft);
+            }
+            final Class<?> clazz = Ut.clazz(componentCls, null);
+            if (Objects.nonNull(clazz) && Ut.isImplement(clazz, Fs.class)) {
+                return Ut.singleton(clazz);
+            } else {
+                return Ux.future(fsDft);
+            }
+        });
     }
 
     static ConcurrentMap<Fs, Set<String>> combine(final ConcurrentMap<Fs, Set<String>> directoryMap,

@@ -7,7 +7,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -28,7 +30,23 @@ public class DocWriter implements DocWStub {
 
     @Override
     public Future<JsonObject> rename(final JsonObject documentJ) {
-        return null;
+        final String key = documentJ.getString(KName.KEY);
+        final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
+        return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {
+            final String from = attachment.getStorePath();
+            final XAttachment updated = Ux.updateT(attachment, documentJ);
+            return jq.updateAsync(updated).compose(processed -> {
+                final String to = processed.getStorePath();
+                return Ux.future(Kv.create(from, to));
+            }).compose(kv -> {
+                final String directoryId = attachment.getDirectoryId();
+                final JsonObject directoryJ = new JsonObject();
+                directoryJ.put(KName.KEY, directoryId);
+                directoryJ.put(KName.UPDATED_BY, documentJ.getString(KName.UPDATED_BY));
+                return Ke.channel(ExIo.class, () -> documentJ, io -> io.rename(directoryJ, kv)
+                    .compose(nil -> Ux.future(documentJ)));
+            });
+        });
     }
 
     /*
