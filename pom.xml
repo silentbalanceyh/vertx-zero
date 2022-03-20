@@ -115,7 +115,7 @@
         <elasticsearch.version>7.17.1</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.4</neo4j.version>
+        <neo4j.version>4.4.5</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -152,7 +152,7 @@
         <netty.version>4.1.75.Final</netty.version>
 
         <!-- Upload Issue -->
-        <hazelcast.version>5.1</hazelcast.version>
+        <hazelcast.version>5.1.1</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.11.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>

@@ -5,6 +5,7 @@ import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.is.refine.Is;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -36,7 +37,7 @@ public abstract class AbstractFs implements Fs {
         /*
          * Fetch by `parent`
          */
-        return FsHelper.directoryQuery(formatted, KName.STORE_PARENT, true).compose(queried -> {
+        return Is.directoryQr(formatted, KName.STORE_PARENT, true).compose(queried -> {
             /*
              * Apply data by storeParent
              */

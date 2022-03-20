@@ -3,6 +3,7 @@ package cn.vertxup.ambient.service.file;
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
@@ -22,15 +23,16 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DocService implements DocStub {
+public class DocReader implements DocRStub {
     private static final ConcurrentMap<String, Arbor> POOL_ARBOR = new ConcurrentHashMap<>();
-    private static final Annal LOGGER = Annal.get(DocService.class);
+    private static final Annal LOGGER = Annal.get(DocReader.class);
     @Inject
     private transient DatumStub stub;
 
@@ -41,7 +43,7 @@ public class DocService implements DocStub {
      * -- type:  X_CATEGORY -> TYPE
      */
     @Override
-    public Future<JsonArray> treeAsync(final String appId, final String type) {
+    public Future<JsonArray> treeDir(final String appId, final String type) {
         return this.stub.treeApp(appId, type).compose(categories -> {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             Ut.itJArray(categories).map(this::seekAsync).forEach(futures::add);
@@ -101,32 +103,32 @@ public class DocService implements DocStub {
     @Override
     public Future<JsonArray> fetchDoc(final String sigma, final String directoryId) {
         Objects.requireNonNull(sigma);
-        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLs(sigma, directoryId))
-            .compose(directory -> {
-                final JsonObject condition = Ux.whereAnd();
-                condition.put(KName.DIRECTORY_ID, directoryId);
-                condition.put(KName.ACTIVE, Boolean.TRUE);          // active = true
-                condition.put(KName.SIGMA, sigma);
-                return this.fetchAttachment(condition).compose(files -> {
-                    directory.addAll(files);
-                    return Ux.future(directory);
-                });
+        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirRun(sigma, directoryId)).compose(directory -> {
+            final JsonObject condition = Ux.whereAnd();
+            condition.put(KName.DIRECTORY_ID, directoryId);
+            // active = true
+            condition.put(KName.ACTIVE, Boolean.TRUE);
+            condition.put(KName.SIGMA, sigma);
+            return this.fetchAttachment(condition).compose(files -> {
+                directory.addAll(files);
+                return Ux.future(directory);
             });
+        });
     }
 
     @Override
     public Future<JsonArray> fetchTrash(final String sigma) {
         Objects.requireNonNull(sigma);
-        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirTrashed(sigma))
-            .compose(directory -> {
-                final JsonObject condition = Ux.whereAnd();
-                condition.put(KName.ACTIVE, Boolean.FALSE);         // active = false
-                condition.put(KName.SIGMA, sigma);
-                return this.fetchAttachment(condition).compose(files -> {
-                    directory.addAll(files);
-                    return Ux.future(directory);
-                });
+        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirTrash(sigma)).compose(directory -> {
+            final JsonObject condition = Ux.whereAnd();
+            // active = false
+            condition.put(KName.ACTIVE, Boolean.FALSE);
+            condition.put(KName.SIGMA, sigma);
+            return this.fetchAttachment(condition).compose(files -> {
+                directory.addAll(files);
+                return Ux.future(directory);
             });
+        });
     }
 
     @Override
@@ -165,4 +167,15 @@ public class DocService implements DocStub {
             });
     }
 
+    // ------------------------- Document Method ( Download ) -------------------------
+
+    @Override
+    public Future<Buffer> downloadDoc(final String key) {
+        return null;
+    }
+
+    @Override
+    public Future<Buffer> downloadDoc(final Set<String> keys) {
+        return null;
+    }
 }

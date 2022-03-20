@@ -1,12 +1,19 @@
 package cn.vertxup.ambient.api.file;
 
-import cn.vertxup.ambient.service.file.DocStub;
+import cn.vertxup.ambient.service.file.DocRStub;
+import cn.vertxup.ambient.service.file.DocWStub;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
+import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 
@@ -16,26 +23,27 @@ import javax.inject.Inject;
 @Queue
 public class DocActor {
     @Inject
-    private transient DocStub stub;
+    private transient DocRStub reader;
+    @Inject
+    private transient DocWStub writer;
 
+    // ---------------------- Read Operation -------------------------
     @Address(Addr.Doc.DOCUMENT)
     public Future<JsonArray> start(final String type, final String appId) {
-        return this.stub.treeAsync(appId, type);
+        return this.reader.treeDir(appId, type);
     }
 
     @Address(Addr.Doc.BY_DIRECTORY)
     public Future<JsonArray> byDirectory(final String directoryId, final XHeader header) {
         /* Directory + Attachment */
-        return this.stub.fetchDoc(header.getSigma(), directoryId);
+        return this.reader.fetchDoc(header.getSigma(), directoryId);
     }
 
     @Address(Addr.Doc.BY_KEYWORD)
     public Future<JsonArray> byKeyword(final String keyword, final XHeader header) {
         /* Attachment Only */
-        return this.stub.searchDoc(header.getSigma(), keyword);
+        return this.reader.searchDoc(header.getSigma(), keyword);
     }
-
-    // --------------------------  Private Method for attachment ---------------------------
 
     @Address(Addr.Doc.BY_TRASHED)
     public Future<JsonArray> byTrashed(final XHeader header) {
@@ -44,6 +52,44 @@ public class DocActor {
          * active = false
          * sigma match
          * */
-        return this.stub.fetchTrash(header.getSigma());
+        return this.reader.fetchTrash(header.getSigma());
     }
+
+    @Address(Addr.File.DOWNLOADS)
+    public Future<Buffer> download(final JsonArray keys) {
+        return this.reader.downloadDoc(Ut.toSet(keys));
+    }
+
+    // ---------------------- Write Operation -------------------------
+
+    @Address(Addr.Doc.DOCUMENT_RENAME)
+    public Future<JsonObject> rename(final JsonObject documentJ) {
+        return this.writer.rename(documentJ);
+    }
+
+    @Address(Addr.File.UPLOAD_CREATION)
+    public Future<JsonArray> upload(final JsonArray documentA) {
+        return this.writer.upload(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_TRASH)
+    public Future<JsonArray> trashIn(final JsonArray documentA, final User user) {
+        final String userKey = Ux.keyUser(user);
+        Ut.itJArray(documentA).forEach(document -> document.put(KName.UPDATED_BY, userKey));
+        return this.writer.trashIn(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_PURGE)
+    public Future<JsonArray> trashKo(final JsonArray documentA) {
+        return this.writer.trashKo(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_ROLLBACK)
+    public Future<JsonArray> trashOut(final JsonArray documentA, final User user) {
+        final String userKey = Ux.keyUser(user);
+        Ut.itJArray(documentA).forEach(document -> document.put(KName.UPDATED_BY, userKey));
+        return this.writer.trashOut(documentA);
+    }
+
+
 }

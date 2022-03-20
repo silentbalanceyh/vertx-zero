@@ -1,12 +1,15 @@
 package cn.vertxup.ambient.service.file;
 
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
+
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface DocStub {
+public interface DocRStub {
     /*
      * Start Document Engine by `appId`
      *
@@ -31,7 +34,7 @@ public interface DocStub {
      *      }
      * }
      */
-    Future<JsonArray> treeAsync(String appId, String type);
+    Future<JsonArray> treeDir(String appId, String type);
 
     /*
      * Document + Directory
@@ -45,5 +48,12 @@ public interface DocStub {
      * 1. keyword is owner name
      * 2. keyword is document name
      */
-    Future<JsonArray> searchDoc(final String sigma, String keyword);
+    Future<JsonArray> searchDoc(String sigma, String keyword);
+
+    /*
+     * Document Download
+     */
+    Future<Buffer> downloadDoc(String key);
+
+    Future<Buffer> downloadDoc(Set<String> keys);
 }

@@ -243,6 +243,10 @@ public final class Ut {
         return ArrayL.map(dataArray, field);
     }
 
+    public static <T> ConcurrentMap<String, T> elementMap(final JsonArray dataArray, final String field, final String to) {
+        return ArrayL.map(dataArray, field, to);
+    }
+
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final String field) {
         return ArrayL.group(source, field);
     }

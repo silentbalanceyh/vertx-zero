@@ -215,6 +215,18 @@ final class ArrayL {
         return mapped;
     }
 
+    @SuppressWarnings("unchecked")
+    static <T> ConcurrentMap<String, T> map(final JsonArray data, final String field, final String to) {
+        final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
+        It.itJArray(data).forEach(json -> {
+            final String key = json.getString(field);
+            if (Ut.notNil(key)) {
+                mapped.put(key, (T) json.getValue(to));
+            }
+        });
+        return mapped;
+    }
+
     static ConcurrentMap<String, JsonArray> group(final JsonArray source, final Function<JsonObject, String> executor) {
         final ConcurrentMap<String, JsonArray> ret = new ConcurrentHashMap<>();
         if (Objects.nonNull(source) && !source.isEmpty()) {
