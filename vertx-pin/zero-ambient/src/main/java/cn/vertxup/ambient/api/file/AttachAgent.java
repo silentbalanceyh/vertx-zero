@@ -61,7 +61,7 @@ public class AttachAgent {
                 .put(KName.METADATA, new JsonObject().encode())                 // (Reserved)
 
                 .put(KName.Attachment.STORE_WAY, config.getFileStorage())       // 「Dir」Configured Stored Way
-                .put(KName.DIRECTORY, directory);                               // 「Dir」Will be calculated
+                .put(KName.DIRECTORY, directory);                               // 「Dir」Will be calculate
             // Here only left `modelKey` field.
         }
         return uploaded;

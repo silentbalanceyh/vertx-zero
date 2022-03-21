@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
@@ -70,6 +71,7 @@ public class DocActor {
     }
 
     @Address(Addr.File.UPLOAD_CREATION)
+    @Me
     public Future<JsonArray> upload(final JsonArray documentA) {
         return this.writer.upload(documentA);
     }

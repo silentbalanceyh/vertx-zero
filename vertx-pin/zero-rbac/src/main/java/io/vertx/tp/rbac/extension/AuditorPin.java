@@ -25,6 +25,19 @@ public class AuditorPin implements PlugAuditor {
     @Override
     public PlugAuditor bind(final JsonObject config) {
         if (Ut.notNil(config)) {
+            final JsonArray includeDefault = config.getJsonArray("include", new JsonArray());
+            includeDefault.add("/api/user");                    // zero-rbac
+            includeDefault.add("/api/permission");              // zero-rbac
+            includeDefault.add("/api/employee");                // zero-erp
+            /*
+             * Default Uri Put into
+             * - include
+             * -- /api/employee                 zero-erp
+             * -- /api/user                     zero-rbac
+             * -- /api/permission               zero-rbac
+             * - exclude
+             * -- /api/:actor/search
+             */
             this.config.mergeIn(config);
         }
         return this;

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -78,8 +79,8 @@ final class IOCmd {
                 // Directory Copy, folder to folder
                 Fn.safeJvm(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
-                // File
-                Fn.safeJvm(() -> FileUtils.moveFile(fileSrc, fileTo));
+                // File ( Replace Old One )
+                Fn.safeJvm(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
             }
         }
         return false;
