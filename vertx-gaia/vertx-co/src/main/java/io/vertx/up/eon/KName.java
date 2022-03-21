@@ -1,5 +1,6 @@
 package io.vertx.up.eon;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.query.engine.Qr;
 
 import java.util.HashSet;
@@ -182,17 +183,21 @@ public interface KName {
     String QUERY = "query";                      /* XLinkage query */
 
     // Store Path/Root
-    String STORE = "store";
-    String STORE_ROOT = "storeRoot";
-    String STORE_PATH = "storePath";
-    String STORE_PARENT = "storeParent";
-    String INTEGRATION_ID = "integrationId";
-    String PARENT_ID = "parentId";
-    String DIRECTORY_ID = "directoryId";
-    String DIRECTORY = "directory";
-    String INITIALIZE = "initialize";
-    String KEY_WORD = "keyword";
-    String SORT = "sort";
+    String STORE = "store";                      /* File Management, Store */
+    String STORE_ROOT = "storeRoot";             /* File Management, store root */
+    String STORE_PATH = "storePath";             /* File Management, store path for directory / attachment */
+    String STORE_PARENT = "storeParent";         /* File Management, store parent */
+    String INTEGRATION_ID = "integrationId";     /* File Management, integration key */
+    String DIRECTORY_ID = "directoryId";         /* File Management, directory id */
+    String DIRECTORY = "directory";              /* File Management, directory field, two means */
+    String INITIALIZE = "initialize";            /* File Management, initialize field */
+
+    String PARENT_ID = "parentId";               /* Tree for parent id */
+    String KEY_WORD = "keyword";                 /* Search Key Word */
+    String SORT = "sort";                        /* Sort */
+
+    String INCLUDE = "include";                  /* Auditor Pin */
+    String EXCLUDE = "exclude";                  /* Auditor Pin */
 
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";
@@ -328,6 +333,28 @@ public interface KName {
         String CRITERIA = Qr.KEY_CRITERIA;
         String ROWS = "rows";
         String POSITION = "position";
+
+        JsonArray INCLUDE = new JsonArray()
+            .add("/api/user")                    // zero-rbac
+            .add("/api/permission")              // zero-rbac
+            .add("/api/employee")                // zero-erp
+            .add("/api/wh")                      // zero-psi
+            .add("/api/i-directory")             // zero-is
+            .add("/api/file/upload")             // zero-ambient
+            .add("/api/my/menu/save")            // zero-ambient
+            .add("/api/up/flow")                 // zero-wf
+            .add("/api/linkage/sync")            // zero-wf, zero-ambient
+            .add("/api/bill/")                   // zero-fm
+            .add("/api/bill-item/")              // zero-fm
+            .add("/api/settle/")                 // zero-fm
+            .add("/api/payment");                // zero-fm
+
+        JsonArray EXCLUDE = new JsonArray()
+            .add("/api/:actor/search")           // zero-crud
+            .add("/api/:actor/missing")          // zero-crud
+            .add("/api/:actor/existing")         // zero-crud
+            .add("/api/:actor/export")           // zero-crud
+            .add("/api/:actor/import");          // zero-crud
     }
 
     interface Tenant {
