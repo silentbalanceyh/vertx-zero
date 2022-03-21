@@ -71,7 +71,9 @@ class AtFs {
             remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
 
                 // Call ExIo `fsUpload`
-                io -> io.fsUpload(directoryId, fileMap).compose(removed -> Ux.future(remote))
+                io -> io.fsUpload(directoryId, fileMap)
+                    .compose(removed -> Ux.future(Ut.cmdRm(fileMap.keySet())))
+                    .compose(removed -> Ux.future(remote))
             )));
     }
 

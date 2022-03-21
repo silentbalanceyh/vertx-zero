@@ -141,7 +141,7 @@ class IsFs {
             }
             final Class<?> clazz = Ut.clazz(componentCls, null);
             if (Objects.nonNull(clazz) && Ut.isImplement(clazz, Fs.class)) {
-                return Ut.singleton(clazz);
+                return Ux.future(Ut.singleton(clazz));
             } else {
                 return Ux.future(fsDft);
             }
