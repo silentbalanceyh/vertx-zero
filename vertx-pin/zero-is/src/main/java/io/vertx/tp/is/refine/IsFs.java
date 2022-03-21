@@ -153,18 +153,18 @@ class IsFs {
         /*
          * Combine two map
          */
-        final ConcurrentMap<Fs, Set<String>> first = new ConcurrentHashMap<>(directoryMap);
+        final ConcurrentMap<Fs, Set<String>> combine = new ConcurrentHashMap<>(directoryMap);
         fileMap.forEach((fs, set) -> {
             final Set<String> valueSet;
-            if (first.containsKey(fs)) {
-                valueSet = first.getOrDefault(fs, new HashSet<>());
+            if (combine.containsKey(fs)) {
+                valueSet = combine.getOrDefault(fs, new HashSet<>());
             } else {
                 valueSet = new HashSet<>();
             }
             valueSet.addAll(set);
-            first.put(fs, valueSet);
+            combine.put(fs, valueSet);
         });
-        return first;
+        return combine;
     }
 
     static <V> ConcurrentMap<Fs, V> group(final ConcurrentMap<String, V> map, final Predicate<V> fnKo) {

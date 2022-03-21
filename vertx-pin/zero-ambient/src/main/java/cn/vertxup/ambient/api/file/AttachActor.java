@@ -1,13 +1,14 @@
 package cn.vertxup.ambient.api.file;
 
-import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
-import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
+import cn.vertxup.ambient.service.file.DocRStub;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
@@ -16,12 +17,15 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
+import javax.inject.Inject;
 
 @Queue
 public class AttachActor {
 
     private static final Annal LOGGER = Annal.get(AttachActor.class);
+
+    @Inject
+    private transient DocRStub reader;
 
     @Address(Addr.File.UPLOAD)
     public Future<JsonObject> upload(final Envelop envelop) {
@@ -39,33 +43,35 @@ public class AttachActor {
         final JsonObject content = envelop.body();
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         Ut.ifJObject(content, KName.METADATA);
-        return Ux.future(content);
-
         /*
-        final XAttachment attachment = Ut.deserialize(content, XAttachment.class);
-        final String userKey = Ux.keyUser(envelop.user());
-        if (Objects.nonNull(userKey)) {
-            attachment.setCreatedBy(userKey);
+         * ExIo to extract from
+         *
+         * directory ( Code ) -> directoryId
+         */
+        if (content.containsKey(KName.DIRECTORY)) {
+            final JsonObject headersX = envelop.headersX();
+            return Ke.channel(ExIo.class, () -> content,
+                io -> io.dirByCode(headersX.getString(KName.SIGMA), content.getString(KName.DIRECTORY)).compose(directoryJ -> {
+                    /*
+                     * Replaced the field
+                     * - directoryId, refer to I_DIRECTORY record,                      key field
+                     * - storeWay, refer to I_DIRECTORY record,                         type field
+                     * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
+                     */
+                    content.put(KName.DIRECTORY_ID, directoryJ.getString(KName.KEY));
+                    final String folder = directoryJ.getString(KName.STORE_PATH);
+                    content.put(KName.STORE_PATH, Ut.ioPath(folder, content.getString(KName.NAME)));
+                    content.put(KName.Attachment.STORE_WAY, directoryJ.getString(KName.TYPE));
+                    return Ux.future(content);
+                }));
+        } else {
+            return Ux.future(content);
         }
-        attachment.setCreatedAt(LocalDateTime.now());
-
-        return Ux.Jooq.on(XAttachmentDao.class)
-            .insertAsync(attachment)
-            .compose(Ux::futureJ);
-        */
     }
 
     @Address(Addr.File.DOWNLOAD)
     public Future<Buffer> download(final JsonObject filters) {
         At.infoFile(LOGGER, AtMsg.FILE_DOWNLOAD, filters.encodePrettily());
-        return Ux.Jooq.on(XAttachmentDao.class)
-            .<XAttachment>fetchOneAsync(filters)
-            .compose(entity -> {
-                Buffer buffer = Buffer.buffer();
-                if (Objects.nonNull(entity)) {
-                    buffer = Ut.ioBuffer(entity.getFilePath());
-                }
-                return Ux.future(buffer);
-            });
+        return this.reader.downloadDoc(filters.getString(KName.KEY));
     }
 }

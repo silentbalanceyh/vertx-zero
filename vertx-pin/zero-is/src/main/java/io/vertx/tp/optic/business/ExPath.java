@@ -3,6 +3,7 @@ package io.vertx.tp.optic.business;
 import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.refine.Is;
@@ -34,6 +35,8 @@ public class ExPath implements ExIo {
         return Is.fsDocument(data, config).compose(Is::dataOut);
     }
 
+
+    // ----------------- Directory Interface ----------------------
     /*
      * Fetch running directory records
      *  1. active = true
@@ -57,6 +60,17 @@ public class ExPath implements ExIo {
         return Is.directoryQr(condition).compose(Ux::futureA).compose(Is::dataOut);
     }
 
+    @Override
+    public Future<JsonObject> dirByCode(final String sigma, final String directory) {
+        Objects.requireNonNull(sigma);
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.SIGMA, sigma);
+        condition.put(KName.CODE, directory);
+        return Ux.Jooq.on(IDirectoryDao.class).fetchOneAsync(condition)
+            .compose(Ux::futureJ)
+            .compose(Is::dataOut);
+    }
+
     /*
      * Fetch all inactive directory records
      *  1. active = false
@@ -72,7 +86,30 @@ public class ExPath implements ExIo {
         condition.put(KName.ACTIVE, Boolean.FALSE);
         return Is.directoryQr(condition).compose(Ux::futureA).compose(Is::dataOut);
     }
+    // ----------------- File Interface ----------------------
 
+
+    @Override
+    public Future<Boolean> fsUpload(final String directoryId, final ConcurrentMap<String, String> fileMap) {
+        return Is.fsComponent(directoryId).compose(fs -> fs.upload(fileMap));
+    }
+
+    @Override
+    public Future<Boolean> fsRemove(final String directoryId, final ConcurrentMap<String, String> fileMap) {
+        return Is.fsComponent(directoryId).compose(fs -> fs.rm(fileMap.values()));
+    }
+
+    @Override
+    public Future<Buffer> fsDownload(final String directoryId, final ConcurrentMap<String, String> fileMap) {
+        return Is.fsComponent(directoryId).compose(fs -> fs.download(new HashSet<>(fileMap.values())));
+    }
+
+    @Override
+    public Future<Buffer> fsDownload(final String directoryId, final String storePath) {
+        return Is.fsComponent(directoryId).compose(fs -> fs.download(storePath));
+    }
+
+    // ----------------- Mix Interface ----------------------
     /*
      * Update all the X_DIRECTORY information here.
      *  1. active = false
@@ -127,6 +164,7 @@ public class ExPath implements ExIo {
             .compose(fs -> fs.rename(renameKv));
     }
 
+    // ----------------- Private Interface ----------------------
     private Future<Boolean> trashDo(final ConcurrentMap<Fs, Set<String>> directoryMap,
                                     final ConcurrentMap<Fs, Set<String>> fileMap, final boolean active) {
         /*
@@ -144,6 +182,11 @@ public class ExPath implements ExIo {
                 // trashOut
                 renameMap = Is.trashOut(storeSet);
             } else {
+                /*
+                 *  .Trash initialize to create new folder under store root path
+                 * This code is critical for successfully creating
+                 */
+                fs.initTrash();
                 // trashIn
                 renameMap = Is.trashIn(storeSet);
             }
@@ -163,7 +206,14 @@ public class ExPath implements ExIo {
 
             final ConcurrentMap<Fs, Set<String>> directoryMap = new ConcurrentHashMap<>();
             final ConcurrentMap<Fs, JsonArray> groupedComponents = Is.fsGroup(grouped, JsonArray::isEmpty);
-            groupedComponents.forEach((fs, jarray) -> directoryMap.put(fs, Ut.toSet(jarray)));
+            /*
+             * Extract JsonArray data `storePath` into set for removing here.
+             */
+            groupedComponents.forEach((fs, jarray) -> {
+                final Set<String> valueSet = new HashSet<>();
+                Ut.itJArray(jarray).forEach(json -> valueSet.add(json.getString(KName.STORE_PATH)));
+                directoryMap.put(fs, valueSet);
+            });
             return Ux.future(directoryMap);
         });
     }

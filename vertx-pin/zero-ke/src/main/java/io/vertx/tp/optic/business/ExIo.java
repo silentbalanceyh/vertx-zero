@@ -1,6 +1,7 @@
 package io.vertx.tp.optic.business;
 
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
@@ -46,6 +47,25 @@ public interface ExIo {
     Future<JsonArray> dirRun(String sigma, String parentId);
 
     Future<JsonArray> dirTrash(String sigma);
+
+    /*
+     * Fetch dir by `code` ( MD5 )
+     */
+    Future<JsonObject> dirByCode(String sigma, String directory);
+
+    // ----------------- File Interface ----------------------
+    /*
+     * Upload files to directory
+     *
+     * Here the directoryJ is as following structure
+     */
+    Future<Boolean> fsUpload(String directoryId, ConcurrentMap<String, String> fileMap);
+
+    Future<Boolean> fsRemove(String directoryId, ConcurrentMap<String, String> fileMap);
+
+    Future<Buffer> fsDownload(String directoryId, ConcurrentMap<String, String> fileMap);
+
+    Future<Buffer> fsDownload(String directoryId, String storePath);
 
     // ----------------- Mix Interface ----------------------
     /*

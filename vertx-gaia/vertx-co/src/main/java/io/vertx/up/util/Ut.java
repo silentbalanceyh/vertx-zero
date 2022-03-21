@@ -694,6 +694,10 @@ public final class Ut {
         return IO.getBuffer(filename);
     }
 
+    public static Buffer ioZip(final Set<String> fileSet) {
+        return IOCmd.zip(fileSet);
+    }
+
     public static InputStream ioStream(final File file) {
         return Stream.in(file);
     }

@@ -1,6 +1,5 @@
 package cn.vertxup.ambient.service.file;
 
-import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -13,6 +12,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Arbor;
+import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -35,6 +35,8 @@ public class DocReader implements DocRStub {
     private static final Annal LOGGER = Annal.get(DocReader.class);
     @Inject
     private transient DatumStub stub;
+    @Inject
+    private transient Attachment attachment;
 
     // ------------------------- Document Management Tree -------------------------
     /*
@@ -109,7 +111,7 @@ public class DocReader implements DocRStub {
             // active = true
             condition.put(KName.ACTIVE, Boolean.TRUE);
             condition.put(KName.SIGMA, sigma);
-            return this.fetchAttachment(condition).compose(files -> {
+            return this.attachment.fetchAsync(condition).compose(files -> {
                 directory.addAll(files);
                 return Ux.future(directory);
             });
@@ -124,7 +126,7 @@ public class DocReader implements DocRStub {
             // active = false
             condition.put(KName.ACTIVE, Boolean.FALSE);
             condition.put(KName.SIGMA, sigma);
-            return this.fetchAttachment(condition).compose(files -> {
+            return this.attachment.fetchAsync(condition).compose(files -> {
                 directory.addAll(files);
                 return Ux.future(directory);
             });
@@ -154,17 +156,8 @@ public class DocReader implements DocRStub {
             } else {
                 condition.put(KName.NAME + ",c", keyword);
             }
-            return this.fetchAttachment(condition);
+            return this.attachment.fetchAsync(condition);
         });
-    }
-
-    private Future<JsonArray> fetchAttachment(final JsonObject condition) {
-        return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition)
-            .compose(Ut.ifJArray(KName.METADATA))
-            .compose(files -> {
-                Ut.itJArray(files).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
-                return Ux.future(files);
-            });
     }
 
     // ------------------------- Document Method ( Download ) -------------------------

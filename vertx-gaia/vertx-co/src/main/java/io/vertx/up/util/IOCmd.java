@@ -1,13 +1,18 @@
 package io.vertx.up.util;
 
+import io.vertx.core.buffer.Buffer;
+import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.*;
 import java.util.Objects;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -16,6 +21,34 @@ final class IOCmd {
 
     private static final Logger LOGGER
         = LoggerFactory.getLogger(IO.class);
+
+    static Buffer zip(final Set<String> fileSet) {
+        // Create Tpl zip file path
+        return Fn.getJvm(() -> {
+            final ByteArrayOutputStream fos = new ByteArrayOutputStream();
+            final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+
+            // Buffer Size
+            final byte[] buffers = new byte[Values.CACHE_SIZE];
+            fileSet.forEach(filename -> Fn.safeJvm(() -> {
+                // create .zip and put file here
+                final File file = new File(filename);
+                final ZipEntry zipEntry = new ZipEntry(file.getName());
+                zos.putNextEntry(zipEntry);
+
+                // Read File content and put them in the zip
+                final FileInputStream fis = new FileInputStream(file);
+                final BufferedInputStream bis = new BufferedInputStream(fis, Values.CACHE_SIZE);
+                int read;
+                while ((read = bis.read(buffers, 0, Values.CACHE_SIZE)) != -1) {
+                    zos.write(buffers, 0, read);
+                }
+                bis.close();
+            }));
+            zos.close();
+            return Buffer.buffer(fos.toByteArray());
+        });
+    }
 
     static boolean rm(final String filename) {
         final File file = IO.getFile(filename);
@@ -34,32 +67,16 @@ final class IOCmd {
         }
         return true;
     }
-    /*
-    private static boolean rmLoop(final File directory) {
-        if (directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (Objects.isNull(files)) {
-                files = new File[]{};
-            }
-            for (final File file : files) {
-                final boolean success = rmLoop(file);
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        return Fn.getJvm(directory::delete);
-    }
-    */
 
     static boolean rename(final String filename, final String to) {
         final File fileSrc = new File(filename);
         if (fileSrc.exists()) {
             final File fileTo = new File(to);
-            Log.info(LOGGER, Info.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileTo.getAbsolutePath());
+            final File fileToP = fileTo.getParentFile();
+            Log.info(LOGGER, Info.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileToP.getAbsolutePath());
             if (fileSrc.isDirectory()) {
-                // Directory
-                Fn.safeJvm(() -> FileUtils.moveDirectoryToDirectory(fileSrc, fileTo, true));
+                // Directory Copy, folder to folder
+                Fn.safeJvm(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
                 // File
                 Fn.safeJvm(() -> FileUtils.moveFile(fileSrc, fileTo));

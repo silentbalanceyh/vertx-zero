@@ -2,11 +2,13 @@ package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -58,5 +60,14 @@ public interface Fs {
     Future<Boolean> rename(Kv<String, String> kv);
 
     Future<Boolean> rename(ConcurrentMap<String, String> transfer);
+
+    /*
+     * Read to Buffer
+     */
+    Future<Boolean> upload(ConcurrentMap<String, String> transfer);
+
+    Future<Buffer> download(String storePath);
+
+    Future<Buffer> download(Set<String> storeSet);
 
 }
