@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -34,16 +35,20 @@ public interface ExValue {
              * Prefix match
              */
             final String literal = value.toString();
-            if (literal.startsWith("JSON")) {
-                reference = Pool.PREFIX_MAP.get("JSON");
-            }
-            if (Objects.isNull(reference)) {
+
+            final String found = Arrays.stream(Literal.Prefix.SET)
+                .filter(prefix -> literal.startsWith(prefix))
+                .findFirst().orElse(null);
+            if (Objects.isNull(found)) {
                 /*
                  * Null to default
                  */
                 return Ut.singleton(PureValue.class);
             } else {
-                return reference;
+                /*
+                 * Prefix reference
+                 */
+                return Pool.PREFIX_MAP.get(found);
             }
         } else {
             return reference;
