@@ -69,9 +69,9 @@ public interface DocAgent {
     @Address(Addr.Doc.DOCUMENT_ROLLBACK)
     JsonArray trashOut(@BodyParam JsonArray documentA);
 
-    @Path("/document/rename")
+    @Path("/file/rename")
     @PUT
-    @Address(Addr.Doc.DOCUMENT_RENAME)
+    @Address(Addr.File.RENAME)
     JsonObject rename(@BodyParam JsonObject documentJ);
 
     // ----------------- File Batch Operation ----------------------

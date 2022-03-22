@@ -53,6 +53,8 @@ public interface Addr {
         String MY_QUEUE = Prefix._EVENT + "X-ATTACHMENT/MY/QUEUE";
 
         String BY_KEY = Prefix._EVENT + "X-ATTACHMENT/BY/KEY";
+
+        String RENAME = Prefix._EVENT + "X-ATTACHMENT/RENAME";
     }
 
     interface Doc {
@@ -72,7 +74,7 @@ public interface Addr {
 
         String DOCUMENT_PURGE = Prefix._EVENT + "X-DOCUMENT/PURGE";
 
-        String DOCUMENT_RENAME = Prefix._EVENT + "X-DOCUMENT/RENAME";
+        // String DOCUMENT_RENAME = Prefix._EVENT + "X-DOCUMENT/RENAME";
     }
 
     interface Datum {

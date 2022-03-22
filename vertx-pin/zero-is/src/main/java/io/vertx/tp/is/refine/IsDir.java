@@ -204,6 +204,6 @@ class IsDir {
             queried.setUpdatedBy(directory.getUpdatedBy());
             return jq.updateAsync(queried)
                 .compose(updated -> updateBranch(updated.getParentId(), directory));
-        });
+        }).compose(updated -> Ux.future(directory));
     }
 }

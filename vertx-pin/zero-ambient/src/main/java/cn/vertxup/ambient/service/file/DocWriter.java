@@ -43,7 +43,9 @@ public class DocWriter implements DocWStub {
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
         return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {
             final String from = attachment.getStorePath();
-            final XAttachment updated = Ux.updateT(attachment, documentJ);
+            final JsonObject documentData = documentJ.copy();
+            Ut.ifString(documentData, KName.METADATA, KName.VISIT_MODE);
+            final XAttachment updated = Ux.updateT(attachment, documentData);
             return jq.updateAsync(updated).compose(processed -> {
                 final String to = processed.getStorePath();
                 return Ux.future(Kv.create(from, to));
