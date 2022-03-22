@@ -208,8 +208,29 @@ public class ExPath implements ExIo {
     }
 
     private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {
-        final JsonObject criteria = new JsonObject();
+        /*
+         * Complex Condition
+         * 1. Directory
+         * 2. Sub Directory ( Start with StorePath )
+         */
+        final JsonObject criteria = Ux.whereOr();
+        // Directory
         criteria.put(KName.KEY + ",i", Ut.toJArray(Ut.valueSetString(directoryD, KName.KEY)));
+        final JsonObject children = Ux.whereOr();
+        Ut.itJArray(directoryD).forEach(json -> {
+            final String storePath = json.getString(KName.STORE_PATH);
+            if (Ut.notNil(storePath)) {
+                final JsonObject child = Ux.whereAnd();
+                child.put(KName.STORE_PATH + ",s", json.getString(KName.STORE_PATH));
+                child.put(KName.ACTIVE, Boolean.FALSE);
+                children.put("$" + json.getString(KName.CODE) + "$", child);
+            }
+        });
+        criteria.put("$CH$", children);
+
+        /*
+         * Remove
+         */
         return Ux.Jooq.on(IDirectoryDao.class).deleteByAsync(criteria).compose(removed -> {
             // Grouped directory by runComponent
             final ConcurrentMap<String, JsonArray> grouped =

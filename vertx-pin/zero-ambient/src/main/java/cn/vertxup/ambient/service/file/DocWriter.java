@@ -17,8 +17,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.time.Instant;
-import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -75,7 +73,7 @@ public class DocWriter implements DocWStub {
     public Future<JsonArray> trashIn(final JsonArray documentA) {
         return this.trashSplit(documentA,
             // Update all attachmentA
-            (attachmentA) -> this.attachmentU(attachmentA, Boolean.FALSE),
+            (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.FALSE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
                 return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
@@ -87,7 +85,7 @@ public class DocWriter implements DocWStub {
     public Future<JsonArray> trashOut(final JsonArray documentA) {
         return this.trashSplit(documentA,
             // Update all attachmentA
-            (attachmentA) -> this.attachmentU(attachmentA, Boolean.TRUE),
+            (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.TRUE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
                 return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
@@ -99,23 +97,30 @@ public class DocWriter implements DocWStub {
     public Future<JsonArray> trashKo(final JsonArray documentA) {
         return this.trashSplit(documentA,
             // Delete Record Only
-            this.attachment::removeAsync,
+            this.attachment::purgeAsync,
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.purge(directoryA, fileMap));
+                return Ke.channel(ExIo.class, () -> documentA,
+                    // Kill Directory and All Sub Files
+                    fs -> fs.purge(directoryA, fileMap).compose(this::trashKoDeep));
             });
     }
 
     // ----------------------------- Private Method -------------------------
-    private Future<JsonArray> attachmentU(final JsonArray attachmentJ, final boolean active) {
-        Ut.ifStrings(attachmentJ, KName.METADATA);
-        Ut.itJArray(attachmentJ).forEach(attachment -> {
-            attachment.put(KName.UPDATED_AT, Instant.now());
-            attachment.put(KName.ACTIVE, active);
+
+    private Future<JsonArray> trashKoDeep(final JsonArray directory) {
+        final JsonObject children = Ux.whereOr();
+        Ut.itJArray(directory).forEach(json -> {
+            final String storePath = json.getString(KName.STORE_PATH);
+            if (Ut.notNil(storePath)) {
+                final JsonObject child = Ux.whereAnd();
+                child.put(KName.STORE_PATH + ",s", json.getString(KName.STORE_PATH));
+                child.put(KName.ACTIVE, Boolean.FALSE);
+                children.put("$" + json.getString(KName.CODE) + "$", child);
+            }
         });
-        final List<XAttachment> attachments = Ux.fromJson(attachmentJ, XAttachment.class);
-        return Ux.Jooq.on(XAttachmentDao.class).updateAsyncJ(attachments)
-            .compose(Ut.ifJArray(KName.METADATA));
+        return Ux.Jooq.on(XAttachmentDao.class).deleteByAsync(children)
+            .compose(nil -> Ux.future(directory));
     }
 
     /*

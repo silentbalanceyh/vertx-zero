@@ -40,7 +40,9 @@ public interface Attachment {
      */
     Future<JsonArray> removeAsync(JsonObject condition);
 
-    Future<JsonArray> removeAsync(JsonArray attachment);
+    Future<JsonArray> purgeAsync(JsonArray attachment);
+
+    Future<JsonArray> updateAsync(JsonArray attachment, boolean active);
 
     /*
      * 1. Fetch attachments in single field

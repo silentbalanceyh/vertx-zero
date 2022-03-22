@@ -14,6 +14,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -42,13 +43,25 @@ public class ExAttachment implements Attachment {
     }
 
     @Override
+    public Future<JsonArray> updateAsync(final JsonArray attachmentJ, final boolean active) {
+        Ut.ifStrings(attachmentJ, KName.METADATA);
+        Ut.itJArray(attachmentJ).forEach(attachment -> {
+            attachment.put(KName.UPDATED_AT, Instant.now());
+            attachment.put(KName.ACTIVE, active);
+        });
+        final List<XAttachment> attachments = Ux.fromJson(attachmentJ, XAttachment.class);
+        return Ux.Jooq.on(XAttachmentDao.class).updateAsyncJ(attachments)
+            .compose(Ut.ifJArray(KName.METADATA));
+    }
+
+    @Override
     public Future<JsonArray> removeAsync(final JsonObject condition) {
         return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition)
             .compose(attachments -> this.removeAsyncInternal(condition, attachments));
     }
 
     @Override
-    public Future<JsonArray> removeAsync(final JsonArray attachment) {
+    public Future<JsonArray> purgeAsync(final JsonArray attachment) {
         final JsonObject criteria = new JsonObject();
         criteria.put(KName.KEY + ",i", Ut.toJArray(Ut.valueSetString(attachment, KName.KEY)));
         return this.removeAsyncInternal(criteria, attachment);
