@@ -145,14 +145,18 @@ public class DocWriter implements DocWStub {
         });
         At.infoFile(LOGGER, "Split Running: Document = {0}, Directory = {1}", attachmentJ.size(), directoryJ.size());
         // XAttachment First
-        return Ux.future(attachmentJ).compose(fnAttachment)
-            // Then IDirectory
-            .compose(processed -> fnDirectory.apply(directoryJ, processed).compose(directory -> {
-                // Response ( Attachments + Directory )
-                final JsonArray documents = new JsonArray();
-                documents.addAll(processed);
-                documents.addAll(directory);
-                return Ux.future(documents);
-            }));
+        if (Ut.notNil(directoryJ)) {
+            return Ux.future(attachmentJ).compose(fnAttachment)
+                // Then IDirectory
+                .compose(processed -> fnDirectory.apply(directoryJ, processed).compose(directory -> {
+                    // Response ( Attachments + Directory )
+                    final JsonArray documents = new JsonArray();
+                    documents.addAll(processed);
+                    documents.addAll(directory);
+                    return Ux.future(documents);
+                }));
+        } else {
+            return Ux.future(attachmentJ).compose(fnAttachment);
+        }
     }
 }
