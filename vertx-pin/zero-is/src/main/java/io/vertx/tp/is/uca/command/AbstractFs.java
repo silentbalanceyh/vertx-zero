@@ -5,6 +5,7 @@ import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.is.refine.Is;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -36,11 +37,11 @@ public abstract class AbstractFs implements Fs {
         /*
          * Fetch by `parent`
          */
-        return FsHelper.directoryQuery(formatted, KName.STORE_PARENT, true).compose(queried -> {
+        return Is.directoryQr(formatted, KName.STORE_PARENT, true).compose(queried -> {
             /*
              * Apply data by storeParent
              */
-            final ConcurrentMap<String, IDirectory> storeParentMap = Ut.elementMap(queried, IDirectory::getStorePath);
+            final ConcurrentMap<String, IDirectory> storeMap = Ut.elementMap(queried, IDirectory::getStorePath);
 
             /*
              * storeParent:
@@ -50,11 +51,11 @@ public abstract class AbstractFs implements Fs {
              */
             final List<IDirectory> inserted = new ArrayList<>();
             final JsonObject initialize = config.getJsonObject(KName.INITIALIZE, new JsonObject());
+            /*
+             * Initialized for queueAdd
+             */
             storeParent.forEach((pathParent, dataGroup) -> {
-                /*
-                 * Initialized for queueAdd
-                 */
-                final IDirectory storeObj = storeParentMap.get(pathParent);
+                final IDirectory storeObj = storeMap.get(pathParent);
                 final JsonObject storeInput = stored.get(pathParent);
                 Ut.itJArray(dataGroup).forEach(json -> {
                     final JsonObject dataRecord = json.copy();
@@ -126,11 +127,11 @@ public abstract class AbstractFs implements Fs {
         }
         {
             if (Objects.nonNull(parentD)) {
-                directoryJ.put("visitRole", parentD.getVisitRole());
-                directoryJ.put("visitGroup", parentD.getVisitGroup());
-                directoryJ.put("visitComponent", parentD.getVisitComponent());
+                directoryJ.put(KName.VISIT_ROLE, parentD.getVisitRole());
+                directoryJ.put(KName.VISIT_GROUP, parentD.getVisitGroup());
+                directoryJ.put(KName.VISIT_COMPONENT, parentD.getVisitComponent());
             }
         }
-        return this.initialize(directoryJ);
+        return this.initTree(directoryJ);
     }
 }

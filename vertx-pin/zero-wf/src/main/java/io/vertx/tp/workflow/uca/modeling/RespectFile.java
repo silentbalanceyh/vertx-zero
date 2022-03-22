@@ -40,7 +40,7 @@ public class RespectFile extends AbstractRespect {
         condition.put("key,!i", keys);
         return Ke.channelAsync(Attachment.class, Ux::futureA, file ->
             // Attachment Removing / Create
-            file.removeAsync(condition).compose(deleted -> file.createAsync(dataArray)));
+            file.removeAsync(condition).compose(deleted -> file.uploadAsync(dataArray)));
     }
 
     @Override

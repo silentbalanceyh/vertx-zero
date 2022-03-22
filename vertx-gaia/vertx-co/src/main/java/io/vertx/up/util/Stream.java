@@ -84,7 +84,7 @@ final class Stream {
             final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
 
             final byte[] temp = new byte[Values.CACHE_SIZE];
-            int size = 0;
+            int size;
             while ((size = in.read(temp)) != -1) {
                 out.write(temp, 0, size);
             }

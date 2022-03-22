@@ -1,14 +1,15 @@
 package cn.vertxup.ambient.api.file;
 
-import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
-import cn.vertxup.ambient.service.file.DocStub;
+import cn.vertxup.ambient.service.file.DocRStub;
+import cn.vertxup.ambient.service.file.DocWStub;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.ambient.cv.Addr;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
@@ -23,46 +24,26 @@ import javax.inject.Inject;
 @Queue
 public class DocActor {
     @Inject
-    private transient DocStub stub;
+    private transient DocRStub reader;
+    @Inject
+    private transient DocWStub writer;
 
+    // ---------------------- Read Operation -------------------------
     @Address(Addr.Doc.DOCUMENT)
     public Future<JsonArray> start(final String type, final String appId) {
-        return this.stub.treeAsync(appId, type);
+        return this.reader.treeDir(appId, type);
     }
 
     @Address(Addr.Doc.BY_DIRECTORY)
     public Future<JsonArray> byDirectory(final String directoryId, final XHeader header) {
         /* Directory + Attachment */
-        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirLs(header.getSigma(), directoryId))
-            .compose(directory -> {
-                final JsonObject condition = Ux.whereAnd();
-                condition.put(KName.DIRECTORY_ID, directoryId);
-                condition.put(KName.ACTIVE, Boolean.TRUE);
-                return this.fetchFileAsync(condition).compose(files -> {
-                    directory.addAll(files);
-                    return Ux.future(directory);
-                });
-            });
+        return this.reader.fetchDoc(header.getSigma(), directoryId);
     }
 
     @Address(Addr.Doc.BY_KEYWORD)
     public Future<JsonArray> byKeyword(final String keyword, final XHeader header) {
         /* Attachment Only */
-        final JsonObject condition = Ux.whereAnd();
-        condition.put("name,c", keyword);
-        condition.put(KName.SIGMA, header.getSigma());
-        condition.put(KName.ACTIVE, Boolean.TRUE);
-        return this.fetchFileAsync(condition);
-    }
-
-    // --------------------------  Private Method for attachment ---------------------------
-    private Future<JsonArray> fetchFileAsync(final JsonObject condition) {
-        return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition)
-            .compose(Ut.ifJArray(KName.METADATA))
-            .compose(files -> {
-                Ut.itJArray(files).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
-                return Ux.future(files);
-            });
+        return this.reader.searchDoc(header.getSigma(), keyword);
     }
 
     @Address(Addr.Doc.BY_TRASHED)
@@ -72,6 +53,47 @@ public class DocActor {
          * active = false
          * sigma match
          * */
-        return Ux.futureA();
+        return this.reader.fetchTrash(header.getSigma());
     }
+
+    @Address(Addr.File.DOWNLOADS)
+    public Future<Buffer> download(final JsonArray keys) {
+        return this.reader.downloadDoc(Ut.toSet(keys));
+    }
+
+    // ---------------------- Write Operation -------------------------
+
+    @Address(Addr.File.RENAME)
+    public Future<JsonObject> rename(final JsonObject documentJ, final User user) {
+        final String userKey = Ux.keyUser(user);
+        documentJ.put(KName.UPDATED_BY, userKey);
+        return this.writer.rename(documentJ);
+    }
+
+    @Address(Addr.File.UPLOAD_CREATION)
+    @Me
+    public Future<JsonArray> upload(final JsonArray documentA) {
+        return this.writer.upload(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_TRASH)
+    public Future<JsonArray> trashIn(final JsonArray documentA, final User user) {
+        final String userKey = Ux.keyUser(user);
+        Ut.itJArray(documentA).forEach(document -> document.put(KName.UPDATED_BY, userKey));
+        return this.writer.trashIn(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_PURGE)
+    public Future<JsonArray> trashKo(final JsonArray documentA) {
+        return this.writer.trashKo(documentA);
+    }
+
+    @Address(Addr.Doc.DOCUMENT_ROLLBACK)
+    public Future<JsonArray> trashOut(final JsonArray documentA, final User user) {
+        final String userKey = Ux.keyUser(user);
+        Ut.itJArray(documentA).forEach(document -> document.put(KName.UPDATED_BY, userKey));
+        return this.writer.trashOut(documentA);
+    }
+
+
 }

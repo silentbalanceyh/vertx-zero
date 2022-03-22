@@ -6,10 +6,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
-import io.vertx.tp.is.uca.command.FsHelper;
 import io.vertx.tp.is.uca.updater.StoreMigration;
 import io.vertx.tp.is.uca.updater.StoreRename;
 import io.vertx.tp.is.uca.updater.StoreUp;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -31,15 +31,15 @@ public class DirService implements DirStub {
 
     @Override
     public Future<JsonObject> create(final JsonObject directoryJ) {
-        return FsHelper.componentRun(directoryJ, fs -> {
+        return Is.fsRun(directoryJ, fs -> {
             // JsonArray serialization
-            final JsonObject inputJ = this.inJ(directoryJ);
+            final JsonObject inputJ = Is.dataIn(directoryJ);
             // IDirectory Building
-            final IDirectory directory = fs.initialize(inputJ);
+            final IDirectory directory = fs.initTree(inputJ);
             // Insert into database
             return Ux.Jooq.on(IDirectoryDao.class).insertJAsync(directory)
                 // JsonArray Deserialization
-                .compose(this::outJ)
+                .compose(Is::dataOut)
                 // Actual Directory Processing
                 .compose(fs::mkdir);
         });
@@ -59,7 +59,7 @@ public class DirService implements DirStub {
     public Future<Boolean> remove(final String key) {
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
         return jq.<IDirectory>fetchByIdAsync(key)
-            .compose(directory -> this.fetchTree(directory).compose(queried -> {
+            .compose(directory -> Is.directoryQr(directory).compose(queried -> {
                 final List<IDirectory> directories = new ArrayList<>();
                 // Current Folder
                 if (Objects.nonNull(directory)) {
@@ -72,7 +72,7 @@ public class DirService implements DirStub {
             // Delete Records
             .compose(Ux.Jooq.on(IDirectoryDao.class)::deleteJAsync)
             // Helper execute `rm` command to remove folders
-            .compose(removed -> FsHelper.componentRun(removed, Fs::rm))
+            .compose(removed -> Is.fsRun(removed, Fs::rm))
             .compose(nil -> Ux.futureT());
     }
 
@@ -85,25 +85,30 @@ public class DirService implements DirStub {
     @Override
     public Future<Boolean> remove(final String key, final String userId) {
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-        return jq.<IDirectory>fetchByIdAsync(key)
-            .compose(directory -> this.fetchTree(directory).compose(queried -> {
-                final List<IDirectory> directories = new ArrayList<>();
-                // Current Folder
-                if (Objects.nonNull(directory)) {
-                    directories.add(directory);
-                }
-                directories.addAll(queried);
-                directories.forEach(item -> {
-                    item.setActive(Boolean.FALSE);
-                    item.setUpdatedBy(userId);
-                    item.setUpdatedAt(LocalDateTime.now());
-                });
-                return jq.updateAsync(directories).compose(nil -> {
-                    final JsonObject directoryJ = Ux.toJson(directory);
-                    return FsHelper.componentRun(directoryJ, fs -> fs.trash(directoryJ));
-                });
-            }))
-            .compose(removed -> Ux.futureT());
+        return jq.<IDirectory>fetchByIdAsync(key).compose(directory -> Is.directoryQr(directory).compose(queried -> {
+            final List<IDirectory> directories = new ArrayList<>();
+            // Current Folder
+            if (Objects.nonNull(directory)) {
+                directories.add(directory);
+            }
+            directories.addAll(queried);
+            directories.forEach(item -> {
+                item.setActive(Boolean.FALSE);
+                item.setUpdatedBy(userId);
+                item.setUpdatedAt(LocalDateTime.now());
+            });
+            return jq.updateAsync(directories).compose(Ux::futureJ);
+        })).compose(directoryJ -> {
+            final Kv<String, String> kv = Is.trashIn(directoryJ);
+            return Is.fsRun(directoryJ, fs -> {
+                /*
+                 * 1. .Trash folder ensure
+                 * 2. Call `rename` command in `Fs` interface
+                 */
+                fs.initTrash();
+                return fs.rename(kv).compose(renamed -> Ux.future(directoryJ));
+            });
+        }).compose(removed -> Ux.futureT());
     }
 
     @Override
@@ -115,22 +120,10 @@ public class DirService implements DirStub {
         if (Ut.isNil(parent)) {
             return Ux.futureJ(directory);
         } else {
-            return this.updateBranch(parent, directory)
+            // Update In Cycle for branch updating
+            return Is.directoryBranch(parent, directory)
                 .compose(nil -> Ux.futureJ(directory));
         }
-    }
-
-    private Future<IDirectory> updateBranch(final String key, final IDirectory directory) {
-        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-        return jq.<IDirectory>fetchByIdAsync(key).compose(queried -> {
-            if (Objects.isNull(queried)) {
-                return Ux.future();
-            }
-            queried.setUpdatedAt(LocalDateTime.now());
-            queried.setUpdatedBy(directory.getUpdatedBy());
-            return jq.updateAsync(queried)
-                .compose(updated -> this.updateBranch(updated.getParentId(), directory));
-        });
     }
 
     @Override
@@ -174,44 +167,13 @@ public class DirService implements DirStub {
             if (Objects.isNull(directory)) {
                 return Ux.futureJ();
             } else {
-                final JsonObject data = this.inJ(directoryJ);
+                final JsonObject data = Is.dataIn(directoryJ);
                 final IDirectory updated = Ux.updateT(directory, data);
                 return jq.updateAsync(key, updated)
                     // Update branch
                     .compose(this::updateBranch)
-                    .compose(this::outJ);
+                    .compose(Is::dataOut);
             }
         });
-    }
-
-    private Future<List<IDirectory>> fetchTree(final IDirectory directory) {
-        if (Objects.isNull(directory)) {
-            return Ux.futureL();
-        } else {
-            final JsonObject condition = Ux.whereAnd();
-            condition.put(KName.SIGMA, directory.getSigma());
-            condition.put(KName.STORE_PATH + ",s", directory.getStorePath());
-            return Ux.Jooq.on(IDirectoryDao.class).fetchAsync(condition);
-        }
-    }
-
-    private JsonObject inJ(final JsonObject directoryJ) {
-        // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
-        Ut.ifString(directoryJ,
-            KName.METADATA,
-            KName.VISIT_GROUP,
-            KName.VISIT_ROLE,
-            KName.VISIT_MODE
-        );
-        return directoryJ;
-    }
-
-    private Future<JsonObject> outJ(final JsonObject response) {
-        return Ut.ifJObject(
-            KName.METADATA,
-            KName.VISIT_GROUP,
-            KName.VISIT_ROLE,
-            KName.VISIT_MODE
-        ).apply(response);
     }
 }

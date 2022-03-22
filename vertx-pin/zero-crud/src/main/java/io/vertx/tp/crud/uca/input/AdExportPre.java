@@ -29,7 +29,7 @@ class AdExportPre implements Pre {
         if (keys.isEmpty()) {
             return Ux.future(data);
         } else {
-            return Ke.channel(ExUser.class, () -> data, stub -> stub.transAuditor(keys)
+            return Ke.channel(ExUser.class, () -> data, stub -> stub.auditor(keys)
                 .compose(map -> {
                     if (map.isEmpty()) {
                         return Ux.future(data);

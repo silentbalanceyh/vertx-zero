@@ -2,8 +2,9 @@ package io.vertx.tp.ambient.refine;
 
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.optic.extension.*;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -68,10 +69,19 @@ public class At {
         return AtSerial.adjust(number, count);
     }
 
-    /*
-     * File
-     */
-    public static JsonObject upload(final String identifier, final FileUpload fileUpload, final String category) {
-        return AtEnv.upload(identifier, fileUpload, category);
+    public static Future<Buffer> fileDownload(final JsonArray attachment) {
+        return AtFs.fileDownload(attachment);
+    }
+
+    public static Future<Buffer> fileDownload(final JsonObject attachment) {
+        return AtFs.fileDownload(attachment);
+    }
+
+    public static Future<JsonArray> fileUpload(final JsonArray attachment) {
+        return AtFs.fileUpload(attachment);
+    }
+
+    public static Future<JsonArray> fileRemove(final JsonArray attachment) {
+        return AtFs.fileRemove(attachment);
     }
 }

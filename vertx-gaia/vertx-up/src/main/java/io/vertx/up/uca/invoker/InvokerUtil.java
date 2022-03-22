@@ -144,9 +144,18 @@ public class InvokerUtil {
                 final Object value = json.getValue(String.valueOf(current));
                 if (Objects.isNull(value)) {
                     /*
-                     * Input is null
+                     * Input is null when type is not match, if type is JsonObject
+                     * The result should be json instead of `null`
                      */
-                    arguments[idx] = null;
+                    if (JsonObject.class == type && Values.IDX == idx) {
+                        /*
+                         * Here are often the method as
+                         * method(JsonObject, ...) format
+                         */
+                        arguments[idx] = json.copy();
+                    } else {
+                        arguments[idx] = null;
+                    }
                 } else {
                     /*
                      * Serialization

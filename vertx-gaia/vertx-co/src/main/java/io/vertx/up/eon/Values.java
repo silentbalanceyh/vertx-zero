@@ -9,7 +9,7 @@ public interface Values {
     /* Buffer size */
     int BUFFER_SIZE = 16;
 
-    int CACHE_SIZE = 4 * 1024;
+    int CACHE_SIZE = 8 * 1024;
 
     String ENCODING = "UTF-8";
 

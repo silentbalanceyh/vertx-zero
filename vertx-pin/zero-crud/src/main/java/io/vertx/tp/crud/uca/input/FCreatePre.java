@@ -17,7 +17,7 @@ class FCreatePre implements Pre {
         return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
             Attachment.class,                       // Component
             JsonArray::new,                     // JsonArray Data
-            file -> file.createAsync(dataArray) // Execution Logical
+            file -> file.uploadAsync(dataArray) // Execution Logical
         )).apply(data);
     }
 }

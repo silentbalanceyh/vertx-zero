@@ -2,6 +2,8 @@ package io.vertx.up.eon;
 
 public interface FileSuffix {
 
+    String ZIP = "zip";
+
     String YAML = "yaml";
 
     String YML = "yml";

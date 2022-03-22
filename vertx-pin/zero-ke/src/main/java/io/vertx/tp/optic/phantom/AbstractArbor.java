@@ -39,7 +39,7 @@ public abstract class AbstractArbor implements Arbor {
         final ConcurrentMap<String, JsonObject> childMap = Ut.elementMap(children, KName.KEY);
         normalized.add(this.storePathOn(category, null, childMap, store));
         Ut.itJArray(children).map(json -> this.storePathOn(json, category, childMap, store)).forEach(normalized::add);
-        return Ke.channel(ExIo.class, () -> children, io -> io.dirMk(normalized, store)).compose(processed -> {
+        return Ke.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
             /*
              * Filtered by `category` storePath field to exclude the invalid children
              */
