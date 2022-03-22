@@ -61,14 +61,26 @@ public class ExPath implements ExIo {
     }
 
     @Override
-    public Future<JsonObject> dirByCode(final String sigma, final String directory) {
+    public Future<JsonObject> dirBy(final String sigma, final String directory) {
         Objects.requireNonNull(sigma);
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.SIGMA, sigma);
         condition.put(KName.CODE, directory);
-        return Ux.Jooq.on(IDirectoryDao.class).fetchOneAsync(condition)
-            .compose(Ux::futureJ)
+        return Ux.Jooq.on(IDirectoryDao.class).fetchJOneAsync(condition)
             .compose(Is::dataOut);
+    }
+
+    @Override
+    public Future<ConcurrentMap<String, JsonObject>> dirBy(final Set<String> keys) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.KEY + ",i", Ut.toJArray(keys));
+        return Ux.Jooq.on(IDirectoryDao.class).fetchJAsync(condition)
+            .compose(Is::dataOut)
+            .compose(directories -> {
+                final ConcurrentMap<String, JsonObject> map
+                    = Ut.elementMap(directories, KName.KEY);
+                return Ux.future(map);
+            });
     }
 
     /*
@@ -225,15 +237,16 @@ public class ExPath implements ExIo {
             json.put(KName.UPDATED_AT, Instant.now());
         });
         final List<IDirectory> directories = Ux.fromJson(normalized, IDirectory.class);
-        return Ux.Jooq.on(IDirectoryDao.class).updateAsync(directories).compose(updated -> {
-            final ConcurrentMap<String, List<String>> grouped =
-                Ut.elementGroup(updated, IDirectory::getRunComponent, IDirectory::getStorePath);
+        return Ux.Jooq.on(IDirectoryDao.class).updateAsync(directories)
+            .compose(updated -> {
+                final ConcurrentMap<String, List<String>> grouped =
+                    Ut.elementGroup(updated, IDirectory::getRunComponent, IDirectory::getStorePath);
 
 
-            final ConcurrentMap<Fs, Set<String>> directoryMap = new ConcurrentHashMap<>();
-            final ConcurrentMap<Fs, List<String>> groupedComponents = Is.fsGroup(grouped, List::isEmpty);
-            groupedComponents.forEach((fs, list) -> directoryMap.put(fs, new HashSet<>(list)));
-            return Ux.future(directoryMap);
-        });
+                final ConcurrentMap<Fs, Set<String>> directoryMap = new ConcurrentHashMap<>();
+                final ConcurrentMap<Fs, List<String>> groupedComponents = Is.fsGroup(grouped, List::isEmpty);
+                groupedComponents.forEach((fs, list) -> directoryMap.put(fs, new HashSet<>(list)));
+                return Ux.future(directoryMap);
+            });
     }
 }

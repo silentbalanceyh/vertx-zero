@@ -80,6 +80,10 @@ final class IOCmd {
                 Fn.safeJvm(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
                 // File ( Replace Old One )
+                if (Ut.ioExist(to)) {
+                    // Fix: org.apache.commons.io.FileExistsException: File element in parameter 'null' already exists:
+                    rm(to);
+                }
                 Fn.safeJvm(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
             }
         }

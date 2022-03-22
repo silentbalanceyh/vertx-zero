@@ -13,7 +13,6 @@ import io.vertx.up.extension.PlugAuditor;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -24,22 +23,23 @@ public class AuditorPin implements PlugAuditor {
 
     @Override
     public PlugAuditor bind(final JsonObject config) {
-        if (Ut.notNil(config)) {
-            /*
-             * Default configuration for AuditorPin
-             * - include
-             * - exclude
-             */
-            final JsonObject auditor = config.copy();
-            final JsonArray include = auditor.getJsonArray(KName.INCLUDE, new JsonArray());
-            include.addAll(KName.Rbac.INCLUDE);
-            auditor.put(KName.INCLUDE, include);
-
-            final JsonArray exclude = auditor.getJsonArray(KName.EXCLUDE, new JsonArray());
-            exclude.addAll(KName.Rbac.EXCLUDE);
-            auditor.put(KName.EXCLUDE, exclude);
-            this.config.mergeIn(auditor);
+        final JsonObject auditor;
+        if (Objects.isNull(config)) {
+            auditor = new JsonObject();
+        } else {
+            auditor = config.copy();
         }
+        /*
+         * Configured for empty config
+         */
+        final JsonArray include = auditor.getJsonArray(KName.INCLUDE, new JsonArray());
+        include.addAll(KName.Rbac.INCLUDE);
+        auditor.put(KName.INCLUDE, include);
+
+        final JsonArray exclude = auditor.getJsonArray(KName.EXCLUDE, new JsonArray());
+        exclude.addAll(KName.Rbac.EXCLUDE);
+        auditor.put(KName.EXCLUDE, exclude);
+        this.config.mergeIn(auditor);
         return this;
     }
 

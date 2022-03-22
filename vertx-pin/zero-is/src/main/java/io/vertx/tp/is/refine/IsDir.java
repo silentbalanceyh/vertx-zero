@@ -55,8 +55,9 @@ class IsDir {
         return trashMap;
     }
 
-    static JsonObject input(final JsonObject directoryJ) {
+    static JsonObject input(JsonObject directoryJ) {
         // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
+        directoryJ = directoryJ.copy();
         Ut.ifString(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,
@@ -66,7 +67,8 @@ class IsDir {
         return directoryJ;
     }
 
-    static JsonArray input(final JsonArray directoryJ) {
+    static JsonArray input(JsonArray directoryJ) {
+        directoryJ = directoryJ.copy();
         Ut.ifStrings(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,

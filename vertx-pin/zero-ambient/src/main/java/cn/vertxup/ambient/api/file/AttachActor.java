@@ -50,7 +50,7 @@ public class AttachActor {
         if (content.containsKey(KName.DIRECTORY)) {
             final String sigma = header.getSigma();
             final String directory = content.getString(KName.DIRECTORY);
-            return Ke.channel(ExIo.class, () -> content, io -> io.dirByCode(sigma, directory).compose(directoryJ -> {
+            return Ke.channel(ExIo.class, () -> content, io -> io.dirBy(sigma, directory).compose(directoryJ -> {
                 /*
                  * Replaced the field
                  * - directoryId, refer to I_DIRECTORY record,                      key field

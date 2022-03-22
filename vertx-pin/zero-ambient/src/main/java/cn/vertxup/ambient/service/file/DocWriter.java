@@ -128,7 +128,8 @@ public class DocWriter implements DocWStub {
         final JsonArray attachmentJ = new JsonArray();
         final JsonArray directoryJ = new JsonArray();
         Ut.itJArray(source).forEach(item -> {
-            final Boolean directory = item.getBoolean(KName.DIRECTORY, Boolean.TRUE);
+            // Default Document Should be Attachment
+            final Boolean directory = item.getBoolean(KName.DIRECTORY, Boolean.FALSE);
             if (directory) {
                 directoryJ.add(item);
             } else {
@@ -139,6 +140,12 @@ public class DocWriter implements DocWStub {
         // XAttachment First
         return Ux.future(attachmentJ).compose(fnAttachment)
             // Then IDirectory
-            .compose(processed -> fnDirectory.apply(directoryJ, processed));
+            .compose(processed -> fnDirectory.apply(directoryJ, processed).compose(directory -> {
+                // Response ( Attachments + Directory )
+                final JsonArray documents = new JsonArray();
+                documents.addAll(processed);
+                documents.addAll(directory);
+                return Ux.future(documents);
+            }));
     }
 }

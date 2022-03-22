@@ -105,6 +105,11 @@ public class DocReader implements DocRStub {
     @Override
     public Future<JsonArray> fetchDoc(final String sigma, final String directoryId) {
         Objects.requireNonNull(sigma);
+        /*
+         * Fetch attachment first
+         * 1. Copy `directory` visitMode to attachment
+         * 2. Fetch `directory` of children
+         */
         return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirRun(sigma, directoryId)).compose(directory -> {
             final JsonObject condition = Ux.whereAnd();
             condition.put(KName.DIRECTORY_ID, directoryId);
@@ -164,11 +169,11 @@ public class DocReader implements DocRStub {
 
     @Override
     public Future<Buffer> downloadDoc(final String key) {
-        return null;
+        return this.attachment.downloadAsync(key);
     }
 
     @Override
     public Future<Buffer> downloadDoc(final Set<String> keys) {
-        return null;
+        return this.attachment.downloadAsync(keys);
     }
 }

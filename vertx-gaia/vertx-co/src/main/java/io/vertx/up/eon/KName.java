@@ -210,6 +210,10 @@ public interface KName {
         String FILE_NAME = "fileName";               /* XAttachment filename */
         String FILE_URL = "fileUrl";                 /* XAttachment fileUrl */
         String FILE_PATH = "filePath";               /* XAttachment filePath processing */
+
+        String X = "x";
+        String W = "w";
+        String R = "r";
     }
 
     interface Micro {

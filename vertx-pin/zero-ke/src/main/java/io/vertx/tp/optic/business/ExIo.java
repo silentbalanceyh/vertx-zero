@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -51,7 +52,9 @@ public interface ExIo {
     /*
      * Fetch dir by `code` ( MD5 )
      */
-    Future<JsonObject> dirByCode(String sigma, String directory);
+    Future<JsonObject> dirBy(String sigma, String directory);
+
+    Future<ConcurrentMap<String, JsonObject>> dirBy(Set<String> keys);
 
     // ----------------- File Interface ----------------------
     /*

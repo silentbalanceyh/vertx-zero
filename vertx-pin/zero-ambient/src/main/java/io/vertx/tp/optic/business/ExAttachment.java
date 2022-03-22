@@ -7,6 +7,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -36,7 +37,8 @@ public class ExAttachment implements Attachment {
         return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
 
             // ExIo -> Call ExIo to impact actual file system ( Store )
-            .compose(At::fileUpload);
+            .compose(At::fileUpload)
+            .compose(this::outAsync);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> fetchAsync(final JsonObject condition) {
-        return this.fetchAsyncInternal(condition);
+        return this.fetchAsyncInternal(condition).compose(this::outAsync);
     }
 
     @Override
@@ -82,12 +84,43 @@ public class ExAttachment implements Attachment {
     // ----------------- Private Method Interface ----------------------
     private Future<JsonArray> fetchAsyncInternal(final JsonObject condition) {
         At.infoFile(LOGGER, "Fetch Operation, condition: {0}", condition);
-        return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition)
-            .compose(Ut.ifJArray(KName.METADATA))
-            .compose(files -> {
-                Ut.itJArray(files).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
-                return Ux.future(files);
+        return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition);
+    }
+
+    private Future<JsonArray> outAsync(final JsonArray files) {
+        /*
+         * Fetch `visit` information
+         */
+        final Set<String> keys = Ut.valueSetString(files, KName.DIRECTORY_ID);
+        return Ke.channel(ExIo.class, () -> files, io -> io.dirBy(keys).compose(map -> {
+            Ut.itJArray(files).forEach(file -> {
+                final String directoryId = file.getString(KName.DIRECTORY_ID);
+                final JsonObject directoryJ = map.getOrDefault(directoryId, new JsonObject());
+                final JsonObject visitJ = Ut.elementSubset(directoryJ,
+                    KName.VISIT_ROLE,
+                    KName.VISIT_GROUP,
+                    KName.VISIT,
+                    KName.VISIT_MODE
+                );
+                /*
+                 * visitMode switching
+                 *
+                 * 1. If directory contains "w",
+                 * 2. The attachment should append "x" for rename/trash
+                 */
+                final JsonArray visitMode = visitJ.getJsonArray(KName.VISIT_MODE);
+                if (visitMode.contains(KName.Attachment.W) &&
+                    !visitMode.contains(KName.Attachment.X)) {
+                    visitMode.add(KName.Attachment.X);
+                    visitJ.put(KName.VISIT_MODE, visitMode);
+                }
+                file.mergeIn(visitJ, true);
             });
+            return Ux.future(files);
+        })).compose(Ut.ifJArray(KName.METADATA)).compose(attachments -> {
+            Ut.itJArray(attachments).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
+            return Ux.future(attachments);
+        });
     }
 
     private Future<JsonArray> removeAsyncInternal(final JsonObject condition, final JsonArray attachments) {
@@ -95,6 +128,7 @@ public class ExAttachment implements Attachment {
         return Ux.Jooq.on(XAttachmentDao.class).deleteByAsync(condition)
 
             // ExIo -> Call ExIo to impact actual file system ( Store )
-            .compose(removed -> At.fileRemove(attachments));
+            .compose(removed -> At.fileRemove(attachments))
+            .compose(this::outAsync);
     }
 }

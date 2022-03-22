@@ -13,6 +13,7 @@ import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -33,12 +34,16 @@ class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
 
     static Future<Buffer> fileDownload(final JsonArray attachment) {
-        return splitRun(attachment, (directoryId, fileMap) -> Ke.channel(ExIo.class, Buffer::buffer,
+        if (Ut.isNil(attachment)) {
+            return Ux.future(Buffer.buffer());
+        } else {
+            return splitRun(attachment, (directoryId, fileMap) -> Ke.channel(ExIo.class, Buffer::buffer,
 
 
-            // Call ExIo `fsDownload`
-            io -> io.fsDownload(directoryId, fileMap)
-        ));
+                // Call ExIo `fsDownload`
+                io -> io.fsDownload(directoryId, fileMap)
+            ));
+        }
     }
 
     static Future<Buffer> fileDownload(final JsonObject attachment) {
@@ -67,29 +72,37 @@ class AtFs {
      * 3. Pass two parameters to `ExIo`
      */
     static Future<JsonArray> fileUpload(final JsonArray attachment) {
-        return splitInternal(attachment, Ux::future,
-            remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+        if (Ut.isNil(attachment)) {
+            return Ux.futureA();
+        } else {
+            return splitInternal(attachment, Ux::future,
+                remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
 
-                // Call ExIo `fsUpload`
-                io -> io.fsUpload(directoryId, fileMap)
-                    .compose(removed -> Ux.future(Ut.cmdRm(fileMap.keySet())))
-                    .compose(removed -> Ux.future(remote))
-            )));
+                    // Call ExIo `fsUpload`
+                    io -> io.fsUpload(directoryId, fileMap)
+                        .compose(removed -> Ux.future(Ut.cmdRm(fileMap.keySet())))
+                        .compose(removed -> Ux.future(remote))
+                )));
+        }
     }
 
 
     static Future<JsonArray> fileRemove(final JsonArray attachment) {
-        return splitInternal(attachment, local -> {
-            final Set<String> files = new HashSet<>();
-            Ut.itJArray(local).forEach(each -> files.add(each.getString(KName.Attachment.FILE_PATH)));
-            Ut.cmdRm(files);
-            At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
-            return Ux.future(local);
-        }, remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+        if (Ut.isNil(attachment)) {
+            return Ux.futureA();
+        } else {
+            return splitInternal(attachment, local -> {
+                final Set<String> files = new HashSet<>();
+                Ut.itJArray(local).forEach(each -> files.add(each.getString(KName.Attachment.FILE_PATH)));
+                Ut.cmdRm(files);
+                At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
+                return Ux.future(local);
+            }, remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
 
-            // Call ExIo `fsRemove`
-            io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
-        )));
+                // Call ExIo `fsRemove`
+                io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
+            )));
+        }
     }
 
     private static <T> Future<T> splitRun(
@@ -125,11 +138,13 @@ class AtFs {
             }
         });
         At.infoFile(LOGGER, "Split Running: Local = {0}, Remote = {1}", dataL.size(), dataR.size());
-        return Ux.thenCombineArray(new ArrayList<>() {
-            {
-                this.add(fnLocal.apply(dataL));
-                this.add(fnRemote.apply(dataR));
-            }
-        });
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        if (Ut.notNil(dataL)) {
+            futures.add(fnLocal.apply(dataL));
+        }
+        if (Ut.notNil(dataR)) {
+            futures.add(fnRemote.apply(dataR));
+        }
+        return Ux.thenCombineArray(futures);
     }
 }

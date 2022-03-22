@@ -44,6 +44,8 @@ public interface Attachment {
 
     /*
      * 1. Fetch attachments in single field
+     * 2. Here deeply fetch will put `visit` information into attachment
+     *    to inherit from `directory`
      */
     Future<JsonArray> fetchAsync(JsonObject condition);
 
