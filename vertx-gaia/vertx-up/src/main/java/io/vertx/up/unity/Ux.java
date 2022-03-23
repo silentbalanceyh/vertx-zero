@@ -112,6 +112,14 @@ public final class Ux {
         return Compare.updateT(query, params, field);
     }
 
+    public static JsonArray updateJ(final JsonArray query, final JsonArray params) {
+        return Compare.updateJ(query, params, KName.KEY);
+    }
+
+    public static JsonArray updateJ(final JsonArray query, final JsonArray params, final String field) {
+        return Compare.updateJ(query, params, field);
+    }
+
     public static Record updateR(final Record record, final JsonObject params) {
         return Compare.updateR(record, params, () -> UUID.randomUUID().toString());
     }

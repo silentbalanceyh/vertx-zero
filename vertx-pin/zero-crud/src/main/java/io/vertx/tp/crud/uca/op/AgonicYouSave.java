@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
@@ -8,8 +9,12 @@ import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.tp.ke.atom.specification.KPoint;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,36 +28,66 @@ public class AgonicYouSave extends AgonicUnique {
 
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
-        final JsonObject params = this.module.dataCond(input);
-        final KModule module = in.module();
+        final JsonObject condition = this.module.dataCond(input);
+        final KModule standBy = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return this.runUnique(params, in,
+        return this.runUnique(condition, in,
             this::fetchBy
         ).compose(json -> {
             // Avoid overwrite primary key here
             final JsonObject inputJson = input.copy();
-            inputJson.remove(module.getField().getKey());
+            inputJson.remove(standBy.getField().getKey());
             if (Ut.isNil(json)) {
                 // Not Found ( Insert )
                 return Ix.passion(inputJson, in,
                         Pre.key(true)::inJAsync,             // UUID Generated
                         Pre.serial()::inJAsync,              // Serial/Number
-                        Pre.auditor(true)::inJAsync,         // createdAt, createdBy
-                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
+                        Pre.audit(true)::inJAsync,         // createdAt, createdBy
+                        Pre.audit(false)::inJAsync         // updatedAt, updatedBy
                     )
-                    .compose(processed -> Ix.deserializeT(processed, module))
+                    .compose(processed -> Ix.deserializeT(processed, standBy))
                     .compose(jooq::insertAsync)
-                    .compose(updated -> IxKit.successJ(updated, module));
+                    .compose(updated -> IxKit.successJ(updated, standBy));
             } else {
                 // Found ( Update )
                 final JsonObject merged = json.copy().mergeIn(inputJson, true);
                 return Ix.passion(merged, in,
-                        Pre.auditor(false)::inJAsync         // updatedAt, updatedBy
+                        Pre.audit(false)::inJAsync         // updatedAt, updatedBy
                     )
-                    .compose(processed -> Ix.deserializeT(processed, module))
+                    .compose(processed -> Ix.deserializeT(processed, standBy))
                     .compose(jooq::updateAsync)
-                    .compose(updated -> IxKit.successJ(updated, module));
+                    .compose(updated -> IxKit.successJ(updated, standBy));
             }
+        });
+    }
+
+    /*
+     * Fix:
+     * https://github.com/silentbalanceyh/hotel/issues/323
+     * https://github.com/silentbalanceyh/hotel/issues/324
+     */
+    @Override
+    public Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
+        final JsonObject condition = this.module.dataCond(input);
+        Ix.Log.filters(this.getClass(), "( Batch ) By Joined: identifier: {0}, condition: {1}", in.module().getIdentifier(), condition);
+        final KModule standBy = in.module();
+        final UxJooq jooq = IxPin.jooq(in);
+        return jooq.fetchJAsync(condition).compose(queried -> {
+
+            // KPoint to extract joinKey here
+            final KPoint point = this.module.point();
+            if (Objects.isNull(point)) {
+                return Ux.future(input);
+            }
+            final String joinedKey = point.getKeyJoin();
+            final JsonArray combined = Ux.updateJ(queried, input, joinedKey);
+
+            // Update Combine Json Data
+            return Ix.passion(combined, in,
+                    Pre.audit(false)::inAAsync                  // updatedAt, updatedBy
+                ).compose(processed -> Ix.deserializeT(processed, standBy))
+                .compose(jooq::updateAsync)
+                .compose(updated -> IxKit.successA(updated, standBy));
         });
     }
 }

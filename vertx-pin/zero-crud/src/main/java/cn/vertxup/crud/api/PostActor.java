@@ -38,16 +38,50 @@ public class PostActor {
         final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
         final Co coJ = Co.nextJ(request.active(), false);
         return IxPanel.on(request)
+
+            /*
+             * 1. Input = JsonObject
+             * -- io.vertx.tp.crud.uca.input.HeadPre
+             * -- io.vertx.tp.crud.uca.input.CodexPre ( Validation )
+             */
             .input(
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
-            .next(in -> coJ::next)
-            .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
-            .output(coJ::ok)
-            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
+
+
             /*
-             * 201 / 200
+             * 2. io.vertx.tp.crud.uca.next.NtJData
+             * JsonObject ( active ) -> JsonObject ( standBy )
+             */
+            .next(in -> coJ::next)
+
+
+            /*
+             * 3. passion will set sequence = true
+             *
+             * (J) -> (J) Active (J) -> StandBy (J)
+             *
+             */
+            .passion(Agonic.write(ChangeFlag.ADD)::runJAsync)
+
+
+            /*
+             * 4.1 The response is as following ( JsonObject Merged )
+             */
+            .output(coJ::ok)
+
+
+            /*
+             * 0. Input
+             *
+             * JsonObject -> JsonObject -> JsonObject
+             */
+            .<JsonObject, JsonObject, JsonObject>runJ(request.dataJ())
+
+
+            /*
+             * 4.2. 201 / 200
              */
             .compose(IxKit::successPost);
     }

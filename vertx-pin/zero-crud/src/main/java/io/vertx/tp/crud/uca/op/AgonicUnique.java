@@ -2,6 +2,7 @@ package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
@@ -27,7 +28,7 @@ class AgonicUnique implements Agonic {
 
     protected Future<JsonObject> fetchByPk(final JsonObject data, final IxMod in) {
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qPk().inJAsync(data, in).compose(condition -> {
+        return Pre.qr(QrType.BY_PK).inJAsync(data, in).compose(condition -> {
             Ix.Log.filters(this.getClass(), "( Unique ) By Pk: identifier: {0}, condition: {1}",
                 in.module().getIdentifier(), condition);
             return jooq.fetchJOneAsync(condition);
@@ -36,7 +37,7 @@ class AgonicUnique implements Agonic {
 
     protected Future<JsonObject> fetchByUk(final JsonObject data, final IxMod in) {
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qUk().inJAsync(data, in).compose(condition -> {
+        return Pre.qr(QrType.BY_UK).inJAsync(data, in).compose(condition -> {
             Ix.Log.filters(this.getClass(), "( Unique ) By Uk: identifier: {0}, condition: {1}",
                 in.module().getIdentifier(), condition);
             return jooq.fetchJOneAsync(condition);

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class FDeletePre implements Pre {
+class DFilePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(

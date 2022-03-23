@@ -184,14 +184,21 @@ public class IxMod {
          * 2) Input -> module -> joined
          */
         final JsonArray zip = new JsonArray();
+        final Integer size = input.size();
         Ut.itJArray(active, (data, index) -> {
             final JsonObject source = data.copy();
-            final JsonObject target = input.getJsonObject(index);
-            if (Ut.notNil(target)) {
-                zip.add(source.mergeIn(target));
+            // Issue: https://github.com/silentbalanceyh/hotel/issues/323
+            if (index < size) {
+                final JsonObject target = input.getJsonObject(index);
+                if (Ut.notNil(target)) {
+                    zip.add(source.mergeIn(target));
+                } else {
+                    zip.add(source);
+                }
             } else {
                 zip.add(source);
             }
+
         });
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(zip).forEach(json -> {
@@ -295,18 +302,7 @@ public class IxMod {
         return condition;
     }
 
-    @SafeVarargs
-    public final <T> Future<T> ready(
-        final T input,
-        final BiFunction<T, IxMod, Future<T>>... executors) {
-        // Error Checking for request building
-        if (Objects.nonNull(this.error)) {
-            return Future.failedFuture(this.error);
-        }
-        return Ix.passion(input, this, executors);
-    }
-
-    private KPoint point() {
+    public KPoint point() {
         if (this.canJoin()) {
             final KJoin join = this.module.getConnect();
             if (Objects.isNull(join)) {
@@ -319,5 +315,16 @@ public class IxMod {
         } else {
             return null;
         }
+    }
+
+    @SafeVarargs
+    public final <T> Future<T> ready(
+        final T input,
+        final BiFunction<T, IxMod, Future<T>>... executors) {
+        // Error Checking for request building
+        if (Objects.nonNull(this.error)) {
+            return Future.failedFuture(this.error);
+        }
+        return Ix.passion(input, this, executors);
     }
 }

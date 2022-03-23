@@ -15,7 +15,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class QVkPre implements Pre {
+class RVkPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
