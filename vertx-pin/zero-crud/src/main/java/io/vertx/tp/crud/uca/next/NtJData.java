@@ -11,7 +11,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class NtJData implements NtJ<JsonObject> {
+class NtJData implements Co<JsonObject, JsonObject, JsonObject, JsonObject> {
 
     private transient final IxMod in;
 

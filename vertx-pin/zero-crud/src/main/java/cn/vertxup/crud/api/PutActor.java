@@ -28,17 +28,52 @@ public class PutActor {
         final IxWeb request = IxWeb.create(ApiSpec.BODY_WITH_KEY).build(envelop);
         final Co co = Co.nextJ(request.active(), false);
         return IxPanel.on(request)
+
+            /*
+             * 1. Input = JsonObject
+             * -- io.vertx.tp.crud.uca.input.HeadPre
+             * -- io.vertx.tp.crud.uca.input.CodexPre ( Validation )
+             */
             .input(
                 Pre.head()::inJAsync,                       /* Header */
                 Pre.codex()::inJAsync                       /* Codex */
             )
+
+
+            /*
+             * 2. io.vertx.tp.crud.uca.next.NtJData
+             * JsonObject ( active ) -> JsonObject ( standBy )
+             */
             .next(in -> co::next)
+
+            /*
+             * 3. passion will set sequence = true
+             *
+             * (J) -> (J) Active (J) -> StandBy (J)
+             *
+             */
             .passion(
                 /* Active */Agonic.write(ChangeFlag.UPDATE)::runJAsync,
                 /* StandBy */Agonic.saveYou(request.active())::runJAsync
             )
+
+
+            /*
+             * 4.1 The response is as following ( JsonObject Merged )
+             */
             .output(co::ok)
+
+
+            /*
+             *
+             * 0. Input
+             *
+             * JsonObject -> JsonObject -> JsonObject
+             *
+             */
             .<JsonObject, JsonObject, JsonObject>runJ(request.dataKJ())
+
+
             /*
              * 404 / 200
              */
@@ -52,6 +87,7 @@ public class PutActor {
          * */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_ARRAY).build(envelop);
         final IxPanel panel = IxPanel.on(request);
+
         return Pre.qPk().inAJAsync(request.dataA(), request.active()).compose(condition -> {
             final JsonObject params = new JsonObject();
             /*
@@ -71,8 +107,15 @@ public class PutActor {
         final IxWeb request = IxWeb.create(ApiSpec.BODY_JSON).build(envelop);
         /*
          * Fix issue of Data Region
-         * Because `projection` and `criteria` are both spec
-         * params
+         * Because `projection` and `criteria` are both spec params
+         *
+         * The parameters data structure
+         * {
+         *      "data":  {
+         *          "comment": "came from `viewData` field include view"
+         *      },
+         *      "impactUri": "The url that will be impact of my view, common is /api/xxx/search"
+         * }
          * */
         final JsonObject params = request.dataV();
         final JsonObject requestData = request.dataJ();
@@ -80,11 +123,27 @@ public class PutActor {
         params.put(KName.DATA, Ut.valueJObject(viewData));
         params.put(KName.URI_IMPACT, viewData.getString(KName.URI_IMPACT));
         return IxPanel.on(request)
+
+            /*
+             * 1. Input = JsonObject
+             * -- io.vertx.tp.crud.uca.input.ApeakMyPre
+             * -- io.vertx.tp.crud.uca.input.CodexPre ( Validation )
+             */
             .input(
                 Pre.apeak(true)::inJAsync,              /* Apeak */
                 Pre.head()::inJAsync                    /* Header */
             )
+
+            /*
+             * 2. 「Active Only」, no standBy defined
+             */
             .passion(Agonic.view()::runJAsync, null)
+
+
+            /*
+             * 0. Input
+             * JsonObject -> JsonObject -> JsonObject
+             */
             .runJ(params);
     }
 }

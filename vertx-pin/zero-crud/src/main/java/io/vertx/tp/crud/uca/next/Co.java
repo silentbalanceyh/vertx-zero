@@ -1,8 +1,6 @@
 package io.vertx.tp.crud.uca.next;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxWeb;
@@ -90,16 +88,4 @@ public interface Co<I, A, S, O> {
     default Co<I, A, S, O> bind(final IxWeb request) {
         return this;
     }
-}
-
-interface OkA<I> extends Co<I, JsonArray, Object, JsonArray> {
-}
-
-interface OkJ<I> extends Co<I, JsonObject, Object, JsonObject> {
-}
-
-interface NtJ<O> extends Co<JsonObject, JsonObject, JsonObject, O> {
-}
-
-interface NtA<O> extends Co<JsonArray, JsonArray, JsonArray, O> {
 }

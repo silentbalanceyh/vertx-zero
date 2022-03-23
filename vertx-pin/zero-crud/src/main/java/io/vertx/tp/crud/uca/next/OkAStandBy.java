@@ -8,7 +8,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class OkAStandBy implements OkA<JsonObject> {
+class OkAStandBy implements Co<JsonObject, JsonArray, Object, JsonArray> {
     @Override
     public Future<JsonArray> ok(final JsonArray active, final Object standBy) {
         final JsonArray response;

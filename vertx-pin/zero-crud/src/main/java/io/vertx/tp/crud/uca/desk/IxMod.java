@@ -186,7 +186,9 @@ public class IxMod {
         final JsonArray zip = new JsonArray();
         Ut.itJArray(active, (data, index) -> {
             final JsonObject source = data.copy();
-            final JsonObject target = input.getJsonObject(index);
+            // Issue: https://github.com/silentbalanceyh/hotel/issues/323
+            final JsonObject target =
+                input.contains(index) ? input.getJsonObject(index) : null;
             if (Ut.notNil(target)) {
                 zip.add(source.mergeIn(target));
             } else {
