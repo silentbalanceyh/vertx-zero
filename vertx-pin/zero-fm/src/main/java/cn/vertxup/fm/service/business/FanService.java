@@ -12,8 +12,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -114,17 +116,41 @@ public class FanService implements FanStub {
     @Override
     public Future<JsonObject> transferAsync(final ConcurrentMap<Boolean, List<FBillItem>> fromTo, final FBook book,
                                             final JsonObject params) {
+        /*
+         * `comment` from params
+         *  1. Bill set comment
+         *  2. Bill Item set comment ( newItem )
+         */
+        final String comment = params.getString(KName.COMMENT);
         return this.indentStub.initAsync(params).compose(preBill -> {
             this.fillStub.transfer(book, preBill);
+
+            // Issue: https://github.com/silentbalanceyh/hotel/issues/348
+            preBill.setComment(comment);
             return Ux.Jooq.on(FBillDao.class).insertAsync(preBill).compose(bill -> {
                     // FBillItem New Adding
                     final List<FBillItem> newItem = fromTo.get(Boolean.TRUE);
-                    newItem.forEach(each -> each.setBillId(bill.getKey()));
+                    newItem.forEach(each -> {
+                        each.setBillId(bill.getKey());
+
+                        // Issue: https://github.com/silentbalanceyh/hotel/issues/348
+                        each.setComment(Strings.FROM_TO + comment);
+                    });
                     return Ux.Jooq.on(FBillItemDao.class).insertAsync(newItem)
                         .compose(items -> this.accountStub.inBook(bill, items));
                 }).compose(added -> {
                     // FBillItem Previous Updating
                     final List<FBillItem> oldItem = fromTo.get(Boolean.FALSE);
+
+                    // Issue: https://github.com/silentbalanceyh/hotel/issues/348
+                    oldItem.forEach(each -> {
+                        final String previous = each.getComment();
+                        if (Ut.isNil(previous)) {
+                            each.setComment(comment + Strings.FROM_TO);
+                        } else {
+                            each.setComment(previous + Strings.FROM_TO + comment);
+                        }
+                    });
                     return Ux.Jooq.on(FBillItemDao.class).updateAsync(oldItem);
                 }).compose(this.accountStub::inBook)
                 .compose(nil -> Ux.futureJ(preBill));
