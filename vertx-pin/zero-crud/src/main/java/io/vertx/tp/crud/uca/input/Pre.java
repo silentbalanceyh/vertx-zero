@@ -14,6 +14,8 @@ import io.vertx.up.fn.Fn;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Pre {
+
+    // ------------------- Utility Pre -------------------
     /*
      * 1) Codex for validation
      * 2) Head values: sigma, appId, appKey, language
@@ -46,6 +48,8 @@ public interface Pre {
             ExcelPre.class.getName() + client.hashCode());
     }
 
+
+    // ------------------- User / Audit Pre -------------------
     /*
      * 1) User information: user, habitus
      * 2) Auditor: createdAt / createdBy / updatedAt / updatedBy
@@ -56,7 +60,7 @@ public interface Pre {
         return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
     }
 
-    static Pre auditor(final boolean created) {
+    static Pre audit(final boolean created) {
         if (created) {
             return Fn.poolThread(Pooled.PRE_MAP, CAuditPre::new, CAuditPre.class.getName());
         } else {
@@ -64,10 +68,11 @@ public interface Pre {
         }
     }
 
-    static Pre auditorBy() {
+    static Pre audit() {
         return Fn.poolThread(Pooled.PRE_MAP, DAuditPre::new, DAuditPre.class.getName());
     }
 
+    // ------------------- Column Related -------------------
     /*
      * 1) number definition for `X_NUMBER`
      * 2) column calculation
@@ -84,6 +89,7 @@ public interface Pre {
         }
     }
 
+    // ------------------- Import / Export Pre -------------------
     static Pre fileIn(final boolean createOnly) {
         if (createOnly) {
             return Fn.poolThread(Pooled.PRE_MAP, CFilePre::new, CFilePre.class.getName());
@@ -96,6 +102,7 @@ public interface Pre {
         return Fn.poolThread(Pooled.PRE_MAP, DFilePre::new, DFilePre.class.getName());
     }
 
+    // ------------------- Qr Related -------------------
     /*
      * 1) UniqueKey condition
      * 2) All key condition: sigma = xxx

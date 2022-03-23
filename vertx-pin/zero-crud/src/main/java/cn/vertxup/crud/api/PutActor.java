@@ -1,6 +1,7 @@
 package cn.vertxup.crud.api;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.em.ApiSpec;
@@ -15,6 +16,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 @Queue
@@ -90,11 +92,41 @@ public class PutActor {
          */
         return Agonic.fetch().runAAsync(request.dataA(), request.active()).compose(data -> {
             final IxPanel panel = IxPanel.on(request);
+            final Co co = Co.nextJ(request.active(), true);
+            /*
+             * 2. Data Merge
+             */
+            final JsonArray parameters = Ux.updateJ(data, request.dataA());
             return panel
+
+
+                /*
+                 * 1. Input = JsonArray
+                 * -- io.vertx.tp.crud.uca.input.HeadPre
+                 * -- io.vertx.tp.crud.uca.input.CodexPre ( Validation )
+                 */
                 .input(
                     Pre.head()::inAAsync                       /* Header */
                 )
-                .runA(request.dataA());
+
+
+                .next(in -> co::next)
+
+                /* Active / StandBy Shared */
+                .passion(
+                    Agonic.write(ChangeFlag.UPDATE)::runAAsync,
+                    Agonic.saveYou(request.active())::runAAsync
+                )
+
+                .output(co::ok)
+                /*
+                 *
+                 * 0. Input
+                 *
+                 * JsonArray -> JsonArray -> JsonArray
+                 *
+                 */
+                .runA(parameters);
         });
     }
 
