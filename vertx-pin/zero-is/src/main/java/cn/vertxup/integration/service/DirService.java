@@ -98,17 +98,16 @@ public class DirService implements DirStub {
                 item.setUpdatedAt(LocalDateTime.now());
             });
             return jq.updateAsync(directories).compose(Ux::futureJ);
-        })).compose(directoryJ -> {
+        })).compose(directoryJ -> Is.fsRun(directoryJ, fs -> {
+            /*
+             * 1. .Trash folder ensure
+             * 2. Call `rename` command in `Fs` interface
+             */
+            fs.initTrash();
+
             final Kv<String, String> kv = Is.trashIn(directoryJ);
-            return Is.fsRun(directoryJ, fs -> {
-                /*
-                 * 1. .Trash folder ensure
-                 * 2. Call `rename` command in `Fs` interface
-                 */
-                fs.initTrash();
-                return fs.rename(kv).compose(renamed -> Ux.future(directoryJ));
-            });
-        }).compose(removed -> Ux.futureT());
+            return fs.rename(kv).compose(renamed -> Ux.future(directoryJ));
+        })).compose(removed -> Ux.futureT());
     }
 
     @Override
