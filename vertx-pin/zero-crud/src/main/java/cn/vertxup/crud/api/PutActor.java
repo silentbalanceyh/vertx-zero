@@ -12,7 +12,6 @@ import io.vertx.tp.crud.uca.next.Co;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -86,19 +85,16 @@ public class PutActor {
          * IxPanel processing building to split mass update
          * */
         final IxWeb request = IxWeb.create(ApiSpec.BODY_ARRAY).build(envelop);
-        final IxPanel panel = IxPanel.on(request);
-
-        return Pre.qPk().inAJAsync(request.dataA(), request.active()).compose(condition -> {
-            final JsonObject params = new JsonObject();
-            /*
-             * IxPanel
-             */
-            params.put(KName.DATA, request.dataA());
-            params.put(Qr.KEY_CRITERIA, condition);
+        /*
+         * 1. Fetch all original JsonArray data
+         */
+        return Agonic.fetch().runAAsync(request.dataA(), request.active()).compose(data -> {
+            final IxPanel panel = IxPanel.on(request);
             return panel
-                .next(in -> Co.nextQ(in, true)::next)
-                .passion(Agonic.write(ChangeFlag.UPDATE)::runJAAsync)
-                .runJ(params);
+                .input(
+                    Pre.head()::inAAsync                       /* Header */
+                )
+                .runA(request.dataA());
         });
     }
 

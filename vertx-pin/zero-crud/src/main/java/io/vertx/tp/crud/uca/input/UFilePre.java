@@ -11,13 +11,13 @@ import io.vertx.tp.optic.feature.Attachment;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class FCreatePre implements Pre {
+class UFilePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
-            Attachment.class,                       // Component
-            JsonArray::new,                     // JsonArray Data
-            file -> file.uploadAsync(dataArray) // Execution Logical
+            Attachment.class,                               // Component
+            JsonArray::new,                             // JsonArray Data
+            file -> file.saveAsync(criteria, dataArray) // Execution Logical
         )).apply(data);
     }
 }

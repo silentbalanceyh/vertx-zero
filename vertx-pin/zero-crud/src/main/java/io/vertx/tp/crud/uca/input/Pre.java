@@ -4,15 +4,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KColumn;
 import io.vertx.tp.plugin.excel.ExcelClient;
-import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -62,14 +58,14 @@ public interface Pre {
 
     static Pre auditor(final boolean created) {
         if (created) {
-            return Fn.poolThread(Pooled.PRE_MAP, AdCreatePre::new, AdCreatePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, CAuditPre::new, CAuditPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, AdUpdatePre::new, AdUpdatePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, UAuditPre::new, UAuditPre.class.getName());
         }
     }
 
     static Pre auditorBy() {
-        return Fn.poolThread(Pooled.PRE_MAP, AdExportPre::new, AdExportPre.class.getName());
+        return Fn.poolThread(Pooled.PRE_MAP, DAuditPre::new, DAuditPre.class.getName());
     }
 
     /*
@@ -90,14 +86,14 @@ public interface Pre {
 
     static Pre fileIn(final boolean createOnly) {
         if (createOnly) {
-            return Fn.poolThread(Pooled.PRE_MAP, FCreatePre::new, FCreatePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, CFilePre::new, CFilePre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, FSavePre::new, FSavePre.class.getName());
+            return Fn.poolThread(Pooled.PRE_MAP, UFilePre::new, UFilePre.class.getName());
         }
     }
 
     static Pre fileOut() {
-        return Fn.poolThread(Pooled.PRE_MAP, FDeletePre::new, FDeletePre.class.getName());
+        return Fn.poolThread(Pooled.PRE_MAP, DFilePre::new, DFilePre.class.getName());
     }
 
     /*
@@ -106,20 +102,16 @@ public interface Pre {
      * 3) PrimaryKey condition
      * 4) View key
      */
-    static Pre qVk() {
-        return Fn.poolThread(Pooled.PRE_MAP, QVkPre::new, QVkPre.class.getName());
-    }
-
-    static Pre qUk() {
-        return Fn.poolThread(Pooled.PRE_MAP, QUkPre::new, QUkPre.class.getName());
-    }
-
-    static Pre qAll() {
-        return Fn.poolThread(Pooled.PRE_MAP, QAllPre::new, QAllPre.class.getName());
-    }
-
-    static Pre qPk() {
-        return Fn.poolThread(Pooled.PRE_MAP, QPkPre::new, QPkPre.class.getName());
+    static Pre qr(final QrType type) {
+        if (QrType.ALL == type) {
+            return Fn.poolThread(Pooled.PRE_MAP, RWholePre::new, RWholePre.class.getName());
+        } else if (QrType.BY_UK == type) {
+            return Fn.poolThread(Pooled.PRE_MAP, RUkPre::new, RUkPre.class.getName());
+        } else if (QrType.BY_VK == type) {
+            return Fn.poolThread(Pooled.PRE_MAP, RVkPre::new, RVkPre.class.getName());
+        } else {
+            return Fn.poolThread(Pooled.PRE_MAP, RPkPre::new, RPkPre.class.getName());
+        }
     }
 
     /*
@@ -147,17 +139,5 @@ public interface Pre {
     // JsonObject -> JsonArray
     default Future<JsonArray> inJAAsync(final JsonObject data, final IxMod in) {
         return Future.failedFuture(new _501NotSupportException(this.getClass()));
-    }
-}
-
-class T {
-
-    /*
-     * Processing `view` parameters here
-     */
-    static void viewProc(final JsonObject data, final KColumn column) {
-        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () ->
-            // Vis: Fix bug of default view
-            data.put(KName.VIEW, Vis.smart(column.getView())));
     }
 }

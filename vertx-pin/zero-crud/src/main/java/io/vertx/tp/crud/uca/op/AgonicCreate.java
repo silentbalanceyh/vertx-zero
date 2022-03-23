@@ -3,6 +3,7 @@ package io.vertx.tp.crud.uca.op;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
@@ -20,7 +21,7 @@ class AgonicCreate implements Agonic {
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qUk().inJAsync(input, in)
+        return Pre.qr(QrType.BY_UK).inJAsync(input, in)
             /*
              * Here must use jooq directly instead of join because
              * The creation step split to

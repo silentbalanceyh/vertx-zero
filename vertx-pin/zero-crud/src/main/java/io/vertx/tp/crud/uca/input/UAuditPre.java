@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AdCreatePre implements Pre {
+class UAuditPre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         /* UserId */
@@ -33,7 +33,7 @@ class AdCreatePre implements Pre {
             if (Ut.notNil(userId)) {
                 final KField field = module.getField();
                 /* Created */
-                Ix.onAuditor(data, field.getCreated(), userId);
+                Ix.onAuditor(data, field.getUpdated(), userId);
             }
         }
     }

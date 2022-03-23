@@ -10,7 +10,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class QPkPre implements Pre {
+class RPkPre implements Pre {
     @Override
     public Future<JsonObject> inAJAsync(final JsonArray keys, final IxMod in) {
         if (Ut.isNil(keys)) {

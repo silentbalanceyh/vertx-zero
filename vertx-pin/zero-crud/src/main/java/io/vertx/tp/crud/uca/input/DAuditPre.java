@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AdExportPre implements Pre {
+class DAuditPre implements Pre {
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         final KModule module = in.module();
