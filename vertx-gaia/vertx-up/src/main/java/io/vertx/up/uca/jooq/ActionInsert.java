@@ -51,9 +51,14 @@ class ActionInsert extends AbstractAction {
             return Future.succeededFuture(new ArrayList<>());
         }
         final List<T> inserted = this.uuid(list);
-        return ((Future<Integer>) this.dao().insert(inserted, true)).compose(rows -> {
+        return ((Future<Integer>) this.dao().insert(inserted, false)).compose(rows -> {
             this.logging("[ Jq ] insertAsync(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
             return Future.succeededFuture(list);
+        }).otherwise(error -> {
+            if (Objects.nonNull(error)) {
+                this.warning("[ Jq ] (E) insertAsync(List<T>) error: {0}", error.getMessage());
+            }
+            return new ArrayList<>();
         });
     }
 
@@ -69,8 +74,12 @@ class ActionInsert extends AbstractAction {
         for (T pojo : inserted) {
             insertValuesStepN = insertStep.values(newRecord(pojo).intoArray());
         }
-        final int rows = insertValuesStepN.onDuplicateKeyIgnore().execute();
-        this.logging("[ Jq ] insert(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
+        try {
+            final int rows = insertValuesStepN.execute();
+            this.logging("[ Jq ] insert(List<T>) executed rows: {0}/{1}", String.valueOf(rows), String.valueOf(list.size()));
+        } catch (Throwable error) {
+            this.warning("[ Jq ] (E) insertAsync(List<T>) error: {0}", error.getMessage());
+        }
         return list;
     }
 

@@ -51,6 +51,11 @@ abstract class AbstractAction {
         }
     }
 
+    protected void warning(final String pattern, final Object... args) {
+        final Annal logger = Annal.get(getClass());
+        logger.warn(pattern, args);
+    }
+
     // -------------------------------- Input Method
     /*
      * Parameter processing here

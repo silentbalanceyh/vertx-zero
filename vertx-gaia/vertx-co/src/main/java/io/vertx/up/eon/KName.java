@@ -199,6 +199,10 @@ public interface KName {
     String INCLUDE = "include";                  /* Auditor Pin */
     String EXCLUDE = "exclude";                  /* Auditor Pin */
 
+    String COMMENT = "comment";                  /* Text Part: comment */
+    String DESCRIPTION = "description";          /* Text Part: description */
+    String REMARK = "remark";                    /* Text Part: remark */
+
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";
     String VISIT_ROLE = "visitRole";
