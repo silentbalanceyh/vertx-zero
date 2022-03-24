@@ -59,6 +59,15 @@ public class FanService implements FanStub {
 
     @Override
     public Future<JsonObject> multiAsync(final FBill bill, final List<FBillItem> items) {
+        /*
+         * Because Multi will be selected from item, it means that the items contains `key` here
+         * We must remove `key` of items instead of duplicated key met here
+         * Fix:
+         * https://github.com/silentbalanceyh/hotel/issues/344
+         * https://github.com/silentbalanceyh/hotel/issues/343
+         */
+        items.forEach(item -> item.setKey(null));
+
         return Ux.Jooq.on(FBillDao.class).insertAsync(bill).compose(inserted -> {
             this.fillStub.income(bill, items);
             return Ux.Jooq.on(FBillItemDao.class).insertJAsync(items)
