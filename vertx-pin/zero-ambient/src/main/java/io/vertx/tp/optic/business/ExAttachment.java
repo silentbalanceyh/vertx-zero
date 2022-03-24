@@ -121,7 +121,7 @@ public class ExAttachment implements Attachment {
                  * 1. If directory contains "w",
                  * 2. The attachment should append "x" for rename/trash
                  */
-                final JsonArray visitMode = visitJ.getJsonArray(KName.VISIT_MODE);
+                final JsonArray visitMode = Ut.valueJArray(visitJ, KName.VISIT_MODE);
                 if (visitMode.contains(KName.Attachment.W) &&
                     !visitMode.contains(KName.Attachment.X)) {
                     visitMode.add(KName.Attachment.X);
