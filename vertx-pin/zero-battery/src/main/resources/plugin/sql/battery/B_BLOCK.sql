@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS B_BLOCK
     `UI_SORT`        BIGINT COMMENT '「uiSort」- 子模块排序',
     `UI_CONFIG`      LONGTEXT COMMENT '「uiConfig」- 子模块核心配置',
 
+    -- 模块配置
+    `UI_CONTENT`     LONGTEXT COMMENT '「uiContent」- 配置数据',
+
     /*
      * 许可证相关信息
      */
