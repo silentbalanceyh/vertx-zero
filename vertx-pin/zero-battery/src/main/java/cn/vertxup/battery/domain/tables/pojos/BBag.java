@@ -28,6 +28,7 @@ public class BBag implements VertxPojo, IBBag {
     private String        uiIcon;
     private String        uiStyle;
     private Long          uiSort;
+    private String        uiConfig;
     private String        appId;
     private String        parentId;
     private Boolean       active;
@@ -50,6 +51,7 @@ public class BBag implements VertxPojo, IBBag {
         this.uiIcon = value.getUiIcon();
         this.uiStyle = value.getUiStyle();
         this.uiSort = value.getUiSort();
+        this.uiConfig = value.getUiConfig();
         this.appId = value.getAppId();
         this.parentId = value.getParentId();
         this.active = value.getActive();
@@ -71,6 +73,7 @@ public class BBag implements VertxPojo, IBBag {
         String        uiIcon,
         String        uiStyle,
         Long          uiSort,
+        String        uiConfig,
         String        appId,
         String        parentId,
         Boolean       active,
@@ -90,6 +93,7 @@ public class BBag implements VertxPojo, IBBag {
         this.uiIcon = uiIcon;
         this.uiStyle = uiStyle;
         this.uiSort = uiSort;
+        this.uiConfig = uiConfig;
         this.appId = appId;
         this.parentId = parentId;
         this.active = active;
@@ -240,6 +244,23 @@ public class BBag implements VertxPojo, IBBag {
     @Override
     public BBag setUiSort(Long uiSort) {
         this.uiSort = uiSort;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
+     */
+    @Override
+    public String getUiConfig() {
+        return this.uiConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
+     */
+    @Override
+    public BBag setUiConfig(String uiConfig) {
+        this.uiConfig = uiConfig;
         return this;
     }
 
@@ -425,6 +446,7 @@ public class BBag implements VertxPojo, IBBag {
         sb.append(", ").append(uiIcon);
         sb.append(", ").append(uiStyle);
         sb.append(", ").append(uiSort);
+        sb.append(", ").append(uiConfig);
         sb.append(", ").append(appId);
         sb.append(", ").append(parentId);
         sb.append(", ").append(active);
@@ -454,6 +476,7 @@ public class BBag implements VertxPojo, IBBag {
         setUiIcon(from.getUiIcon());
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
+        setUiConfig(from.getUiConfig());
         setAppId(from.getAppId());
         setParentId(from.getParentId());
         setActive(from.getActive());

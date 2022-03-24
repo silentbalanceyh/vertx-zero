@@ -61,6 +61,10 @@ public class BBag extends TableImpl<BBagRecord> {
      */
     public final TableField<BBagRecord, Long> UI_SORT = createField(DSL.name("UI_SORT"), SQLDataType.BIGINT, this, "「uiSort」- 模块排序");
     /**
+     * The column <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
+     */
+    public final TableField<BBagRecord, String> UI_CONFIG = createField(DSL.name("UI_CONFIG"), SQLDataType.CLOB, this, "「uiConfig」- 模块核心配置");
+    /**
      * The column <code>DB_ETERNAL.B_BAG.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public final TableField<BBagRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(36), this, "「appId」- 关联的应用程序ID");
@@ -184,11 +188,11 @@ public class BBag extends TableImpl<BBagRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, String, String, String, String, Long, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<String, String, String, String, String, String, String, Long, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 }

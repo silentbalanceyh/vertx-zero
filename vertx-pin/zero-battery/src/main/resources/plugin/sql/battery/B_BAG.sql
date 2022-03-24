@@ -38,6 +38,9 @@ CREATE TABLE IF NOT EXISTS B_BAG
     `UI_STYLE`   TEXT COMMENT '「uiStyle」- 模块风格',
     `UI_SORT`    BIGINT COMMENT '「uiSort」- 模块排序',
 
+    -- 模块核心配置
+    `UI_CONFIG`  LONGTEXT COMMENT '「uiConfig」- 模块核心配置',
+
     -- 应用ID
     `APP_ID`     VARCHAR(36) COMMENT '「appId」- 关联的应用程序ID',
     `PARENT_ID`  VARCHAR(36) COMMENT '「parentId」- 父包ID',
