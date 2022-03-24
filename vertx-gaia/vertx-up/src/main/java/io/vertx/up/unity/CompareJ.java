@@ -51,17 +51,23 @@ class CompareJ {
             final Set<String> fields = fieldSet(value);
             if (fields.isEmpty()) {
                 /*
-                 * Not unique defined
+                 * Not unique defined, monitor the reduce processing:
+                 * Fix: https://github.com/silentbalanceyh/hotel/issues/297
                  */
+                LOGGER.warn("[ RD ] Reduce Process: Fields is empty !!! matrix = {0}",
+                    matrix.encode());
                 return false;
             }
 
 
             /*
-             * Compare each group for matrix
+             * Compare each group for matrix, monitor the reduce processing:
+             * Fix: https://github.com/silentbalanceyh/hotel/issues/297
              */
             final boolean match = ruleJOk(record, fields);
             if (!match) {
+                LOGGER.warn("[ RD ] Reduce Process: Fields is `{0}` matrix = {1}",
+                    Ut.fromJoin(fields), matrix.encode());
                 return false;
             }
         }
