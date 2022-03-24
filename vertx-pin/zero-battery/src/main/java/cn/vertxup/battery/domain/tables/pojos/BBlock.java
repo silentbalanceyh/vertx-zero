@@ -29,6 +29,7 @@ public class BBlock implements VertxPojo, IBBlock {
     private String        uiStyle;
     private Long          uiSort;
     private String        uiConfig;
+    private String        uiContent;
     private String        signIssuer;
     private String        signName;
     private LocalDateTime signAt;
@@ -61,6 +62,7 @@ public class BBlock implements VertxPojo, IBBlock {
         this.uiStyle = value.getUiStyle();
         this.uiSort = value.getUiSort();
         this.uiConfig = value.getUiConfig();
+        this.uiContent = value.getUiContent();
         this.signIssuer = value.getSignIssuer();
         this.signName = value.getSignName();
         this.signAt = value.getSignAt();
@@ -92,6 +94,7 @@ public class BBlock implements VertxPojo, IBBlock {
         String        uiStyle,
         Long          uiSort,
         String        uiConfig,
+        String        uiContent,
         String        signIssuer,
         String        signName,
         LocalDateTime signAt,
@@ -121,6 +124,7 @@ public class BBlock implements VertxPojo, IBBlock {
         this.uiStyle = uiStyle;
         this.uiSort = uiSort;
         this.uiConfig = uiConfig;
+        this.uiContent = uiContent;
         this.signIssuer = signIssuer;
         this.signName = signName;
         this.signAt = signAt;
@@ -297,6 +301,23 @@ public class BBlock implements VertxPojo, IBBlock {
     @Override
     public BBlock setUiConfig(String uiConfig) {
         this.uiConfig = uiConfig;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     */
+    @Override
+    public String getUiContent() {
+        return this.uiContent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     */
+    @Override
+    public BBlock setUiContent(String uiContent) {
+        this.uiContent = uiContent;
         return this;
     }
 
@@ -646,6 +667,7 @@ public class BBlock implements VertxPojo, IBBlock {
         sb.append(", ").append(uiStyle);
         sb.append(", ").append(uiSort);
         sb.append(", ").append(uiConfig);
+        sb.append(", ").append(uiContent);
         sb.append(", ").append(signIssuer);
         sb.append(", ").append(signName);
         sb.append(", ").append(signAt);
@@ -685,6 +707,7 @@ public class BBlock implements VertxPojo, IBBlock {
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
         setUiConfig(from.getUiConfig());
+        setUiContent(from.getUiContent());
         setSignIssuer(from.getSignIssuer());
         setSignName(from.getSignName());
         setSignAt(from.getSignAt());
