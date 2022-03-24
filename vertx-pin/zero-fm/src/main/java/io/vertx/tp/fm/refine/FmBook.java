@@ -6,6 +6,7 @@ import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.atom.KSpec;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -111,6 +112,12 @@ class FmBook {
             condition.put(KName.MODEL_KEY, spec.getModelKey());
         }
         condition.put("orderId", spec.getReference());
+        /*
+         * Fix Issue:
+         * https://github.com/silentbalanceyh/hotel/issues/320
+         * Here missed the condition of book fetching
+         */
+        condition.put(Strings.EMPTY, Boolean.TRUE);
         return condition;
     }
 }
