@@ -108,12 +108,12 @@ public interface IBBlock extends VertxPojo, Serializable {
     public String getUiConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
      */
     public IBBlock setUiContent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
      */
     public String getUiContent();
 

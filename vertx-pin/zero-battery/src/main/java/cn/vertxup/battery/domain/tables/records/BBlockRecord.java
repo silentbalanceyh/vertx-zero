@@ -178,7 +178,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
      */
     @Override
     public BBlockRecord setUiContent(String value) {
@@ -187,7 +187,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiValue」- 配置数据
+     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
      */
     @Override
     public String getUiContent() {
