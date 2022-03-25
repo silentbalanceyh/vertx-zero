@@ -12,7 +12,6 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,9 +24,6 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class BagArgService implements BagArgStub {
     private static final ConcurrentMap<String, Combiner> POOL_COMBINER = new ConcurrentHashMap<>();
-
-    @Inject
-    private transient BlockStub blockStub;
 
     @Override
     public Future<JsonObject> fetchBagConfig(final String bagAbbr) {
@@ -81,13 +77,15 @@ public class BagArgService implements BagArgStub {
             if (Objects.isNull(bag)) {
                 return Ux.futureJ();
             }
+            final BlockStub blockStub = Ut.singleton(BlockService.class);
             return this.seekBlocks(bag)
                 // Parameters Store Code Logical
-                .compose(blocks -> this.blockStub.saveParameters(blocks, data));
+                .compose(blocks -> blockStub.saveParameters(blocks, data));
         });
     }
 
-    private Future<List<BBlock>> seekBlocks(final BBag input) {
+    @Override
+    public Future<List<BBlock>> seekBlocks(final BBag input) {
         return Ux.future(input).compose(bag -> {
             final JsonObject condition = Ux.whereAnd();
             if (Objects.isNull(bag.getParentId())) {

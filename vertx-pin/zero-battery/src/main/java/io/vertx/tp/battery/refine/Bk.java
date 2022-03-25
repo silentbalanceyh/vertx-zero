@@ -12,5 +12,10 @@ public class Bk {
             final Annal logger = Annal.get(clazz);
             BkLog.info(logger, "Init", message, args);
         }
+
+        public static void infoChannel(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            BkLog.info(logger, "Service Loader", message, args);
+        }
     }
 }

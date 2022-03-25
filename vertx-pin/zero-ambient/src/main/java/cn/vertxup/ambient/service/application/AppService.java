@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.tp.optic.feature.Attachment;
+import io.vertx.tp.optic.feature.Modulat;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -40,9 +41,20 @@ public class AppService implements AppStub {
             /* Image field: logo */
             .compose(Ut.ifJObject(KName.App.LOGO))
             /* App options: options for application */
-            .compose(appJson -> Ke.channelAsync(ExApp.class,
-                () -> Ux.future(appJson),
-                stub -> stub.fetchOpts(appJson)));
+            .compose(this::fetchAppOptions);
+    }
+
+    private Future<JsonObject> fetchAppOptions(final JsonObject appJson) {
+        return Ux.future(appJson)
+            // ExApp Processing
+            .compose(appJ -> Ke.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
+            // ExModulat Processing
+            .compose(appJ -> Ke.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ.getString(KName.KEY))
+                .compose(modulatJ -> {
+                    modulatJ.forEach(appJ::put);
+                    return Ux.future(appJ);
+                })
+            ));
     }
 
     @Override
