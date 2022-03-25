@@ -16,12 +16,22 @@ import javax.ws.rs.*;
 @Path("/api")
 public interface BagAgent {
     /*
-     * Fetch all modules in current application
+     * Fetch all bags in current application
      */
     @GET
     @Path("/bag")
     @Address(Addr.Module.FETCH)
-    JsonArray module(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonArray bag(@HeaderParam(ID.Header.X_APP_ID) String appId);
+
+    /*
+     * Fetch all bags that type = "EXTENSION" only, it will show
+     * on the front page of `/system/setting` here.
+     *
+     */
+    @GET
+    @Path("/bag/extension")
+    @Address(Addr.Module.BY_EXTENSION)
+    JsonArray bagByApp(@HeaderParam(ID.Header.X_APP_ID) String appId);
 
     /*
      * {

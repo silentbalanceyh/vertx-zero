@@ -14,6 +14,8 @@ public interface Addr {
 
         String FETCH = Prefix._EVENT + "X-BAG/FETCH-ALL";
 
+        String BY_EXTENSION = Prefix._EVENT + "X-BAG/FETCH/BY-EXTENSION";
+
         String UP_PROCESS = Prefix._EVENT + "X-BAG/PROCESS";
 
         String UP_AUTHORIZE = Prefix._EVENT + "X-BAG/AUTHORIZE";
