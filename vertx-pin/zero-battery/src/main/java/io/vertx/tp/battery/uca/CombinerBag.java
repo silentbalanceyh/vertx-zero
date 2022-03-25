@@ -18,9 +18,9 @@ public class CombinerBag implements Combiner<BBag, ConcurrentMap<String, BBag>> 
     @Override
     public Future<JsonObject> configure(final BBag bag, final ConcurrentMap<String, BBag> map) {
         final JsonObject uiConfig = Ut.toJObject(bag.getUiConfig());
-        final JsonObject formRef = Ut.visitJObject(uiConfig, KName.CONFIG, "_form");
+        final JsonObject formConfig = Ut.visitJObject(uiConfig, KName.CONFIG, "_form");
         // ui capture
-        final JsonArray ui = Ut.valueJArray(formRef, "ui");
+        final JsonArray ui = Ut.valueJArray(formConfig, "ui");
         if (Ut.isNil(ui)) {
             return Ux.future(uiConfig);
         }
@@ -38,6 +38,8 @@ public class CombinerBag implements Combiner<BBag, ConcurrentMap<String, BBag>> 
         // ui replace
         final JsonArray uiTo = new JsonArray();
         ui.forEach(key -> uiTo.addAll(mapJ.getOrDefault(key.toString(), new JsonArray())));
+        final JsonObject configRef = uiConfig.getJsonObject(KName.CONFIG);
+        final JsonObject formRef = configRef.getJsonObject("_form");
         formRef.put("ui", uiTo);
         return Ux.future(uiConfig);
     }

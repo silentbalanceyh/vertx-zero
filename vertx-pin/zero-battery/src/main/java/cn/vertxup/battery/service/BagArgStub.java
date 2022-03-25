@@ -8,9 +8,9 @@ import io.vertx.core.json.JsonObject;
  */
 public interface BagArgStub {
 
-    Future<JsonObject> fetchBagConfig(String bagId);
+    Future<JsonObject> fetchBagConfig(String bagAbbr);
 
-    Future<JsonObject> fetchBag(String bagId);
+    Future<JsonObject> fetchBag(String bagAbbr);
 
     Future<JsonObject> saveBag(String bagId, JsonObject data);
 }

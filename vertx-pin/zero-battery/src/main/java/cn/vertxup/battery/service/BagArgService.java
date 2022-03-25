@@ -29,9 +29,11 @@ public class BagArgService implements BagArgStub {
     private static final ConcurrentMap<String, Combiner> POOL_COMBINER = new ConcurrentHashMap<>();
 
     @Override
-    public Future<JsonObject> fetchBagConfig(final String bagId) {
+    public Future<JsonObject> fetchBagConfig(final String bagAbbr) {
+        Objects.requireNonNull(bagAbbr);
+        final JsonObject condition = Ux.whereAnd("nameAbbr", bagAbbr);
         final UxJooq jq = Ux.Jooq.on(BBagDao.class);
-        return jq.<BBag>fetchByIdAsync(bagId).compose(bag -> {
+        return jq.<BBag>fetchOneAsync(condition).compose(bag -> {
             /* Check if root by parentId */
             if (Objects.isNull(bag)) {
                 return Ux.futureJ();
@@ -56,9 +58,10 @@ public class BagArgService implements BagArgStub {
     }
 
     @Override
-    public Future<JsonObject> fetchBag(final String bagId) {
-        Objects.requireNonNull(bagId);
-        return Ux.Jooq.on(BBagDao.class).<BBag>fetchByIdAsync(bagId).compose(bag -> {
+    public Future<JsonObject> fetchBag(final String bagAbbr) {
+        Objects.requireNonNull(bagAbbr);
+        final JsonObject condition = Ux.whereAnd("nameAbbr", bagAbbr);
+        return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync(condition).compose(bag -> {
             if (Objects.isNull(bag)) {
                 return Ux.futureJ();
             }
