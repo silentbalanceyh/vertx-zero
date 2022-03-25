@@ -1,6 +1,7 @@
 package cn.vertxup.battery.service;
 
 import cn.vertxup.battery.domain.tables.daos.BBlockDao;
+import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,6 +10,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,6 +40,24 @@ public class BlockService implements BlockStub {
         return this.fetchBlock(condition)
             // bagId = JsonArray
             .compose(blockArray -> Ux.future(Ut.elementGroup(blockArray, KName.App.BAG_ID)));
+    }
+
+    @Override
+    public Future<JsonObject> saveParameters(final List<BBlock> blocks, final JsonObject data) {
+        // Parameters Processing
+        blocks.forEach(block -> {
+            // Field Processing
+            final JsonObject uiConfig = Ut.toJObject(block.getUiConfig());
+            final JsonObject fields = uiConfig.getJsonObject(KName.FIELD, new JsonObject());
+            // New Ui Config
+            final JsonObject uiContent = new JsonObject();
+            fields.fieldNames().forEach(field -> uiContent.put(field, data.getValue(field)));
+            block.setUiContent(uiContent.encode());
+            // updatedAt / updatedBy
+            block.setUpdatedAt(LocalDateTime.now());
+            block.setUpdatedBy(data.getString(KName.UPDATED_BY));
+        });
+        return Ux.Jooq.on(BBlockDao.class).updateAsync(blocks).compose(nil -> Ux.future(data));
     }
 
     private Future<JsonArray> fetchBlock(final JsonObject condition) {

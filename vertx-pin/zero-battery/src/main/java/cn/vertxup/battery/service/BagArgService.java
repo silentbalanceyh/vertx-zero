@@ -6,15 +6,13 @@ import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.battery.uca.Combiner;
-import io.vertx.tp.battery.uca.CombinerBag;
-import io.vertx.tp.battery.uca.CombinerValue;
+import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -27,6 +25,9 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class BagArgService implements BagArgStub {
     private static final ConcurrentMap<String, Combiner> POOL_COMBINER = new ConcurrentHashMap<>();
+
+    @Inject
+    private transient BlockStub blockStub;
 
     @Override
     public Future<JsonObject> fetchBagConfig(final String bagAbbr) {
@@ -45,14 +46,14 @@ public class BagArgService implements BagArgStub {
                 criteria.put(KName.ACTIVE, Boolean.TRUE);
                 return jq.<BBag>fetchAsync(criteria).compose(query -> {
                     final ConcurrentMap<String, BBag> map = Ut.elementMap(query, BBag::getNameAbbr);
-                    final Combiner<BBag, ConcurrentMap<String, BBag>> combiner =
-                        Fn.poolThread(POOL_COMBINER, CombinerBag::new, CombinerBag.class.getName());
+                    final Combiner<BBag, ConcurrentMap<String, BBag>> combiner = Combiner.forBag();
                     return combiner.configure(bag, map);
                 });
             } else {
                 /* Single Bag Information */
                 final JsonObject response = Ut.toJObject(bag.getUiConfig());
-                return Ux.future(response);
+                final Combiner<JsonObject, BBag> combiner = Combiner.outBag();
+                return combiner.configure(response, bag);
             }
         });
     }
@@ -66,8 +67,7 @@ public class BagArgService implements BagArgStub {
                 return Ux.futureJ();
             }
             return this.seekBlocks(bag).compose(blocks -> {
-                final Combiner<BBag, List<BBlock>> combiner =
-                    Fn.poolThread(POOL_COMBINER, CombinerValue::new, CombinerValue.class.getName());
+                final Combiner<BBag, List<BBlock>> combiner = Combiner.forBlock();
                 return combiner.configure(bag, blocks);
             });
         });
@@ -81,10 +81,9 @@ public class BagArgService implements BagArgStub {
             if (Objects.isNull(bag)) {
                 return Ux.futureJ();
             }
-            return this.seekBlocks(bag).compose(blocks -> {
-
-                return Ux.future();
-            });
+            return this.seekBlocks(bag)
+                // Parameters Store Code Logical
+                .compose(blocks -> this.blockStub.saveParameters(blocks, data));
         });
     }
 

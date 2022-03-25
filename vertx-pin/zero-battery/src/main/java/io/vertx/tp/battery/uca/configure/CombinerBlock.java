@@ -1,4 +1,4 @@
-package io.vertx.tp.battery.uca;
+package io.vertx.tp.battery.uca.configure;
 
 import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class CombinerValue implements Combiner<BBag, List<BBlock>> {
+class CombinerBlock implements Combiner<BBag, List<BBlock>> {
     @Override
     public Future<JsonObject> configure(final BBag bag, final List<BBlock> map) {
         final JsonObject data = new JsonObject();
@@ -25,7 +25,9 @@ public class CombinerValue implements Combiner<BBag, List<BBlock>> {
             metadata.mergeIn(defined, true);
             data.mergeIn(uiContent, true);
         });
-        data.put(KName.METADATA, metadata);
+        // key for bag
+        data.put(KName.KEY, bag.getKey());
+        data.put("__" + KName.METADATA, metadata);
         return Ux.future(data);
     }
 }
