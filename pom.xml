@@ -58,6 +58,7 @@
     <properties>
         <!-- RC Version Ok -->
         <jackson.version>2.13.2</jackson.version>
+        <jackson.databind.version>2.13.2.1</jackson.databind.version>
         <jackson.extension.version>2.13.2</jackson.extension.version>
 
         <!-- Java Projection Basic Configuration -->
@@ -1183,7 +1184,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.databind.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
