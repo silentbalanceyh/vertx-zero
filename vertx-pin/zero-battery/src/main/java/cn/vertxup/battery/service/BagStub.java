@@ -9,4 +9,6 @@ import io.vertx.core.json.JsonArray;
 public interface BagStub {
 
     Future<JsonArray> fetchBag(String appId);
+
+    Future<JsonArray> fetchExtension(String appId);
 }

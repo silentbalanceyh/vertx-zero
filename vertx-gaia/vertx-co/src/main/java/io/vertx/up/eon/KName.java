@@ -75,6 +75,7 @@ public interface KName {
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
+    String KEY_P = "pKey";                       /* Common: argument key */
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
@@ -209,6 +210,11 @@ public interface KName {
     String VISIT_GROUP = "visitGroup";
     String VISIT_COMPONENT = "visitComponent";
 
+    String UI_CONFIG = "uiConfig";
+    String UI_STYLE = "uiStyle";
+    String UI_SORT = "uiSort";
+    String UI_ICON = "uiIcon";
+
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
@@ -245,6 +251,7 @@ public interface KName {
 
         // Modulat
         String BAG_ID = "bagId";
+        String BAG = "bag";
         String BLOCK = "block";
     }
 
@@ -411,10 +418,10 @@ public interface KName {
         String CONFIG_RUN = "runConfig";
         String CONFIG_GENERATE = "generateConfig";
         String CONFIG_AUTHORIZED = "authorizedConfig";
-        String UI_CONFIG = "uiConfig";
+        String UI_CONFIG = KName.UI_CONFIG;
+        String UI_STYLE = KName.UI_STYLE;
         String UI_ASSIST = "uiAssist";
         String UI_LINKAGE = "uiLinkage";
-        String UI_STYLE = "uiStyle";
 
         // Auditor
         interface Auditor {
