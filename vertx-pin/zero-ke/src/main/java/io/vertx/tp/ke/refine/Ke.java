@@ -282,4 +282,12 @@ public class Ke {
                                                final BiConsumer<T, String> fnConsumer) {
         return KeEnv.indent(input, sigma, code, fnConsumer);
     }
+
+    public static Future<JsonObject> umJData(final JsonObject config, final JsonObject params) {
+        return KeEnv.daoJ(config, params);
+    }
+
+    public static Future<JsonObject> umAData(final JsonObject config, final JsonObject params) {
+        return KeEnv.daoJ(config, params);
+    }
 }

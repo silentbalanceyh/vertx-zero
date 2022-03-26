@@ -40,21 +40,10 @@ public class AppService implements AppStub {
             .compose(Ux::futureJ)
             /* Image field: logo */
             .compose(Ut.ifJObject(KName.App.LOGO))
-            /* App options: options for application */
-            .compose(this::fetchAppOptions);
-    }
-
-    private Future<JsonObject> fetchAppOptions(final JsonObject appJson) {
-        return Ux.future(appJson)
-            // ExApp Processing
+            /* ExApp Processing, options for application */
             .compose(appJ -> Ke.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
-            // ExModulat Processing
-            .compose(appJ -> Ke.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ.getString(KName.KEY))
-                .compose(modulatJ -> {
-                    modulatJ.forEach(appJ::put);
-                    return Ux.future(appJ);
-                })
-            ));
+            /* Modulat Processing */
+            .compose(appJ -> Ke.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)));
     }
 
     @Override

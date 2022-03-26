@@ -23,7 +23,15 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ExModulat implements Modulat {
     @Override
-    public Future<ConcurrentMap<String, JsonObject>> extension(final String appId) {
+    public Future<JsonObject> extension(final JsonObject appJson) {
+        final String key = appJson.getString(KName.KEY);
+        return this.fetchModule(key).compose(map -> {
+            map.forEach(appJson::put);
+            return Ux.future(appJson);
+        });
+    }
+
+    private Future<ConcurrentMap<String, JsonObject>> fetchModule(final String appId) {
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.TYPE, "EXTENSION");
         condition.put(KName.APP_ID, appId);

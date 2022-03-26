@@ -6,7 +6,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -15,6 +17,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -129,5 +133,70 @@ class KeEnv {
                     });
             }
         });
+    }
+
+
+    /*
+     * config data structure
+     * {
+     *     "dao": "className",
+     *     "pojo": "pojoFile",
+     *     "criteria": {
+     *     }
+     * }
+     */
+    static Future<JsonObject> daoJ(final JsonObject config, final JsonObject params) {
+        return daoT(config, JsonObject::new, jq -> {
+            final JsonObject condition = daoArgs(config, params);
+            return jq.fetchJOneAsync(condition);
+        });
+    }
+
+    static Future<JsonArray> daoA(final JsonObject config, final JsonObject params) {
+        return daoT(config, JsonArray::new, jq -> {
+            final JsonObject condition = daoArgs(config, params);
+            return jq.fetchJAsync(condition);
+        });
+    }
+
+    private static JsonObject daoArgs(final JsonObject config, final JsonObject params) {
+        final JsonObject pattern = Ut.valueJObject(config, Qr.KEY_CRITERIA);
+        final JsonObject parameters = new JsonObject();
+        Ut.itJObject(pattern, (value, field) -> {
+            if (value instanceof String) {
+                final String expr = value.toString();
+                if (expr.contains("`")) {
+                    final String parsed = Ut.fromExpression(expr, params);
+                    parameters.put(field, parsed);
+                } else {
+                    parameters.put(field, value);
+                }
+            } else {
+                parameters.put(field, value);
+            }
+        });
+        return parameters;
+    }
+
+    private static <T> Future<T> daoT(final JsonObject config,
+                                      final Supplier<T> supplier,
+                                      final Function<UxJooq, Future<T>> executor) {
+        final JsonObject safeJ = Ut.valueJObject(config);
+        final String clazz = safeJ.getString(KName.DAO, null);
+        if (Ut.isNil(clazz)) {
+            // clazz = null, default workflow
+            return Ux.future(supplier.get());
+        }
+        final Class<?> daoCls = Ut.clazz(clazz, null);
+        if (Objects.isNull(daoCls)) {
+            // clazz could not be found, default workflow
+            return Ux.future(supplier.get());
+        }
+        final UxJooq jq = Ux.Jooq.on(daoCls);
+        final String pojo = safeJ.getString("pojo", null);
+        if (Ut.notNil(pojo)) {
+            jq.on(pojo);
+        }
+        return executor.apply(jq);
     }
 }

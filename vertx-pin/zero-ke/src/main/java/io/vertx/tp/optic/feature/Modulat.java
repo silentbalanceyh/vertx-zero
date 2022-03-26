@@ -3,8 +3,6 @@ package io.vertx.tp.optic.feature;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
-import java.util.concurrent.ConcurrentMap;
-
 /**
  * Configuration extracting here to get
  *
@@ -26,5 +24,5 @@ public interface Modulat {
      * --- 1) type = EXTENSION
      * --- 2) store of uiConfig
      */
-    Future<ConcurrentMap<String, JsonObject>> extension(String appId);
+    Future<JsonObject> extension(JsonObject appJson);
 }

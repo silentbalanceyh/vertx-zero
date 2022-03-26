@@ -26,8 +26,16 @@ class CombinerBlock implements Combiner<BBag, List<BBlock>> {
             data.mergeIn(uiContent, true);
         });
         // key for bag
-        data.put(KName.KEY, bag.getKey());
+        data.put(KName.KEY_P, bag.getKey());
+        // __metadata for definition
         data.put("__" + KName.METADATA, metadata);
-        return Ux.future(data);
+        // major data
+        final Combiner<JsonObject, BBag> combiner = Combiner.outDao();
+        return combiner.configure(data, bag).compose(recordData -> {
+            if (Ut.notNil(recordData)) {
+                data.mergeIn(recordData);
+            }
+            return Ux.future(data);
+        });
     }
 }

@@ -26,6 +26,10 @@ public interface Combiner<I, M> {
         return Fn.poolThread(Pool.COMBINER, CombinerBlock::new, CombinerBlock.class.getName());
     }
 
+    static Combiner<JsonObject, BBag> outDao() {
+        return Fn.poolThread(Pool.COMBINER, CombinerDao::new, CombinerDao.class.getName());
+    }
+
     static Combiner<JsonObject, BBag> outBag() {
         return Fn.poolThread(Pool.COMBINER, CombinerOutBag::new, CombinerOutBag.class.getName());
     }

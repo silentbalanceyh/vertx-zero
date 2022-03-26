@@ -75,6 +75,7 @@ public interface KName {
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
+    String KEY_P = "pKey";                       /* Common: argument key */
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
