@@ -28,7 +28,7 @@ The chinese training book is [《Zero思然汀》](https://lang-yu.gitbook.io/ze
 
 > If your wan't to study vert.x development skill, you can refer chinese tutorial:[《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/). ( In Progress )
 
-![](./doc/_image/structure.jpeg)
+![](/doc/_image/structure.jpeg)
 
 ## 0. Features
 
@@ -37,7 +37,7 @@ know more details in Zero Framework: [Feature List](FEATURES.md).
 
 Extension Module:
 
-![](./doc/_image/feature.png)
+![](/doc/_image/feature.png)
 
 ## 1. Documentation
 
@@ -184,7 +184,7 @@ public final class Statute {
 
 You can send request to group leader: `445191171` to contact with the author team of zero.
 
-![](./doc/_image/chat.png)
+![](/doc/_image/chat.png)
 
 ## DESIGNED IN CHINA
 
