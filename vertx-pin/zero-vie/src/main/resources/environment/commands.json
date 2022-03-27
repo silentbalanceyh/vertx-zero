@@ -125,52 +125,6 @@
                         "defaultValue": "ucmdb"
                     }
                 ]
-            },
-            {
-                "simple": "u",
-                "name": "ucmdbId",
-                "description": "UcmdbId修复工具",
-                "plugin": "cn.originx.ucmdb.console.UcmdbIdInstruction",
-                "options": [
-                    {
-                        "simple": "a",
-                        "name": "app",
-                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
-                        "defaultValue": "ucmdb"
-                    }
-                ]
-            },
-            {
-                "simple": "p",
-                "name": "ping",
-                "description": "连接状态检查工具",
-                "plugin": "cn.originx.ucmdb.console.ConnectInstruction",
-                "config": {
-                    "header": {
-                        "name": "终端信息",
-                        "address": "连接地址（IP+端口）",
-                        "status": "状态"
-                    },
-                    "item": [
-                        "元数据仓库",
-                        "业务数据库",
-                        "ＵＣＭＤＢ",
-                        "ElasticSearch",
-                        "Neo4j"
-                    ],
-                    "status": {
-                        "success": "\u001B[1;32m成功\u001B[m",
-                        "failure": "\u001B[1;31m失败\u001B[m"
-                    }
-                },
-                "options": [
-                    {
-                        "simple": "a",
-                        "name": "app",
-                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
-                        "defaultValue": "ucmdb"
-                    }
-                ]
             }
         ]
     },
