@@ -14,6 +14,7 @@ import io.vertx.up.commune.*;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -153,7 +154,7 @@ public abstract class AbstractChannel implements JtChannel {
         if (Objects.isNull(this.dictionary)) {
             final String appKey = this.commercial.app();
             final String identifier = this.commercial.identifier();
-            return Jt.toDictionary(appKey, identifier, dict).compose(dictionary -> {
+            return Jt.toDictionary(appKey,  RapidKey.DIRECTORY, identifier, dict).compose(dictionary -> {
                 /*
                  * Bind dictionary to current dictionary reference
                  */

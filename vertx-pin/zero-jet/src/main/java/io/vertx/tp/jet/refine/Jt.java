@@ -104,8 +104,8 @@ public class Jt {
         return JtBusiness.toIdentify(service);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DiSetting dict) {
-        return JtBusiness.toDictionary(key, identifier, dict);
+    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DiSetting dict) {
+        return JtBusiness.toDictionary(key, cacheKey, identifier, dict);
     }
 
     public static Set<String> toSet(final Supplier<String> supplier) {
