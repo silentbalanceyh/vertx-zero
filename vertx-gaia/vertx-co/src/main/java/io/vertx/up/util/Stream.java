@@ -3,10 +3,13 @@ package io.vertx.up.util;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Protocols;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
+import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
+import io.vertx.up.runtime.EnvVariables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +81,16 @@ final class Stream {
         return in;
     }
 
+    static String root() {
+        final URL rootUrl = Stream.class.getResource("/");
+        if (Objects.isNull(rootUrl)) {
+            return Strings.EMPTY;
+        } else {
+            final File rootFile = new File(rootUrl.getFile());
+            return rootFile.getAbsolutePath() + "/";
+        }
+    }
+
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
         return Fn.getJvm(() -> {
@@ -106,26 +119,83 @@ final class Stream {
      */
     private static InputStream read(final String filename,
                                     final Class<?> clazz) {
+        ioDebug(() -> Log.info(LOGGER, Info.__FILE_ROOT, root(), filename));
+        /*
+         * 0. new File(filename)
+         *    new FileInputStream(File)
+         */
         final File file = new File(filename);
         if (file.exists()) {
-            Log.debug(LOGGER, Info.INF_CUR, file.exists());
+            ioDebug(() -> Log.info(LOGGER, Info.INF_CUR, file.exists()));
+            return readSupplier(() -> in(file), filename);
+        } else {
+            /*
+             *  filename re-calculate with root()
+             */
+            final String refile = StringUtil.path(root(), filename);
+            final File fileResolved = new File(refile);
+            if (fileResolved.exists()) {
+                return readSupplier(() -> in(fileResolved), refile);
+            }
         }
-        InputStream in = readSupplier(() -> Fn.getSemi(file.exists(), null,
-            () -> in(file),
-            () -> (null == clazz) ? in(filename) : in(filename, clazz)), filename);
+
+        InputStream in;
+        if (Objects.isNull(clazz)) {
+
+
+            /*
+             * 1. Thread.currentThread().getContextClassLoader()
+             *    loader.getResourceAsStream(filename)
+             */
+            in = readSupplier(() -> in(filename), filename);
+        } else {
+
+
+            /*
+             * 2. clazz.getResourceAsStream(filename)
+             */
+            in = readSupplier(() -> in(filename, clazz), filename);
+            if (Objects.isNull(in)) {
+
+
+                /*
+                 * Switch to 1.
+                 */
+                in = readSupplier(() -> in(filename), filename);
+            }
+        }
+
         // Stream.class get
-        if (null == in) {
+        if (Objects.isNull(in)) {
+
+
+            /*
+             * 3. Stream.class.getResourceAsStream(filename)
+             */
+            ioDebug(() -> Log.info(LOGGER, Info.__CLASS_LOADER_STREAM, filename));
             in = readSupplier(() -> Stream.class.getResourceAsStream(filename), filename);
         }
         // System.Class Loader
-        if (null == in) {
+        if (Objects.isNull(in)) {
+
+
+            /*
+             * 4. ClassLoader.getSystemResourceAsStream(filename)
+             */
+            ioDebug(() -> Log.info(LOGGER, Info.__CLASS_LOADER_SYSTEM, filename));
             in = readSupplier(() -> ClassLoader.getSystemResourceAsStream(filename), filename);
         }
         /*
          * Jar reading
          * Firstly, check whether it contains jar flag
          */
-        if (null == in && filename.contains(FileSuffix.JAR_DIVIDER)) {
+        if (Objects.isNull(in) && filename.contains(FileSuffix.JAR_DIVIDER)) {
+
+
+            /*
+             * 5. readJar(filename)
+             */
+            ioDebug(() -> Log.info(LOGGER, Info.__JAR_RESOURCE, filename));
             in = readJar(filename);
         }
         if (null == in) {
@@ -156,7 +226,7 @@ final class Stream {
                                             final String filename) {
         final InputStream in = supplier.get();
         if (null != in) {
-            Log.debug(LOGGER, Info.INF_PATH, filename, in);
+            ioDebug(() -> Log.info(LOGGER, Info.INF_PATH, filename, in));
         }
         return in;
     }
@@ -170,8 +240,8 @@ final class Stream {
      * @return Return the InputStream object mount to source path.
      */
     static InputStream in(final File file) {
-        return Fn.getJvm(() -> (file.exists() && file.isFile())
-            ? new FileInputStream(file) : null, file);
+        ioDebug(() -> Log.info(LOGGER, Info.__FILE_INPUT_STREAM, Objects.isNull(file) ? null : file.getAbsolutePath()));
+        return Fn.getJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
     }
 
     /**
@@ -183,10 +253,9 @@ final class Stream {
      *
      * @return Return the InputStream object mount to source path.
      */
-    static InputStream in(final String filename,
-                          final Class<?> clazz) {
-        return Fn.getJvm(
-            () -> clazz.getResourceAsStream(filename), clazz, filename);
+    static InputStream in(final String filename, final Class<?> clazz) {
+        ioDebug(() -> Log.info(LOGGER, Info.__RESOURCE_AS_STREAM, filename));
+        return Fn.getJvm(() -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
     /**
@@ -199,7 +268,14 @@ final class Stream {
      */
     static InputStream in(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        return Fn.getJvm(
-            () -> loader.getResourceAsStream(filename), filename);
+        ioDebug(() -> Log.info(LOGGER, Info.__CLASS_LOADER, filename));
+        return Fn.getJvm(() -> loader.getResourceAsStream(filename), filename);
+    }
+
+    private static void ioDebug(final Actuator executor) {
+        final boolean ioDebug = Env.envBool(EnvVariables.Z_IO_DEBUG);
+        if (ioDebug) {
+            executor.execute();
+        }
     }
 }

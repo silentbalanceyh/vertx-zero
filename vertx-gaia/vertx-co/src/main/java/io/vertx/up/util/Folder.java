@@ -31,7 +31,7 @@ final class Folder {
 
     static List<String> listFilesN(final String folder, final String extension, final String prefix) {
         final List<String> folders = listDirectoriesN(folder);
-        final List<String> result = folders.stream()
+        return folders.stream()
             .flatMap(single -> list(single, extension, false)
                 .stream()
                 .filter(file -> Ut.isNil(prefix) || file.contains(prefix))
@@ -47,11 +47,10 @@ final class Folder {
                 return Objects.nonNull(in);
             })
             .collect(Collectors.toList());
-        return result;
     }
 
     static List<String> listDirectoriesN(final String folder) {
-        final String root = listRoot();
+        final String root = Stream.root();
         LOGGER.info("List directories: root = {0}, folder = {1}", root, folder);
         return Fn.getNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
     }
@@ -59,7 +58,7 @@ final class Folder {
     private static List<String> listDirectoriesN(final String folder, final String root) {
         final List<String> folders = new ArrayList<>();
         // root + folder
-        File folderObj = new File(Ut.ioPath(root, folder));
+        File folderObj = new File(StringUtil.path(root, folder));
         if (!folderObj.exists()) {
             final URL url = IO.getURL(folder);
             if (Objects.nonNull(url)) {
@@ -84,16 +83,6 @@ final class Folder {
             LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
         }
         return folders;
-    }
-
-    private static String listRoot() {
-        final URL rootUrl = Folder.class.getResource("/");
-        if (Objects.isNull(rootUrl)) {
-            return Strings.EMPTY;
-        } else {
-            final File rootFile = new File(rootUrl.getFile());
-            return rootFile.getAbsolutePath() + "/";
-        }
     }
 
     private static List<String> list(final String folder,
