@@ -180,6 +180,8 @@ public interface KName {
     String LINKAGE = "linkage";                  /* XLinkage instance */
     String QUERY = "query";                      /* XLinkage query */
 
+    String CACHE_KEY = "cacheKey";
+
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
