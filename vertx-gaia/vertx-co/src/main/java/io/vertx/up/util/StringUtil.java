@@ -205,7 +205,8 @@ final class StringUtil {
             valueFolder = "/";
         } else {
             if (folder.endsWith("/")) {
-                valueFolder = folder.substring(0, folder.indexOf("/"));
+                // Fix issue of deployment on production environment data loading
+                valueFolder = folder.substring(0, folder.lastIndexOf("/"));
             } else {
                 valueFolder = folder;
             }
