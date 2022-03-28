@@ -126,17 +126,17 @@ public class Ke {
      */
     public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
                                            final Function<T, Future<O>> executor) {
-        return KeRun.channel(clazz, supplier, executor);
+        return KeChannel.channel(clazz, supplier, executor);
     }
 
     public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
                                        final Function<T, O> executor) {
-        return KeRun.channelSync(clazz, supplier, executor);
+        return KeChannel.channelSync(clazz, supplier, executor);
     }
 
     public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
                                                 final Function<T, Future<O>> executor) {
-        return KeRun.channelAsync(clazz, supplier, executor);
+        return KeChannel.channelAsync(clazz, supplier, executor);
     }
 
     /*
@@ -218,68 +218,76 @@ public class Ke {
      */
 
     public static <T, I> void umCreated(final I output, final T input) {
-        KeUser.audit(output, null, input, null, false);
+        KeEnv.audit(output, null, input, null, false);
     }
 
     public static <T, I> void umCreated(final I output, final T input, final String pojo) {
-        KeUser.audit(output, null, input, pojo, false);
+        KeEnv.audit(output, null, input, pojo, false);
     }
 
     public static <T, I> void umCreated(final I output, final String pojo, final T input) {
-        KeUser.audit(output, pojo, input, null, false);
+        KeEnv.audit(output, pojo, input, null, false);
     }
 
     public static <T, I> void umCreated(final I output, final String outPojo, final T input, final String inPojo) {
-        KeUser.audit(output, outPojo, input, inPojo, false);
+        KeEnv.audit(output, outPojo, input, inPojo, false);
     }
 
     public static <T, I> void umUpdated(final I output, final T input) {
-        KeUser.audit(output, null, input, null, true);
+        KeEnv.audit(output, null, input, null, true);
     }
 
     public static <T, I> void umUpdated(final I output, final T input, final String pojo) {
-        KeUser.audit(output, null, input, pojo, true);
+        KeEnv.audit(output, null, input, pojo, true);
     }
 
     public static <T, I> void umUpdated(final I output, final String pojo, final T input) {
-        KeUser.audit(output, pojo, input, null, true);
+        KeEnv.audit(output, pojo, input, null, true);
     }
 
     public static <T, I> void umUpdated(final I output, final String outPojo, final T input, final String inPojo) {
-        KeUser.audit(output, outPojo, input, inPojo, true);
+        KeEnv.audit(output, outPojo, input, inPojo, true);
     }
 
     public static Future<JsonObject> umIndent(final JsonObject data, final String code) {
-        return KeData.indent(data, code);
+        return KeEnv.indent(data, code);
     }
 
     public static Future<JsonArray> umIndent(final JsonArray data, final String code) {
-        return KeData.indent(data, code);
+        return KeEnv.indent(data, code);
     }
 
     public static <T> Future<T> umIndent(final T input, final Function<T, String> fnSigma,
                                          final String code,
                                          final BiConsumer<T, String> fnConsumer) {
         final String sigma = fnSigma.apply(input);
-        return KeData.indent(input, sigma, code, fnConsumer);
+        return KeEnv.indent(input, sigma, code, fnConsumer);
     }
 
     public static <T> Future<T> umIndent(final T input, final String sigma,
                                          final String code,
                                          final BiConsumer<T, String> fnConsumer) {
-        return KeData.indent(input, sigma, code, fnConsumer);
+        return KeEnv.indent(input, sigma, code, fnConsumer);
     }
 
     public static <T> Future<List<T>> umIndent(final List<T> input, final Function<List<T>, String> fnSigma,
                                                final String code,
                                                final BiConsumer<T, String> fnConsumer) {
         final String sigma = fnSigma.apply(input);
-        return KeData.indent(input, sigma, code, fnConsumer);
+        return KeEnv.indent(input, sigma, code, fnConsumer);
     }
 
     public static <T> Future<List<T>> umIndent(final List<T> input, final String sigma,
                                                final String code,
                                                final BiConsumer<T, String> fnConsumer) {
-        return KeData.indent(input, sigma, code, fnConsumer);
+        return KeEnv.indent(input, sigma, code, fnConsumer);
+    }
+
+    public static Future<JsonObject> umJData(final JsonObject config, final JsonObject params) {
+        return KeEnv.daoJ(config, params);
+    }
+
+    public static Future<JsonObject> umAData(final JsonObject config, final JsonObject params) {
+        return KeEnv.daoJ(config, params);
     }
 }

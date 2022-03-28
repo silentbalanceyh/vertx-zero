@@ -194,4 +194,29 @@ final class StringUtil {
         }
         return matchSet;
     }
+
+
+    static String path(final String folder, final String file) {
+        if (Ut.isNil(file)) {
+            return null;
+        }
+        final String valueFolder;
+        if (Ut.isNil(folder)) {
+            valueFolder = "/";
+        } else {
+            if (folder.endsWith("/")) {
+                valueFolder = folder.substring(0, folder.indexOf("/"));
+            } else {
+                valueFolder = folder;
+            }
+        }
+        final String valueFile;
+        if (file.startsWith("/")) {
+            valueFile = file;
+        } else {
+            valueFile = "/" + file;
+        }
+        // Convert `//` to `/`
+        return (valueFolder + valueFile).replace("//", "/");
+    }
 }

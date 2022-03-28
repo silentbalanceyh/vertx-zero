@@ -1,4 +1,5 @@
 [
+    "plugin/erp/oob/data/erp.directory.xlsx",
     "plugin/erp/oob/data/erp.menu.xlsx",
     "plugin/erp/oob/data/erp.number.xlsx",
     "plugin/erp/oob/cab/organization.brand.xlsx",

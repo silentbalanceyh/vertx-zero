@@ -31,6 +31,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<IDirectoryRecord> KEY_I_DIRECTORY_CODE = Internal.createUniqueKey(IDirectory.I_DIRECTORY, DSL.name("KEY_I_DIRECTORY_CODE"), new TableField[] { IDirectory.I_DIRECTORY.CODE, IDirectory.I_DIRECTORY.SIGMA }, true);
+    public static final UniqueKey<IDirectoryRecord> KEY_I_DIRECTORY_NAME = Internal.createUniqueKey(IDirectory.I_DIRECTORY, DSL.name("KEY_I_DIRECTORY_NAME"), new TableField[] { IDirectory.I_DIRECTORY.NAME, IDirectory.I_DIRECTORY.PARENT_ID, IDirectory.I_DIRECTORY.SIGMA }, true);
     public static final UniqueKey<IDirectoryRecord> KEY_I_DIRECTORY_PRIMARY = Internal.createUniqueKey(IDirectory.I_DIRECTORY, DSL.name("KEY_I_DIRECTORY_PRIMARY"), new TableField[] { IDirectory.I_DIRECTORY.KEY }, true);
     public static final UniqueKey<IDirectoryRecord> KEY_I_DIRECTORY_STORE_PATH = Internal.createUniqueKey(IDirectory.I_DIRECTORY, DSL.name("KEY_I_DIRECTORY_STORE_PATH"), new TableField[] { IDirectory.I_DIRECTORY.STORE_PATH, IDirectory.I_DIRECTORY.SIGMA }, true);
     public static final UniqueKey<IIntegrationRecord> KEY_I_INTEGRATION_ENDPOINT = Internal.createUniqueKey(IIntegration.I_INTEGRATION, DSL.name("KEY_I_INTEGRATION_ENDPOINT"), new TableField[] { IIntegration.I_INTEGRATION.ENDPOINT, IIntegration.I_INTEGRATION.PATH, IIntegration.I_INTEGRATION.APP_ID }, true);

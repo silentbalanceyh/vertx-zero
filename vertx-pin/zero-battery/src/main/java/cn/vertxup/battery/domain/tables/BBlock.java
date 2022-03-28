@@ -65,6 +65,10 @@ public class BBlock extends TableImpl<BBlockRecord> {
      */
     public final TableField<BBlockRecord, String> UI_CONFIG = createField(DSL.name("UI_CONFIG"), SQLDataType.CLOB, this, "「uiConfig」- 子模块核心配置");
     /**
+     * The column <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
+     */
+    public final TableField<BBlockRecord, String> UI_CONTENT = createField(DSL.name("UI_CONTENT"), SQLDataType.CLOB, this, "「uiContent」- 配置数据");
+    /**
      * The column <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
      * 许可证发证机构
      */

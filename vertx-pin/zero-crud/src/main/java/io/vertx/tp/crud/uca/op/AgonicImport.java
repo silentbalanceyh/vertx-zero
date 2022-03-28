@@ -2,6 +2,7 @@ package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
@@ -30,7 +31,7 @@ class AgonicImport implements Agonic {
         return Ix.passion(input, in,
             Pre.head()::inAAsync,        /* Header Value */
             this::runCompress            /* Compress */
-        ).compose(processed -> Pre.qUk().inAJAsync(processed, in)
+        ).compose(processed -> Pre.qr(QrType.BY_UK).inAJAsync(processed, in)
             .compose(jooq::fetchJAsync)
             /* Compared Data */
             .compose(original -> Ux.future(Ux.compareJ(original, processed, matrix)))

@@ -98,6 +98,16 @@ public interface IBBag extends VertxPojo, Serializable {
     public Long getUiSort();
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
+     */
+    public IBBag setUiConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
+     */
+    public String getUiConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BAG.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public IBBag setAppId(String value);
@@ -223,6 +233,7 @@ public interface IBBag extends VertxPojo, Serializable {
                 setOrThrow(this::setUiIcon,json::getString,"UI_ICON","java.lang.String");
                 setOrThrow(this::setUiStyle,json::getString,"UI_STYLE","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
+                setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -248,6 +259,7 @@ public interface IBBag extends VertxPojo, Serializable {
                 json.put("UI_ICON",getUiIcon());
                 json.put("UI_STYLE",getUiStyle());
                 json.put("UI_SORT",getUiSort());
+                json.put("UI_CONFIG",getUiConfig());
                 json.put("APP_ID",getAppId());
                 json.put("PARENT_ID",getParentId());
                 json.put("ACTIVE",getActive());

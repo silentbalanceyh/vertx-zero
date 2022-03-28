@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class ApeakMyPre implements Pre {
+class ApeakMyPre extends ApeakPre {
     /*
      *
      * This method is for uniform safeCall for Future<JsonArray> returned
@@ -39,7 +39,7 @@ class ApeakMyPre implements Pre {
         /* Column definition */
         final KColumn column = module.getColumn();
         assert null != column : "The column definition should not be null";
-        T.viewProc(data, column);
+        this.viewProc(data, column);
         /*
          * Uri and method
          */

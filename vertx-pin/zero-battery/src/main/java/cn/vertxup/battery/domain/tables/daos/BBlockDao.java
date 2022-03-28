@@ -159,6 +159,21 @@ public class BBlockDao extends AbstractVertxDAO<BBlockRecord, cn.vertxup.battery
         }
 
         /**
+     * Find records that have <code>UI_CONTENT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByUiContent(Collection<String> values) {
+                return findManyByCondition(BBlock.B_BLOCK.UI_CONTENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_CONTENT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBlock>> findManyByUiContent(Collection<String> values, int limit) {
+                return findManyByCondition(BBlock.B_BLOCK.UI_CONTENT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SIGN_ISSUER IN (values)</code>
      * asynchronously
      */

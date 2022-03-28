@@ -178,12 +178,29 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
+     */
+    @Override
+    public BBlockRecord setUiContent(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
+     */
+    @Override
+    public String getUiContent() {
+        return (String) get(9);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
      * 许可证发证机构
      */
     @Override
     public BBlockRecord setSignIssuer(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -193,7 +210,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSignIssuer() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -201,7 +218,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignName(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -210,7 +227,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSignName() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
@@ -218,7 +235,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignAt(LocalDateTime value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -227,7 +244,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getSignAt() {
-        return (LocalDateTime) get(11);
+        return (LocalDateTime) get(12);
     }
 
     /**
@@ -236,7 +253,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignSecret(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -246,7 +263,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSignSecret() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -254,7 +271,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignLic(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -263,7 +280,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSignLic() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -271,7 +288,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignEnd(LocalDateTime value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -280,7 +297,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getSignEnd() {
-        return (LocalDateTime) get(14);
+        return (LocalDateTime) get(15);
     }
 
     /**
@@ -289,7 +306,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSignStart(LocalDateTime value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -299,7 +316,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getSignStart() {
-        return (LocalDateTime) get(15);
+        return (LocalDateTime) get(16);
     }
 
     /**
@@ -308,7 +325,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLicIdentifier(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -318,7 +335,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLicIdentifier() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -327,7 +344,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLicMenu(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -337,7 +354,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLicMenu() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     /**
@@ -345,7 +362,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setAppId(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -354,7 +371,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getAppId() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -362,7 +379,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setBagId(String value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -371,7 +388,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getBagId() {
-        return (String) get(19);
+        return (String) get(20);
     }
 
     /**
@@ -379,7 +396,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setActive(Boolean value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -388,7 +405,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(20);
+        return (Boolean) get(21);
     }
 
     /**
@@ -396,7 +413,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setSigma(String value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -405,7 +422,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getSigma() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
@@ -413,7 +430,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setMetadata(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -422,7 +439,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getMetadata() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     /**
@@ -430,7 +447,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setLanguage(String value) {
-        set(23, value);
+        set(24, value);
         return this;
     }
 
@@ -439,7 +456,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getLanguage() {
-        return (String) get(23);
+        return (String) get(24);
     }
 
     /**
@@ -447,7 +464,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setCreatedAt(LocalDateTime value) {
-        set(24, value);
+        set(25, value);
         return this;
     }
 
@@ -456,7 +473,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(24);
+        return (LocalDateTime) get(25);
     }
 
     /**
@@ -464,7 +481,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setCreatedBy(String value) {
-        set(25, value);
+        set(26, value);
         return this;
     }
 
@@ -473,7 +490,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(25);
+        return (String) get(26);
     }
 
     /**
@@ -481,7 +498,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUpdatedAt(LocalDateTime value) {
-        set(26, value);
+        set(27, value);
         return this;
     }
 
@@ -490,7 +507,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(26);
+        return (LocalDateTime) get(27);
     }
 
     /**
@@ -498,7 +515,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public BBlockRecord setUpdatedBy(String value) {
-        set(27, value);
+        set(28, value);
         return this;
     }
 
@@ -507,7 +524,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(27);
+        return (String) get(28);
     }
 
     // -------------------------------------------------------------------------
@@ -534,6 +551,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
         setUiConfig(from.getUiConfig());
+        setUiContent(from.getUiContent());
         setSignIssuer(from.getSignIssuer());
         setSignName(from.getSignName());
         setSignAt(from.getSignAt());
@@ -575,7 +593,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
     /**
      * Create a detached, initialised BBlockRecord
      */
-    public BBlockRecord(String key, String code, String name, String version, Boolean authorized, String uiIcon, String uiStyle, Long uiSort, String uiConfig, String signIssuer, String signName, LocalDateTime signAt, String signSecret, String signLic, LocalDateTime signEnd, LocalDateTime signStart, String licIdentifier, String licMenu, String appId, String bagId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public BBlockRecord(String key, String code, String name, String version, Boolean authorized, String uiIcon, String uiStyle, Long uiSort, String uiConfig, String uiContent, String signIssuer, String signName, LocalDateTime signAt, String signSecret, String signLic, LocalDateTime signEnd, LocalDateTime signStart, String licIdentifier, String licMenu, String appId, String bagId, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(BBlock.B_BLOCK);
 
         setKey(key);
@@ -587,6 +605,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
         setUiStyle(uiStyle);
         setUiSort(uiSort);
         setUiConfig(uiConfig);
+        setUiContent(uiContent);
         setSignIssuer(signIssuer);
         setSignName(signName);
         setSignAt(signAt);
@@ -624,6 +643,7 @@ public class BBlockRecord extends UpdatableRecordImpl<BBlockRecord> implements V
             setUiStyle(value.getUiStyle());
             setUiSort(value.getUiSort());
             setUiConfig(value.getUiConfig());
+            setUiContent(value.getUiContent());
             setSignIssuer(value.getSignIssuer());
             setSignName(value.getSignName());
             setSignAt(value.getSignAt());

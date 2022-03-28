@@ -108,6 +108,16 @@ public interface IBBlock extends VertxPojo, Serializable {
     public String getUiConfig();
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
+     */
+    public IBBlock setUiContent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BLOCK.UI_CONTENT</code>. 「uiContent」- 配置数据
+     */
+    public String getUiContent();
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BLOCK.SIGN_ISSUER</code>. 「signIssuer」-
      * 许可证发证机构
      */
@@ -334,6 +344,7 @@ public interface IBBlock extends VertxPojo, Serializable {
                 setOrThrow(this::setUiStyle,json::getString,"UI_STYLE","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
                 setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
+                setOrThrow(this::setUiContent,json::getString,"UI_CONTENT","java.lang.String");
                 setOrThrow(this::setSignIssuer,json::getString,"SIGN_ISSUER","java.lang.String");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"SIGN_AT","java.time.LocalDateTime");
@@ -369,6 +380,7 @@ public interface IBBlock extends VertxPojo, Serializable {
                 json.put("UI_STYLE",getUiStyle());
                 json.put("UI_SORT",getUiSort());
                 json.put("UI_CONFIG",getUiConfig());
+                json.put("UI_CONTENT",getUiContent());
                 json.put("SIGN_ISSUER",getSignIssuer());
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_AT",getSignAt()==null?null:getSignAt().toString());

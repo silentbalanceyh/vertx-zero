@@ -52,5 +52,4 @@ public interface DatumAgent {
                            @PathParam("type") String type,
                            @PathParam("code") String code);
 
-
 }

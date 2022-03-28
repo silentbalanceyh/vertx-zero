@@ -13,6 +13,13 @@ import java.util.function.Consumer;
  * Period for datetime processing based on Java8
  */
 final class Period {
+    private static final List<DateTimeFormatter> DATES = new ArrayList<DateTimeFormatter>() {
+        {
+            this.add(Iso.DATE);
+            this.add(Iso.BASIC_DATE);
+            this.add(Iso.ORDINAL_DATE);
+        }
+    };
     private static final List<DateTimeFormatter> DATETIMES = new ArrayList<DateTimeFormatter>() {
         {
             this.add(Iso.DATE_TIME);
@@ -20,13 +27,6 @@ final class Period {
             this.add(Iso.RFC1123_DATE_TIME);
             this.add(Iso.COMMON);
             this.add(Iso.READBALE);
-        }
-    };
-    private static final List<DateTimeFormatter> DATES = new ArrayList<DateTimeFormatter>() {
-        {
-            this.add(Iso.DATE);
-            this.add(Iso.BASIC_DATE);
-            this.add(Iso.ORDINAL_DATE);
         }
     };
     private static final List<DateTimeFormatter> TIMES = new ArrayList<DateTimeFormatter>() {
@@ -105,7 +105,9 @@ final class Period {
                  * LocalDateTime -> LocalDate
                  */
                 return datetime.toLocalDate();
-            } else return null;
+            } else {
+                return null;
+            }
         } else {
             /*
              * Valid Parsing
@@ -244,7 +246,7 @@ final class Period {
         return Fn.getNull(null, () -> {
             String target = literal;
             if (target.contains("T")) {
-                target = target.replace('T', ' ' );
+                target = target.replace('T', ' ');
             }
             final int length = target.length();
             final String pattern = Storage.PATTERNS_MAP.get(length);
@@ -469,6 +471,8 @@ final class Period {
                 }
                 return parse(datetime).toInstant();
             }
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

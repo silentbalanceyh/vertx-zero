@@ -213,6 +213,26 @@ class Compare {
         }
     }
 
+    static JsonArray updateJ(final JsonArray query, final JsonArray params, final String field) {
+        Objects.requireNonNull(query);
+        if (Ut.isNil(query)) {
+            return new JsonArray();
+        } else {
+            final ConcurrentMap<String, JsonObject> dataMap = Ut.elementMap(params, field);
+            final JsonArray normalized = query.copy();
+            Ut.itJArray(normalized).forEach(json -> {
+                final String value = json.getString(field);
+                if (Objects.nonNull(value)) {
+                    final JsonObject merge = dataMap.get(value);
+                    if (Objects.nonNull(merge)) {
+                        json.mergeIn(merge, true);
+                    }
+                }
+            });
+            return normalized;
+        }
+    }
+
 
     static <T> Future<JsonArray> run(final ConcurrentMap<ChangeFlag, List<T>> compared,
                                      final Function<List<T>, Future<List<T>>> insertAsyncFn,

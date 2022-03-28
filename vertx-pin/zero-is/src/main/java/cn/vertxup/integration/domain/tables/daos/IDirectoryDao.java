@@ -84,6 +84,22 @@ public class IDirectoryDao extends AbstractVertxDAO<IDirectoryRecord, cn.vertxup
         }
 
         /**
+     * Find records that have <code>LINKED_PATH IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByLinkedPath(Collection<String> values) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.LINKED_PATH.in(values));
+        }
+
+        /**
+     * Find records that have <code>LINKED_PATH IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByLinkedPath(Collection<String> values, int limit) {
+                return findManyByCondition(IDirectory.I_DIRECTORY.LINKED_PATH.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.integration.domain.tables.pojos.IDirectory>> findManyByParentId(Collection<String> values) {

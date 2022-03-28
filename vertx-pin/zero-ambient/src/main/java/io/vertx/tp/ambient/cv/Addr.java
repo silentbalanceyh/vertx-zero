@@ -44,11 +44,37 @@ public interface Addr {
 
         String UPLOAD = Prefix._EVENT + "X-UPLOAD";
 
+        String UPLOAD_CREATION = Prefix._EVENT + "X-ATTACHMENT/UPLOAD-CREATION";
+
         String DOWNLOAD = Prefix._EVENT + "X-DOWNLOAD";
+
+        String DOWNLOADS = Prefix._EVENT + "X-ATTACHMENT/DOWNLOAD-BATCH";
 
         String MY_QUEUE = Prefix._EVENT + "X-ATTACHMENT/MY/QUEUE";
 
         String BY_KEY = Prefix._EVENT + "X-ATTACHMENT/BY/KEY";
+
+        String RENAME = Prefix._EVENT + "X-ATTACHMENT/RENAME";
+    }
+
+    interface Doc {
+
+        String BY_DIRECTORY = Prefix._EVENT + "X-ATTACHMENT/BY/DIRECTORY";
+
+        String BY_KEYWORD = Prefix._EVENT + "X-ATTACHMENT/BY/KEYWORD";
+
+        String BY_TRASHED = Prefix._EVENT + "X-ATTACHMENT/BY/TRASHED";
+
+        // ----------------- Operation Api ----------------------
+        String DOCUMENT = Prefix._EVENT + "X-DOCUMENT/DOCUMENT";
+
+        String DOCUMENT_TRASH = Prefix._EVENT + "X-DOCUMENT/TRASH";
+
+        String DOCUMENT_ROLLBACK = Prefix._EVENT + "X-DOCUMENT/ROLLBACK";
+
+        String DOCUMENT_PURGE = Prefix._EVENT + "X-DOCUMENT/PURGE";
+
+        // String DOCUMENT_RENAME = Prefix._EVENT + "X-DOCUMENT/RENAME";
     }
 
     interface Datum {

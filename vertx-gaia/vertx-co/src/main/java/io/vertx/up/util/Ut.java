@@ -130,6 +130,7 @@ public final class Ut {
      * 10) elementFlat
      * 11) elementCompress
      * 12) elementSet
+     * 13) elementRevert
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
@@ -243,6 +244,10 @@ public final class Ut {
         return ArrayL.map(dataArray, field);
     }
 
+    public static <T> ConcurrentMap<String, T> elementMap(final JsonArray dataArray, final String field, final String to) {
+        return ArrayL.map(dataArray, field, to);
+    }
+
     public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final String field) {
         return ArrayL.group(source, field);
     }
@@ -257,6 +262,10 @@ public final class Ut {
 
     public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
         return ArrayL.compress(dataList);
+    }
+
+    public static <K, V> ConcurrentMap<V, Set<K>> elementRevert(final ConcurrentMap<K, V> dataMap) {
+        return ArrayL.revert(dataMap);
     }
 
     public static <T, V> Set<V> elementSet(final List<T> listT, final Function<T, V> executor) {
@@ -606,9 +615,13 @@ public final class Ut {
      * 5) ioJArray / ioJObject
      * 6) ioString
      * 7) ioBuffer / ioStream
-     *
+     * 8) ioPath
      * `input` operation
      */
+    public static String ioPath(final String folder, final String file) {
+        return StringUtil.path(folder, file);
+    }
+
     public static List<String> ioFiles(final String folder) {
         return Folder.listFiles(folder, null);
     }
@@ -657,19 +670,6 @@ public final class Ut {
         return Jackson.sureJArray(IO.getJArray(filename));
     }
 
-    public static boolean ioRm(final String filename) {
-        return IO.rmFile(filename);
-    }
-
-    public static boolean ioDelete(final String filename) {
-        return IO.deleteFile(filename);
-    }
-
-    public static boolean ioDelete(final Set<String> filename) {
-        filename.forEach(Ut::ioDelete);
-        return true;
-    }
-
     public static JsonObject ioJObject(final String filename) {
         return Jackson.sureJObject(IO.getJObject(filename));
     }
@@ -692,6 +692,10 @@ public final class Ut {
 
     public static Buffer ioBuffer(final String filename) {
         return IO.getBuffer(filename);
+    }
+
+    public static Buffer ioZip(final Set<String> fileSet) {
+        return IOCmd.zip(fileSet);
     }
 
     public static InputStream ioStream(final File file) {
@@ -746,6 +750,29 @@ public final class Ut {
 
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
+    }
+
+    /*
+     * Command
+     * 1. cmdRm / cmdRmFile
+     * 2. cmdMkdir
+     * 3. cmdRename
+     */
+    public static boolean cmdRm(final Set<String> filename) {
+        filename.forEach(Ut::cmdRm);
+        return true;
+    }
+
+    public static boolean cmdRm(final String filename) {
+        return IOCmd.rm(filename);
+    }
+
+    public static boolean cmdMkdir(final String filename) {
+        return IOCmd.mkdir(filename);
+    }
+
+    public static boolean cmdRename(final String filename, final String to) {
+        return IOCmd.rename(filename, to);
     }
 
     /*
@@ -1137,6 +1164,14 @@ public final class Ut {
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         return Types.isEqual(record, field, expected);
+    }
+
+    public static boolean isEqual(final String left, final String right) {
+        return Types.isEqual(left, right);
+    }
+
+    public static boolean isDiff(final String left, final String right) {
+        return !isEqual(left, right);
     }
 
     public static boolean notNil(final String input) {

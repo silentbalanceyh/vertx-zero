@@ -45,7 +45,7 @@ class AgonicUpdate extends AgonicUnique {
                 // Do Update
                 final JsonObject merged = json.copy().mergeIn(input, true);
                 return Ix.passion(merged, in,
-                        Pre.auditor(false)::inJAsync,        // updatedAt, updatedBy
+                        Pre.audit(false)::inJAsync,        // updatedAt, updatedBy
                         Pre.fileIn(false)::inJAsync          // File: Attachment creating
                     )
                     .compose(processed -> Ix.deserializeT(processed, module))
@@ -77,8 +77,8 @@ class AgonicUpdate extends AgonicUnique {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
-                Tran.tree(true)::inAAsync,            // After GUID
-                Pre.auditor(false)::inAAsync         // updatedAt, updatedBy
+                Tran.tree(true)::inAAsync,         // After GUID
+                Pre.audit(false)::inAAsync         // updatedAt, updatedBy
             )
             .compose(processed -> Ix.deserializeT(processed, module))
             .compose(jooq::updateAsync)

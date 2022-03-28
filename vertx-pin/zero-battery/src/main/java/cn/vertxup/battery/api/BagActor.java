@@ -21,8 +21,13 @@ public class BagActor {
     private transient BagStub bagStub;
 
     @Address(Addr.Module.FETCH)
-    public Future<JsonArray> fetchModule(final String appId) {
+    public Future<JsonArray> bag(final String appId) {
         return this.bagStub.fetchBag(appId);
+    }
+
+    @Address(Addr.Module.BY_EXTENSION)
+    public Future<JsonArray> bagByApp(final String appId) {
+        return this.bagStub.fetchExtension(appId);
     }
 
     @Address(Addr.Module.UP_PROCESS)

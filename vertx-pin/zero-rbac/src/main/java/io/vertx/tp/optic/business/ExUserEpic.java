@@ -10,38 +10,50 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 public class ExUserEpic implements ExUser {
     @Override
-    public Future<JsonObject> fetchRef(final JsonObject filters) {
+    public Future<JsonObject> fetch(final JsonObject filters) {
         return Nexus.create(SUser.class)
             .on(Ux.Jooq.on(SUserDao.class))
             .fetchNexus(filters);
     }
 
     @Override
-    public Future<JsonObject> updateRef(final String key, final JsonObject params) {
+    public Future<JsonObject> update(final String key, final JsonObject params) {
         return Nexus.create(SUser.class)
             .on(Ux.Jooq.on(SUserDao.class))
             .updateNexus(key, params);
     }
 
     @Override
-    public Future<JsonArray> fetchRef(final Set<String> keys) {
+    public Future<JsonArray> fetch(final Set<String> keys) {
         return Nexus.create(SUser.class)
             .on(Ux.Jooq.on(SUserDao.class))
             .fetchNexus(keys);
     }
 
     @Override
-    public Future<ConcurrentMap<String, String>> transAuditor(final Set<String> keys) {
+    public Future<ConcurrentMap<String, String>> auditor(final Set<String> keys) {
         final JsonObject condition = new JsonObject();
         condition.put(KName.KEY + ",i", Ut.toJArray(keys));
         return Ux.Jooq.on(SUserDao.class).<SUser>fetchAsync(condition).compose(results -> {
             final ConcurrentMap<String, String> map = Ut.elementMap(results, SUser::getKey, SUser::getRealname);
             return Ux.future(map);
+        });
+    }
+
+    @Override
+    public Future<JsonArray> auditor(final String keyword) {
+        final JsonObject condition = new JsonObject();
+        condition.put(KName.REAL_NAME + ",c", keyword);
+        return Ux.Jooq.on(SUserDao.class).<SUser>fetchAsync(condition).compose(users -> {
+            final List<String> keys = users.stream().map(SUser::getKey).collect(Collectors.toList());
+            return Ux.future(Ut.toJArray(keys));
         });
     }
 }

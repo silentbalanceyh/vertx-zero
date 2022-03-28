@@ -1,13 +1,14 @@
 package io.vertx.tp.plugin.excel.cell;
 
 import io.vertx.tp.plugin.excel.atom.ExKey;
-import io.vertx.tp.plugin.excel.tool.ExIo;
+import io.vertx.tp.plugin.excel.tool.ExOut;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -34,16 +35,20 @@ public interface ExValue {
              * Prefix match
              */
             final String literal = value.toString();
-            if (literal.startsWith("JSON")) {
-                reference = Pool.PREFIX_MAP.get("JSON");
-            }
-            if (Objects.isNull(reference)) {
+
+            final String found = Arrays.stream(Literal.Prefix.SET)
+                .filter(prefix -> literal.startsWith(prefix))
+                .findFirst().orElse(null);
+            if (Objects.isNull(found)) {
                 /*
                  * Null to default
                  */
                 return Ut.singleton(PureValue.class);
             } else {
-                return reference;
+                /*
+                 * Prefix reference
+                 */
+                return Pool.PREFIX_MAP.get(found);
             }
         } else {
             return reference;
@@ -97,7 +102,7 @@ public interface ExValue {
             fun = Pool.FUNS.get(CellType.STRING);
         } else {
             if (Objects.nonNull(type)) {
-                final CellType switchedType = ExIo.type(type);
+                final CellType switchedType = ExOut.type(type);
                 if (Objects.isNull(switchedType)) {
                     fun = Pool.FUNS.get(cellType);
                 } else {

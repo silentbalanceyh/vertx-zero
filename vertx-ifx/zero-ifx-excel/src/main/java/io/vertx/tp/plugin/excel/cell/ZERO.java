@@ -19,6 +19,7 @@ interface Pool {
     ConcurrentMap<String, ExValue> PREFIX_MAP = new ConcurrentHashMap<String, ExValue>() {
         {
             this.put(Literal.Prefix.JSON, Ut.singleton(JsonValue.class));
+            this.put(Literal.Prefix.FILE, Ut.singleton(FileValue.class));
         }
     };
 
@@ -35,7 +36,13 @@ interface Pool {
 interface Literal {
     String UUID = "{UUID}";
 
+    String K_TYPE = "__type__";
+    String K_CONTENT = "__content__";
+
     interface Prefix {
         String JSON = "JSON";
+        String FILE = "FILE";
+
+        String[] SET = new String[]{JSON, FILE};
     }
 }

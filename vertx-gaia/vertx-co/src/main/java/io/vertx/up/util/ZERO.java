@@ -2,7 +2,6 @@ package io.vertx.up.util;
 
 import io.vertx.config.ConfigStoreOptions;
 
-import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
@@ -96,25 +95,15 @@ interface Storage {
 }
 
 interface Info {
-    /**
-     *
-     **/
     String INF_PATH = "The system class Stream try to data from {0}, got stream: {1}.";
-    /**
-     *
-     **/
     String INF_CUR = "Current path is scanned by the system, up.god.file existing ? {0}.";
-    /**
-     *
-     **/
     String INF_APATH = "Absolute path is hitted: {0}.";
 
     String MATH_NOT_MATCH = "( Numeric ) The system could not match current type {0} to do sum";
-}
 
-interface Pool {
-
-    ConcurrentMap<String, InputStream> STREAM_CACHE = new ConcurrentHashMap<>();
+    String IO_CMD_RM = "I/O Command: `rm -rf {0}`";
+    String IO_CMD_MKDIR = "I/O Command: `mkdir -P {0}`";
+    String IO_CMD_MOVE = "I/O Command: `mv {0} {1}`";
 }
 
 /**

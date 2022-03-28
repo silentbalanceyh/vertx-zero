@@ -140,6 +140,21 @@ final class ArrayL {
         return valueSet;
     }
 
+    static <K, V> ConcurrentMap<V, Set<K>> revert(final ConcurrentMap<K, V> map) {
+        final ConcurrentMap<V, Set<K>> resultMap = new ConcurrentHashMap<>();
+        map.forEach((k, v) -> {
+            final Set<K> valueSet;
+            if (resultMap.containsKey(v)) {
+                valueSet = resultMap.get(v);
+            } else {
+                valueSet = new HashSet<>();
+            }
+            valueSet.add(k);
+            resultMap.put(v, valueSet);
+        });
+        return resultMap;
+    }
+
     static <K, V> ConcurrentMap<K, List<V>> compress(final List<ConcurrentMap<K, List<V>>> dataList) {
         final ConcurrentMap<K, List<V>> resultMap = new ConcurrentHashMap<>();
         dataList.forEach(each -> each.forEach((k, vList) -> {
@@ -210,6 +225,18 @@ final class ArrayL {
             final String key = json.getString(field);
             if (Ut.notNil(key)) {
                 mapped.put(key, json);
+            }
+        });
+        return mapped;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> ConcurrentMap<String, T> map(final JsonArray data, final String field, final String to) {
+        final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
+        It.itJArray(data).forEach(json -> {
+            final String key = json.getString(field);
+            if (Ut.notNil(key)) {
+                mapped.put(key, (T) json.getValue(to));
             }
         });
         return mapped;
