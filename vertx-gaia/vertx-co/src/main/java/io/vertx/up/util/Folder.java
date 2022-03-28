@@ -56,6 +56,7 @@ final class Folder {
         if (Objects.nonNull(url)) {
             // Url Processing to File
             final File folderObj = new File(url.getPath());
+            System.out.println(url.getPath());
             if (folderObj.isDirectory()) {
                 folders.add(folder);
                 // Else
