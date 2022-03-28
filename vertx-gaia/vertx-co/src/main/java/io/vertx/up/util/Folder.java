@@ -68,6 +68,8 @@ final class Folder {
                     folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
                 });
             }
+        } else {
+            LOGGER.warn("URL is null, please check your path here.");
         }
         LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
         return folders;
