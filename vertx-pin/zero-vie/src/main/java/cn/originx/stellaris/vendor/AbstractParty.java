@@ -12,6 +12,7 @@ import io.vertx.up.commune.exchange.BiTree;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -67,6 +68,7 @@ public abstract class AbstractParty implements OkB {
     @Override
     public Future<DiFabric> fabric(final String identifier) {
         final MultiMap params = this.input(identifier);
+        params.add(KName.CACHE_KEY, RapidKey.JOB_DIRECTORY);
         return this.configDict().compose(dict -> Ux.dictCalc(dict, params).compose(dictData -> {
             final BiTree mapping = this.mapping();
             final BiMapping mappingItem = mapping.child(identifier);

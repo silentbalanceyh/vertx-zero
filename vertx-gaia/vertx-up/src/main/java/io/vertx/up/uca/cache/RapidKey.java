@@ -8,6 +8,8 @@ package io.vertx.up.uca.cache;
 public interface RapidKey {
     String DIRECTORY = "ZERO-CACHE-DIRECTORY";
 
+    String JOB_DIRECTORY = "ZERO-CACHE-JOB_DIRECTORY";
+
     String REFERENCE = "ZERO-CACHE-REFERENCE";
 
     String VIEW_FULL = "ZERO-CACHE-VIEW-FULL";
