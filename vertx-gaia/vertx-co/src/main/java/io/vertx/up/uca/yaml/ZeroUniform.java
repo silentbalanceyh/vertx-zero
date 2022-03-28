@@ -30,7 +30,6 @@ public class ZeroUniform implements Node<JsonObject> {
                     keys.get(key))))
             .subscribe(item -> data.mergeIn(item, true))
             .dispose();
-        System.out.println(data.encodePrettily());
         return data;
     }
 }

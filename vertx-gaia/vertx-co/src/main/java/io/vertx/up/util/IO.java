@@ -145,7 +145,6 @@ final class IO {
             if (null == in) {
                 throw new EmptyStreamException(filename);
             }
-            System.out.println(filename + ", " + in);
             return YAML.readTree(in);
         }, null);
         if (null == node) {
