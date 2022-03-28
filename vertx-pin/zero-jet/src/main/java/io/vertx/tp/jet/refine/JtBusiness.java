@@ -90,12 +90,13 @@ class JtBusiness {
         }), service);
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String identifier, final DiSetting dict) {
+    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DiSetting dict) {
         /*
          * Params here for different situations
          */
         final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
         paramMap.add(KName.IDENTIFIER, identifier);
+        paramMap.add(KName.CACHE_KEY, cacheKey);
         final JtApp app = Ambient.getApp(key);
         if (Objects.nonNull(app)) {
             paramMap.add(KName.SIGMA, app.getSigma());

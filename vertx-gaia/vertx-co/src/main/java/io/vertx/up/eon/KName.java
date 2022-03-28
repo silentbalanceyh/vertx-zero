@@ -30,6 +30,7 @@ public interface KName {
     String MODEL_COMPONENT = "modelComponent";   /* Model Component */
     String MODEL_CHILD = "modelChild";           /* Model Component */
     String QUANTITY = "quantity";                /* Quantity -> Children Size */
+    String CACHE_KEY = "cacheKey";               /* RapidKey -> Cache Key */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */

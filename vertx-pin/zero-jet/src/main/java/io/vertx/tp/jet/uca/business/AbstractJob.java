@@ -18,6 +18,7 @@ import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -123,7 +124,7 @@ public abstract class AbstractJob implements Service {
          * Parameters
          */
         final String key = this.service().getSigma();
-        return Jt.toDictionary(key, identifier, this.dict()).compose(dictionary -> {
+        return Jt.toDictionary(key, RapidKey.JOB_DIRECTORY, identifier, this.dict()).compose(dictionary -> {
             this.fabric.dictionary(dictionary);
             /*
              * Chain 引用
