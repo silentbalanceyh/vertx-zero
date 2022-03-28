@@ -9,6 +9,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.ID;
+import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 public class CorsConfig implements Serializable {
     private static final String KEY = "cors";
+    private static final Annal LOGGER = Annal.get(CorsConfig.class);
     private static CorsConfig INSTANCE;
 
     static {
@@ -31,6 +33,7 @@ public class CorsConfig implements Serializable {
             final JsonObject cors = config.getJsonObject(KEY);
             if (Ut.notNil(cors)) {
                 INSTANCE = Ut.deserialize(cors, CorsConfig.class);
+                LOGGER.info("[ CORS ] Origin Configured = {0}", INSTANCE.getOrigin());
             }
         }
         if (Objects.isNull(INSTANCE)) {
