@@ -52,28 +52,32 @@ final class Folder {
 
     private static List<String> listDirectoriesN(final String folder, final String root) {
         final List<String> folders = new ArrayList<>();
-        final File file = new File(folder);
-        final URL url = IO.getURL(folder);
-        if (Objects.nonNull(url)) {
-            // Url Processing to File
-            LOGGER.info("Url path: {0}", url.getPath());
-            final File folderObj = new File(url.getPath());
-            if (folderObj.isDirectory()) {
-                folders.add(folder);
-                // Else
-                final String[] folderList = folderObj.list();
-                assert folderList != null;
-                Arrays.stream(folderList).forEach(folderS -> {
-                    final String rootCopy = root.replace("\\", "/");
-                    String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
-                    relatedPath = relatedPath.replace(rootCopy, Strings.EMPTY);
-                    folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
-                });
+        // root + folder
+        final String rootCopy = root.replace("\\", "/");
+        final String folderCopy = folder.replace("\\", "/");
+        final String folderPath = Ut.ioPath(rootCopy, folderCopy);
+        // Iterator By File Directly first
+        File folderObj = new File(folderPath);
+        if (!folderObj.exists()) {
+            final URL url = IO.getURL(folder);
+            if (Objects.nonNull(url)) {
+                // Url Processing to File
+                LOGGER.info("Url path: {0}", url.getPath());
+                folderObj = new File(url.getPath());
+            } else {
+                folderObj = null;
+                LOGGER.warn("URL is null, please check your path here.");
             }
-        } else {
-            LOGGER.warn("URL is null, please check your path here.");
         }
-        LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
+        if (Objects.nonNull(folderObj) && folderObj.isDirectory()) {
+            folders.add(folder);
+            // Else
+            final String[] folderList = folderObj.list();
+            assert folderList != null;
+            final String relatedPath = folderObj.getAbsolutePath();
+            Arrays.stream(folderList).forEach(folderS -> folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root)));
+            LOGGER.info("Directories found: size = {0}, folder = {1}", String.valueOf(folders.size()), folder);
+        }
         return folders;
     }
 
