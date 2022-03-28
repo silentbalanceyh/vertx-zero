@@ -30,6 +30,7 @@ public interface KName {
     String MODEL_COMPONENT = "modelComponent";   /* Model Component */
     String MODEL_CHILD = "modelChild";           /* Model Component */
     String QUANTITY = "quantity";                /* Quantity -> Children Size */
+    String CACHE_KEY = "cacheKey";               /* RapidKey -> Cache Key */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */
@@ -183,9 +184,6 @@ public interface KName {
     String LINKAGE = "linkage";                  /* XLinkage instance */
     String QUERY = "query";                      /* XLinkage query */
 
-<<<<<<< HEAD
-    String CACHE_KEY = "cacheKey";
-=======
     // Store Path/Root
     String STORE = "store";                      /* File Management, Store */
     String STORE_ROOT = "storeRoot";             /* File Management, store root */
@@ -217,7 +215,6 @@ public interface KName {
     String UI_STYLE = "uiStyle";
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
->>>>>>> 50d426ea0fa5d575b20a1e5f304c25113fd6fc0f
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
