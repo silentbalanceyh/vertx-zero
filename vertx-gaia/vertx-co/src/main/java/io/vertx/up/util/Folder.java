@@ -47,7 +47,6 @@ final class Folder {
                 return Objects.nonNull(in);
             })
             .collect(Collectors.toList());
-        result.forEach(LOGGER::warn);
         return result;
     }
 
