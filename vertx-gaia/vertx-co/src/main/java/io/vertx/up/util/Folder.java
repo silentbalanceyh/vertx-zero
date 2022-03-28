@@ -53,16 +53,18 @@ final class Folder {
     private static List<String> listDirectoriesN(final String folder, final String root) {
         final List<String> folders = new ArrayList<>();
         final File file = new File(folder);
-        URL url = null;
+        final URL url;
         if (file.exists()) {
             // Current Folder First Here
+            LOGGER.info("File path: {0}", file.getAbsolutePath());
             url = Fn.getJvm(() -> new URL(file.getAbsolutePath()));
         } else {
             // Class Path Folder Second
-            IO.getURL(folder);
+            url = IO.getURL(folder);
         }
         if (Objects.nonNull(url)) {
             // Url Processing to File
+            LOGGER.info("Url path: {0}", url.getPath());
             final File folderObj = new File(url.getPath());
             if (folderObj.isDirectory()) {
                 folders.add(folder);
