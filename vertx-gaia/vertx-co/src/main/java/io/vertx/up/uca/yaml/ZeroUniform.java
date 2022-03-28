@@ -7,7 +7,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -29,7 +28,6 @@ public class ZeroUniform implements Node<JsonObject> {
             .map(key -> Fn.pool(Storage.CONFIG, keys.get(key),
                 () -> Fn.getJvm(new JsonObject(), () -> Ut.ioYaml(keys.get(key)),
                     keys.get(key))))
-            .filter(Objects::nonNull)
             .subscribe(item -> data.mergeIn(item, true))
             .dispose();
         return data;

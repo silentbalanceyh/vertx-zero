@@ -197,9 +197,7 @@ final class StringUtil {
 
 
     static String path(final String folder, final String file) {
-        if (Ut.isNil(file)) {
-            return null;
-        }
+        Objects.requireNonNull(file);
         final String valueFolder;
         if (Ut.isNil(folder)) {
             valueFolder = "/";

@@ -67,7 +67,6 @@ public class Debugger {
         return isDisabled(KEY_WEB_URI_DETECTING);
     }
 
-
     /*
      * Default is false, when true, it' ok
      */
