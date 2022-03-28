@@ -46,6 +46,7 @@ final class Folder {
 
     static List<String> listDirectoriesN(final String folder) {
         final String root = listRoot();
+        LOGGER.info("List directories: root = {0}, folder = {1}", root, folder);
         return Fn.getNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
     }
 
@@ -68,7 +69,7 @@ final class Folder {
                 });
             }
         }
-        // If
+        LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
         return folders;
     }
 
