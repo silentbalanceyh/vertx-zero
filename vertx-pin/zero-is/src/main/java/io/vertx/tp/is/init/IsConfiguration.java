@@ -20,6 +20,7 @@ final class IsConfiguration {
             Is.Log.infoInit(IsConfiguration.class, "Is Json Data: {0}", configData.encode());
             CONFIG = Ut.deserialize(configData, IsConfig.class);
             Is.Log.infoInit(IsConfiguration.class, "Is Configuration: {0}", CONFIG.toString());
+            Is.Log.infoInit(IsConfiguration.class, "Is StoreRoot = {0}", CONFIG.getStoreRoot());
         }
     }
 
