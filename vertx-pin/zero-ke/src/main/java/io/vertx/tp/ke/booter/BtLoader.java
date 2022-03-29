@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 class BtLoader {
-    private static final Annal LOGGER = Annal.get(BtLoader.class);
 
     /*
      * Environment Init for Split Booter

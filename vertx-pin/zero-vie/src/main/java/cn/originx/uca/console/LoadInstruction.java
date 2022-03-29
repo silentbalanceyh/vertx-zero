@@ -15,7 +15,8 @@ import io.vertx.up.unity.Ux;
 public class LoadInstruction extends AbstractInstruction {
     @Override
     public Future<TermStatus> executeAsync(final CommandInput args) {
-        return Ok.app().compose(ok -> Bt.loadAsync("init/oob/").compose(done -> {
+        final Boolean isOob = this.inBoolean(args, "o");
+        return Ok.app().compose(ok -> Bt.initAsync("init/oob/", isOob).compose(done -> {
             Sl.output("您的元数据仓库已重置初始化完成！重置结果：{0}", done);
             return Ux.future(done ? TermStatus.SUCCESS : TermStatus.FAILURE);
         }));
