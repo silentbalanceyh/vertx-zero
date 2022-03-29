@@ -9,7 +9,15 @@
                 "simple": "l",
                 "name": "load",
                 "description": "第一步：加载元数据到元数据仓库",
-                "plugin": "cn.originx.uca.console.LoadInstruction"
+                "plugin": "cn.originx.uca.console.LoadInstruction",
+                "options": [
+                    {
+                        "simple": "o",
+                        "name": "oob",
+                        "description": "是否导入 OOB 标准包的数据配置",
+                        "defaultValue": true
+                    }
+                ]
             },
             {
                 "simple": "e",
@@ -81,7 +89,7 @@
             {
                 "simple": "j",
                 "name": "job",
-                "description": "任务重置工具",
+                "description": "I_JOB 任务重置工具",
                 "plugin": "cn.originx.uca.console.JobInstruction",
                 "options": [
                     {
@@ -95,7 +103,7 @@
             {
                 "simple": "n",
                 "name": "number",
-                "description": "序号修复工具",
+                "description": "X_NUMBER 序号修复工具",
                 "plugin": "cn.originx.uca.console.NumberInstruction",
                 "options": [
                     {
@@ -115,7 +123,7 @@
             {
                 "simple": "a",
                 "name": "adjust",
-                "description": "模型修复工具",
+                "description": "模型修复工具，设置 metadata 元数据",
                 "plugin": "cn.originx.uca.console.AdjustModelInstruction",
                 "options": [
                     {
@@ -241,7 +249,7 @@
             {
                 "simple": "m",
                 "name": "mapping",
-                "description": "UCMDB映射文件生成工具",
+                "description": "I_API/I_JOB 通道映射文件生成工具",
                 "plugin": "cn.originx.uca.console.MappingInstruction",
                 "options": [
                     {
@@ -297,7 +305,7 @@
             {
                 "simple": "j",
                 "name": "json",
-                "description": "将建模 Excel 转换成 Json 格式的定义文件。",
+                "description": "动态建模预处理，Excel -> Json 格式。",
                 "plugin": "cn.originx.uca.console.JsonInstruction",
                 "options": [
                     {
