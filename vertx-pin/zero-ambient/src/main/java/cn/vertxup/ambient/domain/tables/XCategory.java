@@ -76,14 +76,24 @@ public class XCategory extends TableImpl<XCategoryRecord> {
     public final TableField<XCategoryRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(255), this, "「appId」- 关联的应用程序ID");
     /**
      * The column <code>DB_ETERNAL.X_CATEGORY.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件
+     * 「treeComponent」- 目录组件，构造树专用
      */
-    public final TableField<XCategoryRecord, String> TREE_COMPONENT = createField(DSL.name("TREE_COMPONENT"), SQLDataType.CLOB, this, "「treeComponent」- 目录组件");
+    public final TableField<XCategoryRecord, String> TREE_COMPONENT = createField(DSL.name("TREE_COMPONENT"), SQLDataType.CLOB, this, "「treeComponent」- 目录组件，构造树专用");
+    /**
+     * The column <code>DB_ETERNAL.X_CATEGORY.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    public final TableField<XCategoryRecord, String> TREE_CONFIG = createField(DSL.name("TREE_CONFIG"), SQLDataType.CLOB, this, "「treeConfig」- 目录组件运行配置，特殊场景专用");
     /**
      * The column <code>DB_ETERNAL.X_CATEGORY.RUN_COMPONENT</code>.
      * 「runComponent」- 执行组件
      */
     public final TableField<XCategoryRecord, String> RUN_COMPONENT = createField(DSL.name("RUN_COMPONENT"), SQLDataType.CLOB, this, "「runComponent」- 执行组件");
+    /**
+     * The column <code>DB_ETERNAL.X_CATEGORY.RUN_CONFIG</code>. 「runConfig」-
+     * 执行组件相关配置
+     */
+    public final TableField<XCategoryRecord, String> RUN_CONFIG = createField(DSL.name("RUN_CONFIG"), SQLDataType.CLOB, this, "「runConfig」- 执行组件相关配置");
     /**
      * The column <code>DB_ETERNAL.X_CATEGORY.ACTIVE</code>. 「active」- 是否启用
      */
@@ -206,14 +216,5 @@ public class XCategory extends TableImpl<XCategoryRecord> {
     @Override
     public XCategory rename(Name name) {
         return new XCategory(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row21 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row21<String, String, String, String, String, Integer, Boolean, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
     }
 }

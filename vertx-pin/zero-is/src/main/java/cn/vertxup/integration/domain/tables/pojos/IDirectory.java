@@ -24,14 +24,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
     private String        name;
     private String        code;
     private String        storePath;
+    private String        linkedPath;
     private String        parentId;
     private String        category;
     private String        type;
     private String        owner;
+    private String        integrationId;
     private String        runComponent;
     private Boolean       visit;
     private String        visitMode;
-    private String        visitUser;
+    private String        visitRole;
     private String        visitGroup;
     private String        visitComponent;
     private String        sigma;
@@ -50,14 +52,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.name = value.getName();
         this.code = value.getCode();
         this.storePath = value.getStorePath();
+        this.linkedPath = value.getLinkedPath();
         this.parentId = value.getParentId();
         this.category = value.getCategory();
         this.type = value.getType();
         this.owner = value.getOwner();
+        this.integrationId = value.getIntegrationId();
         this.runComponent = value.getRunComponent();
         this.visit = value.getVisit();
         this.visitMode = value.getVisitMode();
-        this.visitUser = value.getVisitUser();
+        this.visitRole = value.getVisitRole();
         this.visitGroup = value.getVisitGroup();
         this.visitComponent = value.getVisitComponent();
         this.sigma = value.getSigma();
@@ -75,14 +79,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
         String        name,
         String        code,
         String        storePath,
+        String        linkedPath,
         String        parentId,
         String        category,
         String        type,
         String        owner,
+        String        integrationId,
         String        runComponent,
         Boolean       visit,
         String        visitMode,
-        String        visitUser,
+        String        visitRole,
         String        visitGroup,
         String        visitComponent,
         String        sigma,
@@ -98,14 +104,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
         this.name = name;
         this.code = code;
         this.storePath = storePath;
+        this.linkedPath = linkedPath;
         this.parentId = parentId;
         this.category = category;
         this.type = type;
         this.owner = owner;
+        this.integrationId = integrationId;
         this.runComponent = runComponent;
         this.visit = visit;
         this.visitMode = visitMode;
-        this.visitUser = visitUser;
+        this.visitRole = visitRole;
         this.visitGroup = visitGroup;
         this.visitComponent = visitComponent;
         this.sigma = sigma;
@@ -176,7 +184,7 @@ public class IDirectory implements VertxPojo, IIDirectory {
 
     /**
      * Getter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     @Override
     public String getStorePath() {
@@ -185,11 +193,30 @@ public class IDirectory implements VertxPojo, IIDirectory {
 
     /**
      * Setter for <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
     @Override
     public IDirectory setStorePath(String storePath) {
         this.storePath = storePath;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public String getLinkedPath() {
+        return this.linkedPath;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    @Override
+    public IDirectory setLinkedPath(String linkedPath) {
+        this.linkedPath = linkedPath;
         return this;
     }
 
@@ -232,8 +259,8 @@ public class IDirectory implements VertxPojo, IIDirectory {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     @Override
     public String getType() {
@@ -241,8 +268,8 @@ public class IDirectory implements VertxPojo, IIDirectory {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
     @Override
     public IDirectory setType(String type) {
@@ -264,6 +291,25 @@ public class IDirectory implements VertxPojo, IIDirectory {
     @Override
     public IDirectory setOwner(String owner) {
         this.owner = owner;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    @Override
+    public String getIntegrationId() {
+        return this.integrationId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    @Override
+    public IDirectory setIntegrationId(String integrationId) {
+        this.integrationId = integrationId;
         return this;
     }
 
@@ -323,21 +369,21 @@ public class IDirectory implements VertxPojo, IIDirectory {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Getter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
     @Override
-    public String getVisitUser() {
-        return this.visitUser;
+    public String getVisitRole() {
+        return this.visitRole;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * Setter for <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
     @Override
-    public IDirectory setVisitUser(String visitUser) {
-        this.visitUser = visitUser;
+    public IDirectory setVisitRole(String visitRole) {
+        this.visitRole = visitRole;
         return this;
     }
 
@@ -535,14 +581,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(storePath);
+        sb.append(", ").append(linkedPath);
         sb.append(", ").append(parentId);
         sb.append(", ").append(category);
         sb.append(", ").append(type);
         sb.append(", ").append(owner);
+        sb.append(", ").append(integrationId);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(visit);
         sb.append(", ").append(visitMode);
-        sb.append(", ").append(visitUser);
+        sb.append(", ").append(visitRole);
         sb.append(", ").append(visitGroup);
         sb.append(", ").append(visitComponent);
         sb.append(", ").append(sigma);
@@ -568,14 +616,16 @@ public class IDirectory implements VertxPojo, IIDirectory {
         setName(from.getName());
         setCode(from.getCode());
         setStorePath(from.getStorePath());
+        setLinkedPath(from.getLinkedPath());
         setParentId(from.getParentId());
         setCategory(from.getCategory());
         setType(from.getType());
         setOwner(from.getOwner());
+        setIntegrationId(from.getIntegrationId());
         setRunComponent(from.getRunComponent());
         setVisit(from.getVisit());
         setVisitMode(from.getVisitMode());
-        setVisitUser(from.getVisitUser());
+        setVisitRole(from.getVisitRole());
         setVisitGroup(from.getVisitGroup());
         setVisitComponent(from.getVisitComponent());
         setSigma(from.getSigma());

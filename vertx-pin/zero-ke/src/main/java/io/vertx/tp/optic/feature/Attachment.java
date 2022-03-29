@@ -1,8 +1,11 @@
 package io.vertx.tp.optic.feature;
 
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+
+import java.util.Set;
 
 /**
  * Operation on XAttachment for files
@@ -24,8 +27,7 @@ public interface Attachment {
     /*
      * 1. Create Attachment Directly
      */
-    Future<JsonArray> createAsync(JsonArray data);
-
+    Future<JsonArray> uploadAsync(JsonArray data);
 
     /*
      * 1. Remove Original By condition
@@ -36,11 +38,24 @@ public interface Attachment {
     /*
      * 1. Remove Original Only
      */
-    Future<Boolean> removeAsync(JsonObject condition);
+    Future<JsonArray> removeAsync(JsonObject condition);
 
+    Future<JsonArray> purgeAsync(JsonArray attachment);
+
+    Future<JsonArray> updateAsync(JsonArray attachment, boolean active);
 
     /*
      * 1. Fetch attachments in single field
+     * 2. Here deeply fetch will put `visit` information into attachment
+     *    to inherit from `directory`
      */
     Future<JsonArray> fetchAsync(JsonObject condition);
+
+    // ----------------- File Interface ----------------------
+
+    Future<Buffer> downloadAsync(Set<String> keys);
+
+    Future<Buffer> downloadAsync(String key);
+
+    // ----------------- Remove Condition ----------------------
 }

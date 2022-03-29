@@ -1,0 +1,56 @@
+[
+    "name,目录名称",
+    {
+        "metadata": "type,目录类型,MAPPING",
+        "$mapping": {
+            "STORE": "本地存储",
+            "INTEGRATION": "远程集成",
+            "LINK": "软链接"
+        }
+    },
+    {
+        "metadata": "category,绑定业务分类",
+        "$datum": "source=zero.directory,value=code,display=name",
+        "$config": {
+            "adorn": {
+                "field": "code",
+                "items": {
+                    "document": "database,14,#9ACD32",
+                    "department": "cluster,14,#1E90FF",
+                    "workflow": "gateway,14,#CD5555"
+                }
+            }
+        }
+    },
+    "storePath,真实路径",
+    {
+        "metadata": "visit,是否私有,LOGICAL,true",
+        "$mapping": {
+            "true": "私有目录",
+            "false": "公有目录"
+        }
+    },
+    {
+        "metadata": "visitMode,访问模式,RENDERS",
+        "width": 180,
+        "config": {
+            "mapping": {
+                "r": "读取",
+                "w": "写入",
+                "x": "可执行"
+            }
+        }
+    },
+    {
+        "metadata": "updatedBy,更新人,USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "metadata": "updatedAt,更新时间,DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

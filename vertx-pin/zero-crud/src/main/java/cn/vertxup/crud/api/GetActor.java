@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.em.ApiSpec;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxPanel;
@@ -58,7 +59,7 @@ public class GetActor {
         return IxPanel.on(request)
             .input(
                 /* Build Condition for All */
-                Pre.qAll()::inJAsync
+                Pre.qr(QrType.ALL)::inJAsync
             )
             .passion(Agonic.fetch()::runJAAsync, null)
             .runJ(new JsonObject().put(KName.SIGMA, sigma));

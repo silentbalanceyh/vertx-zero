@@ -28,6 +28,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
     private String        hostname;
     private Integer       port;
     private String        protocol;
+    private Integer       securePort;
+    private String        secureProtocol;
     private String        endpoint;
     private String        path;
     private String        osKey;
@@ -59,6 +61,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
         this.hostname = value.getHostname();
         this.port = value.getPort();
         this.protocol = value.getProtocol();
+        this.securePort = value.getSecurePort();
+        this.secureProtocol = value.getSecureProtocol();
         this.endpoint = value.getEndpoint();
         this.path = value.getPath();
         this.osKey = value.getOsKey();
@@ -89,6 +93,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
         String        hostname,
         Integer       port,
         String        protocol,
+        Integer       securePort,
+        String        secureProtocol,
         String        endpoint,
         String        path,
         String        osKey,
@@ -117,6 +123,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
         this.hostname = hostname;
         this.port = port;
         this.protocol = protocol;
+        this.securePort = securePort;
+        this.secureProtocol = secureProtocol;
         this.endpoint = endpoint;
         this.path = path;
         this.osKey = osKey;
@@ -280,6 +288,44 @@ public class IIntegration implements VertxPojo, IIIntegration {
     @Override
     public IIntegration setProtocol(String protocol) {
         this.protocol = protocol;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    @Override
+    public Integer getSecurePort() {
+        return this.securePort;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    @Override
+    public IIntegration setSecurePort(Integer securePort) {
+        this.securePort = securePort;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    @Override
+    public String getSecureProtocol() {
+        return this.secureProtocol;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    @Override
+    public IIntegration setSecureProtocol(String secureProtocol) {
+        this.secureProtocol = secureProtocol;
         return this;
     }
 
@@ -644,6 +690,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
         sb.append(", ").append(hostname);
         sb.append(", ").append(port);
         sb.append(", ").append(protocol);
+        sb.append(", ").append(securePort);
+        sb.append(", ").append(secureProtocol);
         sb.append(", ").append(endpoint);
         sb.append(", ").append(path);
         sb.append(", ").append(osKey);
@@ -682,6 +730,8 @@ public class IIntegration implements VertxPojo, IIIntegration {
         setHostname(from.getHostname());
         setPort(from.getPort());
         setProtocol(from.getProtocol());
+        setSecurePort(from.getSecurePort());
+        setSecureProtocol(from.getSecureProtocol());
         setEndpoint(from.getEndpoint());
         setPath(from.getPath());
         setOsKey(from.getOsKey());

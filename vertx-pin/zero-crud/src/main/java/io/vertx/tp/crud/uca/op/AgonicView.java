@@ -2,6 +2,7 @@ package io.vertx.tp.crud.uca.op;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
@@ -39,7 +40,7 @@ class AgonicView implements Agonic {
             /*
              * data_key calculation
              */
-            .compose(params -> Pre.qVk().inJAsync(params, in))
+            .compose(params -> Pre.qr(QrType.BY_VK).inJAsync(params, in))
             .compose(params -> Ke.channel(ApeakMy.class, JsonObject::new,
                 stub -> stub.on(jooq).saveMy(params, params.getJsonObject(KName.DATA))));
     }

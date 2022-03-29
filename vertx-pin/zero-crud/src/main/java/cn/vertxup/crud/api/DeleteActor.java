@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.em.ApiSpec;
+import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
@@ -44,7 +45,7 @@ public class DeleteActor {
         final IxWeb request = IxWeb.create(ApiSpec.BODY_ARRAY).build(envelop);
         return IxPanel.on(request)
             .input(
-                Pre.qPk()::inAJAsync                        /* keys,in */
+                Pre.qr(QrType.BY_PK)::inAJAsync                        /* keys,in */
             )
             .passion(Agonic.write(ChangeFlag.DELETE)::runJAAsync, null)
             .runA(request.dataA());

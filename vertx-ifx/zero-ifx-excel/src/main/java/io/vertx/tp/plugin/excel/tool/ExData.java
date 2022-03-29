@@ -97,7 +97,9 @@ class ExData {
                 final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.THREE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
-            } else return false; // Header generation failure
+            } else {
+                return false; // Header generation failure
+            }
         } else {
             if (Values.TWO <= tableData.size()) {
                 /*
@@ -107,7 +109,9 @@ class ExData {
                 final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.ONE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
-            } else return false; // Header generation failure
+            } else {
+                return false; // Header generation failure
+            }
         }
     }
 
@@ -170,11 +174,11 @@ class ExData {
             }
 
             /* Cell type */
-            final CellType cellType = ExIo.type(type);
+            final CellType cellType = ExOut.type(type);
             /* Cell create */
             final Cell cell = row.createCell(index, cellType);
             /* All type should be OK for set String */
-            ExIo.value(cell, type, value);
+            ExOut.value(cell, type, value);
             /* Datetime cell format */
         }
     }

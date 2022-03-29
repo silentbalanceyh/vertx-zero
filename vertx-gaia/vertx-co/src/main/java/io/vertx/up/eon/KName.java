@@ -1,5 +1,6 @@
 package io.vertx.up.eon;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.query.engine.Qr;
 
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public interface KName {
     String MODEL_COMPONENT = "modelComponent";   /* Model Component */
     String MODEL_CHILD = "modelChild";           /* Model Component */
     String QUANTITY = "quantity";                /* Quantity -> Children Size */
+    String CACHE_KEY = "cacheKey";               /* RapidKey -> Cache Key */
 
     String SCOPE = "scope";                      /* OAuth scope field */
     String REALM = "realm";                      /* Authorization realm field for security */
@@ -67,12 +69,14 @@ public interface KName {
     String APP_KEY = "appKey";                   /* XHeader for X-App-Key */
     String APP_ID = "appId";                     /* XHeader for X-App-Id */
     String SIGMA = "sigma";                      /* XHeader for X-Sigma */
+    String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
 
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
+    String KEY_P = "pKey";                       /* Common: argument key */
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
@@ -180,11 +184,47 @@ public interface KName {
     String LINKAGE = "linkage";                  /* XLinkage instance */
     String QUERY = "query";                      /* XLinkage query */
 
+    // Store Path/Root
+    String STORE = "store";                      /* File Management, Store */
+    String STORE_ROOT = "storeRoot";             /* File Management, store root */
+    String STORE_PATH = "storePath";             /* File Management, store path for directory / attachment */
+    String STORE_PARENT = "storeParent";         /* File Management, store parent */
+    String INTEGRATION_ID = "integrationId";     /* File Management, integration key */
+    String DIRECTORY_ID = "directoryId";         /* File Management, directory id */
+    String DIRECTORY = "directory";              /* File Management, directory field, two means */
+    String INITIALIZE = "initialize";            /* File Management, initialize field */
+
+    String PARENT_ID = "parentId";               /* Tree for parent id */
+    String KEY_WORD = "keyword";                 /* Search Key Word */
+    String SORT = "sort";                        /* Sort */
+
+    String INCLUDE = "include";                  /* Auditor Pin */
+    String EXCLUDE = "exclude";                  /* Auditor Pin */
+
+    String COMMENT = "comment";                  /* Text Part: comment */
+    String DESCRIPTION = "description";          /* Text Part: description */
+    String REMARK = "remark";                    /* Text Part: remark */
+
+    String VISIT = "visit";
+    String VISIT_MODE = "visitMode";
+    String VISIT_ROLE = "visitRole";
+    String VISIT_GROUP = "visitGroup";
+    String VISIT_COMPONENT = "visitComponent";
+
+    String UI_CONFIG = "uiConfig";
+    String UI_STYLE = "uiStyle";
+    String UI_SORT = "uiSort";
+    String UI_ICON = "uiIcon";
+
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
         String FILE_URL = "fileUrl";                 /* XAttachment fileUrl */
         String FILE_PATH = "filePath";               /* XAttachment filePath processing */
+
+        String X = "x";
+        String W = "w";
+        String R = "r";
     }
 
     interface Micro {
@@ -209,6 +249,11 @@ public interface KName {
         String PATH = "path";
         String URL_ENTRY = "urlEntry";
         String URL_MAIN = "urlMain";
+
+        // Modulat
+        String BAG_ID = "bagId";
+        String BAG = "bag";
+        String BLOCK = "block";
     }
 
     /*
@@ -304,6 +349,28 @@ public interface KName {
         String CRITERIA = Qr.KEY_CRITERIA;
         String ROWS = "rows";
         String POSITION = "position";
+
+        JsonArray INCLUDE = new JsonArray()
+            .add("/api/user")                    // zero-rbac
+            .add("/api/permission")              // zero-rbac
+            .add("/api/employee")                // zero-erp
+            .add("/api/wh")                      // zero-psi
+            .add("/api/i-directory")             // zero-is
+            .add("/api/file/upload")             // zero-ambient
+            .add("/api/my/menu/save")            // zero-ambient
+            .add("/api/up/flow")                 // zero-wf
+            .add("/api/linkage/sync")            // zero-wf, zero-ambient
+            .add("/api/bill/")                   // zero-fm
+            .add("/api/bill-item/")              // zero-fm
+            .add("/api/settle/")                 // zero-fm
+            .add("/api/payment");                // zero-fm
+
+        JsonArray EXCLUDE = new JsonArray()
+            .add("/api/:actor/search")           // zero-crud
+            .add("/api/:actor/missing")          // zero-crud
+            .add("/api/:actor/existing")         // zero-crud
+            .add("/api/:actor/export")           // zero-crud
+            .add("/api/:actor/import");          // zero-crud
     }
 
     interface Tenant {
@@ -352,7 +419,8 @@ public interface KName {
         String CONFIG_RUN = "runConfig";
         String CONFIG_GENERATE = "generateConfig";
         String CONFIG_AUTHORIZED = "authorizedConfig";
-        String UI_CONFIG = "uiConfig";
+        String UI_CONFIG = KName.UI_CONFIG;
+        String UI_STYLE = KName.UI_STYLE;
         String UI_ASSIST = "uiAssist";
         String UI_LINKAGE = "uiLinkage";
 
@@ -383,5 +451,14 @@ public interface KName {
             String CLASS = "class";
             String EVENT = "event";
         }
+    }
+
+    interface Component {
+        // Run Component
+        String RUN_COMPONENT = "runComponent";
+        String RUN_CONFIG = "runConfig";
+        // Tree Component
+        String TREE_COMPONENT = "treeComponent";
+        String TREE_CONFIG = "treeConfig";
     }
 }

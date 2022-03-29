@@ -1,0 +1,29 @@
+[
+    {
+        "name": "help",
+        "simple": "h",
+        "description": "帮助文档",
+        "options": [
+            {
+                "simple": "c",
+                "name": "command",
+                "description": "请输入查看帮助命令",
+                "config": {
+                    "name": "命令名称",
+                    "simple": "简写",
+                    "description": "使用描述"
+                }
+            }
+        ]
+    },
+    {
+        "name": "quit",
+        "simple": "q",
+        "description": "退出控制台"
+    },
+    {
+        "name": "back",
+        "simple": "b",
+        "description": "<< 返回上级"
+    }
+]

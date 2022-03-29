@@ -1,0 +1,7 @@
+[
+    "plugin/battery/oob/cab/battery.module.xlsx",
+    "plugin/battery/oob/data/zero.bag.xlsx",
+    "plugin/battery/oob/data/zero-k.battery.xlsx",
+    "plugin/battery/oob/data/battery.menu.xlsx",
+    "plugin/battery/oob/role/ADMIN.SUPER/falcon.battery.module.xlsx"
+]

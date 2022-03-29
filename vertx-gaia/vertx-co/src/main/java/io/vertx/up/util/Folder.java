@@ -7,6 +7,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -41,45 +42,47 @@ final class Folder {
                         return single + "/" + file;
                     }
                 }))
+            .filter(file -> {
+                final InputStream in = Stream.in(file);
+                return Objects.nonNull(in);
+            })
             .collect(Collectors.toList());
     }
 
     static List<String> listDirectoriesN(final String folder) {
-        final String root = listRoot();
+        final String root = Stream.root();
+        LOGGER.info("List directories: root = {0}, folder = {1}", root, folder);
         return Fn.getNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
     }
 
     private static List<String> listDirectoriesN(final String folder, final String root) {
         final List<String> folders = new ArrayList<>();
-        final URL url = IO.getURL(folder);
-        if (Objects.nonNull(url)) {
-            // Url Processing to File
-            final File folderObj = new File(url.getPath());
-            if (folderObj.isDirectory()) {
-                folders.add(folder);
-                // Else
-                final String[] folderList = folderObj.list();
-                assert folderList != null;
-                Arrays.stream(folderList).forEach(folderS -> {
-                    final String rootCopy = root.replace("\\", "/");
-                    String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
-                    relatedPath = relatedPath.replace(rootCopy, Strings.EMPTY);
-                    folders.addAll(listDirectoriesN(relatedPath + "/" + folderS, root));
-                });
+        // root + folder
+        File folderObj = new File(StringUtil.path(root, folder));
+        if (!folderObj.exists()) {
+            final URL url = IO.getURL(folder);
+            if (Objects.nonNull(url)) {
+                // Url Processing to File
+                folderObj = new File(url.getPath());
+            } else {
+                LOGGER.warn("URL is null, please check your path here.");
+                folderObj = null;
             }
         }
-        // If
-        return folders;
-    }
-
-    private static String listRoot() {
-        final URL rootUrl = Folder.class.getResource("/");
-        if (Objects.isNull(rootUrl)) {
-            return Strings.EMPTY;
-        } else {
-            final File rootFile = new File(rootUrl.getFile());
-            return rootFile.getAbsolutePath() + "/";
+        if (Objects.nonNull(folderObj) && folderObj.isDirectory()) {
+            folders.add(folder);
+            // Else
+            final String[] folderList = folderObj.list();
+            assert folderList != null;
+            final String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
+            Arrays.stream(folderList).forEach(folderS -> {
+                final String rootCopy = root.replace("\\", "/");
+                final String pathReplaced = relatedPath.replace(rootCopy, Strings.EMPTY);
+                folders.addAll(listDirectoriesN(pathReplaced + "/" + folderS, root));
+            });
+            LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
         }
+        return folders;
     }
 
     private static List<String> list(final String folder,
@@ -137,7 +140,6 @@ final class Folder {
 
     static List<String> getJars(final URL url, final String extension, final boolean isDirectory) {
         return Fn.getJvm(() -> {
-            final List<String> retList = new ArrayList<>();
             final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
             final JarFile jarFile = jarCon.getJarFile();
             /*

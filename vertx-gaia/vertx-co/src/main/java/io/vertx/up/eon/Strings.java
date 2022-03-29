@@ -40,4 +40,6 @@ public interface Strings {
     String QUOTE_DOUBLE = "\"";
 
     String QUOTE = "'";
+
+    String FROM_TO = " -> ";
 }

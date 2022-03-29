@@ -102,6 +102,30 @@ public interface IIIntegration extends VertxPojo, Serializable {
     public String getProtocol();
 
     /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    public IIIntegration setSecurePort(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PORT</code>.
+     * 「securePort」- 传输层安全接口
+     */
+    public Integer getSecurePort();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    public IIIntegration setSecureProtocol(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_INTEGRATION.SECURE_PROTOCOL</code>.
+     * 「secureProtocol」- 传入层协议：TLS / SSL（邮件服务器需要）
+     */
+    public String getSecureProtocol();
+
+    /**
      * Setter for <code>DB_ETERNAL.I_INTEGRATION.ENDPOINT</code>. 「endpoint」-
      * 端地址
      */
@@ -343,6 +367,8 @@ public interface IIIntegration extends VertxPojo, Serializable {
                 setOrThrow(this::setHostname,json::getString,"HOSTNAME","java.lang.String");
                 setOrThrow(this::setPort,json::getInteger,"PORT","java.lang.Integer");
                 setOrThrow(this::setProtocol,json::getString,"PROTOCOL","java.lang.String");
+                setOrThrow(this::setSecurePort,json::getInteger,"SECURE_PORT","java.lang.Integer");
+                setOrThrow(this::setSecureProtocol,json::getString,"SECURE_PROTOCOL","java.lang.String");
                 setOrThrow(this::setEndpoint,json::getString,"ENDPOINT","java.lang.String");
                 setOrThrow(this::setPath,json::getString,"PATH","java.lang.String");
                 setOrThrow(this::setOsKey,json::getString,"OS_KEY","java.lang.String");
@@ -377,6 +403,8 @@ public interface IIIntegration extends VertxPojo, Serializable {
                 json.put("HOSTNAME",getHostname());
                 json.put("PORT",getPort());
                 json.put("PROTOCOL",getProtocol());
+                json.put("SECURE_PORT",getSecurePort());
+                json.put("SECURE_PROTOCOL",getSecureProtocol());
                 json.put("ENDPOINT",getEndpoint());
                 json.put("PATH",getPath());
                 json.put("OS_KEY",getOsKey());

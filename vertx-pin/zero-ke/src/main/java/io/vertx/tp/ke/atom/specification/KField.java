@@ -109,14 +109,14 @@ public class KField implements Serializable {
     private JsonObject numbers;
 
     /**
-     * `jobject` information
+     * `object` information
      */
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private JsonArray object;
 
     /**
-     * `jarray` information
+     * `array` information
      */
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)

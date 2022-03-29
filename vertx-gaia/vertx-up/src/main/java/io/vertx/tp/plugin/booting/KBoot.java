@@ -40,6 +40,8 @@ public interface KBoot {
 
     /*
      *  Following two methods are for data loading
+     *  - First one is used by Excel Loader  ( zero-ifx-excel )
+     *  - The second has been used by BtBoot ( zero-ke )
      */
     ConcurrentMap<String, KConnect> configure();
 
@@ -49,6 +51,9 @@ public interface KBoot {
 
     /*
      * Following two methods are for Crud Default Value
+     *  - First has been used by CRUD Extension ( zero-crud )
+     *  - Second has been used by UI Extension  ( zero-ui )
+     * They are not for data loading but for runtime usage
      */
     ConcurrentMap<String, JsonObject> module();
 

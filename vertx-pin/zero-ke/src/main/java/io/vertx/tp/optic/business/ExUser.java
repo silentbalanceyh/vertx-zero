@@ -11,23 +11,42 @@ import java.util.concurrent.ConcurrentMap;
  * Channel for account update
  */
 public interface ExUser {
-    /*
-     * Fetch by `modelKey` & `modelId`
-     */
-    Future<JsonObject> fetchRef(JsonObject filters);
 
     /*
      * Fetch by `modelKey` & `modelId`
      */
-    Future<JsonObject> updateRef(String key, JsonObject params);
+    Future<JsonObject> update(String key, JsonObject params);
+
+    // ------------------ Information --------------------
+    /*
+     * Fetch by `modelKey` & `modelId`
+     */
+    Future<JsonObject> fetch(JsonObject filters);
 
     /*
      * Fetch all user information by `modelKey` set
      */
-    Future<JsonArray> fetchRef(Set<String> keys);
+    Future<JsonArray> fetch(Set<String> keys);
 
+    // ------------------ Auditor --------------------
     /*
      * Fetch all auditor information by `keys` ( createdBy / updatedBy )
+     * Result
+     * {
+     *      "key1": "realname1",
+     *      "key2": "realname2"
+     * }
+     *
+     * List Result
+     *
+     * realname ->
+     * [
+     *      "key1",
+     *      "key2",
+     *      "..."
+     * ]
      */
-    Future<ConcurrentMap<String, String>> transAuditor(Set<String> keys);
+    Future<ConcurrentMap<String, String>> auditor(Set<String> keys);
+
+    Future<JsonArray> auditor(String keyword);
 }

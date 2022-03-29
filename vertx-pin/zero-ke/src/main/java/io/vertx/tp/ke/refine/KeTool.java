@@ -66,7 +66,7 @@ class KeTool {
                 /*
                  * Log
                  */
-                KeLog.warnChannel(KeRun.class, "Criteria must be not empty");
+                KeLog.warnChannel(KeChannel.class, "Criteria must be not empty");
             }
         });
         return Ux.thenCombine(futures).compose(mapData -> {

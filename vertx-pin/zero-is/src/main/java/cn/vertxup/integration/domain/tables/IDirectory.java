@@ -42,9 +42,14 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     public final TableField<IDirectoryRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255).nullable(false), this, "「code」- 目录编号");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.STORE_PATH</code>. 「storePath」-
-     * 目录根路径
+     * 目录相对路径
      */
-    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512).nullable(false), this, "「storePath」- 目录根路径");
+    public final TableField<IDirectoryRecord, String> STORE_PATH = createField(DSL.name("STORE_PATH"), SQLDataType.VARCHAR(512), this, "「storePath」- 目录相对路径");
+    /**
+     * The column <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
+     * 链接路径，type = LINK 时专用
+     */
+    public final TableField<IDirectoryRecord, String> LINKED_PATH = createField(DSL.name("LINKED_PATH"), SQLDataType.VARCHAR(521), this, "「linkedPath」- 链接路径，type = LINK 时专用");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
@@ -56,14 +61,19 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      */
     public final TableField<IDirectoryRecord, String> CATEGORY = createField(DSL.name("CATEGORY"), SQLDataType.VARCHAR(36), this, "「category」- 目录连接的类型树");
     /**
-     * The column <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」- 目录类型：ROOT /
-     * STORE
+     * The column <code>DB_ETERNAL.I_DIRECTORY.TYPE</code>. 「type」-
+     * 目录类型：INTEGRATION / STORE / LINK
      */
-    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：ROOT / STORE");
+    public final TableField<IDirectoryRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36).nullable(false), this, "「type」- 目录类型：INTEGRATION / STORE / LINK");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.OWNER</code>. 「owner」- 目录访问人
      */
     public final TableField<IDirectoryRecord, String> OWNER = createField(DSL.name("OWNER"), SQLDataType.VARCHAR(36), this, "「owner」- 目录访问人");
+    /**
+     * The column <code>DB_ETERNAL.I_DIRECTORY.INTEGRATION_ID</code>.
+     * 「integrationId」- 该目录关联的 Integration，不关联则不转存
+     */
+    public final TableField<IDirectoryRecord, String> INTEGRATION_ID = createField(DSL.name("INTEGRATION_ID"), SQLDataType.VARCHAR(36), this, "「integrationId」- 该目录关联的 Integration，不关联则不转存");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.RUN_COMPONENT</code>.
      * 「runComponent」- 目录执行组件，抓文件专用
@@ -79,10 +89,10 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      */
     public final TableField<IDirectoryRecord, String> VISIT_MODE = createField(DSL.name("VISIT_MODE"), SQLDataType.VARCHAR(36), this, "「visitMode」- 目录模式：只读 / 可写，以后扩展为其他");
     /**
-     * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_USER</code>. 「visitUser」-
-     * 目录访问者
+     * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_ROLE</code>. 「visitRole」-
+     * 目录访问角色
      */
-    public final TableField<IDirectoryRecord, String> VISIT_USER = createField(DSL.name("VISIT_USER"), SQLDataType.CLOB, this, "「visitUser」- 目录访问者");
+    public final TableField<IDirectoryRecord, String> VISIT_ROLE = createField(DSL.name("VISIT_ROLE"), SQLDataType.CLOB, this, "「visitRole」- 目录访问角色");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.VISIT_GROUP</code>. 「visitGroup」-
      * 目录访问组
@@ -185,7 +195,7 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
 
     @Override
     public List<UniqueKey<IDirectoryRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_I_DIRECTORY_CODE, Keys.KEY_I_DIRECTORY_STORE_PATH);
+        return Arrays.asList(Keys.KEY_I_DIRECTORY_NAME, Keys.KEY_I_DIRECTORY_CODE, Keys.KEY_I_DIRECTORY_STORE_PATH);
     }
 
     @Override
@@ -212,14 +222,5 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     @Override
     public IDirectory rename(Name name) {
         return new IDirectory(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, Boolean, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

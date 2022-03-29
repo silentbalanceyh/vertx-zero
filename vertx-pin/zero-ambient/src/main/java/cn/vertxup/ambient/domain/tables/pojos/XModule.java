@@ -24,6 +24,7 @@ public class XModule implements VertxPojo, IXModule {
     private String        name;
     private String        code;
     private String        entry;
+    private String        blockCode;
     private String        appId;
     private String        modelId;
     private Boolean       active;
@@ -42,6 +43,7 @@ public class XModule implements VertxPojo, IXModule {
         this.name = value.getName();
         this.code = value.getCode();
         this.entry = value.getEntry();
+        this.blockCode = value.getBlockCode();
         this.appId = value.getAppId();
         this.modelId = value.getModelId();
         this.active = value.getActive();
@@ -59,6 +61,7 @@ public class XModule implements VertxPojo, IXModule {
         String        name,
         String        code,
         String        entry,
+        String        blockCode,
         String        appId,
         String        modelId,
         Boolean       active,
@@ -74,6 +77,7 @@ public class XModule implements VertxPojo, IXModule {
         this.name = name;
         this.code = code;
         this.entry = entry;
+        this.blockCode = blockCode;
         this.appId = appId;
         this.modelId = modelId;
         this.active = active;
@@ -156,6 +160,25 @@ public class XModule implements VertxPojo, IXModule {
     @Override
     public XModule setEntry(String entry) {
         this.entry = entry;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MODULE.BLOCK_CODE</code>. 「blockCode」—
+     * 所属模块系统编码
+     */
+    @Override
+    public String getBlockCode() {
+        return this.blockCode;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_MODULE.BLOCK_CODE</code>. 「blockCode」—
+     * 所属模块系统编码
+     */
+    @Override
+    public XModule setBlockCode(String blockCode) {
+        this.blockCode = blockCode;
         return this;
     }
 
@@ -339,6 +362,7 @@ public class XModule implements VertxPojo, IXModule {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(entry);
+        sb.append(", ").append(blockCode);
         sb.append(", ").append(appId);
         sb.append(", ").append(modelId);
         sb.append(", ").append(active);
@@ -364,6 +388,7 @@ public class XModule implements VertxPojo, IXModule {
         setName(from.getName());
         setCode(from.getCode());
         setEntry(from.getEntry());
+        setBlockCode(from.getBlockCode());
         setAppId(from.getAppId());
         setModelId(from.getModelId());
         setActive(from.getActive());

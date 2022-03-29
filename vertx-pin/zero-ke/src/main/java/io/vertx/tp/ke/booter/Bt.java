@@ -8,11 +8,9 @@ import io.vertx.up.unity.UxTimer;
 /*
  * Split booter for some divide application of tool
  * 1) Loader
+ * 2) Initialize
  */
 public class Bt {
-
-    /*
-     */
     public static void load(final String folder) {
         final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
         BtLoader.loadAsync(folder).onComplete(BtKit.complete(folder, null, timer));

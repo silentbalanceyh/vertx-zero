@@ -108,6 +108,10 @@ public class Ix {
         return IxSerialize.serializeA(input, config);
     }
 
+    public static JsonObject serializeP(final JsonObject pageData, final KModule active, final KModule standBy) {
+        return IxSerialize.serializeP(pageData, active, standBy);
+    }
+
     // --------------------------------- Logger Part
     public static class Log {
 

@@ -144,6 +144,38 @@ public class IIntegrationDao extends AbstractVertxDAO<IIntegrationRecord, cn.ver
         }
 
         /**
+     * Find records that have <code>SECURE_PORT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IIntegration>> findManyBySecurePort(Collection<Integer> values) {
+                return findManyByCondition(IIntegration.I_INTEGRATION.SECURE_PORT.in(values));
+        }
+
+        /**
+     * Find records that have <code>SECURE_PORT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IIntegration>> findManyBySecurePort(Collection<Integer> values, int limit) {
+                return findManyByCondition(IIntegration.I_INTEGRATION.SECURE_PORT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SECURE_PROTOCOL IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IIntegration>> findManyBySecureProtocol(Collection<String> values) {
+                return findManyByCondition(IIntegration.I_INTEGRATION.SECURE_PROTOCOL.in(values));
+        }
+
+        /**
+     * Find records that have <code>SECURE_PROTOCOL IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.integration.domain.tables.pojos.IIntegration>> findManyBySecureProtocol(Collection<String> values, int limit) {
+                return findManyByCondition(IIntegration.I_INTEGRATION.SECURE_PROTOCOL.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ENDPOINT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.integration.domain.tables.pojos.IIntegration>> findManyByEndpoint(Collection<String> values) {

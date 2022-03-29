@@ -76,13 +76,25 @@ public class Database implements Serializable, Json, Copyable<Database> {
 
     public static Database getCurrent() {
         if (Objects.isNull(DATABASE)) {
-            final JsonObject raw = Database.VISITOR.read();
-            final JsonObject jooq = Ut.visitJObject(raw, "jooq", "provider");
-            final Database database = new Database();
-            database.fromJson(jooq);
-            DATABASE = database;
+            DATABASE = getDatabase("jooq", "provider");
         }
         return DATABASE.copy();
+    }
+
+    public static Database getHistory() {
+        return getDatabase("jooq", "orbit");
+    }
+
+    public static Database getCamunda() {
+        return getDatabase("workflow", "database");
+    }
+
+    private static Database getDatabase(final String... keys) {
+        final JsonObject raw = Database.VISITOR.read();
+        final JsonObject jooq = Ut.visitJObject(raw, keys);
+        final Database database = new Database();
+        database.fromJson(jooq);
+        return database;
     }
 
     /* Database Connection Testing */
@@ -164,6 +176,16 @@ public class Database implements Serializable, Json, Copyable<Database> {
     public <T> T getOption(final String optionKey, final T defaultValue) {
         final T result = this.getOption(optionKey);
         return Objects.isNull(result) ? defaultValue : result;
+    }
+
+    public Long getLong(final String optionKey, final Long defaultValue) {
+        final Long result = this.getLong(optionKey);
+        return Objects.isNull(result) ? defaultValue : result;
+    }
+
+    public Long getLong(final String optionKey) {
+        final JsonObject options = this.options;
+        return options.getLong(optionKey);
     }
 
     public JsonObject getOptions() {

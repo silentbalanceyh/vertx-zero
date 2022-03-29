@@ -205,6 +205,22 @@ public class XCategoryDao extends AbstractVertxDAO<XCategoryRecord, cn.vertxup.a
         }
 
         /**
+     * Find records that have <code>TREE_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByTreeConfig(Collection<String> values) {
+                return findManyByCondition(XCategory.X_CATEGORY.TREE_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>TREE_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByTreeConfig(Collection<String> values, int limit) {
+                return findManyByCondition(XCategory.X_CATEGORY.TREE_CONFIG.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously
      */
@@ -218,6 +234,21 @@ public class XCategoryDao extends AbstractVertxDAO<XCategoryRecord, cn.vertxup.a
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByRunComponent(Collection<String> values, int limit) {
                 return findManyByCondition(XCategory.X_CATEGORY.RUN_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByRunConfig(Collection<String> values) {
+                return findManyByCondition(XCategory.X_CATEGORY.RUN_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XCategory>> findManyByRunConfig(Collection<String> values, int limit) {
+                return findManyByCondition(XCategory.X_CATEGORY.RUN_CONFIG.in(values),limit);
         }
 
         /**

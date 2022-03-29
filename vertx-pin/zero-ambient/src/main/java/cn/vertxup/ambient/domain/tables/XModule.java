@@ -45,6 +45,11 @@ public class XModule extends TableImpl<XModuleRecord> {
      */
     public final TableField<XModuleRecord, String> ENTRY = createField(DSL.name("ENTRY"), SQLDataType.VARCHAR(255), this, "「entry」— 模块入口地址");
     /**
+     * The column <code>DB_ETERNAL.X_MODULE.BLOCK_CODE</code>. 「blockCode」—
+     * 所属模块系统编码
+     */
+    public final TableField<XModuleRecord, String> BLOCK_CODE = createField(DSL.name("BLOCK_CODE"), SQLDataType.VARCHAR(255), this, "「blockCode」— 所属模块系统编码");
+    /**
      * The column <code>DB_ETERNAL.X_MODULE.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public final TableField<XModuleRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(255), this, "「appId」- 关联的应用程序ID");
@@ -169,11 +174,11 @@ public class XModule extends TableImpl<XModuleRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row14 type methods
+    // Row15 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row14<String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row14) super.fieldsRow();
+    public Row15<String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row15) super.fieldsRow();
     }
 }

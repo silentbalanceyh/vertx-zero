@@ -10,7 +10,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class NtAData implements NtA<JsonArray> {
+public class NtAData implements Co<JsonArray, JsonArray, JsonArray, JsonArray> {
 
     private transient final IxMod in;
 

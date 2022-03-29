@@ -58,7 +58,6 @@ public class FileActor {
             .passion(Agonic.file()::runAAsync)
             .runA(data)
         );
-
     }
 
     @Address(Addr.File.EXPORT)
@@ -91,7 +90,7 @@ public class FileActor {
                 .compose(data -> Tran.map(false).inAAsync(data, mod))       /* Map */
                 .compose(data -> Tran.fabric(false).inAAsync(data, mod))    /* Dict */
                 .compose(data -> Tran.tree(false).inAAsync(data, mod))      /* Tree */
-                .compose(data -> Pre.auditorBy().inAAsync(data, mod))       /* Auditor */
+                .compose(data -> Pre.audit().inAAsync(data, mod))       /* Auditor */
                 .compose(data -> Co.endE(columnList).ok(data, columns))
                 .compose(data -> {
                     /*

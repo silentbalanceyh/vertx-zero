@@ -63,6 +63,10 @@ final class Types {
         return fields.size() == counter;
     }
 
+    static boolean isEqual(final String left, final String right) {
+        return equal(left, right);
+    }
+
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         if (isEmpty(record)) {
             /*
