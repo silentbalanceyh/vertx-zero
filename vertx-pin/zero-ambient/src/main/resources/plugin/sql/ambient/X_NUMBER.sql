@@ -16,7 +16,7 @@ CREATE TABLE `X_NUMBER`
 
     `CURRENT`    BIGINT(20)  NOT NULL COMMENT '「current」编号当前值，对应${seed}，每次变化时current提取后更新为：current + step或current - step,current,L_CURRENT',
     `FORMAT`     VARCHAR(255) DEFAULT NULL COMMENT '「format」格式信息，用于处理最终格式：,format,S_FORMAT',
-    `IDENTIFIER` VARCHAR(64) NOT NULL COMMENT '「identifier」编号对应的identifier，用于查询当前identifier使用的序号信息,identifier,S_IDENTIFIER',
+    `IDENTIFIER` VARCHAR(64)  DEFAULT NULL COMMENT '「identifier」编号对应的identifier，用于查询当前identifier使用的序号信息,identifier,S_IDENTIFIER',
     `PREFIX`     varchar(64)  DEFAULT NULL COMMENT '「prefix」编号前缀,prefix,S_PREFIX',
     `SUFFIX`     varchar(64)  DEFAULT NULL COMMENT '「suffix」编号后缀,suffix,S_SUFFIX',
     `TIME`       varchar(20)  DEFAULT NULL COMMENT '「time」时间对应Pattern，对应${time}：YYYY-MM-DD HH:mm:ss用于描述时间格式生成序号时间部分,time,S_TIME',

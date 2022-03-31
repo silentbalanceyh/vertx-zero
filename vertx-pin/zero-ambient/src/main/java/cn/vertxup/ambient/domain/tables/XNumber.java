@@ -56,7 +56,7 @@ public class XNumber extends TableImpl<XNumberRecord> {
      * The column <code>DB_ETERNAL.X_NUMBER.IDENTIFIER</code>.
      * 「identifier」编号对应的identifier，用于查询当前identifier使用的序号信息,identifier,S_IDENTIFIER
      */
-    public final TableField<XNumberRecord, String> IDENTIFIER = createField(DSL.name("IDENTIFIER"), SQLDataType.VARCHAR(64).nullable(false), this, "「identifier」编号对应的identifier，用于查询当前identifier使用的序号信息,identifier,S_IDENTIFIER");
+    public final TableField<XNumberRecord, String> IDENTIFIER = createField(DSL.name("IDENTIFIER"), SQLDataType.VARCHAR(64), this, "「identifier」编号对应的identifier，用于查询当前identifier使用的序号信息,identifier,S_IDENTIFIER");
     /**
      * The column <code>DB_ETERNAL.X_NUMBER.PREFIX</code>.
      * 「prefix」编号前缀,prefix,S_PREFIX
