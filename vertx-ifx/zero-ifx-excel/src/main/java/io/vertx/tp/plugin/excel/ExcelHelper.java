@@ -12,7 +12,6 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
@@ -128,16 +127,21 @@ class ExcelHelper {
     }
 
     private Future<JsonArray> extractForbidden(final JsonArray dataArray, final String name) {
-        final Kv<String, Set<String>> condition = this.tenant.valueCriteria(name);
-        if (condition.valid()) {
-            final JsonArray normalized = new JsonArray();
-            Ut.itJArray(dataArray)
-                .filter(item -> item.containsKey(condition.getKey()))
-                .filter(item -> !condition.getValue().contains(item.getString(condition.getKey())))
-                .forEach(normalized::add);
-            return Ux.future(normalized);
-        } else {
+        final ConcurrentMap<String, Set<String>> forbidden = this.tenant.valueCriteria(name);
+        if (forbidden.isEmpty()) {
             return Ux.future(dataArray);
+        } else {
+            final JsonArray normalized = new JsonArray();
+            Ut.itJArray(dataArray).filter(item -> forbidden.keySet().stream().allMatch(field -> {
+                if (item.containsKey(field)) {
+                    final Set<String> values = forbidden.get(field);
+                    final String value = item.getString(field);
+                    return !values.contains(value);
+                } else {
+                    return true;
+                }
+            })).forEach(normalized::add);
+            return Ux.future(normalized);
         }
     }
 
