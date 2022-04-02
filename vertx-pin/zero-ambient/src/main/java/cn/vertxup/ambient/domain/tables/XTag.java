@@ -49,6 +49,10 @@ public class XTag extends TableImpl<XTagRecord> {
      */
     public final TableField<XTagRecord, Long> SORT = createField(DSL.name("SORT"), SQLDataType.BIGINT, this, "「sort」- 标签排序");
     /**
+     * The column <code>DB_ETERNAL.X_TAG.SHOW</code>. 「show」- 是否显示在导航栏
+     */
+    public final TableField<XTagRecord, Boolean> SHOW = createField(DSL.name("SHOW"), SQLDataType.BIT.defaultValue(DSL.inline("b'0'", SQLDataType.BIT)), this, "「show」- 是否显示在导航栏");
+    /**
      * The column <code>DB_ETERNAL.X_TAG.DESCRIPTION</code>. 「description」- 标签描述
      */
     public final TableField<XTagRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 标签描述");
@@ -172,11 +176,11 @@ public class XTag extends TableImpl<XTagRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row15 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<String, String, String, String, Long, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row16<String, String, String, String, Long, Boolean, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 }

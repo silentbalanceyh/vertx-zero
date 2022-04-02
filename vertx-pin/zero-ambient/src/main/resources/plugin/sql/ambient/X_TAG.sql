@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS X_TAG
      */
     `ICON`        VARCHAR(255) COMMENT '「icon」- 标签使用的图标',
     `SORT`        BIGINT COMMENT '「sort」- 标签排序',
+    `SHOW`        BIT         DEFAULT FALSE COMMENT '「show」- 是否显示在导航栏',
     `DESCRIPTION` LONGTEXT COMMENT '「description」- 标签描述',
 
     -- 所属应用

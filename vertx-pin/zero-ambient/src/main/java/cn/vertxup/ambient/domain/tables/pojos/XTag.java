@@ -25,6 +25,7 @@ public class XTag implements VertxPojo, IXTag {
     private String        type;
     private String        icon;
     private Long          sort;
+    private Boolean       show;
     private String        description;
     private String        appId;
     private Boolean       active;
@@ -44,6 +45,7 @@ public class XTag implements VertxPojo, IXTag {
         this.type = value.getType();
         this.icon = value.getIcon();
         this.sort = value.getSort();
+        this.show = value.getShow();
         this.description = value.getDescription();
         this.appId = value.getAppId();
         this.active = value.getActive();
@@ -62,6 +64,7 @@ public class XTag implements VertxPojo, IXTag {
         String        type,
         String        icon,
         Long          sort,
+        Boolean       show,
         String        description,
         String        appId,
         Boolean       active,
@@ -78,6 +81,7 @@ public class XTag implements VertxPojo, IXTag {
         this.type = type;
         this.icon = icon;
         this.sort = sort;
+        this.show = show;
         this.description = description;
         this.appId = appId;
         this.active = active;
@@ -177,6 +181,23 @@ public class XTag implements VertxPojo, IXTag {
     @Override
     public XTag setSort(Long sort) {
         this.sort = sort;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TAG.SHOW</code>. 「show」- 是否显示在导航栏
+     */
+    @Override
+    public Boolean getShow() {
+        return this.show;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_TAG.SHOW</code>. 「show」- 是否显示在导航栏
+     */
+    @Override
+    public XTag setShow(Boolean show) {
+        this.show = show;
         return this;
     }
 
@@ -359,6 +380,7 @@ public class XTag implements VertxPojo, IXTag {
         sb.append(", ").append(type);
         sb.append(", ").append(icon);
         sb.append(", ").append(sort);
+        sb.append(", ").append(show);
         sb.append(", ").append(description);
         sb.append(", ").append(appId);
         sb.append(", ").append(active);
@@ -385,6 +407,7 @@ public class XTag implements VertxPojo, IXTag {
         setType(from.getType());
         setIcon(from.getIcon());
         setSort(from.getSort());
+        setShow(from.getShow());
         setDescription(from.getDescription());
         setAppId(from.getAppId());
         setActive(from.getActive());

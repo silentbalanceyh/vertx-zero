@@ -68,6 +68,16 @@ public interface IXTag extends VertxPojo, Serializable {
     public Long getSort();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_TAG.SHOW</code>. 「show」- 是否显示在导航栏
+     */
+    public IXTag setShow(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_TAG.SHOW</code>. 「show」- 是否显示在导航栏
+     */
+    public Boolean getShow();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_TAG.DESCRIPTION</code>. 「description」- 标签描述
      */
     public IXTag setDescription(String value);
@@ -190,6 +200,7 @@ public interface IXTag extends VertxPojo, Serializable {
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setIcon,json::getString,"ICON","java.lang.String");
                 setOrThrow(this::setSort,json::getLong,"SORT","java.lang.Long");
+                setOrThrow(this::setShow,json::getBoolean,"SHOW","java.lang.Boolean");
                 setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -212,6 +223,7 @@ public interface IXTag extends VertxPojo, Serializable {
                 json.put("TYPE",getType());
                 json.put("ICON",getIcon());
                 json.put("SORT",getSort());
+                json.put("SHOW",getShow());
                 json.put("DESCRIPTION",getDescription());
                 json.put("APP_ID",getAppId());
                 json.put("ACTIVE",getActive());

@@ -99,6 +99,21 @@ public class XTagDao extends AbstractVertxDAO<XTagRecord, cn.vertxup.ambient.dom
         }
 
         /**
+     * Find records that have <code>SHOW IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTag>> findManyByShow(Collection<Boolean> values) {
+                return findManyByCondition(XTag.X_TAG.SHOW.in(values));
+        }
+
+        /**
+     * Find records that have <code>SHOW IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XTag>> findManyByShow(Collection<Boolean> values, int limit) {
+                return findManyByCondition(XTag.X_TAG.SHOW.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>DESCRIPTION IN (values)</code>
      * asynchronously
      */
