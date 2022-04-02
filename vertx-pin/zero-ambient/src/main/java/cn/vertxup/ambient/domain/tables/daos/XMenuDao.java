@@ -174,38 +174,6 @@ public class XMenuDao extends AbstractVertxDAO<XMenuRecord, cn.vertxup.ambient.d
         }
 
         /**
-     * Find records that have <code>TREE_COMPONENT IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenu>> findManyByTreeComponent(Collection<String> values) {
-                return findManyByCondition(XMenu.X_MENU.TREE_COMPONENT.in(values));
-        }
-
-        /**
-     * Find records that have <code>TREE_COMPONENT IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenu>> findManyByTreeComponent(Collection<String> values, int limit) {
-                return findManyByCondition(XMenu.X_MENU.TREE_COMPONENT.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TREE_CONFIG IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenu>> findManyByTreeConfig(Collection<String> values) {
-                return findManyByCondition(XMenu.X_MENU.TREE_CONFIG.in(values));
-        }
-
-        /**
-     * Find records that have <code>TREE_CONFIG IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenu>> findManyByTreeConfig(Collection<String> values, int limit) {
-                return findManyByCondition(XMenu.X_MENU.TREE_CONFIG.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XMenu>> findManyByActive(Collection<Boolean> values) {

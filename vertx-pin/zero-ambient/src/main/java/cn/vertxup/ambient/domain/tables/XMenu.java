@@ -70,16 +70,6 @@ public class XMenu extends TableImpl<XMenuRecord> {
      */
     public final TableField<XMenuRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(36), this, "「appId」- 应用程序ID");
     /**
-     * The column <code>DB_ETERNAL.X_MENU.TREE_COMPONENT</code>.
-     * 「treeComponent」- 目录组件，构造树专用
-     */
-    public final TableField<XMenuRecord, String> TREE_COMPONENT = createField(DSL.name("TREE_COMPONENT"), SQLDataType.CLOB, this, "「treeComponent」- 目录组件，构造树专用");
-    /**
-     * The column <code>DB_ETERNAL.X_MENU.TREE_CONFIG</code>. 「treeConfig」-
-     * 目录组件运行配置，特殊场景专用
-     */
-    public final TableField<XMenuRecord, String> TREE_CONFIG = createField(DSL.name("TREE_CONFIG"), SQLDataType.CLOB, this, "「treeConfig」- 目录组件运行配置，特殊场景专用");
-    /**
      * The column <code>DB_ETERNAL.X_MENU.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XMenuRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");
@@ -200,11 +190,11 @@ public class XMenu extends TableImpl<XMenuRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row20 type methods
+    // Row18 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<String, String, String, String, String, String, Long, Long, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public Row18<String, String, String, String, String, String, Long, Long, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row18) super.fieldsRow();
     }
 }
