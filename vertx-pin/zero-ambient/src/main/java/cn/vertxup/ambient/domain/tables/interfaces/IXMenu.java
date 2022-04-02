@@ -118,6 +118,30 @@ public interface IXMenu extends VertxPojo, Serializable {
     public String getAppId();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_MENU.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件，构造树专用
+     */
+    public IXMenu setTreeComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MENU.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件，构造树专用
+     */
+    public String getTreeComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_MENU.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    public IXMenu setTreeConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MENU.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    public String getTreeConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_MENU.ACTIVE</code>. 「active」- 是否启用
      */
     public IXMenu setActive(Boolean value);
@@ -225,6 +249,8 @@ public interface IXMenu extends VertxPojo, Serializable {
                 setOrThrow(this::setLevel,json::getLong,"LEVEL","java.lang.Long");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
+                setOrThrow(this::setTreeComponent,json::getString,"TREE_COMPONENT","java.lang.String");
+                setOrThrow(this::setTreeConfig,json::getString,"TREE_CONFIG","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -250,6 +276,8 @@ public interface IXMenu extends VertxPojo, Serializable {
                 json.put("LEVEL",getLevel());
                 json.put("PARENT_ID",getParentId());
                 json.put("APP_ID",getAppId());
+                json.put("TREE_COMPONENT",getTreeComponent());
+                json.put("TREE_CONFIG",getTreeConfig());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

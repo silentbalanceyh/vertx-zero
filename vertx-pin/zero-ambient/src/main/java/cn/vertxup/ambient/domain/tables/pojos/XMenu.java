@@ -30,6 +30,8 @@ public class XMenu implements VertxPojo, IXMenu {
     private Long          level;
     private String        parentId;
     private String        appId;
+    private String        treeComponent;
+    private String        treeConfig;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -52,6 +54,8 @@ public class XMenu implements VertxPojo, IXMenu {
         this.level = value.getLevel();
         this.parentId = value.getParentId();
         this.appId = value.getAppId();
+        this.treeComponent = value.getTreeComponent();
+        this.treeConfig = value.getTreeConfig();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -73,6 +77,8 @@ public class XMenu implements VertxPojo, IXMenu {
         Long          level,
         String        parentId,
         String        appId,
+        String        treeComponent,
+        String        treeConfig,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -92,6 +98,8 @@ public class XMenu implements VertxPojo, IXMenu {
         this.level = level;
         this.parentId = parentId;
         this.appId = appId;
+        this.treeComponent = treeComponent;
+        this.treeConfig = treeConfig;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -278,6 +286,44 @@ public class XMenu implements VertxPojo, IXMenu {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_MENU.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件，构造树专用
+     */
+    @Override
+    public String getTreeComponent() {
+        return this.treeComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_MENU.TREE_COMPONENT</code>.
+     * 「treeComponent」- 目录组件，构造树专用
+     */
+    @Override
+    public XMenu setTreeComponent(String treeComponent) {
+        this.treeComponent = treeComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_MENU.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    @Override
+    public String getTreeConfig() {
+        return this.treeConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_MENU.TREE_CONFIG</code>. 「treeConfig」-
+     * 目录组件运行配置，特殊场景专用
+     */
+    @Override
+    public XMenu setTreeConfig(String treeConfig) {
+        this.treeConfig = treeConfig;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_MENU.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -427,6 +473,8 @@ public class XMenu implements VertxPojo, IXMenu {
         sb.append(", ").append(level);
         sb.append(", ").append(parentId);
         sb.append(", ").append(appId);
+        sb.append(", ").append(treeComponent);
+        sb.append(", ").append(treeConfig);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -456,6 +504,8 @@ public class XMenu implements VertxPojo, IXMenu {
         setLevel(from.getLevel());
         setParentId(from.getParentId());
         setAppId(from.getAppId());
+        setTreeComponent(from.getTreeComponent());
+        setTreeConfig(from.getTreeConfig());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

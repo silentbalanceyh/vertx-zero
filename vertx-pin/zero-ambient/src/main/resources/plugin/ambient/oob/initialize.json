@@ -16,6 +16,7 @@
     "plugin/ambient/oob/cab/x.menu.xlsx",
     "plugin/ambient/oob/cab/x.notice.xlsx",
     "plugin/ambient/oob/cab/x.tabular.xlsx",
+    "plugin/ambient/oob/cab/x.tag.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.app.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.system.document.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.system.sync_log.xlsx",
@@ -25,5 +26,6 @@
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.linkage.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.menu.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.notice.xlsx",
-    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tabular.xlsx"
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tabular.xlsx",
+    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tag.xlsx"
 ]

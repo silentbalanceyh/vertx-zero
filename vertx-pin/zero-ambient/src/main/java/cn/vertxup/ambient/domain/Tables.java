@@ -18,6 +18,7 @@ import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 
 
 /**
@@ -95,4 +96,9 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_TABULAR</code>.
      */
     public static final XTabular X_TABULAR = XTabular.X_TABULAR;
+
+    /**
+     * The table <code>DB_ETERNAL.X_TAG</code>.
+     */
+    public static final XTag X_TAG = XTag.X_TAG;
 }

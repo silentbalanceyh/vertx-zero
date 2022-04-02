@@ -1,0 +1,12 @@
+{
+    "name": "x-tag",
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XTagDao",
+    "field": {
+        "unique": [
+            [
+                "name",
+                "appId"
+            ]
+        ]
+    }
+}

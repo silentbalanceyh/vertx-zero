@@ -41,3 +41,8 @@
     - page
     - position
     - uiMenu
+-   dao: cn.vertxup.ambient.domain.tables.daos.XTagDao     # X_TAG
+    key: key
+    unique:
+    - name
+    - appId

@@ -96,6 +96,11 @@ public class Db extends SchemaImpl {
     public final XTabular X_TABULAR = XTabular.X_TABULAR;
 
     /**
+     * The table <code>DB_ETERNAL.X_TAG</code>.
+     */
+    public final XTag X_TAG = XTag.X_TAG;
+
+    /**
      * No further instances allowed
      */
     private Db() {
@@ -124,7 +129,8 @@ public class Db extends SchemaImpl {
             XNotice.X_NOTICE,
             XNumber.X_NUMBER,
             XSource.X_SOURCE,
-            XTabular.X_TABULAR
+            XTabular.X_TABULAR,
+            XTag.X_TAG
         );
     }
 }

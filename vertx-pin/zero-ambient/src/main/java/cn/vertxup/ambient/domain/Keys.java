@@ -18,6 +18,7 @@ import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 import cn.vertxup.ambient.domain.tables.records.XActivityChangeRecord;
 import cn.vertxup.ambient.domain.tables.records.XActivityRecord;
 import cn.vertxup.ambient.domain.tables.records.XAppRecord;
@@ -32,6 +33,7 @@ import cn.vertxup.ambient.domain.tables.records.XNoticeRecord;
 import cn.vertxup.ambient.domain.tables.records.XNumberRecord;
 import cn.vertxup.ambient.domain.tables.records.XSourceRecord;
 import cn.vertxup.ambient.domain.tables.records.XTabularRecord;
+import cn.vertxup.ambient.domain.tables.records.XTagRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -84,4 +86,6 @@ public class Keys {
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_APP_ID = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_APP_ID"), new TableField[] { XTabular.X_TABULAR.APP_ID, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE }, true);
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_PRIMARY = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_PRIMARY"), new TableField[] { XTabular.X_TABULAR.KEY }, true);
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_SIGMA = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_SIGMA"), new TableField[] { XTabular.X_TABULAR.SIGMA, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE }, true);
+    public static final UniqueKey<XTagRecord> KEY_X_TAG_NAME = Internal.createUniqueKey(XTag.X_TAG, DSL.name("KEY_X_TAG_NAME"), new TableField[] { XTag.X_TAG.NAME, XTag.X_TAG.APP_ID }, true);
+    public static final UniqueKey<XTagRecord> KEY_X_TAG_PRIMARY = Internal.createUniqueKey(XTag.X_TAG, DSL.name("KEY_X_TAG_PRIMARY"), new TableField[] { XTag.X_TAG.KEY }, true);
 }
