@@ -216,6 +216,10 @@ public interface KName {
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
 
+    interface __ {
+        String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
+    }
+
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
