@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class MetaBattery implements Serializable {
+public class PowerConfig implements Serializable {
 
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)

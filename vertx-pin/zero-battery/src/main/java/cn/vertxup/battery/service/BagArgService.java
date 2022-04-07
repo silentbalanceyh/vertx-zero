@@ -6,6 +6,7 @@ import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.battery.atom.PowerApp;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -77,10 +78,14 @@ public class BagArgService implements BagArgStub {
             if (Objects.isNull(bag)) {
                 return Ux.futureJ();
             }
+            // Cache flush
             final BlockStub blockStub = Ut.singleton(BlockService.class);
             return this.seekBlocks(bag)
                 // Parameters Store Code Logical
-                .compose(blocks -> blockStub.saveParameters(blocks, data));
+                .compose(blocks -> blockStub.saveParameters(blocks, data))
+                // Refresh Cache of appId
+                .compose(config -> PowerApp.flush(bag.getAppId())
+                    .compose(nil -> Ux.future(config)));
         });
     }
 
