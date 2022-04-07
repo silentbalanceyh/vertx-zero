@@ -31,7 +31,7 @@ class ScImage {
         graphics.setFont(FONT_DEFAULT);
         graphics.setColor(colorRandom(160, 200));
         // Draw the line of failure
-        for (int i = 1; i <= 255; i++) {
+        for (int i = 1; i <= 188; i++) {
             drawLine(graphics, width, height);
         }
         drawText(graphics, code);
@@ -48,15 +48,15 @@ class ScImage {
             graphics.setFont(FONT_TEXT);
             graphics.setColor(new Color(RANDOM.nextInt(101), RANDOM.nextInt(111), RANDOM.nextInt(121)));
             graphics.translate(RANDOM.nextInt(3), RANDOM.nextInt(3));
-            graphics.drawString(String.valueOf(code.charAt(i)), 24 + 32 * i, 32);
+            graphics.drawString(String.valueOf(code.charAt(i)), 24 + 28 * i, 24);
         }
     }
 
     private static void drawLine(final Graphics graphics, final int width, final int height) {
         final int x = RANDOM.nextInt(width);
         final int y = RANDOM.nextInt(height);
-        final int xl = RANDOM.nextInt(16);
-        final int yl = RANDOM.nextInt(20);
+        final int xl = RANDOM.nextInt(13);
+        final int yl = RANDOM.nextInt(15);
         graphics.drawLine(x, y, x + xl, y + yl);
     }
 
