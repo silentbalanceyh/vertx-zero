@@ -355,6 +355,14 @@ final class Period {
         } while (end.isAfter(begin));
     }
 
+    static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
+        final LocalDate currentDay = current.toLocalDate();
+        final LocalDate startDay = start.toLocalDate();
+        final LocalDate endDay = end.toLocalDate();
+        return (currentDay.isEqual(startDay) || currentDay.isAfter(startDay))
+            && (currentDay.isEqual(endDay) || currentDay.isBefore(endDay));
+    }
+
     static boolean equalDate(final Date left, final Date right) {
         // Compare year
         int leftVal = toItem(left, Calendar.YEAR);

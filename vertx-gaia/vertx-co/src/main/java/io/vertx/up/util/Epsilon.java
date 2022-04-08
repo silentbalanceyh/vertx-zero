@@ -3,9 +3,11 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /*
@@ -14,6 +16,14 @@ import java.util.stream.Collectors;
  * Mapped by field here for different usage
  */
 class Epsilon {
+
+    static <T> Set<String> vStringSet(final Collection<T> list, final Function<T, String> supplier) {
+        return list.stream()
+            .filter(Objects::nonNull)
+            .map(supplier)
+            .filter(Ut::notNil)
+            .collect(Collectors.toSet());
+    }
 
     static Set<String> vStringSet(final JsonArray array, final String field) {
         Set<String> set = new HashSet<>();

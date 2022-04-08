@@ -1013,6 +1013,10 @@ public final class Ut {
         return Numeric.isRange(value, min, max);
     }
 
+    public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
+        return Period.isDuration(current, start, end);
+    }
+
     public static boolean isSame(final Date left, final Date right) {
         return Period.equalDate(left, right);
     }
@@ -1599,11 +1603,15 @@ public final class Ut {
      * - valueJArray(JsonObject, String)              JsonObject -> field -> JsonArray
      * - valueSetArray(JsonArray, String)             JsonArray -> field -> Set<JsonArray>
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
-     * - valueSetString(JsonArray, String, boolean )  JsonArray -> field -> Set<String> ( include null when boolean = true )
+     * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
      */
     public static Set<String> valueSetString(final JsonArray array, final String field) {
         return Epsilon.vStringSet(array, field);
+    }
+
+    public static <T> Set<String> valueSetString(final List<T> list, final Function<T, String> executor) {
+        return Epsilon.vStringSet(list, executor);
     }
 
     public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
