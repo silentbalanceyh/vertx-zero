@@ -1257,7 +1257,7 @@ public final class Ut {
      * 5) toEnum
      * 6) toCollection / toPrimary
      * 7) toString
-     * 8) toDateTime / toDate / toTime
+     * 8) toDateTime / toDate / toTime / toAdjust
      * 9) toBytes
      * 10) toSet
      * 11) toMap
@@ -1605,6 +1605,8 @@ public final class Ut {
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
      * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
+     *
+     * - valueTime(LocalTime, LocalDateTime)
      */
     public static Set<String> valueSetString(final JsonArray array, final String field) {
         return Epsilon.vStringSet(array, field);

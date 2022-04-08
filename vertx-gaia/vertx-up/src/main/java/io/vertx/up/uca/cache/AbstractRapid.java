@@ -10,7 +10,10 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,6 +46,20 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
         } else {
             return this.pool.put(key, value).compose(Kv::value);
         }
+    }
+
+    @Override
+    public Future<T> writeMulti(final Set<K> keySet, final T value) {
+        final List<Future<T>> futures = new ArrayList<>();
+        keySet.forEach(key -> futures.add(this.write(key, value)));
+        return Ux.thenCombineT(futures).compose(nil -> Ux.future(value));
+    }
+
+    @Override
+    public Future<Boolean> writeMulti(final Set<K> keySet) {
+        final List<Future<T>> futures = new ArrayList<>();
+        keySet.forEach(key -> futures.add(this.clear(key)));
+        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
     @Override

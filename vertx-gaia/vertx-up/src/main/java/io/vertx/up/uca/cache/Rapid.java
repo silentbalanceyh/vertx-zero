@@ -67,7 +67,11 @@ public interface Rapid<K, V> {
 
     Future<V> write(K key, V value);
 
+    Future<V> writeMulti(Set<K> keySet, V value);
+
     Future<V> clear(K key);
+
+    Future<Boolean> writeMulti(Set<K> keySet);
 
     Future<V> read(K key);
 }
