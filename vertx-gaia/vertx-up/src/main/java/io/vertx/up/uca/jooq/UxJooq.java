@@ -1297,15 +1297,15 @@ public final class UxJooq {
 
     /*
      * deleteById(id)
-     * deleteById(Collection<ID> ids)
+     * deleteByIds(Collection<ID> ids)
      * deleteByIdAsync(id)
-     * deleteByIdAsync(Collection<ID> ids)
+     * deleteByIdAsyncs(Collection<ID> ids)
      */
     public final Boolean deleteById(final Object id) {
         return this.writer.deleteById(Arrays.asList(id));
     }
 
-    public Boolean deleteById(final Collection<Object> ids) {
+    public Boolean deleteByIds(final Collection<Object> ids) {
         return this.writer.deleteById(ids);
     }
 
@@ -1313,7 +1313,7 @@ public final class UxJooq {
         return this.writer.deleteByIdAsync(Arrays.asList(id));
     }
 
-    public Future<Boolean> deleteByIdAsync(final Collection<Object> ids) {
+    public Future<Boolean> deleteByIdsAsync(final Collection<Object> ids) {
         return this.writer.deleteByIdAsync(ids);
     }
 

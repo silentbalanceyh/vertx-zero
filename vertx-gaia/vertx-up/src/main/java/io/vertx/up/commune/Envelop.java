@@ -257,12 +257,16 @@ public class Envelop implements Serializable {
         this.reference(reference -> Rib.criteria(reference, criteria, true));
     }
 
-    public void onMe(final boolean active) {
+    public void onMe(final boolean active, final boolean app) {
         final JsonObject headerX = this.headersX();
         this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
         this.value(KName.ACTIVE, active);
         if (headerX.containsKey(KName.LANGUAGE)) {
             this.value(KName.LANGUAGE, headerX.getValue(KName.LANGUAGE));
+        }
+        if (app) {
+            this.value(KName.APP_ID, headerX.getValue(KName.APP_ID));
+            this.value(KName.APP_KEY, headerX.getValue(KName.APP_KEY));
         }
     }
 
