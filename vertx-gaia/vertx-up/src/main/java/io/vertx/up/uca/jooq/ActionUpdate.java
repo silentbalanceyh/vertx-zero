@@ -54,6 +54,7 @@ class ActionUpdate extends AbstractAction {
     <T> List<T> update(final List<T> list) {
         Objects.requireNonNull(list);
         if (list.isEmpty()) {
+            this.logging("[ Jq ] update(List<T>) executed empty: 0");
             return list;
         }
         final List<Query> batchOps = new ArrayList<>();
