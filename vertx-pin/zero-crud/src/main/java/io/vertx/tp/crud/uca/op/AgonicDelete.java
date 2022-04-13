@@ -12,6 +12,7 @@ import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -37,12 +38,16 @@ class AgonicDelete implements Agonic {
                     .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(removed),
                         (stub) -> stub.backupAsync(module.getIdentifier(), removed)))
 
-                    /* 200, IxLinker deleted first and then delete related record */
-                    .compose(processed -> Ix.<Boolean>seekFn(in, processed)
-                        .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
-                    /* 200, Current Item */
-                    .compose(nil -> jooq.deleteByAsync(criteria))
-                    .compose(IxKit::success200Pre);
+
+                    // 「AOP」Wrap JsonObject delete
+                    .compose(Ix.wrap(module, Aspect::wrapJDelete, wrapData -> Ux.future(wrapData)
+                        /* 200, IxLinker deleted first and then delete related record */
+                        .compose(processed -> Ix.<Boolean>seekFn(in, processed)
+                            .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
+                        /* 200, Current Item */
+                        .compose(nil -> jooq.deleteByAsync(criteria))
+                        .compose(IxKit::success200Pre)
+                    ));
             }
         });
     }
@@ -62,12 +67,17 @@ class AgonicDelete implements Agonic {
                     /* BackUp future */
                     .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(array),
                         stub -> stub.backupAsync(module.getIdentifier(), array)))
-                    /* 200, IxLinker deleted first and then delete related records */
-                    .compose(processed -> Ix.<Boolean>seekFn(in, processed)
-                        .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
-                    /* 200, Current Item */
-                    .compose(nil -> jooq.deleteByAsync(criteria))
-                    .compose(nil -> Ux.future(array));
+
+
+                    // 「AOP」Wrap JsonArray delete
+                    .compose(Ix.wrap(module, Aspect::wrapACreate, wrapData -> Ux.future(wrapData)
+                        /* 200, IxLinker deleted first and then delete related records */
+                        .compose(processed -> Ix.<Boolean>seekFn(in, processed)
+                            .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))
+                        /* 200, Current Item */
+                        .compose(nil -> jooq.deleteByAsync(criteria))
+                        .compose(nil -> Ux.future(array))
+                    ));
             }
         });
     }

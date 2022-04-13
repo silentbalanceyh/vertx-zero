@@ -35,6 +35,8 @@ public class KModule implements Serializable {
 
     private KTransform transform;
 
+    private JsonObject aop;
+
     public KField getField() {
         return this.field;
     }
@@ -142,6 +144,14 @@ public class KModule implements Serializable {
         this.modeKey = modeKey;
     }
 
+    public JsonObject getAop() {
+        return this.aop;
+    }
+
+    public void setAop(final JsonObject aop) {
+        this.aop = aop;
+    }
+
     @Override
     public String toString() {
         return "IxModule{" +
@@ -155,6 +165,7 @@ public class KModule implements Serializable {
             ", daoCls=" + this.daoCls +
             ", header=" + this.header +
             ", transform=" + this.transform +
+            ", aop=" + this.aop +
             '}';
     }
 }

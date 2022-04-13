@@ -14,6 +14,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -168,6 +169,20 @@ class IxFn {
                     filters.put(Strings.EMPTY, Boolean.FALSE);
                 }
                 return executor.apply(switchedJq, filters);
+            }
+        };
+    }
+
+    static <T> Function<T, Future<T>> wrap(
+        final KModule module, final BiFunction<Aspect, Function<T, Future<T>>, Function<T, Future<T>>> aopFn,
+        final Function<T, Future<T>> executor) {
+        return input -> {
+            final JsonObject aop = module.getAop();
+            if (Ut.isNil(aop)) {
+                return executor.apply(input);
+            } else {
+                final Aspect aspect = Aspect.create(aop);
+                return aopFn.apply(aspect, executor).apply(input);
             }
         };
     }

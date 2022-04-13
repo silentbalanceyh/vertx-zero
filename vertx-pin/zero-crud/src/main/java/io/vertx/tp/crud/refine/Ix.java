@@ -11,6 +11,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class Ix {
     }
 
     public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
-        return IxType.atom(active, columns);
+        return IxData.atom(active, columns);
     }
 
     // --------------------------------- Function Part
@@ -88,6 +89,12 @@ public class Ix {
     @SafeVarargs
     public static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
         return IxFn.passion(input, in, executors);
+    }
+
+    public static <T> Function<T, Future<T>> wrap(
+        final KModule module, final BiFunction<Aspect, Function<T, Future<T>>, Function<T, Future<T>>> aopFn,
+        final Function<T, Future<T>> executor) {
+        return IxFn.wrap(module, aopFn, executor);
     }
 
     // --------------------------------- Serialization / Deserialization System
