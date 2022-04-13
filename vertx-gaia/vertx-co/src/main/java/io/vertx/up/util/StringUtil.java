@@ -218,4 +218,13 @@ final class StringUtil {
         // Convert `//` to `/`
         return (valueFolder + valueFile).replace("//", "/");
     }
+
+    // Regex Matcher for string
+    static boolean isMatch(final String regex, final String original) {
+        return Fn.getNull(() -> {
+            final Pattern pattern = Pattern.compile(regex);
+            final Matcher matcher = pattern.matcher(original);
+            return matcher.matches();
+        }, regex, original);
+    }
 }

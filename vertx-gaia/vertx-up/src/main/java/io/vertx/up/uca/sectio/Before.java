@@ -6,12 +6,38 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Before {
+
+    Set<ChangeFlag> TYPE_SAVE = new HashSet<>() {
+        {
+            this.add(ChangeFlag.ADD);
+            this.add(ChangeFlag.UPDATE);
+        }
+    };
+
+    Set<ChangeFlag> TYPE_ADD = new HashSet<>() {
+        {
+            this.add(ChangeFlag.ADD);
+        }
+    };
+
+    Set<ChangeFlag> TYPE_UPDATE = new HashSet<>() {
+        {
+            this.add(ChangeFlag.UPDATE);
+        }
+    };
+
+    Set<ChangeFlag> TYPE_DELETE = new HashSet<>() {
+        {
+            this.add(ChangeFlag.DELETE);
+        }
+    };
 
     Set<ChangeFlag> types();
 

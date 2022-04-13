@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.error._400FileNameInValidException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Attachment;
@@ -37,6 +38,11 @@ public class DocWriter implements DocWStub {
 
     @Override
     public Future<JsonObject> rename(final JsonObject documentJ) {
+        // isFileName Checking
+        final String name = documentJ.getString(KName.NAME);
+        if (!Ut.isFileName(name)) {
+            return Ux.thenError(_400FileNameInValidException.class, this.getClass());
+        }
         final String key = documentJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
         return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {

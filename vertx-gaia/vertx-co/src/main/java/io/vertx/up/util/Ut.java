@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
 
@@ -998,6 +999,10 @@ public final class Ut {
     }
 
     /*
+     * isMatch of Regex
+     */
+
+    /*
      * Checking method for all
      * 1) isSame / isDate
      * 2) isBoolean
@@ -1087,6 +1092,11 @@ public final class Ut {
 
     public static boolean isDecimalNegative(final String original) {
         return Numeric.Decimal.isNegative(original);
+    }
+
+    // isFileName
+    public static boolean isFileName(final String original) {
+        return StringUtil.isMatch(KValue.Regex.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {

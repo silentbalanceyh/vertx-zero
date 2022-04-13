@@ -34,6 +34,115 @@ public class Aspect {
         return Fn.poolThread(POOL_ASPECT, () -> new Aspect(config), cacheKey);
     }
 
+    // Around with Config
+    // Around without Config
+    public <T> Function<T, Future<T>> wrapAop(
+        final Around around, final Function<T, Future<T>> executor,
+        final JsonObject configuration) {
+        Objects.requireNonNull(around);
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   o    ----    o     ----   o   (  o  )
+        return this.wrapAop(around, executor, around, configuration);
+    }
+
+    public <T> Function<T, Future<T>> wrapAop(
+        final Around around, final Function<T, Future<T>> executor) {
+        Objects.requireNonNull(around);
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   o    ----    o     ----   o   (  x  )
+        return this.wrapAop(around, executor, around, null);
+    }
+
+    // Before with Config
+    // Before without Config
+    public <T> Function<T, Future<T>> wrapAop(
+        final Before before, final Function<T, Future<T>> executor,
+        final JsonObject configuration) {
+        Objects.requireNonNull(before);
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   o    ----    o     ----   x   (  o  )
+        return this.wrapAop(before, executor, null, configuration);
+    }
+
+    public <T> Function<T, Future<T>> wrapAop(
+        final Before before, final Function<T, Future<T>> executor) {
+        Objects.requireNonNull(before);
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   o    ----    o     ----   x   (  x  )
+        return this.wrapAop(before, executor, null, null);
+    }
+
+
+    // After with Config
+    // After without Config
+    public Function<JsonObject, Future<JsonObject>> wrapAop(
+        final Function<JsonObject, Future<JsonObject>> executor, final After after,
+        final JsonObject configuration) {
+        Objects.requireNonNull(after);
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   x    ----    o     ----   o   (  o  )
+        return this.wrapAop(null, executor, after, configuration);
+    }
+
+    public Function<JsonObject, Future<JsonObject>> wrapAop(
+        final Function<JsonObject, Future<JsonObject>> executor, final After after) {
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   x    ----    o     ----   o   (  x  )
+        return this.wrapAop(null, executor, after, null);
+    }
+
+
+    // Before/After with Config
+    // Before/After without Config
+    public <T> Function<T, Future<T>> wrapAop(
+        final Before before, final Function<T, Future<T>> executor, final After after) {
+        // ----- Before ---- Executor ---- After ( Configuration )
+        // -----   o    ----    o     ----   o   (  x  )
+        return this.wrapAop(before, executor, after, null);
+    }
+
+    // Full
+    // ----- Before ---- Executor ---- After ( Configuration )
+    // -----   o    ----    o     ----   o   (  o  )
+    @SuppressWarnings("all")
+    public <T> Function<T, Future<T>> wrapAop(
+        final Before before, final Function<T, Future<T>> executor, final After after,
+        final JsonObject configuration) {
+        Objects.requireNonNull(executor);
+        final JsonObject config = Ut.valueJObject(configuration);
+        return input -> {
+            // Default to input
+            Future<T> stepFuture = Ux.future(input);
+            if (Objects.nonNull(before)) {
+                final JsonObject beforeConfig = Ut.valueJObject(config, before.getClass().getName());
+                // Execute Before on input
+                if (input instanceof JsonObject) {
+                    stepFuture = before.beforeAsync((JsonObject) input, beforeConfig)
+                        .compose(json -> Ux.future((T) json));
+                } else if (input instanceof JsonArray) {
+                    stepFuture = before.beforeAsync((JsonArray) input, beforeConfig)
+                        .compose(array -> Ux.future((T) array));
+                }
+            }
+            // Executor Default
+            stepFuture = stepFuture.compose(executor);
+            if (Objects.nonNull(after)) {
+                final JsonObject afterConfig = Ut.valueJObject(config, after.getClass().getName());
+                // Execute After on output
+                if (input instanceof JsonObject) {
+                    stepFuture = stepFuture
+                        .compose(out -> after.afterAsync((JsonObject) out, afterConfig))
+                        .compose(out -> Ux.future((T) out));
+                } else if (input instanceof JsonArray) {
+                    stepFuture = stepFuture
+                        .compose(out -> after.afterAsync((JsonArray) out, afterConfig))
+                        .compose(out -> Ux.future((T) out));
+                }
+            }
+            return stepFuture;
+        };
+    }
+
     public Function<JsonObject, Future<JsonObject>> wrapJCreate(
         final Function<JsonObject, Future<JsonObject>> executor) {
         return this.aopFn(JsonObject::new, executor, ChangeFlag.ADD);
