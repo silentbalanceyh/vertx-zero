@@ -115,11 +115,12 @@ class WfFlow {
         if (1 == starts.size()) {
             final StartEvent event = starts.iterator().next();
             workflow.put(KName.Flow.TASK, event.getId());
+            workflow.put(KName.Flow.TASK_NAME, event.getName());
             workflow.put(KName.MULTIPLE, Boolean.FALSE);
         } else {
-            final JsonObject startMap = new JsonObject();
-            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
-            workflow.put(KName.Flow.TASK, startMap);
+            final JsonObject taskMap = new JsonObject();
+            starts.forEach(start -> taskMap.put(start.getId(), start.getName()));
+            workflow.put(KName.Flow.TASK, taskMap);
             workflow.put(KName.MULTIPLE, Boolean.TRUE);
         }
         return workflow;

@@ -411,6 +411,7 @@ public interface KName {
         String TRACE_SERIAL = "traceSerial";
         String TASK_SERIAL = "taskSerial";
         String TASK_CODE = "taskCode";
+        String TASK_NAME = "taskName";
 
         // Flow Field
         String FLOW_END = "flowEnd";

@@ -67,8 +67,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.2.6</vertx.version>
-        <stack.version>4.2.6</stack.version>
+        <vertx.version>4.2.7</vertx.version>
+        <stack.version>4.2.7</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
@@ -217,8 +217,9 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.14.0</camunda.spin.version>
+        <camunda.spin.version>1.14.1</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
+        <camunda.connect.version>1.5.3</camunda.connect.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.9</mybatis.version>
     </properties>
@@ -232,6 +233,30 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-core -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-core</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-soap-http-client -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-soap-http-client</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-http-client -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-http-client</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-connectors-all -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-connectors-all</artifactId>
+                <version>${camunda.connect.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-xml-dom -->
             <dependency>
