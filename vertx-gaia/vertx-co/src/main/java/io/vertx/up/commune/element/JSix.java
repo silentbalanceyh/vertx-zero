@@ -23,6 +23,33 @@ import java.io.Serializable;
  * - false
  *
  * 最终生成六种配置
+ *
+ * 配置格式：
+ *
+ * {
+ *     "components": {
+ *          "ADD.true": {},
+ *          "UPDATE.true": {},
+ *          "DELETE.true": {},
+ *          "ADD.false": {},
+ *          "UPDATE.false": {},
+ *          "DELETE.false": {}
+ *     }
+ * }
+ *
+ * 每一个节点格式：
+ * {
+ *     "configuration.operation": "TYPE" ( JSix 省略 )
+ *     "plugin.component.before": [],
+ *     "plugin.component.job": [],
+ *     "plugin.component.after": [],
+ *     "plugin.config": {
+ *     }
+ * }
+ * -- before: 前置插件（队列）
+ * -- job：后置插件（并行）
+ * -- after：后置插件（队列）
+ * 其他节点为配置
  */
 public class JSix implements Serializable {
 

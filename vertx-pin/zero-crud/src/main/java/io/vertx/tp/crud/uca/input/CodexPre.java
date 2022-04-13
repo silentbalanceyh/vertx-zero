@@ -38,7 +38,7 @@ class CodexPre implements Pre {
             final WebException error = rigor.verify(rules, data);
             if (null != error) {
                 Ix.Log.verify(this.getClass(), "---> Error Code: {0}", String.valueOf(error.getCode()));
-                throw error;
+                return Future.failedFuture(error);
             }
         }
         return Ux.future(data);

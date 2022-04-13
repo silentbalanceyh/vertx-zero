@@ -229,8 +229,7 @@ final class Folder {
                 directory.listFiles(File::isDirectory) :
                 (null == extension ?
                     directory.listFiles(File::isFile) :
-                    directory.listFiles((item) -> item.isFile()
-                        && item.getName().endsWith(extension)));
+                    directory.listFiles((item) -> item.isFile() && item.getName().endsWith(extension)));
             if (null != files) {
                 retList.addAll(Arrays.stream(files)
                     .map(File::getName)

@@ -102,10 +102,6 @@ public class PluginQueue {
         }
     }
 
-    private AfterPlugin mapAfter(final Class<?> pluginAfter) {
-        return this.mapBind(pluginAfter);
-    }
-
     // ========================= Plugin After/Before ============================
     private <T> List<Function<T, Future<T>>> before(final JsonObject options) {
         final List<Class<?>> pluginCls = Ox.pluginBefore(options);

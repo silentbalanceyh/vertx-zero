@@ -465,4 +465,13 @@ public interface KName {
         String TREE_COMPONENT = "treeComponent";
         String TREE_CONFIG = "treeConfig";
     }
+
+    interface Aop {
+        String COMPONENT_TYPE = "configuration.operation";
+        String COMPONENT = "plugin.component";
+        String COMPONENT_BEFORE = "plugin.component.before";
+        String COMPONENT_AFTER = "plugin.component.after";
+        String COMPONENT_JOB = "plugin.component.job";
+        String COMPONENT_CONFIG = "plugin.config";
+    }
 }
