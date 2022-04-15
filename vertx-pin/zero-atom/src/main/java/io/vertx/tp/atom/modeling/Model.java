@@ -10,8 +10,8 @@ import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.modeling.JsonModel;
 import io.vertx.up.commune.Json;
-import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.experiment.mixture.HTField;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -68,7 +68,7 @@ public interface Model extends AoShared, AoConnect {
 
     ConcurrentMap<String, Class<?>> typeCls();
 
-    ConcurrentMap<String, TypeField> types();
+    ConcurrentMap<String, HTField> types();
 }
 
 /**

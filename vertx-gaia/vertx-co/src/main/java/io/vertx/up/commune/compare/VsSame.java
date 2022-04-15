@@ -1,6 +1,6 @@
 package io.vertx.up.commune.compare;
 
-import io.vertx.up.commune.element.TypeField;
+import io.vertx.up.experiment.mixture.HTField;
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,11 +17,11 @@ interface VsSame {
     /**
      * Bind subset when comparing JsonArray or JsonObject
      *
-     * @param typeField {@link Set}
+     * @param HTField {@link Set}
      *
      * @return {@link VsSame} Fluent returned
      */
-    VsSame bind(TypeField typeField);
+    VsSame bind(HTField HTField);
 
     /**
      * Comparing

@@ -12,9 +12,9 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
-import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -142,9 +142,9 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public ConcurrentMap<String, TypeField> types() {
+    public ConcurrentMap<String, HTField> types() {
         this.sureTypes();
-        final ConcurrentMap<String, TypeField> typeMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, HTField> typeMap = new ConcurrentHashMap<>();
         this.attributeMap.forEach((name, aoAttr) -> typeMap.put(name, aoAttr.type()));
         return typeMap;
     }

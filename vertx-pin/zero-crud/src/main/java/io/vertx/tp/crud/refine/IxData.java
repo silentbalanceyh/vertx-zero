@@ -9,10 +9,10 @@ import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.element.TypeAtom;
-import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -124,7 +124,7 @@ class IxData {
         return parameters;
     }
 
-    static TypeAtom atom(final IxMod active, final JsonArray columns) {
+    static HTAtom atom(final IxMod active, final JsonArray columns) {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
@@ -133,9 +133,9 @@ class IxData {
         /*
          * First module for calculation
          */
-        final TypeAtom atom = TypeAtom.create();
+        final HTAtom atom = HTAtom.create();
         final KModule module = active.module();
-        final List<TypeField> fieldList = new ArrayList<>();
+        final List<HTField> fieldList = new ArrayList<>();
 
         final KModule connect = active.connect();
         if (Objects.nonNull(connect)) {
@@ -147,18 +147,18 @@ class IxData {
         return atom;
     }
 
-    private static List<TypeField> field(final KModule module, final Envelop envelop,
-                                         final ConcurrentMap<String, String> headerMap) {
+    private static List<HTField> field(final KModule module, final Envelop envelop,
+                                       final ConcurrentMap<String, String> headerMap) {
         final UxJooq jooq = IxPin.jooq(module, envelop);
         final JqAnalyzer analyzer = jooq.analyzer();
         final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
         /*
          * Processing for TypeField list building
          */
-        final List<TypeField> fieldList = new ArrayList<>();
+        final List<HTField> fieldList = new ArrayList<>();
         headerMap.forEach((field, alias) -> {
             final Class<?> type = typeMap.getOrDefault(field, String.class);
-            fieldList.add(TypeField.create(field, alias, type));
+            fieldList.add(HTField.create(field, alias, type));
         });
         return fieldList;
     }

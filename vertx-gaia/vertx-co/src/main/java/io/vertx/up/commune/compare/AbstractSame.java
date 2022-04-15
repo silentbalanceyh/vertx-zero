@@ -2,7 +2,7 @@ package io.vertx.up.commune.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.element.TypeField;
+import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -38,7 +38,7 @@ interface Pool {
  */
 abstract class AbstractSame implements VsSame {
     protected transient final Class<?> type;
-    protected transient TypeField fieldType;
+    protected transient HTField fieldType;
     private transient VsExtension found;
 
     public AbstractSame(final Class<?> type) {
@@ -53,7 +53,7 @@ abstract class AbstractSame implements VsSame {
     }
 
     @Override
-    public VsSame bind(final TypeField fieldType) {
+    public VsSame bind(final HTField fieldType) {
         if (Objects.nonNull(fieldType)) {
             this.fieldType = fieldType;
         }

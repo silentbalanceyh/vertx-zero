@@ -4,8 +4,8 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
-import io.vertx.up.commune.element.TypeAtom;
-import io.vertx.up.commune.element.TypeField;
+import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -22,7 +22,7 @@ class AoDefine {
 
     private transient final Model modelRef;
     private transient final String identifier;
-    private transient final TypeAtom typeAtom = TypeAtom.create();
+    private transient final HTAtom htAtom = HTAtom.create();
 
     AoDefine(final Model modelRef) {
         /* 模型引用信息 */
@@ -36,14 +36,16 @@ class AoDefine {
             if (Ut.notNil(name)) {
                 /* AoAttribute Extract from Model */
                 final AoAttribute aoAttr = modelRef.attribute(name);
-                final TypeField typeField;
+                final HTField hField;
                 if (Objects.isNull(aoAttr)) {
                     // Fix Common issue here for type checking
-                    typeField = TypeField.create(name, attr.getAlias());
+                    hField = HTField.create(name, attr.getAlias());
                 } else {
-                    typeField = aoAttr.type();
+                    hField = aoAttr.type();
                 }
-                if (Objects.nonNull(typeField)) this.typeAtom.add(typeField);
+                if (Objects.nonNull(hField)) {
+                    this.htAtom.add(hField);
+                }
             }
         });
     }
@@ -81,25 +83,25 @@ class AoDefine {
 
     /* 属性 name = alias */
     ConcurrentMap<String, String> alias() {
-        return this.typeAtom.alias();
+        return this.htAtom.alias();
     }
-
-    // ------------------ 计算型处理 -----------------
 
     /*
      * 返回当前DataAtom中的类型
      * Shape 是复杂的类型数据，和 type 的返回值比较近似，但 Shape 中包含了更加丰富的类型数据相关信息
      * */
-    TypeAtom shape() {
+    HTAtom shape() {
         /* 构造 Shape */
-        return this.typeAtom;
+        return this.htAtom;
     }
 
     ConcurrentMap<String, Class<?>> typeCls() {
         return this.modelRef.typeCls();
     }
 
-    ConcurrentMap<String, TypeField> types() {
+    // ------------------ 计算型处理 -----------------
+
+    ConcurrentMap<String, HTField> types() {
         return this.modelRef.types();
     }
 
@@ -115,4 +117,6 @@ class AoDefine {
             return function.apply(model);
         }
     }
+
+
 }

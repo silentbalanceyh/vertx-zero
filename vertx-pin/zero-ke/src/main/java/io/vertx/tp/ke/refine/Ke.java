@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import org.jooq.Configuration;
 
@@ -54,8 +54,8 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final TypeAtom TypeAtom) {
-        return KeCompare.combineAsync(data, headers, columns, TypeAtom);
+                                                 final HTAtom HTAtom) {
+        return KeCompare.combineAsync(data, headers, columns, HTAtom);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricFn(final String field) {

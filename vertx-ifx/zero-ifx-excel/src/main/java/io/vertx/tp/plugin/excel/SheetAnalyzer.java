@@ -5,8 +5,8 @@ import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
@@ -39,7 +39,7 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet to find all the data and definition part
      */
-    public Set<ExTable> analyzed(final ExBound bound, final TypeAtom TypeAtom) {
+    public Set<ExTable> analyzed(final ExBound bound, final HTAtom HTAtom) {
         if (Debugger.onExcelRanging()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
@@ -75,7 +75,7 @@ public class SheetAnalyzer implements Serializable {
                         return null;
                     } else {
                         final Integer limit = range.get(cell.hashCode());
-                        return this.analyzed(row, cell, limit, TypeAtom);
+                        return this.analyzed(row, cell, limit, HTAtom);
                     }
                 }).filter(Objects::nonNull).forEach(tables::add);
             }
@@ -109,13 +109,13 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet from row to cell to build each table.
      */
-    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final TypeAtom TypeAtom) {
+    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final HTAtom HTAtom) {
         /* Build ExTable */
         final ExTable table = this.create(row, cell);
 
         /* ExIn build */
         final ExIn in;
-        if (Objects.nonNull(TypeAtom) && TypeAtom.isComplex()) {
+        if (Objects.nonNull(HTAtom) && HTAtom.isComplex()) {
             in = new ComplexIn(this.sheet).bind(this.evaluator);
         } else {
             in = new PureIn(this.sheet).bind(this.evaluator);
@@ -127,7 +127,7 @@ public class SheetAnalyzer implements Serializable {
         /*
          * Data processing
          */
-        return in.applyData(table, dataRange, cell, TypeAtom);
+        return in.applyData(table, dataRange, cell, HTAtom);
     }
 
     private ExTable create(final Row row, final Cell cell) {

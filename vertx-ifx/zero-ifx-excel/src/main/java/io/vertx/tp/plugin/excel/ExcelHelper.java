@@ -12,10 +12,10 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -215,7 +215,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom typeAtom) {
+    Set<ExTable> getExTables(final Workbook workbook, final HTAtom HTAtom) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -258,7 +258,7 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                final Set<ExTable> dataSet = exSheet.analyzed(range, typeAtom);
+                final Set<ExTable> dataSet = exSheet.analyzed(range, HTAtom);
                 /*
                  * Here for critical injection, mount the data of
                  * {
@@ -273,10 +273,10 @@ class ExcelHelper {
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet, final TypeAtom TypeAtom) {
+    void brush(final Workbook workbook, final Sheet sheet, final HTAtom HTAtom) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet, TypeAtom);
+            this.tpl.applyStyle(sheet, HTAtom);
         }
     }
 

@@ -5,9 +5,9 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.AttributeType;
-import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -54,9 +54,9 @@ public class AoAttribute implements Serializable {
     /**
      * The `shapes` that mapped to `fields` attribute
      */
-    private final transient List<TypeField> shapes = new ArrayList<>();
+    private final transient List<HTField> shapes = new ArrayList<>();
 
-    private final transient TypeField type;
+    private final transient HTField type;
     /**
      * The `rule` for serviceConfig here.
      */
@@ -86,7 +86,9 @@ public class AoAttribute implements Serializable {
          * 1. Priority 1: isArray = true, The Data Type is `JsonArray`.
          * 2. Priority 2: isArray must be `false`, set the default value instead.
          */
-        if (isArray) format = DataFormat.JsonArray;
+        if (isArray) {
+            format = DataFormat.JsonArray;
+        }
         this.dataFormat = format;
 
         /*
@@ -131,7 +133,7 @@ public class AoAttribute implements Serializable {
             attributeType = configType;
         }
         // Type analyzed, create current type
-        this.type = TypeField.create(attribute.getName(), attribute.getAlias(), attributeType);
+        this.type = HTField.create(attribute.getName(), attribute.getAlias(), attributeType);
 
         // Expand the `fields` lookup range
         final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
@@ -140,7 +142,7 @@ public class AoAttribute implements Serializable {
             if (Ut.notNil(field)) {
                 final String alias = item.getString(KName.ALIAS, null);
                 final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
-                this.shapes.add(TypeField.create(field, alias, subType));
+                this.shapes.add(HTField.create(field, alias, subType));
             }
         });
         // Add children into TypeField for complex
@@ -175,9 +177,9 @@ public class AoAttribute implements Serializable {
     /**
      * Return to current type field
      *
-     * @return {@link TypeField}
+     * @return {@link HTField}
      */
-    public TypeField type() {
+    public HTField type() {
         return this.type;
     }
 
@@ -186,7 +188,7 @@ public class AoAttribute implements Serializable {
      *
      * @return {@link List}
      */
-    public List<TypeField> types() {
+    public List<HTField> types() {
         return this.shapes;
     }
 

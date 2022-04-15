@@ -1,4 +1,4 @@
-package io.vertx.up.commune.element;
+package io.vertx.up.experiment.mixture;
 
 import io.vertx.up.util.Ut;
 
@@ -18,19 +18,19 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TypeField implements Serializable {
+public class HTField implements Serializable {
     /**
      * field = JTypeItem
      *
      * JsonObject Support Only
      */
-    private final transient ConcurrentMap<String, TypeField> childMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, HTField> childMap = new ConcurrentHashMap<>();
     /**
      * JTypeItem, JTypeItem
      *
      * JsonArray Support only
      */
-    private final transient List<TypeField> children = new ArrayList<>();
+    private final transient List<HTField> children = new ArrayList<>();
     /** Current field name */
     private final transient String name;
     /** Current field alias */
@@ -48,25 +48,25 @@ public class TypeField implements Serializable {
 
     // -------------------- Constructor -----------------------
 
-    private TypeField(final String name, final String alias) {
+    private HTField(final String name, final String alias) {
         this(name, alias, String.class);
     }
 
-    private TypeField(final String name, final String alias, final Class<?> type) {
+    private HTField(final String name, final String alias, final Class<?> type) {
         this.name = name;
         this.alias = alias;
         this.type = Objects.isNull(type) ? String.class : type;
     }
 
-    public static TypeField create(final String name, final String alias, final Class<?> type) {
-        return new TypeField(name, alias, type);
+    public static HTField create(final String name, final String alias, final Class<?> type) {
+        return new HTField(name, alias, type);
     }
 
-    public static TypeField create(final String name, final String alias) {
-        return new TypeField(name, alias);
+    public static HTField create(final String name, final String alias) {
+        return new HTField(name, alias);
     }
 
-    public TypeField ruleUnique(final Set<String> diffSet) {
+    public HTField ruleUnique(final Set<String> diffSet) {
         if (Objects.nonNull(diffSet)) {
             this.unique.clear();
             this.unique.addAll(diffSet);
@@ -78,7 +78,7 @@ public class TypeField implements Serializable {
         return this.unique;
     }
 
-    public void add(final Collection<TypeField> children) {
+    public void add(final Collection<HTField> children) {
         if (Objects.nonNull(children)) {
             children.forEach(item -> {
                 /*
@@ -100,7 +100,7 @@ public class TypeField implements Serializable {
     }
 
     public String name(final String field) {
-        return this.children(field, TypeField::name);
+        return this.children(field, HTField::name);
     }
 
     public String alias() {
@@ -108,7 +108,7 @@ public class TypeField implements Serializable {
     }
 
     public String alias(final String field) {
-        return this.children(field, TypeField::alias);
+        return this.children(field, HTField::alias);
     }
 
     public Class<?> type() {
@@ -116,18 +116,18 @@ public class TypeField implements Serializable {
     }
 
     public Class<?> type(final String field) {
-        return this.children(field, TypeField::type);
+        return this.children(field, HTField::type);
     }
 
-    public List<TypeField> children() {
+    public List<HTField> children() {
         return this.children;
     }
 
-    private <T> T children(final String field, final Function<TypeField, T> function) {
+    private <T> T children(final String field, final Function<HTField, T> function) {
         if (Ut.isNil(field)) {
             return null;
         } else {
-            final TypeField item = this.childMap.getOrDefault(field, null);
+            final HTField item = this.childMap.getOrDefault(field, null);
             if (Objects.isNull(item)) {
                 return null;
             } else {

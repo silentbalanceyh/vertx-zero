@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.atom;
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.*;
@@ -34,6 +35,8 @@ public class EngineOn {
         Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
         return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
+            /* Defined Exception throw out because of configuration data */
+            Fn.out(Objects.isNull(flow), _404WorkflowNullException.class, EngineOn.class, definitionKey);
             return new EngineOn(flow);
         }, definitionKey);
     }

@@ -21,8 +21,8 @@ import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -102,7 +102,7 @@ public class FileActor {
                         /*
                          * The system will calculate the type definition of static module
                          */
-                        final TypeAtom atom = Ix.onAtom(active, (JsonArray) columns);
+                        final HTAtom atom = Ix.onAtom(active, (JsonArray) columns);
                         return this.client.exportAsync(in.getTable(), (JsonArray) data, atom);
                     } else {
                         return Ux.future(Buffer.buffer());

@@ -1,4 +1,4 @@
-package io.vertx.up.commune.element;
+package io.vertx.up.experiment.mixture;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -15,43 +15,43 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * Type for data structure
  */
-public class TypeAtom implements Serializable {
+public class HTAtom implements Serializable {
     /*
      * When complex = true, mapping
      */
-    private final transient ConcurrentMap<String, TypeField> shapeMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, HTField> shapeMap = new ConcurrentHashMap<>();
     private final transient List<Class<?>> typeList = new ArrayList<>();
 
     private transient boolean complex = Boolean.FALSE;
 
-    private TypeAtom() {
+    private HTAtom() {
     }
 
-    public static TypeAtom create() {
-        return new TypeAtom();
+    public static HTAtom create() {
+        return new HTAtom();
     }
 
     // JsonArray
-    public TypeAtom add(final String name, final String alias, final List<TypeField> children) {
+    public HTAtom add(final String name, final String alias, final List<HTField> children) {
         return this.addInternal(name, alias, children);
     }
 
     // JsonObject
-    public TypeAtom add(final String name, final String alias, final Set<TypeField> children) {
+    public HTAtom add(final String name, final String alias, final Set<HTField> children) {
         return this.addInternal(name, alias, children);
     }
 
     // Elementary
-    public TypeAtom add(final String name, final String alias, final Class<?> type) {
+    public HTAtom add(final String name, final String alias, final Class<?> type) {
         if (Ut.notNil(name)) {
             /* JsonArray */
-            final TypeField typeItem = TypeField.create(name, alias, type);
+            final HTField typeItem = HTField.create(name, alias, type);
             this.shapeMap.put(name, typeItem);
         }
         return this;
     }
 
-    public TypeAtom add(final TypeField field) {
+    public HTAtom add(final HTField field) {
         final String name = field.name();
         this.shapeMap.put(name, field);
         if (field.isComplex()) {
@@ -60,14 +60,14 @@ public class TypeAtom implements Serializable {
         return this;
     }
 
-    private TypeAtom addInternal(final String name, final String alias, final Collection<TypeField> children) {
+    private HTAtom addInternal(final String name, final String alias, final Collection<HTField> children) {
         if (Ut.notNil(name)) {
             this.complex = true;
             // Add field type first
             final Class<?> fieldType = children instanceof List ? JsonArray.class : JsonObject.class;
             this.add(name, alias, fieldType);
             // Here should contains subtypes
-            final TypeField child = this.shapeMap.getOrDefault(name, null);
+            final HTField child = this.shapeMap.getOrDefault(name, null);
             child.add(children);
         }
         return this;
@@ -82,7 +82,7 @@ public class TypeAtom implements Serializable {
     }
 
     public boolean isComplex(final String name) {
-        final TypeField item = this.shapeMap.getOrDefault(name, null);
+        final HTField item = this.shapeMap.getOrDefault(name, null);
         if (Objects.isNull(item)) {
             return false;
         } else {
@@ -91,17 +91,19 @@ public class TypeAtom implements Serializable {
     }
 
     public int size(final String name) {
-        final TypeField typeItem = this.shapeMap.getOrDefault(name, null);
+        final HTField typeItem = this.shapeMap.getOrDefault(name, null);
         if (Objects.nonNull(typeItem)) {
             return typeItem.children().size();
-        } else return Values.ZERO;
+        } else {
+            return Values.ZERO;
+        }
     }
 
     public int size() {
         return this.shapeMap.size();
     }
 
-    public TypeField item(final String name) {
+    public HTField item(final String name) {
         return this.shapeMap.getOrDefault(name, null);
     }
 
@@ -112,18 +114,20 @@ public class TypeAtom implements Serializable {
     }
 
     public Class<?> type(final String field) {
-        final TypeField item = this.shapeMap.getOrDefault(field, null);
+        final HTField item = this.shapeMap.getOrDefault(field, null);
         return Objects.isNull(item) ? null : item.type();
     }
 
     public Class<?> type(final String field, final String childField) {
-        final TypeField item = this.shapeMap.getOrDefault(field, null);
+        final HTField item = this.shapeMap.getOrDefault(field, null);
         if (Objects.isNull(item)) {
             return null;
         } else {
             if (JsonArray.class == item.type()) {
                 return item.type(childField);
-            } else return null;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -150,7 +154,7 @@ public class TypeAtom implements Serializable {
      *
      * Flatted for complex type here
      */
-    public TypeAtom analyzed(final JsonArray data) {
+    public HTAtom analyzed(final JsonArray data) {
         this.typeList.clear();
         if (this.complex) {
             // index = 2

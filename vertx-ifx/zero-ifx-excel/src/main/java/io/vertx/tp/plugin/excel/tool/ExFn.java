@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.tool;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
-import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -71,7 +71,9 @@ public class ExFn {
                          * STRING, the value should be ""
                          */
                         return Ut.isNil(cell.getStringCellValue());
-                    } else return false;
+                    } else {
+                        return false;
+                    }
                 });
             if (!isPrevRow) {
                 /*
@@ -206,8 +208,8 @@ public class ExFn {
     }
 
     public static boolean generateHeader(final Sheet sheet, final String identifier,
-                                         final JsonArray tableData, final TypeAtom TypeAtom) {
-        return ExData.generateHeader(sheet, identifier, tableData, TypeAtom);
+                                         final JsonArray tableData, final HTAtom HTAtom) {
+        return ExData.generateHeader(sheet, identifier, tableData, HTAtom);
     }
 
     public static void generateHeader(final Sheet sheet, final Integer index,

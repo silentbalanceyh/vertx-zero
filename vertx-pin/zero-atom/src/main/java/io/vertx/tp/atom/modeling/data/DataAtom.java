@@ -12,9 +12,9 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -152,7 +152,7 @@ public class DataAtom {
     }
 
     /** 返回 Shape 对象 */
-    public TypeAtom shape() {
+    public HTAtom shape() {
         return this.metadata.shape();
     }
 
