@@ -4,6 +4,7 @@ import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.*;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -29,9 +30,8 @@ public class EngineOn {
 
     public static EngineOn connect(final String definitionKey) {
         Objects.requireNonNull(definitionKey);
-        /*
-         * Thread pool here.
-         */
+        /* Thread pool here. */
+        Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
         return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
             return new EngineOn(flow);
