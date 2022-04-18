@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._501AnonymousAtomException;
+import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.unity.Ux;
@@ -67,12 +68,13 @@ public abstract class AbstractRay<T> implements AoRay<T> {
         if (Objects.isNull(atom)) {
             throw new _501AnonymousAtomException(tpl.getClass());
         }
-        atom.refInput().forEach((identifier, quote) -> {
+        final HReference reference = atom.reference();
+        reference.refInput().forEach((identifier, quote) -> {
             /* RaySource */
             final RaySource source = RaySource.create(quote);
             this.input.put(identifier, source);
         });
-        this.output.putAll(atom.refOutput());
+        this.output.putAll(reference.refOutput());
         return this;
     }
 

@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.specification;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
@@ -8,8 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.DSMode;
-import io.vertx.up.experiment.specification.KField;
-import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

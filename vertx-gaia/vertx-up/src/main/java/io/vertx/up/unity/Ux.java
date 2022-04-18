@@ -1068,7 +1068,7 @@ public final class Ux {
      * Keep following dict method
      */
     public static ConcurrentMap<String, DiConsumer> dictEpsilon(final JsonObject epsilon) {
-        return DiTool.mapEpsilon(epsilon);
+        return DiConsumer.mapEpsilon(epsilon);
     }
 
     public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramsMap) {

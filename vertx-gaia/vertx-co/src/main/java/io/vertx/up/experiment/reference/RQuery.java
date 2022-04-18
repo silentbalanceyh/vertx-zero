@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.reference;
+package io.vertx.up.experiment.reference;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

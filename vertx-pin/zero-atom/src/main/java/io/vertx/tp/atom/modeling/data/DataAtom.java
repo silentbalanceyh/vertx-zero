@@ -4,18 +4,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.reference.RQuery;
-import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.mixture.HAtom;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.mixture.HTAtom;
-import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.reference.RResult;
+import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -194,16 +188,9 @@ public class DataAtom implements HAtom {
 
     // ------------ 引用专用方法 ----------
 
-    public ConcurrentMap<String, RQuote> refInput() {
-        return this.reference.refInput();
-    }
-
-    public ConcurrentMap<String, RResult> refOutput() {
-        return this.reference.refOutput();
-    }
-
-    public ConcurrentMap<String, RQuery> refQuery() {
-        return this.reference.refQr();
+    @Override
+    public HReference reference() {
+        return this.reference;
     }
     // ------------ 标识规则 ----------
 

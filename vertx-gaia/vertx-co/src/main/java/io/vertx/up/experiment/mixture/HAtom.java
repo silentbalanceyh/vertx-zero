@@ -62,7 +62,7 @@ public interface HAtom extends
     String language();
 
     // ==================== Reference Information ================
-
+    HReference reference();
 }
 
 interface HAtomIo {

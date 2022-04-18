@@ -1,7 +1,7 @@
 package io.vertx.tp.optic.web;
 
 import io.vertx.core.Future;
-import io.vertx.tp.ke.atom.KCredential;
+import io.vertx.up.experiment.specification.KCredential;
 
 /*
  * It's for account to do `O_USER` data creation

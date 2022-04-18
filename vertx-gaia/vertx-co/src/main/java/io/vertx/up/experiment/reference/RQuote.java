@@ -1,17 +1,12 @@
-package io.vertx.tp.atom.modeling.reference;
+package io.vertx.up.experiment.reference;
 
-import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HRule;
-import io.vertx.up.experiment.specification.KJoin;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -39,14 +34,8 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public class RQuote implements Serializable {
-    /**
-     * Bind the identifier of defined Model
-     *
-     * - Static Model
-     * - Dynamic Model
-     */
-    private transient final String source;
     /**
      * The application name for DataAtom create.
      */
@@ -86,27 +75,27 @@ public class RQuote implements Serializable {
     /**
      * Private constructor to prevent `new ...` creation.
      *
-     * @param source  The table name or identifier of entity.
      * @param appName {@link java.lang.String} application name.
      */
-    private RQuote(final String appName, final String source) {
-        this.source = source;
+    private RQuote(final String appName) {
         this.appName = appName;
     }
 
     /**
      * The factory method to create new instance.
      *
-     * @param source  {@link java.lang.String} The table name or identifier of entity.
      * @param appName {@link java.lang.String} application name.
      *
      * @return {@link RQuote}
      */
-    public static RQuote create(final String appName, final String source) {
-        return new RQuote(appName, source);
+    public static RQuote create(final String appName) {
+        return new RQuote(appName);
     }
     // ----------------------- Factory Method End ----------------------
 
+    public String app() {
+        return this.appName;
+    }
 
     /**
      * 「Fluent」Add new attribute in current Quote instance.
@@ -124,24 +113,26 @@ public class RQuote implements Serializable {
      *
      * > Here are specification that only one source must be unique dao class instead.
      *
-     * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} Input attribute object
-     * @param service   {@link HAttribute}
+     * @param referenceConfig {@link JsonObject} Input attribute object
+     * @param service         {@link HAttribute}
+     * @param dao             {@link RDao}
      *
      * @return {@link RQuote}
      */
     @Fluent
-    public RQuote add(final MAttribute attribute, final HAttribute service) {
+    public RQuote add(final HAttribute service, final JsonObject referenceConfig,
+                      final RDao dao) {
         /*
          * JsonArray / JsonObject
          */
-        final String name = attribute.getName();
+        final String name = service.field().name();
         this.sourceConfig.put(name, service);
         this.typeMap.put(name, service.field().type());
         /*
          * sourceReference
          */
-        if (Objects.nonNull(attribute.getSourceReference())) {
-            final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
+        if (Ut.notNil(referenceConfig)) {
+            final JsonObject sourceReference = referenceConfig.copy();
             this.sourceReference.put(name, sourceReference);
             /*
              * Json data format, here defined `rule` field and convert to `DataQRule`
@@ -149,16 +140,9 @@ public class RQuote implements Serializable {
             final HRule rule = service.rule();
             this.sourceRule.put(name, rule);
             /*
-             * RDao processing
+             * RDao put
              */
-            final RDao dao = Fn.pool(this.sourceDao, rule.keyDao(), () -> new RDao(this.appName, this.source));
-            if (dao.isStatic() && sourceReference.containsKey(KName.DAO)) {
-                /*
-                 * KJoin processing based on `dao` configuration.
-                 */
-                final KJoin join = Ut.deserialize(sourceReference.getJsonObject(KName.DAO), KJoin.class);
-                dao.bind(join);
-            }
+            this.sourceDao.put(rule.keyDao(), dao);
         }
         return this;
     }
@@ -177,7 +161,7 @@ public class RQuote implements Serializable {
     /**
      * @param field {@link java.lang.String} Input attribute name.
      *
-     * @return {@link io.vertx.tp.atom.modeling.reference.RDao}
+     * @return {@link RDao}
      */
     public RDao dao(final String field) {
         final HRule rule = this.sourceRule.getOrDefault(field, null);

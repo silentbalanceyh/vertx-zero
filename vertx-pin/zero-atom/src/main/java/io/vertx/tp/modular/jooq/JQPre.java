@@ -8,6 +8,7 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.fn.Fn;
 
 import java.util.HashSet;
@@ -47,8 +48,9 @@ class JQPre {
          */
         final ConcurrentMap<Integer, ConcurrentMap<String, Set<QrItem>>> removed = new ConcurrentHashMap<>();
         final ConcurrentMap<Integer, ConcurrentMap<String, QrItem>> replaced = new ConcurrentHashMap<>();
-        final ConcurrentMap<Integer, JsonObject> reference = new ConcurrentHashMap<>();
-        atom.refQuery().forEach((field, query) -> criteria.match(field, (qr, json) -> {
+        final ConcurrentMap<Integer, JsonObject> referenceData = new ConcurrentHashMap<>();
+        final HReference reference = atom.reference();
+        reference.refQr().forEach((field, query) -> criteria.match(field, (qr, json) -> {
             /*
              * There exist Elementary field based on RQuote, and the condition contains
              * value here.
@@ -87,7 +89,7 @@ class JQPre {
                     final ConcurrentMap<String, Set<QrItem>> removedMap = Fn.pool(removed, json.hashCode(), ConcurrentHashMap::new);
                     final Set<QrItem> removedSet = Fn.pool(removedMap, fieldReplaced, HashSet::new);
                     removedSet.add(qr);
-                    reference.put(json.hashCode(), json);
+                    referenceData.put(json.hashCode(), json);
                 } else {
                     // TODO:
                     //     Multi Join Happen, Current Version Does not contain this situation
@@ -100,7 +102,7 @@ class JQPre {
          */
         removed.forEach((levelKey, removedMap) -> {
             final ConcurrentMap<String, QrItem> replacedMap = replaced.get(levelKey);
-            final JsonObject jsonRef = reference.get(levelKey);
+            final JsonObject jsonRef = referenceData.get(levelKey);
             if (Objects.nonNull(replacedMap) && Objects.nonNull(removedMap)) {
                 /*
                  * Remove with multi fields.

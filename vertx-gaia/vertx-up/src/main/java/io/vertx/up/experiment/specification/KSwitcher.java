@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;

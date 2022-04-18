@@ -5,7 +5,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.fn.Fn;
@@ -26,21 +25,6 @@ class DiTool {
 
     private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
         new ConcurrentHashMap<>();
-
-    static ConcurrentMap<String, DiConsumer> mapEpsilon(final JsonObject epsilonJson) {
-        final ConcurrentMap<String, DiConsumer> epsilonMap = new ConcurrentHashMap<>();
-        if (Ut.notNil(epsilonJson)) {
-            epsilonJson.fieldNames().stream()
-                .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
-                .forEach(field -> {
-                    final JsonObject fieldData = epsilonJson.getJsonObject(field);
-                    final DiConsumer epsilon = new DiConsumer();
-                    epsilon.fromJson(fieldData);
-                    epsilonMap.put(field, epsilon);
-                });
-        }
-        return epsilonMap;
-    }
 
     static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
         final FieldMapper mapper = new FieldMapper();

@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom;
+package io.vertx.up.experiment.specification;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Json;

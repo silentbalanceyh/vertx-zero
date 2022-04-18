@@ -1,23 +1,33 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.reference.RDao;
-import io.vertx.tp.atom.modeling.reference.RQuery;
-import io.vertx.tp.atom.modeling.reference.RQuote;
+import io.vertx.tp.atom.refine.Ao;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
+import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.experiment.mixture.HReference;
+import io.vertx.up.experiment.reference.RDao;
+import io.vertx.up.experiment.reference.RQuery;
+import io.vertx.up.experiment.reference.RQuote;
 import io.vertx.up.experiment.reference.RResult;
+import io.vertx.up.experiment.specification.KJoin;
+import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /**
  * ## Reference Calculation
@@ -38,25 +48,25 @@ import java.util.concurrent.ConcurrentMap;
  *
  * Here are following hash map rules to store component references:
  *
- * 1. Each `key = value` pair refer to `source = {@link io.vertx.tp.atom.modeling.reference.RQuote}`.
+ * 1. Each `key = value` pair refer to `source = {@link RQuote}`.
  * 2. `references` stored `source = RQuote` hash map.
- * 3. For 「Static」 mode, each {@link io.vertx.tp.atom.modeling.reference.RQuote} stored `condition = RDao`.
+ * 3. For 「Static」 mode, each {@link RQuote} stored `condition = RDao`.
  *
  * The example is as following:
  *
  * ```
  * // <pre><code class="shell">
- *     source1: res.employee            ( type = io.vertx.tp.atom.modeling.reference.RQuote )
- *          conditionA = RDao           |-- ( type = io.vertx.tp.atom.modeling.reference.RDao )
+ *     source1: res.employee            ( type = io.vertx.up.experiment.reference.RQuote )
+ *          conditionA = RDao           |-- ( type = io.vertx.up.experiment.reference.RDao )
  *              -- supportAName
  *              -- supportGroup
  *              -- supportSection
- *          conditionB = RDao           |-- ( type = io.vertx.tp.atom.modeling.reference.RDao )
+ *          conditionB = RDao           |-- ( type = io.vertx.up.experiment.reference.RDao )
  *              -- supportBName
- *     source2: rl.device.relation      ( type = io.vertx.tp.atom.modeling.reference.RQuote )
- *          conditionC = AoDao          |-- ( type = io.vertx.tp.atom.modeling.reference.RDao )
+ *     source2: rl.device.relation      ( type = io.vertx.up.experiment.reference.RQuote )
+ *          conditionC = AoDao          |-- ( type = io.vertx.up.experiment.reference.RDao )
  *              -- up
- *          conditionD = AoDao          |-- ( type = io.vertx.tp.atom.modeling.reference.RDao )
+ *          conditionD = AoDao          |-- ( type = io.vertx.up.experiment.reference.RDao )
  *              -- down
  * // </code></pre>
  * ```
@@ -86,9 +96,10 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AoReference {
+class AoReference implements HReference {
+    private final transient ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
     /**
-     * The hash map to store `source = {@link io.vertx.tp.atom.modeling.reference.RQuote}`.
+     * The hash map to store `source = {@link RQuote}`.
      */
     private final transient ConcurrentMap<String, RQuote> references
         = new ConcurrentHashMap<>();
@@ -97,14 +108,11 @@ class AoReference {
      */
     private final transient ConcurrentMap<String, RResult> result
         = new ConcurrentHashMap<>();
-
     /*
      * Query Attribute
      */
     private final transient ConcurrentMap<String, RQuery> queries
         = new ConcurrentHashMap<>();
-
-    private transient final ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
 
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
@@ -138,50 +146,137 @@ class AoReference {
                  *          - condition2 = RDao
                  *  Based on DataAtom reference to create
                  */
-                final HAttribute aoAttr = modelRef.attribute(attribute.getName());
                 final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
-
-
-                final String source = attribute.getSource();
 
                 if (AttributeType.REFERENCE == type) {
                     /*
-                     * RDao initialize and unlink
+                     * Reference Initializing
                      */
-                    final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, aoAttr);
-                    /*
-                     *  Hash Map `result` calculation
-                     *      - field = RResult
-                     *  Based on DataAtom reference to create
-                     */
-                    final String field = attribute.getName();
-                    final String referenceField = attribute.getSourceField();
-                    final JsonObject referenceConfig = Ut.toJObject(attribute.getSourceReference());
-                    final RResult result = Fn.pool(this.result, field, () -> new RResult(referenceField, referenceConfig, aoAttr));
-                    /*
-                     * Qr Engine, stored quote reference map.
-                     *
-                     * field1 = query1,
-                     * field2 = query2
-                     */
-                    if (DataFormat.Elementary == aoAttr.format()) {
-                        Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField())
-                            .bind(quote.dao(field))
-                            .bind(result.joined()));
-                    }
+                    final HAttribute aoAttr = modelRef.attribute(attribute.getName());
+                    this.initializeReference(attribute, aoAttr, appName);
                 }
             });
     }
 
-    ConcurrentMap<String, RQuote> refInput() {
+    private void initializeReference(final MAttribute attribute, final HAttribute hAttribute, final String appName) {
+        final String source = attribute.getSource();
+
+        final JsonObject referenceConfig = Ut.toJObject(attribute.getSourceReference());
+
+        if (Ut.notNil(referenceConfig)) {
+
+            final RDao dao = this.initializeDao(attribute, appName, referenceConfig);
+            /*
+             * RDao initialize and unlink
+             */
+            final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName));
+
+            quote.add(hAttribute, referenceConfig, dao);
+            /*
+             *  Hash Map `result` calculation
+             *      - field = RResult
+             *  Based on DataAtom reference to create
+             */
+            final String field = attribute.getName();
+            final String referenceField = attribute.getSourceField();
+            final RResult result = Fn.pool(this.result, field, () -> new RResult(referenceField, referenceConfig, hAttribute));
+            /*
+             * Qr Engine, stored quote reference map.
+             *
+             * field1 = query1,
+             * field2 = query2
+             */
+            if (DataFormat.Elementary == hAttribute.format()) {
+                Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField()).bind(quote.dao(field)).bind(result.joined()));
+            }
+        }
+    }
+
+    private RDao initializeDao(final MAttribute attribute, final String appName, final JsonObject referenceConfig) {
+        final String source = attribute.getSource();
+        final HAtom atom = DataAtom.get(appName, source);
+        final KJoin join;
+        if (Objects.isNull(atom) && referenceConfig.containsKey(KName.DAO)) {
+            join = Ut.deserialize(referenceConfig.getJsonObject(KName.DAO), KJoin.class);
+        } else {
+            join = null;
+        }
+        final Function<JsonObject, Future<JsonArray>> actionA = this.actionA(atom, join);
+        final Function<JsonObject, JsonArray> actionS = this.actionS(atom, join);
+        // RDao Creation
+        final RDao dao = Fn.pool(this.sourceDao, appName + "/" + source, () -> new RDao(source));
+        return dao.actionA(actionA).actionS(actionS);
+    }
+
+    private Function<JsonObject, Future<JsonArray>> actionA(final HAtom atom, final KJoin join) {
+        return condition -> {
+            if (Ux.Jooq.isEmpty(condition)) {
+                return Ux.futureA();
+            }
+            if (Objects.isNull(atom)) {
+                Objects.requireNonNull(join);
+                final KPoint source = join.getSource();
+                final KPoint target = join.point(condition);
+                // Static
+                if (Objects.isNull(target)) {
+                    // Jooq
+                    return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
+                } else {
+                    // Join
+                    return Ux.Join.on()
+                        .add(source.getClassDao(), source.getKeyJoin())
+                        .join(target.getClassDao(), target.getKeyJoin())
+                        .fetchAsync(condition);
+                }
+            } else {
+                // Dynamic
+                final HDao dao = Ao.toDao(atom);
+                return dao.fetchAsync(condition).compose(Ux::futureA);
+            }
+        };
+    }
+
+    private Function<JsonObject, JsonArray> actionS(final HAtom atom, final KJoin join) {
+        return condition -> {
+            if (Ux.Jooq.isEmpty(condition)) {
+                return new JsonArray();
+            }
+            if (Objects.isNull(atom)) {
+                Objects.requireNonNull(join);
+                final KPoint source = join.getSource();
+                final KPoint target = join.point(condition);
+                // Static
+                if (Objects.isNull(target)) {
+                    // Jooq
+                    return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
+                } else {
+                    // Join
+                    return Ux.Join.on()
+                        .add(source.getClassDao(), source.getKeyJoin())
+                        .join(target.getClassDao(), target.getKeyJoin())
+                        .fetch(condition);
+                }
+            } else {
+                // Dynamic
+                final HDao dao = Ao.toDao(atom);
+                return Ut.toJArray(dao.fetch(condition));
+            }
+        };
+    }
+
+
+    @Override
+    public ConcurrentMap<String, RQuote> refInput() {
         return this.references;
     }
 
-    ConcurrentMap<String, RQuery> refQr() {
+    @Override
+    public ConcurrentMap<String, RQuery> refQr() {
         return this.queries;
     }
 
-    ConcurrentMap<String, RResult> refOutput() {
+    @Override
+    public ConcurrentMap<String, RResult> refOutput() {
         return this.result;
     }
 

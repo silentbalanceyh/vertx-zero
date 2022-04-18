@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.specification;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
@@ -8,8 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.DiConsumer;
 import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KTree;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -67,7 +65,7 @@ public class KTransform implements Serializable {
 
     public ConcurrentMap<String, DiConsumer> epsilon() {
         final JsonObject dictionary = Ut.valueJObject(this.fabric);
-        return Ux.dictEpsilon(Ut.valueJObject(dictionary.getJsonObject(KName.EPSILON)));
+        return DiConsumer.mapEpsilon(Ut.valueJObject(dictionary.getJsonObject(KName.EPSILON)));
     }
 
     public DiSetting source() {

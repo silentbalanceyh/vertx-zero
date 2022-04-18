@@ -6,6 +6,8 @@ import io.vertx.up.commune.Json;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * #「Co」Directory Consumer
@@ -47,6 +49,21 @@ public class DiConsumer implements Serializable, Json, Copyable<DiConsumer> {
     private transient String in;
     private transient String out;
     private transient boolean parent;
+
+    public static ConcurrentMap<String, DiConsumer> mapEpsilon(final JsonObject epsilonJson) {
+        final ConcurrentMap<String, DiConsumer> epsilonMap = new ConcurrentHashMap<>();
+        if (Ut.notNil(epsilonJson)) {
+            epsilonJson.fieldNames().stream()
+                .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
+                .forEach(field -> {
+                    final JsonObject fieldData = epsilonJson.getJsonObject(field);
+                    final DiConsumer epsilon = new DiConsumer();
+                    epsilon.fromJson(fieldData);
+                    epsilonMap.put(field, epsilon);
+                });
+        }
+        return epsilonMap;
+    }
 
     public String getSource() {
         return this.source;
