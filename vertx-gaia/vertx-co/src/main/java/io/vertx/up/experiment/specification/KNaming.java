@@ -34,7 +34,7 @@ import java.util.Set;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KSpec implements Serializable {
+public class KNaming implements Serializable {
     // Qr Only
     private final transient Set<String> qrKeys = new HashSet<>();
     // System Business Field

@@ -47,7 +47,10 @@ import java.util.concurrent.ConcurrentMap;
  *         "updated": {
  *             "by": "",
  *             "at": ""
- *         }
+ *         },
+ *         "object": [],
+ *         "array": [],
+ *         "attachment": []
  *     }
  * // </code></pre>
  * ```

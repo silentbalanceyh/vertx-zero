@@ -6,7 +6,7 @@ import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.specification.KSpec;
+import io.vertx.up.experiment.specification.KNaming;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 class FmBook {
 
-    static List<FBook> umBook(final KSpec spec, final List<FBook> books) {
+    static List<FBook> umBook(final KNaming spec, final List<FBook> books) {
         Objects.requireNonNull(books);
         // Read the major book
         final FBook found = books.stream().filter(FBook::getMajor).findFirst().orElse(null);
@@ -79,7 +79,7 @@ class FmBook {
         return created;
     }
 
-    static FBook umBook(final KSpec spec) {
+    static FBook umBook(final KNaming spec) {
         final FBook created = new FBook();
         Ke.umCreated(created, spec);
         /*
@@ -102,7 +102,7 @@ class FmBook {
         return created;
     }
 
-    static JsonObject qrBook(final KSpec spec) {
+    static JsonObject qrBook(final KNaming spec) {
         final JsonObject condition = new JsonObject();
         condition.put(KName.TYPE, spec.getType());
         condition.put(KName.MODEL_ID, spec.getIdentifier());

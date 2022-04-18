@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.refine.Fm;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KSpec;
+import io.vertx.up.experiment.specification.KNaming;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -52,7 +52,7 @@ public class BookService implements BookStub {
     }
 
     @Override
-    public Future<List<FBook>> createAsync(final List<FBook> books, final KSpec spec) {
+    public Future<List<FBook>> createAsync(final List<FBook> books, final KNaming spec) {
         final List<FBook> subBooks = Fm.umBook(spec, books);
         return Ux.Jooq.on(FBookDao.class).insertAsync(subBooks);
     }

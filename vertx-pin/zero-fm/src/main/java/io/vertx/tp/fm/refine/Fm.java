@@ -2,7 +2,7 @@ package io.vertx.tp.fm.refine;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.experiment.specification.KSpec;
+import io.vertx.up.experiment.specification.KNaming;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ public final class Fm {
     private Fm() {
     }
 
-    public static JsonObject qrBook(final KSpec spec) {
+    public static JsonObject qrBook(final KNaming spec) {
         return FmBook.qrBook(spec);
     }
 
-    public static FBook umBook(final KSpec spec) {
+    public static FBook umBook(final KNaming spec) {
         return FmBook.umBook(spec);
     }
 
-    public static List<FBook> umBook(final KSpec spec, final List<FBook> books) {
+    public static List<FBook> umBook(final KNaming spec, final List<FBook> books) {
         return FmBook.umBook(spec, books);
     }
 
