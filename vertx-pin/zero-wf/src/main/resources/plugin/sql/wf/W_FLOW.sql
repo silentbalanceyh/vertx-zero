@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS W_FLOW
     `TYPE`                 VARCHAR(36) COMMENT '「type」- 流程类型，对接 zero.workflow.cat的X_TABULAR',
 
     -- 关联Camunda读取流程图
-    `DEFINITION_KEY`       VARCHAR(64) COMMENT '「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId',
+    `DEFINITION_KEY`       VARCHAR(128) COMMENT '「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId',
 
     -- 读取流程授权专用组件以及配置
     `AUTHORIZED_COMPONENT` VARCHAR(255) COMMENT '「authorizedComponent」- 流程授权组件',

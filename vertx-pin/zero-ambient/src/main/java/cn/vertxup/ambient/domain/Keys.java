@@ -6,6 +6,7 @@ package cn.vertxup.ambient.domain;
 
 import cn.vertxup.ambient.domain.tables.XActivity;
 import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
@@ -21,6 +22,7 @@ import cn.vertxup.ambient.domain.tables.XTabular;
 import cn.vertxup.ambient.domain.tables.XTag;
 import cn.vertxup.ambient.domain.tables.records.XActivityChangeRecord;
 import cn.vertxup.ambient.domain.tables.records.XActivityRecord;
+import cn.vertxup.ambient.domain.tables.records.XActivityRuleRecord;
 import cn.vertxup.ambient.domain.tables.records.XAppRecord;
 import cn.vertxup.ambient.domain.tables.records.XAttachmentRecord;
 import cn.vertxup.ambient.domain.tables.records.XCategoryRecord;
@@ -54,6 +56,7 @@ public class Keys {
 
     public static final UniqueKey<XActivityRecord> KEY_X_ACTIVITY_PRIMARY = Internal.createUniqueKey(XActivity.X_ACTIVITY, DSL.name("KEY_X_ACTIVITY_PRIMARY"), new TableField[] { XActivity.X_ACTIVITY.KEY }, true);
     public static final UniqueKey<XActivityChangeRecord> KEY_X_ACTIVITY_CHANGE_PRIMARY = Internal.createUniqueKey(XActivityChange.X_ACTIVITY_CHANGE, DSL.name("KEY_X_ACTIVITY_CHANGE_PRIMARY"), new TableField[] { XActivityChange.X_ACTIVITY_CHANGE.KEY }, true);
+    public static final UniqueKey<XActivityRuleRecord> KEY_X_ACTIVITY_RULE_PRIMARY = Internal.createUniqueKey(XActivityRule.X_ACTIVITY_RULE, DSL.name("KEY_X_ACTIVITY_RULE_PRIMARY"), new TableField[] { XActivityRule.X_ACTIVITY_RULE.KEY }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_CODE = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_CODE"), new TableField[] { XApp.X_APP.CODE }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_NAME = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_NAME"), new TableField[] { XApp.X_APP.NAME }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_PATH = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_PATH"), new TableField[] { XApp.X_APP.PATH, XApp.X_APP.URL_ENTRY }, true);

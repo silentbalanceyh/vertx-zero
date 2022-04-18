@@ -6,6 +6,7 @@ package cn.vertxup.ambient.domain;
 
 import cn.vertxup.ambient.domain.tables.XActivity;
 import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
@@ -36,6 +37,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_ACTIVITY_CHANGE</code>.
      */
     public static final XActivityChange X_ACTIVITY_CHANGE = XActivityChange.X_ACTIVITY_CHANGE;
+
+    /**
+     * The table <code>DB_ETERNAL.X_ACTIVITY_RULE</code>.
+     */
+    public static final XActivityRule X_ACTIVITY_RULE = XActivityRule.X_ACTIVITY_RULE;
 
     /**
      * The table <code>DB_ETERNAL.X_APP</code>.

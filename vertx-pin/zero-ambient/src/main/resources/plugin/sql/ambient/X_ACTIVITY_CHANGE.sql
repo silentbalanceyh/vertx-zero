@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 -- changeset Lang:ox-activity-change-1
--- 应用程序表：X_ACTIVITY_CHANGE
+-- 变更记录表：X_ACTIVITY_CHANGE
 DROP TABLE IF EXISTS X_ACTIVITY_CHANGE;
 CREATE TABLE IF NOT EXISTS X_ACTIVITY_CHANGE
 (

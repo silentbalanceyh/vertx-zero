@@ -36,6 +36,11 @@ public class Db extends SchemaImpl {
     public final XActivityChange X_ACTIVITY_CHANGE = XActivityChange.X_ACTIVITY_CHANGE;
 
     /**
+     * The table <code>DB_ETERNAL.X_ACTIVITY_RULE</code>.
+     */
+    public final XActivityRule X_ACTIVITY_RULE = XActivityRule.X_ACTIVITY_RULE;
+
+    /**
      * The table <code>DB_ETERNAL.X_APP</code>.
      */
     public final XApp X_APP = XApp.X_APP;
@@ -118,6 +123,7 @@ public class Db extends SchemaImpl {
         return Arrays.asList(
             XActivity.X_ACTIVITY,
             XActivityChange.X_ACTIVITY_CHANGE,
+            XActivityRule.X_ACTIVITY_RULE,
             XApp.X_APP,
             XAttachment.X_ATTACHMENT,
             XCategory.X_CATEGORY,

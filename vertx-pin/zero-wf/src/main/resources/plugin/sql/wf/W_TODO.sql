@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
     `TRACE_ORDER`      INTEGER COMMENT '「traceOrder」- 待办的处理顺序',
 
-    `TASK_ID`          VARCHAR(36) COMMENT '「traceTask」- 和待办绑定的taskId（任务）',
-    `TASK_KEY`         VARCHAR(255) COMMENT '「traceTaskKey」- 和待办绑定的taskKey',
+    `TASK_ID`          VARCHAR(36) COMMENT '「taskId」- 和待办绑定的taskId（任务）',
+    `TASK_KEY`         VARCHAR(255) COMMENT '「taskKey」- 和待办绑定的taskKey',
     `ACTIVITY_ID`      VARCHAR(36) COMMENT '「activityId」- 生成的ACTIVITY_ID',
 
 

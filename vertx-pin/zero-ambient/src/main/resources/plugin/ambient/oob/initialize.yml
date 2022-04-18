@@ -46,3 +46,7 @@
     unique:
     - name
     - appId
+-   dao: cn.vertxup.ambient.domain.tables.daos.XActivityRuleDao     # X_ACTIVITY_RULE
+    key: key
+    unique:
+    - key
