@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.error._501AnonymousAtomException;
-import io.vertx.up.experiment.meld.HRule;
+import io.vertx.up.experiment.mixture.HRule;
+import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;

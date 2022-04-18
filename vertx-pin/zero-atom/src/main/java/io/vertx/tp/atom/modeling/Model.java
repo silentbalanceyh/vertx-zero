@@ -7,9 +7,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.modeling.JsonModel;
-import io.vertx.up.experiment.meld.HApp;
-import io.vertx.up.experiment.meld.HLinkage;
-import io.vertx.up.experiment.meld.HModel;
+import io.vertx.up.experiment.mixture.HApp;
+import io.vertx.up.experiment.mixture.HLinkage;
+import io.vertx.up.experiment.mixture.HModel;
 
 import java.util.Set;
 

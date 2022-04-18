@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

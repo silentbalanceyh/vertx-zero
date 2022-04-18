@@ -2,7 +2,7 @@ package cn.originx.uca.graphic;
 
 import cn.originx.refine.Ox;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 
 public abstract class AbstractPlotter implements Plotter {
 

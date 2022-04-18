@@ -1,7 +1,6 @@
-package io.vertx.up.experiment.meld;
+package io.vertx.up.experiment.mixture;
 
 import io.vertx.up.eon.em.DataFormat;
-import io.vertx.up.experiment.mixture.HTField;
 
 import java.util.List;
 

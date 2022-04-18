@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.meld;
+package io.vertx.up.experiment.mixture;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;

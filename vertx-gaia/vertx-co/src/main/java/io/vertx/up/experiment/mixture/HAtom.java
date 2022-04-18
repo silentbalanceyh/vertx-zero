@@ -1,8 +1,7 @@
-package io.vertx.up.experiment.meld;
+package io.vertx.up.experiment.mixture;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.rule.RuleUnique;
 
 import java.util.Set;

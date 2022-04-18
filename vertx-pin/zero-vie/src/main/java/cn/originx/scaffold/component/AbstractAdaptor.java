@@ -20,7 +20,7 @@ import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.unity.Ux;

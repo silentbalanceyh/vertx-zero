@@ -9,7 +9,7 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

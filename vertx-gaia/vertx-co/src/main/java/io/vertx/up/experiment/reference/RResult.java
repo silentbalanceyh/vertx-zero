@@ -1,13 +1,12 @@
-package io.vertx.tp.atom.modeling.reference;
+package io.vertx.up.experiment.reference;
 
-import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
-import io.vertx.up.experiment.meld.HAttribute;
-import io.vertx.up.experiment.meld.HRule;
+import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -93,13 +92,13 @@ public class RResult implements Serializable {
 
     private final transient String sourceField;
 
-    public RResult(final MAttribute attribute, final HAttribute aoAttr) {
-        this.type = aoAttr.field().type();
-        this.format = aoAttr.format();
-        this.rule = aoAttr.rule();
-        this.sourceField = attribute.getSourceField();
+    public RResult(final String referenceField, final JsonObject referenceConfig, final HAttribute config) {
+        this.type = config.field().type();
+        this.format = config.format();
+        this.rule = config.rule();
+        this.sourceField = referenceField;
         /* Joined calculation */
-        final JsonObject sourceReference = Ut.toJObject(attribute.getSourceReference());
+        final JsonObject sourceReference = Ut.valueJObject(referenceConfig);
         final Object connect = sourceReference.getValue(KName.CONNECT);
         if (Objects.nonNull(connect)) {
             if (connect instanceof String) {
@@ -120,7 +119,6 @@ public class RResult implements Serializable {
                  * record key: globalId
                  */
                 final String currentField = (String) connect;
-                final String referenceField = attribute.getSourceField();
                 this.joined.add(Kv.create(referenceField, currentField));
             } else if (connect instanceof JsonObject) {
                 /*
@@ -130,8 +128,7 @@ public class RResult implements Serializable {
                  * record key: supportANo
                  */
                 final JsonObject mapping = (JsonObject) connect;
-                Ut.<String>itJObject(mapping,
-                    (currentField, referenceField) -> this.joined.add(Kv.create(referenceField, currentField)));
+                Ut.<String>itJObject(mapping, (currentField, field) -> this.joined.add(Kv.create(field, currentField)));
             }
         }
     }

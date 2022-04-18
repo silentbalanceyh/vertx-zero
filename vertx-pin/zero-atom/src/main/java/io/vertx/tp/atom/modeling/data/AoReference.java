@@ -1,14 +1,16 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.reference.RDao;
 import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
-import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
-import io.vertx.up.experiment.meld.HAttribute;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -65,14 +67,14 @@ import java.util.concurrent.ConcurrentMap;
  *
  * Here are following hash map rules to store component result:
  *
- * 1. Each `key = value` pair refer to `field = {@link io.vertx.tp.atom.modeling.reference.RResult}`.
+ * 1. Each `key = value` pair refer to `field = {@link RResult}`.
  * 2. `result` stored `source = RResult` hash map and refer to `RDao`.
  *
  * The example is as following:
  *
  * ```
  * // <pre><code class="shell">
- *     ( type = io.vertx.tp.atom.modeling.reference.RResult )
+ *     ( type = io.vertx.up.experiment.reference.RResult )
  *     supportAName = RResult
  *     supportBName = RResult
  *     supportGroup = RResult
@@ -91,7 +93,7 @@ class AoReference {
     private final transient ConcurrentMap<String, RQuote> references
         = new ConcurrentHashMap<>();
     /**
-     * The hash map to store `field = {@link io.vertx.tp.atom.modeling.reference.RResult}`.
+     * The hash map to store `field = {@link RResult}`.
      */
     private final transient ConcurrentMap<String, RResult> result
         = new ConcurrentHashMap<>();
@@ -101,6 +103,8 @@ class AoReference {
      */
     private final transient ConcurrentMap<String, RQuery> queries
         = new ConcurrentHashMap<>();
+
+    private transient final ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
 
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
@@ -141,6 +145,9 @@ class AoReference {
                 final String source = attribute.getSource();
 
                 if (AttributeType.REFERENCE == type) {
+                    /*
+                     * RDao initialize and unlink
+                     */
                     final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName, source)).add(attribute, aoAttr);
                     /*
                      *  Hash Map `result` calculation
@@ -148,7 +155,9 @@ class AoReference {
                      *  Based on DataAtom reference to create
                      */
                     final String field = attribute.getName();
-                    final RResult result = Fn.pool(this.result, field, () -> new RResult(attribute, aoAttr));
+                    final String referenceField = attribute.getSourceField();
+                    final JsonObject referenceConfig = Ut.toJObject(attribute.getSourceReference());
+                    final RResult result = Fn.pool(this.result, field, () -> new RResult(referenceField, referenceConfig, aoAttr));
                     /*
                      * Qr Engine, stored quote reference map.
                      *

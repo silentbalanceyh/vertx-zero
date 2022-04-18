@@ -10,7 +10,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.optic.robin.Switcher;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;

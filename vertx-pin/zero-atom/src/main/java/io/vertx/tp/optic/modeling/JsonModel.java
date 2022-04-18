@@ -13,7 +13,7 @@ import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
-import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

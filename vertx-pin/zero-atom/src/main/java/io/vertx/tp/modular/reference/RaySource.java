@@ -9,7 +9,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.experiment.meld.HRule;
+import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;

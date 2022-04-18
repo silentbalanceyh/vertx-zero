@@ -16,7 +16,8 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HAtom;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.specification.KEnv;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -95,7 +96,7 @@ class AoImpl {
         return DataAtom.get(name, identifier);
     }
 
-    static HDao toDao(final DataAtom atom) {
+    static HDao toDao(final HAtom atom) {
         return Ke.channelSync(DS.class, () -> null, ds -> {
             /* 连接池绑定数据库 */
             final DataPool pool = ds.switchDs(atom.sigma());
@@ -109,11 +110,11 @@ class AoImpl {
         });
     }
 
-    static HDao toDao(final Supplier<DataAtom> supplier, final Database database) {
+    static HDao toDao(final Supplier<HAtom> supplier, final Database database) {
         if (Objects.isNull(database)) {
             return null;
         } else {
-            final DataAtom atom = supplier.get();
+            final HAtom atom = supplier.get();
             if (Objects.isNull(atom)) {
                 return null;
             } else {

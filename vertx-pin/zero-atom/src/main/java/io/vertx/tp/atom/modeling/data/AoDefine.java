@@ -3,7 +3,7 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;

@@ -2,11 +2,11 @@ package io.vertx.tp.modular.reference;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

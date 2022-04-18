@@ -7,8 +7,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
-import io.vertx.up.experiment.meld.HAttribute;
-import io.vertx.up.experiment.meld.HRule;
+import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
@@ -157,6 +157,7 @@ public class AoAttribute implements HAttribute, Serializable {
      *
      * @return {@link HTField}
      */
+    @Override
     public HTField field() {
         return this.type;
     }
@@ -166,6 +167,7 @@ public class AoAttribute implements HAttribute, Serializable {
      *
      * @return {@link List}
      */
+    @Override
     public List<HTField> fields() {
         return this.shapes;
     }

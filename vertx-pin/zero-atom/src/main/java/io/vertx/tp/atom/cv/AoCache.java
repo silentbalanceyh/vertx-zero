@@ -7,7 +7,7 @@ import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.tp.modular.phantom.AoModeler;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.tp.optic.robin.Switcher;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

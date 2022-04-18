@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.commune.Record;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.unity.Ux;
@@ -38,14 +38,6 @@ public class RDao {
     public RDao(final String appName, final String source) {
         this.source = source;
         this.atom = DataAtom.get(appName, source);
-    }
-
-    public DataAtom atom() {
-        return this.atom;
-    }
-
-    public String source() {
-        return this.source;
     }
 
     public boolean isStatic() {

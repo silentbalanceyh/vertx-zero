@@ -28,7 +28,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.quiz.JooqBase;
 import io.vertx.up.util.Ut;
 import org.junit.Before;

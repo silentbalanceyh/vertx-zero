@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;

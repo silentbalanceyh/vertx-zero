@@ -12,7 +12,7 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

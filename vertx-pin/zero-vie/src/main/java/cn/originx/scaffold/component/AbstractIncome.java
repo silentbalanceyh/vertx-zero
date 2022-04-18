@@ -15,7 +15,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.ID;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobIncome;
 import io.vertx.up.unity.Ux;

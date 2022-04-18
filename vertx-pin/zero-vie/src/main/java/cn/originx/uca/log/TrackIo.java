@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.error._400TrackingErrorException;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

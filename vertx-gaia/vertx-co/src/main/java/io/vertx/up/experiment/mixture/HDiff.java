@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.meld;
+package io.vertx.up.experiment.mixture;
 
 import io.vertx.up.commune.compare.Vs;
 

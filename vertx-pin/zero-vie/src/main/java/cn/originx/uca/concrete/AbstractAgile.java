@@ -6,7 +6,7 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.Record;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 
 import java.util.Objects;
 

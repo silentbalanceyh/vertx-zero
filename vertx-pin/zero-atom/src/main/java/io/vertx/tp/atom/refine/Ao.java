@@ -14,7 +14,8 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HAtom;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
@@ -201,16 +202,17 @@ public class Ao {
         return AoImpl.toAtom(options);
     }
 
-    public static HDao toDao(final DataAtom atom) {
-        return AoImpl.toDao(atom);
-    }
-
-    public static HDao toDao(final DataAtom atom, final Database database) {
-        return AoImpl.toDao(() -> atom, database);
-    }
 
     public static DataAtom toAtom(final String identifier) {
         return AoImpl.toAtom(identifier);
+    }
+
+    public static HDao toDao(final HAtom atom) {
+        return AoImpl.toDao(atom);
+    }
+
+    public static HDao toDao(final HAtom atom, final Database database) {
+        return AoImpl.toDao(() -> atom, database);
     }
 
     public static HDao toDao(final String identifier) {

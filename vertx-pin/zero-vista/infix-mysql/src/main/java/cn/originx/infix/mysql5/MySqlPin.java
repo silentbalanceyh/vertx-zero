@@ -6,7 +6,7 @@ import io.vertx.tp.modular.jdbc.DataConnection;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
 
 /**
