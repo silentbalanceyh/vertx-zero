@@ -12,6 +12,7 @@ import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.meld.HAtom;
 import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.mixture.HTField;
@@ -21,13 +22,14 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * 内部使用的元数据分析工具，提供
  * 当前 DataRecord的专用 辅助工具，核心元数据处理工厂
  */
-public class DataAtom {
+public class DataAtom implements HAtom {
 
     private transient final AoDefine metadata;
     private transient final AoUnique ruler;
@@ -52,7 +54,7 @@ public class DataAtom {
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new AoUnique(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
         this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
-        this.vs = Vs.create(this.unique, this.metadata.typeMap(), this.metadata.types());
+        this.vs = Vs.create(this.unique, this.metadata.types());
     }
 
     public static DataAtom get(final String appName,
@@ -105,65 +107,87 @@ public class DataAtom {
     }
 
     // ------------ 基础模型部分 ------------
+    @Override
     public String atomKey(final JsonObject options) {
         final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
         return this.metadata.identifier() + "-" + hashCode;
     }
 
+    @Override
     public DataAtom atom(final String identifier) {
         return get(this.appName, identifier);
     }
 
     /** 返回当前 Model 中的所有属性集 */
+    @Override
     public Set<String> attribute() {
-        return this.metadata.attributeNames();
+        return this.metadata.attribute();
     }
 
+    @Override
     public HAttribute attribute(final String name) {
         return this.metadata.attribute(name);
     }
 
     /** 返回 name = alias */
+    @Override
     public ConcurrentMap<String, String> alias() {
         return this.metadata.alias();
     }
 
+    @Override
+    public String alias(final String name) {
+        return this.metadata.alias().getOrDefault(name, Strings.EMPTY);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public Model model() {
         return this.metadata.model();
     }
 
     /* 返回当前记录关联的 identifier */
+    @Override
     public String identifier() {
         return this.metadata.identifier();
     }
 
     /* 返回当前记录专用的 sigma */
+    @Override
     public String sigma() {
         return this.metadata.sigma();
     }
 
     /* 返回语言信息 */
+    @Override
     public String language() {
         return this.metadata.language();
     }
 
     /* 属性类型 */
+    @Override
     public ConcurrentMap<String, Class<?>> type() {
-        return this.metadata.typeMap();
+        final Set<String> attributes = this.metadata.attribute();
+        final ConcurrentMap<String, Class<?>> result = new ConcurrentHashMap<>();
+        attributes.forEach(name -> result.put(name, this.type(name)));
+        return result;
     }
 
-    /** 返回 Shape 对象 */
-    public HTAtom shape() {
-        return this.metadata.shape();
-    }
-
+    @Override
     public Class<?> type(final String field) {
         final HTField attribute = this.metadata.type(field);
         return Objects.isNull(attribute) ? String.class : attribute.type();
     }
 
+    /** 返回 Shape 对象 */
+    @Override
+    public HTAtom shape() {
+        return this.metadata.shape();
+    }
+
     // ------------ 比对专用方法 ----------
 
+    @Override
     public Vs vs() {
         return this.vs;
     }
@@ -184,22 +208,26 @@ public class DataAtom {
     // ------------ 标识规则 ----------
 
     /** 存储的规则 */
+    @Override
     public RuleUnique ruleAtom() {
         return this.ruler.rule();
     }
 
 
     /** 智能检索规则 */
+    @Override
     public RuleUnique ruleSmart() {
         return this.ruler.ruleSmart();
     }
 
     /** 连接的规则 */
+    @Override
     public RuleUnique rule() {
         return this.ruler.ruleDirect();
     }
 
     /** 规则的链接 */
+    @Override
     public DataAtom rule(final RuleUnique channelRule) {
         this.ruler.connect(channelRule);
         return this;
@@ -209,6 +237,7 @@ public class DataAtom {
     /*
      * 模型本身打开Track属性
      */
+    @Override
     public Boolean trackable() {
         return this.marker.trackable();
     }
@@ -226,14 +255,17 @@ public class DataAtom {
      * 3. SyncIn：同步拉取, 003
      * 4. SyncOut：同步推送, 004
      */
+    @Override
     public Set<String> falseTrack() {
         return this.marker.track(Boolean.FALSE);
     }
 
+    @Override
     public Set<String> trueTrack() {
         return this.marker.track(Boolean.TRUE);
     }
 
+    @Override
     public Set<String> falseIn() {
         return this.marker.in(Boolean.FALSE);
     }
@@ -241,22 +273,27 @@ public class DataAtom {
     /*
      * 集成过程中引入
      */
+    @Override
     public Set<String> trueIn() {
         return this.marker.in(Boolean.TRUE);
     }
 
+    @Override
     public Set<String> falseOut() {
         return this.marker.out(Boolean.FALSE);
     }
 
+    @Override
     public Set<String> trueOut() {
         return this.marker.out(Boolean.TRUE);
     }
 
+    @Override
     public Set<String> falseConfirm() {
         return this.marker.confirm(Boolean.FALSE);
     }
 
+    @Override
     public Set<String> trueConfirm() {
         return this.marker.confirm(Boolean.TRUE);
     }

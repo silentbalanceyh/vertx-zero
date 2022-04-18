@@ -12,8 +12,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.refine.Fm;
-import io.vertx.tp.ke.atom.KSpec;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.specification.KSpec;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

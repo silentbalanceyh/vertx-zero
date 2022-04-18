@@ -57,18 +57,25 @@ public class Vs implements Serializable {
      */
     private transient final Set<String> ignores = new HashSet<>();
 
-    private Vs(final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, HTField> mapSubtype) {
+    private Vs(final ConcurrentMap<String, HTField> mapType) {
+        /*
+         * this reference following rules
+         * - mapType: stored current field = type
+         * - mapSubType: when current field is ( JsonObject / JsonArray ), complex
+         *   the mapSubType stored ( field = HTField ) and here HTField is complex type
+         */
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
-            this.mapType.putAll(mapType);
-        }
-        if (Objects.nonNull(mapSubtype) && !mapSubtype.isEmpty()) {
-            this.mapSubtype.clear();
-            this.mapSubtype.putAll(mapSubtype);
+            mapType.forEach((attribute, field) -> {
+                this.mapType.put(attribute, field.type());
+                if (field.isComplex()) {
+                    this.mapSubtype.put(attribute, field);
+                }
+            });
         }
     }
 
-    public static Vs create(final String identifier, final ConcurrentMap<String, Class<?>> mapType, final ConcurrentMap<String, HTField> mapSubtype) {
-        return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType, mapSubtype));
+    public static Vs create(final String identifier, final ConcurrentMap<String, HTField> mapType) {
+        return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType));
     }
 
     // ============================ Static Comparing Change ===============================

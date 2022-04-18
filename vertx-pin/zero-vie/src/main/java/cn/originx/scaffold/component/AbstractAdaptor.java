@@ -8,7 +8,6 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._400KeyLengthException;
 import io.vertx.tp.jet.uca.business.AbstractComponent;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActIn;
@@ -21,6 +20,7 @@ import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.unity.Ux;
@@ -242,9 +242,9 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * > 如果系统中未配置`identifier`属性——即通道和模型未绑定，则调用`this.atom()`执行运算修改`this.internalAtom`再构造数据库访问器。
      *
-     * @return {@link AoDao}数据库访问器
+     * @return {@link HDao}数据库访问器
      */
-    protected AoDao dao() {
+    protected HDao dao() {
         return Ao.toDao(this.atom(), this.database);
     }
 
@@ -256,9 +256,9 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * @param atom 传入的{@link DataAtom}模型定义对象。
      *
-     * @return {@link AoDao}数据库访问器
+     * @return {@link HDao}数据库访问器
      */
-    protected AoDao dao(final DataAtom atom) {
+    protected HDao dao(final DataAtom atom) {
         return Ao.toDao(atom.rule(this.rule()), this.database);
     }
 

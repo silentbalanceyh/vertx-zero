@@ -2,13 +2,14 @@ package io.vertx.tp.modular.dao;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.meld.HAtom;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -21,7 +22,7 @@ import java.util.Objects;
  * 异步：operationAsync
  * 针对所有的数据库操作统一处理
  */
-public abstract class AbstractDao implements AoDao {
+public abstract class AbstractDao implements HDao {
 
     protected final transient AoConnection conn;
     /*
@@ -66,7 +67,7 @@ public abstract class AbstractDao implements AoDao {
     }
 
     @Override
-    public AoDao mount(final DataAtom atom) {
+    public HDao mount(final HAtom atom) {
         // 读取器直接穿透，让读取器挂载在元数据上
         this.unique.on(atom);     // Uniqueor 挂载
         this.flush.on(atom);     // Partakor 挂载

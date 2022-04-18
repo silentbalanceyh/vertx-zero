@@ -12,13 +12,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -332,7 +332,7 @@ public class AbstractHub extends AbstractActor {
     // ------------------ Completer特殊接口 ----------------
 
     @Override
-    public AoDao dao(final DataAtom atom) {
+    public HDao dao(final DataAtom atom) {
         return super.dao(atom);
     }
 
@@ -351,7 +351,7 @@ public class AbstractHub extends AbstractActor {
      */
     public Completer completer(final DataAtom atom) {
         // Default Completer, 可直接从子类替换
-        final AoDao dao = this.dao(atom);
+        final HDao dao = this.dao(atom);
         return Completer.create(this.completerCls(), dao, atom)
             .bind(this.switcher()).bind(this.options());
     }

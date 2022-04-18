@@ -6,9 +6,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
-import io.vertx.tp.ke.atom.KEnv;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.optic.environment.ES;
@@ -18,6 +16,8 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.specification.KEnv;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -95,7 +95,7 @@ class AoImpl {
         return DataAtom.get(name, identifier);
     }
 
-    static AoDao toDao(final DataAtom atom) {
+    static HDao toDao(final DataAtom atom) {
         return Ke.channelSync(DS.class, () -> null, ds -> {
             /* 连接池绑定数据库 */
             final DataPool pool = ds.switchDs(atom.sigma());
@@ -109,7 +109,7 @@ class AoImpl {
         });
     }
 
-    static AoDao toDao(final Supplier<DataAtom> supplier, final Database database) {
+    static HDao toDao(final Supplier<DataAtom> supplier, final Database database) {
         if (Objects.isNull(database)) {
             return null;
         } else {
@@ -145,7 +145,7 @@ class AoImpl {
         return Ux.updateR(record, data);
     }
 
-    static AoDao toDao(final String identifier) {
+    static HDao toDao(final String identifier) {
         return Ke.channelSync(ES.class, () -> null, es -> {
             final KEnv env = es.connect();
             final DataAtom atom;

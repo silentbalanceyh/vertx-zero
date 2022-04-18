@@ -4,7 +4,7 @@ import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KSpec;
+import io.vertx.up.experiment.specification.KSpec;
 
 import java.util.List;
 

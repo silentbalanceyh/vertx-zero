@@ -6,7 +6,6 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.record.Apt;
@@ -15,6 +14,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
@@ -201,11 +201,11 @@ public class Ao {
         return AoImpl.toAtom(options);
     }
 
-    public static AoDao toDao(final DataAtom atom) {
+    public static HDao toDao(final DataAtom atom) {
         return AoImpl.toDao(atom);
     }
 
-    public static AoDao toDao(final DataAtom atom, final Database database) {
+    public static HDao toDao(final DataAtom atom, final Database database) {
         return AoImpl.toDao(() -> atom, database);
     }
 
@@ -213,7 +213,7 @@ public class Ao {
         return AoImpl.toAtom(identifier);
     }
 
-    public static AoDao toDao(final String identifier) {
+    public static HDao toDao(final String identifier) {
         return AoImpl.toDao(identifier);
     }
 

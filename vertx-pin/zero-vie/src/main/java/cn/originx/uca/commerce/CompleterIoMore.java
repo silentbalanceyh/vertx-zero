@@ -7,8 +7,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 
 import java.util.HashSet;
@@ -21,11 +21,11 @@ import java.util.function.Supplier;
  */
 public class CompleterIoMore implements CompleterIo<JsonArray> {
 
-    protected final transient AoDao dao;
+    protected final transient HDao dao;
     protected final transient DataAtom atom;
     protected transient Switcher switcher;
 
-    CompleterIoMore(final AoDao dao, final DataAtom atom) {
+    CompleterIoMore(final HDao dao, final DataAtom atom) {
         this.atom = atom;
         this.dao = dao;
     }

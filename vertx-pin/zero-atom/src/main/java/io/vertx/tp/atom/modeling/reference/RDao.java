@@ -6,10 +6,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.atom.specification.KJoin;
-import io.vertx.tp.ke.atom.specification.KPoint;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.commune.Record;
+import io.vertx.up.experiment.meld.HDao;
+import io.vertx.up.experiment.specification.KJoin;
+import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -91,7 +91,7 @@ public class RDao {
                 /*
                  * Dynamic
                  */
-                final AoDao daoD = this.daoD();
+                final HDao daoD = this.daoD();
                 final Record[] records = daoD.fetch(condition);
                 return Ut.toJArray(records);
             }
@@ -112,7 +112,7 @@ public class RDao {
                 /*
                  * Dynamic
                  */
-                final AoDao daoD = this.daoD();
+                final HDao daoD = this.daoD();
                 return daoD.fetchAsync(condition)
                     .compose(Ux::futureA);
             }
@@ -155,7 +155,7 @@ public class RDao {
         };
     }
 
-    private AoDao daoD() {
+    private HDao daoD() {
         return Ao.toDao(this.atom);
     }
 }

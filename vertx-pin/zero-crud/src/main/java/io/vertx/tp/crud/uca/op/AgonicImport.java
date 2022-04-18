@@ -7,8 +7,8 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.specification.KField;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 

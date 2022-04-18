@@ -4,8 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.up.experiment.meld.HDao;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,7 +23,7 @@ public class CompleterDefault implements Completer {
     protected CompleterIo<JsonObject> single;
     protected CompleterIo<JsonArray> batch;
 
-    public CompleterDefault(final AoDao dao, final DataAtom atom) {
+    public CompleterDefault(final HDao dao, final DataAtom atom) {
         this.single = new CompleterIoOne(dao, atom);
         this.batch = new CompleterIoMore(dao, atom);
     }

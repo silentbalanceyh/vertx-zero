@@ -9,8 +9,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -42,7 +42,7 @@ public abstract class AbstractStep implements MigrateStep {
         return this;
     }
 
-    protected AoDao ioDao(final String identifier) {
+    protected HDao ioDao(final String identifier) {
         final DataAtom atom = Ox.toAtom(this.app.getAppId(), identifier);
         return Ao.toDao(atom, this.app.getSource());
     }

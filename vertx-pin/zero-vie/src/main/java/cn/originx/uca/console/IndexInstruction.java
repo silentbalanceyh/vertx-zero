@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
@@ -16,6 +15,7 @@ import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.commune.Record;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class IndexInstruction extends AbstractInstruction {
                  */
                 return Ux.future(Boolean.FALSE);
             } else {
-                final AoDao dao = Ox.toDao(app.getAppId(), identifier);
+                final HDao dao = Ox.toDao(app.getAppId(), identifier);
 
                 final ElasticSearchClient client = ElasticSearchInfix.getClient();
                 final Refer recordRef = new Refer();

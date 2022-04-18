@@ -8,6 +8,7 @@ import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -27,7 +28,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * Here are three dao mode in MetaReference
  *
- * 1. Dynamic Dao: {@link io.vertx.tp.modular.dao.AoDao}, based on `M_MODEL` definition.
+ * 1. Dynamic Dao: {@link HDao}, based on `M_MODEL` definition.
  * 2. Static Dao: {@link io.vertx.up.uca.jooq.UxJooq}, directly mapped to single table.
  * 3. Static Dao with Join: {@link io.vertx.up.uca.jooq.UxJoin}, mapped to more than on table.
  *

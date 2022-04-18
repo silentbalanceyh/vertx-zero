@@ -1,21 +1,20 @@
-package io.vertx.tp.modular.dao;
+package io.vertx.up.experiment.meld;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
 
 /**
  * 数据库访问器
  */
-public interface AoDao extends
-    AoReader,       // 读取
-    AoWriter,       // 写入
-    AoSearcher,     // 搜索
-    AoBatch,        // 批量
-    AoAggregator,   // 聚集
-    AoPredicate     // 检查
+public interface HDao extends
+    HReader,       // 读取
+    HWriter,       // 写入
+    HSearcher,     // 搜索
+    HBatch,        // 批量
+    HAggregator,   // 聚集
+    HPredicate     // 检查
 {
     // ================ Direct =================
 
@@ -27,13 +26,13 @@ public interface AoDao extends
     /**
      * 挂载到元数据中，主要用于链接 metadata
      */
-    AoDao mount(DataAtom atom);
+    HDao mount(HAtom atom);
 }
 
 /**
  * 内置接口：写入器接口，会被OxDao继承，主要负责Record的写入操作，包括增删改
  */
-interface AoWriter {
+interface HWriter {
     /* 插入单条记录 identifier已经包含在了Record中 */
     Future<Record> insertAsync(Record record);
 
@@ -54,7 +53,7 @@ interface AoWriter {
  * 内置接口：批量执行
  */
 @SuppressWarnings("unchecked")
-interface AoBatch {
+interface HBatch {
     /* 批量插入 */
     Future<Record[]> insertAsync(Record... records);
 
@@ -84,7 +83,7 @@ interface AoBatch {
 /**
  * 内置接口：聚集函数
  */
-interface AoAggregator {
+interface HAggregator {
 
     Future<Long> countAsync(Criteria criteria);
 
@@ -98,7 +97,7 @@ interface AoAggregator {
 /**
  * 内置接口：读取器
  */
-interface AoReader {
+interface HReader {
     /* 根据ID查找某条记录 */
     <ID> Future<Record> fetchByIdAsync(ID id);
 
@@ -117,7 +116,7 @@ interface AoReader {
 /**
  * 内置接口：检查器
  */
-interface AoPredicate {
+interface HPredicate {
 
     Future<Boolean> existAsync(Criteria criteria);
 
@@ -139,7 +138,7 @@ interface AoPredicate {
 /**
  * 内置接口：搜索器
  */
-interface AoSearcher {
+interface HSearcher {
 
     /* 搜索专用接口，生成对应的 Pagination */
     Future<JsonObject> searchAsync(final JsonObject filters);

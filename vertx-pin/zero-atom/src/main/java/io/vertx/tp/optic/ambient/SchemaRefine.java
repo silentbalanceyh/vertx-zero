@@ -101,7 +101,7 @@ class SchemaRefine implements AoRefine {
             .upsertAsync(this.criteria(updated), updated)
             .compose(entity -> {
                 // 设置关系信息重建
-                schema.relation(entity.getKey());
+                schema.connect(entity.getKey());
                 final List<Future<JsonArray>> combine = new ArrayList<>();
                 // Schema -> Field
                 combine.add(this.saveField(schema, entity));

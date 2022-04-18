@@ -8,6 +8,7 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
+import io.vertx.up.experiment.meld.HAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -41,9 +42,9 @@ public abstract class AbstractUtil<T extends AoBinder> implements AoBinder<T> {
     }
 
     @Override
-    public T on(final DataAtom atom) {
+    public T on(final HAtom atom) {
         /* 处理特殊的 语句处理器 */
-        this.atom = atom;
+        this.atom = (DataAtom) atom;
         return (T) this;
     }
 

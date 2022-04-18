@@ -35,7 +35,6 @@ public class JsonModel implements Model {
     /* 所有关联的Entity的ID */
     private final transient Set<MJoin> joins = new HashSet<>();
     /* 延迟填充 */
-    private final transient ConcurrentMap<String, Class<?>> attributeTypes = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
 
@@ -72,14 +71,8 @@ public class JsonModel implements Model {
             .findFirst().orElse(null);
     }
 
-    @Override
-    public ConcurrentMap<String, Class<?>> typeMap() {
-        this.sureTypes();
-        return this.attributeTypes;
-    }
-
     private void sureTypes() {
-        if (this.attributeTypes.isEmpty()) {
+        if (this.attributeMap.isEmpty()) {
             /* 读取所有 MAttribute */
             this.dbAttributes().forEach(attribute -> {
                 /*
@@ -90,10 +83,6 @@ public class JsonModel implements Model {
                 final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
                 final HAttribute aoAttr = Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
-                final Class<?> type = aoAttr.field().type();
-                if (Objects.nonNull(type)) {
-                    this.attributeTypes.put(attribute.getName(), type);
-                }
             });
         }
     }
@@ -169,7 +158,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public void relation(final String key) {
+    public void connect(final String key) {
         // 修改 MModel 主键
         this.model.setKey(key);
         // 修改 MAttribute 关联主键

@@ -2,9 +2,9 @@ package io.vertx.tp.modular.jdbc;
 
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._501PinNotFoundException;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -35,5 +35,5 @@ public interface Pin {
      * 读取数据处理访问器专用接口
      * 用于Crud等各种复杂操作
      */
-    AoDao getDao(Database database);
+    HDao getDao(Database database);
 }

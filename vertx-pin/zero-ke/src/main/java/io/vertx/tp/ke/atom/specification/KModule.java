@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.cv.em.DSMode;
+import io.vertx.up.eon.em.DSMode;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

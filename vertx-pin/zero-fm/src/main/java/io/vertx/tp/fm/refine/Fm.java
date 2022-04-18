@@ -2,7 +2,7 @@ package io.vertx.tp.fm.refine;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KSpec;
+import io.vertx.up.experiment.specification.KSpec;
 
 import java.util.List;
 

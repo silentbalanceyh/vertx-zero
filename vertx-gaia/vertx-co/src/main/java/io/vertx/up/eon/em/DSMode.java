@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.cv.em;
+package io.vertx.up.eon.em;
 
 public enum DSMode {
     // Default Value ( Major Database configured by 'provider' )

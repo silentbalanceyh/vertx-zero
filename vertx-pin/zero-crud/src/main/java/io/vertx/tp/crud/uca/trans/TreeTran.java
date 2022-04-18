@@ -8,7 +8,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.tp.ke.atom.specification.KTransform;
-import io.vertx.tp.ke.atom.specification.KTree;
+import io.vertx.up.experiment.specification.KTree;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;

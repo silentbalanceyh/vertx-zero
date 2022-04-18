@@ -1,13 +1,13 @@
 package io.vertx.tp.atom.cv;
 
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.tp.modular.phantom.AoModeler;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.up.experiment.meld.HDao;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -34,7 +34,7 @@ public interface AoCache {
     /* AoBuilder 池化管理 */
     ConcurrentMap<String, AoBuilder> POOL_T_BUILDER = new ConcurrentHashMap<>();
     /* AoDao 池化管理 */
-    ConcurrentMap<String, AoDao> POOL_T_DAO = new ConcurrentHashMap<>();
+    ConcurrentMap<String, HDao> POOL_T_DAO = new ConcurrentHashMap<>();
     /* JqEngine 池化 */
     ConcurrentMap<String, JQEngine> POOL_ENGINES = new ConcurrentHashMap<>();
 

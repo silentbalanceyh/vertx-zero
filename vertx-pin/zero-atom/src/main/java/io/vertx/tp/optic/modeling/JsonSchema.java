@@ -125,7 +125,7 @@ public class JsonSchema implements Schema {
     }
 
     @Override
-    public void relation(final String key) {
+    public void connect(final String key) {
         // 设置 MEntity 主键
         this.entity.setKey(key);
         // 修改 MKey 关联主键

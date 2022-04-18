@@ -1,4 +1,4 @@
-package io.vertx.tp.ke.atom.specification;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ClassDeserializer;
@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._409JoinTargetException;
-import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.eon.em.JoinMode;
+import io.vertx.up.exception.web._409JoinTargetException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

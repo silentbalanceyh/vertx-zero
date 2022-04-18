@@ -3,10 +3,10 @@ package io.vertx.tp.atom.modeling.reference;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.experiment.meld.HRule;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

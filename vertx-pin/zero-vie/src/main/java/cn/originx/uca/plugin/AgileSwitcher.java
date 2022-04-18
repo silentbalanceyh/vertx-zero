@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  */
 public class AgileSwitcher {
     private transient DataAtom atom;
-    private transient AoDao dao;
+    private transient HDao dao;
 
     private transient boolean dynamic;
     private transient Switcher switcher;
@@ -33,7 +33,7 @@ public class AgileSwitcher {
         return this;
     }
 
-    public AgileSwitcher initialize(final DataAtom atom, final AoDao dao) {
+    public AgileSwitcher initialize(final DataAtom atom, final HDao dao) {
         this.atom = atom;
         this.dao = dao;
         return this;
@@ -63,7 +63,7 @@ public class AgileSwitcher {
     }
 
 
-    private Arrow arrow(final Supplier<Arrow> supplier, final DataAtom atom, final AoDao dao) {
+    private Arrow arrow(final Supplier<Arrow> supplier, final DataAtom atom, final HDao dao) {
         final Arrow arrow = supplier.get();
         /*
          * mount 方法
@@ -75,7 +75,7 @@ public class AgileSwitcher {
          * 合约处理
          */
         Ut.contract(arrow, DataAtom.class, atom);
-        Ut.contract(arrow, AoDao.class, dao);
+        Ut.contract(arrow, HDao.class, dao);
         Ao.infoUca(this.getClass(), "Arrow selected: {0} for {1}",
             arrow.getClass().getName(), atom.identifier());
         return arrow;

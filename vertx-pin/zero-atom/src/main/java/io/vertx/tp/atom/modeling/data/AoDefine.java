@@ -75,7 +75,7 @@ class AoDefine {
     }
 
     /* 读取模型中的属性信息 */
-    Set<String> attributeNames() {
+    Set<String> attribute() {
         return this.modelRef.dbAttributes().stream()
             .map(MAttribute::getName)
             .filter(Ut::notNil)
@@ -94,10 +94,6 @@ class AoDefine {
     HTAtom shape() {
         /* 构造 Shape */
         return this.htAtom;
-    }
-
-    ConcurrentMap<String, Class<?>> typeMap() {
-        return this.modelRef.typeMap();
     }
 
     // ------------------ 计算型处理 -----------------
@@ -127,6 +123,4 @@ class AoDefine {
             return function.apply(model);
         }
     }
-
-
 }

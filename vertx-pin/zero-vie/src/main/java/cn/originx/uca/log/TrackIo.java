@@ -8,9 +8,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.error._400TrackingErrorException;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,11 +28,11 @@ public class TrackIo {
     private final transient DataAtom atom;
 
     @SuppressWarnings("all")    // Temp
-    private final transient AoDao dao;
+    private final transient HDao dao;
     private final transient Boolean isTrack;
     private final transient Set<String> ignoreSet;
 
-    private TrackIo(final DataAtom atom, final AoDao dao) {
+    private TrackIo(final DataAtom atom, final HDao dao) {
         // 打开注入
         Ox.numerationStd();
         this.atom = atom;
@@ -49,7 +49,7 @@ public class TrackIo {
         this.ignoreSet = Ox.ignorePure(atom);
     }
 
-    public static TrackIo create(final DataAtom atom, final AoDao dao) {
+    public static TrackIo create(final DataAtom atom, final HDao dao) {
         return Fn.pool(TRACK_POOL, atom.identifier(), () -> new TrackIo(atom, dao));
     }
 

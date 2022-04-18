@@ -6,10 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -54,9 +54,9 @@ final class OxTo {
      * @param key        {@link String} 应用标识，可以是`appId`、也可以是`sigma`
      * @param identifier {@link String} 模型统一标识符
      *
-     * @return {@link AoDao} 数据库访问对象
+     * @return {@link HDao} 数据库访问对象
      */
-    static AoDao toDao(final String key, final String identifier) {
+    static HDao toDao(final String key, final String identifier) {
         final JtApp app = Ambient.getApp(key);
         final Database database = Objects.isNull(app) ? null : app.getSource();
         return Ao.toDao(toAtom(key, identifier), database);

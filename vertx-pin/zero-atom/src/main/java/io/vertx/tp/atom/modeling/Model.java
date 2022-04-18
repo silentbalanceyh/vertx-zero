@@ -12,9 +12,8 @@ import io.vertx.up.experiment.meld.HLinkage;
 import io.vertx.up.experiment.meld.HModel;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
-public interface Model extends HApp, HModel, AoConnect {
+public interface Model extends HApp, HLinkage, HModel {
 
     // 下边是静态方法
     static String namespace(final String appName) {
@@ -54,14 +53,7 @@ public interface Model extends HApp, HModel, AoConnect {
 
     Schema schema(String identifier);
 
-    ConcurrentMap<String, Class<?>> typeMap();
-}
-
-/**
- * 单名空间
- */
-interface AoConnect extends HLinkage {
-
+    // ================== 单名空间 ====================
     /* 从Json中连接Schema：会针对joins做过滤 **/
     Model bind(Set<Schema> schemas);
 

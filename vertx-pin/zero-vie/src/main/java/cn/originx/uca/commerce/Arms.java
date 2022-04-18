@@ -8,11 +8,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -32,7 +32,7 @@ public class Arms {
 
     private final static ConcurrentMap<String, Arms> POOL_ARMS = new ConcurrentHashMap<>();
     private final transient DataAtom atom;
-    private final transient AoDao dao;
+    private final transient HDao dao;
     private final transient TrackIo io;
     private final transient Set<ChangeFlag> types = new HashSet<ChangeFlag>() {
         {
@@ -46,13 +46,13 @@ public class Arms {
     private Function<JsonArray, JsonArray> fnDefault;
     private Supplier<Future<JsonArray>> fnFetcher;
 
-    public Arms(final AoDao dao, final DataAtom atom) {
+    public Arms(final HDao dao, final DataAtom atom) {
         this.dao = dao;
         this.atom = atom;
         this.io = TrackIo.create(atom, dao);
     }
 
-    public static <T extends Arms> T create(final AoDao dao, final DataAtom atom) {
+    public static <T extends Arms> T create(final HDao dao, final DataAtom atom) {
         return (T) Fn.pool(POOL_ARMS, atom.identifier(), () -> new Arms(dao, atom));
     }
 
@@ -60,7 +60,7 @@ public class Arms {
         return this.atom;
     }
 
-    protected AoDao dao() {
+    protected HDao dao() {
         return this.dao;
     }
 

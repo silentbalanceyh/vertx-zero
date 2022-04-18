@@ -5,12 +5,12 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.error._404RecordMissingException;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -164,9 +164,9 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
      *
      * @param input {@link io.vertx.core.json.JsonObject} 数据记录
      *
-     * @return {@link io.vertx.core.Future}<{@link AoDao}>
+     * @return {@link io.vertx.core.Future}<{@link HDao}>
      */
-    protected Future<AoDao> dao(final JsonObject input) {
+    protected Future<HDao> dao(final JsonObject input) {
         return this.atom(input).compose(atom -> Ux.future(this.dao(atom)));
     }
 

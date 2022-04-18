@@ -8,9 +8,9 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.jet.uca.business.AbstractJob;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.experiment.meld.HDao;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
@@ -77,9 +77,9 @@ public abstract class AbstractOutcome extends AbstractJob implements JobOutcome 
     /**
      * 「Async」异步提取当前组件所使用的数据库访问器。
      *
-     * @return {@link Future}<{@link AoDao}>
+     * @return {@link Future}<{@link HDao}>
      */
-    protected Future<AoDao> dao() {
+    protected Future<HDao> dao() {
         return Ux.future(Ao.toDao(this.atom(), this.database()));
     }
 

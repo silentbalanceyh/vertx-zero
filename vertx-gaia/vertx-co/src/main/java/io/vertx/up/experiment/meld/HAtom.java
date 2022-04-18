@@ -51,6 +51,9 @@ public interface HAtom extends
     @Fluent
     HAtom atom(String identifier);
 
+    HTAtom shape();
+
+    <T extends HModel> T model();
     // =================== Basic method of current atom ===========
 
     String identifier();
@@ -59,11 +62,8 @@ public interface HAtom extends
 
     String language();
 
-    HTAtom shape();
-
     // ==================== Reference Information ================
 
-    // ==================== Rule Unique Part =====================
 }
 
 interface HAtomIo {
@@ -97,6 +97,7 @@ interface HAtomIo {
     Set<String> trueOut();
 }
 
+// ==================== Rule Unique Part =====================
 interface HAtomRule {
     /*
      * Stored rule into database that it's configured, this rule bind
@@ -127,6 +128,7 @@ interface HAtomRule {
     HAtom rule(RuleUnique rule);
 }
 
+// ==================== Attribute Part =====================
 interface HAtomAttribute {
     /*
      * Return all attribute names combined into Set

@@ -63,7 +63,7 @@ class CombineRefine implements AoRefine {
          * 不相同则表示数据库中的主键需要同步到json中
          */
         if (!stored.dbModel().getKey().equals(json.dbModel().getKey())) {
-            json.relation(stored.dbModel().getKey());
+            json.connect(stored.dbModel().getKey());
         }
         /*
          * 除了检查MModel以外还要检查 Schema的内容
@@ -77,6 +77,6 @@ class CombineRefine implements AoRefine {
             // 再过滤发生了主键变化的Schema
             .filter(storedRef -> !storedRef.getEntity().getKey().equals(jsonRef.getEntity().getKey()))
             // 如果找到就执行关联关系的重新设置
-            .ifPresent(storedRef -> jsonRef.relation(storedRef.getEntity().getKey())));
+            .ifPresent(storedRef -> jsonRef.connect(storedRef.getEntity().getKey())));
     }
 }

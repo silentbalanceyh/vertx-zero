@@ -3,10 +3,10 @@ package io.vertx.tp.fm.refine;
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
-import io.vertx.tp.ke.atom.KSpec;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.specification.KSpec;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
