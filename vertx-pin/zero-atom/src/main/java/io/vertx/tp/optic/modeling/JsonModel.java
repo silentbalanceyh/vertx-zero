@@ -6,15 +6,15 @@ import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.eon.em.atom.ModelType;
+import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -37,7 +37,7 @@ public class JsonModel implements Model {
     /* 延迟填充 */
     private final transient ConcurrentMap<String, Class<?>> attributeTypes = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, AoAttribute> attributeMap = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
 
     private final transient String namespace;
     /* 当前Model关联的模型 */
@@ -73,7 +73,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public ConcurrentMap<String, Class<?>> typeCls() {
+    public ConcurrentMap<String, Class<?>> typeMap() {
         this.sureTypes();
         return this.attributeTypes;
     }
@@ -89,8 +89,8 @@ public class JsonModel implements Model {
                 final Schema schema = this.schema(attribute.getSource());
                 final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
-                final AoAttribute aoAttr = Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
-                final Class<?> type = aoAttr.typeCls();
+                final HAttribute aoAttr = Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
+                final Class<?> type = aoAttr.field().type();
                 if (Objects.nonNull(type)) {
                     this.attributeTypes.put(attribute.getName(), type);
                 }
@@ -109,7 +109,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public Set<Schema> schemata() {
+    public Set<Schema> schema() {
         return this.schemata;
     }
 
@@ -136,17 +136,15 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public AoAttribute attribute(final String attributeName) {
+    public HAttribute attribute(final String attributeName) {
         this.sureTypes();
         return this.attributeMap.getOrDefault(attributeName, null);
     }
 
     @Override
-    public ConcurrentMap<String, HTField> types() {
+    public Set<String> attribute() {
         this.sureTypes();
-        final ConcurrentMap<String, HTField> typeMap = new ConcurrentHashMap<>();
-        this.attributeMap.forEach((name, aoAttr) -> typeMap.put(name, aoAttr.type()));
-        return typeMap;
+        return this.attributeMap.keySet();
     }
 
     @Override
@@ -193,7 +191,7 @@ public class JsonModel implements Model {
     }
 
     @Override
-    public RuleUnique unique() {
+    public RuleUnique rule() {
         if (Objects.isNull(this.unique)) {
             final String content = this.model.getRuleUnique();
             if (Ut.notNil(content)) {

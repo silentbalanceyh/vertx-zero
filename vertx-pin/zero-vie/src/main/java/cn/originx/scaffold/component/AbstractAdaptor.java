@@ -21,6 +21,7 @@ import io.vertx.up.commune.exchange.DiFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -74,7 +75,7 @@ import java.util.function.Function;
  *
  * 标识规则的绑定会区分优先级
  *
- * 1. 先从通道中构造{@link io.vertx.up.commune.rule.RuleUnique}对象（通道定义，高优先级）。
+ * 1. 先从通道中构造{@link RuleUnique}对象（通道定义，高优先级）。
  * 2. 再读取模型定义{@link DataAtom}中的标识规则（模型定义，低优先级）。
  *
  * ### 4. 关于四种组件
@@ -151,7 +152,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * 1. 使用`this.options()`返回结果，构造{@link DataAtom}（从缓存中提取新的）。
      * 2. 将{@link DataAtom}和当前模型中的<strong>标识规则</strong>对象绑定。
-     * 3. 挂外置的通道专用{@link io.vertx.up.commune.rule.RuleUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
+     * 3. 挂外置的通道专用{@link RuleUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
      *
      * 内部调用`Ao.toAtom`方法的数据结构如下：
      *
@@ -181,7 +182,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
                      * 静态场景专用的 RuleUnique，不支持子模式
                      * 通道直接连接
                      * */
-                    .ruleConnect(this.rule());
+                    .rule(this.rule());
             }
         }
         return this.internalAtom;
@@ -258,7 +259,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      * @return {@link AoDao}数据库访问器
      */
     protected AoDao dao(final DataAtom atom) {
-        return Ao.toDao(atom.ruleConnect(this.rule()), this.database);
+        return Ao.toDao(atom.rule(this.rule()), this.database);
     }
 
 

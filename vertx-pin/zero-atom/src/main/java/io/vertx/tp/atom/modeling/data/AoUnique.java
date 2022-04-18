@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.experiment.rule.RuleUnique;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ class AoUnique {
      * 直接返回模型中存储的标识规则
      */
     RuleUnique rule() {
-        return this.modelRef.unique();
+        return this.modelRef.rule();
     }
 
     /*
@@ -44,7 +44,7 @@ class AoUnique {
         if (Objects.nonNull(this.rule)) {
             return this.rule;
         } else {
-            return this.modelRef.unique();
+            return this.modelRef.rule();
         }
     }
 

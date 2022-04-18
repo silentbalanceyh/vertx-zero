@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.apply;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.ModelType;
+import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
 

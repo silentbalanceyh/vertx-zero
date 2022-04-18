@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.modeling.element;
 
-import io.vertx.tp.atom.cv.em.IdMode;
+import io.vertx.up.eon.em.atom.KeyMode;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ public class DataKey implements Serializable {
     /* 主键专用管理 */
     private static final ConcurrentMap<String, DataKey> KEYS = new ConcurrentHashMap<>();
     private final transient String unique;
-    private transient IdMode mode = IdMode.DIRECT;    // 模式
+    private transient KeyMode mode = KeyMode.DIRECT;    // 模式
 
     /* 主键字段：table name -> 属性矩阵，可支持多张表 */
     private ConcurrentMap<String, DataMatrix> matrix = new ConcurrentHashMap<>();
@@ -39,11 +39,11 @@ public class DataKey implements Serializable {
         this.matrix = matrix;
     }
 
-    public IdMode getMode() {
+    public KeyMode getMode() {
         return this.mode;
     }
 
-    public void setMode(final IdMode mode) {
+    public void setMode(final KeyMode mode) {
         this.mode = mode;
     }
 

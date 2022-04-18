@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.cv.em.CheckResult;
-import io.vertx.tp.atom.cv.em.KeyType;
+import io.vertx.up.eon.em.atom.KeyType;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
 import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;

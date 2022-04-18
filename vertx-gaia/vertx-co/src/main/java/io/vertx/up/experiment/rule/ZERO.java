@@ -1,4 +1,4 @@
-package io.vertx.up.commune.rule;
+package io.vertx.up.experiment.rule;
 
 import io.vertx.core.json.JsonArray;
 

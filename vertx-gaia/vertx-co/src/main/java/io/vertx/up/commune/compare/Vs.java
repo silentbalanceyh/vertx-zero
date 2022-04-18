@@ -27,7 +27,6 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Vs implements Serializable {
-
     private static final Annal LOGGER = Annal.get(Vs.class);
 
     private static final ConcurrentMap<String, Vs> POOL_VS = new ConcurrentHashMap<>();

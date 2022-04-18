@@ -3,7 +3,7 @@ package io.vertx.tp.modular.sql;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.vertx.tp.atom.cv.em.CheckResult;
-import io.vertx.tp.atom.cv.em.KeyType;
+import io.vertx.up.eon.em.atom.KeyType;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.error.*;
 import io.vertx.tp.modular.metadata.AoReflector;

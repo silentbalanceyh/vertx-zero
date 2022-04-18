@@ -23,7 +23,7 @@ import java.util.Set;
 public interface Auditor {
 
     static Auditor history(final DataAtom atom, final JsonObject options) {
-        return Fn.pool(AuditorHistory.POOL_HISTORY, atom.key(options), () -> new AuditorHistory(options).bind(atom));
+        return Fn.pool(AuditorHistory.POOL_HISTORY, atom.atomKey(options), () -> new AuditorHistory(options).bind(atom));
     }
 
     Auditor bind(DataAtom atom);

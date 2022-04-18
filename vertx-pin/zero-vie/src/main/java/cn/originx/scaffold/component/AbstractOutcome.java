@@ -11,7 +11,7 @@ import io.vertx.tp.jet.uca.business.AbstractJob;
 import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
 
@@ -71,7 +71,7 @@ public abstract class AbstractOutcome extends AbstractJob implements JobOutcome 
     protected DataAtom atom() {
         final IService service = this.service();
         final RuleUnique rule = Jt.toRule(service);
-        return Ox.toAtom(service.getSigma(), service.getIdentifier()).ruleConnect(rule);
+        return Ox.toAtom(service.getSigma(), service.getIdentifier()).rule(rule);
     }
 
     /**

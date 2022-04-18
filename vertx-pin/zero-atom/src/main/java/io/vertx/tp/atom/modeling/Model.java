@@ -4,20 +4,17 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.ModelType;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.modeling.JsonModel;
-import io.vertx.up.commune.Json;
-import io.vertx.up.commune.rule.RuleUnique;
-import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.experiment.meld.HApp;
+import io.vertx.up.experiment.meld.HLinkage;
+import io.vertx.up.experiment.meld.HModel;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-public interface Model extends AoShared, AoConnect {
+public interface Model extends HApp, HModel, AoConnect {
 
     // 下边是静态方法
     static String namespace(final String appName) {
@@ -50,31 +47,20 @@ public interface Model extends AoShared, AoConnect {
      * Such as
      *
      * 1. Schema
-     * 2. AoAttribute
+     * 2. HAttribute
      * 3. RuleUnique
      */
-    Set<Schema> schemata();
+    Set<Schema> schema();
 
     Schema schema(String identifier);
 
-    RuleUnique unique();
-
-    AoAttribute attribute(String attributeName);
-
-    /*
-     * The Api for java class type directly
-     */
-    ModelType type();
-
-    ConcurrentMap<String, Class<?>> typeCls();
-
-    ConcurrentMap<String, HTField> types();
+    ConcurrentMap<String, Class<?>> typeMap();
 }
 
 /**
  * 单名空间
  */
-interface AoConnect extends AoRelation {
+interface AoConnect extends HLinkage {
 
     /* 从Json中连接Schema：会针对joins做过滤 **/
     Model bind(Set<Schema> schemas);
@@ -85,19 +71,5 @@ interface AoConnect extends AoRelation {
     DataKey key();
 
     void key(DataKey dataKey);
-}
-
-interface AoShared extends Serializable, Json {
-
-    String identifier();
-
-    String file();
-
-    String namespace();
-}
-
-interface AoRelation {
-    /* 直接针对Model设置主键信息 */
-    void relation(final String key);
 }
 

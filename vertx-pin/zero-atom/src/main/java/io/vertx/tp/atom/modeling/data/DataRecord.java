@@ -45,7 +45,7 @@ public class DataRecord extends ActiveRecord {
      */
     @Override
     public Set<String> declaredFields() {
-        return this.atom.attributeNames();
+        return this.atom.attribute();
     }
 
     @Override

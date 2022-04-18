@@ -4,9 +4,11 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.eon.em.atom.AttributeType;
+import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.meld.HRule;
 import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
@@ -18,35 +20,11 @@ import java.util.Objects;
 /**
  * ## 「Pojo」SourceConfig
  *
- * ### 1. Intro
- *
- * Here are the parsing workflow:
- *
- * 1. When <strong>isArray</strong> = true, the dataFormat is `JsonArray`.
- * 2. Otherwise, extract `type` field of `sourceConfig` to get actual dataFormat.
- *
- * ### 2. Limitation
- *
- * #### 2.1. JsonArray
- *
- * 1. INTERNAL: Must contains `fields` configuration for sub-elements.
- * 2. REFERENCE/EXTERNAL: No.
- * 3. The `type` is {@link io.vertx.core.json.JsonArray};
- *
- * #### 2.2. JsonObject
- *
- * 1. INTERNAL: Must contains `fields` configuration for sub-elements.
- * 2. REFERENCE/EXTERNAL: No.
- * 3. The `type` is {@link io.vertx.core.json.JsonObject};
- *
- * #### 2.3. Elementary
- *
- * 1. The config must contains `type` field to define java class type name.
- * 2. It's default value here. `type = {@link java.lang.String}`, `source = Elementary`.
+ * Here are one implementation of HAttribute ( New )
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AoAttribute implements Serializable {
+public class AoAttribute implements HAttribute, Serializable {
     /**
      * {@link DataFormat} is for fieldSource
      */
@@ -60,7 +38,7 @@ public class AoAttribute implements Serializable {
     /**
      * The `rule` for serviceConfig here.
      */
-    private transient AoRule rule;
+    private transient HRule rule;
 
     /**
      * Create new AoService
@@ -157,7 +135,7 @@ public class AoAttribute implements Serializable {
          */
         if (reference.containsKey(KName.RULE)) {
             final JsonObject ruleData = Ut.valueJObject(reference.getJsonObject(KName.RULE));
-            this.rule = Ut.deserialize(ruleData, AoRule.class);
+            this.rule = Ut.deserialize(ruleData, HRule.class);
             /* Bind type into rule */
             this.rule.type(attributeType);
             /* Unique rule for diffSet */
@@ -179,7 +157,7 @@ public class AoAttribute implements Serializable {
      *
      * @return {@link HTField}
      */
-    public HTField type() {
+    public HTField field() {
         return this.type;
     }
 
@@ -188,22 +166,24 @@ public class AoAttribute implements Serializable {
      *
      * @return {@link List}
      */
-    public List<HTField> types() {
+    public List<HTField> fields() {
         return this.shapes;
     }
 
     /**
      * Return to `rule`
      *
-     * @return {@link AoRule}
+     * @return {@link HRule}
      */
-    public AoRule rule() {
+    @Override
+    public HRule rule() {
         return this.rule;
     }
 
     /**
      * @return {@link DataFormat}
      */
+    @Override
     public DataFormat format() {
         return this.dataFormat;
     }

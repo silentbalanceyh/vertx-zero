@@ -3,13 +3,14 @@ package io.vertx.tp.atom.modeling.data;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
+import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,13 +36,13 @@ class AoDefine {
             final String name = attr.getName();
             if (Ut.notNil(name)) {
                 /* AoAttribute Extract from Model */
-                final AoAttribute aoAttr = modelRef.attribute(name);
+                final HAttribute aoAttr = modelRef.attribute(name);
                 final HTField hField;
                 if (Objects.isNull(aoAttr)) {
                     // Fix Common issue here for type checking
                     hField = HTField.create(name, attr.getAlias());
                 } else {
-                    hField = aoAttr.type();
+                    hField = aoAttr.field();
                 }
                 if (Objects.nonNull(hField)) {
                     this.htAtom.add(hField);
@@ -69,7 +70,7 @@ class AoDefine {
         return this.sure(MModel::getLanguage);
     }
 
-    AoAttribute attribute(final String attributeName) {
+    HAttribute attribute(final String attributeName) {
         return this.modelRef.attribute(attributeName);
     }
 
@@ -95,18 +96,27 @@ class AoDefine {
         return this.htAtom;
     }
 
-    ConcurrentMap<String, Class<?>> typeCls() {
-        return this.modelRef.typeCls();
+    ConcurrentMap<String, Class<?>> typeMap() {
+        return this.modelRef.typeMap();
     }
 
     // ------------------ 计算型处理 -----------------
 
     ConcurrentMap<String, HTField> types() {
-        return this.modelRef.types();
+        final ConcurrentMap<String, HTField> typeMap = new ConcurrentHashMap<>();
+        this.modelRef.attribute().forEach((name) -> {
+            final HAttribute attribute = this.modelRef.attribute(name);
+            typeMap.put(name, attribute.field());
+        });
+        return typeMap;
     }
 
-    Class<?> type(final String field) {
-        return this.modelRef.typeCls().getOrDefault(field, null);
+    HTField type(final String field) {
+        final HAttribute attribute = this.modelRef.attribute(field);
+        if (Objects.isNull(attribute)) {
+            return null;
+        }
+        return attribute.field();
     }
 
     private <T> T sure(final Function<MModel, T> function) {

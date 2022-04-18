@@ -3,7 +3,7 @@ package io.vertx.up.commune;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.experiment.rule.RuleUnique;
 
 /*
  * Uniform interface for Job/Component definition

@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
@@ -12,9 +11,11 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.commune.compare.Vs;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -51,7 +52,7 @@ public class DataAtom {
         this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new AoUnique(model));
         this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
         this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
-        this.vs = Vs.create(this.unique, this.metadata.typeCls(), this.metadata.types());
+        this.vs = Vs.create(this.unique, this.metadata.typeMap(), this.metadata.types());
     }
 
     public static DataAtom get(final String appName,
@@ -103,22 +104,22 @@ public class DataAtom {
         }
     }
 
-    public String key(final JsonObject options) {
+    // ------------ 基础模型部分 ------------
+    public String atomKey(final JsonObject options) {
         final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
         return this.metadata.identifier() + "-" + hashCode;
     }
 
-    // ------------ 基础模型部分 ------------
     public DataAtom atom(final String identifier) {
         return get(this.appName, identifier);
     }
 
     /** 返回当前 Model 中的所有属性集 */
-    public Set<String> attributeNames() {
+    public Set<String> attribute() {
         return this.metadata.attributeNames();
     }
 
-    public AoAttribute attribute(final String name) {
+    public HAttribute attribute(final String name) {
         return this.metadata.attribute(name);
     }
 
@@ -148,7 +149,7 @@ public class DataAtom {
 
     /* 属性类型 */
     public ConcurrentMap<String, Class<?>> type() {
-        return this.metadata.typeCls();
+        return this.metadata.typeMap();
     }
 
     /** 返回 Shape 对象 */
@@ -157,7 +158,8 @@ public class DataAtom {
     }
 
     public Class<?> type(final String field) {
-        return this.metadata.type(field);
+        final HTField attribute = this.metadata.type(field);
+        return Objects.isNull(attribute) ? String.class : attribute.type();
     }
 
     // ------------ 比对专用方法 ----------
@@ -182,22 +184,23 @@ public class DataAtom {
     // ------------ 标识规则 ----------
 
     /** 存储的规则 */
-    public RuleUnique rule() {
+    public RuleUnique ruleAtom() {
         return this.ruler.rule();
     }
 
-    /** 连接的规则 */
-    public RuleUnique ruleDirect() {
-        return this.ruler.ruleDirect();
-    }
 
     /** 智能检索规则 */
     public RuleUnique ruleSmart() {
         return this.ruler.ruleSmart();
     }
 
+    /** 连接的规则 */
+    public RuleUnique rule() {
+        return this.ruler.ruleDirect();
+    }
+
     /** 规则的链接 */
-    public DataAtom ruleConnect(final RuleUnique channelRule) {
+    public DataAtom rule(final RuleUnique channelRule) {
         this.ruler.connect(channelRule);
         return this;
     }

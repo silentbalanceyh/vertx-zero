@@ -6,10 +6,10 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
@@ -169,8 +169,8 @@ class AtDiffer {
                  * 属性名 / 属性别称 / 属性类型（JsonObject / JsonArray）
                  * 和数据库不相关的
                  */
-                final AoAttribute aoAttr = atom.attribute(attribute.getName());
-                final Class<?> type = Objects.isNull(aoAttr) ? null : aoAttr.typeCls();
+                final HAttribute aoAttr = atom.attribute(attribute.getName());
+                final Class<?> type = Objects.isNull(aoAttr) ? null : aoAttr.field().type();
                 change.setFieldName(attribute.getName());
                 change.setFieldAlias(attribute.getAlias());
                 change.setFieldType(Objects.isNull(type) ? null : type.getName());

@@ -2,7 +2,7 @@ package cn.originx.infix.mysql5;
 
 import cn.originx.infix.mysql5.cv.MySqlStatement;
 import cn.originx.infix.mysql5.cv.MySqlWord;
-import io.vertx.tp.atom.cv.em.KeyType;
+import io.vertx.up.eon.em.atom.KeyType;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AbstractReflector;
 

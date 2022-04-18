@@ -1,9 +1,9 @@
-package io.vertx.tp.atom.cv.em;
+package io.vertx.up.eon.em.atom;
 
 /**
  * 主键处理模式
  */
-public enum IdMode {
+public enum KeyMode {
     DIRECT,         // 单表，单主键
     COLLECTION,     // 单表，多主键
     /*

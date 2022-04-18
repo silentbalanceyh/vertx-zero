@@ -9,8 +9,8 @@ import io.vertx.tp.atom.modeling.data.DataGroup;
 import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -91,7 +91,7 @@ public class AtomSwitcher implements Switcher {
                 () -> defaultAtom,
 
                 /* 动态驱动成功 */
-                switched -> this.atom(switched, defaultAtom.ruleDirect())
+                switched -> this.atom(switched, defaultAtom.rule())
             ));
         }
     }
@@ -119,7 +119,7 @@ public class AtomSwitcher implements Switcher {
                 HashSet::new,
 
                 /* 动态驱动 */
-                switched -> this.atom(switched, atom.ruleDirect())
+                switched -> this.atom(switched, atom.rule())
             ));
         }
     }
@@ -138,7 +138,7 @@ public class AtomSwitcher implements Switcher {
             if (Objects.isNull(found)) {
                 found = unique;
             }
-            return atom.ruleConnect(found);
+            return atom.rule(found);
         }
     }
 

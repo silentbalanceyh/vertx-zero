@@ -4,8 +4,8 @@ import cn.originx.cv.OxCv;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -107,7 +107,7 @@ final class OxField {
     }
 
     static Set<String> ignoreApi(final DataAtom atom) {
-        final RuleUnique unique = atom.rule();
+        final RuleUnique unique = atom.ruleAtom();
         final Set<String> fieldSet = new HashSet<>(IGNORE_API);
         if (Objects.nonNull(unique)) {
             unique.rulePure().stream()

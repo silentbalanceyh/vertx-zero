@@ -1,4 +1,4 @@
-package io.vertx.up.commune.rule;
+package io.vertx.up.experiment.rule;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

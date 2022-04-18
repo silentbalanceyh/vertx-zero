@@ -1,13 +1,13 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.vertx.tp.atom.cv.em.AttributeType;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.reference.RQuery;
 import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.eon.em.atom.AttributeType;
+import io.vertx.up.experiment.meld.HAttribute;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -133,7 +133,7 @@ class AoReference {
                  *          - condition2 = RDao
                  *  Based on DataAtom reference to create
                  */
-                final AoAttribute aoAttr = modelRef.attribute(attribute.getName());
+                final HAttribute aoAttr = modelRef.attribute(attribute.getName());
                 final AttributeType type = Ut.toEnum(attribute::getType, AttributeType.class, AttributeType.INTERNAL);
 
 

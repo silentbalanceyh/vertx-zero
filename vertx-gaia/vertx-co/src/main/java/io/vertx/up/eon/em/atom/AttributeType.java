@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.cv.em;
+package io.vertx.up.eon.em.atom;
 
 /**
  * ## Model for Attribute

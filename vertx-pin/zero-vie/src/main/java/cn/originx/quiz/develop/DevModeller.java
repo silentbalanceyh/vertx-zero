@@ -70,7 +70,7 @@ public class DevModeller {
                  * Flush data to output path
                  */
                 Ut.ioOut(resolved, modelJson);
-                schemata.addAll(model.schemata());
+                schemata.addAll(model.schema());
             });
             schemata.forEach(schema -> {
                 final JsonObject schemaJson = schema.toJson();

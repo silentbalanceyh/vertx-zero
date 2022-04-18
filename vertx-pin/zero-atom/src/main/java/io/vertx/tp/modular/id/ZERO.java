@@ -2,11 +2,11 @@ package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.tp.atom.cv.em.IdMode;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.error._417PrimaryKeyResultException;
 import io.vertx.tp.error._417PrimaryKeySizeException;
+import io.vertx.up.eon.em.atom.KeyMode;
 import io.vertx.up.fn.Fn;
 
 import java.util.HashSet;
@@ -16,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
-    ConcurrentMap<IdMode, AoId> POOL_ID = new ConcurrentHashMap<IdMode, AoId>() {
+    ConcurrentMap<KeyMode, AoId> POOL_ID = new ConcurrentHashMap<KeyMode, AoId>() {
         {
-            this.put(IdMode.DIRECT, new DirectId());
-            this.put(IdMode.COLLECTION, new CollectionId());
-            this.put(IdMode.JOIN_KEY, new JoinKeyId());
-            this.put(IdMode.JOIN_MULTI, new JoinMultiId());
-            this.put(IdMode.JOIN_COLLECTION, new JoinCollectionId());
+            this.put(KeyMode.DIRECT, new DirectId());
+            this.put(KeyMode.COLLECTION, new CollectionId());
+            this.put(KeyMode.JOIN_KEY, new JoinKeyId());
+            this.put(KeyMode.JOIN_MULTI, new JoinMultiId());
+            this.put(KeyMode.JOIN_COLLECTION, new JoinCollectionId());
         }
     };
 }
@@ -48,8 +48,8 @@ Ensurer {
          * key -> Entity1 / key
          * key -> Entity2 / ciKey / key
          */
-        Fn.outWeb(joins.size() < model.schemata().size(), _417PrimaryKeySizeException.class, clazz,
-            /* ARG1：实际的主键数量 */ model.schemata().size(), // 没个 Schema 一个主键
+        Fn.outWeb(joins.size() < model.schema().size(), _417PrimaryKeySizeException.class, clazz,
+            /* ARG1：实际的主键数量 */ model.schema().size(), // 没个 Schema 一个主键
             /* ARG2：期望的主键数量 */ String.valueOf(joins.size()));
 
         final Set<Boolean> valid = new HashSet<>();

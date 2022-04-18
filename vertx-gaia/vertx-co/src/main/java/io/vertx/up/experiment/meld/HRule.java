@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.config;
+package io.vertx.up.experiment.meld;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -61,7 +61,8 @@ import java.util.stream.Stream;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AoRule implements Serializable {
+public class HRule implements Serializable {
+    private static final Annal LOGGER = Annal.get(HRule.class);
     /**
      * The field `condition`.
      */
@@ -197,7 +198,7 @@ public class AoRule implements Serializable {
      * @return this
      */
     @Fluent
-    public AoRule type(final Class<?> type) {
+    public HRule type(final Class<?> type) {
         this.type = type;
         return this;
     }
@@ -232,7 +233,7 @@ public class AoRule implements Serializable {
             }
         });
         if (Ut.notNil(tpl)) {
-            Ao.infoUca(this.getClass(), "Single condition building: {0}", tpl.encode());
+            LOGGER.info("[ EMF ] Single condition building: {0}", tpl.encode());
         }
         // If null of "", the AND operator will be set.
         tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.TRUE));

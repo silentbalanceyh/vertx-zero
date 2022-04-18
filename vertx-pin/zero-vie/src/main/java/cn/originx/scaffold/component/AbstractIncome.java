@@ -15,8 +15,8 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.ID;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobIncome;
 import io.vertx.up.unity.Ux;
 
@@ -104,7 +104,7 @@ public abstract class AbstractIncome extends AbstractJob implements JobIncome {
     protected DataAtom atom() {
         final IService service = this.service();
         final RuleUnique rule = Jt.toRule(service);
-        return Ox.toAtom(service.getSigma(), service.getIdentifier()).ruleConnect(rule);
+        return Ox.toAtom(service.getSigma(), service.getIdentifier()).rule(rule);
     }
 
     /**

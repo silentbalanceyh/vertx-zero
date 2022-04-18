@@ -3,6 +3,8 @@ package io.vertx.tp.atom.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.vertx.up.experiment.meld.HApp;
+import io.vertx.up.experiment.meld.HLinkage;
 
 import java.util.List;
 import java.util.Set;
@@ -12,7 +14,7 @@ import java.util.Set;
  * Entity, Field, PtField，Index四种类型
  * Issuer可以通过Schema创建完整表结构
  */
-public interface Schema extends AoShared, AoRelation {
+public interface Schema extends HApp, HLinkage {
     /* 所有字段名字集合 */
     Set<String> getFieldNames();
 

@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.cv.em;
+package io.vertx.up.eon.em.atom;
 
 public enum ModelType {
     DIRECT,       // 直接模型（和数据表1对1处理，默认为DIRECT）

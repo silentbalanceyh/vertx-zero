@@ -65,7 +65,7 @@ class SchemaRefine implements AoRefine {
         final Set<Schema> schemata = new HashSet<>();
         Ut.itJArray(models)
             .map(data -> Model.instance(namespace, data))
-            .map(Model::schemata)
+            .map(Model::schema)
             .forEach(schemata::addAll);
         return schemata;
     }

@@ -3,10 +3,10 @@ package io.vertx.tp.atom.modeling.reference;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
-import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.tp.ke.atom.specification.KJoin;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.meld.HRule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -64,7 +64,7 @@ public class RQuote implements Serializable {
      * Stored `attr -> sourceConfig`.
      * This hash map has been reserved, it's for EXTERNAL/INTERNAL
      */
-    private transient final ConcurrentMap<String, AoAttribute> sourceConfig = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, HAttribute> sourceConfig = new ConcurrentHashMap<>();
     /**
      * Stored `attr -> sourceReference`.
      * This hash map is for REFERENCE only in current version.
@@ -74,7 +74,7 @@ public class RQuote implements Serializable {
     /**
      * Extract `rule` from input json config and build `attr -> DataQRule` of current model.
      */
-    private transient final ConcurrentMap<String, AoRule> sourceRule = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, HRule> sourceRule = new ConcurrentHashMap<>();
     /**
      * Extract `dao` by condition `hashCode()`.
      */
@@ -125,18 +125,18 @@ public class RQuote implements Serializable {
      * > Here are specification that only one source must be unique dao class instead.
      *
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} Input attribute object
-     * @param service   {@link AoAttribute}
+     * @param service   {@link HAttribute}
      *
      * @return {@link RQuote}
      */
     @Fluent
-    public RQuote add(final MAttribute attribute, final AoAttribute service) {
+    public RQuote add(final MAttribute attribute, final HAttribute service) {
         /*
          * JsonArray / JsonObject
          */
         final String name = attribute.getName();
         this.sourceConfig.put(name, service);
-        this.typeMap.put(name, service.typeCls());
+        this.typeMap.put(name, service.field().type());
         /*
          * sourceReference
          */
@@ -146,7 +146,7 @@ public class RQuote implements Serializable {
             /*
              * Json data format, here defined `rule` field and convert to `DataQRule`
              */
-            final AoRule rule = service.rule();
+            final HRule rule = service.rule();
             this.sourceRule.put(name, rule);
             /*
              * RDao processing
@@ -166,11 +166,11 @@ public class RQuote implements Serializable {
     /**
      * @return Hash map of rules
      */
-    public ConcurrentMap<String, AoRule> rules() {
+    public ConcurrentMap<String, HRule> rules() {
         return this.sourceRule;
     }
 
-    public AoRule rule(final String field) {
+    public HRule rule(final String field) {
         return this.sourceRule.getOrDefault(field, null);
     }
 
@@ -180,7 +180,7 @@ public class RQuote implements Serializable {
      * @return {@link io.vertx.tp.atom.modeling.reference.RDao}
      */
     public RDao dao(final String field) {
-        final AoRule rule = this.sourceRule.getOrDefault(field, null);
+        final HRule rule = this.sourceRule.getOrDefault(field, null);
         return this.sourceDao.getOrDefault(rule.keyDao(), null);
     }
 

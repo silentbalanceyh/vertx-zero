@@ -51,7 +51,7 @@ public class JsonInstruction extends AbstractInstruction {
                 Ox.Log.infoHub(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
                 Ut.ioOut(resolved, modelJson);
 
-                schemata.addAll(model.schemata());
+                schemata.addAll(model.schema());
             });
             /*
              * 实体文件写入

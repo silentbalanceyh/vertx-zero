@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.query;
 
-import io.vertx.tp.atom.cv.em.ModelType;
+import io.vertx.up.eon.em.atom.ModelType;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

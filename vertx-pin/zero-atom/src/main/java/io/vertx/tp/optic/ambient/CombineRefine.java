@@ -68,9 +68,9 @@ class CombineRefine implements AoRefine {
         /*
          * 除了检查MModel以外还要检查 Schema的内容
          */
-        final Set<Schema> storedSchemata = stored.schemata();
+        final Set<Schema> storedSchemata = stored.schema();
         // 两边查找对比
-        final Set<Schema> jsonSchemata = json.schemata();
+        final Set<Schema> jsonSchemata = json.schema();
         jsonSchemata.stream().filter(storedSchemata::contains).forEach(jsonRef -> storedSchemata
             // 先查找相匹配的Schema
             .stream().filter(jsonRef::equals).findFirst()

@@ -3,11 +3,11 @@ package io.vertx.tp.atom.modeling.reference;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
-import io.vertx.tp.atom.modeling.config.AoRule;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.experiment.meld.HAttribute;
+import io.vertx.up.experiment.meld.HRule;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -83,7 +83,7 @@ import java.util.function.Predicate;
  */
 public class RResult implements Serializable {
 
-    private final transient AoRule rule;
+    private final transient HRule rule;
 
     private final transient DataFormat format;
 
@@ -93,8 +93,8 @@ public class RResult implements Serializable {
 
     private final transient String sourceField;
 
-    public RResult(final MAttribute attribute, final AoAttribute aoAttr) {
-        this.type = aoAttr.typeCls();
+    public RResult(final MAttribute attribute, final HAttribute aoAttr) {
+        this.type = aoAttr.field().type();
         this.format = aoAttr.format();
         this.rule = aoAttr.rule();
         this.sourceField = attribute.getSourceField();
@@ -166,12 +166,12 @@ final class RRuler {
     private RRuler() {
     }
 
-    public static JsonArray required(final JsonArray source, final AoRule rule) {
+    public static JsonArray required(final JsonArray source, final HRule rule) {
         /* required fields */
         return rulerAnd(source, rule.getRequired(), value -> Ut.notNil(value.toString()));
     }
 
-    public static JsonArray duplicated(final JsonArray source, final AoRule rule) {
+    public static JsonArray duplicated(final JsonArray source, final HRule rule) {
         /* unique field */
         final Set<JsonObject> added = new HashSet<>();
         return ruler(source, rule.getUnique(), json -> {
@@ -190,7 +190,9 @@ final class RRuler {
             final Object value = json.getValue(field);
             if (Objects.nonNull(value)) {
                 return fnFilter.test(value);
-            } else return false;
+            } else {
+                return false;
+            }
         }));
     }
 
@@ -199,7 +201,9 @@ final class RRuler {
             final Object value = json.getValue(field);
             if (Objects.nonNull(value)) {
                 return fnFilter.test(value);
-            } else return false;
+            } else {
+                return false;
+            }
         }));
     }
 

@@ -20,15 +20,36 @@ import java.util.function.Function;
  */
 public class HTField implements Serializable {
     /**
-     * field = JTypeItem
+     * field = HTField
      *
-     * JsonObject Support Only
+     * JsonObject Support Only, the whole data structure is as following:
+     *
+     * // <pre><code class="json">
+     * {
+     *     "field 1": "HTField 1",
+     *     "field 2": "HTField 2",
+     *     "childMap": {
+     *         "field 3-1": "HTField 3-1",
+     *         "...": "..."
+     *     }
+     * }
+     * // </code></pre>
      */
     private final transient ConcurrentMap<String, HTField> childMap = new ConcurrentHashMap<>();
     /**
-     * JTypeItem, JTypeItem
+     * JsonArray Support only, the whole data structure is as following:
      *
-     * JsonArray Support only
+     * // <pre><code class="json">
+     * {
+     *     "field 1": "HTField 1",
+     *     "field 2": "HTField 2",
+     *     "children": [
+     *         "HTField 3-1",
+     *         "HTField 3-2",
+     *         "..."
+     *     ]
+     * }
+     * // </code></pre>
      */
     private final transient List<HTField> children = new ArrayList<>();
     /** Current field name */
@@ -138,7 +159,7 @@ public class HTField implements Serializable {
 
     @Override
     public String toString() {
-        return "ShapeItem{" +
+        return "HTField{" +
             "name='" + this.name + '\'' +
             ", alias='" + this.alias + '\'' +
             ", type=" + this.type +

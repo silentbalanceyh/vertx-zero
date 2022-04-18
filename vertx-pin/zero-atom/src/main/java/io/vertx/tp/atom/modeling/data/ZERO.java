@@ -46,7 +46,7 @@ class Bridge {
          * 1. 遍历当前模型中的 Schema
          * 2. 二层遍历当前模型中的 Attribute
          */
-        Ut.itCollection(model.schemata(), nil -> model.dbAttributes(),
+        Ut.itCollection(model.schema(), nil -> model.dbAttributes(),
             /*
              * 核心逻辑，用于填充 arguments
              */
@@ -75,7 +75,7 @@ class Bridge {
          * 1. 对于 JOIN_MULTI 这种情况，在这里初始化 Matrix 的时候，有可能出现主键没有被记录到 Matrix的情况
          * 2. 如果属性中的值不包括主键，也会出现主键不在的情况，所以需要将各自的主键补充到对应的 Matrix 中
          * */
-        model.schemata().forEach(schema -> schema.getPrimaryKeys()
+        model.schema().forEach(schema -> schema.getPrimaryKeys()
             .forEach(field -> consumer.apply(schema)
                 .accept(field, toAttribute(schema, field))));
 

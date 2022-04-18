@@ -1,4 +1,4 @@
-package io.vertx.up.commune.rule;
+package io.vertx.up.experiment.rule;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -78,8 +78,12 @@ public class RuleTerm implements Serializable {
      */
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RuleTerm)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RuleTerm)) {
+            return false;
+        }
         final RuleTerm ruleTerm = (RuleTerm) o;
         return this.fields.equals(ruleTerm.fields);
     }

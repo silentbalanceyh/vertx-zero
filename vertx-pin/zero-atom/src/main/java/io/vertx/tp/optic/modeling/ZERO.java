@@ -4,13 +4,13 @@ package io.vertx.tp.optic.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.tp.atom.cv.em.IdMode;
-import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.error._417RelationCounterException;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.atom.KeyMode;
+import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.jooq.tools.StringUtils;
@@ -58,7 +58,7 @@ class Bridge {
     static void connect(final Model model,
                         final Set<Schema> found) {
         // 核心方法，用于链接
-        final Set<Schema> schemata = model.schemata();
+        final Set<Schema> schemata = model.schema();
         // 不可能null
         assert null != schemata : "[OxA] 当前Schema集合不可能为空！";
         schemata.clear();
@@ -90,7 +90,7 @@ class Bridge {
         final DataKey key = DataKey.create(unique);
         // 2. 读取 Schema
         final Set<MJoin> joins = model.dbJoins();
-        final Set<Schema> schema = model.schemata();
+        final Set<Schema> schema = model.schema();
         /*
          * 正常模式下，joins > 1 和 schema > 1 发生时，需要进行第一次分流，而且必须满足基本条件
          * joins.size() >= schema.size() >= 1
@@ -121,18 +121,18 @@ class Bridge {
                      * 同键单键连接，每个实体只有一个键，而键名相同
                      *
                      */
-                    key.setMode(IdMode.JOIN_KEY);
+                    key.setMode(KeyMode.JOIN_KEY);
                 } else {
                     /*
                      * 同键多键连接，每个实体有一个自己的主键，键名不同
                      */
-                    key.setMode(IdMode.JOIN_MULTI);
+                    key.setMode(KeyMode.JOIN_MULTI);
                 }
             } else {
                 /*
                  * 同键集合键连接
                  */
-                key.setMode(IdMode.JOIN_COLLECTION);
+                key.setMode(KeyMode.JOIN_COLLECTION);
             }
         } else {
             model.dbModel().setType(ModelType.DIRECT.name());
@@ -147,12 +147,12 @@ class Bridge {
                  * Schema 中的主键长度为 1，表示
                  * 这个实体有 1 个主键，那么就属于单主键
                  */
-                key.setMode(IdMode.DIRECT);
+                key.setMode(KeyMode.DIRECT);
             } else {
                 /*
                  * Schema 中包含了多个主键，主键数量 > 1
                  */
-                key.setMode(IdMode.COLLECTION);
+                key.setMode(KeyMode.COLLECTION);
             }
         }
         model.key(key);

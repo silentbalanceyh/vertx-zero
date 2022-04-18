@@ -1,4 +1,4 @@
-package io.vertx.up.commune.rule;
+package io.vertx.up.experiment.rule;
 
 import java.io.Serializable;
 import java.util.ArrayList;
