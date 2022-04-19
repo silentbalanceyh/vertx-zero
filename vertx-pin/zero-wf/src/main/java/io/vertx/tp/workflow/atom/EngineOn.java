@@ -44,6 +44,14 @@ public class EngineOn {
 
     public static EngineOn connect(final JsonObject params) {
         final KFlow key = KFlow.build(params);
+        /*
+         * {
+         *     "definitionKey": "",
+         *     "definitionId": "",
+         *     "instanceId": "",
+         *     "taskId": ""
+         * }
+         */
         return connect(key.definitionKey());
     }
 
@@ -100,6 +108,24 @@ public class EngineOn {
     @SuppressWarnings("all")
     private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
         final String keyComponent = this.metadata.recordComponentKey(clazz, componentValue);
+        /*
+         * Here are component pool based on keyComponent, the format is as following:
+         * className + ConfigRecord ( hashCode ) + componentValue ( hashCode Optional )
+         * - authorizedComponent
+         *   authorized on user to check who could do actions
+         *
+         * - generateComponent
+         *   close previous todo record / open new todo record
+         *
+         * - runComponent
+         *   run current todo record / processing
+         *
+         * - startComponent
+         *   start new workflow and generate new start todo record
+         *
+         * - endComponent
+         *   end workflow of closing ticket
+         */
         return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue))

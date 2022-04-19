@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Stay;
@@ -76,9 +77,9 @@ public class RunActor {
         Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
             runner.getClass(), transfer.getClass());
 
-
-        return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance))
+        final WRequest request = new WRequest(data);
+        return runner.moveAsync(request)
+            .compose(instance -> transfer.moveAsync(request, instance))
             .compose(WRecord::futureJ);
     }
 
@@ -139,7 +140,8 @@ public class RunActor {
         final Stay stay = engine.stayDraft();
 
         Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
-        return stay.keepAsync(data, null)
+        final WRequest request = new WRequest(data);
+        return stay.keepAsync(request, null)
             // Callback
             .compose(WRecord::futureJ);
     }
@@ -150,8 +152,9 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(data);
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
-        return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance))
+        final WRequest request = new WRequest(data);
+        return runner.moveAsync(request)
+            .compose(instance -> transfer.moveAsync(request, instance))
             // Callback
             .compose(WRecord::futureJ);
     }
@@ -169,8 +172,9 @@ public class RunActor {
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
         final Movement runner = engine.environmentPre();
-        return runner.moveAsync(data)
-            .compose(instance -> stay.keepAsync(data, instance))
+        final WRequest request = new WRequest(data);
+        return runner.moveAsync(request)
+            .compose(instance -> stay.keepAsync(request, instance))
             // Callback
             .compose(Ux::futureJ);
     }

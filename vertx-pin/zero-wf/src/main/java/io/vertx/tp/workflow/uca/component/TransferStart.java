@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.modeling.Register;
 
 /**
@@ -11,7 +11,7 @@ import io.vertx.tp.workflow.uca.modeling.Register;
  */
 public class TransferStart extends AbstractMovement implements Transfer {
     @Override
-    public Future<WRecord> moveAsync(final JsonObject params, final WProcess wProcess) {
+    public Future<WRecord> moveAsync(final WRequest request, final WProcess wProcess) {
         /*
          * Record processing first, here the parameters are following:
          *
@@ -21,7 +21,7 @@ public class TransferStart extends AbstractMovement implements Transfer {
          * Record support ADD / UPDATE operation combined
          */
 
-        return this.inputAsync(params)
+        return this.inputAsync(request.request())
 
 
             /* Entity / Extension Ticket Record Execution, ( Insert or Update ) */

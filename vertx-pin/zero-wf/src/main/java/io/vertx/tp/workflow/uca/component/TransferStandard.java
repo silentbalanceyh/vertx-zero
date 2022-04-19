@@ -18,7 +18,7 @@ import java.util.function.Function;
  */
 public class TransferStandard extends AbstractMovement implements Transfer {
     @Override
-    public Future<WRecord> moveAsync(final JsonObject params, final WProcess wProcess) {
+    public Future<WRecord> moveAsync(final WRequest request, final WProcess wProcess) {
         /*
          * Capture the next task for standard workflow
          * 1. Here camunda-workflow task has been finished
@@ -26,7 +26,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          * -- 2.1. Active task is not end
          * -- 2.2. Next task is user task
          * */
-        return this.inputAsync(params)
+        return this.inputAsync(request.request())
 
 
             /*
@@ -70,10 +70,10 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                     {
                         final Task task = wProcess.task();
                         final WMove move = this.moveGet(task.getTaskDefinitionKey());
-                        move.stored(params);
+                        move.stored(request.request());
                         instanceNext.bind(taskNext).bind(move).bind(wProcess.instance());
                     }
-                    return this.generateAsync(params, instanceNext, record);
+                    return this.generateAsync(request.request(), instanceNext, record);
                 } else {
                     return Ux.future(record);
                 }

@@ -83,7 +83,7 @@
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <asm.version>9.3</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10.2</reflection.version>

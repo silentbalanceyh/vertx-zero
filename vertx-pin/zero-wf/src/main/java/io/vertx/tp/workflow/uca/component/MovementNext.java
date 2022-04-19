@@ -1,8 +1,8 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WProcess;
+import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
@@ -17,9 +17,9 @@ import java.util.Objects;
  */
 public class MovementNext extends AbstractTransfer implements Movement {
     @Override
-    public Future<WProcess> moveAsync(final JsonObject params) {
+    public Future<WProcess> moveAsync(final WRequest request) {
         // Extract workflow parameters
-        final KFlow key = KFlow.build(params);
+        final KFlow key = KFlow.build(request.request());
         final String instanceId = key.instanceId();
 
         // Instance Building
@@ -55,7 +55,7 @@ public class MovementNext extends AbstractTransfer implements Movement {
             })
             .compose(move -> {
                 // WProcess -> Bind Moving, Camunda Instance Moving
-                wProcess.bind(move.stored(params));
+                wProcess.bind(move.stored(request.request()));
                 final ProcessInstance instance = wProcess.instance();
 
                 // Camunda Workflow Running

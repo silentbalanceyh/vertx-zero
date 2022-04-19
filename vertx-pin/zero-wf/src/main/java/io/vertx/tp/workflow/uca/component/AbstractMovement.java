@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.Objects;
@@ -107,17 +106,13 @@ public abstract class AbstractMovement extends AbstractTransfer {
         final ProcessInstance instance = process.instance();
         return this.todoKit.insertAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record))
-            // Record Bind Request
-            .compose(record -> Ux.future(record.request(params)));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> updateAsync(final JsonObject params) {
         return this.todoKit.updateAsync(params)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record))
-            // Record Bind Request
-            .compose(record -> Ux.future(record.request(params)));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
@@ -125,9 +120,7 @@ public abstract class AbstractMovement extends AbstractTransfer {
         final ProcessInstance instance = process.instance();
         return this.todoKit.saveAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record))
-            // Record Bind Request
-            .compose(record -> Ux.future(record.request(params)));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
     protected Future<WRecord> generateAsync(final JsonObject params, final WProcess instance, final WRecord record) {

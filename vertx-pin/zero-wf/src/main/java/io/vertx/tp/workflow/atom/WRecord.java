@@ -27,7 +27,6 @@ public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private final transient JsonObject child = new JsonObject();
 
-    private final transient JsonObject request = new JsonObject();
     private transient WTicket ticket;
     private transient WTodo todo;
     private transient TodoStatus status;
@@ -64,12 +63,6 @@ public class WRecord implements Serializable {
 
     public WRecord bind(final WTodo todo) {
         this.todo = todo;
-        return this;
-    }
-
-    public WRecord request(final JsonObject normalized) {
-        this.request.clear();
-        this.request.mergeIn(Ut.valueJObject(normalized), true);
         return this;
     }
 
@@ -308,12 +301,5 @@ public class WRecord implements Serializable {
         response.put(KName.SERIAL, this.ticket.getSerial());
         response.put(KName.CODE, this.ticket.getCode());
         return response;
-    }
-
-    /*
-     *  Bind request data in record
-     */
-    public JsonObject request() {
-        return this.request.copy();
     }
 }
