@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.atom;
 
+import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
@@ -29,27 +30,14 @@ public class WRequest implements Serializable {
         this.flow = KFlow.build(request);
     }
 
+    // =================== Extract Data =======================
+
     public JsonObject request() {
         return this.request.copy();
     }
 
     public KFlow workflow() {
         return this.flow;
-    }
-
-    public WRequest request(final JsonObject request) {
-        final JsonObject params = Ut.valueJObject(request);
-        this.request.mergeIn(params, true);
-        return this;
-    }
-
-    public WRequest before(final WRecord recordOld) {
-        this.recordBefore = recordOld;
-        return this;
-    }
-
-    public WRecord before() {
-        return this.recordBefore;
     }
 
     @SuppressWarnings("unchecked")
@@ -61,11 +49,42 @@ public class WRequest implements Serializable {
         }
     }
 
+    public WRecord before() {
+        return this.recordBefore;
+    }
+
+    public Future<WRecord> beforeRecord(final WRecord recordOld) {
+        this.recordBefore = recordOld;
+        return Ux.future(recordOld);
+    }
+
+    public Future<WRecord> afterRecord(final WRecord recordNew) {
+        this.recordAfter = recordNew;
+        return Ux.future(recordNew);
+    }
+
+    // =================== Fluent Method for Set =======================
+    @Fluent
+    public WRequest request(final JsonObject request) {
+        final JsonObject params = Ut.valueJObject(request);
+        this.request.mergeIn(params, true);
+        return this;
+    }
+
+    @Fluent
+    public WRequest before(final WRecord recordOld) {
+        this.recordBefore = recordOld;
+        return this;
+    }
+
+
+    @Fluent
     public WRequest after(final WRecord recordNew) {
         this.recordAfter = recordNew;
         return this;
     }
 
+    @Fluent
     public WRequest after(final Set<WRecord> recordSet) {
         if (Objects.nonNull(recordSet)) {
             this.recordSet.clear();
@@ -74,11 +93,13 @@ public class WRequest implements Serializable {
         return this;
     }
 
+    @Fluent
     public WRequest elementAdd(final WRecord record) {
         this.recordSet.add(record);
         return this;
     }
 
+    @Fluent
     public WRequest elementClean() {
         this.recordSet.clear();
         return this;

@@ -1,10 +1,12 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.up.fn.Fn;
+import io.vertx.tp.workflow.refine.Wf;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -17,12 +19,16 @@ public class MovementNext extends AbstractTransfer implements Movement {
             final Divert divert;
             if (wProcess.isStart()) {
                 // Divert Start
-                divert = Fn.poolThread(WfPool.POOL_DIVERT, DivertStart::new, DivertStart.class.getName());
+                divert = Divert.instance(DivertStart.class);
             } else {
                 // Divert Next
-                divert = Fn.poolThread(WfPool.POOL_DIVERT, DivertNext::new, DivertNext.class.getName());
+                divert = Divert.instance(DivertNext.class);
             }
-            return divert.bind(this.rules()).moveAsync(request, wProcess);
+            final ConcurrentMap<String, WMove> rules = this.rules();
+            Wf.Log.infoWeb(this.getClass(), "Divert {0} has been selected: rule size = {1}",
+                divert.getClass(), String.valueOf(rules.size()));
+            divert.bind(this.metadataIn());
+            return divert.bind(rules).moveAsync(request, wProcess);
         });
     }
 }

@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentMap;
 public abstract class AbstractTransfer implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
+    private transient MetaInstance metadata;
 
     @Override
     public Behaviour bind(final JsonObject config) {
@@ -39,15 +40,16 @@ public abstract class AbstractTransfer implements Behaviour {
         return this;
     }
 
+    protected MetaInstance metadataIn() {
+        return this.metadata;
+    }
+
     @Override
     public Behaviour bind(final MetaInstance metadata) {
         // Empty Binding on Instance
+        Objects.requireNonNull(metadata);
+        this.metadata = metadata;
         return this;
-    }
-
-
-    protected WMove moveGet(final String node) {
-        return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
     protected ConcurrentMap<String, WMove> rules() {

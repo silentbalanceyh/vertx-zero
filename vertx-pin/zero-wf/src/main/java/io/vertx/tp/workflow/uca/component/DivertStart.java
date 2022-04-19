@@ -20,7 +20,7 @@ public class DivertStart extends AbstractDivert {
         final String definitionKey = key.definitionKey();
 
         if (process.isStart()) {
-            // Already started
+            // Error-80604: The process has been started, could not call current divert
             return Ux.thenError(_409InValidStartException.class, this.getClass(), definitionKey);
         }
         /*

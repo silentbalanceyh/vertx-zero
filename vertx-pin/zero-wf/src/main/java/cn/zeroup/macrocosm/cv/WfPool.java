@@ -5,8 +5,8 @@ import io.vertx.tp.workflow.uca.component.Behaviour;
 import io.vertx.tp.workflow.uca.component.Divert;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
+import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.tp.workflow.uca.runner.IsOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 
@@ -21,7 +21,7 @@ public interface WfPool {
     ConcurrentMap<String, StoreOn> POOL_STORE = new ConcurrentHashMap<>();
     ConcurrentMap<String, RunOn> POOL_PROC = new ConcurrentHashMap<>();
     ConcurrentMap<String, EventOn> POOL_EVENT = new ConcurrentHashMap<>();
-    ConcurrentMap<String, IsOn> POOL_IS = new ConcurrentHashMap<>();
+    ConcurrentMap<String, AidOn> POOL_AID = new ConcurrentHashMap<>();
 
     // uca.modeling POOL
     ConcurrentMap<String, ActionOn> POOL_ACTION = new ConcurrentHashMap<>();

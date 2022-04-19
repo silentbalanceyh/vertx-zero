@@ -30,6 +30,7 @@ public abstract class AbstractMovement extends AbstractTransfer {
         return super.bind(metadata);
     }
 
+    @Override
     protected MetaInstance metadataIn() {
         return this.metadata;
     }
@@ -104,29 +105,28 @@ public abstract class AbstractMovement extends AbstractTransfer {
     protected Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
         // Todo
         final ProcessInstance instance = process.instance();
-        return this.todoKit.insertAsync(params, instance)
+        return Objects.requireNonNull(this.todoKit)
+            .insertAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 
     protected Future<WRecord> updateAsync(final JsonObject params) {
-        return this.todoKit.updateAsync(params)
+        return Objects.requireNonNull(this.todoKit)
+            .updateAsync(params)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 
     protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
         // Todo
         final ProcessInstance instance = process.instance();
-        return this.todoKit.saveAsync(params, instance)
+        return Objects.requireNonNull(this.todoKit)
+            .saveAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
-    }
-
-    protected Future<WRecord> generateAsync(final JsonObject params, final WProcess instance, final WRecord record) {
-        // final WTodo generated = KitTodo.inputNext(todo, instance);
-        final WRecord generated = HelperTodo.nextJ(record, instance);
-        // return this.todoKit.generateAsync(todo, instance);
-        return this.todoKit.generateAsync(params, generated);
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 }

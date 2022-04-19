@@ -8,13 +8,13 @@ import org.camunda.bpm.engine.task.Task;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface IsOn {
+public interface AidOn {
 
-    static IsOn get() {
-        return Fn.poolThread(WfPool.POOL_IS, IsEngine::new);
+    static AidOn get() {
+        return Fn.poolThread(WfPool.POOL_AID, AidEngine::new);
     }
 
-    boolean isUserEvent(Task task);
+    String taskType(Task task);
 
     boolean isEnd(ProcessInstance instance);
 }
