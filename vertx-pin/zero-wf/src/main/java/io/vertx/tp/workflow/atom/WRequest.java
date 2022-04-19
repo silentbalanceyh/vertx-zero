@@ -1,6 +1,10 @@
 package io.vertx.tp.workflow.atom;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.up.experiment.specification.KFlow;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -13,6 +17,8 @@ import java.util.Set;
  */
 public class WRequest implements Serializable {
     private final transient JsonObject request = new JsonObject();
+
+    private final transient KFlow flow;
     private final transient Set<WRecord> recordSet = new HashSet<>();
     private transient WRecord recordBefore;
     private transient WRecord recordAfter;
@@ -20,10 +26,15 @@ public class WRequest implements Serializable {
     public WRequest(final JsonObject params) {
         final JsonObject request = Ut.valueJObject(params);
         this.request.mergeIn(request, true);
+        this.flow = KFlow.build(request);
     }
 
     public JsonObject request() {
         return this.request.copy();
+    }
+
+    public KFlow workflow() {
+        return this.flow;
     }
 
     public WRequest request(final JsonObject request) {
@@ -71,5 +82,12 @@ public class WRequest implements Serializable {
     public WRequest elementClean() {
         this.recordSet.clear();
         return this;
+    }
+
+    public Future<WProcess> process() {
+        final WProcess process = WProcess.create();
+        return Wf.instanceById(this.flow.instanceId())
+            .compose(process::future/* WProcess -> Bind Process */)
+            .compose(instance -> Ux.future(process));
     }
 }

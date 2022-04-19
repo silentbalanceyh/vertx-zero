@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import cn.zeroup.macrocosm.cv.WfPool;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
@@ -42,8 +41,8 @@ public class EngineOn {
         }, definitionKey);
     }
 
-    public static EngineOn connect(final JsonObject params) {
-        final KFlow key = KFlow.build(params);
+    public static EngineOn connect(final WRequest request) {
+        final KFlow key = request.workflow();
         /*
          * {
          *     "definitionKey": "",

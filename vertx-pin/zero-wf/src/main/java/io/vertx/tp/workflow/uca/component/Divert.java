@@ -5,6 +5,8 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.unity.Ux;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -18,5 +20,11 @@ public interface Divert {
     /*
      *  Event Fire by Programming
      */
-    Future<WRecord> goOnAsync(WRequest request, WProcess process);
+    default Future<WRecord> transferAsync(final WRequest request, final WProcess process) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    default Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
 }

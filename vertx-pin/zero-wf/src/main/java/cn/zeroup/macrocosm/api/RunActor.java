@@ -67,7 +67,8 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
 
         // Camunda Processing
         final Movement runner = engine.componentRun();
@@ -77,7 +78,6 @@ public class RunActor {
         Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
             runner.getClass(), transfer.getClass());
 
-        final WRequest request = new WRequest(data);
         return runner.moveAsync(request)
             .compose(instance -> transfer.moveAsync(request, instance))
             .compose(WRecord::futureJ);
@@ -134,13 +134,13 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_DRAFT)
     public Future<JsonObject> draft(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
 
         // Camunda Processing
         final Stay stay = engine.stayDraft();
 
         Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
-        final WRequest request = new WRequest(data);
         return stay.keepAsync(request, null)
             // Callback
             .compose(WRecord::futureJ);
@@ -149,10 +149,10 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
     public Future<JsonObject> complete(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
-        final WRequest request = new WRequest(data);
         return runner.moveAsync(request)
             .compose(instance -> transfer.moveAsync(request, instance))
             // Callback
@@ -168,11 +168,11 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_CANCEL)
     public Future<JsonObject> cancel(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
         final Movement runner = engine.environmentPre();
-        final WRequest request = new WRequest(data);
         return runner.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback

@@ -50,6 +50,10 @@ public abstract class AbstractTransfer implements Behaviour {
         return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
+    protected ConcurrentMap<String, WMove> rules() {
+        return this.moveMap;
+    }
+
     /*
      * Basic Data Structure Here:
      * {

@@ -71,17 +71,17 @@ public class WProcess {
         return Ux.future(task);
     }
 
-    public Future<WMove> future(final WMove move) {
-        this.move = move;
-        return Ux.future(move);
-    }
-
     public Future<WProcess> future() {
         return Ux.future(this);
     }
 
     public ProcessInstance instance() {
         return this.instance;
+    }
+
+    public Future<Task> taskActive() {
+        final EventOn event = EventOn.get();
+        return event.taskActive(this.instance);
     }
 
     public Task task() {
@@ -92,6 +92,10 @@ public class WProcess {
         return Objects.requireNonNull(this.move).ruleFind();
     }
 
+    public boolean isStart() {
+        return Objects.nonNull(this.instance);
+    }
+
     public boolean isEnd() {
         final IsOn is = IsOn.get();
         return is.isEnd(this.instance);
@@ -99,10 +103,5 @@ public class WProcess {
 
     public boolean isContinue() {
         return !this.isEnd();
-    }
-
-    public Future<Task> active() {
-        final EventOn event = EventOn.get();
-        return event.taskActive(this.instance);
     }
 }

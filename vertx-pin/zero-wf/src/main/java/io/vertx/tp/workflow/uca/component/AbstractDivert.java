@@ -22,7 +22,7 @@ public abstract class AbstractDivert implements Divert {
         return this;
     }
 
-    protected WMove moveGet(final String node) {
+    protected WMove rule(final String node) {
         return this.moveMap.getOrDefault(node, WMove.empty());
     }
 }

@@ -46,7 +46,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
             /*
              * Trigger next todo generation here
              */
-            .compose(record -> wProcess.active().compose(taskNext -> {
+            .compose(record -> wProcess.taskActive().compose(taskNext -> {
                 /*
                  * Todo Generation Condition
                  * 1. Instance is not ended

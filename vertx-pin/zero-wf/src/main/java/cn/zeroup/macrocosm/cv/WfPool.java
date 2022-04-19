@@ -2,6 +2,7 @@ package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.uca.component.Behaviour;
+import io.vertx.tp.workflow.uca.component.Divert;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
@@ -31,4 +32,7 @@ public interface WfPool {
 
     // uca.component POOL -> Transfer / Movement
     ConcurrentMap<String, Behaviour> POOL_COMPONENT = new ConcurrentHashMap<>();
+
+    // uca.component POOL -> Divert
+    ConcurrentMap<String, Divert> POOL_DIVERT = new ConcurrentHashMap<>();
 }
