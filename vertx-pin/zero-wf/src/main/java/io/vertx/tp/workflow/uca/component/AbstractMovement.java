@@ -14,9 +14,9 @@ import java.util.Objects;
  */
 public abstract class AbstractMovement extends AbstractTransfer {
 
-    private transient HelperTodo todoKit;
-    private transient HelperLinkage linkageKit;
-    private transient MetaInstance metadata;
+    protected transient AidTracker trackerKit;
+    private transient AidTodo todoKit;
+    private transient AidLinkage linkageKit;
 
     /*
      * Overwrite the `Todo` Here
@@ -24,15 +24,10 @@ public abstract class AbstractMovement extends AbstractTransfer {
     @Override
     public Behaviour bind(final MetaInstance metadata) {
         Objects.requireNonNull(metadata);
-        this.metadata = metadata;
-        this.todoKit = new HelperTodo(metadata);
-        this.linkageKit = new HelperLinkage(metadata);
+        this.todoKit = new AidTodo(metadata);
+        this.linkageKit = new AidLinkage(metadata);
+        this.trackerKit = new AidTracker(metadata);
         return super.bind(metadata);
-    }
-
-    @Override
-    protected MetaInstance metadataIn() {
-        return this.metadata;
     }
 
     /*

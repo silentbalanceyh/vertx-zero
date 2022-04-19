@@ -24,7 +24,7 @@ public class StayCancel extends AbstractMovement implements Stay {
         final ProcessInstance instance = wProcess.instance();
         return event.taskHistory(instance).compose(historySet -> {
             // Cancel data processing
-            final JsonObject todoData = HelperTodo.cancelJ(request.request(), wProcess, historySet);
+            final JsonObject todoData = AidTodo.cancelJ(request.request(), wProcess, historySet);
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition

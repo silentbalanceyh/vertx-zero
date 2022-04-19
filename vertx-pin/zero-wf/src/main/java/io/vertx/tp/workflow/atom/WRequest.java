@@ -64,6 +64,12 @@ public class WRequest implements Serializable {
     }
 
     // =================== Fluent Method for Set =======================
+
+    @Fluent
+    public Future<WRequest> future(final JsonObject request) {
+        return Ux.future(this.request(request));
+    }
+
     @Fluent
     public WRequest request(final JsonObject request) {
         final JsonObject params = Ut.valueJObject(request);

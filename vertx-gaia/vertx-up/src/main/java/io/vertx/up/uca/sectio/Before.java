@@ -13,7 +13,13 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Before {
-
+    Set<ChangeFlag> TYPE_ALL = new HashSet<>() {
+        {
+            this.add(ChangeFlag.ADD);
+            this.add(ChangeFlag.UPDATE);
+            this.add(ChangeFlag.DELETE);
+        }
+    };
     Set<ChangeFlag> TYPE_SAVE = new HashSet<>() {
         {
             this.add(ChangeFlag.ADD);

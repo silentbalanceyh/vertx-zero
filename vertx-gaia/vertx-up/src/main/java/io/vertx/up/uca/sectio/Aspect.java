@@ -28,12 +28,22 @@ public class Aspect {
         this.config = AspectConfig.create(components);
     }
 
+    private Aspect(final AspectConfig config) {
+        this.config = config;
+    }
+
     public static Aspect create(final JsonObject components) {
         final JsonObject config = Ut.valueJObject(components);
         final String cacheKey = String.valueOf(config.hashCode());
         return Fn.poolThread(POOL_ASPECT, () -> new Aspect(config), cacheKey);
     }
 
+    public static Aspect create(final AspectConfig config) {
+        Objects.requireNonNull(config);
+        return Fn.poolThread(POOL_ASPECT, () -> new Aspect(config), String.valueOf(config.hashCode()));
+    }
+
+    // ====================== Single Api ========================
     // Around with Config
     // Around without Config
     public <T> Function<T, Future<T>> wrapAop(
@@ -101,6 +111,7 @@ public class Aspect {
         return this.wrapAop(before, executor, after, null);
     }
 
+    // ====================== Internal Full Api ========================
     // Full
     // ----- Before ---- Executor ---- After ( Configuration )
     // -----   o    ----    o     ----   o   (  o  )
@@ -143,6 +154,7 @@ public class Aspect {
         };
     }
 
+    // ====================== Standard API for CRUD ========================
     public Function<JsonObject, Future<JsonObject>> wrapJCreate(
         final Function<JsonObject, Future<JsonObject>> executor) {
         return this.aopFn(JsonObject::new, executor, ChangeFlag.ADD);
@@ -181,6 +193,56 @@ public class Aspect {
     public Function<JsonArray, Future<JsonArray>> wrapADelete(
         final Function<JsonArray, Future<JsonArray>> executor) {
         return this.aopFn(JsonArray::new, executor, ChangeFlag.DELETE);
+    }
+
+    // ====================== Before/After API Only ========================
+    public Function<JsonObject, Future<JsonObject>> wrapJBefore(final ChangeFlag... type) {
+        return this.beforeFn(JsonObject::new, type);
+    }
+
+    public Function<JsonArray, Future<JsonArray>> wrapABefore(final ChangeFlag... type) {
+        return this.beforeFn(JsonArray::new, type);
+    }
+
+    public Function<JsonObject, Future<JsonObject>> wrapJAfter(final ChangeFlag... type) {
+        return this.afterFn(JsonObject::new, type);
+    }
+
+    public Function<JsonArray, Future<JsonArray>> wrapAAfter(final ChangeFlag... type) {
+        return this.afterFn(JsonArray::new, type);
+    }
+
+    // ====================== Private Api ========================
+    private <T> Function<T, Future<T>> beforeFn(
+        final Supplier<T> supplierDefault,
+        final ChangeFlag... type
+    ) {
+        return input -> {
+            if (Objects.isNull(input)) {
+                // Empty Input Captured
+                return Ux.future(supplierDefault.get());
+            }
+            // Before
+            return Fn.passion(input,
+                this.plugin(this.config::nameBefore, Before::types, type));
+        };
+    }
+
+    private <T> Function<T, Future<T>> afterFn(
+        final Supplier<T> supplierDefault,
+        final ChangeFlag... type) {
+        return input -> {
+            if (Objects.isNull(input)) {
+                // Empty Input Captured
+                return Ux.future(supplierDefault.get());
+            }
+            // After
+            return Fn.passion(input,
+                    this.plugin(this.config::nameAfter, After::types, type))
+                // Job
+                .compose(processed -> Fn.parallel(processed,
+                    this.plugin(this.config::nameJob, After::types, type)));
+        };
     }
 
     private <T> Function<T, Future<T>> aopFn(

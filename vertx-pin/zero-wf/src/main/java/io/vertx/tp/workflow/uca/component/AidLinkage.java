@@ -20,15 +20,15 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HelperLinkage {
+public class AidLinkage {
 
     private final transient MetaInstance metadata;
 
-    HelperLinkage(final MetaInstance metadata) {
+    AidLinkage(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 
-    private HelperLinkage(final WRecord record) {
+    private AidLinkage(final WRecord record) {
         final WTicket ticket = record.ticket();
         Objects.requireNonNull(ticket);
 
@@ -38,7 +38,7 @@ public class HelperLinkage {
     }
 
     public static Future<WRecord> readLinkage(final WRecord record) {
-        final HelperLinkage helper = new HelperLinkage(record);
+        final AidLinkage helper = new AidLinkage(record);
         return helper.fetchAsync(record);
     }
 

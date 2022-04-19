@@ -8,6 +8,7 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
@@ -49,11 +50,16 @@ public interface Divert extends Behaviour {
             // Error-80607: The supplier of event type could not be found.
             return Ux.thenError(_404DivertSupplierException.class, Divert.class, type);
         }
-        return Ux.future(supplier.get());
+        final Divert divert = supplier.get();
+        Wf.Log.infoWeb(Divert.class, "Divert {0} has been selected, type = {0}",
+            divert.getClass(), type);
+        return Ux.future(divert);
     }
 
     static Divert instance(final Class<?> divertCls) {
-        return Fn.poolThread(WfPool.POOL_DIVERT, () -> Ut.instance(divertCls), divertCls.getName());
+        final Divert divert = Fn.poolThread(WfPool.POOL_DIVERT, () -> Ut.instance(divertCls), divertCls.getName());
+        Wf.Log.infoWeb(Divert.class, "Divert {0} has been selected", divert.getClass());
+        return divert;
     }
 
     Divert bind(ConcurrentMap<String, WMove> moveMap);

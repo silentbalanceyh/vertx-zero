@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.refine.Wf;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -25,8 +24,6 @@ public class MovementNext extends AbstractTransfer implements Movement {
                 divert = Divert.instance(DivertNext.class);
             }
             final ConcurrentMap<String, WMove> rules = this.rules();
-            Wf.Log.infoWeb(this.getClass(), "Divert {0} has been selected: rule size = {1}",
-                divert.getClass(), String.valueOf(rules.size()));
             divert.bind(this.metadataIn());
             return divert.bind(rules).moveAsync(request, wProcess);
         });

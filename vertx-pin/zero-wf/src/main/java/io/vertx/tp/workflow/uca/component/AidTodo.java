@@ -29,10 +29,10 @@ import java.util.UUID;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class HelperTodo {
+class AidTodo {
     private final transient MetaInstance metadata;
 
-    HelperTodo(final MetaInstance metadata) {
+    AidTodo(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 

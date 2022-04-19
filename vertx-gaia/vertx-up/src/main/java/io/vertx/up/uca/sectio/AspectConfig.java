@@ -24,7 +24,7 @@ public class AspectConfig implements Serializable {
      *  {
      *      "components": {
      *          "plugin.component.before": [],
-     *          "plugin.component.configMap": [],
+     *          "plugin.component.job": [],
      *          "plugin.component.after": [],
      *          "plugin.config": {
      *          }

@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,12 +31,14 @@ public class WMove implements Serializable {
      *         "rule": [
      *             WMoveRule,
      *             WMoveRule
-     *         ]
+     *         ],
+     *         "aspect": AspectConfig
      *     }
      * }
      */
     private final transient String node;
     private final transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
+    private final transient AspectConfig aspect;
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
@@ -54,6 +57,9 @@ public class WMove implements Serializable {
                 Wf.Log.warnMove(this.getClass(), "Rule invalid: {0}", rule.toString());
             }
         });
+
+        // Processing for Aspect
+        this.aspect = AspectConfig.create(Ut.valueJObject(config, KName.ASPECT));
     }
 
     public static WMove create(final String node, final JsonObject config) {
@@ -84,6 +90,10 @@ public class WMove implements Serializable {
         final WMoveRule rule = this.rules.getOrDefault(key, null);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
+    }
+
+    public AspectConfig configAop() {
+        return this.aspect;
     }
 
     public JsonObject parameters() {
