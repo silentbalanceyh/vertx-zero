@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Aspect {
-    private static transient final ConcurrentMap<String, Aspect> POOL_ASPECT
+    private static final ConcurrentMap<String, Aspect> POOL_ASPECT
         = new ConcurrentHashMap<>();
     private final AspectConfig config;
 

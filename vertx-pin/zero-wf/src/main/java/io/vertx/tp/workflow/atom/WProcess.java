@@ -101,7 +101,7 @@ public class WProcess {
         return !this.isEnd();
     }
 
-    public Future<Task> next() {
+    public Future<Task> active() {
         final EventOn event = EventOn.get();
         return event.taskActive(this.instance);
     }

@@ -2,11 +2,11 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WKey;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
+import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -19,10 +19,8 @@ public class MovementNext extends AbstractTransfer implements Movement {
     @Override
     public Future<WProcess> moveAsync(final JsonObject params) {
         // Extract workflow parameters
-        final WKey key = WKey.build(params);
+        final KFlow key = KFlow.build(params);
         final String instanceId = key.instanceId();
-        // Engine Connect
-        final EventOn eventOn = EventOn.get();
 
         // Instance Building
         final WProcess wProcess = WProcess.create();
@@ -30,6 +28,8 @@ public class MovementNext extends AbstractTransfer implements Movement {
             // WProcess -> Bind ProcessInstance
             .compose(wProcess::future)
             .compose(instance -> {
+                // Engine Connect
+                final EventOn eventOn = EventOn.get();
                 // Whether instance existing
                 if (Objects.isNull(instance)) {
                     /*
