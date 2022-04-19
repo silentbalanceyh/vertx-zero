@@ -13,8 +13,6 @@ public abstract class AbstractDivert extends BehaviourStandard implements Divert
     protected transient AidTodo todoKit;
     protected transient AidLinkage linkageKit;
 
-    protected transient AidTracker trackerKit;
-
     @Override
     public Divert bind(final ConcurrentMap<String, WMove> moveMap) {
         super.rules(moveMap);
@@ -26,7 +24,6 @@ public abstract class AbstractDivert extends BehaviourStandard implements Divert
         Objects.requireNonNull(metadata);
         this.todoKit = new AidTodo(metadata);
         this.linkageKit = new AidLinkage(metadata);
-        this.trackerKit = new AidTracker(metadata);
         return super.bind(metadata);
     }
 }

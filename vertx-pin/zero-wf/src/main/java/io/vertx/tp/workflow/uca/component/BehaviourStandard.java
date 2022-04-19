@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentMap;
 public class BehaviourStandard implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
+    protected transient AidTracker trackerKit;
     private transient MetaInstance metadata;
 
     @Override
@@ -44,6 +45,7 @@ public class BehaviourStandard implements Behaviour {
         // Empty Binding on Instance
         Objects.requireNonNull(metadata);
         this.metadata = metadata;
+        this.trackerKit = new AidTracker(metadata);
         return this;
     }
 

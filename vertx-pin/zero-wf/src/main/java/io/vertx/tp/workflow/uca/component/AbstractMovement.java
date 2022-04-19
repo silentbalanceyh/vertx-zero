@@ -14,7 +14,6 @@ import java.util.Objects;
  */
 public abstract class AbstractMovement extends AbstractTransfer {
 
-    protected transient AidTracker trackerKit;
     private transient AidTodo todoKit;
     private transient AidLinkage linkageKit;
 
