@@ -27,9 +27,48 @@ public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private final transient JsonObject child = new JsonObject();
     private final transient JsonObject dataAfter = new JsonObject();
+    /*
+     * This variable stored prev record when do different operation
+     * 1) ADD:          prev = null
+     * 2) UPDATE:       prev = value
+     * 3) DELETE:       prev = value
+     *
+     * When current record data() called, the original record stored in
+     * __data node and write __flag node for normalization
+     */
+    private transient WRecord prev;
+    // Before WRecord
     private transient WTicket ticket;
     private transient WTodo todo;
-    private transient TodoStatus status;
+
+    private WRecord() {
+    }
+
+    public static WRecord create(final boolean write) {
+        if (write) {
+            /*
+             * Write mode for WRecord, it stored prev record reference
+             * for update data in comparing code logical
+             */
+            return new WRecord().prev(new WRecord());
+        } else {
+            /*
+             * Read mode only, it will ignore prev record reference
+             */
+            return new WRecord();
+        }
+    }
+
+    // ------------- Reference for original record
+
+    public WRecord prev() {
+        return this.prev;
+    }
+
+    public WRecord prev(final WRecord prev) {
+        this.prev = prev;
+        return this;
+    }
 
     // ------------- Response Build
     /*
@@ -66,6 +105,16 @@ public class WRecord implements Serializable {
     }
 
     /*
+     * Child Bind
+     */
+    public WRecord bind(final JsonObject child) {
+        if (Ut.notNil(child)) {
+            this.child.mergeIn(child.copy());
+        }
+        return this;
+    }
+
+    /*
      * Linkage Bind
      */
     public WRecord linkage(final String field, final JsonArray linkage) {
@@ -74,15 +123,6 @@ public class WRecord implements Serializable {
         return this;
     }
 
-    /*
-     * Child Bind
-     */
-    public WRecord child(final JsonObject child) {
-        if (Ut.notNil(child)) {
-            this.child.mergeIn(child);
-        }
-        return this;
-    }
 
     // ------------- Field Get
     /*
@@ -101,6 +141,10 @@ public class WRecord implements Serializable {
         return this.ticket;
     }
 
+    public JsonObject child() {
+        return this.child;
+    }
+
     public String identifier() {
         return this.ticket.getModelId();
     }
@@ -109,11 +153,6 @@ public class WRecord implements Serializable {
         return this.ticket.getModelKey();
     }
 
-    public TodoStatus status() {
-        return this.status;
-    }
-
-    // ------------- Workflow Moving
     /*
      * These two methods are only called when UPDATING todo
      * Here the `status` field stored the original status of W_TODO
@@ -121,9 +160,12 @@ public class WRecord implements Serializable {
      * - Update the actual records by ActionOn
      * - Update the related records by ActionOn
      */
-    public WRecord status(final String literal) {
-        this.status = Ut.toEnum(() -> literal, TodoStatus.class, null);
-        return this;
+    public TodoStatus status() {
+        if (Objects.isNull(this.prev) || Objects.isNull(this.prev.todo)) {
+            return null;
+        }
+        final WTodo todo = this.prev.todo;
+        return Ut.toEnum(todo::getStatus, TodoStatus.class, null);
     }
 
     // ------------- Async Code Logical
@@ -299,6 +341,11 @@ public class WRecord implements Serializable {
         // code
         response.put(KName.SERIAL, this.ticket.getSerial());
         response.put(KName.CODE, this.ticket.getCode());
+        if (Objects.nonNull(this.prev)) {
+            // Data Original, UPDATE Only
+            response.put(KName.__.DATA, this.prev.data());
+        }
+        // AOP Data After
         response.mergeIn(this.dataAfter, true);
         return response;
     }

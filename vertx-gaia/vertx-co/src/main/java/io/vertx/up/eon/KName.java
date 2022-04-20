@@ -87,6 +87,8 @@ public interface KName {
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
     String DATA = "data";                        /* Common: data */
+    String INPUT = "input";                      /* Input */
+    String OUTPUT = "output";                    /* Output */
     String DATUM = "datum";                      /* Common: metadata key */
     String MAPPING = "mapping";                  /* Common: Json mapping configuration */
     String STATUS = "status";                    /* Common: status for different workflow */
@@ -221,6 +223,8 @@ public interface KName {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
         String DATA = "__" + KName.DATA;             /* __data for previous data */
         String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
+
+        String INPUT = "__" + KName.INPUT;           /* __input for input original data */
     }
 
     interface Attachment {

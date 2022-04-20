@@ -17,6 +17,8 @@ public class WRequest implements Serializable {
 
     private final transient KFlow flow;
 
+    private transient WRecord record;
+
     public WRequest(final JsonObject params) {
         final JsonObject request = Ut.valueJObject(params);
         this.request.mergeIn(request, true);
@@ -32,6 +34,16 @@ public class WRequest implements Serializable {
     public KFlow workflow() {
         return this.flow;
     }
+
+    public WRecord record() {
+        return this.record;
+    }
+
+    public Future<WRecord> record(final WRecord record) {
+        this.record = record;
+        return Ux.future(record);
+    }
+
 
     // =================== Fluent Method for Set =======================
 

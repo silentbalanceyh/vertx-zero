@@ -41,7 +41,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 AidTodo.closeJ(normalized, wProcess), wProcess)
             )
             .compose(this.saveAsyncFn(refer.get(), wProcess))
-
+            .compose(request::record)
             /*
              * Trigger next todo generation here
              */

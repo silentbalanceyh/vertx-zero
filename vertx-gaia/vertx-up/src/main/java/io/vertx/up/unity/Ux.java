@@ -100,6 +100,16 @@ public final class Ux {
         return otherwise(() -> input);
     }
 
+
+    /*
+     * Update Data on Record
+     * 1. Generic T ( Pojo )
+     * 2. List<T>
+     * 3. JsonObject
+     * 4. JsonArray
+     * 5. Record
+     * 6. Record[]
+     */
     public static <T> T updateT(final T query, final JsonObject params) {
         return Compare.updateT(query, params);
     }
@@ -409,14 +419,24 @@ public final class Ux {
         return CompareJ.compareJ(original, current, fields);
     }
 
-    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
-        return To.future(CompareJ.compareJ(original, current, fields));
+    public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final String field) {
+        return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return To.future(CompareJ.compareJ(original, current, fields));
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final String field) {
+        return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
@@ -472,7 +492,26 @@ public final class Ux {
      * -- futureJA(JsonArray)
      * -- futureB(JsonObject)
      * -- futureB(boolean)
+     *
+     * New Api for normalized mount
+     * 7)
+     * -- futureN(JsonObject, JsonObject)
+     * -- futureN(JsonArray, JsonArray)
+     * -- futureN(JsonArray, JsonArray, String)
+     * > N for normalize and add new field:  __data,  __flag instead of original data
      */
+    public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
+        return Norm.effect(input, previous, current);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current) {
+        return Norm.effect(previous, current, KName.KEY);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current, final String field) {
+        return Norm.effect(previous, current, field);
+    }
+
     public static Future<Boolean> futureT() {
         return To.future(Boolean.TRUE);
     }

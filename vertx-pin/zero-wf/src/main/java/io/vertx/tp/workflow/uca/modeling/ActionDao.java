@@ -21,7 +21,9 @@ class ActionDao implements ActionOn {
     public <T> Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         Ut.ifString(params, KName.METADATA);
-        return jooq.insertJAsync(params).compose(Ut.ifJObject(KName.METADATA));
+        return jooq.insertJAsync(params).compose(Ut.ifJObject(KName.METADATA))
+            // Normalize Data
+            .compose(record -> Ux.futureN(params, null, record));
     }
 
     @Override
@@ -30,10 +32,13 @@ class ActionDao implements ActionOn {
         final UxJooq jooq = metadata.recordDao();
         return jooq.<T>fetchByIdAsync(key).compose(query -> {
             // Fix Bug: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+            final JsonObject original = Ux.toJson(query);
             Ut.ifString(params, KName.METADATA);
             final T entity = Ux.updateT(query, params);
-            return jooq.updateAsync(entity);
-        }).compose(Ux::futureJ).compose(Ut.ifJObject(KName.METADATA));
+            return jooq.updateAsync(entity).compose(Ux::futureJ).compose(Ut.ifJObject(KName.METADATA))
+                // Normalize Data
+                .compose(record -> Ux.futureN(params, original, record));
+        });
     }
 
     @Override
@@ -48,7 +53,9 @@ class ActionDao implements ActionOn {
     public <T> Future<JsonArray> createAsync(JsonArray params, MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
         Ut.itJArray(params).forEach(json -> Ut.ifString(json, KName.METADATA));
-        return jooq.insertJAsync(params).compose(Ut.ifJArray(KName.METADATA));
+        return jooq.insertJAsync(params).compose(Ut.ifJArray(KName.METADATA))
+            // Normalize Data
+            .compose(records -> Ux.futureN(null, records));
     }
 
     @Override
@@ -57,10 +64,11 @@ class ActionDao implements ActionOn {
         final JsonObject condition = new JsonObject();
         condition.put(KName.KEY + ",i", Ut.toJArray(keys));
         return jooq.<T>fetchAsync(condition).compose(query -> {
+            final JsonArray original = Ux.toJson(query);
             final List<T> updated = Ux.updateT(query, params);
-            return jooq.<T>updateAsync(updated)
-                .compose(Ux::futureA)
-                .compose(Ut.ifJArray(KName.METADATA));
+            return jooq.<T>updateAsync(updated).compose(Ux::futureA).compose(Ut.ifJArray(KName.METADATA))
+                // Normalize Data
+                .compose(records -> Ux.futureN(original, records));
         });
     }
 

@@ -31,7 +31,7 @@ public class DivertUser extends AbstractDivert {
             next.bind(task).bind(move).bind(process.instance());
         }
         // Record and instance
-        final WRecord generated = AidTodo.nextJ(request.before(), process);
+        final WRecord generated = AidTodo.nextJ(request.record(), process);
         // TodoKit generateAsync
         final JsonObject params = request.request();
         return Objects.requireNonNull(this.todoKit)
