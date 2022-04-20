@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.atom;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -16,6 +17,10 @@ public class WProcess {
     private transient ProcessInstance instance;
     private transient Task task;
     private transient WMove move;
+    /*
+     * Bind based on request
+     */
+    private transient KFlow flow;
 
     private WProcess() {
     }

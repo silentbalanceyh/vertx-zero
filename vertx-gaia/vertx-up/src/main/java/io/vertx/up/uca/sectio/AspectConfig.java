@@ -96,4 +96,13 @@ public class AspectConfig implements Serializable {
         Objects.requireNonNull(clazz);
         return this.configMap.getOrDefault(clazz, new JsonObject());
     }
+
+    @Override
+    public String toString() {
+        return "AspectConfig{" +
+            "nameBefore=" + this.nameBefore +
+            ", nameAfter=" + this.nameAfter +
+            ", nameJob=" + this.nameJob +
+            '}';
+    }
 }

@@ -6,6 +6,7 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.uca.sectio.Aspect;
@@ -25,6 +26,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 class AidTracker {
 
     private final transient MetaInstance metadata;
@@ -109,6 +111,7 @@ class AidTracker {
                 afterList.add(ActivityTabb.class);
             }
         }
+        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig);
         return Aspect.create(aspectConfig);
     }
 }
