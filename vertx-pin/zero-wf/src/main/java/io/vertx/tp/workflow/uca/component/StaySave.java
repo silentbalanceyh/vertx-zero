@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
  */
 public class StaySave extends AbstractMovement implements Stay {
     @Override
-    public Future<WRecord> keepAsync(final WRequest request, final WProcess instance) {
+    public Future<WRecord> keepAsync(final WRequest request, final WProcess wProcess) {
         // Todo Updating
         final JsonObject params = request.request();
         return this.updateAsync(params).compose(record -> {
@@ -23,6 +23,6 @@ public class StaySave extends AbstractMovement implements Stay {
             final Register register = Register.phantom(params, metadataOut);
             return register.updateAsync(params, metadataOut)
                 .compose(nil -> Ux.future(record));
-        });
+        }).compose(record -> this.afterAsync(record, wProcess));
     }
 }

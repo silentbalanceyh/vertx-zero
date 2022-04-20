@@ -26,11 +26,10 @@ import java.util.concurrent.ConcurrentMap;
 public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private final transient JsonObject child = new JsonObject();
-
+    private final transient JsonObject dataAfter = new JsonObject();
     private transient WTicket ticket;
     private transient WTodo todo;
     private transient TodoStatus status;
-    private transient WProcessDefinition process;
 
     // ------------- Response Build
     /*
@@ -143,13 +142,13 @@ public class WRecord implements Serializable {
         // Here read `flowProcessId`
         final String instanceId = this.ticket.getFlowInstanceId();
         final JsonObject response = this.data();
-        return Wf.instance(instanceId).compose(process -> {
+        return Wf.definition(instanceId).compose(process -> {
             /*
              * history to switch
              * 1. instance(), history = false
              * 2. instanceFinished(), history = true
              */
-            this.process = process;
+            // this.process = process;
             final StoreOn storeOn = StoreOn.get();
             if (history) {
                 // Fetch History Only
@@ -300,6 +299,15 @@ public class WRecord implements Serializable {
         // code
         response.put(KName.SERIAL, this.ticket.getSerial());
         response.put(KName.CODE, this.ticket.getCode());
+        response.mergeIn(this.dataAfter, true);
         return response;
+    }
+
+    public Future<WRecord> dataAfter(final JsonObject dataAfter) {
+        if (Ut.notNil(dataAfter)) {
+            this.dataAfter.clear();
+            this.dataAfter.mergeIn(dataAfter, true);
+        }
+        return Ux.future(this);
     }
 }

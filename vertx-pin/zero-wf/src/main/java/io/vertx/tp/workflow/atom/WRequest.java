@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.atom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -109,12 +108,5 @@ public class WRequest implements Serializable {
     public WRequest elementClean() {
         this.recordSet.clear();
         return this;
-    }
-
-    public Future<WProcess> process() {
-        final WProcess process = WProcess.create();
-        return Wf.instanceById(this.flow.instanceId())
-            .compose(process::future/* WProcess -> Bind Process */)
-            .compose(instance -> Ux.future(process));
     }
 }

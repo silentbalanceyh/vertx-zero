@@ -29,8 +29,7 @@ public class StayCancel extends AbstractMovement implements Stay {
         }).compose(record -> {
             // Remove ProcessDefinition
             final StoreOn storeOn = StoreOn.get();
-            return storeOn.instanceEnd(instance)
-                .compose(removed -> Ux.future(record));
-        });
+            return storeOn.instanceEnd(instance).compose(removed -> Ux.future(record));
+        }).compose(record -> this.afterAsync(record, wProcess));
     }
 }

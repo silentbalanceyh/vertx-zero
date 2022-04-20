@@ -32,6 +32,7 @@ public class TransferStart extends AbstractMovement implements Transfer {
 
 
             /* Todo Execution ( Todo Insert ) */
-            .compose(processed -> this.insertAsync(processed, wProcess));
+            .compose(processed -> this.insertAsync(processed, wProcess))
+            .compose(record -> this.afterAsync(record, wProcess));
     }
 }

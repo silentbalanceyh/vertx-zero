@@ -61,6 +61,10 @@ public class AspectConfig implements Serializable {
         return new AspectConfig(components);
     }
 
+    public static AspectConfig create() {
+        return new AspectConfig(new JsonObject());
+    }
+
     private void initialize(
         final JsonObject configuration, final String field,
         final BiConsumer<Class<?>, JsonObject> fnConsumer,

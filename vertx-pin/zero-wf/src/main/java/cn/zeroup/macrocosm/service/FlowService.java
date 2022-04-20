@@ -23,7 +23,7 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
         final StoreOn storeOn = StoreOn.get();
-        return Wf.processByKey(definitionKey).compose(storeOn::workflowGet).compose(definition -> {
+        return Wf.definitionByKey(definitionKey).compose(storeOn::workflowGet).compose(definition -> {
             // Fetch X_FLOW
             final JsonObject condition = Ux.whereAnd();
             condition.put(KName.CODE, definitionKey);

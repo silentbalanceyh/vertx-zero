@@ -1,6 +1,18 @@
 package io.vertx.tp.workflow.uca.component;
 
+import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
+import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.uca.sectio.Around;
+import io.vertx.up.uca.sectio.Aspect;
+import io.vertx.up.uca.sectio.AspectConfig;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Tracker for different component history record
@@ -64,5 +76,39 @@ class AidTracker {
      */
     AidTracker(final MetaInstance metadata) {
         this.metadata = metadata;
+    }
+
+    Future<WRequest> beforeAsync(final WRequest request, final WMove move) {
+        // Build Aspect Component
+        final Aspect aspect = this.aspect(move);
+        return aspect.wrapJBefore(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
+            .apply(request.request())
+            .compose(request::future);
+    }
+
+    Future<WRecord> afterAsync(final WRecord record, final WMove move) {
+        // Build Aspect Component
+        final Aspect aspect = this.aspect(move);
+        return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
+            .apply(record.data())
+            .compose(record::dataAfter);
+    }
+
+    private Aspect aspect(final WMove move) {
+        final AspectConfig aspectConfig;
+        if (Objects.isNull(move)) {
+            // DEFAULT
+            aspectConfig = AspectConfig.create();
+            aspectConfig.nameAfter().add(ActivityTabb.class);
+        } else {
+            // Configured
+            aspectConfig = move.configAop();
+            // Because default will add here
+            final List<Class<?>> afterList = aspectConfig.nameAfter();
+            if (!afterList.contains(ActivityTabb.class)) {
+                afterList.add(ActivityTabb.class);
+            }
+        }
+        return Aspect.create(aspectConfig);
     }
 }
