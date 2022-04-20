@@ -111,7 +111,7 @@ class AidTracker {
                 afterList.add(ActivityTabb.class);
             }
         }
-        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig);
+        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
         return Aspect.create(aspectConfig);
     }
 }

@@ -82,7 +82,7 @@ public class JsonModel implements Model {
                 final Schema schema = this.schema(attribute.getSource());
                 final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
-                final HAttribute aoAttr = Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
+                Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
             });
         }
     }

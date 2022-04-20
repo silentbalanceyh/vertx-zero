@@ -144,15 +144,6 @@ public class AoAttribute implements HAttribute, Serializable {
     }
 
     /**
-     * Return to current data type
-     *
-     * @return {@link java.lang.Class}
-     */
-    public Class<?> typeCls() {
-        return this.type.type();
-    }
-
-    /**
      * Return to current type field
      *
      * @return {@link HTField}

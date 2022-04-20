@@ -219,6 +219,8 @@ public interface KName {
 
     interface __ {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
+        String DATA = "__" + KName.DATA;             /* __data for previous data */
+        String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
     }
 
     interface Attachment {

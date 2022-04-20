@@ -131,20 +131,6 @@ public class RunActor {
         "updatedAt": "2022-02-02T08:53:24.616055Z"
     }
      */
-    @Me
-    @Address(HighWay.Do.FLOW_DRAFT)
-    public Future<JsonObject> draft(final JsonObject data) {
-        final WRequest request = new WRequest(data);
-        final EngineOn engine = EngineOn.connect(request);
-
-        // Camunda Processing
-        final Stay stay = engine.stayDraft();
-
-        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
-        return stay.keepAsync(request, null)
-            // Callback
-            .compose(WRecord::futureJ);
-    }
 
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
@@ -172,10 +158,27 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
         final Movement runner = engine.environmentPre();
         return runner.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback
             .compose(Ux::futureJ);
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_DRAFT)
+    public Future<JsonObject> draft(final JsonObject data) {
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
+
+        // Camunda Processing
+        final Stay stay = engine.stayDraft();
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        final Movement runner = engine.environmentPre();
+        return runner.moveAsync(request)
+            .compose(instance -> stay.keepAsync(request, instance))
+            // Callback
+            .compose(WRecord::futureJ);
     }
 }

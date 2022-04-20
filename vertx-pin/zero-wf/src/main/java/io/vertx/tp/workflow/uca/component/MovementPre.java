@@ -5,6 +5,7 @@ import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -18,9 +19,19 @@ public class MovementPre extends AbstractTransfer implements Movement {
             /* Here normalized/request shared the same reference */ -> {
             final EventOn event = EventOn.get();
             final WProcess wProcess = process.get();
-            return event.taskActive(wProcess.instance())
-                .compose(wProcess::future)              /* Task Bind */
-                .compose(nil -> wProcess.future());
+            if (wProcess.isStart()) {
+                // Started
+                return event.taskActive(wProcess.instance())
+                    .compose(wProcess::future)              /* Task Bind */
+                    .compose(nil -> wProcess.future());
+            } else {
+                /*
+                 *  When you stay at `e.start`, the workflow has not been started
+                 *  In this kind of situation: here should return to default process
+                 *  Not Started -> null
+                 */
+                return Ux.future(wProcess);
+            }
         });
     }
 }

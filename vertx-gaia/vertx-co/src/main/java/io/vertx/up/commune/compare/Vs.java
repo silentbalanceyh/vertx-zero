@@ -67,9 +67,8 @@ public class Vs implements Serializable {
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
             mapType.forEach((attribute, field) -> {
                 this.mapType.put(attribute, field.type());
-                if (field.isComplex()) {
-                    this.mapSubtype.put(attribute, field);
-                }
+                // Tpl Solution
+                this.mapSubtype.put(attribute, field);
             });
         }
     }
