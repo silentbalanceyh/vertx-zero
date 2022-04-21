@@ -15,7 +15,7 @@ import io.vertx.up.commune.exchange.DiSetting;
 import io.vertx.up.commune.exchange.DiSource;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KModule;
-import io.vertx.up.experiment.specification.KTransform;
+import io.vertx.up.experiment.specification.evaluate.KTransform;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
