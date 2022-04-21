@@ -319,34 +319,40 @@ public class WRecord implements Serializable {
      *  - modelChild ( With quantity )      - 「Multi Record」Primary Keys of JsonArray entity records
      */
     public JsonObject data() {
-        Objects.requireNonNull(this.ticket);
+        // prev may be empty, it means that could not call old data
+        // Objects.requireNonNull(this.ticket);
         final JsonObject response = new JsonObject();
-        final JsonObject ticketJ = Ux.toJson(this.ticket);
-        Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
-        // WTicket
-        // traceKey <- key
-        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
-        response.mergeIn(ticketJ, true);
-        if (Objects.nonNull(this.todo)) {
-            final JsonObject todoJson = Ux.toJson(this.todo);
-            response.mergeIn(todoJson, true);
-            // WTodo
-            // taskCode <- code
-            // taskSerial <- serial
-            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
-            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+        if (Objects.nonNull(this.ticket)) {
+            final JsonObject ticketJ = Ux.toJson(this.ticket);
+            Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
+            // WTicket
+            // traceKey <- key
+            ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+            response.mergeIn(ticketJ, true);
+            if (Objects.nonNull(this.todo)) {
+                final JsonObject todoJson = Ux.toJson(this.todo);
+                response.mergeIn(todoJson, true);
+                // WTodo
+                // taskCode <- code
+                // taskSerial <- serial
+                response.put(KName.Flow.TASK_CODE, this.todo.getCode());
+                response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+            }
+            // WTicket
+            // serial
+            // code
+            response.put(KName.SERIAL, this.ticket.getSerial());
+            response.put(KName.CODE, this.ticket.getCode());
+            if (Objects.nonNull(this.prev)) {
+                // Data Original, UPDATE Only
+                final JsonObject dataPrev = this.prev.data();
+                if (Ut.notNil(dataPrev)) {
+                    response.put(KName.__.DATA, this.prev.data());
+                }
+            }
+            // AOP Data After
+            response.mergeIn(this.dataAfter, true);
         }
-        // WTicket
-        // serial
-        // code
-        response.put(KName.SERIAL, this.ticket.getSerial());
-        response.put(KName.CODE, this.ticket.getCode());
-        if (Objects.nonNull(this.prev)) {
-            // Data Original, UPDATE Only
-            response.put(KName.__.DATA, this.prev.data());
-        }
-        // AOP Data After
-        response.mergeIn(this.dataAfter, true);
         return response;
     }
 
