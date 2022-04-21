@@ -94,7 +94,7 @@ public class BehaviourStandard implements Behaviour {
         // Started Workflow
         return this.ruleAsync(process)
             /* 「Aop」After based on WMove */
-            .compose(move -> this.trackerKit.afterAsync(record, move));
+            .compose(move -> this.trackerKit.afterAsync(record, process.bind(move)));
     }
 
     // ==================== Rule Bind / Get ======================

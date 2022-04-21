@@ -21,6 +21,7 @@ public class ActivityTabb implements After {
     @Override
     public Future<JsonObject> afterAsync(final JsonObject data, final JsonObject config) {
         System.out.println(data.encodePrettily());
+        System.out.println(config.encodePrettily());
         return Ux.future(data);
     }
 }

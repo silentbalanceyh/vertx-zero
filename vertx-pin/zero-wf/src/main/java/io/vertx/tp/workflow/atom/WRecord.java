@@ -11,6 +11,7 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -27,6 +28,8 @@ public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private final transient JsonObject child = new JsonObject();
     private final transient JsonObject dataAfter = new JsonObject();
+    // Change Flag for activity
+    private final transient ChangeFlag tabb;
     /*
      * This variable stored prev record when do different operation
      * 1) ADD:          prev = null
@@ -41,16 +44,30 @@ public class WRecord implements Serializable {
     private transient WTicket ticket;
     private transient WTodo todo;
 
-    private WRecord() {
+    private WRecord(final ChangeFlag tabb) {
+        this.tabb = tabb;
     }
 
-    public static WRecord create(final boolean write) {
+    private WRecord() {
+        this(null);
+    }
+
+    public static WRecord create() {
+        return create(false, null);
+    }
+
+    public static WRecord create(final boolean write, final ChangeFlag flag) {
         if (write) {
+            Objects.requireNonNull(flag);
             /*
              * Write mode for WRecord, it stored prev record reference
              * for update data in comparing code logical
+             * Here are two constructors:
+             *
+             * 1) with flag: identify the record operation
+             * 2) without flag: the flag = null
              */
-            return new WRecord().prev(new WRecord());
+            return new WRecord(flag).prev(new WRecord());
         } else {
             /*
              * Read mode only, it will ignore prev record reference
@@ -349,6 +366,10 @@ public class WRecord implements Serializable {
                 if (Ut.notNil(dataPrev)) {
                     response.put(KName.__.DATA, this.prev.data());
                 }
+            }
+            // Operation on Record
+            if (Objects.nonNull(this.tabb)) {
+                response.put(KName.__.FLAG, this.tabb);
             }
             // AOP Data After
             response.mergeIn(this.dataAfter, true);

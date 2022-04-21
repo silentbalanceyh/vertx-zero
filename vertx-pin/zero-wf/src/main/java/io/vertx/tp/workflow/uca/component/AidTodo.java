@@ -13,6 +13,7 @@ import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -65,7 +66,7 @@ class AidTodo {
             updatedData.put(KName.Flow.FLOW_END, Boolean.TRUE);
         }
         // Todo based on previous
-        final WMoveRule rule = wProcess.rule();
+        final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
             updatedData.mergeIn(rule.getTodo());
         }
@@ -180,12 +181,12 @@ class AidTodo {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WMoveRule rule = wProcess.rule();
+        final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule)) {
             final JsonObject todoUpdate = rule.getTodo();
             entity = Ux.updateT(entity, todoUpdate);
         }
-        return WRecord.create(true).bind(ticket).bind(entity);
+        return WRecord.create(true, ChangeFlag.UPDATE).bind(ticket).bind(entity);
     }
 
     // ------------- Generate Operation ----------------------
@@ -231,7 +232,7 @@ class AidTodo {
              */
             ticket.setFlowEnd(Boolean.FALSE);
             ticket.setFlowInstanceId(instance.getId());
-            final WRecord record = WRecord.create(true);
+            final WRecord record = WRecord.create(true, ChangeFlag.ADD);
             return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket)
                 .compose(inserted -> this.updateChild(normalized, record.bind(inserted)))
                 .compose(processed -> {
@@ -329,7 +330,7 @@ class AidTodo {
                  */
                 return this.insertAsync(params, instance);
             } else {
-                final WRecord record = WRecord.create(true);
+                final WRecord record = WRecord.create(true, ChangeFlag.UPDATE);
                 return this.updateTicket(params, ticket, record)
                     .compose(processed -> this.updateChild(params, processed))
                     .compose(processed -> this.updateTodo(params, processed));
@@ -346,7 +347,7 @@ class AidTodo {
          * 2. Remove `key` because here the `key` field is W_TODO
          */
         final String tKey = params.getString(KName.Flow.TRACE_ID);
-        final WRecord record = WRecord.create(true);
+        final WRecord record = WRecord.create(true, ChangeFlag.UPDATE);
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(tKey)
             .compose(ticket -> this.updateTicket(params, ticket, record))
             .compose(processed -> this.updateChild(params, processed))

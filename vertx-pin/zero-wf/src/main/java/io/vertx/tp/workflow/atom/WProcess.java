@@ -57,8 +57,6 @@ public class WProcess {
              */
             final EventOn event = EventOn.get();
             return event.taskActive(instance).compose(task -> {
-
-
                 /*
                  * Here the WProcess should set `task` instance
                  * The task object must be located after workflow started.
@@ -99,8 +97,12 @@ public class WProcess {
         return this.task;
     }
 
-    public WMoveRule rule() {
+    public WMoveRule ruleFind() {
         return Objects.requireNonNull(this.move).ruleFind();
+    }
+
+    public WMove rule() {
+        return this.move;
     }
 
     public boolean isStart() {

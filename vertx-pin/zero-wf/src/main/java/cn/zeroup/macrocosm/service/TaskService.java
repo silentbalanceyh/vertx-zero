@@ -52,7 +52,7 @@ public class TaskService implements TaskStub {
     // ====================== Single Record
     @Override
     public Future<JsonObject> readPending(final String key, final String userId) {
-        final WRecord record = WRecord.create(false);
+        final WRecord record = WRecord.create();
 
 
         // Read Todo Record
@@ -116,7 +116,7 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> readFinished(final String key) {
-        final WRecord record = WRecord.create(false);
+        final WRecord record = WRecord.create();
 
 
         // Read Ticket Record

@@ -1,16 +1,16 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
-import io.vertx.tp.workflow.atom.MetaInstance;
-import io.vertx.tp.workflow.atom.WMove;
-import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.uca.sectio.AspectConfig;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.List;
 import java.util.Objects;
@@ -88,11 +88,21 @@ class AidTracker {
             .compose(request::future);
     }
 
-    Future<WRecord> afterAsync(final WRecord record, final WMove move) {
+    Future<WRecord> afterAsync(final WRecord record, final WProcess process) {
         // Build Aspect Component
+        final WMove move = process.rule();
         final Aspect aspect = this.aspect(move);
+        final JsonObject parameters = record.data();
+        {
+            // Add new parameters of instance
+            final Task task = process.task();
+            if (Objects.nonNull(task)) {
+                // Task Name
+                parameters.put(KName.Flow.TASK_NAME, task.getName());
+            }
+        }
         return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
-            .apply(record.data())
+            .apply(parameters)
             .compose(record::dataAfter);
     }
 

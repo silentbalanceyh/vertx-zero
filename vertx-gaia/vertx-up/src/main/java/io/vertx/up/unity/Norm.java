@@ -9,11 +9,58 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiFunction;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class Norm {
+    /*
+     * Split `input` data structure
+     *
+     * {
+     *     "...": "...",
+     *     "__data": {
+     *        "...": "..."
+     *     },
+     *     "__flag": xxx
+     * }
+     *
+     * 1) previous ( Came from __data )
+     *    {
+     *        "...": "...",
+     *        "__flag": "xxx"
+     *    }
+     * 2) current
+     *    {
+     *        "...": "...",
+     *        "__flag": "xxx"
+     *    }
+     */
+    static Future<JsonObject> effectTabb(
+        final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
+        Objects.requireNonNull(input);
+        /*
+         * input variable data structure:
+         * {
+         *     "__data": {},
+         *     "__flag": FLAG
+         * }
+         *
+         * Split the record into two:
+         * 1) previous:  No __data
+         * 2) current:   No __data
+         * 3) The same field of __flag
+         */
+        final JsonObject normalized = input.copy();
+        final JsonObject previous = Ut.valueJObject(normalized, KName.__.DATA).copy();
+        normalized.remove(KName.__.DATA);
+        if (normalized.containsKey(KName.__.FLAG)) {
+            previous.put(KName.__.FLAG, normalized.getValue(KName.__.FLAG));
+        }
+        return executor.apply(previous, normalized);
+    }
+
     /*
      * Output Normalized for new specification such as following:
      *

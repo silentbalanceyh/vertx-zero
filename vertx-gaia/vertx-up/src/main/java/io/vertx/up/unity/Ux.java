@@ -801,6 +801,10 @@ public final class Ux {
         return Combine.thenCompress(futures, (original, latest) -> original.addAll(latest));
     }
 
+    public static Future<JsonObject> thenEffect(final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
+        return Norm.effectTabb(input, executor);
+    }
+
     /**
      * Common usage: To error directly
      *
@@ -813,8 +817,8 @@ public final class Ux {
         return Combine.thenError(clazz, args);
     }
 
-    public static <T> Future<T> thenErrorSigma(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return Combine.thenErrorSigma(clazz, sigma, supplier);
+    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+        return Combine.thenError(clazz, sigma, supplier);
     }
 
     /*

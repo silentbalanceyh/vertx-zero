@@ -144,6 +144,7 @@ class WfCamunda {
         Objects.requireNonNull(task);
         workflow.put(KName.MULTIPLE, Boolean.FALSE);
         workflow.put(KName.Flow.TASK, task.getTaskDefinitionKey());
+        workflow.put(KName.Flow.TASK_NAME, task.getName());
         // History Processing
         return workflow;
     }

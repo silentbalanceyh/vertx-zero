@@ -422,6 +422,8 @@ public interface KName {
 
         // Flow Field
         String FLOW_END = "flowEnd";
+
+        String FLOW_NAME = "flowName";
         String FLOW_DEFINITION_KEY = "flowDefinitionKey";
         String FLOW_DEFINITION_ID = "flowDefinitionId";
 

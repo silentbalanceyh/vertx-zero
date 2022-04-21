@@ -21,13 +21,14 @@ public class MovementNext extends AbstractTransfer implements Movement {
             final Divert divert;
             final WProcess wProcess = process.get();
             if (wProcess.isStart()) {
-                // Divert Next
+                // Divert Next ( Workflow Started )
                 divert = Divert.instance(DivertNext.class);
             } else {
-                // Divert Start
+                // Divert Start ( Workflow Not Started )
                 divert = Divert.instance(DivertStart.class);
             }
             final ConcurrentMap<String, WMove> rules = this.rules();
+            // Bind Metadata Instance
             divert.bind(this.metadataIn());
             return divert.bind(rules).moveAsync(normalized, wProcess);
         });
