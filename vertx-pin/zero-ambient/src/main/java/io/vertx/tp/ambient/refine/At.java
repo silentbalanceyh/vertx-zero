@@ -1,11 +1,13 @@
 package io.vertx.tp.ambient.refine;
 
+import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.extension.*;
+import io.vertx.up.commune.wffs.Regulation;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -83,5 +85,10 @@ public class At {
 
     public static Future<JsonArray> fileRemove(final JsonArray attachment) {
         return AtFs.fileRemove(attachment);
+    }
+
+    // Activity Rule Normalization
+    public static Future<Regulation> ruleRegulation(final List<XActivityRule> rules) {
+        return AtExpr.ruleRegulation(rules);
     }
 }

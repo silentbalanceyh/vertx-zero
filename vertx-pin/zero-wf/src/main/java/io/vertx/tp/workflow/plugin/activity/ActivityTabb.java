@@ -39,7 +39,8 @@ public class ActivityTabb implements After {
          *     "criteria": {}
          * }
          */
-        return Ke.channel(Valve.class, () -> data, valve -> valve.execAsync(normalized, config));
+        return Ke.channel(Valve.class, () -> data, valve -> valve.execAsync(normalized, config))
+            .compose(nil -> Ux.future(data));
     }
 
     private JsonObject dataCond(final JsonObject data) {

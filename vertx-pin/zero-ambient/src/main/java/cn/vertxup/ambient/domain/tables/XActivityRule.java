@@ -83,6 +83,21 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
      */
     public final TableField<XActivityRuleRecord, String> RULE_MESSAGE = createField(DSL.name("RULE_MESSAGE"), SQLDataType.CLOB, this, "「ruleMessage」- 输出消息专用, Ut.fromExpression解析（特殊解析）");
     /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_COMPONENT</code>.
+     * 「hookComponent」-- 回调钩子组件
+     */
+    public final TableField<XActivityRuleRecord, String> HOOK_COMPONENT = createField(DSL.name("HOOK_COMPONENT"), SQLDataType.VARCHAR(255), this, "「hookComponent」-- 回调钩子组件");
+    /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_CONFIG</code>.
+     * 「hookConfig」-- 回调钩子组件配置
+     */
+    public final TableField<XActivityRuleRecord, String> HOOK_CONFIG = createField(DSL.name("HOOK_CONFIG"), SQLDataType.CLOB, this, "「hookConfig」-- 回调钩子组件配置");
+    /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.LOGGING</code>. 「logging」-
+     * 是否记录日志
+     */
+    public final TableField<XActivityRuleRecord, Boolean> LOGGING = createField(DSL.name("LOGGING"), SQLDataType.BIT, this, "「logging」- 是否记录日志");
+    /**
      * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.ACTIVE</code>. 「active」- 是否启用
      */
     public final TableField<XActivityRuleRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BIT, this, "「active」- 是否启用");
@@ -204,11 +219,11 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row22 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row22) super.fieldsRow();
     }
 }

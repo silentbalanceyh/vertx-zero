@@ -194,6 +194,53 @@ public class XActivityRuleDao extends AbstractVertxDAO<XActivityRuleRecord, cn.v
         }
 
         /**
+     * Find records that have <code>HOOK_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByHookComponent(Collection<String> values) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.HOOK_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>HOOK_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByHookComponent(Collection<String> values, int limit) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.HOOK_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>HOOK_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByHookConfig(Collection<String> values) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.HOOK_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>HOOK_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByHookConfig(Collection<String> values, int limit) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.HOOK_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>LOGGING IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByLogging(Collection<Boolean> values) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.LOGGING.in(values));
+        }
+
+        /**
+     * Find records that have <code>LOGGING IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByLogging(Collection<Boolean> values, int limit) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.LOGGING.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByActive(Collection<Boolean> values) {

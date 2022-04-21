@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_RULE
     `HOOK_COMPONENT`  VARCHAR(255) COMMENT '「hookComponent」-- 回调钩子组件',
     `HOOK_CONFIG`     LONGTEXT COMMENT '「hookConfig」-- 回调钩子组件配置',
 
+    `LOGGING`         BIT         DEFAULT NULL COMMENT '「logging」- 是否记录日志',
 
     -- 特殊字段
     `ACTIVE`          BIT         DEFAULT NULL COMMENT '「active」- 是否启用',

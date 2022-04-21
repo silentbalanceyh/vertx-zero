@@ -146,6 +146,42 @@ public interface IXActivityRule extends VertxPojo, Serializable {
     public String getRuleMessage();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_COMPONENT</code>.
+     * 「hookComponent」-- 回调钩子组件
+     */
+    public IXActivityRule setHookComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_COMPONENT</code>.
+     * 「hookComponent」-- 回调钩子组件
+     */
+    public String getHookComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_CONFIG</code>.
+     * 「hookConfig」-- 回调钩子组件配置
+     */
+    public IXActivityRule setHookConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_CONFIG</code>.
+     * 「hookConfig」-- 回调钩子组件配置
+     */
+    public String getHookConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.LOGGING</code>. 「logging」-
+     * 是否记录日志
+     */
+    public IXActivityRule setLogging(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.LOGGING</code>. 「logging」-
+     * 是否记录日志
+     */
+    public Boolean getLogging();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.ACTIVE</code>. 「active」- 是否启用
      */
     public IXActivityRule setActive(Boolean value);
@@ -266,6 +302,9 @@ public interface IXActivityRule extends VertxPojo, Serializable {
                 setOrThrow(this::setRuleTpl,json::getString,"RULE_TPL","java.lang.String");
                 setOrThrow(this::setRuleConfig,json::getString,"RULE_CONFIG","java.lang.String");
                 setOrThrow(this::setRuleMessage,json::getString,"RULE_MESSAGE","java.lang.String");
+                setOrThrow(this::setHookComponent,json::getString,"HOOK_COMPONENT","java.lang.String");
+                setOrThrow(this::setHookConfig,json::getString,"HOOK_CONFIG","java.lang.String");
+                setOrThrow(this::setLogging,json::getBoolean,"LOGGING","java.lang.Boolean");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -292,6 +331,9 @@ public interface IXActivityRule extends VertxPojo, Serializable {
                 json.put("RULE_TPL",getRuleTpl());
                 json.put("RULE_CONFIG",getRuleConfig());
                 json.put("RULE_MESSAGE",getRuleMessage());
+                json.put("HOOK_COMPONENT",getHookComponent());
+                json.put("HOOK_CONFIG",getHookConfig());
+                json.put("LOGGING",getLogging());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

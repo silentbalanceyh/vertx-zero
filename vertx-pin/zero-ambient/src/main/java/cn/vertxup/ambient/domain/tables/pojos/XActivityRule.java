@@ -31,6 +31,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     private String        ruleTpl;
     private String        ruleConfig;
     private String        ruleMessage;
+    private String        hookComponent;
+    private String        hookConfig;
+    private Boolean       logging;
     private Boolean       active;
     private String        sigma;
     private String        metadata;
@@ -54,6 +57,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         this.ruleTpl = value.getRuleTpl();
         this.ruleConfig = value.getRuleConfig();
         this.ruleMessage = value.getRuleMessage();
+        this.hookComponent = value.getHookComponent();
+        this.hookConfig = value.getHookConfig();
+        this.logging = value.getLogging();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -76,6 +82,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         String        ruleTpl,
         String        ruleConfig,
         String        ruleMessage,
+        String        hookComponent,
+        String        hookConfig,
+        Boolean       logging,
         Boolean       active,
         String        sigma,
         String        metadata,
@@ -96,6 +105,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         this.ruleTpl = ruleTpl;
         this.ruleConfig = ruleConfig;
         this.ruleMessage = ruleMessage;
+        this.hookComponent = hookComponent;
+        this.hookConfig = hookConfig;
+        this.logging = logging;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -317,6 +329,63 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_COMPONENT</code>.
+     * 「hookComponent」-- 回调钩子组件
+     */
+    @Override
+    public String getHookComponent() {
+        return this.hookComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_COMPONENT</code>.
+     * 「hookComponent」-- 回调钩子组件
+     */
+    @Override
+    public XActivityRule setHookComponent(String hookComponent) {
+        this.hookComponent = hookComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_CONFIG</code>.
+     * 「hookConfig」-- 回调钩子组件配置
+     */
+    @Override
+    public String getHookConfig() {
+        return this.hookConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.HOOK_CONFIG</code>.
+     * 「hookConfig」-- 回调钩子组件配置
+     */
+    @Override
+    public XActivityRule setHookConfig(String hookConfig) {
+        this.hookConfig = hookConfig;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.LOGGING</code>. 「logging」-
+     * 是否记录日志
+     */
+    @Override
+    public Boolean getLogging() {
+        return this.logging;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.LOGGING</code>. 「logging」-
+     * 是否记录日志
+     */
+    @Override
+    public XActivityRule setLogging(Boolean logging) {
+        this.logging = logging;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
@@ -479,6 +548,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         sb.append(", ").append(ruleTpl);
         sb.append(", ").append(ruleConfig);
         sb.append(", ").append(ruleMessage);
+        sb.append(", ").append(hookComponent);
+        sb.append(", ").append(hookConfig);
+        sb.append(", ").append(logging);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -509,6 +581,9 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         setRuleTpl(from.getRuleTpl());
         setRuleConfig(from.getRuleConfig());
         setRuleMessage(from.getRuleMessage());
+        setHookComponent(from.getHookComponent());
+        setHookConfig(from.getHookConfig());
+        setLogging(from.getLogging());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

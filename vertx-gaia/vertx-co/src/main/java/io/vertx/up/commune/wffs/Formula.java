@@ -36,6 +36,7 @@ public class Formula implements Serializable {
      */
     private String name;
     private transient Hooker hooker;
+    private boolean logging = Boolean.FALSE;
 
     public Formula(final String expression) {
         this.expression = expression;
@@ -63,7 +64,16 @@ public class Formula implements Serializable {
         return this;
     }
 
+    public Formula logging(final boolean logging) {
+        this.logging = logging;
+        return this;
+    }
+
     public String name() {
         return this.name;
+    }
+
+    public boolean logging() {
+        return this.logging;
     }
 }
