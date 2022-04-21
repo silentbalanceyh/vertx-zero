@@ -31,8 +31,6 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_RULE
      *      -- 当流程触发时生成最终信息
      * NOTIFICATION
      *      -- 这种模式下会触发提醒相关内容，直接启用 ruleConfig 中配置信息处理
-     * EXPR - based on `ruleExpression` ( JEXL )
-     *      -- 解析表达式，如果表达式返回true则生成最终信息
      *
      * > 默认 ruleExpression 都为 true，即都会解析表达式，必须表达式满足时才执行，如果表达式为 NULL 则不执行。
      *
@@ -69,9 +67,14 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_RULE
      */
     `RULE_EXPRESSION` LONGTEXT COMMENT '「ruleExpression」- 规则触发表达式 ( 可以是多个，JsonArray格式 )',
     `RULE_TPL`        TEXT COMMENT '「ruleTpl」- 参数模板专用，JsonObject结构',
-    `RULE_COMPONENT`  VARCHAR(255) COMMENT '「ruleComponent」- 规则触发器，带有特定组件触发',
-    `RULE_CONFIG`     TEXT COMMENT '「ruleConfig」- 规则对应的额外配置',
+    `RULE_CONFIG`     LONGTEXT COMMENT '「ruleConfig」- 规则对应的额外配置',
     `RULE_MESSAGE`    TEXT COMMENT '「ruleMessage」- 输出消息专用, Ut.fromExpression解析（特殊解析）',
+
+    /*
+     * 回调组件（触发规则时的 After 专用组件）
+     */
+    `HOOK_COMPONENT`  VARCHAR(255) COMMENT '「hookComponent」-- 回调钩子组件',
+    `HOOK_CONFIG`     LONGTEXT COMMENT '「hookConfig」-- 回调钩子组件配置',
 
 
     -- 特殊字段

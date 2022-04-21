@@ -420,12 +420,15 @@ public interface KName {
         String TASK_CODE = "taskCode";
         String TASK_NAME = "taskName";
 
+        String TASK_KEY = "taskKey";
+
         // Flow Field
         String FLOW_END = "flowEnd";
 
         String FLOW_NAME = "flowName";
         String FLOW_DEFINITION_KEY = "flowDefinitionKey";
         String FLOW_DEFINITION_ID = "flowDefinitionId";
+        String FLOW_INSTANCE_ID = "flowInstanceId";
 
         // Processing
         String CONFIG_START = "startConfig";
