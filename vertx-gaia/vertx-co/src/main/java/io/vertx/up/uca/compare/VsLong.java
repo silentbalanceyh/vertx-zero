@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

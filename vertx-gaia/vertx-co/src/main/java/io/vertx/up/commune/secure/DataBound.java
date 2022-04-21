@@ -30,14 +30,14 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class DataBound implements Serializable {
 
-    private final transient Set<String> projection = new HashSet<>();
-    private final transient JsonObject criteria = new JsonObject();
-    private final transient JsonArray credit = new JsonArray();
-    private final transient ConcurrentMap<String, Set<String>> rows =
+    private final Set<String> projection = new HashSet<>();
+    private final JsonObject criteria = new JsonObject();
+    private final JsonArray credit = new JsonArray();
+    private final ConcurrentMap<String, Set<String>> rows =
         new ConcurrentHashMap<>();
 
-    private final transient JsonObject seeker = new JsonObject();
-    private final transient JsonObject viewData = new JsonObject();
+    private final JsonObject seeker = new JsonObject();
+    private final JsonObject viewData = new JsonObject();
 
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();

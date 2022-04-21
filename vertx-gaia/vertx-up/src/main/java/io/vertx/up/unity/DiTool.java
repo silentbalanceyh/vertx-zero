@@ -5,8 +5,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.util.Ut;
@@ -26,7 +26,7 @@ class DiTool {
     private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
         new ConcurrentHashMap<>();
 
-    static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
+    static <T> Future<T> dictTo(final T record, final DFabric fabric) {
         final FieldMapper mapper = new FieldMapper();
         if (record instanceof JsonObject) {
             final JsonObject ref = (JsonObject) record;
@@ -43,7 +43,7 @@ class DiTool {
         }
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramMap) {
+    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramMap) {
         if (Objects.isNull(dict)) {
             /*
              * Not `Dict` configured

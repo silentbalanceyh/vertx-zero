@@ -8,7 +8,7 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.optic.plugin.AfterPlugin;
 import io.vertx.tp.optic.plugin.BeforePlugin;
 import io.vertx.tp.optic.plugin.DataPlugin;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -25,13 +25,13 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public class PluginQueue {
     private final transient DataAtom atom;
-    private transient DiFabric fabric;
+    private transient DFabric fabric;
 
     PluginQueue(final DataAtom atom) {
         this.atom = atom;
     }
 
-    void bind(final DiFabric fabric) {
+    void bind(final DFabric fabric) {
         this.fabric = fabric;
     }
 

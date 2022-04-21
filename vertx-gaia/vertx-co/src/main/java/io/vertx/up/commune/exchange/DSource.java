@@ -21,8 +21,8 @@ import java.util.Set;
  * 3) Assist ->
  * A little complex
  */
-public class DiSource implements Serializable, Copyable<DiSource> {
-    private static final Annal LOGGER = Annal.get(DiSource.class);
+public class DSource implements Serializable, Copyable<DSource> {
+    private static final Annal LOGGER = Annal.get(DSource.class);
     private final Set<String> types = new HashSet<>();
     /*
      * JsonObject
@@ -39,7 +39,7 @@ public class DiSource implements Serializable, Copyable<DiSource> {
 
     private Class<?> component;
 
-    public DiSource(final JsonObject definition) {
+    public DSource(final JsonObject definition) {
         /*
          * Source normalize for `source type`
          */
@@ -76,7 +76,7 @@ public class DiSource implements Serializable, Copyable<DiSource> {
         }
     }
 
-    private DiSource() {
+    private DSource() {
     }
 
     public GlossaryType getSourceType() {
@@ -108,8 +108,8 @@ public class DiSource implements Serializable, Copyable<DiSource> {
     }
 
     @Override
-    public DiSource copy() {
-        final DiSource source = new DiSource();
+    public DSource copy() {
+        final DSource source = new DSource();
         source.component = this.component;
         source.componentConfig.clear();
         source.componentConfig.mergeIn(this.componentConfig.copy());

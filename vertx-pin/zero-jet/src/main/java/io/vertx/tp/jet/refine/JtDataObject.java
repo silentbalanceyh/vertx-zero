@@ -10,7 +10,7 @@ import io.vertx.tp.jet.cv.em.WorkerType;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
@@ -29,7 +29,7 @@ class JtDataObject {
             final Integration integration = new Integration();
             integration.fromJson(data);
             // Dict
-            final DiSetting dict = JtBusiness.toDict(service);
+            final DSetting dict = JtBusiness.toDict(service);
             if (Objects.nonNull(dict) && !dict.getEpsilon().isEmpty()) {
                 /*
                  * Internal binding

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Content for
  * String = String
  */
-public class BiMapping implements Serializable {
+public class BMapping implements Serializable {
     private final ConcurrentMap<String, String> vector =
         new ConcurrentHashMap<>();
     private final ConcurrentMap<String, String> revert =
@@ -30,10 +30,10 @@ public class BiMapping implements Serializable {
     private final ConcurrentMap<String, Class<?>> revertType =
         new ConcurrentHashMap<>();
 
-    BiMapping() {
+    BMapping() {
     }
 
-    public BiMapping(final JsonObject input) {
+    public BMapping(final JsonObject input) {
         this.init(input);
     }
 
@@ -57,7 +57,7 @@ public class BiMapping implements Serializable {
                             /*
                              * Type here
                              */
-                            final Class<?> type = BiType.type(typeFlag);
+                            final Class<?> type = BType.type(typeFlag);
                             /* mapping type */
                             this.vectorType.put(field, type);
                             this.revertType.put(toField, type);
@@ -76,7 +76,7 @@ public class BiMapping implements Serializable {
         }
     }
 
-    public BiMapping bind(final ConcurrentMap<String, Class<?>> typeMap) {
+    public BMapping bind(final ConcurrentMap<String, Class<?>> typeMap) {
         this.vector.keySet().forEach((field) -> {
             if (typeMap.containsKey(field)) {
                 this.vectorType.put(field, typeMap.get(field));

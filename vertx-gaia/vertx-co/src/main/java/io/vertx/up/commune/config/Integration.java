@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
-import io.vertx.up.commune.exchange.DiConsumer;
+import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -70,7 +70,7 @@ public class Integration implements Json, Serializable, Copyable<Integration> {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject options = new JsonObject();
     @JsonIgnore
-    private ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, DConsumer> epsilon = new ConcurrentHashMap<>();
     @JsonIgnore
     private String vendorConfig;
     @JsonIgnore
@@ -92,11 +92,11 @@ public class Integration implements Json, Serializable, Copyable<Integration> {
         this.vendor = vendor;
     }
 
-    public ConcurrentMap<String, DiConsumer> getEpsilon() {
+    public ConcurrentMap<String, DConsumer> getEpsilon() {
         return this.epsilon;
     }
 
-    public void setEpsilon(final ConcurrentMap<String, DiConsumer> epsilon) {
+    public void setEpsilon(final ConcurrentMap<String, DConsumer> epsilon) {
         this.epsilon = epsilon;
     }
 

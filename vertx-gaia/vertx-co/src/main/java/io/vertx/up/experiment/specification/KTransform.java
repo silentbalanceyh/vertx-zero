@@ -1,12 +1,12 @@
-package io.vertx.up.experiment.specification.evaluate;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -63,13 +63,13 @@ public class KTransform implements Serializable {
         this.mapping = mapping;
     }
 
-    public ConcurrentMap<String, DiConsumer> epsilon() {
+    public ConcurrentMap<String, DConsumer> epsilon() {
         final JsonObject dictionary = Ut.valueJObject(this.fabric);
-        return DiConsumer.mapEpsilon(Ut.valueJObject(dictionary.getJsonObject(KName.EPSILON)));
+        return DConsumer.mapEpsilon(Ut.valueJObject(dictionary.getJsonObject(KName.EPSILON)));
     }
 
-    public DiSetting source() {
+    public DSetting source() {
         final JsonObject dictionary = Ut.valueJObject(this.fabric);
-        return new DiSetting(Ut.valueJArray(dictionary.getJsonArray(KName.SOURCE)));
+        return new DSetting(Ut.valueJArray(dictionary.getJsonArray(KName.SOURCE)));
     }
 }

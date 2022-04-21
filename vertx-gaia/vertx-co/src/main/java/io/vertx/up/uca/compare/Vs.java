@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;

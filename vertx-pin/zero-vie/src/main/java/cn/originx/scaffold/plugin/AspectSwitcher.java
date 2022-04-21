@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.optic.plugin.AspectPlugin;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,7 +28,7 @@ public class AspectSwitcher {
     private final transient JsonObject options;
     private final transient AspectPlugin plugin;
 
-    public AspectSwitcher(final DataAtom atom, final JsonObject optionsInput, final DiFabric fabric) {
+    public AspectSwitcher(final DataAtom atom, final JsonObject optionsInput, final DFabric fabric) {
         /* 合并横切配置 */
         final JsonObject options = new JsonObject();
         options.mergeIn(Ut.valueJObject(optionsInput));

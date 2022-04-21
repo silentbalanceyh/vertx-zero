@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.exception.web._501NotSupportException;
 
 /*
@@ -21,7 +21,7 @@ public interface AspectPlugin extends DataPlugin<AspectPlugin> {
     }
 
     @Override
-    default AspectPlugin bind(final DiFabric fabric) {
+    default AspectPlugin bind(final DFabric fabric) {
         return this;
     }
 

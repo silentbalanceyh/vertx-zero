@@ -2,7 +2,7 @@ package cn.originx.scaffold.plugin;
 
 import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.optic.plugin.AspectPlugin;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 
 import java.util.Objects;
 
@@ -21,7 +21,7 @@ public abstract class AbstractAspect implements AspectPlugin {
     }
 
     @Override
-    public AspectPlugin bind(final DiFabric fabric) {
+    public AspectPlugin bind(final DFabric fabric) {
         if (Objects.nonNull(this.queue)) {
             this.queue.bind(fabric);
         }

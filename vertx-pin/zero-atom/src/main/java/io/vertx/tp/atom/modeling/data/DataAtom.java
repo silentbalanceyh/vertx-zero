@@ -7,11 +7,11 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.tp.modular.phantom.AoPerformer;
-import io.vertx.up.commune.compare.Vs;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

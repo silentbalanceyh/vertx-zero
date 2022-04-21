@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

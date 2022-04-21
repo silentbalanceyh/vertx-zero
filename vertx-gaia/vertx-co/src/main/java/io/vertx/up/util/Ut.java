@@ -10,7 +10,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
@@ -1241,19 +1241,19 @@ public final class Ut {
         return Jackson.aiJArray(literal);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping, final boolean keepNil) {
         return Value.aiIn(in, mapping, keepNil);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping) {
         return Value.aiIn(in, mapping, true);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping, final boolean keepNil) {
         return Value.aiOut(out, mapping, keepNil);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping) {
         return Value.aiOut(out, mapping, true);
     }
 

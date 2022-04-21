@@ -1,14 +1,13 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-final class VsInstant extends AbstractSameDate {
-    public VsInstant() {
-        super(Instant.class);
+final class VsLocalDateTime extends AbstractSameDate {
+    public VsLocalDateTime() {
+        super(LocalDateTime.class);
     }
 
     @Override

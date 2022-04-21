@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification.evaluate;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;

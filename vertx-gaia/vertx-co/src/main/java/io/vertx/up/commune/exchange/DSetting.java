@@ -29,19 +29,19 @@ import java.util.concurrent.ConcurrentMap;
  *     }
  * ]
  */
-public class DiSetting implements Serializable {
+public class DSetting implements Serializable {
 
     /*
      * Source definition here for directory configuration
      */
-    private final List<DiSource> source = new ArrayList<>();
-    private final ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    private final List<DSource> source = new ArrayList<>();
+    private final ConcurrentMap<String, DConsumer> epsilon = new ConcurrentHashMap<>();
     private Class<?> component;
 
     /*
      * Build object of Dict
      */
-    public DiSetting(final String literal) {
+    public DSetting(final String literal) {
         if (Ut.isJArray(literal)) {
             final JsonArray parameters = new JsonArray(literal);
             /* Initialize */
@@ -49,7 +49,7 @@ public class DiSetting implements Serializable {
         }
     }
 
-    public DiSetting(final JsonArray input) {
+    public DSetting(final JsonArray input) {
         if (Objects.nonNull(input)) {
             /* Initialize */
             this.init(input);
@@ -59,11 +59,11 @@ public class DiSetting implements Serializable {
     private void init(final JsonArray input) {
         /* Normalize `DictSource` List */
         Ut.itJArray(input)
-            .map(DiSource::new)
+            .map(DSource::new)
             .forEach(this.source::add);
     }
 
-    public DiSetting bind(final Class<?> component) {
+    public DSetting bind(final Class<?> component) {
         if (Objects.isNull(component)) {
             /*
              * When component not found,
@@ -81,7 +81,7 @@ public class DiSetting implements Serializable {
         return this;
     }
 
-    public DiSetting bind(final ConcurrentMap<String, DiConsumer> epsilon) {
+    public DSetting bind(final ConcurrentMap<String, DConsumer> epsilon) {
         if (Objects.nonNull(epsilon)) {
             this.epsilon.putAll(epsilon);
         }
@@ -92,7 +92,7 @@ public class DiSetting implements Serializable {
         return this.component;
     }
 
-    public ConcurrentMap<String, DiConsumer> getEpsilon() {
+    public ConcurrentMap<String, DConsumer> getEpsilon() {
         return this.epsilon;
     }
 
@@ -108,7 +108,7 @@ public class DiSetting implements Serializable {
         return this.validSource() && Objects.nonNull(this.component);
     }
 
-    public List<DiSource> getSource() {
+    public List<DSource> getSource() {
         return this.source;
     }
 }

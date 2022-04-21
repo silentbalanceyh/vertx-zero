@@ -16,11 +16,11 @@ public class RDao {
     /**
      * Source identifier that has been mapped `source` field of `M_ATTRIBUTE`.
      */
-    private final transient String source;
+    private final String source;
 
-    private transient Function<JsonObject, JsonArray> actionS;
+    private Function<JsonObject, JsonArray> actionS;
 
-    private transient Function<JsonObject, Future<JsonArray>> actionA;
+    private Function<JsonObject, Future<JsonArray>> actionA;
 
     public RDao(final String source) {
         this.source = source;

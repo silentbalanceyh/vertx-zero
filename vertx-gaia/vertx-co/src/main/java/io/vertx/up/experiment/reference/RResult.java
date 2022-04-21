@@ -82,15 +82,15 @@ import java.util.function.Predicate;
  */
 public class RResult implements Serializable {
 
-    private final transient HRule rule;
+    private final HRule rule;
 
-    private final transient DataFormat format;
+    private final DataFormat format;
 
-    private final transient Class<?> type;
+    private final Class<?> type;
 
-    private final transient List<Kv<String, String>> joined = new ArrayList<>();
+    private final List<Kv<String, String>> joined = new ArrayList<>();
 
-    private final transient String sourceField;
+    private final String sourceField;
 
     public RResult(final String referenceField, final JsonObject referenceConfig, final HAttribute config) {
         this.type = config.field().type();

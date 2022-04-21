@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification.evaluate;
+package io.vertx.up.commune.wffs;
 
 import io.vertx.core.json.JsonObject;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KRule implements Serializable {
+public class Regulation implements Serializable {
     /*
      * Rule Extract Condition
      */
@@ -23,5 +23,5 @@ public class KRule implements Serializable {
      */
     private final JsonObject params = new JsonObject();
 
-    private final List<KExpression> rules = new ArrayList<>();
+    private final List<Formula> rules = new ArrayList<>();
 }

@@ -17,9 +17,9 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -1110,15 +1110,15 @@ public final class Ux {
     /*
      * Keep following dict method
      */
-    public static ConcurrentMap<String, DiConsumer> dictEpsilon(final JsonObject epsilon) {
-        return DiConsumer.mapEpsilon(epsilon);
+    public static ConcurrentMap<String, DConsumer> dictEpsilon(final JsonObject epsilon) {
+        return DConsumer.mapEpsilon(epsilon);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramsMap) {
+    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramsMap) {
         return DiTool.dictCalc(dict, paramsMap);
     }
 
-    public static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
+    public static <T> Future<T> dictTo(final T record, final DFabric fabric) {
         return DiTool.dictTo(record, fabric);
     }
 

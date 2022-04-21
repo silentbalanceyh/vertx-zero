@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
@@ -41,7 +41,7 @@ public class Arms {
             this.add(ChangeFlag.ADD);
         }
     };
-    private transient DiFabric fabric;
+    private transient DFabric fabric;
 
     private Function<JsonArray, JsonArray> fnDefault;
     private Supplier<Future<JsonArray>> fnFetcher;
@@ -64,7 +64,7 @@ public class Arms {
         return this.dao;
     }
 
-    public <T extends Arms> T bind(final DiFabric fabric) {
+    public <T extends Arms> T bind(final DFabric fabric) {
         this.fabric = fabric;
         return (T) this;
     }

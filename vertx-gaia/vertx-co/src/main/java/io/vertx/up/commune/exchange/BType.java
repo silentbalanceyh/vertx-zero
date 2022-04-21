@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
  * Type Mapping here
  * Definition for type conversation of `DualItem`
  */
-class BiType {
+class BType {
 
     private static final ConcurrentMap<String, Class<?>> TYPES = new ConcurrentHashMap<String, Class<?>>() {
         {

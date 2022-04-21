@@ -1,18 +1,21 @@
-package io.vertx.up.experiment.specification.evaluate;
+package io.vertx.up.commune.wffs;
+
+import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KExpression implements Serializable {
+public class Formula implements Serializable {
+    private final JsonObject tpl = new JsonObject();
+    private final JsonObject config = new JsonObject();
     /*
      * name         - expression name
      * expression   - for parameters parsing
      * message      - for message parsing
      * tpl          - for tpl of parameters
      * config       - for expression configuration
-     * component    - Component class of interface
      *
      * 1) Extract Data from X_ACTIVITY_RULE
      * 2) Set the value from:
@@ -21,7 +24,9 @@ public class KExpression implements Serializable {
      *    RULE_CONFIG       -> config       ( JsonObject )
      *    RULE_MESSAGE      -> message
      *    RULE_NAME         -> name
-     *    RULE_COMPONENT    -> component    ( Java Class )
+     *
      */
     private String name;
+    private String expression;
+    private String message;
 }

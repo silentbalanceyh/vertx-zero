@@ -39,7 +39,7 @@ public class RQuote implements Serializable {
     /**
      * The application name for DataAtom create.
      */
-    private transient final String appName;
+    private final String appName;
     /**
      * Stored `attr -> type`
      *
@@ -47,27 +47,27 @@ public class RQuote implements Serializable {
      * - {@link io.vertx.core.json.JsonObject} for json object.
      * - {@link io.vertx.core.json.JsonArray} for json array.
      */
-    private transient final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
 
     /**
      * Stored `attr -> sourceConfig`.
      * This hash map has been reserved, it's for EXTERNAL/INTERNAL
      */
-    private transient final ConcurrentMap<String, HAttribute> sourceConfig = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, HAttribute> sourceConfig = new ConcurrentHashMap<>();
     /**
      * Stored `attr -> sourceReference`.
      * This hash map is for REFERENCE only in current version.
      */
-    private transient final ConcurrentMap<String, JsonObject> sourceReference = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, JsonObject> sourceReference = new ConcurrentHashMap<>();
 
     /**
      * Extract `rule` from input json config and build `attr -> DataQRule` of current model.
      */
-    private transient final ConcurrentMap<String, HRule> sourceRule = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, HRule> sourceRule = new ConcurrentHashMap<>();
     /**
      * Extract `dao` by condition `hashCode()`.
      */
-    private transient final ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
 
 
     // ----------------------- Factory Method Start ----------------------

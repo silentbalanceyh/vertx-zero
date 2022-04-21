@@ -43,21 +43,21 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DiConsumer implements Serializable, Json, Copyable<DiConsumer> {
+public class DConsumer implements Serializable, Json, Copyable<DConsumer> {
 
     private String source;
     private String in;
     private String out;
     private boolean parent;
 
-    public static ConcurrentMap<String, DiConsumer> mapEpsilon(final JsonObject epsilonJson) {
-        final ConcurrentMap<String, DiConsumer> epsilonMap = new ConcurrentHashMap<>();
+    public static ConcurrentMap<String, DConsumer> mapEpsilon(final JsonObject epsilonJson) {
+        final ConcurrentMap<String, DConsumer> epsilonMap = new ConcurrentHashMap<>();
         if (Ut.notNil(epsilonJson)) {
             epsilonJson.fieldNames().stream()
                 .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
                 .forEach(field -> {
                     final JsonObject fieldData = epsilonJson.getJsonObject(field);
-                    final DiConsumer epsilon = new DiConsumer();
+                    final DConsumer epsilon = new DConsumer();
                     epsilon.fromJson(fieldData);
                     epsilonMap.put(field, epsilon);
                 });
@@ -130,8 +130,8 @@ public class DiConsumer implements Serializable, Json, Copyable<DiConsumer> {
     }
 
     @Override
-    public DiConsumer copy() {
-        final DiConsumer consumer = new DiConsumer();
+    public DConsumer copy() {
+        final DConsumer consumer = new DConsumer();
         final JsonObject data = this.toJson().copy();
         consumer.fromJson(data);
         return consumer;

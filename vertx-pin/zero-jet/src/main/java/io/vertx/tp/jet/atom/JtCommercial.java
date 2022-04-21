@@ -9,8 +9,8 @@ import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.eon.em.Environment;
@@ -135,12 +135,12 @@ public abstract class JtCommercial implements Commercial {
     }
 
     @Override
-    public DiSetting dict() {
+    public DSetting dict() {
         return Jt.toDict(this.service);
     }
 
     @Override
-    public BiTree mapping() {
+    public BTree mapping() {
         return Jt.toMapping(this.service);
     }
 

@@ -15,8 +15,8 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.commune.exchange.BiMapping;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.BMapping;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._501NotSupportException;
@@ -343,9 +343,9 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      * - Epsilon：字典消费组件配置
      * - DualItem：字典映射配置
      *
-     * @return {@link DiFabric} 字典翻译器
+     * @return {@link DFabric} 字典翻译器
      */
-    public DiFabric fabric() {
+    public DFabric fabric() {
         return this.fabric(this.atom());
     }
 
@@ -358,10 +358,10 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * @param atom 传入的{@link DataAtom}模型定义对象。
      *
-     * @return {@link DiFabric} 字典翻译器
+     * @return {@link DFabric} 字典翻译器
      */
-    public DiFabric fabric(final DataAtom atom) {
-        final BiMapping mapping = this.mapping().child(atom.identifier());
+    public DFabric fabric(final DataAtom atom) {
+        final BMapping mapping = this.mapping().child(atom.identifier());
         if (Objects.nonNull(mapping)) {
             mapping.bind(atom.type());
         }

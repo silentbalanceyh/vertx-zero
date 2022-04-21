@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.eon.Strings;
@@ -21,7 +21,9 @@ final class VsString extends AbstractSame {
             return Objects.requireNonNull(VsSame.get(LocalDateTime.class)).is(valueOld, valueNew);
         } else if (Ut.isJArray(valueOld)) {
             return Objects.requireNonNull(VsSame.get(JsonArray.class)).is(valueOld, valueNew);
-        } else return super.isAnd(valueOld, valueNew);
+        } else {
+            return super.isAnd(valueOld, valueNew);
+        }
     }
 
     @Override

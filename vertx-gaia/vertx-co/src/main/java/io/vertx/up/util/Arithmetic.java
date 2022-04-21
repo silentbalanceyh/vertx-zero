@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.vertx.up.commune.compare.Vs;
+import io.vertx.up.uca.compare.Vs;
 
 import java.util.*;
 import java.util.function.Consumer;

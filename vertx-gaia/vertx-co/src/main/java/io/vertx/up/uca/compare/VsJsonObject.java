@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 import io.vertx.core.json.JsonObject;
 

@@ -20,17 +20,17 @@ public class RQuery implements Serializable {
     /**
      * Attribute Name
      */
-    private final transient String name;
+    private final String name;
     /**
      * Source Field
      */
-    private final transient String sourceField;
+    private final String sourceField;
 
     private final List<Kv<String, String>> joined = new ArrayList<>();
     /**
      * RDao reference
      */
-    private transient RDao daoRef;
+    private RDao daoRef;
 
     public RQuery(final String name, final String sourceField) {
         this.name = name;

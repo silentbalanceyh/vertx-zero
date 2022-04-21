@@ -1,4 +1,4 @@
-package io.vertx.up.commune.compare;
+package io.vertx.up.uca.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -35,7 +35,9 @@ final class VsJsonArray extends AbstractSame {
                     return checkedNew.equals(checkedOld);
                 }));
             }
-        } else return valueOStr.equals(valueNStr);
+        } else {
+            return valueOStr.equals(valueNStr);
+        }
     }
 
     @Override
@@ -58,7 +60,9 @@ final class VsJsonArray extends AbstractSame {
         if (result) {
             final JsonArray array = this.toJArray(value);
             return !array.isEmpty();
-        } else return Boolean.FALSE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
     private JsonArray toJArray(final Object value) {

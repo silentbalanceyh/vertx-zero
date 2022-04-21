@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * A) Single Mapping: String = String
  * B) Multi Mapping: String = JsonObject
  */
-public class BiTree implements Serializable {
+public class BTree implements Serializable {
 
     /*
      * Root ( Single )
@@ -30,8 +30,8 @@ public class BiTree implements Serializable {
      * Map ( Multi )
      * String = JsonObject
      */
-    private final BiMapping root = new BiMapping();
-    private final ConcurrentMap<String, BiMapping> mapping =
+    private final BMapping root = new BMapping();
+    private final ConcurrentMap<String, BMapping> mapping =
         new ConcurrentHashMap<>();
     /*
      * Configured `MappingMode` and `Class<?>`
@@ -39,14 +39,14 @@ public class BiTree implements Serializable {
     private MappingMode mode = MappingMode.NONE;
     private Class<?> component;
 
-    public BiTree() {
+    public BTree() {
     }
 
-    public BiTree(final JsonObject input) {
+    public BTree(final JsonObject input) {
         this.init(input);
     }
 
-    public BiTree init(final JsonObject input) {
+    public BTree init(final JsonObject input) {
         if (Ut.notNil(input)) {
             /*
              * Mix data structure for
@@ -68,7 +68,7 @@ public class BiTree implements Serializable {
                     /* Init here */
                     if (Ut.notNil(fieldValue)) {
                         /* Json mapping here */
-                        final BiMapping item = new BiMapping(fieldValue);
+                        final BMapping item = new BMapping(fieldValue);
                         this.mapping.put(field, item);
                     }
                 });
@@ -90,12 +90,12 @@ public class BiTree implements Serializable {
         return this.component;
     }
 
-    public BiTree bind(final MappingMode mode) {
+    public BTree bind(final MappingMode mode) {
         this.mode = mode;
         return this;
     }
 
-    public BiTree bind(final Class<?> component) {
+    public BTree bind(final Class<?> component) {
         this.component = component;
         return this;
     }
@@ -108,8 +108,8 @@ public class BiTree implements Serializable {
     /*
      * Child get here
      */
-    public BiMapping child(final String key) {
-        final BiMapping selected = this.mapping.get(key);
+    public BMapping child(final String key) {
+        final BMapping selected = this.mapping.get(key);
         if (Objects.isNull(selected) || selected.isEmpty()) {
             return this.root;
         } else {
@@ -117,7 +117,7 @@ public class BiTree implements Serializable {
         }
     }
 
-    public BiMapping child() {
+    public BMapping child() {
         return this.root;
     }
 

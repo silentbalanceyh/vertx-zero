@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Identity;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
@@ -24,13 +24,13 @@ import java.util.concurrent.ConcurrentMap;
  * have been put into pool structure
  */
 class JtBusiness {
-    static DiSetting toDict(final IService service) {
+    static DSetting toDict(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_DICT, service.getKey(), () -> {
             /*
              * Dict Config for service
              */
             final String dictStr = service.getDictConfig();
-            final DiSetting dict = new DiSetting(dictStr);
+            final DSetting dict = new DSetting(dictStr);
             /*
              * When valid, inject component here
              */
@@ -53,13 +53,13 @@ class JtBusiness {
         }), service);
     }
 
-    static BiTree toMapping(final IService service) {
+    static BTree toMapping(final IService service) {
         return Fn.getNull(null, () -> Fn.pool(Pool.POOL_MAPPING, service.getKey(), () -> {
             /*
              * DualMapping
              */
             final MappingMode mode = Ut.toEnum(service::getMappingMode, MappingMode.class, MappingMode.NONE);
-            final BiTree mapping = new BiTree();
+            final BTree mapping = new BTree();
             /*
              * The mode != NONE means that there must contain configuration
              */
@@ -90,7 +90,7 @@ class JtBusiness {
         }), service);
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DiSetting dict) {
+    static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DSetting dict) {
         /*
          * Params here for different situations
          */
