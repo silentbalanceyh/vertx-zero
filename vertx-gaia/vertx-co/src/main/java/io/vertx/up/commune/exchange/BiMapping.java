@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
  * String = String
  */
 public class BiMapping implements Serializable {
-    private final transient ConcurrentMap<String, String> vector =
+    private final ConcurrentMap<String, String> vector =
         new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, String> revert =
+    private final ConcurrentMap<String, String> revert =
         new ConcurrentHashMap<>();
     /*
      * Involve expression for type parsing here
      * It means that we need type attribute to do conversation
      */
-    private final transient ConcurrentMap<String, Class<?>> vectorType =
+    private final ConcurrentMap<String, Class<?>> vectorType =
         new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, Class<?>> revertType =
+    private final ConcurrentMap<String, Class<?>> revertType =
         new ConcurrentHashMap<>();
 
     BiMapping() {

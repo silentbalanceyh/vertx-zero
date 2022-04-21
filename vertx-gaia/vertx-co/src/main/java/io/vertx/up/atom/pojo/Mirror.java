@@ -20,10 +20,10 @@ import java.util.function.Function;
 public class Mirror {
 
     private static final String POJO = "pojo/{0}.yml";
-    private final transient Annal logger;
-    private final transient JsonObject converted = new JsonObject();
-    private transient Mojo mojo;
-    private transient JsonObject data = new JsonObject();
+    private final Annal logger;
+    private final JsonObject converted = new JsonObject();
+    private Mojo mojo;
+    private JsonObject data = new JsonObject();
 
     private Mirror(final Class<?> clazz) {
         this.logger = Annal.get(clazz);

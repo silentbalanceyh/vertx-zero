@@ -11,8 +11,8 @@ import java.util.Set;
  * Batch operation by `pager` instead of fetch all data here.
  */
 public class Pagination {
-    private final transient Pager pager;
-    private transient Integer total;
+    private final Pager pager;
+    private Integer total;
 
     public Pagination(final Pager pager) {
         this.pager = pager;
@@ -52,7 +52,9 @@ public class Pagination {
                 /*
                  * Whether include current `pagination`
                  */
-                if (current) paginationSet.add(this);
+                if (current) {
+                    paginationSet.add(this);
+                }
                 /*
                  * Build all other `pagination`
                  */

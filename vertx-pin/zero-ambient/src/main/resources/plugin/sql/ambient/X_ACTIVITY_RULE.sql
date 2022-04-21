@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_RULE
      */
     `RULE_EXPRESSION` LONGTEXT COMMENT '「ruleExpression」- 规则触发表达式 ( 可以是多个，JsonArray格式 )',
     `RULE_TPL`        TEXT COMMENT '「ruleTpl」- 参数模板专用，JsonObject结构',
+    `RULE_COMPONENT`  VARCHAR(255) COMMENT '「ruleComponent」- 规则触发器，带有特定组件触发',
     `RULE_CONFIG`     TEXT COMMENT '「ruleConfig」- 规则对应的额外配置',
     `RULE_MESSAGE`    TEXT COMMENT '「ruleMessage」- 输出消息专用, Ut.fromExpression解析（特殊解析）',
 

@@ -53,7 +53,7 @@ import java.io.Serializable;
  */
 public class JSix implements Serializable {
 
-    private final transient JsonObject rawData = new JsonObject();
+    private final JsonObject rawData = new JsonObject();
 
     private JSix(final JsonObject options) {
         final JsonObject configuration = Ut.valueJObject(options);

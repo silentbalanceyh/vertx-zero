@@ -20,7 +20,7 @@ import java.util.Set;
 @JsonDeserialize(using = RuleTermDeserializer.class)
 public class RuleTerm implements Serializable {
 
-    private final transient Set<String> fields = new HashSet<>();
+    private final Set<String> fields = new HashSet<>();
 
     public RuleTerm(final String rule) {
         this.fields.add(rule);

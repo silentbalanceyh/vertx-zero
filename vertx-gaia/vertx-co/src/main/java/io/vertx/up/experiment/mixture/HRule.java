@@ -68,34 +68,34 @@ public class HRule implements Serializable {
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject condition;
+    private JsonObject condition;
     /**
      * The field `conditions`.
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject conditions;
+    private JsonObject conditions;
 
     /**
      * The rule `required`.
      */
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray required;
+    private JsonArray required;
 
     /**
      * The rule 'unique`.
      */
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray unique;
+    private JsonArray unique;
 
     /**
      * The rule `diff`.
      */
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray diff;
+    private JsonArray diff;
 
     /**
      * The class type of current attribute defined, two in current version.
@@ -103,7 +103,7 @@ public class HRule implements Serializable {
      * {@link io.vertx.core.json.JsonArray} or {@link io.vertx.core.json.JsonObject}
      */
     @JsonIgnore
-    private transient Class<?> type;
+    private Class<?> type;
 
     /**
      * @return {@link java.util.Set}

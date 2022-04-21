@@ -37,23 +37,23 @@ public class DiFabric {
      * -- source: The dict name that has been mapped to `dictData` variable here
      * -- in/out: The translation direction that defined.
      */
-    private final transient ConcurrentMap<String, DiConsumer> epsilonMap
+    private final ConcurrentMap<String, DiConsumer> epsilonMap
         = new ConcurrentHashMap<>();
     /*
      * Each fabric bind
      */
-    private final transient DiStore store = new DiStore();
+    private final DiStore store = new DiStore();
     /*
      *  The mapping in dictionary
      */
-    private final transient BiMapping mapping;
+    private final BiMapping mapping;
 
     /*
      * Data here for dictionary
      */
-    private final transient ConcurrentMap<String, BiMapping> fromData
+    private final ConcurrentMap<String, BiMapping> fromData
         = new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, BiMapping> toData
+    private final ConcurrentMap<String, BiMapping> toData
         = new ConcurrentHashMap<>();
 
     private DiFabric(final BiMapping mapping) {

@@ -9,10 +9,10 @@ import java.io.Serializable;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KFlow implements Serializable {
-    private final transient String definitionKey;
-    private final transient String definitionId;
-    private final transient String instanceId;
-    private final transient String taskId;
+    private final String definitionKey;
+    private final String definitionId;
+    private final String instanceId;
+    private final String taskId;
 
     private KFlow(final JsonObject workflow) {
         this.definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);

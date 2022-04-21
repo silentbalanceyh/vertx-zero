@@ -45,10 +45,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DiConsumer implements Serializable, Json, Copyable<DiConsumer> {
 
-    private transient String source;
-    private transient String in;
-    private transient String out;
-    private transient boolean parent;
+    private String source;
+    private String in;
+    private String out;
+    private boolean parent;
 
     public static ConcurrentMap<String, DiConsumer> mapEpsilon(final JsonObject epsilonJson) {
         final ConcurrentMap<String, DiConsumer> epsilonMap = new ConcurrentHashMap<>();

@@ -18,10 +18,10 @@ import java.io.Serializable;
 public class ComponentOpts implements Serializable {
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private transient Class<?> component;
+    private Class<?> component;
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject config;
+    private JsonObject config;
 
     public Class<?> getComponent() {
         return this.component;

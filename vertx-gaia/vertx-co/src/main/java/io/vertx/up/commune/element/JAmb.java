@@ -23,11 +23,11 @@ public class JAmb {
     /**
      * The data reference of {@link io.vertx.core.json.JsonObject} or {@link io.vertx.core.json.JsonArray}
      */
-    private transient Object data;
+    private Object data;
     /**
      * The flat to identify current object to check whether it's {@link io.vertx.core.json.JsonObject}
      */
-    private transient Boolean single;
+    private Boolean single;
 
     /**
      * @return Object data reference

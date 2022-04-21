@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class DiStore {
     private static final Annal LOGGER = Annal.get(DiStore.class);
-    private final transient ConcurrentMap<String, JsonArray> dictData
+    private final ConcurrentMap<String, JsonArray> dictData
         = new ConcurrentHashMap<>();
 
     /*

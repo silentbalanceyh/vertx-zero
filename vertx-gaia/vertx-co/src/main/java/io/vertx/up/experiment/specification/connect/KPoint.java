@@ -54,17 +54,17 @@ public class KPoint implements Serializable {
      * `identifier`
      */
     @JsonIgnore
-    private transient String identifier;
+    private String identifier;
     /**
      * `crud`, <strong>filename</strong> that could be parsed.
      */
-    private transient String crud;
+    private String crud;
     /**
      * `classDao`, <strong>Dao class</strong> that could be convert to java class.
      */
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private transient Class<?> classDao;
+    private Class<?> classDao;
 
 
     /**
@@ -72,19 +72,19 @@ public class KPoint implements Serializable {
      */
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private transient Class<?> classDefine;
+    private Class<?> classDefine;
     /**
      * `key`, primary key field.
      */
-    private transient String key;
+    private String key;
     /**
      * `keyJoin`, join key that are related to join point.
      */
-    private transient String keyJoin;
+    private String keyJoin;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject synonym;
+    private JsonObject synonym;
 
     public String getCrud() {
         return this.crud;

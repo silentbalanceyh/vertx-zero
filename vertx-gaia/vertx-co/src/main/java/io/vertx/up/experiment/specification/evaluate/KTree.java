@@ -14,12 +14,12 @@ import java.io.Serializable;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KTree implements Serializable {
-    private transient String in;
-    private transient String out = KName.KEY;
-    private transient String field = "parentId";
+    private String in;
+    private String out = KName.KEY;
+    private String field = "parentId";
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject region = new JsonObject();
+    private JsonObject region = new JsonObject();
 
     public String getIn() {
         return this.in;

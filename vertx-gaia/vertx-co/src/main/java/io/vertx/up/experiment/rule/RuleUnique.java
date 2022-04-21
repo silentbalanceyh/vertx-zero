@@ -68,7 +68,7 @@ public class RuleUnique implements Serializable {
      * identifier = rule1
      * identifier = rule2
      */
-    private transient ConcurrentMap<String, RuleUnique> children = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, RuleUnique> children = new ConcurrentHashMap<>();
     /*
      * （无优先级）可推送的规则：
      * 1）草稿 -> 合法状态的标准规则；
@@ -78,7 +78,7 @@ public class RuleUnique implements Serializable {
      * 合法规则，无优先级，只要满足则可入库，不满足规则则不可入库
      * 带优先级，在游离态创建连接需要根据优先级创建
      */
-    private transient List<RuleTerm> record = new ArrayList<>();
+    private List<RuleTerm> record = new ArrayList<>();
     /*
      * （无优先级）可接受规则：
      * 1）集成可入记录规则，从 UCMDB 中读取数据专用
@@ -86,19 +86,19 @@ public class RuleUnique implements Serializable {
      * ---
      * 读取 UCMDB 中数据的专用规则，可以没有 code
      */
-    private transient Set<RuleTerm> integration = new HashSet<>();
+    private Set<RuleTerm> integration = new HashSet<>();
     /*
      * 带优先级的标识规则，识别专用
      */
-    private transient List<RuleTerm> priority = new ArrayList<>();
+    private List<RuleTerm> priority = new ArrayList<>();
     /*
      * 强连接
      */
-    private transient Set<RuleTerm> strong = new HashSet<>();
+    private Set<RuleTerm> strong = new HashSet<>();
     /*
      * 弱连接
      */
-    private transient Set<RuleTerm> weak = new HashSet<>();
+    private Set<RuleTerm> weak = new HashSet<>();
 
     public ConcurrentMap<String, RuleUnique> getChildren() {
         return this.children;

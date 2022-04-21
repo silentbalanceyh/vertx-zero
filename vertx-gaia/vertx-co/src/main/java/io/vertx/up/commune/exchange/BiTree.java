@@ -30,14 +30,14 @@ public class BiTree implements Serializable {
      * Map ( Multi )
      * String = JsonObject
      */
-    private final transient BiMapping root = new BiMapping();
-    private final transient ConcurrentMap<String, BiMapping> mapping =
+    private final BiMapping root = new BiMapping();
+    private final ConcurrentMap<String, BiMapping> mapping =
         new ConcurrentHashMap<>();
     /*
      * Configured `MappingMode` and `Class<?>`
      */
-    private transient MappingMode mode = MappingMode.NONE;
-    private transient Class<?> component;
+    private MappingMode mode = MappingMode.NONE;
+    private Class<?> component;
 
     public BiTree() {
     }

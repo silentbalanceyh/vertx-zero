@@ -36,27 +36,27 @@ import java.util.Set;
  */
 public class KNaming implements Serializable {
     // Qr Only
-    private final transient Set<String> qrKeys = new HashSet<>();
+    private final Set<String> qrKeys = new HashSet<>();
     // System Business Field
-    private transient String key;
-    private transient String code;
-    private transient String name;
-    private transient String type;
-    private transient String category;
-    private transient String serial;
+    private String key;
+    private String code;
+    private String name;
+    private String type;
+    private String category;
+    private String serial;
     // System Default Field
-    private transient String language;
-    private transient String sigma;
-    private transient Boolean active;
-    private transient String createdBy;
-    private transient LocalDateTime createdAt;
-    private transient String updatedBy;
-    private transient LocalDateTime updatedAt;
+    private String language;
+    private String sigma;
+    private Boolean active;
+    private String createdBy;
+    private LocalDateTime createdAt;
+    private String updatedBy;
+    private LocalDateTime updatedAt;
     // Linking Field
-    private transient String reference;
-    private transient String identifier;
-    private transient String modelKey;
-    private transient String modelCategory;
+    private String reference;
+    private String identifier;
+    private String modelKey;
+    private String modelCategory;
 
     public String getKey() {
         return this.key;

@@ -23,21 +23,21 @@ import java.util.Set;
  */
 public class DiSource implements Serializable, Copyable<DiSource> {
     private static final Annal LOGGER = Annal.get(DiSource.class);
-    private final transient Set<String> types = new HashSet<>();
+    private final Set<String> types = new HashSet<>();
     /*
      * JsonObject
      */
-    private final transient JsonObject componentConfig = new JsonObject();
+    private final JsonObject componentConfig = new JsonObject();
     /*
      * SourceType of current source definition
      */
-    private transient GlossaryType source;
+    private GlossaryType source;
     /*
      * Another source of ASSIST here
      */
-    private transient String key;
+    private String key;
 
-    private transient Class<?> component;
+    private Class<?> component;
 
     public DiSource(final JsonObject definition) {
         /*

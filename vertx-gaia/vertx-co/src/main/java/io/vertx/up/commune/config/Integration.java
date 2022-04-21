@@ -44,37 +44,37 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class Integration implements Json, Serializable, Copyable<Integration> {
 
-    private final transient ConcurrentMap<String, IntegrationRequest> apis
+    private final ConcurrentMap<String, IntegrationRequest> apis
         = new ConcurrentHashMap<>();
     /*
      * Restful / Web Service information ( such as jdbcUrl )
      * The target service should be: endpoint + api ( IntegrationRequest )
      */
-    private transient String endpoint;
-    private transient Integer port;
-    private transient String username;
-    private transient String protocol;
+    private String endpoint;
+    private Integer port;
+    private String username;
+    private String protocol;
     /*
      * SSL enabled, these two fields stored
      * 1) publicKeyFile
      * 2) Authentication
      */
-    private transient String password;
-    private transient String hostname;
-    private transient String publicKeyFile;
+    private String password;
+    private String hostname;
+    private String publicKeyFile;
 
     /*
      * options for configuration of JSON format
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject options = new JsonObject();
+    private JsonObject options = new JsonObject();
     @JsonIgnore
-    private transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
     @JsonIgnore
-    private transient String vendorConfig;
+    private String vendorConfig;
     @JsonIgnore
-    private transient String vendor;
+    private String vendor;
 
     public String getVendorConfig() {
         return this.vendorConfig;

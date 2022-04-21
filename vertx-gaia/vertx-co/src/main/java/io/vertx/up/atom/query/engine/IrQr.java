@@ -13,10 +13,10 @@ import java.util.Set;
 
 class IrQr implements Qr {
 
-    private transient Pager pager;
-    private transient Sorter sorter;
-    private transient Set<String> projection;
-    private transient Criteria criteria;
+    private Pager pager;
+    private Sorter sorter;
+    private Set<String> projection;
+    private Criteria criteria;
 
     IrQr(final JsonObject input) {
         this.ensure(input);

@@ -34,9 +34,9 @@ public class DiSetting implements Serializable {
     /*
      * Source definition here for directory configuration
      */
-    private final transient List<DiSource> source = new ArrayList<>();
-    private final transient ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
-    private transient Class<?> component;
+    private final List<DiSource> source = new ArrayList<>();
+    private final ConcurrentMap<String, DiConsumer> epsilon = new ConcurrentHashMap<>();
+    private Class<?> component;
 
     /*
      * Build object of Dict

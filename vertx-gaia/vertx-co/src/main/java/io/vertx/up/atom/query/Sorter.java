@@ -15,11 +15,11 @@ public class Sorter implements Serializable {
     /**
      * Field
      */
-    private transient final List<String> field = new ArrayList<>();
+    private final List<String> field = new ArrayList<>();
     /**
      * Sort Mode
      */
-    private transient final List<Boolean> asc = new ArrayList<>();
+    private final List<Boolean> asc = new ArrayList<>();
 
     private Sorter(final String field,
                    final Boolean asc) {

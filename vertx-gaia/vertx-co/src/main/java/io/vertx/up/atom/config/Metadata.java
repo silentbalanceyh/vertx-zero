@@ -20,7 +20,7 @@ public class Metadata implements Serializable {
     private static final String KEY_TYPE = "__type__";
     private static final String KEY_CONTENT = "__content__";
 
-    private final transient JsonObject content = new JsonObject();
+    private final JsonObject content = new JsonObject();
 
     public Metadata(final JsonObject input) {
         /*

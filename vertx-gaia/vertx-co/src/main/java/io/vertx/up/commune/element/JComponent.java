@@ -23,9 +23,9 @@ import java.util.Objects;
 public class JComponent implements Serializable {
     private static final Annal LOGGER = Annal.get(JComponent.class);
 
-    private final transient String key;
-    private final transient Class<?> componentCls;
-    private final transient JsonObject config = new JsonObject();
+    private final String key;
+    private final Class<?> componentCls;
+    private final JsonObject config = new JsonObject();
 
     public JComponent(final String key, final Class<?> componentCls) {
         this.key = key;

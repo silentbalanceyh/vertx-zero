@@ -19,10 +19,10 @@ public class HTAtom implements Serializable {
     /*
      * When complex = true, mapping
      */
-    private final transient ConcurrentMap<String, HTField> shapeMap = new ConcurrentHashMap<>();
-    private final transient List<Class<?>> typeList = new ArrayList<>();
+    private final ConcurrentMap<String, HTField> shapeMap = new ConcurrentHashMap<>();
+    private final List<Class<?>> typeList = new ArrayList<>();
 
-    private transient boolean complex = Boolean.FALSE;
+    private boolean complex = Boolean.FALSE;
 
     private HTAtom() {
     }

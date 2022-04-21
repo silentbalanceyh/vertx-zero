@@ -35,7 +35,7 @@ public class HTField implements Serializable {
      * }
      * // </code></pre>
      */
-    private final transient ConcurrentMap<String, HTField> childMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, HTField> childMap = new ConcurrentHashMap<>();
     /**
      * JsonArray Support only, the whole data structure is as following:
      *
@@ -51,13 +51,13 @@ public class HTField implements Serializable {
      * }
      * // </code></pre>
      */
-    private final transient List<HTField> children = new ArrayList<>();
+    private final List<HTField> children = new ArrayList<>();
     /** Current field name */
-    private final transient String name;
+    private final String name;
     /** Current field alias */
-    private final transient String alias;
+    private final String alias;
     /** Unique field **/
-    private final transient Set<String> unique = new HashSet<>();
+    private final Set<String> unique = new HashSet<>();
     /**
      * Current field type.
      *
@@ -65,7 +65,7 @@ public class HTField implements Serializable {
      * 2. JsonArray
      * 3. JsonObject
      */
-    private final transient Class<?> type;
+    private final Class<?> type;
 
     // -------------------- Constructor -----------------------
 
