@@ -11,10 +11,13 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Formula implements Serializable {
+
+    private final String key;
     private final JsonObject tpl = new JsonObject();
     private final JsonObject config = new JsonObject();
     private final String expression;
     private final transient JsonObject hookerConfig = new JsonObject();
+    private final boolean logging = Boolean.FALSE;
     /*
      * name         - expression name
      * expression   - for parameters parsing
@@ -36,9 +39,9 @@ public class Formula implements Serializable {
      */
     private String name;
     private transient Hooker hooker;
-    private boolean logging = Boolean.FALSE;
 
-    public Formula(final String expression) {
+    public Formula(final String key, final String expression) {
+        this.key = key;
         this.expression = expression;
     }
 
@@ -64,16 +67,11 @@ public class Formula implements Serializable {
         return this;
     }
 
-    public Formula logging(final boolean logging) {
-        this.logging = logging;
-        return this;
-    }
-
     public String name() {
         return this.name;
     }
 
-    public boolean logging() {
-        return this.logging;
+    public String key() {
+        return this.key;
     }
 }

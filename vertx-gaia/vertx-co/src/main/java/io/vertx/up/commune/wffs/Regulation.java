@@ -10,20 +10,21 @@ import java.util.Objects;
  */
 public class Regulation implements Serializable {
 
-    private final List<Formula> hookOnly = new ArrayList<>();
-
-    private final List<Formula> hookWithLog = new ArrayList<>();
+    private final List<Formula> formulas = new ArrayList<>();
 
     public Regulation() {
     }
 
     public Regulation add(final Formula formula) {
         Objects.requireNonNull(formula);
-        if (formula.logging()) {
-            this.hookWithLog.add(formula);
-        } else {
-            this.hookOnly.add(formula);
-        }
+        this.formulas.add(formula);
         return this;
+    }
+
+    public Formula find(final String key) {
+        Objects.requireNonNull(key);
+        return this.formulas.stream()
+            .filter(formula -> key.equals(formula.key()))
+            .findAny().orElse(null);
     }
 }

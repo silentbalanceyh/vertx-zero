@@ -21,7 +21,7 @@ class AtExpr {
         /* Expression is Null, Ignored the rule triggered */
         rules.stream().filter(rule -> Objects.nonNull(rule.getRuleExpression())).forEach(rule -> {
             /* Formula Building */
-            final Formula formula = new Formula(rule.getRuleExpression());
+            final Formula formula = new Formula(rule.getKey(), rule.getRuleExpression());
 
             // bind(tpl, config)
             final JsonObject tpl = Ut.toJObject(rule.getRuleTpl());
@@ -36,7 +36,6 @@ class AtExpr {
             }
             // name / logging
             formula.name(rule.getRuleName());
-            formula.logging(Objects.nonNull(rule.getLogging()) ? rule.getLogging() : Boolean.FALSE);
 
             regulation.add(formula);
         });
