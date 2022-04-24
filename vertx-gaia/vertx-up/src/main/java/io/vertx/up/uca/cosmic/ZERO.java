@@ -2,15 +2,16 @@ package io.vertx.up.uca.cosmic;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.commune.config.Integration;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 interface Pool {
-    ConcurrentMap<Integer, Emitter> POOL_EMITTER = new ConcurrentHashMap<>();
 
-    ConcurrentMap<Integer, Rotator> POOL_ROTATOR = new ConcurrentHashMap<>();
+    Cc<Integer, Emitter> CC_EMITTER = Cc.open();
+    Cc<Integer, Rotator> CC_ROTATOR = Cc.open();
 
     ConcurrentMap<HttpMethod, Function<Integration, Rotator>> POOL_ROTATOR_FN =
         new ConcurrentHashMap<HttpMethod, Function<Integration, Rotator>>() {

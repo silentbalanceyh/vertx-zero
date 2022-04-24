@@ -9,6 +9,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class DiPlugin {
 
+    private static final Cc<Class<?>, DiPlugin> CC_DI = Cc.open();
     private transient final Class<?> clazz;
     private transient final Annal logger;
 
@@ -29,7 +31,8 @@ public class DiPlugin {
     }
 
     public static DiPlugin create(final Class<?> clazz) {
-        return Fn.pool(Pool.PLUGINS, clazz, () -> new DiPlugin(clazz));
+        return CC_DI.pick(() -> new DiPlugin(clazz), clazz);
+        // return Fn.po?l(Pool.PLUGINS, clazz, () -> new DiPlugin(clazz));
     }
 
     public <T> T createComponent(final Class<?> clazz) {

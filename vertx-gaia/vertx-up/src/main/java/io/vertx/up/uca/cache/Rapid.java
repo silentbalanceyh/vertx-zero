@@ -4,10 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.auth.User;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -26,8 +24,9 @@ public interface Rapid<K, V> {
     }
 
     static <TK, TV> Rapid<TK, TV> t(final String key, final int ttl) {
-        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidT<TV>(key, ttl),
+        return P.CC_RAPID.pick(() -> new RapidT<TV>(key, ttl),
             RapidT.class.getName() + key + ttl);
+        // return Fn.po?lThread(P.CACHED_THREAD, () -> new RapidT<TV>(key, ttl), RapidT.class.getName() + key + ttl);
     }
 
     /*
@@ -40,8 +39,9 @@ public interface Rapid<K, V> {
     }
 
     static Rapid<Set<String>, ConcurrentMap<String, JsonArray>> map(final String key, final int ttl) {
-        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidDict(key, ttl),
+        return P.CC_RAPID.pick(() -> new RapidDict(key, ttl),
             RapidDict.class.getName() + key + ttl);
+        // return Fn.po?lThread(P.CACHED_THREAD, () -> new RapidDict(key, ttl), RapidDict.class.getName() + key + ttl);
     }
 
     /*
@@ -49,8 +49,9 @@ public interface Rapid<K, V> {
      *    habitus = ...
      */
     static <T> Rapid<String, T> user(final User user, final String rootKey) {
-        return Fn.poolThread(P.CACHED_THREAD, () -> new RapidUser<T>(user, rootKey),
+        return P.CC_RAPID.pick(() -> new RapidUser<T>(user, rootKey),
             RapidUser.class.getName() + String.valueOf(user.hashCode()) + rootKey);
+        // return Fn.po?lThread(P.CACHED_THREAD, () -> new RapidUser<T>(user, rootKey), RapidUser.class.getName() + String.valueOf(user.hashCode()) + rootKey);
     }
 
     static <T> Rapid<String, T> user(final User user) {
@@ -78,5 +79,6 @@ public interface Rapid<K, V> {
 
 @SuppressWarnings("all")
 interface P {
-    ConcurrentMap<String, Rapid> CACHED_THREAD = new ConcurrentHashMap<>();
+
+    Cc<String, Rapid> CC_RAPID = Cc.openThread();
 }
