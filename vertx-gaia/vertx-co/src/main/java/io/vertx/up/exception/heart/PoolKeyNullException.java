@@ -4,6 +4,6 @@ import io.vertx.up.exception.ZeroRunException;
 
 public class PoolKeyNullException extends ZeroRunException {
     public PoolKeyNullException() {
-        super(Info.POOL_KEY_MSG);
+        super(Info.CACHE_KEY_MSG);
     }
 }
