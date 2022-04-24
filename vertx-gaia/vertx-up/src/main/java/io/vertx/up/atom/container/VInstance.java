@@ -1,14 +1,12 @@
 package io.vertx.up.atom.container;
 
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.lang.reflect.Proxy;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class VInstance {
-    private static final ConcurrentMap<Class<?>, VInstance> V_POOL =
-        new ConcurrentHashMap<>();
+
+    private static final Cc<Class<?>, VInstance> CC_V_INSTANCE = Cc.open();
     private transient final Class<?> interfaceCls;
 
     private VInstance(final Class<?> interfaceCls) {
@@ -16,7 +14,8 @@ public class VInstance {
     }
 
     public static VInstance create(final Class<?> interfaceCls) {
-        return Fn.pool(V_POOL, interfaceCls, () -> new VInstance(interfaceCls));
+        return CC_V_INSTANCE.pick(() -> new VInstance(interfaceCls), interfaceCls);
+        // return Fn.po?l(V_POOL, interfaceCls, () -> new VInstance(interfaceCls));
     }
 
     @SuppressWarnings("unchecked")

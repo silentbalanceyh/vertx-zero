@@ -2,12 +2,11 @@ package io.vertx.up.runtime.soul;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -18,7 +17,7 @@ public class UriAeon {
     /*
      * Thread -> Uri storage for dynamic routing deployment
      */
-    private static final ConcurrentMap<String, UriNeuro> NEURO = new ConcurrentHashMap<>();
+    private static final Cc<String, UriNeuro> CC_NEURO = Cc.openThread();
     private static final UriStore STORE = UriStore.create();
 
     /*
@@ -29,7 +28,8 @@ public class UriAeon {
          * Initialize the routing system to store reference
          */
         final String threadId = Thread.currentThread().getName();
-        Fn.poolThread(NEURO, () -> UriNeuro.getInstance(threadId).bind(router));
+        CC_NEURO.pick(() -> UriNeuro.getInstance(threadId).bind(router));
+        // Fn.po?lThread(NEURO, () -> UriNeuro.getInstance(threadId).bind(router));
     }
 
 
@@ -40,7 +40,8 @@ public class UriAeon {
         /*
          * Create new routing on `original` route object
          */
-        NEURO.values().forEach(neuro -> neuro.addRoute(config));
+        final Cd<String, UriNeuro> store = CC_NEURO.store();
+        store.values().forEach(neuro -> neuro.addRoute(config));
     }
 
     /*

@@ -23,7 +23,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
     private static final Cc<String, String> CC_INTERNAL = Cc.open();
 
     static {
-        final Cd<String, String> dataRef = CC_INTERNAL.data();
+        final Cd<String, String> dataRef = CC_INTERNAL.store();
         dataRef.data(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
         dataRef.data(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
         dataRef.data(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
@@ -48,6 +48,6 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
             .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.produce(item), item)
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);
-        return CC_INTERNAL.data().data();
+        return CC_INTERNAL.store().data();
     }
 }

@@ -15,6 +15,7 @@ import io.vertx.up.util.Ut;
  * Pin 中还可以检查数据库连接。
  */
 public interface Pin {
+
     /**
      * 根据配置文件读取连接器
      */

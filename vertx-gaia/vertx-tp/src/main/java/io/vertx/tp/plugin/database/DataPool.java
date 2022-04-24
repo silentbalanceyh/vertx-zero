@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.database;
 
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import org.jooq.DSLContext;
 
 import javax.sql.DataSource;
@@ -13,12 +14,15 @@ import javax.sql.DataSource;
  * 2) Additional configuration
  */
 public interface DataPool {
+
+    Cc<String, DataPool> CC_POOL_DYNAMIC = Cc.open();
+
     static DataPool create() {
         return create(Database.getCurrent());
     }
 
     static DataPool create(final Database database) {
-        return Pool.CC_POOL_DYNAMIC.pick(() -> {
+        return CC_POOL_DYNAMIC.pick(() -> {
             final Annal logger = Annal.get(DataPool.class);
             final DataPool ds = new HikariDataPool(database);
             logger.info("[ DP ] Data Pool Hash : {0}, URL: {1}",

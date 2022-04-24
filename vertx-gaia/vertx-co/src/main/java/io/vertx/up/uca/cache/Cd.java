@@ -1,5 +1,6 @@
 package io.vertx.up.uca.cache;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -19,4 +20,6 @@ public interface Cd<K, V> {
     void clear();
 
     boolean is(K key);
+
+    Collection<V> values();
 }

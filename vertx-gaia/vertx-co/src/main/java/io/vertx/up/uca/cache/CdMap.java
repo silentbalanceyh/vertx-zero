@@ -1,5 +1,6 @@
 package io.vertx.up.uca.cache;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,5 +38,10 @@ public class CdMap<K, V> implements Cd<K, V> {
             return false;
         }
         return this.dataMap.containsKey(key);
+    }
+
+    @Override
+    public Collection<V> values() {
+        return this.dataMap.values();
     }
 }

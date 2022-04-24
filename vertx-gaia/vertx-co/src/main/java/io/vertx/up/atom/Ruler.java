@@ -126,7 +126,7 @@ public class Ruler {
     private static JsonObject getRule(final String file) {
         // Cached rule into memory pool
         final String filename = MessageFormat.format(Values.CONFIG_INTERNAL_RULE, file);
-        final Cd<String, JsonObject> data = CC_RULE.data();
+        final Cd<String, JsonObject> data = CC_RULE.store();
         if (data.is(filename)) {
             LOGGER.debug(Info.RULE_CACHED_FILE, filename);
         } else {

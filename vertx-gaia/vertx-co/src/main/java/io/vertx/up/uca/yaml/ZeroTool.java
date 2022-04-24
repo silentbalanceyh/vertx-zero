@@ -40,7 +40,7 @@ public class ZeroTool {
 
     private static JsonObject readDirect(final String filename) {
         // Fix Docker issue
-        final Cd<String, JsonObject> dataRef = CC_STORAGE.data();
+        final Cd<String, JsonObject> dataRef = CC_STORAGE.store();
         if (dataRef.is(filename)) {
             return dataRef.data(filename);
         } else {

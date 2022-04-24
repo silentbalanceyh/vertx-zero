@@ -11,11 +11,11 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class CcConfig<K> implements Cc<K, JsonObject> {
-    private final transient Cd<K, JsonObject> data = new CdMap<>();
+    private final transient Cd<K, JsonObject> store = new CdMap<>();
 
     @Override
-    public Cd<K, JsonObject> data() {
-        return this.data;
+    public Cd<K, JsonObject> store() {
+        return this.store;
     }
 
     @Override
@@ -24,15 +24,13 @@ class CcConfig<K> implements Cc<K, JsonObject> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public JsonObject pick(final Supplier<JsonObject> supplier, final Class<?> key) {
-        final K cacheKey = (K) key.getName();
-        return this.pick(supplier, cacheKey);
+    public JsonObject pick(final Supplier<JsonObject> supplier, final K key) {
+        final ConcurrentMap<K, JsonObject> pool = this.store.data();
+        return Fn.pool(pool, key, supplier);
     }
 
     @Override
-    public JsonObject pick(final Supplier<JsonObject> supplier, final K key) {
-        final ConcurrentMap<K, JsonObject> pool = this.data.data();
-        return Fn.pool(pool, key, supplier);
+    public JsonObject store(final K key) {
+        return this.store.data(key);
     }
 }

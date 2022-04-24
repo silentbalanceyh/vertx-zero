@@ -34,7 +34,7 @@ final class Instance {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         } else {
-            final Cd<String, Object> cData = CC_SERVICE_LOADER.data();
+            final Cd<String, Object> cData = CC_SERVICE_LOADER.store();
             return (T) CC_SERVICE_LOADER.pick(() -> {
                 Object reference = cData.data(interfaceCls.getName());
                 if (Objects.isNull(reference)) {
@@ -98,12 +98,12 @@ final class Instance {
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
         // Must reference to created first.
-        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz);
+        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
         // Fn.po?l(SINGLETON, clazz.getName(), () -> instance(clazz, params));
     }
 
     static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return (T) CC_SINGLETON.pick(supplier::get, clazz);
+        return (T) CC_SINGLETON.pick(supplier::get, clazz.getName());
         // Fn.po?l(SINGLETON, clazz.getName(), supplier::get);
     }
 
@@ -142,7 +142,7 @@ final class Instance {
                  * getJvm will throw out exception here. in current method, we should
                  * catch `ClassNotFoundException` and return null directly.
                  */
-                final Cd<String, Class<?>> cData = CC_CLASSES.data();
+                final Cd<String, Class<?>> cData = CC_CLASSES.store();
                 Class<?> clazz = cData.data(name);
                 if (Objects.isNull(clazz)) {
                     clazz = Thread.currentThread().getContextClassLoader().loadClass(name);

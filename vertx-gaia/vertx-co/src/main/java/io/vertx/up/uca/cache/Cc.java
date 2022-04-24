@@ -116,11 +116,11 @@ public interface Cc<K, V> {
         return reference;
     }
 
-    Cd<K, V> data();
+    Cd<K, V> store();
+
+    V store(K key);
 
     V pick(Supplier<V> supplier);
-
-    V pick(Supplier<V> supplier, Class<?> key);
 
     V pick(Supplier<V> supplier, K key);
 }

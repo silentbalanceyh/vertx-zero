@@ -8,6 +8,7 @@ import io.vertx.tp.modular.phantom.AoModeler;
 import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -29,10 +30,12 @@ public interface AoCache {
      * */
 
     // 扩展管理
+
     /* AoConnection 池化管理 */
-    ConcurrentMap<String, AoConnection> POOL_CONNECTION = new ConcurrentHashMap<>();
+    Cc<String, AoConnection> CC_CONNECTION = Cc.open();
+
     /* AoBuilder 池化管理 */
-    ConcurrentMap<String, AoBuilder> POOL_T_BUILDER = new ConcurrentHashMap<>();
+    Cc<String, AoBuilder> CC_BUILDER = Cc.openThread();
     /* AoDao 池化管理 */
     ConcurrentMap<String, HDao> POOL_T_DAO = new ConcurrentHashMap<>();
     /* JqEngine 池化 */

@@ -2,24 +2,20 @@ package io.vertx.tp.plugin.shared;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.plugin.Infix;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 @Plugin
 @SuppressWarnings("all")
 public class MapInfix implements Infix {
 
     private static final String NAME = "ZERO_MAP_POOL";
-
-    private static final ConcurrentMap<String, SharedClient<String, Object>> CLIENTS
-        = new ConcurrentHashMap<>();
+    private static final Cc<String, SharedClient<String, Object>> CC_CLIENTS = Cc.open();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        Fn.pool(CLIENTS, name, () -> SharedClient.createShared(vertx, name));
+        CC_CLIENTS.pick(() -> SharedClient.createShared(vertx, name), name);
+        // Fn.po?l(CLIENTS, name, () -> SharedClient.createShared(vertx, name));
     }
 
     public static void init(final Vertx vertx) {
@@ -27,7 +23,7 @@ public class MapInfix implements Infix {
     }
 
     public static SharedClient<String, Object> getClient() {
-        return CLIENTS.get(NAME);
+        return CC_CLIENTS.store(NAME);
     }
 
     public static String getDefaultName() {

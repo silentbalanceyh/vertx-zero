@@ -11,12 +11,10 @@ import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Container to wrap Jooq / VertxDAO
@@ -34,7 +32,8 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class JooqDsl {
     private static final Annal LOGGER = Annal.get(JooqDsl.class);
-    private static final ConcurrentMap<String, JooqDsl> DSL_MAP = new ConcurrentHashMap<>();
+
+    private static final Cc<String, JooqDsl> CC_DSL = Cc.open();
     private transient Vertx vertxRef;
     private transient Configuration configurationRef;
     private transient String poolKey;
@@ -53,7 +52,8 @@ public class JooqDsl {
         // Calculate the key of current pool
         final String poolKey = String.valueOf(vertxRef.hashCode()) + ":" +
             String.valueOf(configurationRef.hashCode()) + ":" + daoCls.getName();
-        return Fn.pool(DSL_MAP, poolKey, () -> new JooqDsl(poolKey).bind(vertxRef, configurationRef).store(daoCls));
+        return CC_DSL.pick(() -> new JooqDsl(poolKey).bind(vertxRef, configurationRef).store(daoCls), poolKey);
+        // return Fn.po?l(DSL_MAP, poolKey, () -> new JooqDsl(poolKey).bind(vertxRef, configurationRef).store(daoCls));
     }
 
     private JooqDsl bind(final Vertx vertxRef, final Configuration configurationRef) {

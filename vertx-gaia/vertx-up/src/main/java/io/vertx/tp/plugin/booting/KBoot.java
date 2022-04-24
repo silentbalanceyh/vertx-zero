@@ -3,7 +3,7 @@ package io.vertx.tp.plugin.booting;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+
+interface Pool {
+    Cc<Class<?>, KBoot> CC_BOOTS = Cc.open();
+}
 
 /**
  * Data Booting for configuration
@@ -25,17 +29,19 @@ public interface KBoot {
      */
     static Set<KBoot> initialize() {
         /* Boot processing */
-        if (Pool.BOOTS.isEmpty()) {
+        final ConcurrentMap<Class<?>, KBoot> data = Pool.CC_BOOTS.store().data();
+        if (data.isEmpty()) {
             final Node<JsonObject> node = Ut.singleton(ZeroUniform.class);
             final JsonArray boots = node.read().getJsonArray("boot", new JsonArray());
             Ut.itJArray(boots).forEach(json -> {
                 final Class<?> bootCls = Ut.clazz(json.getString("executor"), null);
                 if (Objects.nonNull(bootCls)) {
-                    Fn.pool(Pool.BOOTS, bootCls, () -> Ut.instance(bootCls));
+                    Pool.CC_BOOTS.pick(() -> Ut.instance(bootCls), bootCls);
+                    // Fn.po?l(Pool.BOOTS, bootCls, () -> Ut.instance(bootCls));
                 }
             });
         }
-        return new HashSet<>(Pool.BOOTS.values());
+        return new HashSet<>(data.values());
     }
 
     /*
