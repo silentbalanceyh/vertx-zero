@@ -4,7 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.CcOld;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class Mirror {
 
     private static final String POJO = "pojo/{0}.yml";
-    private static final Cc<String, Mojo> CC_MOJO = Cc.open();
+    private static final CcOld<String, Mojo> CC_MOJO = CcOld.open();
     private final Annal logger;
     private final JsonObject converted = new JsonObject();
     private Mojo mojo;

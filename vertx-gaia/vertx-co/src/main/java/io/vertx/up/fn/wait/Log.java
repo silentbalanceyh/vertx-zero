@@ -2,11 +2,11 @@ package io.vertx.up.fn.wait;
 
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.CcOld;
 import io.vertx.up.util.Ut;
 
 public final class Log {
-    private static final Cc<Integer, Annal> CC_LOGGER = Cc.open();
+    private static final CcOld<Integer, Annal> CC_LOGGER = CcOld.open();
 
     private static Log INSTANCE;
     private final transient Annal logger;

@@ -1,10 +1,7 @@
 package io.vertx.up.uca.yaml;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.CcOld;
 
 /**
  * Read options and set default values
@@ -12,9 +9,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <T>
  */
 public interface Node<T> {
-
-    ConcurrentMap<String, Node<JsonObject>> REFERENCES
-        = new ConcurrentHashMap<>();
+    CcOld<String, Node<JsonObject>> CC_REFERENCE = CcOld.open();
 
     /**
      * Infix usage for dynamic configuraiton laoding.
@@ -24,7 +19,8 @@ public interface Node<T> {
      * @return Node reference that contains JsonObject data.
      */
     static Node<JsonObject> infix(final String key) {
-        return Fn.pool(ZeroInfix.REFERENCES, key, () -> new ZeroInfix(key));
+        return CC_REFERENCE.pick(key, () -> new ZeroInfix(key));
+        // Fn.po?l(ZeroInfix.REFERENCES, key, () -> new ZeroInfix(key));
     }
 
     T read();

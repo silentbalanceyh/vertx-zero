@@ -5,11 +5,13 @@ import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.CcOld;
 import io.vertx.up.util.Ut;
 
+import java.util.concurrent.ConcurrentMap;
+
 public class ZeroTool {
-    static final Cc<String, JsonObject> CC_STORAGE = Cc.open();
+    static final CcOld<String, JsonObject> CC_STORAGE = CcOld.open();
 
     public static String produce(final String key) {
         if (null == key) {
@@ -39,8 +41,9 @@ public class ZeroTool {
 
     private static JsonObject readDirect(final String filename) {
         // Fix Docker issue
-        if (CC_STORAGE.is(filename)) {
-            return CC_STORAGE.data(filename);
+        final ConcurrentMap<String, JsonObject> dataRef = CC_STORAGE.pick();
+        if (CC_STORAGE.pickIn(filename)) {
+            return dataRef.get(filename);
         } else {
             // Fix issue of deployment
             /*
@@ -59,7 +62,7 @@ public class ZeroTool {
                 // ex.printStackTrace();
             }
             if (!data.isEmpty()) {
-                CC_STORAGE.data(filename, data);
+                dataRef.put(filename, data);
             }
             return data;
         }

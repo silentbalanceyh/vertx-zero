@@ -6,7 +6,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.mixture.HTField;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.CcOld;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -28,7 +28,7 @@ import java.util.function.Function;
  */
 public class Vs implements Serializable {
     private static final Annal LOGGER = Annal.get(Vs.class);
-    private static final Cc<String, Vs> CC_VS = Cc.open();
+    private static final CcOld<String, Vs> CC_VS = CcOld.open();
     /**
      * Attribute Stored
      * name = type

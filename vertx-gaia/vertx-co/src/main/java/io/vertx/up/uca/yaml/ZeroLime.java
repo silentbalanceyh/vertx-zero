@@ -6,7 +6,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.CcOld;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -19,13 +19,14 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
 
     private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
-    private static final Cc<String, String> CC_INTERNAL = Cc.open();
+    private static final CcOld<String, String> CC_INTERNAL = CcOld.open();
 
     static {
-        CC_INTERNAL.data(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
-        CC_INTERNAL.data(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
-        CC_INTERNAL.data(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
-        CC_INTERNAL.data(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
+        final ConcurrentMap<String, String> dataRef = CC_INTERNAL.pick();
+        dataRef.put(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
+        dataRef.put(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
+        dataRef.put(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
+        dataRef.put(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
     }
 
     private transient final Node<JsonObject> node
@@ -46,6 +47,6 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
             .subscribe(item -> CC_INTERNAL.pick(item, () -> ZeroTool.produce(item))
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);
-        return CC_INTERNAL.data();
+        return CC_INTERNAL.pick();
     }
 }

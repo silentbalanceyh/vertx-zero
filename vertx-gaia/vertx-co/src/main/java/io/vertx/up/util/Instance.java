@@ -6,6 +6,7 @@ import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroPack;
+import io.vertx.up.uca.cache.CcOld;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
@@ -23,6 +24,8 @@ final class Instance {
     private static final Annal LOGGER = Annal.get(Instance.class);
 
     private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
+
+    private static final CcOld<String, Object> CC_SINGLETON = CcOld.open();
     private static final ConcurrentMap<String, Object> SERVICE_LOADER = new ConcurrentHashMap<>();
 
     private Instance() {
@@ -95,12 +98,13 @@ final class Instance {
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
         // Must reference to created first.
-        return (T) Fn.pool(SINGLETON, clazz.getName(),
-            () -> instance(clazz, params));
+        return (T) CC_SINGLETON.pick(clazz, () -> instance(clazz, params));
+        // Fn.po?l(SINGLETON, clazz.getName(), () -> instance(clazz, params));
     }
 
     static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return (T) Fn.pool(SINGLETON, clazz.getName(), supplier::get);
+        return (T) CC_SINGLETON.pick(clazz, supplier::get);
+        // Fn.po?l(SINGLETON, clazz.getName(), supplier::get);
     }
 
     /**
