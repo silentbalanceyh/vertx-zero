@@ -5,6 +5,6 @@ package io.vertx.up.eon.em;
  */
 public enum CcMode {
     CONFIGURATION, // <K, JsonObject>
-    FIBER,         // <String, V>
+    THREAD,        // <String, V>
     STANDARD,      // <K, V>
 }

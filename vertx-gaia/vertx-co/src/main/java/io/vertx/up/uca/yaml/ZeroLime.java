@@ -6,7 +6,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.CcOld;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -19,14 +20,14 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
 
     private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
-    private static final CcOld<String, String> CC_INTERNAL = CcOld.open();
+    private static final Cc<String, String> CC_INTERNAL = Cc.open();
 
     static {
-        final ConcurrentMap<String, String> dataRef = CC_INTERNAL.pick();
-        dataRef.put(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
-        dataRef.put(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
-        dataRef.put(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
-        dataRef.put(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
+        final Cd<String, String> dataRef = CC_INTERNAL.data();
+        dataRef.data(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
+        dataRef.data(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
+        dataRef.data(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
+        dataRef.data(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
     }
 
     private transient final Node<JsonObject> node
@@ -44,9 +45,9 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
-            .subscribe(item -> CC_INTERNAL.pick(item, () -> ZeroTool.produce(item))
+            .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.produce(item), item)
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);
-        return CC_INTERNAL.pick();
+        return CC_INTERNAL.data().data();
     }
 }

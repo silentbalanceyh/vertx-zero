@@ -23,8 +23,9 @@ public class ZeroUniform implements Node<JsonObject> {
             .stream(Plugins.DATA).collect(Collectors.toSet());
         keys.keySet().stream()
             .filter(item -> !skipped.contains(item))
-            .map(key -> ZeroTool.CC_STORAGE.pick(keys.get(key),
-                () -> Fn.getJvm(new JsonObject(), () -> Ut.ioYaml(keys.get(key)), keys.get(key))
+            .map(key -> ZeroTool.CC_STORAGE.pick(
+                () -> Fn.getJvm(new JsonObject(), () -> Ut.ioYaml(keys.get(key)), keys.get(key)),
+                keys.get(key)
                 // Fn.po?l(Storage.CONFIG, keys.get(key), () -> Fn.getJvm(new JsonObject(), () -> Ut.ioYaml(keys.get(key)), keys.get(key)))
             )).forEach(item -> data.mergeIn(item, true));
         /*

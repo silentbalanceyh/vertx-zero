@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.LimeFileException;
-import io.vertx.up.uca.cache.CcOld;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroTool;
 
@@ -35,7 +35,7 @@ public interface Opts<T> {
 
 class YamlOpts implements Opts<JsonObject> {
 
-    private static final CcOld<String, Node<JsonObject>> CC_EXTENSION = CcOld.open();
+    private static final Cc<String, Node<JsonObject>> CC_EXTENSION = Cc.open();
     private static Opts<JsonObject> INSTANCE;
 
     private YamlOpts() {
@@ -47,6 +47,7 @@ class YamlOpts implements Opts<JsonObject> {
      *
      * @return Opts reference contains JsonObject
      */
+    @SuppressWarnings("all")
     public static Opts<JsonObject> create() {
         if (null == INSTANCE) {
             synchronized (YamlOpts.class) {
@@ -60,7 +61,7 @@ class YamlOpts implements Opts<JsonObject> {
 
     @Override
     public JsonObject ingest(final String key) {
-        final Node<JsonObject> node = CC_EXTENSION.pick(key, () -> Node.infix(key));
+        final Node<JsonObject> node = CC_EXTENSION.pick(() -> Node.infix(key), key);
         // Fn.po?l(EXTENSIONS, key, () -> Node.infix(key));
         final JsonObject data = new JsonObject();
         try {

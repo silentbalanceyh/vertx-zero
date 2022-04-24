@@ -6,14 +6,13 @@ import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroPack;
-import io.vertx.up.uca.cache.CcOld;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -23,10 +22,8 @@ final class Instance {
 
     private static final Annal LOGGER = Annal.get(Instance.class);
 
-    private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
-
-    private static final CcOld<String, Object> CC_SINGLETON = CcOld.open();
-    private static final ConcurrentMap<String, Object> SERVICE_LOADER = new ConcurrentHashMap<>();
+    private static final Cc<String, Object> CC_SINGLETON = Cc.open();
+    private static final Cc<String, Object> CC_SERVICE_LOADER = Cc.open();
 
     private Instance() {
     }
@@ -35,8 +32,9 @@ final class Instance {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         } else {
-            return (T) Fn.poolThread(SERVICE_LOADER, () -> {
-                Object reference = SERVICE_LOADER.getOrDefault(interfaceCls.getName(), null);
+            final Cd<String, Object> cData = CC_SERVICE_LOADER.data();
+            return (T) CC_SERVICE_LOADER.pick(() -> {
+                Object reference = cData.data(interfaceCls.getName());
                 if (Objects.isNull(reference)) {
                     /*
                      * Service Loader for lookup input interface implementation
@@ -55,7 +53,7 @@ final class Instance {
                     for (final T t : loader) {
                         reference = t;
                         if (Objects.nonNull(reference)) {
-                            SERVICE_LOADER.put(interfaceCls.getName(), reference);
+                            cData.data(interfaceCls.getName(), reference);
                             break;
                         }
                     }
@@ -98,12 +96,12 @@ final class Instance {
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
         // Must reference to created first.
-        return (T) CC_SINGLETON.pick(clazz, () -> instance(clazz, params));
+        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz);
         // Fn.po?l(SINGLETON, clazz.getName(), () -> instance(clazz, params));
     }
 
     static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return (T) CC_SINGLETON.pick(clazz, supplier::get);
+        return (T) CC_SINGLETON.pick(supplier::get, clazz);
         // Fn.po?l(SINGLETON, clazz.getName(), supplier::get);
     }
 

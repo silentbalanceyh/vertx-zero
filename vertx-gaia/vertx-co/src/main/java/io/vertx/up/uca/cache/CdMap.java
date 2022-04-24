@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class CdMem<K, V> implements Cd<K, V> {
+public class CdMap<K, V> implements Cd<K, V> {
     private final transient ConcurrentMap<K, V> dataMap = new ConcurrentHashMap<>();
 
     @Override
