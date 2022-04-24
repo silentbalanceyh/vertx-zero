@@ -23,9 +23,9 @@ public interface AoIo {
          * ！！！这里的缓存不可以打开
          */
         if (EventType.SINGLE == type) {
-            return new IoSingle(); // Fn.pool(AoCache.POOL_IO, type, IoSingle::new);
+            return new IoSingle();
         } else if (EventType.BATCH == type) {
-            return new IoBatch(); // Fn.pool(AoCache.POOL_IO, type, IoBatch::new);
+            return new IoBatch();
         } else {
             return null;
         }

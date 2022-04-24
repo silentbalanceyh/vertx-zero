@@ -25,7 +25,7 @@ public class MySqlPin implements Pin {
 
     @Override
     public HDao getDao(final Database database) {
-        // return Fn.poolThread(AoCache.POOL_T_DAO, () -> new MySqlDao(this.getConnection(database)));
+        // return Fn.po?lThread(AoCache.POOL_T_DAO, () -> new MySqlDao(this.getConnection(database)));
         /* 共享连接 */
         return new MySqlDao(this.getConnection(database));
     }
