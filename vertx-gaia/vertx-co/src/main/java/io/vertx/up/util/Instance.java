@@ -25,6 +25,8 @@ final class Instance {
     private static final Cc<String, Object> CC_SINGLETON = Cc.open();
     private static final Cc<String, Object> CC_SERVICE_LOADER = Cc.open();
 
+    private static final Cc<String, Class<?>> CC_CLASSES = Cc.open();
+
     private Instance() {
     }
 
@@ -113,8 +115,10 @@ final class Instance {
      * @return Class<?>
      */
     static Class<?> clazz(final String name) {
-        return Fn.pool(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
-            .getContextClassLoader().loadClass(name), name));
+        return CC_CLASSES.pick(() -> Fn.getJvm(() -> Thread.currentThread()
+            .getContextClassLoader().loadClass(name), name), name);
+        //        return Fn.po?l(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
+        //            .getContextClassLoader().loadClass(name), name));
     }
 
     static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
@@ -138,10 +142,11 @@ final class Instance {
                  * getJvm will throw out exception here. in current method, we should
                  * catch `ClassNotFoundException` and return null directly.
                  */
-                Class<?> clazz = Storage.CLASSES.get(name);
+                final Cd<String, Class<?>> cData = CC_CLASSES.data();
+                Class<?> clazz = cData.data(name);
                 if (Objects.isNull(clazz)) {
                     clazz = Thread.currentThread().getContextClassLoader().loadClass(name);
-                    Storage.CLASSES.put(name, clazz);
+                    cData.data(name, clazz);
                 }
                 /*
                  * Result checking
