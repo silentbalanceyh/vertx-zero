@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -20,6 +21,7 @@ import java.util.function.Function;
 public class Mirror {
 
     private static final String POJO = "pojo/{0}.yml";
+    private static final Cc<String, Mojo> CC_MOJO = Cc.open();
     private final Annal logger;
     private final JsonObject converted = new JsonObject();
     private Mojo mojo;
@@ -35,7 +37,7 @@ public class Mirror {
 
     public Mirror mount(final String filename) {
         // Build meta
-        this.mojo = Fn.pool(Pool.MOJOS, filename, () -> {
+        this.mojo = CC_MOJO.pick(filename, () -> {
             this.logger.info("Mount pojo configuration file {0}", filename);
             final JsonObject data = Ut.ioYaml(MessageFormat.format(POJO, filename));
 
