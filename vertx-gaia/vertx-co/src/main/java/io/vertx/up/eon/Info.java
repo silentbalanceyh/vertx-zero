@@ -58,9 +58,9 @@ public interface Info {
 
     String JOB_ADDRESS_EVENT_BUS = "[ Job ] {0} event bus enabled: {1}";
 
-    String JOB_POOL_START = "[ Job ] `{0}` worker executor will be created. The max executing time is {1} s";
+    String JOB_WORKER_START = "[ Job ] `{0}` worker executor will be created. The max executing time is {1} s";
 
-    String JOB_POOL_END = "[ Job ] `{0}` worker executor has been closed! ";
+    String JOB_WORKER_END = "[ Job ] `{0}` worker executor has been closed! ";
 
     String JOB_INTERVAL = "[ Job ] `{0}` The scheduler will start after {1} ms, then scheduled duration {2} (-1 means ONCE) ms in each, timerId = {3}";
 

@@ -17,7 +17,6 @@ public class Formula implements Serializable {
     private final JsonObject config = new JsonObject();
     private final String expression;
     private final transient JsonObject hookerConfig = new JsonObject();
-    private final boolean logging = Boolean.FALSE;
     /*
      * name         - expression name
      * expression   - for parameters parsing

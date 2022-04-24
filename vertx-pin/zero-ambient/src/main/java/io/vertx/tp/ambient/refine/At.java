@@ -43,6 +43,11 @@ public class At {
         AtLog.info(logger, "Execution", pattern, args);
     }
 
+    public static void infoTabb(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AtLog.info(logger, "Tabb", pattern, args);
+    }
+
     public static Init initApp() {
         return Fn.pool(Pool.INIT_POOL, AppInit.class.getName(), AppInit::new);
     }

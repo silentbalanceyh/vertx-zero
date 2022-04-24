@@ -4,6 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XActivityRuleDao;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
@@ -47,6 +48,15 @@ public class ValueRule implements Valve {
 
     private Function<JsonObject, Future<JsonObject>> traceFn(final XActivityRule rule, final Formula formula) {
         return params -> {
+            /*
+             * Rule Type detect Tube component to record the history
+             * 1) When the tube could not be detected   ( TubeEmpty )
+             * 2) When the type is :
+             * -- ATOM:             TubeAtom
+             * -- WORKFLOW:         TubeFlow
+             * -- ( Reserved )
+             */
+            final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
 
             return null;
         };
