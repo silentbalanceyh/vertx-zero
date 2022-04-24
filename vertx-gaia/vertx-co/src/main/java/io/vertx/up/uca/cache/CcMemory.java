@@ -44,6 +44,7 @@ class CcMemory<K, T> implements Cc<K, T> {
 
     @Override
     public T pick(final Supplier<T> supplier, final Class<?> clazz) {
+        Objects.requireNonNull(clazz);
         return Fn.poolThread(this.threadMap, supplier, clazz.getName());
     }
 }
