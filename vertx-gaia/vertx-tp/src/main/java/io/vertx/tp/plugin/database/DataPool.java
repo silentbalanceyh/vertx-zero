@@ -1,7 +1,6 @@
 package io.vertx.tp.plugin.database;
 
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.DSLContext;
 
@@ -19,13 +18,13 @@ public interface DataPool {
     }
 
     static DataPool create(final Database database) {
-        return Fn.pool(Pool.POOL_DYNAMIC, database.getJdbcUrl(), () -> {
+        return Pool.CC_POOL_DYNAMIC.pick(() -> {
             final Annal logger = Annal.get(DataPool.class);
             final DataPool ds = new HikariDataPool(database);
             logger.info("[ DP ] Data Pool Hash : {0}, URL: {1}",
                 String.valueOf(ds.hashCode()), database.getJdbcUrl());
             return ds;
-        });
+        }, database.getJdbcUrl());
     }
 
     static DataPool createAuto(final Database database) {
