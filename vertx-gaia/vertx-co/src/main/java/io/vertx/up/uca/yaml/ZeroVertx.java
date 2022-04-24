@@ -2,6 +2,7 @@ package io.vertx.up.uca.yaml;
 
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
@@ -20,9 +21,9 @@ public class ZeroVertx implements Node<JsonObject> {
         final JsonObject config = ZeroTool.read(null, true);
         // Injection Lime
         final JsonObject zero = Fn.getJvm(new JsonObject(),
-            () -> config.getJsonObject(Key.ZERO), config);
-        if (null != zero && zero.containsKey(Key.LIME)) {
-            this.prodcessLime(zero);
+            () -> config.getJsonObject(KName.Internal.ZERO), config);
+        if (null != zero && zero.containsKey(KName.Internal.LIME)) {
+            this.processLime(zero);
         }
         // Return to zero configuration part
         return zero;
@@ -31,16 +32,16 @@ public class ZeroVertx implements Node<JsonObject> {
     private JsonObject process(final JsonObject data) {
         return Fn.getNull(() -> {
             // 1. Append lime
-            if (data.containsKey(Key.LIME)) {
-                this.prodcessLime(data);
+            if (data.containsKey(KName.Internal.LIME)) {
+                this.processLime(data);
             }
             return data;
         }, data);
     }
 
-    private void prodcessLime(final JsonObject data) {
+    private void processLime(final JsonObject data) {
         Fn.safeNull(() -> {
-            final String limeStr = data.getString(Key.LIME);
+            final String limeStr = data.getString(KName.Internal.LIME);
             final Set<String> sets = Ut.toSet(limeStr, Strings.COMMA);
             /*
              * server, inject, error, resolver
@@ -49,7 +50,7 @@ public class ZeroVertx implements Node<JsonObject> {
             Observable.fromArray(Plugins.DATA)
                 .map(item -> item)
                 .subscribe(sets::add).dispose();
-            data.put(Key.LIME, Ut.fromJoin(sets));
+            data.put(KName.Internal.LIME, Ut.fromJoin(sets));
         }, data);
     }
 }

@@ -15,6 +15,29 @@ class CcMemory<K, T> implements Cc<K, T> {
 
     private final ConcurrentMap<String, T> threadMap = new ConcurrentHashMap<>();
 
+    @Override
+    public boolean is(final K key) {
+        if (Objects.isNull(key)) {
+            return false;
+        }
+        return this.instanceMap.containsKey(key);
+    }
+
+    @Override
+    public void data(final K key, final T value) {
+        this.instanceMap.put(key, value);
+    }
+
+    @Override
+    public ConcurrentMap<K, T> data() {
+        return this.instanceMap;
+    }
+
+    @Override
+    public T data(final K key) {
+        return this.instanceMap.get(key);
+    }
+
     /*
      * Default Pool
      * key = supplier.get() and stored in instanceMap in each CcPool instance
@@ -22,14 +45,6 @@ class CcMemory<K, T> implements Cc<K, T> {
     @Override
     public T pick(final K key, final Supplier<T> supplier) {
         return Fn.pool(this.instanceMap, key, supplier);
-    }
-
-    @Override
-    public boolean is(final K key) {
-        if (Objects.isNull(key)) {
-            return false;
-        }
-        return this.instanceMap.containsKey(key);
     }
 
     @Override

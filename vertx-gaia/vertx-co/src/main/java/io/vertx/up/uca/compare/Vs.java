@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -28,8 +28,7 @@ import java.util.function.Function;
  */
 public class Vs implements Serializable {
     private static final Annal LOGGER = Annal.get(Vs.class);
-
-    private static final ConcurrentMap<String, Vs> POOL_VS = new ConcurrentHashMap<>();
+    private static final Cc<String, Vs> CC_VS = Cc.open();
     /**
      * Attribute Stored
      * name = type
@@ -74,7 +73,8 @@ public class Vs implements Serializable {
     }
 
     public static Vs create(final String identifier, final ConcurrentMap<String, HTField> mapType) {
-        return Fn.pool(POOL_VS, identifier, () -> new Vs(mapType));
+        return CC_VS.pick(identifier, () -> new Vs(mapType));
+        // Fn.po?l(POOL_VS, identifier, () -> new Vs(mapType));
     }
 
     // ============================ Static Comparing Change ===============================

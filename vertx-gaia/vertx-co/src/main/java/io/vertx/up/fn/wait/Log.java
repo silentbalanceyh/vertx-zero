@@ -1,23 +1,20 @@
 package io.vertx.up.fn.wait;
 
 import io.vertx.up.eon.Strings;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 public final class Log {
+    private static final Cc<Integer, Annal> CC_LOGGER = Cc.open();
 
-    private static final ConcurrentMap<Integer, Annal> LOGGERS
-        = new ConcurrentHashMap<>();
     private static Log INSTANCE;
     private final transient Annal logger;
     private transient String key;
 
     private Log(final Class<?> clazz) {
-        this.logger = Fn.pool(LOGGERS, clazz.hashCode(), () -> Annal.get(clazz));
+        this.logger = CC_LOGGER.pick(clazz.hashCode(), () -> Annal.get(clazz));
+        // Fn.po?l(LOGGERS, clazz.hashCode(), () -> Annal.get(clazz));
     }
 
     public static Log create(final Class<?> clazz) {

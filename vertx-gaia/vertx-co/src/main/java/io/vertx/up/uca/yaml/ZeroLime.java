@@ -2,13 +2,14 @@ package io.vertx.up.uca.yaml;
 
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -18,15 +19,15 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
 
     private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
-    private static final ConcurrentMap<String, String> INTERNALS
-        = new ConcurrentHashMap<String, String>() {
-        {
-            this.put("error", ZeroTool.produce("error"));
-            this.put("inject", ZeroTool.produce("inject"));
-            this.put("server", ZeroTool.produce("server"));
-            this.put("resolver", ZeroTool.produce("resolver"));
-        }
-    };
+    private static final Cc<String, String> CC_INTERNAL = Cc.open();
+
+    static {
+        CC_INTERNAL.data(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
+        CC_INTERNAL.data(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
+        CC_INTERNAL.data(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
+        CC_INTERNAL.data(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
+    }
+
     private transient final Node<JsonObject> node
         = Ut.singleton(ZeroVertx.class);
 
@@ -35,15 +36,16 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         // 1. Read all zero configuration: zero
         final JsonObject data = this.node.read();
         // 2. Read the string node "lime" for extensions
-        return this.build(data.getString(Key.LIME));
+        return this.build(data.getString(KName.Internal.LIME));
     }
 
     private ConcurrentMap<String, String> build(final String literal) {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
-            .subscribe(item -> Fn.pool(INTERNALS, item,
-                () -> ZeroTool.produce(item))).dispose(), literal);
-        return INTERNALS;
+            .subscribe(item -> CC_INTERNAL.pick(item, () -> ZeroTool.produce(item))
+                // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
+            ).dispose(), literal);
+        return CC_INTERNAL.data();
     }
 }

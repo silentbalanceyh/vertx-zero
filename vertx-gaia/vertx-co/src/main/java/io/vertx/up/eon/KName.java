@@ -479,6 +479,22 @@ public interface KName {
         String TREE_CONFIG = "treeConfig";
     }
 
+    interface Internal {
+        String ERROR = "error";
+        String INJECT = "inject";
+        String SERVER = "server";
+        String RESOLVER = "resolver";
+
+        /**
+         * Vertx Zero configuration
+         */
+        String ZERO = "zero";
+        /**
+         * External Zero configuration
+         */
+        String LIME = "lime";
+    }
+
     interface Aop {
         String COMPONENT_TYPE = "configuration.operation";
         String COMPONENT = "plugin.component";

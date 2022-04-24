@@ -5,11 +5,11 @@ import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 public class ZeroTool {
-    private static final Annal LOGGER = Annal.get(ZeroTool.class);
+    static final Cc<String, JsonObject> CC_STORAGE = Cc.open();
 
     public static String produce(final String key) {
         if (null == key) {
@@ -39,8 +39,8 @@ public class ZeroTool {
 
     private static JsonObject readDirect(final String filename) {
         // Fix Docker issue
-        if (Storage.CONFIG.containsKey(filename)) {
-            return Storage.CONFIG.get(filename);
+        if (CC_STORAGE.is(filename)) {
+            return CC_STORAGE.data(filename);
         } else {
             // Fix issue of deployment
             /*
@@ -59,7 +59,7 @@ public class ZeroTool {
                 // ex.printStackTrace();
             }
             if (!data.isEmpty()) {
-                Storage.CONFIG.put(filename, data);
+                CC_STORAGE.data(filename, data);
             }
             return data;
         }

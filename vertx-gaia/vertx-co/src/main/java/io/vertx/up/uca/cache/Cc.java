@@ -1,5 +1,6 @@
 package io.vertx.up.uca.cache;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
@@ -89,5 +90,12 @@ public interface Cc<K, T> {
      */
     T pick(Supplier<T> supplier, Class<?> clazz);
 
+    // Data Part ( For Configuration )
     boolean is(K key);
+
+    void data(K key, T value);
+
+    T data(K key);
+
+    ConcurrentMap<K, T> data();
 }
