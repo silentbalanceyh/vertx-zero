@@ -11,20 +11,18 @@ import io.vertx.tp.error._400TrackingErrorException;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /*
  * 执行 Activity
  */
 public class TrackIo {
-    private final static ConcurrentMap<String, TrackIo> TRACK_POOL = new ConcurrentHashMap<>();
+    private static final Cc<String, TrackIo> CC_TRACK = Cc.open();
     private final transient DataAtom atom;
 
     @SuppressWarnings("all")    // Temp
@@ -50,7 +48,8 @@ public class TrackIo {
     }
 
     public static TrackIo create(final DataAtom atom, final HDao dao) {
-        return Fn.pool(TRACK_POOL, atom.identifier(), () -> new TrackIo(atom, dao));
+        return CC_TRACK.pick(() -> new TrackIo(atom, dao), atom.identifier());
+        // Fn.po?l(TRACK_POOL, atom.identifier(), () -> new TrackIo(atom, dao));
     }
 
     public Future<JsonArray> procAsync(final JsonArray newArray,

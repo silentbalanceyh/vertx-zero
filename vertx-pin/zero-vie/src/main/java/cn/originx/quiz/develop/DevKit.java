@@ -6,7 +6,6 @@ import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -87,7 +86,7 @@ public class DevKit {
     public static DevModeller modeller(final String input, final String output) {
         Objects.requireNonNull(input, output);
         final String hashKey = Ut.encryptMD5(input + Strings.COLON + output);
-        return Fn.pool(DevDefault.MODELLER, hashKey, () -> new DevModeller(input, output));
+        return DevDefault.CC_MODELLER.pick(() -> new DevModeller(input, output), hashKey);
     }
 
     // ----------------------- Private Method -------------------------

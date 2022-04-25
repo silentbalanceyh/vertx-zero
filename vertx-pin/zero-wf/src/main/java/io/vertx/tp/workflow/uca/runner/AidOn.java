@@ -1,7 +1,6 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
-import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -11,7 +10,7 @@ import org.camunda.bpm.engine.task.Task;
 public interface AidOn {
 
     static AidOn get() {
-        return Fn.poolThread(WfPool.POOL_AID, AidEngine::new);
+        return WfPool.CC_AID.pick(AidEngine::new);
     }
 
     String taskType(Task task);

@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.uca.deployment;
 
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
-import io.vertx.up.fn.Fn;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -10,7 +9,7 @@ import io.vertx.up.fn.Fn;
 public interface DeployOn {
 
     static DeployOn get(final String folder) {
-        return Fn.pool(WfPool.POOL_DEPLOY, folder, () -> new DeployBpmnService(folder));
+        return WfPool.CC_DEPLOY.pick(() -> new DeployBpmnService(folder), folder);
     }
 
     // Deployment with service

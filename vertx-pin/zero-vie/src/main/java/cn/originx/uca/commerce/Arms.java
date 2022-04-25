@@ -13,13 +13,11 @@ import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -29,8 +27,7 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("all")
 public class Arms {
-
-    private final static ConcurrentMap<String, Arms> POOL_ARMS = new ConcurrentHashMap<>();
+    private static final Cc<String, Arms> CC_ARMS = Cc.open();
     private final transient DataAtom atom;
     private final transient HDao dao;
     private final transient TrackIo io;
@@ -53,7 +50,7 @@ public class Arms {
     }
 
     public static <T extends Arms> T create(final HDao dao, final DataAtom atom) {
-        return (T) Fn.pool(POOL_ARMS, atom.identifier(), () -> new Arms(dao, atom));
+        return (T) CC_ARMS.pick(() -> new Arms(dao, atom), atom.identifier());
     }
 
     protected DataAtom atom() {

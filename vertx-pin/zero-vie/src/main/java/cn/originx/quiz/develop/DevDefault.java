@@ -3,20 +3,19 @@ package cn.originx.quiz.develop;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class DevDefault {
-    static final ConcurrentMap<String, DevModeller> MODELLER = new ConcurrentHashMap<>();
+    static final Cc<String, DevModeller> CC_MODELLER = Cc.openThread();
     // Public
     static final String ROOT_INPUT = "atom/cmdb";
     static final String ROOT_OUTPUT = "src/main/resources/atom/target";

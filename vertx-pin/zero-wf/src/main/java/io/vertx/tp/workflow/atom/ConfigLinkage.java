@@ -5,7 +5,7 @@ import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 class ConfigLinkage implements Serializable {
 
     private final static ConcurrentMap<String, Respect> POOL_RESPECT = new ConcurrentHashMap<>();
+    private final static Cc<String, Respect> CC_RESPECT = Cc.open();
 
     private final transient ConcurrentMap<String, Class<?>> respectMap = new ConcurrentHashMap<>();
     private final transient ConcurrentMap<String, JsonObject> queryMap = new ConcurrentHashMap<>();
@@ -86,6 +87,7 @@ class ConfigLinkage implements Serializable {
         final JsonObject query = this.queryMap.getOrDefault(field, new JsonObject());
         final Class<?> respectCls = this.respectMap.get(field);
         final String hashKey = Ut.encryptMD5(field + query.hashCode() + respectCls.getName());
-        return Fn.pool(POOL_RESPECT, hashKey, () -> Ut.instance(respectCls, query));
+        return CC_RESPECT.pick(() -> Ut.instance(respectCls, query), hashKey);
+        // Fn.p?ol(POOL_RESPECT, hashKey, () -> Ut.instance(respectCls, query));
     }
 }

@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.uca.runner;
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WMove;
-import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
@@ -12,7 +11,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 public interface RunOn {
 
     static RunOn get() {
-        return Fn.poolThread(WfPool.POOL_PROC, RunEngine::new);
+        return WfPool.CC_RUN.pick(RunEngine::new);
     }
 
     // Start

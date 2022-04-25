@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class AuditorHistory extends AbstractAuditor {
     static final ConcurrentMap<String, Auditor> POOL_HISTORY = new ConcurrentHashMap<>();
+    static final Cc<String, Auditor> CC_AUDITOR = Cc.open();
 
     public AuditorHistory(final JsonObject options) {
         super(options);

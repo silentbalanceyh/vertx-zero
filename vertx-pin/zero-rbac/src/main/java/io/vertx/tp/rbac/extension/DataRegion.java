@@ -15,13 +15,11 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.region.AbstractRegion;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /*
  * Extension in RBAC module
@@ -29,10 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  * 2) Visitant calculation ( Extension More )
  */
 public class DataRegion extends AbstractRegion {
-    private static final ConcurrentMap<String, Cosmo> POOL_COMMON =
-        new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Cosmo> POOL_SEEK =
-        new ConcurrentHashMap<>();
+    private static final Cc<String, Cosmo> CC_COSMO = Cc.openThread();
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
@@ -132,12 +127,12 @@ public class DataRegion extends AbstractRegion {
             /*
              * Virtual resource region calculation
              */
-            return Fn.poolThread(POOL_SEEK, SeekCosmo::new);
+            return CC_COSMO.pick(SeekCosmo::new, SeekCosmo.class.getName());
         } else {
             /*
              * Actual resource region calculation
              */
-            return Fn.poolThread(POOL_COMMON, CommonCosmo::new);
+            return CC_COSMO.pick(CommonCosmo::new, CommonCosmo.class.getName());
         }
     }
 }

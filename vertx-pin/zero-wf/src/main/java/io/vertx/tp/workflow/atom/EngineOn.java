@@ -33,7 +33,7 @@ public class EngineOn {
         Objects.requireNonNull(definitionKey);
         /* Thread pool here. */
         Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
-        return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
+        return WfPool.CC_ENGINE.pick(() -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
             /* Defined Exception throw out because of configuration data */
             Fn.out(Objects.isNull(flow), _404WorkflowNullException.class, EngineOn.class, definitionKey);
@@ -125,7 +125,7 @@ public class EngineOn {
          * - endComponent
          *   end workflow of closing ticket
          */
-        return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
+        return (C) WfPool.CC_COMPONENT.pick(() -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue))
                 // Level 1, Record for Transfer

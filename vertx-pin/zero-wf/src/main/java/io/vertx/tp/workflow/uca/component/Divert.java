@@ -11,7 +11,6 @@ import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -57,7 +56,7 @@ public interface Divert extends Behaviour {
     }
 
     static Divert instance(final Class<?> divertCls) {
-        final Divert divert = Fn.poolThread(WfPool.POOL_DIVERT, () -> Ut.instance(divertCls), divertCls.getName());
+        final Divert divert = WfPool.CC_DIVERT.pick(() -> Ut.instance(divertCls), divertCls.getName());
         Wf.Log.infoWeb(Divert.class, "Divert {0} has been selected", divert.getClass());
         return divert;
     }
