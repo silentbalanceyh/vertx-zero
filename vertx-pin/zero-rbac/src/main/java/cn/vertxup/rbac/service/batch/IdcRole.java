@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Helper for `IdcService`
  */
 class IdcRole {
-
+    private static final Cc<String, IdcRole> CC_ROLE = Cc.open();
     private final transient String sigma;
 
     private IdcRole(final String sigma) {
@@ -31,7 +31,7 @@ class IdcRole {
     }
 
     static IdcRole create(final String sigma) {
-        return Fn.pool(Pool.ROLE, sigma, () -> new IdcRole(sigma));
+        return CC_ROLE.pick(() -> new IdcRole(sigma), sigma); // Fn.po?l(Pool.ROLE, sigma, () -> new IdcRole(sigma));
     }
 
     Future<List<SRole>> fetchAsync() {

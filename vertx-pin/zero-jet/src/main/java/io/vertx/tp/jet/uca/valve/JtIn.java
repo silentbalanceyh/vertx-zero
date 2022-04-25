@@ -2,7 +2,7 @@ package io.vertx.tp.jet.uca.valve;
 
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * IN_RULE
@@ -11,20 +11,22 @@ import io.vertx.up.fn.Fn;
  * IN_SCRIPT
  */
 public interface JtIn {
+    Cc<String, JtIn> CC_IN = Cc.openThread();
+
     static JtIn rule() {
-        return Fn.poolThread(Pool.IN_RULE, RuleValve::new);
+        return CC_IN.pick(RuleValve::new, RuleValve.class.getName());
     }
 
     static JtIn mapping() {
-        return Fn.poolThread(Pool.IN_MAPPING, MappingValve::new);
+        return CC_IN.pick(MappingValve::new, MappingValve.class.getName());
     }
 
     static JtIn plug() {
-        return Fn.poolThread(Pool.IN_PLUG, PlugValve::new);
+        return CC_IN.pick(PlugValve::new, PlugValve.class.getName());
     }
 
     static JtIn script() {
-        return Fn.poolThread(Pool.IN_SCRIPT, ScriptValve::new);
+        return CC_IN.pick(ScriptValve::new, ScriptValve.class.getName());
     }
 
     /*

@@ -13,6 +13,7 @@ import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -24,8 +25,12 @@ import java.util.concurrent.ConcurrentMap;
  * have been put into pool structure
  */
 class JtBusiness {
+    private static final Cc<String, DSetting> CC_DICT = Cc.open();
+    private static final Cc<String, BTree> CC_MAPPING = Cc.open();
+    private static final Cc<String, Identity> CC_IDENTITY = Cc.open();
+
     static DSetting toDict(final IService service) {
-        return Fn.getNull(null, () -> Fn.pool(Pool.POOL_DICT, service.getKey(), () -> {
+        return Fn.getNull(null, () -> CC_DICT.pick(() -> {
             /*
              * Dict Config for service
              */
@@ -50,11 +55,11 @@ class JtBusiness {
              * 2) The Dict Source configured list is empty, it's not needed
              */
             return dict;
-        }), service);
+        }, service.getKey()), service);
     }
 
     static BTree toMapping(final IService service) {
-        return Fn.getNull(null, () -> Fn.pool(Pool.POOL_MAPPING, service.getKey(), () -> {
+        return Fn.getNull(null, () -> CC_MAPPING.pick(() -> {
             /*
              * DualMapping
              */
@@ -70,11 +75,11 @@ class JtBusiness {
             final Class<?> component = Ut.clazz(service.getMappingComponent(), null);
             mapping.init(config).bind(mode).bind(component);
             return mapping;
-        }), service);
+        }, service.getKey()), service);
     }
 
     static Identity toIdentify(final IService service) {
-        return Fn.getNull(null, () -> Fn.pool(Pool.POOL_IDENTITY, service.getKey(), () -> {
+        return Fn.getNull(null, () -> CC_IDENTITY.pick(() -> {
             /*
              * Identity for `identifier` processing
              */
@@ -87,7 +92,7 @@ class JtBusiness {
              */
             identity.setSigma(service.getSigma());
             return identity;
-        }), service);
+        }, service.getKey()), service);
     }
 
     static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DSetting dict) {

@@ -4,9 +4,6 @@ import io.vertx.tp.jet.uca.tunnel.ActorChannel;
 import io.vertx.tp.jet.uca.tunnel.AdaptorChannel;
 import io.vertx.tp.jet.uca.tunnel.ConnectorChannel;
 import io.vertx.tp.jet.uca.tunnel.DirectorChannel;
-import io.vertx.up.commune.config.Identity;
-import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.em.ChannelType;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
 
-    ConcurrentMap<ChannelType, Class<?>> CHANNELS = new ConcurrentHashMap<ChannelType, Class<?>>() {
+    ConcurrentMap<ChannelType, Class<?>> CHANNELS = new ConcurrentHashMap<>() {
         {
             this.put(ChannelType.ACTOR, ActorChannel.class);
             this.put(ChannelType.DIRECTOR, DirectorChannel.class);
@@ -22,8 +19,4 @@ interface Pool {
             this.put(ChannelType.CONNECTOR, ConnectorChannel.class);
         }
     };
-
-    ConcurrentMap<String, BTree> POOL_MAPPING = new ConcurrentHashMap<>();
-    ConcurrentMap<String, DSetting> POOL_DICT = new ConcurrentHashMap<>();
-    ConcurrentMap<String, Identity> POOL_IDENTITY = new ConcurrentHashMap<>();
 }

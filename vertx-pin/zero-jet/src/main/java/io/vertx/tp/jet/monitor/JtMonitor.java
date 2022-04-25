@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.cv.JtMsg;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /*
@@ -14,6 +14,7 @@ import io.vertx.up.util.Ut;
  */
 public class JtMonitor {
 
+    private static final Cc<Class<?>, JtMonitor> CC_MONITOR = Cc.open();
     private transient final Annal logger;
     private transient final String name;
     private transient final JtAtomic atomic = new JtAtomic();
@@ -24,7 +25,8 @@ public class JtMonitor {
     }
 
     public static JtMonitor create(final Class<?> clazz) {
-        return Fn.pool(Pool.MONITORS, clazz, () -> new JtMonitor(clazz));
+        return CC_MONITOR.pick(() -> new JtMonitor(clazz), clazz);
+        // return Fn.po?l(Pool.MONITORS, clazz, () -> new JtMonitor(clazz));
     }
 
     // ---------------- Agent

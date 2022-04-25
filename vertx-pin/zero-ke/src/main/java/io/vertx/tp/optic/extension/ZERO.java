@@ -1,13 +1,11 @@
 package io.vertx.tp.optic.extension;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 interface Pool {
 
-    ConcurrentMap<String, Init> INIT_POOL
-        = new ConcurrentHashMap<>();
 
-    ConcurrentMap<String, Prerequisite> PREREQUISITE_POOL
-        = new ConcurrentHashMap<>();
+    Cc<String, Init> CC_INIT = Cc.open();
+
+    Cc<String, Prerequisite> CC_PREREQUISITE = Cc.open();
 }

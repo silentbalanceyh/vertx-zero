@@ -4,9 +4,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 interface Info {
 
     String HTTP_SERVERS = "( Http Server ) {0} (id = {1}) Agent has deployed HTTP Server on {2}.";
@@ -60,20 +57,6 @@ interface Info {
 interface Pool {
 
     Cc<String, Axis<Router>> CC_ROUTER = Cc.openThread();
-
-    ConcurrentMap<String, Axis<Router>> ROUTERS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> EVENTS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> APIS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> WALLS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> FILTERS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> DYNAMICS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> MEANSURES = new ConcurrentHashMap<>();
 }
 
 interface Registry {
