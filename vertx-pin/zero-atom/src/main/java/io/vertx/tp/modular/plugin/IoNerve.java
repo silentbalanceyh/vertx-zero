@@ -6,11 +6,9 @@ import io.vertx.tp.modular.reference.AoRay;
 import io.vertx.tp.modular.reference.RayBatch;
 import io.vertx.tp.modular.reference.RaySingle;
 import io.vertx.up.commune.Record;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * ## Workflow
@@ -24,16 +22,16 @@ public class IoNerve implements IoHub {
      * 1. The key is `identifier`.
      * 2. The value is `AoRay` reference with content `Record`.
      */
-    private static final ConcurrentMap<String, AoRay<Record>> POOL_RAY = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, AoRay<Record>> POOL_RAY_ASYNC = new ConcurrentHashMap<>();
+    private static final Cc<String, AoRay<Record>> CC_RAY = Cc.open();
+    private static final Cc<String, AoRay<Record>> CC_RAY_ASYNC = Cc.open();
     /**
      * The Pool of Tpl definition of `Ray` ( Batch )
      *
      * 1. The key is `identifier`.
      * 2. The value is `AoRay` reference with content `Records`.
      */
-    private final ConcurrentMap<String, AoRay<Record[]>> POOL_RAY_BATCH = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, AoRay<Record[]>> POOL_RAY_BATCH_ASYNC = new ConcurrentHashMap<>();
+    private static final Cc<String, AoRay<Record[]>> CC_RAY_BATCH = Cc.open();
+    private static final Cc<String, AoRay<Record[]>> CC_RAY_BATCH_ASYNC = Cc.open();
 
     @Override
     public Record in(final Record record, final DataTpl tpl) {
@@ -68,7 +66,8 @@ public class IoNerve implements IoHub {
         }
         this.runOut(record, tpl);
         /* reference */
-        final AoRay<Record> ray = Fn.pool(POOL_RAY, tpl.identifier(), () -> new RaySingle().on(tpl));
+        final AoRay<Record> ray = CC_RAY.pick(() -> new RaySingle().on(tpl), tpl.identifier());
+        // Fn.po?l(POOL_RAY, tpl.identifier(), () -> new RaySingle().on(tpl));
         return ray.doRay(record);
     }
 
@@ -76,7 +75,8 @@ public class IoNerve implements IoHub {
     public Record[] out(final Record[] records, final DataTpl tpl) {
         this.runOut(records, tpl);
         /* reference */
-        final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH, tpl.identifier(), () -> new RayBatch().on(tpl));
+        final AoRay<Record[]> ray = CC_RAY_BATCH.pick(() -> new RayBatch().on(tpl), tpl.identifier());
+        // Fn.po?l(this.POOL_RAY_BATCH, tpl.identifier(), () -> new RayBatch().on(tpl));
         return ray.doRay(records);
     }
 
@@ -87,7 +87,8 @@ public class IoNerve implements IoHub {
         }
         this.runOut(record, tpl);
         /* reference */
-        final AoRay<Record> ray = Fn.pool(POOL_RAY_ASYNC, tpl.identifier(), () -> new RaySingle().on(tpl));
+        final AoRay<Record> ray = CC_RAY_ASYNC.pick(() -> new RaySingle().on(tpl), tpl.identifier());
+        // Fn.po?l(POOL_RAY_ASYNC, tpl.identifier(), () -> new RaySingle().on(tpl));
         return ray.doRayAsync(record);
     }
 
@@ -95,7 +96,8 @@ public class IoNerve implements IoHub {
     public Future<Record[]> outAsync(final Record[] records, final DataTpl tpl) {
         this.runOut(records, tpl);
         /* reference */
-        final AoRay<Record[]> ray = Fn.pool(this.POOL_RAY_BATCH_ASYNC, tpl.identifier(), () -> new RayBatch().on(tpl));
+        final AoRay<Record[]> ray = CC_RAY_BATCH_ASYNC.pick(() -> new RayBatch().on(tpl), tpl.identifier());
+        // Fn.po?l(this.POOL_RAY_BATCH_ASYNC, tpl.identifier(), () -> new RayBatch().on(tpl));
         return ray.doRayAsync(records);
     }
 

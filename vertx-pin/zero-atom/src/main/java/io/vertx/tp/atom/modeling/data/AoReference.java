@@ -19,13 +19,13 @@ import io.vertx.up.experiment.reference.RQuote;
 import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.experiment.specification.connect.KJoin;
 import io.vertx.up.experiment.specification.connect.KPoint;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
@@ -97,22 +97,19 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AoReference implements HReference {
-    private final transient ConcurrentMap<String, RDao> sourceDao = new ConcurrentHashMap<>();
+    private final transient Cc<String, RDao> ccDao = Cc.open();
     /**
      * The hash map to store `source = {@link RQuote}`.
      */
-    private final transient ConcurrentMap<String, RQuote> references
-        = new ConcurrentHashMap<>();
+    private final transient Cc<String, RQuote> ccReference = Cc.open();
     /**
      * The hash map to store `field = {@link RResult}`.
      */
-    private final transient ConcurrentMap<String, RResult> result
-        = new ConcurrentHashMap<>();
+    private final transient Cc<String, RResult> ccResult = Cc.open();
     /*
      * Query Attribute
      */
-    private final transient ConcurrentMap<String, RQuery> queries
-        = new ConcurrentHashMap<>();
+    private final transient Cc<String, RQuery> ccQuery = Cc.open();
 
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
@@ -169,8 +166,8 @@ class AoReference implements HReference {
             /*
              * RDao initialize and unlink
              */
-            final RQuote quote = Fn.pool(this.references, source, () -> RQuote.create(appName));
-
+            final RQuote quote = this.ccReference.pick(() -> RQuote.create(appName), source);
+            // Fn.po?l(this.references, source, () -> RQuote.create(appName));
             quote.add(hAttribute, referenceConfig, dao);
             /*
              *  Hash Map `result` calculation
@@ -179,7 +176,8 @@ class AoReference implements HReference {
              */
             final String field = attribute.getName();
             final String referenceField = attribute.getSourceField();
-            final RResult result = Fn.pool(this.result, field, () -> new RResult(referenceField, referenceConfig, hAttribute));
+            final RResult result = this.ccResult.pick(() -> new RResult(referenceField, referenceConfig, hAttribute), field);
+            // Fn.po?l(this.result, field, () -> new RResult(referenceField, referenceConfig, hAttribute));
             /*
              * Qr Engine, stored quote reference map.
              *
@@ -187,7 +185,10 @@ class AoReference implements HReference {
              * field2 = query2
              */
             if (DataFormat.Elementary == hAttribute.format()) {
-                Fn.pool(this.queries, field, () -> new RQuery(field, attribute.getSourceField()).bind(quote.dao(field)).bind(result.joined()));
+                this.ccQuery.pick(() -> new RQuery(field, attribute.getSourceField())
+                    .bind(quote.dao(field))
+                    .bind(result.joined()), field);
+                // Fn.po?l(this.queries, field, () -> new RQuery(field, attribute.getSourceField()).bind(quote.dao(field)).bind(result.joined()));
             }
         }
     }
@@ -204,7 +205,8 @@ class AoReference implements HReference {
         final Function<JsonObject, Future<JsonArray>> actionA = this.actionA(atom, join);
         final Function<JsonObject, JsonArray> actionS = this.actionS(atom, join);
         // RDao Creation
-        final RDao dao = Fn.pool(this.sourceDao, appName + "/" + source, () -> new RDao(source));
+        final RDao dao = this.ccDao.pick(() -> new RDao(source), appName + "/" + source);
+        // Fn.po?l(this.sourceDao, appName + "/" + source, () -> new RDao(source));
         return dao.actionA(actionA).actionS(actionS);
     }
 
@@ -267,17 +269,20 @@ class AoReference implements HReference {
 
     @Override
     public ConcurrentMap<String, RQuote> refInput() {
-        return this.references;
+        final Cd<String, RQuote> store = this.ccReference.store();
+        return store.data();
     }
 
     @Override
     public ConcurrentMap<String, RQuery> refQr() {
-        return this.queries;
+        final Cd<String, RQuery> store = this.ccQuery.store();
+        return store.data();
     }
 
     @Override
     public ConcurrentMap<String, RResult> refOutput() {
-        return this.result;
+        final Cd<String, RResult> store = this.ccResult.store();
+        return store.data();
     }
 
 }

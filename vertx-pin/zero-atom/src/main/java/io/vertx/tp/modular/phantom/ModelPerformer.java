@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -17,13 +18,14 @@ import java.util.concurrent.ConcurrentMap;
 public class ModelPerformer implements AoPerformer {
     private static final ConcurrentMap<String, ModelTool> POOL_TOOL =
         new ConcurrentHashMap<>();
+    private static final Cc<String, ModelTool> CC_TOOL = Cc.open();
     private final transient String namespace;
     private final transient ModelTool tool;
 
     ModelPerformer(final String appName) {
         this.namespace = Model.namespace(appName);
-        this.tool = Fn.pool(POOL_TOOL, this.namespace,
-            () -> new ModelTool(this.namespace));
+        this.tool = CC_TOOL.pick(() -> new ModelTool(this.namespace), this.namespace);
+        // Fn.po?l(POOL_TOOL, this.namespace, () -> new ModelTool(this.namespace));
     }
 
     @Override

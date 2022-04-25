@@ -19,6 +19,8 @@ public interface Cd<K, V> {
 
     void clear();
 
+    void clear(K key);
+
     boolean is(K key);
 
     Collection<V> values();

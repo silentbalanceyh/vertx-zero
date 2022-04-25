@@ -3,7 +3,6 @@ package io.vertx.tp.modular.phantom;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.fn.Fn;
 
 import java.util.Set;
 
@@ -18,7 +17,8 @@ public interface AoPerformer {
      * appName = MetaPerformer
      */
     static AoPerformer getInstance(final String appName) {
-        return Fn.pool(AoCache.POOL_PERFORMERS, appName, () -> new ModelPerformer(appName));
+        return AoCache.CC_PERFORMER.pick(() -> new ModelPerformer(appName), appName);
+        // return Fn.po?l(AoCache.POOL_PERFORMERS, appName, () -> new ModelPerformer(appName));
     }
 
     /**

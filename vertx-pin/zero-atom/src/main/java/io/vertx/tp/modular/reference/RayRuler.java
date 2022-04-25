@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -45,7 +45,7 @@ class RayRuler {
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
                 if (Ut.notNil(key)) {
-                    final JsonArray group = Fn.pool(groupedArray, key, JsonArray::new);
+                    final JsonArray group = Cc.pool(groupedArray, key, JsonArray::new);
                     group.add(json);
                 }
             });

@@ -7,7 +7,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.experiment.reference.RResult;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -146,7 +146,7 @@ class RayResult {
             Ut.itJArray(data).forEach(json -> {
                 final String key = keyReference(json, result.joined());
                 if (Ut.notNil(key)) {
-                    Fn.pool(groupedData, key, () -> new JAmb().data(new JsonArray())).add(json);
+                    Cc.pool(groupedData, key, () -> new JAmb().data(new JsonArray())).add(json);
                 }
             });
         } else {

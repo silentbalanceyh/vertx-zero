@@ -1,7 +1,6 @@
 package io.vertx.tp.atom.refine;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.data.DataAtom;
@@ -19,7 +18,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.specification.KEnv;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -27,6 +26,9 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 class AoImpl {
+    private static final Cc<Integer, Switcher> CC_SWITCHER = Cc.open();
+    private static final Cc<String, HDao> CC_T_DAO = Cc.openThread();
+
     /*
      * Private Method for Schema / Model
      */
@@ -77,10 +79,15 @@ class AoImpl {
     }
 
     static Switcher toSwitcher(final Identity identity, final JsonObject options) {
-        return Fn.pool(AoCache.POOL_SWITCHER, identity.hashCode(), () -> {
+        return CC_SWITCHER.pick(() -> {
             final Class<?> implSwitcher = AoStore.clazzSwitcher();
             return Ut.instance(implSwitcher, identity, options);
-        });
+        }, identity.hashCode());
+        /*
+        Fn.pool(AoCache.POOL_SWITCHER, identity.hashCode(), () -> {
+            final Class<?> implSwitcher = AoStore.clazzSwitcher();
+            return Ut.instance(implSwitcher, identity, options);
+        });*/
     }
 
     // ------------------- Dao / Atom -----------------
@@ -119,7 +126,8 @@ class AoImpl {
                 return null;
             } else {
                 final Pin pin = Pin.getInstance();
-                return Fn.poolThread(AoCache.POOL_T_DAO, () -> pin.getDao(database).mount(atom), atom.identifier());
+                return CC_T_DAO.pick(() -> pin.getDao(database).mount(atom), atom.identifier());
+                // return Fn.po?lThread(AoCache.POOL_T_DAO, () -> pin.getDao(database).mount(atom), atom.identifier());
             }
         }
     }

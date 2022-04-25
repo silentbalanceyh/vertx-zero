@@ -10,7 +10,6 @@ import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 
@@ -44,10 +43,14 @@ public class DataAtom implements HAtom {
          * 4. 数据引用信息
          */
         final Integer modelCode = model.hashCode();
-        this.metadata = Fn.pool(Pool.META_INFO, modelCode, () -> new AoDefine(model));
-        this.ruler = Fn.pool(Pool.META_RULE, modelCode, () -> new AoUnique(model));
-        this.marker = Fn.pool(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
-        this.reference = Fn.pool(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
+        this.metadata = Pool.CC_INFO.pick(() -> new AoDefine(model), modelCode);
+        // Fn.po?l(Pool.META_INFO, modelCode, () -> new AoDefine(model));
+        this.ruler = Pool.CC_RULE.pick(() -> new AoUnique(model), modelCode);
+        // Fn.po?l(Pool.META_RULE, modelCode, () -> new AoUnique(model));
+        this.marker = Pool.CC_MARKER.pick(() -> new AoMarker(model), modelCode);
+        // Fn.po?l(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
+        this.reference = Pool.CC_REFERENCE.pick(() -> new AoReference(model, appName), modelCode);
+        // Fn.po?l(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
         this.vs = Vs.create(this.unique, this.metadata.types());
     }
 
@@ -83,7 +86,8 @@ public class DataAtom implements HAtom {
              */
             final String unique = Model.namespace(appName) + "-" + identifier;
             final AoPerformer performer = AoPerformer.getInstance(appName);
-            final Model model = Fn.pool(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
+            final Model model = AoCache.CC_MODEL.pick(() -> performer.fetchModel(identifier), unique);
+            // Fn.po?l(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
             /*
              * Log for data atom and return to the reference.
              */

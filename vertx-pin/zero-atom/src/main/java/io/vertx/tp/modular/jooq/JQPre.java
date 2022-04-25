@@ -9,7 +9,7 @@ import io.vertx.up.atom.query.engine.QrItem;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.mixture.HReference;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -46,8 +46,8 @@ class JQPre {
          *
          * Hash code identify the qr item is in the same level
          */
-        final ConcurrentMap<Integer, ConcurrentMap<String, Set<QrItem>>> removed = new ConcurrentHashMap<>();
-        final ConcurrentMap<Integer, ConcurrentMap<String, QrItem>> replaced = new ConcurrentHashMap<>();
+        final Cc<Integer, ConcurrentMap<String, Set<QrItem>>> ccRemoved = Cc.open();
+        final Cc<Integer, ConcurrentMap<String, QrItem>> ccReplaced = Cc.open();
         final ConcurrentMap<Integer, JsonObject> referenceData = new ConcurrentHashMap<>();
         final HReference reference = atom.reference();
         reference.refQr().forEach((field, query) -> criteria.match(field, (qr, json) -> {
@@ -73,8 +73,9 @@ class JQPre {
                     /*
                      * Get the same level processing
                      */
-                    final ConcurrentMap<String, QrItem> calculated = Fn.pool(replaced, json.hashCode(), ConcurrentHashMap::new);
-                    final QrItem itemReplaced = Fn.pool(calculated, fieldReplaced, () -> new QrItem(fieldReplaced + ",i"));
+                    final ConcurrentMap<String, QrItem> calculated = ccReplaced.pick(ConcurrentHashMap::new, json.hashCode());
+                    // Fn.po?l(replaced, json.hashCode(), ConcurrentHashMap::new);
+                    final QrItem itemReplaced = Cc.pool(calculated, fieldReplaced, () -> new QrItem(fieldReplaced + ",i"));
                     if (Objects.isNull(itemReplaced.value())) {
                         // The first time
                         itemReplaced.value(item.get(fieldReplaced));
@@ -86,8 +87,9 @@ class JQPre {
                     /*
                      * Removed processing
                      */
-                    final ConcurrentMap<String, Set<QrItem>> removedMap = Fn.pool(removed, json.hashCode(), ConcurrentHashMap::new);
-                    final Set<QrItem> removedSet = Fn.pool(removedMap, fieldReplaced, HashSet::new);
+                    final ConcurrentMap<String, Set<QrItem>> removedMap = ccRemoved.pick(ConcurrentHashMap::new, json.hashCode());
+                    // Fn.po?l(removed, json.hashCode(), ConcurrentHashMap::new);
+                    final Set<QrItem> removedSet = Cc.pool(removedMap, fieldReplaced, HashSet::new);
                     removedSet.add(qr);
                     referenceData.put(json.hashCode(), json);
                 } else {
@@ -100,8 +102,8 @@ class JQPre {
         /*
          * Replace qrItem
          */
-        removed.forEach((levelKey, removedMap) -> {
-            final ConcurrentMap<String, QrItem> replacedMap = replaced.get(levelKey);
+        ccRemoved.store().data().forEach((levelKey, removedMap) -> {
+            final ConcurrentMap<String, QrItem> replacedMap = ccReplaced.store(levelKey);
             final JsonObject jsonRef = referenceData.get(levelKey);
             if (Objects.nonNull(replacedMap) && Objects.nonNull(removedMap)) {
                 /*

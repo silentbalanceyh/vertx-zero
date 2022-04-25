@@ -33,6 +33,11 @@ public class CdMap<K, V> implements Cd<K, V> {
     }
 
     @Override
+    public void clear(final K key) {
+        this.dataMap.remove(key);
+    }
+
+    @Override
     public boolean is(final K key) {
         if (Objects.isNull(key)) {
             return false;

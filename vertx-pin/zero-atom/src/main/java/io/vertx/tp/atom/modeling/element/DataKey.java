@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.element;
 
 import io.vertx.up.eon.em.atom.KeyMode;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataKey implements Serializable {
     /* 主键专用管理 */
-    private static final ConcurrentMap<String, DataKey> KEYS = new ConcurrentHashMap<>();
+    private static final Cc<String, DataKey> CC_KEY = Cc.open();
     private final transient String unique;
     private transient KeyMode mode = KeyMode.DIRECT;    // 模式
 
@@ -24,7 +24,8 @@ public class DataKey implements Serializable {
     }
 
     public static DataKey create(final String unique) {
-        return Fn.pool(KEYS, unique, () -> new DataKey(unique));
+        return CC_KEY.pick(() -> new DataKey(unique), unique);
+        // return Fn.po?l(KEYS, unique, () -> new DataKey(unique));
     }
 
     public String getUnique() {

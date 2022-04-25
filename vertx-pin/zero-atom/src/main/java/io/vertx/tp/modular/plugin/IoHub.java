@@ -3,10 +3,7 @@ package io.vertx.tp.modular.plugin;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.commune.Record;
-import io.vertx.up.fn.Fn;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 /**
  * ## Nerve System
@@ -33,10 +30,10 @@ public interface IoHub {
     /**
      * For `IoHub` reference create, there should be only one IoHub in each thread here.
      */
-    ConcurrentMap<String, IoHub> HUB_MAP = new ConcurrentHashMap<>();
+    Cc<String, IoHub> CC_HUB = Cc.openThread();
 
     static IoHub instance() {
-        return Fn.poolThread(HUB_MAP, IoNerve::new);
+        return CC_HUB.pick(IoNerve::new); // Fn.po?lThread(HUB_MAP, IoNerve::new);
     }
 
     /**

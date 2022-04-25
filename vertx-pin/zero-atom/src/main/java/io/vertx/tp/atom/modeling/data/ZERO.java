@@ -12,26 +12,25 @@ import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 interface Pool {
     // 基础模型池
-    ConcurrentMap<Integer, AoDefine> META_INFO = new ConcurrentHashMap<>();
+    Cc<Integer, AoDefine> CC_INFO = Cc.open();
     // 标识规则信息
-    ConcurrentMap<Integer, AoUnique> META_RULE = new ConcurrentHashMap<>();
+    Cc<Integer, AoUnique> CC_RULE = Cc.open();
     // 基础标识信息
-    ConcurrentMap<Integer, AoMarker> META_MARKER = new ConcurrentHashMap<>();
+    Cc<Integer, AoMarker> CC_MARKER = Cc.open();
     // 数据引用信息
-    ConcurrentMap<Integer, AoReference> META_REFERENCE = new ConcurrentHashMap<>();
+    Cc<Integer, AoReference> CC_REFERENCE = Cc.open();
 }
 
 /**

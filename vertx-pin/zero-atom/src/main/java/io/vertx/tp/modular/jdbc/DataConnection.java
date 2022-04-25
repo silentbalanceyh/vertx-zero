@@ -8,8 +8,8 @@ import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
-import org.jooq.Record;
 import org.jooq.*;
 
 import javax.sql.DataSource;
@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
 public class DataConnection implements AoConnection {
+    private static final Cc<String, DataPool> CC_DS = Cc.open();
     private final transient DataPool dbPool;
     private final transient Database database;
 
@@ -28,8 +29,8 @@ public class DataConnection implements AoConnection {
         synchronized (getClass()) {
             this.database = database;
             // 初始化dbPool连接池，每一个Jdbc Url保证一个连接池
-            this.dbPool = Fn.pool(Pool.POOL, database.getJdbcUrl(),
-                () -> DataPool.create(database));
+            this.dbPool = CC_DS.pick(() -> DataPool.create(database), database.getJdbcUrl());
+            // Fn.po?l(Pool.POOL, database.getJdbcUrl(), () -> DataPool.create(database));
         }
     }
 
