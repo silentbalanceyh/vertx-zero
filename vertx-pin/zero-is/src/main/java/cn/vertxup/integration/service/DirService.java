@@ -11,7 +11,7 @@ import io.vertx.tp.is.uca.updater.StoreRename;
 import io.vertx.tp.is.uca.updater.StoreUp;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -20,14 +20,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class DirService implements DirStub {
-    private static final ConcurrentMap<String, StoreUp> POOL_UP = new ConcurrentHashMap<>();
+    private static final Cc<String, StoreUp> CC_UP = Cc.openThread();
 
     @Override
     public Future<JsonObject> create(final JsonObject directoryJ) {
@@ -145,7 +143,8 @@ public class DirService implements DirStub {
                  * Integration Modification, it means that you must migrate from
                  * one storage to another one storage.
                  */
-                final StoreUp store = Fn.poolThread(POOL_UP, StoreMigration::new, StoreMigration.class.getName());
+                final StoreUp store = CC_UP.pick(StoreMigration::new, StoreMigration.class.getName());
+                // Fn.po?lThread(POOL_UP, StoreMigration::new, StoreMigration.class.getName());
                 Is.Log.infoWeb(this.getClass(), "Integration Changing: {0}", store.getClass());
                 return store.migrate(directory, directoryJ);
             } else {
@@ -156,7 +155,7 @@ public class DirService implements DirStub {
                      * Integration Not Changing, because of `storePath` changed, here are
                      * `rename` only
                      */
-                    final StoreUp store = Fn.poolThread(POOL_UP, StoreRename::new, StoreRename.class.getName());
+                    final StoreUp store = CC_UP.pick(StoreRename::new, StoreRename.class.getName());
                     Is.Log.infoWeb(this.getClass(), "StorePath Changing: {0}", store.getClass());
                     return store.migrate(directory, directoryJ);
                 }

@@ -13,6 +13,7 @@ import io.vertx.up.exception.zero.EtcdNetworkException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.MicroModeUpException;
@@ -50,6 +51,7 @@ public class ZeroRegistry implements UddiRegistry {
 
     private static final ConcurrentMap<String, ZeroRegistry>
         REGISTRY_MAP = new ConcurrentHashMap<>();
+    private static final Cc<String, ZeroRegistry> CC_REGISTRY = Cc.openThread();
 
     private final transient Annal logger;
     private final transient EtcdData etcd;
@@ -60,7 +62,8 @@ public class ZeroRegistry implements UddiRegistry {
     }
 
     public static ZeroRegistry create(final Class<?> useCls) {
-        return Fn.poolThread(REGISTRY_MAP, () -> new ZeroRegistry(useCls));
+        return CC_REGISTRY.pick(() -> new ZeroRegistry(useCls));
+        // Fn.po?lThread(REGISTRY_MAP, () -> new ZeroRegistry(useCls));
     }
 
     /**

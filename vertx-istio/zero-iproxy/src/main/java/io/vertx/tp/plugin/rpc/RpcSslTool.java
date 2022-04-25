@@ -8,13 +8,12 @@ import io.vertx.up.atom.rpc.IpcData;
 import io.vertx.up.eon.em.CertType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.micro.ssl.TrustPipe;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 public class RpcSslTool {
@@ -22,9 +21,7 @@ public class RpcSslTool {
     private static final Annal LOGGER = Annal.get(RpcSslTool.class);
 
     private static final Node<JsonObject> node = Ut.singleton(ZeroUniform.class);
-
-    private static final ConcurrentMap<String, ManagedChannel> CHANNELS =
-        new ConcurrentHashMap<>();
+    private static final Cc<String, ManagedChannel> CC_CHANNEL = Cc.open();
 
     /**
      * @param vertx  Vert.x instance
@@ -61,7 +58,7 @@ public class RpcSslTool {
     private static ManagedChannel getChannel(final String host, final Integer port,
                                              final Supplier<ManagedChannel> supplier) {
         final String key = host + port;
-        return Fn.pool(CHANNELS, key, supplier);
+        return CC_CHANNEL.pick(supplier, key); // Fn.po?l(CHANNELS, key, supplier);
     }
 
     public static ManagedChannel getChannel(final Vertx vertx,

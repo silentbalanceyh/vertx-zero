@@ -70,8 +70,9 @@ public class ZeroApiAgent extends AbstractVerticle {
             // Set breaker for each server
             ZeroAtomic.API_OPTS.forEach((port, option) -> {
                 /* Mount to api hub **/
-                final Axis<Router> axiser = Fn.poolThread(Pool.APIS,
-                    () -> Ut.instance(PointAxis.class, option, this.vertx));
+                final Axis<Router> axiser = Pool.CC_ROUTER.pick(
+                    () -> Ut.instance(PointAxis.class, option, this.vertx), PointAxis.class.getName());
+                // Fn.po?lThread(Pool.APIS, () -> Ut.instance(PointAxis.class, option, this.vertx));
                 /* Single server processing **/
                 final HttpServer server = this.vertx.createHttpServer(option);
                 /* Router **/

@@ -2,10 +2,12 @@ package io.vertx.tp.plugin.history;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 public class TrashPlatformService implements TrashPlatform {
+
+    private static final Cc<String, TrashClient> CC_CLIENT = Cc.open();
 
     private final transient Vertx vertxRef;
     private final transient JsonObject options = new JsonObject();
@@ -19,6 +21,7 @@ public class TrashPlatformService implements TrashPlatform {
 
     @Override
     public TrashClient getClient(final String identifier) {
-        return Fn.pool(Pool.CLIENT_POOL, identifier, () -> new TrashClientImpl(this.vertxRef, identifier));
+        return CC_CLIENT.pick(() -> new TrashClientImpl(this.vertxRef, identifier), identifier);
+        // Fn.po?l(Pool.CLIENT_POOL, identifier, () -> new TrashClientImpl(this.vertxRef, identifier));
     }
 }
