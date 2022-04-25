@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.refine.At;
+import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.wffs.Formula;
@@ -22,9 +23,7 @@ import java.util.function.Function;
 public class ValueRule implements Valve {
     @Override
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
-        /*
-         * If criteria is empty, return the input data directly
-         */
+        /* If criteria is empty, return the input data directly */
         final JsonObject criteria = Ut.valueJObject(data, Qr.KEY_CRITERIA);
         if (Ux.Jooq.isEmpty(criteria)) {
             return Ux.future(data);
@@ -47,18 +46,19 @@ public class ValueRule implements Valve {
     }
 
     private Function<JsonObject, Future<JsonObject>> traceFn(final XActivityRule rule, final Formula formula) {
-        return params -> {
-            /*
-             * Rule Type detect Tube component to record the history
-             * 1) When the tube could not be detected   ( TubeEmpty )
-             * 2) When the type is :
-             * -- ATOM:             TubeAtom
-             * -- WORKFLOW:         TubeFlow
-             * -- ( Reserved )
-             */
+        /*
+         * Rule Type detect Tube component to record the history
+         * 1) When the tube could not be detected   ( TubeEmpty )
+         * 2) When the type is :
+         * -- ATOM:             TubeAtom
+         * -- WORKFLOW:         TubeFlow
+         * -- ( Reserved )
+         */
+        return params -> formula.run(params, () -> {
+            // Tube Triggered
             final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
-
-            return null;
-        };
+            final Tube tube = Tube.instance(type);
+            return tube.traceAsync(params, rule);
+        });
     }
 }

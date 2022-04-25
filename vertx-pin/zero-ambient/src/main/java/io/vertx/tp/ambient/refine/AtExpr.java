@@ -21,12 +21,12 @@ class AtExpr {
         /* Expression is Null, Ignored the rule triggered */
         rules.stream().filter(rule -> Objects.nonNull(rule.getRuleExpression())).forEach(rule -> {
             /* Formula Building */
-            final Formula formula = new Formula(rule.getKey(), rule.getRuleExpression());
+            final JsonObject config = Ut.toJObject(rule.getRuleConfig());
+            final Formula formula = new Formula(rule.getKey(), config);
 
             // bind(tpl, config)
             final JsonObject tpl = Ut.toJObject(rule.getRuleTpl());
-            final JsonObject config = Ut.toJObject(rule.getRuleConfig());
-            formula.bind(tpl, config);
+            formula.bind(rule.getRuleExpression(), tpl);
 
             // bind(clazz, config)
             final Class<?> hookerCls = Ut.clazz(rule.getHookComponent(), null);
