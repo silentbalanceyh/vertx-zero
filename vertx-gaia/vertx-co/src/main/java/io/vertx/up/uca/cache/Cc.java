@@ -1,6 +1,5 @@
 package io.vertx.up.uca.cache;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.CcMode;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
@@ -38,10 +37,6 @@ public interface Cc<K, V> {
 
     static <V> Cc<String, V> openThread() {
         return open(CcMode.THREAD);
-    }
-
-    static <K> Cc<K, JsonObject> openConfig() {
-        return open(CcMode.CONFIGURATION);
     }
 
     static <K, V> Cc<K, V> open() {
@@ -98,19 +93,6 @@ public interface Cc<K, V> {
                  * ......
                  */
                 reference = new CcMemory<>();
-                break;
-            case CONFIGURATION:
-                /*
-                 * Configuration Hash Map
-                 * 1) The value type is JsonObject
-                 * 2) The reference is JsonObject type here
-                 *
-                 * k1 = JsonObject1
-                 * k2 = JsonObject2
-                 * k3 = JsonObject3
-                 * ......
-                 */
-                reference = (Cc<K, V>) new CcConfig<K>();
                 break;
             default:
                 /*

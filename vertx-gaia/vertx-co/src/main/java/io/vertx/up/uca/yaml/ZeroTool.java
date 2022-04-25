@@ -10,7 +10,7 @@ import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 public class ZeroTool {
-    static final Cc<String, JsonObject> CC_STORAGE = Cc.openConfig();
+    static final Cc<String, JsonObject> CC_STORAGE = Cc.open();
 
     public static String produce(final String key) {
         if (null == key) {

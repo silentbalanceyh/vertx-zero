@@ -24,7 +24,7 @@ public class Ruler {
 
     private static final Annal LOGGER = Annal.get(Ruler.class);
 
-    private static final Cc<String, JsonObject> CC_RULE = Cc.openConfig();
+    private static final Cc<String, JsonObject> CC_RULE = Cc.open();
     private static final Cc<String, Insurer> CC_INSURER = Cc.open();
 
 

@@ -18,6 +18,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -38,8 +39,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 class ExcelHelper {
 
+    private static final Cc<String, ExcelHelper> CC_HELPER = Cc.open();
+    private static final Cc<String, Workbook> CC_WORKBOOK = Cc.open();
+    private static final Cc<Integer, Workbook> CC_WORKBOOK_STREAM = Cc.open();
     private static final Map<String, Workbook> REFERENCES = new ConcurrentHashMap<>();
     private transient final Class<?> target;
+    ConcurrentMap<String, KConnect> CONNECTS = new ConcurrentHashMap<>();
     private transient ExTpl tpl;
     private transient ExTenant tenant;
 
@@ -48,7 +53,8 @@ class ExcelHelper {
     }
 
     static ExcelHelper helper(final Class<?> target) {
-        return Fn.pool(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
+        return CC_HELPER.pick(() -> new ExcelHelper(target), target.getName());
+        // Fn.po?l(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
     }
 
     Future<JsonArray> extract(final Set<ExTable> tables) {
@@ -187,11 +193,11 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
         if (filename.endsWith(FileSuffix.EXCEL_2003)) {
-            workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), filename);
+            // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
-            workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), filename);
+            // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
     }
@@ -201,11 +207,11 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, "Stream");
         final Workbook workbook;
         if (isXlsx) {
-            workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), in.hashCode());
+            // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
-            workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), in.hashCode());
+            // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
         /* Force to recalculation for evaluator */
         workbook.setForceFormulaRecalculation(Boolean.TRUE);

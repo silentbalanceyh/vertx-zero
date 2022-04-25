@@ -2,11 +2,8 @@ package io.vertx.tp.plugin.elasticsearch;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.plugin.Infix;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 /**
  * @author Hongwei
@@ -17,13 +14,12 @@ import java.util.concurrent.ConcurrentMap;
 public class ElasticSearchInfix implements Infix {
     private static final String NAME = "ZERO_ELASTIC_SEARCH_POOL";
 
-    private static final ConcurrentMap<String, ElasticSearchClient> CLIENTS = new ConcurrentHashMap<>();
+    private static final Cc<String, ElasticSearchClient> CC_CLIENT = Cc.open();
 
     private static void initInternal(final Vertx vertx) {
-        Fn.pool(CLIENTS, NAME,
-            () -> Infix.init("elasticsearch",
-                (config) -> ElasticSearchClient.createShared(vertx, config),
-                ElasticSearchInfix.class));
+        CC_CLIENT.pick(() -> Infix.init("elasticsearch",
+            (config) -> ElasticSearchClient.createShared(vertx, config),
+            ElasticSearchInfix.class), NAME);
     }
 
     public static void init(final Vertx vertx) {
@@ -31,7 +27,7 @@ public class ElasticSearchInfix implements Infix {
     }
 
     public static ElasticSearchClient getClient() {
-        return CLIENTS.get(NAME);
+        return CC_CLIENT.store(NAME);
     }
 
     @Override
