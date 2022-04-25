@@ -9,6 +9,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 
@@ -18,8 +19,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
 
     private static final Annal LOGGER = Annal.get(EpsilonIncome.class);
-    private static final ConcurrentMap<String, Atomic<Object>> POOL_ATOMIC = new ConcurrentHashMap<>();
+    private static final Cc<String, Atomic<Object>> CC_ATOMIC = Cc.openThread();
 
     @Override
     public List<Epsilon<Object>> in(final RoutingContext context,
@@ -50,7 +49,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
             epsilon.setDefaultValue(this.getDefault(annoTypes[idx], epsilon.getArgType()));
 
             /* Epsilon income -> outcome **/
-            final Atomic<Object> atomic = Fn.poolThread(POOL_ATOMIC, MimeAtomic::new);
+            final Atomic<Object> atomic = CC_ATOMIC.pick(MimeAtomic::new); // Fn.po?lThread(POOL_ATOMIC, MimeAtomic::new);
             final Epsilon<Object> outcome = atomic.ingest(context, epsilon);
             args.add(Fn.getNull(() -> outcome, outcome));
         }

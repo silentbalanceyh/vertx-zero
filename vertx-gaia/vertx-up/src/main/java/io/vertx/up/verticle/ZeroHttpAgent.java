@@ -11,7 +11,6 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
@@ -43,26 +42,32 @@ public class ZeroHttpAgent extends AbstractVerticle {
     @Override
     public void start() {
         /* 1.Call router hub to mount commont **/
-        final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-            () -> new RouterAxis(this.vertx));
+        final Axis<Router> routerAxiser =
+            Pool.CC_ROUTER.pick(() -> new RouterAxis(this.vertx), RouterAxis.class.getName());
+        // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
         /* 2.Call route hub to mount defined **/
-        final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-            EventAxis::new);
-        final Axis<Router> dynamic = Fn.poolThread(Pool.DYNAMICS,
-            DynamicAxis::new);
+        final Axis<Router> axiser =
+            Pool.CC_ROUTER.pick(EventAxis::new, EventAxis.class.getName());
+        // Fn.po?lThread(Pool.EVENTS, EventAxis::new);
+        final Axis<Router> dynamic =
+            Pool.CC_ROUTER.pick(DynamicAxis::new, DynamicAxis.class.getName());
+        // Fn.po?lThread(Pool.DYNAMICS, DynamicAxis::new);
 
         /* 3.Call route hub to mount walls **/
-        final Axis<Router> wallAxiser = Fn.poolThread(Pool.WALLS,
-            () -> Ut.instance(WallAxis.class, this.vertx));
+        final Axis<Router> wallAxiser =
+            Pool.CC_ROUTER.pick(() -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
+        // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
 
         /* 4.Call route hub to mount filters **/
-        final Axis<Router> filterAxiser = Fn.poolThread(Pool.FILTERS,
-            FilterAxis::new);
+        final Axis<Router> filterAxiser =
+            Pool.CC_ROUTER.pick(FilterAxis::new, FilterAxis.class.getName());
+        // Fn.po?lThread(Pool.FILTERS, FilterAxis::new);
 
         /* 5.Call route to mount meansure **/
-        final Axis<Router> monitorAxiser = Fn.poolThread(Pool.MEANSURES,
-            () -> new MeansureAxis(this.vertx, false));
+        final Axis<Router> monitorAxiser =
+            Pool.CC_ROUTER.pick(() -> new MeansureAxis(this.vertx, false), MeansureAxis.class.getName() + "/" + false);
+        // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, false));
         /* Get the default HttpServer Options **/
         ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
             /* Single server processing **/

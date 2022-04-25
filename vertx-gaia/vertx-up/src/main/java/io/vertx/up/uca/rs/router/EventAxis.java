@@ -9,6 +9,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.soul.UriAeon;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.rs.Sentry;
@@ -27,16 +28,20 @@ public class EventAxis implements Axis<Router> {
      */
     private static final Set<Event> EVENTS =
         ZeroAnno.getEvents();
+    private static final Cc<String, ModeSplitter> CC_SPLITTER = Cc.openThread();
+    private static final Cc<String, Sentry<RoutingContext>> CC_VERIFIER = Cc.openThread();
     /**
      * Splitter
      */
     private transient final ModeSplitter splitter =
-        Fn.poolThread(Pool.THREADS, () -> Ut.instance(ModeSplitter.class));
+        CC_SPLITTER.pick(() -> Ut.instance(ModeSplitter.class));
+    // Fn.po?lThread(Pool.THREADS, () -> Ut.instance(ModeSplitter.class));
     /**
      * Sentry
      */
     private transient final Sentry<RoutingContext> verifier =
-        Fn.poolThread(Pool.VERIFIERS, () -> Ut.instance(StandardVerifier.class));
+        CC_VERIFIER.pick(() -> Ut.instance(StandardVerifier.class));
+    // Fn.po?lThread(Pool.VERIFIERS, () -> Ut.instance(StandardVerifier.class));
 
     /**
      * Secreter for security limitation
@@ -65,12 +70,12 @@ public class EventAxis implements Axis<Router> {
                 final Route route = router.route();
 
                 // 2. Path, Method, Order
-                Hub<Route> hub = Fn.poolThread(Pool.URIHUBS,
-                    () -> Ut.instance(UriHub.class));
+                Hub<Route> hub = Pool.CC_HUB_URI.pick(() -> Ut.instance(UriHub.class));
+                // Fn.po?lThread(Pool.URIHUBS, () -> Ut.instance(UriHub.class));
                 hub.mount(route, event);
                 // 3. Consumes/Produces
-                hub = Fn.poolThread(Pool.MEDIAHUBS,
-                    () -> Ut.instance(MediaHub.class));
+                hub = Pool.CC_HUB_MEDIA.pick(() -> Ut.instance(MediaHub.class));
+                // Fn.po?lThread(Pool.MEDIAHUBS, () -> Ut.instance(MediaHub.class));
                 hub.mount(route, event);
 
                 // 4. Request validation

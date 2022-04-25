@@ -7,8 +7,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.adminicle.FieldMapper;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -22,9 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 class DiTool {
-
-    private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
-        new ConcurrentHashMap<>();
+    private static final Cc<Integer, Dictionary> CC_DICT = Cc.open();
 
     static <T> Future<T> dictTo(final T record, final DFabric fabric) {
         final FieldMapper mapper = new FieldMapper();
@@ -63,8 +61,8 @@ class DiTool {
                     /*
                      * JtDict instance for fetchAsync
                      */
-                    final Dictionary dictStub = Fn.pool(POOL_DICT, dict.hashCode(),
-                        () -> Ut.instance(dictCls));
+                    final Dictionary dictStub = CC_DICT.pick(() -> Ut.instance(dictCls), dict.hashCode());
+                    // Fn.po?l(POOL_DICT, dict.hashCode(), () -> Ut.instance(dictCls));
                     /*
                      * Param Map / List<Source>
                      */

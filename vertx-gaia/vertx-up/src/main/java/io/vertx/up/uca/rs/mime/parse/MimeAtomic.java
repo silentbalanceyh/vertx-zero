@@ -5,8 +5,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.eon.em.MimeFlow;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
 import io.vertx.up.uca.rs.mime.resolver.SolveResolver;
@@ -34,8 +34,9 @@ public class MimeAtomic<T> implements Atomic<T> {
     private static final Annal LOGGER = Annal.get(MimeAtomic.class);
 
     private static final ConcurrentMap<String, Atomic> POOL_ATOMIC = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Resolver> POOL_RESOLVER = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Solve> POOL_SOLVE = new ConcurrentHashMap<>();
+    private static final Cc<String, Atomic> CC_ATOMIC = Cc.openThread();
+    private static final Cc<String, Resolver> CC_RESOLVER = Cc.openThread();
+    private static final Cc<String, Solve> CC_SOLVE = Cc.openThread();
 
     @Override
     public Epsilon<T> ingest(final RoutingContext context,
@@ -44,11 +45,13 @@ public class MimeAtomic<T> implements Atomic<T> {
         final Epsilon<T> epsilon;
         if (MimeFlow.TYPED == income.getMime()) {
             /* Resolver **/
-            final Atomic<T> atomic = Fn.poolThread(POOL_ATOMIC, TypedAtomic::new, TypedAtomic.class.getName());
+            final Atomic<T> atomic = CC_ATOMIC.pick(TypedAtomic::new, TypedAtomic.class.getName());
+            // Fn.po?lThread(POOL_ATOMIC, TypedAtomic::new, TypedAtomic.class.getName());
             epsilon = atomic.ingest(context, income);
         } else if (MimeFlow.STANDARD == income.getMime()) {
             /* System standard filler **/
-            final Atomic<T> atomic = Fn.poolThread(POOL_ATOMIC, StandardAtomic::new, StandardAtomic.class.getName());
+            final Atomic<T> atomic = CC_ATOMIC.pick(StandardAtomic::new, StandardAtomic.class.getName());
+            // Fn.po?lThread(POOL_ATOMIC, StandardAtomic::new, StandardAtomic.class.getName());
             epsilon = atomic.ingest(context, income);
         } else {
             /* Resolver **/
@@ -78,7 +81,8 @@ public class MimeAtomic<T> implements Atomic<T> {
                 resolver = resolverMap.getString(type.getSubtype());
                 LOGGER.info(Info.RESOLVER, resolver, header, context.request().absoluteURI());
             }
-            return Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(resolver), resolver);
+            return CC_RESOLVER.pick(() -> Ut.instance(resolver), resolver);
+            // Fn.po?lThread(POOL_RESOLVER, () -> Ut.instance(resolver), resolver);
         } else {
             LOGGER.info(Info.RESOLVER_CONFIG, resolverCls, header);
             /*
@@ -89,15 +93,16 @@ public class MimeAtomic<T> implements Atomic<T> {
                 /*
                  * Resolver Directly
                  */
-                return Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(resolverCls), resolverCls.getName());
+                return CC_RESOLVER.pick(() -> Ut.instance(resolverCls), resolverCls.getName());
+                // Fn.po?lThread(POOL_RESOLVER, () -> Ut.instance(resolverCls), resolverCls.getName());
             } else {
                 /*
                  * Solve component, contract to set Solve<T> here.
                  */
-                final Resolver<T> resolver =
-                    Fn.poolThread(POOL_RESOLVER, () -> Ut.instance(SolveResolver.class), SolveResolver.class.getName());
-                final Solve solve =
-                    Fn.poolThread(POOL_SOLVE, () -> Ut.instance(resolverCls), resolverCls.getName());
+                final Resolver<T> resolver = CC_RESOLVER.pick(() -> Ut.instance(SolveResolver.class), SolveResolver.class.getName());
+                // Fn.po?lThread(POOL_RESOLVER, () -> Ut.instance(SolveResolver.class), SolveResolver.class.getName());
+                final Solve solve = CC_SOLVE.pick(() -> Ut.instance(resolverCls), resolverCls.getName());
+                // Fn.po?lThread(POOL_SOLVE, () -> Ut.instance(resolverCls), resolverCls.getName());
                 Ut.contract(resolver, Solve.class, solve);
                 return resolver;
             }

@@ -1,9 +1,7 @@
 package io.vertx.up.unity;
 
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 interface Info {
 
@@ -23,9 +21,7 @@ interface Info {
 
 interface Cache {
 
-    ConcurrentMap<String, UxJooq> JOOQ_POOL = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, UxJooq> JOOQ_POOL_HIS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, UxPool> MAP_POOL = new ConcurrentHashMap<>();
+    Cc<String, UxJooq> CC_JOOQ = Cc.openThread();
+    Cc<String, UxJooq> CC_JOOQ_HIS = Cc.openThread();
+    Cc<String, UxPool> CC_UX_POOL = Cc.open();
 }

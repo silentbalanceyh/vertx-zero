@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
 
@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 public class JqFlow {
+    private static final Cc<String, JqFlow> CC_FLOW = Cc.open();
     private transient JqAnalyzer analyzer;
     private transient String pojo;
 
@@ -40,7 +41,8 @@ public class JqFlow {
          */
         final Class<?> entityCls = analyzer.type();
         final String normalized = analyzer.pojoFile(pojo);
-        return Fn.pool(Pool.POOL_FLOW, entityCls.getName() + "," + normalized, () -> new JqFlow(analyzer, normalized));
+        return CC_FLOW.pick(() -> new JqFlow(analyzer, normalized), entityCls.getName() + "," + normalized);
+        // Fn.po?l(Pool.POOL_FLOW, entityCls.getName() + "," + normalized, () -> new JqFlow(analyzer, normalized));
     }
 
     // ============ JqFlow re-bind and calculation =========

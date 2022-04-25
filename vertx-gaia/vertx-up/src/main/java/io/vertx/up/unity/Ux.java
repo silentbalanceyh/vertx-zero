@@ -1190,7 +1190,8 @@ public final class Ux {
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.poolThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ_HIS.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1211,7 +1212,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1224,7 +1226,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1237,7 +1240,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         public static boolean isEmpty(final JsonObject condition) {
@@ -1270,7 +1274,8 @@ public final class Ux {
     public static class Pool {
 
         public static UxPool on(final String name) {
-            return Fn.pool(Cache.MAP_POOL, name, () -> new UxPool(name));
+            return Cache.CC_UX_POOL.pick(() -> new UxPool(name), name);
+            // return Fn.po?l(Cache.MAP_POOL, name, () -> new UxPool(name));
         }
 
         public static UxPool on() {

@@ -5,12 +5,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -20,8 +19,8 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Aspect {
-    private static final ConcurrentMap<String, Aspect> POOL_ASPECT
-        = new ConcurrentHashMap<>();
+
+    private static final Cc<String, Aspect> CC_ASPECT = Cc.openThread();
     private final AspectConfig config;
 
     private Aspect(final JsonObject components) {
@@ -35,12 +34,14 @@ public class Aspect {
     public static Aspect create(final JsonObject components) {
         final JsonObject config = Ut.valueJObject(components);
         final String cacheKey = String.valueOf(config.hashCode());
-        return Fn.poolThread(POOL_ASPECT, () -> new Aspect(config), cacheKey);
+        return CC_ASPECT.pick(() -> new Aspect(config), cacheKey);
+        // Fn.po?lThread(POOL_ASPECT, () -> new Aspect(config), cacheKey);
     }
 
     public static Aspect create(final AspectConfig config) {
         Objects.requireNonNull(config);
-        return Fn.poolThread(POOL_ASPECT, () -> new Aspect(config), String.valueOf(config.hashCode()));
+        return CC_ASPECT.pick(() -> new Aspect(config), String.valueOf(config.hashCode()));
+        // Fn.po?lThread(POOL_ASPECT, () -> new Aspect(config), String.valueOf(config.hashCode()));
     }
 
     // ====================== Single Api ========================

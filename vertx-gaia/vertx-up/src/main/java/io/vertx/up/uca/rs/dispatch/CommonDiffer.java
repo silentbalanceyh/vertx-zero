@@ -2,7 +2,6 @@ package io.vertx.up.uca.rs.dispatch;
 
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.hunt.PingAim;
 import io.vertx.up.uca.rs.hunt.SyncAim;
@@ -31,12 +30,12 @@ class CommonDiffer implements Differ<RoutingContext> {
         Aim<RoutingContext> aim = null;
         if (Void.class == returnType || void.class == returnType) {
             // Mode 4: Non-Event Bus: One-Way
-            aim = Fn.pool(Pool.AIMS, Thread.currentThread().getName() + "-mode-ping",
-                () -> Ut.instance(PingAim.class));
+            aim = Pool.CC_AIMS.pick(() -> Ut.instance(PingAim.class), "Mode Ping");
+            // Fn.po?l(Pool.AIMS, Thread.currentThread().getName() + "-mode-ping", () -> Ut.instance(PingAim.class));
         } else {
             // Mode 2: Non-Event Bus: Request-Response\
-            aim = Fn.pool(Pool.AIMS, Thread.currentThread().getName() + "-mode-sync",
-                () -> Ut.instance(SyncAim.class));
+            aim = Pool.CC_AIMS.pick(() -> Ut.instance(SyncAim.class), "Mode Sync");
+            // Fn.po?l(Pool.AIMS, Thread.currentThread().getName() + "-mode-sync", () -> Ut.instance(SyncAim.class));
         }
         return aim;
     }

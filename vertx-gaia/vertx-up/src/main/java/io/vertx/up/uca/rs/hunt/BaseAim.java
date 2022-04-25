@@ -15,9 +15,9 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.fn.Actuator;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
@@ -28,21 +28,18 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Base class to provide template method
  */
 public abstract class BaseAim {
+    private static final Cc<String, Analyzer> CC_ANALYZER = Cc.openThread();
+    private static final Cc<String, Validator> CC_VALIDATOR = Cc.openThread();
 
-    private static final ConcurrentMap<String, Analyzer> POOL_ANALYZER = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Validator> POOL_VALIDATOR = new ConcurrentHashMap<>();
-
-    private transient final Analyzer analyzer =
-        Fn.poolThread(POOL_ANALYZER, MediaAnalyzer::new, MediaAnalyzer.class.getName());
-    private transient final Validator verifier =
-        Fn.poolThread(POOL_VALIDATOR, Validator::new);
+    private transient final Analyzer analyzer = CC_ANALYZER.pick(MediaAnalyzer::new, MediaAnalyzer.class.getName());
+    // Fn.po?lThread(POOL_ANALYZER, MediaAnalyzer::new, MediaAnalyzer.class.getName());
+    private transient final Validator verifier = CC_VALIDATOR.pick(Validator::new);
+    // Fn.po?lThread(POOL_VALIDATOR, Validator::new);
 
     /**
      * Template method
