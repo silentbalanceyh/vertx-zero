@@ -9,7 +9,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 class LeeJwt extends AbstractLee {
     private static final ConcurrentMap<String, JWTAuth> POOL_PROVIDER = new ConcurrentHashMap<>();
+    private static final Cc<String, JWTAuth> CC_PROVIDER = Cc.openThread();
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
@@ -41,7 +42,8 @@ class LeeJwt extends AbstractLee {
         // Options
         final JWTAuthOptions options = new JWTAuthOptions(item.options());
         final String key = item.wall().name() + options.hashCode();
-        return Fn.poolThread(POOL_PROVIDER, () -> JWTAuth.create(vertx, options), key);
+        return CC_PROVIDER.pick(() -> JWTAuth.create(vertx, options), key);
+        // Fn.po?lThread(POOL_PROVIDER, () -> JWTAuth.create(vertx, options), key);
     }
 
     @Override

@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 /*
  * {
@@ -18,19 +17,19 @@ import io.vertx.up.fn.Fn;
 public interface Tran {
 
     static Tran fabric(final boolean isFrom) {
-        return Fn.poolThread(Pooled.TRAN_MAP, () -> new FabricTran(isFrom), FabricTran.class.getName() + isFrom);
+        return Pooled.CC_TRAN.pick(() -> new FabricTran(isFrom), FabricTran.class.getName() + isFrom);
     }
 
     static Tran tree(final boolean isFrom) {
-        return Fn.poolThread(Pooled.TRAN_MAP, () -> new TreeTran(isFrom), TreeTran.class.getName() + isFrom);
+        return Pooled.CC_TRAN.pick(() -> new TreeTran(isFrom), TreeTran.class.getName() + isFrom);
     }
 
     static Tran map(final boolean isFrom) {
-        return Fn.poolThread(Pooled.TRAN_MAP, () -> new MapTran(isFrom), MapTran.class.getName() + isFrom);
+        return Pooled.CC_TRAN.pick(() -> new MapTran(isFrom), MapTran.class.getName() + isFrom);
     }
 
     static Tran initial() {
-        return Fn.poolThread(Pooled.TRAN_MAP, InitialTran::new, InitialTran.class.getName());
+        return Pooled.CC_TRAN.pick(InitialTran::new, InitialTran.class.getName());
     }
 
     // JsonObject -> JsonObject

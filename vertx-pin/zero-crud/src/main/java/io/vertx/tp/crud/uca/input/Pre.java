@@ -8,7 +8,6 @@ import io.vertx.tp.crud.cv.em.QrType;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -24,27 +23,28 @@ public interface Pre {
      * 5) Excel file calculation
      */
     static Pre codex() {
-        return Fn.poolThread(Pooled.PRE_MAP, CodexPre::new, CodexPre.class.getName());
+        return Pooled.CC_PRE.pick(CodexPre::new, CodexPre.class.getName());
+        // Pooled.CC_PRE.pick(CodexPre::new, CodexPre.class.getName());
     }
 
     static Pre head() {
-        return Fn.poolThread(Pooled.PRE_MAP, HeadPre::new, HeadPre.class.getName());
+        return Pooled.CC_PRE.pick(HeadPre::new, HeadPre.class.getName());
     }
 
     static Pre uri() {
-        return Fn.poolThread(Pooled.PRE_MAP, UriPre::new, UriPre.class.getName());
+        return Pooled.CC_PRE.pick(UriPre::new, UriPre.class.getName());
     }
 
     static Pre key(final boolean isNew) {
         if (isNew) {
-            return Fn.poolThread(Pooled.PRE_MAP, UuidPre::new, UuidPre.class.getName());
+            return Pooled.CC_PRE.pick(UuidPre::new, UuidPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, KeyPre::new, KeyPre.class.getName());
+            return Pooled.CC_PRE.pick(KeyPre::new, KeyPre.class.getName());
         }
     }
 
     static Pre excel(final ExcelClient client) {
-        return Fn.poolThread(Pooled.PRE_MAP, () -> new ExcelPre(client),
+        return Pooled.CC_PRE.pick(() -> new ExcelPre(client),
             ExcelPre.class.getName() + client.hashCode());
     }
 
@@ -57,19 +57,19 @@ public interface Pre {
      * 4) Initial Data
      */
     static Pre user() {
-        return Fn.poolThread(Pooled.PRE_MAP, UserPre::new, UserPre.class.getName());
+        return Pooled.CC_PRE.pick(UserPre::new, UserPre.class.getName());
     }
 
     static Pre audit(final boolean created) {
         if (created) {
-            return Fn.poolThread(Pooled.PRE_MAP, CAuditPre::new, CAuditPre.class.getName());
+            return Pooled.CC_PRE.pick(CAuditPre::new, CAuditPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, UAuditPre::new, UAuditPre.class.getName());
+            return Pooled.CC_PRE.pick(UAuditPre::new, UAuditPre.class.getName());
         }
     }
 
     static Pre audit() {
-        return Fn.poolThread(Pooled.PRE_MAP, DAuditPre::new, DAuditPre.class.getName());
+        return Pooled.CC_PRE.pick(DAuditPre::new, DAuditPre.class.getName());
     }
 
     // ------------------- Column Related -------------------
@@ -78,28 +78,28 @@ public interface Pre {
      * 2) column calculation
      */
     static Pre serial() {
-        return Fn.poolThread(Pooled.PRE_MAP, SerialPre::new, SerialPre.class.getName());
+        return Pooled.CC_PRE.pick(SerialPre::new, SerialPre.class.getName());
     }
 
     static Pre apeak(final boolean isMy) {
         if (isMy) {
-            return Fn.poolThread(Pooled.PRE_MAP, ApeakMyPre::new, ApeakMyPre.class.getName());
+            return Pooled.CC_PRE.pick(ApeakMyPre::new, ApeakMyPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, ApeakPre::new, ApeakPre.class.getName());
+            return Pooled.CC_PRE.pick(ApeakPre::new, ApeakPre.class.getName());
         }
     }
 
     // ------------------- Import / Export Pre -------------------
     static Pre fileIn(final boolean createOnly) {
         if (createOnly) {
-            return Fn.poolThread(Pooled.PRE_MAP, CFilePre::new, CFilePre.class.getName());
+            return Pooled.CC_PRE.pick(CFilePre::new, CFilePre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, UFilePre::new, UFilePre.class.getName());
+            return Pooled.CC_PRE.pick(UFilePre::new, UFilePre.class.getName());
         }
     }
 
     static Pre fileOut() {
-        return Fn.poolThread(Pooled.PRE_MAP, DFilePre::new, DFilePre.class.getName());
+        return Pooled.CC_PRE.pick(DFilePre::new, DFilePre.class.getName());
     }
 
     // ------------------- Qr Related -------------------
@@ -111,13 +111,13 @@ public interface Pre {
      */
     static Pre qr(final QrType type) {
         if (QrType.ALL == type) {
-            return Fn.poolThread(Pooled.PRE_MAP, RWholePre::new, RWholePre.class.getName());
+            return Pooled.CC_PRE.pick(RWholePre::new, RWholePre.class.getName());
         } else if (QrType.BY_UK == type) {
-            return Fn.poolThread(Pooled.PRE_MAP, RUkPre::new, RUkPre.class.getName());
+            return Pooled.CC_PRE.pick(RUkPre::new, RUkPre.class.getName());
         } else if (QrType.BY_VK == type) {
-            return Fn.poolThread(Pooled.PRE_MAP, RVkPre::new, RVkPre.class.getName());
+            return Pooled.CC_PRE.pick(RVkPre::new, RVkPre.class.getName());
         } else {
-            return Fn.poolThread(Pooled.PRE_MAP, RPkPre::new, RPkPre.class.getName());
+            return Pooled.CC_PRE.pick(RPkPre::new, RPkPre.class.getName());
         }
     }
 

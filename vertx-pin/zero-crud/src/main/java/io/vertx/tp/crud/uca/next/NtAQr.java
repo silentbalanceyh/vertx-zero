@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.fn.Fn;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -17,7 +16,8 @@ class NtAQr implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
 
     NtAQr(final IxMod in) {
         this.in = in;
-        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtAData(in), NtAData.class.getName() + in.keyPool());
+        this.record = Pooled.CC_CO.pick(() -> new NtAData(in), NtAData.class.getName() + in.keyPool());
+        // Fn.po?lThread(Pooled.CO_MAP, () -> new NtAData(in), NtAData.class.getName() + in.keyPool());
     }
 
     @Override

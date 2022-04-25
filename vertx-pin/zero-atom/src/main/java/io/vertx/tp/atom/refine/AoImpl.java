@@ -84,7 +84,7 @@ class AoImpl {
             return Ut.instance(implSwitcher, identity, options);
         }, identity.hashCode());
         /*
-        Fn.pool(AoCache.POOL_SWITCHER, identity.hashCode(), () -> {
+        Fn.po?l(AoCache.POOL_SWITCHER, identity.hashCode(), () -> {
             final Class<?> implSwitcher = AoStore.clazzSwitcher();
             return Ut.instance(implSwitcher, identity, options);
         });*/

@@ -15,7 +15,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -82,7 +82,7 @@ public class JsonModel implements Model {
                 final Schema schema = this.schema(attribute.getSource());
                 final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
-                Fn.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
+                Cc.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
             });
         }
     }
