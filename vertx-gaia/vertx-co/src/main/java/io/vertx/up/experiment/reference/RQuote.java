@@ -107,7 +107,7 @@ public class RQuote implements Serializable {
      *
      * ```java
      * // <pre><code class="java">
-     *     final DataQuote reference = Fn.pool(this.references, source, () -> DataQuote.create(source));
+     *     final DataQuote reference = Cc.pick(() -> DataQuote.create(source), source);
      * // </code></pre>
      * ```
      *

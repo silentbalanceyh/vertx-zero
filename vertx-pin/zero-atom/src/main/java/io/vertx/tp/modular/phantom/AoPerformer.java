@@ -13,7 +13,7 @@ import java.util.Set;
 public interface AoPerformer {
 
     /**
-     * > Fn.pool
+     * > Cc.pick
      * 池化 AoPerformer 管理
      * appName = MetaPerformer
      */

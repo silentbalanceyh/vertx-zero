@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.extension.*;
 import io.vertx.up.commune.wffs.Regulation;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -18,6 +18,8 @@ import java.util.List;
  * Tool class available in current service only
  */
 public class At {
+    private static final Cc<String, Init> CC_INIT = Cc.open();
+
     /*
      * Log
      */
@@ -49,19 +51,23 @@ public class At {
     }
 
     public static Init initApp() {
-        return Fn.pool(Pool.INIT_POOL, AppInit.class.getName(), AppInit::new);
+        return CC_INIT.pick(AppInit::new, AppInit.class.getName());
+        // return Fn.po?l(Pool.INIT_POOL, AppInit.class.getName(), AppInit::new);
     }
 
     public static Init initSource() {
-        return Fn.pool(Pool.INIT_POOL, SourceInit.class.getName(), SourceInit::new);
+        return CC_INIT.pick(SourceInit::new, SourceInit.class.getName());
+        // return Fn.po?l(Pool.INIT_POOL, SourceInit.class.getName(), SourceInit::new);
     }
 
     public static Init initDatabase() {
-        return Fn.pool(Pool.INIT_POOL, DatabaseInit.class.getName(), DatabaseInit::new);
+        return CC_INIT.pick(DatabaseInit::new, DatabaseInit.class.getName());
+        // return Fn.po?l(Pool.INIT_POOL, DatabaseInit.class.getName(), DatabaseInit::new);
     }
 
     public static Init initData() {
-        return Fn.pool(Pool.INIT_POOL, DatumInit.class.getName(), DatumInit::new);
+        return CC_INIT.pick(DatumInit::new, DatumInit.class.getName());
+        // return Fn.po?l(Pool.INIT_POOL, DatumInit.class.getName(), DatumInit::new);
     }
 
     public static List<String> generate(final XNumber number, final Integer count) {
