@@ -31,6 +31,7 @@ public interface Cc<K, V> {
         return Fn.pool(input, key, supplier);
     }
 
+
     static <V> V pool(final ConcurrentMap<String, V> input, final Supplier<V> supplier) {
         return Fn.poolThread(input, supplier);
     }
