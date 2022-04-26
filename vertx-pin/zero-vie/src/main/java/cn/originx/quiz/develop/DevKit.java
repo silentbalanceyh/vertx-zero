@@ -39,28 +39,56 @@ public class DevKit {
     }
 
     // ----------------------- Dev Data Loading -------------------------
-
+    /*
+     * All the methods of this part is standalone, it will ignore OOB folder
+     *
+     * isOob = false
+     */
+    // CMDB
     public static void oobCmdb() {
         doLoading(DevDefault.pathCmdb(), null, false);
     }
 
+    // CAB
     public static void oobCab() {
         doLoading(DevDefault.pathCab(), null, false);
     }
 
-
+    // DATA
     public static void oobData() {
         doLoading(DevDefault.pathData(), null, false);
     }
 
+    // ENVIRONMENT
     public static void oobEnvironment() {
         doLoading(DevDefault.pathEnvironment(), null, false);
     }
 
+    // MODULAT
+    public static void oobModulat() {
+        doLoading(DevDefault.pathModulat(), null, false);
+    }
+
+    // INTEGRATION
+    public static void oobIntegration() {
+        doLoading(DevDefault.pathIntegration(), null, false);
+    }
+
+    // WORKFLOW
+    public static void oobRule() {
+        doLoading(DevDefault.pathActivity(null), null, false);
+    }
+
+    public static void oobRule(final String workflow) {
+        doLoading(DevDefault.pathActivity(workflow), null, false);
+    }
+
+    // ROLE
     public static void oobRole(final String role) {
         doLoading(DevDefault.pathRole(role), null, false);
     }
 
+    // CAB/UI FOR MODEL
     public static void oobUi(final String identifier) {
         doLoading(DevDefault.pathUi(identifier), null, false);
     }
@@ -69,6 +97,15 @@ public class DevKit {
         doLoading(DevDefault.pathUi(identifier), prefix, false);
     }
 
+    // ----------------------- Data Loading for Initializing -------------------------
+    /*
+     * Following two APIs are related to standard data loading of oob, the default actions are:
+     *
+     * - oobLoader()
+     *
+     * When you start this loader, zero extension framework will load the data into database to do initializing
+     * on the empty database here.
+     */
     public static void oobLoader(final String prefix) {
         doLoading(DevDefault.pathOob(), prefix, true);
     }
