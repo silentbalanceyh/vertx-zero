@@ -2,53 +2,35 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
+import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroPack;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"unchecked"})
 final class Instance {
-
-    private static final Annal LOGGER = Annal.get(Instance.class);
-
-
-    /**
-     * Cached Internal Class for fix: Exception in thread "main" java.lang.ExceptionInInitializerError
-     * Here could not use Cc instead of internal hash map because of deadlock of calling chain.
-     *
-     * Here the issue occurs because of following:
-     *
-     * 1) Instance class called Cc
-     * 2) Cc called Annal
-     * 3) Annal called Instance clazz method to reflect the class in class loader
-     *
-     * In above situation the deadlock will happen. To avoid that ignore following code:
-     * private static final Cc<String, Class<?>> CC_CLASSES = Cc.open();
-     * private static final Cc<String, Object> CC_SINGLETON = Cc.open();
-     * private static final Cc<String, Object> CC_SERVICE_LOADER = Cc.open();
-     *
-     * It means that Instance class could not use `Cc` cache structure because of internal usage
-     * to avoid deadlock, please be careful about the ignores.
-     *
-     * The Pool of class is as following:
-     * - CLASS_INTERNAL:  clazz that are stored in class loader
-     * - SINGLETON:       clazz instance of singleton mode, stored in one static hash map
-     * - SERVICE_LOADER:  clazz instance of service loader mode, stored in hash map
+    /*
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
      */
-    private static final ConcurrentMap<String, Class<?>> CLASS_INTERNAL = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Object> SINGLETON = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Object> SERVICE_LOADER = new ConcurrentHashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
+
+    private static final Cc<String, Object> CC_SINGLETON = Cc.open();
+    private static final Cc<String, Object> CC_SERVICE_LOADER = Cc.open();
+
+    private static final Cc<String, Class<?>> CC_CLASSES = Cc.open();
 
     private Instance() {
     }
@@ -57,8 +39,9 @@ final class Instance {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         } else {
-            return (T) Fn.pool(SERVICE_LOADER, interfaceCls.getName(), () -> {
-                Object reference = SERVICE_LOADER.get(interfaceCls.getName());
+            final Cd<String, Object> cData = CC_SERVICE_LOADER.store();
+            return (T) CC_SERVICE_LOADER.pick(() -> {
+                Object reference = cData.data(interfaceCls.getName());
                 if (Objects.isNull(reference)) {
                     /*
                      * Service Loader for lookup input interface implementation
@@ -77,13 +60,13 @@ final class Instance {
                     for (final T t : loader) {
                         reference = t;
                         if (Objects.nonNull(reference)) {
-                            SERVICE_LOADER.put(interfaceCls.getName(), reference);
+                            cData.data(interfaceCls.getName(), reference);
                             break;
                         }
                     }
                 }
                 return reference;
-            });
+            }, interfaceCls.getName());
         }
     }
 
@@ -120,11 +103,13 @@ final class Instance {
     static <T> T singleton(final Class<?> clazz,
                            final Object... params) {
         // Must reference to created first.
-        return (T) Fn.pool(SINGLETON, clazz.getName(), () -> instance(clazz, params));
+        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
+        // Fn.po?l(SINGLETON, clazz.getName(), () -> instance(clazz, params));
     }
 
     static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return (T) Fn.pool(SINGLETON, clazz.getName(), supplier::get);
+        return (T) CC_SINGLETON.pick(supplier::get, clazz.getName());
+        // Fn.po?l(SINGLETON, clazz.getName(), supplier::get);
     }
 
     /**
@@ -135,9 +120,10 @@ final class Instance {
      * @return Class<?>
      */
     static Class<?> clazz(final String name) {
-        /* Avoid DeadLock, internal hash map directly */
-        return Fn.pool(CLASS_INTERNAL, name, () -> Fn.getJvm(() -> Thread.currentThread()
-            .getContextClassLoader().loadClass(name), name));
+        return CC_CLASSES.pick(() -> Fn.getJvm(() -> Thread.currentThread()
+            .getContextClassLoader().loadClass(name), name), name);
+        //        return Fn.po?l(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
+        //            .getContextClassLoader().loadClass(name), name));
     }
 
     static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
@@ -161,12 +147,11 @@ final class Instance {
                  * getJvm will throw out exception here. in current method, we should
                  * catch `ClassNotFoundException` and return null directly.
                  */
-                // Avoid DeadLock, internal hash map directly
-                // final Cd<String, Class<?>> cData = CC_CLASSES.store();
-                Class<?> clazz = CLASS_INTERNAL.getOrDefault(name, null);
+                final Cd<String, Class<?>> cData = CC_CLASSES.store();
+                Class<?> clazz = cData.data(name);
                 if (Objects.isNull(clazz)) {
                     clazz = Thread.currentThread().getContextClassLoader().loadClass(name);
-                    CLASS_INTERNAL.put(name, clazz);
+                    cData.data(name, clazz);
                 }
                 /*
                  * Result checking
@@ -177,7 +162,7 @@ final class Instance {
                     return clazz;
                 }
             } catch (final Throwable ex) {
-                LOGGER.error("[T] Error occurs in reflection, details: {0}", ex.getMessage());
+                LOGGER.error("[T] Error occurs in reflection, details: {}", ex.getMessage());
                 return defaultCls;
             }
         }
@@ -273,9 +258,11 @@ final class Instance {
                 .collect(Collectors.toList());
             final int size = filtered.size();
             // Non-Unique throw error out.
-            Fn.outUp(Values.ONE < size, LOGGER,
-                DuplicatedImplException.class,
-                Instance.class, interfaceCls);
+            if (Values.ONE < size) {
+                final UpException error = new DuplicatedImplException(Instance.class, interfaceCls);
+                LOGGER.error("[T] Error occurs {}", error.getMessage());
+                throw error;
+            }
             // Null means direct interface only.
             return Values.ONE == size ? filtered.get(Values.IDX) : null;
         }, interfaceCls);
