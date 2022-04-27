@@ -6,10 +6,12 @@ import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import cn.vertxup.battery.service.BagArgService;
 import cn.vertxup.battery.service.BagArgStub;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.refine.Bk;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.tp.optic.feature.Modulat;
+import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -26,7 +28,7 @@ public class ExModulat implements Modulat {
     @Override
     public Future<JsonObject> extension(final JsonObject appJson) {
         final String key = appJson.getString(KName.KEY);
-        return this.extension(key);
+        return Ux.future(Apt.create(appJson.copy(), this.extension(key).result()).dataI());
     }
 
     @Override
