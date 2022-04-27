@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
-import io.vertx.up.experiment.mixture.atom.HAUnique;
+import io.vertx.up.experiment.shape.atom.AtomUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -24,14 +24,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 interface Pool {
-    // 基础模型池
-    Cc<Integer, AoDefine> CC_INFO = Cc.open();
-    // 标识规则信息
-    Cc<Integer, HAUnique> CC_RULE = Cc.open();
-    // 基础标识信息
-    Cc<Integer, AoMarker> CC_MARKER = Cc.open();
-    // 数据引用信息
-    Cc<Integer, AoReference> CC_REFERENCE = Cc.open();
+    Cc<Integer, AtomUnique> CC_RULE = Cc.open();
+    Cc<Integer, AtomMetadata> CC_INFO = Cc.open();
+    Cc<Integer, AtomMarker> CC_MARKER = Cc.open();
+    Cc<Integer, AtomReference> CC_REFERENCE = Cc.open();
 }
 
 /**

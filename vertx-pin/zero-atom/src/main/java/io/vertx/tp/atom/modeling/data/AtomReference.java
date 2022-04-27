@@ -7,7 +7,7 @@ import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.mixture.atom.AbstractHREF;
+import io.vertx.up.experiment.shape.atom.AbstractAReference;
 import io.vertx.up.experiment.specification.KReference;
 import io.vertx.up.util.Ut;
 
@@ -17,18 +17,18 @@ import java.util.Set;
 /**
  * ## Reference Calculation
  *
- * {@link AbstractHREF}
+ * {@link AbstractAReference}
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AoReference extends AbstractHREF {
+class AtomReference extends AbstractAReference {
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *
      * @param modelRef {@link io.vertx.tp.atom.modeling.Model} Input `M_MODEL` definition.
      * @param appName  {@link java.lang.String} The application name.
      */
-    public AoReference(final Model modelRef, final String appName) {
+    public AtomReference(final Model modelRef, final String appName) {
         super(appName);
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.dbAttributes();

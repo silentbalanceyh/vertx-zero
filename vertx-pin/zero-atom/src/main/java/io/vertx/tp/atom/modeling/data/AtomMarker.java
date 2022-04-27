@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * 专用开关变量，用于处理所有 DataAtom 中的开关操作
  */
-class AoMarker {
+class AtomMarker {
     private transient final Model modelRef;
 
-    AoMarker(final Model modelRef) {
+    AtomMarker(final Model modelRef) {
         this.modelRef = modelRef;
     }
 

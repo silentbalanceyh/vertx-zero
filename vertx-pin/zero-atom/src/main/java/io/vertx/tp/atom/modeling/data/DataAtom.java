@@ -5,8 +5,8 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
-import io.vertx.up.experiment.mixture.atom.HAUnique;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.experiment.shape.atom.AtomUnique;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 
@@ -21,10 +21,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataAtom implements HAtom {
 
-    private transient final AoDefine metadata;
-    private transient final HAUnique ruler;
-    private transient final AoMarker marker;
-    private transient final AoReference reference;
+    private transient final AtomMetadata metadata;
+    private transient final AtomUnique ruler;
+    private transient final AtomMarker marker;
+    private transient final AtomReference reference;
 
     private transient final Vs vs;
     private final String unique;
@@ -40,13 +40,13 @@ public class DataAtom implements HAtom {
          * 4. 数据引用信息
          */
         final Integer modelCode = model.hashCode();
-        this.metadata = Pool.CC_INFO.pick(() -> new AoDefine(model), modelCode);
-        // Fn.po?l(Pool.META_INFO, modelCode, () -> new AoDefine(model));
-        this.ruler = Pool.CC_RULE.pick(() -> new HAUnique(model), modelCode);
+        this.ruler = Pool.CC_RULE.pick(() -> new AtomUnique(model), modelCode);
         // Fn.po?l(Pool.META_RULE, modelCode, () -> new AoUnique(model));
-        this.marker = Pool.CC_MARKER.pick(() -> new AoMarker(model), modelCode);
+        this.metadata = Pool.CC_INFO.pick(() -> new AtomMetadata(model), modelCode);
+        // Fn.po?l(Pool.META_INFO, modelCode, () -> new AoDefine(model));
+        this.marker = Pool.CC_MARKER.pick(() -> new AtomMarker(model), modelCode);
         // Fn.po?l(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
-        this.reference = Pool.CC_REFERENCE.pick(() -> new AoReference(model, appName), modelCode);
+        this.reference = Pool.CC_REFERENCE.pick(() -> new AtomReference(model, appName), modelCode);
         // Fn.po?l(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
         this.vs = Vs.create(this.unique, this.metadata.types());
     }

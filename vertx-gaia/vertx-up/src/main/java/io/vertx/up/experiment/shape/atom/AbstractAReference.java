@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.mixture.atom;
+package io.vertx.up.experiment.shape.atom;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -92,7 +92,7 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractHREF implements HReference {
+public abstract class AbstractAReference implements HReference {
     protected final transient Cc<String, RDao> ccDao = Cc.open();
     /**
      * The hash map to store `source = {@link RQuote}`.
@@ -109,7 +109,7 @@ public abstract class AbstractHREF implements HReference {
 
     protected final transient String appName;
 
-    public AbstractHREF(final String appName) {
+    public AbstractAReference(final String appName) {
         this.appName = appName;
     }
 

@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.mixture.atom;
+package io.vertx.up.experiment.shape.atom;
 
 import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.rule.RuleUnique;
@@ -10,14 +10,14 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HAUnique {
+public class AtomUnique {
     private final HModel modelRef;
     /*
      * The rule unique of channel ( Running Internal )
      */
     private RuleUnique channelRule;
 
-    public HAUnique(final HModel modelRef) {
+    public AtomUnique(final HModel modelRef) {
         Objects.requireNonNull(modelRef);
         /* HModel Reference */
         this.modelRef = modelRef;
