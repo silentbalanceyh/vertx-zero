@@ -11,7 +11,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.experiment.modeling.KModule;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

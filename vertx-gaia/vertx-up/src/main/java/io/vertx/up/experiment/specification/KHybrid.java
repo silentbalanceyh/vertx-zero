@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.modeling;
+package io.vertx.up.experiment.specification;
 
 import java.io.Serializable;
 
