@@ -8,18 +8,13 @@ import io.vertx.tp.optic.modeling.JsonSchema;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
+import io.vertx.up.experiment.mixture.HApp;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
 import java.util.Objects;
 
 class AoStore {
-    /*
-     * Modular belong to `Origin X Engine`
-     * It's critical extension in zero framework, it could do dynamic modular on DDL in database
-     * Also you could provide your only implementation to replace some configuration.
-     */
-    private static final String NS_PREFIX = "cn.originx.{0}";
     private static final String PATH_EXCEL = "runtime/excel/";
     private static final String PATH_JSON = "runtime/json/";
     private static final String PATH_ADJUSTER = "runtime/adjuster/config.json";
@@ -27,12 +22,15 @@ class AoStore {
 
     private static final AoConfig CONFIG = AoPin.getConfig();
 
-    static String toNamespace(final String appName) {
-        String prefix = CONFIG.getNamespace();
+    static String namespace(final String appName) {
+        final String prefix = CONFIG.getNamespace();
         if (Ut.isNil(prefix)) {
-            prefix = NS_PREFIX;
+            // Default namespace
+            return HApp.ns(appName);
+        } else {
+            // Configured namespace
+            return MessageFormat.format(prefix, appName);
         }
-        return MessageFormat.format(prefix, appName);
     }
 
     static String defineExcel() {

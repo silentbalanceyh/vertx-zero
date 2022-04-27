@@ -34,12 +34,12 @@ class AoImpl {
      */
     private static Schema toSchema(final String appName) {
         final Class<?> implSchema = AoStore.clazzSchema();
-        return Ut.instance(implSchema, AoStore.toNamespace(appName));
+        return Ut.instance(implSchema, AoStore.namespace(appName));
     }
 
-    private static Model toModel(final String appName) {
+    private static Model toModel(final String namespace) {
         final Class<?> implModel = AoStore.clazzModel();
-        return Ut.instance(implModel, AoStore.toNamespace(appName));
+        return Ut.instance(implModel, namespace);
     }
 
     /*
@@ -67,13 +67,13 @@ class AoImpl {
     }
 
     static Model toModel(final String appName, final JsonObject modelJson) {
-        final Model modelObj = toModel(appName);
+        final Model modelObj = toModel(AoStore.namespace(appName));
         modelObj.fromJson(modelJson);
         return modelObj;
     }
 
     static Model toModel(final String appName, final String file) {
-        final Model modelObj = toModel(appName);
+        final Model modelObj = toModel(AoStore.namespace(appName));
         modelObj.fromFile(file);
         return modelObj;
     }

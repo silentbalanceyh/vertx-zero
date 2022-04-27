@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -14,15 +15,15 @@ import java.util.List;
 import java.util.Set;
 
 class ModelTool {
-    private final transient String namespace;
+    private final transient String appName;
 
-    ModelTool(final String namespace) {
-        this.namespace = namespace;
+    ModelTool(final String appName) {
+        this.appName = appName;
     }
 
     Future<Set<Model>> combine(final JsonArray models) {
         final Set<Model> modelSet = new HashSet<>();
-        Ut.itJArray(models).map(data -> Model.instance(this.namespace, data))
+        Ut.itJArray(models).map(data -> Ao.toModel(this.appName, data))
             .forEach(modelSet::add);
         return Ux.future(modelSet);
     }
@@ -52,8 +53,9 @@ class ModelTool {
     }
 
     JsonObject onCriteria(final String identifier) {
+        final String namespace = Ao.toNS(this.appName);
         final JsonObject filters = new JsonObject();
-        filters.put("namespace", this.namespace);
+        filters.put("namespace", namespace);
         filters.put("identifier", identifier);
         return filters;
     }

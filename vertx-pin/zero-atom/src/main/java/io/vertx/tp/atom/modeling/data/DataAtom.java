@@ -35,7 +35,7 @@ public class DataAtom implements HAtom {
 
     private DataAtom(final Model model, final String appName) {
         this.appName = appName;
-        this.unique = Model.namespace(appName) + "-" + model.identifier();
+        this.unique = Ao.toNS(appName, model.identifier()); //  Model.namespace(appName) + "-" + model.identifier();
         /*
          * 1. 基础模型信息
          * 2. 标识规则信息
@@ -84,7 +84,7 @@ public class DataAtom implements HAtom {
             /*
              * Performer processing to expose exception
              */
-            final String unique = Model.namespace(appName) + "-" + identifier;
+            final String unique = Ao.toNS(appName, identifier); // Model.namespace(appName) + "-" + identifier;
             final AoPerformer performer = AoPerformer.getInstance(appName);
             final Model model = AoCache.CC_MODEL.pick(() -> performer.fetchModel(identifier), unique);
             // Fn.po?l(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));

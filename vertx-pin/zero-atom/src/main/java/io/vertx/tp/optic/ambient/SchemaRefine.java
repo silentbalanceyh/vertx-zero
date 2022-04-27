@@ -35,7 +35,7 @@ class SchemaRefine implements AoRefine {
             // 读取上一个流程中处理完成的 models
             final JsonArray models = appJson.getJsonArray(KName.Modeling.MODELS);
             final String name = appJson.getString(KName.NAME);
-            final Set<Schema> schemata = this.toSchemata(models, Model.namespace(name));
+            final Set<Schema> schemata = this.toSchemata(models, name);
             Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
@@ -61,10 +61,10 @@ class SchemaRefine implements AoRefine {
         schemata.forEach(builder::synchron);
     }
 
-    private Set<Schema> toSchemata(final JsonArray models, final String namespace) {
+    private Set<Schema> toSchemata(final JsonArray models, final String appName) {
         final Set<Schema> schemata = new HashSet<>();
         Ut.itJArray(models)
-            .map(data -> Model.instance(namespace, data))
+            .map(data -> Ao.toModel(appName, data))
             .map(Model::schema)
             .forEach(schemata::addAll);
         return schemata;

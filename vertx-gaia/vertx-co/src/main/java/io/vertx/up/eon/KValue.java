@@ -38,4 +38,9 @@ public interface KValue {
         // isFileName
         String FILENAME = "[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$";
     }
+
+    interface NS {
+        // Modular Namespace of Default
+        String DEFAULT = "cn.originx.{0}";
+    }
 }

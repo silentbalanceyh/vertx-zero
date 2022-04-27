@@ -130,8 +130,12 @@ public class Ao {
      * - 3) joinKeys
      * - 4) toSchema
      */
-    public static String toNamespace(final String appName) {
-        return AoStore.toNamespace(appName);
+    public static String toNS(final String appName) {
+        return AoStore.namespace(appName);
+    }
+
+    public static String toNS(final String appName, final String identifier) {
+        return AoStore.namespace(appName) + "-" + identifier;
     }
 
     public static <ID> Object toKey(final ID id) {

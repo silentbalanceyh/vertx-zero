@@ -111,6 +111,7 @@ public class Mirror {
         return merged;
     }
 
+
     @SuppressWarnings("unchecked")
     public <T> T get() {
         final Object reference = Ut.deserialize(this.converted, this.mojo.getType());

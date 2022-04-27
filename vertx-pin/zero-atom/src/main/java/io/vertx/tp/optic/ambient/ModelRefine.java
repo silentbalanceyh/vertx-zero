@@ -35,9 +35,8 @@ class ModelRefine implements AoRefine {
             // 读取上一个流程中处理完成的 models
             final JsonArray modelJson = appJson.getJsonArray(KName.Modeling.MODELS);
             final String name = appJson.getString(KName.NAME);
-            final String namespace = Model.namespace(name);
             final Set<Model> models = new HashSet<>();
-            Ut.itJArray(modelJson).map(data -> Model.instance(namespace, data))
+            Ut.itJArray(modelJson).map(data -> Ao.toModel(name, data))
                 .forEach(models::add);
             Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型

@@ -5,6 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._404ModelNotFoundException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
@@ -12,20 +13,15 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class ModelPerformer implements AoPerformer {
-    private static final ConcurrentMap<String, ModelTool> POOL_TOOL =
-        new ConcurrentHashMap<>();
     private static final Cc<String, ModelTool> CC_TOOL = Cc.open();
-    private final transient String namespace;
+    private final transient String appName;
     private final transient ModelTool tool;
 
     ModelPerformer(final String appName) {
-        this.namespace = Model.namespace(appName);
-        this.tool = CC_TOOL.pick(() -> new ModelTool(this.namespace), this.namespace);
-        // Fn.po?l(POOL_TOOL, this.namespace, () -> new ModelTool(this.namespace));
+        this.appName = appName;
+        this.tool = CC_TOOL.pick(() -> new ModelTool(this.appName), this.appName);
     }
 
     @Override
@@ -36,7 +32,7 @@ public class ModelPerformer implements AoPerformer {
             // 先转换
             .compose(this.tool::execute)
             // 6. 将实体合并，处理实体中的细节
-            .compose(item -> Ux.future(Model.instance(this.namespace, item)));
+            .compose(item -> Ux.future(Ao.toModel(this.appName, item)));
     }
 
 
@@ -44,7 +40,8 @@ public class ModelPerformer implements AoPerformer {
     public Model fetchModel(final String identifier) {
         final MModel model = Ux.Jooq.on(MModelDao.class)
             .fetchOne(this.tool.onCriteria(identifier));
-        Fn.outWeb(null == model, _404ModelNotFoundException.class, this.getClass(), this.namespace, identifier);
+        final String namespace = Ao.toNS(this.appName);
+        Fn.outWeb(null == model, _404ModelNotFoundException.class, this.getClass(), namespace, identifier);
         JsonObject json = Ut.serializeJson(model);
         // 1. 初始化
         json = AoModeler.init().executor(json);
@@ -57,13 +54,14 @@ public class ModelPerformer implements AoPerformer {
         // 5. Scatter处理（分模型）
         json = AoModeler.scatter().executor(json);
         // 6. 返回最终结果
-        return Model.instance(this.namespace, json);
+        return Ao.toModel(this.appName, json); // Model.instance(this.namespace, json);
     }
 
     @Override
     public Future<Set<Model>> fetchModelsAsync() {
+        final String namespace = Ao.toNS(this.appName);
         return Ux.Jooq.on(MModelDao.class)
-            .<MModel>fetchAsync("namespace", this.namespace)
+            .<MModel>fetchAsync("namespace", namespace)
             .compose(this.tool::startList)
             .compose(this.tool::combine);
     }

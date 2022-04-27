@@ -21,8 +21,7 @@ class AtExpr {
         /* Expression is Null, Ignored the rule triggered */
         rules.stream().filter(rule -> Objects.nonNull(rule.getRuleExpression())).forEach(rule -> {
             /* Formula Building */
-            final JsonObject config = Ut.toJObject(rule.getRuleConfig());
-            final Formula formula = new Formula(rule.getKey(), config);
+            final Formula formula = new Formula(rule.getKey());
 
             // bind(tpl, config)
             final JsonObject tpl = Ut.toJObject(rule.getRuleTpl());

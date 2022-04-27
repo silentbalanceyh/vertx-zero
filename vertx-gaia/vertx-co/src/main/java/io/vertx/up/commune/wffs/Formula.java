@@ -15,35 +15,29 @@ import java.util.function.Supplier;
 public class Formula implements Serializable {
 
     private final String key;
-    private final JsonObject config = new JsonObject();
     private final transient JsonObject hookerConfig = new JsonObject();
     private transient Playbook playbook;
     /*
      * name         - expression name
      * expression   - for parameters parsing
      * tpl          - for tpl of parameters
-     * config       - for expression configuration
      *
      * 1) Extract Data from X_ACTIVITY_RULE
      * 2) Set the value from:
      *    RULE_EXPRESSION   -> expression   JEXL
      *    RULE_TPL          -> tpl          ( JsonObject )
-     *    RULE_CONFIG       -> config       ( JsonObject )
      *    RULE_NAME         -> name
      *
      * The workflow for following four fields:
      * 1) name ( Optional )
      * 2) tpl                   -> 2.1. normalize the parameter template
      *    expression            -> 2.2. expression tpl ( String )
-     *    config                -> 2.3. config data of current expression
      */
     private String name;
     private transient Hooker hooker;
 
-    public Formula(final String key, final JsonObject config) {
+    public Formula(final String key) {
         this.key = key;
-        final JsonObject configJ = Ut.valueJObject(config);
-        this.config.mergeIn(configJ, true);
     }
 
     public Formula bind(final String expression, final JsonObject tpl) {
