@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-public class AtomSchema implements Schema {
+public class DataSchema implements Schema {
 
     private final transient ConcurrentMap<String, MKey> keys =
         new ConcurrentHashMap<>();
@@ -34,7 +34,7 @@ public class AtomSchema implements Schema {
     /* Json文件信息 */
     private transient String jsonFile;
 
-    public AtomSchema(final String namespace) {
+    public DataSchema(final String namespace) {
         this.namespace = namespace;
     }
 
@@ -231,10 +231,10 @@ public class AtomSchema implements Schema {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof AtomSchema)) {
+        if (!(o instanceof DataSchema)) {
             return false;
         }
-        final AtomSchema that = (AtomSchema) o;
+        final DataSchema that = (DataSchema) o;
         return Objects.equals(this.identifier, that.identifier) &&
             Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
     }

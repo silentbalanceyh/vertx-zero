@@ -2,9 +2,9 @@ package io.vertx.tp.atom.refine;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
+import io.vertx.tp.atom.modeling.builtin.DataModel;
+import io.vertx.tp.atom.modeling.builtin.DataSchema;
 import io.vertx.tp.atom.modeling.config.AoConfig;
-import io.vertx.tp.atom.modeling.builtin.AtomModel;
-import io.vertx.tp.atom.modeling.builtin.AtomSchema;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
@@ -94,7 +94,7 @@ class AoStore {
             /*
              * Default
              */
-            clazz = AtomSchema.class;
+            clazz = DataSchema.class;
         }
         return clazz;
     }
@@ -105,7 +105,7 @@ class AoStore {
             /*
              * Default
              */
-            clazz = AtomModel.class;
+            clazz = DataModel.class;
         }
         return clazz;
     }
