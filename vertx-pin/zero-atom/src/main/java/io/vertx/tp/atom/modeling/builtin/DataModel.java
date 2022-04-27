@@ -12,8 +12,8 @@ import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
-import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.experiment.shape.AbstractHModel;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -29,48 +29,24 @@ import java.util.concurrent.ConcurrentMap;
  * 2. 包含该Model对应的MAttribute集合
  * 3. 包含多个Schema
  */
-public class DataModel implements Model {
+public class DataModel extends AbstractHModel implements Model {
     private final transient Set<Schema> schemata = new HashSet<>();
     /* 所有关联的Entity的ID */
     private final transient Set<MJoin> joins = new HashSet<>();
     /* 延迟填充 */
     private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
-    private final transient ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
-
-    private final transient String namespace;
     /* 当前Model关联的模型 */
     private transient MModel model;
     /* 当前Model的主键信息 */
     private transient DataKey key;
-    /* 唯一ID */
-    private transient String identifier;
-    /* Json文件信息 */
-    private transient String jsonFile;
-    /* Unique专用 */
-    private transient RuleUnique unique;
 
     public DataModel(final String namespace) {
-        this.namespace = namespace;
+        super(namespace);
     }
 
+    // =================== Abstract Class Method ====================
     @Override
-    public MModel dbModel() {
-        return this.model;
-    }
-
-    @Override
-    public String identifier() {
-        return this.identifier;
-    }
-
-    @Override
-    public Schema schema(final String identifier) {
-        return Ut.isNil(identifier) ? null : this.schemata.stream()
-            .filter(schema -> identifier.equals(schema.identifier()))
-            .findFirst().orElse(null);
-    }
-
-    private void sureTypes() {
+    protected void loadAttribute() {
         if (this.attributeMap.isEmpty()) {
             /* 读取所有 MAttribute */
             this.dbAttributes().forEach(attribute -> {
@@ -87,14 +63,28 @@ public class DataModel implements Model {
     }
 
     @Override
-    public String file() {
-        return this.jsonFile;
+    protected void loadRule() {
+        if (Objects.isNull(this.unique)) {
+            final String content = this.model.getRuleUnique();
+            if (Ut.notNil(content)) {
+                this.unique = Ut.deserialize(content, RuleUnique.class);
+            }
+        }
+    }
+
+    // =================== Extension Api ====================
+    @Override
+    public MModel dbModel() {
+        return this.model;
     }
 
     @Override
-    public String namespace() {
-        return this.namespace;
+    public Schema schema(final String identifier) {
+        return Ut.isNil(identifier) ? null : this.schemata.stream()
+            .filter(schema -> identifier.equals(schema.identifier()))
+            .findFirst().orElse(null);
     }
+
 
     @Override
     public Set<Schema> schema() {
@@ -121,18 +111,6 @@ public class DataModel implements Model {
     @Override
     public Set<MAttribute> dbAttributes() {
         return new HashSet<>(this.attributes.values());
-    }
-
-    @Override
-    public HAttribute attribute(final String attributeName) {
-        this.sureTypes();
-        return this.attributeMap.getOrDefault(attributeName, null);
-    }
-
-    @Override
-    public Set<String> attribute() {
-        this.sureTypes();
-        return this.attributeMap.keySet();
     }
 
     @Override
@@ -170,25 +148,7 @@ public class DataModel implements Model {
         Bridge.connect(this, schemas);
     }
 
-    @Override
-    public void fromFile(final String file) {
-        // Model会关心文件路径，所以这里需要这个操作
-        this.jsonFile = file;
-        final JsonObject data = Ut.ioJObject(this.jsonFile);
-        this.fromJson(data);
-    }
-
-    @Override
-    public RuleUnique rule() {
-        if (Objects.isNull(this.unique)) {
-            final String content = this.model.getRuleUnique();
-            if (Ut.notNil(content)) {
-                this.unique = Ut.deserialize(content, RuleUnique.class);
-            }
-        }
-        return this.unique;
-    }
-
+    // =================== Serialization Method ====================
     @Override
     public void fromJson(final JsonObject json) {
         // 第二次
@@ -301,23 +261,5 @@ public class DataModel implements Model {
             .append(item.getEntityKey()));
         content.append("\n-- Model End --------------------------------\n");
         return content.toString();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof DataModel)) {
-            return false;
-        }
-        final DataModel that = (DataModel) o;
-        return Objects.equals(this.identifier, that.identifier) &&
-            Objects.equals(this.model.getNamespace(), that.model.getNamespace());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.model.getNamespace(), this.identifier);
     }
 }
