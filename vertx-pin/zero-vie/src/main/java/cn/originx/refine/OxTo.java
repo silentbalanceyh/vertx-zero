@@ -44,7 +44,7 @@ final class OxTo {
             return null;
         } else {
             final String appName = app.getName();
-            return DataAtom.get(appName, identifier);
+            return Ao.toAtom(appName, identifier);
         }
     }
 

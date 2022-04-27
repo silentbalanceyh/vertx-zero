@@ -15,6 +15,7 @@ public interface AoCache {
     // （设计图上存在）
     /* Model 池化 **/
     Cc<String, Model> CC_MODEL = Cc.open();
+
     /* OxPerformer资源池（内部） */
     Cc<String, AoPerformer> CC_PERFORMER = Cc.open();
     /* AoIo

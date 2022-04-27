@@ -1,0 +1,9 @@
+{
+    "identifier": "w.ticket",
+    "module": "wf,w.ticket",
+    "hybrid": {
+        "alias": "流程工单",
+        "attributes": {
+        }
+    }
+}

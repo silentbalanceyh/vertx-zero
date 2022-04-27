@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.shape.pojo;
+package io.vertx.up.experiment.shape;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.mixture.*;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class FixedAtom implements HAtom {
+public class NormAtom implements HAtom {
     @Override
     public String atomKey(final JsonObject options) {
         return null;

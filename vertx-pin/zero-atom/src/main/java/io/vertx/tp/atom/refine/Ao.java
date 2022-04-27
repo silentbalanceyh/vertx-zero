@@ -206,9 +206,12 @@ public class Ao {
         return AoImpl.toAtom(options);
     }
 
-
     public static DataAtom toAtom(final String identifier) {
         return AoImpl.toAtom(identifier);
+    }
+
+    public static DataAtom toAtom(final String appName, final String identifier) {
+        return AoImpl.toAtom(appName, identifier);
     }
 
     public static HDao toDao(final HAtom atom) {

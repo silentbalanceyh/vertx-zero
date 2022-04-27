@@ -9,6 +9,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.optic.environment.ES;
+import io.vertx.tp.optic.mixture.HLoadAtom;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
@@ -17,6 +18,7 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.experiment.specification.KEnv;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -28,6 +30,9 @@ import java.util.function.Supplier;
 class AoImpl {
     private static final Cc<Integer, Switcher> CC_SWITCHER = Cc.open();
     private static final Cc<String, HDao> CC_T_DAO = Cc.openThread();
+
+    // 模型读取器
+    private static final Cc<String, HLoad> CC_LOAD = Cc.openThread();
 
     /*
      * Private Method for Schema / Model
@@ -100,7 +105,17 @@ class AoImpl {
     static DataAtom toAtom(final JsonObject options) {
         final String identifier = options.getString(KName.IDENTIFIER);
         final String name = options.getString(KName.NAME);
-        return DataAtom.get(name, identifier);
+        return toAtom(name, identifier);
+    }
+
+    static DataAtom toAtom(final String appName, final String identifier) {
+        final HLoad loader = CC_LOAD.pick(HLoadAtom::new);
+        final HAtom atom = loader.atom(appName, identifier);
+        if (atom instanceof DataAtom) {
+            return (DataAtom) atom;
+        } else {
+            return null;
+        }
     }
 
     static HDao toDao(final HAtom atom) {
@@ -137,7 +152,7 @@ class AoImpl {
         return Ke.channelSync(ES.class, () -> null, es -> {
             final KEnv env = es.connect();
             if (Objects.nonNull(env)) {
-                return DataAtom.get(env.name(), identifier);
+                return toAtom(env.name(), identifier);
             } else {
                 return null;
             }
@@ -159,7 +174,7 @@ class AoImpl {
             final KEnv env = es.connect();
             final DataAtom atom;
             if (Objects.nonNull(env)) {
-                atom = DataAtom.get(env.name(), identifier);
+                atom = toAtom(env.name(), identifier);
             } else {
                 atom = null;
             }

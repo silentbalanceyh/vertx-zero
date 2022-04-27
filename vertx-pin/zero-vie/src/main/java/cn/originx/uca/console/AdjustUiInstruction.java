@@ -16,6 +16,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
@@ -151,7 +152,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
          * 生成记录报表
          */
         return Ok.app().compose(app -> {
-            final DataAtom atom = DataAtom.get(app.getName(), identifier);
+            final DataAtom atom = Ao.toAtom(app.getName(), identifier);
             /*
              * Form -> 表单数据处理
              * List -> 列配置数据处理

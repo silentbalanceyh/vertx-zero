@@ -195,7 +195,7 @@ class AoReference implements HReference {
 
     private RDao initializeDao(final MAttribute attribute, final String appName, final JsonObject referenceConfig) {
         final String source = attribute.getSource();
-        final HAtom atom = DataAtom.get(appName, source);
+        final HAtom atom = Ao.toAtom(appName, source);
         final KJoin join;
         if (Objects.isNull(atom) && referenceConfig.containsKey(KName.DAO)) {
             join = Ut.deserialize(referenceConfig.getJsonObject(KName.DAO), KJoin.class);

@@ -7,6 +7,7 @@ import cn.originx.stellaris.vendor.OkB;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
@@ -39,7 +40,7 @@ public class IndexInstruction extends AbstractInstruction {
         return Ok.ok().compose(okA -> {
             final JtApp app = okA.configApp();
             final OkB partyB = okA.partyB(appName);
-            final DataAtom atom = DataAtom.get(app.getName(), identifier);
+            final DataAtom atom = Ao.toAtom(app.getName(), identifier);
             if (Objects.isNull(atom)) {
                 /*
                  * Atom Modification

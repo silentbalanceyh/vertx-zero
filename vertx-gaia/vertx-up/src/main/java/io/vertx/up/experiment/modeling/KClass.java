@@ -13,4 +13,5 @@ import java.io.Serializable;
 public class KClass implements Serializable {
     private String identifier;
     private KHybrid hybrid;
+    private KModule module;
 }

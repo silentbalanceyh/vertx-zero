@@ -8,9 +8,8 @@
         "rule": {
             "$COMMENT$": "集成专用标识规则选择符"
         },
-        "attributes": [
-            {
-                "name": "属性名",
+        "attributes": {
+            "name": {
                 "alias": "属性别名",
                 "type": "数据类型",
                 "matrix": "X,X,X,X,X,X,X（七个核心维度）",
@@ -18,6 +17,6 @@
                     "$COMMENT$": "「引用」"
                 }
             }
-        ]
+        }
     }
 }
