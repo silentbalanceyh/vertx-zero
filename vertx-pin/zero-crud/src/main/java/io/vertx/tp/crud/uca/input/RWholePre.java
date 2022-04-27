@@ -6,7 +6,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.modeling.KModule;
-import io.vertx.up.experiment.specification.connect.KJoin;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.unity.Ux;
 
 /**

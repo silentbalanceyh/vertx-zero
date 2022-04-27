@@ -1,116 +1,27 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.mixture.HReference;
-import io.vertx.up.experiment.reference.RDao;
-import io.vertx.up.experiment.reference.RQuery;
-import io.vertx.up.experiment.reference.RQuote;
-import io.vertx.up.experiment.reference.RResult;
-import io.vertx.up.experiment.specification.connect.KJoin;
-import io.vertx.up.experiment.specification.connect.KPoint;
-import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.experiment.reference.RReference;
+import io.vertx.up.experiment.specification.KReference;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 
 /**
  * ## Reference Calculation
  *
- * ### 1. Intro
- *
- * Reference Calculation based on configuration in each attribute, `serviceReference` field.
- *
- * ### 2. Dao Mode
- *
- * Here are three dao mode in MetaReference
- *
- * 1. Dynamic Dao: {@link HDao}, based on `M_MODEL` definition.
- * 2. Static Dao: {@link io.vertx.up.uca.jooq.UxJooq}, directly mapped to single table.
- * 3. Static Dao with Join: {@link io.vertx.up.uca.jooq.UxJoin}, mapped to more than on table.
- *
- * ### 3. Dao Map
- *
- * Here are following hash map rules to store component references:
- *
- * 1. Each `key = value` pair refer to `source = {@link RQuote}`.
- * 2. `references` stored `source = RQuote` hash map.
- * 3. For 「Static」 mode, each {@link RQuote} stored `condition = RDao`.
- *
- * The example is as following:
- *
- * ```
- * // <pre><code class="shell">
- *     source1: res.employee            ( type = io.vertx.up.experiment.reference.RQuote )
- *          conditionA = RDao           |-- ( type = io.vertx.up.experiment.reference.RDao )
- *              -- supportAName
- *              -- supportGroup
- *              -- supportSection
- *          conditionB = RDao           |-- ( type = io.vertx.up.experiment.reference.RDao )
- *              -- supportBName
- *     source2: rl.device.relation      ( type = io.vertx.up.experiment.reference.RQuote )
- *          conditionC = AoDao          |-- ( type = io.vertx.up.experiment.reference.RDao )
- *              -- up
- *          conditionD = AoDao          |-- ( type = io.vertx.up.experiment.reference.RDao )
- *              -- down
- * // </code></pre>
- * ```
- *
- * > `conditionX` could be calculated by `key` ( include "" default value )
- *
- * ### 4. Result Map
- *
- * Here are following hash map rules to store component result:
- *
- * 1. Each `key = value` pair refer to `field = {@link RResult}`.
- * 2. `result` stored `source = RResult` hash map and refer to `RDao`.
- *
- * The example is as following:
- *
- * ```
- * // <pre><code class="shell">
- *     ( type = io.vertx.up.experiment.reference.RResult )
- *     supportAName = RResult
- *     supportBName = RResult
- *     supportGroup = RResult
- *     supportSection = RResult
- *     up = RResult
- *     down = RResult
- * // </code></pre>
- * ```
+ * {@link RReference}
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AoReference implements HReference {
-    private final transient Cc<String, RDao> ccDao = Cc.open();
-    /**
-     * The hash map to store `source = {@link RQuote}`.
-     */
-    private final transient Cc<String, RQuote> ccReference = Cc.open();
-    /**
-     * The hash map to store `field = {@link RResult}`.
-     */
-    private final transient Cc<String, RResult> ccResult = Cc.open();
-    /*
-     * Query Attribute
-     */
-    private final transient Cc<String, RQuery> ccQuery = Cc.open();
-
+class AoReference extends RReference {
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *
@@ -118,6 +29,7 @@ class AoReference implements HReference {
      * @param appName  {@link java.lang.String} The application name.
      */
     public AoReference(final Model modelRef, final String appName) {
+        super(appName);
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.dbAttributes();
         attributes.stream()
@@ -150,139 +62,27 @@ class AoReference implements HReference {
                      * Reference Initializing
                      */
                     final HAttribute aoAttr = modelRef.attribute(attribute.getName());
-                    this.initializeReference(attribute, aoAttr, appName);
+                    final KReference reference = new KReference();
+                    reference.name(attribute.getName());
+                    reference
+                        .source(attribute.getSource())
+                        .sourceField(attribute.getSourceField())
+                        .sourceReference(attribute.getSourceReference());
+                    /*
+                     * Call Parent Method
+                     */
+                    this.initializeReference(reference, aoAttr);
                 }
             });
     }
 
-    private void initializeReference(final MAttribute attribute, final HAttribute hAttribute, final String appName) {
-        final String source = attribute.getSource();
-
-        final JsonObject referenceConfig = Ut.toJObject(attribute.getSourceReference());
-
-        if (Ut.notNil(referenceConfig)) {
-
-            final RDao dao = this.initializeDao(attribute, appName, referenceConfig);
-            /*
-             * RDao initialize and unlink
-             */
-            final RQuote quote = this.ccReference.pick(() -> RQuote.create(appName), source);
-            // Fn.po?l(this.references, source, () -> RQuote.create(appName));
-            quote.add(hAttribute, referenceConfig, dao);
-            /*
-             *  Hash Map `result` calculation
-             *      - field = RResult
-             *  Based on DataAtom reference to create
-             */
-            final String field = attribute.getName();
-            final String referenceField = attribute.getSourceField();
-            final RResult result = this.ccResult.pick(() -> new RResult(referenceField, referenceConfig, hAttribute), field);
-            // Fn.po?l(this.result, field, () -> new RResult(referenceField, referenceConfig, hAttribute));
-            /*
-             * Qr Engine, stored quote reference map.
-             *
-             * field1 = query1,
-             * field2 = query2
-             */
-            if (DataFormat.Elementary == hAttribute.format()) {
-                this.ccQuery.pick(() -> new RQuery(field, attribute.getSourceField())
-                    .bind(quote.dao(field))
-                    .bind(result.joined()), field);
-                // Fn.po?l(this.queries, field, () -> new RQuery(field, attribute.getSourceField()).bind(quote.dao(field)).bind(result.joined()));
-            }
-        }
-    }
-
-    private RDao initializeDao(final MAttribute attribute, final String appName, final JsonObject referenceConfig) {
-        final String source = attribute.getSource();
-        final HAtom atom = Ao.toAtom(appName, source);
-        final KJoin join;
-        if (Objects.isNull(atom) && referenceConfig.containsKey(KName.DAO)) {
-            join = Ut.deserialize(referenceConfig.getJsonObject(KName.DAO), KJoin.class);
-        } else {
-            join = null;
-        }
-        final Function<JsonObject, Future<JsonArray>> actionA = this.actionA(atom, join);
-        final Function<JsonObject, JsonArray> actionS = this.actionS(atom, join);
-        // RDao Creation
-        final RDao dao = this.ccDao.pick(() -> new RDao(source), appName + "/" + source);
-        // Fn.po?l(this.sourceDao, appName + "/" + source, () -> new RDao(source));
-        return dao.actionA(actionA).actionS(actionS);
-    }
-
-    private Function<JsonObject, Future<JsonArray>> actionA(final HAtom atom, final KJoin join) {
-        return condition -> {
-            if (Ux.Jooq.isEmpty(condition)) {
-                return Ux.futureA();
-            }
-            if (Objects.isNull(atom)) {
-                Objects.requireNonNull(join);
-                final KPoint source = join.getSource();
-                final KPoint target = join.point(condition);
-                // Static
-                if (Objects.isNull(target)) {
-                    // Jooq
-                    return Ux.Jooq.on(source.getClassDao()).fetchJAsync(condition);
-                } else {
-                    // Join
-                    return Ux.Join.on()
-                        .add(source.getClassDao(), source.getKeyJoin())
-                        .join(target.getClassDao(), target.getKeyJoin())
-                        .fetchAsync(condition);
-                }
-            } else {
-                // Dynamic
-                final HDao dao = Ao.toDao(atom);
-                return dao.fetchAsync(condition).compose(Ux::futureA);
-            }
-        };
-    }
-
-    private Function<JsonObject, JsonArray> actionS(final HAtom atom, final KJoin join) {
-        return condition -> {
-            if (Ux.Jooq.isEmpty(condition)) {
-                return new JsonArray();
-            }
-            if (Objects.isNull(atom)) {
-                Objects.requireNonNull(join);
-                final KPoint source = join.getSource();
-                final KPoint target = join.point(condition);
-                // Static
-                if (Objects.isNull(target)) {
-                    // Jooq
-                    return Ux.Jooq.on(source.getClassDao()).fetchJ(condition);
-                } else {
-                    // Join
-                    return Ux.Join.on()
-                        .add(source.getClassDao(), source.getKeyJoin())
-                        .join(target.getClassDao(), target.getKeyJoin())
-                        .fetch(condition);
-                }
-            } else {
-                // Dynamic
-                final HDao dao = Ao.toDao(atom);
-                return Ut.toJArray(dao.fetch(condition));
-            }
-        };
-    }
-
-
     @Override
-    public ConcurrentMap<String, RQuote> refInput() {
-        final Cd<String, RQuote> store = this.ccReference.store();
-        return store.data();
+    protected HDao toDao(final HAtom atom) {
+        return Ao.toDao(atom);
     }
 
     @Override
-    public ConcurrentMap<String, RQuery> refQr() {
-        final Cd<String, RQuery> store = this.ccQuery.store();
-        return store.data();
+    protected HAtom toAtom(final String identifier) {
+        return Ao.toAtom(this.appName, identifier);
     }
-
-    @Override
-    public ConcurrentMap<String, RResult> refOutput() {
-        final Cd<String, RResult> store = this.ccResult.store();
-        return store.data();
-    }
-
 }

@@ -10,8 +10,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.experiment.specification.KColumn;
 import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KTransform;
-import io.vertx.up.experiment.specification.connect.KJoin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

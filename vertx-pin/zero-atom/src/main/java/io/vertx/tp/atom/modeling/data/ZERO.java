@@ -10,6 +10,7 @@ import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
+import io.vertx.up.experiment.mixture.atom.HAUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -26,7 +27,7 @@ interface Pool {
     // 基础模型池
     Cc<Integer, AoDefine> CC_INFO = Cc.open();
     // 标识规则信息
-    Cc<Integer, AoUnique> CC_RULE = Cc.open();
+    Cc<Integer, HAUnique> CC_RULE = Cc.open();
     // 基础标识信息
     Cc<Integer, AoMarker> CC_MARKER = Cc.open();
     // 数据引用信息

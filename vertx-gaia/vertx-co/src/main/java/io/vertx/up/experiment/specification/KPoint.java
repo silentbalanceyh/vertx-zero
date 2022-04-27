@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification.connect;
+package io.vertx.up.experiment.specification;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ClassDeserializer;

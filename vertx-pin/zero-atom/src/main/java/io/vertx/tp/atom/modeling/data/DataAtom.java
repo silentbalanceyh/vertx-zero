@@ -5,6 +5,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
+import io.vertx.up.experiment.mixture.atom.HAUnique;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
@@ -21,13 +22,13 @@ import java.util.concurrent.ConcurrentMap;
 public class DataAtom implements HAtom {
 
     private transient final AoDefine metadata;
-    private transient final AoUnique ruler;
+    private transient final HAUnique ruler;
     private transient final AoMarker marker;
     private transient final AoReference reference;
 
     private transient final Vs vs;
-    private transient final String unique;
-    private transient final String appName;
+    private final String unique;
+    private final String appName;
 
     public DataAtom(final Model model, final String appName) {
         this.appName = appName;
@@ -41,7 +42,7 @@ public class DataAtom implements HAtom {
         final Integer modelCode = model.hashCode();
         this.metadata = Pool.CC_INFO.pick(() -> new AoDefine(model), modelCode);
         // Fn.po?l(Pool.META_INFO, modelCode, () -> new AoDefine(model));
-        this.ruler = Pool.CC_RULE.pick(() -> new AoUnique(model), modelCode);
+        this.ruler = Pool.CC_RULE.pick(() -> new HAUnique(model), modelCode);
         // Fn.po?l(Pool.META_RULE, modelCode, () -> new AoUnique(model));
         this.marker = Pool.CC_MARKER.pick(() -> new AoMarker(model), modelCode);
         // Fn.po?l(Pool.META_MARKER, modelCode, () -> new AoMarker(model));

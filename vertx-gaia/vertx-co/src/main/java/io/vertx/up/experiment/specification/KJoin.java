@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification.connect;
+package io.vertx.up.experiment.specification;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

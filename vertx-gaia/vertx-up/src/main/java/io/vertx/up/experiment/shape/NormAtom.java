@@ -15,7 +15,12 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class NormAtom implements HAtom {
+public class NormAtom extends AbstractHAtom {
+
+    public NormAtom(final HModel model, final String appName) {
+        super(model, appName);
+    }
+
     @Override
     public String atomKey(final JsonObject options) {
         return null;
