@@ -1,12 +1,11 @@
 package io.vertx.up.experiment.shape;
 
-import io.vertx.core.json.JsonObject;
-import io.vertx.up.experiment.mixture.*;
-import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.uca.compare.Vs;
+import io.vertx.up.experiment.mixture.HAtom;
+import io.vertx.up.experiment.mixture.HModel;
+import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
+import io.vertx.up.experiment.shape.atom.AbstractAReference;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * This atom is a standard implementation because of all the attributes is static and fixed, you can not configure
@@ -22,27 +21,7 @@ public class NormAtom extends AbstractHAtom {
     }
 
     @Override
-    public String atomKey(final JsonObject options) {
-        return null;
-    }
-
-    @Override
     public HAtom atom(final String identifier) {
-        return null;
-    }
-
-    @Override
-    public HTAtom shape() {
-        return null;
-    }
-
-    @Override
-    public <T extends HModel> T model() {
-        return null;
-    }
-
-    @Override
-    public String identifier() {
         return null;
     }
 
@@ -53,11 +32,6 @@ public class NormAtom extends AbstractHAtom {
 
     @Override
     public String language() {
-        return null;
-    }
-
-    @Override
-    public HReference reference() {
         return null;
     }
 
@@ -107,57 +81,12 @@ public class NormAtom extends AbstractHAtom {
     }
 
     @Override
-    public RuleUnique ruleAtom() {
+    protected <T extends HModel> AbstractAMetadata newMetadata(final T model) {
         return null;
     }
 
     @Override
-    public RuleUnique ruleSmart() {
-        return null;
-    }
-
-    @Override
-    public RuleUnique rule() {
-        return null;
-    }
-
-    @Override
-    public HAtom rule(final RuleUnique rule) {
-        return null;
-    }
-
-    @Override
-    public Set<String> attribute() {
-        return null;
-    }
-
-    @Override
-    public HAttribute attribute(final String name) {
-        return null;
-    }
-
-    @Override
-    public ConcurrentMap<String, String> alias() {
-        return null;
-    }
-
-    @Override
-    public String alias(final String name) {
-        return null;
-    }
-
-    @Override
-    public ConcurrentMap<String, Class<?>> type() {
-        return null;
-    }
-
-    @Override
-    public Class<?> type(final String name) {
-        return null;
-    }
-
-    @Override
-    public Vs vs() {
+    protected <T extends HModel> AbstractAReference newReference(final T model) {
         return null;
     }
 }

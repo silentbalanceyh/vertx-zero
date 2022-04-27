@@ -123,8 +123,7 @@ interface HAtomRule {
      */
     RuleUnique rule();
 
-    @Fluent
-    HAtom rule(RuleUnique rule);
+    <T extends HAtom> T rule(RuleUnique rule);
 }
 
 // ==================== Attribute Part =====================

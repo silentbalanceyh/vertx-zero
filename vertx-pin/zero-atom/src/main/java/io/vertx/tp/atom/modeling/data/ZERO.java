@@ -10,10 +10,8 @@ import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
-import io.vertx.up.experiment.shape.atom.AtomUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -22,13 +20,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-interface Pool {
-    Cc<Integer, AtomUnique> CC_RULE = Cc.open();
-    Cc<Integer, AtomMetadata> CC_INFO = Cc.open();
-    Cc<Integer, AtomMarker> CC_MARKER = Cc.open();
-    Cc<Integer, AtomReference> CC_REFERENCE = Cc.open();
-}
 
 /**
  * 连接专用

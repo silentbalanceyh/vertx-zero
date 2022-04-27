@@ -1,61 +1,39 @@
 package io.vertx.tp.atom.modeling.data;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.mixture.*;
-import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.experiment.shape.atom.AtomUnique;
-import io.vertx.up.uca.compare.Vs;
-import io.vertx.up.util.Ut;
+import io.vertx.up.experiment.mixture.HModel;
+import io.vertx.up.experiment.shape.AbstractHAtom;
+import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
+import io.vertx.up.experiment.shape.atom.AbstractAReference;
+import io.vertx.up.uca.cache.Cc;
 
-import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * 内部使用的元数据分析工具，提供
  * 当前 DataRecord的专用 辅助工具，核心元数据处理工厂
  */
-public class DataAtom implements HAtom {
-
-    private transient final AtomMetadata metadata;
-    private transient final AtomUnique ruler;
+public class DataAtom extends AbstractHAtom {
+    private static final Cc<Integer, AtomMarker> CC_MARKER = Cc.open();
     private transient final AtomMarker marker;
-    private transient final AtomReference reference;
-
-    private transient final Vs vs;
-    private final String unique;
-    private final String appName;
 
     public DataAtom(final Model model, final String appName) {
-        this.appName = appName;
-        this.unique = Ao.toNS(appName, model.identifier()); //  Model.namespace(appName) + "-" + model.identifier();
-        /*
-         * 1. 基础模型信息
-         * 2. 标识规则信息
-         * 3. 基础标识信息
-         * 4. 数据引用信息
-         */
+        super(model, appName);
+
         final Integer modelCode = model.hashCode();
-        this.ruler = Pool.CC_RULE.pick(() -> new AtomUnique(model), modelCode);
-        // Fn.po?l(Pool.META_RULE, modelCode, () -> new AoUnique(model));
-        this.metadata = Pool.CC_INFO.pick(() -> new AtomMetadata(model), modelCode);
-        // Fn.po?l(Pool.META_INFO, modelCode, () -> new AoDefine(model));
-        this.marker = Pool.CC_MARKER.pick(() -> new AtomMarker(model), modelCode);
-        // Fn.po?l(Pool.META_MARKER, modelCode, () -> new AoMarker(model));
-        this.reference = Pool.CC_REFERENCE.pick(() -> new AtomReference(model, appName), modelCode);
-        // Fn.po?l(Pool.META_REFERENCE, modelCode, () -> new AoReference(model, appName));
-        this.vs = Vs.create(this.unique, this.metadata.types());
+        this.marker = CC_MARKER.pick(() -> new AtomMarker(model), modelCode);
     }
 
-    // ------------ 基础模型部分 ------------
+
     @Override
-    public String atomKey(final JsonObject options) {
-        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
-        return this.metadata.identifier() + "-" + hashCode;
+    protected <T extends HModel> AbstractAMetadata newMetadata(final T model) {
+        return new AtomMetadata((Model) model);
+    }
+
+    @Override
+    protected <T extends HModel> AbstractAReference newReference(final T model) {
+        return new AtomReference((Model) model, this.appName);
     }
 
     @Override
@@ -63,112 +41,20 @@ public class DataAtom implements HAtom {
         return Ao.toAtom(this.appName, identifier);
     }
 
-    /** 返回当前 Model 中的所有属性集 */
     @Override
-    public Set<String> attribute() {
-        return this.metadata.attribute();
+    public String sigma() {
+        return ((AtomMetadata) this.metadata).sigma();
     }
 
     @Override
-    public HAttribute attribute(final String name) {
-        return this.metadata.attribute(name);
-    }
-
-    /** 返回 name = alias */
-    @Override
-    public ConcurrentMap<String, String> alias() {
-        return this.metadata.alias();
-    }
-
-    @Override
-    public String alias(final String name) {
-        return this.metadata.alias().getOrDefault(name, Strings.EMPTY);
+    public String language() {
+        return ((AtomMetadata) this.metadata).language();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Model model() {
-        return this.metadata.model();
-    }
-
-    /* 返回当前记录关联的 identifier */
-    @Override
-    public String identifier() {
-        return this.metadata.identifier();
-    }
-
-    /* 返回当前记录专用的 sigma */
-    @Override
-    public String sigma() {
-        return this.metadata.sigma();
-    }
-
-    /* 返回语言信息 */
-    @Override
-    public String language() {
-        return this.metadata.language();
-    }
-
-    /* 属性类型 */
-    @Override
-    public ConcurrentMap<String, Class<?>> type() {
-        final Set<String> attributes = this.metadata.attribute();
-        final ConcurrentMap<String, Class<?>> result = new ConcurrentHashMap<>();
-        attributes.forEach(name -> result.put(name, this.type(name)));
-        return result;
-    }
-
-    @Override
-    public Class<?> type(final String field) {
-        final HTField attribute = this.metadata.type(field);
-        return Objects.isNull(attribute) ? String.class : attribute.type();
-    }
-
-    /** 返回 Shape 对象 */
-    @Override
-    public HTAtom shape() {
-        return this.metadata.shape();
-    }
-
-    // ------------ 比对专用方法 ----------
-
-    @Override
-    public Vs vs() {
-        return this.vs;
-    }
-
-    // ------------ 引用专用方法 ----------
-
-    @Override
-    public HReference reference() {
-        return this.reference;
-    }
-    // ------------ 标识规则 ----------
-
-    /** 存储的规则 */
-    @Override
-    public RuleUnique ruleAtom() {
-        return this.ruler.rule();
-    }
-
-
-    /** 智能检索规则 */
-    @Override
-    public RuleUnique ruleSmart() {
-        return this.ruler.ruleSmart();
-    }
-
-    /** 连接的规则 */
-    @Override
-    public RuleUnique rule() {
-        return this.ruler.ruleDirect();
-    }
-
-    /** 规则的链接 */
-    @Override
-    public DataAtom rule(final RuleUnique channelRule) {
-        this.ruler.connect(channelRule);
-        return this;
+        return (Model) super.model();
     }
 
     // ------------ 属性检查的特殊功能，收集相关属性 ----------
@@ -234,22 +120,5 @@ public class DataAtom implements HAtom {
     @Override
     public Set<String> trueConfirm() {
         return this.marker.confirm(Boolean.TRUE);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof DataAtom)) {
-            return false;
-        }
-        final DataAtom atom = (DataAtom) o;
-        return this.unique.equals(atom.unique);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.unique);
     }
 }
