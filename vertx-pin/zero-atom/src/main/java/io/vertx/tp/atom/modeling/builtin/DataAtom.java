@@ -4,8 +4,8 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.shape.atom.HAtomMetadata;
-import io.vertx.up.experiment.shape.atom.HAtomReference;
+import io.vertx.up.experiment.shape.HAtomMetadata;
+import io.vertx.up.experiment.shape.HAtomReference;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Set;

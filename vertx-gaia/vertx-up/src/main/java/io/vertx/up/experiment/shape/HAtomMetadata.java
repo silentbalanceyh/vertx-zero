@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.shape.atom;
+package io.vertx.up.experiment.shape;
 
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HModel;

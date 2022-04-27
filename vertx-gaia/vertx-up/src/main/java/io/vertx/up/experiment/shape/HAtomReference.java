@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.shape.atom;
+package io.vertx.up.experiment.shape;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.shape.atom.HAtomMetadata;
+import io.vertx.up.experiment.shape.HAtomMetadata;
 
 import java.util.Objects;
 import java.util.function.Function;

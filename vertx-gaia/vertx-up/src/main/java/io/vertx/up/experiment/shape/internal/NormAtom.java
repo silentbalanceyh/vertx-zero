@@ -1,9 +1,10 @@
-package io.vertx.up.experiment.shape;
+package io.vertx.up.experiment.shape.internal;
 
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HModel;
-import io.vertx.up.experiment.shape.atom.HAtomMetadata;
-import io.vertx.up.experiment.shape.atom.HAtomReference;
+import io.vertx.up.experiment.shape.AbstractHAtom;
+import io.vertx.up.experiment.shape.HAtomMetadata;
+import io.vertx.up.experiment.shape.HAtomReference;
 
 import java.util.Set;
 
