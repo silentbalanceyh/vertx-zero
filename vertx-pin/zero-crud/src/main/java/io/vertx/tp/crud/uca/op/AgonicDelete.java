@@ -10,7 +10,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
-import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.modeling.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;

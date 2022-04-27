@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.shape;
+package io.vertx.up.experiment.shape.pojo;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.mixture.*;
@@ -9,9 +9,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * This atom is a standard implementation because of all the attributes is static and fixed, you can not configure
+ * all the information when the container is running, this model will connect to `pojo/{0}.yml` file ( It's internal
+ * mapping Channel ) and capture the `Mu` definition for current static model.
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class PojoAtom implements HAtom {
+public class FixedAtom implements HAtom {
     @Override
     public String atomKey(final JsonObject options) {
         return null;

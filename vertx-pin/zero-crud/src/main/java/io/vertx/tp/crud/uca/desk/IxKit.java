@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.modeling.KModule;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;

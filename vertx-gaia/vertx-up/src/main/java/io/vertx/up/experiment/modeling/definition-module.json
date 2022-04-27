@@ -1,0 +1,68 @@
+{
+    "pojo": "「字符串」关联的 pojo/xxx.yml 文件信息，只设置 xxx 即可，带映射时必须",
+    "daoCls": "「类名」Jooq生成的Dao类",
+    "field": {
+        "key": "「字符串」主键字段名",
+        "unique": [
+            "$COMMENT$「J数组」备注：二维数组结构，可支持多组不同的业务标识规则",
+            [
+                "「字符串」某一组的字段名"
+            ]
+        ],
+        "created": {
+            "at": "「字符串」创建时间",
+            "by": "「字符串」创建人"
+        },
+        "updated": {
+            "at": "「字符串」更新时间",
+            "by": "「字符串」更新人"
+        },
+        "numbers": {
+            "comment": [
+                "field = 「字符串」需指定的序号字段名（可多个）",
+                "indent = 「字符串」执行的 X_NUMBER 中的序号 code，生成序号专用"
+            ],
+            "field": "indent"
+        },
+        "array": [
+            "「字符串」J数组字段名"
+        ],
+        "object": [
+            "「字符串」J对象字段名（滤掉 metadata）"
+        ],
+        "attachment": [
+            "「字符串」附件字段名"
+        ]
+    },
+    "connect": {
+        "targetIndent": [
+            "$COMMENT$",
+            "「字符串」从原始模型中提取字段去和目标字段做连接，该字段提取的是目标字段的 identifier，即从记录中解析",
+            "identifier的值，这种场景只适用于 identifier 存储在数据记录中的情况！比如 targetIndent = xxx，最",
+            "后，数据记录中会存储 xxx = identifier （target）的值。",
+            "这个配置具有一定的二义性，也就是说，可以直接设置 identifier，如果程序无法根据记录中对应的字段提取目标",
+            "对应的 identifier，则该配置会直接处理，这种适合单一链接。"
+        ],
+        "target": {
+            "$COMMENT$": "identifier就是目标模型的 identifier",
+            "identifier": {
+                "key": "「字符串」Target目标记录的主键",
+                "keyJoin": "「字符串」Target目标记录的字段名",
+                "classDao": "「类名」如果不使用外置文件，直接连接时需要该配置",
+                "crud": "classDao中对应的 POJO 文件",
+                "synonym": {
+                    "$COMMENT$": [
+                        "重名字段的rename专用配置",
+                        "fieldFrom - target中的字段名",
+                        "fieldTo - target重命名后的字段名"
+                    ],
+                    "fieldFrom": "fieldTo"
+                }
+            }
+        },
+        "sourceIndent": "「保留」用于处理源头专用",
+        "source": {
+            "$COMMENT$": "结构同 target"
+        }
+    }
+}

@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExUser;
+import io.vertx.up.experiment.modeling.KModule;
 import io.vertx.up.experiment.specification.KField;
-import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

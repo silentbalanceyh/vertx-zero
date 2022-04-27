@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentMap;
  *     type:                                    # POJO Type of Jooq Generated
  *     mapping:                                 # Mapping from entity -> field
  *         pojoField: jsonField
- *     atom:                                    # Connect to
  * // </code></pre>
  */
 public class Mojo implements Serializable {
@@ -44,19 +43,12 @@ public class Mojo implements Serializable {
     @JsonProperty(KName.MAPPING)
     private ConcurrentMap<String, String> mapping = new ConcurrentHashMap<>();
 
-    @JsonProperty(KName.ATOM)
-    private Mu unit;
-
     public Class<?> getType() {
         return this.type;
     }
 
     public void setType(final Class<?> type) {
         this.type = type;
-    }
-
-    public Mu unit() {
-        return this.unit;
     }
 
     public Mojo on(final String pojoFile) {

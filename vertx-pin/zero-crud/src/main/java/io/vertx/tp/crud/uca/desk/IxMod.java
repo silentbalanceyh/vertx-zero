@@ -12,7 +12,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.JoinMode;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.modeling.KModule;
 import io.vertx.up.experiment.specification.connect.KJoin;
 import io.vertx.up.experiment.specification.connect.KPoint;
 import io.vertx.up.fn.Fn;

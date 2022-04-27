@@ -5,7 +5,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.modeling.KModule;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 
