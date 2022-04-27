@@ -6,7 +6,7 @@ import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.up.eon.em.Environment;

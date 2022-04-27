@@ -1,11 +1,11 @@
-package io.vertx.tp.atom.modeling.data;
+package io.vertx.tp.atom.modeling.builtin;
 
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
-import io.vertx.up.experiment.shape.atom.AbstractAReference;
+import io.vertx.up.experiment.shape.atom.HAtomMetadata;
+import io.vertx.up.experiment.shape.atom.HAtomReference;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Set;
@@ -27,12 +27,12 @@ public class DataAtom extends AbstractHAtom {
 
 
     @Override
-    protected <T extends HModel> AbstractAMetadata newMetadata(final T model) {
+    protected <T extends HModel> HAtomMetadata newMetadata(final T model) {
         return new AtomMetadata((Model) model);
     }
 
     @Override
-    protected <T extends HModel> AbstractAReference newReference(final T model) {
+    protected <T extends HModel> HAtomReference newReference(final T model) {
         return new AtomReference((Model) model, this.appName);
     }
 

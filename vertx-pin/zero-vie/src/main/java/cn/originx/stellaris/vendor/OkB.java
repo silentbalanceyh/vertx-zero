@@ -4,7 +4,7 @@ import cn.originx.stellaris.OkA;
 import cn.originx.stellaris.OkX;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
@@ -150,7 +150,7 @@ public interface OkB extends OkX, Copyable<OkB> {
     /**
      * 「Async」根据模型定义异步构造某一个模型的字典翻译器
      *
-     * @param atom {@link DataAtom} 传入的模型定义对象`io.vertx.tp.atom.modeling.data.DataAtom`
+     * @param atom {@link DataAtom} 传入的模型定义对象`io.vertx.tp.atom.modeling.building.DataAtom`
      *
      * @return `{@link Future}<{@link DFabric}>`
      */

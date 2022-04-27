@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.modeling;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
@@ -30,7 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  * 2. 包含该Model对应的MAttribute集合
  * 3. 包含多个Schema
  */
-public class JsonModel implements Model {
+public class AtomModel implements Model {
     private final transient Set<Schema> schemata = new HashSet<>();
     /* 所有关联的Entity的ID */
     private final transient Set<MJoin> joins = new HashSet<>();
@@ -50,7 +49,7 @@ public class JsonModel implements Model {
     /* Unique专用 */
     private transient RuleUnique unique;
 
-    public JsonModel(final String namespace) {
+    public AtomModel(final String namespace) {
         this.namespace = namespace;
     }
 
@@ -82,7 +81,7 @@ public class JsonModel implements Model {
                 final Schema schema = this.schema(attribute.getSource());
                 final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
-                Cc.pool(this.attributeMap, attribute.getName(), () -> new AoAttribute(attribute, field));
+                Cc.pool(this.attributeMap, attribute.getName(), () -> new AtomAttribute(attribute, field));
             });
         }
     }
@@ -243,7 +242,7 @@ public class JsonModel implements Model {
         if (null != schemata) {
             /* 在填充 Schema 的过程中直接处理 DataKey */
             Ut.itJArray(schemata, (schema, index) -> {
-                final Schema schemaObj = new JsonSchema(this.namespace);
+                final Schema schemaObj = new AtomSchema(this.namespace);
                 schemaObj.fromJson(schema);
                 this.schemata.add(schemaObj);
             });
@@ -309,10 +308,10 @@ public class JsonModel implements Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof JsonModel)) {
+        if (!(o instanceof AtomModel)) {
             return false;
         }
-        final JsonModel that = (JsonModel) o;
+        final AtomModel that = (AtomModel) o;
         return Objects.equals(this.identifier, that.identifier) &&
             Objects.equals(this.model.getNamespace(), that.model.getNamespace());
     }

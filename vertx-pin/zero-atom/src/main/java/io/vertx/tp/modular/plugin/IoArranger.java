@@ -3,7 +3,7 @@ package io.vertx.tp.modular.plugin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;

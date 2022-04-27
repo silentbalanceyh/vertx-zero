@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.config;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
@@ -24,7 +24,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AoAttribute implements HAttribute, Serializable {
+class AtomAttribute implements HAttribute, Serializable {
     /**
      * {@link DataFormat} is for fieldSource
      */
@@ -45,7 +45,7 @@ public class AoAttribute implements HAttribute, Serializable {
      *
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} `M_ATTRIBUTE` referred
      */
-    public AoAttribute(final MAttribute attribute, final MField sourceField) {
+    public AtomAttribute(final MAttribute attribute, final MField sourceField) {
         /*
          * 1. type: Attribute `TYPE` database field stored
          * 2. isArray: Check whether current attribute is Array Type

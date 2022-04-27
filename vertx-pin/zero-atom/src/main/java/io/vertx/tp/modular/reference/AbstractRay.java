@@ -2,7 +2,7 @@ package io.vertx.tp.modular.reference;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._501AnonymousAtomException;
 import io.vertx.up.experiment.mixture.HReference;
@@ -53,7 +53,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      * The critical code logical is as following:
      *
      * - Bind the {@link io.vertx.tp.atom.modeling.element.DataTpl} to instance member `tpl`.
-     * - Be sure the {@link io.vertx.tp.atom.modeling.data.DataAtom} in {@link io.vertx.tp.atom.modeling.element.DataTpl} is valid.
+     * - Be sure the {@link DataAtom} in {@link io.vertx.tp.atom.modeling.element.DataTpl} is valid.
      * - Calculate the two hash maps in this method.
      *
      * @param tpl {@link io.vertx.tp.atom.modeling.element.DataTpl} The template that will be bind.

@@ -2,7 +2,7 @@ package cn.originx.scaffold.plugin;
 
 import cn.originx.cv.OxCv;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._501FabricIssueException;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.commune.exchange.DFabric;

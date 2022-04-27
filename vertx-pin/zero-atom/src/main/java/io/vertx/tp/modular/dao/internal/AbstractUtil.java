@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.tp.atom.cv.em.EventType;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.error._417DataAtomNullException;
 import io.vertx.tp.modular.jdbc.AoConnection;

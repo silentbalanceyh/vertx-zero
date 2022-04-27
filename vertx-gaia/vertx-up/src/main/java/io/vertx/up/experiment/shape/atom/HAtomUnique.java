@@ -10,14 +10,14 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AtomUnique {
+public class HAtomUnique {
     private final HModel modelRef;
     /*
      * The rule unique of channel ( Running Internal )
      */
     private RuleUnique channelRule;
 
-    public AtomUnique(final HModel modelRef) {
+    public HAtomUnique(final HModel modelRef) {
         Objects.requireNonNull(modelRef);
         /* HModel Reference */
         this.modelRef = modelRef;

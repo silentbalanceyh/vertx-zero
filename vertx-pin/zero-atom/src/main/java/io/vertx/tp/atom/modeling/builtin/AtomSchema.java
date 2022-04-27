@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.modeling;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-public class JsonSchema implements Schema {
+public class AtomSchema implements Schema {
 
     private final transient ConcurrentMap<String, MKey> keys =
         new ConcurrentHashMap<>();
@@ -34,7 +34,7 @@ public class JsonSchema implements Schema {
     /* Json文件信息 */
     private transient String jsonFile;
 
-    public JsonSchema(final String namespace) {
+    public AtomSchema(final String namespace) {
         this.namespace = namespace;
     }
 
@@ -231,10 +231,10 @@ public class JsonSchema implements Schema {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof JsonSchema)) {
+        if (!(o instanceof AtomSchema)) {
             return false;
         }
-        final JsonSchema that = (JsonSchema) o;
+        final AtomSchema that = (AtomSchema) o;
         return Objects.equals(this.identifier, that.identifier) &&
             Objects.equals(this.entity.getNamespace(), that.entity.getNamespace());
     }

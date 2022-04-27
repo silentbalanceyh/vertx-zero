@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.data;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.tp.atom.modeling.Model;
@@ -7,7 +7,7 @@ import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.shape.atom.AbstractAReference;
+import io.vertx.up.experiment.shape.atom.HAtomReference;
 import io.vertx.up.experiment.specification.KReference;
 import io.vertx.up.util.Ut;
 
@@ -17,11 +17,11 @@ import java.util.Set;
 /**
  * ## Reference Calculation
  *
- * {@link AbstractAReference}
+ * {@link HAtomReference}
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AtomReference extends AbstractAReference {
+class AtomReference extends HAtomReference {
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *

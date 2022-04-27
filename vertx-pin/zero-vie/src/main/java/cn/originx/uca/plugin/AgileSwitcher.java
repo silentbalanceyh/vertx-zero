@@ -3,7 +3,7 @@ package cn.originx.uca.plugin;
 import cn.originx.uca.concrete.Arrow;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.experiment.mixture.HDao;

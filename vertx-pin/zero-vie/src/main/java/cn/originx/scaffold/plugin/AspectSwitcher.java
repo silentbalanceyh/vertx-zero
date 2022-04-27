@@ -4,7 +4,7 @@ import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;

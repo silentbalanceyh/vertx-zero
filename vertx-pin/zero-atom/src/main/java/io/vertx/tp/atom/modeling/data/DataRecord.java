@@ -2,6 +2,7 @@ package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.id.AoId;

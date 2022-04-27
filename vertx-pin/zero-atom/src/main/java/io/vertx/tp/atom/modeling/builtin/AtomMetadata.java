@@ -1,10 +1,10 @@
-package io.vertx.tp.atom.modeling.data;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
+import io.vertx.up.experiment.shape.atom.HAtomMetadata;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -13,7 +13,7 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * 模型基本信息
  */
-class AtomMetadata extends AbstractAMetadata {
+class AtomMetadata extends HAtomMetadata {
 
     AtomMetadata(final Model modelRef) {
         super(modelRef);

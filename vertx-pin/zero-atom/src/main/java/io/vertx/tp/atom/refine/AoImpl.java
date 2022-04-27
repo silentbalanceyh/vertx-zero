@@ -3,7 +3,7 @@ package io.vertx.tp.atom.refine;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.jdbc.Pin;

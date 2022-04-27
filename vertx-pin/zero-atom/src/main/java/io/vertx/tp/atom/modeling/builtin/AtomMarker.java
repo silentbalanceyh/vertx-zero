@@ -1,4 +1,4 @@
-package io.vertx.tp.atom.modeling.data;
+package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.tp.atom.modeling.Model;

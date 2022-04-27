@@ -2,8 +2,8 @@ package io.vertx.up.experiment.shape;
 
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HModel;
-import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
-import io.vertx.up.experiment.shape.atom.AbstractAReference;
+import io.vertx.up.experiment.shape.atom.HAtomMetadata;
+import io.vertx.up.experiment.shape.atom.HAtomReference;
 
 import java.util.Set;
 
@@ -81,12 +81,12 @@ public class NormAtom extends AbstractHAtom {
     }
 
     @Override
-    protected <T extends HModel> AbstractAMetadata newMetadata(final T model) {
+    protected <T extends HModel> HAtomMetadata newMetadata(final T model) {
         return null;
     }
 
     @Override
-    protected <T extends HModel> AbstractAReference newReference(final T model) {
+    protected <T extends HModel> HAtomReference newReference(final T model) {
         return null;
     }
 }

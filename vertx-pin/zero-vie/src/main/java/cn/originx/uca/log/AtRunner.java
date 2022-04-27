@@ -7,7 +7,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;

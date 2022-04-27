@@ -2,7 +2,7 @@ package io.vertx.tp.modular.jooq;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;

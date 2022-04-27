@@ -4,9 +4,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.experiment.shape.atom.AbstractAMetadata;
-import io.vertx.up.experiment.shape.atom.AbstractAReference;
-import io.vertx.up.experiment.shape.atom.AtomUnique;
+import io.vertx.up.experiment.shape.atom.HAtomMetadata;
+import io.vertx.up.experiment.shape.atom.HAtomReference;
+import io.vertx.up.experiment.shape.atom.HAtomUnique;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
@@ -21,16 +21,16 @@ import java.util.concurrent.ConcurrentMap;
  */
 public abstract class AbstractHAtom implements HAtom {
 
-    private static final Cc<Integer, AtomUnique> CC_RULE = Cc.open();
-    private static final Cc<Integer, AbstractAMetadata> CC_METADATA = Cc.open();
-    private static final Cc<Integer, AbstractAReference> CC_REFERENCE = Cc.open();
+    private static final Cc<Integer, HAtomUnique> CC_RULE = Cc.open();
+    private static final Cc<Integer, HAtomMetadata> CC_METADATA = Cc.open();
+    private static final Cc<Integer, HAtomReference> CC_REFERENCE = Cc.open();
 
     protected final String unique;
     protected final String appName;
 
-    protected transient final AtomUnique ruler;
-    protected transient final AbstractAMetadata metadata;
-    protected transient final AbstractAReference reference;
+    protected transient final HAtomUnique ruler;
+    protected transient final HAtomMetadata metadata;
+    protected transient final HAtomReference reference;
 
     private transient final Vs vs;
 
@@ -40,7 +40,7 @@ public abstract class AbstractHAtom implements HAtom {
         this.unique = HApp.ns(appName, model.identifier());
         // Model Hash Code
         final Integer modelCode = model.hashCode();
-        this.ruler = CC_RULE.pick(() -> new AtomUnique(model), modelCode);
+        this.ruler = CC_RULE.pick(() -> new HAtomUnique(model), modelCode);
         this.metadata = CC_METADATA.pick(() -> this.newMetadata(model), modelCode);
         this.reference = CC_REFERENCE.pick(() -> this.newReference(model), modelCode);
         this.vs = Vs.create(this.unique, this.metadata.types());
@@ -122,9 +122,9 @@ public abstract class AbstractHAtom implements HAtom {
     }
 
     // ------------ 子类实现 ------------
-    protected abstract <T extends HModel> AbstractAMetadata newMetadata(final T model);
+    protected abstract <T extends HModel> HAtomMetadata newMetadata(final T model);
 
-    protected abstract <T extends HModel> AbstractAReference newReference(final T model);
+    protected abstract <T extends HModel> HAtomReference newReference(final T model);
 
     // ------------ 标识规则 ------------
 

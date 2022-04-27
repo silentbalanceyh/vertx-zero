@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractAMetadata {
+public abstract class HAtomMetadata {
     private transient final HModel modelRef;
 
     private transient final String identifier;
@@ -21,7 +21,7 @@ public abstract class AbstractAMetadata {
     private transient final HTAtom htAtom = HTAtom.create();
 
 
-    public AbstractAMetadata(final HModel modelRef) {
+    public HAtomMetadata(final HModel modelRef) {
         // Model reference
         this.modelRef = modelRef;
         // Extract identifier from modelRef

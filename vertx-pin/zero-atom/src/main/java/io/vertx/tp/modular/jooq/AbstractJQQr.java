@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.jooq;
 
 import io.vertx.up.eon.em.atom.ModelType;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;

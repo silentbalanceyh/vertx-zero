@@ -3,7 +3,7 @@ package cn.originx.refine;
 import cn.originx.uca.ui.FieldReport;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;

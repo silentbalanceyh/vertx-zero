@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.modeling;
+package io.vertx.tp.atom.modeling.builtin;
 
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;

@@ -3,7 +3,7 @@ package io.vertx.tp.atom.refine;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.up.commune.Record;
 import io.vertx.up.util.Ut;
