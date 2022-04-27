@@ -7,7 +7,7 @@ import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.reference.RReference;
+import io.vertx.up.experiment.mixture.atom.AbstractHREF;
 import io.vertx.up.experiment.specification.KReference;
 import io.vertx.up.util.Ut;
 
@@ -17,11 +17,11 @@ import java.util.Set;
 /**
  * ## Reference Calculation
  *
- * {@link RReference}
+ * {@link AbstractHREF}
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AoReference extends RReference {
+class AoReference extends AbstractHREF {
     /**
      * 「Fluent」Build reference metadata information based on `Model`.
      *
