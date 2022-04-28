@@ -11,8 +11,8 @@ import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.specification.KAttribute;
-import io.vertx.up.experiment.specification.KMatrix;
+import io.vertx.up.experiment.mu.KAttribute;
+import io.vertx.up.experiment.mu.KTag;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -141,11 +141,11 @@ class AtomAttribute implements HAttribute, Serializable {
         /*
          * KMatrix Building
          */
-        final KMatrix matrix = this.initializeMatrix(attribute);
+        final KTag matrix = this.initializeMatrix(attribute);
         this.attribute = new KAttribute(attributeJ, matrix);
     }
 
-    private KMatrix initializeMatrix(final MAttribute attribute) {
+    private KTag initializeMatrix(final MAttribute attribute) {
         final StringBuilder literal = new StringBuilder();
         // Boolean -> 0, 1
         final List<Boolean> values = new ArrayList<>();
@@ -168,7 +168,7 @@ class AtomAttribute implements HAttribute, Serializable {
                 literal.append(Strings.COMMA);
             }
         }
-        return new KMatrix(literal.toString());
+        return new KTag(literal.toString());
     }
 
     /**
@@ -189,6 +189,11 @@ class AtomAttribute implements HAttribute, Serializable {
     @Override
     public List<HTField> fields() {
         return this.attribute.fields();
+    }
+
+    @Override
+    public KTag tag() {
+        return this.attribute.tag();
     }
 
     /**

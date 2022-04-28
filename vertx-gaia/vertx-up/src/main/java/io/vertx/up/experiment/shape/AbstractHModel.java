@@ -3,6 +3,8 @@ package io.vertx.up.experiment.shape;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HModel;
+import io.vertx.up.experiment.mu.KMarker;
+import io.vertx.up.experiment.mu.KTag;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
@@ -25,9 +27,17 @@ public abstract class AbstractHModel implements HModel {
     protected String jsonFile;
     // Unique Rule
     protected RuleUnique unique;
+    // Marker for
+    protected KMarker marker;
 
     public AbstractHModel(final String namespace) {
         this.namespace = namespace;
+        // Attribute Load
+        this.attributeMap.putAll(this.loadAttribute());
+        // RuleUnique Load
+        this.unique = this.loadRule();
+        // Marker Load
+        this.marker = this.loadMarker();
     }
 
     // ================ Basic Method Api ==================
@@ -46,6 +56,11 @@ public abstract class AbstractHModel implements HModel {
         return this.namespace;
     }
 
+    @Override
+    public KMarker tag() {
+        return this.marker;
+    }
+
     // ================= Attribute Part ===================
     @Override
     public void fromFile(final String file) {
@@ -57,13 +72,11 @@ public abstract class AbstractHModel implements HModel {
 
     @Override
     public HAttribute attribute(final String attributeName) {
-        this.loadAttribute();
         return this.attributeMap.getOrDefault(attributeName, null);
     }
 
     @Override
     public Set<String> attribute() {
-        this.loadAttribute();
         return this.attributeMap.keySet();
     }
 
@@ -75,9 +88,26 @@ public abstract class AbstractHModel implements HModel {
         return this.unique;
     }
 
-    protected abstract void loadAttribute();
+    protected abstract ConcurrentMap<String, HAttribute> loadAttribute();
 
-    protected abstract void loadRule();
+    protected abstract RuleUnique loadRule();
+
+    protected boolean trackable() {
+        // Default track = true;
+        return Boolean.TRUE;
+    }
+
+    private KMarker loadMarker() {
+        final KMarker marker = new KMarker(this.trackable());
+        this.attribute().forEach(name -> {
+            final HAttribute attribute = this.attribute(name);
+            if (Objects.nonNull(attribute)) {
+                final KTag tag = attribute.tag();
+                marker.put(name, tag);
+            }
+        });
+        return marker;
+    }
     // ===================== Equal / Hash Part =====================
 
     @Override

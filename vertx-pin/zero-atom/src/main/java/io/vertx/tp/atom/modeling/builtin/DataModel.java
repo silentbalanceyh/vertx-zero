@@ -12,6 +12,7 @@ import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
 import io.vertx.up.uca.cache.Cc;
@@ -46,29 +47,35 @@ public class DataModel extends AbstractHModel implements Model {
 
     // =================== Abstract Class Method ====================
     @Override
-    protected void loadAttribute() {
-        if (this.attributeMap.isEmpty()) {
-            /* 读取所有 MAttribute */
-            this.dbAttributes().forEach(attribute -> {
-                /*
-                 * 根据 source, sourceField 读取 MField 来执行
-                 * AoAttribute的构造
-                 * */
-                final Schema schema = this.schema(attribute.getSource());
-                final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
+    protected ConcurrentMap<String, HAttribute> loadAttribute() {
+        final ConcurrentMap<String, HAttribute> attrMap = new ConcurrentHashMap<>();
+        /* 读取所有 MAttribute */
+        this.dbAttributes().forEach(attribute -> {
+            /*
+             * 根据 source, sourceField 读取 MField 来执行
+             * AoAttribute的构造
+             * */
+            final Schema schema = this.schema(attribute.getSource());
+            final MField field = Objects.isNull(schema) ? null : schema.getField(attribute.getSourceField());
 
-                Cc.pool(this.attributeMap, attribute.getName(), () -> new AtomAttribute(attribute, field));
-            });
-        }
+            Cc.pool(attrMap, attribute.getName(), () -> new AtomAttribute(attribute, field));
+        });
+        return attrMap;
     }
 
     @Override
-    protected void loadRule() {
-        if (Objects.isNull(this.unique)) {
-            final String content = this.model.getRuleUnique();
-            if (Ut.notNil(content)) {
-                this.unique = Ut.deserialize(content, RuleUnique.class);
-            }
+    protected boolean trackable() {
+        final Boolean isTrack = this.dbModel().getIsTrack();
+        return Objects.isNull(isTrack) ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    @Override
+    protected RuleUnique loadRule() {
+        final String content = this.model.getRuleUnique();
+        if (Ut.notNil(content)) {
+            return Ut.deserialize(content, RuleUnique.class);
+        } else {
+            return null;
         }
     }
 

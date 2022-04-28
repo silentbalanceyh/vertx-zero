@@ -13,11 +13,10 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class HAtomMetadata {
+public class HAtomMetadata {
+
     private transient final HModel modelRef;
-
     private transient final String identifier;
-
     private transient final HTAtom htAtom = HTAtom.create();
 
 
@@ -30,20 +29,25 @@ public abstract class HAtomMetadata {
         modelRef.attribute().forEach(name -> {
             // Name Here
             final HAttribute attr = modelRef.attribute(name);
-            final HTField field;
-            if (Objects.isNull(attr)) {
-                // Fix common issue for type checking
-                field = this.toField(name);
+            /*
+             * Why ?
+             */
+            Objects.requireNonNull(attr);
+            final HTField field = attr.field();
+/*            if (Objects.isNull(attr)) {
+                if (Objects.isNull(this.htFieldFn)) {
+                    field = null;
+                } else {
+                    field = this.htFieldFn.apply(name);
+                }
             } else {
                 field = attr.field();
-            }
+            }*/
             if (Objects.nonNull(field)) {
                 this.htAtom.add(field);
             }
         });
     }
-
-    public abstract HTField toField(String name);
 
     // ==================== Model Information ==================
     @SuppressWarnings("unchecked")

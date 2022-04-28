@@ -1,9 +1,10 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -66,6 +67,7 @@ public class KClass implements Serializable {
             throw new _409IdentifierConflictException(KClass.class, identifier, idConfig);
         }
         classJ.put(KName.MODULE, moduleJ);
+        LOGGER.info("[ KClass ] Json Input = {0}", classJ.encode());
         return new KClass(namespace, classJ);
     }
 

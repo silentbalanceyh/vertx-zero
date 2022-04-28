@@ -1,6 +1,7 @@
 package io.vertx.up.experiment.mixture;
 
 import io.vertx.up.eon.em.atom.ModelType;
+import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.rule.RuleUnique;
 
 import java.util.Set;
@@ -39,4 +40,6 @@ public interface HModel extends HApp {
      * The attribute extracting method by `name`
      */
     HAttribute attribute(String name);
+
+    KMarker tag();
 }

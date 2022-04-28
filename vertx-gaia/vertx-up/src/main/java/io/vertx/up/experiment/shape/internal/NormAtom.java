@@ -3,10 +3,8 @@ package io.vertx.up.experiment.shape.internal;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.shape.HAtomMetadata;
 import io.vertx.up.experiment.shape.HAtomReference;
-
-import java.util.Set;
+import io.vertx.up.experiment.specification.KApp;
 
 /**
  * This atom is a standard implementation because of all the attributes is static and fixed, you can not configure
@@ -17,72 +15,12 @@ import java.util.Set;
  */
 public class NormAtom extends AbstractHAtom {
 
-    public NormAtom(final HModel model, final String appName) {
-        super(model, appName);
+    public NormAtom(final HModel model, final KApp app) {
+        super(model, app);
     }
 
     @Override
     public HAtom atom(final String identifier) {
-        return null;
-    }
-
-    @Override
-    public String sigma() {
-        return null;
-    }
-
-    @Override
-    public String language() {
-        return null;
-    }
-
-    @Override
-    public Boolean trackable() {
-        return null;
-    }
-
-    @Override
-    public Set<String> falseTrack() {
-        return null;
-    }
-
-    @Override
-    public Set<String> falseConfirm() {
-        return null;
-    }
-
-    @Override
-    public Set<String> falseIn() {
-        return null;
-    }
-
-    @Override
-    public Set<String> falseOut() {
-        return null;
-    }
-
-    @Override
-    public Set<String> trueTrack() {
-        return null;
-    }
-
-    @Override
-    public Set<String> trueConfirm() {
-        return null;
-    }
-
-    @Override
-    public Set<String> trueIn() {
-        return null;
-    }
-
-    @Override
-    public Set<String> trueOut() {
-        return null;
-    }
-
-    @Override
-    protected <T extends HModel> HAtomMetadata newMetadata(final T model) {
         return null;
     }
 

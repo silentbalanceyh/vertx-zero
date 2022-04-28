@@ -43,7 +43,7 @@ class RiseRapid implements Rise {
 
     private Future<Apt> combineAcc(final JsonArray data, final JsonArray acc, final DataAtom atom) {
         final Apt apt = Apt.create(acc, data);
-        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.falseOut());
+        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.marker().offOut());
         return apt.comparedAsync(compared);
     }
 

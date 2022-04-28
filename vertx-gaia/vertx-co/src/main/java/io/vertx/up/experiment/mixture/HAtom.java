@@ -2,6 +2,7 @@ package io.vertx.up.experiment.mixture;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.rule.RuleUnique;
 
 import java.util.Set;
@@ -77,23 +78,7 @@ interface HAtomIo {
      * SyncIn:      Integration Reading
      * SyncOut:     Integration Writing
      */
-    // ==================== false Part =====================
-    Set<String> falseTrack();
-
-    Set<String> falseConfirm();
-
-    Set<String> falseIn();
-
-    Set<String> falseOut();
-
-    // ==================== true Part ======================
-    Set<String> trueTrack();
-
-    Set<String> trueConfirm();
-
-    Set<String> trueIn();
-
-    Set<String> trueOut();
+    KMarker marker();
 }
 
 // ==================== Rule Unique Part =====================

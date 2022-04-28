@@ -86,24 +86,24 @@ final class OxField {
      * 2. 拉取数据过程中准入禁用的字段：syncIn = false
      */
     static Set<String> ignorePull(final DataAtom atom) {
-        final Set<String> fieldSet = toIgnores(atom.falseTrack());
-        fieldSet.addAll(atom.falseIn());
+        final Set<String> fieldSet = toIgnores(atom.marker().offTrack());
+        fieldSet.addAll(atom.marker().offIn());
         return fieldSet;
     }
 
     static Set<String> ignorePush(final DataAtom atom) {
-        return atom.falseOut();
+        return atom.marker().offOut();
     }
 
     /*
      * compareEdit比对流程专用
      */
     static Set<String> ignoreIn(final DataAtom atom) {
-        return toIgnores(atom.falseIn());
+        return toIgnores(atom.marker().offIn());
     }
 
     static Set<String> ignorePure(final DataAtom atom) {
-        return toIgnores(atom.falseTrack());
+        return toIgnores(atom.marker().offTrack());
     }
 
     static Set<String> ignoreApi(final DataAtom atom) {

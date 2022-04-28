@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.mu;
 
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -19,7 +19,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KMatrix implements Serializable {
+public class KTag implements Serializable {
     private static final Boolean[] DEFAULT_VALUE = new Boolean[]{
         // active, track, lock, confirm
         true, true, false, true,
@@ -35,11 +35,11 @@ public class KMatrix implements Serializable {
     private final Boolean syncOut;
     private final Boolean refer;
 
-    public KMatrix() {
+    public KTag() {
         this(Strings.EMPTY);
     }
 
-    public KMatrix(final String literal) {
+    public KTag(final String literal) {
         // X,X,X,X,X,X,X,X
         final Boolean[] normalized;
         if (Ut.isNil(literal)) {

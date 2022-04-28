@@ -9,11 +9,16 @@ import io.vertx.tp.modular.phantom.AoPerformer;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
+import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HLoadAtom implements HLoad {
+
+    private static final Cc<String, KApp> CC_APP = Cc.open();
+
     @Override
     public HAtom atom(final String appName, final String identifier) {
         try {
@@ -23,8 +28,13 @@ public class HLoadAtom implements HLoad {
             final String unique = Ao.toNS(appName, identifier); // Model.namespace(appName) + "-" + identifier;
             final AoPerformer performer = AoPerformer.getInstance(appName);
             final Model model = AoCache.CC_MODEL.pick(() -> performer.fetch(identifier), unique);
-            // Fn.po?l(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
-            final DataAtom atom = new DataAtom(model, appName);
+            // Internal Object to store application information
+            // -- sigma
+            // -- language
+            // -- appName
+            // -- ns
+            final KApp app = CC_APP.pick(() -> new KApp(appName).ns(Ao.toNS(appName)), appName);
+            final DataAtom atom = new DataAtom(model, app);
             Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
             return atom;
         } catch (final _404ModelNotFoundException ignored) {

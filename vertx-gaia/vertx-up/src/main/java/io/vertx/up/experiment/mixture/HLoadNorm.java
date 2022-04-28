@@ -4,6 +4,7 @@ import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.shape.internal.NormAtom;
 import io.vertx.up.experiment.shape.internal.NormPerformer;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 
@@ -14,6 +15,7 @@ public class HLoadNorm implements HLoad {
     private static final Annal LOGGER = Annal.get(HLoadNorm.class);
     private static final Cc<String, HPerformer<HModel>> CC_PERFORMER = Cc.open();
     private static final Cc<String, HModel> CC_MODEL = Cc.open();
+    private static final Cc<String, KApp> CC_APP = Cc.open();
 
     @Override
     public HAtom atom(final String appName, final String identifier) {
@@ -25,7 +27,13 @@ public class HLoadNorm implements HLoad {
             final String unique = HApp.ns(appName, identifier);
             final HPerformer<HModel> performer = CC_PERFORMER.pick(() -> new NormPerformer(ns), ns);
             final HModel model = CC_MODEL.pick(() -> performer.fetch(identifier), unique);
-            final HAtom atom = new NormAtom(model, appName);
+            // Internal Object to store application information
+            // -- sigma
+            // -- language
+            // -- appName
+            // -- ns
+            final KApp app = CC_APP.pick(() -> new KApp(appName), appName);
+            final HAtom atom = new NormAtom(model, app);
             LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}, model = {1}", unique, model.toJson().encode());
             return atom;
         } catch (final _404ModelNotFoundException | _409IdentifierConflictException ignored) {

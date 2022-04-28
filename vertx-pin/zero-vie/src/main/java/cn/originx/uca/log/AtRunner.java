@@ -85,7 +85,7 @@ class AtRunner {
                 /*
                  * ATOM-04: isConfirm = true 最少有内容才可以执行变更历史
                  */
-                final Set<String> confirmFields = this.atom.trueConfirm();
+                final Set<String> confirmFields = this.atom.marker().onConfirm();
                 counter = changeList.stream()
                     .filter(change -> confirmFields.contains(change.getFieldName()))
                     .count();
@@ -124,7 +124,7 @@ class AtRunner {
                          * track = true 的字段为 changeList 中的 PENDING
                          * track = false 的字段为 changeList 中的 SYSTEM
                          */
-                        final Set<String> track = this.atom.trueTrack();
+                        final Set<String> track = this.atom.marker().onTrack();
                         if (track.contains(change.getFieldName())) {
                             change.setStatus(ActivityStatus.PENDING.name());
                         } else {

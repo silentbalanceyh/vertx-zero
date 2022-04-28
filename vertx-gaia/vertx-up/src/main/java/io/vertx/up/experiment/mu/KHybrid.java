@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -31,20 +31,22 @@ public class KHybrid implements Serializable {
      */
     private final RuleUnique unique;
     // ======================= Attribute Level ========================================
-    private final ConcurrentMap<String, KMatrix> matrixMap = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, KReference> referenceMap = new ConcurrentHashMap<>();
 
     private final ConcurrentMap<String, KAttribute> attributeMap = new ConcurrentHashMap<>();
+    private final KMarker marker;
 
     private KHybrid(final JsonObject hybridJ) {
-        // alias / rule
+        // alias / rule / trackable
         this.alias = hybridJ.getString(KName.ALIAS, null);
         final JsonObject ruleJ = Ut.valueJObject(hybridJ, KName.RULE_UNIQUE);
         this.unique = Ut.deserialize(ruleJ, RuleUnique.class);
+        final Boolean track = hybridJ.getBoolean(KName.TRACKABLE, Boolean.FALSE);
+        this.marker = new KMarker(track);
 
         // Matrix
         final JsonObject matrixJ = Ut.valueJObject(hybridJ, KName.MATRIX);
-        Ut.<String>itJObject(matrixJ, (literal, field) -> this.matrixMap.put(field, new KMatrix(literal)));
+        Ut.<String>itJObject(matrixJ, (literal, field) -> this.marker.put(field, literal));
 
         // References
         final JsonArray referenceA = Ut.valueJArray(hybridJ, KName.REFERENCE);
@@ -69,7 +71,7 @@ public class KHybrid implements Serializable {
         }).forEach(field -> {
             final JsonObject config = new JsonObject();
             // Matrix
-            final KMatrix matrix = this.matrixMap.getOrDefault(field, new KMatrix());
+            final KTag matrix = this.marker.tag(field);
             // Reference
             final KReference reference = this.referenceMap.get(field);
 

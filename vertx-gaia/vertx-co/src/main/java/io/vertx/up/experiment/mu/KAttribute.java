@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -22,7 +22,7 @@ public class KAttribute implements HAttribute, Serializable {
     private final List<HTField> shapes = new ArrayList<>();
 
     private final HTField type;
-
+    private final KTag tag;
     private HRule rule;
 
     /*
@@ -43,7 +43,8 @@ public class KAttribute implements HAttribute, Serializable {
      *     }
      * }
      */
-    public KAttribute(final JsonObject config, final KMatrix matrix) {
+    public KAttribute(final JsonObject config, final KTag tag) {
+        this.tag = tag;
         /*
          * Extract DataFormat from `format` field in config，
          * Here are format adjustment:
@@ -51,7 +52,7 @@ public class KAttribute implements HAttribute, Serializable {
          * 2. Priority 2: isArray = false, set the default value instead ( Elementary )
          */
         DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
-        if (matrix.isArray()) {
+        if (tag.isArray()) {
             format = DataFormat.JsonArray;
         }
         this.format = format;
@@ -97,6 +98,11 @@ public class KAttribute implements HAttribute, Serializable {
     @Override
     public HRule rule() {
         return this.rule;
+    }
+
+    @Override
+    public KTag tag() {
+        return this.tag;
     }
 
     @Override

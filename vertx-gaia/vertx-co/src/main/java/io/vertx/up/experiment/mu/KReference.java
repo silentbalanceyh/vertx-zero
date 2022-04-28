@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;

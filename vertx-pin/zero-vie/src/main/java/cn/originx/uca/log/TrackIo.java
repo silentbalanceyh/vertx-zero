@@ -58,7 +58,7 @@ public class TrackIo {
                                        final Integer counter) {
         final JsonObject optJson = Ut.valueJObject(options);
         final AspectPlugin plugin = Ox.pluginActivity(optJson);
-        final Set<String> trackFields = this.atom.trueTrack();
+        final Set<String> trackFields = this.atom.marker().onTrack();
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonArray response = Objects.isNull(newArray) ? oldArray : newArray;
             return Ux.future(response);
@@ -105,7 +105,7 @@ public class TrackIo {
          * - DELETE - 和 ADD 相反
          * - UPDATE - 计算最终结果
          */
-        final Set<String> trackFields = this.atom.trueTrack();
+        final Set<String> trackFields = this.atom.marker().onTrack();
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonObject response = Objects.isNull(newRecord) ? oldRecord : newRecord;
             return Ux.future(response);

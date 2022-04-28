@@ -1,6 +1,7 @@
 package io.vertx.up.experiment.mixture;
 
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.experiment.mu.KTag;
 
 import java.util.List;
 
@@ -42,6 +43,8 @@ public interface HAttribute {
      * @return {@link HRule}
      */
     HRule rule();
+
+    KTag tag();
 
     /**
      * - JsonArray: []
