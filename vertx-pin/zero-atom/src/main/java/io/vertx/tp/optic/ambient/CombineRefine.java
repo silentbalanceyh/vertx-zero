@@ -28,7 +28,7 @@ class CombineRefine implements AoRefine {
             // 从响应信息中读取应用程序名称
             final String name = appJson.getString(KName.NAME);
             final AoPerformer performer = AoPerformer.getInstance(name);
-            return performer.fetchModelsAsync().compose(storedSet -> {
+            return performer.fetchAsync().compose(storedSet -> {
                 // 读取文件中的
                 final Set<Model> models = this.marshal.readModels(name);
                 // 两边查找对比，然后更新原始引用

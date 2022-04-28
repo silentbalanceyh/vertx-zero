@@ -25,7 +25,7 @@ public class ModelPerformer implements AoPerformer {
     }
 
     @Override
-    public Future<Model> fetchModelAsync(final String identifier) {
+    public Future<Model> fetchAsync(final String identifier) {
         return Ux.Jooq.on(MModelDao.class)
             // 从系统中选取唯一的 MModel
             .<MModel>fetchOneAsync(this.tool.onCriteria(identifier))
@@ -37,7 +37,7 @@ public class ModelPerformer implements AoPerformer {
 
 
     @Override
-    public Model fetchModel(final String identifier) {
+    public Model fetch(final String identifier) {
         final MModel model = Ux.Jooq.on(MModelDao.class)
             .fetchOne(this.tool.onCriteria(identifier));
         final String namespace = Ao.toNS(this.appName);
@@ -58,7 +58,7 @@ public class ModelPerformer implements AoPerformer {
     }
 
     @Override
-    public Future<Set<Model>> fetchModelsAsync() {
+    public Future<Set<Model>> fetchAsync() {
         final String namespace = Ao.toNS(this.appName);
         return Ux.Jooq.on(MModelDao.class)
             .<MModel>fetchAsync("namespace", namespace)

@@ -46,7 +46,7 @@ public class HLoadAtom implements HLoad {
              */
             final String unique = Ao.toNS(appName, identifier); // Model.namespace(appName) + "-" + identifier;
             final AoPerformer performer = AoPerformer.getInstance(appName);
-            final Model model = AoCache.CC_MODEL.pick(() -> performer.fetchModel(identifier), unique);
+            final Model model = AoCache.CC_MODEL.pick(() -> performer.fetch(identifier), unique);
             // Fn.po?l(AoCache.POOL_MODELS, unique, () -> performer.fetchModel(identifier));
             /*
              * Log for data atom and return to the reference.
