@@ -3,9 +3,7 @@ package io.vertx.tp.atom.modeling.builtin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.shape.HAtomReference;
 import io.vertx.up.experiment.specification.KApp;
 
 /**
@@ -22,12 +20,6 @@ public class DataAtom extends AbstractHAtom {
             this.app.sigma(modelRef.getSigma());
             this.app.language(modelRef.getLanguage());
         }
-    }
-
-    @Override
-    protected <T extends HModel> HAtomReference newReference(final T model) {
-        final String appName = this.app.appName();
-        return new AtomReference((Model) model, appName);
     }
 
     @Override

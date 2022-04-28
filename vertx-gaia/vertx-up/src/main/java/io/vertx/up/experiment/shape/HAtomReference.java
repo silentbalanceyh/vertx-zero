@@ -93,7 +93,7 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class HAtomReference implements HReference {
+public class HAtomReference implements HReference {
     protected final transient Cc<String, RDao> ccDao = Cc.open();
     /**
      * The hash map to store `source = {@link RQuote}`.

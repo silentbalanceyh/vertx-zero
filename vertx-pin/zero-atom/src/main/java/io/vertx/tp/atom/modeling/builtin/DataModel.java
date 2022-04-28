@@ -13,6 +13,7 @@ import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
 import io.vertx.up.uca.cache.Cc;
@@ -61,6 +62,11 @@ public class DataModel extends AbstractHModel implements Model {
             Cc.pool(attrMap, attribute.getName(), () -> new AtomAttribute(attribute, field));
         });
         return attrMap;
+    }
+
+    @Override
+    public HReference reference() {
+        return new AtomReference(this, this.namespace);
     }
 
     @Override

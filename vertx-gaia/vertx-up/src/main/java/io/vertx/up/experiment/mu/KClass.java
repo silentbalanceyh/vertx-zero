@@ -43,6 +43,10 @@ public class KClass implements Serializable {
         this.hybrid = KHybrid.create(hybridJ);
     }
 
+    public static KClass create(final String namespace, final JsonObject classJ) {
+        return new KClass(namespace, classJ);
+    }
+
     public static KClass create(final String namespace, final String identifier) {
         Objects.requireNonNull(identifier);
         final String fileCls = "hybird/" + identifier + ".json";

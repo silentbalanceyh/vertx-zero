@@ -22,14 +22,13 @@ public abstract class AbstractHAtom implements HAtom {
 
     private static final Cc<Integer, HAtomUnique> CC_RULE = Cc.open();
     private static final Cc<Integer, HAtomMetadata> CC_METADATA = Cc.open();
-    private static final Cc<Integer, HAtomReference> CC_REFERENCE = Cc.open();
 
     protected final String unique;
     protected final KApp app;
 
     protected transient final HAtomUnique ruler;
     protected transient final HAtomMetadata metadata;
-    protected transient final HAtomReference reference;
+    protected transient final HReference reference;
     protected transient final KMarker marker;
 
     private transient final Vs vs;
@@ -43,7 +42,9 @@ public abstract class AbstractHAtom implements HAtom {
         final Integer modelCode = model.hashCode();
         this.ruler = CC_RULE.pick(() -> new HAtomUnique(model), modelCode);
         this.metadata = CC_METADATA.pick(() -> new HAtomMetadata(model), modelCode);
-        this.reference = CC_REFERENCE.pick(() -> this.newReference(model), modelCode);
+
+        // Belong to model interface instead
+        this.reference = model.reference();
         this.marker = model.tag();
         this.vs = Vs.create(this.unique, this.metadata.types());
     }
@@ -187,10 +188,6 @@ public abstract class AbstractHAtom implements HAtom {
     public KMarker marker() {
         return this.marker;
     }
-
-
-    // ------------ 子类方法专用 ----------
-    protected abstract <T extends HModel> HAtomReference newReference(final T model);
 
     // ==================== Equal for Atom ==================
     @Override

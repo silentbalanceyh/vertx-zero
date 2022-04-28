@@ -3,6 +3,7 @@ package io.vertx.up.experiment.shape;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HModel;
+import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.mu.KTag;
 import io.vertx.up.experiment.rule.RuleUnique;
@@ -30,6 +31,8 @@ public abstract class AbstractHModel implements HModel {
     // Marker for
     protected KMarker marker;
 
+    protected HReference reference;
+
     public AbstractHModel(final String namespace) {
         this.namespace = namespace;
         // Attribute Load
@@ -38,6 +41,8 @@ public abstract class AbstractHModel implements HModel {
         this.unique = this.loadRule();
         // Marker Load
         this.marker = this.loadMarker();
+        // Reference Load
+        this.reference = this.loadReference();
     }
 
     // ================ Basic Method Api ==================
@@ -59,6 +64,11 @@ public abstract class AbstractHModel implements HModel {
     @Override
     public KMarker tag() {
         return this.marker;
+    }
+
+    @Override
+    public HReference reference() {
+        return this.reference;
     }
 
     // ================= Attribute Part ===================
@@ -91,6 +101,10 @@ public abstract class AbstractHModel implements HModel {
     protected abstract ConcurrentMap<String, HAttribute> loadAttribute();
 
     protected abstract RuleUnique loadRule();
+
+    protected HReference loadReference() {
+        return new HAtomReference(this.namespace);
+    }
 
     protected boolean trackable() {
         // Default track = true;

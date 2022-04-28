@@ -3,7 +3,7 @@ package io.vertx.up.experiment.mixture;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.shape.internal.NormAtom;
-import io.vertx.up.experiment.shape.internal.NormPerformer;
+import io.vertx.up.experiment.shape.internal.NormModel;
 import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -13,7 +13,6 @@ import io.vertx.up.uca.cache.Cc;
  */
 public class HLoadNorm implements HLoad {
     private static final Annal LOGGER = Annal.get(HLoadNorm.class);
-    private static final Cc<String, HPerformer<HModel>> CC_PERFORMER = Cc.open();
     private static final Cc<String, HModel> CC_MODEL = Cc.open();
     private static final Cc<String, KApp> CC_APP = Cc.open();
 
@@ -25,8 +24,7 @@ public class HLoadNorm implements HLoad {
              */
             final String ns = HApp.ns(appName);
             final String unique = HApp.ns(appName, identifier);
-            final HPerformer<HModel> performer = CC_PERFORMER.pick(() -> new NormPerformer(ns), ns);
-            final HModel model = CC_MODEL.pick(() -> performer.fetch(identifier), unique);
+            final HModel model = CC_MODEL.pick(() -> new NormModel(ns, identifier), unique);
             // Internal Object to store application information
             // -- sigma
             // -- language

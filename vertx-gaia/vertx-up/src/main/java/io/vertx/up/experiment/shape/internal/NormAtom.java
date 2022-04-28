@@ -1,9 +1,7 @@
 package io.vertx.up.experiment.shape.internal;
 
-import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HModel;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.shape.HAtomReference;
 import io.vertx.up.experiment.specification.KApp;
 
 /**
@@ -20,12 +18,7 @@ public class NormAtom extends AbstractHAtom {
     }
 
     @Override
-    public HAtom atom(final String identifier) {
-        return null;
-    }
-
-    @Override
-    protected <T extends HModel> HAtomReference newReference(final T model) {
-        return null;
+    public NormAtom atom(final String identifier) {
+        return new NormAtom(this.model(), this.app);
     }
 }

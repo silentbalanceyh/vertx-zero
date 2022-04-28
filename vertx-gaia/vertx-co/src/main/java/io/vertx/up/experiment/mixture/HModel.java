@@ -42,4 +42,6 @@ public interface HModel extends HApp {
     HAttribute attribute(String name);
 
     KMarker tag();
+
+    HReference reference();
 }

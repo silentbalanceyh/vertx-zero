@@ -2,6 +2,7 @@ package io.vertx.up.experiment.shape.internal;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.atom.ModelType;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mu.KClass;
 import io.vertx.up.experiment.rule.RuleUnique;
@@ -23,17 +24,17 @@ public class NormModel extends AbstractHModel {
 
     @Override
     public JsonObject toJson() {
-        return null;
+        throw new _501NotSupportException(this.getClass());
     }
 
     @Override
     public void fromJson(final JsonObject json) {
-
+        throw new _501NotSupportException(this.getClass());
     }
 
     @Override
     public ModelType type() {
-        return null;
+        return ModelType.READONLY;
     }
 
     @Override
