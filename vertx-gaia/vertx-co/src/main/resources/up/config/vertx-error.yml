@@ -271,6 +271,7 @@ E80541: "(409) - (Ref) The model `{0}` defined static references, but found more
 E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "
 E80545: "(400) - (Mod) Because both new and old record(s) are null/empty, could not be valid to generate history"
 E80546: "(500) - (Excel) Read the excel file met null file issue, please check your code"
+E80547: "(409) - (Mod) The input identifier = `{0}` is confict with configured identifier = `{1}`, check your configuration"
 
 # Workflow Module
 E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by code = `{0}`"

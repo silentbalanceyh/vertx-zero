@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
@@ -169,9 +170,22 @@ public abstract class HAtomReference implements HReference {
         }
     }
 
-    protected abstract HDao toDao(HAtom atom);
+    protected HDao toDao(final HAtom atom) {
+        // Could not call this api when it's not overwrite ( Dynamic Only )
+        throw new _501NotSupportException(this.getClass());
+    }
 
-    protected abstract HAtom toAtom(String identifier);
+    protected HAtom toAtom(final String identifier) {
+        /*
+         * The default operation return to null, it means that it's not
+         * dynamic Dao here, in this kind of situation, the following api will be ignored:
+         *
+         * HDao toDao(HAtom);
+         *
+         * The code logical will skip `HDao` building
+         */
+        return null;
+    }
 
     // ======================= Private Api ==========================
     private RDao initializeDao(final KReference reference) {

@@ -5,11 +5,14 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.DataFormat;
 import io.vertx.up.eon.em.atom.AttributeType;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.experiment.specification.KAttribute;
+import io.vertx.up.experiment.specification.KMatrix;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -25,20 +28,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AtomAttribute implements HAttribute, Serializable {
-    /**
-     * {@link DataFormat} is for fieldSource
-     */
-    private final transient DataFormat dataFormat;
-    /**
-     * The `shapes` that mapped to `fields` attribute
-     */
-    private final transient List<HTField> shapes = new ArrayList<>();
-
-    private final transient HTField type;
-    /**
-     * The `rule` for serviceConfig here.
-     */
-    private transient HRule rule;
+    private final KAttribute attribute;
 
     /**
      * Create new AoService
@@ -46,6 +36,26 @@ class AtomAttribute implements HAttribute, Serializable {
      * @param attribute {@link cn.vertxup.atom.domain.tables.pojos.MAttribute} `M_ATTRIBUTE` referred
      */
     public AtomAttribute(final MAttribute attribute, final MField sourceField) {
+        /*
+         * {
+         *     "name",
+         *     "alias",
+         *     "type",
+         *     "format": "JsonArray, JsonObject, Elementary",
+         *     "fields": [
+         *         {
+         *              "field": "",
+         *              "alias": "",
+         *              "type": "null -> String.class | ???"
+         *         }
+         *     ],
+         *     "rule": {
+         *     }
+         * }
+         */
+        final JsonObject attributeJ = new JsonObject();
+        attributeJ.put(KName.NAME, attribute.getName());
+        attributeJ.put(KName.ALIAS, attribute.getAlias());
         /*
          * 1. type: Attribute `TYPE` database field stored
          * 2. isArray: Check whether current attribute is Array Type
@@ -67,7 +77,7 @@ class AtomAttribute implements HAttribute, Serializable {
         if (isArray) {
             format = DataFormat.JsonArray;
         }
-        this.dataFormat = format;
+        attributeJ.put(KName.FORMAT, format);
 
         /*
          * type analyzing ( Complex Workflow )
@@ -111,21 +121,12 @@ class AtomAttribute implements HAttribute, Serializable {
             attributeType = configType;
         }
         // Type analyzed, create current type
-        this.type = HTField.create(attribute.getName(), attribute.getAlias(), attributeType);
+        attributeJ.put(KName.TYPE, attributeType.getName());
 
         // Expand the `fields` lookup range
         final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
-        Ut.itJArray(fields).forEach(item -> {
-            final String field = item.getString(KName.FIELD);
-            if (Ut.notNil(field)) {
-                final String alias = item.getString(KName.ALIAS, null);
-                final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
-                this.shapes.add(HTField.create(field, alias, subType));
-            }
-        });
-        // Add children into TypeField for complex
-        if (DataFormat.Elementary != format) {
-            this.type.add(this.shapes);
+        if (Ut.notNil(fields)) {
+            attributeJ.put(KName.FIELDS, fields);
         }
 
         /*
@@ -135,12 +136,39 @@ class AtomAttribute implements HAttribute, Serializable {
          */
         if (reference.containsKey(KName.RULE)) {
             final JsonObject ruleData = Ut.valueJObject(reference.getJsonObject(KName.RULE));
-            this.rule = Ut.deserialize(ruleData, HRule.class);
-            /* Bind type into rule */
-            this.rule.type(attributeType);
-            /* Unique rule for diffSet */
-            this.type.ruleUnique(this.rule.getUnique());
+            attributeJ.put(KName.RULE, ruleData);
         }
+        /*
+         * KMatrix Building
+         */
+        final KMatrix matrix = this.initializeMatrix(attribute);
+        this.attribute = new KAttribute(attributeJ, matrix);
+    }
+
+    private KMatrix initializeMatrix(final MAttribute attribute) {
+        final StringBuilder literal = new StringBuilder();
+        // Boolean -> 0, 1
+        final List<Boolean> values = new ArrayList<>();
+        values.add(attribute.getActive());
+        values.add(attribute.getIsTrack());
+        values.add(attribute.getIsLock());
+        values.add(attribute.getIsConfirm());
+        values.add(attribute.getIsArray());
+        values.add(attribute.getIsSyncIn());
+        values.add(attribute.getIsSyncOut());
+        values.add(attribute.getIsRefer());
+        for (int idx = 0; idx < values.size(); idx++) {
+            final Boolean value = values.get(idx);
+            if (Objects.isNull(value)) {
+                literal.append("NULL");
+            } else {
+                literal.append(value);
+            }
+            if (idx < (values.size() - 1)) {
+                literal.append(Strings.COMMA);
+            }
+        }
+        return new KMatrix(literal.toString());
     }
 
     /**
@@ -150,7 +178,7 @@ class AtomAttribute implements HAttribute, Serializable {
      */
     @Override
     public HTField field() {
-        return this.type;
+        return this.attribute.field();
     }
 
     /**
@@ -160,7 +188,7 @@ class AtomAttribute implements HAttribute, Serializable {
      */
     @Override
     public List<HTField> fields() {
-        return this.shapes;
+        return this.attribute.fields();
     }
 
     /**
@@ -170,7 +198,7 @@ class AtomAttribute implements HAttribute, Serializable {
      */
     @Override
     public HRule rule() {
-        return this.rule;
+        return this.attribute.rule();
     }
 
     /**
@@ -178,7 +206,7 @@ class AtomAttribute implements HAttribute, Serializable {
      */
     @Override
     public DataFormat format() {
-        return this.dataFormat;
+        return this.attribute.format();
     }
 
 }

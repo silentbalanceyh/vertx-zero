@@ -124,6 +124,9 @@ public interface KName {
     String EPSILON = "epsilon";                  /* Dictionary Consumer */
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
+    String MATRIX = "matrix";                    /* Attribute Matrix for 8 dim */
+    String REFERENCE = "reference";              /* Attribute Reference for */
+
     String METHOD = "method";                    /* Web: http method */
     String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
