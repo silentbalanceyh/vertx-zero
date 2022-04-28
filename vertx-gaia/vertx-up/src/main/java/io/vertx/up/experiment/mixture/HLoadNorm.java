@@ -7,7 +7,6 @@ public class HLoadNorm implements HLoad {
 
     @Override
     public HAtom atom(final String appName, final String identifier) {
-
         return null;
     }
 }

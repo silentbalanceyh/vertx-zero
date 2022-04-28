@@ -13,7 +13,7 @@ import java.util.Set;
 public interface AoPerformer extends HPerformer<Model> {
 
     /* OxPerformer资源池（内部） */
-    Cc<String, AoPerformer> CC_PERFORMER = Cc.open();
+    Cc<String, AoPerformer> CC_PERFORMER = Cc.openThread();
 
     /**
      * > Cc.pick

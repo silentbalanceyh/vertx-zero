@@ -170,16 +170,21 @@ public class Ao {
         return AoImpl.toSchema(appName, file);
     }
 
+    public static Switcher toSwitcher(final Identity identity, final JsonObject options) {
+        return AoImpl.toSwitcher(identity, options);
+    }
+
+    // ------------------- Model Creating -----------------
     public static Model toModel(final String appName, final JsonObject modelJson) {
-        return AoImpl.toModel(appName, modelJson);
+        final Model model = AoImpl.toModel(appName);
+        model.fromJson(modelJson);
+        return model;
     }
 
     public static Model toModel(final String appName, final String file) {
-        return AoImpl.toModel(appName, file);
-    }
-
-    public static Switcher toSwitcher(final Identity identity, final JsonObject options) {
-        return AoImpl.toSwitcher(identity, options);
+        final Model model = AoImpl.toModel(appName);
+        model.fromFile(file);
+        return model;
     }
 
     // ------------------- Dao / Atom -----------------

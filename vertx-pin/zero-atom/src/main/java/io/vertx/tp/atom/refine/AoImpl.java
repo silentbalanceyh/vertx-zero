@@ -42,11 +42,6 @@ class AoImpl {
         return Ut.instance(implSchema, AoStore.namespace(appName));
     }
 
-    private static Model toModel(final String namespace) {
-        final Class<?> implModel = AoStore.clazzModel();
-        return Ut.instance(implModel, namespace);
-    }
-
     /*
      * - Schema
      *   toSchema(String, JsonObject)
@@ -71,16 +66,10 @@ class AoImpl {
         return schemaObj;
     }
 
-    static Model toModel(final String appName, final JsonObject modelJson) {
-        final Model modelObj = toModel(AoStore.namespace(appName));
-        modelObj.fromJson(modelJson);
-        return modelObj;
-    }
-
-    static Model toModel(final String appName, final String file) {
-        final Model modelObj = toModel(AoStore.namespace(appName));
-        modelObj.fromFile(file);
-        return modelObj;
+    static Model toModel(final String appName) {
+        final String namespace = AoStore.namespace(appName);
+        final Class<?> implModel = AoStore.clazzModel();
+        return Ut.instance(implModel, namespace);
     }
 
     static Switcher toSwitcher(final Identity identity, final JsonObject options) {

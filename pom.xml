@@ -217,9 +217,10 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.14.1</camunda.spin.version>
+        <camunda.spin.version>1.14.2</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
-        <camunda.connect.version>1.5.3</camunda.connect.version>
+        <camunda.connect.version>1.5.4</camunda.connect.version>
+        <camunda.util.version>1.10.1</camunda.util.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.9</mybatis.version>
     </properties>
@@ -233,6 +234,25 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-testing -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-testing</artifactId>
+                <version>${camunda.util.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-utils -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-utils</artifactId>
+                <version>${camunda.util.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-logging -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-logging</artifactId>
+                <version>${camunda.util.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-core -->
             <dependency>
