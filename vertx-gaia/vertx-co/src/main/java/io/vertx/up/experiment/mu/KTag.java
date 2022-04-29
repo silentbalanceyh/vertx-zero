@@ -69,8 +69,8 @@ public class KTag implements Serializable {
             if (i < (actual - 1)) {
                 final String item = parsed[i];
                 if (Objects.isNull(item) || "NULL".equals(item)) {
-                    // null for default value.
-                    result[i] = null;
+                    // null for default value. java.lang.NullPointerException
+                    result[i] = DEFAULT_VALUE[i];
                 } else if ("1".equals(item)) {
                     // Because parseBoolean / valueOf will be false, here must support 1 = true
                     result[i] = true;

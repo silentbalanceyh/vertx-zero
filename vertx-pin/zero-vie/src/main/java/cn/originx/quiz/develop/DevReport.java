@@ -44,7 +44,7 @@ class DevReport {
 
         // Atom Unique Rule
         builder.append("「Unique Rule」---------------------------------------").append(Strings.NEW_LINE);
-        builder.append("Unique Rule: ").append(Strings.NEW_LINE);
+        builder.append("Unique Rule: ");
         final RuleUnique rule = atom.ruleAtom();
         if (Objects.nonNull(rule)) {
             builder.append(rule).append(Strings.NEW_LINE);
@@ -89,18 +89,18 @@ class DevReport {
 
         // Tag
         if (Objects.nonNull(tag)) {
-            builder.append(tag).append(Strings.NEW_LINE);
+            builder.append("\t").append(tag).append(Strings.NEW_LINE);
         }
 
         // Complex Line
         if (Objects.nonNull(refRule)) {
-            builder.append(refRule).append(Strings.NEW_LINE);
+            builder.append("\t").append(refRule).append(Strings.NEW_LINE);
         }
         if (attr.isComplex()) {
-            builder.append("isComplex = ").append(attr.isComplex()).append(" children = ").append(Strings.NEW_LINE);
+            builder.append("\t").append("isComplex = ").append(attr.isComplex()).append(" children = ").append(Strings.NEW_LINE);
             final List<HTField> children = attr.children();
             children.forEach(field -> {
-                builder.append("\t").append(Strings.LEFT_BRACKET).append(field.name())
+                builder.append("\t\t").append(Strings.LEFT_BRACKET).append(field.name())
                     .append(",").append(field.alias()).append(Strings.RIGHT_BRACKET).append(Strings.COMMA);
                 builder.append(" type=").append(attr.type()).append(Strings.NEW_LINE);
             });
@@ -108,7 +108,7 @@ class DevReport {
 
         // Reference
         if (Objects.nonNull(reference)) {
-            builder.append(reference).append(Strings.NEW_LINE);
+            builder.append("\t").append(reference).append(Strings.NEW_LINE);
         }
 
         return builder.toString();
