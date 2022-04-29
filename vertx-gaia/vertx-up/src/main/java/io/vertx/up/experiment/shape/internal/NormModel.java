@@ -20,6 +20,18 @@ public class NormModel extends AbstractHModel {
     public NormModel(final String namespace, final String identifier) {
         super(namespace);
         this.kClass = KClass.create(namespace, identifier);
+        {
+            // identifier extract
+            this.identifier = this.kClass.identifier();
+        }
+        /*
+         * Initialize
+         * -- attributeMap
+         * -- unique
+         * -- marker
+         * -- reference
+         */
+        this.initialize();
     }
 
     @Override
@@ -39,11 +51,11 @@ public class NormModel extends AbstractHModel {
 
     @Override
     protected ConcurrentMap<String, HAttribute> loadAttribute() {
-        return null;
+        return this.kClass.attribute();
     }
 
     @Override
     protected RuleUnique loadRule() {
-        return null;
+        return this.kClass.rule();
     }
 }

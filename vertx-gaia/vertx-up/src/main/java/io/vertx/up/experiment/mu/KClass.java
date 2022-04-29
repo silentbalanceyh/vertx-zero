@@ -2,10 +2,15 @@ package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
+import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -24,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KClass implements Serializable {
+    private static final Cc<String, KHybrid> CC_HYBRID = Cc.open();
     private static final Annal LOGGER = Annal.get(KClass.class);
     private final String identifier;
     private final String namespace;
@@ -38,9 +44,11 @@ public class KClass implements Serializable {
         final JsonObject moduleJ = Ut.valueJObject(configuration, KName.MODULE);
         this.module = Ut.deserialize(moduleJ, KModule.class);
 
+        final String unique = namespace + Strings.DASH + this.identifier;
+
         // Analyzer for attribute ( Type analyzing, Extract type from Dao )
-        final JsonObject hybridJ = this.preparingHybrid(configuration);
-        this.hybrid = KHybrid.create(hybridJ);
+        final JsonObject hybridJ = this.initializeHybrid(configuration);
+        this.hybrid = CC_HYBRID.pick(() -> KHybrid.create(hybridJ), unique);
     }
 
     public static KClass create(final String namespace, final JsonObject classJ) {
@@ -78,13 +86,19 @@ public class KClass implements Serializable {
         return new KClass(namespace, classJ);
     }
 
-    private JsonObject preparingHybrid(final JsonObject configuration) {
+    public String identifier() {
+        return this.identifier;
+    }
+
+    public String namespace() {
+        return this.namespace;
+    }
+
+    private JsonObject initializeHybrid(final JsonObject configuration) {
         JsonObject hybridJ = Ut.valueJObject(configuration, "hybrid");
         hybridJ = hybridJ.copy();
-        final Class<?> daoCls = this.module.getDaoCls();
-        final UxJooq jq = Ux.Jooq.on(daoCls);
-        final JqAnalyzer analyzer = jq.analyzer();
-        final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
+
+        final ConcurrentMap<String, Class<?>> typeMap = this.initializeType();
 
         final JsonObject attributeRef = Ut.valueJObject(hybridJ, KName.ATTRIBUTE);
         final JsonObject replacedAttr = new JsonObject();
@@ -96,7 +110,7 @@ public class KClass implements Serializable {
                 final JsonObject replaced = new JsonObject();
                 replaced.put(KName.ALIAS, value);
                 replaced.put(KName.TYPE, type.getName());
-                replacedAttr.put(KName.NAME, replaced);
+                replacedAttr.put(field, replaced);
             } else {
                 // name = {}
                 final JsonObject original = (JsonObject) value;
@@ -108,10 +122,47 @@ public class KClass implements Serializable {
                         originalType, type.getName());
                 }
                 replaced.put(KName.TYPE, type.getName());
-                replacedAttr.put(KName.NAME, replaced);
+                replacedAttr.put(field, replaced);
             }
         });
         hybridJ.put(KName.ATTRIBUTE, replacedAttr);
         return hybridJ;
+    }
+
+    private ConcurrentMap<String, Class<?>> initializeType() {
+        final Class<?> daoCls = this.module.getDaoCls();
+        final UxJooq jq = Ux.Jooq.on(daoCls);
+        final JqAnalyzer analyzer = jq.analyzer();
+        final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
+        final String identifierM = this.module.getIdentifier();
+        if (!this.identifier.equals(identifierM)) {
+            // Get Joint
+            final KJoin join = this.module.getConnect();
+            if (Objects.nonNull(join)) {
+
+            }
+        }
+        return typeMap;
+    }
+
+    public RuleUnique rule() {
+        return Objects.requireNonNull(this.hybrid).rule();
+    }
+
+
+    public String alias() {
+        return Objects.requireNonNull(this.hybrid).alias();
+    }
+
+    public KMarker marker() {
+        return Objects.requireNonNull(this.hybrid).marker();
+    }
+
+    public ConcurrentMap<String, KReference> reference() {
+        return Objects.requireNonNull(this.hybrid).reference();
+    }
+
+    public ConcurrentMap<String, HAttribute> attribute() {
+        return Objects.requireNonNull(this.hybrid).attribute();
     }
 }

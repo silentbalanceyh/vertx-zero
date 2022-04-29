@@ -1,0 +1,22 @@
+{
+    "name": "w-income",
+    "daoCls": "cn.vertxup.workflow.domain.tables.daos.TAssetInDao",
+    "field": {
+        "unique": [
+            [
+                "key"
+            ]
+        ]
+    },
+    "connect": {
+        "targetIndent": "w.todo",
+        "target": {
+            "w.todo": {
+                "keyJoin": "traceId"
+            }
+        },
+        "source": {
+            "keyJoin": "key"
+        }
+    }
+}

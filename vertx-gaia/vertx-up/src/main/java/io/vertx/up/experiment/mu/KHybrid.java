@@ -3,6 +3,7 @@ package io.vertx.up.experiment.mu;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
@@ -33,7 +34,7 @@ public class KHybrid implements Serializable {
     // ======================= Attribute Level ========================================
     private final ConcurrentMap<String, KReference> referenceMap = new ConcurrentHashMap<>();
 
-    private final ConcurrentMap<String, KAttribute> attributeMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
     private final KMarker marker;
 
     private KHybrid(final JsonObject hybridJ) {
@@ -101,5 +102,25 @@ public class KHybrid implements Serializable {
     public static KHybrid create(final JsonObject hybridJ) {
         final JsonObject input = Ut.valueJObject(hybridJ);
         return new KHybrid(input);
+    }
+
+    public RuleUnique rule() {
+        return this.unique;
+    }
+
+    public String alias() {
+        return this.alias;
+    }
+
+    public KMarker marker() {
+        return this.marker;
+    }
+
+    public ConcurrentMap<String, KReference> reference() {
+        return this.referenceMap;
+    }
+
+    public ConcurrentMap<String, HAttribute> attribute() {
+        return this.attributeMap;
     }
 }

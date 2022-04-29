@@ -1,11 +1,12 @@
 {
     "identifier": "w.income",
-    "module": "plugin/wf/oob/module/crud/w.ticket.json",
+    "module": "plugin/wf/oob/module/crud/w.income.json",
     "hybrid": {
-        "alias": "流程工单",
-        "attributes": {
+        "alias": "入库单",
+        "attribute": {
             "name": "入库单名称",
-            "code": "入库单编号"
+            "code": "入库单编号",
+            "commentIn": "入库备注"
         }
     }
 }
