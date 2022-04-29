@@ -96,7 +96,7 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public HRule rule() {
+    public HRule refRule() {
         return this.rule;
     }
 

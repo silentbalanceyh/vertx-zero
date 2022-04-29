@@ -95,7 +95,7 @@ public class RResult implements Serializable {
     public RResult(final String referenceField, final JsonObject referenceConfig, final HAttribute config) {
         this.type = config.field().type();
         this.format = config.format();
-        this.rule = config.rule();
+        this.rule = config.refRule();
         this.sourceField = referenceField;
         /* Joined calculation */
         final JsonObject sourceReference = Ut.valueJObject(referenceConfig);

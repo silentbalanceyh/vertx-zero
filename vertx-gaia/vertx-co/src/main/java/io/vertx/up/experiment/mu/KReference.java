@@ -62,4 +62,14 @@ public class KReference implements Serializable {
     public boolean isReference() {
         return Ut.notNil(this.sourceReference);
     }
+
+    @Override
+    public String toString() {
+        return "KReference{" +
+            "sourceReference=" + this.sourceReference +
+            ", name='" + this.name + '\'' +
+            ", source='" + this.source + '\'' +
+            ", sourceField='" + this.sourceField + '\'' +
+            '}';
+    }
 }

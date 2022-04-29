@@ -110,6 +110,8 @@ public class HAtomReference implements HReference {
 
     protected final transient String appName;
 
+    private final transient Cc<String, KReference> ccData = Cc.open();
+
     public HAtomReference(final String appName) {
         this.appName = appName;
     }
@@ -133,9 +135,15 @@ public class HAtomReference implements HReference {
         return store.data();
     }
 
+    @Override
+    public KReference refData(final String name) {
+        return this.ccData.store(name);
+    }
+
     // ======================= Overwrite Api ==========================
-    protected void initializeReference(final KReference reference, final HAttribute hAttribute) {
-        if (reference.isReference()) {
+    protected void initializeReference(final KReference input, final HAttribute hAttribute) {
+        if (input.isReference()) {
+            final KReference reference = this.ccData.pick(() -> input, input.name());
             final String source = reference.source();
 
             final RDao dao = this.initializeDao(reference);

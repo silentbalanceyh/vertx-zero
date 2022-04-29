@@ -117,4 +117,18 @@ public class KTag implements Serializable {
     public boolean isRefer() {
         return this.refer;
     }
+
+    @Override
+    public String toString() {
+        return "KTag{" +
+            "active=" + this.active +
+            ", track=" + this.track +
+            ", lock=" + this.lock +
+            ", confirm=" + this.confirm +
+            ", array=" + this.array +
+            ", syncIn=" + this.syncIn +
+            ", syncOut=" + this.syncOut +
+            ", refer=" + this.refer +
+            '}';
+    }
 }

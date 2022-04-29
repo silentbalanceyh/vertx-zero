@@ -32,15 +32,6 @@ public interface HAtom extends
     HAtomIo                 // Boolean Attribute Part Extracting
 {
 
-    // =================== Cross Method between two atoms ===========
-    /*
-     * The atomKey is calculated by
-     * identifier + options ( Hash Code )
-     *
-     * To avoid duplicated creating atom reference
-     */
-    String atomKey(JsonObject options);
-
     /*
      * Create new atom based on current, the atom object must provide
      * - appName ( the same namespace )
@@ -50,6 +41,15 @@ public interface HAtom extends
      */
     @Fluent
     HAtom atom(String identifier);
+
+    // =================== Cross Method between two atoms ===========
+    /*
+     * The atomKey is calculated by
+     * identifier + options ( Hash Code )
+     *
+     * To avoid duplicated creating atom reference
+     */
+    String atomKey(JsonObject options);
 
     HTAtom shape();
 

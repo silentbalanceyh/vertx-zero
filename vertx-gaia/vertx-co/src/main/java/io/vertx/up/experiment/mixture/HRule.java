@@ -280,4 +280,16 @@ public class HRule implements Serializable {
             // 过滤非String类型
             .filter(field -> condition.getValue(field) instanceof String);
     }
+
+    @Override
+    public String toString() {
+        return "HRule{" +
+            "condition=" + this.condition +
+            ", conditions=" + this.conditions +
+            ", required=" + this.required +
+            ", unique=" + this.unique +
+            ", diff=" + this.diff +
+            ", type=" + this.type +
+            '}';
+    }
 }

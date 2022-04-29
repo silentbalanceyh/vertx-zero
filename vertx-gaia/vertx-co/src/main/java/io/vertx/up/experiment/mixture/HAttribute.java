@@ -42,7 +42,7 @@ public interface HAttribute {
      *
      * @return {@link HRule}
      */
-    HRule rule();
+    HRule refRule();
 
     KTag tag();
 

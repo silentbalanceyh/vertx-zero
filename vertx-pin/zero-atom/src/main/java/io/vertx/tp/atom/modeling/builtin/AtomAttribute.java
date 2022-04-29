@@ -202,8 +202,8 @@ class AtomAttribute implements HAttribute, Serializable {
      * @return {@link HRule}
      */
     @Override
-    public HRule rule() {
-        return this.attribute.rule();
+    public HRule refRule() {
+        return this.attribute.refRule();
     }
 
     /**

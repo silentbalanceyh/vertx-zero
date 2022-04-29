@@ -137,7 +137,7 @@ public class RQuote implements Serializable {
             /*
              * Json data format, here defined `rule` field and convert to `DataQRule`
              */
-            final HRule rule = service.rule();
+            final HRule rule = service.refRule();
             this.sourceRule.put(name, rule);
             /*
              * RDao put
