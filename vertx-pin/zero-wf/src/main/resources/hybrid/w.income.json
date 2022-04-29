@@ -1,6 +1,10 @@
 {
     "identifier": "w.income",
     "module": "plugin/wf/oob/module/crud/w.income.json",
+    "linkage": [
+        "w.todo",
+        "w.ticket"
+    ],
     "hybrid": {
         "alias": "入库单",
         "attribute": {

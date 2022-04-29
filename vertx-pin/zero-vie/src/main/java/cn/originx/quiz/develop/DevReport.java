@@ -11,6 +11,7 @@ import io.vertx.up.experiment.rule.RuleUnique;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -54,13 +55,14 @@ class DevReport {
         if (Objects.nonNull(ruleChannel)) {
             builder.append(ruleChannel).append(Strings.NEW_LINE);
         }
-        builder.append("Smart Looking For: ").append(atom.ruleSmart());
+        builder.append("Smart Looking For: ").append(atom.ruleSmart()).append(Strings.NEW_LINE);
 
         builder.append("「Attribute」---------------------------------------").append(Strings.NEW_LINE);
         // Attribute Information
         final Set<String> attributes = atom.attribute();
         final HReference reference = atom.reference();
-        attributes.stream().filter(name -> Objects.nonNull(atom.attribute(name))).forEach(name -> {
+        final Set<String> treeSet = new TreeSet<>(attributes);
+        treeSet.stream().filter(name -> Objects.nonNull(atom.attribute(name))).forEach(name -> {
             // Each Data for Attribute
             final HAttribute attribute = atom.attribute(name);
             final KReference refData;
@@ -82,8 +84,8 @@ class DevReport {
 
         final HRule refRule = attribute.refRule();
         // Basic Line
-        builder.append(":::" + Strings.LEFT_BRACKET).append(attr.name())
-            .append(",").append(attr.alias()).append(Strings.RIGHT_BRACKET).append(Strings.COMMA);
+        builder.append(":::" + Strings.LEFT_BRACKET).append(attr.alias())
+            .append(",").append(attr.name()).append(Strings.RIGHT_BRACKET).append(Strings.COMMA);
         builder.append(" type=").append(attr.type()).append(Strings.COMMA);
         builder.append(" format=").append(attribute.format()).append(Strings.NEW_LINE);
 
@@ -110,7 +112,7 @@ class DevReport {
         if (Objects.nonNull(reference)) {
             builder.append("\t").append(reference).append(Strings.NEW_LINE);
         }
-
+        builder.append(":::----------------" + Strings.NEW_LINE);
         return builder.toString();
     }
 }

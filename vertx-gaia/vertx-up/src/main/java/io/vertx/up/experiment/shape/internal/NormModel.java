@@ -5,9 +5,11 @@ import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mu.KClass;
+import io.vertx.up.experiment.mu.KHybrid;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -16,14 +18,12 @@ import java.util.concurrent.ConcurrentMap;
 public class NormModel extends AbstractHModel {
 
     private final KClass kClass;
+    private final KHybrid hybrid;
 
     public NormModel(final String namespace, final String identifier) {
         super(namespace);
         this.kClass = KClass.create(namespace, identifier);
-        {
-            // identifier extract
-            this.identifier = this.kClass.identifier();
-        }
+        this.hybrid = this.kClass.hybrid();
         /*
          * Initialize
          * -- attributeMap
@@ -32,6 +32,15 @@ public class NormModel extends AbstractHModel {
          * -- reference
          */
         this.initialize();
+    }
+
+    @Override
+    public String identifier() {
+        if (Objects.isNull(this.identifier)) {
+            // identifier extract
+            this.identifier = this.kClass.identifier();
+        }
+        return this.identifier;
     }
 
     @Override
@@ -51,11 +60,11 @@ public class NormModel extends AbstractHModel {
 
     @Override
     protected ConcurrentMap<String, HAttribute> loadAttribute() {
-        return this.kClass.attribute();
+        return Objects.requireNonNull(this.hybrid).attribute();
     }
 
     @Override
     protected RuleUnique loadRule() {
-        return this.kClass.rule();
+        return Objects.requireNonNull(this.hybrid).rule();
     }
 }

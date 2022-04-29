@@ -1,6 +1,6 @@
 {
     "identifier": "w.ticket",
-    "module": "plugin/wf/oob/module/crud/w.ticket.json",
+    "module": "plugin/wf/oob/module/hybrid/w.ticket.json",
     "hybrid": {
         "alias": "流程工单",
         "matrix": {
@@ -25,8 +25,8 @@
             "flowDefinitionId": "流程定义ID",
             "flowInstanceId": "流程实例ID",
             "flowEnd": "流程是否结束",
-            "title": "工单标题",
-            "description": "工单描述",
+            "title": "标题",
+            "description": "描述",
             "catalog": "服务目录",
             "category": "工单分类",
             "categorySub": "工单子类",

@@ -8,16 +8,5 @@
                 "sigma"
             ]
         ]
-    },
-    "connect": {
-        "targetIndent": "w.ticket",
-        "target": {
-            "w.ticket": {
-                "keyJoin": "key"
-            }
-        },
-        "source": {
-            "keyJoin": "key"
-        }
     }
 }

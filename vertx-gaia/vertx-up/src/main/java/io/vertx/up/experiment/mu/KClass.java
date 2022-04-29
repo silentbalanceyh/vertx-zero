@@ -1,14 +1,14 @@
 package io.vertx.up.experiment.mu;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.JqAnalyzer;
@@ -17,7 +17,10 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -33,6 +36,8 @@ public class KClass implements Serializable {
     private static final Annal LOGGER = Annal.get(KClass.class);
     private final String identifier;
     private final String namespace;
+
+    private final Set<String> linkage = new HashSet<>();
     private final KHybrid hybrid;
     private final KModule module;
 
@@ -44,8 +49,12 @@ public class KClass implements Serializable {
         final JsonObject moduleJ = Ut.valueJObject(configuration, KName.MODULE);
         this.module = Ut.deserialize(moduleJ, KModule.class);
 
-        final String unique = namespace + Strings.DASH + this.identifier;
+        final JsonArray linkage = Ut.valueJArray(configuration, KName.LINKAGE);
+        this.linkage.addAll(Ut.toSet(linkage));
+        // Remove Current
+        this.linkage.remove(this.identifier);
 
+        final String unique = namespace + Strings.DASH + this.identifier;
         // Analyzer for attribute ( Type analyzing, Extract type from Dao )
         final JsonObject hybridJ = this.initializeHybrid(configuration);
         this.hybrid = CC_HYBRID.pick(() -> KHybrid.create(hybridJ), unique);
@@ -137,32 +146,40 @@ public class KClass implements Serializable {
         final String identifierM = this.module.getIdentifier();
         if (!this.identifier.equals(identifierM)) {
             // Get Joint
-            final KJoin join = this.module.getConnect();
-            if (Objects.nonNull(join)) {
+            this.linkage.forEach(identifier -> {
 
-            }
+            });
         }
         return typeMap;
     }
 
-    public RuleUnique rule() {
-        return Objects.requireNonNull(this.hybrid).rule();
+    private ConcurrentMap<String, Class<?>> initializeType(final String identifier) {
+        // Remove all existing part
+        final KJoin join = this.module.getConnect();
+        if (Objects.isNull(join)) {
+            return new ConcurrentHashMap<>();
+        }
+        final KPoint point = join.point(identifier);
+        if (Objects.isNull(point)) {
+            return new ConcurrentHashMap<>();
+        }
+        final KClass joined = KClass.create(this.namespace, identifier).linkage(this.linkage);
+        return joined.initializeType();
     }
 
-
-    public String alias() {
-        return Objects.requireNonNull(this.hybrid).alias();
+    private void initializeLinkage(final KModule module, final Set<String> linkage) {
+        // First remove current identifier
+        linkage.remove(this.identifier);
     }
 
-    public KMarker marker() {
-        return Objects.requireNonNull(this.hybrid).marker();
+    public KClass linkage(final Set<String> linkage) {
+        this.linkage.addAll(linkage);
+        // Remove Current
+        this.linkage.remove(this.identifier);
+        return this;
     }
 
-    public ConcurrentMap<String, KReference> reference() {
-        return Objects.requireNonNull(this.hybrid).reference();
-    }
-
-    public ConcurrentMap<String, HAttribute> attribute() {
-        return Objects.requireNonNull(this.hybrid).attribute();
+    public KHybrid hybrid() {
+        return this.hybrid;
     }
 }

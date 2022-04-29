@@ -1,6 +1,9 @@
 {
     "identifier": "w.todo",
-    "module": "plugin/wf/oob/module/crud/w.todo.json",
+    "module": "plugin/wf/oob/module/hybrid/w.todo.json",
+    "linkage": [
+        "w.ticket"
+    ],
     "hybrid": {
         "alias": "任务单",
         "matrix": {
