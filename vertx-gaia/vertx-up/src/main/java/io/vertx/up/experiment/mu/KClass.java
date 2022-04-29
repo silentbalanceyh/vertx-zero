@@ -49,8 +49,9 @@ public class KClass implements Serializable {
 
     public static KClass create(final String namespace, final String identifier) {
         Objects.requireNonNull(identifier);
-        final String fileCls = "hybird/" + identifier + ".json";
+        final String fileCls = "hybrid/" + identifier + ".json";
         if (!Ut.ioExist(fileCls)) {
+            LOGGER.warn("[ KClass ] Class Not Found = {0}", fileCls);
             throw new _404ModelNotFoundException(KClass.class, namespace, identifier);
         }
         // JsonObject read
@@ -60,6 +61,7 @@ public class KClass implements Serializable {
         if (valueJ instanceof String) {
             final String fileMod = (String) valueJ;
             if (!Ut.ioExist(fileMod)) {
+                LOGGER.warn("[ KClass ] Module Not Found = {0}", fileMod);
                 throw new _404ModelNotFoundException(KClass.class, namespace, identifier);
             }
             moduleJ.mergeIn(Ut.ioJObject(fileMod));
@@ -68,6 +70,7 @@ public class KClass implements Serializable {
         }
         final String idConfig = classJ.getString(KName.IDENTIFIER);
         if (!identifier.equals(idConfig)) {
+            LOGGER.warn("[ KClass ] Identifier Conflict: {0} , {1}", identifier, idConfig);
             throw new _409IdentifierConflictException(KClass.class, identifier, idConfig);
         }
         classJ.put(KName.MODULE, moduleJ);
@@ -83,7 +86,7 @@ public class KClass implements Serializable {
         final JqAnalyzer analyzer = jq.analyzer();
         final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
 
-        final JsonObject attributeRef = hybridJ.getJsonObject(KName.ATTRIBUTE);
+        final JsonObject attributeRef = Ut.valueJObject(hybridJ, KName.ATTRIBUTE);
         final JsonObject replacedAttr = new JsonObject();
         attributeRef.fieldNames().forEach(field -> {
             final Object value = attributeRef.getValue(field);

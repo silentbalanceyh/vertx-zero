@@ -32,7 +32,7 @@ public class HLoadNorm implements HLoad {
             // -- ns
             final KApp app = CC_APP.pick(() -> new KApp(appName), appName);
             final HAtom atom = new NormAtom(model, app);
-            LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}, model = {1}", unique, model.toJson().encode());
+            LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}", unique);
             return atom;
         } catch (final _404ModelNotFoundException | _409IdentifierConflictException ignored) {
             /*
