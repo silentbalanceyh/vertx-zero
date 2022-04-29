@@ -36,7 +36,7 @@ public class DataModel extends AbstractHModel implements Model {
     /* 所有关联的Entity的ID */
     private final transient Set<MJoin> joins = new HashSet<>();
     /* 延迟填充 */
-    private final transient ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, MAttribute> attributes = new ConcurrentHashMap<>();
     /* 当前Model关联的模型 */
     private transient MModel model;
     /* 当前Model的主键信息 */
@@ -44,6 +44,21 @@ public class DataModel extends AbstractHModel implements Model {
 
     public DataModel(final String namespace) {
         super(namespace);
+        /*
+         * Call `initialize()` method again
+         * Fix issue:
+         * Caused by: java.lang.NullPointerException: null
+                at io.vertx.tp.atom.modeling.builtin.DataModel.dbAttributes(DataModel.java:126)
+         * Because parent class constructor is initialized first, it means that you must do as following:
+         * 1) AbstractHModel create
+         * 2) Current Object create
+         * 3) Do initialize
+         *    -- loadAttribute
+         *    -- loadRule
+         *    -- loadMarker
+         *    -- loadReference
+         * 4) When you call fromJson, this method still need to be called.
+         */
     }
 
     // =================== Abstract Class Method ====================
@@ -221,6 +236,7 @@ public class DataModel extends AbstractHModel implements Model {
             });
             Bridge.connect(this, this.namespace + "-" + this.identifier);
         }
+        this.initialize();
     }
 
     @Override

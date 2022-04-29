@@ -35,14 +35,6 @@ public abstract class AbstractHModel implements HModel {
 
     public AbstractHModel(final String namespace) {
         this.namespace = namespace;
-        // Attribute Load
-        this.attributeMap.putAll(this.loadAttribute());
-        // RuleUnique Load
-        this.unique = this.loadRule();
-        // Marker Load
-        this.marker = this.loadMarker();
-        // Reference Load
-        this.reference = this.loadReference();
     }
 
     // ================ Basic Method Api ==================
@@ -96,6 +88,20 @@ public abstract class AbstractHModel implements HModel {
             this.loadRule();
         }
         return this.unique;
+    }
+
+    // ======================= Sub Class Initialize -==========================
+
+    protected void initialize() {
+        // Attribute Load
+        this.attributeMap.clear();
+        this.attributeMap.putAll(this.loadAttribute());
+        // RuleUnique Load
+        this.unique = this.loadRule();
+        // Marker Load
+        this.marker = this.loadMarker();
+        // Reference Load
+        this.reference = this.loadReference();
     }
 
     protected abstract ConcurrentMap<String, HAttribute> loadAttribute();
