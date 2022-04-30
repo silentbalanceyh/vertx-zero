@@ -6,13 +6,12 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
+import io.vertx.up.experiment.mixture.HOne;
+import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.jooq.JqAnalyzer;
-import io.vertx.up.uca.jooq.UxJooq;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -160,6 +159,9 @@ public class KClass implements Serializable {
             final KClass kClass = KClass.create(this.namespace, identifier)
                 .initLinkage(this.linkage);
             final JsonObject attribute = kClass.attribute;
+            {
+                final KJoin join = this.module.getConnect();
+            }
             if (Ut.notNil(attribute)) {
                 combine.mergeIn(attribute.copy(), true);
             }
@@ -168,11 +170,10 @@ public class KClass implements Serializable {
     }
 
     private ConcurrentMap<String, Class<?>> initType() {
-        final Class<?> daoCls = this.module.getDaoCls();
-        final UxJooq jq = Ux.Jooq.on(daoCls);
-        final JqAnalyzer analyzer = jq.analyzer();
-        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>(analyzer.types());
+        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
         // Get Joint by nested
+        final HOne<ConcurrentMap<String, Class<?>>> one = HOne.type();
+
         this.linkage.forEach(identifier -> {
             /*
              * Create sub-class and set the input `linkage` into sub-class to combine
@@ -185,6 +186,10 @@ public class KClass implements Serializable {
              */
             final KClass kClass = KClass.create(this.namespace, identifier)
                 .initLinkage(this.linkage);
+            typeMap.putAll(one.combine(this.module, kClass.module));
+            /*
+             * Reduce and continue
+             */
             typeMap.putAll(kClass.initType());
         });
         return typeMap;

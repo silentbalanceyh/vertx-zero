@@ -17,7 +17,12 @@
             }
         },
         "source": {
-            "keyJoin": "traceId"
+            "keyJoin": "traceId",
+            "synonym": {
+                "name": "taskName",
+                "code": "taskCode",
+                "key": "taskId"
+            }
         }
     }
 }

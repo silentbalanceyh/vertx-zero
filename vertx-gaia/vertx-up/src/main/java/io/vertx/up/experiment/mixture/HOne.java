@@ -6,6 +6,8 @@ import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -14,11 +16,15 @@ public interface HOne<T> {
     Cc<String, HOne> CC_JOOQ = Cc.openThread();
 
     static HOne<UxJooq> jooq() {
-        return HOneJooq.CC_JOOQ.pick(HOneJooq::new, HOneJooq.class.getName());
+        return CC_JOOQ.pick(HOneJooq::new, HOneJooq.class.getName());
     }
 
     static HOne<UxJoin> join() {
-        return HOneJooq.CC_JOOQ.pick(HOneJoin::new, HOneJoin.class.getName());
+        return CC_JOOQ.pick(HOneJoin::new, HOneJoin.class.getName());
+    }
+
+    static HOne<ConcurrentMap<String, Class<?>>> type() {
+        return CC_JOOQ.pick(HOneType::new, HOneType.class.getName());
     }
 
     /*
