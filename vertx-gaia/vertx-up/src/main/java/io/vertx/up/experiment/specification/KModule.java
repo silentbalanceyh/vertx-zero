@@ -112,6 +112,13 @@ public class KModule implements Serializable {
         this.connect = connect;
     }
 
+    public KPoint getConnect(final String identifier) {
+        if (Objects.isNull(this.connect)) {
+            return null;
+        }
+        return this.connect.point(identifier);
+    }
+
     public DSMode getMode() {
         if (Objects.isNull(this.mode)) {
             return DSMode.PRIMARY;

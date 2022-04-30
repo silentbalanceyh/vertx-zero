@@ -6,7 +6,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
-import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.log.Annal;
@@ -20,7 +19,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -36,7 +34,9 @@ public class KClass implements Serializable {
     private static final Annal LOGGER = Annal.get(KClass.class);
     private final String identifier;
     private final String namespace;
-
+    /*
+     * Put `linkage` configuration into linkage Set<String>
+     */
     private final Set<String> linkage = new HashSet<>();
     private final KHybrid hybrid;
     private final KModule module;
@@ -50,13 +50,23 @@ public class KClass implements Serializable {
         this.module = Ut.deserialize(moduleJ, KModule.class);
 
         final JsonArray linkage = Ut.valueJArray(configuration, KName.LINKAGE);
-        this.linkage.addAll(Ut.toSet(linkage));
-        // Remove Current
-        this.linkage.remove(this.identifier);
+        /*
+         * Pre-Condition
+         * this.identifier
+         * this.module
+         */
+        this.initLinkage(Ut.toSet(linkage));
 
         final String unique = namespace + Strings.DASH + this.identifier;
         // Analyzer for attribute ( Type analyzing, Extract type from Dao )
-        final JsonObject hybridJ = this.initializeHybrid(configuration);
+        final JsonObject hybridInput = Ut.valueJObject(configuration, "hybrid");
+        final JsonObject hybridJ = hybridInput.copy();
+        {
+            // Attribute preparing
+            final JsonObject attributeRef = Ut.valueJObject(hybridJ, KName.ATTRIBUTE);
+            final JsonObject replacedAttr = this.initAttribute(attributeRef);
+            hybridJ.put(KName.ATTRIBUTE, replacedAttr);
+        }
         this.hybrid = CC_HYBRID.pick(() -> KHybrid.create(hybridJ), unique);
     }
 
@@ -103,13 +113,10 @@ public class KClass implements Serializable {
         return this.namespace;
     }
 
-    private JsonObject initializeHybrid(final JsonObject configuration) {
-        JsonObject hybridJ = Ut.valueJObject(configuration, "hybrid");
-        hybridJ = hybridJ.copy();
-
-        final ConcurrentMap<String, Class<?>> typeMap = this.initializeType();
-
-        final JsonObject attributeRef = Ut.valueJObject(hybridJ, KName.ATTRIBUTE);
+    private JsonObject initAttribute(final JsonObject attributeRef) {
+        // 1. Get combine types
+        final ConcurrentMap<String, Class<?>> typeMap = this.initType();
+        // 2. Attribute combine
         final JsonObject replacedAttr = new JsonObject();
         attributeRef.fieldNames().forEach(field -> {
             final Object value = attributeRef.getValue(field);
@@ -134,48 +141,56 @@ public class KClass implements Serializable {
                 replacedAttr.put(field, replaced);
             }
         });
-        hybridJ.put(KName.ATTRIBUTE, replacedAttr);
-        return hybridJ;
+        return replacedAttr;
     }
 
-    private ConcurrentMap<String, Class<?>> initializeType() {
+    private ConcurrentMap<String, Class<?>> initType() {
         final Class<?> daoCls = this.module.getDaoCls();
         final UxJooq jq = Ux.Jooq.on(daoCls);
         final JqAnalyzer analyzer = jq.analyzer();
         final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
         final String identifierM = this.module.getIdentifier();
         if (!this.identifier.equals(identifierM)) {
-            // Get Joint
+            // Get Joint by nested
             this.linkage.forEach(identifier -> {
-
+                /*
+                 * Create sub-class and set the input `linkage` into sub-class to combine
+                 */
+                final KClass kClass = KClass.create(this.namespace, identifier).initLinkage(this.linkage);
+                typeMap.putAll(kClass.initType());
             });
         }
         return typeMap;
     }
 
-    private ConcurrentMap<String, Class<?>> initializeType(final String identifier) {
-        // Remove all existing part
-        final KJoin join = this.module.getConnect();
-        if (Objects.isNull(join)) {
-            return new ConcurrentHashMap<>();
-        }
-        final KPoint point = join.point(identifier);
-        if (Objects.isNull(point)) {
-            return new ConcurrentHashMap<>();
-        }
-        final KClass joined = KClass.create(this.namespace, identifier).linkage(this.linkage);
-        return joined.initializeType();
-    }
+    /*
+     * Bind linkage when you want to pass linkage from 1st to 2nd
+     * Such as
+     * 1) A,
+     * 2) A Join B,
+     * 3) B Join C
+     * Here are definition for each:
+     * 1) A, linkage = B,C
+     * 2) B, linkage = C
+     * 3) C, ?
+     * Here the C must appear once only
+     */
+    private KClass initLinkage(final Set<String> linkage) {
+        final Set<String> linkageSet = new HashSet<>(linkage);
+        // 1. Add all configured linkage here
+        linkageSet.addAll(this.linkage);
+        // 2. Remove current identifier;
+        linkageSet.remove(this.identifier);
 
-    private void initializeLinkage(final KModule module, final Set<String> linkage) {
-        // First remove current identifier
-        linkage.remove(this.identifier);
-    }
-
-    public KClass linkage(final Set<String> linkage) {
-        this.linkage.addAll(linkage);
-        // Remove Current
-        this.linkage.remove(this.identifier);
+        this.linkage.clear();
+        if (Objects.nonNull(this.module)) {
+            linkageSet.forEach(identifier -> {
+                final KPoint point = this.module.getConnect(identifier);
+                if (Objects.nonNull(point)) {
+                    this.linkage.add(identifier);
+                }
+            });
+        }
         return this;
     }
 
