@@ -40,7 +40,8 @@ zero:
 above demo, the extension up.god.file should be `vertx-error.yml`, `vertx-inject.yml`, `vertx-server.yml` . Another
 thing is that in our system the `lime` node impact filename only, it does not impact the config content. It means: _ _
 
-> _You can put mongo configuration information into _`vertx-mysql.yml`_ , because zero system focus on content parsing instead of filename, but we do not want you to do like this._
+> _You can put mongo configuration information into _`vertx-mysql.yml`_ , because zero system focus on content parsing
+instead of filename, but we do not want you to do like this._
 
 But we still recommend you to use meaningful filename for the content.
 

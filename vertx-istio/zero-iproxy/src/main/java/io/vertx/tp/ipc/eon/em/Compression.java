@@ -12,129 +12,136 @@ package io.vertx.tp.ipc.eon.em;
  */
 public enum Compression
     implements com.google.protobuf.ProtocolMessageEnum {
-  /**
-   * <pre>
-   * No compression
-   * </pre>
-   *
-   * <code>NONE = 0;</code>
-   */
-  NONE(0),
-  /**
-   * <pre>
-   * Gzip compression
-   * </pre>
-   *
-   * <code>GZIP = 1;</code>
-   */
-  GZIP(1),
-  /**
-   * <pre>
-   * Deflate compression
-   * </pre>
-   *
-   * <code>DEFLATE = 2;</code>
-   */
-  DEFLATE(2),
-  UNRECOGNIZED(-1),
-  ;
+    /**
+     * <pre>
+     * No compression
+     * </pre>
+     *
+     * <code>NONE = 0;</code>
+     */
+    NONE(0),
+    /**
+     * <pre>
+     * Gzip compression
+     * </pre>
+     *
+     * <code>GZIP = 1;</code>
+     */
+    GZIP(1),
+    /**
+     * <pre>
+     * Deflate compression
+     * </pre>
+     *
+     * <code>DEFLATE = 2;</code>
+     */
+    DEFLATE(2),
+    UNRECOGNIZED(-1),
+    ;
 
-  /**
-   * <pre>
-   * No compression
-   * </pre>
-   *
-   * <code>NONE = 0;</code>
-   */
-  public static final int NONE_VALUE = 0;
-  /**
-   * <pre>
-   * Gzip compression
-   * </pre>
-   *
-   * <code>GZIP = 1;</code>
-   */
-  public static final int GZIP_VALUE = 1;
-  /**
-   * <pre>
-   * Deflate compression
-   * </pre>
-   *
-   * <code>DEFLATE = 2;</code>
-   */
-  public static final int DEFLATE_VALUE = 2;
+    /**
+     * <pre>
+     * No compression
+     * </pre>
+     *
+     * <code>NONE = 0;</code>
+     */
+    public static final int NONE_VALUE = 0;
+    /**
+     * <pre>
+     * Gzip compression
+     * </pre>
+     *
+     * <code>GZIP = 1;</code>
+     */
+    public static final int GZIP_VALUE = 1;
+    /**
+     * <pre>
+     * Deflate compression
+     * </pre>
+     *
+     * <code>DEFLATE = 2;</code>
+     */
+    public static final int DEFLATE_VALUE = 2;
 
 
-  public final int getNumber() {
-    if (this == UNRECOGNIZED) {
-      throw new java.lang.IllegalArgumentException(
-          "Can't get the number of an unknown enum value.");
+    public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+            throw new java.lang.IllegalArgumentException(
+                "Can't get the number of an unknown enum value.");
+        }
+        return value;
     }
-    return value;
-  }
 
-  /**
-   * @deprecated Use {@link #forNumber(int)} instead.
-   */
-  @java.lang.Deprecated
-  public static Compression valueOf(int value) {
-    return forNumber(value);
-  }
-
-  public static Compression forNumber(int value) {
-    switch (value) {
-      case 0: return NONE;
-      case 1: return GZIP;
-      case 2: return DEFLATE;
-      default: return null;
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static Compression valueOf(int value) {
+        return forNumber(value);
     }
-  }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<Compression>
-      internalGetValueMap() {
-    return internalValueMap;
-  }
-  private static final com.google.protobuf.Internal.EnumLiteMap<
-      Compression> internalValueMap =
+    public static Compression forNumber(int value) {
+        switch (value) {
+            case 0:
+                return NONE;
+            case 1:
+                return GZIP;
+            case 2:
+                return DEFLATE;
+            default:
+                return null;
+        }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Compression>
+    internalGetValueMap() {
+        return internalValueMap;
+    }
+
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        Compression> internalValueMap =
         new com.google.protobuf.Internal.EnumLiteMap<Compression>() {
-          public Compression findValueByNumber(int number) {
-            return Compression.forNumber(number);
-          }
+            public Compression findValueByNumber(int number) {
+                return Compression.forNumber(number);
+            }
         };
 
-  public final com.google.protobuf.Descriptors.EnumValueDescriptor
-      getValueDescriptor() {
-    return getDescriptor().getValues().get(ordinal());
-  }
-  public final com.google.protobuf.Descriptors.EnumDescriptor
-      getDescriptorForType() {
-    return getDescriptor();
-  }
-  public static final com.google.protobuf.Descriptors.EnumDescriptor
-      getDescriptor() {
-    return io.vertx.tp.ipc.eon.em.UpEnum.getDescriptor().getEnumTypes().get(0);
-  }
-
-  private static final Compression[] VALUES = values();
-
-  public static Compression valueOf(
-      com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-    if (desc.getType() != getDescriptor()) {
-      throw new java.lang.IllegalArgumentException(
-        "EnumValueDescriptor is not for this type.");
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+    getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
     }
-    if (desc.getIndex() == -1) {
-      return UNRECOGNIZED;
+
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+    getDescriptorForType() {
+        return getDescriptor();
     }
-    return VALUES[desc.getIndex()];
-  }
 
-  private final int value;
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+    getDescriptor() {
+        return io.vertx.tp.ipc.eon.em.UpEnum.getDescriptor().getEnumTypes().get(0);
+    }
 
-  private Compression(int value) {
-    this.value = value;
-  }
+    private static final Compression[] VALUES = values();
 
-  // @@protoc_insertion_point(enum_scope:io.vertx.tp.ipc.eon.em.Compression)
+    public static Compression valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+            throw new java.lang.IllegalArgumentException(
+                "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+            return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private Compression(int value) {
+        this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:io.vertx.tp.ipc.eon.em.Compression)
 }
 

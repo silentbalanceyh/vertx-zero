@@ -2,7 +2,6 @@ package io.vertx.tp.battery.atom;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Modulat;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -53,7 +52,7 @@ public class PowerApp implements Serializable {
         if (POWER_POOL.containsKey(appId)) {
             return Ux.future(POWER_POOL.getOrDefault(appId, null));
         } else {
-            return Ke.channel(Modulat.class, JsonObject::new, modulat -> modulat.extension(appId)).compose(config -> {
+            return Ux.channel(Modulat.class, JsonObject::new, modulat -> modulat.extension(appId)).compose(config -> {
                 final PowerApp power = new PowerApp(appId, config);
                 POWER_POOL.put(appId, power);
                 return Ux.future(power);

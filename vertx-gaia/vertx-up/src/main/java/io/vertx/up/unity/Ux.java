@@ -635,6 +635,30 @@ public final class Ux {
     }
 
     /*
+     * Channel Execution
+     *
+     * 1. channel
+     * 2. channelSync
+     * 3. channelAsync
+     * 4. channelFile
+     */
+    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
+                                           final Function<T, Future<O>> executor) {
+        return Async.channel(clazz, supplier, executor);
+    }
+
+
+    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
+                                       final Function<T, O> executor) {
+        return Async.channelSync(clazz, supplier, executor);
+    }
+
+    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                                final Function<T, Future<O>> executor) {
+        return Async.channelAsync(clazz, supplier, executor);
+    }
+
+    /*
      * Flatting method for function executing
      * 1) attach -> JsonObject ( field )
      * 2) attachJ -> Advanced JsonObject ( field )

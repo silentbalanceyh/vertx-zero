@@ -4,33 +4,8 @@
 package cn.vertxup.erp.domain;
 
 
-import cn.vertxup.erp.domain.tables.EAsset;
-import cn.vertxup.erp.domain.tables.EBrand;
-import cn.vertxup.erp.domain.tables.ECompany;
-import cn.vertxup.erp.domain.tables.EContract;
-import cn.vertxup.erp.domain.tables.ECustomer;
-import cn.vertxup.erp.domain.tables.EDept;
-import cn.vertxup.erp.domain.tables.EEmployee;
-import cn.vertxup.erp.domain.tables.EIdentity;
-import cn.vertxup.erp.domain.tables.EJobLog;
-import cn.vertxup.erp.domain.tables.ETeam;
-import cn.vertxup.erp.domain.tables.RAssetShare;
-import cn.vertxup.erp.domain.tables.RCompanyCustomer;
-import cn.vertxup.erp.domain.tables.RTeamEmployee;
-import cn.vertxup.erp.domain.tables.records.EAssetRecord;
-import cn.vertxup.erp.domain.tables.records.EBrandRecord;
-import cn.vertxup.erp.domain.tables.records.ECompanyRecord;
-import cn.vertxup.erp.domain.tables.records.EContractRecord;
-import cn.vertxup.erp.domain.tables.records.ECustomerRecord;
-import cn.vertxup.erp.domain.tables.records.EDeptRecord;
-import cn.vertxup.erp.domain.tables.records.EEmployeeRecord;
-import cn.vertxup.erp.domain.tables.records.EIdentityRecord;
-import cn.vertxup.erp.domain.tables.records.EJobLogRecord;
-import cn.vertxup.erp.domain.tables.records.ETeamRecord;
-import cn.vertxup.erp.domain.tables.records.RAssetShareRecord;
-import cn.vertxup.erp.domain.tables.records.RCompanyCustomerRecord;
-import cn.vertxup.erp.domain.tables.records.RTeamEmployeeRecord;
-
+import cn.vertxup.erp.domain.tables.*;
+import cn.vertxup.erp.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -41,39 +16,39 @@ import org.jooq.impl.Internal;
  * A class modelling foreign key relationships and constraints of tables in
  * DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Keys {
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_CODE = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_CODE"), new TableField[] { EAsset.E_ASSET.CODE, EAsset.E_ASSET.SIGMA }, true);
-    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_NAME = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_NAME"), new TableField[] { EAsset.E_ASSET.NAME, EAsset.E_ASSET.SIGMA }, true);
-    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_PRIMARY = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_PRIMARY"), new TableField[] { EAsset.E_ASSET.KEY }, true);
-    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_CODE = Internal.createUniqueKey(EBrand.E_BRAND, DSL.name("KEY_E_BRAND_CODE"), new TableField[] { EBrand.E_BRAND.CODE, EBrand.E_BRAND.SIGMA }, true);
-    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_PRIMARY = Internal.createUniqueKey(EBrand.E_BRAND, DSL.name("KEY_E_BRAND_PRIMARY"), new TableField[] { EBrand.E_BRAND.KEY }, true);
-    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CODE = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_CODE"), new TableField[] { ECompany.E_COMPANY.CODE, ECompany.E_COMPANY.SIGMA }, true);
-    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CUSTOMER_ID = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_CUSTOMER_ID"), new TableField[] { ECompany.E_COMPANY.CUSTOMER_ID, ECompany.E_COMPANY.SIGMA }, true);
-    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_NAME = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_NAME"), new TableField[] { ECompany.E_COMPANY.NAME, ECompany.E_COMPANY.SIGMA }, true);
-    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_PRIMARY = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_PRIMARY"), new TableField[] { ECompany.E_COMPANY.KEY }, true);
-    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_TAX_CODE = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_TAX_CODE"), new TableField[] { ECompany.E_COMPANY.TAX_CODE, ECompany.E_COMPANY.SIGMA }, true);
-    public static final UniqueKey<EContractRecord> KEY_E_CONTRACT_CODE = Internal.createUniqueKey(EContract.E_CONTRACT, DSL.name("KEY_E_CONTRACT_CODE"), new TableField[] { EContract.E_CONTRACT.CODE, EContract.E_CONTRACT.SIGMA }, true);
-    public static final UniqueKey<EContractRecord> KEY_E_CONTRACT_PRIMARY = Internal.createUniqueKey(EContract.E_CONTRACT, DSL.name("KEY_E_CONTRACT_PRIMARY"), new TableField[] { EContract.E_CONTRACT.KEY }, true);
-    public static final UniqueKey<ECustomerRecord> KEY_E_CUSTOMER_PRIMARY = Internal.createUniqueKey(ECustomer.E_CUSTOMER, DSL.name("KEY_E_CUSTOMER_PRIMARY"), new TableField[] { ECustomer.E_CUSTOMER.KEY }, true);
-    public static final UniqueKey<ECustomerRecord> KEY_E_CUSTOMER_TAX_CODE = Internal.createUniqueKey(ECustomer.E_CUSTOMER, DSL.name("KEY_E_CUSTOMER_TAX_CODE"), new TableField[] { ECustomer.E_CUSTOMER.TAX_CODE, ECustomer.E_CUSTOMER.SIGMA }, true);
-    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_CODE = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_CODE"), new TableField[] { EDept.E_DEPT.CODE, EDept.E_DEPT.COMPANY_ID }, true);
-    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_NAME = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_NAME"), new TableField[] { EDept.E_DEPT.NAME, EDept.E_DEPT.COMPANY_ID, EDept.E_DEPT.DEPT_ID }, true);
-    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_PRIMARY = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_PRIMARY"), new TableField[] { EDept.E_DEPT.KEY }, true);
-    public static final UniqueKey<EEmployeeRecord> KEY_E_EMPLOYEE_PRIMARY = Internal.createUniqueKey(EEmployee.E_EMPLOYEE, DSL.name("KEY_E_EMPLOYEE_PRIMARY"), new TableField[] { EEmployee.E_EMPLOYEE.KEY }, true);
-    public static final UniqueKey<EEmployeeRecord> KEY_E_EMPLOYEE_WORK_NUMBER = Internal.createUniqueKey(EEmployee.E_EMPLOYEE, DSL.name("KEY_E_EMPLOYEE_WORK_NUMBER"), new TableField[] { EEmployee.E_EMPLOYEE.WORK_NUMBER, EEmployee.E_EMPLOYEE.COMPANY_ID }, true);
-    public static final UniqueKey<EIdentityRecord> KEY_E_IDENTITY_PRIMARY = Internal.createUniqueKey(EIdentity.E_IDENTITY, DSL.name("KEY_E_IDENTITY_PRIMARY"), new TableField[] { EIdentity.E_IDENTITY.KEY }, true);
-    public static final UniqueKey<EIdentityRecord> KEY_E_IDENTITY_TYPE = Internal.createUniqueKey(EIdentity.E_IDENTITY, DSL.name("KEY_E_IDENTITY_TYPE"), new TableField[] { EIdentity.E_IDENTITY.TYPE, EIdentity.E_IDENTITY.IDC_TYPE, EIdentity.E_IDENTITY.IDC_NUMBER }, true);
-    public static final UniqueKey<EJobLogRecord> KEY_E_JOB_LOG_PRIMARY = Internal.createUniqueKey(EJobLog.E_JOB_LOG, DSL.name("KEY_E_JOB_LOG_PRIMARY"), new TableField[] { EJobLog.E_JOB_LOG.KEY }, true);
-    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_CODE = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_CODE"), new TableField[] { ETeam.E_TEAM.CODE, ETeam.E_TEAM.DEPT_ID }, true);
-    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_NAME = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_NAME"), new TableField[] { ETeam.E_TEAM.NAME, ETeam.E_TEAM.DEPT_ID, ETeam.E_TEAM.TEAM_ID }, true);
-    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_PRIMARY = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_PRIMARY"), new TableField[] { ETeam.E_TEAM.KEY }, true);
-    public static final UniqueKey<RAssetShareRecord> KEY_R_ASSET_SHARE_PRIMARY = Internal.createUniqueKey(RAssetShare.R_ASSET_SHARE, DSL.name("KEY_R_ASSET_SHARE_PRIMARY"), new TableField[] { RAssetShare.R_ASSET_SHARE.ASSET_ID, RAssetShare.R_ASSET_SHARE.ENTITY_TYPE, RAssetShare.R_ASSET_SHARE.ENTITY_ID }, true);
-    public static final UniqueKey<RCompanyCustomerRecord> KEY_R_COMPANY_CUSTOMER_PRIMARY = Internal.createUniqueKey(RCompanyCustomer.R_COMPANY_CUSTOMER, DSL.name("KEY_R_COMPANY_CUSTOMER_PRIMARY"), new TableField[] { RCompanyCustomer.R_COMPANY_CUSTOMER.COMPANY_ID, RCompanyCustomer.R_COMPANY_CUSTOMER.CUSTOMER_ID }, true);
-    public static final UniqueKey<RTeamEmployeeRecord> KEY_R_TEAM_EMPLOYEE_PRIMARY = Internal.createUniqueKey(RTeamEmployee.R_TEAM_EMPLOYEE, DSL.name("KEY_R_TEAM_EMPLOYEE_PRIMARY"), new TableField[] { RTeamEmployee.R_TEAM_EMPLOYEE.TEAM_ID, RTeamEmployee.R_TEAM_EMPLOYEE.EMPLOYEE_ID }, true);
+    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_CODE = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_CODE"), new TableField[]{EAsset.E_ASSET.CODE, EAsset.E_ASSET.SIGMA}, true);
+    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_NAME = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_NAME"), new TableField[]{EAsset.E_ASSET.NAME, EAsset.E_ASSET.SIGMA}, true);
+    public static final UniqueKey<EAssetRecord> KEY_E_ASSET_PRIMARY = Internal.createUniqueKey(EAsset.E_ASSET, DSL.name("KEY_E_ASSET_PRIMARY"), new TableField[]{EAsset.E_ASSET.KEY}, true);
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_CODE = Internal.createUniqueKey(EBrand.E_BRAND, DSL.name("KEY_E_BRAND_CODE"), new TableField[]{EBrand.E_BRAND.CODE, EBrand.E_BRAND.SIGMA}, true);
+    public static final UniqueKey<EBrandRecord> KEY_E_BRAND_PRIMARY = Internal.createUniqueKey(EBrand.E_BRAND, DSL.name("KEY_E_BRAND_PRIMARY"), new TableField[]{EBrand.E_BRAND.KEY}, true);
+    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CODE = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_CODE"), new TableField[]{ECompany.E_COMPANY.CODE, ECompany.E_COMPANY.SIGMA}, true);
+    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_CUSTOMER_ID = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_CUSTOMER_ID"), new TableField[]{ECompany.E_COMPANY.CUSTOMER_ID, ECompany.E_COMPANY.SIGMA}, true);
+    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_NAME = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_NAME"), new TableField[]{ECompany.E_COMPANY.NAME, ECompany.E_COMPANY.SIGMA}, true);
+    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_PRIMARY = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_PRIMARY"), new TableField[]{ECompany.E_COMPANY.KEY}, true);
+    public static final UniqueKey<ECompanyRecord> KEY_E_COMPANY_TAX_CODE = Internal.createUniqueKey(ECompany.E_COMPANY, DSL.name("KEY_E_COMPANY_TAX_CODE"), new TableField[]{ECompany.E_COMPANY.TAX_CODE, ECompany.E_COMPANY.SIGMA}, true);
+    public static final UniqueKey<EContractRecord> KEY_E_CONTRACT_CODE = Internal.createUniqueKey(EContract.E_CONTRACT, DSL.name("KEY_E_CONTRACT_CODE"), new TableField[]{EContract.E_CONTRACT.CODE, EContract.E_CONTRACT.SIGMA}, true);
+    public static final UniqueKey<EContractRecord> KEY_E_CONTRACT_PRIMARY = Internal.createUniqueKey(EContract.E_CONTRACT, DSL.name("KEY_E_CONTRACT_PRIMARY"), new TableField[]{EContract.E_CONTRACT.KEY}, true);
+    public static final UniqueKey<ECustomerRecord> KEY_E_CUSTOMER_PRIMARY = Internal.createUniqueKey(ECustomer.E_CUSTOMER, DSL.name("KEY_E_CUSTOMER_PRIMARY"), new TableField[]{ECustomer.E_CUSTOMER.KEY}, true);
+    public static final UniqueKey<ECustomerRecord> KEY_E_CUSTOMER_TAX_CODE = Internal.createUniqueKey(ECustomer.E_CUSTOMER, DSL.name("KEY_E_CUSTOMER_TAX_CODE"), new TableField[]{ECustomer.E_CUSTOMER.TAX_CODE, ECustomer.E_CUSTOMER.SIGMA}, true);
+    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_CODE = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_CODE"), new TableField[]{EDept.E_DEPT.CODE, EDept.E_DEPT.COMPANY_ID}, true);
+    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_NAME = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_NAME"), new TableField[]{EDept.E_DEPT.NAME, EDept.E_DEPT.COMPANY_ID, EDept.E_DEPT.DEPT_ID}, true);
+    public static final UniqueKey<EDeptRecord> KEY_E_DEPT_PRIMARY = Internal.createUniqueKey(EDept.E_DEPT, DSL.name("KEY_E_DEPT_PRIMARY"), new TableField[]{EDept.E_DEPT.KEY}, true);
+    public static final UniqueKey<EEmployeeRecord> KEY_E_EMPLOYEE_PRIMARY = Internal.createUniqueKey(EEmployee.E_EMPLOYEE, DSL.name("KEY_E_EMPLOYEE_PRIMARY"), new TableField[]{EEmployee.E_EMPLOYEE.KEY}, true);
+    public static final UniqueKey<EEmployeeRecord> KEY_E_EMPLOYEE_WORK_NUMBER = Internal.createUniqueKey(EEmployee.E_EMPLOYEE, DSL.name("KEY_E_EMPLOYEE_WORK_NUMBER"), new TableField[]{EEmployee.E_EMPLOYEE.WORK_NUMBER, EEmployee.E_EMPLOYEE.COMPANY_ID}, true);
+    public static final UniqueKey<EIdentityRecord> KEY_E_IDENTITY_PRIMARY = Internal.createUniqueKey(EIdentity.E_IDENTITY, DSL.name("KEY_E_IDENTITY_PRIMARY"), new TableField[]{EIdentity.E_IDENTITY.KEY}, true);
+    public static final UniqueKey<EIdentityRecord> KEY_E_IDENTITY_TYPE = Internal.createUniqueKey(EIdentity.E_IDENTITY, DSL.name("KEY_E_IDENTITY_TYPE"), new TableField[]{EIdentity.E_IDENTITY.TYPE, EIdentity.E_IDENTITY.IDC_TYPE, EIdentity.E_IDENTITY.IDC_NUMBER}, true);
+    public static final UniqueKey<EJobLogRecord> KEY_E_JOB_LOG_PRIMARY = Internal.createUniqueKey(EJobLog.E_JOB_LOG, DSL.name("KEY_E_JOB_LOG_PRIMARY"), new TableField[]{EJobLog.E_JOB_LOG.KEY}, true);
+    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_CODE = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_CODE"), new TableField[]{ETeam.E_TEAM.CODE, ETeam.E_TEAM.DEPT_ID}, true);
+    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_NAME = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_NAME"), new TableField[]{ETeam.E_TEAM.NAME, ETeam.E_TEAM.DEPT_ID, ETeam.E_TEAM.TEAM_ID}, true);
+    public static final UniqueKey<ETeamRecord> KEY_E_TEAM_PRIMARY = Internal.createUniqueKey(ETeam.E_TEAM, DSL.name("KEY_E_TEAM_PRIMARY"), new TableField[]{ETeam.E_TEAM.KEY}, true);
+    public static final UniqueKey<RAssetShareRecord> KEY_R_ASSET_SHARE_PRIMARY = Internal.createUniqueKey(RAssetShare.R_ASSET_SHARE, DSL.name("KEY_R_ASSET_SHARE_PRIMARY"), new TableField[]{RAssetShare.R_ASSET_SHARE.ASSET_ID, RAssetShare.R_ASSET_SHARE.ENTITY_TYPE, RAssetShare.R_ASSET_SHARE.ENTITY_ID}, true);
+    public static final UniqueKey<RCompanyCustomerRecord> KEY_R_COMPANY_CUSTOMER_PRIMARY = Internal.createUniqueKey(RCompanyCustomer.R_COMPANY_CUSTOMER, DSL.name("KEY_R_COMPANY_CUSTOMER_PRIMARY"), new TableField[]{RCompanyCustomer.R_COMPANY_CUSTOMER.COMPANY_ID, RCompanyCustomer.R_COMPANY_CUSTOMER.CUSTOMER_ID}, true);
+    public static final UniqueKey<RTeamEmployeeRecord> KEY_R_TEAM_EMPLOYEE_PRIMARY = Internal.createUniqueKey(RTeamEmployee.R_TEAM_EMPLOYEE, DSL.name("KEY_R_TEAM_EMPLOYEE_PRIMARY"), new TableField[]{RTeamEmployee.R_TEAM_EMPLOYEE.TEAM_ID, RTeamEmployee.R_TEAM_EMPLOYEE.EMPLOYEE_ID}, true);
 }

@@ -12,6 +12,7 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 
 /**
  * ## 「Channel」我的列定制通道
@@ -81,7 +82,7 @@ public class ViewComponent extends AbstractAdaptor {
             final String sessionKey = Ke.keyView(params.getString(KName.METHOD),
                 params.getString(KName.URI), Vis.create(literal));
             params.put(KName.DATA_KEY, sessionKey);
-            return Ke.channelAsync(ApeakMy.class,
+            return Ux.channelAsync(ApeakMy.class,
                 () -> ActOut.future(new JsonObject()),
                 stub -> {
                     /*

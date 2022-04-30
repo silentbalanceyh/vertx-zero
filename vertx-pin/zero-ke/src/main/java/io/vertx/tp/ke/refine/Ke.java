@@ -117,29 +117,6 @@ public class Ke {
     }
 
     /*
-     * Channel Execution
-     *
-     * 1. channel
-     * 2. channelSync
-     * 3. channelAsync
-     * 4. channelFile
-     */
-    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
-                                           final Function<T, Future<O>> executor) {
-        return KeChannel.channel(clazz, supplier, executor);
-    }
-
-    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
-                                       final Function<T, O> executor) {
-        return KeChannel.channelSync(clazz, supplier, executor);
-    }
-
-    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
-                                                final Function<T, Future<O>> executor) {
-        return KeChannel.channelAsync(clazz, supplier, executor);
-    }
-
-    /*
      * Session key generation
      *
      * 1. uri(String, String)

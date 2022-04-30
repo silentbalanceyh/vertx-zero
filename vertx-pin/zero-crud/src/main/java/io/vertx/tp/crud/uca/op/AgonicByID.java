@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.next.Co;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -34,7 +33,7 @@ class AgonicByID implements Agonic {
             final JsonObject active = Ix.serializeJ(entity, module);
 
             // File: Attachment extraction
-            return Ix.fileFn(in, (criteria, dataArray) -> Ke.channel(
+            return Ix.fileFn(in, (criteria, dataArray) -> Ux.channel(
                 Attachment.class,                       // Component
                 JsonArray::new,                     // JsonArray Data
                 file -> file.fetchAsync(criteria)   // Execution Logical

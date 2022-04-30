@@ -9,12 +9,12 @@ import io.vertx.tp.ipc.eon.IpcEnvelop;
 import io.vertx.tp.ipc.eon.IpcRequest;
 import io.vertx.tp.ipc.eon.IpcResponse;
 import io.vertx.tp.ipc.eon.em.Format;
+import io.vertx.up.atom.container.VUser;
 import io.vertx.up.atom.rpc.IpcData;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.em.IpcType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.atom.container.VUser;
 import io.vertx.up.util.Ut;
 
 /**

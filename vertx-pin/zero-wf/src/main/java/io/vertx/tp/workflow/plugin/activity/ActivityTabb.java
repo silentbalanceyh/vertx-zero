@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.plugin.activity;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Valve;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
@@ -41,7 +40,7 @@ public class ActivityTabb implements After {
          *     "criteria": {}
          * }
          */
-        return Ke.channel(Valve.class, () -> data, valve -> valve.execAsync(normalized, config))
+        return Ux.channel(Valve.class, () -> data, valve -> valve.execAsync(normalized, config))
             .compose(nil -> Ux.future(data));
     }
 

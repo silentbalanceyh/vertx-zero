@@ -41,7 +41,8 @@ user-defined types. There is one resolution for this situation:
 
 ## 1. Source Code
 
-> Because the Video App is before zero system, most of this app service used `void xxx(Message<Envelop>)` style instead of the latest Future style, but if you read current tutorials, it's very simple for you to convert to Future style.
+> Because the Video App is before zero system, most of this app service used `void xxx(Message<Envelop>)` style instead
+> of the latest Future style, but if you read current tutorials, it's very simple for you to convert to Future style.
 
 ```java
 public class Extractor{

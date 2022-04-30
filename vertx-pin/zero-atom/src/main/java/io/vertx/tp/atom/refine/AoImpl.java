@@ -5,12 +5,11 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.modular.jdbc.Pin;
-import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.optic.environment.ES;
 import io.vertx.tp.optic.mixture.HLoadAtom;
 import io.vertx.tp.optic.robin.Switcher;
+import io.vertx.tp.plugin.database.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
@@ -108,7 +107,7 @@ class AoImpl {
     }
 
     static HDao toDao(final HAtom atom) {
-        return Ke.channelSync(DS.class, () -> null, ds -> {
+        return Ux.channelSync(DS.class, () -> null, ds -> {
             /* 连接池绑定数据库 */
             final DataPool pool = ds.switchDs(atom.sigma());
             if (Objects.nonNull(pool)) {
@@ -138,7 +137,7 @@ class AoImpl {
 
     // ----------------- To Current ------------------
     static DataAtom toAtom(final String identifier) {
-        return Ke.channelSync(ES.class, () -> null, es -> {
+        return Ux.channelSync(ES.class, () -> null, es -> {
             final KEnv env = es.connect();
             if (Objects.nonNull(env)) {
                 return toAtom(env.name(), identifier);
@@ -159,7 +158,7 @@ class AoImpl {
     }
 
     static HDao toDao(final String identifier) {
-        return Ke.channelSync(ES.class, () -> null, es -> {
+        return Ux.channelSync(ES.class, () -> null, es -> {
             final KEnv env = es.connect();
             final DataAtom atom;
             if (Objects.nonNull(env)) {

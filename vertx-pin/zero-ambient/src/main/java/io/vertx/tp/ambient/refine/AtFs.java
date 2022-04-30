@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -37,7 +36,7 @@ class AtFs {
         if (Ut.isNil(attachment)) {
             return Ux.future(Buffer.buffer());
         } else {
-            return splitRun(attachment, (directoryId, fileMap) -> Ke.channel(ExIo.class, Buffer::buffer,
+            return splitRun(attachment, (directoryId, fileMap) -> Ux.channel(ExIo.class, Buffer::buffer,
 
 
                 // Call ExIo `fsDownload`
@@ -57,7 +56,7 @@ class AtFs {
             return Ux.future(Buffer.buffer());
         } else {
             final String storePath = attachment.getString(KName.STORE_PATH);
-            return Ke.channel(ExIo.class, Buffer::buffer,
+            return Ux.channel(ExIo.class, Buffer::buffer,
 
                 // Call ExIo `fsDownload`
                 io -> io.fsDownload(directoryId, storePath)
@@ -76,7 +75,7 @@ class AtFs {
             return Ux.futureA();
         } else {
             return splitInternal(attachment, Ux::future,
-                remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+                remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,
 
                     // Call ExIo `fsUpload`
                     io -> io.fsUpload(directoryId, fileMap)
@@ -97,7 +96,7 @@ class AtFs {
                 Ut.cmdRm(files);
                 At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
                 return Ux.future(local);
-            }, remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+            }, remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,
 
                 // Call ExIo `fsRemove`
                 io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))

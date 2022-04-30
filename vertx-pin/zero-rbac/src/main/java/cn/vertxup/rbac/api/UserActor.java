@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -95,7 +94,7 @@ public class UserActor {
 
     @Address(Addr.User.DELETE)
     public Future<Boolean> delete(final String key) {
-        return Ke.channelAsync(Trash.class, () -> this.stub.deleteUser(key),
+        return Ux.channelAsync(Trash.class, () -> this.stub.deleteUser(key),
             tunnel -> this.stub.fetchUser(key)
                 .compose(user -> tunnel.backupAsync("sec.user", user))
                 .compose(backup -> this.stub.deleteUser(key)));

@@ -68,7 +68,7 @@ final class Codec {
             for (int i = 0; i < byteBuffer.length; i++) {
                 final String hex = Integer.toHexString(0xff & byteBuffer[i]);
                 if (hex.length() == 1) {
-                    strHexString.append('0' );
+                    strHexString.append('0');
                 }
                 strHexString.append(hex);
             }

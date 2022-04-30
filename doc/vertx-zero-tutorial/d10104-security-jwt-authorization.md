@@ -16,7 +16,8 @@ Here are two workflow in zero system that developers could define:
   config back.
 * **Verify Token**: Before zero system verified config, you can check with your own code logical here.
 
-> In vert.x native JWT support, you must set your own code logical to process config, but in zero system, you could focus on two functions to process config only, zero has split the workflow and let developers process JWT more smartly.
+> In vert.x native JWT support, you must set your own code logical to process config, but in zero system, you could
+> focus on two functions to process config only, zero has split the workflow and let developers process JWT more smartly.
 
 Demo projects:
 

@@ -7,30 +7,31 @@ public interface IpcStatusOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.IpcStatus)
     com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <pre>
-   * Status Code
-   * </pre>
-   *
-   * <code>int32 code = 1;</code>
-   */
-  int getCode();
+    /**
+     * <pre>
+     * Status Code
+     * </pre>
+     *
+     * <code>int32 code = 1;</code>
+     */
+    int getCode();
 
-  /**
-   * <pre>
-   * Status Content
-   * </pre>
-   *
-   * <code>string message = 2;</code>
-   */
-  java.lang.String getMessage();
-  /**
-   * <pre>
-   * Status Content
-   * </pre>
-   *
-   * <code>string message = 2;</code>
-   */
-  com.google.protobuf.ByteString
-      getMessageBytes();
+    /**
+     * <pre>
+     * Status Content
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     */
+    java.lang.String getMessage();
+
+    /**
+     * <pre>
+     * Status Content
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     */
+    com.google.protobuf.ByteString
+    getMessageBytes();
 }

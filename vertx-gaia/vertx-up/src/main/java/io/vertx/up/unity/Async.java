@@ -8,6 +8,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.channel.Pocket;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -40,11 +41,11 @@ class Async {
     static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
         final List<Future<T>> futures = new ArrayList<>();
         set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
-        Ux.thenCombineT(futures).compose(nil -> {
+        Combine.thenCombineT(futures).compose(nil -> {
             LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
-            return Ux.future(nil);
+            return To.future(nil);
         });
-        return Ux.future(input);
+        return To.future(input);
     }
 
     @SuppressWarnings("all")
@@ -96,9 +97,9 @@ class Async {
                                      * The step stopped
                                      */
                                     .compose(response::future)
-                                    .otherwise(Ux.otherwise(() -> response.add(json).get()));
+                                    .otherwise(Debug.otherwise(() -> response.add(json).get()));
                             }
-                        }).otherwise(Ux.otherwise(() -> response.get()));
+                        }).otherwise(Debug.otherwise(() -> response.get()));
                     }
                     return first;
                 }
@@ -183,5 +184,45 @@ class Async {
 
     static JsonObject array(final JsonArray array) {
         return new JsonObject().put(KName.DATA, array);
+    }
+
+
+    static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
+                                    final Function<T, Future<O>> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel {0} null", clazz.getName());
+            return To.future(supplier.get());
+        } else {
+            LOGGER.debug("「SL Channel」Channel Async selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
+    }
+
+    static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
+                                final Function<T, O> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel Sync {0} null", clazz.getName());
+            return supplier.get();
+        } else {
+            LOGGER.debug("「SL Channel」Channel Sync selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
+    }
+
+    static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                         final Function<T, Future<O>> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel Async {0} null", clazz.getName());
+            return supplier.get();
+        } else {
+            LOGGER.debug("「SL Channel」Channel Async selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
     }
 }

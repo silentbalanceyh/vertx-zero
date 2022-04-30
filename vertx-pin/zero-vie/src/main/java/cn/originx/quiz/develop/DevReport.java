@@ -62,6 +62,7 @@ class DevReport {
         final Set<String> attributes = atom.attribute();
         final HReference reference = atom.reference();
         final Set<String> treeSet = new TreeSet<>(attributes);
+        builder.append("Attribute Size = ").append(treeSet.size()).append(Strings.NEW_LINE);
         treeSet.stream().filter(name -> Objects.nonNull(atom.attribute(name))).forEach(name -> {
             // Each Data for Attribute
             final HAttribute attribute = atom.attribute(name);

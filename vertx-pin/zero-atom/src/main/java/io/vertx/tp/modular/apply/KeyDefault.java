@@ -3,8 +3,8 @@ package io.vertx.tp.modular.apply;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.atom.KeyType;
 import io.vertx.tp.atom.refine.Ao;
+import io.vertx.up.eon.em.atom.KeyType;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
@@ -53,7 +53,7 @@ class KeyDefault implements AoDefault {
         final KeyType type = Ut.toEnum(KeyType.class, key.getString("type"));
         final StringBuilder name = new StringBuilder();
         name.append(KeyType.PRIMARY == type ? "PK_" : "UK_");
-        name.append(this.entity.getTableName()).append('_' );
+        name.append(this.entity.getTableName()).append('_');
         // 列名
         final JsonArray columns = this.getColumns(key);
         final Set<String> columnSet = new TreeSet<>();

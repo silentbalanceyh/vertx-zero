@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.apply;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.atom.ModelType;
 
 class ModelDefault implements AoDefault {
 

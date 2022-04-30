@@ -50,7 +50,7 @@ final class OxConsole {
             client.deleteIndex(identifier);
             client.createIndex(identifier, atom.type());
         } catch (final Throwable ex) {
-            if(Debugger.onStackTracing()){
+            if (Debugger.onStackTracing()) {
                 ex.printStackTrace();
             }
             Sl.failWarn("当前索引不存在：identifier = {0}, details", identifier, ex.getMessage());

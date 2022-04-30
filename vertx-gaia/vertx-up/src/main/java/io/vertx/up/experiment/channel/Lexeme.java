@@ -1,4 +1,4 @@
-package io.vertx.tp.optic;
+package io.vertx.up.experiment.channel;
 
 import io.vertx.up.util.Ut;
 

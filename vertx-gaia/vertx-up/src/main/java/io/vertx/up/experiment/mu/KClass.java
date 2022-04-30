@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -38,6 +39,8 @@ public class KClass implements Serializable {
      * Put `linkage` configuration into linkage Set<String>
      */
     private final Set<String> linkage = new HashSet<>();
+    private final JsonObject attribute = new JsonObject();
+
     private final KHybrid hybrid;
     private final KModule module;
 
@@ -64,6 +67,9 @@ public class KClass implements Serializable {
         {
             // Attribute preparing
             final JsonObject attributeRef = Ut.valueJObject(hybridJ, KName.ATTRIBUTE);
+            // Set attribute and merged into current
+            this.attribute.mergeIn(attributeRef, true);
+
             final JsonObject replacedAttr = this.initAttribute(attributeRef);
             hybridJ.put(KName.ATTRIBUTE, replacedAttr);
         }
@@ -118,8 +124,11 @@ public class KClass implements Serializable {
         final ConcurrentMap<String, Class<?>> typeMap = this.initType();
         // 2. Attribute combine
         final JsonObject replacedAttr = new JsonObject();
-        attributeRef.fieldNames().forEach(field -> {
-            final Object value = attributeRef.getValue(field);
+        final JsonObject combineAttr = this.initAttribute();
+        combineAttr.mergeIn(attributeRef, true);
+        // 3. Process combined attr
+        combineAttr.fieldNames().forEach(field -> {
+            final Object value = combineAttr.getValue(field);
             final Class<?> type = typeMap.getOrDefault(field, String.class);
             if (value instanceof String) {
                 // name = alias
@@ -144,22 +153,40 @@ public class KClass implements Serializable {
         return replacedAttr;
     }
 
+    private JsonObject initAttribute() {
+        final JsonObject combine = new JsonObject();
+        // Get Joint by nested
+        this.linkage.forEach(identifier -> {
+            final KClass kClass = KClass.create(this.namespace, identifier)
+                .initLinkage(this.linkage);
+            final JsonObject attribute = kClass.attribute;
+            if (Ut.notNil(attribute)) {
+                combine.mergeIn(attribute.copy(), true);
+            }
+        });
+        return combine;
+    }
+
     private ConcurrentMap<String, Class<?>> initType() {
         final Class<?> daoCls = this.module.getDaoCls();
         final UxJooq jq = Ux.Jooq.on(daoCls);
         final JqAnalyzer analyzer = jq.analyzer();
-        final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
-        final String identifierM = this.module.getIdentifier();
-        if (!this.identifier.equals(identifierM)) {
-            // Get Joint by nested
-            this.linkage.forEach(identifier -> {
-                /*
-                 * Create sub-class and set the input `linkage` into sub-class to combine
-                 */
-                final KClass kClass = KClass.create(this.namespace, identifier).initLinkage(this.linkage);
-                typeMap.putAll(kClass.initType());
-            });
-        }
+        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>(analyzer.types());
+        // Get Joint by nested
+        this.linkage.forEach(identifier -> {
+            /*
+             * Create sub-class and set the input `linkage` into sub-class to combine
+             * For example:
+             * 1. A, linkage -> w.ticket, w.todo
+             * 2. B, linkage -> w.ticket
+             * 3. C, linkage
+             *
+             * Connect and set sub-class
+             */
+            final KClass kClass = KClass.create(this.namespace, identifier)
+                .initLinkage(this.linkage);
+            typeMap.putAll(kClass.initType());
+        });
         return typeMap;
     }
 

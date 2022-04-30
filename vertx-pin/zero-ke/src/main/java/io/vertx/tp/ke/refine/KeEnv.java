@@ -81,7 +81,7 @@ class KeEnv {
         if (Objects.isNull(input) || input.isEmpty()) {
             return Ux.future(new ArrayList<>());
         } else {
-            return KeChannel.channel(Indent.class, () -> input, stub ->
+            return Ux.channel(Indent.class, () -> input, stub ->
                 stub.indent(code, sigma, input.size()).compose(queue -> {
                     input.forEach(entity -> fnConsumer.accept(entity, queue.poll()));
                     return Ux.future(input);
@@ -92,7 +92,7 @@ class KeEnv {
     static <T> Future<T> indent(final T input, final String sigma,
                                 final String code,
                                 final BiConsumer<T, String> fnConsumer) {
-        return KeChannel.channel(Indent.class, () -> input, stub -> {
+        return Ux.channel(Indent.class, () -> input, stub -> {
             if (Ut.isNil(sigma)) {
                 return Ux.future(input);
             } else {
@@ -109,7 +109,7 @@ class KeEnv {
      * Indent Single
      */
     static Future<JsonObject> indent(final JsonObject data, final String code) {
-        return KeChannel.channel(Indent.class, () -> data, stub -> {
+        return Ux.channel(Indent.class, () -> data, stub -> {
             final String sigma = data.getString(KName.SIGMA);
             if (Ut.isNil(sigma) || Ut.isNil(code)) {
                 return Ux.future(data);
@@ -121,7 +121,7 @@ class KeEnv {
     }
 
     static Future<JsonArray> indent(final JsonArray data, final String code) {
-        return KeChannel.channel(Indent.class, () -> data, stub -> {
+        return Ux.channel(Indent.class, () -> data, stub -> {
             final String sigma = Ut.valueString(data, KName.SIGMA);
             if (Ut.isNil(sigma)) {
                 return Ux.future(data);

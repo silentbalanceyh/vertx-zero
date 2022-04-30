@@ -11,7 +11,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.ActIn;
@@ -241,12 +240,12 @@ public class AbstractHub extends AbstractActor {
         return this.transferAsync(input,
 
             /* JsonObject */
-            data -> Ke.channelAsync(Trash.class,
+            data -> Ux.channelAsync(Trash.class,
                 () -> Ux.future(data),
                 stub -> stub.backupAsync(atom.identifier(), data)),
 
             /* JsonArray */
-            data -> Ke.channelAsync(Trash.class,
+            data -> Ux.channelAsync(Trash.class,
                 () -> Ux.future(data),
                 stub -> stub.backupAsync(atom.identifier(), data))
         );

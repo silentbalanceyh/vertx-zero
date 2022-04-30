@@ -3,13 +3,14 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.tp.optic.Income;
-import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.web.Orbit;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.channel.Income;
+import io.vertx.up.experiment.channel.Pocket;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.unity.Ux;
 
 /*
  * Key generated for uniform platform
@@ -35,7 +36,7 @@ class KeCache {
     }
 
     static String uri(final String uri, final String requestUri) {
-        return Ke.channelSync(Orbit.class, () -> uri, orbit -> {
+        return Ux.channelSync(Orbit.class, () -> uri, orbit -> {
             /* Pocket processing */
             final Income income = Pocket.income(Orbit.class, uri, requestUri);
             return orbit.analyze(income.arguments());

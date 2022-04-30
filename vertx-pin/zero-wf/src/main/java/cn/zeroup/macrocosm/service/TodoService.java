@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Todo;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
@@ -167,7 +166,7 @@ public class TodoService implements TodoStub {
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
-            .compose(Ut.ifNil(JsonObject::new, (todo) -> Ke.channel(Todo.class, () -> todo, channel -> {
+            .compose(Ut.ifNil(JsonObject::new, (todo) -> Ux.channel(Todo.class, () -> todo, channel -> {
                 Wf.Log.infoInit(this.getClass(), WfMsg.CHANNEL_TODO, channel.getClass().getName());
                 /*
                  * X_TODO channel and data merged.

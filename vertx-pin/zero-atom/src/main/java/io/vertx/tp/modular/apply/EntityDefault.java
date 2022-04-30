@@ -30,7 +30,7 @@ class EntityDefault implements AoDefault {
 
     private String getTable(final String identifier) {
         return Ut.isNil(identifier) ? Strings.EMPTY :
-            identifier.replace('.', '_' )
+            identifier.replace('.', '_')
                 .toUpperCase(Locale.getDefault());
     }
 }

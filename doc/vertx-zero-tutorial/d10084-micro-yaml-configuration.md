@@ -81,7 +81,9 @@ server:
     host: 0.0.0.0
 ```
 
-> Be careful of the `type` property in vertx-server.yml, this property in api gateway must be `api` instead of `http`. When your zero instance will run as Api Gateway, you must set unique `api` configuration in `vertx-server.yml` up.god.file.
+> Be careful of the `type` property in vertx-server.yml, this property in api gateway must be `api` instead of `http`.
+> When your zero instance will run as Api Gateway, you must set unique `api` configuration in `vertx-server.yml`
+> up.god.file.
 
 ### 2.2. Console
 
@@ -153,7 +155,8 @@ server:
 There are some new configuration that should be mentioned is that if you want to use `RpcClient` to call remote rpc
 services, you must do some additional configuration.
 
-> From vert.x 3.5.1, the api of Rpc `useSsl` has been changed and Rpc Server could use `HttpServerOptions` instead of the old configuration, be careful.
+> From vert.x 3.5.1, the api of Rpc `useSsl` has been changed and Rpc Server could use `HttpServerOptions` instead of
+> the old configuration, be careful.
 
 **vertx-rpc.yml**
 

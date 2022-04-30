@@ -7,7 +7,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -105,7 +104,7 @@ public class ExAttachment implements Attachment {
          * Fetch `visit` information
          */
         final Set<String> keys = Ut.valueSetString(files, KName.DIRECTORY_ID);
-        return Ke.channel(ExIo.class, () -> files, io -> io.dirBy(keys).compose(map -> {
+        return Ux.channel(ExIo.class, () -> files, io -> io.dirBy(keys).compose(map -> {
             Ut.itJArray(files).forEach(file -> {
                 final String directoryId = file.getString(KName.DIRECTORY_ID);
                 final JsonObject directoryJ = map.getOrDefault(directoryId, new JsonObject());

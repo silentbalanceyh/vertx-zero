@@ -1,7 +1,6 @@
-package io.vertx.tp.optic.environment;
+package io.vertx.tp.plugin.database;
 
 import io.vertx.core.MultiMap;
-import io.vertx.tp.plugin.database.DataPool;
 
 /*
  * Data Source switching channel

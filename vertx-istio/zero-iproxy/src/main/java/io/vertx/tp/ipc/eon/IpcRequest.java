@@ -6,1377 +6,1509 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.IpcRequest}
  */
-public  final class IpcRequest extends
+public final class IpcRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.IpcRequest)
     IpcRequestOrBuilder {
-  // Use IpcRequest.newBuilder() to construct.
-  private IpcRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
-  private IpcRequest() {
-    responseFormat_ = 0;
-    responseCategory_ = 0;
-    responseSize_ = 0;
-    isClientId_ = false;
-    isOauthScope_ = false;
-    algorithm_ = 0;
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
-    return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-  }
-  private IpcRequest(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    int mutable_bitField0_ = 0;
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          default: {
-            if (!input.skipField(tag)) {
-              done = true;
-            }
-            break;
-          }
-          case 8: {
-            int rawValue = input.readEnum();
-
-            responseFormat_ = rawValue;
-            break;
-          }
-          case 16: {
-            int rawValue = input.readEnum();
-
-            responseCategory_ = rawValue;
-            break;
-          }
-          case 24: {
-
-            responseSize_ = input.readInt32();
-            break;
-          }
-          case 34: {
-            io.vertx.tp.ipc.eon.IpcEnvelop.Builder subBuilder = null;
-            if (envelop_ != null) {
-              subBuilder = envelop_.toBuilder();
-            }
-            envelop_ = input.readMessage(io.vertx.tp.ipc.eon.IpcEnvelop.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(envelop_);
-              envelop_ = subBuilder.buildPartial();
-            }
-
-            break;
-          }
-          case 40: {
-
-            isClientId_ = input.readBool();
-            break;
-          }
-          case 48: {
-
-            isOauthScope_ = input.readBool();
-            break;
-          }
-          case 56: {
-            int rawValue = input.readEnum();
-
-            algorithm_ = rawValue;
-            break;
-          }
-          case 66: {
-            io.vertx.tp.ipc.eon.IpcStatus.Builder subBuilder = null;
-            if (responseStatus_ != null) {
-              subBuilder = responseStatus_.toBuilder();
-            }
-            responseStatus_ = input.readMessage(io.vertx.tp.ipc.eon.IpcStatus.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(responseStatus_);
-              responseStatus_ = subBuilder.buildPartial();
-            }
-
-            break;
-          }
+    public static final int RESPONSE_FORMAT_FIELD_NUMBER = 1;
+    public static final int RESPONSE_CATEGORY_FIELD_NUMBER = 2;
+    public static final int RESPONSE_SIZE_FIELD_NUMBER = 3;
+    public static final int ENVELOP_FIELD_NUMBER = 4;
+    public static final int IS_CLIENT_ID_FIELD_NUMBER = 5;
+    public static final int IS_OAUTH_SCOPE_FIELD_NUMBER = 6;
+    public static final int ALGORITHM_FIELD_NUMBER = 7;
+    public static final int RESPONSE_STATUS_FIELD_NUMBER = 8;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.IpcRequest)
+    private static final io.vertx.tp.ipc.eon.IpcRequest DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<IpcRequest>
+        PARSER = new com.google.protobuf.AbstractParser<IpcRequest>() {
+        @Override
+        public IpcRequest parsePartialFrom(
+            final com.google.protobuf.CodedInputStream input,
+            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new IpcRequest(input, extensionRegistry);
         }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(
-          e).setUnfinishedMessage(this);
-    } finally {
-      makeExtensionsImmutable();
-    }
-  }
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-    return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
-  }
+    };
 
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internalGetFieldAccessorTable() {
-    return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-            io.vertx.tp.ipc.eon.IpcRequest.class, io.vertx.tp.ipc.eon.IpcRequest.Builder.class);
-  }
-
-  public static final int RESPONSE_FORMAT_FIELD_NUMBER = 1;
-  private int responseFormat_;
-  /**
-   * <pre>
-   * Response format
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-   */
-  public int getResponseFormatValue() {
-    return responseFormat_;
-  }
-  /**
-   * <pre>
-   * Response format
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-   */
-  public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
-    io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(responseFormat_);
-    return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
-  }
-
-  public static final int RESPONSE_CATEGORY_FIELD_NUMBER = 2;
-  private int responseCategory_;
-  /**
-   * <pre>
-   * Response type
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-   */
-  public int getResponseCategoryValue() {
-    return responseCategory_;
-  }
-  /**
-   * <pre>
-   * Response type
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-   */
-  public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
-    io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(responseCategory_);
-    return result == null ? io.vertx.tp.ipc.eon.em.Category.UNRECOGNIZED : result;
-  }
-
-  public static final int RESPONSE_SIZE_FIELD_NUMBER = 3;
-  private int responseSize_;
-  /**
-   * <pre>
-   * Size
-   * </pre>
-   *
-   * <code>int32 response_size = 3;</code>
-   */
-  public int getResponseSize() {
-    return responseSize_;
-  }
-
-  public static final int ENVELOP_FIELD_NUMBER = 4;
-  private io.vertx.tp.ipc.eon.IpcEnvelop envelop_;
-  /**
-   * <pre>
-   * Content of response
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-   */
-  public boolean hasEnvelop() {
-    return envelop_ != null;
-  }
-  /**
-   * <pre>
-   * Content of response
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
-    return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-  }
-  /**
-   * <pre>
-   * Content of response
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
-    return getEnvelop();
-  }
-
-  public static final int IS_CLIENT_ID_FIELD_NUMBER = 5;
-  private boolean isClientId_;
-  /**
-   * <pre>
-   * Whether contains username
-   * </pre>
-   *
-   * <code>bool is_client_id = 5;</code>
-   */
-  public boolean getIsClientId() {
-    return isClientId_;
-  }
-
-  public static final int IS_OAUTH_SCOPE_FIELD_NUMBER = 6;
-  private boolean isOauthScope_;
-  /**
-   * <pre>
-   * Whether contains scope
-   * </pre>
-   *
-   * <code>bool is_oauth_scope = 6;</code>
-   */
-  public boolean getIsOauthScope() {
-    return isOauthScope_;
-  }
-
-  public static final int ALGORITHM_FIELD_NUMBER = 7;
-  private int algorithm_;
-  /**
-   * <pre>
-   * Compression
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-   */
-  public int getAlgorithmValue() {
-    return algorithm_;
-  }
-  /**
-   * <pre>
-   * Compression
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-   */
-  public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
-    io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(algorithm_);
-    return result == null ? io.vertx.tp.ipc.eon.em.Compression.UNRECOGNIZED : result;
-  }
-
-  public static final int RESPONSE_STATUS_FIELD_NUMBER = 8;
-  private io.vertx.tp.ipc.eon.IpcStatus responseStatus_;
-  /**
-   * <pre>
-   * Status
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-   */
-  public boolean hasResponseStatus() {
-    return responseStatus_ != null;
-  }
-  /**
-   * <pre>
-   * Status
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcStatus getResponseStatus() {
-    return responseStatus_ == null ? io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : responseStatus_;
-  }
-  /**
-   * <pre>
-   * Status
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcStatusOrBuilder getResponseStatusOrBuilder() {
-    return getResponseStatus();
-  }
-
-  private byte memoizedIsInitialized = -1;
-  public final boolean isInitialized() {
-    byte isInitialized = memoizedIsInitialized;
-    if (isInitialized == 1) return true;
-    if (isInitialized == 0) return false;
-
-    memoizedIsInitialized = 1;
-    return true;
-  }
-
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
-    if (responseFormat_ != io.vertx.tp.ipc.eon.em.Format.BINARY.getNumber()) {
-      output.writeEnum(1, responseFormat_);
-    }
-    if (responseCategory_ != io.vertx.tp.ipc.eon.em.Category.COMPRESSABLE.getNumber()) {
-      output.writeEnum(2, responseCategory_);
-    }
-    if (responseSize_ != 0) {
-      output.writeInt32(3, responseSize_);
-    }
-    if (envelop_ != null) {
-      output.writeMessage(4, getEnvelop());
-    }
-    if (isClientId_ != false) {
-      output.writeBool(5, isClientId_);
-    }
-    if (isOauthScope_ != false) {
-      output.writeBool(6, isOauthScope_);
-    }
-    if (algorithm_ != io.vertx.tp.ipc.eon.em.Compression.NONE.getNumber()) {
-      output.writeEnum(7, algorithm_);
-    }
-    if (responseStatus_ != null) {
-      output.writeMessage(8, getResponseStatus());
-    }
-  }
-
-  public int getSerializedSize() {
-    int size = memoizedSize;
-    if (size != -1) return size;
-
-    size = 0;
-    if (responseFormat_ != io.vertx.tp.ipc.eon.em.Format.BINARY.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(1, responseFormat_);
-    }
-    if (responseCategory_ != io.vertx.tp.ipc.eon.em.Category.COMPRESSABLE.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(2, responseCategory_);
-    }
-    if (responseSize_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, responseSize_);
-    }
-    if (envelop_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(4, getEnvelop());
-    }
-    if (isClientId_ != false) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(5, isClientId_);
-    }
-    if (isOauthScope_ != false) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(6, isOauthScope_);
-    }
-    if (algorithm_ != io.vertx.tp.ipc.eon.em.Compression.NONE.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(7, algorithm_);
-    }
-    if (responseStatus_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(8, getResponseStatus());
-    }
-    memoizedSize = size;
-    return size;
-  }
-
-  private static final long serialVersionUID = 0L;
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
-    if (obj == this) {
-     return true;
-    }
-    if (!(obj instanceof io.vertx.tp.ipc.eon.IpcRequest)) {
-      return super.equals(obj);
-    }
-    io.vertx.tp.ipc.eon.IpcRequest other = (io.vertx.tp.ipc.eon.IpcRequest) obj;
-
-    boolean result = true;
-    result = result && responseFormat_ == other.responseFormat_;
-    result = result && responseCategory_ == other.responseCategory_;
-    result = result && (getResponseSize()
-        == other.getResponseSize());
-    result = result && (hasEnvelop() == other.hasEnvelop());
-    if (hasEnvelop()) {
-      result = result && getEnvelop()
-          .equals(other.getEnvelop());
-    }
-    result = result && (getIsClientId()
-        == other.getIsClientId());
-    result = result && (getIsOauthScope()
-        == other.getIsOauthScope());
-    result = result && algorithm_ == other.algorithm_;
-    result = result && (hasResponseStatus() == other.hasResponseStatus());
-    if (hasResponseStatus()) {
-      result = result && getResponseStatus()
-          .equals(other.getResponseStatus());
-    }
-    return result;
-  }
-
-  @java.lang.Override
-  public int hashCode() {
-    if (memoizedHashCode != 0) {
-      return memoizedHashCode;
-    }
-    int hash = 41;
-    hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + RESPONSE_FORMAT_FIELD_NUMBER;
-    hash = (53 * hash) + responseFormat_;
-    hash = (37 * hash) + RESPONSE_CATEGORY_FIELD_NUMBER;
-    hash = (53 * hash) + responseCategory_;
-    hash = (37 * hash) + RESPONSE_SIZE_FIELD_NUMBER;
-    hash = (53 * hash) + getResponseSize();
-    if (hasEnvelop()) {
-      hash = (37 * hash) + ENVELOP_FIELD_NUMBER;
-      hash = (53 * hash) + getEnvelop().hashCode();
-    }
-    hash = (37 * hash) + IS_CLIENT_ID_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getIsClientId());
-    hash = (37 * hash) + IS_OAUTH_SCOPE_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getIsOauthScope());
-    hash = (37 * hash) + ALGORITHM_FIELD_NUMBER;
-    hash = (53 * hash) + algorithm_;
-    if (hasResponseStatus()) {
-      hash = (37 * hash) + RESPONSE_STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + getResponseStatus().hashCode();
-    }
-    hash = (29 * hash) + unknownFields.hashCode();
-    memoizedHashCode = hash;
-    return hash;
-  }
-
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      com.google.protobuf.ByteString data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      com.google.protobuf.ByteString data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(byte[] data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseDelimitedFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      com.google.protobuf.CodedInputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-
-  public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder() {
-    return DEFAULT_INSTANCE.toBuilder();
-  }
-  public static Builder newBuilder(io.vertx.tp.ipc.eon.IpcRequest prototype) {
-    return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-  }
-  public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
-  }
-
-  @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-    Builder builder = new Builder(parent);
-    return builder;
-  }
-  /**
-   * Protobuf type {@code io.vertx.tp.ipc.eon.IpcRequest}
-   */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.IpcRequest)
-      io.vertx.tp.ipc.eon.IpcRequestOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
+    static {
+        DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.IpcRequest();
     }
 
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.vertx.tp.ipc.eon.IpcRequest.class, io.vertx.tp.ipc.eon.IpcRequest.Builder.class);
+    private int responseFormat_;
+    private int responseCategory_;
+    private int responseSize_;
+    private io.vertx.tp.ipc.eon.IpcEnvelop envelop_;
+    private boolean isClientId_;
+    private boolean isOauthScope_;
+    private int algorithm_;
+    private io.vertx.tp.ipc.eon.IpcStatus responseStatus_;
+    private byte memoizedIsInitialized = -1;
+
+    // Use IpcRequest.newBuilder() to construct.
+    private IpcRequest(final com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
     }
 
-    // Construct using io.vertx.tp.ipc.eon.IpcRequest.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
+    private IpcRequest() {
+        this.responseFormat_ = 0;
+        this.responseCategory_ = 0;
+        this.responseSize_ = 0;
+        this.isClientId_ = false;
+        this.isOauthScope_ = false;
+        this.algorithm_ = 0;
     }
-
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      super(parent);
-      maybeForceBuilderInitialization();
-    }
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-      }
-    }
-    public Builder clear() {
-      super.clear();
-      responseFormat_ = 0;
-
-      responseCategory_ = 0;
-
-      responseSize_ = 0;
-
-      if (envelopBuilder_ == null) {
-        envelop_ = null;
-      } else {
-        envelop_ = null;
-        envelopBuilder_ = null;
-      }
-      isClientId_ = false;
-
-      isOauthScope_ = false;
-
-      algorithm_ = 0;
-
-      if (responseStatusBuilder_ == null) {
-        responseStatus_ = null;
-      } else {
-        responseStatus_ = null;
-        responseStatusBuilder_ = null;
-      }
-      return this;
-    }
-
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
-    }
-
-    public io.vertx.tp.ipc.eon.IpcRequest getDefaultInstanceForType() {
-      return io.vertx.tp.ipc.eon.IpcRequest.getDefaultInstance();
-    }
-
-    public io.vertx.tp.ipc.eon.IpcRequest build() {
-      io.vertx.tp.ipc.eon.IpcRequest result = buildPartial();
-      if (!result.isInitialized()) {
-        throw newUninitializedMessageException(result);
-      }
-      return result;
-    }
-
-    public io.vertx.tp.ipc.eon.IpcRequest buildPartial() {
-      io.vertx.tp.ipc.eon.IpcRequest result = new io.vertx.tp.ipc.eon.IpcRequest(this);
-      result.responseFormat_ = responseFormat_;
-      result.responseCategory_ = responseCategory_;
-      result.responseSize_ = responseSize_;
-      if (envelopBuilder_ == null) {
-        result.envelop_ = envelop_;
-      } else {
-        result.envelop_ = envelopBuilder_.build();
-      }
-      result.isClientId_ = isClientId_;
-      result.isOauthScope_ = isOauthScope_;
-      result.algorithm_ = algorithm_;
-      if (responseStatusBuilder_ == null) {
-        result.responseStatus_ = responseStatus_;
-      } else {
-        result.responseStatus_ = responseStatusBuilder_.build();
-      }
-      onBuilt();
-      return result;
-    }
-
-    public Builder clone() {
-      return (Builder) super.clone();
-    }
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.setField(field, value);
-    }
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
-    }
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
-    }
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
-    }
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.addRepeatedField(field, value);
-    }
-    public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.vertx.tp.ipc.eon.IpcRequest) {
-        return mergeFrom((io.vertx.tp.ipc.eon.IpcRequest)other);
-      } else {
-        super.mergeFrom(other);
-        return this;
-      }
-    }
-
-    public Builder mergeFrom(io.vertx.tp.ipc.eon.IpcRequest other) {
-      if (other == io.vertx.tp.ipc.eon.IpcRequest.getDefaultInstance()) return this;
-      if (other.responseFormat_ != 0) {
-        setResponseFormatValue(other.getResponseFormatValue());
-      }
-      if (other.responseCategory_ != 0) {
-        setResponseCategoryValue(other.getResponseCategoryValue());
-      }
-      if (other.getResponseSize() != 0) {
-        setResponseSize(other.getResponseSize());
-      }
-      if (other.hasEnvelop()) {
-        mergeEnvelop(other.getEnvelop());
-      }
-      if (other.getIsClientId() != false) {
-        setIsClientId(other.getIsClientId());
-      }
-      if (other.getIsOauthScope() != false) {
-        setIsOauthScope(other.getIsOauthScope());
-      }
-      if (other.algorithm_ != 0) {
-        setAlgorithmValue(other.getAlgorithmValue());
-      }
-      if (other.hasResponseStatus()) {
-        mergeResponseStatus(other.getResponseStatus());
-      }
-      onChanged();
-      return this;
-    }
-
-    public final boolean isInitialized() {
-      return true;
-    }
-
-    public Builder mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      io.vertx.tp.ipc.eon.IpcRequest parsedMessage = null;
-      try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (io.vertx.tp.ipc.eon.IpcRequest) e.getUnfinishedMessage();
-        throw e.unwrapIOException();
-      } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
-      return this;
-    }
-
-    private int responseFormat_ = 0;
-    /**
-     * <pre>
-     * Response format
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-     */
-    public int getResponseFormatValue() {
-      return responseFormat_;
-    }
-    /**
-     * <pre>
-     * Response format
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-     */
-    public Builder setResponseFormatValue(int value) {
-      responseFormat_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Response format
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-     */
-    public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
-      io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(responseFormat_);
-      return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * Response format
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-     */
-    public Builder setResponseFormat(io.vertx.tp.ipc.eon.em.Format value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      responseFormat_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Response format
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
-     */
-    public Builder clearResponseFormat() {
-      
-      responseFormat_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int responseCategory_ = 0;
-    /**
-     * <pre>
-     * Response type
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-     */
-    public int getResponseCategoryValue() {
-      return responseCategory_;
-    }
-    /**
-     * <pre>
-     * Response type
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-     */
-    public Builder setResponseCategoryValue(int value) {
-      responseCategory_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Response type
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-     */
-    public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
-      io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(responseCategory_);
-      return result == null ? io.vertx.tp.ipc.eon.em.Category.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * Response type
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-     */
-    public Builder setResponseCategory(io.vertx.tp.ipc.eon.em.Category value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      responseCategory_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Response type
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
-     */
-    public Builder clearResponseCategory() {
-      
-      responseCategory_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int responseSize_ ;
-    /**
-     * <pre>
-     * Size
-     * </pre>
-     *
-     * <code>int32 response_size = 3;</code>
-     */
-    public int getResponseSize() {
-      return responseSize_;
-    }
-    /**
-     * <pre>
-     * Size
-     * </pre>
-     *
-     * <code>int32 response_size = 3;</code>
-     */
-    public Builder setResponseSize(int value) {
-      
-      responseSize_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Size
-     * </pre>
-     *
-     * <code>int32 response_size = 3;</code>
-     */
-    public Builder clearResponseSize() {
-      
-      responseSize_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private io.vertx.tp.ipc.eon.IpcEnvelop envelop_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> envelopBuilder_;
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public boolean hasEnvelop() {
-      return envelopBuilder_ != null || envelop_ != null;
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
-      if (envelopBuilder_ == null) {
-        return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-      } else {
-        return envelopBuilder_.getMessage();
-      }
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public Builder setEnvelop(io.vertx.tp.ipc.eon.IpcEnvelop value) {
-      if (envelopBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        envelop_ = value;
-        onChanged();
-      } else {
-        envelopBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public Builder setEnvelop(
-        io.vertx.tp.ipc.eon.IpcEnvelop.Builder builderForValue) {
-      if (envelopBuilder_ == null) {
-        envelop_ = builderForValue.build();
-        onChanged();
-      } else {
-        envelopBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public Builder mergeEnvelop(io.vertx.tp.ipc.eon.IpcEnvelop value) {
-      if (envelopBuilder_ == null) {
-        if (envelop_ != null) {
-          envelop_ =
-            io.vertx.tp.ipc.eon.IpcEnvelop.newBuilder(envelop_).mergeFrom(value).buildPartial();
-        } else {
-          envelop_ = value;
-        }
-        onChanged();
-      } else {
-        envelopBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public Builder clearEnvelop() {
-      if (envelopBuilder_ == null) {
-        envelop_ = null;
-        onChanged();
-      } else {
-        envelop_ = null;
-        envelopBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelop.Builder getEnvelopBuilder() {
-      
-      onChanged();
-      return getEnvelopFieldBuilder().getBuilder();
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
-      if (envelopBuilder_ != null) {
-        return envelopBuilder_.getMessageOrBuilder();
-      } else {
-        return envelop_ == null ?
-            io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-      }
-    }
-    /**
-     * <pre>
-     * Content of response
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> 
-        getEnvelopFieldBuilder() {
-      if (envelopBuilder_ == null) {
-        envelopBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>(
-                getEnvelop(),
-                getParentForChildren(),
-                isClean());
-        envelop_ = null;
-      }
-      return envelopBuilder_;
-    }
-
-    private boolean isClientId_ ;
-    /**
-     * <pre>
-     * Whether contains username
-     * </pre>
-     *
-     * <code>bool is_client_id = 5;</code>
-     */
-    public boolean getIsClientId() {
-      return isClientId_;
-    }
-    /**
-     * <pre>
-     * Whether contains username
-     * </pre>
-     *
-     * <code>bool is_client_id = 5;</code>
-     */
-    public Builder setIsClientId(boolean value) {
-      
-      isClientId_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Whether contains username
-     * </pre>
-     *
-     * <code>bool is_client_id = 5;</code>
-     */
-    public Builder clearIsClientId() {
-      
-      isClientId_ = false;
-      onChanged();
-      return this;
-    }
-
-    private boolean isOauthScope_ ;
-    /**
-     * <pre>
-     * Whether contains scope
-     * </pre>
-     *
-     * <code>bool is_oauth_scope = 6;</code>
-     */
-    public boolean getIsOauthScope() {
-      return isOauthScope_;
-    }
-    /**
-     * <pre>
-     * Whether contains scope
-     * </pre>
-     *
-     * <code>bool is_oauth_scope = 6;</code>
-     */
-    public Builder setIsOauthScope(boolean value) {
-      
-      isOauthScope_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Whether contains scope
-     * </pre>
-     *
-     * <code>bool is_oauth_scope = 6;</code>
-     */
-    public Builder clearIsOauthScope() {
-      
-      isOauthScope_ = false;
-      onChanged();
-      return this;
-    }
-
-    private int algorithm_ = 0;
-    /**
-     * <pre>
-     * Compression
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-     */
-    public int getAlgorithmValue() {
-      return algorithm_;
-    }
-    /**
-     * <pre>
-     * Compression
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-     */
-    public Builder setAlgorithmValue(int value) {
-      algorithm_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Compression
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-     */
-    public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
-      io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(algorithm_);
-      return result == null ? io.vertx.tp.ipc.eon.em.Compression.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * Compression
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-     */
-    public Builder setAlgorithm(io.vertx.tp.ipc.eon.em.Compression value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      algorithm_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Compression
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
-     */
-    public Builder clearAlgorithm() {
-      
-      algorithm_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private io.vertx.tp.ipc.eon.IpcStatus responseStatus_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder> responseStatusBuilder_;
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public boolean hasResponseStatus() {
-      return responseStatusBuilder_ != null || responseStatus_ != null;
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcStatus getResponseStatus() {
-      if (responseStatusBuilder_ == null) {
-        return responseStatus_ == null ? io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : responseStatus_;
-      } else {
-        return responseStatusBuilder_.getMessage();
-      }
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public Builder setResponseStatus(io.vertx.tp.ipc.eon.IpcStatus value) {
-      if (responseStatusBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        responseStatus_ = value;
-        onChanged();
-      } else {
-        responseStatusBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public Builder setResponseStatus(
-        io.vertx.tp.ipc.eon.IpcStatus.Builder builderForValue) {
-      if (responseStatusBuilder_ == null) {
-        responseStatus_ = builderForValue.build();
-        onChanged();
-      } else {
-        responseStatusBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public Builder mergeResponseStatus(io.vertx.tp.ipc.eon.IpcStatus value) {
-      if (responseStatusBuilder_ == null) {
-        if (responseStatus_ != null) {
-          responseStatus_ =
-            io.vertx.tp.ipc.eon.IpcStatus.newBuilder(responseStatus_).mergeFrom(value).buildPartial();
-        } else {
-          responseStatus_ = value;
-        }
-        onChanged();
-      } else {
-        responseStatusBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public Builder clearResponseStatus() {
-      if (responseStatusBuilder_ == null) {
-        responseStatus_ = null;
-        onChanged();
-      } else {
-        responseStatus_ = null;
-        responseStatusBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcStatus.Builder getResponseStatusBuilder() {
-      
-      onChanged();
-      return getResponseStatusFieldBuilder().getBuilder();
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcStatusOrBuilder getResponseStatusOrBuilder() {
-      if (responseStatusBuilder_ != null) {
-        return responseStatusBuilder_.getMessageOrBuilder();
-      } else {
-        return responseStatus_ == null ?
-            io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : responseStatus_;
-      }
-    }
-    /**
-     * <pre>
-     * Status
-     * </pre>
-     *
-     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder> 
-        getResponseStatusFieldBuilder() {
-      if (responseStatusBuilder_ == null) {
-        responseStatusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder>(
-                getResponseStatus(),
-                getParentForChildren(),
-                isClean());
-        responseStatus_ = null;
-      }
-      return responseStatusBuilder_;
-    }
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
-    }
-
-    public final Builder mergeUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
-    }
-
-
-    // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.IpcRequest)
-  }
-
-  // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.IpcRequest)
-  private static final io.vertx.tp.ipc.eon.IpcRequest DEFAULT_INSTANCE;
-  static {
-    DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.IpcRequest();
-  }
-
-  public static io.vertx.tp.ipc.eon.IpcRequest getDefaultInstance() {
-    return DEFAULT_INSTANCE;
-  }
-
-  private static final com.google.protobuf.Parser<IpcRequest>
-      PARSER = new com.google.protobuf.AbstractParser<IpcRequest>() {
-    public IpcRequest parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+    private IpcRequest(
+        final com.google.protobuf.CodedInputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new IpcRequest(input, extensionRegistry);
+        this();
+        final int mutable_bitField0_ = 0;
+        try {
+            boolean done = false;
+            while (!done) {
+                final int tag = input.readTag();
+                switch (tag) {
+                    case 0:
+                        done = true;
+                        break;
+                    default: {
+                        if (!input.skipField(tag)) {
+                            done = true;
+                        }
+                        break;
+                    }
+                    case 8: {
+                        final int rawValue = input.readEnum();
+
+                        this.responseFormat_ = rawValue;
+                        break;
+                    }
+                    case 16: {
+                        final int rawValue = input.readEnum();
+
+                        this.responseCategory_ = rawValue;
+                        break;
+                    }
+                    case 24: {
+
+                        this.responseSize_ = input.readInt32();
+                        break;
+                    }
+                    case 34: {
+                        io.vertx.tp.ipc.eon.IpcEnvelop.Builder subBuilder = null;
+                        if (this.envelop_ != null) {
+                            subBuilder = this.envelop_.toBuilder();
+                        }
+                        this.envelop_ = input.readMessage(io.vertx.tp.ipc.eon.IpcEnvelop.parser(), extensionRegistry);
+                        if (subBuilder != null) {
+                            subBuilder.mergeFrom(this.envelop_);
+                            this.envelop_ = subBuilder.buildPartial();
+                        }
+
+                        break;
+                    }
+                    case 40: {
+
+                        this.isClientId_ = input.readBool();
+                        break;
+                    }
+                    case 48: {
+
+                        this.isOauthScope_ = input.readBool();
+                        break;
+                    }
+                    case 56: {
+                        final int rawValue = input.readEnum();
+
+                        this.algorithm_ = rawValue;
+                        break;
+                    }
+                    case 66: {
+                        io.vertx.tp.ipc.eon.IpcStatus.Builder subBuilder = null;
+                        if (this.responseStatus_ != null) {
+                            subBuilder = this.responseStatus_.toBuilder();
+                        }
+                        this.responseStatus_ = input.readMessage(io.vertx.tp.ipc.eon.IpcStatus.parser(), extensionRegistry);
+                        if (subBuilder != null) {
+                            subBuilder.mergeFrom(this.responseStatus_);
+                            this.responseStatus_ = subBuilder.buildPartial();
+                        }
+
+                        break;
+                    }
+                }
+            }
+        } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(this);
+        } catch (final java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+                e).setUnfinishedMessage(this);
+        } finally {
+            this.makeExtensionsImmutable();
+        }
     }
-  };
 
-  public static com.google.protobuf.Parser<IpcRequest> parser() {
-    return PARSER;
-  }
+    public static final com.google.protobuf.Descriptors.Descriptor
+    getDescriptor() {
+        return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
+    }
 
-  @java.lang.Override
-  public com.google.protobuf.Parser<IpcRequest> getParserForType() {
-    return PARSER;
-  }
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
 
-  public io.vertx.tp.ipc.eon.IpcRequest getDefaultInstanceForType() {
-    return DEFAULT_INSTANCE;
-  }
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final com.google.protobuf.ByteString data,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(final byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final byte[] data,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(final java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final java.io.InputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseDelimitedFrom(final java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseDelimitedFrom(
+        final java.io.InputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest parseFrom(
+        final com.google.protobuf.CodedInputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(final io.vertx.tp.ipc.eon.IpcRequest prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static io.vertx.tp.ipc.eon.IpcRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<IpcRequest> parser() {
+        return PARSER;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+
+    @Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    internalGetFieldAccessorTable() {
+        return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.vertx.tp.ipc.eon.IpcRequest.class, io.vertx.tp.ipc.eon.IpcRequest.Builder.class);
+    }
+
+    /**
+     * <pre>
+     * Response format
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+     */
+    @Override
+    public int getResponseFormatValue() {
+        return this.responseFormat_;
+    }
+
+    /**
+     * <pre>
+     * Response format
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
+        final io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(this.responseFormat_);
+        return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
+    }
+
+    /**
+     * <pre>
+     * Response type
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+     */
+    @Override
+    public int getResponseCategoryValue() {
+        return this.responseCategory_;
+    }
+
+    /**
+     * <pre>
+     * Response type
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
+        final io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(this.responseCategory_);
+        return result == null ? io.vertx.tp.ipc.eon.em.Category.UNRECOGNIZED : result;
+    }
+
+    /**
+     * <pre>
+     * Size
+     * </pre>
+     *
+     * <code>int32 response_size = 3;</code>
+     */
+    @Override
+    public int getResponseSize() {
+        return this.responseSize_;
+    }
+
+    /**
+     * <pre>
+     * Content of response
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+     */
+    @Override
+    public boolean hasEnvelop() {
+        return this.envelop_ != null;
+    }
+
+    /**
+     * <pre>
+     * Content of response
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
+        return this.envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+    }
+
+    /**
+     * <pre>
+     * Content of response
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
+        return this.getEnvelop();
+    }
+
+    /**
+     * <pre>
+     * Whether contains username
+     * </pre>
+     *
+     * <code>bool is_client_id = 5;</code>
+     */
+    @Override
+    public boolean getIsClientId() {
+        return this.isClientId_;
+    }
+
+    /**
+     * <pre>
+     * Whether contains scope
+     * </pre>
+     *
+     * <code>bool is_oauth_scope = 6;</code>
+     */
+    @Override
+    public boolean getIsOauthScope() {
+        return this.isOauthScope_;
+    }
+
+    /**
+     * <pre>
+     * Compression
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+     */
+    @Override
+    public int getAlgorithmValue() {
+        return this.algorithm_;
+    }
+
+    /**
+     * <pre>
+     * Compression
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
+        final io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(this.algorithm_);
+        return result == null ? io.vertx.tp.ipc.eon.em.Compression.UNRECOGNIZED : result;
+    }
+
+    /**
+     * <pre>
+     * Status
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+     */
+    @Override
+    public boolean hasResponseStatus() {
+        return this.responseStatus_ != null;
+    }
+
+    /**
+     * <pre>
+     * Status
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcStatus getResponseStatus() {
+        return this.responseStatus_ == null ? io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : this.responseStatus_;
+    }
+
+    /**
+     * <pre>
+     * Status
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcStatusOrBuilder getResponseStatusOrBuilder() {
+        return this.getResponseStatus();
+    }
+
+    @Override
+    public final boolean isInitialized() {
+        final byte isInitialized = this.memoizedIsInitialized;
+        if (isInitialized == 1) {
+            return true;
+        }
+        if (isInitialized == 0) {
+            return false;
+        }
+
+        this.memoizedIsInitialized = 1;
+        return true;
+    }
+
+    @Override
+    public void writeTo(final com.google.protobuf.CodedOutputStream output)
+        throws java.io.IOException {
+        if (this.responseFormat_ != io.vertx.tp.ipc.eon.em.Format.BINARY.getNumber()) {
+            output.writeEnum(1, this.responseFormat_);
+        }
+        if (this.responseCategory_ != io.vertx.tp.ipc.eon.em.Category.COMPRESSABLE.getNumber()) {
+            output.writeEnum(2, this.responseCategory_);
+        }
+        if (this.responseSize_ != 0) {
+            output.writeInt32(3, this.responseSize_);
+        }
+        if (this.envelop_ != null) {
+            output.writeMessage(4, this.getEnvelop());
+        }
+        if (this.isClientId_ != false) {
+            output.writeBool(5, this.isClientId_);
+        }
+        if (this.isOauthScope_ != false) {
+            output.writeBool(6, this.isOauthScope_);
+        }
+        if (this.algorithm_ != io.vertx.tp.ipc.eon.em.Compression.NONE.getNumber()) {
+            output.writeEnum(7, this.algorithm_);
+        }
+        if (this.responseStatus_ != null) {
+            output.writeMessage(8, this.getResponseStatus());
+        }
+    }
+
+    @Override
+    public int getSerializedSize() {
+        int size = this.memoizedSize;
+        if (size != -1) {
+            return size;
+        }
+
+        size = 0;
+        if (this.responseFormat_ != io.vertx.tp.ipc.eon.em.Format.BINARY.getNumber()) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeEnumSize(1, this.responseFormat_);
+        }
+        if (this.responseCategory_ != io.vertx.tp.ipc.eon.em.Category.COMPRESSABLE.getNumber()) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeEnumSize(2, this.responseCategory_);
+        }
+        if (this.responseSize_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeInt32Size(3, this.responseSize_);
+        }
+        if (this.envelop_ != null) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeMessageSize(4, this.getEnvelop());
+        }
+        if (this.isClientId_ != false) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeBoolSize(5, this.isClientId_);
+        }
+        if (this.isOauthScope_ != false) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeBoolSize(6, this.isOauthScope_);
+        }
+        if (this.algorithm_ != io.vertx.tp.ipc.eon.em.Compression.NONE.getNumber()) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeEnumSize(7, this.algorithm_);
+        }
+        if (this.responseStatus_ != null) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeMessageSize(8, this.getResponseStatus());
+        }
+        this.memoizedSize = size;
+        return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof io.vertx.tp.ipc.eon.IpcRequest)) {
+            return super.equals(obj);
+        }
+        final io.vertx.tp.ipc.eon.IpcRequest other = (io.vertx.tp.ipc.eon.IpcRequest) obj;
+
+        boolean result = true;
+        result = result && this.responseFormat_ == other.responseFormat_;
+        result = result && this.responseCategory_ == other.responseCategory_;
+        result = result && (this.getResponseSize()
+            == other.getResponseSize());
+        result = result && (this.hasEnvelop() == other.hasEnvelop());
+        if (this.hasEnvelop()) {
+            result = result && this.getEnvelop()
+                .equals(other.getEnvelop());
+        }
+        result = result && (this.getIsClientId()
+            == other.getIsClientId());
+        result = result && (this.getIsOauthScope()
+            == other.getIsOauthScope());
+        result = result && this.algorithm_ == other.algorithm_;
+        result = result && (this.hasResponseStatus() == other.hasResponseStatus());
+        if (this.hasResponseStatus()) {
+            result = result && this.getResponseStatus()
+                .equals(other.getResponseStatus());
+        }
+        return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + RESPONSE_FORMAT_FIELD_NUMBER;
+        hash = (53 * hash) + this.responseFormat_;
+        hash = (37 * hash) + RESPONSE_CATEGORY_FIELD_NUMBER;
+        hash = (53 * hash) + this.responseCategory_;
+        hash = (37 * hash) + RESPONSE_SIZE_FIELD_NUMBER;
+        hash = (53 * hash) + this.getResponseSize();
+        if (this.hasEnvelop()) {
+            hash = (37 * hash) + ENVELOP_FIELD_NUMBER;
+            hash = (53 * hash) + this.getEnvelop().hashCode();
+        }
+        hash = (37 * hash) + IS_CLIENT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            this.getIsClientId());
+        hash = (37 * hash) + IS_OAUTH_SCOPE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            this.getIsOauthScope());
+        hash = (37 * hash) + ALGORITHM_FIELD_NUMBER;
+        hash = (53 * hash) + this.algorithm_;
+        if (this.hasResponseStatus()) {
+            hash = (37 * hash) + RESPONSE_STATUS_FIELD_NUMBER;
+            hash = (53 * hash) + this.getResponseStatus().hashCode();
+        }
+        hash = (29 * hash) + this.unknownFields.hashCode();
+        this.memoizedHashCode = hash;
+        return hash;
+    }
+
+    @Override
+    public Builder newBuilderForType() {
+        return newBuilder();
+    }
+
+    @Override
+    public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        final com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        final Builder builder = new Builder(parent);
+        return builder;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<IpcRequest> getParserForType() {
+        return PARSER;
+    }
+
+    @Override
+    public io.vertx.tp.ipc.eon.IpcRequest getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    /**
+     * Protobuf type {@code io.vertx.tp.ipc.eon.IpcRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.IpcRequest)
+        io.vertx.tp.ipc.eon.IpcRequestOrBuilder {
+        private int responseFormat_ = 0;
+        private int responseCategory_ = 0;
+        private int responseSize_;
+        private io.vertx.tp.ipc.eon.IpcEnvelop envelop_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> envelopBuilder_;
+        private boolean isClientId_;
+        private boolean isOauthScope_;
+        private int algorithm_ = 0;
+        private io.vertx.tp.ipc.eon.IpcStatus responseStatus_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder> responseStatusBuilder_;
+
+        // Construct using io.vertx.tp.ipc.eon.IpcRequest.newBuilder()
+        private Builder() {
+            this.maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            final com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            super(parent);
+            this.maybeForceBuilderInitialization();
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
+        }
+
+        @Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    io.vertx.tp.ipc.eon.IpcRequest.class, io.vertx.tp.ipc.eon.IpcRequest.Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+            }
+        }
+
+        @Override
+        public Builder clear() {
+            super.clear();
+            this.responseFormat_ = 0;
+
+            this.responseCategory_ = 0;
+
+            this.responseSize_ = 0;
+
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = null;
+            } else {
+                this.envelop_ = null;
+                this.envelopBuilder_ = null;
+            }
+            this.isClientId_ = false;
+
+            this.isOauthScope_ = false;
+
+            this.algorithm_ = 0;
+
+            if (this.responseStatusBuilder_ == null) {
+                this.responseStatus_ = null;
+            } else {
+                this.responseStatus_ = null;
+                this.responseStatusBuilder_ = null;
+            }
+            return this;
+        }
+
+        @Override
+        public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+            return io.vertx.tp.ipc.eon.UpEnvelop.internal_static_io_vertx_tp_ipc_eon_IpcRequest_descriptor;
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.IpcRequest getDefaultInstanceForType() {
+            return io.vertx.tp.ipc.eon.IpcRequest.getDefaultInstance();
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.IpcRequest build() {
+            final io.vertx.tp.ipc.eon.IpcRequest result = this.buildPartial();
+            if (!result.isInitialized()) {
+                throw newUninitializedMessageException(result);
+            }
+            return result;
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.IpcRequest buildPartial() {
+            final io.vertx.tp.ipc.eon.IpcRequest result = new io.vertx.tp.ipc.eon.IpcRequest(this);
+            result.responseFormat_ = this.responseFormat_;
+            result.responseCategory_ = this.responseCategory_;
+            result.responseSize_ = this.responseSize_;
+            if (this.envelopBuilder_ == null) {
+                result.envelop_ = this.envelop_;
+            } else {
+                result.envelop_ = this.envelopBuilder_.build();
+            }
+            result.isClientId_ = this.isClientId_;
+            result.isOauthScope_ = this.isOauthScope_;
+            result.algorithm_ = this.algorithm_;
+            if (this.responseStatusBuilder_ == null) {
+                result.responseStatus_ = this.responseStatus_;
+            } else {
+                result.responseStatus_ = this.responseStatusBuilder_.build();
+            }
+            this.onBuilt();
+            return result;
+        }
+
+        @Override
+        public Builder clone() {
+            return (Builder) super.clone();
+        }
+
+        @Override
+        public Builder setField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final Object value) {
+            return (Builder) super.setField(field, value);
+        }
+
+        @Override
+        public Builder clearField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field) {
+            return (Builder) super.clearField(field);
+        }
+
+        @Override
+        public Builder clearOneof(
+            final com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+            return (Builder) super.clearOneof(oneof);
+        }
+
+        @Override
+        public Builder setRepeatedField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final int index, final Object value) {
+            return (Builder) super.setRepeatedField(field, index, value);
+        }
+
+        @Override
+        public Builder addRepeatedField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final Object value) {
+            return (Builder) super.addRepeatedField(field, value);
+        }
+
+        @Override
+        public Builder mergeFrom(final com.google.protobuf.Message other) {
+            if (other instanceof io.vertx.tp.ipc.eon.IpcRequest) {
+                return this.mergeFrom((io.vertx.tp.ipc.eon.IpcRequest) other);
+            } else {
+                super.mergeFrom(other);
+                return this;
+            }
+        }
+
+        public Builder mergeFrom(final io.vertx.tp.ipc.eon.IpcRequest other) {
+            if (other == io.vertx.tp.ipc.eon.IpcRequest.getDefaultInstance()) {
+                return this;
+            }
+            if (other.responseFormat_ != 0) {
+                this.setResponseFormatValue(other.getResponseFormatValue());
+            }
+            if (other.responseCategory_ != 0) {
+                this.setResponseCategoryValue(other.getResponseCategoryValue());
+            }
+            if (other.getResponseSize() != 0) {
+                this.setResponseSize(other.getResponseSize());
+            }
+            if (other.hasEnvelop()) {
+                this.mergeEnvelop(other.getEnvelop());
+            }
+            if (other.getIsClientId() != false) {
+                this.setIsClientId(other.getIsClientId());
+            }
+            if (other.getIsOauthScope() != false) {
+                this.setIsOauthScope(other.getIsOauthScope());
+            }
+            if (other.algorithm_ != 0) {
+                this.setAlgorithmValue(other.getAlgorithmValue());
+            }
+            if (other.hasResponseStatus()) {
+                this.mergeResponseStatus(other.getResponseStatus());
+            }
+            this.onChanged();
+            return this;
+        }
+
+        @Override
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        @Override
+        public Builder mergeFrom(
+            final com.google.protobuf.CodedInputStream input,
+            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+            io.vertx.tp.ipc.eon.IpcRequest parsedMessage = null;
+            try {
+                parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
+                parsedMessage = (io.vertx.tp.ipc.eon.IpcRequest) e.getUnfinishedMessage();
+                throw e.unwrapIOException();
+            } finally {
+                if (parsedMessage != null) {
+                    this.mergeFrom(parsedMessage);
+                }
+            }
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response format
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+         */
+        @Override
+        public int getResponseFormatValue() {
+            return this.responseFormat_;
+        }
+
+        /**
+         * <pre>
+         * Response format
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+         */
+        public Builder setResponseFormatValue(final int value) {
+            this.responseFormat_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response format
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.em.Format getResponseFormat() {
+            final io.vertx.tp.ipc.eon.em.Format result = io.vertx.tp.ipc.eon.em.Format.valueOf(this.responseFormat_);
+            return result == null ? io.vertx.tp.ipc.eon.em.Format.UNRECOGNIZED : result;
+        }
+
+        /**
+         * <pre>
+         * Response format
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+         */
+        public Builder setResponseFormat(final io.vertx.tp.ipc.eon.em.Format value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+
+            this.responseFormat_ = value.getNumber();
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response format
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Format response_format = 1;</code>
+         */
+        public Builder clearResponseFormat() {
+
+            this.responseFormat_ = 0;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response type
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+         */
+        @Override
+        public int getResponseCategoryValue() {
+            return this.responseCategory_;
+        }
+
+        /**
+         * <pre>
+         * Response type
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+         */
+        public Builder setResponseCategoryValue(final int value) {
+            this.responseCategory_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response type
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.em.Category getResponseCategory() {
+            final io.vertx.tp.ipc.eon.em.Category result = io.vertx.tp.ipc.eon.em.Category.valueOf(this.responseCategory_);
+            return result == null ? io.vertx.tp.ipc.eon.em.Category.UNRECOGNIZED : result;
+        }
+
+        /**
+         * <pre>
+         * Response type
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+         */
+        public Builder setResponseCategory(final io.vertx.tp.ipc.eon.em.Category value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+
+            this.responseCategory_ = value.getNumber();
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Response type
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Category response_category = 2;</code>
+         */
+        public Builder clearResponseCategory() {
+
+            this.responseCategory_ = 0;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Size
+         * </pre>
+         *
+         * <code>int32 response_size = 3;</code>
+         */
+        @Override
+        public int getResponseSize() {
+            return this.responseSize_;
+        }
+
+        /**
+         * <pre>
+         * Size
+         * </pre>
+         *
+         * <code>int32 response_size = 3;</code>
+         */
+        public Builder setResponseSize(final int value) {
+
+            this.responseSize_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Size
+         * </pre>
+         *
+         * <code>int32 response_size = 3;</code>
+         */
+        public Builder clearResponseSize() {
+
+            this.responseSize_ = 0;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        @Override
+        public boolean hasEnvelop() {
+            return this.envelopBuilder_ != null || this.envelop_ != null;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
+            if (this.envelopBuilder_ == null) {
+                return this.envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+            } else {
+                return this.envelopBuilder_.getMessage();
+            }
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        public Builder setEnvelop(final io.vertx.tp.ipc.eon.IpcEnvelop value) {
+            if (this.envelopBuilder_ == null) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                this.envelop_ = value;
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.setMessage(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        public Builder setEnvelop(
+            final io.vertx.tp.ipc.eon.IpcEnvelop.Builder builderForValue) {
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = builderForValue.build();
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.setMessage(builderForValue.build());
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        public Builder mergeEnvelop(final io.vertx.tp.ipc.eon.IpcEnvelop value) {
+            if (this.envelopBuilder_ == null) {
+                if (this.envelop_ != null) {
+                    this.envelop_ =
+                        io.vertx.tp.ipc.eon.IpcEnvelop.newBuilder(this.envelop_).mergeFrom(value).buildPartial();
+                } else {
+                    this.envelop_ = value;
+                }
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.mergeFrom(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        public Builder clearEnvelop() {
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = null;
+                this.onChanged();
+            } else {
+                this.envelop_ = null;
+                this.envelopBuilder_ = null;
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        public io.vertx.tp.ipc.eon.IpcEnvelop.Builder getEnvelopBuilder() {
+
+            this.onChanged();
+            return this.getEnvelopFieldBuilder().getBuilder();
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
+            if (this.envelopBuilder_ != null) {
+                return this.envelopBuilder_.getMessageOrBuilder();
+            } else {
+                return this.envelop_ == null ?
+                    io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+            }
+        }
+
+        /**
+         * <pre>
+         * Content of response
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 4;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>
+        getEnvelopFieldBuilder() {
+            if (this.envelopBuilder_ == null) {
+                this.envelopBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                    io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>(
+                    this.getEnvelop(),
+                    this.getParentForChildren(),
+                    this.isClean());
+                this.envelop_ = null;
+            }
+            return this.envelopBuilder_;
+        }
+
+        /**
+         * <pre>
+         * Whether contains username
+         * </pre>
+         *
+         * <code>bool is_client_id = 5;</code>
+         */
+        @Override
+        public boolean getIsClientId() {
+            return this.isClientId_;
+        }
+
+        /**
+         * <pre>
+         * Whether contains username
+         * </pre>
+         *
+         * <code>bool is_client_id = 5;</code>
+         */
+        public Builder setIsClientId(final boolean value) {
+
+            this.isClientId_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Whether contains username
+         * </pre>
+         *
+         * <code>bool is_client_id = 5;</code>
+         */
+        public Builder clearIsClientId() {
+
+            this.isClientId_ = false;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Whether contains scope
+         * </pre>
+         *
+         * <code>bool is_oauth_scope = 6;</code>
+         */
+        @Override
+        public boolean getIsOauthScope() {
+            return this.isOauthScope_;
+        }
+
+        /**
+         * <pre>
+         * Whether contains scope
+         * </pre>
+         *
+         * <code>bool is_oauth_scope = 6;</code>
+         */
+        public Builder setIsOauthScope(final boolean value) {
+
+            this.isOauthScope_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Whether contains scope
+         * </pre>
+         *
+         * <code>bool is_oauth_scope = 6;</code>
+         */
+        public Builder clearIsOauthScope() {
+
+            this.isOauthScope_ = false;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Compression
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+         */
+        @Override
+        public int getAlgorithmValue() {
+            return this.algorithm_;
+        }
+
+        /**
+         * <pre>
+         * Compression
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+         */
+        public Builder setAlgorithmValue(final int value) {
+            this.algorithm_ = value;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Compression
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.em.Compression getAlgorithm() {
+            final io.vertx.tp.ipc.eon.em.Compression result = io.vertx.tp.ipc.eon.em.Compression.valueOf(this.algorithm_);
+            return result == null ? io.vertx.tp.ipc.eon.em.Compression.UNRECOGNIZED : result;
+        }
+
+        /**
+         * <pre>
+         * Compression
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+         */
+        public Builder setAlgorithm(final io.vertx.tp.ipc.eon.em.Compression value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+
+            this.algorithm_ = value.getNumber();
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Compression
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.em.Compression algorithm = 7;</code>
+         */
+        public Builder clearAlgorithm() {
+
+            this.algorithm_ = 0;
+            this.onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        @Override
+        public boolean hasResponseStatus() {
+            return this.responseStatusBuilder_ != null || this.responseStatus_ != null;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcStatus getResponseStatus() {
+            if (this.responseStatusBuilder_ == null) {
+                return this.responseStatus_ == null ? io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : this.responseStatus_;
+            } else {
+                return this.responseStatusBuilder_.getMessage();
+            }
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        public Builder setResponseStatus(final io.vertx.tp.ipc.eon.IpcStatus value) {
+            if (this.responseStatusBuilder_ == null) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                this.responseStatus_ = value;
+                this.onChanged();
+            } else {
+                this.responseStatusBuilder_.setMessage(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        public Builder setResponseStatus(
+            final io.vertx.tp.ipc.eon.IpcStatus.Builder builderForValue) {
+            if (this.responseStatusBuilder_ == null) {
+                this.responseStatus_ = builderForValue.build();
+                this.onChanged();
+            } else {
+                this.responseStatusBuilder_.setMessage(builderForValue.build());
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        public Builder mergeResponseStatus(final io.vertx.tp.ipc.eon.IpcStatus value) {
+            if (this.responseStatusBuilder_ == null) {
+                if (this.responseStatus_ != null) {
+                    this.responseStatus_ =
+                        io.vertx.tp.ipc.eon.IpcStatus.newBuilder(this.responseStatus_).mergeFrom(value).buildPartial();
+                } else {
+                    this.responseStatus_ = value;
+                }
+                this.onChanged();
+            } else {
+                this.responseStatusBuilder_.mergeFrom(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        public Builder clearResponseStatus() {
+            if (this.responseStatusBuilder_ == null) {
+                this.responseStatus_ = null;
+                this.onChanged();
+            } else {
+                this.responseStatus_ = null;
+                this.responseStatusBuilder_ = null;
+            }
+
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        public io.vertx.tp.ipc.eon.IpcStatus.Builder getResponseStatusBuilder() {
+
+            this.onChanged();
+            return this.getResponseStatusFieldBuilder().getBuilder();
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcStatusOrBuilder getResponseStatusOrBuilder() {
+            if (this.responseStatusBuilder_ != null) {
+                return this.responseStatusBuilder_.getMessageOrBuilder();
+            } else {
+                return this.responseStatus_ == null ?
+                    io.vertx.tp.ipc.eon.IpcStatus.getDefaultInstance() : this.responseStatus_;
+            }
+        }
+
+        /**
+         * <pre>
+         * Status
+         * </pre>
+         *
+         * <code>.io.vertx.tp.ipc.eon.IpcStatus response_status = 8;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder>
+        getResponseStatusFieldBuilder() {
+            if (this.responseStatusBuilder_ == null) {
+                this.responseStatusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                    io.vertx.tp.ipc.eon.IpcStatus, io.vertx.tp.ipc.eon.IpcStatus.Builder, io.vertx.tp.ipc.eon.IpcStatusOrBuilder>(
+                    this.getResponseStatus(),
+                    this.getParentForChildren(),
+                    this.isClean());
+                this.responseStatus_ = null;
+            }
+            return this.responseStatusBuilder_;
+        }
+
+        @Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+        @Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.IpcRequest)
+    }
 
 }
 

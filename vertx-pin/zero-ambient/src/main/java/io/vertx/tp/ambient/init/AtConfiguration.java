@@ -50,6 +50,7 @@ final class AtConfiguration {
      * The singleton instance of {@link io.vertx.tp.ambient.atom.AtConfig} to store configuration data.
      */
     private static AtConfig CONFIG = null;
+
     /**
      * The private constructor to let current class be Util only.
      */

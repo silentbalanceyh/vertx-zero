@@ -3,7 +3,6 @@ package io.vertx.tp.optic.phantom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
@@ -39,7 +38,7 @@ public abstract class AbstractArbor implements Arbor {
         final ConcurrentMap<String, JsonObject> childMap = Ut.elementMap(children, KName.KEY);
         normalized.add(this.storePathOn(category, null, childMap, store));
         Ut.itJArray(children).map(json -> this.storePathOn(json, category, childMap, store)).forEach(normalized::add);
-        return Ke.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
+        return Ux.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
             /*
              * Filtered by `category` storePath field to exclude the invalid children
              */

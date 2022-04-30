@@ -4,33 +4,8 @@
 package cn.vertxup.ui.domain;
 
 
-import cn.vertxup.ui.domain.tables.UiColumn;
-import cn.vertxup.ui.domain.tables.UiControl;
-import cn.vertxup.ui.domain.tables.UiField;
-import cn.vertxup.ui.domain.tables.UiForm;
-import cn.vertxup.ui.domain.tables.UiLayout;
-import cn.vertxup.ui.domain.tables.UiList;
-import cn.vertxup.ui.domain.tables.UiOp;
-import cn.vertxup.ui.domain.tables.UiPage;
-import cn.vertxup.ui.domain.tables.UiVisitor;
-import cn.vertxup.ui.domain.tables.VFragment;
-import cn.vertxup.ui.domain.tables.VQuery;
-import cn.vertxup.ui.domain.tables.VSearch;
-import cn.vertxup.ui.domain.tables.VTable;
-import cn.vertxup.ui.domain.tables.records.UiColumnRecord;
-import cn.vertxup.ui.domain.tables.records.UiControlRecord;
-import cn.vertxup.ui.domain.tables.records.UiFieldRecord;
-import cn.vertxup.ui.domain.tables.records.UiFormRecord;
-import cn.vertxup.ui.domain.tables.records.UiLayoutRecord;
-import cn.vertxup.ui.domain.tables.records.UiListRecord;
-import cn.vertxup.ui.domain.tables.records.UiOpRecord;
-import cn.vertxup.ui.domain.tables.records.UiPageRecord;
-import cn.vertxup.ui.domain.tables.records.UiVisitorRecord;
-import cn.vertxup.ui.domain.tables.records.VFragmentRecord;
-import cn.vertxup.ui.domain.tables.records.VQueryRecord;
-import cn.vertxup.ui.domain.tables.records.VSearchRecord;
-import cn.vertxup.ui.domain.tables.records.VTableRecord;
-
+import cn.vertxup.ui.domain.tables.*;
+import cn.vertxup.ui.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -41,33 +16,33 @@ import org.jooq.impl.Internal;
  * A class modelling foreign key relationships and constraints of tables in
  * DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Keys {
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UiColumnRecord> KEY_UI_COLUMN_PRIMARY = Internal.createUniqueKey(UiColumn.UI_COLUMN, DSL.name("KEY_UI_COLUMN_PRIMARY"), new TableField[] { UiColumn.UI_COLUMN.KEY }, true);
-    public static final UniqueKey<UiColumnRecord> KEY_UI_COLUMN_SIGMA = Internal.createUniqueKey(UiColumn.UI_COLUMN, DSL.name("KEY_UI_COLUMN_SIGMA"), new TableField[] { UiColumn.UI_COLUMN.SIGMA, UiColumn.UI_COLUMN.CONTROL_ID, UiColumn.UI_COLUMN.DATA_INDEX }, true);
-    public static final UniqueKey<UiControlRecord> KEY_UI_CONTROL_PRIMARY = Internal.createUniqueKey(UiControl.UI_CONTROL, DSL.name("KEY_UI_CONTROL_PRIMARY"), new TableField[] { UiControl.UI_CONTROL.KEY }, true);
-    public static final UniqueKey<UiControlRecord> KEY_UI_CONTROL_SIGN = Internal.createUniqueKey(UiControl.UI_CONTROL, DSL.name("KEY_UI_CONTROL_SIGN"), new TableField[] { UiControl.UI_CONTROL.SIGN }, true);
-    public static final UniqueKey<UiFieldRecord> KEY_UI_FIELD_CONTROL_ID = Internal.createUniqueKey(UiField.UI_FIELD, DSL.name("KEY_UI_FIELD_CONTROL_ID"), new TableField[] { UiField.UI_FIELD.CONTROL_ID, UiField.UI_FIELD.NAME }, true);
-    public static final UniqueKey<UiFieldRecord> KEY_UI_FIELD_PRIMARY = Internal.createUniqueKey(UiField.UI_FIELD, DSL.name("KEY_UI_FIELD_PRIMARY"), new TableField[] { UiField.UI_FIELD.KEY }, true);
-    public static final UniqueKey<UiFormRecord> KEY_UI_FORM_CODE = Internal.createUniqueKey(UiForm.UI_FORM, DSL.name("KEY_UI_FORM_CODE"), new TableField[] { UiForm.UI_FORM.CODE, UiForm.UI_FORM.SIGMA }, true);
-    public static final UniqueKey<UiFormRecord> KEY_UI_FORM_PRIMARY = Internal.createUniqueKey(UiForm.UI_FORM, DSL.name("KEY_UI_FORM_PRIMARY"), new TableField[] { UiForm.UI_FORM.KEY }, true);
-    public static final UniqueKey<UiLayoutRecord> KEY_UI_LAYOUT_NAME = Internal.createUniqueKey(UiLayout.UI_LAYOUT, DSL.name("KEY_UI_LAYOUT_NAME"), new TableField[] { UiLayout.UI_LAYOUT.NAME, UiLayout.UI_LAYOUT.SIGMA }, true);
-    public static final UniqueKey<UiLayoutRecord> KEY_UI_LAYOUT_PRIMARY = Internal.createUniqueKey(UiLayout.UI_LAYOUT, DSL.name("KEY_UI_LAYOUT_PRIMARY"), new TableField[] { UiLayout.UI_LAYOUT.KEY }, true);
-    public static final UniqueKey<UiListRecord> KEY_UI_LIST_CODE = Internal.createUniqueKey(UiList.UI_LIST, DSL.name("KEY_UI_LIST_CODE"), new TableField[] { UiList.UI_LIST.CODE, UiList.UI_LIST.SIGMA }, true);
-    public static final UniqueKey<UiListRecord> KEY_UI_LIST_PRIMARY = Internal.createUniqueKey(UiList.UI_LIST, DSL.name("KEY_UI_LIST_PRIMARY"), new TableField[] { UiList.UI_LIST.KEY }, true);
-    public static final UniqueKey<UiOpRecord> KEY_UI_OP_CONTROL_ID = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_CONTROL_ID"), new TableField[] { UiOp.UI_OP.CONTROL_ID, UiOp.UI_OP.SIGMA, UiOp.UI_OP.CLIENT_KEY }, true);
-    public static final UniqueKey<UiOpRecord> KEY_UI_OP_CONTROL_ID_2 = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_CONTROL_ID_2"), new TableField[] { UiOp.UI_OP.CONTROL_ID, UiOp.UI_OP.SIGMA, UiOp.UI_OP.ACTION }, true);
-    public static final UniqueKey<UiOpRecord> KEY_UI_OP_PRIMARY = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_PRIMARY"), new TableField[] { UiOp.UI_OP.KEY }, true);
-    public static final UniqueKey<UiPageRecord> KEY_UI_PAGE_APP = Internal.createUniqueKey(UiPage.UI_PAGE, DSL.name("KEY_UI_PAGE_APP"), new TableField[] { UiPage.UI_PAGE.APP, UiPage.UI_PAGE.MODULE, UiPage.UI_PAGE.PAGE, UiPage.UI_PAGE.SIGMA }, true);
-    public static final UniqueKey<UiPageRecord> KEY_UI_PAGE_PRIMARY = Internal.createUniqueKey(UiPage.UI_PAGE, DSL.name("KEY_UI_PAGE_PRIMARY"), new TableField[] { UiPage.UI_PAGE.KEY }, true);
-    public static final UniqueKey<UiVisitorRecord> KEY_UI_VISITOR_PRIMARY = Internal.createUniqueKey(UiVisitor.UI_VISITOR, DSL.name("KEY_UI_VISITOR_PRIMARY"), new TableField[] { UiVisitor.UI_VISITOR.IDENTIFIER, UiVisitor.UI_VISITOR.PAGE, UiVisitor.UI_VISITOR.PATH, UiVisitor.UI_VISITOR.TYPE, UiVisitor.UI_VISITOR.SIGMA }, true);
-    public static final UniqueKey<VFragmentRecord> KEY_V_FRAGMENT_PRIMARY = Internal.createUniqueKey(VFragment.V_FRAGMENT, DSL.name("KEY_V_FRAGMENT_PRIMARY"), new TableField[] { VFragment.V_FRAGMENT.KEY }, true);
-    public static final UniqueKey<VQueryRecord> KEY_V_QUERY_PRIMARY = Internal.createUniqueKey(VQuery.V_QUERY, DSL.name("KEY_V_QUERY_PRIMARY"), new TableField[] { VQuery.V_QUERY.KEY }, true);
-    public static final UniqueKey<VSearchRecord> KEY_V_SEARCH_PRIMARY = Internal.createUniqueKey(VSearch.V_SEARCH, DSL.name("KEY_V_SEARCH_PRIMARY"), new TableField[] { VSearch.V_SEARCH.KEY }, true);
-    public static final UniqueKey<VTableRecord> KEY_V_TABLE_PRIMARY = Internal.createUniqueKey(VTable.V_TABLE, DSL.name("KEY_V_TABLE_PRIMARY"), new TableField[] { VTable.V_TABLE.KEY }, true);
+    public static final UniqueKey<UiColumnRecord> KEY_UI_COLUMN_PRIMARY = Internal.createUniqueKey(UiColumn.UI_COLUMN, DSL.name("KEY_UI_COLUMN_PRIMARY"), new TableField[]{UiColumn.UI_COLUMN.KEY}, true);
+    public static final UniqueKey<UiColumnRecord> KEY_UI_COLUMN_SIGMA = Internal.createUniqueKey(UiColumn.UI_COLUMN, DSL.name("KEY_UI_COLUMN_SIGMA"), new TableField[]{UiColumn.UI_COLUMN.SIGMA, UiColumn.UI_COLUMN.CONTROL_ID, UiColumn.UI_COLUMN.DATA_INDEX}, true);
+    public static final UniqueKey<UiControlRecord> KEY_UI_CONTROL_PRIMARY = Internal.createUniqueKey(UiControl.UI_CONTROL, DSL.name("KEY_UI_CONTROL_PRIMARY"), new TableField[]{UiControl.UI_CONTROL.KEY}, true);
+    public static final UniqueKey<UiControlRecord> KEY_UI_CONTROL_SIGN = Internal.createUniqueKey(UiControl.UI_CONTROL, DSL.name("KEY_UI_CONTROL_SIGN"), new TableField[]{UiControl.UI_CONTROL.SIGN}, true);
+    public static final UniqueKey<UiFieldRecord> KEY_UI_FIELD_CONTROL_ID = Internal.createUniqueKey(UiField.UI_FIELD, DSL.name("KEY_UI_FIELD_CONTROL_ID"), new TableField[]{UiField.UI_FIELD.CONTROL_ID, UiField.UI_FIELD.NAME}, true);
+    public static final UniqueKey<UiFieldRecord> KEY_UI_FIELD_PRIMARY = Internal.createUniqueKey(UiField.UI_FIELD, DSL.name("KEY_UI_FIELD_PRIMARY"), new TableField[]{UiField.UI_FIELD.KEY}, true);
+    public static final UniqueKey<UiFormRecord> KEY_UI_FORM_CODE = Internal.createUniqueKey(UiForm.UI_FORM, DSL.name("KEY_UI_FORM_CODE"), new TableField[]{UiForm.UI_FORM.CODE, UiForm.UI_FORM.SIGMA}, true);
+    public static final UniqueKey<UiFormRecord> KEY_UI_FORM_PRIMARY = Internal.createUniqueKey(UiForm.UI_FORM, DSL.name("KEY_UI_FORM_PRIMARY"), new TableField[]{UiForm.UI_FORM.KEY}, true);
+    public static final UniqueKey<UiLayoutRecord> KEY_UI_LAYOUT_NAME = Internal.createUniqueKey(UiLayout.UI_LAYOUT, DSL.name("KEY_UI_LAYOUT_NAME"), new TableField[]{UiLayout.UI_LAYOUT.NAME, UiLayout.UI_LAYOUT.SIGMA}, true);
+    public static final UniqueKey<UiLayoutRecord> KEY_UI_LAYOUT_PRIMARY = Internal.createUniqueKey(UiLayout.UI_LAYOUT, DSL.name("KEY_UI_LAYOUT_PRIMARY"), new TableField[]{UiLayout.UI_LAYOUT.KEY}, true);
+    public static final UniqueKey<UiListRecord> KEY_UI_LIST_CODE = Internal.createUniqueKey(UiList.UI_LIST, DSL.name("KEY_UI_LIST_CODE"), new TableField[]{UiList.UI_LIST.CODE, UiList.UI_LIST.SIGMA}, true);
+    public static final UniqueKey<UiListRecord> KEY_UI_LIST_PRIMARY = Internal.createUniqueKey(UiList.UI_LIST, DSL.name("KEY_UI_LIST_PRIMARY"), new TableField[]{UiList.UI_LIST.KEY}, true);
+    public static final UniqueKey<UiOpRecord> KEY_UI_OP_CONTROL_ID = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_CONTROL_ID"), new TableField[]{UiOp.UI_OP.CONTROL_ID, UiOp.UI_OP.SIGMA, UiOp.UI_OP.CLIENT_KEY}, true);
+    public static final UniqueKey<UiOpRecord> KEY_UI_OP_CONTROL_ID_2 = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_CONTROL_ID_2"), new TableField[]{UiOp.UI_OP.CONTROL_ID, UiOp.UI_OP.SIGMA, UiOp.UI_OP.ACTION}, true);
+    public static final UniqueKey<UiOpRecord> KEY_UI_OP_PRIMARY = Internal.createUniqueKey(UiOp.UI_OP, DSL.name("KEY_UI_OP_PRIMARY"), new TableField[]{UiOp.UI_OP.KEY}, true);
+    public static final UniqueKey<UiPageRecord> KEY_UI_PAGE_APP = Internal.createUniqueKey(UiPage.UI_PAGE, DSL.name("KEY_UI_PAGE_APP"), new TableField[]{UiPage.UI_PAGE.APP, UiPage.UI_PAGE.MODULE, UiPage.UI_PAGE.PAGE, UiPage.UI_PAGE.SIGMA}, true);
+    public static final UniqueKey<UiPageRecord> KEY_UI_PAGE_PRIMARY = Internal.createUniqueKey(UiPage.UI_PAGE, DSL.name("KEY_UI_PAGE_PRIMARY"), new TableField[]{UiPage.UI_PAGE.KEY}, true);
+    public static final UniqueKey<UiVisitorRecord> KEY_UI_VISITOR_PRIMARY = Internal.createUniqueKey(UiVisitor.UI_VISITOR, DSL.name("KEY_UI_VISITOR_PRIMARY"), new TableField[]{UiVisitor.UI_VISITOR.IDENTIFIER, UiVisitor.UI_VISITOR.PAGE, UiVisitor.UI_VISITOR.PATH, UiVisitor.UI_VISITOR.TYPE, UiVisitor.UI_VISITOR.SIGMA}, true);
+    public static final UniqueKey<VFragmentRecord> KEY_V_FRAGMENT_PRIMARY = Internal.createUniqueKey(VFragment.V_FRAGMENT, DSL.name("KEY_V_FRAGMENT_PRIMARY"), new TableField[]{VFragment.V_FRAGMENT.KEY}, true);
+    public static final UniqueKey<VQueryRecord> KEY_V_QUERY_PRIMARY = Internal.createUniqueKey(VQuery.V_QUERY, DSL.name("KEY_V_QUERY_PRIMARY"), new TableField[]{VQuery.V_QUERY.KEY}, true);
+    public static final UniqueKey<VSearchRecord> KEY_V_SEARCH_PRIMARY = Internal.createUniqueKey(VSearch.V_SEARCH, DSL.name("KEY_V_SEARCH_PRIMARY"), new TableField[]{VSearch.V_SEARCH.KEY}, true);
+    public static final UniqueKey<VTableRecord> KEY_V_TABLE_PRIMARY = Internal.createUniqueKey(VTable.V_TABLE, DSL.name("KEY_V_TABLE_PRIMARY"), new TableField[]{VTable.V_TABLE.KEY}, true);
 }

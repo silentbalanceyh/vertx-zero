@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -35,7 +34,7 @@ class AgonicDelete implements Agonic {
                 /* File: Remove Attachment Part */
                 return Pre.fileOut().inJAsync(json, in)
                     /* BackUp future */
-                    .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(removed),
+                    .compose(removed -> Ux.channelAsync(Trash.class, () -> Ux.future(removed),
                         (stub) -> stub.backupAsync(module.getIdentifier(), removed)))
 
 
@@ -65,7 +64,7 @@ class AgonicDelete implements Agonic {
                 /* File: Remove Attachment Part */
                 return Pre.fileOut().inAAsync(array, in)
                     /* BackUp future */
-                    .compose(removed -> Ke.channelAsync(Trash.class, () -> Ux.future(array),
+                    .compose(removed -> Ux.channelAsync(Trash.class, () -> Ux.future(array),
                         stub -> stub.backupAsync(module.getIdentifier(), array)))
 
 

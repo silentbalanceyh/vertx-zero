@@ -23,7 +23,8 @@ the rules for following tutorial:
 
 ## 1. Uson
 
-> Hello world and hello utility x, this is code segments for some usage and you can ignore it first, we'll introduce all the utility x tool apis to be sure every developer could do less works in zero system.
+> Hello world and hello utility x, this is code segments for some usage and you can ignore it first, we'll introduce all
+> the utility x tool apis to be sure every developer could do less works in zero system.
 
 First create the input source up.god.file `d10046.json` in your testing resource
 folder `src/test/resources/test/io.vertx.up.unity`.

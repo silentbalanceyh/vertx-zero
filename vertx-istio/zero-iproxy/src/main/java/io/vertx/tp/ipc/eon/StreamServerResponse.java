@@ -6,543 +6,620 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.StreamServerResponse}
  */
-public  final class StreamServerResponse extends
+public final class StreamServerResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.StreamServerResponse)
     StreamServerResponseOrBuilder {
-  // Use StreamServerResponse.newBuilder() to construct.
-  private StreamServerResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
-  private StreamServerResponse() {
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
-    return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-  }
-  private StreamServerResponse(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    int mutable_bitField0_ = 0;
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          default: {
-            if (!input.skipField(tag)) {
-              done = true;
-            }
-            break;
-          }
-          case 10: {
-            io.vertx.tp.ipc.eon.IpcEnvelop.Builder subBuilder = null;
-            if (envelop_ != null) {
-              subBuilder = envelop_.toBuilder();
-            }
-            envelop_ = input.readMessage(io.vertx.tp.ipc.eon.IpcEnvelop.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(envelop_);
-              envelop_ = subBuilder.buildPartial();
-            }
-
-            break;
-          }
+    public static final int ENVELOP_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.StreamServerResponse)
+    private static final io.vertx.tp.ipc.eon.StreamServerResponse DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<StreamServerResponse>
+        PARSER = new com.google.protobuf.AbstractParser<StreamServerResponse>() {
+        @Override
+        public StreamServerResponse parsePartialFrom(
+            final com.google.protobuf.CodedInputStream input,
+            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new StreamServerResponse(input, extensionRegistry);
         }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(
-          e).setUnfinishedMessage(this);
-    } finally {
-      makeExtensionsImmutable();
-    }
-  }
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-    return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
-  }
+    };
 
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internalGetFieldAccessorTable() {
-    return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-            io.vertx.tp.ipc.eon.StreamServerResponse.class, io.vertx.tp.ipc.eon.StreamServerResponse.Builder.class);
-  }
-
-  public static final int ENVELOP_FIELD_NUMBER = 1;
-  private io.vertx.tp.ipc.eon.IpcEnvelop envelop_;
-  /**
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  public boolean hasEnvelop() {
-    return envelop_ != null;
-  }
-  /**
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
-    return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-  }
-  /**
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
-    return getEnvelop();
-  }
-
-  private byte memoizedIsInitialized = -1;
-  public final boolean isInitialized() {
-    byte isInitialized = memoizedIsInitialized;
-    if (isInitialized == 1) return true;
-    if (isInitialized == 0) return false;
-
-    memoizedIsInitialized = 1;
-    return true;
-  }
-
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
-    if (envelop_ != null) {
-      output.writeMessage(1, getEnvelop());
-    }
-  }
-
-  public int getSerializedSize() {
-    int size = memoizedSize;
-    if (size != -1) return size;
-
-    size = 0;
-    if (envelop_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getEnvelop());
-    }
-    memoizedSize = size;
-    return size;
-  }
-
-  private static final long serialVersionUID = 0L;
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
-    if (obj == this) {
-     return true;
-    }
-    if (!(obj instanceof io.vertx.tp.ipc.eon.StreamServerResponse)) {
-      return super.equals(obj);
-    }
-    io.vertx.tp.ipc.eon.StreamServerResponse other = (io.vertx.tp.ipc.eon.StreamServerResponse) obj;
-
-    boolean result = true;
-    result = result && (hasEnvelop() == other.hasEnvelop());
-    if (hasEnvelop()) {
-      result = result && getEnvelop()
-          .equals(other.getEnvelop());
-    }
-    return result;
-  }
-
-  @java.lang.Override
-  public int hashCode() {
-    if (memoizedHashCode != 0) {
-      return memoizedHashCode;
-    }
-    int hash = 41;
-    hash = (19 * hash) + getDescriptor().hashCode();
-    if (hasEnvelop()) {
-      hash = (37 * hash) + ENVELOP_FIELD_NUMBER;
-      hash = (53 * hash) + getEnvelop().hashCode();
-    }
-    hash = (29 * hash) + unknownFields.hashCode();
-    memoizedHashCode = hash;
-    return hash;
-  }
-
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      com.google.protobuf.ByteString data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      com.google.protobuf.ByteString data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(byte[] data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseDelimitedFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      com.google.protobuf.CodedInputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-
-  public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder() {
-    return DEFAULT_INSTANCE.toBuilder();
-  }
-  public static Builder newBuilder(io.vertx.tp.ipc.eon.StreamServerResponse prototype) {
-    return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-  }
-  public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
-  }
-
-  @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-    Builder builder = new Builder(parent);
-    return builder;
-  }
-  /**
-   * Protobuf type {@code io.vertx.tp.ipc.eon.StreamServerResponse}
-   */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.StreamServerResponse)
-      io.vertx.tp.ipc.eon.StreamServerResponseOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
+    static {
+        DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.StreamServerResponse();
     }
 
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.vertx.tp.ipc.eon.StreamServerResponse.class, io.vertx.tp.ipc.eon.StreamServerResponse.Builder.class);
+    private io.vertx.tp.ipc.eon.IpcEnvelop envelop_;
+    private byte memoizedIsInitialized = -1;
+    // Use StreamServerResponse.newBuilder() to construct.
+    private StreamServerResponse(final com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
     }
 
-    // Construct using io.vertx.tp.ipc.eon.StreamServerResponse.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
+    private StreamServerResponse() {
     }
 
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      super(parent);
-      maybeForceBuilderInitialization();
-    }
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-      }
-    }
-    public Builder clear() {
-      super.clear();
-      if (envelopBuilder_ == null) {
-        envelop_ = null;
-      } else {
-        envelop_ = null;
-        envelopBuilder_ = null;
-      }
-      return this;
-    }
-
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
-    }
-
-    public io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstanceForType() {
-      return io.vertx.tp.ipc.eon.StreamServerResponse.getDefaultInstance();
-    }
-
-    public io.vertx.tp.ipc.eon.StreamServerResponse build() {
-      io.vertx.tp.ipc.eon.StreamServerResponse result = buildPartial();
-      if (!result.isInitialized()) {
-        throw newUninitializedMessageException(result);
-      }
-      return result;
-    }
-
-    public io.vertx.tp.ipc.eon.StreamServerResponse buildPartial() {
-      io.vertx.tp.ipc.eon.StreamServerResponse result = new io.vertx.tp.ipc.eon.StreamServerResponse(this);
-      if (envelopBuilder_ == null) {
-        result.envelop_ = envelop_;
-      } else {
-        result.envelop_ = envelopBuilder_.build();
-      }
-      onBuilt();
-      return result;
-    }
-
-    public Builder clone() {
-      return (Builder) super.clone();
-    }
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.setField(field, value);
-    }
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
-    }
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
-    }
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
-    }
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.addRepeatedField(field, value);
-    }
-    public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.vertx.tp.ipc.eon.StreamServerResponse) {
-        return mergeFrom((io.vertx.tp.ipc.eon.StreamServerResponse)other);
-      } else {
-        super.mergeFrom(other);
-        return this;
-      }
-    }
-
-    public Builder mergeFrom(io.vertx.tp.ipc.eon.StreamServerResponse other) {
-      if (other == io.vertx.tp.ipc.eon.StreamServerResponse.getDefaultInstance()) return this;
-      if (other.hasEnvelop()) {
-        mergeEnvelop(other.getEnvelop());
-      }
-      onChanged();
-      return this;
-    }
-
-    public final boolean isInitialized() {
-      return true;
-    }
-
-    public Builder mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      io.vertx.tp.ipc.eon.StreamServerResponse parsedMessage = null;
-      try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (io.vertx.tp.ipc.eon.StreamServerResponse) e.getUnfinishedMessage();
-        throw e.unwrapIOException();
-      } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
-      return this;
-    }
-
-    private io.vertx.tp.ipc.eon.IpcEnvelop envelop_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> envelopBuilder_;
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public boolean hasEnvelop() {
-      return envelopBuilder_ != null || envelop_ != null;
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
-      if (envelopBuilder_ == null) {
-        return envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-      } else {
-        return envelopBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public Builder setEnvelop(io.vertx.tp.ipc.eon.IpcEnvelop value) {
-      if (envelopBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        envelop_ = value;
-        onChanged();
-      } else {
-        envelopBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public Builder setEnvelop(
-        io.vertx.tp.ipc.eon.IpcEnvelop.Builder builderForValue) {
-      if (envelopBuilder_ == null) {
-        envelop_ = builderForValue.build();
-        onChanged();
-      } else {
-        envelopBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public Builder mergeEnvelop(io.vertx.tp.ipc.eon.IpcEnvelop value) {
-      if (envelopBuilder_ == null) {
-        if (envelop_ != null) {
-          envelop_ =
-            io.vertx.tp.ipc.eon.IpcEnvelop.newBuilder(envelop_).mergeFrom(value).buildPartial();
-        } else {
-          envelop_ = value;
-        }
-        onChanged();
-      } else {
-        envelopBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public Builder clearEnvelop() {
-      if (envelopBuilder_ == null) {
-        envelop_ = null;
-        onChanged();
-      } else {
-        envelop_ = null;
-        envelopBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelop.Builder getEnvelopBuilder() {
-      
-      onChanged();
-      return getEnvelopFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
-      if (envelopBuilder_ != null) {
-        return envelopBuilder_.getMessageOrBuilder();
-      } else {
-        return envelop_ == null ?
-            io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : envelop_;
-      }
-    }
-    /**
-     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> 
-        getEnvelopFieldBuilder() {
-      if (envelopBuilder_ == null) {
-        envelopBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>(
-                getEnvelop(),
-                getParentForChildren(),
-                isClean());
-        envelop_ = null;
-      }
-      return envelopBuilder_;
-    }
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
-    }
-
-    public final Builder mergeUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
-    }
-
-
-    // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.StreamServerResponse)
-  }
-
-  // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.StreamServerResponse)
-  private static final io.vertx.tp.ipc.eon.StreamServerResponse DEFAULT_INSTANCE;
-  static {
-    DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.StreamServerResponse();
-  }
-
-  public static io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstance() {
-    return DEFAULT_INSTANCE;
-  }
-
-  private static final com.google.protobuf.Parser<StreamServerResponse>
-      PARSER = new com.google.protobuf.AbstractParser<StreamServerResponse>() {
-    public StreamServerResponse parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+    private StreamServerResponse(
+        final com.google.protobuf.CodedInputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new StreamServerResponse(input, extensionRegistry);
+        this();
+        final int mutable_bitField0_ = 0;
+        try {
+            boolean done = false;
+            while (!done) {
+                final int tag = input.readTag();
+                switch (tag) {
+                    case 0:
+                        done = true;
+                        break;
+                    default: {
+                        if (!input.skipField(tag)) {
+                            done = true;
+                        }
+                        break;
+                    }
+                    case 10: {
+                        io.vertx.tp.ipc.eon.IpcEnvelop.Builder subBuilder = null;
+                        if (this.envelop_ != null) {
+                            subBuilder = this.envelop_.toBuilder();
+                        }
+                        this.envelop_ = input.readMessage(io.vertx.tp.ipc.eon.IpcEnvelop.parser(), extensionRegistry);
+                        if (subBuilder != null) {
+                            subBuilder.mergeFrom(this.envelop_);
+                            this.envelop_ = subBuilder.buildPartial();
+                        }
+
+                        break;
+                    }
+                }
+            }
+        } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(this);
+        } catch (final java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+                e).setUnfinishedMessage(this);
+        } finally {
+            this.makeExtensionsImmutable();
+        }
     }
-  };
 
-  public static com.google.protobuf.Parser<StreamServerResponse> parser() {
-    return PARSER;
-  }
+    public static final com.google.protobuf.Descriptors.Descriptor
+    getDescriptor() {
+        return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
+    }
 
-  @java.lang.Override
-  public com.google.protobuf.Parser<StreamServerResponse> getParserForType() {
-    return PARSER;
-  }
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
 
-  public io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstanceForType() {
-    return DEFAULT_INSTANCE;
-  }
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final com.google.protobuf.ByteString data,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(final byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final byte[] data,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(final java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final java.io.InputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseDelimitedFrom(final java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseDelimitedFrom(
+        final java.io.InputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse parseFrom(
+        final com.google.protobuf.CodedInputStream input,
+        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(final io.vertx.tp.ipc.eon.StreamServerResponse prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<StreamServerResponse> parser() {
+        return PARSER;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+
+    @Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    internalGetFieldAccessorTable() {
+        return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.vertx.tp.ipc.eon.StreamServerResponse.class, io.vertx.tp.ipc.eon.StreamServerResponse.Builder.class);
+    }
+
+    /**
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    @Override
+    public boolean hasEnvelop() {
+        return this.envelop_ != null;
+    }
+
+    /**
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
+        return this.envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+    }
+
+    /**
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    @Override
+    public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
+        return this.getEnvelop();
+    }
+
+    @Override
+    public final boolean isInitialized() {
+        final byte isInitialized = this.memoizedIsInitialized;
+        if (isInitialized == 1) {
+            return true;
+        }
+        if (isInitialized == 0) {
+            return false;
+        }
+
+        this.memoizedIsInitialized = 1;
+        return true;
+    }
+
+    @Override
+    public void writeTo(final com.google.protobuf.CodedOutputStream output)
+        throws java.io.IOException {
+        if (this.envelop_ != null) {
+            output.writeMessage(1, this.getEnvelop());
+        }
+    }
+
+    @Override
+    public int getSerializedSize() {
+        int size = this.memoizedSize;
+        if (size != -1) {
+            return size;
+        }
+
+        size = 0;
+        if (this.envelop_ != null) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeMessageSize(1, this.getEnvelop());
+        }
+        this.memoizedSize = size;
+        return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof io.vertx.tp.ipc.eon.StreamServerResponse)) {
+            return super.equals(obj);
+        }
+        final io.vertx.tp.ipc.eon.StreamServerResponse other = (io.vertx.tp.ipc.eon.StreamServerResponse) obj;
+
+        boolean result = true;
+        result = result && (this.hasEnvelop() == other.hasEnvelop());
+        if (this.hasEnvelop()) {
+            result = result && this.getEnvelop()
+                .equals(other.getEnvelop());
+        }
+        return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (this.hasEnvelop()) {
+            hash = (37 * hash) + ENVELOP_FIELD_NUMBER;
+            hash = (53 * hash) + this.getEnvelop().hashCode();
+        }
+        hash = (29 * hash) + this.unknownFields.hashCode();
+        this.memoizedHashCode = hash;
+        return hash;
+    }
+
+    @Override
+    public Builder newBuilderForType() {
+        return newBuilder();
+    }
+
+    @Override
+    public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        final com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        final Builder builder = new Builder(parent);
+        return builder;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StreamServerResponse> getParserForType() {
+        return PARSER;
+    }
+
+    @Override
+    public io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    /**
+     * Protobuf type {@code io.vertx.tp.ipc.eon.StreamServerResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.StreamServerResponse)
+        io.vertx.tp.ipc.eon.StreamServerResponseOrBuilder {
+        private io.vertx.tp.ipc.eon.IpcEnvelop envelop_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder> envelopBuilder_;
+
+        // Construct using io.vertx.tp.ipc.eon.StreamServerResponse.newBuilder()
+        private Builder() {
+            this.maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            final com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            super(parent);
+            this.maybeForceBuilderInitialization();
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
+        }
+
+        @Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    io.vertx.tp.ipc.eon.StreamServerResponse.class, io.vertx.tp.ipc.eon.StreamServerResponse.Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+            }
+        }
+
+        @Override
+        public Builder clear() {
+            super.clear();
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = null;
+            } else {
+                this.envelop_ = null;
+                this.envelopBuilder_ = null;
+            }
+            return this;
+        }
+
+        @Override
+        public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+            return io.vertx.tp.ipc.eon.UpStream.internal_static_io_vertx_tp_ipc_eon_StreamServerResponse_descriptor;
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.StreamServerResponse getDefaultInstanceForType() {
+            return io.vertx.tp.ipc.eon.StreamServerResponse.getDefaultInstance();
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.StreamServerResponse build() {
+            final io.vertx.tp.ipc.eon.StreamServerResponse result = this.buildPartial();
+            if (!result.isInitialized()) {
+                throw newUninitializedMessageException(result);
+            }
+            return result;
+        }
+
+        @Override
+        public io.vertx.tp.ipc.eon.StreamServerResponse buildPartial() {
+            final io.vertx.tp.ipc.eon.StreamServerResponse result = new io.vertx.tp.ipc.eon.StreamServerResponse(this);
+            if (this.envelopBuilder_ == null) {
+                result.envelop_ = this.envelop_;
+            } else {
+                result.envelop_ = this.envelopBuilder_.build();
+            }
+            this.onBuilt();
+            return result;
+        }
+
+        @Override
+        public Builder clone() {
+            return (Builder) super.clone();
+        }
+
+        @Override
+        public Builder setField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final Object value) {
+            return (Builder) super.setField(field, value);
+        }
+
+        @Override
+        public Builder clearField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field) {
+            return (Builder) super.clearField(field);
+        }
+
+        @Override
+        public Builder clearOneof(
+            final com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+            return (Builder) super.clearOneof(oneof);
+        }
+
+        @Override
+        public Builder setRepeatedField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final int index, final Object value) {
+            return (Builder) super.setRepeatedField(field, index, value);
+        }
+
+        @Override
+        public Builder addRepeatedField(
+            final com.google.protobuf.Descriptors.FieldDescriptor field,
+            final Object value) {
+            return (Builder) super.addRepeatedField(field, value);
+        }
+
+        @Override
+        public Builder mergeFrom(final com.google.protobuf.Message other) {
+            if (other instanceof io.vertx.tp.ipc.eon.StreamServerResponse) {
+                return this.mergeFrom((io.vertx.tp.ipc.eon.StreamServerResponse) other);
+            } else {
+                super.mergeFrom(other);
+                return this;
+            }
+        }
+
+        public Builder mergeFrom(final io.vertx.tp.ipc.eon.StreamServerResponse other) {
+            if (other == io.vertx.tp.ipc.eon.StreamServerResponse.getDefaultInstance()) {
+                return this;
+            }
+            if (other.hasEnvelop()) {
+                this.mergeEnvelop(other.getEnvelop());
+            }
+            this.onChanged();
+            return this;
+        }
+
+        @Override
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        @Override
+        public Builder mergeFrom(
+            final com.google.protobuf.CodedInputStream input,
+            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+            io.vertx.tp.ipc.eon.StreamServerResponse parsedMessage = null;
+            try {
+                parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
+                parsedMessage = (io.vertx.tp.ipc.eon.StreamServerResponse) e.getUnfinishedMessage();
+                throw e.unwrapIOException();
+            } finally {
+                if (parsedMessage != null) {
+                    this.mergeFrom(parsedMessage);
+                }
+            }
+            return this;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        @Override
+        public boolean hasEnvelop() {
+            return this.envelopBuilder_ != null || this.envelop_ != null;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop() {
+            if (this.envelopBuilder_ == null) {
+                return this.envelop_ == null ? io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+            } else {
+                return this.envelopBuilder_.getMessage();
+            }
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        public Builder setEnvelop(final io.vertx.tp.ipc.eon.IpcEnvelop value) {
+            if (this.envelopBuilder_ == null) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                this.envelop_ = value;
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.setMessage(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        public Builder setEnvelop(
+            final io.vertx.tp.ipc.eon.IpcEnvelop.Builder builderForValue) {
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = builderForValue.build();
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.setMessage(builderForValue.build());
+            }
+
+            return this;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        public Builder mergeEnvelop(final io.vertx.tp.ipc.eon.IpcEnvelop value) {
+            if (this.envelopBuilder_ == null) {
+                if (this.envelop_ != null) {
+                    this.envelop_ =
+                        io.vertx.tp.ipc.eon.IpcEnvelop.newBuilder(this.envelop_).mergeFrom(value).buildPartial();
+                } else {
+                    this.envelop_ = value;
+                }
+                this.onChanged();
+            } else {
+                this.envelopBuilder_.mergeFrom(value);
+            }
+
+            return this;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        public Builder clearEnvelop() {
+            if (this.envelopBuilder_ == null) {
+                this.envelop_ = null;
+                this.onChanged();
+            } else {
+                this.envelop_ = null;
+                this.envelopBuilder_ = null;
+            }
+
+            return this;
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        public io.vertx.tp.ipc.eon.IpcEnvelop.Builder getEnvelopBuilder() {
+
+            this.onChanged();
+            return this.getEnvelopFieldBuilder().getBuilder();
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        @Override
+        public io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder() {
+            if (this.envelopBuilder_ != null) {
+                return this.envelopBuilder_.getMessageOrBuilder();
+            } else {
+                return this.envelop_ == null ?
+                    io.vertx.tp.ipc.eon.IpcEnvelop.getDefaultInstance() : this.envelop_;
+            }
+        }
+
+        /**
+         * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>
+        getEnvelopFieldBuilder() {
+            if (this.envelopBuilder_ == null) {
+                this.envelopBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                    io.vertx.tp.ipc.eon.IpcEnvelop, io.vertx.tp.ipc.eon.IpcEnvelop.Builder, io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder>(
+                    this.getEnvelop(),
+                    this.getParentForChildren(),
+                    this.isClean());
+                this.envelop_ = null;
+            }
+            return this.envelopBuilder_;
+        }
+
+        @Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+        @Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.StreamServerResponse)
+    }
 
 }
 

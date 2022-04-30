@@ -4,7 +4,6 @@ import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
@@ -40,7 +39,7 @@ public class RespectLink extends AbstractRespect {
          */
         final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
         condition.put("key,!i", keys);
-        return Ke.channelAsync(Linkage.class, Ux::futureA, (link) ->
+        return Ux.channelAsync(Linkage.class, Ux::futureA, (link) ->
             // Linkage Removing / Create
             link.unlink(condition).compose(deleted -> link.link(dataArray, false))
         );
@@ -82,6 +81,6 @@ public class RespectLink extends AbstractRespect {
         final WTicket ticket = record.ticket();
         final JsonObject condition = this.queryTpl();
         condition.put(KName.SOURCE_KEY, ticket.getKey());
-        return Ke.channelAsync(Linkage.class, Ux::futureA, link -> link.fetch(condition));
+        return Ux.channelAsync(Linkage.class, Ux::futureA, link -> link.fetch(condition));
     }
 }

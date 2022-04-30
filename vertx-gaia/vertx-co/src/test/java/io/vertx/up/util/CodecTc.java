@@ -84,16 +84,18 @@ public class CodecTc extends ZeroBase {
 
     private static String byteArrayToHexString(final byte[] b) {
         final StringBuffer resultSb = new StringBuffer();
-        for (int i = 0; i < b.length; i++)
+        for (int i = 0; i < b.length; i++) {
             resultSb.append(byteToHexString(b[i]));
+        }
 
         return resultSb.toString();
     }
 
     private static String byteToHexString(final byte b) {
         int n = b;
-        if (n < 0)
+        if (n < 0) {
             n += 256;
+        }
         final int d1 = n / 16;
         final int d2 = n % 16;
         return hexDigits[d1] + hexDigits[d2];
@@ -104,10 +106,11 @@ public class CodecTc extends ZeroBase {
         try {
             resultString = new String(origin);
             final MessageDigest md = MessageDigest.getInstance("MD5");
-            if (charsetname == null || "".equals(charsetname))
+            if (charsetname == null || "".equals(charsetname)) {
                 resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
-            else
+            } else {
                 resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
+            }
         } catch (final Exception exception) {
         }
         return resultString.toUpperCase();
@@ -242,7 +245,9 @@ public class CodecTc extends ZeroBase {
                 break;
             }
         }
-        if (flag) throw new Exception("");
+        if (flag) {
+            throw new Exception("");
+        }
 
         final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         final StringBuilder sb = new StringBuilder();
@@ -306,7 +311,7 @@ public class CodecTc extends ZeroBase {
             //decode
             while (i < input.length()) {
 
-                if (input.charAt(i) == '%' ) {
+                if (input.charAt(i) == '%') {
                     i++;
                     Newtemp = Newtemp + input.charAt(i);
                     i++;
@@ -344,42 +349,46 @@ public class CodecTc extends ZeroBase {
                     }
                 }
                 if (bool) {
-                    if (_StrKey[indexf] == "20")
+                    if (_StrKey[indexf] == "20") {
                         output = output + "+";
-                    else
+                    } else {
                         output = output + "%" + _StrKey[indexf];
+                    }
                     bool = false;
                 } else if (isContainChinese(String.valueOf(input.charAt(i)))) {
                     output = output + convertStringToUTF8(String.valueOf(input.charAt(i)));
-                } else if (input.charAt(i) == '¥' || input.charAt(i) == '…' || input.charAt(i) == '～' || input.charAt(i) == '【' ) {
-                    if (input.charAt(i) == '¥' )
+                } else if (input.charAt(i) == '¥' || input.charAt(i) == '…' || input.charAt(i) == '～' || input.charAt(i) == '【') {
+                    if (input.charAt(i) == '¥') {
                         output = output + "%C2%A5";
-                    else if (input.charAt(i) == '～' )
+                    } else if (input.charAt(i) == '～') {
                         output = output + "%EF%BD%9E";
-                    else if (input.charAt(i) == '【' )
+                    } else if (input.charAt(i) == '【') {
                         output = output + "%E3%80%90";
-                    else
+                    } else {
                         output = output + "%E2%80%A6";
-                } else if (input.charAt(i) == '】' || input.charAt(i) == '「' || input.charAt(i) == '」' || input.charAt(i) == '《' ) {
-                    if (input.charAt(i) == '】' )
+                    }
+                } else if (input.charAt(i) == '】' || input.charAt(i) == '「' || input.charAt(i) == '」' || input.charAt(i) == '《') {
+                    if (input.charAt(i) == '】') {
                         output = output + "%E3%80%91";
-                    else if (input.charAt(i) == '「' )
+                    } else if (input.charAt(i) == '「') {
                         output = output + "%E3%80%8C";
-                    else if (input.charAt(i) == '」' )
+                    } else if (input.charAt(i) == '」') {
                         output = output + "%E3%80%8D";
-                    else
+                    } else {
                         output = output + "%E3%80%8A";
-                } else if (input.charAt(i) == '》' || input.charAt(i) == '，' || input.charAt(i) == '。' || input.charAt(i) == '？' || input.charAt(i) == '、' ) {
-                    if (input.charAt(i) == '》' )
+                    }
+                } else if (input.charAt(i) == '》' || input.charAt(i) == '，' || input.charAt(i) == '。' || input.charAt(i) == '？' || input.charAt(i) == '、') {
+                    if (input.charAt(i) == '》') {
                         output = output + "%E3%80%8B";
-                    else if (input.charAt(i) == '，' )
+                    } else if (input.charAt(i) == '，') {
                         output = output + "%EF%BC%8C";
-                    else if (input.charAt(i) == '。' )
+                    } else if (input.charAt(i) == '。') {
                         output = output + "%E3%80%82";
-                    else if (input.charAt(i) == '？' )
+                    } else if (input.charAt(i) == '？') {
                         output = output + "%EF%BC%9F";
-                    else
+                    } else {
                         output = output + "%E3%80%81";
+                    }
                 } else {
                     output = output + input.charAt(i);
                 }

@@ -5,9 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.plugin.booting.KBoot;
+import io.vertx.tp.plugin.database.DS;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
@@ -203,7 +202,7 @@ class IxDao {
          */
         final DSMode mode = module.getMode();
         if (DSMode.DYNAMIC == mode) {
-            dao = Ke.channelSync(DS.class,
+            dao = Ux.channelSync(DS.class,
                 /*
                  * `provider` configured
                  */

@@ -1,7 +1,6 @@
-package io.vertx.tp.optic;
+package io.vertx.up.experiment.channel;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.log.Annal;
 
 import java.io.Serializable;
@@ -48,7 +47,7 @@ public class Income implements Serializable {
             final String field = this.names.get(idx);
             if (!this.queue.isEmpty()) {
                 final Object value = this.queue.get(idx);
-                Ke.debugKe(LOGGER, "[ Income ] field = {0}, value = {1}", field, value);
+                LOGGER.debug("[ Income ] field = {0}, value = {1}", field, value);
                 arguments.put(field, value);
             }
         }

@@ -4,18 +4,13 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.TAssetIn;
-import cn.vertxup.workflow.domain.tables.TAssetKo;
-import cn.vertxup.workflow.domain.tables.TAssetOut;
-import cn.vertxup.workflow.domain.tables.WFlow;
-import cn.vertxup.workflow.domain.tables.WTicket;
-import cn.vertxup.workflow.domain.tables.WTodo;
+import cn.vertxup.workflow.domain.tables.*;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
     /**
