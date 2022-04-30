@@ -5,6 +5,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.experiment.mixture.HOne;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -40,15 +41,17 @@ public class IxPin {
 
     public static UxJooq jooq(final IxMod in) {
         final Envelop envelop = in.envelop();
-        return IxDao.get(in.module(), envelop.headers());
+        return jooq(in.module(), envelop);
     }
 
     public static UxJooq jooq(final KModule module, final Envelop envelop) {
-        return IxDao.get(module, envelop.headers());
+        final HOne<UxJooq> jq = HOne.jooq();
+        return jq.combine(module, envelop.headers());
     }
 
     public static UxJoin join(final IxMod in, final KModule connect) {
-        return IxDao.get(in.module(), connect);
+        final HOne<UxJoin> jq = HOne.join();
+        return jq.combine(in.module(), connect);
     }
 
     public static Set<String> getUris() {

@@ -14,8 +14,10 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class HOneJooq implements HOne<UxJooq> {
+
     @Override
     public UxJooq combine(final KModule module, final KModule connect, final MultiMap headers) {
+        Objects.requireNonNull(module);
         Objects.requireNonNull(headers);
         /*
          * This is single One UxJooq Extracting ( It does not support join )

@@ -2,11 +2,24 @@ package io.vertx.up.experiment.mixture;
 
 import io.vertx.core.MultiMap;
 import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.jooq.UxJoin;
+import io.vertx.up.uca.jooq.UxJooq;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public interface HOne<T> {
+    Cc<String, HOne> CC_JOOQ = Cc.openThread();
+
+    static HOne<UxJooq> jooq() {
+        return HOneJooq.CC_JOOQ.pick(HOneJooq::new, HOneJooq.class.getName());
+    }
+
+    static HOne<UxJoin> join() {
+        return HOneJooq.CC_JOOQ.pick(HOneJoin::new, HOneJoin.class.getName());
+    }
 
     /*
      * This method is for different combining operation between two
