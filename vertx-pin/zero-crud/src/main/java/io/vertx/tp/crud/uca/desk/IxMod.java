@@ -55,9 +55,9 @@ public class IxMod {
 
     public String cacheKey() {
         if (Objects.isNull(this.connect)) {
-            return this.module.getIdentifier();
+            return this.module.identifier();
         } else {
-            return this.module.getIdentifier() + ":" + this.connect.getIdentifier();
+            return this.module.identifier() + ":" + this.connect.identifier();
         }
     }
 
@@ -92,9 +92,9 @@ public class IxMod {
 
     public String keyPool() {
         final StringBuilder key = new StringBuilder();
-        key.append(this.module.getIdentifier());
+        key.append(this.module.identifier());
         if (this.canJoin()) {
-            key.append(this.connect.getIdentifier());
+            key.append(this.connect.identifier());
         }
         return key.toString();
     }
@@ -308,9 +308,9 @@ public class IxMod {
             if (Objects.isNull(join)) {
                 return null;
             }
-            final KPoint point = join.point(this.connect.getIdentifier());
+            final KPoint point = join.point(this.connect.identifier());
             Ix.Log.rest(this.getClass(), "Point = {0}, From = {1}, To = {2}",
-                point, this.module.getIdentifier(), this.connect.getIdentifier());
+                point, this.module.identifier(), this.connect.identifier());
             return point;
         } else {
             return null;

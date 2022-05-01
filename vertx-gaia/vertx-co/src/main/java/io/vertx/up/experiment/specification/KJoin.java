@@ -61,18 +61,6 @@ public class KJoin implements Serializable {
         this.target = target;
     }
 
-    public ConcurrentMap<String, KPoint> getTarget(final Set<String> linkage) {
-        final ConcurrentMap<String, KPoint> result = new ConcurrentHashMap<>();
-        this.target.keySet().stream().filter(linkage::contains)
-            .forEach(field -> {
-                final KPoint point = this.target.get(field);
-                if (Objects.nonNull(point)) {
-                    result.put(field, point);
-                }
-            });
-        return result;
-    }
-
     private String identifier(final JsonObject data) {
         /*
          * Joined configuration read

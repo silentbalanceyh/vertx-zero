@@ -116,9 +116,9 @@ class IxData {
             final KModule module = in.module();
             final KModule connect = in.connect();
             if (Objects.isNull(connect)) {
-                parameters.put(KName.MODULE, module.getIdentifier());
+                parameters.put(KName.MODULE, module.identifier());
             } else {
-                parameters.put(KName.MODULE, connect.getIdentifier());
+                parameters.put(KName.MODULE, connect.identifier());
             }
         }
         return parameters;

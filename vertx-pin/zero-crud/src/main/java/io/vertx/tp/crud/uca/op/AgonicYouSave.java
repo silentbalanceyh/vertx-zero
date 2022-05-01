@@ -79,7 +79,7 @@ public class AgonicYouSave extends AgonicUnique {
     @Override
     public Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
         final JsonObject condition = this.module.dataCond(input);
-        Ix.Log.filters(this.getClass(), "( Batch ) By Joined: identifier: {0}, condition: {1}", in.module().getIdentifier(), condition);
+        Ix.Log.filters(this.getClass(), "( Batch ) By Joined: identifier: {0}, condition: {1}", in.module().identifier(), condition);
         final KModule standBy = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchJAsync(condition).compose(queried -> {

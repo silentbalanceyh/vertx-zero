@@ -1,5 +1,6 @@
 package io.vertx.up.experiment.specification;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
@@ -22,6 +23,8 @@ public class KModule implements Serializable {
     private String modeKey;     // mode = EXTENSION
     private KField field;
     private KColumn column;
+    @JsonIgnore
+    private String identifier;
 
     private KJoin connect;     // connect for 1 join 1
 
@@ -53,12 +56,22 @@ public class KModule implements Serializable {
         this.name = name;
     }
 
-    public String getIdentifier() {
+    public String identifier() {
         if (Objects.nonNull(this.column)) {
+            /* Crud Identifier Extract in Old Version */
             return this.column.getIdentifier();
         } else {
-            return null;
+            /*
+             * HAtom new version to put code logical into configuration file
+             * `identifier` attach on configuration
+             */
+            return this.identifier;
         }
+    }
+
+    public KModule identifier(final String identifier) {
+        this.identifier = identifier;
+        return this;
     }
 
     public String getPojo() {

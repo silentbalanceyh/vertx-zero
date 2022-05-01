@@ -38,6 +38,7 @@ public class KClass implements Serializable {
      * 3) The chLinkage belong to current KClass Object
      */
     private static final Cc<String, KModule> CC_MODULE = Cc.open();
+    private static final Cc<String, JsonObject> CC_CLASS = Cc.open();
 
     /*
      * Basic information of current object
@@ -62,7 +63,8 @@ public class KClass implements Serializable {
         /* Module Building based on Cache */
         final KModule module = CC_MODULE.pick(() -> {
             final JsonObject moduleJ = Ut.valueJObject(configuration, KName.MODULE);
-            return Ut.deserialize(moduleJ, KModule.class);
+            final KModule created = Ut.deserialize(moduleJ, KModule.class);
+            return created.identifier(this.identifier);
         }, unique);
         this.module = module;
 
@@ -70,13 +72,15 @@ public class KClass implements Serializable {
             /* Linkage for current KClass */
             final Set<String> linkageSet = Ut.toSet(Ut.valueJArray(configuration, KName.LINKAGE));
             this.chLinkage.addAll(forLinkage(linkageSet, module));
-            /* attribute for current KClass */
-            final JsonObject attribute = Ut.valueJObject(configuration, KName.ATTRIBUTE);
-            this.chAttribute.mergeIn(attribute, true);
         }
 
         // Analyzer for attribute ( Type analyzing, Extract type from Dao )
         final JsonObject hybridInput = Ut.valueJObject(configuration, "hybrid");
+        {
+            /* attribute for current KClass */
+            final JsonObject attribute = Ut.valueJObject(hybridInput, KName.ATTRIBUTE);
+            this.chAttribute.mergeIn(attribute, true);
+        }
         final JsonObject hybridJ;
         if (recursion) {
             // Call internal Method
@@ -91,7 +95,8 @@ public class KClass implements Serializable {
 
     public static KClass create(final String namespace, final String identifier,
                                 final boolean recursion) {
-        final JsonObject classJ = KClassInternal.loadData(namespace, identifier);
+        final String unique = namespace + Strings.DASH + identifier;
+        final JsonObject classJ = CC_CLASS.pick(() -> KClassInternal.loadData(namespace, identifier), unique);
         return create(namespace, classJ, recursion);
     }
 
@@ -121,7 +126,7 @@ public class KClass implements Serializable {
         // 1. Add all configured chLinkage here
         final Set<String> linkageSet = new HashSet<>(linkage);
         // 2. Remove current identifier;
-        linkageSet.remove(module.getIdentifier());
+        linkageSet.remove(module.identifier());
 
         linkageSet.forEach(identifier -> {
             final KPoint point = module.getConnect(identifier);
@@ -153,12 +158,37 @@ public class KClass implements Serializable {
         private static final Annal LOGGER = Annal.get(KClassInternal.class);
 
         static JsonObject loadHybrid(final JsonObject hybridJ, final KClass clazz) {
-            // 1. Extract type Map
-            final ConcurrentMap<String, Class<?>> typeMap = loadType(clazz);
-            // 2. Attribute Processing
+            // 1. Attribute Processing
             final JsonObject attribute = loadAttribute(clazz);
-
-            return null;
+            // 2. Extract type Map
+            final ConcurrentMap<String, Class<?>> typeMap = loadType(clazz);
+            // 3. Normalized
+            final JsonObject replacedJ = new JsonObject();
+            attribute.fieldNames().forEach(field -> {
+                final Object value = attribute.getValue(field);
+                final Class<?> type = typeMap.getOrDefault(field, String.class);
+                if (value instanceof String) {
+                    // name = alias
+                    final JsonObject replaced = new JsonObject();
+                    replaced.put(KName.ALIAS, value);
+                    replaced.put(KName.TYPE, type.getName());
+                    replacedJ.put(field, replaced);
+                } else {
+                    // name = {}
+                    final JsonObject original = (JsonObject) value;
+                    final JsonObject replaced = original.copy();
+                    replaced.put(KName.ALIAS, original.getValue(KName.ALIAS));
+                    final String originalType = original.getString(KName.TYPE);
+                    if (!type.getName().equals(originalType)) {
+                        LOGGER.warn("[ KClass ] Type conflict, old = {0}, new = {1}",
+                            originalType, type.getName());
+                    }
+                    replaced.put(KName.TYPE, type.getName());
+                    replacedJ.put(field, replaced);
+                }
+            });
+            hybridJ.put(KName.ATTRIBUTE, replacedJ);
+            return hybridJ;
         }
 
         private static JsonObject loadAttribute(final KClass clazz) {

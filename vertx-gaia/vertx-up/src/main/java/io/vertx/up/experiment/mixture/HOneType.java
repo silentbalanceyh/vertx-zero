@@ -26,9 +26,10 @@ class HOneType implements HOne<ConcurrentMap<String, Class<?>>> {
 
         // 2. Extract Type of connect
         if (Objects.nonNull(connect)) {
+            // Connect Bind
             ConcurrentMap<String, Class<?>> connectMap = this.loadType(connect);
             // 3. Point Target Processing for synonym
-            final KPoint target = module.getConnect(connect.getIdentifier());
+            final KPoint target = module.getConnect(connect.identifier());
             if (Objects.nonNull(target)) {
                 connectMap = this.synonym(connectMap, target);
             }

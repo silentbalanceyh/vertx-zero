@@ -41,7 +41,7 @@ class HOneJoin implements HOne<UxJoin> {
         }
 
         // 4. Connect
-        final KPoint target = join.point(connect.getIdentifier());
+        final KPoint target = join.point(connect.identifier());
         Objects.requireNonNull(target);
         final Class<?> daoCls = connect.getDaoCls();
         dao.join(daoCls, target.getKeyJoin());

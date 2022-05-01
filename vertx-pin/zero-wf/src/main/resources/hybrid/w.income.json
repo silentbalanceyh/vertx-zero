@@ -1,6 +1,6 @@
 {
     "identifier": "w.income",
-    "module": "plugin/wf/oob/module/crud/w.income.json",
+    "module": "plugin/wf/oob/module/hybrid/w.income.json",
     "linkage": [
         "w.todo",
         "w.ticket"
@@ -11,6 +11,27 @@
             "name": "入库单名称",
             "code": "入库单编号",
             "commentIn": "入库备注"
+        },
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
         }
     }
 }
