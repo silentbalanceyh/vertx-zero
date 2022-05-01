@@ -1,4 +1,4 @@
-package io.vertx.tp.modular.phantom;
+package io.vertx.tp.optic.mixture;
 
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.Model;
