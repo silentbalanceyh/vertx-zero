@@ -1,12 +1,15 @@
 package io.vertx.up.experiment.mixture;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.experiment.mixture.fn.HOneHybrid;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiFunction;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -41,5 +44,11 @@ public interface HOne<T> {
 
     default T combine(final KModule module, final KModule connect) {
         return this.combine(module, connect, MultiMap.caseInsensitiveMultiMap());
+    }
+
+    interface Fn {
+        static HOne<BiFunction<JsonObject, JsonObject, JsonObject>> hybrid() {
+            return CC_JOOQ.pick(HOneHybrid::new, HOneHybrid.class.getName());
+        }
     }
 }

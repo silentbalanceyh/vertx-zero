@@ -21,29 +21,23 @@ class HOneType implements HOne<ConcurrentMap<String, Class<?>>> {
     @Override
     public ConcurrentMap<String, Class<?>> combine(final KModule module, final KModule connect, final MultiMap headers) {
         // 1. Extract Type of module
-        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
-        final ConcurrentMap<String, Class<?>> moduleMap = this.typedMap(module.getDaoCls());
+        final ConcurrentMap<String, Class<?>> moduleMap = this.loadType(module);
+        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>(moduleMap);
 
-
-        // 2. Extract Type of module
-        final KJoin join = module.getConnect();
-        if (Objects.isNull(join)) {
-            typeMap.putAll(this.typedMap(moduleMap, null));
-        } else {
-            // KPoint Existing
-            typeMap.putAll(this.typedMap(moduleMap, join.getSource()));
-        }
-
-
-        // 3. Extract Type of connect
+        // 2. Extract Type of connect
         if (Objects.nonNull(connect)) {
-            final ConcurrentMap<String, Class<?>> connectMap = this.typedMap(connect.getDaoCls());
-            typeMap.putAll(this.typedMap(connectMap, null));
+            ConcurrentMap<String, Class<?>> connectMap = this.loadType(connect);
+            // 3. Point Target Processing for synonym
+            final KPoint target = module.getConnect(connect.getIdentifier());
+            if (Objects.nonNull(target)) {
+                connectMap = this.synonym(connectMap, target);
+            }
+            typeMap.putAll(connectMap);
         }
         return typeMap;
     }
 
-    private ConcurrentMap<String, Class<?>> typedMap(
+    private ConcurrentMap<String, Class<?>> synonym(
         final ConcurrentMap<String, Class<?>> typedMap, final KPoint point) {
         final ConcurrentMap<String, Class<?>> typedResult = new ConcurrentHashMap<>();
         if (Objects.isNull(point) || Ut.isNil(point.getSynonym())) {
@@ -65,7 +59,29 @@ class HOneType implements HOne<ConcurrentMap<String, Class<?>>> {
         return typedResult;
     }
 
-    private ConcurrentMap<String, Class<?>> typedMap(final Class<?> daoCls) {
+    /*
+     * Source Processed
+     * 1. DaoCls -> type map
+     * 2. `connect` = null
+     *    -- Put all current module type map into result.
+     *    `connect` not null
+     *    -- Put all source synonym information ( Renamed ) into type map
+     * 3. Combine and get final result
+     */
+    private ConcurrentMap<String, Class<?>> loadType(final KModule module) {
+        final ConcurrentMap<String, Class<?>> typeMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, Class<?>> moduleMap = this.loadType(module.getDaoCls());
+        final KJoin join = module.getConnect();
+        if (Objects.isNull(join)) {
+            typeMap.putAll(this.synonym(moduleMap, null));
+        } else {
+            // KPoint Existing
+            typeMap.putAll(this.synonym(moduleMap, join.getSource()));
+        }
+        return typeMap;
+    }
+
+    private ConcurrentMap<String, Class<?>> loadType(final Class<?> daoCls) {
         final UxJooq jq = Ux.Jooq.on(daoCls);
         final JqAnalyzer analyzer = jq.analyzer();
         return analyzer.types();
