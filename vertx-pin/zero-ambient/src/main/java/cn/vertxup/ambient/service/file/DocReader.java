@@ -149,7 +149,7 @@ public class DocReader implements DocRStub {
          * 1 - Upload
          * 2 - Replaced
          *  */
-        return Ux.channel(ExUser.class, JsonArray::new, user -> user.auditor(keyword)).compose(keys -> {
+        return Ux.channel(ExUser.class, JsonArray::new, user -> user.search(keyword)).compose(keys -> {
             if (Ut.notNil(keys)) {
                 // User Matched
                 final JsonObject criteria = Ux.whereOr();

@@ -466,6 +466,27 @@ public interface KName {
             String TO_DEPT = "toDept";
             String TO_ROLE = "toRole";
             String TO_GROUP = "toGroup";
+
+            String ASSIGNED_BY = "assignedBy";
+            String ASSIGNED_AT = "assignedAt";
+            String ACCEPTED_BY = "acceptedBy";
+            String ACCEPTED_AT = "acceptedAt";
+
+            Set<String> USER_FIELDS = new HashSet<>() {
+                {
+                    this.add(TO_USER);       // Approved / Processed By
+                    this.add(CREATED_BY);    // Created By
+                    this.add(UPDATED_BY);    // Updated By
+                    this.add(OWNER);         // Owner
+                    this.add(SUPERVISOR);    // Supervisor
+                    this.add(CANCEL_BY);     // Cancel By
+                    this.add(CLOSE_BY);      // Close By
+                    this.add(OPEN_BY);       // Open By
+                    this.add(FINISHED_BY);   // Finished By
+                    this.add(ASSIGNED_BY);   // Assigned By
+                    this.add(ACCEPTED_BY);   // Accdpted By
+                }
+            };
         }
 
         // Bpmn

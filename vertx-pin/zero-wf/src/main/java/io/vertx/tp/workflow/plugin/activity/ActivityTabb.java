@@ -2,6 +2,7 @@ package io.vertx.tp.workflow.plugin.activity;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Valve;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
@@ -12,6 +13,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Plugin for
@@ -32,16 +35,37 @@ public class ActivityTabb implements After {
         final JsonObject workflow = this.dataFlow(normalized);
         normalized.put(KName.Flow.WORKFLOW, workflow);
         normalized.put(Qr.KEY_CRITERIA, criteria);
-        /*
-         * {
-         *     "__data": {},
-         *     "__flag": xxx,
-         *     "workflow": {},
-         *     "criteria": {}
-         * }
-         */
-        return Ux.channel(Valve.class, () -> data, valve -> valve.execAsync(normalized, config))
-            .compose(nil -> Ux.future(data));
+        return this.dataUser(normalized)
+            /*
+             * {
+             *     "__data": {},
+             *     "__flag": xxx,
+             *     "workflow": {},
+             *     "criteria": {}
+             * }
+             */
+            .compose(processed -> Ux.channel(Valve.class,
+                /*
+                 * Returned original JsonObject
+                 */
+                () -> data, valve -> valve.execAsync(processed, config)
+            )).compose(nil -> Ux.future(data));
+    }
+
+    private Future<JsonObject> dataUser(final JsonObject normalized) {
+        final ConcurrentMap<String, String> paramMap = new ConcurrentHashMap<>();
+        KName.Flow.Auditor.USER_FIELDS.forEach(field -> {
+            final String value = normalized.getString(field);
+            if (Ut.notNil(value)) {
+                paramMap.put(field, value);
+            }
+        });
+        return Ux.channel(ExUser.class, () -> normalized, user -> user.auditor(paramMap).compose(auditorMap -> {
+            final JsonObject auditorJ = new JsonObject();
+            auditorMap.forEach(auditorJ::put);
+            normalized.put(KName.USER, auditorJ);
+            return Ux.future(normalized);
+        }));
     }
 
     private JsonObject dataCond(final JsonObject data) {

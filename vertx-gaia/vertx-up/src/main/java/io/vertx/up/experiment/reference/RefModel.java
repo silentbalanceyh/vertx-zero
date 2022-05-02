@@ -1,10 +1,10 @@
-package io.vertx.tp.ke.tunnel;
+package io.vertx.up.experiment.reference;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._501JooqReferenceException;
 import io.vertx.up.eon.KName;
+import io.vertx.up.exception.web._501JooqReferenceException;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -18,17 +18,17 @@ import java.util.function.Supplier;
  * Spec Linker for `modelKey` and `modelId`
  * Usage
  */
-class NexusLinker implements Nexus {
+class RefModel implements Ref {
 
     private final transient Class<?> entityT;
     private transient UxJooq jooq;
 
-    public NexusLinker(final Class<?> entityT) {
+    public RefModel(final Class<?> entityT) {
         this.entityT = entityT;
     }
 
     @Override
-    public Nexus on(final UxJooq jooq) {
+    public Ref on(final UxJooq jooq) {
         this.jooq = jooq;
         return this;
     }
@@ -37,7 +37,7 @@ class NexusLinker implements Nexus {
      *
      */
     @Override
-    public Future<JsonObject> fetchNexus(final JsonObject filters) {
+    public Future<JsonObject> fetchJ(final JsonObject filters) {
         return this.execute(filters, (condition) -> {
             condition.put("", Boolean.TRUE);
             condition.put(KName.SIGMA, filters.getString(KName.SIGMA));
@@ -47,7 +47,7 @@ class NexusLinker implements Nexus {
     }
 
     @Override
-    public Future<JsonArray> fetchNexus(final Set<String> keys) {
+    public Future<JsonArray> fetchA(final Set<String> keys) {
         return this.execute(() -> {
             final JsonObject condition = new JsonObject();
             condition.put(KName.MODEL_KEY + ",i", Ut.toJArray(keys));
@@ -57,7 +57,7 @@ class NexusLinker implements Nexus {
     }
 
     @Override
-    public Future<JsonObject> updateNexus(final String key, final JsonObject params) {
+    public Future<JsonObject> updateJ(final String key, final JsonObject params) {
         return this.execute(params, (updatedData) -> this.jooq.fetchByIdAsync(key)
             .compose(Ux::futureJ)
             .compose(original -> {

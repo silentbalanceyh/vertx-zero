@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.ke.fn.Ax;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
@@ -15,8 +14,11 @@ import io.vertx.up.commune.ActOut;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -99,7 +101,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
 
     @Override
     public Future<JsonArray> fetchByData(final JsonArray data) {
-        return this.atom(data).compose(Ax.setTA(group -> this.completer(group.atom()).find(group.data())));
+        return this.atom(data).compose(this.setTA(group -> this.completer(group.atom()).find(group.data())));
     }
 
     /**
@@ -129,7 +131,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
     // ------------------ 子类共享函数 ----------------
 
     protected Future<JsonArray> inImport(final JsonArray data, final String uniqueKey) {
-        return this.atom(data).compose(Ax.setTA(group -> {
+        return this.atom(data).compose(this.setTA(group -> {
             final JsonArray groupData = group.data();
             final Set<String> values = Ut.valueSetString(groupData, uniqueKey);
             /*
@@ -139,5 +141,48 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
             condition.put(uniqueKey + ",i", Ut.toJArray(values));
             return this.dao(group.atom()).fetchAsync(condition).compose(Ux::futureA);
         }));
+    }
+
+    /*
+     *
+     * Async Utility X for Function Only
+     *
+     * This tool is critical for function management and scheduled in different code flow here.
+     * It's a little duplicated to `Ux.then` methods, but no impact here for future usage, in future versions
+     * I'll remove all the function part from `Ux`, instead, the Ax is more usage.
+     *
+     * Here the name are as following:
+     *
+     * A: JsonArray
+     * J: JsonObject
+     * T: Generic T
+     * S: Set
+     * L: List
+     *
+     * All the returned value must be Function and the returned value should be Future type.
+     *
+     * i -> Future(o)
+     *
+     * i - input
+     * o - output
+     *
+     * The name specification is as following:
+     *
+     * o - One
+     * m - Many ( A, S, L )
+     *
+     * Recommend you to use non-Ax API ( Instead you should use Ux/Ut/Fn )
+     *
+     * Ax tool is used in .compose only to remove `->`.
+     *
+     *
+     * Set<T> -> T -> Future<JsonArray>
+     */
+    private <T> Function<Set<T>, Future<JsonArray>> setTA(final Function<T, Future<JsonArray>> consumer) {
+        return set -> {
+            final List<Future<JsonArray>> futures = new ArrayList<>();
+            set.forEach(item -> futures.add(consumer.apply(item)));
+            return Ux.thenCombineArray(futures);
+        };
     }
 }

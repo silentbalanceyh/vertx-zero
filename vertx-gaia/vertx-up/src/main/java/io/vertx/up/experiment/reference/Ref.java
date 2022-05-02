@@ -1,9 +1,9 @@
-package io.vertx.tp.ke.tunnel;
+package io.vertx.up.experiment.reference;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._501JooqReferenceException;
+import io.vertx.up.exception.web._501JooqReferenceException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 
@@ -17,17 +17,17 @@ import java.util.Set;
  * 2) A Table defined `modelKey` and `modelId`, the B table
  * 3) When relation has been changed from B, the `modelId` and `modelKey` must be updated
  */
-public interface Nexus {
+public interface Ref {
 
-    static Nexus create(final Class<?> clazz) {
-        Fn.out(Objects.isNull(clazz), _501JooqReferenceException.class, NexusLinker.class);
-        return new NexusLinker(clazz);
+    static Ref modeling(final Class<?> clazz) {
+        Fn.out(Objects.isNull(clazz), _501JooqReferenceException.class, RefModel.class);
+        return new RefModel(clazz);
     }
 
     /*
      * UxJooq processing for different actions
      */
-    Nexus on(UxJooq jooq);
+    Ref on(UxJooq jooq);
 
     /*
      * `identifier` means model id refer to unique identifier of each App
@@ -38,7 +38,7 @@ public interface Nexus {
      *     "sigma": "related nexus that bind to app sigma"
      * }
      */
-    Future<JsonObject> fetchNexus(JsonObject filters);
+    Future<JsonObject> fetchJ(JsonObject filters);
 
     /*
      * `key` is the entity primary key
@@ -51,11 +51,11 @@ public interface Nexus {
      *     "key": "record id"
      * }
      */
-    Future<JsonObject> updateNexus(String key, JsonObject params);
+    Future<JsonObject> updateJ(String key, JsonObject params);
 
     /*
      * 1) Get records by ke set
      * 2) You can ignore other condition
      */
-    Future<JsonArray> fetchNexus(Set<String> keys);
+    Future<JsonArray> fetchA(Set<String> keys);
 }
