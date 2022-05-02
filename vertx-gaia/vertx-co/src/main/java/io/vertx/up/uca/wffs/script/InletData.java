@@ -24,23 +24,23 @@ class InletData extends AbstractInlet {
          * }
          */
         final ChangeFlag flag = this.flag(data);
-        this.logger().info("[ Script ] Execution Operation: {0}", flag);
+        this.logger().info("[ Script ] ( Flag ) Execution Operation: {0}", flag);
         if (ChangeFlag.ADD == flag) {
             context.set("$zo", new HashMap<>());
-            this.logger().info("[ Script ] The variable `$zo` has been empty");
+            this.logger().info("[ Script ] ( Data O-N ) The variable `$zo` has been empty");
         } else {
             final JsonObject valueO = this.data(data, true);
             context.set("$zo", valueO.getMap());
-            this.logger().info("[ Script ] The variable `$zo` has been bind: {0}", valueO.encode());
+            this.logger().info("[ Script ] ( Data OLD ) The variable `$zo` has been bind: {0}", valueO.encode());
         }
 
         if (ChangeFlag.DELETE == flag) {
             context.set("$zn", new HashMap<>());
-            this.logger().info("[ Script ] The variable `$zn` has been empty");
+            this.logger().info("[ Script ] ( Data N-N ) The variable `$zn` has been empty");
         } else {
             final JsonObject valueN = this.data(data, false);
             context.set("$zn", valueN.getMap());
-            this.logger().info("[ Script ] The variable `$zn` has been bind: {0}", valueN.encode());
+            this.logger().info("[ Script ] ( Data NEW ) The variable `$zn` has been bind: {0}", valueN.encode());
         }
     }
 }

@@ -71,8 +71,8 @@ public class Formula implements Serializable {
      */
     public Future<JsonObject> run(final JsonObject params, final Supplier<Future<JsonObject>> executor) {
         // Playbook Satisfy Checking
-        return this.playbook.isSatisfy(params).compose(satisfy -> {
-            if (satisfy) {
+        return this.playbook.isOk(params).compose(ok -> {
+            if (ok) {
                 return executor.get().compose(this::run);
             } else {
                 return Future.succeededFuture(params);

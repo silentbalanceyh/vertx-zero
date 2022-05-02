@@ -47,7 +47,7 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class Playbook implements Serializable {
+public class Playbook implements Serializable {
     private static final Annal LOGGER = Annal.get(Playbook.class);
     private static final JexlEngine EXPR = new JexlBuilder().cache(4096).silent(false).create();
 
@@ -58,18 +58,37 @@ class Playbook implements Serializable {
         this.expression = expression;
     }
 
-    static Playbook open(final String expression) {
+    public static Playbook open(final String expression) {
         return new Playbook(expression);
     }
 
-    Playbook bind(final JsonObject tpl) {
+    public Playbook bind(final JsonObject tpl) {
         final JsonObject tplJ = Ut.valueJObject(tpl);
         this.tpl.mergeIn(tplJ, true);
         return this;
     }
 
-    Future<Boolean> isSatisfy(final JsonObject params) {
+    public Future<Boolean> isOk(final JsonObject params) {
         final JexlScript script = EXPR.createScript(this.expression);
+        final JexlContext context = this.buildContext(params);
+
+        /* Script Execute on expression */
+        final Boolean checked = (Boolean) script.execute(context);
+        LOGGER.info("[ Script ] ( Boolean ) Result = {2}, The expression = `{0}` has been parsed to `{1}`.",
+            this.expression, script.getParsedText(), checked);
+        return Future.succeededFuture(checked);
+    }
+
+    public Future<String> format(final JsonObject params) {
+        final JexlExpression expression = EXPR.createExpression(this.expression);
+        final JexlContext context = this.buildContext(params);
+        final String formatted = (String) expression.evaluate(context);
+        LOGGER.info("[ Script ] ( String ) Result = {2}, The expression = `{0}` has been parsed to `{1}`.",
+            this.expression, expression.getParsedText(), formatted);
+        return Future.succeededFuture(formatted);
+    }
+
+    private JexlContext buildContext(final JsonObject params) {
         final JexlContext context = new MapContext();
         /*
          * $zo = OLD Data
@@ -90,11 +109,6 @@ class Playbook implements Serializable {
          */
         final Inlet zUser = Inlet.user();
         zUser.compile(context, params, this.tpl);
-
-        /* Script Execute on expression */
-        final Boolean checked = (Boolean) script.execute(context);
-        LOGGER.info("[ Script ] The expression = `{0}` has been parsed to `{1}`, result {2}",
-            this.expression, script.getParsedText(), checked);
-        return Future.succeededFuture(checked);
+        return context;
     }
 }
