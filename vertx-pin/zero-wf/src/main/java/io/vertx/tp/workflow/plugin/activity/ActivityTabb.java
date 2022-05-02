@@ -52,8 +52,25 @@ public class ActivityTabb implements After {
             )).compose(nil -> Ux.future(data));
     }
 
+    /*
+     * All fields are as following:
+     * - toUser
+     * - createdBy
+     * - updatedBy
+     * - owner
+     * - supervisor
+     * - cancelBy
+     * - openBy
+     * - closeBy
+     * - finishedBy
+     * - assignedBy
+     * - acceptedBy
+     */
     private Future<JsonObject> dataUser(final JsonObject normalized) {
         final ConcurrentMap<String, String> paramMap = new ConcurrentHashMap<>();
+        /*
+         * Collect all the parameters
+         */
         KName.Flow.Auditor.USER_FIELDS.forEach(field -> {
             final String value = normalized.getString(field);
             if (Ut.notNil(value)) {
@@ -62,7 +79,16 @@ public class ActivityTabb implements After {
         });
         return Ux.channel(ExUser.class, () -> normalized, user -> user.auditor(paramMap).compose(auditorMap -> {
             final JsonObject auditorJ = new JsonObject();
-            auditorMap.forEach(auditorJ::put);
+            /*
+             * Fill the default value
+             */
+            KName.Flow.Auditor.USER_FIELDS.forEach(field -> {
+                if (auditorMap.containsKey(field)) {
+                    auditorJ.put(field, auditorMap.get(field));
+                } else {
+                    auditorJ.put(field, new JsonObject());
+                }
+            });
             normalized.put(KName.USER, auditorJ);
             return Ux.future(normalized);
         }));

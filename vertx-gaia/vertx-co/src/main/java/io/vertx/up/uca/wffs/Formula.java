@@ -1,4 +1,4 @@
-package io.vertx.up.commune.wffs;
+package io.vertx.up.uca.wffs;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -41,8 +41,13 @@ public class Formula implements Serializable {
     }
 
     public Formula bind(final String expression, final JsonObject tpl) {
-        this.playbook = Playbook.open(expression);
-        this.playbook.bind(tpl);
+        /*
+         * Each play book contains
+         * 1) expression
+         * 2) tpl for arguments
+         * 3) executing checking ( Ok for Run )
+         */
+        this.playbook = Playbook.open(expression).bind(tpl);
         return this;
     }
 
@@ -56,23 +61,33 @@ public class Formula implements Serializable {
         return this;
     }
 
+    /*
+     * This method is internal and public, you also can call this method
+     * standalone and run the code logical.
+     * 1) Checking the condition of expression.
+     * 2) If Ok
+     * - 2.1) Executing the wrapped executor that you put here.
+     * - 2.2) After executor you can call hooker based on your defined. ( If hooker set )
+     */
     public Future<JsonObject> run(final JsonObject params, final Supplier<Future<JsonObject>> executor) {
         // Playbook Satisfy Checking
         return this.playbook.isSatisfy(params).compose(satisfy -> {
             if (satisfy) {
-                return executor.get().compose(processed -> {
-                    if (Objects.isNull(this.hooker)) {
-                        // The Condition is valid and run executor
-                        return Future.succeededFuture(params);
-                    } else {
-                        // The Hooker will be executed
-                        return this.hooker.execAsync(processed);
-                    }
-                });
+                return executor.get().compose(this::run);
             } else {
                 return Future.succeededFuture(params);
             }
         });
+    }
+
+    private Future<JsonObject> run(final JsonObject params) {
+        if (Objects.isNull(this.hooker)) {
+            // The Condition is valid and run executor
+            return Future.succeededFuture(params);
+        } else {
+            // The Hooker will be executed
+            return this.hooker.execAsync(params);
+        }
     }
 
     public Formula name(final String name) {

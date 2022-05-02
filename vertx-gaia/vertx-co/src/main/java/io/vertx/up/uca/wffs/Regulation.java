@@ -1,4 +1,4 @@
-package io.vertx.up.commune.wffs;
+package io.vertx.up.uca.wffs;
 
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;

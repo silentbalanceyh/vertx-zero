@@ -8,8 +8,8 @@ import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.wffs.Formula;
-import io.vertx.up.commune.wffs.Regulation;
+import io.vertx.up.uca.wffs.Formula;
+import io.vertx.up.uca.wffs.Regulation;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

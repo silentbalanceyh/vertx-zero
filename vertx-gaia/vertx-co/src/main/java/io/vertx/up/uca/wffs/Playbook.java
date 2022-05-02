@@ -1,8 +1,11 @@
-package io.vertx.up.commune.wffs;
+package io.vertx.up.uca.wffs;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.log.Annal;
+import io.vertx.up.uca.wffs.script.Inlet;
 import io.vertx.up.util.Ut;
+import org.apache.commons.jexl3.*;
 
 import java.io.Serializable;
 
@@ -44,7 +47,9 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class Playbook implements Serializable {
+class Playbook implements Serializable {
+    private static final Annal LOGGER = Annal.get(Playbook.class);
+    private static final JexlEngine EXPR = new JexlBuilder().cache(4096).silent(false).create();
 
     private final String expression;
     private final transient JsonObject tpl = new JsonObject();
@@ -53,19 +58,43 @@ public class Playbook implements Serializable {
         this.expression = expression;
     }
 
-    public static Playbook open(final String expression) {
+    static Playbook open(final String expression) {
         return new Playbook(expression);
     }
 
-    public Playbook bind(final JsonObject tpl) {
+    Playbook bind(final JsonObject tpl) {
         final JsonObject tplJ = Ut.valueJObject(tpl);
         this.tpl.mergeIn(tplJ, true);
         return this;
     }
 
-    public Future<Boolean> isSatisfy(final JsonObject params) {
-        System.out.println(this.expression);
-        System.out.println(params);
-        return Future.succeededFuture(Boolean.TRUE);
+    Future<Boolean> isSatisfy(final JsonObject params) {
+        final JexlScript script = EXPR.createScript(this.expression);
+        final JexlContext context = new MapContext();
+        /*
+         * $zo = OLD Data
+         * $zn = NEW Data
+         */
+        final Inlet zData = Inlet.data();
+        zData.compile(context, params, this.tpl);
+
+        /*
+         * $zw = Workflow Data
+         */
+        final Inlet zFlow = Inlet.flow();
+        zFlow.compile(context, params, this.tpl);
+
+        /*
+         * $zu = User Map
+         * $lo = `updatedBy` field value ( Current User )
+         */
+        final Inlet zUser = Inlet.user();
+        zUser.compile(context, params, this.tpl);
+
+        /* Script Execute on expression */
+        final Boolean checked = (Boolean) script.execute(context);
+        LOGGER.info("[ Script ] The expression = `{0}` has been parsed to `{1}`, result {2}",
+            this.expression, script.getParsedText(), checked);
+        return Future.succeededFuture(checked);
     }
 }
