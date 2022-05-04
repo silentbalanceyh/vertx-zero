@@ -17,6 +17,7 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AtomAction implements Atom {
+
     @Override
     public Future<JsonObject> createAsync(final String identifier, final JsonObject data) {
         final Record record = Ao.toRecord(identifier, data);

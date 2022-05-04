@@ -1,8 +1,7 @@
-package io.vertx.up.extension.region;
+package io.vertx.up.extension;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.extension.PlugRegion;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

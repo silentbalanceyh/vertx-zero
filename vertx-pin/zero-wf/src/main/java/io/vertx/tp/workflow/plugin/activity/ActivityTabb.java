@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Valve;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -29,13 +30,18 @@ public class ActivityTabb implements After {
 
     @Override
     public Future<JsonObject> afterAsync(final JsonObject data, final JsonObject config) {
-        // Criteria
         final JsonObject normalized = data.copy();
-        final JsonObject criteria = this.dataCond(normalized);
-        final JsonObject workflow = this.dataFlow(normalized);
-        normalized.put(KName.Flow.WORKFLOW, workflow);
-        normalized.put(Qr.KEY_CRITERIA, criteria);
-        return this.dataUser(normalized)
+        return this.dataCond(normalized)
+            .compose(criteria -> {
+                // Criteria
+                normalized.put(Qr.KEY_CRITERIA, criteria);
+                return Ux.future(normalized);
+            })
+            .compose(this::dataFlow).compose(workflow -> {
+                // Workflow
+                normalized.put(KName.Flow.WORKFLOW, workflow);
+                return Ux.future(normalized);
+            })
             /*
              * {
              *     "__data": {},
@@ -44,6 +50,7 @@ public class ActivityTabb implements After {
              *     "criteria": {}
              * }
              */
+            .compose(this::dataUser)
             .compose(processed -> Ux.channel(Valve.class,
                 /*
                  * Returned original JsonObject
@@ -94,7 +101,7 @@ public class ActivityTabb implements After {
         }));
     }
 
-    private JsonObject dataCond(final JsonObject data) {
+    private Future<JsonObject> dataCond(final JsonObject data) {
         /*
          * Build the condition of workflow
          * {
@@ -112,10 +119,10 @@ public class ActivityTabb implements After {
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.Flow.DEFINITION_KEY, data.getValue(KName.Flow.FLOW_DEFINITION_KEY));
         criteria.put(KName.Flow.TASK_KEY, data.getValue(KName.Flow.TASK_KEY));
-        return criteria;
+        return Ux.future(criteria);
     }
 
-    private JsonObject dataFlow(final JsonObject data) {
+    private Future<JsonObject> dataFlow(final JsonObject data) {
         final JsonObject workflow = new JsonObject();
         Ut.elementCopy(workflow, data,
             // Source -> flow
@@ -137,6 +144,13 @@ public class ActivityTabb implements After {
         workflow.put(KName.Flow.INSTANCE_ID, data.getValue(KName.Flow.FLOW_INSTANCE_ID));
         workflow.put(KName.Flow.DEFINITION_KEY, data.getValue(KName.Flow.FLOW_DEFINITION_KEY));
         workflow.put(KName.Flow.DEFINITION_ID, data.getValue(KName.Flow.FLOW_DEFINITION_ID));
-        return workflow;
+        /*
+         * Process Definition Extract
+         */
+        final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
+        return Wf.definitionByKey(definitionKey).compose(processDefinition -> {
+            workflow.put(KName.NAME, processDefinition.getName());
+            return Ux.future(workflow);
+        });
     }
 }

@@ -11,6 +11,12 @@ import io.vertx.up.unity.Ux;
 class TubeFlow implements Tube {
     @Override
     public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
+        /*
+         * For Activity Generation
+         * 1) Extract `HAtom` for model
+         * 2) Extract data to ( NEW / OLD ) data twins ( Refactor )
+         * 3) Build default Activity JsonObject and ActivityChange
+         */
         return Ux.future(data);
     }
 }

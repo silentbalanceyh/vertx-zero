@@ -27,11 +27,10 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 class AoImpl {
+    // 模型读取器
+    public static final Cc<String, HLoad> CC_LOAD = Cc.openThread();
     private static final Cc<Integer, Switcher> CC_SWITCHER = Cc.open();
     private static final Cc<String, HDao> CC_T_DAO = Cc.openThread();
-
-    // 模型读取器
-    private static final Cc<String, HLoad> CC_LOAD = Cc.openThread();
 
     /*
      * Private Method for Schema / Model

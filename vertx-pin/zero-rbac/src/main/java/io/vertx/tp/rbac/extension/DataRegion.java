@@ -14,7 +14,7 @@ import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.extension.region.AbstractRegion;
+import io.vertx.up.extension.AbstractRegion;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
