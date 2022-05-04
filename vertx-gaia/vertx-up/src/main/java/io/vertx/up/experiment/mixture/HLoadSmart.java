@@ -1,6 +1,5 @@
 package io.vertx.up.experiment.mixture;
 
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.uca.cache.Cc;
 
@@ -11,7 +10,6 @@ import java.util.Objects;
  */
 public class HLoadSmart implements HLoad {
     private static final Cc<String, HLoad> CC_NORM = Cc.openThread();
-    private final transient JsonObject config = new JsonObject();
 
     private final transient HLoad loader;
 
@@ -20,14 +18,7 @@ public class HLoadSmart implements HLoad {
     }
 
     @Override
-    public HLoad bind(final JsonObject config) {
-        this.config.mergeIn(config);
-        return this;
-    }
-
-    @Override
     public HAtom atom(final String appName, final String identifier) {
-        final Boolean after = this.config.getBoolean("after", Boolean.TRUE);
         /*
          * Load Sequence calculation
          *
@@ -36,22 +27,12 @@ public class HLoadSmart implements HLoad {
          * 2. after = false
          *    extension loader -> HLoadNorm
          */
-        HAtom atom;
-        if (after) {
-            // Default Situation
-            // Static
-            atom = this.loader.atom(appName, identifier);
-            if (Objects.isNull(atom)) {
-                // Dynamic
-                atom = PluginExtension.Loader.atom(appName, identifier);
-            }
-        } else {
+        // Default Situation
+        // Static
+        HAtom atom = this.loader.atom(appName, identifier);
+        if (Objects.isNull(atom)) {
             // Dynamic
             atom = PluginExtension.Loader.atom(appName, identifier);
-            if (Objects.isNull(atom)) {
-                // Static
-                atom = this.loader.atom(appName, identifier);
-            }
         }
         return atom;
     }

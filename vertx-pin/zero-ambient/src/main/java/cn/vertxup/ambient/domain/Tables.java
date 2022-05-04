@@ -4,13 +4,28 @@
 package cn.vertxup.ambient.domain;
 
 
-import cn.vertxup.ambient.domain.tables.*;
+import cn.vertxup.ambient.domain.tables.XActivity;
+import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
+import cn.vertxup.ambient.domain.tables.XApp;
+import cn.vertxup.ambient.domain.tables.XAttachment;
+import cn.vertxup.ambient.domain.tables.XCategory;
+import cn.vertxup.ambient.domain.tables.XLinkage;
+import cn.vertxup.ambient.domain.tables.XLog;
+import cn.vertxup.ambient.domain.tables.XMenu;
+import cn.vertxup.ambient.domain.tables.XMenuMy;
+import cn.vertxup.ambient.domain.tables.XModule;
+import cn.vertxup.ambient.domain.tables.XNotice;
+import cn.vertxup.ambient.domain.tables.XNumber;
+import cn.vertxup.ambient.domain.tables.XSource;
+import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

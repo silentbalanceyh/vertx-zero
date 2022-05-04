@@ -53,6 +53,11 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
      */
     public final TableField<XActivityRuleRecord, String> RULE_NAME = createField(DSL.name("RULE_NAME"), SQLDataType.VARCHAR(255), this, "「ruleName」- 规则名称，如果 type = ATOM 时读取，并设置到 typeName 中");
     /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_NS</code>. 「ruleNs」-
+     * 规则所属主模型名空间
+     */
+    public final TableField<XActivityRuleRecord, String> RULE_NS = createField(DSL.name("RULE_NS"), SQLDataType.VARCHAR(255), this, "「ruleNs」- 规则所属主模型名空间");
+    /**
      * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_IDENTIFIER</code>.
      * 「ruleIdentifier」- 主模型ID
      */
@@ -216,14 +221,5 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
     @Override
     public XActivityRule rename(Name name) {
         return new XActivityRule(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
     }
 }

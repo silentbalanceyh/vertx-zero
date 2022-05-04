@@ -1,17 +1,11 @@
 package io.vertx.up.experiment.mixture;
 
-import io.vertx.core.json.JsonObject;
-
 /**
  * Mix Atom Load for different HAtom Loading
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HLoad {
-
-    default HLoad bind(final JsonObject config) {
-        return this;
-    }
 
     /*
      * 「统一模型」HAtom

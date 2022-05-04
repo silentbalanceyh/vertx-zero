@@ -24,7 +24,7 @@ class PluginAtom {
              *   component:
              *   config
              */
-            return loader.bind(config.copy()).atom(namespace, identifier);
+            return loader.atom(namespace, identifier);
         }, () -> null);
     }
 }
