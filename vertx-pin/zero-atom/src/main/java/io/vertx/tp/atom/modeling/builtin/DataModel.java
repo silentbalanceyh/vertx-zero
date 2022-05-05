@@ -151,8 +151,8 @@ public class DataModel extends AbstractHModel implements Model {
         // 从Json文件中读取时：需要检查joins
         if (!this.joins.isEmpty()) {
             // 桥接
-            Bridge.connect(this, schemas,
-                (found) -> Bridge.connect(this, found));
+            Bridge.connect(this, schemas);
+            this.initialize();
         }
         return this;
     }
@@ -235,8 +235,8 @@ public class DataModel extends AbstractHModel implements Model {
                 this.schemata.add(schemaObj);
             });
             Bridge.connect(this, this.namespace + "-" + this.identifier);
+            this.initialize();
         }
-        this.initialize();
     }
 
     @Override

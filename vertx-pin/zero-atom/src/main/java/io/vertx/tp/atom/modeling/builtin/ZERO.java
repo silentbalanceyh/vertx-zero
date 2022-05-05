@@ -18,7 +18,6 @@ import org.jooq.tools.StringUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -28,8 +27,7 @@ import java.util.stream.Collectors;
 class Bridge {
 
     static void connect(final Model model,
-                        final Set<Schema> schemaSet,
-                        final Consumer<Set<Schema>> consumer) {
+                        final Set<Schema> schemaSet) {
         final Set<MJoin> joins = model.dbJoins();
         if (!joins.isEmpty()) {
             // 查找和 joins 中定义匹配的 Schema
@@ -50,13 +48,13 @@ class Bridge {
             // 连接过后执行
             if (!found.isEmpty()) {
                 // 执行消费处理
-                consumer.accept(found);
+                connectInternal(model, found);
             }
         }
     }
 
-    static void connect(final Model model,
-                        final Set<Schema> found) {
+    private static void connectInternal(final Model model,
+                                        final Set<Schema> found) {
         // 核心方法，用于链接
         final Set<Schema> schemata = model.schema();
         // 不可能null
