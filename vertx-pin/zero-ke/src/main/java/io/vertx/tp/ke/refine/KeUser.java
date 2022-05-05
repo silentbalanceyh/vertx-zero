@@ -113,12 +113,14 @@ class KeUser {
                             userA.add(userJ);
                         }
                     });
-                    normalized.put(field, userA);       // Replace
-                } else if (value instanceof String) {
+                    normalized.put(field, userA);                       // Replace
+                } else if (value instanceof String) {                   // Replace
                     final String userKey = (String) value;
                     final JsonObject userJ = userMap.getOrDefault(userKey, null);
                     if (Ut.notNil(userJ)) {
                         normalized.put(field, userJ);
+                    } else {
+                        normalized.put(field, new JsonObject());        // Replace
                     }
                 }
             });
