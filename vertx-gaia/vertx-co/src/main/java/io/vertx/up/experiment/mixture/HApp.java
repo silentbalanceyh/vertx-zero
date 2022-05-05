@@ -29,7 +29,33 @@ public interface HApp extends Serializable, Json {
     String identifier();
 
     /*
-     * Uniform namespace here
+     * Uniform namespace, when you define the `ns` in multi-app structure, you must provide `namespace` for each
+     * standalone namespace, in this kind of situation the static model could be shared in one database, but the
+     * dynamic model must be standalone.
+     *
+     * Store in one database is only for platform interface to manage data uniform, for single application it should
+     * be deployed in standalone docker:  Docker App + Docker Database, it means that the application is running
+     * in a environment with:  appId <-> sigma ( One to One )
+     *
+     * This part will be re-design or re-set in future when the requirement move to platform admin, in current version,
+     * the ( 1 - 1 ) structure could be used.
+     *
+     * The common system architecture should be:
+     * 1. Tenant identifier: based on `sigma`
+     * 2. Application identifier: based on `appId/appKey`
+     *    - appId: the system identifier with public information
+     *    - appKey: the system identifier with private or sensitive information
+     * 3. Each `sigma` may contain multi `appId`
+     *    Sigma -> App1, App2, App3
+     *
+     * The scope of data of platform / application
+     *
+     * 1) X_MENU            ---->           AppId
+     * 2) X_TABULAR
+     *    X_CATEGORY        ---->           AppId / Sigma
+     * 3) X_ACTIVITY_RULE   ---->           AppId ( namespace )
+     * 4) M_MODEL           ---->           AppId ( namespace )
+     * 4) I_API / I_JOB     ---->           AppId ( namespace )
      */
     String namespace();
 

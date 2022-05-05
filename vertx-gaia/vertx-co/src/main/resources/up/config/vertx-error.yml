@@ -208,6 +208,7 @@ E80300: "(500) - (Ambient) The application environment error, could not get app 
 E80301: "(500) - (Ambient) The application ( name = `{0}` ) could not be initialized"
 E80302: "(500) - (Ambient) The Init implementation class = {0} does not `implement` interface Init"
 E80303: "(500) - (Ambient) The Prerequisite class = {0} does not satisfy specification"
+E80304: "(409) - (Atom) The atom (`{0}`) could not generate `Activity` record because trackable is FALSE"
 
 # Jet
 E80400: "(500) - (Jet) The container try to connect App/Source, but `UnityApp` is null and could not start up"
