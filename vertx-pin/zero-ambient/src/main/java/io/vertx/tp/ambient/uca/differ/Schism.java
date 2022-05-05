@@ -3,6 +3,7 @@ package io.vertx.tp.ambient.uca.differ;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.uca.cache.Cc;
 
@@ -18,8 +19,11 @@ public interface Schism {
 
     Cc<String, Schism> CC_SCHISM = Cc.openThread();
 
-    static Schism diffJ() {
-        return CC_SCHISM.pick(SchismJ::new, SchismJ.class.getName());
+    static Schism diffJ(final HAtom atom) {
+        final String unique = atom.sigma() + Strings.SLASH +
+            atom.identifier() + Strings.SLASH +
+            SchismJ.class.getName();
+        return CC_SCHISM.pick(SchismJ::new, unique).bind(atom);
     }
 
     /*
@@ -37,5 +41,5 @@ public interface Schism {
      *     "__NEW__": {}
      * }
      */
-    Future<JsonObject> diffAsync(JsonObject previous, JsonObject current, Supplier<Future<XActivity>> activityFn);
+    Future<JsonObject> diffAsync(JsonObject recordO, JsonObject recordN, Supplier<Future<XActivity>> activityFn);
 }

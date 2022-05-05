@@ -3,7 +3,6 @@ package io.vertx.up.uca.compare;
 import io.vertx.up.experiment.mixture.HTField;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -14,14 +13,13 @@ interface VsSame {
         return Objects.isNull(type) ? null : Pool.POOL_SAME.getOrDefault(type, null);
     }
 
-    /**
-     * Bind subset when comparing JsonArray or JsonObject
-     *
-     * @param HTField {@link Set}
-     *
-     * @return {@link VsSame} Fluent returned
-     */
-    VsSame bind(HTField HTField);
+    static VsSame get(final HTField type) {
+        final VsSame same = get(type.type());
+        if (Objects.isNull(same)) {
+            return null;
+        }
+        return ((AbstractSame) same).bind(type);
+    }
 
     /**
      * Comparing

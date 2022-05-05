@@ -12,6 +12,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,11 +48,27 @@ class KeEnv {
         outMap.forEach((key, out) -> {
             final String in = inMap.get(key);
             if (KName.CREATED_AT.equals(in) || KName.UPDATED_AT.equals(in)) {
-                // LocalDataTime
-                Ut.field(output, out, now);
+                if (output instanceof JsonObject) {
+                    // Instant          ( For JsonObject Only )
+                    ((JsonObject) output).put(out, Instant.now());
+                } else {
+                    // LocalDataTime
+                    Ut.field(output, out, now);
+                }
             } else {
-                // Copy Data
-                Ut.field(output, out, Ut.field(input, in));
+                // Extract input data
+                final Object value;
+                if (input instanceof JsonObject) {
+                    value = ((JsonObject) input).getValue(in);
+                } else {
+                    value = Ut.field(input, in);
+                }
+                if (output instanceof JsonObject) {
+                    // ( For JsonObject Only )
+                    ((JsonObject) output).put(out, value);
+                } else {
+                    Ut.field(output, out, value);
+                }
             }
         });
     }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -342,6 +343,30 @@ final class Jackson {
             } else {
                 return ChangeFlag.UPDATE;
             }
+        }
+    }
+
+    static ChangeFlag flag(final JsonObject data) {
+        final JsonObject copy = Ut.valueJObject(data);
+        final String flag = copy.getString(KName.__.FLAG, ChangeFlag.NONE.name());
+        return Ut.toEnum(ChangeFlag.class, flag);
+    }
+
+
+    static JsonObject data(final JsonObject input, final boolean previous) {
+        final JsonObject copy = Ut.valueJObject(input).copy();
+        if (previous) {
+            /*
+             * Previous Old Data
+             */
+            return Ut.valueJObject(input, KName.__.DATA);
+        } else {
+            copy.remove(KName.Flow.WORKFLOW);       // Remove workflow
+            copy.remove(KName.USER);                // Remove user
+            copy.remove(KName.__.DATA);
+            copy.remove(KName.__.INPUT);
+            copy.remove(KName.__.FLAG);
+            return copy;
         }
     }
 }

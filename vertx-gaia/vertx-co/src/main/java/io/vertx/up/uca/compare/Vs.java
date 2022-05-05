@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * ## Diff Container ( New Version )
@@ -29,24 +30,25 @@ import java.util.function.Function;
 public class Vs implements Serializable {
     private static final Annal LOGGER = Annal.get(Vs.class);
     private static final Cc<String, Vs> CC_VS = Cc.open();
-    /**
-     * Attribute Stored
-     * name = type
-     *
-     * 1. name is the attribute name of model ( `M_ATTRIBUTE` ).
-     * 2. type is the java type that could be reflect.
-     */
-    private transient final ConcurrentMap<String, Class<?>> mapType = new ConcurrentHashMap<>();
 
     /**
-     * Subset Attribute Stored
-     * name = Set
+     * Here are new `typeMap` of name = HTField
      *
-     * 1. name is the attribute name of model ( `M_ATTRIBUTE` ).
+     * Because HTField contains `type, name, alias` and etc, it means that you can determine the format
+     * Elementary / JsonObject / JsonArray by `isComplex` here.
+     *
+     * When format = Elementary ( Not Complex )
+     *
+     * 1. name is the attribute name of model ( HAttribute ).
+     * 2. type is the java type that could be reflected ( stored in HTField )
+     *
+     * When format = JsonObject / JsonArray ( Complex )
+     *
+     * 1. name is the attribute name of model ( HAttribute ).
      * 2. The data type is fixed: JsonObject / JsonArray.
-     * 3. The `Set` means the attribute names of JsonObject or JsonArray here.
+     * 3. And the HTField type contains `children` and isComplex = true
      */
-    private transient final ConcurrentMap<String, HTField> mapSubtype = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, HTField> typeMap = new ConcurrentHashMap<>();
     /**
      * Ignored field that could be set from object.
      *
@@ -64,11 +66,8 @@ public class Vs implements Serializable {
          *   the mapSubType stored ( field = HTField ) and here HTField is complex type
          */
         if (Objects.nonNull(mapType) && !mapType.isEmpty()) {
-            mapType.forEach((attribute, field) -> {
-                this.mapType.put(attribute, field.type());
-                // Tpl Solution
-                this.mapSubtype.put(attribute, field);
-            });
+            // Tpl Solution
+            this.typeMap.putAll(mapType);
         }
     }
 
@@ -84,45 +83,11 @@ public class Vs implements Serializable {
         return Objects.isNull(same) ? Objects.nonNull(value) : same.ok(value);
     }
 
-    public static boolean isChange(final Object valueOld, final Object valueNew, final Class<?> type, final HTField subset) {
-        return !isSame(valueOld, valueNew, type, subset);
+    public static boolean isChange(final Object valueOld, final Object valueNew, final HTField htField) {
+        return !isSame(valueOld, valueNew, () -> VsSame.get(htField));
     }
 
     // ============================ Complex Comparing Change ===============================
-
-    public static boolean isSame(final Object valueOld, final Object valueNew, final Class<?> type, final HTField subset) {
-        if (Objects.isNull(valueOld) && Objects.isNull(valueNew)) {
-            /* ( Unchanged ) When `new` and `old` are both null */
-            return true;
-        } else {
-            /*
-             * 1. type
-             * 2. subset ( JsonArray Only )
-             * */
-            final VsSame same = VsSame.get(type);
-            if (Objects.isNull(same)) {
-                final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
-                final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
-                return strOld.equals(strNew);
-            } else {
-                if (Objects.nonNull(subset)) {
-                    same.bind(subset);
-                }
-                if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
-                    /*
-                     * Standard workflow here
-                     */
-                    return same.is(valueOld, valueNew);
-                } else {
-                    /*
-                     * Non Standard workflow here
-                     */
-                    return same.isXor(valueOld, valueNew);
-                }
-            }
-        }
-    }
-
     public static <T, V> boolean isChange(final T left, final T right, final Function<T, V> fnGet) {
         return !isSame(left, right, fnGet);
     }
@@ -134,12 +99,43 @@ public class Vs implements Serializable {
             final V rightValue = fnGet.apply(right);
             if (Objects.nonNull(leftValue) && Objects.nonNull(rightValue)) {
                 final Class<?> type = leftValue.getClass();
-                return isSame(leftValue, rightValue, type, null);
+                return isSame(leftValue, rightValue, () -> VsSame.get(type));
             } else {
                 return Objects.isNull(leftValue) && Objects.isNull(rightValue);
             }
         } else {
             return Objects.isNull(left) && Objects.isNull(right);
+        }
+    }
+
+    // ============================ Internal Comparing ===============================
+    private static boolean isSame(final Object valueOld, final Object valueNew, final Supplier<VsSame> supplier) {
+        if (Objects.isNull(valueOld) && Objects.isNull(valueNew)) {
+            /* ( Unchanged ) When `new` and `old` are both null */
+            return true;
+        } else {
+            /*
+             * 1. type
+             * 2. subset ( JsonArray Only )
+             * */
+            final VsSame same = supplier.get();
+            if (Objects.isNull(same)) {
+                final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
+                final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
+                return strOld.equals(strNew);
+            } else {
+                if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {
+                    /*
+                     * Standard workflow here
+                     */
+                    return same.is(valueOld, valueNew);
+                } else {
+                    /*
+                     * Non-Standard workflow here
+                     */
+                    return same.isXor(valueOld, valueNew);
+                }
+            }
         }
     }
 
@@ -202,16 +198,15 @@ public class Vs implements Serializable {
     }
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
-        final Class<?> type = this.mapType.get(attribute);
-        final HTField fieldType = this.mapSubtype.getOrDefault(attribute, null);
-        final boolean isChanged = isChange(valueOld, valueNew, type, fieldType);
+        final HTField fieldType = this.typeMap.getOrDefault(attribute, null);
+        final boolean isChanged = isChange(valueOld, valueNew, fieldType);
         LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
-            attribute, type, isChanged);
+            attribute, fieldType.type(), isChanged);
         return isChanged;
     }
 
     public boolean isValue(final Object value, final String attribute) {
-        final Class<?> type = this.mapType.get(attribute);
-        return isValue(value, type);
+        final HTField fieldType = this.typeMap.getOrDefault(attribute, null);
+        return isValue(value, fieldType.type());
     }
 }

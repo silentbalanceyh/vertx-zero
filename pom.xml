@@ -149,7 +149,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.51.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.52.Final</netty.tcnative.version>
         <netty.version>4.1.76.Final</netty.version>
 
         <!-- Upload Issue -->

@@ -36,7 +36,7 @@ interface Pool {
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-abstract class AbstractSame implements VsSame {
+public abstract class AbstractSame implements VsSame {
     protected transient final Class<?> type;
     protected transient HTField fieldType;
     private transient VsExtension found;
@@ -52,7 +52,6 @@ abstract class AbstractSame implements VsSame {
         }
     }
 
-    @Override
     public VsSame bind(final HTField fieldType) {
         if (Objects.nonNull(fieldType)) {
             this.fieldType = fieldType;

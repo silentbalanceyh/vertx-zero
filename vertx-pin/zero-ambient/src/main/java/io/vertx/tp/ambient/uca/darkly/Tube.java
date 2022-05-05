@@ -19,14 +19,18 @@ public interface Tube {
     static Tube instance(final TubeType type) {
         if (Objects.isNull(type)) {
             // Empty Tube
+            // Nothing to do here
             return CC_TUBE.pick(TubeEmpty::new, TubeEmpty.class.getName());
         }
         if (TubeType.ATOM == type) {
-            // Atom Tube
-            return CC_TUBE.pick(TubeAtom::new, TubeAtom.class.getName());
+            // type = ATOM
+            // 1. Compare field definition
+            // 2. TubeExpr
+            return CC_TUBE.pick(TubeVs::new, TubeVs.class.getName());
         } else if (TubeType.WORKFLOW == type) {
-            // Flow Tube
-            return CC_TUBE.pick(TubeFlow::new, TubeFlow.class.getName());
+            // type = WORKFLOW
+            // 1. TubeExpr Directly
+            return CC_TUBE.pick(TubeExpr::new, TubeExpr.class.getName());
         } else {
             throw new _501NotSupportException(Tube.class);
         }

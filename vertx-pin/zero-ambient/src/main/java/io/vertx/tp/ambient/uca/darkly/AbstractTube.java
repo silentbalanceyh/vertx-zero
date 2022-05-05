@@ -4,13 +4,14 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.NormIndent;
-import io.vertx.tp.optic.environment.Indent;
+import io.vertx.tp.error._501IndentMissingException;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.experiment.mixture.HLoadSmart;
 import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.wffs.Playbook;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,7 +23,6 @@ import java.util.UUID;
  */
 public abstract class AbstractTube implements Tube {
     private static final Cc<String, HLoad> CC_SMART = Cc.openThread();
-    private static final Cc<String, Indent> CC_INDENT = Cc.openThread();
 
     protected HAtom atom(final XActivityRule rule) {
         // Double-Checking for `rule`
@@ -45,20 +45,64 @@ public abstract class AbstractTube implements Tube {
         return loader.atom(rule.getRuleNs(), rule.getRuleIdentifier());
     }
 
-    protected Future<XActivity> newActivity(final XActivityRule rule) {
+    protected Future<XActivity> newActivity(final JsonObject data, final XActivityRule rule) {
         final JsonObject config = Ut.toJObject(rule.getRuleConfig());
         final JsonObject initData = Ut.valueJObject(config, KName.DATA);
         final String code = initData.getString(KName.INDENT);
-        final XActivity activity = new XActivity();
-        activity.setKey(UUID.randomUUID().toString());
         if (Ut.isNil(code)) {
-            return Ux.future(activity);
-        } else {
-            final Indent indent = CC_INDENT.pick(NormIndent::new);
-            return indent.indent(code, rule.getSigma()).compose(generated -> {
-                activity.setSerial(generated);
-                return Ux.future(activity);
-            });
+            return Ux.thenError(_501IndentMissingException.class, this.getClass(), initData);
         }
+        final XActivity activity = new XActivity();
+        /*
+         * key          ( System Generated )
+         * type         ( Came from Rule )
+         */
+        activity.setKey(UUID.randomUUID().toString());
+        activity.setType(rule.getType());
+        {
+            /*
+             * taskSerial
+             * taskName
+             * modelKey
+             */
+            activity.setTaskName(rule.getRuleName());
+            activity.setTaskSerial(data.getString(KName.Flow.TASK_SERIAL));
+
+            if (data.containsKey(KName.Flow.TRACE_ID)) {
+                // traceId reflect w.ticket key ( First Priority )
+                activity.setModelKey(data.getString(KName.Flow.TRACE_ID));
+            } else {
+                // key reflect todo key ( Secondary Priority )
+                activity.setModelKey(data.getString(KName.KEY));
+            }
+        }
+        /*
+         * 8 normalized fields
+         *      - active
+         *      - language
+         *      - sigma
+         *      - metadata
+         *      - updatedAt
+         *      - updatedBy
+         *      - createdAt
+         *      - createdBy
+         */
+        Ke.umCreated(activity, data);
+        /*
+         * serial       ( System Generated )
+         */
+        return Ke.umIndent(activity, rule.getSigma(), code, XActivity::setSerial).compose(normalized -> {
+            final Playbook playbook = Playbook.open(rule.getRuleExpression());
+            return playbook.format(data).compose(description -> {
+                normalized.setDescription(description);
+                return Ux.future(normalized);
+            });
+        });
+        /*
+         * After this method, Required:
+         * [x] modelId
+         * [x] recordOld
+         * [x] recordNew
+         */
     }
 }

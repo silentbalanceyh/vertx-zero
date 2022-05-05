@@ -70,6 +70,7 @@ public final class Ux {
      * 1) log:  for branch log creation
      * 2) debug:
      * 3) otherwise:
+     * 4) dataN/dataO -> New / Old Json
      * ( Business Part: Debugging )
      */
     public static Log log(final Class<?> clazz) {
@@ -244,6 +245,7 @@ public final class Ux {
      * ( Business Part, support `pojoFile` conversation )
      * 4) toFile
      */
+
     public static <T> JsonObject toJson(final T entity) {
         return To.toJObject(entity, "");
     }
@@ -681,7 +683,9 @@ public final class Ux {
      *      "list": [],
      *      "count": xx
      * }
+     * Normalize old/new data in framework
      */
+
     public static JsonObject pageData() {
         return Web.pageData(new JsonArray(), 0L);
     }

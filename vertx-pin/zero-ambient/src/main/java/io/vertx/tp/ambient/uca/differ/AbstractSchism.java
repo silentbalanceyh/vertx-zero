@@ -50,7 +50,7 @@ public abstract class AbstractSchism implements Schism {
     // ---------------------- Provide the default operation to throw 501 ---------------------
 
     @Override
-    public Future<JsonObject> diffAsync(final JsonObject previous, final JsonObject current, final Supplier<Future<XActivity>> activityFn) {
+    public Future<JsonObject> diffAsync(final JsonObject recordO, final JsonObject recordN, final Supplier<Future<XActivity>> activityFn) {
         // Default should be 501
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }

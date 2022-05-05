@@ -1237,6 +1237,19 @@ public final class Ut {
         return Jackson.flag(recordN, recordO);
     }
 
+    public static ChangeFlag aiFlag(final JsonObject input) {
+        return Jackson.flag(input);
+    }
+
+    // Specifical Api for data
+    public static JsonObject aiDataN(final JsonObject input) {
+        return Jackson.data(input, false);
+    }
+
+    public static JsonObject aiDataO(final JsonObject input) {
+        return Jackson.data(input, true);
+    }
+
     public static String aiJArray(final String literal) {
         return Jackson.aiJArray(literal);
     }
