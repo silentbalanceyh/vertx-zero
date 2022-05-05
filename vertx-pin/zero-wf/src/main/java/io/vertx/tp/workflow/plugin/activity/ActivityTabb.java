@@ -1,8 +1,8 @@
 package io.vertx.tp.workflow.plugin.activity;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Valve;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.atom.query.engine.Qr;
@@ -14,8 +14,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Plugin for
@@ -50,7 +48,7 @@ public class ActivityTabb implements After {
              *     "criteria": {}
              * }
              */
-            .compose(this::dataUser)
+            .compose(this::dataDelay)
             .compose(processed -> Ux.channel(Valve.class,
                 /*
                  * Returned original JsonObject
@@ -61,6 +59,8 @@ public class ActivityTabb implements After {
 
     /*
      * All fields are as following:
+     *
+     * 1) User Part
      * - toUser
      * - createdBy
      * - updatedBy
@@ -72,33 +72,48 @@ public class ActivityTabb implements After {
      * - finishedBy
      * - assignedBy
      * - acceptedBy
+     *
+     * 2) Dept/Company/Team Part
+     * - toDept
+     * - toTeam
+     * - toRole
+     * - toGroup
      */
-    private Future<JsonObject> dataUser(final JsonObject normalized) {
-        final ConcurrentMap<String, String> paramMap = new ConcurrentHashMap<>();
+    private Future<JsonObject> dataDelay(final JsonObject normalized) {
         /*
-         * Collect all the parameters
+         * Collect all User fields:
+         * These fields will be mapped to __user here as metadata part
+         * It could be used in Script Engine only
+         * __user data structure
+         * {
+         *     "user": [
+         *     ],
+         *     "role": [
+         *     ],
+         *     "group": [
+         *     ],
+         *     "dept": [
+         *     ],
+         *     "team": [
+         *     ]
+         * }
          */
-        KName.Flow.Auditor.USER_FIELDS.forEach(field -> {
-            final String value = normalized.getString(field);
-            if (Ut.notNil(value)) {
-                paramMap.put(field, value);
-            }
-        });
-        return Ux.channel(ExUser.class, () -> normalized, user -> user.auditor(paramMap).compose(auditorMap -> {
-            final JsonObject auditorJ = new JsonObject();
-            /*
-             * Fill the default value
-             */
-            KName.Flow.Auditor.USER_FIELDS.forEach(field -> {
-                if (auditorMap.containsKey(field)) {
-                    auditorJ.put(field, auditorMap.get(field));
-                } else {
-                    auditorJ.put(field, new JsonObject());
-                }
-            });
-            normalized.put(KName.USER, auditorJ);
-            return Ux.future(normalized);
-        }));
+        final JsonObject user = new JsonObject();
+        user.put(KName.USER, Ut.toJArray(KName.Flow.FIELD_AUDITOR));
+        user.put(KName.ROLE, new JsonArray()
+            .add(KName.Flow.Auditor.TO_ROLE)
+        );
+        user.put(KName.GROUP, new JsonArray()
+            .add(KName.Flow.Auditor.TO_GROUP)
+        );
+        user.put(KName.DEPT, new JsonArray()
+            .add(KName.Flow.Auditor.TO_DEPT)
+        );
+        user.put(KName.TEAM, new JsonArray()
+            .add(KName.Flow.Auditor.TO_TEAM)
+        );
+        normalized.put(KName.__.USER, user);
+        return Ux.future(normalized);
     }
 
     private Future<JsonObject> dataCond(final JsonObject data) {

@@ -361,8 +361,8 @@ final class Jackson {
              */
             return Ut.valueJObject(input, KName.__.DATA);
         } else {
-            copy.remove(KName.Flow.WORKFLOW);       // Remove workflow
-            copy.remove(KName.USER);                // Remove user
+            copy.remove(KName.Flow.WORKFLOW);           // Remove workflow
+            copy.remove(KName.__.USER);                 // Remove user
             copy.remove(KName.__.DATA);
             copy.remove(KName.__.INPUT);
             copy.remove(KName.__.FLAG);

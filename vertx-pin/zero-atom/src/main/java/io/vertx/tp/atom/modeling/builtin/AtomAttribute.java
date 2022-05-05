@@ -121,7 +121,13 @@ class AtomAttribute implements HAttribute, Serializable {
             attributeType = configType;
         }
         // Type analyzed, create current type
-        attributeJ.put(KName.TYPE, attributeType.getName());
+        /*
+         * java.lang.NullPointerException
+             at io.vertx.tp.atom.modeling.builtin.AtomAttribute.<init>(AtomAttribute.java:124)
+         */
+        if (Objects.nonNull(attributeType)) {
+            attributeJ.put(KName.TYPE, attributeType.getName());
+        }
 
         // Expand the `fields` lookup range
         final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));

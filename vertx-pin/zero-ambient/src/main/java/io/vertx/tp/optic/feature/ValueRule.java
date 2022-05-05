@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.uca.darkly.Tube;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.wffs.Formula;
@@ -55,11 +56,11 @@ public class ValueRule implements Valve {
                  * -- WORKFLOW:         TubeFlow
                  * -- ( Reserved )
                  */
-                ruleMap.put(rule.getKey(), params -> {
+                ruleMap.put(rule.getKey(), params -> Ke.umUser(params).compose(normalized -> {
                     final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
                     final Tube tube = Tube.instance(type);
-                    return tube.traceAsync(params, rule);
-                });
+                    return tube.traceAsync(normalized, rule);
+                }));
             } else {
                 ruleMap.put(rule.getKey(), Ux::future);
             }

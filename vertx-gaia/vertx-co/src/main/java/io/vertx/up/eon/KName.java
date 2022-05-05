@@ -150,7 +150,9 @@ public interface KName {
 
     String COMPANY_ID = "companyId";             /* Company Id */
     String DEPT_ID = "deptId";                   /* Department Id */
+    String DEPT = "dept";                        /* Dept */
     String TEAM_ID = "teamId";                   /* Team Id */
+    String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 
     String CONFIG = "config";                    /* Acl Usage */
@@ -230,6 +232,8 @@ public interface KName {
         String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
 
         String INPUT = "__" + KName.INPUT;           /* __input for input original data */
+        String USER = "__" + KName.USER;             /* __user for user extraction */
+        String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
     }
 
     interface Attachment {
@@ -447,6 +451,22 @@ public interface KName {
         String UI_LINKAGE = "uiLinkage";
 
         // Auditor
+        Set<String> FIELD_AUDITOR = new HashSet<>() {
+            {
+                this.add(CREATED_BY);    // Created By
+                this.add(UPDATED_BY);    // Updated By
+                this.add(OWNER);         // Owner
+                this.add(Auditor.TO_USER);       // Approved / Processed By
+                this.add(Auditor.SUPERVISOR);    // Supervisor
+                this.add(Auditor.CANCEL_BY);     // Cancel By
+                this.add(Auditor.CLOSE_BY);      // Close By
+                this.add(Auditor.OPEN_BY);       // Open By
+                this.add(Auditor.FINISHED_BY);   // Finished By
+                this.add(Auditor.ASSIGNED_BY);   // Assigned By
+                this.add(Auditor.ACCEPTED_BY);   // Accdpted By
+            }
+        };
+
         interface Auditor {
             String FINISHED_BY = "finishedBy";
             String FINISHED_AT = "finishedAt";

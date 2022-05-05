@@ -18,6 +18,5 @@ class InletUser extends AbstractInlet {
         final JsonObject lo = Ut.valueJObject(user, KName.UPDATED_BY);
         context.set("$lo", lo.getMap());
         this.logger().info("[ Script ] ( User Now ) The variable `$lo` has been bind: {0}", lo.encode());
-
     }
 }

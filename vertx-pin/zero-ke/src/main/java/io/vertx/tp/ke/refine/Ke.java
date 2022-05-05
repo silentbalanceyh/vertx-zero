@@ -9,6 +9,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.util.List;
@@ -266,5 +267,14 @@ public class Ke {
 
     public static Future<JsonObject> umAData(final JsonObject config, final JsonObject params) {
         return KeEnv.daoJ(config, params);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input, final JsonObject config) {
+        return KeUser.umUser(input, config);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input) {
+        final JsonObject config = Ut.valueJObject(input, KName.__.USER);
+        return KeUser.umUser(input, config);
     }
 }

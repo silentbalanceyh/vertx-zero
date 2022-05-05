@@ -48,7 +48,7 @@ public interface ExUser {
      */
     Future<ConcurrentMap<String, String>> auditor(Set<String> keys);
 
-    Future<ConcurrentMap<String, JsonObject>> auditor(ConcurrentMap<String, String> keyMap);
+    Future<ConcurrentMap<String, JsonObject>> user(Set<String> keys, boolean employee);
 
     Future<JsonArray> search(String keyword);
 }
