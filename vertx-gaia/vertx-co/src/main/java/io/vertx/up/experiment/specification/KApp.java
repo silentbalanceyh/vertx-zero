@@ -74,4 +74,14 @@ public class KApp implements Serializable {
     public int hashCode() {
         return Objects.hash(this.name, this.ns, this.language, this.sigma);
     }
+
+    @Override
+    public String toString() {
+        return "KApp{" +
+            "name='" + this.name + '\'' +
+            ", ns='" + this.ns + '\'' +
+            ", language='" + this.language + '\'' +
+            ", sigma='" + this.sigma + '\'' +
+            '}';
+    }
 }

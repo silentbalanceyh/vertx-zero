@@ -3,6 +3,7 @@ package io.vertx.up.experiment.specification;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -20,11 +21,9 @@ import java.io.Serializable;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KEnv implements Serializable {
-    private final transient String sigma;
+    private final transient KApp app;
     private final transient String appId;
     private final transient String appKey;
-    private final transient String language;
-    private final transient String name;
     private final transient String code;
     private final transient Database database;
 
@@ -33,18 +32,18 @@ public class KEnv implements Serializable {
         /*
          * appId
          * appKey
-         * sigma
+         * code
          */
         this.appId = dataJ.getString(KName.APP_ID);
         this.appKey = dataJ.getString(KName.APP_KEY);
-        this.sigma = dataJ.getString(KName.SIGMA);
-        /*
-         * language
-         * name / code
-         */
         this.code = dataJ.getString(KName.CODE);
-        this.name = dataJ.getString(KName.NAME);
-        this.language = dataJ.getString(KName.LANGUAGE);
+        final String name = dataJ.getString(KName.NAME);
+        /*
+         * name / ns / language / sigma combined
+         */
+        this.app = HLoad.CC_APP.pick(() -> new KApp(name), name);
+        this.app.sigma(dataJ.getString(KName.SIGMA));
+        this.app.language(dataJ.getString(KName.LANGUAGE));
 
         this.database = new Database();
         this.database.fromJson(dataJ.getJsonObject(KName.SOURCE, new JsonObject()));
@@ -55,7 +54,7 @@ public class KEnv implements Serializable {
     }
 
     public String sigma() {
-        return this.sigma;
+        return this.app.sigma();
     }
 
     public String appId() {
@@ -67,11 +66,11 @@ public class KEnv implements Serializable {
     }
 
     public String language() {
-        return this.language;
+        return this.app.language();
     }
 
     public String name() {
-        return this.name;
+        return this.app.name();
     }
 
     public String code() {
@@ -85,12 +84,11 @@ public class KEnv implements Serializable {
     @Override
     public String toString() {
         return "KEnv{" +
-            "sigma='" + this.sigma + '\'' +
+            "app=" + this.app +
             ", appId='" + this.appId + '\'' +
             ", appKey='" + this.appKey + '\'' +
-            ", language='" + this.language + '\'' +
-            ", name='" + this.name + '\'' +
             ", code='" + this.code + '\'' +
+            ", database=" + this.database +
             '}';
     }
 }
