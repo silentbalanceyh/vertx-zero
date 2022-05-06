@@ -70,7 +70,7 @@ public class Playbook implements Serializable {
 
     public Future<Boolean> isOk(final JsonObject params) {
         final JexlScript script = EXPR.createScript(this.expression);
-        final JexlContext context = this.buildContext(params);
+        final JexlContext context = this.buildContext(params, true);
 
         /* Script Execute on expression */
         final Boolean checked = (Boolean) script.execute(context);
@@ -80,34 +80,36 @@ public class Playbook implements Serializable {
     }
 
     public Future<String> format(final JsonObject params) {
-        final JexlExpression expression = EXPR.createExpression(this.expression);
-        final JexlContext context = this.buildContext(params);
+        final String formattedExpr = "`" + this.expression + "`";
+        final JexlExpression expression = EXPR.createExpression(formattedExpr);
+        final JexlContext context = this.buildContext(params, false);
         final String formatted = (String) expression.evaluate(context);
         LOGGER.info("[ Script ] ( String ) Result = {2}, The expression = `{0}` has been parsed to `{1}`.",
             this.expression, expression.getParsedText(), formatted);
         return Future.succeededFuture(formatted);
     }
 
-    private JexlContext buildContext(final JsonObject params) {
+    private JexlContext buildContext(final JsonObject params, final boolean prefix) {
         final JexlContext context = new MapContext();
         /*
          * $zo = OLD Data
          * $zn = NEW Data
          */
-        final Inlet zData = Inlet.data();
+        final Inlet zData = Inlet.data(prefix);
         zData.compile(context, params, this.tpl);
 
         /*
          * $zw = Workflow Data
          */
-        final Inlet zFlow = Inlet.flow();
+        final Inlet zFlow = Inlet.flow(prefix);
         zFlow.compile(context, params, this.tpl);
 
         /*
-         * $zu = User Map
+         * $uo = Old User
+         * $un = New User
          * $lo = `updatedBy` field value ( Current User )
          */
-        final Inlet zUser = Inlet.user();
+        final Inlet zUser = Inlet.user(prefix);
         zUser.compile(context, params, this.tpl);
         return context;
     }

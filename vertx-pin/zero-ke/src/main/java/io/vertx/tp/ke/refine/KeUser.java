@@ -67,7 +67,8 @@ class KeUser {
             .compose(user -> {
                 replaced.put(KName.USER, user);
                 return Ux.futureT();
-            }).compose(nil -> {
+            })
+            .compose(nil -> {
                 output.put(KName.__.USER, replaced);
                 return Ux.future(output);
             });
@@ -101,7 +102,7 @@ class KeUser {
             }
         });
         return Ux.channel(ExUser.class, () -> input, stub -> stub.user(keySet, true).compose(userMap -> {
-            final JsonObject normalized = input.copy();
+            final JsonObject normalized = new JsonObject();
             Ut.itJArray(users, String.class, (field, index) -> {
                 final Object value = input.getValue(field);
                 if (value instanceof JsonArray) {
@@ -122,6 +123,8 @@ class KeUser {
                     } else {
                         normalized.put(field, new JsonObject());        // Replace
                     }
+                } else {
+                    normalized.put(field, new JsonObject());            // Empty Replace
                 }
             });
             return Ux.future(normalized);

@@ -32,14 +32,20 @@ public class ValueRule implements Valve {
             return Ux.future(data);
         }
 
+        /* Not Skip */
         final Refer ruleRef = new Refer();
-        /* Build Regulation ( Formula ) */
-        return Ux.Jooq.on(XActivityRuleDao.class).<XActivityRule>fetchAsync(criteria)
+        final Refer inputRef = new Refer();
+        return Ke.umUser(data)
+            .compose(inputRef::future)
+
+            /* Build Regulation ( Formula ) */
+            .compose(normalized -> Ux.Jooq.on(XActivityRuleDao.class).<XActivityRule>fetchAsync(criteria))
             .compose(ruleRef::future)
+
             /* XActivity Rule -> Regulation */
             .compose(this::ruleRegulation)
             /* Grouped all the rule and run each */
-            .compose(regulation -> regulation.run(data.copy(), this.ruleFn(ruleRef.get())));
+            .compose(regulation -> regulation.run(((JsonObject) inputRef.get()).copy(), this.ruleFn(ruleRef.get())));
     }
 
     private ConcurrentMap<String, Function<JsonObject, Future<JsonObject>>> ruleFn(final List<XActivityRule> ruleList) {
@@ -56,11 +62,11 @@ public class ValueRule implements Valve {
                  * -- WORKFLOW:         TubeFlow
                  * -- ( Reserved )
                  */
-                ruleMap.put(rule.getKey(), params -> Ke.umUser(params).compose(normalized -> {
+                ruleMap.put(rule.getKey(), params -> {
                     final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
                     final Tube tube = Tube.instance(type);
-                    return tube.traceAsync(normalized, rule);
-                }));
+                    return tube.traceAsync(params, rule);
+                });
             } else {
                 ruleMap.put(rule.getKey(), Ux::future);
             }

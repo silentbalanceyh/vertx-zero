@@ -11,6 +11,11 @@ import java.util.HashMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class InletData extends AbstractInlet {
+
+    InletData(final boolean isPrefix) {
+        super(isPrefix);
+    }
+
     @Override
     public void compile(final JexlContext context, final JsonObject data, final JsonObject config) {
         /*
@@ -26,22 +31,24 @@ class InletData extends AbstractInlet {
          */
         final ChangeFlag flag = Ut.aiFlag(data);
         this.logger().info("[ Script ] ( Flag ) Execution Operation: {0}", flag);
+        final String zo = this.variable("zo");
         if (ChangeFlag.ADD == flag) {
-            context.set("$zo", new HashMap<>());
-            this.logger().info("[ Script ] ( Data O-N ) The variable `$zo` has been empty");
+            context.set(zo, new HashMap<>());
+            this.logger().info("[ Script ] ( Data O-N ) The variable `{0}` has been empty", zo);
         } else {
             final JsonObject valueO = Ut.aiDataO(data);
-            context.set("$zo", valueO.getMap());
-            this.logger().info("[ Script ] ( Data OLD ) The variable `$zo` has been bind: {0}", valueO.encode());
+            context.set(zo, valueO.getMap());
+            this.logger().info("[ Script ] ( Data OLD ) The variable `{0}` has been bind: {1}", zo, valueO.encode());
         }
 
+        final String zn = this.variable("zn");
         if (ChangeFlag.DELETE == flag) {
-            context.set("$zn", new HashMap<>());
-            this.logger().info("[ Script ] ( Data N-N ) The variable `$zn` has been empty");
+            context.set(zn, new HashMap<>());
+            this.logger().info("[ Script ] ( Data N-N ) The variable `{0}` has been empty", zn);
         } else {
             final JsonObject valueN = Ut.aiDataN(data);
-            context.set("$zn", valueN.getMap());
-            this.logger().info("[ Script ] ( Data NEW ) The variable `$zn` has been bind: {0}", valueN.encode());
+            context.set(zn, valueN.getMap());
+            this.logger().info("[ Script ] ( Data NEW ) The variable `{0}` has been bind: {1}", zn, valueN.encode());
         }
     }
 }

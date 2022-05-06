@@ -11,7 +11,6 @@ import io.vertx.up.experiment.reference.Ref;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -51,9 +50,9 @@ public class ExUserEpic implements ExUser {
 
     @Override
     public Future<ConcurrentMap<String, JsonObject>> user(final Set<String> keys, final boolean employee) {
-        final Set<String> keySet = new HashSet<>(keys);
         final Refer userRef = new Refer();
-        return this.fetchList(keySet)
+        return this.fetchList(keys)
+            .compose(userRef::future)
             .compose(queried -> {
                 if (employee) {
                     return this.userEmp(queried);

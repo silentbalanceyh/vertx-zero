@@ -92,7 +92,8 @@ public abstract class AbstractTube implements Tube {
          * serial       ( System Generated )
          */
         return Ke.umIndent(activity, rule.getSigma(), code, XActivity::setSerial).compose(normalized -> {
-            final Playbook playbook = Playbook.open(rule.getRuleExpression());
+            // Message Processing
+            final Playbook playbook = Playbook.open(rule.getRuleMessage());
             return playbook.format(data).compose(description -> {
                 normalized.setDescription(description);
                 return Ux.future(normalized);

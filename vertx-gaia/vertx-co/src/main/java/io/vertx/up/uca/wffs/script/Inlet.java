@@ -15,16 +15,19 @@ import org.apache.commons.jexl3.JexlContext;
 public interface Inlet {
     Cc<String, Inlet> CC_INLET = Cc.openThread();
 
-    static Inlet data() {
-        return CC_INLET.pick(InletData::new, InletData.class.getName());
+    static Inlet data(final boolean prefix) {
+        return CC_INLET.pick(() -> new InletData(prefix),
+            InletData.class.getName() + String.valueOf(prefix).toUpperCase());
     }
 
-    static Inlet flow() {
-        return CC_INLET.pick(InletFlow::new, InletFlow.class.getName());
+    static Inlet flow(final boolean prefix) {
+        return CC_INLET.pick(() -> new InletFlow(prefix),
+            InletFlow.class.getName() + String.valueOf(prefix).toUpperCase());
     }
 
-    static Inlet user() {
-        return CC_INLET.pick(InletUser::new, InletUser.class.getName());
+    static Inlet user(final boolean prefix) {
+        return CC_INLET.pick(() -> new InletUser(prefix),
+            InletUser.class.getName() + String.valueOf(prefix).toUpperCase());
     }
 
     /*

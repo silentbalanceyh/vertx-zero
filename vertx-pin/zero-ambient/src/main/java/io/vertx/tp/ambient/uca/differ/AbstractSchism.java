@@ -23,16 +23,16 @@ public abstract class AbstractSchism implements Schism {
     public Schism bind(final HAtom atom) {
         Objects.requireNonNull(atom);
         // First Checking
-        final Boolean trackable = Objects.isNull(atom.trackable()) ? Boolean.TRUE : Boolean.FALSE;
+        final Boolean trackable = Objects.isNull(atom.trackable()) ? Boolean.TRUE : atom.trackable();
         if (!trackable) {
             throw new _409TrackableConflictException(this.getClass(), atom.identifier());
         }
+        this.atom = atom;
         // Second Checking
         final Set<String> trackFields = this.onTrack();
         if (trackFields.isEmpty()) {
             throw new _409TrackableConflictException(this.getClass(), atom.identifier());
         }
-        this.atom = atom;
         return this;
     }
 
