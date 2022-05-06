@@ -7,6 +7,7 @@ import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.mu.KTag;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -18,10 +19,10 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractHModel implements HModel {
-    // The namespace of current model
-    protected final transient String namespace;
     // HAttribute Map
     protected final ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
+    // The namespace of current model
+    protected transient KApp app;
     // The identifier of uniform model
     protected String identifier;
     // The bind json file
@@ -33,8 +34,8 @@ public abstract class AbstractHModel implements HModel {
 
     protected HReference reference;
 
-    public AbstractHModel(final String namespace) {
-        this.namespace = namespace;
+    public AbstractHModel(final KApp app) {
+        this.app = app;
     }
 
     // ================ Basic Method Api ==================
@@ -50,12 +51,17 @@ public abstract class AbstractHModel implements HModel {
 
     @Override
     public String namespace() {
-        return this.namespace;
+        return this.app.ns();
     }
 
     @Override
     public KMarker tag() {
         return this.marker;
+    }
+
+    @Override
+    public KApp app() {
+        return this.app;
     }
 
     @Override
@@ -109,7 +115,7 @@ public abstract class AbstractHModel implements HModel {
     protected abstract RuleUnique loadRule();
 
     protected HReference loadReference() {
-        return new HAtomReference(this.namespace);
+        return new HAtomReference(this.app);
     }
 
     protected boolean trackable() {
@@ -140,11 +146,11 @@ public abstract class AbstractHModel implements HModel {
         }
         final AbstractHModel that = (AbstractHModel) o;
         return Objects.equals(this.identifier, that.identifier) &&
-            Objects.equals(this.namespace, that.namespace);
+            Objects.equals(this.app, that.app);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.namespace, this.identifier);
+        return Objects.hash(this.app, this.identifier);
     }
 }

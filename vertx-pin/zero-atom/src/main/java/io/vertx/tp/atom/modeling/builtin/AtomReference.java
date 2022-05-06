@@ -9,6 +9,7 @@ import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.mu.KReference;
 import io.vertx.up.experiment.shape.HAtomReference;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -26,10 +27,10 @@ class AtomReference extends HAtomReference {
      * 「Fluent」Build reference metadata information based on `Model`.
      *
      * @param modelRef {@link io.vertx.tp.atom.modeling.Model} Input `M_MODEL` definition.
-     * @param appName  {@link java.lang.String} The application name.
+     * @param app      {@link KApp} The application name.
      */
-    public AtomReference(final Model modelRef, final String appName) {
-        super(appName);
+    public AtomReference(final Model modelRef, final KApp app) {
+        super(app);
         /* type = REFERENCE */
         final Set<MAttribute> attributes = modelRef.dbAttributes();
         attributes.stream()
@@ -83,6 +84,6 @@ class AtomReference extends HAtomReference {
 
     @Override
     protected HAtom toAtom(final String identifier) {
-        return Ao.toAtom(this.appName, identifier);
+        return Ao.toAtom(this.app.name(), identifier);
     }
 }

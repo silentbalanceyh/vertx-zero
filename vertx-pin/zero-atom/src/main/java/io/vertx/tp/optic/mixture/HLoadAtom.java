@@ -9,31 +9,32 @@ import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HLoadAtom implements HLoad {
 
-    private static final Cc<String, KApp> CC_APP = Cc.open();
-
     @Override
     public HAtom atom(final String appName, final String identifier) {
         try {
             /*
-             * Performer processing to expose exception
+             * KApp building based on `appName` here
+             * Internal Object to store application information
+             * - sigma
+             * - language
+             * - appName
+             * - ns
              */
-            final String unique = Ao.toNS(appName, identifier); // Model.namespace(appName) + "-" + identifier;
+            final KApp app = CC_APP.pick(() -> new KApp(appName).ns(Ao.toNS(appName)), appName);
+
+            // Fetch HModel
+            final String unique = app.keyUnique(identifier); // Model.namespace(appName) + "-" + identifier;
             final AoPerformer performer = AoPerformer.getInstance(appName);
             final Model model = AoCache.CC_MODEL.pick(() -> performer.fetch(identifier), unique);
-            // Internal Object to store application information
-            // -- sigma
-            // -- language
-            // -- appName
-            // -- ns
-            final KApp app = CC_APP.pick(() -> new KApp(appName).ns(Ao.toNS(appName)), appName);
-            final DataAtom atom = new DataAtom(model, app);
+
+            // Fetch HAtom
+            final DataAtom atom = new DataAtom(app, model);
             Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
             return atom;
         } catch (final _404ModelNotFoundException ignored) {

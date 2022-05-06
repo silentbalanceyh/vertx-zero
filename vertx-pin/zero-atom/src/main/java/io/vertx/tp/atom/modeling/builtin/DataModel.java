@@ -16,6 +16,7 @@ import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -42,8 +43,8 @@ public class DataModel extends AbstractHModel implements Model {
     /* 当前Model的主键信息 */
     private transient DataKey key;
 
-    public DataModel(final String namespace) {
-        super(namespace);
+    public DataModel(final KApp app) {
+        super(app);
         /*
          * Call `initialize()` method again
          * Fix issue:
@@ -81,7 +82,7 @@ public class DataModel extends AbstractHModel implements Model {
 
     @Override
     public HReference reference() {
-        return new AtomReference(this, this.namespace);
+        return new AtomReference(this, this.app);
     }
 
     @Override
@@ -201,7 +202,7 @@ public class DataModel extends AbstractHModel implements Model {
         {
             this.model = Ut.deserialize(model, MModel.class);
             // 直接设置名空间
-            this.model.setNamespace(this.namespace);
+            this.model.setNamespace(this.app.ns());
             this.identifier = this.model.getIdentifier();
         }
 
@@ -230,11 +231,11 @@ public class DataModel extends AbstractHModel implements Model {
         if (null != schemata) {
             /* 在填充 Schema 的过程中直接处理 DataKey */
             Ut.itJArray(schemata, (schema, index) -> {
-                final Schema schemaObj = new DataSchema(this.namespace);
+                final Schema schemaObj = new DataSchema(this.app.ns());
                 schemaObj.fromJson(schema);
                 this.schemata.add(schemaObj);
             });
-            Bridge.connect(this, this.namespace + "-" + this.identifier);
+            Bridge.connect(this, this.app.keyUnique(this.identifier));
             this.initialize();
         }
     }
@@ -275,7 +276,7 @@ public class DataModel extends AbstractHModel implements Model {
         content.append("-- Model Begin ------------------------------");
         content.append("\nfile = ").append(this.jsonFile);
         content.append("\nidentifier = ").append(this.identifier);
-        content.append("\nnamespace = ").append(this.namespace);
+        content.append("\nnamespace = ").append(this.app.ns());
         content.append("\n\t").append(this.model.toString());
         content.append("\nattributes :");
         this.attributes.forEach((k, v) -> content.append("\n\t")

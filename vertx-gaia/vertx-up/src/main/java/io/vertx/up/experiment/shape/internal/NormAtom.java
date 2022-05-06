@@ -13,12 +13,12 @@ import io.vertx.up.experiment.specification.KApp;
  */
 public class NormAtom extends AbstractHAtom {
 
-    public NormAtom(final HModel model, final KApp app) {
-        super(model, app);
+    public NormAtom(final KApp app, final HModel model) {
+        super(app, model);
     }
 
     @Override
     public NormAtom atom(final String identifier) {
-        return new NormAtom(this.model(), this.app);
+        return new NormAtom(this.app, this.model());
     }
 }

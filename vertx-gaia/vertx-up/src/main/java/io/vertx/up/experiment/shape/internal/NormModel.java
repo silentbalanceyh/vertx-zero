@@ -8,7 +8,7 @@ import io.vertx.up.experiment.mu.KClass;
 import io.vertx.up.experiment.mu.KHybrid;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.vertx.up.log.Annal;
+import io.vertx.up.experiment.specification.KApp;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -18,14 +18,12 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class NormModel extends AbstractHModel {
 
-    private static final Annal LOGGER = Annal.get(NormModel.class);
-
     private final KClass kClass;
     private final KHybrid hybrid;
 
-    public NormModel(final String namespace, final String identifier) {
-        super(namespace);
-        this.kClass = KClass.create(namespace, identifier, true);
+    public NormModel(final KApp app, final String identifier) {
+        super(app);
+        this.kClass = KClass.create(app, identifier, true);
         this.hybrid = this.kClass.hybrid();
         /*
          * Initialize

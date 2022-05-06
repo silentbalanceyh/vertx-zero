@@ -4,19 +4,20 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HApp;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KApp implements Serializable {
-    private final String appName;
+    private final String name;
     private String ns;
     private String language;
     private String sigma;
 
-    public KApp(final String appName) {
-        this.appName = appName;
-        this.ns = HApp.ns(appName);
+    public KApp(final String name) {
+        this.name = name;
+        this.ns = HApp.ns(name);
     }
 
     public KApp ns(final String namespace) {
@@ -34,8 +35,8 @@ public class KApp implements Serializable {
         return this;
     }
 
-    public String appName() {
-        return this.appName;
+    public String name() {
+        return this.name;
     }
 
     public String ns() {
@@ -52,5 +53,25 @@ public class KApp implements Serializable {
 
     public String keyUnique(final String identifier) {
         return this.ns + Strings.DASH + identifier;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final KApp kApp = (KApp) o;
+        return Objects.equals(this.name, kApp.name) &&
+            Objects.equals(this.ns, kApp.ns) &&
+            Objects.equals(this.language, kApp.language) &&
+            Objects.equals(this.sigma, kApp.sigma);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.ns, this.language, this.sigma);
     }
 }

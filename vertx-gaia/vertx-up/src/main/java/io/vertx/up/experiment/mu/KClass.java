@@ -2,10 +2,10 @@ package io.vertx.up.experiment.mu;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.mixture.HOne;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.log.Annal;
@@ -44,7 +44,6 @@ public class KClass implements Serializable {
      * Basic information of current object
      */
     private final String identifier;
-    private final String namespace;
 
     private final Set<String> chLinkage = new HashSet<>();
     private final JsonObject chAttribute = new JsonObject();
@@ -52,13 +51,15 @@ public class KClass implements Serializable {
     private final KHybrid hybrid;
     private final KModule module;
 
+    private final KApp app;
+
     // ============================== Create Start =======================
-    private KClass(final String namespace, final JsonObject configuration,
+    private KClass(final KApp app, final JsonObject configuration,
                    final boolean recursion) {
         /* Build unique key based on `namespace + identifier` */
-        this.namespace = namespace;
+        this.app = app;
         this.identifier = configuration.getString(KName.IDENTIFIER);
-        final String unique = namespace + Strings.DASH + this.identifier;
+        final String unique = app.keyUnique(this.identifier);
 
         /* Module Building based on Cache */
         final KModule module = CC_MODULE.pick(() -> {
@@ -93,16 +94,16 @@ public class KClass implements Serializable {
     }
     // ============================== Create End =========================
 
-    public static KClass create(final String namespace, final String identifier,
+    public static KClass create(final KApp app, final String identifier,
                                 final boolean recursion) {
-        final String unique = namespace + Strings.DASH + identifier;
-        final JsonObject classJ = CC_CLASS.pick(() -> KClassInternal.loadData(namespace, identifier), unique);
-        return create(namespace, classJ, recursion);
+        final String unique = app.keyUnique(identifier);
+        final JsonObject classJ = CC_CLASS.pick(() -> KClassInternal.loadData(app, identifier), unique);
+        return create(app, classJ, recursion);
     }
 
-    public static KClass create(final String namespace, final JsonObject classJ,
+    public static KClass create(final KApp app, final JsonObject classJ,
                                 final boolean recursion) {
-        return new KClass(namespace, classJ, recursion);
+        return new KClass(app, classJ, recursion);
     }
 
     /*
@@ -144,10 +145,6 @@ public class KClass implements Serializable {
 
     public String identifier() {
         return this.identifier;
-    }
-
-    public String namespace() {
-        return this.namespace;
     }
     // =============================== Private Internal Class
 
@@ -209,7 +206,7 @@ public class KClass implements Serializable {
             } else {
 
                 linkageSet.forEach(identifier -> {
-                    final KClass kClass = KClass.create(clazz.namespace, identifier, true);
+                    final KClass kClass = KClass.create(clazz.app, identifier, true);
 
                     final BiFunction<JsonObject, JsonObject, JsonObject> executor
                         = one.combine(module, kClass.module);
@@ -261,7 +258,7 @@ public class KClass implements Serializable {
                  * - The merge sequence is not important here
                  */
                 linkageSet.forEach(identifier -> {
-                    final KClass kClass = KClass.create(clazz.namespace, identifier, true);
+                    final KClass kClass = KClass.create(clazz.app, identifier, true);
                     result.putAll(one.combine(module, kClass.module));
                     result.putAll(loadType(kClass));
                 });
@@ -296,8 +293,9 @@ public class KClass implements Serializable {
          * 2) Module2 = Module2 + KPoint ( Module3 ),`chLinkage` in KClass2
          * The final result of KClass1 is ( Module1 + Module2 + Module3 )
          */
-        static JsonObject loadData(final String namespace, final String identifier) {
+        static JsonObject loadData(final KApp app, final String identifier) {
             Objects.requireNonNull(identifier);
+            final String namespace = app.ns();
             final String fileCls = "hybrid/" + identifier + ".json";
             if (!Ut.ioExist(fileCls)) {
                 LOGGER.warn("[ KClass ] Class Not Found = {0}", fileCls);
