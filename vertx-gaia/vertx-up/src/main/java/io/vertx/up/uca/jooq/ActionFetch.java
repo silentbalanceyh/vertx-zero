@@ -3,9 +3,13 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.jooq.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,6 +43,9 @@ class ActionFetch extends AbstractAction {
 
     /* Future<T> */
     <T, ID> Future<T> fetchByIdAsync(final ID id) {
+        if (Objects.isNull(id)) {
+            return Ux.future();
+        }
         return ((Future<T>) this.dao().findOneById(id)).compose(queried -> {
             this.logging("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
             return Future.succeededFuture(queried);
@@ -47,6 +54,9 @@ class ActionFetch extends AbstractAction {
 
     /* T */
     <T, ID> T fetchById(final ID id) {
+        if (Objects.isNull(id)) {
+            return null;
+        }
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(this.analyzer.conditionId(id));
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
@@ -56,6 +66,9 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return Ux.futureL();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<List<T>>) this.dao().findManyByCondition(condition)).compose(list -> {
             this.logging("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
@@ -66,6 +79,9 @@ class ActionFetch extends AbstractAction {
 
     /* List<T> */
     <T> List<T> fetch(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return new ArrayList<>();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
@@ -95,6 +111,9 @@ class ActionFetch extends AbstractAction {
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return Ux.future();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
             this.logging("[ Jq ] fetchOneAsync(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
@@ -104,6 +123,9 @@ class ActionFetch extends AbstractAction {
 
     /* T */
     <T> T fetchOne(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return null;
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class UArray {
     private static final Annal LOGGER = Annal.get(UArray.class);
 
-    private final transient JsonArray arrayReference;
+    private final JsonArray arrayReference;
 
     private UArray(final JsonArray jsonArray) {
         this.arrayReference = Fn.getNull(new JsonArray(), () ->

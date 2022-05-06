@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.experiment.brain.V;
 
 import java.math.BigDecimal;
@@ -268,7 +268,7 @@ class Value {
         return null;
     }
 
-    static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+    static JsonObject aiIn(final JsonObject in, final BMapping mapping, final boolean keepNil) {
         if (Objects.isNull(mapping)) {
             /*
              * No mapping
@@ -297,7 +297,7 @@ class Value {
         }
     }
 
-    static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+    static JsonObject aiOut(final JsonObject out, final BMapping mapping, final boolean keepNil) {
         if (Objects.isNull(mapping)) {
             /*
              * No mapping

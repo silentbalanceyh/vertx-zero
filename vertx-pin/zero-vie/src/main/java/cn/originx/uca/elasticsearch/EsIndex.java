@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +22,7 @@ public interface EsIndex {
         if (Objects.isNull(pool)) {
             return executor.apply(identifier);
         } else {
-            return Fn.pool(pool, identifier, () -> executor.apply(identifier));
+            return Cc.pool(pool, identifier, () -> executor.apply(identifier));
         }
     }
 

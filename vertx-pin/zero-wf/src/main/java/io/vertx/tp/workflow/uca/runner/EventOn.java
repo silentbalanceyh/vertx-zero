@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
-import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -17,7 +16,7 @@ import java.util.Set;
 public interface EventOn {
 
     static EventOn get() {
-        return Fn.poolThread(WfPool.POOL_EVENT, EventEngine::new);
+        return WfPool.CC_EVENT.pick(EventEngine::new);
     }
 
     /*

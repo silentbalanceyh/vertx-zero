@@ -24,7 +24,8 @@ import java.util.function.Supplier;
  */
 final class Stream {
     /**
-     * Direct read by vert.x logger to avoid dead lock.
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Stream.class);
 

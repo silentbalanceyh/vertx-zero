@@ -1,8 +1,9 @@
 package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.Future;
+import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.tp.workflow.uca.runner.IsOn;
+import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -16,6 +17,10 @@ public class WProcess {
     private transient ProcessInstance instance;
     private transient Task task;
     private transient WMove move;
+    /*
+     * Bind based on request
+     */
+    private transient KFlow flow;
 
     private WProcess() {
     }
@@ -52,8 +57,6 @@ public class WProcess {
              */
             final EventOn event = EventOn.get();
             return event.taskActive(instance).compose(task -> {
-
-
                 /*
                  * Here the WProcess should set `task` instance
                  * The task object must be located after workflow started.
@@ -71,11 +74,6 @@ public class WProcess {
         return Ux.future(task);
     }
 
-    public Future<WMove> future(final WMove move) {
-        this.move = move;
-        return Ux.future(move);
-    }
-
     public Future<WProcess> future() {
         return Ux.future(this);
     }
@@ -84,25 +82,46 @@ public class WProcess {
         return this.instance;
     }
 
+    /*
+     * This task is for active task extracting, the active task should be following
+     *
+     * 1) When the process is not moved, active task is current one
+     * 2) After current process moved, the active task may be the next active task instead
+     */
+    public Future<Task> taskActive() {
+        final EventOn event = EventOn.get();
+        return event.taskActive(this.instance);
+    }
+
     public Task task() {
         return this.task;
     }
 
-    public WMoveRule rule() {
+    public WMoveRule ruleFind() {
         return Objects.requireNonNull(this.move).ruleFind();
     }
 
+    public WMove rule() {
+        return this.move;
+    }
+
+    public boolean isStart() {
+        return Objects.nonNull(this.instance);
+    }
+
     public boolean isEnd() {
-        final IsOn is = IsOn.get();
+        final AidOn is = AidOn.get();
         return is.isEnd(this.instance);
     }
 
-    public boolean isContinue() {
-        return !this.isEnd();
-    }
-
-    public Future<Task> next() {
-        final EventOn event = EventOn.get();
-        return event.taskActive(this.instance);
+    public boolean isContinue(final Task task) {
+        final boolean isEnd = this.isEnd();
+        if (isEnd) {
+            return Boolean.FALSE;
+        }
+        if (Objects.isNull(task)) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }

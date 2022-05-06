@@ -158,6 +158,15 @@ class CompareJ {
     }
 
     static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final String field) {
+        return CompareJ.compareJ(original, current, new HashSet<>() {
+            {
+                this.add(field);
+            }
+        });
+    }
+
+    static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return compareJ(original, current,
             (source, record) -> ruleJFind(source, record, matrix));

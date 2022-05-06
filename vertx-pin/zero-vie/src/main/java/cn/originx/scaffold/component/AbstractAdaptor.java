@@ -4,11 +4,10 @@ import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._400KeyLengthException;
 import io.vertx.tp.jet.uca.business.AbstractComponent;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActIn;
@@ -16,11 +15,13 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.commune.exchange.BiMapping;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.BMapping;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -74,7 +75,7 @@ import java.util.function.Function;
  *
  * 标识规则的绑定会区分优先级
  *
- * 1. 先从通道中构造{@link io.vertx.up.commune.rule.RuleUnique}对象（通道定义，高优先级）。
+ * 1. 先从通道中构造{@link RuleUnique}对象（通道定义，高优先级）。
  * 2. 再读取模型定义{@link DataAtom}中的标识规则（模型定义，低优先级）。
  *
  * ### 4. 关于四种组件
@@ -151,7 +152,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * 1. 使用`this.options()`返回结果，构造{@link DataAtom}（从缓存中提取新的）。
      * 2. 将{@link DataAtom}和当前模型中的<strong>标识规则</strong>对象绑定。
-     * 3. 挂外置的通道专用{@link io.vertx.up.commune.rule.RuleUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
+     * 3. 挂外置的通道专用{@link RuleUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
      *
      * 内部调用`Ao.toAtom`方法的数据结构如下：
      *
@@ -181,7 +182,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
                      * 静态场景专用的 RuleUnique，不支持子模式
                      * 通道直接连接
                      * */
-                    .ruleConnect(this.rule());
+                    .rule(this.rule());
             }
         }
         return this.internalAtom;
@@ -241,9 +242,9 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * > 如果系统中未配置`identifier`属性——即通道和模型未绑定，则调用`this.atom()`执行运算修改`this.internalAtom`再构造数据库访问器。
      *
-     * @return {@link AoDao}数据库访问器
+     * @return {@link HDao}数据库访问器
      */
-    protected AoDao dao() {
+    protected HDao dao() {
         return Ao.toDao(this.atom(), this.database);
     }
 
@@ -255,10 +256,10 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * @param atom 传入的{@link DataAtom}模型定义对象。
      *
-     * @return {@link AoDao}数据库访问器
+     * @return {@link HDao}数据库访问器
      */
-    protected AoDao dao(final DataAtom atom) {
-        return Ao.toDao(atom.ruleConnect(this.rule()), this.database);
+    protected HDao dao(final DataAtom atom) {
+        return Ao.toDao(atom.rule(this.rule()), this.database);
     }
 
 
@@ -342,9 +343,9 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      * - Epsilon：字典消费组件配置
      * - DualItem：字典映射配置
      *
-     * @return {@link DiFabric} 字典翻译器
+     * @return {@link DFabric} 字典翻译器
      */
-    public DiFabric fabric() {
+    public DFabric fabric() {
         return this.fabric(this.atom());
     }
 
@@ -357,10 +358,10 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * @param atom 传入的{@link DataAtom}模型定义对象。
      *
-     * @return {@link DiFabric} 字典翻译器
+     * @return {@link DFabric} 字典翻译器
      */
-    public DiFabric fabric(final DataAtom atom) {
-        final BiMapping mapping = this.mapping().child(atom.identifier());
+    public DFabric fabric(final DataAtom atom) {
+        final BMapping mapping = this.mapping().child(atom.identifier());
         if (Objects.nonNull(mapping)) {
             mapping.bind(atom.type());
         }

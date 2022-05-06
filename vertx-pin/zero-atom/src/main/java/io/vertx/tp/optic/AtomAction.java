@@ -4,10 +4,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.feature.Atom;
 import io.vertx.up.commune.Record;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -16,11 +17,14 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AtomAction implements Atom {
+
     @Override
     public Future<JsonObject> createAsync(final String identifier, final JsonObject data) {
         final Record record = Ao.toRecord(identifier, data);
-        final AoDao dao = Ao.toDao(identifier);
-        return dao.insertAsync(record).compose(Ux::futureJ);
+        final HDao dao = Ao.toDao(identifier);
+        return dao.insertAsync(record).compose(Ux::futureJ)
+            // Normalized Data
+            .compose(inserted -> Ux.futureN(data, null, inserted));
     }
 
     @Override
@@ -29,9 +33,12 @@ public class AtomAction implements Atom {
             if (Objects.isNull(queried)) {
                 return Ux.futureJ();
             } else {
-                final AoDao dao = Ao.toDao(identifier);
+                final JsonObject original = queried.toJson();
+                final HDao dao = Ao.toDao(identifier);
                 queried.set(data);
-                return dao.updateAsync(queried).compose(Ux::futureJ);
+                return dao.updateAsync(queried).compose(Ux::futureJ)
+                    // Normalized Data
+                    .compose(updated -> Ux.futureN(data, original, updated));
             }
         });
     }
@@ -43,24 +50,29 @@ public class AtomAction implements Atom {
 
     private Future<Record> fetchRecord(final String identifier, final String key) {
         Objects.requireNonNull(key);
-        final AoDao dao = Ao.toDao(identifier);
+        final HDao dao = Ao.toDao(identifier);
         return dao.fetchByIdAsync(key);
     }
 
     @Override
     public Future<JsonArray> createAsync(final String identifier, final JsonArray data) {
         final Record[] record = Ao.toRecord(identifier, data);
-        final AoDao dao = Ao.toDao(identifier);
-        return dao.insertAsync(record).compose(Ux::futureA);
+        final HDao dao = Ao.toDao(identifier);
+        return dao.insertAsync(record).compose(Ux::futureA)
+            // Normalized Data
+            .compose(inserted -> Ux.futureN(data, inserted));
     }
 
     @Override
     public Future<JsonArray> updateAsync(final String identifier, final Set<String> keys, final JsonArray data) {
         return this.fetchRecord(identifier, keys).compose(records -> {
             // Updated
+            final JsonArray original = Ut.toJArray(records);
             final Record[] recordList = Ux.updateR(records, data);
-            final AoDao dao = Ao.toDao(identifier);
-            return dao.updateAsync(recordList).compose(Ux::futureA);
+            final HDao dao = Ao.toDao(identifier);
+            return dao.updateAsync(recordList).compose(Ux::futureA)
+                // Normalized Data
+                .compose(updated -> Ux.futureN(original, updated));
         });
     }
 
@@ -71,7 +83,7 @@ public class AtomAction implements Atom {
 
     private Future<Record[]> fetchRecord(final String identifier, final Set<String> key) {
         Objects.requireNonNull(key);
-        final AoDao dao = Ao.toDao(identifier);
+        final HDao dao = Ao.toDao(identifier);
         return dao.fetchByIdAsync(key.toArray(new String[]{}));
     }
 }

@@ -4,11 +4,11 @@ import io.vertx.up.util.Ut;
 
 public class QValue implements QLeaf {
 
-    private transient final QOp op;
-    private transient final String field;
+    private final QOp op;
+    private final String field;
 
-    private transient final Object value;
-    private transient Integer level = 0;
+    private final Object value;
+    private Integer level = 0;
 
     private QValue(final String field, final QOp op, final Object value) {
         this.field = field;

@@ -6,7 +6,6 @@ import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
 import io.vertx.up.eon.Protocols;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -71,8 +70,9 @@ class StandardEmitter extends AbstractEmitter {
             /*
              * Cached rotator, the default is integration request definition.
              */
-            final Rotator rotator = Fn.pool(Pool.POOL_ROTATOR, request.hashCode(),
-                () -> executor.apply(this.integration()).bind(this.client));
+            final Rotator rotator = Pool.CC_ROTATOR.pick(
+                () -> executor.apply(this.integration()).bind(this.client), request.hashCode());
+            // Fn.po?l(Pool.POOL_ROTATOR, request.hashCode(), () -> executor.apply(this.integration()).bind(this.client));
             /*
              * 执行请求
              */

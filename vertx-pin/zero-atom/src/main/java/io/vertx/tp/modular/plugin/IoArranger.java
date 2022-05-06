@@ -3,13 +3,13 @@ package io.vertx.tp.modular.plugin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.fn.TiConsumer;
 import io.vertx.up.util.Ut;
 
@@ -241,7 +241,7 @@ class IoArranger {
         } else {
             combine = new JsonObject();
         }
-        final AoAttribute aoAttr = atom.attribute(attribute.getName());
+        final HAttribute aoAttr = atom.attribute(attribute.getName());
         final JsonObject attrJson = new JsonObject();
         attrJson.put(KName.NAME, attribute.getName());
         attrJson.put(KName.ALIAS, attribute.getAlias());

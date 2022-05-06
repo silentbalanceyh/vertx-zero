@@ -2,7 +2,7 @@ package cn.originx.uca.log;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;

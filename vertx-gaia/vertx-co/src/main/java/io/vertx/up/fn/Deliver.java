@@ -1,11 +1,17 @@
 package io.vertx.up.fn;
 
+import io.vertx.core.CompositeFuture;
+import io.vertx.core.Future;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -59,5 +65,29 @@ final class Deliver {
             }
         }
         return reference;
+    }
+
+    @SuppressWarnings("all")
+    static <T> Future<T> passion(final T input, final List<Function<T, Future<T>>> executors) {
+        // Sequence for future management
+        Future<T> future = Future.succeededFuture(input);
+        for (final Function<T, Future<T>> executor : executors) {
+            if (Objects.nonNull(executor)) {
+                future = future.compose(executor);
+            }
+        }
+        return future;
+    }
+
+    @SuppressWarnings("all")
+    static <T> Future<T> parallel(final T input, final Set<Function<T, Future<T>>> executors) {
+        final List<Future<T>> futures = new ArrayList<>();
+        executors.forEach(executor -> futures.add(executor.apply(input)));
+        final List<Future> futureList = new ArrayList<>(futures);
+        return CompositeFuture.join(futureList).compose(finished -> {
+            final List<T> result = new ArrayList<>();
+            finished.list().forEach(item -> result.add((T) item));
+            return Future.succeededFuture(result);
+        }).compose(item -> Future.succeededFuture(input));
     }
 }

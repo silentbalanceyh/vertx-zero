@@ -2,7 +2,6 @@ package io.vertx.tp.optic.extension;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.function.Function;
@@ -21,7 +20,8 @@ public interface Init {
      * Initializer generate method.
      */
     static Init generate(final Class<?> clazz) {
-        return Fn.pool(Pool.INIT_POOL, clazz.getName(), () -> Ut.instance(clazz));
+        return Pool.CC_INIT.pick(() -> Ut.instance(clazz), clazz.getName()); //
+        // Fn.po?l(Pool.INIT_POOL, clazz.getName(), () -> Ut.instance(clazz));
     }
 
     /*

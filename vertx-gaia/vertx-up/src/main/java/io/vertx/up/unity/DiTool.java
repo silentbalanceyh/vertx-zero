@@ -5,11 +5,10 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.uca.adminicle.FieldMapper;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -23,26 +22,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 class DiTool {
+    private static final Cc<Integer, Dictionary> CC_DICT = Cc.open();
 
-    private static final ConcurrentMap<Integer, Dictionary> POOL_DICT =
-        new ConcurrentHashMap<>();
-
-    static ConcurrentMap<String, DiConsumer> mapEpsilon(final JsonObject epsilonJson) {
-        final ConcurrentMap<String, DiConsumer> epsilonMap = new ConcurrentHashMap<>();
-        if (Ut.notNil(epsilonJson)) {
-            epsilonJson.fieldNames().stream()
-                .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
-                .forEach(field -> {
-                    final JsonObject fieldData = epsilonJson.getJsonObject(field);
-                    final DiConsumer epsilon = new DiConsumer();
-                    epsilon.fromJson(fieldData);
-                    epsilonMap.put(field, epsilon);
-                });
-        }
-        return epsilonMap;
-    }
-
-    static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
+    static <T> Future<T> dictTo(final T record, final DFabric fabric) {
         final FieldMapper mapper = new FieldMapper();
         if (record instanceof JsonObject) {
             final JsonObject ref = (JsonObject) record;
@@ -59,7 +41,7 @@ class DiTool {
         }
     }
 
-    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramMap) {
+    static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramMap) {
         if (Objects.isNull(dict)) {
             /*
              * Not `Dict` configured
@@ -79,8 +61,8 @@ class DiTool {
                     /*
                      * JtDict instance for fetchAsync
                      */
-                    final Dictionary dictStub = Fn.pool(POOL_DICT, dict.hashCode(),
-                        () -> Ut.instance(dictCls));
+                    final Dictionary dictStub = CC_DICT.pick(() -> Ut.instance(dictCls), dict.hashCode());
+                    // Fn.po?l(POOL_DICT, dict.hashCode(), () -> Ut.instance(dictCls));
                     /*
                      * Param Map / List<Source>
                      */

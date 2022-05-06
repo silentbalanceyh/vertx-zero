@@ -6,465 +6,103 @@ package io.vertx.tp.ipc.eon;
 /**
  * Protobuf type {@code io.vertx.tp.ipc.eon.RetryInfo}
  */
-public  final class RetryInfo extends
+public final class RetryInfo extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:io.vertx.tp.ipc.eon.RetryInfo)
     RetryInfoOrBuilder {
-  // Use RetryInfo.newBuilder() to construct.
-  private RetryInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
-  private RetryInfo() {
-    passed_ = false;
-    backoffMs_ = java.util.Collections.emptyList();
-  }
+    // Use RetryInfo.newBuilder() to construct.
+    private RetryInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+    }
 
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
-    return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-  }
-  private RetryInfo(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    int mutable_bitField0_ = 0;
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          default: {
-            if (!input.skipField(tag)) {
-              done = true;
-            }
-            break;
-          }
-          case 8: {
+    private RetryInfo() {
+        passed_ = false;
+        backoffMs_ = java.util.Collections.emptyList();
+    }
 
-            passed_ = input.readBool();
-            break;
-          }
-          case 16: {
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              backoffMs_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000002;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+
+    private RetryInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        try {
+            boolean done = false;
+            while (!done) {
+                int tag = input.readTag();
+                switch (tag) {
+                    case 0:
+                        done = true;
+                        break;
+                    default: {
+                        if (!input.skipField(tag)) {
+                            done = true;
+                        }
+                        break;
+                    }
+                    case 8: {
+
+                        passed_ = input.readBool();
+                        break;
+                    }
+                    case 16: {
+                        if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                            backoffMs_ = new java.util.ArrayList<java.lang.Integer>();
+                            mutable_bitField0_ |= 0x00000002;
+                        }
+                        backoffMs_.add(input.readInt32());
+                        break;
+                    }
+                    case 18: {
+                        int length = input.readRawVarint32();
+                        int limit = input.pushLimit(length);
+                        if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                            backoffMs_ = new java.util.ArrayList<java.lang.Integer>();
+                            mutable_bitField0_ |= 0x00000002;
+                        }
+                        while (input.getBytesUntilLimit() > 0) {
+                            backoffMs_.add(input.readInt32());
+                        }
+                        input.popLimit(limit);
+                        break;
+                    }
+                }
             }
-            backoffMs_.add(input.readInt32());
-            break;
-          }
-          case 18: {
-            int length = input.readRawVarint32();
-            int limit = input.pushLimit(length);
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-              backoffMs_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000002;
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+                e).setUnfinishedMessage(this);
+        } finally {
+            if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                backoffMs_ = java.util.Collections.unmodifiableList(backoffMs_);
             }
-            while (input.getBytesUntilLimit() > 0) {
-              backoffMs_.add(input.readInt32());
-            }
-            input.popLimit(limit);
-            break;
-          }
+            makeExtensionsImmutable();
         }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(
-          e).setUnfinishedMessage(this);
-    } finally {
-      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-        backoffMs_ = java.util.Collections.unmodifiableList(backoffMs_);
-      }
-      makeExtensionsImmutable();
     }
-  }
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-    return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
-  }
 
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internalGetFieldAccessorTable() {
-    return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-            io.vertx.tp.ipc.eon.RetryInfo.class, io.vertx.tp.ipc.eon.RetryInfo.Builder.class);
-  }
-
-  private int bitField0_;
-  public static final int PASSED_FIELD_NUMBER = 1;
-  private boolean passed_;
-  /**
-   * <pre>
-   * Whether authorized
-   * </pre>
-   *
-   * <code>bool passed = 1;</code>
-   */
-  public boolean getPassed() {
-    return passed_;
-  }
-
-  public static final int BACKOFF_MS_FIELD_NUMBER = 2;
-  private java.util.List<java.lang.Integer> backoffMs_;
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   */
-  public java.util.List<java.lang.Integer>
-      getBackoffMsList() {
-    return backoffMs_;
-  }
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   */
-  public int getBackoffMsCount() {
-    return backoffMs_.size();
-  }
-  /**
-   * <pre>
-   * Backoff
-   * </pre>
-   *
-   * <code>repeated int32 backoff_ms = 2;</code>
-   */
-  public int getBackoffMs(int index) {
-    return backoffMs_.get(index);
-  }
-  private int backoffMsMemoizedSerializedSize = -1;
-
-  private byte memoizedIsInitialized = -1;
-  public final boolean isInitialized() {
-    byte isInitialized = memoizedIsInitialized;
-    if (isInitialized == 1) return true;
-    if (isInitialized == 0) return false;
-
-    memoizedIsInitialized = 1;
-    return true;
-  }
-
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
-    getSerializedSize();
-    if (passed_ != false) {
-      output.writeBool(1, passed_);
-    }
-    if (getBackoffMsList().size() > 0) {
-      output.writeUInt32NoTag(18);
-      output.writeUInt32NoTag(backoffMsMemoizedSerializedSize);
-    }
-    for (int i = 0; i < backoffMs_.size(); i++) {
-      output.writeInt32NoTag(backoffMs_.get(i));
-    }
-  }
-
-  public int getSerializedSize() {
-    int size = memoizedSize;
-    if (size != -1) return size;
-
-    size = 0;
-    if (passed_ != false) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(1, passed_);
-    }
-    {
-      int dataSize = 0;
-      for (int i = 0; i < backoffMs_.size(); i++) {
-        dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt32SizeNoTag(backoffMs_.get(i));
-      }
-      size += dataSize;
-      if (!getBackoffMsList().isEmpty()) {
-        size += 1;
-        size += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(dataSize);
-      }
-      backoffMsMemoizedSerializedSize = dataSize;
-    }
-    memoizedSize = size;
-    return size;
-  }
-
-  private static final long serialVersionUID = 0L;
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
-    if (obj == this) {
-     return true;
-    }
-    if (!(obj instanceof io.vertx.tp.ipc.eon.RetryInfo)) {
-      return super.equals(obj);
-    }
-    io.vertx.tp.ipc.eon.RetryInfo other = (io.vertx.tp.ipc.eon.RetryInfo) obj;
-
-    boolean result = true;
-    result = result && (getPassed()
-        == other.getPassed());
-    result = result && getBackoffMsList()
-        .equals(other.getBackoffMsList());
-    return result;
-  }
-
-  @java.lang.Override
-  public int hashCode() {
-    if (memoizedHashCode != 0) {
-      return memoizedHashCode;
-    }
-    int hash = 41;
-    hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + PASSED_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getPassed());
-    if (getBackoffMsCount() > 0) {
-      hash = (37 * hash) + BACKOFF_MS_FIELD_NUMBER;
-      hash = (53 * hash) + getBackoffMsList().hashCode();
-    }
-    hash = (29 * hash) + unknownFields.hashCode();
-    memoizedHashCode = hash;
-    return hash;
-  }
-
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      com.google.protobuf.ByteString data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      com.google.protobuf.ByteString data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(byte[] data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseDelimitedFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      com.google.protobuf.CodedInputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-
-  public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder() {
-    return DEFAULT_INSTANCE.toBuilder();
-  }
-  public static Builder newBuilder(io.vertx.tp.ipc.eon.RetryInfo prototype) {
-    return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-  }
-  public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
-  }
-
-  @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-    Builder builder = new Builder(parent);
-    return builder;
-  }
-  /**
-   * Protobuf type {@code io.vertx.tp.ipc.eon.RetryInfo}
-   */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.RetryInfo)
-      io.vertx.tp.ipc.eon.RetryInfoOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
+    getDescriptor() {
+        return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.vertx.tp.ipc.eon.RetryInfo.class, io.vertx.tp.ipc.eon.RetryInfo.Builder.class);
+    internalGetFieldAccessorTable() {
+        return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.vertx.tp.ipc.eon.RetryInfo.class, io.vertx.tp.ipc.eon.RetryInfo.Builder.class);
     }
 
-    // Construct using io.vertx.tp.ipc.eon.RetryInfo.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
-    }
-
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      super(parent);
-      maybeForceBuilderInitialization();
-    }
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-      }
-    }
-    public Builder clear() {
-      super.clear();
-      passed_ = false;
-
-      backoffMs_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000002);
-      return this;
-    }
-
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
-    }
-
-    public io.vertx.tp.ipc.eon.RetryInfo getDefaultInstanceForType() {
-      return io.vertx.tp.ipc.eon.RetryInfo.getDefaultInstance();
-    }
-
-    public io.vertx.tp.ipc.eon.RetryInfo build() {
-      io.vertx.tp.ipc.eon.RetryInfo result = buildPartial();
-      if (!result.isInitialized()) {
-        throw newUninitializedMessageException(result);
-      }
-      return result;
-    }
-
-    public io.vertx.tp.ipc.eon.RetryInfo buildPartial() {
-      io.vertx.tp.ipc.eon.RetryInfo result = new io.vertx.tp.ipc.eon.RetryInfo(this);
-      int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
-      result.passed_ = passed_;
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        backoffMs_ = java.util.Collections.unmodifiableList(backoffMs_);
-        bitField0_ = (bitField0_ & ~0x00000002);
-      }
-      result.backoffMs_ = backoffMs_;
-      result.bitField0_ = to_bitField0_;
-      onBuilt();
-      return result;
-    }
-
-    public Builder clone() {
-      return (Builder) super.clone();
-    }
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.setField(field, value);
-    }
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
-    }
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
-    }
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
-    }
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.addRepeatedField(field, value);
-    }
-    public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.vertx.tp.ipc.eon.RetryInfo) {
-        return mergeFrom((io.vertx.tp.ipc.eon.RetryInfo)other);
-      } else {
-        super.mergeFrom(other);
-        return this;
-      }
-    }
-
-    public Builder mergeFrom(io.vertx.tp.ipc.eon.RetryInfo other) {
-      if (other == io.vertx.tp.ipc.eon.RetryInfo.getDefaultInstance()) return this;
-      if (other.getPassed() != false) {
-        setPassed(other.getPassed());
-      }
-      if (!other.backoffMs_.isEmpty()) {
-        if (backoffMs_.isEmpty()) {
-          backoffMs_ = other.backoffMs_;
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          ensureBackoffMsIsMutable();
-          backoffMs_.addAll(other.backoffMs_);
-        }
-        onChanged();
-      }
-      onChanged();
-      return this;
-    }
-
-    public final boolean isInitialized() {
-      return true;
-    }
-
-    public Builder mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      io.vertx.tp.ipc.eon.RetryInfo parsedMessage = null;
-      try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (io.vertx.tp.ipc.eon.RetryInfo) e.getUnfinishedMessage();
-        throw e.unwrapIOException();
-      } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
-      return this;
-    }
     private int bitField0_;
+    public static final int PASSED_FIELD_NUMBER = 1;
+    private boolean passed_;
 
-    private boolean passed_ ;
     /**
      * <pre>
      * Whether authorized
@@ -473,42 +111,12 @@ public  final class RetryInfo extends
      * <code>bool passed = 1;</code>
      */
     public boolean getPassed() {
-      return passed_;
-    }
-    /**
-     * <pre>
-     * Whether authorized
-     * </pre>
-     *
-     * <code>bool passed = 1;</code>
-     */
-    public Builder setPassed(boolean value) {
-      
-      passed_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Whether authorized
-     * </pre>
-     *
-     * <code>bool passed = 1;</code>
-     */
-    public Builder clearPassed() {
-      
-      passed_ = false;
-      onChanged();
-      return this;
+        return passed_;
     }
 
-    private java.util.List<java.lang.Integer> backoffMs_ = java.util.Collections.emptyList();
-    private void ensureBackoffMsIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-        backoffMs_ = new java.util.ArrayList<java.lang.Integer>(backoffMs_);
-        bitField0_ |= 0x00000002;
-       }
-    }
+    public static final int BACKOFF_MS_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> backoffMs_;
+
     /**
      * <pre>
      * Backoff
@@ -517,9 +125,10 @@ public  final class RetryInfo extends
      * <code>repeated int32 backoff_ms = 2;</code>
      */
     public java.util.List<java.lang.Integer>
-        getBackoffMsList() {
-      return java.util.Collections.unmodifiableList(backoffMs_);
+    getBackoffMsList() {
+        return backoffMs_;
     }
+
     /**
      * <pre>
      * Backoff
@@ -528,8 +137,9 @@ public  final class RetryInfo extends
      * <code>repeated int32 backoff_ms = 2;</code>
      */
     public int getBackoffMsCount() {
-      return backoffMs_.size();
+        return backoffMs_.size();
     }
+
     /**
      * <pre>
      * Backoff
@@ -538,109 +148,546 @@ public  final class RetryInfo extends
      * <code>repeated int32 backoff_ms = 2;</code>
      */
     public int getBackoffMs(int index) {
-      return backoffMs_.get(index);
-    }
-    /**
-     * <pre>
-     * Backoff
-     * </pre>
-     *
-     * <code>repeated int32 backoff_ms = 2;</code>
-     */
-    public Builder setBackoffMs(
-        int index, int value) {
-      ensureBackoffMsIsMutable();
-      backoffMs_.set(index, value);
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Backoff
-     * </pre>
-     *
-     * <code>repeated int32 backoff_ms = 2;</code>
-     */
-    public Builder addBackoffMs(int value) {
-      ensureBackoffMsIsMutable();
-      backoffMs_.add(value);
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Backoff
-     * </pre>
-     *
-     * <code>repeated int32 backoff_ms = 2;</code>
-     */
-    public Builder addAllBackoffMs(
-        java.lang.Iterable<? extends java.lang.Integer> values) {
-      ensureBackoffMsIsMutable();
-      com.google.protobuf.AbstractMessageLite.Builder.addAll(
-          values, backoffMs_);
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Backoff
-     * </pre>
-     *
-     * <code>repeated int32 backoff_ms = 2;</code>
-     */
-    public Builder clearBackoffMs() {
-      backoffMs_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000002);
-      onChanged();
-      return this;
-    }
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+        return backoffMs_.get(index);
     }
 
-    public final Builder mergeUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+    private int backoffMsMemoizedSerializedSize = -1;
+
+    private byte memoizedIsInitialized = -1;
+
+    public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
     }
 
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+        throws java.io.IOException {
+        getSerializedSize();
+        if (passed_ != false) {
+            output.writeBool(1, passed_);
+        }
+        if (getBackoffMsList().size() > 0) {
+            output.writeUInt32NoTag(18);
+            output.writeUInt32NoTag(backoffMsMemoizedSerializedSize);
+        }
+        for (int i = 0; i < backoffMs_.size(); i++) {
+            output.writeInt32NoTag(backoffMs_.get(i));
+        }
+    }
 
-    // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.RetryInfo)
-  }
+    public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
 
-  // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.RetryInfo)
-  private static final io.vertx.tp.ipc.eon.RetryInfo DEFAULT_INSTANCE;
-  static {
-    DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.RetryInfo();
-  }
+        size = 0;
+        if (passed_ != false) {
+            size += com.google.protobuf.CodedOutputStream
+                .computeBoolSize(1, passed_);
+        }
+        {
+            int dataSize = 0;
+            for (int i = 0; i < backoffMs_.size(); i++) {
+                dataSize += com.google.protobuf.CodedOutputStream
+                    .computeInt32SizeNoTag(backoffMs_.get(i));
+            }
+            size += dataSize;
+            if (!getBackoffMsList().isEmpty()) {
+                size += 1;
+                size += com.google.protobuf.CodedOutputStream
+                    .computeInt32SizeNoTag(dataSize);
+            }
+            backoffMsMemoizedSerializedSize = dataSize;
+        }
+        memoizedSize = size;
+        return size;
+    }
 
-  public static io.vertx.tp.ipc.eon.RetryInfo getDefaultInstance() {
-    return DEFAULT_INSTANCE;
-  }
+    private static final long serialVersionUID = 0L;
 
-  private static final com.google.protobuf.Parser<RetryInfo>
-      PARSER = new com.google.protobuf.AbstractParser<RetryInfo>() {
-    public RetryInfo parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof io.vertx.tp.ipc.eon.RetryInfo)) {
+            return super.equals(obj);
+        }
+        io.vertx.tp.ipc.eon.RetryInfo other = (io.vertx.tp.ipc.eon.RetryInfo) obj;
+
+        boolean result = true;
+        result = result && (getPassed()
+            == other.getPassed());
+        result = result && getBackoffMsList()
+            .equals(other.getBackoffMsList());
+        return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + PASSED_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getPassed());
+        if (getBackoffMsCount() > 0) {
+            hash = (37 * hash) + BACKOFF_MS_FIELD_NUMBER;
+            hash = (53 * hash) + getBackoffMsList().hashCode();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RetryInfo(input, extensionRegistry);
+        return PARSER.parseFrom(data, extensionRegistry);
     }
-  };
 
-  public static com.google.protobuf.Parser<RetryInfo> parser() {
-    return PARSER;
-  }
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
 
-  @java.lang.Override
-  public com.google.protobuf.Parser<RetryInfo> getParserForType() {
-    return PARSER;
-  }
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
 
-  public io.vertx.tp.ipc.eon.RetryInfo getDefaultInstanceForType() {
-    return DEFAULT_INSTANCE;
-  }
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(io.vertx.tp.ipc.eon.RetryInfo prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+    }
+
+    /**
+     * Protobuf type {@code io.vertx.tp.ipc.eon.RetryInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.vertx.tp.ipc.eon.RetryInfo)
+        io.vertx.tp.ipc.eon.RetryInfoOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    io.vertx.tp.ipc.eon.RetryInfo.class, io.vertx.tp.ipc.eon.RetryInfo.Builder.class);
+        }
+
+        // Construct using io.vertx.tp.ipc.eon.RetryInfo.newBuilder()
+        private Builder() {
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+            }
+        }
+
+        public Builder clear() {
+            super.clear();
+            passed_ = false;
+
+            backoffMs_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+            return io.vertx.tp.ipc.eon.UpStatus.internal_static_io_vertx_tp_ipc_eon_RetryInfo_descriptor;
+        }
+
+        public io.vertx.tp.ipc.eon.RetryInfo getDefaultInstanceForType() {
+            return io.vertx.tp.ipc.eon.RetryInfo.getDefaultInstance();
+        }
+
+        public io.vertx.tp.ipc.eon.RetryInfo build() {
+            io.vertx.tp.ipc.eon.RetryInfo result = buildPartial();
+            if (!result.isInitialized()) {
+                throw newUninitializedMessageException(result);
+            }
+            return result;
+        }
+
+        public io.vertx.tp.ipc.eon.RetryInfo buildPartial() {
+            io.vertx.tp.ipc.eon.RetryInfo result = new io.vertx.tp.ipc.eon.RetryInfo(this);
+            int from_bitField0_ = bitField0_;
+            int to_bitField0_ = 0;
+            result.passed_ = passed_;
+            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                backoffMs_ = java.util.Collections.unmodifiableList(backoffMs_);
+                bitField0_ = (bitField0_ & ~0x00000002);
+            }
+            result.backoffMs_ = backoffMs_;
+            result.bitField0_ = to_bitField0_;
+            onBuilt();
+            return result;
+        }
+
+        public Builder clone() {
+            return (Builder) super.clone();
+        }
+
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+            return (Builder) super.setField(field, value);
+        }
+
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+            return (Builder) super.clearField(field);
+        }
+
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+            return (Builder) super.clearOneof(oneof);
+        }
+
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, Object value) {
+            return (Builder) super.setRepeatedField(field, index, value);
+        }
+
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+            return (Builder) super.addRepeatedField(field, value);
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof io.vertx.tp.ipc.eon.RetryInfo) {
+                return mergeFrom((io.vertx.tp.ipc.eon.RetryInfo) other);
+            } else {
+                super.mergeFrom(other);
+                return this;
+            }
+        }
+
+        public Builder mergeFrom(io.vertx.tp.ipc.eon.RetryInfo other) {
+            if (other == io.vertx.tp.ipc.eon.RetryInfo.getDefaultInstance()) return this;
+            if (other.getPassed() != false) {
+                setPassed(other.getPassed());
+            }
+            if (!other.backoffMs_.isEmpty()) {
+                if (backoffMs_.isEmpty()) {
+                    backoffMs_ = other.backoffMs_;
+                    bitField0_ = (bitField0_ & ~0x00000002);
+                } else {
+                    ensureBackoffMsIsMutable();
+                    backoffMs_.addAll(other.backoffMs_);
+                }
+                onChanged();
+            }
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+            io.vertx.tp.ipc.eon.RetryInfo parsedMessage = null;
+            try {
+                parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                parsedMessage = (io.vertx.tp.ipc.eon.RetryInfo) e.getUnfinishedMessage();
+                throw e.unwrapIOException();
+            } finally {
+                if (parsedMessage != null) {
+                    mergeFrom(parsedMessage);
+                }
+            }
+            return this;
+        }
+
+        private int bitField0_;
+
+        private boolean passed_;
+
+        /**
+         * <pre>
+         * Whether authorized
+         * </pre>
+         *
+         * <code>bool passed = 1;</code>
+         */
+        public boolean getPassed() {
+            return passed_;
+        }
+
+        /**
+         * <pre>
+         * Whether authorized
+         * </pre>
+         *
+         * <code>bool passed = 1;</code>
+         */
+        public Builder setPassed(boolean value) {
+
+            passed_ = value;
+            onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Whether authorized
+         * </pre>
+         *
+         * <code>bool passed = 1;</code>
+         */
+        public Builder clearPassed() {
+
+            passed_ = false;
+            onChanged();
+            return this;
+        }
+
+        private java.util.List<java.lang.Integer> backoffMs_ = java.util.Collections.emptyList();
+
+        private void ensureBackoffMsIsMutable() {
+            if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+                backoffMs_ = new java.util.ArrayList<java.lang.Integer>(backoffMs_);
+                bitField0_ |= 0x00000002;
+            }
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public java.util.List<java.lang.Integer>
+        getBackoffMsList() {
+            return java.util.Collections.unmodifiableList(backoffMs_);
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public int getBackoffMsCount() {
+            return backoffMs_.size();
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public int getBackoffMs(int index) {
+            return backoffMs_.get(index);
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public Builder setBackoffMs(
+            int index, int value) {
+            ensureBackoffMsIsMutable();
+            backoffMs_.set(index, value);
+            onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public Builder addBackoffMs(int value) {
+            ensureBackoffMsIsMutable();
+            backoffMs_.add(value);
+            onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public Builder addAllBackoffMs(
+            java.lang.Iterable<? extends java.lang.Integer> values) {
+            ensureBackoffMsIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, backoffMs_);
+            onChanged();
+            return this;
+        }
+
+        /**
+         * <pre>
+         * Backoff
+         * </pre>
+         *
+         * <code>repeated int32 backoff_ms = 2;</code>
+         */
+        public Builder clearBackoffMs() {
+            backoffMs_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            onChanged();
+            return this;
+        }
+
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return this;
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:io.vertx.tp.ipc.eon.RetryInfo)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.vertx.tp.ipc.eon.RetryInfo)
+    private static final io.vertx.tp.ipc.eon.RetryInfo DEFAULT_INSTANCE;
+
+    static {
+        DEFAULT_INSTANCE = new io.vertx.tp.ipc.eon.RetryInfo();
+    }
+
+    public static io.vertx.tp.ipc.eon.RetryInfo getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RetryInfo>
+        PARSER = new com.google.protobuf.AbstractParser<RetryInfo>() {
+        public RetryInfo parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new RetryInfo(input, extensionRegistry);
+        }
+    };
+
+    public static com.google.protobuf.Parser<RetryInfo> parser() {
+        return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RetryInfo> getParserForType() {
+        return PARSER;
+    }
+
+    public io.vertx.tp.ipc.eon.RetryInfo getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
 
 }
 

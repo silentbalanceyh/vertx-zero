@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Stay;
@@ -66,7 +67,8 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_START)
     public Future<JsonObject> start(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
 
         // Camunda Processing
         final Movement runner = engine.componentRun();
@@ -76,9 +78,8 @@ public class RunActor {
         Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
             runner.getClass(), transfer.getClass());
 
-
-        return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance))
+        return runner.moveAsync(request)
+            .compose(instance -> transfer.moveAsync(request, instance))
             .compose(WRecord::futureJ);
     }
 
@@ -130,28 +131,16 @@ public class RunActor {
         "updatedAt": "2022-02-02T08:53:24.616055Z"
     }
      */
-    @Me
-    @Address(HighWay.Do.FLOW_DRAFT)
-    public Future<JsonObject> draft(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
-
-        // Camunda Processing
-        final Stay stay = engine.stayDraft();
-
-        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
-        return stay.keepAsync(data, null)
-            // Callback
-            .compose(WRecord::futureJ);
-    }
 
     @Me
     @Address(HighWay.Do.FLOW_COMPLETE)
     public Future<JsonObject> complete(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
         final Transfer transfer = engine.componentGenerate();
         final Movement runner = engine.componentRun();
-        return runner.moveAsync(data)
-            .compose(instance -> transfer.moveAsync(data, instance))
+        return runner.moveAsync(request)
+            .compose(instance -> transfer.moveAsync(request, instance))
             // Callback
             .compose(WRecord::futureJ);
     }
@@ -165,13 +154,31 @@ public class RunActor {
     @Me
     @Address(HighWay.Do.FLOW_CANCEL)
     public Future<JsonObject> cancel(final JsonObject data) {
-        final EngineOn engine = EngineOn.connect(data);
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
         final Movement runner = engine.environmentPre();
-        return runner.moveAsync(data)
-            .compose(instance -> stay.keepAsync(data, instance))
+        return runner.moveAsync(request)
+            .compose(instance -> stay.keepAsync(request, instance))
             // Callback
             .compose(Ux::futureJ);
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_DRAFT)
+    public Future<JsonObject> draft(final JsonObject data) {
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
+
+        // Camunda Processing
+        final Stay stay = engine.stayDraft();
+        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        final Movement runner = engine.environmentPre();
+        return runner.moveAsync(request)
+            .compose(instance -> stay.keepAsync(request, instance))
+            // Callback
+            .compose(WRecord::futureJ);
     }
 }

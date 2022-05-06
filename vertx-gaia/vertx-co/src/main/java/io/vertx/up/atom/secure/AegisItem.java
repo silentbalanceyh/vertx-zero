@@ -40,11 +40,11 @@ public class AegisItem implements Serializable {
         LOGGER.info("[ Auth ] You have configured `{0}` kind security mode.", String.valueOf(SECURE.size()));
     }
 
-    private final transient JsonObject options = new JsonObject();
-    private final transient String key;
-    private final transient AuthWall wall;
-    private transient Class<?> providerAuthenticate;
-    private transient Class<?> providerAuthorization;
+    private final JsonObject options = new JsonObject();
+    private final String key;
+    private final AuthWall wall;
+    private Class<?> providerAuthenticate;
+    private Class<?> providerAuthorization;
 
     private AegisItem(final String key, final JsonObject config) {
         this.key = key;

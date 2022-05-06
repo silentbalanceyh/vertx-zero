@@ -37,14 +37,19 @@ public class ExTenant implements Serializable {
         return this.tenant.getGlobal();
     }
 
-    public Kv<String, Set<String>> valueCriteria(final String tableName) {
+    public ConcurrentMap<String, Set<String>> valueCriteria(final String tableName) {
         final JsonObject criteria = this.tenant.getForbidden().getOrDefault(tableName, new JsonObject());
         if (Ut.notNil(criteria)) {
-            final String field = criteria.fieldNames().iterator().next();
-            final JsonArray values = criteria.getJsonArray(field, new JsonArray());
-            return Kv.create(field, Ut.toSet(values));
+            final ConcurrentMap<String, Set<String>> conditionMap = new ConcurrentHashMap<>();
+            criteria.fieldNames().forEach(field -> {
+                final JsonArray values = criteria.getJsonArray(field, new JsonArray());
+                if (Ut.notNil(values)) {
+                    conditionMap.put(field, Ut.toSet(values));
+                }
+            });
+            return conditionMap;
         } else {
-            return Kv.create();
+            return new ConcurrentHashMap<>();
         }
     }
 

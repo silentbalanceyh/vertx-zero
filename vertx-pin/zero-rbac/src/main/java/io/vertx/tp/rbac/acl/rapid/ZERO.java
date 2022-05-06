@@ -3,14 +3,11 @@ package io.vertx.tp.rbac.acl.rapid;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 interface Pool {
-    ConcurrentMap<RegionType, Dwarf> DWARF_POOL =
-        new ConcurrentHashMap<>();
+    Cc<RegionType, Dwarf> CC_DWARF = Cc.open();
 }
 
 class T {

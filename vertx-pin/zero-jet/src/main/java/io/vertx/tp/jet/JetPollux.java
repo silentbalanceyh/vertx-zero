@@ -11,7 +11,6 @@ import io.vertx.tp.jet.uca.aim.*;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
 import io.vertx.up.extension.PlugRouter;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroJet;
 import io.vertx.up.uca.web.failure.CommonEndurer;
 import io.vertx.up.util.Ut;
@@ -126,10 +125,11 @@ public class JetPollux implements PlugRouter {
          *      3.2) Send message to worker
          *      3.3) Let worker consume component
          */
-        final JtAim pre = Fn.poolThread(Pool.AIM_PRE_HUBS, () -> Ut.instance(PreAim.class));
-        final JtAim in = Fn.poolThread(Pool.AIM_IN_HUBS, () -> Ut.instance(InAim.class));
-        final JtAim engine = Fn.poolThread(Pool.AIM_ENGINE_HUBS, () -> Ut.instance(EngineAim.class));
-        final JtAim send = Fn.poolThread(Pool.AIM_SEND_HUBS, () -> Ut.instance(SendAim.class));
+        final JtAim pre = Pool.CC_AIM.pick(() -> Ut.instance(PreAim.class), PreAim.class.getName());
+        // Fn.po?lThread(Pool.AIM_PRE_HUBS, () -> Ut.instance(PreAim.class));
+        final JtAim in = Pool.CC_AIM.pick(() -> Ut.instance(InAim.class), InAim.class.getName());
+        final JtAim engine = Pool.CC_AIM.pick(() -> Ut.instance(EngineAim.class), EngineAim.class.getName());
+        final JtAim send = Pool.CC_AIM.pick(() -> Ut.instance(SendAim.class), SendAim.class.getName());
         route
             /* Basic parameter validation / 400 Bad Request */
             .handler(pre.attack(uri))

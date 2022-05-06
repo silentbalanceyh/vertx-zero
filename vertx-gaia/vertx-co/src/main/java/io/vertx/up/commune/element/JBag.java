@@ -9,11 +9,11 @@ import java.io.Serializable;
  */
 public class JBag implements Serializable {
     /** Model identifier for data bag */
-    private transient String identifier;
+    private String identifier;
     /** The data in current package */
-    private transient JsonArray data = new JsonArray();
+    private JsonArray data = new JsonArray();
     /** The data size of current package **/
-    private transient Integer size = 0;
+    private Integer size = 0;
 
     public String getIdentifier() {
         return this.identifier;

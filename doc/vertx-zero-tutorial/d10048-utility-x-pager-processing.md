@@ -11,7 +11,8 @@ this object could help you to do pagination. this object contains following apis
 The pagination parameters may came from http request query string, body or other place, in this kind of situation, the
 sender could take this place to do parameter normalization.
 
-> In "Interface Style", the sender code is ignored, but in current chapter we need this sender class to do useful things.
+> In "Interface Style", the sender code is ignored, but in current chapter we need this sender class to do useful
+> things.
 
 ## 1. Source Code
 

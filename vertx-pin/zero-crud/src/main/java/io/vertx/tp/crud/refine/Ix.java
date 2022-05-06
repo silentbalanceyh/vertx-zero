@@ -5,12 +5,13 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KField;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.element.TypeAtom;
+import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -59,8 +60,8 @@ public class Ix {
         return IxData.parameters(in);
     }
 
-    public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
-        return IxType.atom(active, columns);
+    public static HTAtom onAtom(final IxMod active, final JsonArray columns) {
+        return IxData.atom(active, columns);
     }
 
     // --------------------------------- Function Part
@@ -88,6 +89,12 @@ public class Ix {
     @SafeVarargs
     public static <T> Future<T> passion(final T input, final IxMod in, final BiFunction<T, IxMod, Future<T>>... executors) {
         return IxFn.passion(input, in, executors);
+    }
+
+    public static <T> Function<T, Future<T>> wrap(
+        final KModule module, final BiFunction<Aspect, Function<T, Future<T>>, Function<T, Future<T>>> aopFn,
+        final Function<T, Future<T>> executor) {
+        return IxFn.wrap(module, aopFn, executor);
     }
 
     // --------------------------------- Serialization / Deserialization System

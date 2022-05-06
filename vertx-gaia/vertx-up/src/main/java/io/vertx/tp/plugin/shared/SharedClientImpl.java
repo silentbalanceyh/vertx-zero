@@ -12,19 +12,17 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500SharedDataModeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("all")
 public class SharedClientImpl<K, V> implements SharedClient<K, V> {
 
     private static final Annal LOGGER = Annal.get(SharedClientImpl.class);
 
-    private static final ConcurrentMap<String, SharedClient> CLIENTS =
-        new ConcurrentHashMap<>();
+    private static final Cc<String, SharedClient> CC_CLIENTS = Cc.open();
 
     private final transient Vertx vertx;
     private transient LocalMap<K, V> syncMap;
@@ -37,7 +35,8 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     }
 
     public static <K, V> SharedClient<K, V> create(final Vertx vertx, final String name) {
-        return Fn.pool(CLIENTS, name, () -> new SharedClientImpl(vertx, name));
+        return CC_CLIENTS.pick(() -> new SharedClientImpl(vertx, name), name);
+        // return Fn.po?l(CLIENTS, name, () -> new SharedClientImpl(vertx, name));
     }
 
     private void async(final Handler<AsyncResult<AsyncMap<K, V>>> handler) {

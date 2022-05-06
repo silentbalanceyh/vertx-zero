@@ -17,16 +17,16 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.rule.RuleTerm;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.experiment.rule.RuleTerm;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.fn.wait.Log;
 import io.vertx.up.secure.Lee;
@@ -70,6 +70,7 @@ public final class Ux {
      * 1) log:  for branch log creation
      * 2) debug:
      * 3) otherwise:
+     * 4) dataN/dataO -> New / Old Json
      * ( Business Part: Debugging )
      */
     public static Log log(final Class<?> clazz) {
@@ -100,6 +101,16 @@ public final class Ux {
         return otherwise(() -> input);
     }
 
+
+    /*
+     * Update Data on Record
+     * 1. Generic T ( Pojo )
+     * 2. List<T>
+     * 3. JsonObject
+     * 4. JsonArray
+     * 5. Record
+     * 6. Record[]
+     */
     public static <T> T updateT(final T query, final JsonObject params) {
         return Compare.updateT(query, params);
     }
@@ -234,6 +245,7 @@ public final class Ux {
      * ( Business Part, support `pojoFile` conversation )
      * 4) toFile
      */
+
     public static <T> JsonObject toJson(final T entity) {
         return To.toJObject(entity, "");
     }
@@ -409,14 +421,24 @@ public final class Ux {
         return CompareJ.compareJ(original, current, fields);
     }
 
-    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
-        return To.future(CompareJ.compareJ(original, current, fields));
+    public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final String field) {
+        return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return To.future(CompareJ.compareJ(original, current, fields));
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final String field) {
+        return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
@@ -472,7 +494,26 @@ public final class Ux {
      * -- futureJA(JsonArray)
      * -- futureB(JsonObject)
      * -- futureB(boolean)
+     *
+     * New Api for normalized mount
+     * 7)
+     * -- futureN(JsonObject, JsonObject)
+     * -- futureN(JsonArray, JsonArray)
+     * -- futureN(JsonArray, JsonArray, String)
+     * > N for normalize and add new field:  __data,  __flag instead of original data
      */
+    public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
+        return Norm.effect(input, previous, current);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current) {
+        return Norm.effect(previous, current, KName.KEY);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current, final String field) {
+        return Norm.effect(previous, current, field);
+    }
+
     public static Future<Boolean> futureT() {
         return To.future(Boolean.TRUE);
     }
@@ -596,6 +637,30 @@ public final class Ux {
     }
 
     /*
+     * Channel Execution
+     *
+     * 1. channel
+     * 2. channelSync
+     * 3. channelAsync
+     * 4. channelFile
+     */
+    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
+                                           final Function<T, Future<O>> executor) {
+        return Async.channel(clazz, supplier, executor);
+    }
+
+
+    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
+                                       final Function<T, O> executor) {
+        return Async.channelSync(clazz, supplier, executor);
+    }
+
+    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                                final Function<T, Future<O>> executor) {
+        return Async.channelAsync(clazz, supplier, executor);
+    }
+
+    /*
      * Flatting method for function executing
      * 1) attach -> JsonObject ( field )
      * 2) attachJ -> Advanced JsonObject ( field )
@@ -618,7 +683,9 @@ public final class Ux {
      *      "list": [],
      *      "count": xx
      * }
+     * Normalize old/new data in framework
      */
+
     public static JsonObject pageData() {
         return Web.pageData(new JsonArray(), 0L);
     }
@@ -762,6 +829,10 @@ public final class Ux {
         return Combine.thenCompress(futures, (original, latest) -> original.addAll(latest));
     }
 
+    public static Future<JsonObject> thenEffect(final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
+        return Norm.effectTabb(input, executor);
+    }
+
     /**
      * Common usage: To error directly
      *
@@ -774,8 +845,8 @@ public final class Ux {
         return Combine.thenError(clazz, args);
     }
 
-    public static <T> Future<T> thenErrorSigma(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return Combine.thenErrorSigma(clazz, sigma, supplier);
+    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+        return Combine.thenError(clazz, sigma, supplier);
     }
 
     /*
@@ -1067,15 +1138,15 @@ public final class Ux {
     /*
      * Keep following dict method
      */
-    public static ConcurrentMap<String, DiConsumer> dictEpsilon(final JsonObject epsilon) {
-        return DiTool.mapEpsilon(epsilon);
+    public static ConcurrentMap<String, DConsumer> dictEpsilon(final JsonObject epsilon) {
+        return DConsumer.mapEpsilon(epsilon);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramsMap) {
+    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramsMap) {
         return DiTool.dictCalc(dict, paramsMap);
     }
 
-    public static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
+    public static <T> Future<T> dictTo(final T record, final DFabric fabric) {
         return DiTool.dictTo(record, fabric);
     }
 
@@ -1147,7 +1218,8 @@ public final class Ux {
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.poolThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ_HIS.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1168,7 +1240,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1181,7 +1254,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1194,7 +1268,8 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         public static boolean isEmpty(final JsonObject condition) {
@@ -1227,7 +1302,8 @@ public final class Ux {
     public static class Pool {
 
         public static UxPool on(final String name) {
-            return Fn.pool(Cache.MAP_POOL, name, () -> new UxPool(name));
+            return Cache.CC_UX_POOL.pick(() -> new UxPool(name), name);
+            // return Fn.po?l(Cache.MAP_POOL, name, () -> new UxPool(name));
         }
 
         public static UxPool on() {

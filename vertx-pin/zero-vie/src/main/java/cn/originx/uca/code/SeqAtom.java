@@ -1,7 +1,7 @@
 package cn.originx.uca.code;
 
 import io.vertx.core.Future;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 
 import java.util.Objects;
 import java.util.Queue;

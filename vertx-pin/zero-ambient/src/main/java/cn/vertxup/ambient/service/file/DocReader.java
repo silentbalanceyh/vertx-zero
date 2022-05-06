@@ -8,14 +8,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -24,14 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class DocReader implements DocRStub {
-    private static final ConcurrentMap<String, Arbor> POOL_ARBOR = new ConcurrentHashMap<>();
+    private static final Cc<String, Arbor> CC_ARBOR = Cc.openThread();
     private static final Annal LOGGER = Annal.get(DocReader.class);
     @Inject
     private transient DatumStub stub;
@@ -95,7 +92,8 @@ public class DocReader implements DocRStub {
         storeRef.put(KName.STORE_PATH, config.getStorePath());
         configuration.put(KName.STORE, storeRef);
 
-        final Arbor arbor = Fn.poolThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
+        final Arbor arbor = CC_ARBOR.pick(() -> Ut.instance(arborCls), arborCls.getName());
+        // Fn.po?lThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
         At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
         return arbor.generate(input, configuration);
     }
@@ -110,7 +108,7 @@ public class DocReader implements DocRStub {
          * 1. Copy `directory` visitMode to attachment
          * 2. Fetch `directory` of children
          */
-        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirRun(sigma, directoryId)).compose(directory -> {
+        return Ux.channel(ExIo.class, JsonArray::new, io -> io.dirRun(sigma, directoryId)).compose(directory -> {
             final JsonObject condition = Ux.whereAnd();
             condition.put(KName.DIRECTORY_ID, directoryId);
             // active = true
@@ -126,7 +124,7 @@ public class DocReader implements DocRStub {
     @Override
     public Future<JsonArray> fetchTrash(final String sigma) {
         Objects.requireNonNull(sigma);
-        return Ke.channel(ExIo.class, JsonArray::new, io -> io.dirTrash(sigma)).compose(directory -> {
+        return Ux.channel(ExIo.class, JsonArray::new, io -> io.dirTrash(sigma)).compose(directory -> {
             final JsonObject condition = Ux.whereAnd();
             // active = false
             condition.put(KName.ACTIVE, Boolean.FALSE);
@@ -151,7 +149,7 @@ public class DocReader implements DocRStub {
          * 1 - Upload
          * 2 - Replaced
          *  */
-        return Ke.channel(ExUser.class, JsonArray::new, user -> user.auditor(keyword)).compose(keys -> {
+        return Ux.channel(ExUser.class, JsonArray::new, user -> user.search(keyword)).compose(keys -> {
             if (Ut.notNil(keys)) {
                 // User Matched
                 final JsonObject criteria = Ux.whereOr();

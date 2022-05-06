@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.uca.runner;
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -13,7 +12,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
  */
 public interface StoreOn {
     static StoreOn get() {
-        return Fn.poolThread(WfPool.POOL_STORE, StoreEngine::new);
+        return WfPool.CC_STORE.pick(StoreEngine::new);
     }
 
     /*

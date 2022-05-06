@@ -5,13 +5,13 @@ import cn.vertxup.atom.domain.tables.pojos.MAcc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -43,12 +43,12 @@ class RiseRapid implements Rise {
 
     private Future<Apt> combineAcc(final JsonArray data, final JsonArray acc, final DataAtom atom) {
         final Apt apt = Apt.create(acc, data);
-        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.falseOut());
+        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.marker().offOut());
         return apt.comparedAsync(compared);
     }
 
     private Future<JsonArray> inputData(final JsonObject criteria, final DataAtom atom) {
-        final AoDao dao = Ao.toDao(atom, this.database);
+        final HDao dao = Ao.toDao(atom, this.database);
         return dao.fetchAsync(criteria)
             .compose(records -> Ux.future(Ut.toJArray(records)));
     }
@@ -81,7 +81,7 @@ class RiseRapid implements Rise {
     }
 
     private Future<JsonArray> inputAcc(final JsonObject criteria, final DataAtom atom) {
-        final String modelKey = atom.key(criteria);
+        final String modelKey = atom.atomKey(criteria);
         return this.fetchAcc(modelKey, atom).compose(acc -> {
             if (Objects.isNull(acc)) {
                 return Ux.futureA();

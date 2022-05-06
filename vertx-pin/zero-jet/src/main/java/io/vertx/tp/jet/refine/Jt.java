@@ -13,11 +13,11 @@ import io.vertx.tp.jet.atom.JtWorker;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.extension.PlugRouter;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -86,14 +86,14 @@ public class Jt {
     /*
      * IService -> Dict
      */
-    public static DiSetting toDict(final IService service) {
+    public static DSetting toDict(final IService service) {
         return JtBusiness.toDict(service);
     }
 
     /*
      * IService -> DualMapping
      */
-    public static BiTree toMapping(final IService service) {
+    public static BTree toMapping(final IService service) {
         return JtBusiness.toMapping(service);
     }
 
@@ -104,7 +104,7 @@ public class Jt {
         return JtBusiness.toIdentify(service);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DiSetting dict) {
+    public static Future<ConcurrentMap<String, JsonArray>> toDictionary(final String key, final String cacheKey, final String identifier, final DSetting dict) {
         return JtBusiness.toDictionary(key, cacheKey, identifier, dict);
     }
 

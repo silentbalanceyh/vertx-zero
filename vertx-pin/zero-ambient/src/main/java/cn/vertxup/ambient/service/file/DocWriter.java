@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.error._400FileNameInValidException;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.atom.Kv;
@@ -32,11 +32,16 @@ public class DocWriter implements DocWStub {
 
     @Override
     public Future<JsonArray> upload(final JsonArray documentA) {
-        return Ke.channel(Attachment.class, () -> documentA, file -> file.uploadAsync(documentA));
+        return Ux.channel(Attachment.class, () -> documentA, file -> file.uploadAsync(documentA));
     }
 
     @Override
     public Future<JsonObject> rename(final JsonObject documentJ) {
+        // isFileName Checking
+        final String name = documentJ.getString(KName.NAME);
+        if (!Ut.isFileName(name)) {
+            return Ux.thenError(_400FileNameInValidException.class, this.getClass());
+        }
         final String key = documentJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
         return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {
@@ -52,7 +57,7 @@ public class DocWriter implements DocWStub {
                 final JsonObject directoryJ = new JsonObject();
                 directoryJ.put(KName.KEY, directoryId);
                 directoryJ.put(KName.UPDATED_BY, documentJ.getString(KName.UPDATED_BY));
-                return Ke.channel(ExIo.class, () -> documentJ, io -> io.rename(directoryJ, kv)
+                return Ux.channel(ExIo.class, () -> documentJ, io -> io.rename(directoryJ, kv)
                     .compose(nil -> Ux.future(documentJ)));
             });
         });
@@ -76,7 +81,7 @@ public class DocWriter implements DocWStub {
             (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.FALSE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
+                return Ux.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
             }
         );
     }
@@ -88,7 +93,7 @@ public class DocWriter implements DocWStub {
             (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.TRUE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
+                return Ux.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
             }
         );
     }
@@ -100,7 +105,7 @@ public class DocWriter implements DocWStub {
             this.attachment::purgeAsync,
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA,
+                return Ux.channel(ExIo.class, () -> documentA,
                     // Kill Directory and All Sub Files
                     fs -> fs.purge(directoryA, fileMap).compose(this::trashKoDeep));
             });

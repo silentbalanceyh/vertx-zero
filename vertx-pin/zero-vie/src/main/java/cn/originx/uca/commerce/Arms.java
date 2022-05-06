@@ -6,20 +6,18 @@ import cn.originx.uca.log.TrackIo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -29,10 +27,9 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("all")
 public class Arms {
-
-    private final static ConcurrentMap<String, Arms> POOL_ARMS = new ConcurrentHashMap<>();
+    private static final Cc<String, Arms> CC_ARMS = Cc.open();
     private final transient DataAtom atom;
-    private final transient AoDao dao;
+    private final transient HDao dao;
     private final transient TrackIo io;
     private final transient Set<ChangeFlag> types = new HashSet<ChangeFlag>() {
         {
@@ -41,30 +38,30 @@ public class Arms {
             this.add(ChangeFlag.ADD);
         }
     };
-    private transient DiFabric fabric;
+    private transient DFabric fabric;
 
     private Function<JsonArray, JsonArray> fnDefault;
     private Supplier<Future<JsonArray>> fnFetcher;
 
-    public Arms(final AoDao dao, final DataAtom atom) {
+    public Arms(final HDao dao, final DataAtom atom) {
         this.dao = dao;
         this.atom = atom;
         this.io = TrackIo.create(atom, dao);
     }
 
-    public static <T extends Arms> T create(final AoDao dao, final DataAtom atom) {
-        return (T) Fn.pool(POOL_ARMS, atom.identifier(), () -> new Arms(dao, atom));
+    public static <T extends Arms> T create(final HDao dao, final DataAtom atom) {
+        return (T) CC_ARMS.pick(() -> new Arms(dao, atom), atom.identifier());
     }
 
     protected DataAtom atom() {
         return this.atom;
     }
 
-    protected AoDao dao() {
+    protected HDao dao() {
         return this.dao;
     }
 
-    public <T extends Arms> T bind(final DiFabric fabric) {
+    public <T extends Arms> T bind(final DFabric fabric) {
         this.fabric = fabric;
         return (T) this;
     }

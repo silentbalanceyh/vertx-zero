@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtCommercial;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtJob;
@@ -148,7 +148,7 @@ public class AbstractChannel extends AbstractPlatform {
     }
 
     private <T> T channelJob(final String jobCode, final Function<JtJob, T> executor) {
-        final String namespace = Model.namespace(this.app().getName());
+        final String namespace = Ao.toNS(this.app().getName());
         final String jobKey = namespace + Strings.DASH + jobCode;
         final JtJob job = JOBS.get(jobKey);
         Objects.requireNonNull(job);

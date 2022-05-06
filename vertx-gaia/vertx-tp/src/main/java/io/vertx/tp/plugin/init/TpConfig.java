@@ -6,11 +6,10 @@ import io.vertx.up.exception.zero.DynamicConfigTypeException;
 import io.vertx.up.exception.zero.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 
 import java.io.Serializable;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Third part configuration data.
@@ -21,7 +20,7 @@ public class TpConfig implements Serializable {
 
     private static final Annal LOGGER = Annal.get(TpConfig.class);
 
-    private static final ConcurrentMap<String, TpConfig> CACHE = new ConcurrentHashMap<>();
+    private static final Cc<String, TpConfig> CC_CACHE = Cc.open();
 
     private static final Node<JsonObject> TP = Node.infix("tp");
 
@@ -55,11 +54,13 @@ public class TpConfig implements Serializable {
     }
 
     public static TpConfig create(final String key) {
-        return Fn.pool(CACHE, key, () -> new TpConfig(key, null));
+        return CC_CACHE.pick(() -> new TpConfig(key, null), key);
+        // return Fn.po?l(CACHE, key, () -> new TpConfig(key, null));
     }
 
     public static TpConfig create(final String key, final String rule) {
-        return Fn.pool(CACHE, key, () -> new TpConfig(key, rule));
+        return CC_CACHE.pick(() -> new TpConfig(key, rule), key);
+        // return Fn.po?l(CACHE, key, () -> new TpConfig(key, rule));
     }
 
     public JsonObject getConfig() {

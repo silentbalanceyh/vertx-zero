@@ -10,8 +10,10 @@ import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.trans.Tran;
-import io.vertx.tp.ke.atom.specification.KModule;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
+import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -21,28 +23,32 @@ class AgonicCreate implements Agonic {
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
-        return Pre.qr(QrType.BY_UK).inJAsync(input, in)
+        return Pre.qr(QrType.BY_UK).inJAsync(input, in).compose(condition ->
             /*
              * Here must use jooq directly instead of join because
              * The creation step split to
              * 1) Major table inserted
              * 2) Secondary table inserted
              */
-            .compose(condition -> jooq.countAsync(condition).compose(counter -> 0 < counter ?
-                // Unique Existing
-                IxKit.success201Pre(input, module)
-                :
-                // Primary Key
-                Ix.passion(input, in,
-                        Pre.key(true)::inJAsync,             // UUID Generated
-                        Pre.serial()::inJAsync,              // Serial/Number
-                        Pre.audit(true)::inJAsync,         // createdAt, createdBy
-                        Pre.audit(false)::inJAsync,        // updatedAt, updatedBy
-                        Pre.fileIn(true)::inJAsync           // File: Attachment creating
+            jooq.countAsync(condition).compose(counter -> 0 < counter ?
+                    // Unique Existing
+                    IxKit.success201Pre(input, module)
+                    // Primary Key ( Not Existing )
+                    : Ix.passion(input, in,
+                        Pre.key(true)::inJAsync,                // UUID Generated
+                        Pre.serial()::inJAsync,                 // Serial/Number
+                        Pre.audit(true)::inJAsync,              // createdAt, createdBy
+                        Pre.audit(false)::inJAsync,             // updatedAt, updatedBy
+                        Pre.fileIn(true)::inJAsync              // File: Attachment creating
                     )
-                    .compose(processed -> Ix.deserializeT(processed, module))
-                    .compose(jooq::insertAsync)
-                    .compose(entity -> IxKit.successJ(entity, module))
+
+
+                    // 「AOP」Wrap JsonObject create
+                    .compose(Ix.wrap(module, Aspect::wrapJCreate, wrapData -> Ux.future(wrapData)
+                        .compose(processed -> Ix.deserializeT(processed, module))
+                        .compose(jooq::insertAsync)
+                        .compose(entity -> IxKit.successJ(entity, module))
+                    ))
             ));
     }
 
@@ -51,14 +57,19 @@ class AgonicCreate implements Agonic {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
-                Pre.key(true)::inAAsync,             // UUID Generated
-                Tran.tree(true)::inAAsync,            // After GUID
-                Pre.serial()::inAAsync,              // Serial/Number
-                Pre.audit(true)::inAAsync,         // createdAt, createdBy
-                Pre.audit(false)::inAAsync         // updatedAt, updatedBy
+                Pre.key(true)::inAAsync,                        // UUID Generated
+                Tran.tree(true)::inAAsync,                      // After GUID
+                Pre.serial()::inAAsync,                         // Serial/Number
+                Pre.audit(true)::inAAsync,                      // createdAt, createdBy
+                Pre.audit(false)::inAAsync                      // updatedAt, updatedBy
             )
-            .compose(processed -> Ix.deserializeT(processed, module))
-            .compose(jooq::insertAsync)
-            .compose(inserted -> IxKit.successA(inserted, module));
+
+
+            // 「AOP」Wrap JsonArray create
+            .compose(Ix.wrap(module, Aspect::wrapACreate, wrapData -> Ux.future(wrapData)
+                .compose(processed -> Ix.deserializeT(processed, module))
+                .compose(jooq::insertAsync)
+                .compose(inserted -> IxKit.successA(inserted, module))
+            ));
     }
 }

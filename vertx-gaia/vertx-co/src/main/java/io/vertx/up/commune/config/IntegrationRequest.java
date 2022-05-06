@@ -20,20 +20,20 @@ public class IntegrationRequest implements Serializable {
     /*
      * Http uri definition here.
      */
-    private transient String path;
+    private String path;
     /*
      * Http method
      */
-    private transient HttpMethod method;
+    private HttpMethod method;
     /*
      * Some specific situation that required headers
      */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject headers = new JsonObject();
+    private JsonObject headers = new JsonObject();
 
     @JsonIgnore
-    private transient Function<JsonObject, String> executor;
+    private Function<JsonObject, String> executor;
 
     public String getPath() {
         return this.path;
@@ -83,8 +83,12 @@ public class IntegrationRequest implements Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof IntegrationRequest)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof IntegrationRequest)) {
+            return false;
+        }
         final IntegrationRequest request = (IntegrationRequest) o;
         return this.path.equals(request.path) &&
             this.method == request.method;

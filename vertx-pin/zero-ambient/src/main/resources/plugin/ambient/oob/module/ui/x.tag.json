@@ -1,0 +1,13 @@
+[
+    "name,标签名称",
+    {
+        "metadata": "icon,图标,TAG",
+        "$config": {
+            "enabled": [
+                "icon",
+                "image"
+            ]
+        }
+    },
+    "description,描述,TEXT"
+]

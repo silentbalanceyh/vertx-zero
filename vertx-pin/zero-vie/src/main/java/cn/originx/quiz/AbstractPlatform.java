@@ -14,9 +14,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jdbc.DataConnection;
 import io.vertx.tp.modular.jdbc.Pin;
@@ -29,6 +28,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.quiz.JooqBase;
 import io.vertx.up.util.Ut;
 import org.junit.Before;
@@ -98,7 +98,7 @@ public abstract class AbstractPlatform extends JooqBase {
 
     // -------------------- 访问器引用获取 ---------------------
     // 动态Dao
-    protected AoDao dbDao(final String identifier) {
+    protected HDao dbDao(final String identifier) {
         return Ox.toDao(this.atom(identifier));
     }
 
@@ -214,20 +214,20 @@ public abstract class AbstractPlatform extends JooqBase {
 
     // -------------------- 子类专用 ---------------------
     protected <T> Consumer<String> tcDao(final TestContext context,
-                                         final BiFunction<QModel, AoDao, Future<T>> consumer,
+                                         final BiFunction<QModel, HDao, Future<T>> consumer,
                                          final Consumer<T> callback) {
         return filename -> {
             final QModel model = this.inData(filename);
-            final AoDao dao = this.dbDao(model.identifier());
+            final HDao dao = this.dbDao(model.identifier());
             this.tcAsync(context, consumer.apply(model, dao), callback);
         };
     }
 
     protected <T> Consumer<String> tcDao(final TestContext context,
-                                         final BiFunction<QModel, AoDao, Future<T>> consumer) {
+                                         final BiFunction<QModel, HDao, Future<T>> consumer) {
         return filename -> {
             final QModel model = this.inData(filename);
-            final AoDao dao = this.dbDao(model.identifier());
+            final HDao dao = this.dbDao(model.identifier());
             this.tcAsync(context, consumer.apply(model, dao),
                 actual -> this.logger().info("[ Qz ] 执行完成：{0}", actual));
         };

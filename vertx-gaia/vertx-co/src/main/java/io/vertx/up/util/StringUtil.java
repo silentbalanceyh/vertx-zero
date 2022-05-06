@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 final class StringUtil {
     private static final JexlEngine EXPR = new JexlBuilder()
-        .cache(512).silent(false).create();
+        .cache(4096).silent(false).create();
     private static final String SEED =
         "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     private static final String CHAR =
@@ -148,8 +148,29 @@ final class StringUtil {
         return resultJ;
     }
 
+
+    /*
+     * The engine is:
+     *
+     *      JexlEngine EXPR = new JexlBuilder().cache(4096).silent(false).create()
+     *
+     * The basic expression parsing method for default usage such as:
+     *
+     * `Message ${name} and ${code}`
+     *
+     * Be careful of expression syntax:
+     * 1) The start/end character should be "`".
+     * 2) The variable expression part is "${name}".
+     *
+     * This api is for message parsing only, this expression must start/end with "`" so that
+     * it could be parsed, other situations will be ignored.
+     */
     static String expression(final String expr, final JsonObject params) {
         try {
+            /*
+             * cache(4096), the default cache size is 4096.
+             * silent(false): silent = false means the exception will be thrown.
+             */
             final JexlExpression expression = EXPR.createExpression(expr);
             // Parameter
             final JexlContext context = new MapContext();
@@ -217,5 +238,14 @@ final class StringUtil {
         }
         // Convert `//` to `/`
         return (valueFolder + valueFile).replace("//", "/");
+    }
+
+    // Regex Matcher for string
+    static boolean isMatch(final String regex, final String original) {
+        return Fn.getNull(() -> {
+            final Pattern pattern = Pattern.compile(regex);
+            final Matcher matcher = pattern.matcher(original);
+            return matcher.matches();
+        }, regex, original);
     }
 }

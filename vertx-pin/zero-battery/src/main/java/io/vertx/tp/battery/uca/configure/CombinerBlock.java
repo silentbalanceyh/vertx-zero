@@ -28,7 +28,7 @@ class CombinerBlock implements Combiner<BBag, List<BBlock>> {
         // key for bag
         data.put(KName.KEY_P, bag.getKey());
         // __metadata for definition
-        data.put("__" + KName.METADATA, metadata);
+        data.put(KName.__.METADATA, metadata);
         // major data
         final Combiner<JsonObject, BBag> combiner = Combiner.outDao();
         return combiner.configure(data, bag).compose(recordData -> {

@@ -79,9 +79,9 @@ public class AdjustNumber extends AbstractStep {
                 final Integer adjust = item.getInteger(ADJUST);
                 if (Objects.nonNull(adjust) && Values.RANGE != adjust) {
                     content.append(Ut.fromAdjust(item.getString(KName.IDENTIFIER), 32)).append(width);
-                    content.append(Ut.fromAdjust(item.getInteger(KName.CODE), 15, ' ' )).append(width);
-                    content.append(Ut.fromAdjust(item.getInteger("current"), 15, ' ' )).append(width);
-                    content.append(Ut.fromAdjust(item.getInteger(ADJUST), 15, ' ' )).append("\n");
+                    content.append(Ut.fromAdjust(item.getInteger(KName.CODE), 15, ' ')).append(width);
+                    content.append(Ut.fromAdjust(item.getInteger("current"), 15, ' ')).append(width);
+                    content.append(Ut.fromAdjust(item.getInteger(ADJUST), 15, ' ')).append("\n");
                 }
             });
             Ox.Log.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());

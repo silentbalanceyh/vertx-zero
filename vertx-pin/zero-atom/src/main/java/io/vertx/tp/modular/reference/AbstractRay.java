@@ -2,11 +2,12 @@ package io.vertx.tp.modular.reference;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.modeling.config.AoRule;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.modeling.reference.RResult;
 import io.vertx.tp.error._501AnonymousAtomException;
+import io.vertx.up.experiment.mixture.HReference;
+import io.vertx.up.experiment.mixture.HRule;
+import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     protected transient ConcurrentMap<String, RaySource> input =
         new ConcurrentHashMap<>();
     /**
-     * The hashmap reference of `field = {@link AoRule}`.
+     * The hashmap reference of `field = {@link HRule}`.
      */
     protected transient ConcurrentMap<String, RResult> output =
         new ConcurrentHashMap<>();
@@ -52,7 +53,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
      * The critical code logical is as following:
      *
      * - Bind the {@link io.vertx.tp.atom.modeling.element.DataTpl} to instance member `tpl`.
-     * - Be sure the {@link io.vertx.tp.atom.modeling.data.DataAtom} in {@link io.vertx.tp.atom.modeling.element.DataTpl} is valid.
+     * - Be sure the {@link DataAtom} in {@link io.vertx.tp.atom.modeling.element.DataTpl} is valid.
      * - Calculate the two hash maps in this method.
      *
      * @param tpl {@link io.vertx.tp.atom.modeling.element.DataTpl} The template that will be bind.
@@ -67,12 +68,13 @@ public abstract class AbstractRay<T> implements AoRay<T> {
         if (Objects.isNull(atom)) {
             throw new _501AnonymousAtomException(tpl.getClass());
         }
-        atom.refInput().forEach((identifier, quote) -> {
+        final HReference reference = atom.reference();
+        reference.refInput().forEach((identifier, quote) -> {
             /* RaySource */
             final RaySource source = RaySource.create(quote);
             this.input.put(identifier, source);
         });
-        this.output.putAll(atom.refOutput());
+        this.output.putAll(reference.refOutput());
         return this;
     }
 

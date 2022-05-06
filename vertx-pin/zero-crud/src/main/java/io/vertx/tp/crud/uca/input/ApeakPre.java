@@ -3,10 +3,10 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KColumn;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.specification.KColumn;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

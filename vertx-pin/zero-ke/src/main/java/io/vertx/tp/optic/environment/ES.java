@@ -1,6 +1,6 @@
 package io.vertx.tp.optic.environment;
 
-import io.vertx.tp.ke.atom.KEnv;
+import io.vertx.up.experiment.specification.KEnv;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

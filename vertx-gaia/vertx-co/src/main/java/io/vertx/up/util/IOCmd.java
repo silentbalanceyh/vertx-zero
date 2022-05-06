@@ -20,6 +20,10 @@ import java.util.zip.ZipOutputStream;
  */
 final class IOCmd {
 
+    /*
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
+     */
     private static final Logger LOGGER
         = LoggerFactory.getLogger(IO.class);
 

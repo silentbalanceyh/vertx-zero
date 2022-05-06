@@ -13,7 +13,7 @@ import cn.vertxup.graphic.domain.tables.GNode;
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
     /**

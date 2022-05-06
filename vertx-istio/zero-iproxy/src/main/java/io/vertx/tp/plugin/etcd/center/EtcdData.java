@@ -10,6 +10,7 @@ import io.vertx.up.exception.zero.EtcdConfigEmptyException;
 import io.vertx.up.exception.zero.EtcdNetworkException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -26,7 +27,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,8 +37,7 @@ import java.util.function.Function;
 public class EtcdData {
     private static final Annal LOGGER = Annal.get(EtcdData.class);
     private static final Node<JsonObject> NODE = Ut.singleton(ZeroUniform.class);
-    private static final ConcurrentMap<Class<?>, EtcdData> POOL
-        = new ConcurrentHashMap<>();
+    private static final Cc<Class<?>, EtcdData> CC_ETCD_DATA = Cc.open();
     /**
      * Config data
      */
@@ -93,7 +92,6 @@ public class EtcdData {
         final ConcurrentMap<Integer, String> networks
             = new ConcurrentHashMap<>();
         Observable.fromIterable(this.config)
-            .filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
             .filter(item -> item.containsKey(PORT) && item.containsKey(HOST))
             .map(item -> {
@@ -117,8 +115,8 @@ public class EtcdData {
         if (enabled()) {
             LOGGER.info(Info.ETCD_ENABLE);
         }
-        return Fn.pool(POOL, clazz, () ->
-            Fn.getNull(null, () -> new EtcdData(clazz), clazz));
+        return CC_ETCD_DATA.pick(() -> Fn.getNull(null, () -> new EtcdData(clazz), clazz), clazz);
+        // return Fn.po?l(POOL, clazz, () -> Fn.getNull(null, () -> new EtcdData(clazz), clazz));
     }
 
     /**
@@ -171,8 +169,8 @@ public class EtcdData {
 
     @SuppressWarnings("unused")
     private void ensurePath(final String path) {
-        if (0 <= path.lastIndexOf('/' )) {
-            final String parent = path.substring(0, path.lastIndexOf('/' ));
+        if (0 <= path.lastIndexOf('/')) {
+            final String parent = path.substring(0, path.lastIndexOf('/'));
             try {
                 // Trigger Key not found
                 final EtcdKeysResponse response =
@@ -182,7 +180,7 @@ public class EtcdData {
                     this.ensurePath(parent);
                 }
             } catch (final EtcdException | EtcdAuthenticationException
-                | IOException | TimeoutException ex) {
+                           | IOException | TimeoutException ex) {
                 this.ensurePath(parent);
             }
         }

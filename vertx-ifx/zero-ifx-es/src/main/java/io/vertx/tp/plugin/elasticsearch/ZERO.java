@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 
 interface Pool {
-    ConcurrentMap<String, ElasticSearchHelper> HELPERS
-        = new ConcurrentHashMap<>();
 
     ConcurrentMap<ChangeFlag, ConcurrentMap<String, EsAmbit>> ES_CACHE =
         new ConcurrentHashMap<ChangeFlag, ConcurrentMap<String, EsAmbit>>() {

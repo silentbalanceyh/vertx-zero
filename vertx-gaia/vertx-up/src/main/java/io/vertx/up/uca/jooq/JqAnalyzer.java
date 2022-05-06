@@ -11,6 +11,7 @@ import io.vertx.up.exception.zero.JooqFieldMissingException;
 import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -27,6 +28,8 @@ public class JqAnalyzer {
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
     private static final ConcurrentMap<Integer, JooqDsl> DAO_POOL =
         new ConcurrentHashMap<>();
+
+    private static final Cc<Integer, JooqDsl> CC_DAO = Cc.open();
 
     private transient final JooqDsl dsl;
     /* Field to Column */
@@ -50,7 +53,8 @@ public class JqAnalyzer {
     private transient Class<?> entityCls;
 
     private JqAnalyzer(final JooqDsl dsl) {
-        this.dsl = Fn.pool(DAO_POOL, dsl.hashCode(), () -> dsl);
+        this.dsl = CC_DAO.pick(() -> dsl, dsl.hashCode());
+        // Fn.po?l(DAO_POOL, dsl.hashCode(), () -> dsl);
         // Mapping initializing
         this.table = Ut.field(dsl.dao(), "table");
 

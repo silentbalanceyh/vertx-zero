@@ -3,13 +3,22 @@ package io.vertx.tp.modular.sql;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 读取配置文件处理Sql的类型信息
  */
 public class SqlTypeProvider {
+    private static final ConcurrentMap<String, String> DB_MAPPING =
+        new ConcurrentHashMap<>();
+
+    private static final ConcurrentMap<String, JsonArray> DB_TYPE_MAPPING =
+        new ConcurrentHashMap<>();
+    private static final Cc<String, SqlTypeProvider> CC_PROVIDER = Cc.open();
 
     private SqlTypeProvider(final Database database) {
         final JsonObject schemaData = Ut.ioJObject(
@@ -17,27 +26,27 @@ public class SqlTypeProvider {
         final JsonObject definitions = schemaData.getJsonObject("definitions");
         for (final String field : definitions.fieldNames()) {
             if (Ut.notNil(field) && null != definitions.getValue(field)) {
-                Pool.DB_MAPPING.put(field, definitions.getString(field));
+                DB_MAPPING.put(field, definitions.getString(field));
             }
         }
         final JsonObject typeMappings = schemaData.getJsonObject("mappings");
         for (final String field : typeMappings.fieldNames()) {
             if (Ut.notNil(field) && null != typeMappings.getValue(field)) {
-                Pool.DB_TYPE_MAPPING.put(field, typeMappings.getJsonArray(field));
+                DB_TYPE_MAPPING.put(field, typeMappings.getJsonArray(field));
             }
         }
     }
 
     public static SqlTypeProvider create(final Database database) {
-        return Fn.pool(Pool.DB_TYPE_REF, database.getCategory().name(),
-            () -> new SqlTypeProvider(database));
+        return CC_PROVIDER.pick(() -> new SqlTypeProvider(database), database.getCategory().name());
+        // Fn.po?l(DB_TYPE_REF, database.getCategory().name(), () -> new SqlTypeProvider(database));
     }
 
     public String getColumnType(final String key) {
-        return Pool.DB_MAPPING.get(key);
+        return DB_MAPPING.get(key);
     }
 
     public JsonArray getMappingList(final String key) {
-        return Pool.DB_TYPE_MAPPING.get(key);
+        return DB_TYPE_MAPPING.get(key);
     }
 }

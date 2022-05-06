@@ -12,8 +12,13 @@ import io.vertx.up.fn.wait.Case;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -261,6 +266,27 @@ public final class Fn {
 
     public static void onZero(final ZeroActuator actuator, final Object... input) throws ZeroException {
         Zero.execZero(actuator, input);
+    }
+
+    // ------ Manage
+    public static <T> Future<T> passion(final T input, final List<Function<T, Future<T>>> executors) {
+        return Deliver.passion(input, executors);
+    }
+
+    public static <T> Future<T> passion(final T input, final Function<T, Future<T>>... executors) {
+        return Deliver.passion(input, Arrays.asList(executors));
+    }
+
+    public static <T> Future<T> parallel(final T input, final Set<Function<T, Future<T>>> executors) {
+        return Deliver.parallel(input, executors);
+    }
+
+    public static <T> Future<T> parallel(final T input, final List<Function<T, Future<T>>> executors) {
+        return Deliver.parallel(input, new HashSet<>(executors));
+    }
+
+    public static <T> Future<T> parallel(final T input, final Function<T, Future<T>>... executors) {
+        return Deliver.parallel(input, new HashSet<>(Arrays.asList(executors)));
     }
 
     // ------ Pool

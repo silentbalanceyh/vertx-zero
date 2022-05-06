@@ -4,8 +4,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.uca.dict.Dpm;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
@@ -52,7 +52,7 @@ public abstract class ExAttributeComponent {
             /*
              * Parameters
              */
-            final DiSource sourceDict = new DiSource(sourceDictJson);
+            final DSource sourceDict = new DSource(sourceDictJson);
             /*
              * Dpm
              */
@@ -97,7 +97,7 @@ public abstract class ExAttributeComponent {
     private JsonObject translateData(final JsonObject definition, final boolean isFrom) {
         /* Consumer */
         final JsonObject consumer = definition.getJsonObject(KName.SOURCE_CONSUMER);
-        final DiConsumer epsilon = new DiConsumer();
+        final DConsumer epsilon = new DConsumer();
         epsilon.fromJson(consumer);
 
         /* Data */

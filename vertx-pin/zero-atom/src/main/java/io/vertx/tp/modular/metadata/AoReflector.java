@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.metadata;
 
-import io.vertx.tp.atom.cv.em.KeyType;
+import io.vertx.up.eon.em.atom.KeyType;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;

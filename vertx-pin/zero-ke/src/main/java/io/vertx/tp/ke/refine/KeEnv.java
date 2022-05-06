@@ -12,6 +12,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,11 +48,27 @@ class KeEnv {
         outMap.forEach((key, out) -> {
             final String in = inMap.get(key);
             if (KName.CREATED_AT.equals(in) || KName.UPDATED_AT.equals(in)) {
-                // LocalDataTime
-                Ut.field(output, out, now);
+                if (output instanceof JsonObject) {
+                    // Instant          ( For JsonObject Only )
+                    ((JsonObject) output).put(out, Instant.now());
+                } else {
+                    // LocalDataTime
+                    Ut.field(output, out, now);
+                }
             } else {
-                // Copy Data
-                Ut.field(output, out, Ut.field(input, in));
+                // Extract input data
+                final Object value;
+                if (input instanceof JsonObject) {
+                    value = ((JsonObject) input).getValue(in);
+                } else {
+                    value = Ut.field(input, in);
+                }
+                if (output instanceof JsonObject) {
+                    // ( For JsonObject Only )
+                    ((JsonObject) output).put(out, value);
+                } else {
+                    Ut.field(output, out, value);
+                }
             }
         });
     }
@@ -81,7 +98,7 @@ class KeEnv {
         if (Objects.isNull(input) || input.isEmpty()) {
             return Ux.future(new ArrayList<>());
         } else {
-            return KeChannel.channel(Indent.class, () -> input, stub ->
+            return Ux.channel(Indent.class, () -> input, stub ->
                 stub.indent(code, sigma, input.size()).compose(queue -> {
                     input.forEach(entity -> fnConsumer.accept(entity, queue.poll()));
                     return Ux.future(input);
@@ -92,7 +109,7 @@ class KeEnv {
     static <T> Future<T> indent(final T input, final String sigma,
                                 final String code,
                                 final BiConsumer<T, String> fnConsumer) {
-        return KeChannel.channel(Indent.class, () -> input, stub -> {
+        return Ux.channel(Indent.class, () -> input, stub -> {
             if (Ut.isNil(sigma)) {
                 return Ux.future(input);
             } else {
@@ -109,7 +126,7 @@ class KeEnv {
      * Indent Single
      */
     static Future<JsonObject> indent(final JsonObject data, final String code) {
-        return KeChannel.channel(Indent.class, () -> data, stub -> {
+        return Ux.channel(Indent.class, () -> data, stub -> {
             final String sigma = data.getString(KName.SIGMA);
             if (Ut.isNil(sigma) || Ut.isNil(code)) {
                 return Ux.future(data);
@@ -121,7 +138,7 @@ class KeEnv {
     }
 
     static Future<JsonArray> indent(final JsonArray data, final String code) {
-        return KeChannel.channel(Indent.class, () -> data, stub -> {
+        return Ux.channel(Indent.class, () -> data, stub -> {
             final String sigma = Ut.valueString(data, KName.SIGMA);
             if (Ut.isNil(sigma)) {
                 return Ux.future(data);

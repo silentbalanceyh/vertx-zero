@@ -1,18 +1,5 @@
 package io.vertx.rx.micro;
 
-import io.vertx.reactivex.ext.web.Router;
-import io.vertx.up.uca.rs.Axis;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
-interface Pool {
-
-    ConcurrentMap<String, Axis<Router>> ROUTERS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> EVENTS = new ConcurrentHashMap<>();
-}
-
 interface Info {
     String RX_SERVERS = "( Rx Server ) {0} (id = {1}) Agent has deployed Rx Server on {2}.";
 

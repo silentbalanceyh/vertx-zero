@@ -26,6 +26,9 @@ public class XActivity implements VertxPojo, IXActivity {
     private String        description;
     private String        modelId;
     private String        modelKey;
+    private String        modelCategory;
+    private String        taskName;
+    private String        taskSerial;
     private String        recordOld;
     private String        recordNew;
     private String        sigma;
@@ -46,6 +49,9 @@ public class XActivity implements VertxPojo, IXActivity {
         this.description = value.getDescription();
         this.modelId = value.getModelId();
         this.modelKey = value.getModelKey();
+        this.modelCategory = value.getModelCategory();
+        this.taskName = value.getTaskName();
+        this.taskSerial = value.getTaskSerial();
         this.recordOld = value.getRecordOld();
         this.recordNew = value.getRecordNew();
         this.sigma = value.getSigma();
@@ -65,6 +71,9 @@ public class XActivity implements VertxPojo, IXActivity {
         String        description,
         String        modelId,
         String        modelKey,
+        String        modelCategory,
+        String        taskName,
+        String        taskSerial,
         String        recordOld,
         String        recordNew,
         String        sigma,
@@ -82,6 +91,9 @@ public class XActivity implements VertxPojo, IXActivity {
         this.description = description;
         this.modelId = modelId;
         this.modelKey = modelKey;
+        this.modelCategory = modelCategory;
+        this.taskName = taskName;
+        this.taskSerial = taskSerial;
         this.recordOld = recordOld;
         this.recordNew = recordNew;
         this.sigma = sigma;
@@ -204,6 +216,61 @@ public class XActivity implements VertxPojo, IXActivity {
     @Override
     public XActivity setModelKey(String modelKey) {
         this.modelKey = modelKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 关联的category记录，只包含叶节点
+     */
+    @Override
+    public String getModelCategory() {
+        return this.modelCategory;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 关联的category记录，只包含叶节点
+     */
+    @Override
+    public XActivity setModelCategory(String modelCategory) {
+        this.modelCategory = modelCategory;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.TASK_NAME</code>. 「taskName」- 任务名称
+     */
+    @Override
+    public String getTaskName() {
+        return this.taskName;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.TASK_NAME</code>. 「taskName」- 任务名称
+     */
+    @Override
+    public XActivity setTaskName(String taskName) {
+        this.taskName = taskName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.TASK_SERIAL</code>. 「taskSerial」-
+     * 任务单号
+     */
+    @Override
+    public String getTaskSerial() {
+        return this.taskSerial;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.TASK_SERIAL</code>. 「taskSerial」-
+     * 任务单号
+     */
+    @Override
+    public XActivity setTaskSerial(String taskSerial) {
+        this.taskSerial = taskSerial;
         return this;
     }
 
@@ -401,6 +468,9 @@ public class XActivity implements VertxPojo, IXActivity {
         sb.append(", ").append(description);
         sb.append(", ").append(modelId);
         sb.append(", ").append(modelKey);
+        sb.append(", ").append(modelCategory);
+        sb.append(", ").append(taskName);
+        sb.append(", ").append(taskSerial);
         sb.append(", ").append(recordOld);
         sb.append(", ").append(recordNew);
         sb.append(", ").append(sigma);
@@ -428,6 +498,9 @@ public class XActivity implements VertxPojo, IXActivity {
         setDescription(from.getDescription());
         setModelId(from.getModelId());
         setModelKey(from.getModelKey());
+        setModelCategory(from.getModelCategory());
+        setTaskName(from.getTaskName());
+        setTaskSerial(from.getTaskSerial());
         setRecordOld(from.getRecordOld());
         setRecordNew(from.getRecordNew());
         setSigma(from.getSigma());

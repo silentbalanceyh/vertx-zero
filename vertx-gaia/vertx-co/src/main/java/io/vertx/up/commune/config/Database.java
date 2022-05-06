@@ -43,23 +43,23 @@ public class Database implements Serializable, Json, Copyable<Database> {
     /* Database options for different pool */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject options = new JsonObject();
+    private JsonObject options = new JsonObject();
     /* Database host name */
-    private transient String hostname;
+    private String hostname;
     /* Database instance name */
-    private transient String instance;
+    private String instance;
     /* Database port number */
-    private transient Integer port;
+    private Integer port;
     /* Database category */
-    private transient DatabaseType category;
+    private DatabaseType category;
     /* JDBC connection string */
-    private transient String jdbcUrl;
+    private String jdbcUrl;
     /* Database username */
-    private transient String username;
+    private String username;
     /* Database password */
-    private transient String password;
+    private String password;
     /* Database driver class */
-    private transient String driverClassName;
+    private String driverClassName;
 
     /* Database Connection Testing */
     public static boolean test(final Database database) {

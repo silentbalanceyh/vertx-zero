@@ -4,12 +4,14 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * Major phase for code logical here
  */
 public class Phase {
+
+    private static final Cc<String, Phase> CC_PHASE = Cc.open();
 
     /* Dict */
     private transient Vertx vertx;
@@ -23,7 +25,7 @@ public class Phase {
     }
 
     public static Phase start(final String name) {
-        return Fn.pool(Pool.PHASES, name, Phase::new);
+        return CC_PHASE.pick(Phase::new, name); // Fn.po?l(Pool.PHASES, name, Phase::new);
     }
 
     public Phase bind(final Vertx vertx) {

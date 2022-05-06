@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 class AptBatch implements AptOp<JsonArray> {
-    private transient final JsonArray original;
-    private transient final JsonArray current;
+    private final JsonArray original;
+    private final JsonArray current;
 
-    private transient final ConcurrentMap<ChangeFlag, JsonArray> combine = new ConcurrentHashMap<>();
+    private final ConcurrentMap<ChangeFlag, JsonArray> combine = new ConcurrentHashMap<>();
 
     // Refer the same as the UPDATE in combine
-    private final transient AptArray array = new AptArray();
-    private final transient ChangeFlag flag;
+    private final AptArray array = new AptArray();
+    private final ChangeFlag flag;
 
     AptBatch(final JsonArray original, final JsonArray current, final String field) {
         this.original = Ut.valueJArray(original);

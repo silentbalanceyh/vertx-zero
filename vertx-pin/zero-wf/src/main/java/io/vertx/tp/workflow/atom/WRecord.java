@@ -11,6 +11,7 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -26,10 +27,65 @@ import java.util.concurrent.ConcurrentMap;
 public class WRecord implements Serializable {
     private final transient ConcurrentMap<String, JsonArray> linkage = new ConcurrentHashMap<>();
     private final transient JsonObject child = new JsonObject();
+    private final transient JsonObject dataAfter = new JsonObject();
+    // Change Flag for activity
+    private final transient ChangeFlag tabb;
+    /*
+     * This variable stored prev record when do different operation
+     * 1) ADD:          prev = null
+     * 2) UPDATE:       prev = value
+     * 3) DELETE:       prev = value
+     *
+     * When current record data() called, the original record stored in
+     * __data node and write __flag node for normalization
+     */
+    private transient WRecord prev;
+    // Before WRecord
     private transient WTicket ticket;
     private transient WTodo todo;
-    private transient TodoStatus status;
-    private transient WProcessDefinition process;
+
+    private WRecord(final ChangeFlag tabb) {
+        this.tabb = tabb;
+    }
+
+    private WRecord() {
+        this(null);
+    }
+
+    public static WRecord create() {
+        return create(false, null);
+    }
+
+    public static WRecord create(final boolean write, final ChangeFlag flag) {
+        if (write) {
+            Objects.requireNonNull(flag);
+            /*
+             * Write mode for WRecord, it stored prev record reference
+             * for update data in comparing code logical
+             * Here are two constructors:
+             *
+             * 1) with flag: identify the record operation
+             * 2) without flag: the flag = null
+             */
+            return new WRecord(flag).prev(new WRecord());
+        } else {
+            /*
+             * Read mode only, it will ignore prev record reference
+             */
+            return new WRecord();
+        }
+    }
+
+    // ------------- Reference for original record
+
+    public WRecord prev() {
+        return this.prev;
+    }
+
+    public WRecord prev(final WRecord prev) {
+        this.prev = prev;
+        return this;
+    }
 
     // ------------- Response Build
     /*
@@ -66,6 +122,16 @@ public class WRecord implements Serializable {
     }
 
     /*
+     * Child Bind
+     */
+    public WRecord bind(final JsonObject child) {
+        if (Ut.notNil(child)) {
+            this.child.mergeIn(child.copy());
+        }
+        return this;
+    }
+
+    /*
      * Linkage Bind
      */
     public WRecord linkage(final String field, final JsonArray linkage) {
@@ -74,15 +140,6 @@ public class WRecord implements Serializable {
         return this;
     }
 
-    /*
-     * Child Bind
-     */
-    public WRecord child(final JsonObject child) {
-        if (Ut.notNil(child)) {
-            this.child.mergeIn(child);
-        }
-        return this;
-    }
 
     // ------------- Field Get
     /*
@@ -101,6 +158,10 @@ public class WRecord implements Serializable {
         return this.ticket;
     }
 
+    public JsonObject child() {
+        return this.child;
+    }
+
     public String identifier() {
         return this.ticket.getModelId();
     }
@@ -109,11 +170,6 @@ public class WRecord implements Serializable {
         return this.ticket.getModelKey();
     }
 
-    public TodoStatus status() {
-        return this.status;
-    }
-
-    // ------------- Workflow Moving
     /*
      * These two methods are only called when UPDATING todo
      * Here the `status` field stored the original status of W_TODO
@@ -121,9 +177,12 @@ public class WRecord implements Serializable {
      * - Update the actual records by ActionOn
      * - Update the related records by ActionOn
      */
-    public WRecord status(final String literal) {
-        this.status = Ut.toEnum(() -> literal, TodoStatus.class, null);
-        return this;
+    public TodoStatus status() {
+        if (Objects.isNull(this.prev) || Objects.isNull(this.prev.todo)) {
+            return null;
+        }
+        final WTodo todo = this.prev.todo;
+        return Ut.toEnum(todo::getStatus, TodoStatus.class, null);
     }
 
     // ------------- Async Code Logical
@@ -142,13 +201,13 @@ public class WRecord implements Serializable {
         // Here read `flowProcessId`
         final String instanceId = this.ticket.getFlowInstanceId();
         final JsonObject response = this.data();
-        return Wf.instance(instanceId).compose(process -> {
+        return Wf.definition(instanceId).compose(process -> {
             /*
              * history to switch
              * 1. instance(), history = false
              * 2. instanceFinished(), history = true
              */
-            this.process = process;
+            // this.process = process;
             final StoreOn storeOn = StoreOn.get();
             if (history) {
                 // Fetch History Only
@@ -277,28 +336,52 @@ public class WRecord implements Serializable {
      *  - modelChild ( With quantity )      - 「Multi Record」Primary Keys of JsonArray entity records
      */
     public JsonObject data() {
-        Objects.requireNonNull(this.ticket);
+        // prev may be empty, it means that could not call old data
+        // Objects.requireNonNull(this.ticket);
         final JsonObject response = new JsonObject();
-        final JsonObject ticketJ = Ux.toJson(this.ticket);
-        Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
-        // WTicket
-        // traceKey <- key
-        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
-        response.mergeIn(ticketJ, true);
-        if (Objects.nonNull(this.todo)) {
-            final JsonObject todoJson = Ux.toJson(this.todo);
-            response.mergeIn(todoJson, true);
-            // WTodo
-            // taskCode <- code
-            // taskSerial <- serial
-            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
-            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+        if (Objects.nonNull(this.ticket)) {
+            final JsonObject ticketJ = Ux.toJson(this.ticket);
+            Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
+            // WTicket
+            // traceKey <- key
+            ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+            response.mergeIn(ticketJ, true);
+            if (Objects.nonNull(this.todo)) {
+                final JsonObject todoJson = Ux.toJson(this.todo);
+                response.mergeIn(todoJson, true);
+                // WTodo
+                // taskCode <- code
+                // taskSerial <- serial
+                response.put(KName.Flow.TASK_CODE, this.todo.getCode());
+                response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+            }
+            // WTicket
+            // serial
+            // code
+            response.put(KName.SERIAL, this.ticket.getSerial());
+            response.put(KName.CODE, this.ticket.getCode());
+            if (Objects.nonNull(this.prev)) {
+                // Data Original, UPDATE Only
+                final JsonObject dataPrev = this.prev.data();
+                if (Ut.notNil(dataPrev)) {
+                    response.put(KName.__.DATA, this.prev.data());
+                }
+            }
+            // Operation on Record
+            if (Objects.nonNull(this.tabb)) {
+                response.put(KName.__.FLAG, this.tabb);
+            }
+            // AOP Data After
+            response.mergeIn(this.dataAfter, true);
         }
-        // WTicket
-        // serial
-        // code
-        response.put(KName.SERIAL, this.ticket.getSerial());
-        response.put(KName.CODE, this.ticket.getCode());
         return response;
+    }
+
+    public Future<WRecord> dataAfter(final JsonObject dataAfter) {
+        if (Ut.notNil(dataAfter)) {
+            this.dataAfter.clear();
+            this.dataAfter.mergeIn(dataAfter, true);
+        }
+        return Ux.future(this);
     }
 }

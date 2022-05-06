@@ -2,7 +2,7 @@ package cn.originx.uca.graphic;
 
 import cn.originx.refine.Ox;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.modular.dao.AoDao;
+import io.vertx.up.experiment.mixture.HDao;
 
 public abstract class AbstractPlotter implements Plotter {
 
@@ -14,7 +14,7 @@ public abstract class AbstractPlotter implements Plotter {
         return this;
     }
 
-    protected AoDao dao(final String identifier) {
+    protected HDao dao(final String identifier) {
         return Ox.toDao(this.app.getAppId(), identifier);
     }
 }

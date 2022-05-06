@@ -2,13 +2,13 @@ package io.vertx.tp.atom.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.commune.compare.Vs;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

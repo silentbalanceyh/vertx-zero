@@ -14,9 +14,8 @@ import java.util.Objects;
  */
 public abstract class AbstractMovement extends AbstractTransfer {
 
-    private transient HelperTodo todoKit;
-    private transient HelperLinkage linkageKit;
-    private transient MetaInstance metadata;
+    private transient AidTodo todoKit;
+    private transient AidLinkage linkageKit;
 
     /*
      * Overwrite the `Todo` Here
@@ -24,14 +23,10 @@ public abstract class AbstractMovement extends AbstractTransfer {
     @Override
     public Behaviour bind(final MetaInstance metadata) {
         Objects.requireNonNull(metadata);
-        this.metadata = metadata;
-        this.todoKit = new HelperTodo(metadata);
-        this.linkageKit = new HelperLinkage(metadata);
+        this.todoKit = new AidTodo(metadata);
+        this.linkageKit = new AidLinkage(metadata);
+        this.trackerKit = new AidTracker(metadata);
         return super.bind(metadata);
-    }
-
-    protected MetaInstance metadataIn() {
-        return this.metadata;
     }
 
     /*
@@ -104,29 +99,28 @@ public abstract class AbstractMovement extends AbstractTransfer {
     protected Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
         // Todo
         final ProcessInstance instance = process.instance();
-        return this.todoKit.insertAsync(params, instance)
+        return Objects.requireNonNull(this.todoKit)
+            .insertAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 
     protected Future<WRecord> updateAsync(final JsonObject params) {
-        return this.todoKit.updateAsync(params)
+        return Objects.requireNonNull(this.todoKit)
+            .updateAsync(params)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 
     protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
         // Todo
         final ProcessInstance instance = process.instance();
-        return this.todoKit.saveAsync(params, instance)
+        return Objects.requireNonNull(this.todoKit)
+            .saveAsync(params, instance)
             // Linkage Sync
-            .compose(record -> this.linkageKit.syncAsync(params, record));
-    }
-
-    protected Future<WRecord> generateAsync(final JsonObject params, final WProcess instance, final WRecord record) {
-        // final WTodo generated = KitTodo.inputNext(todo, instance);
-        final WRecord generated = HelperTodo.nextJ(record, instance);
-        // return this.todoKit.generateAsync(todo, instance);
-        return this.todoKit.generateAsync(params, generated);
+            .compose(record -> Objects.requireNonNull(this.linkageKit)
+                .syncAsync(params, record));
     }
 }

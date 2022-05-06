@@ -64,7 +64,8 @@ public class NotNullMessageActor {
 
 Here we could see:
 
-> The message attribute 'message' also belong to JSR303, Bean Validation, you can set any response error message that you wanted here.
+> The message attribute 'message' also belong to JSR303, Bean Validation, you can set any response error message that
+> you wanted here.
 
 ## 2. Testing
 

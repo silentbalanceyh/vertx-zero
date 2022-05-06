@@ -11,8 +11,8 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -21,8 +21,6 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Data in Session for current user
@@ -32,7 +30,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ScUser {
     private static final Annal LOGGER = Annal.get(ScUser.class);
-    private static final ConcurrentMap<String, ScUser> USERS = new ConcurrentHashMap<>();
+    private static final Cc<String, ScUser> CC_USER = Cc.open();
     private final transient Rapid<String, JsonObject> rapid;
     private final transient String habitus;
     private transient String userId;
@@ -145,7 +143,7 @@ public class ScUser {
      */
     public static Future<ScUser> login(final JsonObject data) {
         final String habitus = data.getString(KName.HABITUS);
-        return Ux.future(Fn.pool(USERS, habitus, () -> new ScUser(habitus))).compose(user -> {
+        return Ux.future(CC_USER.pick(() -> new ScUser(habitus), habitus)).compose(user -> {
             final JsonObject stored = data.copy();
             stored.remove(KName.HABITUS);
             final String userId = stored.getString(KName.USER);
@@ -165,7 +163,7 @@ public class ScUser {
     }
 
     public static ScUser login(final String habitus) {
-        return USERS.get(habitus);
+        return CC_USER.store(habitus);
     }
 
     public static ScUser login(final User user) {
@@ -175,7 +173,7 @@ public class ScUser {
     }
 
     public static Future<Boolean> logout(final String habitus) {
-        final ScUser user = USERS.get(habitus);
+        final ScUser user = CC_USER.store(habitus);
         Objects.requireNonNull(user);
         return user.logout();
     }
@@ -263,7 +261,8 @@ public class ScUser {
         /*
          * Remove reference pool first
          */
-        USERS.remove(this.habitus);
+        // USERS.remove(this.habitus);
+        CC_USER.store().clear(this.habitus);
         return this.rapid.clear(this.habitus)
             .compose(nil -> Ux.future(Boolean.TRUE));
     }

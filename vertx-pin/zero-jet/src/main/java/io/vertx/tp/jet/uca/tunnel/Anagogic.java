@@ -8,9 +8,9 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -48,7 +48,7 @@ class Anagogic {
         return Ux.future(Boolean.TRUE);
     }
 
-    static Future<Boolean> componentAsync(final JtComponent component, final Commercial commercial, final Supplier<Future<DiFabric>> supplier) {
+    static Future<Boolean> componentAsync(final JtComponent component, final Commercial commercial, final Supplier<Future<DFabric>> supplier) {
         if (Objects.nonNull(commercial)) {
             return supplier.get().compose(fabric -> {
                 /*
@@ -58,8 +58,8 @@ class Anagogic {
 
                 Ut.contract(component, JsonObject.class, options);                  /* serviceConfig */
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */
-                Ut.contract(component, BiTree.class, commercial.mapping());    /* mappingConfig */
-                Ut.contract(component, DiFabric.class, fabric);                   /* dictConfig -> converted to fabric */
+                Ut.contract(component, BTree.class, commercial.mapping());    /* mappingConfig */
+                Ut.contract(component, DFabric.class, fabric);                   /* dictConfig -> converted to fabric */
                 Ut.contract(component, RuleUnique.class, commercial.rule());        /* Rule Unique */
 
                 return Future.succeededFuture(Boolean.TRUE);

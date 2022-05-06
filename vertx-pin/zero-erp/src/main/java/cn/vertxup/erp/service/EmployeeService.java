@@ -5,7 +5,6 @@ import cn.vertxup.erp.domain.tables.pojos.EEmployee;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.tp.optic.feature.Trash;
@@ -21,7 +20,7 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> createAsync(final JsonObject data) {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         if (Ut.isNil(employee.getWorkNumber())) {
-            return Ke.channelAsync(Indent.class, () -> this.insertAsync(employee, data),
+            return Ux.channelAsync(Indent.class, () -> this.insertAsync(employee, data),
                 serial -> serial.indent("NUM.EMPLOYEE", data.getString(KName.SIGMA)).compose(workNum -> {
                     employee.setWorkNumber(workNum);
                     return this.insertAsync(employee, data);
@@ -137,7 +136,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<Boolean> deleteAsync(final String key) {
         return this.fetchAsync(key)
-            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ke.channelAsync(Trash.class,
+            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelAsync(Trash.class,
                 () -> this.deleteAsync(key, item),
                 tunnel -> tunnel.backupAsync("res.employee", item)
                     .compose(backup -> this.deleteAsync(key, item)))));
@@ -179,7 +178,7 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonObject> switchJ(final JsonObject input,
                                        final BiFunction<ExUser, JsonObject, Future<JsonObject>> executor) {
-        return Ke.channel(ExUser.class, JsonObject::new, user -> {
+        return Ux.channel(ExUser.class, JsonObject::new, user -> {
             if (Ut.isNil(input)) {
                 return Ux.future(new JsonObject());
             } else {
@@ -194,7 +193,7 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonArray> switchA(final JsonArray input,
                                       final BiFunction<ExUser, JsonArray, Future<JsonArray>> executor) {
-        return Ke.channel(ExUser.class, JsonArray::new,
+        return Ux.channel(ExUser.class, JsonArray::new,
             user -> executor.apply(user, input));
     }
 }

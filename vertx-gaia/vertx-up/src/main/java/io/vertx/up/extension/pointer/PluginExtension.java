@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
 
 import java.util.Set;
@@ -12,6 +13,18 @@ import java.util.Set;
  * Plugin Instance Pool for different usage.
  */
 public interface PluginExtension {
+    // ------------------ Internal Interface -----------------------
+
+    interface Loader {
+        /*
+         * For Dynamic Modeling Extract
+         */
+        static HAtom atom(final String namespace, final String identifier) {
+            /* Dynamic Atom Plug-In */
+            return PluginAtom.atom(namespace, identifier);
+        }
+    }
+
     // ------------------ Sync Mode Plugin -----------------------
     interface ZeroRegistry {
         /*

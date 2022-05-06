@@ -3,7 +3,7 @@ package cn.originx.scaffold.stdn;
 import cn.originx.refine.Ox;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
@@ -107,7 +107,7 @@ class HDiff {
             if (Objects.isNull(updated)) {
                 final JsonObject normalized = new JsonObject();
                 // 「Creation」移除 null 值
-                atom.attributeNames().stream()
+                atom.attribute().stream()
                     .filter(field -> Objects.nonNull(reference.getValue(field)))
                     .forEach(field -> normalized.put(field, reference.getValue(field)));
                 return (T) normalized;
@@ -115,7 +115,7 @@ class HDiff {
                 // 「Edition」复杂计算
                 final JsonObject normalized = new JsonObject();
                 final Set<String> notnullFields = Ox.ignoreIn(atom);     // inSync = false
-                atom.attributeNames().forEach(field -> {
+                atom.attribute().forEach(field -> {
                     /*
                      * 三份数据
                      * 1. reference 旧数据

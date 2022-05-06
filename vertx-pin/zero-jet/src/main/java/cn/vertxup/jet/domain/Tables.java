@@ -12,7 +12,7 @@ import cn.vertxup.jet.domain.tables.IService;
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
     /**

@@ -42,4 +42,6 @@ public interface Strings {
     String QUOTE = "'";
 
     String FROM_TO = " -> ";
+
+    String NEW_LINE = "\n";
 }

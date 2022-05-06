@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.tp.workflow.uca.component.HelperLinkage;
+import io.vertx.tp.workflow.uca.component.AidLinkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -52,7 +52,7 @@ public class TaskService implements TaskStub {
     // ====================== Single Record
     @Override
     public Future<JsonObject> readPending(final String key, final String userId) {
-        final WRecord record = new WRecord();
+        final WRecord record = WRecord.create();
 
 
         // Read Todo Record
@@ -69,7 +69,7 @@ public class TaskService implements TaskStub {
 
 
             // Linkage
-            .compose(HelperLinkage::readLinkage)
+            .compose(AidLinkage::readLinkage)
 
 
             // Child
@@ -110,13 +110,13 @@ public class TaskService implements TaskStub {
             return Ux.future(response);
         }
         return jq.fetchJByIdAsync(ticket.getKey())
-            .compose(queried -> Ux.future(response.child(queried)));
+            .compose(queried -> Ux.future(response.bind(queried)));
     }
 
 
     @Override
     public Future<JsonObject> readFinished(final String key) {
-        final WRecord record = new WRecord();
+        final WRecord record = WRecord.create();
 
 
         // Read Ticket Record
@@ -124,7 +124,7 @@ public class TaskService implements TaskStub {
 
 
             // Linkage
-            .compose(HelperLinkage::readLinkage)
+            .compose(AidLinkage::readLinkage)
 
 
             // Child

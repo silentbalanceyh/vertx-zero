@@ -121,7 +121,9 @@ Here are two important api to get reference of `AsyncMap/LocalMap` of vert.x as 
 It means that some vert.x native developers want to use `AsyncMap/LocalMap` directly, in this situation you can call
 above two APIs to get reference.
 
-> But you must be careful about the configuration `config -> async`, in zero system you must use correct mode of SharedData that reflect to `async` , in other words, async = true, you can use AsyncMap, async = false, you can use LocalMap.
+> But you must be careful about the configuration `config -> async`, in zero system you must use correct mode of
+> SharedData that reflect to `async` , in other words, async = true, you can use AsyncMap, async = false, you can use
+> LocalMap.
 
 ### 3.3. Switch Pool
 

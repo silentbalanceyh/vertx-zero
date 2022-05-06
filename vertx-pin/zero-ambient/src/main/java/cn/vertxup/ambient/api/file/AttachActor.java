@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -50,7 +49,7 @@ public class AttachActor {
         if (content.containsKey(KName.DIRECTORY)) {
             final String sigma = header.getSigma();
             final String directory = content.getString(KName.DIRECTORY);
-            return Ke.channel(ExIo.class, () -> content, io -> io.dirBy(sigma, directory).compose(directoryJ -> {
+            return Ux.channel(ExIo.class, () -> content, io -> io.dirBy(sigma, directory).compose(directoryJ -> {
                 /*
                  * Replaced the field
                  * - directoryId, refer to I_DIRECTORY record,                      key field

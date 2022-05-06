@@ -19,19 +19,19 @@ public class QrItem implements Serializable {
     /**
      * The field name
      */
-    private transient final String field;
+    private final String field;
     /**
      * The field operator
      */
-    private transient final String op;
+    private final String op;
     /**
      * The key of condition
      */
-    private transient final String qrKey;
+    private final String qrKey;
     /**
      * The value of current kv.
      */
-    private transient Object value;
+    private Object value;
 
     public QrItem(final String fieldExpr) {
         /* First checking for `fieldExpr` literal */
@@ -82,7 +82,9 @@ public class QrItem implements Serializable {
         if (Objects.isNull(value) || Objects.isNull(valueTarget)) {
             // All null
             return value == valueTarget;
-        } else return value.equals(valueTarget);
+        } else {
+            return value.equals(valueTarget);
+        }
     }
 
     public QrItem add(final JsonArray value, final boolean isAnd) {

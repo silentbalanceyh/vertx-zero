@@ -1,12 +1,9 @@
 package io.vertx.up.unity;
 
 import io.vertx.core.eventbus.DeliveryOptions;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * Unity configuration management
@@ -14,13 +11,13 @@ import java.util.concurrent.ConcurrentMap;
  * uniform calling
  */
 public class UxOpt {
-    private final ConcurrentMap<String, Rotate> ROTATE = new ConcurrentHashMap<>();
+    private final Cc<String, Rotate> CC_ROTATE = Cc.openThread();
 
     /*
      * Default DeliveryOptions
      */
     public DeliveryOptions delivery() {
-        final Rotate rotate = Fn.poolThread(this.ROTATE, DeployRotate::new);
+        final Rotate rotate = this.CC_ROTATE.pick(DeployRotate::new); // Fn.po?lThread(this.ROTATE, DeployRotate::new);
         return rotate.spinDelivery();
     }
 }

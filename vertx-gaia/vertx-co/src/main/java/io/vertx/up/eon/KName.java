@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface KName {
+    String TRACKABLE = "trackable";              /* trackable */
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 
@@ -82,12 +83,16 @@ public interface KName {
     String VALUE = "value";                      /* Common: value */
     String TYPE = "type";                        /* Common: type for different model */
     String DEPLOY_ID = "deployID";               /* */
+    String ASPECT = "aspect";                    /* Aspect Component Usage */
     String DEPLOYMENT = "deployment";            /* */
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
     String DATA = "data";                        /* Common: data */
+    String INPUT = "input";                      /* Input */
+    String OUTPUT = "output";                    /* Output */
     String DATUM = "datum";                      /* Common: metadata key */
     String MAPPING = "mapping";                  /* Common: Json mapping configuration */
+    String ATOM = "atom";                        /* Common: Atom */
     String STATUS = "status";                    /* Common: status for different workflow */
     String SERIAL = "serial";                    /* Common: serial field ( XNumber related or other meaningful serial */
 
@@ -120,6 +125,9 @@ public interface KName {
     String EPSILON = "epsilon";                  /* Dictionary Consumer */
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
+    String MATRIX = "matrix";                    /* Attribute Matrix for 8 dim */
+    String REFERENCE = "reference";              /* Attribute Reference for */
+
     String METHOD = "method";                    /* Web: http method */
     String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
@@ -142,7 +150,9 @@ public interface KName {
 
     String COMPANY_ID = "companyId";             /* Company Id */
     String DEPT_ID = "deptId";                   /* Department Id */
+    String DEPT = "dept";                        /* Dept */
     String TEAM_ID = "teamId";                   /* Team Id */
+    String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 
     String CONFIG = "config";                    /* Acl Usage */
@@ -215,6 +225,16 @@ public interface KName {
     String UI_STYLE = "uiStyle";
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
+
+    interface __ {
+        String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
+        String DATA = "__" + KName.DATA;             /* __data for previous data */
+        String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
+
+        String INPUT = "__" + KName.INPUT;           /* __input for input original data */
+        String USER = "__" + KName.USER;             /* __user for user extraction */
+        String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
+    }
 
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
@@ -407,11 +427,17 @@ public interface KName {
         String TRACE_SERIAL = "traceSerial";
         String TASK_SERIAL = "taskSerial";
         String TASK_CODE = "taskCode";
+        String TASK_NAME = "taskName";
+
+        String TASK_KEY = "taskKey";
 
         // Flow Field
         String FLOW_END = "flowEnd";
+
+        String FLOW_NAME = "flowName";
         String FLOW_DEFINITION_KEY = "flowDefinitionKey";
         String FLOW_DEFINITION_ID = "flowDefinitionId";
+        String FLOW_INSTANCE_ID = "flowInstanceId";
 
         // Processing
         String CONFIG_START = "startConfig";
@@ -425,6 +451,22 @@ public interface KName {
         String UI_LINKAGE = "uiLinkage";
 
         // Auditor
+        Set<String> FIELD_AUDITOR = new HashSet<>() {
+            {
+                this.add(CREATED_BY);    // Created By
+                this.add(UPDATED_BY);    // Updated By
+                this.add(OWNER);         // Owner
+                this.add(Auditor.TO_USER);       // Approved / Processed By
+                this.add(Auditor.SUPERVISOR);    // Supervisor
+                this.add(Auditor.CANCEL_BY);     // Cancel By
+                this.add(Auditor.CLOSE_BY);      // Close By
+                this.add(Auditor.OPEN_BY);       // Open By
+                this.add(Auditor.FINISHED_BY);   // Finished By
+                this.add(Auditor.ASSIGNED_BY);   // Assigned By
+                this.add(Auditor.ACCEPTED_BY);   // Accdpted By
+            }
+        };
+
         interface Auditor {
             String FINISHED_BY = "finishedBy";
             String FINISHED_AT = "finishedAt";
@@ -444,6 +486,27 @@ public interface KName {
             String TO_DEPT = "toDept";
             String TO_ROLE = "toRole";
             String TO_GROUP = "toGroup";
+
+            String ASSIGNED_BY = "assignedBy";
+            String ASSIGNED_AT = "assignedAt";
+            String ACCEPTED_BY = "acceptedBy";
+            String ACCEPTED_AT = "acceptedAt";
+
+            Set<String> USER_FIELDS = new HashSet<>() {
+                {
+                    this.add(TO_USER);       // Approved / Processed By
+                    this.add(CREATED_BY);    // Created By
+                    this.add(UPDATED_BY);    // Updated By
+                    this.add(OWNER);         // Owner
+                    this.add(SUPERVISOR);    // Supervisor
+                    this.add(CANCEL_BY);     // Cancel By
+                    this.add(CLOSE_BY);      // Close By
+                    this.add(OPEN_BY);       // Open By
+                    this.add(FINISHED_BY);   // Finished By
+                    this.add(ASSIGNED_BY);   // Assigned By
+                    this.add(ACCEPTED_BY);   // Accdpted By
+                }
+            };
         }
 
         // Bpmn
@@ -460,5 +523,30 @@ public interface KName {
         // Tree Component
         String TREE_COMPONENT = "treeComponent";
         String TREE_CONFIG = "treeConfig";
+    }
+
+    interface Internal {
+        String ERROR = "error";
+        String INJECT = "inject";
+        String SERVER = "server";
+        String RESOLVER = "resolver";
+
+        /**
+         * Vertx Zero configuration
+         */
+        String ZERO = "zero";
+        /**
+         * External Zero configuration
+         */
+        String LIME = "lime";
+    }
+
+    interface Aop {
+        String COMPONENT_TYPE = "configuration.operation";
+        String COMPONENT = "plugin.component";
+        String COMPONENT_BEFORE = "plugin.component.before";
+        String COMPONENT_AFTER = "plugin.component.after";
+        String COMPONENT_JOB = "plugin.component.job";
+        String COMPONENT_CONFIG = "plugin.config";
     }
 }

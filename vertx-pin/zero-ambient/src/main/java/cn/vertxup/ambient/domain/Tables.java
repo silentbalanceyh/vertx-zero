@@ -6,6 +6,7 @@ package cn.vertxup.ambient.domain;
 
 import cn.vertxup.ambient.domain.tables.XActivity;
 import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
@@ -18,6 +19,7 @@ import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 
 
 /**
@@ -35,6 +37,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_ACTIVITY_CHANGE</code>.
      */
     public static final XActivityChange X_ACTIVITY_CHANGE = XActivityChange.X_ACTIVITY_CHANGE;
+
+    /**
+     * The table <code>DB_ETERNAL.X_ACTIVITY_RULE</code>.
+     */
+    public static final XActivityRule X_ACTIVITY_RULE = XActivityRule.X_ACTIVITY_RULE;
 
     /**
      * The table <code>DB_ETERNAL.X_APP</code>.
@@ -95,4 +102,9 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_TABULAR</code>.
      */
     public static final XTabular X_TABULAR = XTabular.X_TABULAR;
+
+    /**
+     * The table <code>DB_ETERNAL.X_TAG</code>.
+     */
+    public static final XTag X_TAG = XTag.X_TAG;
 }

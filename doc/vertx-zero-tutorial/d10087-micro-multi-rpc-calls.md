@@ -171,7 +171,8 @@ Then you should get following response instead of original:
 }
 ```
 
-> You can do your own calculation based on response from different rpc services, then you can provide correct response to client.
+> You can do your own calculation based on response from different rpc services, then you can provide correct response
+> to client.
 
 
 

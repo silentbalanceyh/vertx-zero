@@ -4,25 +4,13 @@
 package cn.vertxup.erp.domain;
 
 
-import cn.vertxup.erp.domain.tables.EAsset;
-import cn.vertxup.erp.domain.tables.EBrand;
-import cn.vertxup.erp.domain.tables.ECompany;
-import cn.vertxup.erp.domain.tables.EContract;
-import cn.vertxup.erp.domain.tables.ECustomer;
-import cn.vertxup.erp.domain.tables.EDept;
-import cn.vertxup.erp.domain.tables.EEmployee;
-import cn.vertxup.erp.domain.tables.EIdentity;
-import cn.vertxup.erp.domain.tables.EJobLog;
-import cn.vertxup.erp.domain.tables.ETeam;
-import cn.vertxup.erp.domain.tables.RAssetShare;
-import cn.vertxup.erp.domain.tables.RCompanyCustomer;
-import cn.vertxup.erp.domain.tables.RTeamEmployee;
+import cn.vertxup.erp.domain.tables.*;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
     /**

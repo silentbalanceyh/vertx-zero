@@ -25,27 +25,27 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class UTenant implements Serializable, Copyable<UTenant> {
     @JsonIgnore
-    private final transient ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
     @JsonIgnore
-    private final transient ConcurrentMap<String, String> vendorMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, String> vendorMap = new ConcurrentHashMap<>();
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject global;
+    private JsonObject global;
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray source;
-    private transient ConcurrentMap<String, JsonObject> mapping = new ConcurrentHashMap<>();
+    private JsonArray source;
+    private ConcurrentMap<String, JsonObject> mapping = new ConcurrentHashMap<>();
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject application;
+    private JsonObject application;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject integration;
+    private JsonObject integration;
 
-    private transient ConcurrentMap<String, JsonObject> forbidden = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JsonObject> forbidden = new ConcurrentHashMap<>();
 
-    private transient ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
 
     public ConcurrentMap<String, JsonObject> getDictionary() {
         return this.dictionary;

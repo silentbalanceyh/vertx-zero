@@ -2,9 +2,11 @@ package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
 import cn.zeroup.macrocosm.cv.WfPool;
-import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.init.WfPin;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.*;
+import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -29,17 +31,26 @@ public class EngineOn {
 
     public static EngineOn connect(final String definitionKey) {
         Objects.requireNonNull(definitionKey);
-        /*
-         * Thread pool here.
-         */
-        return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
+        /* Thread pool here. */
+        Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
+        return WfPool.CC_ENGINE.pick(() -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
+            /* Defined Exception throw out because of configuration data */
+            Fn.out(Objects.isNull(flow), _404WorkflowNullException.class, EngineOn.class, definitionKey);
             return new EngineOn(flow);
         }, definitionKey);
     }
 
-    public static EngineOn connect(final JsonObject params) {
-        final WKey key = WKey.build(params);
+    public static EngineOn connect(final WRequest request) {
+        final KFlow key = request.workflow();
+        /*
+         * {
+         *     "definitionKey": "",
+         *     "definitionId": "",
+         *     "instanceId": "",
+         *     "taskId": ""
+         * }
+         */
         return connect(key.definitionKey());
     }
 
@@ -96,7 +107,25 @@ public class EngineOn {
     @SuppressWarnings("all")
     private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
         final String keyComponent = this.metadata.recordComponentKey(clazz, componentValue);
-        return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
+        /*
+         * Here are component pool based on keyComponent, the format is as following:
+         * className + ConfigRecord ( hashCode ) + componentValue ( hashCode Optional )
+         * - authorizedComponent
+         *   authorized on user to check who could do actions
+         *
+         * - generateComponent
+         *   close previous todo record / open new todo record
+         *
+         * - runComponent
+         *   run current todo record / processing
+         *
+         * - startComponent
+         *   start new workflow and generate new start todo record
+         *
+         * - endComponent
+         *   end workflow of closing ticket
+         */
+        return (C) WfPool.CC_COMPONENT.pick(() -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue))
                 // Level 1, Record for Transfer

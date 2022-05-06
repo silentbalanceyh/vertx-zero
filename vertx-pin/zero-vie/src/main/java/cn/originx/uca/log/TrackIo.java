@@ -6,33 +6,31 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._400TrackingErrorException;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /*
  * 执行 Activity
  */
 public class TrackIo {
-    private final static ConcurrentMap<String, TrackIo> TRACK_POOL = new ConcurrentHashMap<>();
+    private static final Cc<String, TrackIo> CC_TRACK = Cc.open();
     private final transient DataAtom atom;
 
     @SuppressWarnings("all")    // Temp
-    private final transient AoDao dao;
+    private final transient HDao dao;
     private final transient Boolean isTrack;
     private final transient Set<String> ignoreSet;
 
-    private TrackIo(final DataAtom atom, final AoDao dao) {
+    private TrackIo(final DataAtom atom, final HDao dao) {
         // 打开注入
         Ox.numerationStd();
         this.atom = atom;
@@ -49,8 +47,9 @@ public class TrackIo {
         this.ignoreSet = Ox.ignorePure(atom);
     }
 
-    public static TrackIo create(final DataAtom atom, final AoDao dao) {
-        return Fn.pool(TRACK_POOL, atom.identifier(), () -> new TrackIo(atom, dao));
+    public static TrackIo create(final DataAtom atom, final HDao dao) {
+        return CC_TRACK.pick(() -> new TrackIo(atom, dao), atom.identifier());
+        // Fn.po?l(TRACK_POOL, atom.identifier(), () -> new TrackIo(atom, dao));
     }
 
     public Future<JsonArray> procAsync(final JsonArray newArray,
@@ -59,7 +58,7 @@ public class TrackIo {
                                        final Integer counter) {
         final JsonObject optJson = Ut.valueJObject(options);
         final AspectPlugin plugin = Ox.pluginActivity(optJson);
-        final Set<String> trackFields = this.atom.trueTrack();
+        final Set<String> trackFields = this.atom.marker().onTrack();
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonArray response = Objects.isNull(newArray) ? oldArray : newArray;
             return Ux.future(response);
@@ -106,7 +105,7 @@ public class TrackIo {
          * - DELETE - 和 ADD 相反
          * - UPDATE - 计算最终结果
          */
-        final Set<String> trackFields = this.atom.trueTrack();
+        final Set<String> trackFields = this.atom.marker().onTrack();
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonObject response = Objects.isNull(newRecord) ? oldRecord : newRecord;
             return Ux.future(response);

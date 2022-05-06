@@ -14,12 +14,11 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.secure.LeeExtension;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -33,8 +32,9 @@ class BoltWhich implements Bolt {
         new AtomicBoolean(Boolean.TRUE),
         new AtomicBoolean(Boolean.TRUE)
     };
-    private static final ConcurrentMap<String, Lee> POOL_LEE = new ConcurrentHashMap<>();
-    static ConcurrentMap<String, Bolt> POOL_BOLT = new ConcurrentHashMap<>();
+
+    static Cc<String, Bolt> CC_BOLT = Cc.openThread();
+    static Cc<String, Lee> CC_LEE = Cc.openThread();
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
@@ -109,9 +109,11 @@ class BoltWhich implements Bolt {
     private Lee reference(final Aegis config) {
         final AuthWall wall = config.getType();
         if (AuthWall.EXTENSION == wall) {
-            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
+            return CC_LEE.pick(() -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
+            // return Fn.po?lThread(POOL_LEE, () -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
         } else {
-            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
+            return CC_LEE.pick(() -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
+            // return Fn.po?lThread(POOL_LEE, () -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
         }
     }
 }

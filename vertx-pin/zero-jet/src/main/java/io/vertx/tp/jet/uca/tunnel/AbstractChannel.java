@@ -9,10 +9,9 @@ import io.vertx.tp.optic.jet.JtChannel;
 import io.vertx.tp.optic.jet.JtComponent;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.*;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -146,23 +145,23 @@ public abstract class AbstractChannel implements JtChannel {
         return Ux.future(request);
     }
 
-    private Future<DiFabric> createFabric() {
+    private Future<DFabric> createFabric() {
         /*
          * Dict configuration
          */
-        final DiSetting dict = this.commercial.dict();
+        final DSetting dict = this.commercial.dict();
         if (Objects.isNull(this.dictionary)) {
             final String appKey = this.commercial.app();
             final String identifier = this.commercial.identifier();
-            return Jt.toDictionary(appKey,  RapidKey.DIRECTORY, identifier, dict).compose(dictionary -> {
+            return Jt.toDictionary(appKey, RapidKey.DIRECTORY, identifier, dict).compose(dictionary -> {
                 /*
                  * Bind dictionary to current dictionary reference
                  */
                 this.dictionary = dictionary;
-                return Ux.future(DiFabric.create().dictionary(dictionary).epsilon(dict.getEpsilon()));
+                return Ux.future(DFabric.create().dictionary(dictionary).epsilon(dict.getEpsilon()));
             });
         } else {
-            return Ux.future(DiFabric.create().dictionary(this.dictionary).epsilon(dict.getEpsilon()));
+            return Ux.future(DFabric.create().dictionary(this.dictionary).epsilon(dict.getEpsilon()));
         }
     }
 

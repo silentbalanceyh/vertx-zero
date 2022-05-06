@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.database;
 
 import io.vertx.up.eon.em.DatabaseType;
+import io.vertx.up.uca.cache.Cc;
 import org.jooq.SQLDialect;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
 
-    ConcurrentMap<String, DataPool> POOL_DYNAMIC = new ConcurrentHashMap<>();
+    Cc<String, DataPool> CC_POOL_DYNAMIC = Cc.open();
 
     ConcurrentMap<DatabaseType, SQLDialect> DIALECT
         = new ConcurrentHashMap<DatabaseType, SQLDialect>() {

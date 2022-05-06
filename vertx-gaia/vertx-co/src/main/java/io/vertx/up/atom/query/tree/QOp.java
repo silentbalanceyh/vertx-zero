@@ -54,7 +54,7 @@ public enum QOp {
             this.put(Qr.Op.CONTAIN, QOp.CONTAIN);
         }
     };
-    private final transient String value;
+    private final String value;
 
     QOp(final String value) {
         this.value = value;

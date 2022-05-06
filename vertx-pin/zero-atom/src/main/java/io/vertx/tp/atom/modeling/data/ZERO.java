@@ -5,6 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
@@ -18,21 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-interface Pool {
-    // 基础模型池
-    ConcurrentMap<Integer, AoDefine> META_INFO = new ConcurrentHashMap<>();
-    // 标识规则信息
-    ConcurrentMap<Integer, AoUnique> META_RULE = new ConcurrentHashMap<>();
-    // 基础标识信息
-    ConcurrentMap<Integer, AoMarker> META_MARKER = new ConcurrentHashMap<>();
-    // 数据引用信息
-    ConcurrentMap<Integer, AoReference> META_REFERENCE = new ConcurrentHashMap<>();
-}
 
 /**
  * 连接专用
@@ -46,7 +34,7 @@ class Bridge {
          * 1. 遍历当前模型中的 Schema
          * 2. 二层遍历当前模型中的 Attribute
          */
-        Ut.itCollection(model.schemata(), nil -> model.dbAttributes(),
+        Ut.itCollection(model.schema(), nil -> model.dbAttributes(),
             /*
              * 核心逻辑，用于填充 arguments
              */
@@ -75,7 +63,7 @@ class Bridge {
          * 1. 对于 JOIN_MULTI 这种情况，在这里初始化 Matrix 的时候，有可能出现主键没有被记录到 Matrix的情况
          * 2. 如果属性中的值不包括主键，也会出现主键不在的情况，所以需要将各自的主键补充到对应的 Matrix 中
          * */
-        model.schemata().forEach(schema -> schema.getPrimaryKeys()
+        model.schema().forEach(schema -> schema.getPrimaryKeys()
             .forEach(field -> consumer.apply(schema)
                 .accept(field, toAttribute(schema, field))));
 

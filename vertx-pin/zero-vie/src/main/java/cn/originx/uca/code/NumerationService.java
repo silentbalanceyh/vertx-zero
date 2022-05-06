@@ -3,27 +3,26 @@ package cn.originx.uca.code;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /*
  * Number Service 用于序号生成专用，为序号生成器
  */
 public class NumerationService implements Numeration {
-    static final ConcurrentMap<String, Numeration> POOL_SERVICE = new ConcurrentHashMap<>();
+    static final Cc<String, Numeration> CC_SERVICE = Cc.open();
     /* Component Cache */
-    private static final ConcurrentMap<String, Seq<String>> POOL_CODE = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Seq<DataAtom>> POOL_ATOM = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Seq<Class<?>>> POOL_CLASS = new ConcurrentHashMap<>();
+    private static final Cc<String, Seq<String>> CC_CODE = Cc.open();
+    private static final Cc<String, Seq<DataAtom>> CC_ATOM = Cc.open();
+    private static final Cc<String, Seq<Class<?>>> CC_CLASS = Cc.open();
     private final transient String sigma;
 
     NumerationService(final String sigma) {
@@ -62,7 +61,7 @@ public class NumerationService implements Numeration {
 
     @SuppressWarnings("all")
     public Future<Queue<String>> clazz(final Class<?> clazz, final Integer counter, final JsonObject options) {
-        final Seq<Class<?>> std = Fn.pool(POOL_CLASS, clazz.getName(), () -> new SeqClass(this.sigma));
+        final Seq<Class<?>> std = CC_CLASS.pick(() -> new SeqClass(this.sigma), clazz.getName());
         std.bind(options);
         return std.generate(clazz, counter);
     }
@@ -71,7 +70,7 @@ public class NumerationService implements Numeration {
 
     @Override
     public Future<Queue<String>> atom(final DataAtom atom, final Integer counter, final JsonObject options) {
-        final Seq<DataAtom> dynamic = Fn.pool(POOL_ATOM, atom.identifier(), () -> new SeqAtom(this.sigma));
+        final Seq<DataAtom> dynamic = CC_ATOM.pick(() -> new SeqAtom(this.sigma), atom.identifier());
         dynamic.bind(options);
         return dynamic.generate(atom, counter);
     }
@@ -86,7 +85,7 @@ public class NumerationService implements Numeration {
 
     @Override
     public Future<Queue<String>> indent(final String code, final Integer counter, final JsonObject options) {
-        final Seq<String> fixed = Fn.pool(POOL_CODE, code, () -> new SeqIndent(this.sigma));
+        final Seq<String> fixed = CC_CODE.pick(() -> new SeqIndent(this.sigma), code);
         fixed.bind(options);
         return fixed.generate(code, counter);
     }

@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExAmbientDictionary;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -33,13 +33,13 @@ import io.vertx.up.util.Ut;
 class PartyB extends AbstractParty {
     private static final String ROOT = "runtime/";
     /**
-     * {@link DiSetting}对象，字典翻译器配置。
+     * {@link DSetting}对象，字典翻译器配置。
      */
-    private final transient DiSetting dict;
+    private final transient DSetting dict;
     /**
-     * {@link BiTree}对象，字段映射器配置。
+     * {@link BTree}对象，字段映射器配置。
      */
-    private final transient BiTree mapping;
+    private final transient BTree mapping;
     /**
      * {@link JsonObject}对象，服务配置，对应`ServiceConfig`字段，构造`options`。
      */
@@ -57,14 +57,14 @@ class PartyB extends AbstractParty {
          */
         final String dict = this.buildPath("dict-config", integration);
         final String epsilon = this.buildPath("dict-epsilon", integration);
-        this.dict = new DiSetting(Ut.ioJArray(dict))
+        this.dict = new DSetting(Ut.ioJArray(dict))
             .bind(Ux.dictEpsilon(Ut.ioJObject(epsilon)))
             .bind(ExAmbientDictionary.class);
         /*
          * Mapping
          */
         final String mapping = this.buildPath("mapping", integration);
-        this.mapping = new BiTree(Ut.ioJObject(mapping));
+        this.mapping = new BTree(Ut.ioJObject(mapping));
         /*
          * Options
          */
@@ -97,20 +97,20 @@ class PartyB extends AbstractParty {
     /**
      * 构造映射配置对象，专用执行字段映射处理。
      *
-     * @return {@link BiTree}
+     * @return {@link BTree}
      */
     @Override
-    public BiTree mapping() {
+    public BTree mapping() {
         return this.mapping;
     }
 
     /**
      * 构造字典翻译器专用配置
      *
-     * @return {@link Future}<{@link DiSetting}>
+     * @return {@link Future}<{@link DSetting}>
      */
     @Override
-    protected Future<DiSetting> configDict() {
+    protected Future<DSetting> configDict() {
         return Ux.future(this.dict);
     }
 

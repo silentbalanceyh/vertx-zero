@@ -23,6 +23,25 @@ public class MetaInstance {
     private final transient ConfigLinkage linkage;
     private final transient ConfigChild children;
 
+    /*
+     * The format of startJson to build following instances:
+     * - ConfigRecord
+     * - ConfigTodo
+     * - ConfigLinkage
+     * - ConfigChild
+     *
+     * The configuration format
+     * {
+     *     "todo": {},
+     *     "record": {},
+     *     "children": {},
+     *     "linkage": {
+     *         "linkageAttachment": {},
+     *         "linkageTicket": {},
+     *         "linkageAsset": {}
+     *     }
+     * }
+     */
     private MetaInstance(final JsonObject startJson, final JsonObject linkageJson) {
         final JsonObject sure = Ut.valueJObject(startJson);
         /*

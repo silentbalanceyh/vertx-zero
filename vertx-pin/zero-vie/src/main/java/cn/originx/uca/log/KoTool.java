@@ -6,7 +6,7 @@ import io.netty.handler.logging.LogLevel;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 

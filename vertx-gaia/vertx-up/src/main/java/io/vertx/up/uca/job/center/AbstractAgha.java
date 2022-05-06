@@ -167,7 +167,7 @@ public abstract class AbstractAgha implements Agha {
             final String code = mission.getCode();
             final WorkerExecutor executor =
                 this.vertx.createSharedWorkerExecutor(code, 1, threshold);
-            this.getLogger().info(Info.JOB_POOL_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
+            this.getLogger().info(Info.JOB_WORKER_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
             /*
              * The executor start to process the workers here.
              */
@@ -178,7 +178,7 @@ public abstract class AbstractAgha implements Agha {
                          * The job is executing successfully and then stopped
                          */
                         actuator.execute();
-                        this.getLogger().info(Info.JOB_POOL_END, code);
+                        this.getLogger().info(Info.JOB_WORKER_END, code);
                         return Future.succeededFuture(result);
                     })
                     .otherwise(error -> {

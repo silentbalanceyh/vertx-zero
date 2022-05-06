@@ -208,6 +208,8 @@ E80300: "(500) - (Ambient) The application environment error, could not get app 
 E80301: "(500) - (Ambient) The application ( name = `{0}` ) could not be initialized"
 E80302: "(500) - (Ambient) The Init implementation class = {0} does not `implement` interface Init"
 E80303: "(500) - (Ambient) The Prerequisite class = {0} does not satisfy specification"
+E80304: "(409) - (Atom) The atom (`{0}`) could not generate `Activity` record because trackable is FALSE"
+E80305: "(501) - (Atom) The `indent` field of configuration missing, config =`{0}`"
 
 # Jet
 E80400: "(500) - (Jet) The container try to connect App/Source, but `UnityApp` is null and could not start up"
@@ -271,11 +273,18 @@ E80541: "(409) - (Ref) The model `{0}` defined static references, but found more
 E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "
 E80545: "(400) - (Mod) Because both new and old record(s) are null/empty, could not be valid to generate history"
 E80546: "(500) - (Excel) Read the excel file met null file issue, please check your code"
+E80547: "(409) - (Mod) The input identifier = `{0}` is confict with configured identifier = `{1}`, check your configuration"
 
 # Workflow Module
 E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by code = `{0}`"
 E80601: "(501) - (Workflow) Your BPMN file has no `StartEvent`, please check by id = `{0}`"
 E80602: "(409) - (Workflow) This api could be called when unique `StartEvent`, but not the size is `{0}`, id = `{1}`"
+E80603: "(404) - (Workflow) The system could not find workflow record by definitionKey = `{0}`"
+E80604: "(409) - (Workflow) The workflow of definitionKey = `{0}` has already been started ! Invalid Call Divert"
+E80605: "(404) - (Workflow) The workflow of instanceId = `{0}` has been not found in your workflow engine"
+E80606: "(500) - (Workflow) The workflow engine could not parsed task type of `{0}`"
+E80607: "(404) - (Workflow) The supplier of event type = `{0}` could not be found"
 # Extension Vie Platform
 E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."
 E81001: "(501) - (Vie) Sorry the command of development could not be used on production environment."
+E81002: "(400) - (Vie) The filename is invalid because it contains special characters. "

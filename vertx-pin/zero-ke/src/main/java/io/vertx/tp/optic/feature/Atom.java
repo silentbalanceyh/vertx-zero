@@ -12,6 +12,7 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Atom {
+
     /*
      * Single ->
      * 1. Create

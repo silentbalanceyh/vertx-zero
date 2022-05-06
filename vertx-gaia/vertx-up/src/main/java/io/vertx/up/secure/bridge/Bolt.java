@@ -4,14 +4,14 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.fn.Fn;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Bolt {
     static Bolt get() {
-        return Fn.poolThread(BoltWhich.POOL_BOLT, BoltWhich::new);
+        return BoltWhich.CC_BOLT.pick(BoltWhich::new);
+        // return Fn.po?lThread(BoltWhich.POOL_BOLT, BoltWhich::new);
     }
 
     /*

@@ -9,7 +9,7 @@ import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.jet.JtConsumer;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class JtMinos extends AbstractVerticle {
 
+    private static final Cc<String, JtConsumer> CC_CONSUMER = Cc.openThread();
     private transient final JetThanatos ensurer = JetThanatos.create(this.getClass());
     private transient final JtMonitor monitor = JtMonitor.create(this.getClass());
 
@@ -96,7 +97,8 @@ public class JtMinos extends AbstractVerticle {
             /*
              * JtConsumer reference
              */
-            final JtConsumer consumer = Fn.poolThread(Pool.CONSUMER_CLS, () -> Ut.instance(consumerCls));
+            final JtConsumer consumer = CC_CONSUMER.pick(() -> Ut.instance(consumerCls));
+            // Fn.po?lThread(Pool.CONSUMER_CLS, () -> Ut.instance(consumerCls));
             if (Ut.notNil(address) && Objects.nonNull(consumer)) {
                 consumers.put(address, consumer);
             }

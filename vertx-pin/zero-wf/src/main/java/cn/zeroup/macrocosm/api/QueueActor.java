@@ -89,12 +89,12 @@ public class QueueActor {
         if (isPre) {
             // Start Form
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return Wf.processById(definitionId).compose(definition ->
+            return Wf.definitionById(definitionId).compose(definition ->
                 this.flowStub.fetchFormStart(definition, header.getSigma()));
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return Wf.instance(instanceId).compose(process -> {
+            return Wf.definition(instanceId).compose(process -> {
                 if (process.isRunning()) {
                     // Running Form
                     return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());

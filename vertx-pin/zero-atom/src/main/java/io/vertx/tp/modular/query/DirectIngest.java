@@ -9,7 +9,6 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.tree.QTree;
 import io.vertx.up.log.Annal;
-import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 

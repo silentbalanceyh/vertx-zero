@@ -2,7 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;
 import io.vertx.up.util.Ut;
@@ -144,11 +144,11 @@ class ActJObject extends ActMapping implements Serializable {
     /*
      * JsonObject -> Record
      */
-    Record getRecord(final Record definition, final BiTree mapping) {
+    Record getRecord(final Record definition, final BTree mapping) {
         return this.getRecord(this.data, definition, mapping);
     }
 
-    JsonObject getJson(final BiTree mapping) {
+    JsonObject getJson(final BTree mapping) {
         if (this.isBefore(mapping)) {
             return this.mapper().in(this.data, mapping.child());
         } else {

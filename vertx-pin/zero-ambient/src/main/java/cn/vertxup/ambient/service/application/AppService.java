@@ -6,7 +6,6 @@ import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.tp.optic.feature.Modulat;
@@ -41,9 +40,9 @@ public class AppService implements AppStub {
             /* Image field: logo */
             .compose(Ut.ifJObject(KName.App.LOGO))
             /* ExApp Processing, options for application */
-            .compose(appJ -> Ke.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
+            .compose(appJ -> Ux.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
             /* Modulat Processing */
-            .compose(appJ -> Ke.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)));
+            .compose(appJ -> Ux.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)));
     }
 
     @Override
@@ -74,7 +73,7 @@ public class AppService implements AppStub {
         condition.put(KName.MODEL_CATEGORY, KName.App.LOGO);
         condition.put(KName.MODEL_KEY, appId);
         condition.put(Strings.EMPTY, Boolean.TRUE);
-        return Ke.channel(Attachment.class, () -> data,
+        return Ux.channel(Attachment.class, () -> data,
             // Sync Attachment with channel
             file -> file.saveAsync(condition, attachment).compose(saved -> {
                 data.put(KName.App.LOGO, saved.encode());

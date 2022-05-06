@@ -15,6 +15,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -25,7 +26,15 @@ public class ExModulat implements Modulat {
     @Override
     public Future<JsonObject> extension(final JsonObject appJson) {
         final String key = appJson.getString(KName.KEY);
-        return this.fetchModule(key).compose(map -> {
+        return this.extension(key);
+    }
+
+    @Override
+    public Future<JsonObject> extension(final String appId) {
+        Objects.requireNonNull(appId);
+        return this.fetchModule(appId).compose(map -> {
+            final JsonObject appJson = new JsonObject();
+            appJson.put(KName.KEY, appId);
             map.forEach(appJson::put);
             return Ux.future(appJson);
         });

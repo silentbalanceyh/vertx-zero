@@ -152,7 +152,7 @@ class Combine {
         return Future.failedFuture(error);
     }
 
-    static <T> Future<T> thenErrorSigma(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+    static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
         if (Ut.isNil(sigma)) {
             final WebException error = new _400SigmaMissingException(clazz);
             return Future.failedFuture(error);

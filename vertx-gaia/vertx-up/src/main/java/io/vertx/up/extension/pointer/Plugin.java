@@ -12,14 +12,14 @@ import io.vertx.up.util.Ut;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /*
  * Default package scope tool for extension.
  */
 class Plugin {
-
-    private static transient final Node<JsonObject> UNIFORM = Ut.singleton(ZeroUniform.class);
-    private static transient final JsonObject PLUGIN_CONFIG = new JsonObject();
+    private static final Node<JsonObject> UNIFORM = Ut.singleton(ZeroUniform.class);
+    private static final JsonObject PLUGIN_CONFIG = new JsonObject();
     private static final Annal LOGGER = Annal.get(Plugin.class);
 
     /*
@@ -35,19 +35,13 @@ class Plugin {
         }
     }
 
+    @SuppressWarnings("all")
     static void mountPlugin(final String key, final BiConsumer<Class<?>, JsonObject> consumer) {
-        mountPlugin(key, null, (pluginCls, config) -> {
-            consumer.accept(pluginCls, config);
-            return Ux.future(Envelop.ok());
-        });
+        mountPlugin(key, consumer);
     }
 
-    static Future<Envelop> mountPlugin(
-        final String key,
-        /* No plugin, returned original Future<Envelop> */
-        final Envelop envelop,
-        /* Internal function for generation of Envelop */
-        final BiFunction<Class<?>, JsonObject, Future<Envelop>> function) {
+    static <T> T mountPlugin(final String key, final BiFunction<Class<?>, JsonObject, T> function,
+                             final Supplier<T> supplier) {
         if (PLUGIN_CONFIG.containsKey(key)) {
             final JsonObject metadata = PLUGIN_CONFIG.getJsonObject(key);
             final Class<?> pluginCls = Ut.clazz(metadata.getString("component"));
@@ -58,10 +52,19 @@ class Plugin {
                 } catch (final Throwable ex) {
                     ex.printStackTrace();
                     LOGGER.warn("Plugin Extension Failure: {0}, class = {1}", ex.getMessage(), pluginCls);
-                    return Ux.future(envelop);
+                    return supplier.get();
                 }
             }
         }
-        return Ux.future(envelop);
+        return supplier.get();
+    }
+
+    static Future<Envelop> mountPlugin(
+        final String key,
+        /* No plugin, returned original Future<Envelop> */
+        final Envelop envelop,
+        /* Internal function for generation of Envelop */
+        final BiFunction<Class<?>, JsonObject, Future<Envelop>> function) {
+        return mountPlugin(key, function, () -> Ux.future(envelop));
     }
 }

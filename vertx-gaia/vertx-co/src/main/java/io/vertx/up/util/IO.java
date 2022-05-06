@@ -34,7 +34,8 @@ final class IO {
     private static final ObjectMapper YAML = new YAMLMapper();
 
     /**
-     * Direct read by vert.x logger to avoid dead lock
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
      */
     private static final Logger LOGGER
         = LoggerFactory.getLogger(IO.class);

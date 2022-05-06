@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.Rapid;
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DpmDao implements Dpm {
     @Override
-    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DiSource source, final MultiMap params) {
+    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DSource source, final MultiMap params) {
         final UxJooq jooq = this.dao(source);
         if (Objects.isNull(jooq) || Ut.isNil(source.getKey())) {
             return Ux.future(new ConcurrentHashMap<>());
@@ -38,7 +38,7 @@ public class DpmDao implements Dpm {
     }
 
     @Override
-    public ConcurrentMap<String, JsonArray> fetch(final DiSource source, final MultiMap params) {
+    public ConcurrentMap<String, JsonArray> fetch(final DSource source, final MultiMap params) {
         final UxJooq jooq = this.dao(source);
         if (Objects.isNull(jooq) || Ut.isNil(source.getKey())) {
             return new ConcurrentHashMap<>();
@@ -55,7 +55,7 @@ public class DpmDao implements Dpm {
         return condition;
     }
 
-    private UxJooq dao(final DiSource source) {
+    private UxJooq dao(final DSource source) {
         final ConcurrentMap<String, JsonArray> uniqueMap = new ConcurrentHashMap<>();
         final Class<?> daoCls = source.getComponent();
         if (Objects.isNull(daoCls) || Ut.isNil(source.getKey())) {

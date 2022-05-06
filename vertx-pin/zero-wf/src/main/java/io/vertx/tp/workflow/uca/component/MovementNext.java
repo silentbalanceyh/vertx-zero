@@ -1,75 +1,36 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WKey;
+import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.tp.workflow.uca.runner.RunOn;
-import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
+import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.up.atom.Refer;
 
-import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class MovementNext extends AbstractTransfer implements Movement {
     @Override
-    public Future<WProcess> moveAsync(final JsonObject params) {
-        // Extract workflow parameters
-        final WKey key = WKey.build(params);
-        final String instanceId = key.instanceId();
-        // Engine Connect
-        final EventOn eventOn = EventOn.get();
-
+    public Future<WProcess> moveAsync(final WRequest request) {
         // Instance Building
-        final WProcess wProcess = WProcess.create();
-        return Wf.instanceById(instanceId)
-            // WProcess -> Bind ProcessInstance
-            .compose(wProcess::future)
-            .compose(instance -> {
-                // Whether instance existing
-                if (Objects.isNull(instance)) {
-                    /*
-                     * instance does not exist in your system
-                     * Call Start Process
-                     * -- WMove
-                     */
-                    final String definitionId = key.definitionId();
-                    return eventOn.start(definitionId)
-                        .compose(event -> Ux.future(this.moveGet(event.getId())));
-                } else {
-                    /*
-                     * instance exist in your system
-                     * Call Next Process with active task
-                     * -- WMove ( Current task Move )
-                     */
-                    final String taskId = key.taskId();
-                    return eventOn.taskSmart(instance, taskId)
-                        // WProcess -> Bind Task
-                        .compose(wProcess::future)
-                        .compose(task -> Ux.future(this.moveGet(task.getTaskDefinitionKey())));
-                }
-            })
-            .compose(move -> {
-                // WProcess -> Bind Moving, Camunda Instance Moving
-                wProcess.bind(move.stored(params));
-                final ProcessInstance instance = wProcess.instance();
-
-                // Camunda Workflow Running
-                final RunOn runOn = RunOn.get();
-                if (Objects.isNull(instance)) {
-                    final String definitionKey = key.definitionKey();
-                    return runOn.startAsync(definitionKey, move)
-                        // WProcess -> Bind ProcessInstance
-                        .compose(wProcess::future)
-                        .compose(nil -> wProcess.future());
-                } else {
-                    return runOn.moveAsync(instance, move)
-                        .compose(nil -> wProcess.future());
-                }
-            });
+        final Refer process = new Refer();
+        return this.beforeAsync(request, process).compose(normalized
+            /* Here normalized/request shared the same reference */ -> {
+            final Divert divert;
+            final WProcess wProcess = process.get();
+            if (wProcess.isStart()) {
+                // Divert Next ( Workflow Started )
+                divert = Divert.instance(DivertNext.class);
+            } else {
+                // Divert Start ( Workflow Not Started )
+                divert = Divert.instance(DivertStart.class);
+            }
+            final ConcurrentMap<String, WMove> rules = this.rules();
+            // Bind Metadata Instance
+            divert.bind(this.metadataIn());
+            return divert.bind(rules).moveAsync(normalized, wProcess);
+        });
     }
 }

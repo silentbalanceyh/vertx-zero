@@ -7,10 +7,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.commune.exchange.BiMapping;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
+import io.vertx.up.commune.exchange.BMapping;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -54,28 +54,28 @@ public abstract class AbstractParty implements OkB {
     /**
      * 「Abstract」子类必须实现的方法，用于构建字典翻译器专用配置
      *
-     * @return {@link Future}<{@link DiSetting}>
+     * @return {@link Future}<{@link DSetting}>
      */
-    abstract protected Future<DiSetting> configDict();
+    abstract protected Future<DSetting> configDict();
 
     /**
      * 「Async」根据统一标识符异步构造某一个模型的字典翻译器
      *
      * @param identifier {@link String} 传入的模型统一标识符
      *
-     * @return `{@link Future}<{@link DiFabric}>`
+     * @return `{@link Future}<{@link DFabric}>`
      */
     @Override
-    public Future<DiFabric> fabric(final String identifier) {
+    public Future<DFabric> fabric(final String identifier) {
         final MultiMap params = this.input(identifier);
         params.add(KName.CACHE_KEY, RapidKey.JOB_DIRECTORY);
         return this.configDict().compose(dict -> Ux.dictCalc(dict, params).compose(dictData -> {
-            final BiTree mapping = this.mapping();
-            final BiMapping mappingItem = mapping.child(identifier);
+            final BTree mapping = this.mapping();
+            final BMapping mappingItem = mapping.child(identifier);
             /*
              * DualItem
              */
-            final DiFabric fabric = DiFabric.create(mappingItem)
+            final DFabric fabric = DFabric.create(mappingItem)
                 .epsilon(dict.getEpsilon())
                 .dictionary(dictData);
             return Ux.future(fabric);

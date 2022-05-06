@@ -18,7 +18,7 @@ public class UObject {
 
     private static final Annal LOGGER = Annal.get(UObject.class);
 
-    private final transient JsonObject objectReference;
+    private final JsonObject objectReference;
 
     private UObject(final JsonObject json) {
         this.objectReference = Fn.getNull(new JsonObject(), () -> json, json);

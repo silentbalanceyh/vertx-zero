@@ -4,14 +4,14 @@ import cn.originx.refine.Ox;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.jet.uca.business.AbstractJob;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
 
@@ -71,15 +71,15 @@ public abstract class AbstractOutcome extends AbstractJob implements JobOutcome 
     protected DataAtom atom() {
         final IService service = this.service();
         final RuleUnique rule = Jt.toRule(service);
-        return Ox.toAtom(service.getSigma(), service.getIdentifier()).ruleConnect(rule);
+        return Ox.toAtom(service.getSigma(), service.getIdentifier()).rule(rule);
     }
 
     /**
      * 「Async」异步提取当前组件所使用的数据库访问器。
      *
-     * @return {@link Future}<{@link AoDao}>
+     * @return {@link Future}<{@link HDao}>
      */
-    protected Future<AoDao> dao() {
+    protected Future<HDao> dao() {
         return Ux.future(Ao.toDao(this.atom(), this.database()));
     }
 

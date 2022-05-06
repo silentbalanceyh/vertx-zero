@@ -84,6 +84,40 @@ public interface IXActivity extends VertxPojo, Serializable {
     public String getModelKey();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 关联的category记录，只包含叶节点
+     */
+    public IXActivity setModelCategory(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 关联的category记录，只包含叶节点
+     */
+    public String getModelCategory();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.TASK_NAME</code>. 「taskName」- 任务名称
+     */
+    public IXActivity setTaskName(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.TASK_NAME</code>. 「taskName」- 任务名称
+     */
+    public String getTaskName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY.TASK_SERIAL</code>. 「taskSerial」-
+     * 任务单号
+     */
+    public IXActivity setTaskSerial(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY.TASK_SERIAL</code>. 「taskSerial」-
+     * 任务单号
+     */
+    public String getTaskSerial();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ACTIVITY.RECORD_OLD</code>. 「recordOld」-
      * 变更之前的数据（用于回滚）
      */
@@ -221,6 +255,9 @@ public interface IXActivity extends VertxPojo, Serializable {
                 setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setModelId,json::getString,"MODEL_ID","java.lang.String");
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
+                setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
+                setOrThrow(this::setTaskName,json::getString,"TASK_NAME","java.lang.String");
+                setOrThrow(this::setTaskSerial,json::getString,"TASK_SERIAL","java.lang.String");
                 setOrThrow(this::setRecordOld,json::getString,"RECORD_OLD","java.lang.String");
                 setOrThrow(this::setRecordNew,json::getString,"RECORD_NEW","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -244,6 +281,9 @@ public interface IXActivity extends VertxPojo, Serializable {
                 json.put("DESCRIPTION",getDescription());
                 json.put("MODEL_ID",getModelId());
                 json.put("MODEL_KEY",getModelKey());
+                json.put("MODEL_CATEGORY",getModelCategory());
+                json.put("TASK_NAME",getTaskName());
+                json.put("TASK_SERIAL",getTaskSerial());
                 json.put("RECORD_OLD",getRecordOld());
                 json.put("RECORD_NEW",getRecordNew());
                 json.put("SIGMA",getSigma());

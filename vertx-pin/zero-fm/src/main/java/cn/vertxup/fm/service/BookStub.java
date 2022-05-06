@@ -4,7 +4,7 @@ import cn.vertxup.fm.domain.tables.pojos.FBook;
 import cn.vertxup.fm.domain.tables.pojos.FPreAuthorize;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.KSpec;
+import io.vertx.up.experiment.specification.KNaming;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface BookStub {
     Future<List<FPreAuthorize>> fetchAuthorize(List<FBook> books);
 
     // Create Main
-    Future<List<FBook>> createAsync(List<FBook> books, KSpec spec);
+    Future<List<FBook>> createAsync(List<FBook> books, KNaming spec);
 
     // Fetch Book with bill and items
     Future<JsonObject> fetchByKey(String key);

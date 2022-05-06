@@ -7,64 +7,68 @@ public interface IpcResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:io.vertx.tp.ipc.eon.IpcResponse)
     com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <pre>
-   * Response content
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  boolean hasEnvelop();
-  /**
-   * <pre>
-   * Response content
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
-  /**
-   * <pre>
-   * Response content
-   * </pre>
-   *
-   * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
-   */
-  io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder();
+    /**
+     * <pre>
+     * Response content
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    boolean hasEnvelop();
 
-  /**
-   * <pre>
-   * Passed client id
-   * </pre>
-   *
-   * <code>string client_id = 2;</code>
-   */
-  java.lang.String getClientId();
-  /**
-   * <pre>
-   * Passed client id
-   * </pre>
-   *
-   * <code>string client_id = 2;</code>
-   */
-  com.google.protobuf.ByteString
-      getClientIdBytes();
+    /**
+     * <pre>
+     * Response content
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    io.vertx.tp.ipc.eon.IpcEnvelop getEnvelop();
 
-  /**
-   * <pre>
-   * Passed scope
-   * </pre>
-   *
-   * <code>string oauth_scope = 3;</code>
-   */
-  java.lang.String getOauthScope();
-  /**
-   * <pre>
-   * Passed scope
-   * </pre>
-   *
-   * <code>string oauth_scope = 3;</code>
-   */
-  com.google.protobuf.ByteString
-      getOauthScopeBytes();
+    /**
+     * <pre>
+     * Response content
+     * </pre>
+     *
+     * <code>.io.vertx.tp.ipc.eon.IpcEnvelop envelop = 1;</code>
+     */
+    io.vertx.tp.ipc.eon.IpcEnvelopOrBuilder getEnvelopOrBuilder();
+
+    /**
+     * <pre>
+     * Passed client id
+     * </pre>
+     *
+     * <code>string client_id = 2;</code>
+     */
+    java.lang.String getClientId();
+
+    /**
+     * <pre>
+     * Passed client id
+     * </pre>
+     *
+     * <code>string client_id = 2;</code>
+     */
+    com.google.protobuf.ByteString
+    getClientIdBytes();
+
+    /**
+     * <pre>
+     * Passed scope
+     * </pre>
+     *
+     * <code>string oauth_scope = 3;</code>
+     */
+    java.lang.String getOauthScope();
+
+    /**
+     * <pre>
+     * Passed scope
+     * </pre>
+     *
+     * <code>string oauth_scope = 3;</code>
+     */
+    com.google.protobuf.ByteString
+    getOauthScopeBytes();
 }

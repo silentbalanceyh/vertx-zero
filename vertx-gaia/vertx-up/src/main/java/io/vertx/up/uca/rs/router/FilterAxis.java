@@ -32,12 +32,12 @@ public class FilterAxis implements Axis<Router> {
                 // Path for filter
                 final Route route = router.route();
 
-                Hub<Route> hub = Fn.poolThread(Pool.URIHUBS,
-                    () -> Ut.instance(UriHub.class));
+                Hub<Route> hub = Pool.CC_HUB_URI.pick(() -> Ut.instance(UriHub.class));
+                // Fn.po?lThread(Pool.URIHUBS, () -> Ut.instance(UriHub.class));
                 hub.mount(route, event);
                 // Consumes/Produces
-                hub = Fn.poolThread(Pool.MEDIAHUBS,
-                    () -> Ut.instance(MediaHub.class));
+                hub = Pool.CC_HUB_MEDIA.pick(() -> Ut.instance(MediaHub.class));
+                // Fn.po?lThread(Pool.MEDIAHUBS, () -> Ut.instance(MediaHub.class));
                 hub.mount(route, event);
                 // Filter Handler execution
                 route.handler(context -> {

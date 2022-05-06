@@ -62,7 +62,8 @@ public class AssertActor {
 }
 ```
 
-> Because this example the query parameters 'male' and 'female' are not required, that's why here we could see two null values output. If we provide the parameters that could not be parsed to Boolean type, you'll get following response:
+> Because this example the query parameters 'male' and 'female' are not required, that's why here we could see two null
+> values output. If we provide the parameters that could not be parsed to Boolean type, you'll get following response:
 
 ```json
 {

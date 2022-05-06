@@ -6,6 +6,7 @@ package cn.vertxup.ambient.domain;
 
 import cn.vertxup.ambient.domain.tables.XActivity;
 import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
@@ -18,8 +19,10 @@ import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 import cn.vertxup.ambient.domain.tables.records.XActivityChangeRecord;
 import cn.vertxup.ambient.domain.tables.records.XActivityRecord;
+import cn.vertxup.ambient.domain.tables.records.XActivityRuleRecord;
 import cn.vertxup.ambient.domain.tables.records.XAppRecord;
 import cn.vertxup.ambient.domain.tables.records.XAttachmentRecord;
 import cn.vertxup.ambient.domain.tables.records.XCategoryRecord;
@@ -32,6 +35,7 @@ import cn.vertxup.ambient.domain.tables.records.XNoticeRecord;
 import cn.vertxup.ambient.domain.tables.records.XNumberRecord;
 import cn.vertxup.ambient.domain.tables.records.XSourceRecord;
 import cn.vertxup.ambient.domain.tables.records.XTabularRecord;
+import cn.vertxup.ambient.domain.tables.records.XTagRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -52,6 +56,7 @@ public class Keys {
 
     public static final UniqueKey<XActivityRecord> KEY_X_ACTIVITY_PRIMARY = Internal.createUniqueKey(XActivity.X_ACTIVITY, DSL.name("KEY_X_ACTIVITY_PRIMARY"), new TableField[] { XActivity.X_ACTIVITY.KEY }, true);
     public static final UniqueKey<XActivityChangeRecord> KEY_X_ACTIVITY_CHANGE_PRIMARY = Internal.createUniqueKey(XActivityChange.X_ACTIVITY_CHANGE, DSL.name("KEY_X_ACTIVITY_CHANGE_PRIMARY"), new TableField[] { XActivityChange.X_ACTIVITY_CHANGE.KEY }, true);
+    public static final UniqueKey<XActivityRuleRecord> KEY_X_ACTIVITY_RULE_PRIMARY = Internal.createUniqueKey(XActivityRule.X_ACTIVITY_RULE, DSL.name("KEY_X_ACTIVITY_RULE_PRIMARY"), new TableField[] { XActivityRule.X_ACTIVITY_RULE.KEY }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_CODE = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_CODE"), new TableField[] { XApp.X_APP.CODE }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_NAME = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_NAME"), new TableField[] { XApp.X_APP.NAME }, true);
     public static final UniqueKey<XAppRecord> KEY_X_APP_PATH = Internal.createUniqueKey(XApp.X_APP, DSL.name("KEY_X_APP_PATH"), new TableField[] { XApp.X_APP.PATH, XApp.X_APP.URL_ENTRY }, true);
@@ -84,4 +89,6 @@ public class Keys {
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_APP_ID = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_APP_ID"), new TableField[] { XTabular.X_TABULAR.APP_ID, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE }, true);
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_PRIMARY = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_PRIMARY"), new TableField[] { XTabular.X_TABULAR.KEY }, true);
     public static final UniqueKey<XTabularRecord> KEY_X_TABULAR_SIGMA = Internal.createUniqueKey(XTabular.X_TABULAR, DSL.name("KEY_X_TABULAR_SIGMA"), new TableField[] { XTabular.X_TABULAR.SIGMA, XTabular.X_TABULAR.TYPE, XTabular.X_TABULAR.CODE }, true);
+    public static final UniqueKey<XTagRecord> KEY_X_TAG_NAME = Internal.createUniqueKey(XTag.X_TAG, DSL.name("KEY_X_TAG_NAME"), new TableField[] { XTag.X_TAG.NAME, XTag.X_TAG.APP_ID }, true);
+    public static final UniqueKey<XTagRecord> KEY_X_TAG_PRIMARY = Internal.createUniqueKey(XTag.X_TAG, DSL.name("KEY_X_TAG_PRIMARY"), new TableField[] { XTag.X_TAG.KEY }, true);
 }

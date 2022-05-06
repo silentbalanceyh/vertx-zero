@@ -7,6 +7,7 @@ import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
@@ -21,7 +22,11 @@ import java.util.Set;
  */
 class KitEvent {
 
-    String type(final String definitionId, final String taskKey) {
+    String eventType(final Task task) {
+        return this.eventType(task.getProcessDefinitionId(), task.getTaskDefinitionKey());
+    }
+
+    String eventType(final String definitionId, final String taskKey) {
         final RepositoryService service = WfPin.camundaRepository();
         final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
         final ModelElementInstance node = instance.getModelElementById(taskKey);

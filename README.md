@@ -26,7 +26,8 @@ In latest version, examples have been moved
 to [https://github.com/silentbalanceyh/vertx-zero-example](https://github.com/silentbalanceyh/vertx-zero-example)
 The chinese training book is [《Zero思然汀》](https://lang-yu.gitbook.io/zero/)
 
-> If your wan't to study vert.x development skill, you can refer chinese tutorial:[《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/). ( In Progress )
+> If your wan't to study vert.x development skill, you can refer chinese
+> tutorial:[《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/). ( In Progress )
 
 ![](/doc/_image/structure.jpeg)
 
@@ -155,7 +156,8 @@ public final class Statute {
 
 ### 3.1. Cases
 
-> Because of Contract and Confidentiality Agreement, removed Sensitive information of customer include system name, customer name etc.
+> Because of Contract and Confidentiality Agreement, removed Sensitive information of customer include system name,
+> customer name etc.
 
 * **Deprecated**: Not Running Now
 * **In Progress**: In Development or Upgraded Development

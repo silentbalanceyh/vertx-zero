@@ -11,4 +11,6 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Me {
     boolean active() default true;
+
+    boolean app() default false;
 }

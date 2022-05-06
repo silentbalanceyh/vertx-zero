@@ -38,10 +38,23 @@ public class WMoveRule implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject todo = new JsonObject();
+
+
     // The data part that applied to related record
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private transient JsonObject record = new JsonObject();
+
+
+    // The data part that applied to W_TICKET
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject ticket = new JsonObject();
+
+    // The data part that applied to T_X ( Extension Ticket )
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private transient JsonObject extension = new JsonObject();
 
     public String getField() {
         return this.field;
@@ -100,6 +113,22 @@ public class WMoveRule implements Serializable {
         return Objects.hash(this.field, this.value);
     }
 
+    public JsonObject getTicket() {
+        return this.ticket;
+    }
+
+    public void setTicket(final JsonObject ticket) {
+        this.ticket = ticket;
+    }
+
+    public JsonObject getExtension() {
+        return this.extension;
+    }
+
+    public void setExtension(final JsonObject extension) {
+        this.extension = extension;
+    }
+
     @Override
     public String toString() {
         return "WMoveRule{" +
@@ -107,6 +136,8 @@ public class WMoveRule implements Serializable {
             ", value='" + this.value + '\'' +
             ", todo=" + this.todo +
             ", record=" + this.record +
+            ", ticket=" + this.ticket +
+            ", extension=" + this.extension +
             '}';
     }
 }

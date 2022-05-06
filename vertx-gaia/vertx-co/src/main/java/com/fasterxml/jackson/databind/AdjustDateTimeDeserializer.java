@@ -49,7 +49,7 @@ public class AdjustDateTimeDeserializer extends LocalDateTimeDeserializer {
                 return null;
             } else {
                 try {
-                    if (this._formatter == DEFAULT_FORMATTER && string.length() > 10 && string.charAt(10) == 'T' ) {
+                    if (this._formatter == DEFAULT_FORMATTER && string.length() > 10 && string.charAt(10) == 'T') {
                         /// System.out.println(string.endsWith("Z"));
                         return string.endsWith("Z") ? Ut.toDateTime(Ut.parse(string)) :
                             LocalDateTime.parse(string, DEFAULT_FORMATTER);

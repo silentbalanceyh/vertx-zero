@@ -46,7 +46,8 @@ public abstract class AbstractInvoker implements Invoker {
         if (method.isAnnotationPresent(Me.class)) {
             final Annotation annotation = method.getDeclaredAnnotation(Me.class);
             final boolean active = Ut.invoke(annotation, "active");
-            envelop.onMe(active);
+            final boolean app = Ut.invoke(annotation, "app");
+            envelop.onMe(active, app);
         }
     }
 

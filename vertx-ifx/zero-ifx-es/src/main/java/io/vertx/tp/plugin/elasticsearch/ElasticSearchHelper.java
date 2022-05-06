@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConfigurationMissingExceptionn;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ElasticSearchHelper {
     private static final Annal LOGGER = Annal.get(ElasticSearchHelper.class);
+    private static final Cc<String, ElasticSearchHelper> CC_HELPER = Cc.open();
 
     private transient final Class<?> target;
 
@@ -49,7 +51,8 @@ public class ElasticSearchHelper {
     }
 
     static ElasticSearchHelper helper(final Class<?> target) {
-        return Fn.pool(Pool.HELPERS, target.getName(), () -> new ElasticSearchHelper(target));
+        return CC_HELPER.pick(() -> new ElasticSearchHelper(target), target.getName());
+        // Fn.po?l(Pool.HELPERS, target.getName(), () -> new ElasticSearchHelper(target));
     }
 
     RestHighLevelClient getClient(final JsonObject options) {

@@ -1,0 +1,37 @@
+{
+    "identifier": "「字符串」模型标识符 identifier，等价于KModule中的文件名",
+    "module": "「字符串」文件路径，用于直接连接文件路径抓取所有 KModule 级别的属性，如：name, pojo, daoCls, field, connect, transform",
+    "hybrid": {
+        "$COMMENT$": "动态建模桥接部分，用于桥接动态模型时统一处理专用。",
+        "alias": "「字符串」模型别名（显示专用）",
+        "ruleUnique": {
+            "$COMMENT$": "集成专用标识规则选择符"
+        },
+        "matrix": {
+            "name": "X,X,X,X,X,X,X（七个核心维度）"
+        },
+        "attribute": {
+            "$COMMENT$": "二义性属性数组",
+            "name": "属性alias",
+            "name1": {
+                "alias": "属性别名",
+                "type": "数据类型"
+            }
+        },
+        "reference": [
+            {
+                "name": "「引用」字段名",
+                "source": "「引用」引用模型标识符",
+                "sourceField": "「引用」引用模型字段",
+                "config": {
+                    "$COMMENT$": "「引用」",
+                    "dao": "KPoint结构",
+                    "rule": "HRule结构",
+                    "connect": {
+                        "workNumber": "supportANo"
+                    }
+                }
+            }
+        ]
+    }
+}

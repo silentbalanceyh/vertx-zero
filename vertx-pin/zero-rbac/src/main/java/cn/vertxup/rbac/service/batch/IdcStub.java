@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 /*
@@ -16,11 +16,14 @@ import io.vertx.up.unity.Ux;
  */
 public interface IdcStub {
 
+    Cc<String, IdcStub> CC_STUB = Cc.open();
+
     static IdcStub create(final String sigma) {
         /*
          * Each sigma has one reference of `IdcStub`
          */
-        return Fn.pool(Pool.STUBS, sigma, () -> new IdcService(sigma));
+        return CC_STUB.pick(() -> new IdcService(sigma), sigma);
+        // return Fn.po?l(Pool.STUBS, sigma, () -> new IdcService(sigma));
     }
 
     /*

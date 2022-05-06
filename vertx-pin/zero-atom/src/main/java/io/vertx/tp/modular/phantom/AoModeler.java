@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.optic.ambient.AoRefine;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 /**
@@ -16,43 +15,43 @@ import io.vertx.up.util.Ut;
 public interface AoModeler extends AoRefine {
 
     static AoModeler init() {
-        return Fn.pool(AoCache.POOL_MODELER, InitModeler.class.getName(),
-            InitModeler::new);
+        return AoCache.CC_MODELER.pick(InitModeler::new, InitModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, InitModeler.class.getName(), InitModeler::new);
     }
 
     static AoModeler attribute() {
-        return Fn.pool(AoCache.POOL_MODELER, AttributeModeler.class.getName(),
-            AttributeModeler::new);
+        return AoCache.CC_MODELER.pick(AttributeModeler::new, AttributeModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, AttributeModeler.class.getName(), AttributeModeler::new);
     }
 
     static AoModeler join() {
-        return Fn.pool(AoCache.POOL_MODELER, JoinModeler.class.getName(),
-            JoinModeler::new);
+        return AoCache.CC_MODELER.pick(JoinModeler::new, JoinModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, JoinModeler.class.getName(), JoinModeler::new);
     }
 
     static AoModeler entity() {
-        return Fn.pool(AoCache.POOL_MODELER, EntityModeler.class.getName(),
-            EntityModeler::new);
+        return AoCache.CC_MODELER.pick(EntityModeler::new, EntityModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, EntityModeler.class.getName(), EntityModeler::new);
     }
 
     static AoModeler scatter() {
-        return Fn.pool(AoCache.POOL_MODELER, ScatterModeler.class.getName(),
-            ScatterModeler::new);
+        return AoCache.CC_MODELER.pick(ScatterModeler::new, ScatterModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, ScatterModeler.class.getName(), ScatterModeler::new);
     }
 
     static AoModeler field() {
-        return Fn.pool(AoCache.POOL_MODELER, FieldModeler.class.getName(),
-            FieldModeler::new);
+        return AoCache.CC_MODELER.pick(FieldModeler::new, FieldModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, FieldModeler.class.getName(), FieldModeler::new);
     }
 
     static AoModeler key() {
-        return Fn.pool(AoCache.POOL_MODELER, KeyModeler.class.getName(),
-            KeyModeler::new);
+        return AoCache.CC_MODELER.pick(KeyModeler::new, KeyModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, KeyModeler.class.getName(), KeyModeler::new);
     }
 
     static AoModeler index() {
-        return Fn.pool(AoCache.POOL_MODELER, IndexModeler.class.getName(),
-            IndexModeler::new);
+        return AoCache.CC_MODELER.pick(IndexModeler::new, IndexModeler.class.getName());
+        // return Fn.po?l(AoCache.POOL_MODELER, IndexModeler.class.getName(), IndexModeler::new);
     }
 
     static JsonObject getEntity(final JsonObject schemaJson) {

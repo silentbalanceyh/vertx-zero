@@ -26,8 +26,8 @@ import java.util.Objects;
  */
 @SuppressWarnings("unchecked")
 public class UData implements Serializable {
-    private transient final JsonObject config = new JsonObject();
-    private transient final Object data;
+    private final JsonObject config = new JsonObject();
+    private final Object data;
 
     private <T> UData(final T input, final JsonObject config) {
         final JsonObject configuration = Ut.valueJObject(config);

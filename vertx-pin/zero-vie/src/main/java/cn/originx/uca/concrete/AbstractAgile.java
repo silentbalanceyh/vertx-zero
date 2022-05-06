@@ -2,11 +2,11 @@ package cn.originx.uca.concrete;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.Record;
+import io.vertx.up.experiment.mixture.HDao;
 
 import java.util.Objects;
 
@@ -20,13 +20,13 @@ public abstract class AbstractAgile implements Arrow {
     private transient DataAtom atom;
 
     @Contract
-    private transient AoDao dao;
+    private transient HDao dao;
 
     protected DataAtom atom() {
         return this.atom;
     }
 
-    protected AoDao dao() {
+    protected HDao dao() {
         /*
          * 这里必须执行 Mount 操作切换 DataAtom 的信息
          * 否则会出现两个写一个的混用情况

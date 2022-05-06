@@ -9,12 +9,13 @@ import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.trans.Tran;
-import io.vertx.tp.ke.atom.specification.KField;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -45,12 +46,17 @@ class AgonicUpdate extends AgonicUnique {
                 // Do Update
                 final JsonObject merged = json.copy().mergeIn(input, true);
                 return Ix.passion(merged, in,
-                        Pre.audit(false)::inJAsync,        // updatedAt, updatedBy
-                        Pre.fileIn(false)::inJAsync          // File: Attachment creating
+                        Pre.audit(false)::inJAsync,                 // updatedAt, updatedBy
+                        Pre.fileIn(false)::inJAsync                 // File: Attachment creating
                     )
-                    .compose(processed -> Ix.deserializeT(processed, module))
-                    .compose(jooq::updateAsync)
-                    .compose(updated -> IxKit.successJ(updated, module));
+
+
+                    // 「AOP」Wrap JsonObject update
+                    .compose(Ix.wrap(module, Aspect::wrapJUpdate, wrapData -> Ux.future(wrapData)
+                        .compose(processed -> Ix.deserializeT(processed, module))
+                        .compose(jooq::updateAsync)
+                        .compose(updated -> IxKit.successJ(updated, module))
+                    ));
             }
         });
     }
@@ -77,11 +83,16 @@ class AgonicUpdate extends AgonicUnique {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
-                Tran.tree(true)::inAAsync,         // After GUID
-                Pre.audit(false)::inAAsync         // updatedAt, updatedBy
+                Tran.tree(true)::inAAsync,                      // After GUID
+                Pre.audit(false)::inAAsync                      // updatedAt, updatedBy
             )
-            .compose(processed -> Ix.deserializeT(processed, module))
-            .compose(jooq::updateAsync)
-            .compose(updated -> IxKit.successA(updated, module));
+
+
+            // 「AOP」Wrap JsonArray update
+            .compose(Ix.wrap(module, Aspect::wrapAUpdate, wrapData -> Ux.future(wrapData)
+                .compose(processed -> Ix.deserializeT(processed, module))
+                .compose(jooq::updateAsync)
+                .compose(updated -> IxKit.successA(updated, module))
+            ));
     }
 }

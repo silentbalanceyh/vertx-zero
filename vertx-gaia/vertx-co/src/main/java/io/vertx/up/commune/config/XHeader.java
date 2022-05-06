@@ -11,11 +11,11 @@ import java.util.Objects;
 
 public class XHeader implements Serializable, Json {
 
-    private transient String sigma;
-    private transient String appId;
-    private transient String appKey;
-    private transient String language;
-    private transient String session;
+    private String sigma;
+    private String appId;
+    private String appKey;
+    private String language;
+    private String session;
 
     public String getLanguage() {
         return this.language;

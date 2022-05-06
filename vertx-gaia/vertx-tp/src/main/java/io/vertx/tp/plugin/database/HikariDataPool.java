@@ -3,8 +3,8 @@ package io.vertx.tp.plugin.database;
 import com.zaxxer.hikari.HikariDataSource;
 import io.vertx.tp.error.DataSourceException;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import org.jooq.Configuration;
 import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;
@@ -15,8 +15,6 @@ import org.jooq.impl.DefaultConnectionProvider;
 
 import java.sql.SQLException;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class HikariDataPool implements DataPool {
     private static final Annal LOGGER = Annal.get(HikariDataPool.class);
@@ -27,7 +25,7 @@ public class HikariDataPool implements DataPool {
     private static final String OPT_MINIMUM_IDLE = "hikari.minimum.idle";
     private static final String OPT_MAXIMUM_POOL_SIZE = "hikari.maximum.pool.size";
     private static final String OPT_POOL_NAME = "hikari.name";
-    private static final ConcurrentMap<String, DataPool> POOL_SWITCH = new ConcurrentHashMap<>();
+    private static final Cc<String, DataPool> CC_POOL_SWITCH = Cc.open();
     /*
      * Database Options for HikariDataBase, for current version add new parameter for KikariDatabase
      * performance turning, it's recommend by
@@ -112,7 +110,7 @@ public class HikariDataPool implements DataPool {
 
     @Override
     public DataPool switchTo() {
-        return Fn.pool(POOL_SWITCH, this.database.getJdbcUrl(), () -> {
+        return CC_POOL_SWITCH.pick(() -> {
             final Database database = new Database();
             database.fromJson(this.database.toJson());
             /*
@@ -123,7 +121,7 @@ public class HikariDataPool implements DataPool {
             final Annal logger = Annal.get(this.getClass());
             logger.info("[ DP ] Data Pool Hash : {0}", ds.hashCode());
             return ds;
-        });
+        }, this.database.getJdbcUrl());
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class QTree {
 
-    private final transient QNode current;
+    private final QNode current;
 
     private QTree(final Criteria criteria) {
         /* 1. Linear or Tree */

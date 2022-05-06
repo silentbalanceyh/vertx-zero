@@ -7,7 +7,6 @@ import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 /**
  * I -> I
@@ -20,48 +19,48 @@ public interface Agonic {
 
     static Agonic write(final ChangeFlag flag) {
         if (ChangeFlag.ADD == flag) {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCreate::new, AgonicCreate.class.getName());
+            return Pooled.CC_AGONIC.pick(AgonicCreate::new, AgonicCreate.class.getName());
         } else if (ChangeFlag.DELETE == flag) {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicDelete::new, AgonicDelete.class.getName());
+            return Pooled.CC_AGONIC.pick(AgonicDelete::new, AgonicDelete.class.getName());
         } else {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicUpdate::new, AgonicUpdate.class.getName());
+            return Pooled.CC_AGONIC.pick(AgonicUpdate::new, AgonicUpdate.class.getName());
         }
     }
 
     static Agonic saveYou(final IxMod module) {
-        return Fn.poolThread(Pooled.AGONIC_MAP, () -> new AgonicYouSave(module), AgonicYouSave.class.getName());
+        return Pooled.CC_AGONIC.pick(() -> new AgonicYouSave(module), AgonicYouSave.class.getName());
     }
 
     static Agonic file() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicImport::new, AgonicImport.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicImport::new, AgonicImport.class.getName());
     }
 
     static Agonic get() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicByID::new, AgonicByID.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicByID::new, AgonicByID.class.getName());
     }
 
     static Agonic search() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicSearch::new, AgonicSearch.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicSearch::new, AgonicSearch.class.getName());
     }
 
     static Agonic count() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicCount::new, AgonicCount.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicCount::new, AgonicCount.class.getName());
     }
 
     static Agonic apeak(final boolean isMy) {
         if (isMy) {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicMy::new, AgonicMy.class.getName());
+            return Pooled.CC_AGONIC.pick(AgonicMy::new, AgonicMy.class.getName());
         } else {
-            return Fn.poolThread(Pooled.AGONIC_MAP, AgonicFull::new, AgonicFull.class.getName());
+            return Pooled.CC_AGONIC.pick(AgonicFull::new, AgonicFull.class.getName());
         }
     }
 
     static Agonic view() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicView::new, AgonicView.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicView::new, AgonicView.class.getName());
     }
 
     static Agonic fetch() {
-        return Fn.poolThread(Pooled.AGONIC_MAP, AgonicFetch::new, AgonicFetch.class.getName());
+        return Pooled.CC_AGONIC.pick(AgonicFetch::new, AgonicFetch.class.getName());
     }
 
     default Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {

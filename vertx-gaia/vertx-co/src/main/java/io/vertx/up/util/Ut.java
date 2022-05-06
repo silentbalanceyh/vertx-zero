@@ -10,7 +10,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.BMapping;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
 
@@ -998,6 +999,10 @@ public final class Ut {
     }
 
     /*
+     * isMatch of Regex
+     */
+
+    /*
      * Checking method for all
      * 1) isSame / isDate
      * 2) isBoolean
@@ -1011,6 +1016,10 @@ public final class Ut {
      */
     public static boolean isRange(final Integer value, final Integer min, final Integer max) {
         return Numeric.isRange(value, min, max);
+    }
+
+    public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
+        return Period.isDuration(current, start, end);
     }
 
     public static boolean isSame(final Date left, final Date right) {
@@ -1083,6 +1092,11 @@ public final class Ut {
 
     public static boolean isDecimalNegative(final String original) {
         return Numeric.Decimal.isNegative(original);
+    }
+
+    // isFileName
+    public static boolean isFileName(final String original) {
+        return StringUtil.isMatch(KValue.Regex.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {
@@ -1223,23 +1237,36 @@ public final class Ut {
         return Jackson.flag(recordN, recordO);
     }
 
+    public static ChangeFlag aiFlag(final JsonObject input) {
+        return Jackson.flag(input);
+    }
+
+    // Specifical Api for data
+    public static JsonObject aiDataN(final JsonObject input) {
+        return Jackson.data(input, false);
+    }
+
+    public static JsonObject aiDataO(final JsonObject input) {
+        return Jackson.data(input, true);
+    }
+
     public static String aiJArray(final String literal) {
         return Jackson.aiJArray(literal);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping, final boolean keepNil) {
         return Value.aiIn(in, mapping, keepNil);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping) {
         return Value.aiIn(in, mapping, true);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping, final boolean keepNil) {
         return Value.aiOut(out, mapping, keepNil);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping) {
         return Value.aiOut(out, mapping, true);
     }
 
@@ -1253,7 +1280,7 @@ public final class Ut {
      * 5) toEnum
      * 6) toCollection / toPrimary
      * 7) toString
-     * 8) toDateTime / toDate / toTime
+     * 8) toDateTime / toDate / toTime / toAdjust
      * 9) toBytes
      * 10) toSet
      * 11) toMap
@@ -1599,11 +1626,17 @@ public final class Ut {
      * - valueJArray(JsonObject, String)              JsonObject -> field -> JsonArray
      * - valueSetArray(JsonArray, String)             JsonArray -> field -> Set<JsonArray>
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
-     * - valueSetString(JsonArray, String, boolean )  JsonArray -> field -> Set<String> ( include null when boolean = true )
+     * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
+     *
+     * - valueTime(LocalTime, LocalDateTime)
      */
     public static Set<String> valueSetString(final JsonArray array, final String field) {
         return Epsilon.vStringSet(array, field);
+    }
+
+    public static <T> Set<String> valueSetString(final List<T> list, final Function<T, String> executor) {
+        return Epsilon.vStringSet(list, executor);
     }
 
     public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {

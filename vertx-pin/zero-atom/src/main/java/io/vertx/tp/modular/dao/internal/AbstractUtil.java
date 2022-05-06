@@ -1,13 +1,14 @@
 package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.tp.atom.cv.em.EventType;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.error._417DataAtomNullException;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
+import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -41,9 +42,11 @@ public abstract class AbstractUtil<T extends AoBinder> implements AoBinder<T> {
     }
 
     @Override
-    public T on(final DataAtom atom) {
-        /* 处理特殊的 语句处理器 */
-        this.atom = atom;
+    public T on(final HAtom atom) {
+        /*
+         * TODO: 此处有一个强制转换，目前版本中只使用 DataAtom，后期更改
+         * */
+        this.atom = (DataAtom) atom;
         return (T) this;
     }
 

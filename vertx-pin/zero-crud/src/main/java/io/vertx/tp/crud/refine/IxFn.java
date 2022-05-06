@@ -5,15 +5,16 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KField;
-import io.vertx.tp.ke.atom.specification.KJoin;
-import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KPoint;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KJoin;
+import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
+import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -168,6 +169,20 @@ class IxFn {
                     filters.put(Strings.EMPTY, Boolean.FALSE);
                 }
                 return executor.apply(switchedJq, filters);
+            }
+        };
+    }
+
+    static <T> Function<T, Future<T>> wrap(
+        final KModule module, final BiFunction<Aspect, Function<T, Future<T>>, Function<T, Future<T>>> aopFn,
+        final Function<T, Future<T>> executor) {
+        return input -> {
+            final JsonObject aop = module.getAop();
+            if (Ut.isNil(aop)) {
+                return executor.apply(input);
+            } else {
+                final Aspect aspect = Aspect.create(aop);
+                return aopFn.apply(aspect, executor).apply(input);
             }
         };
     }

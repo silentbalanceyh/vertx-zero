@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.optic.component.DictionaryPlugin;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.Rapid;
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DpmAssist implements Dpm {
     @Override
-    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DiSource source, final MultiMap params) {
+    public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final DSource source, final MultiMap params) {
         final ConcurrentMap<String, JsonArray> uniqueMap = new ConcurrentHashMap<>();
         final DictionaryPlugin plugin = source.getPlugin();
         if (Objects.isNull(plugin) || Ut.isNil(source.getKey())) {
@@ -41,7 +41,7 @@ public class DpmAssist implements Dpm {
     }
 
     @Override
-    public ConcurrentMap<String, JsonArray> fetch(final DiSource source, final MultiMap params) {
+    public ConcurrentMap<String, JsonArray> fetch(final DSource source, final MultiMap params) {
         final ConcurrentMap<String, JsonArray> uniqueMap = new ConcurrentHashMap<>();
         final DictionaryPlugin plugin = source.getPlugin();
         if (Objects.isNull(plugin) || Ut.isNil(source.getKey())) {

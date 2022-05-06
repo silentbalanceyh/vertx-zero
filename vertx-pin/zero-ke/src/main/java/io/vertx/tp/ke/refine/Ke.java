@@ -6,9 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.util.List;
@@ -54,8 +55,8 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final TypeAtom TypeAtom) {
-        return KeCompare.combineAsync(data, headers, columns, TypeAtom);
+                                                 final HTAtom HTAtom) {
+        return KeCompare.combineAsync(data, headers, columns, HTAtom);
     }
 
     public static Function<JsonObject, Future<JsonObject>> fabricFn(final String field) {
@@ -114,29 +115,6 @@ public class Ke {
 
     public static void runInteger(final Supplier<Integer> supplier, final Consumer<Integer> consumer) {
         KeTool.consume(supplier, consumer);
-    }
-
-    /*
-     * Channel Execution
-     *
-     * 1. channel
-     * 2. channelSync
-     * 3. channelAsync
-     * 4. channelFile
-     */
-    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
-                                           final Function<T, Future<O>> executor) {
-        return KeChannel.channel(clazz, supplier, executor);
-    }
-
-    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
-                                       final Function<T, O> executor) {
-        return KeChannel.channelSync(clazz, supplier, executor);
-    }
-
-    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
-                                                final Function<T, Future<O>> executor) {
-        return KeChannel.channelAsync(clazz, supplier, executor);
     }
 
     /*
@@ -289,5 +267,14 @@ public class Ke {
 
     public static Future<JsonObject> umAData(final JsonObject config, final JsonObject params) {
         return KeEnv.daoJ(config, params);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input, final JsonObject config) {
+        return KeUser.umUser(input, config);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input) {
+        final JsonObject config = Ut.valueJObject(input, KName.__.USER);
+        return KeUser.umUser(input, config);
     }
 }

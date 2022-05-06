@@ -14,7 +14,7 @@ public class RegexPath {
         // escape path from any regex special chars
         path = RE_OPERATORS_NO_STAR.matcher(path).replaceAll("\\\\$1");
         // allow usage of * at the end as per documentation
-        if (path.charAt(path.length() - 1) == '*' ) {
+        if (path.charAt(path.length() - 1) == '*') {
             path = path.substring(0, path.length() - 1) + ".*";
         }
         // We need to search for any :<token name> tokens in the String and replace them with named capture groups

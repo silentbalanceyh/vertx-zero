@@ -21,7 +21,7 @@ class AgonicUnique implements Agonic {
 
     protected Future<JsonObject> fetchBy(final JsonObject condition, final IxMod in) {
         Ix.Log.filters(this.getClass(), "( Unique ) By: identifier: {0}, condition: {1}",
-            in.module().getIdentifier(), condition);
+            in.module().identifier(), condition);
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchJOneAsync(condition);
     }
@@ -30,7 +30,7 @@ class AgonicUnique implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Pre.qr(QrType.BY_PK).inJAsync(data, in).compose(condition -> {
             Ix.Log.filters(this.getClass(), "( Unique ) By Pk: identifier: {0}, condition: {1}",
-                in.module().getIdentifier(), condition);
+                in.module().identifier(), condition);
             return jooq.fetchJOneAsync(condition);
         });
     }
@@ -39,7 +39,7 @@ class AgonicUnique implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Pre.qr(QrType.BY_UK).inJAsync(data, in).compose(condition -> {
             Ix.Log.filters(this.getClass(), "( Unique ) By Uk: identifier: {0}, condition: {1}",
-                in.module().getIdentifier(), condition);
+                in.module().identifier(), condition);
             return jooq.fetchJOneAsync(condition);
         });
     }

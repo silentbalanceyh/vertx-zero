@@ -2,7 +2,9 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WProcessDefinition;
+import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -10,7 +12,6 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -25,11 +26,11 @@ public class Wf {
      * }
      */
     public static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
-        return WfFlow.taskStart(workflow, starts);
+        return WfCamunda.taskStart(workflow, starts);
     }
 
     public static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> ends) {
-        return WfFlow.taskEnd(workflow, ends);
+        return WfCamunda.taskEnd(workflow, ends);
     }
 
     /*
@@ -40,7 +41,7 @@ public class Wf {
      * }
      */
     public static JsonObject taskOut(final JsonObject workflow, final Task task) {
-        return WfFlow.taskOut(workflow, task);
+        return WfCamunda.taskOut(workflow, task);
     }
 
     /*
@@ -52,7 +53,7 @@ public class Wf {
      * }
      */
     public static JsonObject formInput(final JsonObject form, final String sigma) {
-        return WfFlow.formInput(form, sigma);
+        return WfCamunda.formInput(form, sigma);
     }
 
     /*
@@ -65,7 +66,7 @@ public class Wf {
      * }
      */
     public static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
-        return WfFlow.formOut(formKey, definitionId, definitionKey);
+        return WfCamunda.formOut(formKey, definitionId, definitionKey);
     }
 
     /*
@@ -78,40 +79,33 @@ public class Wf {
      * }
      */
     public static JsonObject bpmnOut(final ProcessDefinition definition) {
-        return WfFlow.bpmnOut(definition);
+        return WfCamunda.bpmnOut(definition);
     }
 
     // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> processByKey(final String definitionKey) {
-        return WfFlow.processByKey(definitionKey);
+    public static Future<ProcessDefinition> definitionByKey(final String definitionKey) {
+        return WfCamunda.definitionByKey(definitionKey);
     }
 
     // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> processById(final String definitionId) {
-        return WfFlow.processById(definitionId);
+    public static Future<ProcessDefinition> definitionById(final String definitionId) {
+        return WfCamunda.definitionById(definitionId);
     }
 
     // Fetch ProcessInstance
     public static Future<ProcessInstance> instanceById(final String instanceId) {
-        return WfFlow.instanceById(instanceId);
+        return WfCamunda.instanceById(instanceId);
+    }
+
+    // Fetch WProcess
+    public static Future<WProcess> process(final WRequest request) {
+        return WfFlow.process(request);
     }
 
     // Fetch WProcessDefinition ( Running )
-    public static Future<WProcessDefinition> instance(final String instanceId) {
+    public static Future<WProcessDefinition> definition(final String instanceId) {
         // Fetch Instance First
-        return WfFlow.instanceById(instanceId).compose(instance -> {
-            if (Objects.isNull(instance)) {
-                // History
-                return WfFlow.instanceFinished(instanceId)
-                    .compose(instanceFinished -> WfFlow.processById(instanceFinished.getProcessDefinitionId())
-                        .compose(definition -> WProcessDefinition.future(definition, instanceFinished))
-                    );
-            } else {
-                // Running
-                return WfFlow.processById(instance.getProcessDefinitionId())
-                    .compose(definition -> WProcessDefinition.future(definition, instance));
-            }
-        });
+        return WfFlow.definition(instanceId);
     }
 
     // BiFunction on ProcessDefinition / ProcessInstance

@@ -1,15 +1,7 @@
 package io.vertx.up.uca.rs.router;
 
 import io.vertx.ext.web.Route;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.extension.PlugRouter;
-import io.vertx.up.uca.rs.Sentry;
-import io.vertx.up.uca.rs.dispatch.ModeSplitter;
-
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 interface Info {
 
@@ -23,19 +15,6 @@ interface Info {
 }
 
 interface Pool {
-    ConcurrentMap<String, ModeSplitter> THREADS
-        = new ConcurrentHashMap<>();
-    ConcurrentMap<String, Sentry<RoutingContext>> VERIFIERS
-        = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Hub<Route>> URIHUBS
-        = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Hub<Route>> MEDIAHUBS
-        = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Set<Aegis>> WALL_MAP =
-        new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, PlugRouter> PLUGS = new ConcurrentHashMap<>();
+    Cc<String, Hub<Route>> CC_HUB_URI = Cc.openThread();
+    Cc<String, Hub<Route>> CC_HUB_MEDIA = Cc.openThread();
 }

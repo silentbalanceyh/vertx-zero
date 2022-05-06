@@ -31,14 +31,20 @@ databaseChangeLog:
       file: plugin/sql/ambient/X_LOG.sql
       relativeToChangelogFile: false
   - include:
+      file: plugin/sql/ambient/X_LINKAGE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_NOTICE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/ambient/X_TAG.sql
+      relativeToChangelogFile: false
+  - include:
       file: plugin/sql/ambient/X_ACTIVITY.sql
       relativeToChangelogFile: false
   - include:
       file: plugin/sql/ambient/X_ACTIVITY_CHANGE.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/ambient/X_LINKAGE.sql
-      relativeToChangelogFile: false
-  - include:
-      file: plugin/sql/ambient/X_NOTICE.sql
+      file: plugin/sql/ambient/X_ACTIVITY_RULE.sql
       relativeToChangelogFile: false

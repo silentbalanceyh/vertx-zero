@@ -2,8 +2,8 @@ package io.vertx.tp.plugin.excel.tpl;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HTAtom;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,7 +26,7 @@ public class BlueTpl implements ExTpl {
     }
 
     @Override
-    public void applyStyle(final Sheet sheet, final TypeAtom TypeAtom) {
+    public void applyStyle(final Sheet sheet, final HTAtom HTAtom) {
         /*
          * 读取可见区域
          */
@@ -37,7 +37,7 @@ public class BlueTpl implements ExTpl {
             final Row first = sheet.getRow(Values.IDX);
             this.applyFirst(first);
             final int dataStart;
-            if (TypeAtom.isComplex()) {
+            if (HTAtom.isComplex()) {
                 /*
                  * 处理 Title 行
                  */
@@ -66,7 +66,7 @@ public class BlueTpl implements ExTpl {
             final int num = sheet.getPhysicalNumberOfRows();
             for (int idx = dataStart; idx < num; idx++) {
                 final Row data = sheet.getRow(idx);
-                this.applyData(data, TypeAtom);
+                this.applyData(data, HTAtom);
             }
         }
     }
@@ -98,11 +98,11 @@ public class BlueTpl implements ExTpl {
         }
     }
 
-    private void applyData(final Row dataRow, final TypeAtom TypeAtom) {
+    private void applyData(final Row dataRow, final HTAtom HTAtom) {
         final int enCells = dataRow.getPhysicalNumberOfCells();
         for (int idx = 0; idx < enCells; idx++) {
             final Cell cell = dataRow.getCell(idx);
-            final Class<?> type = TypeAtom.type(idx);
+            final Class<?> type = HTAtom.type(idx);
             this.dye.onData(cell, type);
         }
     }

@@ -3,7 +3,6 @@ package cn.vertxup.rbac.service.business;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExEmployee;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
@@ -40,7 +39,7 @@ class UserHelper {
     private static Future<JsonObject> applyTunnel(final SUser user, final Function<ExEmployee, Future<JsonObject>> fnTunnel) {
         if (Objects.nonNull(user)) {
             if (Objects.nonNull(user.getModelKey())) {
-                return Ke.channelAsync(ExEmployee.class, () -> {
+                return Ux.channelAsync(ExEmployee.class, () -> {
                     /*
                      * Here branch means that actual definition is conflict with your expected.
                      * You forget to define executor of `EcEmployee`.

@@ -4,26 +4,13 @@
 package cn.vertxup.fm.domain;
 
 
-import cn.vertxup.fm.domain.tables.FBank;
-import cn.vertxup.fm.domain.tables.FBill;
-import cn.vertxup.fm.domain.tables.FBillItem;
-import cn.vertxup.fm.domain.tables.FBook;
-import cn.vertxup.fm.domain.tables.FCurrency;
-import cn.vertxup.fm.domain.tables.FDebt;
-import cn.vertxup.fm.domain.tables.FInvoice;
-import cn.vertxup.fm.domain.tables.FPayTerm;
-import cn.vertxup.fm.domain.tables.FPayment;
-import cn.vertxup.fm.domain.tables.FPaymentItem;
-import cn.vertxup.fm.domain.tables.FPreAuthorize;
-import cn.vertxup.fm.domain.tables.FSettlement;
-import cn.vertxup.fm.domain.tables.FSettlementItem;
-import cn.vertxup.fm.domain.tables.FSubject;
+import cn.vertxup.fm.domain.tables.*;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
     /**

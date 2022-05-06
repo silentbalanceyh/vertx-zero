@@ -9,7 +9,6 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.web.Routine;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -96,7 +95,7 @@ public class ActionService implements ActionStub {
         /*
          * Dynamic by `keyword` and `sigma` ( zero-jet )
          */
-        return Ke.channel(Routine.class, ArrayList::new, route -> route.searchAsync(keyword, sigma)).compose(uris -> {
+        return Ux.channel(Routine.class, ArrayList::new, route -> route.searchAsync(keyword, sigma)).compose(uris -> {
             /*
              * Combine two list of uri metadata
              */

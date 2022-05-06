@@ -12,13 +12,13 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
-import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -39,8 +39,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 class ExcelHelper {
 
+    private static final Cc<String, ExcelHelper> CC_HELPER = Cc.open();
+    private static final Cc<String, Workbook> CC_WORKBOOK = Cc.open();
+    private static final Cc<Integer, Workbook> CC_WORKBOOK_STREAM = Cc.open();
     private static final Map<String, Workbook> REFERENCES = new ConcurrentHashMap<>();
     private transient final Class<?> target;
+    ConcurrentMap<String, KConnect> CONNECTS = new ConcurrentHashMap<>();
     private transient ExTpl tpl;
     private transient ExTenant tenant;
 
@@ -49,7 +53,8 @@ class ExcelHelper {
     }
 
     static ExcelHelper helper(final Class<?> target) {
-        return Fn.pool(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
+        return CC_HELPER.pick(() -> new ExcelHelper(target), target.getName());
+        // Fn.po?l(Pool.HELPERS, target.getName(), () -> new ExcelHelper(target));
     }
 
     Future<JsonArray> extract(final Set<ExTable> tables) {
@@ -128,16 +133,21 @@ class ExcelHelper {
     }
 
     private Future<JsonArray> extractForbidden(final JsonArray dataArray, final String name) {
-        final Kv<String, Set<String>> condition = this.tenant.valueCriteria(name);
-        if (condition.valid()) {
-            final JsonArray normalized = new JsonArray();
-            Ut.itJArray(dataArray)
-                .filter(item -> item.containsKey(condition.getKey()))
-                .filter(item -> !condition.getValue().contains(item.getString(condition.getKey())))
-                .forEach(normalized::add);
-            return Ux.future(normalized);
-        } else {
+        final ConcurrentMap<String, Set<String>> forbidden = this.tenant.valueCriteria(name);
+        if (forbidden.isEmpty()) {
             return Ux.future(dataArray);
+        } else {
+            final JsonArray normalized = new JsonArray();
+            Ut.itJArray(dataArray).filter(item -> forbidden.keySet().stream().allMatch(field -> {
+                if (item.containsKey(field)) {
+                    final Set<String> values = forbidden.get(field);
+                    final String value = item.getString(field);
+                    return !values.contains(value);
+                } else {
+                    return true;
+                }
+            })).forEach(normalized::add);
+            return Ux.future(normalized);
         }
     }
 
@@ -183,11 +193,11 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
         if (filename.endsWith(FileSuffix.EXCEL_2003)) {
-            workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), filename);
+            // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
-            workbook = Fn.pool(Pool.WORKBOOKS, filename,
-                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), filename);
+            // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
     }
@@ -197,11 +207,11 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, "Stream");
         final Workbook workbook;
         if (isXlsx) {
-            workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), in.hashCode());
+            // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
-            workbook = Fn.pool(Pool.WORKBOOKS_STREAM, in.hashCode(),
-                () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), in.hashCode());
+            // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
         /* Force to recalculation for evaluator */
         workbook.setForceFormulaRecalculation(Boolean.TRUE);
@@ -211,7 +221,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom typeAtom) {
+    Set<ExTable> getExTables(final Workbook workbook, final HTAtom HTAtom) {
         return Fn.getNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -254,7 +264,7 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                final Set<ExTable> dataSet = exSheet.analyzed(range, typeAtom);
+                final Set<ExTable> dataSet = exSheet.analyzed(range, HTAtom);
                 /*
                  * Here for critical injection, mount the data of
                  * {
@@ -269,10 +279,10 @@ class ExcelHelper {
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet, final TypeAtom TypeAtom) {
+    void brush(final Workbook workbook, final Sheet sheet, final HTAtom HTAtom) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet, TypeAtom);
+            this.tpl.applyStyle(sheet, HTAtom);
         }
     }
 

@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -20,10 +21,11 @@ import java.util.function.Function;
 public class Mirror {
 
     private static final String POJO = "pojo/{0}.yml";
-    private final transient Annal logger;
-    private final transient JsonObject converted = new JsonObject();
-    private transient Mojo mojo;
-    private transient JsonObject data = new JsonObject();
+    private static final Cc<String, Mojo> CC_MOJO = Cc.open();
+    private final Annal logger;
+    private final JsonObject converted = new JsonObject();
+    private Mojo mojo;
+    private JsonObject data = new JsonObject();
 
     private Mirror(final Class<?> clazz) {
         this.logger = Annal.get(clazz);
@@ -34,14 +36,14 @@ public class Mirror {
     }
 
     public Mirror mount(final String filename) {
-        // Build meta
-        this.mojo = Fn.pool(Pool.MOJOS, filename, () -> {
+        // Build metadata, pick(supplier, filename)
+        this.mojo = CC_MOJO.pick(() -> {
             this.logger.info("Mount pojo configuration file {0}", filename);
             final JsonObject data = Ut.ioYaml(MessageFormat.format(POJO, filename));
 
             /* Only one point to refer `pojoFile` */
             return Fn.getNull(() -> Ut.deserialize(data, Mojo.class), data).on(filename);
-        });
+        }, filename);
         return this;
     }
 
@@ -108,6 +110,7 @@ public class Mirror {
         }
         return merged;
     }
+
 
     @SuppressWarnings("unchecked")
     public <T> T get() {

@@ -8,6 +8,7 @@ import io.vertx.up.extension.PlugRouter;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAmbient;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +22,8 @@ public class DynamicAxis implements Axis<Router> {
     private static final Annal LOGGER = Annal.get(DynamicAxis.class);
     private static final AtomicInteger LOG_FLAG_START = new AtomicInteger(0);
     private static final AtomicInteger LOG_FLAG_END = new AtomicInteger(0);
-    private static final transient String NAME = DynamicAxis.class.getSimpleName();
+    private static final String NAME = DynamicAxis.class.getSimpleName();
+    private static final Cc<String, PlugRouter> CC_PLUGS = Cc.openThread();
     private transient Vertx vertxRef;
 
     @Override
@@ -36,8 +38,8 @@ public class DynamicAxis implements Axis<Router> {
                 LOGGER.info(Info.DY_FOUND, NAME, clazz.getName(), routerConfig.encode());
             }
             // Mount dynamic router
-            final PlugRouter plugRouter = Fn.poolThread(Pool.PLUGS,
-                () -> Ut.instance(clazz));
+            final PlugRouter plugRouter = CC_PLUGS.pick(() -> Ut.instance(clazz));
+            // Fn.po?lThread(Pool.PLUGS, () -> Ut.instance(clazz));
             plugRouter.bind(this.vertxRef);
             plugRouter.mount(router, routerConfig);
         } else {

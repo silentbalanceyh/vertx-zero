@@ -6,6 +6,7 @@ import io.vertx.tp.error._500AmbientErrorException;
 import io.vertx.tp.error._500ApplicationInitException;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import org.jooq.DSLContext;
@@ -13,6 +14,12 @@ import org.jooq.DSLContext;
 @SuppressWarnings("all")
 public class AtApp {
 
+    /*
+     * DSLContext = AppDao in
+     * For multi application usage, each application should has
+     * only one AppDao that in to DSLContext.
+     */
+    private static final Cc<String, AtApp> CC_APP = Cc.open();
     private transient final XApp app;
     private transient DSLContext context;
     private transient XAppDao dao;
@@ -27,7 +34,7 @@ public class AtApp {
     }
 
     public static AtApp create(final String name) {
-        return Fn.pool(Pool.APP_POOL, name, () -> new AtApp(name));
+        return CC_APP.pick(() -> new AtApp(name), name); // Fn.po?l(Pool.APP_POOL, name, () -> new AtApp(name));
     }
 
     public XApp getApp() {

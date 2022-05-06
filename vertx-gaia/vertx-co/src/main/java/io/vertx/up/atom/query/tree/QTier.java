@@ -11,10 +11,10 @@ import java.util.Set;
  */
 public class QTier implements QBranch {
 
-    private transient final QOp op;
-    private transient final Set<QNode> nodes = new HashSet<>();
+    private final QOp op;
+    private final Set<QNode> nodes = new HashSet<>();
 
-    private transient Integer level = 0;
+    private Integer level = 0;
 
     private QTier(final QOp op) {
         this.op = null == op ? QOp.AND : op;
