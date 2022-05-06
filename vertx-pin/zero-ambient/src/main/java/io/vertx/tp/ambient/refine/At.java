@@ -1,11 +1,14 @@
 package io.vertx.tp.ambient.refine;
 
+import cn.vertxup.ambient.domain.tables.pojos.XActivity;
+import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.extension.*;
+import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -94,5 +97,13 @@ public class At {
 
     public static Future<JsonArray> fileRemove(final JsonArray attachment) {
         return AtFs.fileRemove(attachment);
+    }
+
+    public static List<XActivityChange> diffChange(final JsonObject recordO, final JsonObject recordN, final HAtom atom) {
+        return AtDiffer.diff(recordO, recordN, atom);
+    }
+
+    public static List<XActivityChange> diffChange(final List<XActivityChange> changes, final XActivity activity) {
+        return AtDiffer.diff(changes, activity);
     }
 }

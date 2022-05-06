@@ -329,15 +329,15 @@ final class Jackson {
     }
 
     static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
-        if (Objects.isNull(recordO)) {
-            if (Objects.isNull(recordN)) {
+        if (Types.isEmpty(recordO)) {
+            if (Types.isEmpty(recordN)) {
                 return ChangeFlag.NONE;
             } else {
                 /* Old = null, New = not null, ADD */
                 return ChangeFlag.ADD;
             }
         } else {
-            if (Objects.isNull(recordN)) {
+            if (Types.isEmpty(recordN)) {
                 /* Old = not null, New = null, DELETE */
                 return ChangeFlag.DELETE;
             } else {
