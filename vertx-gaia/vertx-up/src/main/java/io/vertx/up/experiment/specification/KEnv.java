@@ -22,8 +22,8 @@ import java.io.Serializable;
  */
 public class KEnv implements Serializable {
     private final transient KApp app;
-    private final transient String appId;
-    private final transient String appKey;
+    private final transient String appId;   // X-App-Id
+    private final transient String appKey;  // X-App-Key
     private final transient String code;
     private final transient Database database;
 

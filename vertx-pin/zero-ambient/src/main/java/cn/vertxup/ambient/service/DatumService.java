@@ -8,15 +8,11 @@ import io.vertx.tp.ambient.uca.digital.*;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.Cc;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 public class DatumService implements DatumStub {
 
     private static final Cc<String, Aide> CC_AIDE = Cc.open();
     private static final Cc<String, Tree> CC_TREE = Cc.open();
     private static final Cc<String, SerialGen> CC_SERIAL = Cc.open();
-    private static final ConcurrentMap<String, SerialGen> POOL_SERIAL = new ConcurrentHashMap<>();
 
     // ------------------------ Dict Operation Api
     @Override

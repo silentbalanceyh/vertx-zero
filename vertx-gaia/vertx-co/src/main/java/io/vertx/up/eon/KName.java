@@ -98,6 +98,7 @@ public interface KName {
 
     String METADATA = "metadata";                /* Shared: metadata for most table of METADATA ( JsonObject ) field */
     String ACTIVE = "active";                    /* Shared: active field for most table of ACTIVE ( Boolean ) field */
+    String ACTIVITY_ID = "activityId";
     String LANGUAGE = "language";                /* Shared: language field for most table of LANGUAGE ( String ) field */
 
     String NUMBERS = "numbers";                  /* Definition: numbers definition here */

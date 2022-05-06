@@ -24,4 +24,8 @@ public interface Dictionary {
      */
     Future<ConcurrentMap<String, JsonArray>> fetchAsync(MultiMap paramMap,
                                                         List<DSource> sources);
+
+    Future<JsonArray> fetchTree(String sigma, String type);
+
+    Future<JsonArray> fetchList(String sigma, String type);
 }

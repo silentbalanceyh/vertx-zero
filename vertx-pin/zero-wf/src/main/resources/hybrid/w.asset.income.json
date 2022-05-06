@@ -1,6 +1,6 @@
 {
-    "identifier": "w.income",
-    "module": "plugin/wf/oob/module/hybrid/w.income.json",
+    "identifier": "w.asset.income",
+    "module": "plugin/wf/oob/module/hybrid/w.asset.income.json",
     "linkage": [
         "w.todo",
         "w.ticket"

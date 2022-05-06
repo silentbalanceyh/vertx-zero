@@ -41,7 +41,7 @@ public class HistoryActor {
         if (Ut.isNilOr(modelId, modelKey, modelField)) {
             return Ux.futureA();
         } else {
-            return this.activityStub.fetchActivities(modelId, modelKey, modelField);
+            return this.activityStub.fetchChanges(modelId, modelKey, modelField);
         }
     }
 

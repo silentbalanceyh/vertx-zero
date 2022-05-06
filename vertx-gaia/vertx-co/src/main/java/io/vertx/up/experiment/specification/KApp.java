@@ -10,10 +10,10 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KApp implements Serializable {
-    private final String name;
-    private String ns;
-    private String language;
-    private String sigma;
+    private final String name;      // vie.app.xxxx
+    private String ns;              // ( namespace )
+    private String language;        // X-Lang
+    private String sigma;           // X-Sigma
 
     public KApp(final String name) {
         this.name = name;
