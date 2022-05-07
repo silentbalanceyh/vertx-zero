@@ -204,61 +204,83 @@ public class WRecord implements Serializable {
         final String instanceId = this.ticket.getFlowInstanceId();
         final JsonObject response = this.data();
         return Wf.definition(instanceId)
-            .compose(process -> {
-                /*
-                 * history to switch
-                 * 1. instance(), history = false
-                 * 2. instanceFinished(), history = true
-                 */
-                // this.process = process;
-                final StoreOn storeOn = StoreOn.get();
-                if (history) {
-                    // Fetch History Only
-                    return storeOn.workflowGet(process.definition(),
-                        process.instanceFinished());
-                } else {
-                    // Fetch Workflow
-                    return storeOn.workflowGet(process.definition(),
-                        process.instance());
-                }
-            })
-            .compose(workflow -> {
-                // Record based on start
-                final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));
-                final MetaInstance metadataInput = engine.metadata();
-                // Record Action processing
-                final ActionOn action = ActionOn.action(metadataInput.recordMode());
-                // Record of Todo processing
-                final MetaInstance metadataOutput = MetaInstance.output(this, metadataInput);
-                if (metadataOutput.recordSkip()) {
-                    return Ux.future(response);
-                }
-                // Record for different fetch
-                final String modelKey = this.ticket.getModelKey();
-                if (Objects.isNull(modelKey)) {
-                    final Set<String> keys = Ut.toSet(Ut.toJArray(this.ticket.getModelChild()));
-                    return action.fetchAsync(keys, this.ticket.getModelId(),
-                        metadataOutput).compose(array -> {
-                        // record processing
-                        response.put(KName.RECORD, array);
-                        return Ux.future(response);
-                    });
-                } else {
-                    return action.fetchAsync(this.ticket.getModelKey(), this.ticket.getModelId(),
-                        metadataOutput).compose(json -> {
-                        // record processing
-                        response.put(KName.RECORD, json);
-                        return Ux.future(response);
-                    });
-                }
-            })
-            .compose(processed -> {
-                /*
-                 * Condition:
-                 * 1. traceId is the same as all todo
-                 * 2. key is not equal todo key
-                 * 3. status should be FINISHED/REJECTED
-                 */
+            // WProcessDefinition put into response data
+            .compose(process -> this.dataProcess(process, history))
+            // WTicket / WTodo data part of current code logical
+            .compose(workflow -> this.dataTicket(response, workflow))
+            // `history` field mount
+            .compose(this::dataHistory)
+            .compose(Ux.attachJ(KName.HISTORY, response))
+            // `linkageXXXX` field mount ( Children )
+            .compose(this::dataChild);
+    }
+
+    public Future<WRecord> futureAfter(final JsonObject dataAfter) {
+        if (Ut.notNil(dataAfter)) {
+            this.dataAfter.clear();
+            this.dataAfter.mergeIn(dataAfter, true);
+        }
+        return Ux.future(this);
+    }
+
+    // ------------- Response Building -------------------------
+    private Future<JsonObject> dataTicket(final JsonObject response, final JsonObject workflow) {
+        // Record based on start
+        final EngineOn engine = EngineOn.connect(workflow.getString(KName.Flow.DEFINITION_KEY));
+        final MetaInstance metadataInput = engine.metadata();
+        // Record Action processing
+        final ActionOn action = ActionOn.action(metadataInput.recordMode());
+        // Record of Todo processing
+        final MetaInstance metadataOutput = MetaInstance.output(this, metadataInput);
+        if (metadataOutput.recordSkip()) {
+            return Ux.future(response);
+        }
+        // Record for different fetch
+        final String modelKey = this.ticket.getModelKey();
+        if (Objects.isNull(modelKey)) {
+            final Set<String> keys = Ut.toSet(Ut.toJArray(this.ticket.getModelChild()));
+            return action.fetchAsync(keys, this.ticket.getModelId(),
+                metadataOutput).compose(array -> {
+                // record processing
+                response.put(KName.RECORD, array);
+                return Ux.future(response);
+            });
+        } else {
+            return action.fetchAsync(this.ticket.getModelKey(), this.ticket.getModelId(),
+                metadataOutput).compose(json -> {
+                // record processing
+                response.put(KName.RECORD, json);
+                return Ux.future(response);
+            });
+        }
+    }
+
+    private Future<JsonObject> dataProcess(final WProcessDefinition process, final boolean history) {
+        /*
+         * history to switch
+         * 1. instance(), history = false
+         * 2. instanceFinished(), history = true
+         */
+        // this.process = process;
+        final StoreOn storeOn = StoreOn.get();
+        if (history) {
+            // Fetch History Only
+            return storeOn.workflowGet(process.definition(),
+                process.instanceFinished());
+        } else {
+            // Fetch Workflow
+            return storeOn.workflowGet(process.definition(),
+                process.instance());
+        }
+    }
+
+    private Future<JsonArray> dataHistory(final JsonObject processed) {
+        /*
+         * Condition:
+         * 1. traceId is the same as all todo
+         * 2. key is not equal todo key
+         * 3. status should be FINISHED/REJECTED
+         */
 
             /*
             OLD Code ( Get X_TODO )
@@ -274,24 +296,23 @@ public class WRecord implements Serializable {
             );
             return Ux.Jooq.on(WTodoDao.class).fetchAsync(criteria)
                 .compose(Ux::futureA);*/
-                /*
-                 * 1) Fetch catalog first
-                 * 2) Convert Catalog to extract identifier
-                 * 3) Build `modelId` and `modelKey`
-                 */
-                return Ux.channel(Dictionary.class, JsonArray::new,
-                        dict -> dict.fetchTree(this.ticket.getSigma(), WfCv.CODE_CATALOG))
-                    .compose(dict -> {
-                        final ConcurrentMap<String, String> mapId = new ConcurrentHashMap<>();
-                        Ut.itJArray(dict).forEach(record -> {
-                            final String code = record.getString(KName.CODE);
-                            final String identifier = record.getString(KName.IDENTIFIER);
-                            if (Objects.nonNull(code) && Objects.nonNull(identifier)) {
-                                mapId.put(code, identifier);
-                            }
-                        });
-                        return Ux.future(mapId);
-                    });
+        /*
+         * 1) Fetch catalog first
+         * 2) Convert Catalog to extract identifier
+         * 3) Build `modelId` and `modelKey`
+         */
+        return Ux.channel(Dictionary.class, JsonArray::new,
+                dict -> dict.fetchTree(this.ticket.getSigma(), WfCv.CODE_CATALOG))
+            .compose(dict -> {
+                final ConcurrentMap<String, String> mapId = new ConcurrentHashMap<>();
+                Ut.itJArray(dict).forEach(record -> {
+                    final String code = record.getString(KName.CODE);
+                    final String identifier = record.getString(KName.IDENTIFIER);
+                    if (Objects.nonNull(code) && Objects.nonNull(identifier)) {
+                        mapId.put(code, identifier);
+                    }
+                });
+                return Ux.future(mapId);
             })
             .compose(map -> Ux.channel(ExActivity.class, JsonArray::new, activity -> {
                 final String modelId = map.getOrDefault(this.ticket.getCatalog(), null);
@@ -299,31 +320,32 @@ public class WRecord implements Serializable {
                     return Ux.futureA();
                 }
                 return activity.activities(modelId, this.ticket.getKey());
-            }))
-            .compose(Ux.attachJ(KName.HISTORY, response)).compose(result -> {
-                // Linkage Data Put
-                this.linkage.forEach(result::put);
-                // Child
-                if (Ut.notNil(this.child)) {
-                    /*
-                     * Switch `key` and `traceKey` instead of all records
-                     * - `key` field is W_TODO record primary key
-                     * - `traceKey` field is W_TICKET record primary key
-                     *
-                     * Please be careful about following.
-                     */
-                    final JsonObject childJ = this.child.copy();
-                    if (!result.containsKey(KName.Flow.TRACE_KEY)) {
-                        result.put(KName.Flow.TRACE_KEY, childJ.getValue(KName.KEY));
-                    }
-                    childJ.remove(KName.KEY);
-                    result.mergeIn(childJ);
-                }
-                return Ux.future(result);
-            });
+            }));
     }
 
+    private Future<JsonObject> dataChild(final JsonObject result) {
+        // Linkage Data Put
+        this.linkage.forEach(result::put);
+        // Child
+        if (Ut.notNil(this.child)) {
+            /*
+             * Switch `key` and `traceKey` instead of all records
+             * - `key` field is W_TODO record primary key
+             * - `traceKey` field is W_TICKET record primary key
+             *
+             * Please be careful about following.
+             */
+            final JsonObject childJ = this.child.copy();
+            if (!result.containsKey(KName.Flow.TRACE_KEY)) {
+                result.put(KName.Flow.TRACE_KEY, childJ.getValue(KName.KEY));
+            }
+            childJ.remove(KName.KEY);
+            result.mergeIn(childJ);
+        }
+        return Ux.future(result);
+    }
 
+    // ------------- Data Building -------------------------
     /*
      * Data Specification of current record:
      * {
@@ -408,13 +430,5 @@ public class WRecord implements Serializable {
             response.mergeIn(this.dataAfter, true);
         }
         return response;
-    }
-
-    public Future<WRecord> dataAfter(final JsonObject dataAfter) {
-        if (Ut.notNil(dataAfter)) {
-            this.dataAfter.clear();
-            this.dataAfter.mergeIn(dataAfter, true);
-        }
-        return Ux.future(this);
     }
 }

@@ -98,7 +98,15 @@ public class WProcess {
     }
 
     public WMoveRule ruleFind() {
-        return Objects.requireNonNull(this.move).ruleFind();
+        /*
+         * Fix: java.lang.NullPointerException
+	        at java.base/java.util.Objects.requireNonNull(Objects.java:221)
+         */
+        if (Objects.nonNull(this.move)) {
+            return this.move.ruleFind();
+        } else {
+            return null;
+        }
     }
 
     public WMove rule() {
