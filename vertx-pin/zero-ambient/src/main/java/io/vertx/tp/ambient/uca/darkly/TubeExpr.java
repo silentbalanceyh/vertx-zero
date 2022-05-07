@@ -8,14 +8,12 @@ import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Queue;
-
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class TubeExpr extends AbstractTube {
     @Override
-    public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule, final Queue<String> serialQ) {
+    public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
         /*
          * No default condition checking here, execute workflow
          * activity generation directly, it's different from TubeAtom
@@ -32,7 +30,6 @@ class TubeExpr extends AbstractTube {
              * - modelId
              */
             activity.setModelId(atom.identifier());
-            activity.setSerial(serialQ.poll());
             final Schism diffJ = Schism.diffJ(atom);
             final JsonObject dataN = Ut.aiDataN(data);
             final JsonObject dataO = Ut.aiDataO(data);

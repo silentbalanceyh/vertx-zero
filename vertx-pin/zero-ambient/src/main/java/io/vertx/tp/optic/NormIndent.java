@@ -9,8 +9,8 @@ import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -49,9 +49,9 @@ public class NormIndent implements Indent {
         }
         return stub.numberSigma(sigma, code, size).compose(item -> {
             if (item.isEmpty()) {
-                return Ux.future(new PriorityQueue<>());
+                return Ux.future(new ConcurrentLinkedQueue<>());
             } else {
-                return Ux.future(new PriorityQueue<>(item.getList()));
+                return Ux.future(new ConcurrentLinkedQueue<>(item.getList()));
             }
         });
     }

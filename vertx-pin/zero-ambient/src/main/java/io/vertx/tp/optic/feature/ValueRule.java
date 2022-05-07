@@ -17,8 +17,12 @@ import io.vertx.up.uca.wffs.Regulation;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
@@ -75,13 +79,15 @@ public class ValueRule implements Valve {
                  * -- WORKFLOW:         TubeFlow
                  * -- ( Reserved )
                  */
+                final String code = this.ruleIndent(rule);
+                final Queue<String> serialQ = serialMap.get(code);
+                final String serial = serialQ.poll();
+
                 ruleMap.put(rule.getKey(), params -> {
                     final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
                     final Tube tube = Tube.instance(type);
-
-                    final String code = this.ruleIndent(rule);
-                    final Queue<String> serialQ = serialMap.get(code);
-                    return tube.traceAsync(params, rule, serialQ);
+                    params.put(KName.SERIAL, serial);
+                    return tube.traceAsync(params, rule);
                 });
             } else {
                 ruleMap.put(rule.getKey(), Ux::future);
@@ -114,7 +120,7 @@ public class ValueRule implements Valve {
         });
         final XActivityRule rule = ruleList.iterator().next();
         serialC.forEach((code, size) ->
-            serialQ.put(code, Ux.channel(Indent.class, PriorityQueue::new, stub -> stub.indent(code, rule.getSigma(), size))));
+            serialQ.put(code, Ux.channel(Indent.class, ConcurrentLinkedQueue::new, stub -> stub.indent(code, rule.getSigma(), size))));
         return Ux.thenCombine(serialQ).compose(Ux::future);
     }
 

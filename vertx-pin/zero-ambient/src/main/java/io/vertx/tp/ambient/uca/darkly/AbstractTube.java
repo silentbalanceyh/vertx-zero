@@ -13,6 +13,7 @@ import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.wffs.Playbook;
 import io.vertx.up.unity.Ux;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -51,6 +52,7 @@ public abstract class AbstractTube implements Tube {
          */
         activity.setKey(UUID.randomUUID().toString());
         activity.setType(rule.getType());
+        activity.setSerial(data.getString(KName.SERIAL));
         {
             /*
              * taskSerial
@@ -80,6 +82,11 @@ public abstract class AbstractTube implements Tube {
          *      - createdBy
          */
         Ke.umCreated(activity, data);
+        /*
+         * LocalDateTime processing
+         */
+        activity.setCreatedAt(LocalDateTime.now());
+        activity.setUpdatedAt(LocalDateTime.now());
         /*
          * serial       ( System Generated )
          */
