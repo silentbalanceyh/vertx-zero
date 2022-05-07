@@ -13,6 +13,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -31,7 +32,9 @@ public class ViewService implements ViewStub {
         final JsonObject filters = this.toFilters(resourceId, view);
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
-        Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
+        if (Debugger.onAuthorizedCache()) {
+            Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "fetch", filters.encode());
+        }
         return Ux.Jooq.on(SViewDao.class)
             .fetchOneAsync(new JsonObject().put("criteria", filters));
     }
@@ -46,7 +49,9 @@ public class ViewService implements ViewStub {
         filters.put("owner", userId);
         filters.put("ownerType", OwnerType.USER.name());
         /* SView projection */
-        Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
+        if (Debugger.onAuthorizedCache()) {
+            Sc.infoResource(ViewService.LOGGER, AuthMsg.VIEW_PROCESS, "save", filters.encode());
+        }
         return Ux.Jooq.on(SViewDao.class).<SView>fetchOneAsync(filters).compose(queried -> {
             final SView myView;
             if (Objects.isNull(queried)) {

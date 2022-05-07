@@ -18,19 +18,19 @@ class InletUser extends AbstractInlet {
         final JsonObject userO = this.userData(data, true);
         final String uo = this.variable("uo");
         context.set(uo, userO.getMap());
-        this.logger().info("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
+        this.console("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
             uo, userO.encode());
 
         final JsonObject userN = this.userData(data, false);
         final String un = this.variable("un");
         context.set(un, userO.getMap());
-        this.logger().info("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
+        this.console("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
             un, userN.encode());
 
         final JsonObject loData = Ut.valueJObject(userN, KName.UPDATED_BY);
         final String lo = this.variable("lo");
         context.set(lo, loData.getMap());
-        this.logger().info("[ Script ] ( User Now ) The variable `{0}` has been bind: {1}",
+        this.console("[ Script ] ( User Now ) The variable `{0}` has been bind: {1}",
             lo, loData.encode());
     }
 

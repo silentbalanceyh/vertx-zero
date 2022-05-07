@@ -60,7 +60,7 @@ public class ModelService implements ModelStub {
             /*
              * Ui Cache Enabled for this processing
              */
-            if (Debugger.onUiCache()) {
+            if (Debugger.offUiCache()) {
                 // Cache enabled
                 final JsonObject cachedData = CACHE_MODULE.getOrDefault(cacheKey, null);
                 if (Objects.isNull(cachedData)) {

@@ -12,6 +12,7 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
@@ -195,7 +196,7 @@ public class ScUser {
     public Future<JsonObject> view(final String viewKey) {
         return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)))
             .compose(view -> {
-                if (Ut.notNil(view)) {
+                if (Ut.notNil(view) && Debugger.onAuthorizedCache()) {
                     Sc.infoAuth(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
                         viewKey, view.encode());
                 }
