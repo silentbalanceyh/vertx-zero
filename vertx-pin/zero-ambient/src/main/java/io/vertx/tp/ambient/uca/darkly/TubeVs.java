@@ -11,13 +11,14 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class TubeVs extends AbstractTube {
     @Override
-    public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
+    public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule, final Queue<String> serialQ) {
         final HAtom atom = this.atom(rule);
         final Vs vs = atom.vs();
         // Processing the data
@@ -31,7 +32,7 @@ class TubeVs extends AbstractTube {
              * Change TubeType.Atom -> TubeType.WORKFLOW
              */
             final Tube tube = Tube.instance(TubeType.WORKFLOW);
-            return tube.traceAsync(data, rule);
+            return tube.traceAsync(data, rule, serialQ);
         } else {
             At.infoFlow(this.getClass(), "The field = {0} of Atom (  identifier = {1} ) has not been changed!",
                 field, atom.identifier());

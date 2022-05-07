@@ -74,6 +74,18 @@ public interface IXActivityRule extends VertxPojo, Serializable {
     public String getRuleName();
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    public IXActivityRule setRuleOrder(Long value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    public Long getRuleOrder();
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_NS</code>. 「ruleNs」-
      * 规则所属主模型名空间
      */
@@ -308,6 +320,7 @@ public interface IXActivityRule extends VertxPojo, Serializable {
                 setOrThrow(this::setTaskKey,json::getString,"TASK_KEY","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setRuleName,json::getString,"RULE_NAME","java.lang.String");
+                setOrThrow(this::setRuleOrder,json::getLong,"RULE_ORDER","java.lang.Long");
                 setOrThrow(this::setRuleNs,json::getString,"RULE_NS","java.lang.String");
                 setOrThrow(this::setRuleIdentifier,json::getString,"RULE_IDENTIFIER","java.lang.String");
                 setOrThrow(this::setRuleField,json::getString,"RULE_FIELD","java.lang.String");
@@ -338,6 +351,7 @@ public interface IXActivityRule extends VertxPojo, Serializable {
                 json.put("TASK_KEY",getTaskKey());
                 json.put("TYPE",getType());
                 json.put("RULE_NAME",getRuleName());
+                json.put("RULE_ORDER",getRuleOrder());
                 json.put("RULE_NS",getRuleNs());
                 json.put("RULE_IDENTIFIER",getRuleIdentifier());
                 json.put("RULE_FIELD",getRuleField());

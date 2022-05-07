@@ -4,7 +4,6 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._501IndentMissingException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
@@ -13,7 +12,6 @@ import io.vertx.up.experiment.mixture.HLoadSmart;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.wffs.Playbook;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -46,12 +44,6 @@ public abstract class AbstractTube implements Tube {
     }
 
     protected Future<XActivity> newActivity(final JsonObject data, final XActivityRule rule) {
-        final JsonObject config = Ut.toJObject(rule.getRuleConfig());
-        final JsonObject initData = Ut.valueJObject(config, KName.DATA);
-        final String code = initData.getString(KName.INDENT);
-        if (Ut.isNil(code)) {
-            return Ux.thenError(_501IndentMissingException.class, this.getClass(), initData);
-        }
         final XActivity activity = new XActivity();
         /*
          * key          ( System Generated )
@@ -91,14 +83,19 @@ public abstract class AbstractTube implements Tube {
         /*
          * serial       ( System Generated )
          */
-        return Ke.umIndent(activity, rule.getSigma(), code, XActivity::setSerial).compose(normalized -> {
-            // Message Processing
+        // Message Processing
+        final Playbook playbook = Playbook.open(rule.getRuleMessage());
+        return playbook.format(data).compose(description -> {
+            activity.setDescription(description);
+            return Ux.future(activity);
+        });
+/*        return Ke.umIndent(activity, rule.getSigma(), code, XActivity::setSerial).compose(normalized -> {
             final Playbook playbook = Playbook.open(rule.getRuleMessage());
             return playbook.format(data).compose(description -> {
                 normalized.setDescription(description);
                 return Ux.future(normalized);
             });
-        });
+        });*/
         /*
          * After this method, Required:
          * [x] modelId

@@ -25,6 +25,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     private String        taskKey;
     private String        type;
     private String        ruleName;
+    private Long          ruleOrder;
     private String        ruleNs;
     private String        ruleIdentifier;
     private String        ruleField;
@@ -52,6 +53,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         this.taskKey = value.getTaskKey();
         this.type = value.getType();
         this.ruleName = value.getRuleName();
+        this.ruleOrder = value.getRuleOrder();
         this.ruleNs = value.getRuleNs();
         this.ruleIdentifier = value.getRuleIdentifier();
         this.ruleField = value.getRuleField();
@@ -78,6 +80,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         String        taskKey,
         String        type,
         String        ruleName,
+        Long          ruleOrder,
         String        ruleNs,
         String        ruleIdentifier,
         String        ruleField,
@@ -102,6 +105,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         this.taskKey = taskKey;
         this.type = type;
         this.ruleName = ruleName;
+        this.ruleOrder = ruleOrder;
         this.ruleNs = ruleNs;
         this.ruleIdentifier = ruleIdentifier;
         this.ruleField = ruleField;
@@ -215,6 +219,25 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     @Override
     public XActivityRule setRuleName(String ruleName) {
         this.ruleName = ruleName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    @Override
+    public Long getRuleOrder() {
+        return this.ruleOrder;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    @Override
+    public XActivityRule setRuleOrder(Long ruleOrder) {
+        this.ruleOrder = ruleOrder;
         return this;
     }
 
@@ -565,6 +588,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         sb.append(", ").append(taskKey);
         sb.append(", ").append(type);
         sb.append(", ").append(ruleName);
+        sb.append(", ").append(ruleOrder);
         sb.append(", ").append(ruleNs);
         sb.append(", ").append(ruleIdentifier);
         sb.append(", ").append(ruleField);
@@ -599,6 +623,7 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
         setTaskKey(from.getTaskKey());
         setType(from.getType());
         setRuleName(from.getRuleName());
+        setRuleOrder(from.getRuleOrder());
         setRuleNs(from.getRuleNs());
         setRuleIdentifier(from.getRuleIdentifier());
         setRuleField(from.getRuleField());

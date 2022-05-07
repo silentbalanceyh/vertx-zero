@@ -8,6 +8,7 @@ import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -36,5 +37,5 @@ public interface Tube {
         }
     }
 
-    Future<JsonObject> traceAsync(JsonObject data, XActivityRule rule);
+    Future<JsonObject> traceAsync(JsonObject data, XActivityRule rule, Queue<String> serialQ);
 }

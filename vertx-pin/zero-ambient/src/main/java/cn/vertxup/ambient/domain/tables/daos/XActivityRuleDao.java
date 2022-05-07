@@ -100,6 +100,21 @@ public class XActivityRuleDao extends AbstractVertxDAO<XActivityRuleRecord, cn.v
         }
 
         /**
+     * Find records that have <code>RULE_ORDER IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByRuleOrder(Collection<Long> values) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.RULE_ORDER.in(values));
+        }
+
+        /**
+     * Find records that have <code>RULE_ORDER IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByRuleOrder(Collection<Long> values, int limit) {
+                return findManyByCondition(XActivityRule.X_ACTIVITY_RULE.RULE_ORDER.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>RULE_NS IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivityRule>> findManyByRuleNs(Collection<String> values) {
