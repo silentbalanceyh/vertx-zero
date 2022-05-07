@@ -17,39 +17,43 @@ import java.util.Objects;
 public class SerialGen implements Serial {
 
     @Override
-    public Future<JsonArray> generate(final JsonObject condition, final Integer count) {
+    public synchronized Future<JsonArray> generate(final JsonObject condition, final Integer count) {
         /* XNumber Processing */
         final UxJooq jq = Ux.Jooq.on(XNumberDao.class);
-        return jq.<XNumber>fetchOneAsync(condition).compose(number -> {
-            if (Objects.isNull(number)) {
-                /* Not found for XNumber */
-                return Ux.futureA();
-            } else {
-                /*
-                 * Generate numbers
-                 * 1) Generate new numbers first
-                 * 2) Update numbers instead
-                 */
-                return At.generateAsync(number, count).compose(generated -> {
-                    final XNumber processed = At.serialAdjust(number, count);
-                    return jq.updateAsync(processed)
-                        .compose(nil -> Ux.future(new JsonArray(generated)));
-                }).otherwise(Ux.otherwise(JsonArray::new));
-            }
-        });
+        synchronized (jq) {
+            return jq.<XNumber>fetchOneAsync(condition).compose(number -> {
+                if (Objects.isNull(number)) {
+                    /* Not found for XNumber */
+                    return Ux.futureA();
+                } else {
+                    /*
+                     * Generate numbers
+                     * 1) Generate new numbers first
+                     * 2) Update numbers instead
+                     */
+                    return At.generateAsync(number, count).compose(generated -> {
+                        final XNumber processed = At.serialAdjust(number, count);
+                        return jq.updateAsync(processed)
+                            .compose(nil -> Ux.future(new JsonArray(generated)));
+                    }).otherwise(Ux.otherwise(JsonArray::new));
+                }
+            });
+        }
     }
 
     @Override
-    public Future<Boolean> reset(final JsonObject condition, final Long defaultValue) {
+    public synchronized Future<Boolean> reset(final JsonObject condition, final Long defaultValue) {
         final UxJooq jq = Ux.Jooq.on(XNumberDao.class);
-        return jq.<XNumber>fetchOneAsync(condition).compose(number -> {
-            if (Objects.isNull(number)) {
-                return Ux.futureT();
-            } else {
-                number.setCurrent(defaultValue); // The Current Value Start From 1
-                return jq.updateAsync(number)
-                    .compose(nil -> Ux.futureT());
-            }
-        });
+        synchronized (jq) {
+            return jq.<XNumber>fetchOneAsync(condition).compose(number -> {
+                if (Objects.isNull(number)) {
+                    return Ux.futureT();
+                } else {
+                    number.setCurrent(defaultValue); // The Current Value Start From 1
+                    return jq.updateAsync(number)
+                        .compose(nil -> Ux.futureT());
+                }
+            });
+        }
     }
 }
