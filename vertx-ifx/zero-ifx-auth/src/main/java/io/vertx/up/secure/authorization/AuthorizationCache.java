@@ -44,7 +44,6 @@ class AuthorizationCache {
                     }
                     context.next();
                 } else {
-                    LOGGER.info("[ Auth ] 403 Authorized First Time ! request = {0}", requestKey);
                     actuator.execute();
                 }
             }
