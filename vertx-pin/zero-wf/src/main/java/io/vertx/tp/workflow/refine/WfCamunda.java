@@ -7,6 +7,7 @@ import io.vertx.tp.error._404ProcessMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.HistoryService;
@@ -30,6 +31,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class WfCamunda {
+    private static final Annal LOGGER = Annal.get(WfCamunda.class);
     /*
      * Pool Cached for ProcessDefinition
      */
@@ -169,6 +171,7 @@ class WfCamunda {
         final String configFile = WfCv.FOLDER_ROOT + "/" + definition + "/" + code + ".json";
         // Dynamic Processing
         if (Ut.ioExist(configFile)) {
+            WfLog.info(LOGGER, "Web", "Form Loaded from `{0}`", configFile);
             parameters.put(KName.DYNAMIC, Boolean.FALSE);
             parameters.put(KName.CODE, configFile);
         } else {
