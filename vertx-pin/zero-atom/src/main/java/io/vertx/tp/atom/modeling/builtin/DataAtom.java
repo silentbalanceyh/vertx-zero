@@ -12,8 +12,8 @@ import io.vertx.up.experiment.specification.KApp;
  */
 public class DataAtom extends AbstractHAtom {
 
-    public DataAtom(final Model model, final KApp app) {
-        super(model, app);
+    public DataAtom(final KApp app, final Model model) {
+        super(app, model);
         {
             // sigma / language / namespace re-bind
             final MModel modelRef = model.dbModel();
@@ -24,7 +24,7 @@ public class DataAtom extends AbstractHAtom {
 
     @Override
     public DataAtom atom(final String identifier) {
-        final String appName = this.app.appName();
+        final String appName = this.app.name();
         return Ao.toAtom(appName, identifier);
     }
 

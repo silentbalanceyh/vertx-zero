@@ -33,7 +33,7 @@ public abstract class AbstractHAtom implements HAtom {
 
     private transient final Vs vs;
 
-    public AbstractHAtom(final HModel model, final KApp app) {
+    public AbstractHAtom(final KApp app, final HModel model) {
         Objects.requireNonNull(model);
         Objects.requireNonNull(app);
         this.app = app;

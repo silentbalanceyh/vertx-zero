@@ -116,12 +116,31 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    @Override
+    public XActivityRuleRecord setRuleOrder(Long value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    @Override
+    public Long getRuleOrder() {
+        return (Long) get(5);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_NS</code>. 「ruleNs」-
      * 规则所属主模型名空间
      */
     @Override
     public XActivityRuleRecord setRuleNs(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -131,7 +150,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleNs() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -140,7 +159,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleIdentifier(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -150,7 +169,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleIdentifier() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -159,7 +178,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleField(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -169,7 +188,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleField() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
@@ -178,7 +197,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleExpression(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -188,7 +207,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleExpression() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -197,7 +216,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleTpl(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -207,7 +226,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleTpl() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -216,7 +235,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleConfig(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -226,7 +245,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleConfig() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
@@ -235,7 +254,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setRuleMessage(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -245,7 +264,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getRuleMessage() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -254,7 +273,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setHookComponent(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -264,7 +283,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getHookComponent() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -273,7 +292,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setHookConfig(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -283,7 +302,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getHookConfig() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -292,7 +311,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setLogging(Boolean value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -302,7 +321,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public Boolean getLogging() {
-        return (Boolean) get(14);
+        return (Boolean) get(15);
     }
 
     /**
@@ -310,7 +329,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setActive(Boolean value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -319,7 +338,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(15);
+        return (Boolean) get(16);
     }
 
     /**
@@ -327,7 +346,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setSigma(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -336,7 +355,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getSigma() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -345,7 +364,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setMetadata(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -355,7 +374,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getMetadata() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     /**
@@ -364,7 +383,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setLanguage(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -374,7 +393,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getLanguage() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -383,7 +402,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -393,7 +412,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(20);
     }
 
     /**
@@ -402,7 +421,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setCreatedBy(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -412,7 +431,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -421,7 +440,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -431,7 +450,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -440,7 +459,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public XActivityRuleRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -450,7 +469,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     // -------------------------------------------------------------------------
@@ -473,6 +492,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
         setTaskKey(from.getTaskKey());
         setType(from.getType());
         setRuleName(from.getRuleName());
+        setRuleOrder(from.getRuleOrder());
         setRuleNs(from.getRuleNs());
         setRuleIdentifier(from.getRuleIdentifier());
         setRuleField(from.getRuleField());
@@ -513,7 +533,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
     /**
      * Create a detached, initialised XActivityRuleRecord
      */
-    public XActivityRuleRecord(String key, String definitionKey, String taskKey, String type, String ruleName, String ruleNs, String ruleIdentifier, String ruleField, String ruleExpression, String ruleTpl, String ruleConfig, String ruleMessage, String hookComponent, String hookConfig, Boolean logging, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public XActivityRuleRecord(String key, String definitionKey, String taskKey, String type, String ruleName, Long ruleOrder, String ruleNs, String ruleIdentifier, String ruleField, String ruleExpression, String ruleTpl, String ruleConfig, String ruleMessage, String hookComponent, String hookConfig, Boolean logging, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(XActivityRule.X_ACTIVITY_RULE);
 
         setKey(key);
@@ -521,6 +541,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
         setTaskKey(taskKey);
         setType(type);
         setRuleName(ruleName);
+        setRuleOrder(ruleOrder);
         setRuleNs(ruleNs);
         setRuleIdentifier(ruleIdentifier);
         setRuleField(ruleField);
@@ -553,6 +574,7 @@ public class XActivityRuleRecord extends UpdatableRecordImpl<XActivityRuleRecord
             setTaskKey(value.getTaskKey());
             setType(value.getType());
             setRuleName(value.getRuleName());
+            setRuleOrder(value.getRuleOrder());
             setRuleNs(value.getRuleNs());
             setRuleIdentifier(value.getRuleIdentifier());
             setRuleField(value.getRuleField());

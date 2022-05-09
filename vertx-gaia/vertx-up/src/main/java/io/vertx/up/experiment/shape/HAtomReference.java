@@ -15,6 +15,7 @@ import io.vertx.up.experiment.reference.RDao;
 import io.vertx.up.experiment.reference.RQuery;
 import io.vertx.up.experiment.reference.RQuote;
 import io.vertx.up.experiment.reference.RResult;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.uca.cache.Cc;
@@ -108,12 +109,12 @@ public class HAtomReference implements HReference {
      */
     protected final transient Cc<String, RQuery> ccQuery = Cc.open();
 
-    protected final transient String appName;
+    protected final transient KApp app;
 
     private final transient Cc<String, KReference> ccData = Cc.open();
 
-    public HAtomReference(final String appName) {
-        this.appName = appName;
+    public HAtomReference(final KApp app) {
+        this.app = app;
     }
 
     // ======================= Overwrite Api ==========================
@@ -150,7 +151,7 @@ public class HAtomReference implements HReference {
             /*
              * RDao initialize and unlink
              */
-            final RQuote quote = this.ccReference.pick(() -> RQuote.create(this.appName), source);
+            final RQuote quote = this.ccReference.pick(() -> RQuote.create(this.app.name()), source);
             // Fn.po?l(this.references, source, () -> RQuote.create(appName));
             final JsonObject referenceConfig = reference.sourceReference();
             quote.add(hAttribute, referenceConfig, dao);
@@ -210,7 +211,7 @@ public class HAtomReference implements HReference {
         final Function<JsonObject, Future<JsonArray>> actionA = this.actionA(atom, join);
         final Function<JsonObject, JsonArray> actionS = this.actionS(atom, join);
         // RDao Creation
-        final RDao dao = this.ccDao.pick(() -> new RDao(source), this.appName + "/" + source);
+        final RDao dao = this.ccDao.pick(() -> new RDao(source), this.app.name() + "/" + source);
         // Fn.po?l(this.sourceDao, appName + "/" + source, () -> new RDao(source));
         return dao.actionA(actionA).actionS(actionS);
     }

@@ -94,7 +94,7 @@ class AidTracker {
         final Aspect aspect = this.aspect(move);
         return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
             .apply(aspectParameter(record, process))
-            .compose(record::dataAfter);
+            .compose(record::futureAfter);
     }
 
     private JsonObject aspectParameter(final WRecord record, final WProcess process) {

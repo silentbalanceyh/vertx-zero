@@ -1,20 +1,17 @@
 package io.vertx.up.uca.wffs.script;
 
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractInlet implements Inlet {
 
-    protected transient boolean isPrefix = true;
+    protected transient boolean isPrefix;
 
     protected AbstractInlet(final boolean isPrefix) {
         this.isPrefix = isPrefix;
-    }
-
-    protected Annal logger() {
-        return Annal.get(this.getClass());
     }
 
     protected String variable(final String name) {
@@ -22,6 +19,13 @@ public abstract class AbstractInlet implements Inlet {
             return "$" + name;
         } else {
             return name;
+        }
+    }
+
+    protected void console(final String message, final Object... args) {
+        if (Debugger.onExpressionBind()) {
+            final Annal logger = Annal.get(this.getClass());
+            logger.info(message, args);
         }
     }
 }

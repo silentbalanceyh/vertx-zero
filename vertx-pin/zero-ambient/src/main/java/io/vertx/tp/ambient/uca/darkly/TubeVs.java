@@ -26,7 +26,11 @@ class TubeVs extends AbstractTube {
         final String field = rule.getRuleField();
         Objects.requireNonNull(field);
         if (vs.isChange(dataO.getValue(field), dataN.getValue(field), field)) {
-            final Tube tube = Tube.instance(TubeType.ATOM);
+            /*
+             * java.lang.StackOverflowError fix
+             * Change TubeType.Atom -> TubeType.WORKFLOW
+             */
+            final Tube tube = Tube.instance(TubeType.WORKFLOW);
             return tube.traceAsync(data, rule);
         } else {
             At.infoFlow(this.getClass(), "The field = {0} of Atom (  identifier = {1} ) has not been changed!",

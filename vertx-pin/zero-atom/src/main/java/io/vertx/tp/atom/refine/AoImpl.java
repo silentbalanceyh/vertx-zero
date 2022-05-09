@@ -18,6 +18,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.mixture.HLoad;
+import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.experiment.specification.KEnv;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -65,9 +66,9 @@ class AoImpl {
     }
 
     static Model toModel(final String appName) {
-        final String namespace = AoStore.namespace(appName);
+        final KApp app = HLoad.CC_APP.pick(() -> new KApp(appName).ns(AoStore.namespace(appName)), appName);
         final Class<?> implModel = AoStore.clazzModel();
-        return Ut.instance(implModel, namespace);
+        return Ut.instance(implModel, app);
     }
 
     static Switcher toSwitcher(final Identity identity, final JsonObject options) {

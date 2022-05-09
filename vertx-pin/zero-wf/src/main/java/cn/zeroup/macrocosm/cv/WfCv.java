@@ -11,4 +11,6 @@ public interface WfCv {
     String BPMN_FLOW_TYPE = "SequenceFlow";
 
     String CODE_HISTORY = "workflow.history";
+
+    String CODE_CATALOG = "zero.service.catalog";
 }

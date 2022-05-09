@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.em.ApiSpec;
 import io.vertx.tp.crud.cv.em.QrType;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxPanel;
 import io.vertx.tp.crud.uca.desk.IxWeb;
@@ -55,7 +54,6 @@ public class GetActor {
         if (Ut.isNil(sigma)) {
             return Ux.future(Envelop.success(new JsonArray()));
         }
-        Ix.Log.filters(this.getClass(), "All data by sigma: `{0}`", sigma);
         return IxPanel.on(request)
             .input(
                 /* Build Condition for All */

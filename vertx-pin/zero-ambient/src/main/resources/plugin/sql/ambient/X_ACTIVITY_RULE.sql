@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS X_ACTIVITY_RULE
      * 2) 第二种，直接设置 typeName 为流程名称
      */
     `RULE_NAME`       VARCHAR(255) COMMENT '「ruleName」- 规则名称，如果 type = ATOM 时读取，并设置到 typeName 中',
+    `RULE_ORDER`      BIGINT COMMENT '「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边',
     `RULE_NS`         VARCHAR(255) COMMENT '「ruleNs」- 规则所属主模型名空间',
     `RULE_IDENTIFIER` VARCHAR(255) COMMENT '「ruleIdentifier」- 主模型ID',
     `RULE_FIELD`      VARCHAR(128) COMMENT '「ruleField」- 主字段名',

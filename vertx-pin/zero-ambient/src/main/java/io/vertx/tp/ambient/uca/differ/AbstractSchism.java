@@ -1,14 +1,19 @@
 package io.vertx.tp.ambient.uca.differ;
 
+import cn.vertxup.ambient.domain.tables.daos.XActivityChangeDao;
+import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
+import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409TrackableConflictException;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.unity.Ux;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -47,6 +52,13 @@ public abstract class AbstractSchism implements Schism {
         return marker.onTrack();
     }
 
+    protected Future<JsonObject> createActivity(final XActivity activity, final List<XActivityChange> changes) {
+        final Refer responseJ = new Refer();
+        return Ux.Jooq.on(XActivityDao.class).insertJAsync(activity)
+            .compose(responseJ::future)
+            .compose(nil -> Ux.Jooq.on(XActivityChangeDao.class).insertAsync(changes))
+            .compose(nil -> Ux.future(responseJ.get()));
+    }
     // ---------------------- Provide the default operation to throw 501 ---------------------
 
     @Override
@@ -54,4 +66,5 @@ public abstract class AbstractSchism implements Schism {
         // Default should be 501
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
+
 }

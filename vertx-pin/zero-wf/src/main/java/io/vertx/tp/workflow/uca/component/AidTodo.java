@@ -431,12 +431,18 @@ class AidTodo {
 
             // Updated Json for Child
             final JsonObject combineJ = queryJ.copy().mergeIn(data, true);
-            return tJq.updateJAsync(ticket.getKey(), combineJ).compose(updated -> {
-
-                // Bind Updated
-                recordRef.bind(updated);
-                return Ux.future(recordRef);
-            });
+            // Fix issue of `Sub Table Empty"
+            if (Ut.isNil(queryJ)) {
+                // Does not Exist
+                return tJq.insertJAsync(combineJ);
+            } else {
+                // Existing
+                return tJq.updateAsync(ticket.getKey(), combineJ);
+            }
+        }).compose(updated -> {
+            // Bind Updated
+            recordRef.bind(updated);
+            return Ux.future(recordRef);
         });
     }
 }

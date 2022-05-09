@@ -1,5 +1,7 @@
 package io.vertx.tp.optic.business;
 
+import cn.vertxup.ambient.service.DatumService;
+import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
@@ -8,6 +10,7 @@ import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.em.GlossaryType;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.concurrent.ConcurrentMap;
  * Dictionary implementation class
  */
 public class ExAmbientDictionary implements Dictionary {
+    private static final Cc<String, DatumStub> CC_DICT = Cc.openThread();
+
     @Override
     public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final MultiMap paramMap,
                                                                final List<DSource> sources) {
@@ -59,5 +64,17 @@ public class ExAmbientDictionary implements Dictionary {
                 return Ux.future(dict);
             });
         }
+    }
+
+    @Override
+    public Future<JsonArray> fetchTree(final String sigma, final String type) {
+        final DatumStub stub = CC_DICT.pick(DatumService::new);
+        return stub.treeSigma(sigma, type);
+    }
+
+    @Override
+    public Future<JsonArray> fetchList(final String sigma, final String type) {
+        final DatumStub stub = CC_DICT.pick(DatumService::new);
+        return stub.dictSigma(sigma, type);
     }
 }

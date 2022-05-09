@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 
@@ -26,7 +27,9 @@ class AuthenticateCache {
                 if (Objects.isNull(cached)) {
                     actuator.execute();
                 } else {
-                    LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated Cached successfully!\u001b[m");
+                    if (Debugger.onAuthorizedCache()) {
+                        LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated Cached successfully!\u001b[m");
+                    }
                     fnCache.execute();
                 }
             }

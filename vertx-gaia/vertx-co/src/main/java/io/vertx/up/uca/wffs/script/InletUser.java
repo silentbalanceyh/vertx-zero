@@ -2,6 +2,7 @@ package io.vertx.up.uca.wffs.script;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.commons.jexl3.JexlContext;
 
@@ -17,21 +18,40 @@ class InletUser extends AbstractInlet {
     public void compile(final JexlContext context, final JsonObject data, final JsonObject config) {
         final JsonObject userO = this.userData(data, true);
         final String uo = this.variable("uo");
-        context.set(uo, userO.getMap());
-        this.logger().info("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
+        this.compile(context, uo, userO);
+        this.console("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
             uo, userO.encode());
 
         final JsonObject userN = this.userData(data, false);
         final String un = this.variable("un");
-        context.set(un, userO.getMap());
-        this.logger().info("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
+        this.compile(context, un, userN);
+        this.console("[ Script ] ( User Map ) The variable `{0}` has been bind: {1}",
             un, userN.encode());
 
         final JsonObject loData = Ut.valueJObject(userN, KName.UPDATED_BY);
         final String lo = this.variable("lo");
         context.set(lo, loData.getMap());
-        this.logger().info("[ Script ] ( User Now ) The variable `{0}` has been bind: {1}",
+        this.console("[ Script ] ( User Now ) The variable `{0}` has been bind: {1}",
             lo, loData.encode());
+    }
+
+    private void compile(final JexlContext context, final String name, final JsonObject user) {
+        /*
+         * Secondary Script variable,
+         * fix issue:
+         * org.apache.commons.jexl3.JxltEngine$Exception:
+         * io.vertx.up.uca.wffs.Playbook.format:84![9,18]:
+         *
+         * 'un.toUser.realname' exception error
+         *
+         * : failed to evaluate '一份"${zw.name}"工单分派给了"${un.toUser.realname}"。'
+         *      at io.vertx.up.uca.wffs.Playbook.format(Playbook.java:86)
+         */
+        user.fieldNames().forEach(field -> {
+            final String childKey = name + Strings.DOT + field;
+            final JsonObject childJ = Ut.valueJObject(user, field);
+            context.set(childKey, childJ.getMap());
+        });
     }
 
     protected JsonObject userData(final JsonObject input, final boolean previous) {

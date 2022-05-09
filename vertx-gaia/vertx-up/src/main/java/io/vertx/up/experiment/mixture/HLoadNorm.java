@@ -14,24 +14,26 @@ import io.vertx.up.uca.cache.Cc;
 public class HLoadNorm implements HLoad {
     private static final Annal LOGGER = Annal.get(HLoadNorm.class);
     private static final Cc<String, HModel> CC_MODEL = Cc.open();
-    private static final Cc<String, KApp> CC_APP = Cc.open();
 
     @Override
     public HAtom atom(final String appName, final String identifier) {
         try {
             /*
-             * Performer processing to expose exception
+             * KApp building based on `appName` here
+             * Internal Object to store application information
+             * - sigma
+             * - language
+             * - appName
+             * - ns
              */
-            final String ns = HApp.ns(appName);
-            final String unique = HApp.ns(appName, identifier);
-            final HModel model = CC_MODEL.pick(() -> new NormModel(ns, identifier), unique);
-            // Internal Object to store application information
-            // -- sigma
-            // -- language
-            // -- appName
-            // -- ns
             final KApp app = CC_APP.pick(() -> new KApp(appName), appName);
-            final HAtom atom = new NormAtom(model, app);
+
+            // Fetch HModel
+            final String unique = app.keyUnique(identifier);
+            final HModel model = CC_MODEL.pick(() -> new NormModel(app, identifier), unique);
+
+            // Fetch HAtom
+            final HAtom atom = new NormAtom(app, model);
             LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}", unique);
             return atom;
         } catch (final _404ModelNotFoundException | _409IdentifierConflictException ignored) {

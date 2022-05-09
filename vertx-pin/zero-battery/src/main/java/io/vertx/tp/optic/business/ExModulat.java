@@ -26,7 +26,14 @@ public class ExModulat implements Modulat {
     @Override
     public Future<JsonObject> extension(final JsonObject appJson) {
         final String key = appJson.getString(KName.KEY);
-        return this.extension(key);
+        return this.extension(key).compose(moduleJ -> {
+            /*
+             * appJ + moduleJ to build response ( Final )
+             */
+            final JsonObject original = moduleJ.copy();
+            original.mergeIn(appJson, true);
+            return Ux.future(original);
+        });
     }
 
     @Override

@@ -1,10 +1,12 @@
 package io.vertx.tp.ambient.uca.differ;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
+import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.unity.Ux;
+import io.vertx.tp.ambient.refine.At;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -78,7 +80,13 @@ class SchismJ extends AbstractSchism {
              *  - key
              *  - serial
              */
-            return Ux.futureJ();
+            activity.setRecordOld(recordO.encode());
+            activity.setRecordNew(recordN.encode());
+
+            final List<XActivityChange> changes = At.diffChange(recordO, recordN, this.atom);
+
+            At.diffChange(changes, activity);
+            return this.createActivity(activity, changes);
         });
     }
 }

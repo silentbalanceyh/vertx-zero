@@ -53,6 +53,11 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
      */
     public final TableField<XActivityRuleRecord, String> RULE_NAME = createField(DSL.name("RULE_NAME"), SQLDataType.VARCHAR(255), this, "「ruleName」- 规则名称，如果 type = ATOM 时读取，并设置到 typeName 中");
     /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_ORDER</code>.
+     * 「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边
+     */
+    public final TableField<XActivityRuleRecord, Long> RULE_ORDER = createField(DSL.name("RULE_ORDER"), SQLDataType.BIGINT, this, "「ruleOrder」- 规则触发顺序，修正两个时间戳，生成时序号统一，先生成的规则排序在上边");
+    /**
      * The column <code>DB_ETERNAL.X_ACTIVITY_RULE.RULE_NS</code>. 「ruleNs」-
      * 规则所属主模型名空间
      */

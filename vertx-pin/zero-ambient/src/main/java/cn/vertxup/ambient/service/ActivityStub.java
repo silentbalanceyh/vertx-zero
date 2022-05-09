@@ -30,7 +30,7 @@ public interface ActivityStub {
      * The results should be all activity changes of one field that selected,
      * it will be mapped to X_ACTIVITY_CHANGE table instead of X_ACTIVITY
      */
-    Future<JsonArray> fetchActivities(String identifier, String key, String field);
+    Future<JsonArray> fetchChanges(String identifier, String key, String field);
 
     /*
      * Activity Update ( Confirm / Reject )

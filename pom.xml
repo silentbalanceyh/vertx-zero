@@ -78,7 +78,7 @@
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.16.6</jooq.version>
-        <vertx.jooq.version>6.5.0</vertx.jooq.version>
+        <vertx.jooq.version>6.5.1</vertx.jooq.version>
         <mysql.version>8.0.29</mysql.version>
 
         <!-- Java Reflection -->
@@ -94,7 +94,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>6.2.3.Final</hibernate.validator.version>
 
-        <jwt.version>3.19.1</jwt.version>
+        <jwt.version>3.19.2</jwt.version>
         <jetbrains.version>23.0.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
@@ -150,7 +150,7 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
         <netty.tcnative.version>2.0.52.Final</netty.tcnative.version>
-        <netty.version>4.1.76.Final</netty.version>
+        <netty.version>4.1.77.Final</netty.version>
 
         <!-- Upload Issue -->
         <hazelcast.version>5.1.1</hazelcast.version>
@@ -217,7 +217,7 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.14.2</camunda.spin.version>
+        <camunda.spin.version>1.15.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.4</camunda.connect.version>
         <camunda.util.version>1.10.1</camunda.util.version>

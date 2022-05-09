@@ -30,25 +30,25 @@ class InletData extends AbstractInlet {
          * }
          */
         final ChangeFlag flag = Ut.aiFlag(data);
-        this.logger().info("[ Script ] ( Flag ) Execution Operation: {0}", flag);
+        this.console("[ Script ] ( Flag ) Execution Operation: {0}", flag);
         final String zo = this.variable("zo");
         if (ChangeFlag.ADD == flag) {
             context.set(zo, new HashMap<>());
-            this.logger().info("[ Script ] ( Data O-N ) The variable `{0}` has been empty", zo);
+            this.console("[ Script ] ( Data O-N ) The variable `{0}` has been empty", zo);
         } else {
             final JsonObject valueO = Ut.aiDataO(data);
             context.set(zo, valueO.getMap());
-            this.logger().info("[ Script ] ( Data OLD ) The variable `{0}` has been bind: {1}", zo, valueO.encode());
+            this.console("[ Script ] ( Data OLD ) The variable `{0}` has been bind: {1}", zo, valueO.encode());
         }
 
         final String zn = this.variable("zn");
         if (ChangeFlag.DELETE == flag) {
             context.set(zn, new HashMap<>());
-            this.logger().info("[ Script ] ( Data N-N ) The variable `{0}` has been empty", zn);
+            this.console("[ Script ] ( Data N-N ) The variable `{0}` has been empty", zn);
         } else {
             final JsonObject valueN = Ut.aiDataN(data);
             context.set(zn, valueN.getMap());
-            this.logger().info("[ Script ] ( Data NEW ) The variable `{0}` has been bind: {1}", zn, valueN.encode());
+            this.console("[ Script ] ( Data NEW ) The variable `{0}` has been bind: {1}", zn, valueN.encode());
         }
     }
 }

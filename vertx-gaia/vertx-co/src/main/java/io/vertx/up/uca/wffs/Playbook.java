@@ -74,7 +74,7 @@ public class Playbook implements Serializable {
 
         /* Script Execute on expression */
         final Boolean checked = (Boolean) script.execute(context);
-        LOGGER.info("[ Script ] ( Boolean ) Result = {2}, The expression = `{0}` has been parsed to `{1}`.",
+        LOGGER.info("[ Script ] isOk = {2}, The expression = `{0}` has been parsed to `{1}`.",
             this.expression, script.getParsedText(), checked);
         return Future.succeededFuture(checked);
     }
@@ -84,7 +84,7 @@ public class Playbook implements Serializable {
         final JexlExpression expression = EXPR.createExpression(formattedExpr);
         final JexlContext context = this.buildContext(params, false);
         final String formatted = (String) expression.evaluate(context);
-        LOGGER.info("[ Script ] ( String ) Result = {2}, The expression = `{0}` has been parsed to `{1}`.",
+        LOGGER.info("[ Script ] Message = {2}, The expression = `{0}` has been parsed to `{1}`.",
             this.expression, expression.getParsedText(), formatted);
         return Future.succeededFuture(formatted);
     }

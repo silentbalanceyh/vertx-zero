@@ -50,12 +50,12 @@ public interface HApp extends Serializable, Json {
      *
      * The scope of data of platform / application
      *
-     * 1) X_MENU            ---->           AppId
+     * 1) X_MENU                        ---->           AppId
      * 2) X_TABULAR
-     *    X_CATEGORY        ---->           AppId / Sigma
-     * 3) X_ACTIVITY_RULE   ---->           AppId ( namespace )
-     * 4) M_MODEL           ---->           AppId ( namespace )
-     * 4) I_API / I_JOB     ---->           AppId ( namespace )
+     *    X_CATEGORY                    ---->           AppId / Sigma
+     * 3) X_ACTIVITY_RULE               ---->           AppId ( namespace )
+     * 4) M_MODEL                       ---->           AppId ( namespace )
+     * 4) I_API / I_JOB / I_SERVICE     ---->           AppId ( namespace )
      */
     String namespace();
 
