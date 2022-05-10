@@ -88,7 +88,7 @@ public class DataModel extends AbstractHModel implements Model {
     @Override
     protected boolean trackable() {
         final Boolean isTrack = this.dbModel().getIsTrack();
-        return Objects.isNull(isTrack) ? Boolean.TRUE : Boolean.FALSE;
+        return Objects.isNull(isTrack) ? Boolean.TRUE : isTrack;
     }
 
     @Override
