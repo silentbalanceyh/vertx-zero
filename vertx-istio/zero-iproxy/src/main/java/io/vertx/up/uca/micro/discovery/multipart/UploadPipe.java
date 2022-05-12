@@ -21,6 +21,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
 
 public class UploadPipe implements Pipe<HttpResponse> {
@@ -193,7 +194,7 @@ public class UploadPipe implements Pipe<HttpResponse> {
     }
 
     private FileUpload getFile() {
-        final Set<FileUpload> fileUploads = this.context.fileUploads();
+        final Set<FileUpload> fileUploads = new HashSet<>(this.context.fileUploads());
         if (fileUploads.isEmpty()) {
             return null;
         } else {

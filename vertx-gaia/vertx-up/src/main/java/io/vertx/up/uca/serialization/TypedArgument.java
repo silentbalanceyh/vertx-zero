@@ -23,6 +23,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import javax.ws.rs.BodyParam;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -200,7 +201,7 @@ public class TypedArgument {
              * It's only for file uploading here.
              * ( FileUpload ) type here for actual in agent
              */
-            returnValue = context.fileUploads();
+            returnValue = new HashSet<>(context.fileUploads());
         } else if (is(type, JsonArray.class)) {
             /*
              * JsonArray, Could get from Serialization
@@ -229,7 +230,7 @@ public class TypedArgument {
             /*
              * Single FileUpload
              */
-            final Set<FileUpload> uploads = context.fileUploads();
+            final Set<FileUpload> uploads = new HashSet<>(context.fileUploads());
             if (!uploads.isEmpty()) {
                 returnValue = uploads.iterator().next();
             }
