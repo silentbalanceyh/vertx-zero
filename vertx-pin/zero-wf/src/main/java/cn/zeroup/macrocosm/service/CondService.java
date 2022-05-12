@@ -18,19 +18,6 @@ import java.util.Set;
  */
 public class CondService implements CondStub {
 
-    private static final Set<String> SKIP_QUEUE_SET = new HashSet<>() {
-        {
-            this.add(KName.Flow.Auditor.OWNER);
-            this.add(KName.Flow.Auditor.SUPERVISOR);
-            this.add(KName.Flow.Auditor.OPEN_BY);
-            this.add(KName.Flow.Auditor.TO_USER);
-            this.add(KName.Flow.Auditor.TO_ROLE);
-            this.add(KName.Flow.Auditor.TO_DEPT);
-            this.add(KName.Flow.Auditor.TO_TEAM);
-            this.add(KName.Flow.Auditor.TO_GROUP);
-        }
-    };
-
     private static final Set<String> SKIP_HISTORY_SET = new HashSet<>() {
         {
             this.add(KName.Flow.Auditor.OWNER);
