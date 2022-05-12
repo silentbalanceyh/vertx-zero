@@ -43,43 +43,57 @@ public class CondService implements CondStub {
 
     @Override
     public Future<JsonObject> qrQueue(final JsonObject qr, final String user) {
-        if (this.skipDefault(qr, SKIP_QUEUE_SET)) {
-            Wf.Log.initQueue(this.getClass(), "Qr Skip: {0}", qr.encode());
-            // Status Must be in following
-            // -- PENDING
-            // -- DRAFT
-            // -- ACCEPTED
-            final JsonObject qrStatus = Ux.whereAnd();
-            qrStatus.put(KName.STATUS + ",i", new JsonArray()
-                .add(TodoStatus.PENDING.name())
-                .add(TodoStatus.ACCEPTED.name())
-                .add(TodoStatus.DRAFT.name())
-            );
-            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
-            Wf.Log.initQueue(this.getClass(), "Qr Queue ( Skip ): {0}", qrCombine.encode());
-            return Ux.future(qrCombine);
-        } else {
-            final JsonObject qrQueue = Ux.whereOr();
-            // Open By Me
-            final JsonObject qrCreate = Ux.whereAnd(KName.Flow.Auditor.OPEN_BY, user)
-                .put(KName.STATUS + ",i", new JsonArray()
-                    .add(TodoStatus.PENDING.name())
-                    .add(TodoStatus.ACCEPTED.name())
-                    .add(TodoStatus.DRAFT.name())
-                );
-            qrQueue.put("$QrC$", qrCreate);
-            // Approved By Me
-            final JsonObject qrApprove = Ux.whereAnd(KName.Flow.Auditor.TO_USER, user)
-                .put(KName.STATUS + ",i", new JsonArray()
-                    .add(TodoStatus.PENDING.name())
-                );
-            qrQueue.put("$QrA", qrApprove);
-
-            // Divide to AND / OR
-            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrQueue);
-            Wf.Log.initQueue(this.getClass(), "Qr Queue: {0}", qrCombine.encode());
-            return Ux.future(qrCombine);
-        }
+        Wf.Log.initQueue(this.getClass(), "Qr Skip: {0}", qr.encode());
+        // Status Must be in following
+        // -- PENDING
+        // -- DRAFT
+        // -- ACCEPTED
+        final JsonObject qrStatus = Ux.whereAnd();
+        qrStatus.put(KName.STATUS + ",i", new JsonArray()
+            .add(TodoStatus.PENDING.name())
+            .add(TodoStatus.ACCEPTED.name())
+            .add(TodoStatus.DRAFT.name())
+        );
+        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
+        Wf.Log.initQueue(this.getClass(), "Qr Queue: {0}", qrCombine.encode());
+        return Ux.future(qrCombine);
+        //        if (this.skipDefault(qr, SKIP_QUEUE_SET)) {
+        //            Wf.Log.initQueue(this.getClass(), "Qr Skip: {0}", qr.encode());
+        //            // Status Must be in following
+        //            // -- PENDING
+        //            // -- DRAFT
+        //            // -- ACCEPTED
+        //            final JsonObject qrStatus = Ux.whereAnd();
+        //            qrStatus.put(KName.STATUS + ",i", new JsonArray()
+        //                .add(TodoStatus.PENDING.name())
+        //                .add(TodoStatus.ACCEPTED.name())
+        //                .add(TodoStatus.DRAFT.name())
+        //            );
+        //            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
+        //            Wf.Log.initQueue(this.getClass(), "Qr Queue ( Skip ): {0}", qrCombine.encode());
+        //            return Ux.future(qrCombine);
+        //        } else {
+        //            final JsonObject qrQueue = Ux.whereOr();
+        //            // Open By Me
+        //            final JsonObject qrCreate = Ux.whereAnd(KName.Flow.Auditor.OPEN_BY, user)
+        //                .put(KName.STATUS + ",i", new JsonArray()
+        //                    .add(TodoStatus.PENDING.name())
+        //                    .add(TodoStatus.ACCEPTED.name())
+        //                    .add(TodoStatus.DRAFT.name())
+        //                );
+        //            qrQueue.put("$QrC$", qrCreate);
+        //            // Approved By Me
+        //            final JsonObject qrApprove = Ux.whereAnd(KName.Flow.Auditor.TO_USER, user)
+        //                .put(KName.STATUS + ",i", new JsonArray()
+        //                    .add(TodoStatus.PENDING.name())
+        //                );
+        //            qrQueue.put("$QrA", qrApprove);
+        //
+        //            // Divide to AND / OR
+        //            final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrQueue);
+        //            Wf.Log.initQueue(this.getClass(), "Qr Queue: {0}", qrCombine.encode());
+        //            return Ux.future(qrCombine);
+        //        }
     }
 
     @Override
