@@ -217,7 +217,7 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.15.0</camunda.spin.version>
+        <camunda.spin.version>1.16.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.4</camunda.connect.version>
         <camunda.util.version>1.10.1</camunda.util.version>
