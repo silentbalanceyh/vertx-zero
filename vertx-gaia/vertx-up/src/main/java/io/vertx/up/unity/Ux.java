@@ -1130,8 +1130,8 @@ public final class Ux {
         return Atomic.nativeWorker(name, 10);
     }
 
-    public static WorkerExecutor nativeWorker(final String name, final Integer minutes) {
-        return Atomic.nativeWorker(name, minutes);
+    public static <T> Future<T> nativeWorker(final String name, final Handler<Promise<T>> handler) {
+        return Atomic.nativeWorker(name, handler);
     }
 
     // -> Dict for caculation

@@ -1,6 +1,9 @@
 package io.vertx.tp.ke.booter;
 
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Promise;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
@@ -78,21 +81,18 @@ class BtKit {
     }
 
     private static void execute(final String filename, final Handler<AsyncResult<String>> callback) {
-        final WorkerExecutor executor = Ux.nativeWorker(filename);
-        executor.<String>executeBlocking(
-            pre -> {
-                final ExcelClient client = ExcelInfix.createClient();
-                Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
-                client.importAsync(filename, handler -> {
-                    if (handler.succeeded()) {
-                        pre.complete(filename);
-                    } else {
-                        pre.fail(handler.cause());
-                    }
-                });
-            },
-            post -> callback.handle(Future.succeededFuture(post.result()))
-        );
+        final Future<String> future = Ux.nativeWorker(filename, pre -> {
+            final ExcelClient client = ExcelInfix.createClient();
+            Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
+            client.importAsync(filename, handler -> {
+                if (handler.succeeded()) {
+                    pre.complete(filename);
+                } else {
+                    pre.fail(handler.cause());
+                }
+            });
+        });
+        future.onComplete(callback);
     }
 
     static boolean ensure(final String filename) {
