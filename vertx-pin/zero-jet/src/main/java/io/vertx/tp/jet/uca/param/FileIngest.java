@@ -10,6 +10,7 @@ import io.vertx.tp.optic.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.ID;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -33,7 +34,7 @@ class FileIngest implements JtIngest {
          * Stream part processing
          */
         final JsonArray files = new JsonArray();
-        final Set<FileUpload> uploadSet = context.fileUploads();
+        final Set<FileUpload> uploadSet = new HashSet<>(context.fileUploads());
         if (!uploadSet.isEmpty()) {
             /*
              * File Uploading here, this file will be consumed right now

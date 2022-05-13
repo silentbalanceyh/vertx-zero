@@ -1,8 +1,6 @@
 package io.vertx.tp.optic.extension;
 
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
@@ -65,24 +63,18 @@ public class DatumInit implements Init {
     }
 
     private Future<JsonObject> doLoading(final String filename) {
-        final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Ux.nativeWorker(filename);
-        executor.<JsonObject>executeBlocking(
-            pre -> {
-                /* ExcelClient */
-                final ExcelClient client = ExcelInfix.createClient();
-                client.importAsync(filename, result -> {
-                    At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
-                    if (result.succeeded()) {
-                        pre.complete(Ux.outBool(filename, Boolean.TRUE));
-                    } else {
-                        pre.fail(result.cause());
-                    }
-                });
-            },
-            post -> promise.complete(post.result())
-        );
-        return promise.future();
+        return Ux.nativeWorker(filename, pre -> {
+            /* ExcelClient */
+            final ExcelClient client = ExcelInfix.createClient();
+            client.importAsync(filename, result -> {
+                At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
+                if (result.succeeded()) {
+                    pre.complete(Ux.outBool(filename, Boolean.TRUE));
+                } else {
+                    pre.fail(result.cause());
+                }
+            });
+        });
     }
 
     @Override

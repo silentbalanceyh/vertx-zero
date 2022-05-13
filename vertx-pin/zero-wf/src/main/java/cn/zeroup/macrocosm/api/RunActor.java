@@ -163,7 +163,10 @@ public class RunActor {
         return runner.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback
-            .compose(Ux::futureJ);
+            // Fix issue:
+            // No serializer found for class io.vertx.tp.workflow.atom.WRecord
+            // and no properties discovered to create BeanSerializer
+            .compose(WRecord::futureJ);
     }
 
     @Me

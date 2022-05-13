@@ -437,7 +437,13 @@ class AidTodo {
                 return tJq.insertJAsync(combineJ);
             } else {
                 // Existing
-                return tJq.updateAsync(ticket.getKey(), combineJ);
+                /*
+                 * class cn.vertxup.workflow.domain.tables.pojos.TAssetIn cannot be
+                 * cast to class io.vertx.core.json.JsonObject
+                 *
+                 * Here must use updateJAsync
+                 */
+                return tJq.updateJAsync(ticket.getKey(), combineJ);
             }
         }).compose(updated -> {
             // Bind Updated

@@ -2,10 +2,11 @@ package cn.zeroup.macrocosm.api;
 
 import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.zeroup.macrocosm.cv.HighWay;
-import cn.zeroup.macrocosm.service.CondStub;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import cn.zeroup.macrocosm.service.FlowStub;
 import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.workflow.refine.Wf;
@@ -26,8 +27,6 @@ public class QueueActor {
     private transient FlowStub flowStub;
     @Inject
     private transient TaskStub taskStub;
-    @Inject
-    private transient CondStub condStub;
 
     /*
      * The basic qr contains three view:
@@ -50,20 +49,78 @@ public class QueueActor {
      * renamed field:
      * - W_TODO status -> statusT
      * - W_TODO serial -> serialT
+     *
+     * OLD COMMENT:
+     * /*
+     * Get condition of query running
+     * W_TICKET JOINED W_TODO
+     * Here are situations
+     * 1. Default:
+     * -- toUser is my ( For Approval )
+     * -- openBy is my ( For Draft )
+     *
+     * 2. Provide condition
+     *   2.1. User
+     * -- owner
+     * -- supervisor
+     * -- openBy
+     * -- toUser
+     *   2.2. Assignment
+     * -- toDept
+     * -- toTeam
+     * -- toRole
+     * -- toGroup
+     *   2.3. Range Search
+     * -- owner -> Me
+     * -- supervisor -> Me
+     * -- openBy -> Me
+     * -- toUser -> Me
+     * -- toDept -> Employee -> Me ( Nid )
+     * -- toTeam -> Employee -> Me ( Nid )
+     * -- toRole -> Role -> Me ( Nid )
+     * -- toGroup -> Group -> Me ( Nid )
+     *   2.4. Basic Search
+     * -- name + Me
+     * -- code + Me
+     * All the condition could visit to Me, it means that it's not needed to add
+     * assignment person to condition here, but the system should still add condition
+     * of `status = PENDING | ACCEPTED | DRAFT` here
+     *
+     * 3. Basic Condition
+     * -- WTicket, flowEnd = false ( Is Running )
+     * -- WTodo, status
+     *    -- When opened ( PENDING, ACCEPTED, DRAFT )
+     *    -- When approved ( PENDING, ACCEPTED )
+     *
+     * The code logical is as following
+     * 1) When condition provided, DEFAULT
+     * 2) When condition contains value ( Not Empty ), User/Assignment
+     * History Queue based on WTicket
+     * - flowEnd = true
+     * - WTicket is ok to display in the done queue
      */
     @Address(HighWay.Queue.TASK_QUEUE)
-    public Future<JsonObject> fetchQueue(final JsonObject qr, final User user) {
-        final String userId = Ux.keyUser(user);
-        return this.condStub.qrQueue(qr, userId)
-            .compose(this.taskStub::fetchQueue);
+    public Future<JsonObject> fetchQueue(final JsonObject qr) {
+        Wf.Log.initQueue(this.getClass(), "Qr Queue Input: {0}", qr.encode());
+        // Status Must be in following
+        // -- PENDING
+        // -- DRAFT
+        // -- ACCEPTED
+        final JsonObject qrStatus = Ux.whereAnd();
+        qrStatus.put(KName.STATUS + ",i", new JsonArray()
+            .add(TodoStatus.PENDING.name())
+            .add(TodoStatus.ACCEPTED.name())
+            .add(TodoStatus.DRAFT.name())
+        );
+        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
+        Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
+        return this.taskStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)
     }
 
 
     @Address(HighWay.Queue.TICKET_HISTORY)
-    public Future<JsonObject> fetchHistory(final JsonObject qr, final User user) {
-        final String userId = Ux.keyUser(user);
-        return this.condStub.qrHistory(qr, userId)
-            .compose(this.taskStub::fetchHistory);
+    public Future<JsonObject> fetchHistory(final JsonObject qr) {
+        return this.taskStub.fetchHistory(qr);
     }
 
     @Address(HighWay.Flow.BY_CODE)
