@@ -147,6 +147,12 @@ class AidTodo {
     static WRecord nextJ(final WRecord record, final WProcess wProcess) {
         // Todo New
         final JsonObject newJson = record.data();
+        {
+            // toUser -> acceptedBy
+            final String toUser = newJson.getString(KName.Flow.Auditor.TO_USER);
+            newJson.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
+            newJson.remove(KName.Flow.Auditor.TO_USER);
+        }
         final WTodo todo = record.todo();
         final WTicket ticket = record.ticket();
         WTodo entity = Ux.fromJson(newJson, WTodo.class);
@@ -190,7 +196,7 @@ class AidTodo {
     }
 
     // ------------- Generate Operation ----------------------
-    Future<WRecord> generateAsync(final JsonObject params, final WRecord record) {
+    Future<WRecord> generateAsync(final WRecord record) {
         return Ux.Jooq.on(WTicketDao.class).updateAsync(record.ticket())
             .compose(ticket -> Ux.Jooq.on(WTodoDao.class).insertAsync(record.todo())
                 .compose(nil -> Ux.future(record)));

@@ -28,14 +28,14 @@ public class DivertUser extends AbstractDivert {
             final Task task = process.task();
             final WMove move = this.rule(task.getTaskDefinitionKey());
             move.stored(request.request());
-            next.bind(task).bind(move).bind(process.instance());
+            next.bind(process.taskNext()).bind(move).bind(process.instance());
         }
         // Record and instance
-        final WRecord generated = AidTodo.nextJ(request.record(), process);
+        final WRecord generated = AidTodo.nextJ(request.record(), next);
         // TodoKit generateAsync
         final JsonObject params = request.request();
         return Objects.requireNonNull(this.todoKit)
-            .generateAsync(params, generated)
+            .generateAsync(generated)
             .compose(record -> Objects.requireNonNull(this.linkageKit)
                 .syncAsync(params, record)
             );

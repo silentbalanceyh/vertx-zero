@@ -33,38 +33,42 @@ public class AclService implements AclStub {
             final JsonObject edition = new JsonObject();
 
 
-            /*
-             * Rule 1:
-             * 1. - openBy `userId`
-             * 2. - status = `DRAFT` ( Draft Version )
-             */
             final WTicket ticket = record.ticket();
-            if (userId.equals(ticket.getOpenBy())) {
-                // Draft Edit
-                edition.put(KName.EDITION, TodoStatus.DRAFT == todoStatus);
+
+            if (TodoStatus.DRAFT == todoStatus ||
+                TodoStatus.REJECTED == todoStatus ||
+                TodoStatus.REDO == todoStatus) {
+                /*
+                 * Draft Edit
+                 * Any one can edit the ticket information here
+                 * It means that the edition is true when status is `draft`
+                 *
+                 * 1) Edit my ticket
+                 * 2) Edit other's ticket
+                 */
+                edition.put(KName.EDITION, Boolean.TRUE);
             } else {
+                /*
+                 * Non Draft Edit
+                 * You can edit the information of any
+                 *
+                 * 1) The submitter edit the information
+                 * 2) The approval user edit the information
+                 */
                 // OpenBy != toUser
-                if (userId.equals(todo.getToUser()) && TodoStatus.PENDING == todoStatus) {
-                    // OpenBy == toUser ( Part Edition )
-                    final JsonObject fields = new JsonObject();
-                    this.approveEdition(fields);
-                    edition.put(KName.EDITION, fields);
+                if (userId.equals(todo.getAcceptedBy())) {
+                    // OpenBy == acceptedBy ( Part Edition )
+                    edition.put(KName.EDITION, Boolean.TRUE);
                 } else {
-                    // View Only OpenBy != toUser ( Disabled )
-                    edition.put(KName.EDITION, Boolean.FALSE);
+                    // View Only OpenBy != acceptedBy ( Disabled )
+                    // Could not do any information of `confirmed/confirmedDesc`
+                    final JsonObject fields = new JsonObject();
+                    fields.put("confirmed", Boolean.FALSE);
+                    fields.put("confirmedDesc", Boolean.FALSE);
+                    edition.put(KName.READ_ONLY, fields);
                 }
             }
             return Ux.futureJ(edition);
         }
-    }
-
-    private void approveEdition(final JsonObject fields) {
-        fields.put(KName.Flow.COMMENT_APPROVAL, Boolean.TRUE);
-        fields.put(KName.Flow.COMMENT_REJECT, Boolean.TRUE);
-        // toUser
-        fields.put(KName.Flow.Auditor.TO_USER, Boolean.TRUE);
-        fields.put(KName.Flow.CLOSE_CODE, Boolean.TRUE);
-        fields.put(KName.Flow.CLOSE_KB, Boolean.TRUE);
-        fields.put(KName.Flow.CLOSE_SOLUTION, Boolean.TRUE);
     }
 }
