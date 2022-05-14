@@ -109,8 +109,6 @@ public class QueueActor {
         final JsonObject qrStatus = Ux.whereAnd();
         qrStatus.put(KName.STATUS + ",i", new JsonArray()
             .add(TodoStatus.PENDING.name())
-            .add(TodoStatus.REDO.name())        // Redo,   Send the ticket back
-            .add(TodoStatus.REJECTED.name())    // Reject, Reject the ticket for future
             .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
             .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
         );

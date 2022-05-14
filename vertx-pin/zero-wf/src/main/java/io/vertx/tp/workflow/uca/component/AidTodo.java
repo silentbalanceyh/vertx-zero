@@ -204,7 +204,9 @@ class AidTodo {
             final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
             entity = Ux.updateT(entity, todoUpdate);
         }
-        return WRecord.create(true, ChangeFlag.UPDATE).bind(ticket).bind(entity);
+        return WRecord.create(true, ChangeFlag.UPDATE)
+            .prev(record)   // Fix $zo has no value here
+            .bind(ticket).bind(entity);
     }
 
     private static JsonObject parseValue(final JsonObject tpl, final JsonObject data) {
