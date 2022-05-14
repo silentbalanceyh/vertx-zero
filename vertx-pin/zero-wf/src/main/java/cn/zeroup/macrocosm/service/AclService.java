@@ -1,6 +1,5 @@
 package cn.zeroup.macrocosm.service;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
@@ -31,9 +30,6 @@ public class AclService implements AclStub {
             final WTodo todo = record.todo();
             final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
             final JsonObject edition = new JsonObject();
-
-
-            final WTicket ticket = record.ticket();
 
             if (TodoStatus.DRAFT == todoStatus ||
                 TodoStatus.REJECTED == todoStatus ||
