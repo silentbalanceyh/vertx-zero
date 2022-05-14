@@ -44,4 +44,9 @@ public interface RunAgent {
     @Path("/up/flow/cancel")
     @Address(HighWay.Do.FLOW_CANCEL)
     JsonObject cancel(@BodyParam JsonObject body);
+
+    @PUT
+    @Path("/up/flow/close")
+    @Address(HighWay.Do.FLOW_CLOSE)
+    JsonObject close(@BodyParam JsonObject body);
 }

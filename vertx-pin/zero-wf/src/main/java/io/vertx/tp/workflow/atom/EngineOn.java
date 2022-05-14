@@ -86,6 +86,10 @@ public class EngineOn {
         return this.component(StayCancel.class, null);
     }
 
+    public Stay stayClose() {
+        return this.component(StayClose.class, null);
+    }
+
     // ----------------------- Private Method -------------------------
     private Transfer componentGenerateStandard() {
         return this.component(TransferStandard.class, this.workflow.getGenerateComponent());

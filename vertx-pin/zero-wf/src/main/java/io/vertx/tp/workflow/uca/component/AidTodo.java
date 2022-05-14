@@ -83,6 +83,17 @@ class AidTodo {
      * }
      */
     static JsonObject cancelJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
+        return endJ(params, wProcess, historySet, TodoStatus.CANCELED);
+    }
+
+    static JsonObject closeJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
+        return endJ(params, wProcess, historySet, TodoStatus.FINISHED);
+    }
+
+    private static JsonObject endJ(final JsonObject params,
+                                   final WProcess wProcess,
+                                   final Set<String> historySet,
+                                   final TodoStatus status) {
         final JsonObject todoData = params.copy();
         final String user = todoData.getString(KName.UPDATED_BY);
         /*
@@ -100,7 +111,7 @@ class AidTodo {
             final JsonObject history = new JsonObject();
             history.put(KName.HISTORY, Ut.toJArray(traceSet));
             // todoData.put(KName.Flow.TRACE_EXTRA, history.encode());
-            todoData.put(KName.STATUS, TodoStatus.CANCELED.name());
+            todoData.put(KName.STATUS, status.name());
             todoData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
             todoData.put(KName.Flow.Auditor.FINISHED_BY, user);
             todoData.put(KName.Flow.FLOW_END, Boolean.TRUE);

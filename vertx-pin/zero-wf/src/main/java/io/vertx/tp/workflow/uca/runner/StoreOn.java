@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
@@ -41,5 +42,5 @@ public interface StoreOn {
 
     Future<JsonObject> formGet(ProcessDefinition definition, ProcessInstance instance);
 
-    Future<Boolean> instanceEnd(ProcessInstance instance);
+    Future<Boolean> instanceEnd(ProcessInstance instance, TodoStatus status);
 }

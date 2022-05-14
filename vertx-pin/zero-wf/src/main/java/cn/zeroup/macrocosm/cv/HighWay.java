@@ -45,6 +45,9 @@ public interface HighWay {
 
         // Cancel for workflow instance
         String FLOW_CANCEL = KeIpc.Workflow.EVENT + "WORKFLOW/CANCEL";
+
+        // Close for workflow instance
+        String FLOW_CLOSE = KeIpc.Workflow.EVENT + "WORKFLOW/CLOSE";
     }
 
     /*
