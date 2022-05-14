@@ -28,12 +28,20 @@ final class VsJsonArray extends AbstractSame {
                  */
                 return Boolean.FALSE;
             } else {
-                final Set<String> diffSet = this.fieldType.ruleUnique();
-                return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
-                    final JsonObject checkedNew = Ut.elementSubset(jsonNew, diffSet);
-                    final JsonObject checkedOld = Ut.elementSubset(jsonOld, diffSet);
-                    return checkedNew.equals(checkedOld);
-                }));
+                /*
+                 * java.lang.NullPointerException
+                 * at io.vertx.up.uca.compare.VsJsonArray.isAnd(VsJsonArray.java:31)
+                 */
+                if (Objects.isNull(this.fieldType)) {
+                    return Objects.equals(valueOld, valueNew);
+                } else {
+                    final Set<String> diffSet = this.fieldType.ruleUnique();
+                    return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
+                        final JsonObject checkedNew = Ut.elementSubset(jsonNew, diffSet);
+                        final JsonObject checkedOld = Ut.elementSubset(jsonOld, diffSet);
+                        return checkedNew.equals(checkedOld);
+                    }));
+                }
             }
         } else {
             return valueOStr.equals(valueNStr);
