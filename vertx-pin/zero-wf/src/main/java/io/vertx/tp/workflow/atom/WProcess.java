@@ -91,10 +91,11 @@ public class WProcess {
     public Future<Task> taskActive() {
         final EventOn event = EventOn.get();
         return event.taskActive(this.instance).compose(taskThen -> {
-            if (Objects.nonNull(this.task)) {
+            if (Objects.nonNull(this.task) && Objects.nonNull(taskThen)) {
                 /*
                  * Task & TaskThen are different, it means that there exist
                  * workflow moving operation.
+                 * if `TaskThen` is null, it means that workflow has been finished
                  */
                 if (!this.task.getId().equals(taskThen.getId())) {
                     this.taskNext = taskThen;

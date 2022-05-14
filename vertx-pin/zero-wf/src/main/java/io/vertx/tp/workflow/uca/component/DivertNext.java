@@ -38,6 +38,7 @@ public class DivertNext extends AbstractDivert {
             .compose(task -> {
                 // WMove Get
                 final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
+                process.bind(move);
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 return runOn.moveAsync(instance, move);
