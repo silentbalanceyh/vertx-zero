@@ -60,7 +60,7 @@ public class AclService implements AclStub {
                     // View Only OpenBy != acceptedBy ( Disabled )
                     // Could not do any information of `confirmed/confirmedDesc`
                     final JsonArray fields = new JsonArray();
-                    fields.add("confirmed");
+                    fields.add("confirmedOk");
                     fields.add("confirmedDesc");
                     edition.put(KName.READ_ONLY, fields);
                 }
