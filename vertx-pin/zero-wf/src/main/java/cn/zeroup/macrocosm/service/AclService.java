@@ -3,6 +3,7 @@ package cn.zeroup.macrocosm.service;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.up.eon.KName;
@@ -58,9 +59,9 @@ public class AclService implements AclStub {
                 } else {
                     // View Only OpenBy != acceptedBy ( Disabled )
                     // Could not do any information of `confirmed/confirmedDesc`
-                    final JsonObject fields = new JsonObject();
-                    fields.put("confirmed", Boolean.FALSE);
-                    fields.put("confirmedDesc", Boolean.FALSE);
+                    final JsonArray fields = new JsonArray();
+                    fields.add("confirmed");
+                    fields.add("confirmedDesc");
                     edition.put(KName.READ_ONLY, fields);
                 }
             }
