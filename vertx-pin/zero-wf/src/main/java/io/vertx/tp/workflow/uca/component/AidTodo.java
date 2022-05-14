@@ -68,7 +68,8 @@ class AidTodo {
         // Todo based on previous
         final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
-            updatedData.mergeIn(rule.getTodo());
+            final JsonObject parsed = parseValue(rule.getTodo(), params);
+            updatedData.mergeIn(parsed);
         }
         return updatedData;
     }
@@ -200,10 +201,29 @@ class AidTodo {
         }
         final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule)) {
-            final JsonObject todoUpdate = rule.getTodo();
+            final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
             entity = Ux.updateT(entity, todoUpdate);
         }
         return WRecord.create(true, ChangeFlag.UPDATE).bind(ticket).bind(entity);
+    }
+
+    private static JsonObject parseValue(final JsonObject tpl, final JsonObject data) {
+        final JsonObject normalized = new JsonObject();
+        tpl.fieldNames().forEach(field -> {
+            final Object value = tpl.getValue(field);
+            if (value instanceof String) {
+                final String valueStr = (String) value;
+                if (valueStr.contains("`")) {
+                    final String formatted = Ut.fromExpression(valueStr, data);
+                    normalized.put(field, formatted);
+                } else {
+                    normalized.put(field, value);
+                }
+            } else {
+                normalized.put(field, value);
+            }
+        });
+        return normalized;
     }
 
     // ------------- Generate Operation ----------------------
