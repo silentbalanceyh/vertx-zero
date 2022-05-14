@@ -170,9 +170,9 @@ class StoreEngine implements StoreOn {
     }
 
     @Override
-    public Future<Boolean> instanceEnd(final ProcessInstance instance) {
+    public Future<Boolean> instanceEnd(final ProcessInstance instance, final TodoStatus status) {
         final RuntimeService service = WfPin.camundaRuntime();
-        service.deleteProcessInstanceIfExists(instance.getId(), TodoStatus.CANCELED.name(),
+        service.deleteProcessInstanceIfExists(instance.getId(), status.name(),
             false, false, false, false);
         return Ux.futureT();
     }

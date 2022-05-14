@@ -158,7 +158,25 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
-        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        Wf.Log.infoWeb(this.getClass(), "( Cancel ) Stay = {0}", stay.getClass());
+        final Movement runner = engine.environmentPre();
+        return runner.moveAsync(request)
+            .compose(instance -> stay.keepAsync(request, instance))
+            // Callback
+            // Fix issue:
+            // No serializer found for class io.vertx.tp.workflow.atom.WRecord
+            // and no properties discovered to create BeanSerializer
+            .compose(WRecord::futureJ);
+    }
+
+    @Me
+    @Address(HighWay.Do.FLOW_CLOSE)
+    public Future<JsonObject> close(final JsonObject data) {
+        final WRequest request = new WRequest(data);
+        final EngineOn engine = EngineOn.connect(request);
+        // ProcessDefinition
+        final Stay stay = engine.stayClose();
+        Wf.Log.infoWeb(this.getClass(), "( Close ) Stay = {0}", stay.getClass());
         final Movement runner = engine.environmentPre();
         return runner.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))

@@ -68,7 +68,8 @@ class AidTodo {
         // Todo based on previous
         final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
-            updatedData.mergeIn(rule.getTodo());
+            final JsonObject parsed = parseValue(rule.getTodo(), params);
+            updatedData.mergeIn(parsed);
         }
         return updatedData;
     }
@@ -83,6 +84,17 @@ class AidTodo {
      * }
      */
     static JsonObject cancelJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
+        return endJ(params, wProcess, historySet, TodoStatus.CANCELED);
+    }
+
+    static JsonObject closeJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
+        return endJ(params, wProcess, historySet, TodoStatus.FINISHED);
+    }
+
+    private static JsonObject endJ(final JsonObject params,
+                                   final WProcess wProcess,
+                                   final Set<String> historySet,
+                                   final TodoStatus status) {
         final JsonObject todoData = params.copy();
         final String user = todoData.getString(KName.UPDATED_BY);
         /*
@@ -100,7 +112,7 @@ class AidTodo {
             final JsonObject history = new JsonObject();
             history.put(KName.HISTORY, Ut.toJArray(traceSet));
             // todoData.put(KName.Flow.TRACE_EXTRA, history.encode());
-            todoData.put(KName.STATUS, TodoStatus.CANCELED.name());
+            todoData.put(KName.STATUS, status.name());
             todoData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
             todoData.put(KName.Flow.Auditor.FINISHED_BY, user);
             todoData.put(KName.Flow.FLOW_END, Boolean.TRUE);
@@ -147,6 +159,12 @@ class AidTodo {
     static WRecord nextJ(final WRecord record, final WProcess wProcess) {
         // Todo New
         final JsonObject newJson = record.data();
+        {
+            // toUser -> acceptedBy
+            final String toUser = newJson.getString(KName.Flow.Auditor.TO_USER);
+            newJson.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
+            newJson.remove(KName.Flow.Auditor.TO_USER);
+        }
         final WTodo todo = record.todo();
         final WTicket ticket = record.ticket();
         WTodo entity = Ux.fromJson(newJson, WTodo.class);
@@ -183,14 +201,35 @@ class AidTodo {
         }
         final WMoveRule rule = wProcess.ruleFind();
         if (Objects.nonNull(rule)) {
-            final JsonObject todoUpdate = rule.getTodo();
+            final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
             entity = Ux.updateT(entity, todoUpdate);
         }
-        return WRecord.create(true, ChangeFlag.UPDATE).bind(ticket).bind(entity);
+        return WRecord.create(true, ChangeFlag.UPDATE)
+            .prev(record)   // Fix $zo has no value here
+            .bind(ticket).bind(entity);
+    }
+
+    private static JsonObject parseValue(final JsonObject tpl, final JsonObject data) {
+        final JsonObject normalized = new JsonObject();
+        tpl.fieldNames().forEach(field -> {
+            final Object value = tpl.getValue(field);
+            if (value instanceof String) {
+                final String valueStr = (String) value;
+                if (valueStr.contains("`")) {
+                    final String formatted = Ut.fromExpression(valueStr, data);
+                    normalized.put(field, formatted);
+                } else {
+                    normalized.put(field, value);
+                }
+            } else {
+                normalized.put(field, value);
+            }
+        });
+        return normalized;
     }
 
     // ------------- Generate Operation ----------------------
-    Future<WRecord> generateAsync(final JsonObject params, final WRecord record) {
+    Future<WRecord> generateAsync(final WRecord record) {
         return Ux.Jooq.on(WTicketDao.class).updateAsync(record.ticket())
             .compose(ticket -> Ux.Jooq.on(WTodoDao.class).insertAsync(record.todo())
                 .compose(nil -> Ux.future(record)));

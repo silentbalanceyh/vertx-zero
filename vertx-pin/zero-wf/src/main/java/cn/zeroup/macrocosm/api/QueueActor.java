@@ -109,8 +109,8 @@ public class QueueActor {
         final JsonObject qrStatus = Ux.whereAnd();
         qrStatus.put(KName.STATUS + ",i", new JsonArray()
             .add(TodoStatus.PENDING.name())
-            .add(TodoStatus.ACCEPTED.name())
-            .add(TodoStatus.DRAFT.name())
+            .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
+            .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
         );
         final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
         Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());

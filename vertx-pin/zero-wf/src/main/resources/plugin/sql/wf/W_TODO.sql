@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS W_TODO
     /*
      * 任务三个主体：
      * 1. 指派人
-     * 2. 接收人
+     * 2. 接收人（当前处理人）
      * 3. 完成人
      */
     `ASSIGNED_BY`      VARCHAR(36) COMMENT '「assignedBy」- 待办指派人', -- 指派人

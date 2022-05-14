@@ -184,6 +184,7 @@ public interface KName {
     String OWNER = "owner";                      /* Workflow: owner */
     String HISTORY = "history";                  /* Workflow: history */
     String EDITION = "edition";
+    String READ_ONLY = "readOnly";
 
     String SIZE = "size";                        /* XAttachment, Size Attribute */
     String MIME = "mime";                        /* XAttachment, Web Flow mime processing */
@@ -235,6 +236,7 @@ public interface KName {
         String INPUT = "__" + KName.INPUT;           /* __input for input original data */
         String USER = "__" + KName.USER;             /* __user for user extraction */
         String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
+        String ACL = "__" + Flow.ACL;                /* __acl */
     }
 
     interface Attachment {
@@ -464,7 +466,7 @@ public interface KName {
                 this.add(Auditor.OPEN_BY);       // Open By
                 this.add(Auditor.FINISHED_BY);   // Finished By
                 this.add(Auditor.ASSIGNED_BY);   // Assigned By
-                this.add(Auditor.ACCEPTED_BY);   // Accdpted By
+                this.add(Auditor.ACCEPTED_BY);   // accepted By
             }
         };
 

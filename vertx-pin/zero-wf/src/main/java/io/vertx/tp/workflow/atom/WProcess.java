@@ -16,6 +16,7 @@ import java.util.Objects;
 public class WProcess {
     private transient ProcessInstance instance;
     private transient Task task;
+    private transient Task taskNext;
     private transient WMove move;
     /*
      * Bind based on request
@@ -47,7 +48,6 @@ public class WProcess {
     public Future<ProcessInstance> future(final ProcessInstance instance) {
         this.instance = instance;
         if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
-
 
             /*
              * Get the first task of Active after process
@@ -90,11 +90,27 @@ public class WProcess {
      */
     public Future<Task> taskActive() {
         final EventOn event = EventOn.get();
-        return event.taskActive(this.instance);
+        return event.taskActive(this.instance).compose(taskThen -> {
+            if (Objects.nonNull(this.task) && Objects.nonNull(taskThen)) {
+                /*
+                 * Task & TaskThen are different, it means that there exist
+                 * workflow moving operation.
+                 * if `TaskThen` is null, it means that workflow has been finished
+                 */
+                if (!this.task.getId().equals(taskThen.getId())) {
+                    this.taskNext = taskThen;
+                }
+            }
+            return Ux.future(this.taskNext);
+        });
     }
 
     public Task task() {
         return this.task;
+    }
+
+    public Task taskNext() {
+        return this.taskNext;
     }
 
     public WMoveRule ruleFind() {

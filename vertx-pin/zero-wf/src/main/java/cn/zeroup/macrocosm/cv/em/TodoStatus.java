@@ -71,6 +71,8 @@ public enum TodoStatus {
     FINISHED,
     // Reject by user
     REJECTED,
+    // Back by user
+    REDO,
     // Cancelled by user or other reason
     CANCELED,
     // Expired by system
