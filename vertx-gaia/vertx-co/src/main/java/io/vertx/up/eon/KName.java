@@ -466,7 +466,7 @@ public interface KName {
                 this.add(Auditor.OPEN_BY);       // Open By
                 this.add(Auditor.FINISHED_BY);   // Finished By
                 this.add(Auditor.ASSIGNED_BY);   // Assigned By
-                this.add(Auditor.ACCEPTED_BY);   // Accdpted By
+                this.add(Auditor.ACCEPTED_BY);   // accepted By
             }
         };
 
