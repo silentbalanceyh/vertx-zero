@@ -67,7 +67,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
             final AspectSwitcher aspect = new AspectSwitcher(atom, this.options(), this.fabric(atom));
             return aspect.run(input, processed -> {
                 final Apt created = HDiff.createApt(apt, input, this.diffKey());
-                created.set(processed);
+                created.set(processed.copy());
                 return this.transferAsync(created, request, atom);
             });
         }));
