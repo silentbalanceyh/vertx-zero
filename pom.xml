@@ -57,9 +57,9 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.13.2</jackson.version>
-        <jackson.databind.version>2.13.2.2</jackson.databind.version>
-        <jackson.extension.version>2.13.2</jackson.extension.version>
+        <jackson.version>2.13.3</jackson.version>
+        <jackson.databind.version>2.13.3</jackson.databind.version>
+        <jackson.extension.version>2.13.3</jackson.extension.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -177,7 +177,7 @@
 
         <!-- AspectJ -->
         <aspectj.version>1.9.9.1</aspectj.version>
-        <javassist.version>3.28.0-GA</javassist.version>
+        <javassist.version>3.29.0-GA</javassist.version>
         <mdoclet.version>1.4</mdoclet.version>
 
         <!-- Logging -->
