@@ -26,8 +26,13 @@ import java.util.Set;
 public interface Attachment {
     /*
      * 1. Create Attachment Directly
+     * 2. Create Attachment by calculation, here are content of calculation:
+     * -  directory -> directoryId
+     *    Parsing the expression of directory with `params` instead of uploading
      */
     Future<JsonArray> uploadAsync(JsonArray data);
+
+    Future<JsonArray> uploadAsync(JsonArray data, JsonObject params);
 
     /*
      * 1. Remove Original By condition

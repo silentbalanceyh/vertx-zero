@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `I_DIRECTORY`;
 CREATE TABLE `I_DIRECTORY`
 (
     `KEY`             VARCHAR(36) COMMENT '「key」- 目录主键',
-    `NAME`            VARCHAR(32)  NOT NULL COMMENT '「name」- 目录名称',
+    `NAME`            VARCHAR(255) NOT NULL COMMENT '「name」- 目录名称',
     `CODE`            VARCHAR(255) NOT NULL COMMENT '「code」- 目录编号',
 
     -- 目录全名
@@ -18,7 +18,7 @@ CREATE TABLE `I_DIRECTORY`
      * 关于文件路径 / 目录路径的计算流程
      */
     `STORE_PATH`      VARCHAR(512) COMMENT '「storePath」- 目录相对路径',
-    `LINKED_PATH`     VARCHAR(521) COMMENT '「linkedPath」- 链接路径，type = LINK 时专用',
+    `LINKED_PATH`     VARCHAR(512) COMMENT '「linkedPath」- 链接路径，type = LINK 时专用',
     `PARENT_ID`       VARCHAR(36) COMMENT '「parentId」- 父目录ID',
     `CATEGORY`        VARCHAR(36) COMMENT '「category」- 目录连接的类型树',
 

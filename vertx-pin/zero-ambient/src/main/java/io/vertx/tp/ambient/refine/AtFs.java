@@ -37,8 +37,6 @@ class AtFs {
             return Ux.future(Buffer.buffer());
         } else {
             return splitRun(attachment, (directoryId, fileMap) -> Ux.channel(ExIo.class, Buffer::buffer,
-
-
                 // Call ExIo `fsDownload`
                 io -> io.fsDownload(directoryId, fileMap)
             ));
@@ -102,6 +100,18 @@ class AtFs {
                 io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
             )));
         }
+    }
+
+    /*
+     * Here are file upload for directory calculation
+     * 1) directory processing first
+     * 2) directory generation with ExIo class
+     * 3) Add the new information ( directoryId ) into each attachment.
+     */
+    static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
+        final String directory = Ut.valueString(attachment, KName.DIRECTORY);
+
+        return Ux.futureA();
     }
 
     private static <T> Future<T> splitRun(

@@ -1,0 +1,72 @@
+{
+    "file": [
+        {
+            "size": 342333,
+            "filePath": "file-uploads/0b5389da-e791-46b2-add0-7aaaa4d7e284",
+            "fileKey": "hbcEVbOUUkf5YjOEcIPTdTU5pxw30unys0ime4jeZC7ea6MCWjP7y2FRuWgsfVzS",
+            "modelId": "x.notice",
+            "fileName": "01.data.mining",
+            "modelCategory": null,
+            "name": "01.data.mining.pdf",
+            "directory": "`/xc/系统文档/公告文档/${name}`",
+            "storeWay": "FILE",
+            "updatedAt": "2022-05-16T11:44:43.486452Z",
+            "metadata": {},
+            "uid": "rc-upload-1652701475436-2",
+            "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+            "status": "DONE",
+            "fileUrl": "/api/file/download/c49bc07e-9105-48fa-a88a-f78b76a78df9",
+            "mime": "application/pdf",
+            "sizeUi": "334.31KB",
+            "language": "cn",
+            "type": "application/pdf",
+            "createdAt": "2022-05-16T11:44:43.486452Z",
+            "extension": "pdf",
+            "createdBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+            "key": "c49bc07e-9105-48fa-a88a-f78b76a78df9",
+            "modelKey": "ee333a04-3a02-4458-be2d-6ed1d5c1e298"
+        }
+    ],
+    "params": {
+        "appId": "6c2a902b-db2c-4041-9ffa-07f836635bc4",
+        "type": "HOME",
+        "name": "AAAA",
+        "status": "FINISHED",
+        "files": [
+            {
+                "size": 342333,
+                "filePath": "file-uploads/eab9abe7-b957-428f-a168-08085522a860",
+                "fileKey": "9BD1XABwkXo88URgO2IOt3gy9WVo464WgKlbH7f1JYQ1Qa7YldSoutDDNuKPdZEG",
+                "modelId": "x.notice",
+                "fileName": "01.data.mining",
+                "modelCategory": null,
+                "name": "01.data.mining.pdf",
+                "directory": null,
+                "storeWay": "FILE",
+                "updatedAt": "2022-05-16T10:38:57.342820Z",
+                "metadata": {},
+                "uid": "rc-upload-1652697519564-2",
+                "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+                "status": "DONE",
+                "fileUrl": "/api/file/download/f9ea22aa-6ebf-4474-8a3e-0575b8723568",
+                "mime": "application/pdf",
+                "sizeUi": "334.31KB",
+                "language": "cn",
+                "type": "application/pdf",
+                "createdAt": "2022-05-16T10:38:57.342820Z",
+                "extension": "pdf",
+                "createdBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+                "key": "f9ea22aa-6ebf-4474-8a3e-0575b8723568",
+                "modelKey": "bb7aa525-33a4-4084-a857-be63b8be9446"
+            }
+        ],
+        "language": "cn",
+        "active": true,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "key": "bb7aa525-33a4-4084-a857-be63b8be9446",
+        "createdBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "createdAt": "2022-05-16T10:38:59.007495Z",
+        "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+        "updatedAt": "2022-05-16T10:38:59.007675Z"
+    }
+}

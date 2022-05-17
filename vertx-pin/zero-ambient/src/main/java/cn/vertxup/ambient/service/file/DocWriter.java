@@ -32,6 +32,16 @@ public class DocWriter implements DocWStub {
 
     @Override
     public Future<JsonArray> upload(final JsonArray documentA) {
+        /*
+         * This method is used in document management only, it means that
+         * the document management will put required field `directory` instead of
+         * other field to linkage directory here.
+         *
+         * This directory will be parsed in AtFs instead of other method to be sure all
+         * the directoryId be valid, if the directoryId is invalid, the system will not
+         * move the files to actual storage, instead the template file storage will take
+         * place.
+         */
         return Ux.channel(Attachment.class, () -> documentA, file -> file.uploadAsync(documentA));
     }
 

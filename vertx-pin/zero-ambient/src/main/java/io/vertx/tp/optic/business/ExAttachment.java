@@ -32,13 +32,19 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> uploadAsync(final JsonArray data) {
-        Ut.ifStrings(data, KName.METADATA);
-        final List<XAttachment> attachments = Ux.fromJson(data, XAttachment.class);
-        return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
+        return this.uploadAsync(data, null);
+    }
 
-            // ExIo -> Call ExIo to impact actual file system ( Store )
-            .compose(At::fileUpload)
-            .compose(this::outAsync);
+    @Override
+    public Future<JsonArray> uploadAsync(final JsonArray data, final JsonObject params) {
+        return At.fileDir(data, params).compose(normalized -> {
+            final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
+            return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
+
+                // ExIo -> Call ExIo to impact actual file system ( Store )
+                .compose(At::fileUpload)
+                .compose(this::outAsync);
+        });
     }
 
     @Override
