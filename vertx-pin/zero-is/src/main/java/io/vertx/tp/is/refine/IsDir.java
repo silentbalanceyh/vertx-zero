@@ -6,8 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.cv.IsFolder;
-import io.vertx.tp.is.uca.command.FsDefault;
-import io.vertx.tp.is.uca.command.FsReadOnly;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -323,22 +321,17 @@ class IsDir {
                 created.setUpdatedBy(updatedBy);
 
                 // ACL Modification Rule
-                /*
-                 * visitMode should be converted to ["r", "w"]
-                 * instead of ["r"]
-                 */
-                final JsonArray visitMode = Ut.toJArray(parent.getVisitMode());
-                if (!visitMode.contains(KName.Attachment.W)) {
-                    visitMode.add(KName.Attachment.W);
-                    created.setVisitMode(visitMode.encode());
-                }
-                if (visitMode.contains(KName.Attachment.W)) {
-                    // Switch Fs Part conversation
-                    final String componentCls = parent.getRunComponent();
-                    if (componentCls.equals(FsReadOnly.class.getName())) {
-                        created.setRunComponent(FsDefault.class.getName());
-                    }
-                }
+                //                final JsonArray visitMode = Ut.toJArray(parent.getVisitMode());
+                //                if (!visitMode.contains(KName.Attachment.W)) {
+                //                    visitMode.add(KName.Attachment.W);
+                //                    created.setVisitMode(visitMode.encode());
+                //                }
+                //                if (visitMode.contains(KName.Attachment.W)) {
+                //                    final String componentCls = parent.getRunComponent();
+                //                    if (componentCls.equals(FsReadOnly.class.getName())) {
+                //                        created.setRunComponent(FsDefault.class.getName());
+                //                    }
+                //                }
 
                 // name / code / storePath
                 final String storePath = params.getString(KName.STORE_PATH);
