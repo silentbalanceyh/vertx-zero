@@ -15,9 +15,9 @@ class CFilePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Ix.fileFn(in, (criteria, dataArray) -> Ux.channel(
-            Attachment.class,                       // Component
-            JsonArray::new,                     // JsonArray Data
-            file -> file.uploadAsync(dataArray) // Execution Logical
+            Attachment.class,                           // Component
+            JsonArray::new,                             // JsonArray Data
+            file -> file.uploadAsync(dataArray, data)   // Execution Logical
         )).apply(data);
     }
 }

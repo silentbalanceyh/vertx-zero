@@ -17,7 +17,7 @@ class UFilePre implements Pre {
         return Ix.fileFn(in, (criteria, dataArray) -> Ux.channel(
             Attachment.class,                               // Component
             JsonArray::new,                             // JsonArray Data
-            file -> file.saveAsync(criteria, dataArray) // Execution Logical
+            file -> file.saveAsync(criteria, dataArray, data) // Execution Logical
         )).apply(data);
     }
 }

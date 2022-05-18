@@ -37,8 +37,6 @@ class AtFs {
             return Ux.future(Buffer.buffer());
         } else {
             return splitRun(attachment, (directoryId, fileMap) -> Ux.channel(ExIo.class, Buffer::buffer,
-
-
                 // Call ExIo `fsDownload`
                 io -> io.fsDownload(directoryId, fileMap)
             ));
@@ -102,6 +100,44 @@ class AtFs {
                 io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
             )));
         }
+    }
+
+    /*
+     * Here are file upload for directory calculation
+     * 1) directory processing first
+     * 2) directory generation with ExIo class
+     * 3) Add the new information ( directoryId ) into each attachment.
+     */
+    static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
+        final String directory = Ut.valueString(attachment, KName.DIRECTORY);
+        /*
+         *  String parsing on `directory` for final processing
+         */
+        final String storePath;
+        if (directory.contains("`")) {
+            storePath = Ut.fromExpression(directory, params);
+        } else {
+            storePath = directory;
+        }
+        final JsonObject input = new JsonObject();
+        input.put(KName.STORE_PATH, storePath);
+        input.put(KName.SIGMA, params.getValue(KName.SIGMA));
+        input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
+        return Ux.channel(ExIo.class, () -> null, io -> io.verifyIn(input)).compose(directoryJ -> {
+            final JsonObject verified = Ut.valueJObject(directoryJ);
+            Ut.itJArray(attachment).forEach(content -> {
+                /*
+                 * Replaced the field
+                 * - directoryId, refer to I_DIRECTORY record,                      key field
+                 * - storeWay, refer to I_DIRECTORY record,                         type field
+                 * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
+                 */
+                content.put(KName.DIRECTORY_ID, verified.getString(KName.KEY));
+                content.put(KName.STORE_PATH, Ut.ioPath(storePath, content.getString(KName.NAME)));
+                content.put(KName.Attachment.STORE_WAY, verified.getString(KName.TYPE));
+            });
+            return Ux.future(attachment);
+        });
     }
 
     private static <T> Future<T> splitRun(

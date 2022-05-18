@@ -99,6 +99,10 @@ public class At {
         return AtFs.fileRemove(attachment);
     }
 
+    public static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
+        return AtFs.fileDir(attachment, params);
+    }
+
     public static List<XActivityChange> diffChange(final JsonObject recordO, final JsonObject recordN, final HAtom atom) {
         return AtDiffer.diff(recordO, recordN, atom);
     }

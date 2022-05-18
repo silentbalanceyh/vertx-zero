@@ -6,8 +6,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.cv.IsFolder;
+import io.vertx.tp.is.uca.command.FsDefault;
+import io.vertx.tp.is.uca.command.FsReadOnly;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -194,16 +198,165 @@ class IsDir {
         };
     }
 
-    public static Future<IDirectory> updateBranch(final String key, final IDirectory directory) {
+    /*
+     * Update Tree for loop directory here
+     * A -> B -> C
+     * When you update C,
+     * The updatedAt/updatedBy of A/B must be updated at the same time
+     * Here the timestamp should be impact to track all the operation came from
+     * user for updating
+     *
+     * 1) Upload File
+     * 2) Rename File
+     * 3) Create Directory
+     * 4) Rename Directory
+     * 5) Trash File
+     * 6) Trash Directory
+     */
+    static Future<IDirectory> updateBranch(final String key, final String updatedBy) {
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
         return jq.<IDirectory>fetchByIdAsync(key).compose(queried -> {
             if (Objects.isNull(queried)) {
                 return Ux.future();
             }
             queried.setUpdatedAt(LocalDateTime.now());
-            queried.setUpdatedBy(directory.getUpdatedBy());
+            queried.setUpdatedBy(updatedBy);
             return jq.updateAsync(queried)
-                .compose(updated -> updateBranch(updated.getParentId(), directory));
-        }).compose(updated -> Ux.future(directory));
+                .compose(updated -> updateBranch(updated.getParentId(), updatedBy))
+                .compose(updated -> Ux.future(queried));
+        });
     }
+
+    static Future<IDirectory> updateLeaf(final List<String> storePath, final JsonObject params) {
+        // Query all directory here;
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(storePath));
+        condition.put(KName.SIGMA, params.getValue(KName.SIGMA));
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.<IDirectory>fetchAsync(condition).compose(directories -> {
+            /*
+             * The storePath data structure is as following:
+             * /xc
+             * /xc/catalog/
+             * /xc/catalog/name
+             *
+             * Find the first non-existing directory, Here should be some situations such as:
+             * When the directories is empty, it means that non directory related, we could
+             * not create any directory because of critical information missing
+             */
+            if (directories.isEmpty()) {
+                return Ux.future();
+            }
+
+            /*
+             * Map zip the directory list by storePath, the final map should be
+             *
+             * - storePath = IDirectory
+             */
+            final ConcurrentMap<String, IDirectory> dirMap = Ut.elementMap(directories, IDirectory::getStorePath);
+
+            /*
+             * Get and build root future for parent directory fetch, the first
+             * root directory should be root directory and this directory must be
+             * existing in your environment.
+             * Because of checking on queried list in before step, here the root
+             * directory must not be null.
+             */
+            IDirectory root = null;
+            int idxStart = 1;
+            for (int idx = 0; idx < storePath.size(); idx++) {
+                final String keyRoot = storePath.get(idx);
+                root = dirMap.getOrDefault(keyRoot, null);
+                if (Objects.nonNull(root)) {
+                    idxStart = idx + 1;
+                    break;
+                }
+            }
+            Objects.requireNonNull(root);
+
+            Future<IDirectory> future = Ux.future(root);
+            for (int idx = idxStart; idx < storePath.size(); idx++) {
+                final String keyPath = storePath.get(idx);
+                final IDirectory dirNow = dirMap.getOrDefault(keyPath, null);
+                // Parent should not be null
+                final JsonObject inputParams = params.copy();
+                inputParams.put(KName.STORE_PATH, keyPath);
+                if (Objects.isNull(dirNow)) {
+                    // Add
+                    future = createChild(future, dirNow, inputParams)
+                        .compose(created -> {
+                            dirMap.put(created.getStorePath(), created);
+                            return Ux.future(created);
+                        });
+                } else {
+                    // Update
+                    future = createChild(future, dirNow, inputParams);
+                }
+            }
+            return future.compose(finished -> {
+                final String path = storePath.get(storePath.size() - 1);        // The Last One
+                return Ux.future(dirMap.getOrDefault(path, null));
+            });
+        });
+    }
+
+    private static Future<IDirectory> createChild(final Future<IDirectory> futureParent,
+                                                  final IDirectory child,
+                                                  final JsonObject params) {
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        final String updatedBy = params.getString(KName.UPDATED_BY);
+        if (Objects.isNull(child)) {
+            return futureParent.compose(parent -> {
+                final JsonObject parentJ = Ux.toJson(parent);
+                final IDirectory created = Ux.fromJson(parentJ, IDirectory.class);
+
+
+                // key modification
+                created.setKey(UUID.randomUUID().toString());
+                created.setParentId(parent.getKey());
+
+
+                // Auditor Processing
+                created.setCreatedAt(LocalDateTime.now());
+                created.setCreatedBy(updatedBy);
+                created.setUpdatedAt(LocalDateTime.now());
+                created.setUpdatedBy(updatedBy);
+
+                // ACL Modification Rule
+                final JsonArray visitMode = Ut.toJArray(parent.getVisitMode());
+                if (!visitMode.contains(KName.Attachment.W)) {
+                    visitMode.add(KName.Attachment.W);
+                    created.setVisitMode(visitMode.encode());
+                }
+                if (visitMode.contains(KName.Attachment.W)) {
+                    final String componentCls = parent.getRunComponent();
+                    if (componentCls.equals(FsReadOnly.class.getName())) {
+                        created.setRunComponent(FsDefault.class.getName());
+                    }
+                }
+                created.setMetadata(new JsonObject().encode());
+
+                // name / code / storePath
+                final String storePath = params.getString(KName.STORE_PATH);
+                String name = storePath.replace(parent.getStorePath(), Strings.EMPTY);
+                if (name.startsWith("/")) {
+                    // Adjustment for name to avoid `/xxxx` format
+                    name = name.substring(1);
+                }
+                created.setStorePath(storePath);
+                created.setName(name);
+                created.setCode(Ut.encryptMD5(storePath));
+                return jq.insertAsync(created).compose(inserted -> {
+                    final JsonObject serialized = Ut.toJObject(inserted);
+                    return IsFs.run(serialized, fs -> fs.mkdir(serialized))
+                        .compose(nil -> Ux.future(inserted));
+                });
+            });
+        } else {
+            child.setUpdatedBy(updatedBy);
+            child.setUpdatedAt(LocalDateTime.now());
+            return jq.updateAsync(child);
+        }
+    }
+
 }

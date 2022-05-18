@@ -235,7 +235,13 @@ final class ArrayL {
         final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
         It.itJArray(data).forEach(json -> {
             final String key = json.getString(field);
-            if (Ut.notNil(key)) {
+            /*
+             * Fix Issue:
+             * java.lang.NullPointerException
+             *      at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+             *      at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+             */
+            if (Ut.notNil(key) && Objects.nonNull(json.getValue(to))) {
                 mapped.put(key, (T) json.getValue(to));
             }
         });
