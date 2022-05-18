@@ -59,16 +59,22 @@ public class ExAttachment implements Attachment {
              * Delete First
              */
             final JsonArray deleted = compared.getOrDefault(ChangeFlag.DELETE, new JsonArray());
-            return At.fileRemove(deleted).compose(nil -> {
-                final JsonArray added = compared.getOrDefault(ChangeFlag.ADD, new JsonArray());
-                return this.uploadAsync(added, params);
-            }).compose(added -> {
-                final JsonArray combine = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
-                if (Ut.notNil(added)) {
-                    combine.addAll(added);
-                }
-                return Ux.future(combine);
-            });
+            // Delete
+            return jq.deleteJAsync(deleted)
+                .compose(nil -> At.fileRemove(deleted))
+                // Add
+                .compose(nil -> {
+                    final JsonArray added = compared.getOrDefault(ChangeFlag.ADD, new JsonArray());
+                    return this.uploadAsync(added, params);
+                })
+                // Combine Update and Returned
+                .compose(added -> {
+                    final JsonArray combine = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
+                    if (Ut.notNil(added)) {
+                        combine.addAll(added);
+                    }
+                    return Ux.future(combine);
+                });
         });
     }
 

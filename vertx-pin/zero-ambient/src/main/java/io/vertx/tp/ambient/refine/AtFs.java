@@ -124,6 +124,7 @@ class AtFs {
         input.put(KName.SIGMA, params.getValue(KName.SIGMA));
         input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
         return Ux.channel(ExIo.class, () -> null, io -> io.verifyIn(input)).compose(directoryJ -> {
+            final JsonObject verified = Ut.valueJObject(directoryJ);
             Ut.itJArray(attachment).forEach(content -> {
                 /*
                  * Replaced the field
@@ -131,9 +132,9 @@ class AtFs {
                  * - storeWay, refer to I_DIRECTORY record,                         type field
                  * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
                  */
-                content.put(KName.DIRECTORY_ID, directoryJ.getString(KName.KEY));
+                content.put(KName.DIRECTORY_ID, verified.getString(KName.KEY));
                 content.put(KName.STORE_PATH, Ut.ioPath(storePath, content.getString(KName.NAME)));
-                content.put(KName.Attachment.STORE_WAY, directoryJ.getString(KName.TYPE));
+                content.put(KName.Attachment.STORE_WAY, verified.getString(KName.TYPE));
             });
             return Ux.future(attachment);
         });
