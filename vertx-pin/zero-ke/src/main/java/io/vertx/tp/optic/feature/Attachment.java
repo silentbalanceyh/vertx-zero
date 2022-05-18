@@ -40,6 +40,8 @@ public interface Attachment {
      */
     Future<JsonArray> saveAsync(JsonObject condition, JsonArray data);
 
+    Future<JsonArray> saveAsync(JsonObject condition, JsonArray data, JsonObject params);
+
     /*
      * 1. Remove Original Only
      */

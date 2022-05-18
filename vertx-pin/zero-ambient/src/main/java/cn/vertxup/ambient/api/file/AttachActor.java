@@ -41,6 +41,7 @@ public class AttachActor {
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         Ut.ifJObject(content, KName.METADATA);
         content.put(KName.SIGMA, header.getSigma());
+        content.put(KName.ACTIVE, Boolean.TRUE);
         /*
          * ExIo to extract from
          *

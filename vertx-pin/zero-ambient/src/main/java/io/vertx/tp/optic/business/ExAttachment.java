@@ -9,13 +9,16 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -26,8 +29,47 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> saveAsync(final JsonObject condition, final JsonArray data) {
-        Ut.ifStrings(data, KName.METADATA);
-        return this.removeAsync(condition).compose(nil -> this.uploadAsync(data));
+        if (Ut.isNil(data)) {
+            return Ux.futureA();
+        } else {
+            final JsonObject params = this.uploadParams(data);
+            return this.saveAsync(condition, data, params);
+        }
+    }
+
+    @Override
+    public Future<JsonArray> saveAsync(final JsonObject condition, final JsonArray data, final JsonObject params) {
+        /*
+         * Do not remove and add here because the existing attachments will be purged from
+         * Storage, in this kind of situation, here we should do the actual saving
+         *
+         * 1) Comparing the old attachments and new attachments
+         * 2) Get the ADD / UPDATE / DELETE queue for each channel
+         * - 2.1) For DELETE queue: Remove from the system and storage
+         * - 2.2) For UPDATE queue: Do nothing
+         * - 2.3) For ADD queue: Do uploading on new added attachments.
+         *
+         * But here should re-design the way to get three queues.
+         */
+        final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
+        return jq.fetchJAsync(condition).compose(original -> {
+            final ConcurrentMap<ChangeFlag, JsonArray> compared =
+                Ux.compareJ(original, data, KName.KEY);
+            /*
+             * Delete First
+             */
+            final JsonArray deleted = compared.getOrDefault(ChangeFlag.DELETE, new JsonArray());
+            return At.fileRemove(deleted).compose(nil -> {
+                final JsonArray added = compared.getOrDefault(ChangeFlag.ADD, new JsonArray());
+                return this.uploadAsync(added, params);
+            }).compose(added -> {
+                final JsonArray combine = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
+                if (Ut.notNil(added)) {
+                    combine.addAll(added);
+                }
+                return Ux.future(combine);
+            });
+        });
     }
 
     @Override
@@ -35,6 +77,15 @@ public class ExAttachment implements Attachment {
         /*
          * Fix issue of NullPointer when executing AtFs Processing
          */
+        if (Ut.isNil(data)) {
+            return Ux.futureA();
+        } else {
+            final JsonObject params = this.uploadParams(data);
+            return this.uploadAsync(data, params);
+        }
+    }
+
+    private JsonObject uploadParams(final JsonArray data) {
         final String sigma = Ut.valueString(data, KName.SIGMA);
         final String directory = Ut.valueString(data, KName.DIRECTORY);
         final String updatedBy = Ut.valueString(data, KName.UPDATED_BY);
@@ -42,7 +93,7 @@ public class ExAttachment implements Attachment {
         params.put(KName.SIGMA, sigma);
         params.put(KName.DIRECTORY, directory);
         params.put(KName.UPDATED_BY, updatedBy);
-        return this.uploadAsync(data, params);
+        return params;
     }
 
     @Override
@@ -126,26 +177,28 @@ public class ExAttachment implements Attachment {
         return Ux.channel(ExIo.class, () -> files, io -> io.dirBy(keys).compose(map -> {
             Ut.itJArray(files).forEach(file -> {
                 final String directoryId = file.getString(KName.DIRECTORY_ID);
-                final JsonObject directoryJ = map.getOrDefault(directoryId, new JsonObject());
-                final JsonObject visitJ = Ut.elementSubset(directoryJ,
-                    KName.VISIT_ROLE,
-                    KName.VISIT_GROUP,
-                    KName.VISIT,
-                    KName.VISIT_MODE
-                );
-                /*
-                 * visitMode switching
-                 *
-                 * 1. If directory contains "w",
-                 * 2. The attachment should append "x" for rename/trash
-                 */
-                final JsonArray visitMode = Ut.valueJArray(visitJ, KName.VISIT_MODE);
-                if (visitMode.contains(KName.Attachment.W) &&
-                    !visitMode.contains(KName.Attachment.X)) {
-                    visitMode.add(KName.Attachment.X);
-                    visitJ.put(KName.VISIT_MODE, visitMode);
+                if (Ut.notNil(directoryId)) {
+                    final JsonObject directoryJ = map.getOrDefault(directoryId, new JsonObject());
+                    final JsonObject visitJ = Ut.elementSubset(directoryJ,
+                        KName.VISIT_ROLE,
+                        KName.VISIT_GROUP,
+                        KName.VISIT,
+                        KName.VISIT_MODE
+                    );
+                    /*
+                     * visitMode switching
+                     *
+                     * 1. If directory contains "w",
+                     * 2. The attachment should append "x" for rename/trash
+                     */
+                    final JsonArray visitMode = Ut.valueJArray(visitJ, KName.VISIT_MODE);
+                    if (visitMode.contains(KName.Attachment.W) &&
+                        !visitMode.contains(KName.Attachment.X)) {
+                        visitMode.add(KName.Attachment.X);
+                        visitJ.put(KName.VISIT_MODE, visitMode);
+                    }
+                    file.mergeIn(visitJ, true);
                 }
-                file.mergeIn(visitJ, true);
             });
             return Ux.future(files);
         })).compose(Ut.ifJArray(KName.METADATA)).compose(attachments -> {
