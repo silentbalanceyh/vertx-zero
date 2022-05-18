@@ -66,11 +66,6 @@ public class Db extends SchemaImpl {
     public final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
-     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
-     */
-    public final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
-
-    /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.
      */
     public final ETeam E_TEAM = ETeam.E_TEAM;
@@ -89,6 +84,41 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.R_TEAM_EMPLOYEE</code>.
      */
     public final RTeamEmployee R_TEAM_EMPLOYEE = RTeamEmployee.R_TEAM_EMPLOYEE;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_ASSIGNMENT</code>.
+     */
+    public final TOaAssignment T_OA_ASSIGNMENT = TOaAssignment.T_OA_ASSIGNMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRAINING</code>.
+     */
+    public final TOaTraining T_OA_TRAINING = TOaTraining.T_OA_TRAINING;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRIP</code>.
+     */
+    public final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_VOCATION</code>.
+     */
+    public final TOaVocation T_OA_VOCATION = TOaVocation.T_OA_VOCATION;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.
+     */
+    public final TVendorAssessment T_VENDOR_ASSESSMENT = TVendorAssessment.T_VENDOR_ASSESSMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_IN</code>.
+     */
+    public final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
+     */
+    public final TVendorHour T_VENDOR_HOUR = TVendorHour.T_VENDOR_HOUR;
 
     /**
      * No further instances allowed
@@ -114,11 +144,17 @@ public class Db extends SchemaImpl {
             EDept.E_DEPT,
             EEmployee.E_EMPLOYEE,
             EIdentity.E_IDENTITY,
-            EJobLog.E_JOB_LOG,
             ETeam.E_TEAM,
             RAssetShare.R_ASSET_SHARE,
             RCompanyCustomer.R_COMPANY_CUSTOMER,
-            RTeamEmployee.R_TEAM_EMPLOYEE
+            RTeamEmployee.R_TEAM_EMPLOYEE,
+            TOaAssignment.T_OA_ASSIGNMENT,
+            TOaTraining.T_OA_TRAINING,
+            TOaTrip.T_OA_TRIP,
+            TOaVocation.T_OA_VOCATION,
+            TVendorAssessment.T_VENDOR_ASSESSMENT,
+            TVendorCheckIn.T_VENDOR_CHECK_IN,
+            TVendorHour.T_VENDOR_HOUR
         );
     }
 }

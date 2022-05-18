@@ -1,6 +1,6 @@
 {
-    "name": "w-income",
-    "daoCls": "cn.vertxup.workflow.domain.tables.daos.TAssetInDao",
+    "name": "w-oa-trip",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
     "field": {
         "unique": [
             [
