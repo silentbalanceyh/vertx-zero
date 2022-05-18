@@ -110,8 +110,33 @@ class AtFs {
      */
     static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
         final String directory = Ut.valueString(attachment, KName.DIRECTORY);
-
-        return Ux.futureA();
+        /*
+         *  String parsing on `directory` for final processing
+         */
+        final String storePath;
+        if (directory.contains("`")) {
+            storePath = Ut.fromExpression(directory, params);
+        } else {
+            storePath = directory;
+        }
+        final JsonObject input = new JsonObject();
+        input.put(KName.STORE_PATH, storePath);
+        input.put(KName.SIGMA, params.getValue(KName.SIGMA));
+        input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
+        return Ux.channel(ExIo.class, () -> null, io -> io.verifyIn(input)).compose(directoryJ -> {
+            Ut.itJArray(attachment).forEach(content -> {
+                /*
+                 * Replaced the field
+                 * - directoryId, refer to I_DIRECTORY record,                      key field
+                 * - storeWay, refer to I_DIRECTORY record,                         type field
+                 * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
+                 */
+                content.put(KName.DIRECTORY_ID, directoryJ.getString(KName.KEY));
+                content.put(KName.STORE_PATH, Ut.ioPath(storePath, content.getString(KName.NAME)));
+                content.put(KName.Attachment.STORE_WAY, directoryJ.getString(KName.TYPE));
+            });
+            return Ux.future(attachment);
+        });
     }
 
     private static <T> Future<T> splitRun(

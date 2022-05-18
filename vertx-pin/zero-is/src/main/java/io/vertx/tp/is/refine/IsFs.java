@@ -38,6 +38,7 @@ class IsFs {
         }
     }
 
+
     static Future<JsonArray> run(final JsonArray data, final BiFunction<Fs, JsonArray, Future<JsonArray>> fsRunner) {
         final ConcurrentMap<Fs, JsonArray> componentMap = fsGroup(data);
         final List<Future<JsonArray>> futures = new ArrayList<>();

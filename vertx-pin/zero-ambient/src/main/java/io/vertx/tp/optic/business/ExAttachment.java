@@ -32,12 +32,25 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> uploadAsync(final JsonArray data) {
-        return this.uploadAsync(data, null);
+        /*
+         * Fix issue of NullPointer when executing AtFs Processing
+         */
+        final String sigma = Ut.valueString(data, KName.SIGMA);
+        final String directory = Ut.valueString(data, KName.DIRECTORY);
+        final String updatedBy = Ut.valueString(data, KName.UPDATED_BY);
+        final JsonObject params = new JsonObject();
+        params.put(KName.SIGMA, sigma);
+        params.put(KName.DIRECTORY, directory);
+        params.put(KName.UPDATED_BY, updatedBy);
+        return this.uploadAsync(data, params);
     }
 
     @Override
     public Future<JsonArray> uploadAsync(final JsonArray data, final JsonObject params) {
         return At.fileDir(data, params).compose(normalized -> {
+            // Fix: com.fasterxml.jackson.databind.exc.MismatchedInputException:
+            // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+            Ut.ifStrings(normalized, KName.METADATA);
             final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
             return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
 
