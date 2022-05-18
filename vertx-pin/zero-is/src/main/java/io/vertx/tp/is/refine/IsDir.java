@@ -331,7 +331,9 @@ class IsDir {
                 if (!visitMode.contains(KName.Attachment.W)) {
                     visitMode.add(KName.Attachment.W);
                     created.setVisitMode(visitMode.encode());
-                    // Switch Fs Part
+                }
+                if (visitMode.contains(KName.Attachment.W)) {
+                    // Switch Fs Part conversation
                     final String componentCls = parent.getRunComponent();
                     if (componentCls.equals(FsReadOnly.class.getName())) {
                         created.setRunComponent(FsDefault.class.getName());
