@@ -1,0 +1,32 @@
+{
+    "files": [
+        {
+            "size": 342333,
+            "filePath": "file-uploads/d28a1567-4cb9-40b5-9036-bad5748d6872",
+            "fileKey": "UBe3mKKdT4JQzweKO30aq446pzNw2Gt7rbyJdmPTwoshGDNadIZzCE07QCalfypW",
+            "modelId": "x.notice",
+            "fileName": "01.data.mining",
+            "modelCategory": null,
+            "name": "01.data.mining.pdf",
+            "directory": "/xc/系统文档/公告文档",
+            "storeWay": "FILE",
+            "updatedAt": "2022-05-16T11:45:35.966581Z",
+            "metadata": {},
+            "uid": "rc-upload-1652701525665-2",
+            "updatedBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+            "status": "DONE",
+            "fileUrl": "/api/file/download/d5723b1d-9471-4faa-be8f-c9245bec6cf1",
+            "mime": "application/pdf",
+            "sizeUi": "334.31KB",
+            "language": "cn",
+            "type": "application/pdf",
+            "createdAt": "2022-05-16T11:45:35.966581Z",
+            "extension": "pdf",
+            "createdBy": "f7fbfaf9-8319-4eb0-9ee7-1948b8b56a67",
+            "key": "d5723b1d-9471-4faa-be8f-c9245bec6cf1",
+            "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+            "active": true
+        }
+    ],
+    "params": null
+}

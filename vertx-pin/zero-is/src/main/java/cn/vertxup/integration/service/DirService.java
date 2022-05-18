@@ -118,7 +118,7 @@ public class DirService implements DirStub {
             return Ux.futureJ(directory);
         } else {
             // Update In Cycle for branch updating
-            return Is.directoryBranch(parent, directory)
+            return Is.directoryBranch(parent, directory.getUpdatedBy())
                 .compose(nil -> Ux.futureJ(directory));
         }
     }

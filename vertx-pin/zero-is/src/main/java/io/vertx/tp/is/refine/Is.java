@@ -85,8 +85,12 @@ public class Is {
         return IsDir.query(data, storeField, strict);
     }
 
-    public static Future<IDirectory> directoryBranch(final String key, final IDirectory directory) {
-        return IsDir.updateBranch(key, directory);
+    public static Future<IDirectory> directoryBranch(final String key, final String updatedBy) {
+        return IsDir.updateBranch(key, updatedBy);
+    }
+
+    public static Future<IDirectory> directoryLeaf(final List<String> storePath, final JsonObject params) {
+        return IsDir.updateLeaf(storePath, params);
     }
 
     /*

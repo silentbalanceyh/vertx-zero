@@ -71,6 +71,34 @@ public interface ExIo {
     Future<Buffer> fsDownload(String directoryId, String storePath);
 
     // ----------------- Mix Interface ----------------------
+
+    /*
+     * The directoryJ data structure is as following:
+     * - storePath
+     * - sigma
+     * - updatedBy
+     *
+     * The returned is directoryId
+     *
+     * 1. Step 1
+     * - 1) Query I_DIRECTORY by `storePath` and `sigma` to unique one
+     * - 2) If Null, go to Step 2
+     *      If Data, terminal
+     * 2. Step 2
+     * - 1) Split `storePath` by `/` to List<String> ( Sorted by length )
+     * - 2) Iterator for each level directory making
+     * - 3) Returned the last directory ( the storePath is the longest )
+     */
+    Future<JsonObject> verifyIn(JsonObject directoryJ);
+
+    /*
+     * Update the tree from `directoryId` for impacting
+     * - updatedAt
+     * - updatedBy
+     * All above information must be updated in current interface
+     */
+    Future<JsonObject> update(String directoryId, String user);
+
     /*
      * File Map Data structure
      * -- storePath = directoryId

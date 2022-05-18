@@ -10,6 +10,7 @@ import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -122,6 +123,12 @@ public class ExPath implements ExIo {
     }
 
     // ----------------- Mix Interface ----------------------
+
+    @Override
+    public Future<JsonObject> update(final String directoryId, final String user) {
+        return Is.directoryBranch(directoryId, user).compose(Ux::futureJ);
+    }
+
     /*
      * Update all the X_DIRECTORY information here.
      *  1. active = false
@@ -166,14 +173,41 @@ public class ExPath implements ExIo {
     public Future<Boolean> rename(final JsonObject directoryJ, final Kv<String, String> renameKv) {
         final String directoryId = directoryJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        final String updatedBy = directoryJ.getString(KName.UPDATED_BY);
         return jq.<IDirectory>fetchByIdAsync(directoryId)
             .compose(directory -> {
                 directory.setUpdatedAt(LocalDateTime.now());
-                directory.setUpdatedBy(directoryJ.getString(KName.UPDATED_BY));
-                return jq.updateAsync(directory).compose(updated -> Is.directoryBranch(directoryId, updated));
+                directory.setUpdatedBy(updatedBy);
+                return jq.updateAsync(directory)
+                    .compose(updated -> Is.directoryBranch(directoryId, updatedBy));
             })
             .compose(directory -> Is.fsComponent(directory.getKey()))
             .compose(fs -> fs.rename(renameKv));
+    }
+
+
+    @Override
+    public Future<JsonObject> verifyIn(final JsonObject directoryJ) {
+        final JsonObject dirData = Ut.valueJObject(directoryJ);
+        final String storePath = dirData.getString(KName.STORE_PATH);
+        if (Ut.isNil(storePath)) {
+            return Ux.future();
+        }
+        // Split storePath by `/` to Set<String>
+        final String[] splitArr = storePath.split(Strings.SLASH);
+        final List<String> itemList = new ArrayList<>();
+        for (int idx = 0; idx < splitArr.length; idx++) {
+            final StringBuilder item = new StringBuilder();
+            for (int jdx = 0; jdx < idx; jdx++) {
+                item.append(splitArr[jdx]).append(Strings.SLASH);
+            }
+            item.append(splitArr[idx]);
+            final String itemStr = item.toString();
+            if (Ut.notNil(itemStr)) {
+                itemList.add(itemStr);
+            }
+        }
+        return Is.directoryLeaf(itemList, directoryJ).compose(Ux::futureJ);
     }
 
     // ----------------- Private Interface ----------------------

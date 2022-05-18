@@ -276,6 +276,13 @@ class AidTodo {
                 .compose(inserted -> this.updateChild(normalized, record.bind(inserted)))
                 .compose(processed -> {
                     final WTicket inserted = processed.ticket();
+                    /*
+                     * Key Point for attachment linkage here, the linkage must contain
+                     * serial part in params instead of distinguish between ADD / EDIT
+                     */
+                    if (!params.containsKey(KName.SERIAL)) {
+                        params.put(KName.SERIAL, inserted.getSerial());
+                    }
                     // Todo Workflow
                     final WTodo todo = Ux.fromJson(normalized, WTodo.class);
                     /*
@@ -416,6 +423,13 @@ class AidTodo {
         }
         return tJq.updateAsync(combine).compose(updated -> {
             // Bind Updated
+            /*
+             * Key Point for attachment linkage here, the linkage must contain
+             * serial part in params instead of distinguish between ADD / EDIT
+             */
+            if (!params.containsKey(KName.SERIAL)) {
+                params.put(KName.SERIAL, ticket.getSerial());
+            }
             recordRef.bind(updated);
             return Ux.future(recordRef);
         });
