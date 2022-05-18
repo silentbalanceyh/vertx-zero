@@ -6,6 +6,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.cv.IsFolder;
+import io.vertx.tp.is.uca.command.FsDefault;
+import io.vertx.tp.is.uca.command.FsReadOnly;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -291,9 +293,10 @@ class IsDir {
                     future = createChild(future, dirNow, inputParams);
                 }
             }
-
-            final String path = storePath.get(storePath.size() - 1);        // The Last One
-            return Ux.future(dirMap.getOrDefault(path, null));
+            return future.compose(finished -> {
+                final String path = storePath.get(storePath.size() - 1);        // The Last One
+                return Ux.future(dirMap.getOrDefault(path, null));
+            });
         });
     }
 
@@ -319,9 +322,29 @@ class IsDir {
                 created.setUpdatedAt(LocalDateTime.now());
                 created.setUpdatedBy(updatedBy);
 
+                // ACL Modification Rule
+                /*
+                 * visitMode should be converted to ["r", "w"]
+                 * instead of ["r"]
+                 */
+                final JsonArray visitMode = Ut.toJArray(parent.getVisitMode());
+                if (!visitMode.contains(KName.Attachment.W)) {
+                    visitMode.add(KName.Attachment.W);
+                    created.setVisitMode(visitMode.encode());
+                    // Switch Fs Part
+                    final String componentCls = parent.getRunComponent();
+                    if (componentCls.equals(FsReadOnly.class.getName())) {
+                        created.setRunComponent(FsDefault.class.getName());
+                    }
+                }
+
                 // name / code / storePath
                 final String storePath = params.getString(KName.STORE_PATH);
-                final String name = storePath.replace(parent.getStorePath(), Strings.EMPTY);
+                String name = storePath.replace(parent.getStorePath(), Strings.EMPTY);
+                if (name.startsWith("/")) {
+                    // Adjustment for name to avoid `/xxxx` format
+                    name = name.substring(1);
+                }
                 created.setStorePath(storePath);
                 created.setName(name);
                 created.setCode(Ut.encryptMD5(storePath));
