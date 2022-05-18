@@ -77,12 +77,8 @@ public class ExAttachment implements Attachment {
         /*
          * Fix issue of NullPointer when executing AtFs Processing
          */
-        if (Ut.isNil(data)) {
-            return Ux.futureA();
-        } else {
-            final JsonObject params = this.uploadParams(data);
-            return this.uploadAsync(data, params);
-        }
+        final JsonObject params = this.uploadParams(data);
+        return this.uploadAsync(data, params);
     }
 
     private JsonObject uploadParams(final JsonArray data) {
@@ -98,17 +94,21 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> uploadAsync(final JsonArray data, final JsonObject params) {
-        return At.fileDir(data, params).compose(normalized -> {
-            // Fix: com.fasterxml.jackson.databind.exc.MismatchedInputException:
-            // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
-            Ut.ifStrings(normalized, KName.METADATA);
-            final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
-            return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
+        if (Ut.isNil(data)) {
+            return Ux.futureA();
+        } else {
+            return At.fileDir(data, params).compose(normalized -> {
+                // Fix: com.fasterxml.jackson.databind.exc.MismatchedInputException:
+                // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+                Ut.ifStrings(normalized, KName.METADATA);
+                final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
+                return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
 
-                // ExIo -> Call ExIo to impact actual file system ( Store )
-                .compose(At::fileUpload)
-                .compose(this::outAsync);
-        });
+                    // ExIo -> Call ExIo to impact actual file system ( Store )
+                    .compose(At::fileUpload)
+                    .compose(this::outAsync);
+            });
+        }
     }
 
     @Override
