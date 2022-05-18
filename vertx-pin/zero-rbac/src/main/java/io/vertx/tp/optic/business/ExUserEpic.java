@@ -89,13 +89,18 @@ public class ExUserEpic implements ExUser {
         final ConcurrentMap<String, JsonObject> response = new ConcurrentHashMap<>();
         mapUser.forEach((key, json) -> {
             final String modelKey = json.getString(KName.MODEL_KEY);
-            if (mapData.containsKey(modelKey)) {
-                JsonObject objRef = mapData.get(modelKey);
-                objRef = objRef.copy();
-                objRef.mergeIn(json, true);
-                response.put(key, objRef);
-            } else {
-                response.put(key, json.copy());
+            /*
+             * Fix Issue of `null` modelKey in workflow
+             */
+            if (Ut.notNil(modelKey)) {
+                if (mapData.containsKey(modelKey)) {
+                    JsonObject objRef = mapData.get(modelKey);
+                    objRef = objRef.copy();
+                    objRef.mergeIn(json, true);
+                    response.put(key, objRef);
+                } else {
+                    response.put(key, json.copy());
+                }
             }
         });
         return response;
