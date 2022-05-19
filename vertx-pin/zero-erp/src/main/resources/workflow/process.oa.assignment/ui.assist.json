@@ -10,22 +10,5 @@
         "magic": {
             "type": "FIX:zero.workflow.cat"
         }
-    },
-    "data.category": {
-        "uri": "/api/type/categories/:type",
-        "magic": {
-            "type": "FIX:ci.type"
-        }
-    },
-    "tabular": {
-        "uri": "/api/types/tabulars",
-        "method": "POST",
-        "magic": {
-            "$body": [
-                "ci.status",
-                "ci.level"
-            ]
-        },
-        "group": "type"
     }
 }

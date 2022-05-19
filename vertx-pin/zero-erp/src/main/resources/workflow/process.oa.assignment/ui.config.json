@@ -10,20 +10,14 @@
         ]
     },
     "synonym": {
-        "phase": "入库单状态",
-        "title": "入库单标题",
-        "serial": "入库单号",
+        "phase": "申请单状态",
+        "title": "申请单标题",
+        "serial": "申请单单号",
         "toUserNo": "审批人工号",
         "toUserName": "审批人",
         "toUserEmail": "审批人邮箱",
         "toUserMobile": "审批人电话",
         "toUserDept": "审批人部门",
         "toUserTeam": "审批人工作组"
-    },
-    "request": {
-        "record": {
-            "source": "LINKAGE",
-            "linkage": "linkageAsset"
-        }
     }
 }
