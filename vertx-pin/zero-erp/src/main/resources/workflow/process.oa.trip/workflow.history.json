@@ -1,6 +1,7 @@
 {
-    "ui": [
-    ],
-    "hidden": [
-    ]
+    "segment": {
+        "TICKET": [
+        ],
+        "END_CLOSE": "END_STANDARD"
+    }
 }
