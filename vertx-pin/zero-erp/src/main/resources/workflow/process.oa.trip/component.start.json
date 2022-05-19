@@ -2,9 +2,10 @@
     "todo": {
         "name": "`出差申请：${serial}, ${title}`",
         "icon": "download",
-        "todoUrl": "`/workflow/run?name=process.asset.income`",
+        "todoUrl": "`/workflow/run?name=process.oa.trip`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
         "modelId": "res.employee",
-        "indent": "W.Trip"
+        "indent": "W.Business.Travel"
     },
     "record": {
         "flag": "UPDATE",

@@ -28,10 +28,10 @@
         },
         "group": "type"
     },
-    "lbs.states": {
+    "lbs.state": {
         "uri": "/api/state/by/sigma"
     },
-    "lbs.cities": {
+    "lbs.city": {
         "uri": "/api/city/by/sigma"
     }
 }

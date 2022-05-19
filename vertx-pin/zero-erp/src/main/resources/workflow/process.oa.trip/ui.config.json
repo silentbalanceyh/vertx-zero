@@ -1,7 +1,7 @@
 {
     "canvas": {
-        "height": 300,
-        "offset": 3
+        "height": 240,
+        "offset": 4
     },
     "phase": {
         "forbidden": [
@@ -19,11 +19,5 @@
         "toUserMobile": "审批人电话",
         "toUserDept": "审批人部门",
         "toUserTeam": "审批人工作组"
-    },
-    "request": {
-        "record": {
-            "source": "LINKAGE",
-            "linkage": "linkageAsset"
-        }
     }
 }
