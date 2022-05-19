@@ -1,5 +1,5 @@
 {
-    "name": "tent",
+    "name": "city",
     "daoCls": "cn.vertxup.lbs.domain.tables.daos.LCityDao",
     "field": {
         "unique": [

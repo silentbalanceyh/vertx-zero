@@ -1,5 +1,5 @@
 {
-    "name": "tent",
+    "name": "state",
     "daoCls": "cn.vertxup.lbs.domain.tables.daos.LStateDao",
     "field": {
         "unique": [

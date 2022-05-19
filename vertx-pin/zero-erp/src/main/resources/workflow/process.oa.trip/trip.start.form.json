@@ -75,15 +75,31 @@
             ],
             [
                 {
-                    "metadata": "tripProvince,出差省,8"
+                    "metadata": "tripProvince,出差省,8,,aiSelect",
+                    "optionJsx.config.datum": "source=lbs.state,value=key,label=name",
+                    "optionJsx.depend.impact": {
+                        "reset": [
+                            "tripCity"
+                        ]
+                    }
                 },
                 {
-                    "metadata": "tripCity,出差市,8"
+                    "metadata": "tripCity,出差市,8,,aiSelect",
+                    "optionJsx.config.datum": "source=lbs.city,value=key,label=name",
+                    "optionJsx.config.cascade": {
+                        "source": "stateId",
+                        "target": "FORM:tripProvince"
+                    }
                 }
             ],
             [
                 {
-                    "metadata": "reason,出差原因,24,,aiTextArea,rows=3"
+                    "metadata": "tripAddress,出差地址,24,,aiTextArea,rows=2"
+                }
+            ],
+            [
+                {
+                    "metadata": "reason,出差原因,24,,aiTextArea,rows=2"
                 }
             ],
             [
