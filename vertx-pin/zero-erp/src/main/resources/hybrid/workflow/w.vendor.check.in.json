@@ -1,0 +1,22 @@
+{
+    "name": "w-vendor-check-in",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.TVendorCheckInDao",
+    "field": {
+        "unique": [
+            [
+                "key"
+            ]
+        ]
+    },
+    "connect": {
+        "targetIndent": "w.todo",
+        "target": {
+            "w.todo": {
+                "keyJoin": "traceId"
+            }
+        },
+        "source": {
+            "keyJoin": "key"
+        }
+    }
+}

@@ -116,33 +116,18 @@ public class TVendorCheckInDao extends AbstractVertxDAO<TVendorCheckInRecord, cn
         }
 
         /**
-     * Find records that have <code>LEAVE_AT IN (values)</code> asynchronously
+     * Find records that have <code>ONBOARD_AT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByLeaveAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.LEAVE_AT.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByOnboardAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.ONBOARD_AT.in(values));
         }
 
         /**
-     * Find records that have <code>LEAVE_AT IN (values)</code> asynchronously
+     * Find records that have <code>ONBOARD_AT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByLeaveAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.LEAVE_AT.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>REASON IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByReason(Collection<String> values) {
-                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.REASON.in(values));
-        }
-
-        /**
-     * Find records that have <code>REASON IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByReason(Collection<String> values, int limit) {
-                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.REASON.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.TVendorCheckIn>> findManyByOnboardAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(TVendorCheckIn.T_VENDOR_CHECK_IN.ONBOARD_AT.in(values),limit);
         }
 
         @Override

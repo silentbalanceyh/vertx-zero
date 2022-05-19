@@ -22,6 +22,7 @@ import cn.vertxup.erp.domain.tables.TOaTrip;
 import cn.vertxup.erp.domain.tables.TOaVocation;
 import cn.vertxup.erp.domain.tables.TVendorAssessment;
 import cn.vertxup.erp.domain.tables.TVendorCheckIn;
+import cn.vertxup.erp.domain.tables.TVendorCheckOut;
 import cn.vertxup.erp.domain.tables.TVendorHour;
 
 
@@ -120,6 +121,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.T_VENDOR_CHECK_IN</code>.
      */
     public static final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_OUT</code>.
+     */
+    public static final TVendorCheckOut T_VENDOR_CHECK_OUT = TVendorCheckOut.T_VENDOR_CHECK_OUT;
 
     /**
      * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
