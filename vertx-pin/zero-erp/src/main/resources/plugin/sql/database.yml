@@ -37,3 +37,28 @@ databaseChangeLog:
     -   include:
             file: plugin/sql/erp/R_ASSET_SHARE.sql
             relativeToChangelogFile: false
+    # 工作流
+    -   include:
+            file: plugin/sql/erp/workflow/T_OA_ASSIGNMENT.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_OA_TRAINING.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_OA_TRIP.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_OA_VACATION.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_VENDOR_ASSESSMENT.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_VENDOR_CHECK_IN.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_VENDOR_CHECK_OUT.sql
+            relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/workflow/T_VENDOR_HOUR.sql
+            relativeToChangelogFile: false
