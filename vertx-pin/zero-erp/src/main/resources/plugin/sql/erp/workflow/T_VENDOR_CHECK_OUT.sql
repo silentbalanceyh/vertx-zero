@@ -1,8 +1,8 @@
 -- liquibase formatted sql
 
--- changeset Lang:t-vendor-check-in-1
-DROP TABLE IF EXISTS T_VENDOR_CHECK_IN;
-CREATE TABLE IF NOT EXISTS T_VENDOR_CHECK_IN
+-- changeset Lang:t-vendor-check-out-1
+DROP TABLE IF EXISTS T_VENDOR_CHECK_OUT;
+CREATE TABLE IF NOT EXISTS T_VENDOR_CHECK_OUT
 (
 
     `KEY`               VARCHAR(36) COMMENT '「key」- Ticket Primary Key',

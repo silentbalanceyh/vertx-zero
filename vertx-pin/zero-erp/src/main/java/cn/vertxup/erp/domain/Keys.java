@@ -22,6 +22,7 @@ import cn.vertxup.erp.domain.tables.TOaTrip;
 import cn.vertxup.erp.domain.tables.TOaVocation;
 import cn.vertxup.erp.domain.tables.TVendorAssessment;
 import cn.vertxup.erp.domain.tables.TVendorCheckIn;
+import cn.vertxup.erp.domain.tables.TVendorCheckOut;
 import cn.vertxup.erp.domain.tables.TVendorHour;
 import cn.vertxup.erp.domain.tables.records.EAssetRecord;
 import cn.vertxup.erp.domain.tables.records.EBrandRecord;
@@ -41,6 +42,7 @@ import cn.vertxup.erp.domain.tables.records.TOaTripRecord;
 import cn.vertxup.erp.domain.tables.records.TOaVocationRecord;
 import cn.vertxup.erp.domain.tables.records.TVendorAssessmentRecord;
 import cn.vertxup.erp.domain.tables.records.TVendorCheckInRecord;
+import cn.vertxup.erp.domain.tables.records.TVendorCheckOutRecord;
 import cn.vertxup.erp.domain.tables.records.TVendorHourRecord;
 
 import org.jooq.TableField;
@@ -93,5 +95,6 @@ public class Keys {
     public static final UniqueKey<TOaVocationRecord> KEY_T_OA_VOCATION_PRIMARY = Internal.createUniqueKey(TOaVocation.T_OA_VOCATION, DSL.name("KEY_T_OA_VOCATION_PRIMARY"), new TableField[] { TOaVocation.T_OA_VOCATION.KEY }, true);
     public static final UniqueKey<TVendorAssessmentRecord> KEY_T_VENDOR_ASSESSMENT_PRIMARY = Internal.createUniqueKey(TVendorAssessment.T_VENDOR_ASSESSMENT, DSL.name("KEY_T_VENDOR_ASSESSMENT_PRIMARY"), new TableField[] { TVendorAssessment.T_VENDOR_ASSESSMENT.KEY }, true);
     public static final UniqueKey<TVendorCheckInRecord> KEY_T_VENDOR_CHECK_IN_PRIMARY = Internal.createUniqueKey(TVendorCheckIn.T_VENDOR_CHECK_IN, DSL.name("KEY_T_VENDOR_CHECK_IN_PRIMARY"), new TableField[] { TVendorCheckIn.T_VENDOR_CHECK_IN.KEY }, true);
+    public static final UniqueKey<TVendorCheckOutRecord> KEY_T_VENDOR_CHECK_OUT_PRIMARY = Internal.createUniqueKey(TVendorCheckOut.T_VENDOR_CHECK_OUT, DSL.name("KEY_T_VENDOR_CHECK_OUT_PRIMARY"), new TableField[] { TVendorCheckOut.T_VENDOR_CHECK_OUT.KEY }, true);
     public static final UniqueKey<TVendorHourRecord> KEY_T_VENDOR_HOUR_PRIMARY = Internal.createUniqueKey(TVendorHour.T_VENDOR_HOUR, DSL.name("KEY_T_VENDOR_HOUR_PRIMARY"), new TableField[] { TVendorHour.T_VENDOR_HOUR.KEY }, true);
 }

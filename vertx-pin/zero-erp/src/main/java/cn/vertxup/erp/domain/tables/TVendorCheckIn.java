@@ -56,15 +56,10 @@ public class TVendorCheckIn extends TableImpl<TVendorCheckInRecord> {
      */
     public final TableField<TVendorCheckInRecord, Integer> DAYS = createField(DSL.name("DAYS"), SQLDataType.INTEGER, this, "「days」- Duration");
     /**
-     * The column <code>DB_ETERNAL.T_VENDOR_CHECK_IN.LEAVE_AT</code>. 「leaveAt」-
-     * To
+     * The column <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * 「onboardAt」- To
      */
-    public final TableField<TVendorCheckInRecord, LocalDateTime> LEAVE_AT = createField(DSL.name("LEAVE_AT"), SQLDataType.LOCALDATETIME(0), this, "「leaveAt」- To");
-    /**
-     * The column <code>DB_ETERNAL.T_VENDOR_CHECK_IN.REASON</code>. 「reason」-
-     * The reason to be done
-     */
-    public final TableField<TVendorCheckInRecord, String> REASON = createField(DSL.name("REASON"), SQLDataType.CLOB, this, "「reason」- The reason to be done");
+    public final TableField<TVendorCheckInRecord, LocalDateTime> ONBOARD_AT = createField(DSL.name("ONBOARD_AT"), SQLDataType.LOCALDATETIME(0), this, "「onboardAt」- To");
 
     private TVendorCheckIn(Name alias, Table<TVendorCheckInRecord> aliased) {
         this(alias, aliased, null);
@@ -146,11 +141,11 @@ public class TVendorCheckIn extends TableImpl<TVendorCheckInRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<String, String, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime, String> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row7<String, String, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

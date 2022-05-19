@@ -131,53 +131,6 @@ public class TOaVocationDao extends AbstractVertxDAO<TOaVocationRecord, cn.vertx
         }
 
         /**
-     * Find records that have <code>TRIP_PROVINCE IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripProvince(Collection<String> values) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_PROVINCE.in(values));
-        }
-
-        /**
-     * Find records that have <code>TRIP_PROVINCE IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripProvince(Collection<String> values, int limit) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_PROVINCE.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TRIP_CITY IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripCity(Collection<String> values) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_CITY.in(values));
-        }
-
-        /**
-     * Find records that have <code>TRIP_CITY IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripCity(Collection<String> values, int limit) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_CITY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>TRIP_ADDRESS IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripAddress(Collection<String> values) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_ADDRESS.in(values));
-        }
-
-        /**
-     * Find records that have <code>TRIP_ADDRESS IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByTripAddress(Collection<String> values, int limit) {
-                return findManyByCondition(TOaVocation.T_OA_VOCATION.TRIP_ADDRESS.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>REASON IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.TOaVocation>> findManyByReason(Collection<String> values) {

@@ -27,9 +27,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private Integer       days;
-    private String        tripProvince;
-    private String        tripCity;
-    private String        tripAddress;
     private String        reason;
     private String        workContent;
 
@@ -43,9 +40,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
         this.startAt = value.getStartAt();
         this.endAt = value.getEndAt();
         this.days = value.getDays();
-        this.tripProvince = value.getTripProvince();
-        this.tripCity = value.getTripCity();
-        this.tripAddress = value.getTripAddress();
         this.reason = value.getReason();
         this.workContent = value.getWorkContent();
     }
@@ -58,9 +52,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
         LocalDateTime startAt,
         LocalDateTime endAt,
         Integer       days,
-        String        tripProvince,
-        String        tripCity,
-        String        tripAddress,
         String        reason,
         String        workContent
     ) {
@@ -71,9 +62,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
         this.startAt = startAt;
         this.endAt = endAt;
         this.days = days;
-        this.tripProvince = tripProvince;
-        this.tripCity = tripCity;
-        this.tripAddress = tripAddress;
         this.reason = reason;
         this.workContent = workContent;
     }
@@ -213,63 +201,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_PROVINCE</code>.
-     * 「tripProvince」- Trip Province
-     */
-    @Override
-    public String getTripProvince() {
-        return this.tripProvince;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_PROVINCE</code>.
-     * 「tripProvince」- Trip Province
-     */
-    @Override
-    public TOaVocation setTripProvince(String tripProvince) {
-        this.tripProvince = tripProvince;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_CITY</code>. 「tripCity」-
-     * Trip City
-     */
-    @Override
-    public String getTripCity() {
-        return this.tripCity;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_CITY</code>. 「tripCity」-
-     * Trip City
-     */
-    @Override
-    public TOaVocation setTripCity(String tripCity) {
-        this.tripCity = tripCity;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_ADDRESS</code>.
-     * 「tripAddress」- Trip Address
-     */
-    @Override
-    public String getTripAddress() {
-        return this.tripAddress;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.T_OA_VOCATION.TRIP_ADDRESS</code>.
-     * 「tripAddress」- Trip Address
-     */
-    @Override
-    public TOaVocation setTripAddress(String tripAddress) {
-        this.tripAddress = tripAddress;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.T_OA_VOCATION.REASON</code>. 「reason」- The
      * reason to be done
      */
@@ -318,9 +249,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
         sb.append(", ").append(startAt);
         sb.append(", ").append(endAt);
         sb.append(", ").append(days);
-        sb.append(", ").append(tripProvince);
-        sb.append(", ").append(tripCity);
-        sb.append(", ").append(tripAddress);
         sb.append(", ").append(reason);
         sb.append(", ").append(workContent);
 
@@ -341,9 +269,6 @@ public class TOaVocation implements VertxPojo, ITOaVocation {
         setStartAt(from.getStartAt());
         setEndAt(from.getEndAt());
         setDays(from.getDays());
-        setTripProvince(from.getTripProvince());
-        setTripCity(from.getTripCity());
-        setTripAddress(from.getTripAddress());
         setReason(from.getReason());
         setWorkContent(from.getWorkContent());
     }

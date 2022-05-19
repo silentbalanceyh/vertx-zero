@@ -88,28 +88,16 @@ public interface ITVendorCheckIn extends VertxPojo, Serializable {
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.LEAVE_AT</code>. 「leaveAt」-
-     * To
+     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * 「onboardAt」- To
      */
-    public ITVendorCheckIn setLeaveAt(LocalDateTime value);
+    public ITVendorCheckIn setOnboardAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.LEAVE_AT</code>. 「leaveAt」-
-     * To
+     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * 「onboardAt」- To
      */
-    public LocalDateTime getLeaveAt();
-
-    /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.REASON</code>. 「reason」-
-     * The reason to be done
-     */
-    public ITVendorCheckIn setReason(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.REASON</code>. 「reason」-
-     * The reason to be done
-     */
-    public String getReason();
+    public LocalDateTime getOnboardAt();
 
     // -------------------------------------------------------------------------
     // FROM and INTO
@@ -135,8 +123,7 @@ public interface ITVendorCheckIn extends VertxPojo, Serializable {
                 setOrThrow(this::setStartAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"START_AT","java.time.LocalDateTime");
                 setOrThrow(this::setEndAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"END_AT","java.time.LocalDateTime");
                 setOrThrow(this::setDays,json::getInteger,"DAYS","java.lang.Integer");
-                setOrThrow(this::setLeaveAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"LEAVE_AT","java.time.LocalDateTime");
-                setOrThrow(this::setReason,json::getString,"REASON","java.lang.String");
+                setOrThrow(this::setOnboardAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ONBOARD_AT","java.time.LocalDateTime");
                 return this;
         }
 
@@ -150,8 +137,7 @@ public interface ITVendorCheckIn extends VertxPojo, Serializable {
                 json.put("START_AT",getStartAt()==null?null:getStartAt().toString());
                 json.put("END_AT",getEndAt()==null?null:getEndAt().toString());
                 json.put("DAYS",getDays());
-                json.put("LEAVE_AT",getLeaveAt()==null?null:getLeaveAt().toString());
-                json.put("REASON",getReason());
+                json.put("ONBOARD_AT",getOnboardAt()==null?null:getOnboardAt().toString());
                 return json;
         }
 

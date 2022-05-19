@@ -116,6 +116,11 @@ public class Db extends SchemaImpl {
     public final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
 
     /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_OUT</code>.
+     */
+    public final TVendorCheckOut T_VENDOR_CHECK_OUT = TVendorCheckOut.T_VENDOR_CHECK_OUT;
+
+    /**
      * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
      */
     public final TVendorHour T_VENDOR_HOUR = TVendorHour.T_VENDOR_HOUR;
@@ -154,6 +159,7 @@ public class Db extends SchemaImpl {
             TOaVocation.T_OA_VOCATION,
             TVendorAssessment.T_VENDOR_ASSESSMENT,
             TVendorCheckIn.T_VENDOR_CHECK_IN,
+            TVendorCheckOut.T_VENDOR_CHECK_OUT,
             TVendorHour.T_VENDOR_HOUR
         );
     }

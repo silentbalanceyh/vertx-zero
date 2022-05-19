@@ -17,9 +17,6 @@ CREATE TABLE IF NOT EXISTS T_OA_VOCATION
     `DAYS`              INT COMMENT '「days」- Duration',
 
     -- Location
-    `TRIP_PROVINCE`     VARCHAR(36) COMMENT '「tripProvince」- Trip Province',
-    `TRIP_CITY`         VARCHAR(36) COMMENT '「tripCity」- Trip City',
-    `TRIP_ADDRESS`      LONGTEXT COMMENT '「tripAddress」- Trip Address',
     `REASON`            LONGTEXT COMMENT '「reason」- The reason to be done',
 
     -- Assignment Content

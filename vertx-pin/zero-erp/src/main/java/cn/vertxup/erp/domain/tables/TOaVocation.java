@@ -60,21 +60,6 @@ public class TOaVocation extends TableImpl<TOaVocationRecord> {
      */
     public final TableField<TOaVocationRecord, Integer> DAYS = createField(DSL.name("DAYS"), SQLDataType.INTEGER, this, "「days」- Duration");
     /**
-     * The column <code>DB_ETERNAL.T_OA_VOCATION.TRIP_PROVINCE</code>.
-     * 「tripProvince」- Trip Province
-     */
-    public final TableField<TOaVocationRecord, String> TRIP_PROVINCE = createField(DSL.name("TRIP_PROVINCE"), SQLDataType.VARCHAR(36), this, "「tripProvince」- Trip Province");
-    /**
-     * The column <code>DB_ETERNAL.T_OA_VOCATION.TRIP_CITY</code>. 「tripCity」-
-     * Trip City
-     */
-    public final TableField<TOaVocationRecord, String> TRIP_CITY = createField(DSL.name("TRIP_CITY"), SQLDataType.VARCHAR(36), this, "「tripCity」- Trip City");
-    /**
-     * The column <code>DB_ETERNAL.T_OA_VOCATION.TRIP_ADDRESS</code>.
-     * 「tripAddress」- Trip Address
-     */
-    public final TableField<TOaVocationRecord, String> TRIP_ADDRESS = createField(DSL.name("TRIP_ADDRESS"), SQLDataType.CLOB, this, "「tripAddress」- Trip Address");
-    /**
      * The column <code>DB_ETERNAL.T_OA_VOCATION.REASON</code>. 「reason」- The
      * reason to be done
      */
@@ -163,11 +148,11 @@ public class TOaVocation extends TableImpl<TOaVocationRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row12 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row12<String, String, String, String, LocalDateTime, LocalDateTime, Integer, String, String, String, String, String> fieldsRow() {
-        return (Row12) super.fieldsRow();
+    public Row9<String, String, String, String, LocalDateTime, LocalDateTime, Integer, String, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }
