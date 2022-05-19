@@ -27,5 +27,11 @@
             ]
         },
         "group": "type"
+    },
+    "lbs.states": {
+        "uri": "/api/state/by/sigma"
+    },
+    "lbs.cities": {
+        "uri": "/api/city/by/sigma"
     }
 }

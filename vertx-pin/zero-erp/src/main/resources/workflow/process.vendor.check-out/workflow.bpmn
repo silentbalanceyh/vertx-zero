@@ -45,7 +45,9 @@
       <bpmn:incoming>t.logout-end</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="t.logout-end" sourceRef="e.logout" targetRef="e.end" />
-    <bpmn:sequenceFlow id="t.approve-boss" name="通过" sourceRef="e.approve.d" targetRef="e.boss" />
+    <bpmn:sequenceFlow id="t.approve-boss" name="通过" sourceRef="e.approve.d" targetRef="e.boss">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:userTask id="e.boss" name="领导审批&#10;离场记录单" camunda:formKey="camunda-forms:deployment:check-out.boss.form">
       <bpmn:incoming>t.approve-boss</bpmn:incoming>
       <bpmn:outgoing>t.boss-d</bpmn:outgoing>
@@ -65,6 +67,32 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.vendor.check-out">
+      <bpmndi:BPMNEdge id="Flow_0cvz0ep_di" bpmnElement="t.boss-draft">
+        <di:waypoint x="800" y="122" />
+        <di:waypoint x="800" y="230" />
+        <di:waypoint x="350" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="748" y="196" width="44" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t2tvz9_di" bpmnElement="t.boss-logout">
+        <di:waypoint x="825" y="97" />
+        <di:waypoint x="890" y="97" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="847" y="79" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00pchni_di" bpmnElement="t.boss-d">
+        <di:waypoint x="740" y="97" />
+        <di:waypoint x="775" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mt8ltd_di" bpmnElement="t.approve-boss">
+        <di:waypoint x="585" y="97" />
+        <di:waypoint x="640" y="97" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="602" y="79" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0yynd8l_di" bpmnElement="t.logout-end">
         <di:waypoint x="990" y="97" />
         <di:waypoint x="1052" y="97" />
@@ -107,32 +135,6 @@
         <di:waypoint x="215" y="97" />
         <di:waypoint x="275" y="97" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1mt8ltd_di" bpmnElement="t.approve-boss">
-        <di:waypoint x="585" y="97" />
-        <di:waypoint x="640" y="97" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="602" y="79" width="22" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00pchni_di" bpmnElement="t.boss-d">
-        <di:waypoint x="740" y="97" />
-        <di:waypoint x="775" y="97" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0t2tvz9_di" bpmnElement="t.boss-logout">
-        <di:waypoint x="825" y="97" />
-        <di:waypoint x="890" y="97" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="847" y="79" width="22" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0cvz0ep_di" bpmnElement="t.boss-draft">
-        <di:waypoint x="800" y="122" />
-        <di:waypoint x="800" y="230" />
-        <di:waypoint x="350" y="230" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="748" y="196" width="44" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="e.start">
         <dc:Bounds x="179" y="79" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -142,12 +144,12 @@
       <bpmndi:BPMNShape id="Gateway_19b77g7_di" bpmnElement="e.start.d" isMarkerVisible="true">
         <dc:Bounds x="275" y="72" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
-        <dc:Bounds x="250" y="190" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1hiqi86_di" bpmnElement="e.approve">
         <dc:Bounds x="380" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
+        <dc:Bounds x="250" y="190" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_11nr5mu_di" bpmnElement="e.approve.d" isMarkerVisible="true">
@@ -155,12 +157,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="532" y="48" width="55" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0xqvwla_di" bpmnElement="e.boss">
-        <dc:Bounds x="640" y="57" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_014a9pl_di" bpmnElement="e.boss.d" isMarkerVisible="true">
-        <dc:Bounds x="775" y="72" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0w42d1b_di" bpmnElement="e.logout">
         <dc:Bounds x="890" y="57" width="100" height="80" />
@@ -171,6 +167,12 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1048" y="122" width="44" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xqvwla_di" bpmnElement="e.boss">
+        <dc:Bounds x="640" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_014a9pl_di" bpmnElement="e.boss.d" isMarkerVisible="true">
+        <dc:Bounds x="775" y="72" width="50" height="50" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

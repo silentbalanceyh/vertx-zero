@@ -1,13 +1,28 @@
 {
     "todo": {
-        "name": "`报废申请：${serial}, ${name}`",
-        "icon": "delete",
-        "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
-        "modelComponent": "",
-        "modelId": "",
-        "indent": "WF.NUM.P-DISCARD"
+        "name": "`出差申请：${serial}, ${title}`",
+        "icon": "download",
+        "todoUrl": "`/workflow/run?name=process.asset.income`",
+        "modelId": "res.employee",
+        "indent": "W.Trip"
     },
     "record": {
-        "flag": "ADD"
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
+        "fields": [
+            "key",
+            "requestBy",
+            "startAt",
+            "endAt",
+            "days",
+            "tripProvince",
+            "tripCity",
+            "tripAddress",
+            "reason",
+            "workContent"
+        ]
     }
 }

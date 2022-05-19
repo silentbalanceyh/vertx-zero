@@ -1,7 +1,7 @@
 {
     "canvas": {
-        "height": 240,
-        "offset": 4
+        "height": 300,
+        "offset": 3
     },
     "phase": {
         "forbidden": [
@@ -10,9 +10,9 @@
         ]
     },
     "synonym": {
-        "phase": "入库单状态",
-        "title": "入库单标题",
-        "serial": "入库单号",
+        "phase": "申请单状态",
+        "title": "申请单标题",
+        "serial": "申请单单号",
         "toUserNo": "审批人工号",
         "toUserName": "审批人",
         "toUserEmail": "审批人邮箱",

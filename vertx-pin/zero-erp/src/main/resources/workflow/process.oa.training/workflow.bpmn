@@ -62,7 +62,9 @@
     <bpmn:sequenceFlow id="t.running-running" name="答卷未收齐" sourceRef="e.running.d" targetRef="e.running">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="t.approve-boss" name="通过" sourceRef="e.approve.d" targetRef="e.boss" />
+    <bpmn:sequenceFlow id="t.approve-boss" name="通过" sourceRef="e.approve.d" targetRef="e.boss">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="e.approve.boss.d">
       <bpmn:incoming>t.boss-d</bpmn:incoming>
       <bpmn:outgoing>t.boss-draft</bpmn:outgoing>

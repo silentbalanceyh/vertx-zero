@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v4vksd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="process.oa.trip" name="出差申请流程" isExecutable="true">
-    <bpmn:startEvent id="e.start" name="新建出差申请" camunda:formKey="camunda-forms:deployment:vacation.start.form">
+    <bpmn:startEvent id="e.start" name="新建出差申请" camunda:formKey="camunda-forms:deployment:trip.start.form">
       <bpmn:outgoing>t.start-d</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="e.start.d">
@@ -13,7 +13,7 @@
     <bpmn:sequenceFlow id="t.start-evaluate" name="提交" sourceRef="e.start.d" targetRef="e.evaluate">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="e.evaluate" name="工作交接&#10;内容确认" camunda:formKey="camunda-forms:deployment:vacation.evaluate.form">
+    <bpmn:userTask id="e.evaluate" name="工作交接&#10;内容确认" camunda:formKey="camunda-forms:deployment:trip.evaluate.form">
       <bpmn:incoming>t.start-evaluate</bpmn:incoming>
       <bpmn:incoming>t.draft-evaluate</bpmn:incoming>
       <bpmn:outgoing>t.evaluate-d</bpmn:outgoing>
@@ -22,7 +22,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="t.draft-evaluate" name="提交申请单" sourceRef="e.draft" targetRef="e.evaluate" />
-    <bpmn:userTask id="e.draft" name="出差申请&#10;暂存编辑" camunda:formKey="camunda-forms:deployment:vacation.draft.form">
+    <bpmn:userTask id="e.draft" name="出差申请&#10;暂存编辑" camunda:formKey="camunda-forms:deployment:trip.draft.form">
       <bpmn:incoming>t.start-draft</bpmn:incoming>
       <bpmn:incoming>t.evaluate-draft</bpmn:incoming>
       <bpmn:incoming>t.approve-draft</bpmn:incoming>
@@ -40,7 +40,7 @@
     <bpmn:sequenceFlow id="t.evaluate-approve" name="确认" sourceRef="e.evaluate.d" targetRef="e.approve">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="e.approve" name="领导审批&#10;出差申请单" camunda:formKey="camunda-forms:deployment:vacation.approval.form">
+    <bpmn:userTask id="e.approve" name="领导审批&#10;出差申请单" camunda:formKey="camunda-forms:deployment:trip.approval.form">
       <bpmn:incoming>t.evaluate-approve</bpmn:incoming>
       <bpmn:outgoing>t.approve-d</bpmn:outgoing>
     </bpmn:userTask>

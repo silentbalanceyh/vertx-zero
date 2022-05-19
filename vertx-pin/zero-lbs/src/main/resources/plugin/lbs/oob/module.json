@@ -1,4 +1,6 @@
 [
     "lbs.floor",
-    "lbs.tent"
+    "lbs.tent",
+    "lbs.city",
+    "lbs.state"
 ]

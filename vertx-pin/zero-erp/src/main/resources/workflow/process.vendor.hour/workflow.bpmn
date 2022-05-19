@@ -61,7 +61,9 @@
       <bpmn:incoming>t.dept-close</bpmn:incoming>
       <bpmn:outgoing>t.close-end</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="t.approve-dept" name="通过" sourceRef="e.approve.d" targetRef="e.dept" />
+    <bpmn:sequenceFlow id="t.approve-dept" name="通过" sourceRef="e.approve.d" targetRef="e.dept">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.vendor.hour">
