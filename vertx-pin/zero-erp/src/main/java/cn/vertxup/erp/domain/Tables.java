@@ -4,13 +4,31 @@
 package cn.vertxup.erp.domain;
 
 
-import cn.vertxup.erp.domain.tables.*;
+import cn.vertxup.erp.domain.tables.EAsset;
+import cn.vertxup.erp.domain.tables.EBrand;
+import cn.vertxup.erp.domain.tables.ECompany;
+import cn.vertxup.erp.domain.tables.EContract;
+import cn.vertxup.erp.domain.tables.ECustomer;
+import cn.vertxup.erp.domain.tables.EDept;
+import cn.vertxup.erp.domain.tables.EEmployee;
+import cn.vertxup.erp.domain.tables.EIdentity;
+import cn.vertxup.erp.domain.tables.ETeam;
+import cn.vertxup.erp.domain.tables.RAssetShare;
+import cn.vertxup.erp.domain.tables.RCompanyCustomer;
+import cn.vertxup.erp.domain.tables.RTeamEmployee;
+import cn.vertxup.erp.domain.tables.TOaAssignment;
+import cn.vertxup.erp.domain.tables.TOaTraining;
+import cn.vertxup.erp.domain.tables.TOaTrip;
+import cn.vertxup.erp.domain.tables.TOaVocation;
+import cn.vertxup.erp.domain.tables.TVendorAssessment;
+import cn.vertxup.erp.domain.tables.TVendorCheckIn;
+import cn.vertxup.erp.domain.tables.TVendorHour;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
@@ -54,11 +72,6 @@ public class Tables {
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
-     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
-     */
-    public static final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
-
-    /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.
      */
     public static final ETeam E_TEAM = ETeam.E_TEAM;
@@ -77,4 +90,39 @@ public class Tables {
      * The table <code>DB_ETERNAL.R_TEAM_EMPLOYEE</code>.
      */
     public static final RTeamEmployee R_TEAM_EMPLOYEE = RTeamEmployee.R_TEAM_EMPLOYEE;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_ASSIGNMENT</code>.
+     */
+    public static final TOaAssignment T_OA_ASSIGNMENT = TOaAssignment.T_OA_ASSIGNMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRAINING</code>.
+     */
+    public static final TOaTraining T_OA_TRAINING = TOaTraining.T_OA_TRAINING;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRIP</code>.
+     */
+    public static final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_VOCATION</code>.
+     */
+    public static final TOaVocation T_OA_VOCATION = TOaVocation.T_OA_VOCATION;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.
+     */
+    public static final TVendorAssessment T_VENDOR_ASSESSMENT = TVendorAssessment.T_VENDOR_ASSESSMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_IN</code>.
+     */
+    public static final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
+     */
+    public static final TVendorHour T_VENDOR_HOUR = TVendorHour.T_VENDOR_HOUR;
 }

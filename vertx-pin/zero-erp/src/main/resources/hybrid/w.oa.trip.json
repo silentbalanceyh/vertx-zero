@@ -1,16 +1,15 @@
 {
-    "identifier": "w.asset.income",
-    "module": "plugin/wf/oob/module/hybrid/w.asset.income.json",
+    "identifier": "w.oa.trip",
+    "module": "hybrid/workflow/w.oa.trip.json",
     "linkage": [
         "w.todo",
         "w.ticket"
     ],
     "hybrid": {
-        "alias": "入库单",
+        "alias": "出差申请单",
         "attribute": {
-            "name": "入库单名称",
-            "code": "入库单编号",
-            "commentIn": "入库备注"
+            "name": "申请单名称",
+            "code": "申请单编号"
         },
         "matrix": {
             "key": "1,0,1,0,0,0,0,0",
