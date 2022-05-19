@@ -1,0 +1,57 @@
+{
+    "identifier": "w.vendor.hour",
+    "module": "hybrid/workflow/w.vendor.hour.json",
+    "linkage": [
+        "w.todo",
+        "w.ticket"
+    ],
+    "hybrid": {
+        "alias": "工时补签单",
+        "attribute": {
+            "name": "补签单名称",
+            "code": "补签单编号",
+            "serial": "补签单编号",
+            "classification": "类型",
+            "startAt": "入场时间",
+            "endAt": "离场时间",
+            "days": "累积入场天数",
+            "onboardAt": "计划离场时间",
+            "requestType": "申请类型",
+            "fromType": "开始日期类型",
+            "fromAt": "开始日期",
+            "toType": "结束日期类型",
+            "toAt": "结束日期"
+        },
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0",
+            "flowDefinitionId": "1,0,1,0,0,0,0,0",
+            "flowDefinitionKey": "1,0,1,0,0,0,0,0",
+            "flowInstanceId": "1,0,1,0,0,0,0,0",
+            "taskId": "1,0,1,0,0,0,0,0",
+            "taskKey": "1,0,1,0,0,0,0,0",
+            "taskCode": "1,0,1,0,0,0,0,0",
+            "taskName": "1,0,1,0,0,0,0,0"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
+        }
+    }
+}
