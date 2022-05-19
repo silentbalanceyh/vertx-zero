@@ -1,6 +1,6 @@
 {
-    "name": "w-income",
-    "daoCls": "cn.vertxup.workflow.domain.tables.daos.TAssetInDao",
+    "name": "w-vendor-check-in",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.TVendorCheckInDao",
     "field": {
         "unique": [
             [
