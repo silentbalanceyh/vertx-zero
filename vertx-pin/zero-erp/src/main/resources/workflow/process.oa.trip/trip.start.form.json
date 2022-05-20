@@ -1,4 +1,10 @@
 {
+    "initial": {
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.oa.trip"
+    },
+    "hidden": [
+        "requestBy"
+    ],
     "segment": {
         "TICKET": [
             [
@@ -102,6 +108,27 @@
                 }
             ]
         ],
-        "END_CLOSE": "END_STANDARD"
+        "ASSIGNMENT": "ASSIGN_SINGLE"
+    },
+    "action": {
+        "$opDraft": {
+            "data": {
+                "draft": true,
+                "status": "DRAFT",
+                "phase": "DRAFT"
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人信息\"，流程提交必须指定处理人。"
+                ]
+            },
+            "data": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            }
+        }
     }
 }

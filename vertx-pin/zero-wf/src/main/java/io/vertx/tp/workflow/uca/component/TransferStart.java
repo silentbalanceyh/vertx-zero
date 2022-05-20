@@ -20,7 +20,6 @@ public class TransferStart extends AbstractMovement implements Transfer {
          *
          * Record support ADD / UPDATE operation combined
          */
-
         return this.inputAsync(request.request())
 
 
