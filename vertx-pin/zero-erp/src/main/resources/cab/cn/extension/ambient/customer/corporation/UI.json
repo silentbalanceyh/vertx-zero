@@ -37,7 +37,7 @@
                             ]
                         },
                         {
-                            "metadata": "email,签单人邮箱,,,,placeholder=格式：xxx@xxx.xx",
+                            "metadata": "contactEmail,签单人邮箱,,,,placeholder=格式：xxx@xxx.xx",
                             "optionConfig.rules": [
                                 {
                                     "pattern": "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}",
