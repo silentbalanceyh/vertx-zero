@@ -12,5 +12,19 @@
                 }
             }
         ]
+    },
+    "e.evaluate": {
+        "data": {
+            "confirmed": "confirmed"
+        },
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": false,
+                "todo": {
+                    "status": "DRAFT"
+                }
+            }
+        ]
     }
 }

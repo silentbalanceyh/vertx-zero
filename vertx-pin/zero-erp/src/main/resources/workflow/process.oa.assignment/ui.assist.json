@@ -1,0 +1,14 @@
+{
+    "service.catalog": {
+        "uri": "/api/type/categories/:type",
+        "magic": {
+            "type": "FIX:zero.service.catalog"
+        }
+    },
+    "workflow.cat": {
+        "uri": "/api/type/tabulars/:type",
+        "magic": {
+            "type": "FIX:zero.workflow.cat"
+        }
+    }
+}

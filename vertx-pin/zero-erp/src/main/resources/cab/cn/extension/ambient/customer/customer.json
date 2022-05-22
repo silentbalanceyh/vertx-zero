@@ -108,6 +108,19 @@
         }
     },
     {
+        "title": "联系人邮箱",
+        "dataIndex": "contactEmail",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入联系人邮箱",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
         "title": "在线联系方式",
         "dataIndex": "contactOnline",
         "sorter": true,
