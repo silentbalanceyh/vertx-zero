@@ -26,15 +26,15 @@ public class ScConfig implements Serializable {
      * 5) Action
      * 6) Resource
      */
-    private ScCondition condition;
+    private ScCondition condition = new ScCondition();
     /*
      * Authorization Code expired time: ( s )
      */
-    private Integer codeExpired;
+    private Integer codeExpired = 30;
     /*
      * Authorization Code length ( random string )
      */
-    private Integer codeLength;
+    private Integer codeLength = 8;
     /*
      * Authorization Code session pool
      */
@@ -42,7 +42,7 @@ public class ScConfig implements Serializable {
     /*
      * Token expired time: ( ms )
      */
-    private Long tokenExpired;
+    private Long tokenExpired = 30L;
     /*
      * Token session pool
      */

@@ -17,7 +17,10 @@ CREATE TABLE `E_PROJECT`
     `STATUS`      VARCHAR(36) COMMENT '「status」- 项目状态',
     -- 项目基本信息
     `TITLE`       VARCHAR(1024) COMMENT '「title」- 主单业务标题',
+    `ICON`        VARCHAR(255) COMMENT '「icon」- 项目图标',
     `DESCRIPTION` LONGTEXT COMMENT '「description」- 主单描述内容',
+    -- 项目经理信息
+    `LEAD_BY`     VARCHAR(36) COMMENT '「leadBy」- 项目经理',
 
     -- 特殊字段
     `METADATA`    TEXT COMMENT '「metadata」- 附加配置',

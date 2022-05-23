@@ -70,6 +70,36 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByType(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TITLE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByTitle(Collection<String> values) {
@@ -85,18 +115,19 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
+     * Find records that have <code>DESCRIPTION IN (values)</code>
+     * asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByFileKey(Collection<String> values) {
-                return findManyByCondition(EContract.E_CONTRACT.FILE_KEY.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByDescription(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.DESCRIPTION.in(values));
         }
 
         /**
-     * Find records that have <code>FILE_KEY IN (values)</code> asynchronously
-     * limited by the given limit
+     * Find records that have <code>DESCRIPTION IN (values)</code>
+     * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByFileKey(Collection<String> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.FILE_KEY.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByDescription(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.DESCRIPTION.in(values),limit);
         }
 
         /**
@@ -115,49 +146,33 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>COMPANY_ID IN (values)</code> asynchronously
+     * Find records that have <code>START_AT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCompanyId(Collection<String> values) {
-                return findManyByCondition(EContract.E_CONTRACT.COMPANY_ID.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByStartAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EContract.E_CONTRACT.START_AT.in(values));
         }
 
         /**
-     * Find records that have <code>COMPANY_ID IN (values)</code> asynchronously
+     * Find records that have <code>START_AT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCompanyId(Collection<String> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.COMPANY_ID.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByStartAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.START_AT.in(values),limit);
         }
 
         /**
-     * Find records that have <code>CUSTOMER_ID IN (values)</code>
-     * asynchronously
+     * Find records that have <code>END_AT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCustomerId(Collection<String> values) {
-                return findManyByCondition(EContract.E_CONTRACT.CUSTOMER_ID.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByEndAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EContract.E_CONTRACT.END_AT.in(values));
         }
 
         /**
-     * Find records that have <code>CUSTOMER_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCustomerId(Collection<String> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.CUSTOMER_ID.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByExpiredAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(EContract.E_CONTRACT.EXPIRED_AT.in(values));
-        }
-
-        /**
-     * Find records that have <code>EXPIRED_AT IN (values)</code> asynchronously
+     * Find records that have <code>END_AT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByExpiredAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.EXPIRED_AT.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByEndAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.END_AT.in(values),limit);
         }
 
         /**
@@ -176,33 +191,48 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
+     * Find records that have <code>PARTY_A IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByRunAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(EContract.E_CONTRACT.RUN_AT.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyA(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_A.in(values));
         }
 
         /**
-     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
+     * Find records that have <code>PARTY_A IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByRunAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.RUN_AT.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyA(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_A.in(values),limit);
         }
 
         /**
-     * Find records that have <code>RUN_UP_AT IN (values)</code> asynchronously
+     * Find records that have <code>PARTY_B IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByRunUpAt(Collection<LocalDateTime> values) {
-                return findManyByCondition(EContract.E_CONTRACT.RUN_UP_AT.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyB(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_B.in(values));
         }
 
         /**
-     * Find records that have <code>RUN_UP_AT IN (values)</code> asynchronously
+     * Find records that have <code>PARTY_B IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByRunUpAt(Collection<LocalDateTime> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.RUN_UP_AT.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyB(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_B.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PARTY_C IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyC(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_C.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARTY_C IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByPartyC(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.PARTY_C.in(values),limit);
         }
 
         /**
@@ -233,6 +263,21 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByAPhone(Collection<String> values, int limit) {
                 return findManyByCondition(EContract.E_CONTRACT.A_PHONE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>A_LEGAL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByALegal(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.A_LEGAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>A_LEGAL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByALegal(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.A_LEGAL.in(values),limit);
         }
 
         /**
@@ -281,6 +326,21 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>B_LEGAL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByBLegal(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.B_LEGAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>B_LEGAL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByBLegal(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.B_LEGAL.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>B_ADDRESS IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByBAddress(Collection<String> values) {
@@ -296,18 +356,63 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * Find records that have <code>C_NAME IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByType(Collection<String> values) {
-                return findManyByCondition(EContract.E_CONTRACT.TYPE.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCName(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.C_NAME.in(values));
         }
 
         /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * Find records that have <code>C_NAME IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByType(Collection<String> values, int limit) {
-                return findManyByCondition(EContract.E_CONTRACT.TYPE.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCName(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.C_NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>C_PHONE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCPhone(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.C_PHONE.in(values));
+        }
+
+        /**
+     * Find records that have <code>C_PHONE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCPhone(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.C_PHONE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>C_LEGAL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCLegal(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.C_LEGAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>C_LEGAL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCLegal(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.C_LEGAL.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>C_ADDRESS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCAddress(Collection<String> values) {
+                return findManyByCondition(EContract.E_CONTRACT.C_ADDRESS.in(values));
+        }
+
+        /**
+     * Find records that have <code>C_ADDRESS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EContract>> findManyByCAddress(Collection<String> values, int limit) {
+                return findManyByCondition(EContract.E_CONTRACT.C_ADDRESS.in(values),limit);
         }
 
         /**

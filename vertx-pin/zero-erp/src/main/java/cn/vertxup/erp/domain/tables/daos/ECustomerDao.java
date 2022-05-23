@@ -85,6 +85,21 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByStatus(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.STATUS.in(values));
+        }
+
+        /**
+     * Find records that have <code>STATUS IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByStatus(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.STATUS.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TAX_CODE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByTaxCode(Collection<String> values) {
@@ -344,18 +359,19 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
-     * Find records that have <code>RUN_AMOUNT IN (values)</code> asynchronously
+     * Find records that have <code>RUN_UP_AMOUNT IN (values)</code>
+     * asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunAmount(Collection<BigDecimal> values) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_AMOUNT.in(values));
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunUpAmount(Collection<BigDecimal> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_UP_AMOUNT.in(values));
         }
 
         /**
-     * Find records that have <code>RUN_AMOUNT IN (values)</code> asynchronously
-     * limited by the given limit
+     * Find records that have <code>RUN_UP_AMOUNT IN (values)</code>
+     * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunAmount(Collection<BigDecimal> values, int limit) {
-                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_AMOUNT.in(values),limit);
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRunUpAmount(Collection<BigDecimal> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RUN_UP_AMOUNT.in(values),limit);
         }
 
         /**

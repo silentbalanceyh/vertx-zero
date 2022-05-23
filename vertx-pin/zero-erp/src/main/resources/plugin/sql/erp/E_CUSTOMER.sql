@@ -44,7 +44,7 @@ CREATE TABLE `E_CUSTOMER`
     `SIGN_NAME`      VARCHAR(255) COMMENT '「signName」- 签单人姓名',
     `SIGN_PHONE`     VARCHAR(20) COMMENT '「signPhone」- 签单人电话',
     `RUN_UP`         BIT            DEFAULT NULL COMMENT '「runUp」- 挂账属性',
-    `RUN_UP_AMOUNT`  DECIMAL(18, 2) DEFAULT NULL COMMENT '「runAmount」- 挂账限额',
+    `RUN_UP_AMOUNT`  DECIMAL(18, 2) DEFAULT NULL COMMENT '「runUpAmount」- 挂账限额',
 
     -- 银行账号/开户行
     `BANK_ID`        VARCHAR(36) COMMENT '「bankId」- 开户行',

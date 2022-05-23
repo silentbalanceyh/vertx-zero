@@ -61,6 +61,16 @@ public interface IECustomer extends VertxPojo, Serializable {
     public String getType();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     */
+    public IECustomer setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
     public IECustomer setTaxCode(String value);
@@ -245,16 +255,16 @@ public interface IECustomer extends VertxPojo, Serializable {
     public Boolean getRunUp();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
-     * 挂账限额
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
+     * 「runUpAmount」- 挂账限额
      */
-    public IECustomer setRunAmount(BigDecimal value);
+    public IECustomer setRunUpAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
-     * 挂账限额
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
+     * 「runUpAmount」- 挂账限额
      */
-    public BigDecimal getRunAmount();
+    public BigDecimal getRunUpAmount();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
@@ -390,6 +400,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setTaxCode,json::getString,"TAX_CODE","java.lang.String");
                 setOrThrow(this::setTaxTitle,json::getString,"TAX_TITLE","java.lang.String");
                 setOrThrow(this::setContactName,json::getString,"CONTACT_NAME","java.lang.String");
@@ -407,7 +418,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignPhone,json::getString,"SIGN_PHONE","java.lang.String");
                 setOrThrow(this::setRunUp,json::getBoolean,"RUN_UP","java.lang.Boolean");
-                // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                // Omitting unrecognized type java.math.BigDecimal for column RUN_UP_AMOUNT!
                 setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
                 setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -429,6 +440,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("TAX_CODE",getTaxCode());
                 json.put("TAX_TITLE",getTaxTitle());
                 json.put("CONTACT_NAME",getContactName());
@@ -446,7 +458,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_PHONE",getSignPhone());
                 json.put("RUN_UP",getRunUp());
-                // Omitting unrecognized type java.math.BigDecimal for column RUN_AMOUNT!
+                // Omitting unrecognized type java.math.BigDecimal for column RUN_UP_AMOUNT!
                 json.put("BANK_ID",getBankId());
                 json.put("BANK_CARD",getBankCard());
                 json.put("METADATA",getMetadata());
