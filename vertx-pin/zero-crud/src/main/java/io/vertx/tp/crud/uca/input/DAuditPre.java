@@ -28,7 +28,7 @@ class DAuditPre implements Pre {
         if (keys.isEmpty()) {
             return Ux.future(data);
         } else {
-            return Ux.channel(ExUser.class, () -> data, stub -> stub.auditor(keys)
+            return Ux.channel(ExUser.class, () -> data, stub -> stub.mapAuditor(keys)
                 .compose(map -> {
                     if (map.isEmpty()) {
                         return Ux.future(data);

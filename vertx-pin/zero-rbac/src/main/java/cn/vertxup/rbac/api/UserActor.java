@@ -25,18 +25,6 @@ public class UserActor {
     @Inject
     private transient LoginStub loginStub;
 
-    /*
-     * User information get from the system to extract data here.
-     */
-    @Address(Addr.User.INFORMATION)
-    public Future<JsonObject> information(final Envelop envelop) {
-        final String userId = envelop.userId();
-        /*
-         * Async for user information
-         */
-        return this.stub.fetchEmployee(userId);
-    }
-
     @Address(Addr.User.PASSWORD)
     public Future<JsonObject> password(final Envelop envelop) {
         /*
@@ -51,7 +39,7 @@ public class UserActor {
     public Future<JsonObject> profile(final Envelop envelop) {
         final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
-        return this.stub.updateEmployee(userId, params);
+        return this.stub.updateInformation(userId, params);
     }
 
     @Address(Addr.Auth.LOGOUT)
@@ -98,5 +86,20 @@ public class UserActor {
             tunnel -> this.stub.fetchUser(key)
                 .compose(user -> tunnel.backupAsync("sec.user", user))
                 .compose(backup -> this.stub.deleteUser(key)));
+    }
+
+    // ====================== Information ( By Type ) =======================
+    /*
+     * User information get from the system to extract data here.
+     */
+    @Address(Addr.User.INFORMATION)
+    public Future<JsonObject> information(final Envelop envelop) {
+        final String userId = envelop.userId();
+        return this.stub.fetchInformation(userId);
+    }
+
+    @Address(Addr.User.QR_USER_SEARCH)
+    public Future<JsonObject> searchByType(final String identifier, final JsonObject criteria) {
+        return this.stub.searchUser(identifier, criteria);
     }
 }

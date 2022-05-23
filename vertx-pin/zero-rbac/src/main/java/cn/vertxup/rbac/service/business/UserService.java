@@ -11,10 +11,13 @@ import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.specification.KQr;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -28,6 +31,42 @@ import java.util.stream.Collectors;
 
 public class UserService implements UserStub {
     private static final Annal LOGGER = Annal.get(UserService.class);
+    private static final ScConfig CONFIG = ScPin.getConfig();
+
+    // ================== Type Part for S_USER usage ================
+    @Override
+    public Future<JsonObject> searchUser(final String identifier, final JsonObject criteria) {
+        final KQr qr = CONFIG.category(identifier);
+        if (Objects.isNull(qr) || !qr.valid()) {
+            return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
+        }
+        return UserExtension.searchAsync(qr, criteria);
+    }
+
+    /*
+     * Async for user information
+     * 1) Fetch information from S_USER
+     * 2) Re-calculate the information by `modelId/modelKey` instead of ...
+     *    -- Employee: modelId = employee
+     *    -- Member:   modelId = member
+     * 3) Fetch secondary information based on configuration by
+     *    key = modelKey
+     *
+     * The whole level should be
+     *
+     */
+    @Override
+    public Future<JsonObject> fetchInformation(final String userId) {
+        return Ux.Jooq.on(SUserDao.class)
+            /* User Information */
+            .<SUser>fetchByIdAsync(userId)
+            /* Employee Information */
+            .compose(UserExtension::fetchAsync)
+            /* Relation for roles / groups */
+            .compose(this::fetchRelation);
+    }
+
+    // ================== Basic Part of S_User ================
 
     @Override
     public Future<JsonObject> fetchOUser(final String userKey) {
@@ -48,16 +87,6 @@ public class UserService implements UserStub {
         return Sc.relation(AuthKey.F_USER_ID, userKey, RUserGroupDao.class);
     }
 
-    @Override
-    public Future<JsonObject> fetchEmployee(final String userId) {
-        return Ux.Jooq.on(SUserDao.class)
-            /* User Information */
-            .<SUser>fetchByIdAsync(userId)
-            /* Employee Information */
-            .compose(UserHelper::fetchEmployee)
-            /* Relation for roles / groups */
-            .compose(this::fetchRelation);
-    }
 
     private Future<JsonObject> fetchRelation(final JsonObject userJson) {
         final String key = userJson.getString(KName.KEY);
@@ -87,12 +116,12 @@ public class UserService implements UserStub {
     }
 
     @Override
-    public Future<JsonObject> updateEmployee(final String userId, final JsonObject params) {
+    public Future<JsonObject> updateInformation(final String userId, final JsonObject params) {
         final SUser user = Ux.fromJson(params, SUser.class);
         user.setKey(userId);
         return Ux.Jooq.on(SUserDao.class)
             .updateAsync(userId, user)
-            .compose(userInfo -> UserHelper.updateEmployee(userInfo, params));
+            .compose(userInfo -> UserExtension.updateExtension(userInfo, params));
     }
 
     @Override

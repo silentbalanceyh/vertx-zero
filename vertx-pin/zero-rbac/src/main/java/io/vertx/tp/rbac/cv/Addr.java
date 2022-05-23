@@ -49,8 +49,6 @@ public interface Addr {
 
         String SEARCH = Prefix._EVENT + "X-SEARCH";
 
-        String SEARCH_USER = Prefix._EVENT + "X-SEARCH/USER";
-
         /**
          * modified by Hongwei at 2019/12/06
          * add get, create, update and delete methods for user domain.
@@ -64,6 +62,11 @@ public interface Addr {
         String UPDATE = Prefix._EVENT + "X-PUT/USER/ID";
 
         String IMPORT = Prefix._EVENT + "X-IMPORT/USER";
+
+        /*
+         * New for user processing
+         */
+        String QR_USER_SEARCH = Prefix._EVENT + "X-USER/QR/SEARCH";
     }
 
     interface Perm {
