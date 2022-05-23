@@ -81,7 +81,7 @@ public interface AppAgent {
      * 2. Step 2: Query the valid `notice` records from the system
      */
     @POST
-    @Path("/app/notice")
+    @Path("/api/notice-dashboard")
     @Address(Addr.Init.NOTICE)
     JsonArray notice(@HeaderParam(ID.Header.X_APP_ID) String appId,
                      @BodyParam JsonObject condition);
