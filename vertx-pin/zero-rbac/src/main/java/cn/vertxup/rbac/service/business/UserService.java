@@ -35,12 +35,12 @@ public class UserService implements UserStub {
 
     // ================== Type Part for S_USER usage ================
     @Override
-    public Future<JsonObject> searchUser(final String identifier, final JsonObject criteria) {
+    public Future<JsonObject> searchUser(final String identifier, final JsonObject criteria, final boolean isQr) {
         final KQr qr = CONFIG.category(identifier);
         if (Objects.isNull(qr) || !qr.valid()) {
             return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
         }
-        return UserExtension.searchAsync(qr, criteria);
+        return UserExtension.searchAsync(qr, criteria, isQr);
     }
 
     /*

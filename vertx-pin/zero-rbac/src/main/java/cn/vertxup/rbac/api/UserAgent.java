@@ -79,9 +79,14 @@ public interface UserAgent {
     @POST
     @Path("/user/search/:identifier")
     @Address(Addr.User.QR_USER_SEARCH)
-    @Adjust(Orders.EVENT_USER)
     JsonObject searchByType(@PathParam(KName.IDENTIFIER) String identifier,
                             @BodyParam JsonObject criteria);
+
+    @Path("user/search")
+    @POST
+    @Address(Addr.User.EMPLOYEE_SEARCH)
+    @Adjust(Orders.EVENT_USER)
+    JsonObject searchLegacy(@BodyParam JsonObject params);
 
     /*
      * /api/user

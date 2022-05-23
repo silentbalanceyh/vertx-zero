@@ -12,6 +12,15 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface ExUser {
 
+    // ======================= Processing =====================
+    /*
+     * Nexus implementation by specific definition here.
+     * You must set UxJooq instead of other Dao here.
+     * 1) This interface is for `modelKey` and `modelId` only
+     * 2) A Table defined `modelKey` and `modelId`, the B table
+     * 3) When relation has been changed from B, the `modelId` and `modelKey` must be updated
+     */
+
     /*
      * Fetch by `modelKey` & `modelId`
      * `key` is the entity primary key

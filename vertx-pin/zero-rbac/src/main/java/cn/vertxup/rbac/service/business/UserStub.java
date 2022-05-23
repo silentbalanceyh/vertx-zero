@@ -68,5 +68,5 @@ public interface UserStub {
      */
     Future<JsonObject> fetchInformation(String userId);
 
-    Future<JsonObject> searchUser(String type, JsonObject criteria);
+    Future<JsonObject> searchUser(String type, JsonObject criteria, boolean isQr);
 }

@@ -29,15 +29,6 @@ public class UserExtension {
 
     private static final ScConfig CONFIG = ScPin.getConfig();
 
-    // ======================= Processing =====================
-    /*
-     * Nexus implementation by specific definition here.
-     * You must set UxJooq instead of other Dao here.
-     * 1) This interface is for `modelKey` and `modelId` only
-     * 2) A Table defined `modelKey` and `modelId`, the B table
-     * 3) When relation has been changed from B, the `modelId` and `modelKey` must be updated
-     */
-
     public static Future<JsonObject> updateExtension(final SUser user, final JsonObject params) {
         /* User model key */
         return runExtension(user, qr -> {
@@ -50,11 +41,17 @@ public class UserExtension {
 
     // ======================= Fetching =======================
 
-    public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject criteria) {
+    public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject criteria, final boolean isQr) {
         // Qr Json
-        final JsonObject condition = Ux.whereAnd();
-        condition.mergeIn(qr.getCondition());
-        condition.put("$IN$", criteria);
+        final JsonObject condition;
+        if (isQr) {
+            condition = Ux.whereAnd();
+            condition.mergeIn(qr.getCondition());
+            condition.put("$IN$", criteria);
+        } else {
+            condition = new JsonObject();
+            condition.mergeIn(criteria.copy());
+        }
 
         final UxJoin searcher = Ux.Join.on();
         /*
