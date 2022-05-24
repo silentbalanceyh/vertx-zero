@@ -36,6 +36,7 @@ class SerialPre implements Pre {
             /* Fix Bug of number generations here */
             return Ux.future(data);
         }
+
         /* Number generation */
         return this.run(data, in, (numbers) -> Ux.channelAsync(Indent.class, () -> Ux.future(data), stub -> {
             Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
@@ -80,7 +81,12 @@ class SerialPre implements Pre {
                 generated.forEach((numberField, numberList) -> {
                     final Queue<String> numberQueue = new LinkedBlockingDeque<>(numberList);
                     if (numberQueue.size() == data.size()) {
-                        Ut.itJArray(data).forEach(json -> json.put(numberField, numberQueue.poll()));
+                        Ut.itJArray(data).forEach(json -> {
+                            // This kind of situation may miss some numbers when you provide numbers
+                            if (!json.containsKey(numberField)) {
+                                json.put(numberField, numberQueue.poll());
+                            }
+                        });
                     }
                 });
                 return Ux.future(data);
