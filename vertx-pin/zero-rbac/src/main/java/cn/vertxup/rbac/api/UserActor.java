@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.tp.ke.cv.em.BizInternal;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
@@ -105,6 +106,6 @@ public class UserActor {
 
     @Address(Addr.User.EMPLOYEE_SEARCH)
     public Future<JsonObject> searchLegacy(final JsonObject params) {
-        return this.stub.searchUser("employee", params, false);
+        return this.stub.searchUser(BizInternal.TypeUser.employee.name(), params, false);
     }
 }
