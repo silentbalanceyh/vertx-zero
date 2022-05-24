@@ -39,11 +39,11 @@ public class EmployeeService implements EmployeeStub {
                  * If data contains `userId`, it means that current employee will relate to
                  * an account
                  */
-                if (data.containsKey(EmployeeStub.USER_ID)) {
+                if (data.containsKey(KName.USER_ID)) {
                     /*
                      * Create new relation here.
                      */
-                    final String key = data.getString(EmployeeStub.USER_ID);
+                    final String key = data.getString(KName.USER_ID);
                     return this.updateReference(key, inserted);
                 } else {
                     return Ux.future(data);
@@ -76,8 +76,8 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.fetchAsync(key)
             .compose(Ut.ifNil(JsonObject::new, original -> {
-                final String userId = original.getString(EmployeeStub.USER_ID);
-                final String current = data.getString(EmployeeStub.USER_ID);
+                final String userId = original.getString(KName.USER_ID);
+                final String current = data.getString(KName.USER_ID);
                 if (Ut.isNil(userId) && Ut.isNil(current)) {
                     /*
                      * Old null, new null
@@ -144,7 +144,7 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<Boolean> deleteAsync(final String key, final JsonObject item) {
-        final String userId = item.getString(EmployeeStub.USER_ID);
+        final String userId = item.getString(KName.USER_ID);
         return this.updateReference(userId, new JsonObject())
             .compose(nil -> Ux.Jooq.on(EEmployeeDao.class)
                 .deleteByIdAsync(key));

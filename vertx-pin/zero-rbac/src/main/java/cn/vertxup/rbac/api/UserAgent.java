@@ -3,10 +3,8 @@ package cn.vertxup.rbac.api;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
-import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Orders;
 
 import javax.ws.rs.*;
 
@@ -81,12 +79,6 @@ public interface UserAgent {
     @Address(Addr.User.QR_USER_SEARCH)
     JsonObject searchByType(@PathParam(KName.IDENTIFIER) String identifier,
                             @BodyParam JsonObject criteria);
-
-    @Path("user/search")
-    @POST
-    @Address(Addr.User.EMPLOYEE_SEARCH)
-    @Adjust(Orders.EVENT_USER)
-    JsonObject searchLegacy(@BodyParam JsonObject params);
 
     /*
      * /api/user

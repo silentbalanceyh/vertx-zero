@@ -67,8 +67,6 @@ public interface Addr {
          * New for user processing
          */
         String QR_USER_SEARCH = Prefix._EVENT + "X-USER/QR/SEARCH";
-
-        String EMPLOYEE_SEARCH = Prefix._EVENT + "X-USER/EMPLOYEE/SEARCH";
     }
 
     interface Perm {
