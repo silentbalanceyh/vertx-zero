@@ -30,6 +30,7 @@ class AgonicImport implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
             Pre.head()::inAAsync,        /* Header Value */
+            Pre.serial()::inAAsync,      /* Serial/Number */
             this::runCompress            /* Compress */
         ).compose(processed -> Pre.qr(QrType.BY_UK).inAJAsync(processed, in)
             .compose(jooq::fetchJAsync)
