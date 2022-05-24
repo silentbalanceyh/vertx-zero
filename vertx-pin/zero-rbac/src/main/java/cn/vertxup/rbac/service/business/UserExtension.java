@@ -9,6 +9,7 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KQr;
@@ -41,7 +42,13 @@ public class UserExtension {
 
     // ======================= Fetching =======================
 
-    public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject criteria, final boolean isQr) {
+    /*
+     * Fix Issue: https://github.com/silentbalanceyh/ox-engine/issues/1207
+     */
+    public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject query, final boolean isQr) {
+        // The original `criteria` from query part
+        final JsonObject queryJ = query.copy();
+        final JsonObject criteria = queryJ.getJsonObject(Qr.KEY_CRITERIA);
         // Qr Json
         final JsonObject condition;
         if (isQr) {
@@ -52,6 +59,7 @@ public class UserExtension {
             condition = new JsonObject();
             condition.mergeIn(criteria.copy());
         }
+        queryJ.put(Qr.KEY_CRITERIA, condition);
 
         final UxJoin searcher = Ux.Join.on();
         /*
@@ -62,7 +70,7 @@ public class UserExtension {
         searcher.add(SUserDao.class, KName.MODEL_KEY);
         final Class<?> clazz = qr.getClassDao();
         searcher.join(clazz);
-        return searcher.searchAsync(condition);
+        return searcher.searchAsync(queryJ);
     }
 
     public static Future<JsonObject> fetchAsync(final SUser user) {

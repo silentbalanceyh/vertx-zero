@@ -6,6 +6,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.tp.ke.cv.KeIpc;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
@@ -33,11 +34,11 @@ public class AuditorPin implements PlugAuditor {
          * Configured for empty config
          */
         final JsonArray include = auditor.getJsonArray(KName.INCLUDE, new JsonArray());
-        include.addAll(KName.Rbac.INCLUDE);
+        include.addAll(KeIpc.Audit.INCLUDE);
         auditor.put(KName.INCLUDE, include);
 
         final JsonArray exclude = auditor.getJsonArray(KName.EXCLUDE, new JsonArray());
-        exclude.addAll(KName.Rbac.EXCLUDE);
+        exclude.addAll(KeIpc.Audit.EXCLUDE);
         auditor.put(KName.EXCLUDE, exclude);
         this.config.mergeIn(auditor);
         return this;
