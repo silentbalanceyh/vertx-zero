@@ -155,7 +155,7 @@ class ScTool {
         if (Objects.nonNull(support) && support) {
             // Username in Pool
             final String imagePool = CONFIG.getPoolVerify();
-            final String code = Ut.captcha(5);
+            final String code = Ut.randomCaptcha(5);
             return Rapid.<String, String>t(imagePool, 300).write(sessionId, code)
                 // Generate Image Buffer to Front-End
                 .compose(codeImage -> ScImage.imageGenerate(codeImage, width, height));

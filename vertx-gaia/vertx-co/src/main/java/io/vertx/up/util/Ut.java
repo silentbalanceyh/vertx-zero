@@ -58,6 +58,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -363,6 +364,18 @@ public final class Ut {
 
     public static String encryptRSAV(final String input, final String keyContent) {
         return ED.rsa(false).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAV(final String input) {
+        return ED.rsa(false).encrypt(input);
+    }
+
+    public static String decryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(false).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAP(final String input) {
+        return ED.rsa(false).decrypt(input);
     }
 
     /*
@@ -1491,25 +1504,19 @@ public final class Ut {
         return Jackson.visitString(item, keys);
     }
 
-    /*
-     * Captcha method
-     * 1) captcha
-     */
 
     /**
      * @param length Length of intended captcha string.
+     *
      * @return a string of captcha with certain length.
      */
-    public static String captcha(final int length) {
-        return StringUtil.captcha(length);
-    }
-
     /*
      * Random method
      * 1) randomNumber
      * 2) randomString
      * 3) randomLetter
      * 4) randomRsa
+     * 5) randomCaptcha
      */
     public static Integer randomNumber(final int length) {
         return Numeric.randomNumber(length);
@@ -1517,6 +1524,10 @@ public final class Ut {
 
     public static String randomString(final int length) {
         return StringUtil.random(length);
+    }
+
+    public static String randomCaptcha(final int length) {
+        return StringUtil.captcha(length);
     }
 
     public static String randomLetter(final int length) {

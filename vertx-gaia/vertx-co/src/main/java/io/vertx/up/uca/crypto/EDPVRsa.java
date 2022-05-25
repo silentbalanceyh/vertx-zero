@@ -3,7 +3,6 @@ package io.vertx.up.uca.crypto;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.experiment.specification.KPair;
 
-import javax.crypto.Cipher;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -13,7 +12,7 @@ import java.security.interfaces.RSAPublicKey;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class EDPVRsa extends AbstractED {
+public class EDPVRsa extends AbstractED<RSAPublicKey, RSAPrivateKey> {
 
     public EDPVRsa() {
         super(Constants.ALGORITHM_RSA);
@@ -40,7 +39,7 @@ public class EDPVRsa extends AbstractED {
         // Get Public Key
         final RSAPublicKey publicKey = (RSAPublicKey) this.x509(keyContent);
         // Encrypt Code Logical
-        return this.runFinal(source, Cipher.ENCRYPT_MODE, publicKey);
+        return this.runEncrypt(source, publicKey);
     }
 
     @Override
@@ -48,6 +47,6 @@ public class EDPVRsa extends AbstractED {
         // Get Private Key
         final RSAPrivateKey privateKey = (RSAPrivateKey) this.pKCS8(keyContent);
         // Encrypt Code Logical
-        return this.runFinal(source, Cipher.DECRYPT_MODE, privateKey);
+        return this.runDecrypt(source, privateKey);
     }
 }

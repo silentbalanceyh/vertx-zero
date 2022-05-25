@@ -159,7 +159,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
     }
 
     public String getSmartPassword() {
-        return this.password;
+        return Ut.decryptRSAV(this.password);
     }
 
     public String getDriverClassName() {

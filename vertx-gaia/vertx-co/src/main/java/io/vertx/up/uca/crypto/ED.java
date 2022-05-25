@@ -1,5 +1,6 @@
 package io.vertx.up.uca.crypto;
 
+import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -27,6 +28,8 @@ public interface ED {
             return CC_ED.pick(EDVPRsa::new, EDVPRsa.class.getName());
         }
     }
+
+    KPair generate(int size);
 
     String encrypt(String source);
 

@@ -20,7 +20,7 @@ final class StringUtil {
     private static final String SEED =
         "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     private static final String CAPTCHA_SEED =
-        "2345678923456789234567892345678923456789qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM";
+        "23456789qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM";
     private static final String CHAR =
         "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
