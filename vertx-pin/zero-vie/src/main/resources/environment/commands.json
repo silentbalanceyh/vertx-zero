@@ -327,6 +327,25 @@
                         "defaultValue": "runtime/json/"
                     }
                 ]
+            },
+            {
+                "simple": "o",
+                "name": "encrypt",
+                "description": "密码加密专用工具",
+                "plugin": "cn.originx.uca.console.HEDInstruction",
+                "options": [
+                    {
+                        "simple": "i",
+                        "name": "input",
+                        "description": "需要加密的字符串",
+                        "required": true
+                    },
+                    {
+                        "simple": "p",
+                        "name": "path",
+                        "description": "加密所用的公钥文件路径"
+                    }
+                ]
             }
         ]
     }
