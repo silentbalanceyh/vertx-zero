@@ -9,7 +9,7 @@ public class RsaTc extends ZeroBase {
     @Ignore
     @Test
     public void testRsa() {
-        final String result = Rsa.encryptP("test plain text", "rsa_public_key.pem");
+        final String result = Rsa.encryptRSALegacy("test plain text", "rsa_public_key.pem");
         System.out.println("Rsa encrypt result:" + result);
     }
 }

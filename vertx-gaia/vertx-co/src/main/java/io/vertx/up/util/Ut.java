@@ -13,7 +13,6 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
 
 import java.io.File;
@@ -339,57 +338,11 @@ public final class Ut {
         return Codec.url(input, false);
     }
 
-    /*
-     * Mode 1: ( Default )
-     * 1) encrypt by Public Key
-     * 2) decrypt by Private Key
-     * Mode 2: ( Support in Future )
-     * 1) encrypt by Private Key
-     * 2) decrypt by Public Key
-     *
-     * The prefix:
-     *
-     * encryptP: Encrypt By Public Key
-     * encryptV: Encrypt By Private Key
-     * decryptP: Decrypt By Public Key
-     * decryptV: Decrypt By Private Key
-     *
-     * The usage must be abay above rules:
-     * 1 - Encrypt Public / Decrypt Private
-     * 2 - Encrypt Private / Decrypt Public
-     */
-    public static String encryptRSAP(final String input) {
-        return Rsa.encryptP(input);
-    }
 
-    public static String encryptRSAP(final String input, final String keyContent) {
-        return Rsa.encryptP(input, keyContent);
+    // This is usage in case1 for integration, that's why keep here
+    public static String encryptRSALegacy(final String input, final String filePath) {
+        return Rsa.encryptRSALegacy(input, filePath);
     }
-
-    public static String encryptRSAV(final String input) {
-        return Rsa.encryptV(input);
-    }
-
-    public static String encryptRSAV(final String input, final String keyContent) {
-        return Rsa.encryptV(input, keyContent);
-    }
-
-    public static String decryptRSAV(final String input) {
-        return Rsa.decryptV(input);
-    }
-
-    public static String decryptRSAV(final String input, final String keyContent) {
-        return Rsa.decryptV(input, keyContent);
-    }
-
-    public static String decryptRSAP(final String input) {
-        return Rsa.decryptP(input);
-    }
-
-    public static String decryptRSAP(final String input, final String keyContent) {
-        return Rsa.decryptP(input, keyContent);
-    }
-
 
     /*
      * Comparing method of two
@@ -1534,10 +1487,6 @@ public final class Ut {
 
     public static String randomLetter(final int length) {
         return StringUtil.randomNoDigit(length);
-    }
-
-    public static KPair randomRsa(final int size) {
-        return Rsa.generate(size);
     }
 
     /*
