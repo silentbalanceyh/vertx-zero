@@ -13,9 +13,9 @@ import java.security.interfaces.RSAPublicKey;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class EDPVRsa extends AbstractED {
+public class EDVPRsa extends AbstractED {
 
-    public EDPVRsa() {
+    public EDVPRsa() {
         super(Constants.ALGORITHM_RSA);
     }
 
@@ -37,17 +37,17 @@ public class EDPVRsa extends AbstractED {
 
     @Override
     public String encrypt(final String source, final String keyContent) {
-        // Get Public Key
-        final RSAPublicKey publicKey = (RSAPublicKey) this.x509(keyContent);
+        // Get Private Key
+        final RSAPrivateKey privateKey = (RSAPrivateKey) this.pKCS8(keyContent);
         // Encrypt Code Logical
-        return this.runFinal(source, Cipher.ENCRYPT_MODE, publicKey);
+        return this.runFinal(source, Cipher.ENCRYPT_MODE, privateKey);
     }
 
     @Override
     public String decrypt(final String source, final String keyContent) {
-        // Get Private Key
-        final RSAPrivateKey privateKey = (RSAPrivateKey) this.pKCS8(keyContent);
+        // Get Public Key
+        final RSAPublicKey publicKey = (RSAPublicKey) this.x509(keyContent);
         // Encrypt Code Logical
-        return this.runFinal(source, Cipher.DECRYPT_MODE, privateKey);
+        return this.runFinal(source, Cipher.DECRYPT_MODE, publicKey);
     }
 }

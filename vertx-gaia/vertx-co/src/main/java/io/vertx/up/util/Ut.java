@@ -14,6 +14,7 @@ import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
+import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;
 import java.io.InputStream;
@@ -340,8 +341,29 @@ public final class Ut {
 
 
     // This is usage in case1 for integration, that's why keep here
-    public static String encryptRSALegacy(final String input, final String filePath) {
-        return Rsa.encryptRSALegacy(input, filePath);
+    //    public static String encryptRSAPIo(final String input, final String keyPath) {
+    //        final String keyContent = Ut.ioString(keyPath);
+    //        return ED.rsa(true).encrypt(input, keyContent);
+    //    }
+
+    public static String encryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(true).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAP(final String input) {
+        return ED.rsa(true).encrypt(input);
+    }
+
+    public static String decryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(true).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAV(final String input) {
+        return ED.rsa(true).decrypt(input);
+    }
+
+    public static String encryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(false).encrypt(input, keyContent);
     }
 
     /*
