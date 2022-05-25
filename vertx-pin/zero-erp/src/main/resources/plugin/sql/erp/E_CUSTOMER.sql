@@ -18,6 +18,7 @@ CREATE TABLE `E_CUSTOMER`
     `NAME`           VARCHAR(255) COMMENT '「name」- 客户名称',
     `CODE`           VARCHAR(255) COMMENT '「code」- 客户编号',
     `TYPE`           VARCHAR(36) COMMENT '「type」- 客户分类（不同类型代表不同客户）',
+    `STATUS`         VARCHAR(36) COMMENT '「status」- 客户状态',
 
     -- 税务相关信息
     `TAX_CODE`       VARCHAR(255) COMMENT '「taxCode」- 税号',
@@ -43,7 +44,7 @@ CREATE TABLE `E_CUSTOMER`
     `SIGN_NAME`      VARCHAR(255) COMMENT '「signName」- 签单人姓名',
     `SIGN_PHONE`     VARCHAR(20) COMMENT '「signPhone」- 签单人电话',
     `RUN_UP`         BIT            DEFAULT NULL COMMENT '「runUp」- 挂账属性',
-    `RUN_AMOUNT`     DECIMAL(18, 2) DEFAULT NULL COMMENT '「runAmount」- 挂账限额',
+    `RUN_UP_AMOUNT`  DECIMAL(18, 2) DEFAULT NULL COMMENT '「runUpAmount」- 挂账限额',
 
     -- 银行账号/开户行
     `BANK_ID`        VARCHAR(36) COMMENT '「bankId」- 开户行',

@@ -67,8 +67,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.3.0</vertx.version>
-        <stack.version>4.3.0</stack.version>
+        <vertx.version>4.3.1</vertx.version>
+        <stack.version>4.3.1</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.35</jersey.version>
@@ -113,7 +113,7 @@
         <termd.version>1.1.9</termd.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.17.3</elasticsearch.version>
+        <elasticsearch.version>7.17.4</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.4.5</neo4j.version>
@@ -155,7 +155,7 @@
         <!-- Upload Issue -->
         <hazelcast.version>5.1.1</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.13.1</error.prone.version>
+        <error.prone.version>2.14.0</error.prone.version>
         <reactive.streams.version>1.0.3</reactive.streams.version>
         <zookeeper.version>3.8.0</zookeeper.version>
         <!-- JSR -->
@@ -222,7 +222,7 @@
         <camunda.connect.version>1.5.4</camunda.connect.version>
         <camunda.util.version>1.10.1</camunda.util.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
-        <mybatis.version>3.5.9</mybatis.version>
+        <mybatis.version>3.5.10</mybatis.version>
     </properties>
     <prerequisites>
         <maven>3.6.0</maven>

@@ -62,6 +62,11 @@ public interface Addr {
         String UPDATE = Prefix._EVENT + "X-PUT/USER/ID";
 
         String IMPORT = Prefix._EVENT + "X-IMPORT/USER";
+
+        /*
+         * New for user processing
+         */
+        String QR_USER_SEARCH = Prefix._EVENT + "X-USER/QR/SEARCH";
     }
 
     interface Perm {

@@ -77,7 +77,7 @@ final class WfConfiguration {
                 .setJdbcUrl(database.getJdbcUrl())
                 .setJdbcDriver(database.getDriverClassName())
                 .setJdbcUsername(database.getUsername())
-                .setJdbcPassword(database.getPassword())
+                .setJdbcPassword(database.getSmartPassword())
                 .setJobExecutorActivate(true);
             // Default Handler for History
             HANDLER = configuration.getHistoryEventHandler();

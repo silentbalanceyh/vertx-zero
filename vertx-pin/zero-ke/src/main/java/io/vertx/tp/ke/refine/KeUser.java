@@ -101,7 +101,7 @@ class KeUser {
                 keySet.add((String) value);
             }
         });
-        return Ux.channel(ExUser.class, () -> input, stub -> stub.user(keySet, true).compose(userMap -> {
+        return Ux.channel(ExUser.class, () -> input, stub -> stub.mapUser(keySet, true).compose(userMap -> {
             final JsonObject normalized = new JsonObject();
             Ut.itJArray(users, String.class, (field, index) -> {
                 final Object value = input.getValue(field);

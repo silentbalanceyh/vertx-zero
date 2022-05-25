@@ -49,6 +49,26 @@ public interface IEContract extends VertxPojo, Serializable {
     public String getCode();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     */
+    public IEContract setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     */
+    public String getType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     */
+    public IEContract setStatus(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     */
+    public String getStatus();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
      */
     public IEContract setTitle(String value);
@@ -59,16 +79,16 @@ public interface IEContract extends VertxPojo, Serializable {
     public String getTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.FILE_KEY</code>. 「fileKey」-
-     * 合同附件Key
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * 合同详细描述
      */
-    public IEContract setFileKey(String value);
+    public IEContract setDescription(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.FILE_KEY</code>. 「fileKey」-
-     * 合同附件Key
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * 合同详细描述
      */
-    public String getFileKey();
+    public String getDescription();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
@@ -81,40 +101,24 @@ public interface IEContract extends VertxPojo, Serializable {
     public BigDecimal getAmount();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.COMPANY_ID</code>. 「companyId」-
-     * 合同甲方
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
      */
-    public IEContract setCompanyId(String value);
+    public IEContract setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.COMPANY_ID</code>. 「companyId」-
-     * 合同甲方
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
      */
-    public String getCompanyId();
+    public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.CUSTOMER_ID</code>. 「customerId」-
-     * 合同乙方
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
      */
-    public IEContract setCustomerId(String value);
+    public IEContract setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.CUSTOMER_ID</code>. 「customerId」-
-     * 合同乙方
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
      */
-    public String getCustomerId();
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.EXPIRED_AT</code>. 「expiredAt」-
-     * 过期时间
-     */
-    public IEContract setExpiredAt(LocalDateTime value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.EXPIRED_AT</code>. 「expiredAt」-
-     * 过期时间
-     */
-    public LocalDateTime getExpiredAt();
+    public LocalDateTime getEndAt();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
@@ -127,46 +131,74 @@ public interface IEContract extends VertxPojo, Serializable {
     public LocalDateTime getSignedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.RUN_AT</code>. 「runAt」- 生效时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * 甲方（关联公司ID，E_COMPANY）
      */
-    public IEContract setRunAt(LocalDateTime value);
+    public IEContract setPartyA(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.RUN_AT</code>. 「runAt」- 生效时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * 甲方（关联公司ID，E_COMPANY）
      */
-    public LocalDateTime getRunAt();
+    public String getPartyA();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.RUN_UP_AT</code>. 「runUpAt」-
-     * 挂账到期时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * 乙方（关联客户ID，E_CUSTOMER）
      */
-    public IEContract setRunUpAt(LocalDateTime value);
+    public IEContract setPartyB(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.RUN_UP_AT</code>. 「runUpAt」-
-     * 挂账到期时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * 乙方（关联客户ID，E_CUSTOMER）
      */
-    public LocalDateTime getRunUpAt();
+    public String getPartyB();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」- 甲方签订人
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
+     * 丙方（关联客户ID，E_CUSTOMER）
+     */
+    public IEContract setPartyC(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
+     * 丙方（关联客户ID，E_CUSTOMER）
+     */
+    public String getPartyC();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * 甲方签订名称（个人为姓名/企业为企业名）
      */
     public IEContract setAName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」- 甲方签订人
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * 甲方签订名称（个人为姓名/企业为企业名）
      */
     public String getAName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人姓名
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
      */
     public IEContract setAPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人姓名
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
      */
     public String getAPhone();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * 甲方法人（企业合同专用）
+     */
+    public IEContract setALegal(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * 甲方法人（企业合同专用）
+     */
+    public String getALegal();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」-
@@ -181,24 +213,38 @@ public interface IEContract extends VertxPojo, Serializable {
     public String getAAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」- 乙方签订人
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * 乙方签订名称（个人为姓名/企业为企业名）
      */
     public IEContract setBName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」- 乙方签订人
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * 乙方签订名称（个人为姓名/企业为企业名）
      */
     public String getBName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人姓名
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
      */
     public IEContract setBPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人姓名
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
      */
     public String getBPhone();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * 乙方法人（企业合同专用）
+     */
+    public IEContract setBLegal(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * 乙方法人（企业合同专用）
+     */
+    public String getBLegal();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」-
@@ -213,14 +259,50 @@ public interface IEContract extends VertxPojo, Serializable {
     public String getBAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
+     * 丙方签订名称（个人为姓名/企业为企业名）
      */
-    public IEContract setType(String value);
+    public IEContract setCName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
+     * 丙方签订名称（个人为姓名/企业为企业名）
      */
-    public String getType();
+    public String getCName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
+     */
+    public IEContract setCPhone(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
+     */
+    public String getCPhone();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
+     * 丙方法人（企业合同专用）
+     */
+    public IEContract setCLegal(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
+     * 丙方法人（企业合同专用）
+     */
+    public String getCLegal();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
+     * 丙方联系地址
+     */
+    public IEContract setCAddress(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
+     * 丙方联系地址
+     */
+    public String getCAddress();
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
@@ -333,22 +415,29 @@ public interface IEContract extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
-                setOrThrow(this::setFileKey,json::getString,"FILE_KEY","java.lang.String");
+                setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                setOrThrow(this::setCompanyId,json::getString,"COMPANY_ID","java.lang.String");
-                setOrThrow(this::setCustomerId,json::getString,"CUSTOMER_ID","java.lang.String");
-                setOrThrow(this::setExpiredAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"EXPIRED_AT","java.time.LocalDateTime");
+                setOrThrow(this::setStartAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"START_AT","java.time.LocalDateTime");
+                setOrThrow(this::setEndAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"END_AT","java.time.LocalDateTime");
                 setOrThrow(this::setSignedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"SIGNED_AT","java.time.LocalDateTime");
-                setOrThrow(this::setRunAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"RUN_AT","java.time.LocalDateTime");
-                setOrThrow(this::setRunUpAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"RUN_UP_AT","java.time.LocalDateTime");
+                setOrThrow(this::setPartyA,json::getString,"PARTY_A","java.lang.String");
+                setOrThrow(this::setPartyB,json::getString,"PARTY_B","java.lang.String");
+                setOrThrow(this::setPartyC,json::getString,"PARTY_C","java.lang.String");
                 setOrThrow(this::setAName,json::getString,"A_NAME","java.lang.String");
                 setOrThrow(this::setAPhone,json::getString,"A_PHONE","java.lang.String");
+                setOrThrow(this::setALegal,json::getString,"A_LEGAL","java.lang.String");
                 setOrThrow(this::setAAddress,json::getString,"A_ADDRESS","java.lang.String");
                 setOrThrow(this::setBName,json::getString,"B_NAME","java.lang.String");
                 setOrThrow(this::setBPhone,json::getString,"B_PHONE","java.lang.String");
+                setOrThrow(this::setBLegal,json::getString,"B_LEGAL","java.lang.String");
                 setOrThrow(this::setBAddress,json::getString,"B_ADDRESS","java.lang.String");
-                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setCName,json::getString,"C_NAME","java.lang.String");
+                setOrThrow(this::setCPhone,json::getString,"C_PHONE","java.lang.String");
+                setOrThrow(this::setCLegal,json::getString,"C_LEGAL","java.lang.String");
+                setOrThrow(this::setCAddress,json::getString,"C_ADDRESS","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -367,22 +456,29 @@ public interface IEContract extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
+                json.put("TYPE",getType());
+                json.put("STATUS",getStatus());
                 json.put("TITLE",getTitle());
-                json.put("FILE_KEY",getFileKey());
+                json.put("DESCRIPTION",getDescription());
                 // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                json.put("COMPANY_ID",getCompanyId());
-                json.put("CUSTOMER_ID",getCustomerId());
-                json.put("EXPIRED_AT",getExpiredAt()==null?null:getExpiredAt().toString());
+                json.put("START_AT",getStartAt()==null?null:getStartAt().toString());
+                json.put("END_AT",getEndAt()==null?null:getEndAt().toString());
                 json.put("SIGNED_AT",getSignedAt()==null?null:getSignedAt().toString());
-                json.put("RUN_AT",getRunAt()==null?null:getRunAt().toString());
-                json.put("RUN_UP_AT",getRunUpAt()==null?null:getRunUpAt().toString());
+                json.put("PARTY_A",getPartyA());
+                json.put("PARTY_B",getPartyB());
+                json.put("PARTY_C",getPartyC());
                 json.put("A_NAME",getAName());
                 json.put("A_PHONE",getAPhone());
+                json.put("A_LEGAL",getALegal());
                 json.put("A_ADDRESS",getAAddress());
                 json.put("B_NAME",getBName());
                 json.put("B_PHONE",getBPhone());
+                json.put("B_LEGAL",getBLegal());
                 json.put("B_ADDRESS",getBAddress());
-                json.put("TYPE",getType());
+                json.put("C_NAME",getCName());
+                json.put("C_PHONE",getCPhone());
+                json.put("C_LEGAL",getCLegal());
+                json.put("C_ADDRESS",getCAddress());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

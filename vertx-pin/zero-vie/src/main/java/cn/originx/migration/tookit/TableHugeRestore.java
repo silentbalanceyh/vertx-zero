@@ -11,6 +11,8 @@ import io.vertx.up.util.Ut;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class TableHugeRestore extends AbstractStatic {
     public TableHugeRestore(final Environment environment) {
@@ -40,15 +42,16 @@ public class TableHugeRestore extends AbstractStatic {
         cmd.append("mysql")
             .append(" -h").append(database.getHostname())
             .append(" -u").append(database.getUsername())
-            .append(" -p").append(database.getPassword())
+            .append(" -p").append(database.getSmartPassword())
             .append(" --default-character-set=utf8 ")
             .append(" ").append(database.getInstance());
         return Fn.getJvm(() -> {
             final File fileObj = Ut.ioFile(file);
-            if (fileObj.exists() && fileObj.isFile()) {
+            final BasicFileAttributes fileAttributes = Files.readAttributes(fileObj.toPath(), BasicFileAttributes.class);
+            if (fileObj.exists() && fileAttributes.isRegularFile()) {
                 Ox.Log.infoShell(this.getClass(), "文件名：{2}，执行命令：{0}，" +
                         "文件长度：{1} MB",
-                    cmd.toString(), String.valueOf(fileObj.length() / 1024 / 1024), file);
+                    cmd.toString(), String.valueOf(fileAttributes.size() / 1024 / 1024), file);
                 final Process process = Runtime.getRuntime().exec(cmd.toString());
                 /*
                  * 开始时间

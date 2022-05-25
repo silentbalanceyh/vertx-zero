@@ -131,7 +131,6 @@
                     "parent": "parentId",
                     "title": "name",
                     "text": "name",
-                    "value": "code",
                     "root": 2
                 },
                 "condition": "categoryThird,i"

@@ -13,6 +13,9 @@
         ]
     },
     "transform": {
+        "initial": {
+            "type": "regular"
+        },
         "fabric": {
             "source": [
                 {

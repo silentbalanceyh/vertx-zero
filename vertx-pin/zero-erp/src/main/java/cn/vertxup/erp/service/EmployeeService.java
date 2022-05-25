@@ -5,6 +5,7 @@ import cn.vertxup.erp.domain.tables.pojos.EEmployee;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.cv.em.BizInternal;
 import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.tp.optic.feature.Trash;
@@ -38,12 +39,12 @@ public class EmployeeService implements EmployeeStub {
                  * If data contains `userId`, it means that current employee will relate to
                  * an account
                  */
-                if (data.containsKey(EmployeeStub.USER_ID)) {
+                if (data.containsKey(KName.USER_ID)) {
                     /*
                      * Create new relation here.
                      */
-                    final String key = data.getString(EmployeeStub.USER_ID);
-                    return this.updateRef(key, inserted);
+                    final String key = data.getString(KName.USER_ID);
+                    return this.updateReference(key, inserted);
                 } else {
                     return Ux.future(data);
                 }
@@ -75,8 +76,8 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.fetchAsync(key)
             .compose(Ut.ifNil(JsonObject::new, original -> {
-                final String userId = original.getString(EmployeeStub.USER_ID);
-                final String current = data.getString(EmployeeStub.USER_ID);
+                final String userId = original.getString(KName.USER_ID);
+                final String current = data.getString(KName.USER_ID);
                 if (Ut.isNil(userId) && Ut.isNil(current)) {
                     /*
                      * Old null, new null
@@ -89,14 +90,14 @@ public class EmployeeService implements EmployeeStub {
                      * Create relation with new
                      */
                     return this.updateEmployee(key, data)
-                        .compose(response -> this.updateRef(current, response));
+                        .compose(response -> this.updateReference(current, response));
                 } else if (Ut.notNil(userId) && Ut.isNil(current)) {
                     /*
                      * Old <value>, new <null>
                      * Clear relation with old
                      */
                     return this.updateEmployee(key, data)
-                        .compose(response -> this.updateRef(userId, new JsonObject())
+                        .compose(response -> this.updateReference(userId, new JsonObject())
                             .compose(nil -> Ux.future(response))
                         );
                 } else {
@@ -114,11 +115,11 @@ public class EmployeeService implements EmployeeStub {
                             /*
                              * Clear first
                              */
-                            .compose(response -> this.updateRef(userId, new JsonObject())
+                            .compose(response -> this.updateReference(userId, new JsonObject())
                                 /*
                                  * Then update
                                  */
-                                .compose(nil -> this.updateRef(current, response)));
+                                .compose(nil -> this.updateReference(current, response)));
                     }
                 }
             }));
@@ -143,20 +144,20 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<Boolean> deleteAsync(final String key, final JsonObject item) {
-        final String userId = item.getString(EmployeeStub.USER_ID);
-        return this.updateRef(userId, new JsonObject())
+        final String userId = item.getString(KName.USER_ID);
+        return this.updateReference(userId, new JsonObject())
             .compose(nil -> Ux.Jooq.on(EEmployeeDao.class)
                 .deleteByIdAsync(key));
     }
 
-    private Future<JsonObject> updateRef(final String key, final JsonObject data) {
-        return this.switchJ(data, (user, filters) -> user.update(key, filters)
+    private Future<JsonObject> updateReference(final String key, final JsonObject data) {
+        return this.switchJ(data, (user, filters) -> user.updateReference(key, filters)
             .compose(Ut.ifJNil(response ->
                 Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::fetch).compose(Ut.ifJNil(response -> {
+        return this.switchJ(input, ExUser::fetchByReference).compose(Ut.ifJNil(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));
@@ -169,7 +170,7 @@ public class EmployeeService implements EmployeeStub {
     private Future<JsonArray> fetchRef(final JsonArray input) {
         return this.switchA(input, (user, data) -> {
             final Set<String> keys = Ut.valueSetString(data, KName.KEY);
-            return user.fetch(keys);
+            return user.fetchByReference(keys);
         }).compose(employee -> {
             final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);
             return Ux.future(merged);
@@ -183,7 +184,7 @@ public class EmployeeService implements EmployeeStub {
                 return Ux.future(new JsonObject());
             } else {
                 final JsonObject filters = new JsonObject();
-                filters.put(KName.IDENTIFIER, "employee");
+                filters.put(KName.IDENTIFIER, BizInternal.TypeUser.employee.name());
                 filters.put(KName.SIGMA, input.getString(KName.SIGMA));
                 filters.put(KName.KEY, input.getString(KName.KEY));
                 return executor.apply(user, filters);

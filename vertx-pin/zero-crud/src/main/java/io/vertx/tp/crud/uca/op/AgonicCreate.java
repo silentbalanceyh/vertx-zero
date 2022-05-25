@@ -36,7 +36,7 @@ class AgonicCreate implements Agonic {
                     // Primary Key ( Not Existing )
                     : Ix.passion(input, in,
                         Pre.key(true)::inJAsync,                // UUID Generated
-                        Pre.serial()::inJAsync,                 // Serial/Number
+                        Pre.serial()::inJAsync,                         // Serial/Number
                         Pre.audit(true)::inJAsync,              // createdAt, createdBy
                         Pre.audit(false)::inJAsync,             // updatedAt, updatedBy
                         Pre.fileIn(true)::inJAsync              // File: Attachment creating

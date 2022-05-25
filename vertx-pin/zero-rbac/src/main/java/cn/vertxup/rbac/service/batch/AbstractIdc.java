@@ -70,12 +70,10 @@ public abstract class AbstractIdc implements IdcStub {
     protected <T> Future<T> runPre(final T user) {
         if (Ut.isNil(this.sigma)) {
             return Future.failedFuture(new _400SigmaMissingException(this.getClass()));
-        } else {
-            if (Objects.isNull(user)) {
-                return Future.failedFuture(new _400BadRequestException(this.getClass()));
-            } else {
-                return Ux.future(user);
-            }
         }
+        if (Objects.isNull(user)) {
+            return Future.failedFuture(new _400BadRequestException(this.getClass()));
+        }
+        return Ux.future(user);
     }
 }

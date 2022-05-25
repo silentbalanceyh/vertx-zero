@@ -1,0 +1,61 @@
+{
+    "identifier": "res.employee",
+    "module": "plugin/erp/oob/module/crud/res.employee.json",
+    "hybrid": {
+        "alias": "公司员工",
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "workNumber": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0"
+        },
+        "attribute": {
+            "key": "员工主键",
+            "type": "员工类型",
+            "status": "员工状态",
+            "bankId": "关联开户行",
+            "bankCard": "银行卡号",
+            "workNumber": "工号",
+            "viceName": "姓名",
+            "viceEmail": "邮箱",
+            "viceMobile": "手机号",
+            "username": "关联账号",
+            "identifyNum": "关联档案",
+            "identityId": "档案ID",
+            "companyId": "所属公司",
+            "deptId": "所属部门ID",
+            "deptName": "所属部门",
+            "teamId": "所属组ID",
+            "teamName": "所属组",
+            "workTitle": "头衔",
+            "workPhone": "工作座机",
+            "workExtension": "分机号",
+            "workLocation": "办公地点",
+            "active": "是否有效",
+            "sigma": "统一标识符",
+            "metadata": "配置数据",
+            "language": "系统语言",
+            "createdAt": "创建时间",
+            "createdBy": "创建人",
+            "updatedAt": "更新时间",
+            "updatedBy": "更新人"
+        },
+        "ruleUnique": {
+            "record": [
+                "workNumber"
+            ],
+            "integration": [
+                "workNumber"
+            ],
+            "priority": [
+                "workNumber"
+            ],
+            "strong": [
+                "workNumber"
+            ],
+            "weak": []
+        }
+    }
+}

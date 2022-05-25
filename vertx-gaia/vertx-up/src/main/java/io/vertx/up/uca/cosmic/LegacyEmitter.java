@@ -47,8 +47,9 @@ class LegacyEmitter extends AbstractEmitter {
             final IntegrationRequest request = this.integration().createRequest(apiKey);
             /*
              * Encrypt content with public key of RSA
+             * Replace the method `getPublicKeyFile` with `getPublicKey` for content extracting
              */
-            final String content = Ut.encryptRSA(params.encode(), this.integration().getPublicKeyFile());
+            final String content = Ut.encryptRSAP(params.encode(), this.integration().getPublicKey());
             /*
              * Send request to read String response here.
              */

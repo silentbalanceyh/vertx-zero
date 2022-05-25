@@ -1,7 +1,6 @@
 {
     "canvas": {
-        "height": 240,
-        "offset": 4
+        "height": 240
     },
     "phase": {
         "forbidden": [

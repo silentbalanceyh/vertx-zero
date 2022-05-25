@@ -48,7 +48,7 @@ public class TableHugeBackup extends AbstractStatic {
             .append(" --databases ").append(database.getInstance())
             .append(" --tables ").append(tableNames)
             .append(" --user=").append(database.getUsername())
-            .append(" --password=").append(database.getPassword())
+            .append(" --password=").append(database.getSmartPassword())
             .append(" --result-file=").append(file)
             .append(" --skip-comments")
             .append(" --default-character-set=utf8 ");

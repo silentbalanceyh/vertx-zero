@@ -13,14 +13,14 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -36,6 +36,7 @@ class SerialPre implements Pre {
             /* Fix Bug of number generations here */
             return Ux.future(data);
         }
+
         /* Number generation */
         return this.run(data, in, (numbers) -> Ux.channelAsync(Indent.class, () -> Ux.future(data), stub -> {
             Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
@@ -67,25 +68,46 @@ class SerialPre implements Pre {
         return this.run(data, in, (numbers) -> Ux.channelAsync(Indent.class, () -> Ux.future(data), stub -> {
             Ke.infoKe(LOGGER, "Table here {0}, Size {1}, Serial numbers {2}", in.module().getTable(), data.size(), numbers.encode());
             /* Queue<String> */
-            final ConcurrentMap<String, Future<List<String>>> numberMap = new ConcurrentHashMap<>();
+            final ConcurrentMap<String, Future<Queue<String>>> numberMap = new ConcurrentHashMap<>();
             numbers.fieldNames().stream()
                 .filter(numberField -> Objects.nonNull(numbers.getString(numberField)))
-                .forEach(numberField -> {
+                .forEach(numberField -> numberMap.put(numberField, this.runIndent(data, numberField, size -> {
                     final String code = numbers.getString(numberField);
-                    numberMap.put(numberField, stub.indent(code, sigma, data.size())
-                        .compose(queue -> Ux.future(new ArrayList<>(queue))));
-                });
+                    return stub.indent(code, sigma, size);
+                })));
             /* Combine */
             return Ux.thenCombine(numberMap).compose(generated -> {
-                generated.forEach((numberField, numberList) -> {
-                    final Queue<String> numberQueue = new LinkedBlockingDeque<>(numberList);
-                    if (numberQueue.size() == data.size()) {
-                        Ut.itJArray(data).forEach(json -> json.put(numberField, numberQueue.poll()));
-                    }
-                });
+                generated.forEach((numberField, numberQueue) -> this.runFill(data, numberField, numberQueue));
                 return Ux.future(data);
             });
         }));
+    }
+
+    private void runFill(final JsonArray source, final String field, final Queue<String> numberQueue) {
+        if (numberQueue.isEmpty()) {
+            return;
+        }
+        Ut.itJArray(source).forEach(json -> {
+            // This kind of situation may miss some numbers when you provide numbers
+            if (!json.containsKey(field) && !numberQueue.isEmpty()) {
+                json.put(field, numberQueue.poll());
+            }
+        });
+    }
+
+    private Future<Queue<String>> runIndent(final JsonArray source, final String field,
+                                            final Function<Integer, Future<Queue<String>>> generator) {
+        final Set<String> valueSet = Ut.itJArray(source)
+            .filter(json -> !json.containsKey(field))
+            .map(json -> json.getString(field))
+            .filter(Objects::isNull)
+            .collect(Collectors.toSet());
+        final int size = valueSet.size();
+        if (0 < size) {
+            return generator.apply(size);
+        } else {
+            return Ux.future(new LinkedBlockingDeque<>());
+        }
     }
 
     private <T> Future<T> run(final T data, final IxMod in, final Function<JsonObject, Future<T>> executor) {

@@ -64,6 +64,8 @@ public interface Orders {
      * 5,000,000
      */
     int EVENT = 5_000_000;
+
+    int EVENT_USER = 5_100_000;
     /**
      * ( Default for dynamic routing )
      * 6,000,000

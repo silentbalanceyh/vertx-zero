@@ -88,7 +88,7 @@ class IdcRole {
                  */
                 final List<RUserRole> relationList = new ArrayList<>();
                 users.forEach(user -> {
-                    final List<SRole> roles = roleMap.get(user.getUsername());
+                    final List<SRole> roles = roleMap.getOrDefault(user.getUsername(), new ArrayList<>());
                     Ut.itList(roles, (role, index) -> {
                         final RUserRole relation = new RUserRole();
                         relation.setRoleId(role.getKey());
@@ -103,8 +103,7 @@ class IdcRole {
                         String.valueOf(roles.size()), user.getUsername());
                 });
                 return Ux.Jooq.on(RUserRoleDao.class).insertAsync(relationList)
-                    .compose(inserted -> Ux.future(users))
-                    .compose(Ux::futureA);
+                    .compose(inserted -> Ux.futureA(users));
             });
         }
     }

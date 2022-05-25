@@ -64,7 +64,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
     /* Database Connection Testing */
     public static boolean test(final Database database) {
         try {
-            DriverManager.getConnection(database.getJdbcUrl(), database.getUsername(), database.getPassword());
+            DriverManager.getConnection(database.getJdbcUrl(), database.getUsername(), database.getSmartPassword());
             return true;
         } catch (final SQLException ex) {
             // Debug for database connection
@@ -156,6 +156,10 @@ public class Database implements Serializable, Json, Copyable<Database> {
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public String getSmartPassword() {
+        return this.password;
     }
 
     public String getDriverClassName() {

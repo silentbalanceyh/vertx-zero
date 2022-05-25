@@ -24,22 +24,29 @@ public class EContract implements VertxPojo, IEContract {
     private String        key;
     private String        name;
     private String        code;
+    private String        type;
+    private String        status;
     private String        title;
-    private String        fileKey;
+    private String        description;
     private BigDecimal    amount;
-    private String        companyId;
-    private String        customerId;
-    private LocalDateTime expiredAt;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
     private LocalDateTime signedAt;
-    private LocalDateTime runAt;
-    private LocalDateTime runUpAt;
+    private String        partyA;
+    private String        partyB;
+    private String        partyC;
     private String        aName;
     private String        aPhone;
+    private String        aLegal;
     private String        aAddress;
     private String        bName;
     private String        bPhone;
+    private String        bLegal;
     private String        bAddress;
-    private String        type;
+    private String        cName;
+    private String        cPhone;
+    private String        cLegal;
+    private String        cAddress;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -55,22 +62,29 @@ public class EContract implements VertxPojo, IEContract {
         this.key = value.getKey();
         this.name = value.getName();
         this.code = value.getCode();
+        this.type = value.getType();
+        this.status = value.getStatus();
         this.title = value.getTitle();
-        this.fileKey = value.getFileKey();
+        this.description = value.getDescription();
         this.amount = value.getAmount();
-        this.companyId = value.getCompanyId();
-        this.customerId = value.getCustomerId();
-        this.expiredAt = value.getExpiredAt();
+        this.startAt = value.getStartAt();
+        this.endAt = value.getEndAt();
         this.signedAt = value.getSignedAt();
-        this.runAt = value.getRunAt();
-        this.runUpAt = value.getRunUpAt();
+        this.partyA = value.getPartyA();
+        this.partyB = value.getPartyB();
+        this.partyC = value.getPartyC();
         this.aName = value.getAName();
         this.aPhone = value.getAPhone();
+        this.aLegal = value.getALegal();
         this.aAddress = value.getAAddress();
         this.bName = value.getBName();
         this.bPhone = value.getBPhone();
+        this.bLegal = value.getBLegal();
         this.bAddress = value.getBAddress();
-        this.type = value.getType();
+        this.cName = value.getCName();
+        this.cPhone = value.getCPhone();
+        this.cLegal = value.getCLegal();
+        this.cAddress = value.getCAddress();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -85,22 +99,29 @@ public class EContract implements VertxPojo, IEContract {
         String        key,
         String        name,
         String        code,
+        String        type,
+        String        status,
         String        title,
-        String        fileKey,
+        String        description,
         BigDecimal    amount,
-        String        companyId,
-        String        customerId,
-        LocalDateTime expiredAt,
+        LocalDateTime startAt,
+        LocalDateTime endAt,
         LocalDateTime signedAt,
-        LocalDateTime runAt,
-        LocalDateTime runUpAt,
+        String        partyA,
+        String        partyB,
+        String        partyC,
         String        aName,
         String        aPhone,
+        String        aLegal,
         String        aAddress,
         String        bName,
         String        bPhone,
+        String        bLegal,
         String        bAddress,
-        String        type,
+        String        cName,
+        String        cPhone,
+        String        cLegal,
+        String        cAddress,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -113,22 +134,29 @@ public class EContract implements VertxPojo, IEContract {
         this.key = key;
         this.name = name;
         this.code = code;
+        this.type = type;
+        this.status = status;
         this.title = title;
-        this.fileKey = fileKey;
+        this.description = description;
         this.amount = amount;
-        this.companyId = companyId;
-        this.customerId = customerId;
-        this.expiredAt = expiredAt;
+        this.startAt = startAt;
+        this.endAt = endAt;
         this.signedAt = signedAt;
-        this.runAt = runAt;
-        this.runUpAt = runUpAt;
+        this.partyA = partyA;
+        this.partyB = partyB;
+        this.partyC = partyC;
         this.aName = aName;
         this.aPhone = aPhone;
+        this.aLegal = aLegal;
         this.aAddress = aAddress;
         this.bName = bName;
         this.bPhone = bPhone;
+        this.bLegal = bLegal;
         this.bAddress = bAddress;
-        this.type = type;
+        this.cName = cName;
+        this.cPhone = cPhone;
+        this.cLegal = cLegal;
+        this.cAddress = cAddress;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -196,6 +224,40 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     */
+    @Override
+    public EContract setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     */
+    @Override
+    public EContract setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
      */
     @Override
@@ -213,21 +275,21 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.FILE_KEY</code>. 「fileKey」-
-     * 合同附件Key
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * 合同详细描述
      */
     @Override
-    public String getFileKey() {
-        return this.fileKey;
+    public String getDescription() {
+        return this.description;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.FILE_KEY</code>. 「fileKey」-
-     * 合同附件Key
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * 合同详细描述
      */
     @Override
-    public EContract setFileKey(String fileKey) {
-        this.fileKey = fileKey;
+    public EContract setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -249,59 +311,36 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.COMPANY_ID</code>. 「companyId」-
-     * 合同甲方
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
      */
     @Override
-    public String getCompanyId() {
-        return this.companyId;
+    public LocalDateTime getStartAt() {
+        return this.startAt;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.COMPANY_ID</code>. 「companyId」-
-     * 合同甲方
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
      */
     @Override
-    public EContract setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public EContract setStartAt(LocalDateTime startAt) {
+        this.startAt = startAt;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.CUSTOMER_ID</code>. 「customerId」-
-     * 合同乙方
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
      */
     @Override
-    public String getCustomerId() {
-        return this.customerId;
+    public LocalDateTime getEndAt() {
+        return this.endAt;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.CUSTOMER_ID</code>. 「customerId」-
-     * 合同乙方
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
      */
     @Override
-    public EContract setCustomerId(String customerId) {
-        this.customerId = customerId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.EXPIRED_AT</code>. 「expiredAt」-
-     * 过期时间
-     */
-    @Override
-    public LocalDateTime getExpiredAt() {
-        return this.expiredAt;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.EXPIRED_AT</code>. 「expiredAt」-
-     * 过期时间
-     */
-    @Override
-    public EContract setExpiredAt(LocalDateTime expiredAt) {
-        this.expiredAt = expiredAt;
+    public EContract setEndAt(LocalDateTime endAt) {
+        this.endAt = endAt;
         return this;
     }
 
@@ -323,43 +362,65 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.RUN_AT</code>. 「runAt」- 生效时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * 甲方（关联公司ID，E_COMPANY）
      */
     @Override
-    public LocalDateTime getRunAt() {
-        return this.runAt;
+    public String getPartyA() {
+        return this.partyA;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.RUN_AT</code>. 「runAt」- 生效时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * 甲方（关联公司ID，E_COMPANY）
      */
     @Override
-    public EContract setRunAt(LocalDateTime runAt) {
-        this.runAt = runAt;
+    public EContract setPartyA(String partyA) {
+        this.partyA = partyA;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.RUN_UP_AT</code>. 「runUpAt」-
-     * 挂账到期时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * 乙方（关联客户ID，E_CUSTOMER）
      */
     @Override
-    public LocalDateTime getRunUpAt() {
-        return this.runUpAt;
+    public String getPartyB() {
+        return this.partyB;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.RUN_UP_AT</code>. 「runUpAt」-
-     * 挂账到期时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * 乙方（关联客户ID，E_CUSTOMER）
      */
     @Override
-    public EContract setRunUpAt(LocalDateTime runUpAt) {
-        this.runUpAt = runUpAt;
+    public EContract setPartyB(String partyB) {
+        this.partyB = partyB;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」- 甲方签订人
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
+     * 丙方（关联客户ID，E_CUSTOMER）
+     */
+    @Override
+    public String getPartyC() {
+        return this.partyC;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
+     * 丙方（关联客户ID，E_CUSTOMER）
+     */
+    @Override
+    public EContract setPartyC(String partyC) {
+        this.partyC = partyC;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * 甲方签订名称（个人为姓名/企业为企业名）
      */
     @Override
     public String getAName() {
@@ -367,7 +428,8 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」- 甲方签订人
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * 甲方签订名称（个人为姓名/企业为企业名）
      */
     @Override
     public EContract setAName(String aName) {
@@ -376,7 +438,7 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人姓名
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
      */
     @Override
     public String getAPhone() {
@@ -384,11 +446,30 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人姓名
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
      */
     @Override
     public EContract setAPhone(String aPhone) {
         this.aPhone = aPhone;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * 甲方法人（企业合同专用）
+     */
+    @Override
+    public String getALegal() {
+        return this.aLegal;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * 甲方法人（企业合同专用）
+     */
+    @Override
+    public EContract setALegal(String aLegal) {
+        this.aLegal = aLegal;
         return this;
     }
 
@@ -412,7 +493,8 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」- 乙方签订人
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * 乙方签订名称（个人为姓名/企业为企业名）
      */
     @Override
     public String getBName() {
@@ -420,7 +502,8 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」- 乙方签订人
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * 乙方签订名称（个人为姓名/企业为企业名）
      */
     @Override
     public EContract setBName(String bName) {
@@ -429,7 +512,7 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人姓名
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
      */
     @Override
     public String getBPhone() {
@@ -437,11 +520,30 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人姓名
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
      */
     @Override
     public EContract setBPhone(String bPhone) {
         this.bPhone = bPhone;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * 乙方法人（企业合同专用）
+     */
+    @Override
+    public String getBLegal() {
+        return this.bLegal;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * 乙方法人（企业合同专用）
+     */
+    @Override
+    public EContract setBLegal(String bLegal) {
+        this.bLegal = bLegal;
         return this;
     }
 
@@ -465,19 +567,76 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
+     * 丙方签订名称（个人为姓名/企业为企业名）
      */
     @Override
-    public String getType() {
-        return this.type;
+    public String getCName() {
+        return this.cName;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
+     * 丙方签订名称（个人为姓名/企业为企业名）
      */
     @Override
-    public EContract setType(String type) {
-        this.type = type;
+    public EContract setCName(String cName) {
+        this.cName = cName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
+     */
+    @Override
+    public String getCPhone() {
+        return this.cPhone;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
+     */
+    @Override
+    public EContract setCPhone(String cPhone) {
+        this.cPhone = cPhone;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
+     * 丙方法人（企业合同专用）
+     */
+    @Override
+    public String getCLegal() {
+        return this.cLegal;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
+     * 丙方法人（企业合同专用）
+     */
+    @Override
+    public EContract setCLegal(String cLegal) {
+        this.cLegal = cLegal;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
+     * 丙方联系地址
+     */
+    @Override
+    public String getCAddress() {
+        return this.cAddress;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
+     * 丙方联系地址
+     */
+    @Override
+    public EContract setCAddress(String cAddress) {
+        this.cAddress = cAddress;
         return this;
     }
 
@@ -634,22 +793,29 @@ public class EContract implements VertxPojo, IEContract {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
+        sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(title);
-        sb.append(", ").append(fileKey);
+        sb.append(", ").append(description);
         sb.append(", ").append(amount);
-        sb.append(", ").append(companyId);
-        sb.append(", ").append(customerId);
-        sb.append(", ").append(expiredAt);
+        sb.append(", ").append(startAt);
+        sb.append(", ").append(endAt);
         sb.append(", ").append(signedAt);
-        sb.append(", ").append(runAt);
-        sb.append(", ").append(runUpAt);
+        sb.append(", ").append(partyA);
+        sb.append(", ").append(partyB);
+        sb.append(", ").append(partyC);
         sb.append(", ").append(aName);
         sb.append(", ").append(aPhone);
+        sb.append(", ").append(aLegal);
         sb.append(", ").append(aAddress);
         sb.append(", ").append(bName);
         sb.append(", ").append(bPhone);
+        sb.append(", ").append(bLegal);
         sb.append(", ").append(bAddress);
-        sb.append(", ").append(type);
+        sb.append(", ").append(cName);
+        sb.append(", ").append(cPhone);
+        sb.append(", ").append(cLegal);
+        sb.append(", ").append(cAddress);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -672,22 +838,29 @@ public class EContract implements VertxPojo, IEContract {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setType(from.getType());
+        setStatus(from.getStatus());
         setTitle(from.getTitle());
-        setFileKey(from.getFileKey());
+        setDescription(from.getDescription());
         setAmount(from.getAmount());
-        setCompanyId(from.getCompanyId());
-        setCustomerId(from.getCustomerId());
-        setExpiredAt(from.getExpiredAt());
+        setStartAt(from.getStartAt());
+        setEndAt(from.getEndAt());
         setSignedAt(from.getSignedAt());
-        setRunAt(from.getRunAt());
-        setRunUpAt(from.getRunUpAt());
+        setPartyA(from.getPartyA());
+        setPartyB(from.getPartyB());
+        setPartyC(from.getPartyC());
         setAName(from.getAName());
         setAPhone(from.getAPhone());
+        setALegal(from.getALegal());
         setAAddress(from.getAAddress());
         setBName(from.getBName());
         setBPhone(from.getBPhone());
+        setBLegal(from.getBLegal());
         setBAddress(from.getBAddress());
-        setType(from.getType());
+        setCName(from.getCName());
+        setCPhone(from.getCPhone());
+        setCLegal(from.getCLegal());
+        setCAddress(from.getCAddress());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());
