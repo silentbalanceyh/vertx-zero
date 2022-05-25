@@ -58,7 +58,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -1515,6 +1514,19 @@ public final class Ut {
 
     public static String visitString(final JsonObject item, final String... keys) {
         return Jackson.visitString(item, keys);
+    }
+
+    /*
+     * Captcha method
+     * 1) captcha
+     */
+
+    /**
+     * @param length Length of intended captcha string.
+     * @return a string of captcha with certain length.
+     */
+    public static String captcha(final int length) {
+        return StringUtil.captcha(length);
     }
 
     /*
