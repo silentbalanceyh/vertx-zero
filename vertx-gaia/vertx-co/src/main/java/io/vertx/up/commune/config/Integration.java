@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
 import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -158,6 +159,13 @@ public class Integration implements Json, Serializable, Copyable<Integration> {
 
     public void setPublicKeyFile(final String publicKeyFile) {
         this.publicKeyFile = publicKeyFile;
+    }
+
+    public String getPublicKey() {
+        if (Ut.isNil(this.publicKeyFile)) {
+            return Strings.EMPTY;
+        }
+        return Ut.ioString(this.publicKeyFile);
     }
 
     public JsonObject getOptions() {

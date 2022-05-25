@@ -8,16 +8,16 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class PluginAtom {
+class PluginLoad {
     /*
-     * Plugin for Auditor
+     * Plugin for HLoad / HED
      */
     private static final String ATOM = "atom";
-    private static final Cc<String, HLoad> CC_PLUGIN = Cc.openThread();
+    private static final Cc<String, HLoad> CC_PLUGIN_ATOM = Cc.openThread();
 
     static HAtom atom(final String namespace, final String identifier) {
         return Plugin.mountPlugin(ATOM, (atomCls, config) -> {
-            final HLoad loader = CC_PLUGIN.pick(() -> Ut.instance(atomCls));
+            final HLoad loader = CC_PLUGIN_ATOM.pick(() -> Ut.instance(atomCls));
             /*
              * Bind configuration of
              * atom:
