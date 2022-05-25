@@ -12,6 +12,7 @@ import cn.vertxup.erp.domain.tables.ECustomer;
 import cn.vertxup.erp.domain.tables.EDept;
 import cn.vertxup.erp.domain.tables.EEmployee;
 import cn.vertxup.erp.domain.tables.EIdentity;
+import cn.vertxup.erp.domain.tables.EProject;
 import cn.vertxup.erp.domain.tables.ETeam;
 import cn.vertxup.erp.domain.tables.RAssetShare;
 import cn.vertxup.erp.domain.tables.RCompanyCustomer;
@@ -71,6 +72,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.E_IDENTITY</code>.
      */
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
+
+    /**
+     * The table <code>DB_ETERNAL.E_PROJECT</code>.
+     */
+    public static final EProject E_PROJECT = EProject.E_PROJECT;
 
     /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.

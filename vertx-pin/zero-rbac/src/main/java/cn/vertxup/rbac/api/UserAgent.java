@@ -4,20 +4,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 
 import javax.ws.rs.*;
 
 @EndPoint
 @Path("/api")
 public interface UserAgent {
-    /*
-     * /api/user
-     * Request: get user id from token
-     */
-    @GET
-    @Path("user")
-    @Address(Addr.User.INFORMATION)
-    JsonObject information();
 
     /*
      * /api/user/password
@@ -71,4 +64,28 @@ public interface UserAgent {
     @Path("/user/:key")
     @Address(Addr.User.DELETE)
     Boolean delete(@PathParam("key") String key);
+
+    // ---------------- All Usage business api for `user + type` extracting
+
+    /*
+     * The user usage in zero extension
+     *
+     * 1. User Management ( /api/user/search ) RBAC Module
+     * 2. 「By Type」Employee Importing
+     * 3. 「By Selection」Employee Selecting with usage ( Combine condition )
+     */
+    @POST
+    @Path("/user/search/:identifier")
+    @Address(Addr.User.QR_USER_SEARCH)
+    JsonObject searchByType(@PathParam(KName.IDENTIFIER) String identifier,
+                            @BodyParam JsonObject criteria);
+
+    /*
+     * /api/user
+     * Request: get user id from token
+     */
+    @GET
+    @Path("user")
+    @Address(Addr.User.INFORMATION)
+    JsonObject information();
 }

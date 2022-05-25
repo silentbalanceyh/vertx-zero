@@ -1,6 +1,10 @@
 package io.vertx.tp.rbac.atom;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
+import io.vertx.up.experiment.specification.KQr;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
@@ -9,6 +13,7 @@ import java.io.Serializable;
  *
  */
 public class ScConfig implements Serializable {
+    private static final Cc<String, KQr> CC_KQR = Cc.open();
     /*
      * Pool for verify the code
      */
@@ -26,15 +31,15 @@ public class ScConfig implements Serializable {
      * 5) Action
      * 6) Resource
      */
-    private ScCondition condition;
+    private ScCondition condition = new ScCondition();
     /*
      * Authorization Code expired time: ( s )
      */
-    private Integer codeExpired;
+    private Integer codeExpired = 30;
     /*
      * Authorization Code length ( random string )
      */
-    private Integer codeLength;
+    private Integer codeLength = 8;
     /*
      * Authorization Code session pool
      */
@@ -42,7 +47,7 @@ public class ScConfig implements Serializable {
     /*
      * Token expired time: ( ms )
      */
-    private Long tokenExpired;
+    private Long tokenExpired = 30L;
     /*
      * Token session pool
      */
@@ -90,6 +95,8 @@ public class ScConfig implements Serializable {
      * Password Init
      */
     private String passwordInit;
+
+    private JsonObject category = new JsonObject();
 
     public String getPasswordInit() {
         return this.passwordInit;
@@ -221,6 +228,26 @@ public class ScConfig implements Serializable {
 
     public void setPoolResource(final String poolResource) {
         this.poolResource = poolResource;
+    }
+
+    public JsonObject getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(final JsonObject category) {
+        this.category = category;
+    }
+
+    public KQr category(final String name) {
+        return CC_KQR.pick(() -> {
+            final JsonObject serializeJ = Ut.valueJObject(this.category, name);
+            final KQr qr = Ut.deserialize(serializeJ, KQr.class);
+            if (qr.valid()) {
+                return qr.identifier(name);
+            } else {
+                return null;
+            }
+        }, name);
     }
 
     @Override

@@ -5,30 +5,31 @@ import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
+import io.vertx.up.eon.KName;
 
 import java.io.Serializable;
 
 public class ScCondition implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray user;
+    private JsonArray user = new JsonArray().add(KName.SIGMA);
 
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray role;
+    private JsonArray role = new JsonArray().add(KName.SIGMA);
 
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray group;
+    private JsonArray group = new JsonArray().add(KName.SIGMA);
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray action;
+    private JsonArray action = new JsonArray().add(KName.SIGMA);
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray permission;
+    private JsonArray permission = new JsonArray().add(KName.SIGMA);
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private JsonArray resource;
+    private JsonArray resource = new JsonArray().add(KName.SIGMA);
 
     public JsonArray getUser() {
         return this.user;

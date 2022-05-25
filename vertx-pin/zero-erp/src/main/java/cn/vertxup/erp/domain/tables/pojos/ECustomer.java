@@ -25,6 +25,7 @@ public class ECustomer implements VertxPojo, IECustomer {
     private String        name;
     private String        code;
     private String        type;
+    private String        status;
     private String        taxCode;
     private String        taxTitle;
     private String        contactName;
@@ -42,7 +43,7 @@ public class ECustomer implements VertxPojo, IECustomer {
     private String        signName;
     private String        signPhone;
     private Boolean       runUp;
-    private BigDecimal    runAmount;
+    private BigDecimal    runUpAmount;
     private String        bankId;
     private String        bankCard;
     private String        metadata;
@@ -61,6 +62,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.name = value.getName();
         this.code = value.getCode();
         this.type = value.getType();
+        this.status = value.getStatus();
         this.taxCode = value.getTaxCode();
         this.taxTitle = value.getTaxTitle();
         this.contactName = value.getContactName();
@@ -78,7 +80,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.signName = value.getSignName();
         this.signPhone = value.getSignPhone();
         this.runUp = value.getRunUp();
-        this.runAmount = value.getRunAmount();
+        this.runUpAmount = value.getRunUpAmount();
         this.bankId = value.getBankId();
         this.bankCard = value.getBankCard();
         this.metadata = value.getMetadata();
@@ -96,6 +98,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         String        name,
         String        code,
         String        type,
+        String        status,
         String        taxCode,
         String        taxTitle,
         String        contactName,
@@ -113,7 +116,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         String        signName,
         String        signPhone,
         Boolean       runUp,
-        BigDecimal    runAmount,
+        BigDecimal    runUpAmount,
         String        bankId,
         String        bankCard,
         String        metadata,
@@ -129,6 +132,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.name = name;
         this.code = code;
         this.type = type;
+        this.status = status;
         this.taxCode = taxCode;
         this.taxTitle = taxTitle;
         this.contactName = contactName;
@@ -146,7 +150,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         this.signName = signName;
         this.signPhone = signPhone;
         this.runUp = runUp;
-        this.runAmount = runAmount;
+        this.runUpAmount = runUpAmount;
         this.bankId = bankId;
         this.bankCard = bankCard;
         this.metadata = metadata;
@@ -231,6 +235,23 @@ public class ECustomer implements VertxPojo, IECustomer {
     @Override
     public ECustomer setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     */
+    @Override
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     */
+    @Override
+    public ECustomer setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -538,21 +559,21 @@ public class ECustomer implements VertxPojo, IECustomer {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
-     * 挂账限额
+     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
+     * 「runUpAmount」- 挂账限额
      */
     @Override
-    public BigDecimal getRunAmount() {
-        return this.runAmount;
+    public BigDecimal getRunUpAmount() {
+        return this.runUpAmount;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
-     * 挂账限额
+     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
+     * 「runUpAmount」- 挂账限额
      */
     @Override
-    public ECustomer setRunAmount(BigDecimal runAmount) {
-        this.runAmount = runAmount;
+    public ECustomer setRunUpAmount(BigDecimal runUpAmount) {
+        this.runUpAmount = runUpAmount;
         return this;
     }
 
@@ -746,6 +767,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(type);
+        sb.append(", ").append(status);
         sb.append(", ").append(taxCode);
         sb.append(", ").append(taxTitle);
         sb.append(", ").append(contactName);
@@ -763,7 +785,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         sb.append(", ").append(signName);
         sb.append(", ").append(signPhone);
         sb.append(", ").append(runUp);
-        sb.append(", ").append(runAmount);
+        sb.append(", ").append(runUpAmount);
         sb.append(", ").append(bankId);
         sb.append(", ").append(bankCard);
         sb.append(", ").append(metadata);
@@ -789,6 +811,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         setName(from.getName());
         setCode(from.getCode());
         setType(from.getType());
+        setStatus(from.getStatus());
         setTaxCode(from.getTaxCode());
         setTaxTitle(from.getTaxTitle());
         setContactName(from.getContactName());
@@ -806,7 +829,7 @@ public class ECustomer implements VertxPojo, IECustomer {
         setSignName(from.getSignName());
         setSignPhone(from.getSignPhone());
         setRunUp(from.getRunUp());
-        setRunAmount(from.getRunAmount());
+        setRunUpAmount(from.getRunUpAmount());
         setBankId(from.getBankId());
         setBankCard(from.getBankCard());
         setMetadata(from.getMetadata());

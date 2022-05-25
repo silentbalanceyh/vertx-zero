@@ -31,19 +31,9 @@ public interface UserStub {
     Future<JsonArray> fetchGroupIds(String userKey);
 
     /**
-     *
-     */
-    Future<JsonObject> fetchEmployee(String userId);
-
-    /**
      * Update user information
      */
     Future<JsonObject> updateUser(String userId, JsonObject params);
-
-    /**
-     * Update employee information
-     */
-    Future<JsonObject> updateEmployee(String userId, JsonObject params);
 
     /**
      * modified by Hongwei at 2019/12/06
@@ -63,4 +53,20 @@ public interface UserStub {
      * delete user including related roles and groups
      */
     Future<Boolean> deleteUser(String userKey);
+
+
+    // ====================== Information ( By Type ) =======================
+
+
+    /**
+     * Update employee information
+     */
+    Future<JsonObject> updateInformation(String userId, JsonObject params);
+
+    /**
+     *
+     */
+    Future<JsonObject> fetchInformation(String userId);
+
+    Future<JsonObject> searchUser(String type, JsonObject criteria, boolean isQr);
 }
