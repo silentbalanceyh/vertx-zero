@@ -20,7 +20,8 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-redis/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-shell/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-sms/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-auth/pom-update.xml
-cp pom-update.xml ./vertx-ifx/zero-ifx-store/pom-update.xml
+cp pom-update.xml ./vertx-ifx/zero-ifx-ftp/pom-update.xml
+# cp pom-update.xml ./vertx-ifx/zero-ifx-store/pom-update.xml
 
 # 根项目
 cp pom-update.xml ./vertx-import/pom-update.xml

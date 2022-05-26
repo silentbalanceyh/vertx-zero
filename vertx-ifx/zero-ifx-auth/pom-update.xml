@@ -55,5 +55,11 @@
                 <ignoreVersion type="regex">2.13.*</ignoreVersion>
             </ignoreVersions>
         </rule>
+        <!-- jwt -->
+        <rule groupId="com.auth0" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">4.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
     </rules>
 </ruleset>
