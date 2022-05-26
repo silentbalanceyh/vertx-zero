@@ -31,7 +31,7 @@
   ],
   "schemaVersion": 4,
   "type": "default",
-  "id": "e.vendor.form",
+  "id": "e.admit.form",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.0.0"

@@ -13,6 +13,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
 
@@ -1532,6 +1533,10 @@ public final class Ut {
 
     public static String randomLetter(final int length) {
         return StringUtil.randomNoDigit(length);
+    }
+
+    public static KPair randomRsa(final int length) {
+        return ED.rsa(true).generate(length);
     }
 
     /*
