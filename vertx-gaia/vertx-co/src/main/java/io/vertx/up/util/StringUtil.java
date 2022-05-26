@@ -19,6 +19,8 @@ final class StringUtil {
         .cache(4096).silent(false).create();
     private static final String SEED =
         "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    private static final String CAPTCHA_SEED =
+        "23456789qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM";
     private static final String CHAR =
         "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
@@ -96,6 +98,16 @@ final class StringUtil {
         return builder.toString();
     }
 
+    /// Captcha related. ///
+    private static char randomCaptchaChar() {
+        return randomChar(CAPTCHA_SEED);
+    }
+
+    static String captcha(final int length) {
+        return random(length, StringUtil::randomCaptchaChar);
+    }
+
+    /// Random related. ///
     private static char randomChar() {
         return randomChar(SEED);
     }
@@ -126,6 +138,8 @@ final class StringUtil {
         }
         return builder.toString();
     }
+
+    //////
 
     static JsonObject expression(final JsonObject data, final JsonObject params) {
         // Iterator On Json Object

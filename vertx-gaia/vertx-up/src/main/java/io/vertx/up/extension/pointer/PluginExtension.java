@@ -21,7 +21,7 @@ public interface PluginExtension {
          */
         static HAtom atom(final String namespace, final String identifier) {
             /* Dynamic Atom Plug-In */
-            return PluginAtom.atom(namespace, identifier);
+            return PluginLoad.atom(namespace, identifier);
         }
     }
 

@@ -27,6 +27,8 @@ public interface Constants {
 
     String DEFAULT_WORKFLOW_SOURCE = "zero.framework";
 
+    String ALGORITHM_RSA = "RSA";
+
     int DEFAULT_EXPIRED_DATA = 300;
     /**
      * Scanned data to distinguish mode

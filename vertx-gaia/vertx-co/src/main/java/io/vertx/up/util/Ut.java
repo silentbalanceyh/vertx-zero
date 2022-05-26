@@ -14,6 +14,7 @@ import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Actuator;
+import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;
 import java.io.InputStream;
@@ -22,7 +23,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -289,24 +289,20 @@ public final class Ut {
     /*
      * Encryption method for string
      * 1) encryptMD5
-     * 2) encryptRSA
-     * 3) encryptSHA256
-     * 4) encryptSHA512
-     * 5) encryptBase64
-     * 6) decryptBase64
-     * 7) encryptUrl
-     * 8) decryptUrl
+     * 2) encryptSHA256
+     * 3) encryptSHA512
+     *
+     * 4.1) encryptBase64
+     * 4.2) decryptBase64
+     *
+     * 5.1) encryptUrl
+     * 5.2) decryptUrl
+     *
+     * 6.1) encryptRSAP / decryptRSAV ( Mode 1 )
+     * 6.2) encryptRSAV / decryptRSAP ( Mode 2 )
      */
     public static String encryptMD5(final String input) {
         return Codec.md5(input);
-    }
-
-    public static String encryptRSA(final String input, final String filePath) {
-        return Rsa.encrypt(input, filePath);
-    }
-
-    public static String encryptRSA(final String input, final RSAPublicKey publicKey) {
-        return Rsa.encrypt(input, publicKey);
     }
 
     public static String encryptSHA256(final String input) {
@@ -341,6 +337,45 @@ public final class Ut {
 
     public static String decryptUrl(final String input) {
         return Codec.url(input, false);
+    }
+
+
+    // This is usage in case1 for integration, that's why keep here
+    //    public static String encryptRSAPIo(final String input, final String keyPath) {
+    //        final String keyContent = Ut.ioString(keyPath);
+    //        return ED.rsa(true).encrypt(input, keyContent);
+    //    }
+
+    public static String encryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(true).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAP(final String input) {
+        return ED.rsa(true).encrypt(input);
+    }
+
+    public static String decryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(true).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAV(final String input) {
+        return ED.rsa(true).decrypt(input);
+    }
+
+    public static String encryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(false).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAV(final String input) {
+        return ED.rsa(false).encrypt(input);
+    }
+
+    public static String decryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(false).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAP(final String input) {
+        return ED.rsa(false).decrypt(input);
     }
 
     /*
@@ -1469,11 +1504,19 @@ public final class Ut {
         return Jackson.visitString(item, keys);
     }
 
+
+    /**
+     * @param length Length of intended captcha string.
+     *
+     * @return a string of captcha with certain length.
+     */
     /*
      * Random method
      * 1) randomNumber
      * 2) randomString
      * 3) randomLetter
+     * 4) randomRsa
+     * 5) randomCaptcha
      */
     public static Integer randomNumber(final int length) {
         return Numeric.randomNumber(length);
@@ -1481,6 +1524,10 @@ public final class Ut {
 
     public static String randomString(final int length) {
         return StringUtil.random(length);
+    }
+
+    public static String randomCaptcha(final int length) {
+        return StringUtil.captcha(length);
     }
 
     public static String randomLetter(final int length) {
