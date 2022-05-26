@@ -1,5 +1,4 @@
 {
-  "schemaVersion": 2,
   "components": [
     {
       "label": "流程编号",
@@ -30,6 +29,11 @@
       }
     }
   ],
+  "schemaVersion": 4,
   "type": "default",
-  "id": "e.evaluate.form"
+  "id": "e.approve.form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  }
 }

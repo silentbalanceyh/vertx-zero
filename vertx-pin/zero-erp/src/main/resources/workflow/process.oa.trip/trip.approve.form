@@ -31,7 +31,7 @@
   ],
   "schemaVersion": 4,
   "type": "default",
-  "id": "e.boss.form",
+  "id": "e.approve.form",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.0.0"
