@@ -5,6 +5,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.*;
+import io.vertx.ext.web.impl.Origin;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
@@ -93,11 +94,24 @@ public class RouterAxis implements Axis<Router> {
         }
     }
 
+    /*
+     * Fixed from 4.3.1
+     */
     private void mountCors(final Router router) {
-        router.route().order(Orders.CORS).handler(CorsHandler.create(CONFIG.getOrigin())
+        final CorsHandler handler = CorsHandler.create()
             .allowCredentials(CONFIG.getCredentials())
             .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
-            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods())));
+            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods()));
+        /*
+         * Allowed Multi origin in origin list
+         */
+        final JsonArray originArr = CONFIG.getOrigin();
+        Ut.itJArray(originArr, String.class, (value, index) -> {
+            if (Origin.isValid(value)) {
+                handler.addOrigin(value);
+            }
+        });
+        router.route().order(Orders.CORS).handler(handler);
     }
 
     private Set<String> getAllowedHeaders(final JsonArray array) {
