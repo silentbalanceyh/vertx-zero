@@ -173,10 +173,34 @@ class ExcelHelper {
         if (Objects.nonNull(this.tenant)) {
             final JsonObject dataGlobal = this.tenant.valueDefault();
             if (Ut.notNil(dataGlobal)) {
-                dataSet.forEach(table ->
-                    table.get().forEach(record ->
+                /*
+                 * New for developer account importing cross different
+                 * apps
+                 * {
+                 *     "developer":
+                 * }
+                 */
+                final JsonObject developer = Ut.valueJObject(dataGlobal, KName.DEVELOPER).copy();
+                final JsonObject normalized = dataGlobal.copy();
+                normalized.remove(KName.DEVELOPER);
+                dataSet.forEach(table -> {
+                    // Developer Checking
+                    if ("S_USER".equals(table.getName()) && Ut.notNil(developer)) {
+                        // JsonObject ( user = employeeId )
+                        table.get().forEach(record -> {
+                            // Mount Global Data
+                            record.put(normalized);
+                            // EmployeeId Replacement for `lang.yu` or other developer account
+                            final String username = record.get(KName.USERNAME);
+                            if (developer.containsKey(username)) {
+                                record.put(KName.MODEL_KEY, developer.getString(username));
+                            }
+                        });
+                    } else {
                         // Mount Global Data into the ingest data.
-                        record.put(dataGlobal)));
+                        table.get().forEach(record -> record.put(normalized));
+                    }
+                });
             }
         }
     }
