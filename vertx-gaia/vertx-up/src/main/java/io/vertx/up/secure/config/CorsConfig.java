@@ -41,14 +41,20 @@ public class CorsConfig implements Serializable {
         }
     }
 
-    private transient Boolean credentials = Boolean.FALSE;
+    private Boolean credentials = Boolean.FALSE;
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray methods = new JsonArray();
+    private JsonArray methods = new JsonArray();
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray headers = new JsonArray();
-    private transient String origin;
+    private JsonArray headers = new JsonArray();
+    /*
+     * Modified from 4.3.1, here the origin has been modified
+     * From Vert.x 4.3.1, instead the origin must be configured
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray origin = new JsonArray();
 
     public static CorsConfig get() {
         return INSTANCE;
@@ -101,11 +107,20 @@ public class CorsConfig implements Serializable {
         this.headers = headers;
     }
 
-    public String getOrigin() {
-        return Objects.isNull(this.origin) ? "*" : this.origin;
+    /*
+     * This issue came from frontend:
+     * Access to fetch at 'http://xxx:xxx/app/name/xxx?name=xxx'
+     * from origin 'http://xxx:xxx' has been blocked by CORS policy:
+     * Response to preflight request doesn't pass access control check:
+     * No 'Access-Control-Allow-Origin' header is present on the requested resource.
+     * If an opaque response serves your needs,
+     * set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+     */
+    public JsonArray getOrigin() {
+        return this.origin;
     }
 
-    public void setOrigin(final String origin) {
+    public void setOrigin(final JsonArray origin) {
         this.origin = origin;
     }
 

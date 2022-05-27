@@ -2,7 +2,7 @@
 
 Here are smart introduction of snapshots to see zero feature in `Code Style`:
 
-* [Snapshots of Zero](FEATURE-POINTS.md) ( Pending )
+* [Snapshots of Zero](../workshop/CASE-PORT.md) ( Pending )
   All the features are as below:
 
 ## 1. Supports

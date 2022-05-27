@@ -53,4 +53,10 @@ public class KPair implements Serializable {
     public int hashCode() {
         return Objects.hash(this.publicKey, this.privateKey);
     }
+
+    @Override
+    public String toString() {
+        return "publicKey =\n" + this.publicKey + '\n' +
+            "privateKey =\n" + this.privateKey;
+    }
 }
