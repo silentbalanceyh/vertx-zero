@@ -152,6 +152,14 @@
         ],
         "ASSIGNMENT": "ASSIGN_SINGLE"
     },
+    "synonym": {
+        "toUserNo": "交接人工号",
+        "toUserName": "交接人",
+        "toUserEmail": "交接人邮箱",
+        "toUserMobile": "交接人电话",
+        "toUserDept": "交接人部门",
+        "toUserTeam": "交接人工作组"
+    },
     "action": {
         "$opDraft": {
             "data": {

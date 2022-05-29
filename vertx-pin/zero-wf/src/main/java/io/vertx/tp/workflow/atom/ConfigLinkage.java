@@ -18,8 +18,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConfigLinkage implements Serializable {
-
-    private final static ConcurrentMap<String, Respect> POOL_RESPECT = new ConcurrentHashMap<>();
     private final static Cc<String, Respect> CC_RESPECT = Cc.open();
 
     private final transient ConcurrentMap<String, Class<?>> respectMap = new ConcurrentHashMap<>();
@@ -44,30 +42,44 @@ class ConfigLinkage implements Serializable {
          *      }
          * }
          */
-        Ut.<JsonObject>itJObject(linkageJ, (json, field) -> {
-            final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
+        linkageJ.fieldNames().forEach(field -> {
+            final Object value = linkageJ.getValue(field);
+            /*
+             * Secondary format for
+             * field1: path1
+             * field1: path2
+             */
+            JsonObject json = null;
+            if (value instanceof String) {
+                json = Ut.ioJObject(value.toString());
+            } else if (value instanceof JsonObject) {
+                json = (JsonObject) value;
+            }
+            if (Ut.notNil(json)) {
+                final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
-            if (Ut.notNil(config)) {
-                /*
-                 * First Map
-                 *
-                 * field = Dao
-                 */
-                final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
-                if (Objects.isNull(clazz)) {
-                    this.respectMap.put(field, RespectLink.class);
-                } else {
-                    this.respectMap.put(field, clazz);
-                }
+                if (Ut.notNil(config)) {
+                    /*
+                     * First Map
+                     *
+                     * field = Dao
+                     */
+                    final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
+                    if (Objects.isNull(clazz)) {
+                        this.respectMap.put(field, RespectLink.class);
+                    } else {
+                        this.respectMap.put(field, clazz);
+                    }
 
 
-                /*
-                 * Second Map
-                 */
-                if (this.respectMap.containsKey(field)) {
-                    final JsonObject query = Ut.valueJObject(config, KName.QUERY);
-                    query.put(Strings.EMPTY, Boolean.TRUE);
-                    this.queryMap.put(field, query);
+                    /*
+                     * Second Map
+                     */
+                    if (this.respectMap.containsKey(field)) {
+                        final JsonObject query = Ut.valueJObject(config, KName.QUERY);
+                        query.put(Strings.EMPTY, Boolean.TRUE);
+                        this.queryMap.put(field, query);
+                    }
                 }
             }
         });

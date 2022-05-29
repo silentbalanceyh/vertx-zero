@@ -1,0 +1,9 @@
+{
+    "config": {
+        "respect": "io.vertx.tp.workflow.uca.modeling.RespectFile",
+        "query": {
+            "modelId": "w.ticket",
+            "modelCategory": "`${flowDefinitionKey}`"
+        }
+    }
+}
