@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
@@ -42,44 +43,31 @@ class ConfigLinkage implements Serializable {
          *      }
          * }
          */
-        linkageJ.fieldNames().forEach(field -> {
-            final Object value = linkageJ.getValue(field);
-            /*
-             * Secondary format for
-             * field1: path1
-             * field1: path2
-             */
-            JsonObject json = null;
-            if (value instanceof String) {
-                json = Ut.ioJObject(value.toString());
-            } else if (value instanceof JsonObject) {
-                json = (JsonObject) value;
-            }
-            if (Ut.notNil(json)) {
-                final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
+        final JsonObject parsedJ = Wf.processLinkage(linkageJ);
+        Ut.<JsonObject>itJObject(parsedJ, (json, field) -> {
+            final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
-                if (Ut.notNil(config)) {
-                    /*
-                     * First Map
-                     *
-                     * field = Dao
-                     */
-                    final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
-                    if (Objects.isNull(clazz)) {
-                        this.respectMap.put(field, RespectLink.class);
-                    } else {
-                        this.respectMap.put(field, clazz);
-                    }
+            if (Ut.notNil(config)) {
+                /*
+                 * First Map
+                 *
+                 * field = Dao
+                 */
+                final Class<?> clazz = Ut.clazz(config.getString("respect"), null);
+                if (Objects.isNull(clazz)) {
+                    this.respectMap.put(field, RespectLink.class);
+                } else {
+                    this.respectMap.put(field, clazz);
+                }
 
 
-                    /*
-                     * Second Map
-                     */
-                    if (this.respectMap.containsKey(field)) {
-                        final JsonObject query = Ut.valueJObject(config, KName.QUERY);
-                        query.put(Strings.EMPTY, Boolean.TRUE);
-                        this.queryMap.put(field, query);
-                    }
+                /*
+                 * Second Map
+                 */
+                if (this.respectMap.containsKey(field)) {
+                    final JsonObject query = Ut.valueJObject(config, KName.QUERY);
+                    query.put(Strings.EMPTY, Boolean.TRUE);
+                    this.queryMap.put(field, query);
                 }
             }
         });

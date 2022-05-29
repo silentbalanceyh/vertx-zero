@@ -7,6 +7,7 @@ import io.vertx.tp.workflow.atom.WProcessDefinition;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -39,8 +40,26 @@ class WfFlow {
         });
     }
 
-    static JsonObject process(final JsonObject recordJ) {
-
-        return null;
+    static JsonObject processLinkage(final JsonObject linkageJ) {
+        final JsonObject parsed = new JsonObject();
+        linkageJ.fieldNames().forEach(field -> {
+            final Object value = linkageJ.getValue(field);
+            /*
+             * Secondary format for
+             * field1: path1
+             * field1: path2
+             */
+            JsonObject json = null;
+            if (value instanceof String) {
+                json = Ut.ioJObject(value.toString());
+            } else if (value instanceof JsonObject) {
+                json = (JsonObject) value;
+            }
+            if (Ut.notNil(json)) {
+                assert json != null;
+                parsed.put(field, json.copy());
+            }
+        });
+        return parsed;
     }
 }
