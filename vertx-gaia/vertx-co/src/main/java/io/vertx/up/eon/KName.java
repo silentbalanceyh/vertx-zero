@@ -72,6 +72,7 @@ public interface KName {
     String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
+    String DEVELOPER = "developer";              /* Development: for developer */
 
     String APP = "application";                  /* Reserved: */
 
