@@ -16,11 +16,15 @@ import java.io.Serializable;
 class ConfigChild implements Serializable {
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private transient Class<?> dao;
+    private Class<?> dao;
 
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray fields = new JsonArray();
+    private JsonArray fields = new JsonArray();
+
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray auditor = new JsonArray();
 
     public Class<?> getDao() {
         return this.dao;
@@ -36,5 +40,13 @@ class ConfigChild implements Serializable {
 
     public void setFields(final JsonArray fields) {
         this.fields = fields;
+    }
+
+    public JsonArray getAuditor() {
+        return this.auditor;
+    }
+
+    public void setAuditor(final JsonArray auditor) {
+        this.auditor = auditor;
     }
 }

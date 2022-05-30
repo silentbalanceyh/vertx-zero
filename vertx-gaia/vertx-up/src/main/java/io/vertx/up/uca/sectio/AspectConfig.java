@@ -97,6 +97,11 @@ public class AspectConfig implements Serializable {
         return this.configMap.getOrDefault(clazz, new JsonObject());
     }
 
+    public AspectConfig config(final Class<?> clazz, final JsonObject external) {
+        this.configMap.getOrDefault(clazz, external);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "AspectConfig{" +

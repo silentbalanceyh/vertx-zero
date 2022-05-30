@@ -138,6 +138,10 @@ class AidTracker {
             final List<Class<?>> afterList = aspectConfig.nameAfter();
             if (!afterList.contains(ActivityTabb.class)) {
                 afterList.add(ActivityTabb.class);
+                // Add External Configuration for current Component
+                final JsonObject config = new JsonObject();
+                config.put(KName.USER, this.metadata.childAuditor());
+                aspectConfig.config(ActivityTabb.class, config);
             }
         }
         Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
