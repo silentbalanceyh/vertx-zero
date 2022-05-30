@@ -99,7 +99,7 @@ public class ActivityTabb implements After {
          * }
          */
         final JsonObject user = new JsonObject();
-        final JsonArray auditorJ = Ut.valueJArray(config, KName.USER);
+        final JsonArray auditorJ = Ut.valueJArray(config, KName.AUDITOR);
         auditorJ.addAll(Ut.toJArray(KName.Flow.FIELD_AUDITOR));
         user.put(KName.USER, auditorJ);
         user.put(KName.ROLE, new JsonArray()

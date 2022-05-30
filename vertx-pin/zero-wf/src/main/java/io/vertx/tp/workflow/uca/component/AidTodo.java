@@ -121,11 +121,16 @@ class AidTodo {
          * Closable Data
          */
         {
-            todoData.put(KName.Flow.Auditor.CANCEL_AT, Instant.now());
-            todoData.put(KName.Flow.Auditor.CANCEL_BY, user);
-
-            todoData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
-            todoData.put(KName.Flow.Auditor.CLOSE_BY, user);
+            // Cancel ticket will ignore closeBy
+            if (TodoStatus.CANCELED == status) {
+                todoData.put(KName.Flow.Auditor.CANCEL_AT, Instant.now());
+                todoData.put(KName.Flow.Auditor.CANCEL_BY, user);
+            }
+            // Close ticket will ignore cancelBy
+            if (TodoStatus.FINISHED == status) {
+                todoData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
+                todoData.put(KName.Flow.Auditor.CLOSE_BY, user);
+            }
         }
         return todoData;
     }

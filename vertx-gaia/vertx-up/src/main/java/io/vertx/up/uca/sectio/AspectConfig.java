@@ -98,7 +98,7 @@ public class AspectConfig implements Serializable {
     }
 
     public AspectConfig config(final Class<?> clazz, final JsonObject external) {
-        this.configMap.getOrDefault(clazz, external);
+        this.configMap.put(clazz, external);
         return this;
     }
 

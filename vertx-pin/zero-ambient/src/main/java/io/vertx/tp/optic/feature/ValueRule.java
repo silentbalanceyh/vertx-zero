@@ -5,6 +5,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
+import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.tp.error._501IndentMissingException;
 import io.vertx.tp.ke.refine.Ke;
@@ -12,6 +13,7 @@ import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.log.Annal;
 import io.vertx.up.uca.wffs.Formula;
 import io.vertx.up.uca.wffs.Regulation;
 import io.vertx.up.unity.Ux;
@@ -30,6 +32,8 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ValueRule implements Valve {
+    private static final Annal LOGGER = Annal.get(ValueRule.class);
+
     @Override
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
         /* If criteria is empty, return the input data directly */
@@ -37,7 +41,7 @@ public class ValueRule implements Valve {
         if (Ux.Jooq.isEmpty(criteria)) {
             return Ux.future(data);
         }
-
+        At.infoTabb(this.getClass(), "Qr condition for ActivityRule: {0}", criteria.encode());
         /* Not Skip */
         final Refer ruleRef = new Refer();
         final Refer inputRef = new Refer();
