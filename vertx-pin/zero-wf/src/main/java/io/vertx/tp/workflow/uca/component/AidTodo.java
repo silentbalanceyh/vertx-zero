@@ -56,14 +56,19 @@ class AidTodo {
         // updatedAt / updatedBy contain values
         updatedData.put(KName.ACTIVE, Boolean.TRUE);
 
-        /*
-         * Closable Data
-         */
-        updatedData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
-        updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
 
         if (wProcess.isEnd()) {
+            /*
+             * Closable Data, following three fields must be happened the same
+             * - flowEnd = true
+             * - closeBy = has value
+             * - closeAt = current date
+             *
+             * Because there is only one close by information
+             */
             updatedData.put(KName.Flow.FLOW_END, Boolean.TRUE);
+            updatedData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
+            updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
         }
         // Todo based on previous
         final WMoveRule rule = wProcess.ruleFind();
@@ -429,26 +434,27 @@ class AidTodo {
     }
 
     // ------------- Private Update Operation ----------------------
-
     private Future<WRecord> updateTicket(final JsonObject params, final WTicket ticket, final WRecord recordRef) {
         Objects.requireNonNull(recordRef.prev());
-        final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
-        final JsonObject ticketJ = params.copy();
-        // Non-Update Field: key, serial, code
-        ticketJ.remove(KName.KEY);
-        ticketJ.remove(KName.SERIAL);
-        ticketJ.remove(KName.CODE);
-        final WTicket combine = Ux.updateT(ticket, ticketJ);
         /*
          * Here recordRef contains:
          * 1) Current record data
          * 2) Prev record reference
          */
         {
+            // ------------- Previous ----------------------
             // Bind Original
             final WRecord prev = recordRef.prev();
             prev.bind(ticket);
         }
+        final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
+        final JsonObject ticketJ = params.copy();
+        // Non-Update Field: key, serial, code
+        ticketJ.remove(KName.KEY);
+        ticketJ.remove(KName.SERIAL);
+        ticketJ.remove(KName.CODE);
+        // This action must happen after prev bind
+        final WTicket combine = Ux.updateT(ticket, ticketJ);
         return tJq.updateAsync(combine).compose(updated -> {
             // Bind Updated
             /*
@@ -468,11 +474,8 @@ class AidTodo {
         final UxJooq tJq = Ux.Jooq.on(WTodoDao.class);
         final String key = params.getString(KName.KEY);
         return tJq.<WTodo>fetchByIdAsync(key).compose(query -> {
-            /*
-             * Critical Step for status binding
-             * and the recordRef must bind original status
-             */
             {
+                // ------------- Previous ----------------------
                 // Bind Original
                 final WRecord prev = recordRef.prev();
                 prev.bind(query);
@@ -506,6 +509,7 @@ class AidTodo {
             Objects.requireNonNull(queryJ);
             // Bind Original
             {
+                // ------------- Previous ----------------------
                 final WRecord prev = recordRef.prev();
                 prev.bind(queryJ);
             }

@@ -163,9 +163,19 @@ class Compare {
     static <T> T updateT(final T query, final JsonObject params) {
         Objects.requireNonNull(query);
         final Class<?> entityCls = query.getClass();
-        final JsonObject original = Ux.toJson(query);
+        final JsonObject original = To.toJObject(query, "");
         original.mergeIn(params, true);
         return (T) From.fromJson(original, entityCls, "");
+    }
+
+    @SuppressWarnings("all")
+    static <T> T cloneT(final T input) {
+        if (Objects.isNull(input)) {
+            return null;
+        }
+        final Class<?> clazz = input.getClass();
+        final JsonObject original = To.toJObject(input, "");
+        return (T) From.fromJson(original, clazz, "");
     }
 
     static <ID> Record updateR(final Record record, final JsonObject data,
@@ -246,6 +256,6 @@ class Compare {
         if (!qUpdate.isEmpty()) {
             futures.add(updateAsyncFn.apply(qUpdate).compose(Ux::futureA));
         }
-        return Ux.thenCombineArray(futures);
+        return Combine.thenCombineArray(futures);
     }
 }

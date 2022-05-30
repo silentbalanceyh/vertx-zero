@@ -114,12 +114,12 @@ public class WRecord implements Serializable {
      *  3. Linkage should be related to current WTodo record
      */
     public WRecord bind(final WTicket ticket) {
-        this.ticket = ticket;
+        this.ticket = Ux.cloneT(ticket);
         return this;
     }
 
     public WRecord bind(final WTodo todo) {
-        this.todo = todo;
+        this.todo = Ux.cloneT(todo);
         return this;
     }
 
