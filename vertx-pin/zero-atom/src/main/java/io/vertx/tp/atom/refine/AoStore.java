@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
-import io.vertx.tp.atom.modeling.config.AoConfig;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
@@ -20,10 +19,8 @@ class AoStore {
     private static final String PATH_ADJUSTER = "runtime/adjuster/config.json";
     private static final String PATH_MODELING = "runtime/adjuster/modeling";
 
-    private static final AoConfig CONFIG = AoPin.getConfig();
-
     static String namespace(final String appName) {
-        final String prefix = CONFIG.getNamespace();
+        final String prefix = AoPin.getConfig().getNamespace();
         if (Ut.isNil(prefix)) {
             // Default namespace
             return HApp.ns(appName);
@@ -34,17 +31,17 @@ class AoStore {
     }
 
     static String defineExcel() {
-        final String excel = CONFIG.getDefineExcel();
+        final String excel = AoPin.getConfig().getDefineExcel();
         return Ut.isNil(excel) ? PATH_EXCEL : excel;
     }
 
     static String defineJson() {
-        final String json = CONFIG.getDefineJson();
+        final String json = AoPin.getConfig().getDefineJson();
         return Ut.isNil(json) ? PATH_JSON : json;
     }
 
     static JsonObject configAdjuster() {
-        String adjuster = CONFIG.getConfigAdjuster();
+        String adjuster = AoPin.getConfig().getConfigAdjuster();
         if (Ut.isNil(adjuster)) {
             adjuster = PATH_ADJUSTER;
         }
@@ -52,7 +49,7 @@ class AoStore {
     }
 
     static JsonObject configModeling(final String filename) {
-        String modeling = CONFIG.getConfigModeling();
+        String modeling = AoPin.getConfig().getConfigModeling();
         if (Ut.isNil(modeling)) {
             modeling = PATH_MODELING;
         }
@@ -76,7 +73,7 @@ class AoStore {
     }
 
     static boolean isDebug() {
-        final Boolean debug = CONFIG.getSqlDebug();
+        final Boolean debug = AoPin.getConfig().getSqlDebug();
         if (Objects.isNull(debug)) {
             return Boolean.FALSE;
         } else {
@@ -85,11 +82,11 @@ class AoStore {
     }
 
     static Class<?> clazzPin() {
-        return CONFIG.getImplPin();
+        return AoPin.getConfig().getImplPin();
     }
 
     static Class<?> clazzSchema() {
-        Class<?> clazz = CONFIG.getImplSchema();
+        Class<?> clazz = AoPin.getConfig().getImplSchema();
         if (Objects.isNull(clazz)) {
             /*
              * Default
@@ -100,7 +97,7 @@ class AoStore {
     }
 
     static Class<?> clazzModel() {
-        Class<?> clazz = CONFIG.getImplModel();
+        Class<?> clazz = AoPin.getConfig().getImplModel();
         if (Objects.isNull(clazz)) {
             /*
              * Default
@@ -111,6 +108,6 @@ class AoStore {
     }
 
     static Class<?> clazzSwitcher() {
-        return CONFIG.getImplSwitcher();
+        return AoPin.getConfig().getImplSwitcher();
     }
 }

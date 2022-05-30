@@ -29,9 +29,14 @@ class WfFlow {
             if (Objects.isNull(instance)) {
                 // History
                 return WfCamunda.instanceFinished(instanceId)
-                    .compose(instanceFinished -> WfCamunda.definitionById(instanceFinished.getProcessDefinitionId())
-                        .compose(definition -> WProcessDefinition.future(definition, instanceFinished))
-                    );
+                    .compose(instanceFinished -> {
+                        // Fix: NullPointer for Process Exception
+                        if (Objects.isNull(instanceFinished)) {
+                            return Ux.future();
+                        }
+                        return WfCamunda.definitionById(instanceFinished.getProcessDefinitionId())
+                            .compose(definition -> WProcessDefinition.future(definition, instanceFinished));
+                    });
             } else {
                 // Running
                 return WfCamunda.definitionById(instance.getProcessDefinitionId())

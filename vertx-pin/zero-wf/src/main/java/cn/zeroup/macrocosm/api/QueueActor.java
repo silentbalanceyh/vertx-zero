@@ -17,6 +17,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -152,6 +153,10 @@ public class QueueActor {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
             return Wf.definition(instanceId).compose(process -> {
+                // Fix: NullPointer for Process Exception
+                if (Objects.isNull(process)) {
+                    return Ux.futureJ();
+                }
                 if (process.isRunning()) {
                     // Running Form
                     return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());

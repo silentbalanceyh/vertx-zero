@@ -256,6 +256,10 @@ public class WRecord implements Serializable {
     }
 
     private Future<JsonObject> dataProcess(final WProcessDefinition process, final boolean history) {
+        // Fix: NullPointer for Process Exception
+        if (Objects.isNull(process)) {
+            return Ux.futureJ();
+        }
         /*
          * history to switch
          * 1. instance(), history = false
