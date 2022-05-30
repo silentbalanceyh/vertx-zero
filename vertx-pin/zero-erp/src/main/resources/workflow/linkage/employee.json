@@ -21,7 +21,7 @@
             ]
         },
         "tree": {
-            "type": "resource.departments",
+            "source": "resource.departments",
             "title": "所在部门",
             "config": {
                 "parent": "deptId",
@@ -33,9 +33,9 @@
         },
         "initial": {
             "alias": "员工关联记录",
-            "type": "EMPLOYEE",
+            "type": "TICKET",
             "linkType": "TICKET-EMPLOYEE",
-            "region": "linkage:ticket/employee",
+            "region": "LINKAGE/TICKET/EMPLOYEE",
             "sourceType": "w.ticket",
             "targetType": "res.employee"
         },
