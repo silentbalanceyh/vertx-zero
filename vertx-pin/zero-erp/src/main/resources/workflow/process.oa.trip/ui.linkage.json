@@ -1,5 +1,5 @@
 {
     "linkageAttachment": "workflow/linkage/attachment.json",
     "linkageTicket": "workflow/linkage/ticket.json",
-    "linkageAsset": "workflow/linkage/asset.json"
+    "linkageEmployee": "workflow/linkage/employee.json"
 }

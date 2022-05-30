@@ -40,12 +40,19 @@ class AoStore {
         return Ut.isNil(json) ? PATH_JSON : json;
     }
 
+    /*
+     * Two Point for Null Pointer and EmptyStream Here
+     */
     static JsonObject configAdjuster() {
         String adjuster = AoPin.getConfig().getConfigAdjuster();
         if (Ut.isNil(adjuster)) {
             adjuster = PATH_ADJUSTER;
         }
-        return Ut.ioJObject(adjuster);
+        // Check File Existing, If not, return empty adjuster directly
+        if (Ut.ioExist(adjuster)) {
+            return Ut.ioJObject(adjuster);
+        }
+        return new JsonObject();
     }
 
     static JsonObject configModeling(final String filename) {
