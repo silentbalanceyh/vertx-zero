@@ -35,7 +35,6 @@
             "alias": "工单关联记录",
             "type": "TICKET",
             "linkType": "TICKET-TICKET",
-            "region": "LINKAGE/TICKET/TICKET",
             "sourceType": "w.ticket",
             "targetType": "w.ticket"
         },

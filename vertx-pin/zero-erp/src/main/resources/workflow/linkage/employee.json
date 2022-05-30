@@ -35,7 +35,6 @@
             "alias": "员工关联记录",
             "type": "TICKET",
             "linkType": "TICKET-EMPLOYEE",
-            "region": "LINKAGE/TICKET/EMPLOYEE",
             "sourceType": "w.ticket",
             "targetType": "res.employee"
         },

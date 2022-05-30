@@ -34,7 +34,6 @@
             "alias": "资产关联记录",
             "type": "TICKET",
             "linkType": "TICKET-ASSERT",
-            "region": "process.asset.income",
             "sourceType": "w.ticket",
             "targetType": "ci.device"
         },
