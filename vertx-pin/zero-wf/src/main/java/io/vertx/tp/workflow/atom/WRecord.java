@@ -416,7 +416,20 @@ public class WRecord implements Serializable {
             // Data Original, UPDATE Only
             final JsonObject dataPrev = this.prev.data();
             if (Ut.notNil(dataPrev)) {
-                response.put(KName.__.DATA, this.prev.data());
+                /*
+                 * Here are some calculation, the __data with `this.prev` must exist in
+                 * Todo task generation here, in this kind of situation, here are the matrix
+                 *
+                 * WTodo        OLD            NEW
+                 *  Prev         o              x ( Will be Closed )
+                 *  Generated    x              o
+                 *
+                 * The data structure will populate the `o` marked instead of
+                 * other situation here, it means that:
+                 * 1) The $zo = this.prev.__data ( OLD DATA )
+                 * 2) The $zn = current ( NEW DATA )
+                 */
+                response.put(KName.__.DATA, dataPrev);
             }
         }
         // Operation on Record
