@@ -12,7 +12,7 @@ import io.vertx.up.eon.KName;
 public class TubePhase extends AbstractTube {
     @Override
     public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
-        return this.traceVs(data, rule, KName.PHASE, () -> {
+        return this.diffAsync(data, rule, KName.PHASE, () -> {
             /*
              * java.lang.StackOverflowError fix
              * Change TubeType.PHASE -> TubeType.EXPRESSION

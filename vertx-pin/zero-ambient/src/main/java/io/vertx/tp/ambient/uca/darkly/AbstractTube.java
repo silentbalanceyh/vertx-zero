@@ -56,7 +56,8 @@ public abstract class AbstractTube implements Tube {
          */
         activity.setKey(UUID.randomUUID().toString());
         activity.setType(rule.getType());
-        activity.setSerial(data.getString(KName.SERIAL));
+        activity.setSerial(data.getString(KName.Flow.TRACE_SERIAL));
+        data.remove(KName.Flow.TRACE_SERIAL);
         {
             /*
              * taskSerial
@@ -102,9 +103,9 @@ public abstract class AbstractTube implements Tube {
         });
     }
 
-    protected Future<JsonObject> traceVs(final JsonObject data, final XActivityRule rule,
-                                         final String field,
-                                         final Supplier<Future<JsonObject>> executor) {
+    protected Future<JsonObject> diffAsync(final JsonObject data, final XActivityRule rule,
+                                           final String field,
+                                           final Supplier<Future<JsonObject>> executor) {
         final HAtom atom = this.atom(rule);
         final Vs vs = atom.vs();
         // Processing the data
@@ -114,6 +115,23 @@ public abstract class AbstractTube implements Tube {
             return executor.get();
         } else {
             At.infoFlow(this.getClass(), "The field = {0} of Atom (  identifier = {1} ) has not been changed!",
+                field, atom.identifier());
+            return Ux.future(data);
+        }
+    }
+
+    protected Future<JsonObject> sameAsync(final JsonObject data, final XActivityRule rule,
+                                           final String field,
+                                           final Supplier<Future<JsonObject>> executor) {
+        final HAtom atom = this.atom(rule);
+        final Vs vs = atom.vs();
+        // Processing the data
+        final JsonObject dataN = Ut.aiDataN(data);
+        final JsonObject dataO = Ut.aiDataO(data);
+        if (!vs.isChange(dataO.getValue(field), dataN.getValue(field), field)) {
+            return executor.get();
+        } else {
+            At.infoFlow(this.getClass(), "The field = {0} of Atom (  identifier = {1} ) has been changed!",
                 field, atom.identifier());
             return Ux.future(data);
         }

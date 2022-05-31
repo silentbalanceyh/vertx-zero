@@ -13,7 +13,6 @@ import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
 import io.vertx.up.uca.wffs.Formula;
 import io.vertx.up.uca.wffs.Regulation;
 import io.vertx.up.unity.Ux;
@@ -32,7 +31,6 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ValueRule implements Valve {
-    private static final Annal LOGGER = Annal.get(ValueRule.class);
 
     @Override
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
@@ -90,7 +88,7 @@ public class ValueRule implements Valve {
                 ruleMap.put(rule.getKey(), params -> {
                     final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
                     final Tube tube = Tube.instance(type);
-                    params.put(KName.SERIAL, serial);
+                    params.put(KName.Flow.TRACE_SERIAL, serial);
                     return tube.traceAsync(params, rule);
                 });
             } else {
