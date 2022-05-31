@@ -104,7 +104,10 @@
             [
                 {
                     "metadata": "classification,休假类型,8,,aiSelect",
-                    "optionJsx.config.datum": "source=oa.vacation.type,key=code,label=name"
+                    "optionJsx.config.datum": "source=oa.vacation.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择休假类型！"
+                    ]
                 }
             ],
             [
