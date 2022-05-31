@@ -1,6 +1,6 @@
 {
     "initial": {
-        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.oa.trip"
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.oa.vacation"
     },
     "hidden": [
         "requestBy"

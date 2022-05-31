@@ -1,15 +1,25 @@
 {
+    "hidden": [
+        "requestBy"
+    ],
+    "synonym": {
+        "toUserNo": "交接人工号",
+        "toUserName": "交接人",
+        "toUserEmail": "交接人邮箱",
+        "toUserMobile": "交接人电话",
+        "toUserDept": "交接人部门",
+        "toUserTeam": "交接人工作组"
+    },
     "segment": {
         "TICKET": [
             [
                 {
-                    "metadata": "requestName,申请人,8,,aiListSelector,placeholder=（工作交接申请人）",
+                    "metadata": "requestName,交接人,8,,aiListSelector,placeholder=（谁申请交接）",
                     "optionJsx.config": {
                         "ajax": {
-                            "metadata": "POST,/api/user/search,1,10,sorter=createdAt`ASC",
+                            "metadata": "POST,/api/user/search/employee,1,10,sorter=createdAt`ASC",
                             "params.criteria": {
                                 "sigma": "PROP:app.sigma",
-                                "key,<>": "USER:key",
                                 "": true
                             }
                         },
@@ -45,31 +55,63 @@
                             "realname,c": "姓名"
                         }
                     },
-                    "optionJsx.allowClear": true
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写交接申请人！"
+                    ]
                 },
-                "requestNo,申请人工号,8,,,readOnly=true",
-                "requestMobile,申请人电话,8,,,readOnly=true"
+                "requestNo,交接人工号,8,,,readOnly=true",
+                "requestMobile,交接人电话,8,,,readOnly=true"
             ],
             [
                 {
                     "metadata": "startAt,开始时间,8,,aiDatePicker",
                     "optionJsx.format": "YYYY-MM-DD",
                     "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接开始时间！"
+                    ],
                     "moment": true
                 },
                 {
                     "metadata": "endAt,结束时间,8,,aiDatePicker",
                     "optionJsx.format": "YYYY-MM-DD",
                     "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接结束时间！"
+                    ],
                     "moment": true
                 },
                 {
-                    "metadata": "days,天数,8,,,readOnly=true"
+                    "metadata": "days,天数,8,,,readOnly=true,addonAfter=天"
                 }
             ],
             [
                 {
-                    "metadata": "reason,原因,24,,aiTextArea,rows=2"
+                    "metadata": "reason,交接原因,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,请填写交接原因！"
+                    ]
                 }
             ],
             [

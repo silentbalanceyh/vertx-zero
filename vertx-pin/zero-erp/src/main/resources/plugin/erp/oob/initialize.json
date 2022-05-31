@@ -11,6 +11,7 @@
     "plugin/erp/oob/cab/organization.dept.xlsx",
     "plugin/erp/oob/cab/organization.employee.identity.xlsx",
     "plugin/erp/oob/cab/organization.employee.xlsx",
+    "plugin/erp/oob/rule/process.oa.assignment/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.oa.trip/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.oa.vacation/activity-rule.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.brand.xlsx",
