@@ -10,24 +10,34 @@ package io.vertx.tp.ambient.cv.em;
  */
 public enum TubeType {
     /*
-     * Model Tube, it's for changing history activities, in this kind of situation, it will
-     * check expression directly.
-     *
-     * Here are reference fields:
-     * - RULE_IDENTIFIER
-     * - RULE_FIELD
+     * Model Tube, in this kind of situation, it will do as following:
+     * 1) Compare the field of HAtom
+     *  - RULE_IDENTIFIER
+     *  - RULE_FIELD
+     * 2) Execute the expression checking
      */
     ATOM,
 
     /*
-     * Workflow Tube, it's for camuda workflow activities, it will check expression directly
-     * Here are reference fields:
+     * Workflow Tube, in this kind of situation, it will do as following:
+     * 1) Compare the workflow field
+     *  - TASK_KEY
+     *  - PHASE
+     * 2) Execute the expression checking
+     *
+     * Workflow Field:
      * - RULE_IDENTIFIER
      * - RULE_FIELD
      * - DEFINITION_KEY
      * - TASK_KEY
      */
-    WORKFLOW,
+    PHASE,
+
+    /*
+     * Expression Tube, in this kind of situation, it will do as following:
+     * 1) Execute the expression checking directly
+     */
+    EXPRESSION,
 
     NOTIFY,             // Notification Tube
     SCHEDULER,          // Scheduler Task Tube

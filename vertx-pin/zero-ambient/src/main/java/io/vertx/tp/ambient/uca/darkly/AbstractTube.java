@@ -4,18 +4,22 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.experiment.mixture.HLoadSmart;
 import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.uca.wffs.Playbook;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -96,18 +100,22 @@ public abstract class AbstractTube implements Tube {
             activity.setDescription(description);
             return Ux.future(activity);
         });
-/*        return Ke.umIndent(activity, rule.getSigma(), code, XActivity::setSerial).compose(normalized -> {
-            final Playbook playbook = Playbook.open(rule.getRuleMessage());
-            return playbook.format(data).compose(description -> {
-                normalized.setDescription(description);
-                return Ux.future(normalized);
-            });
-        });*/
-        /*
-         * After this method, Required:
-         * [x] modelId
-         * [x] recordOld
-         * [x] recordNew
-         */
+    }
+
+    protected Future<JsonObject> traceVs(final JsonObject data, final XActivityRule rule,
+                                         final String field,
+                                         final Supplier<Future<JsonObject>> executor) {
+        final HAtom atom = this.atom(rule);
+        final Vs vs = atom.vs();
+        // Processing the data
+        final JsonObject dataN = Ut.aiDataN(data);
+        final JsonObject dataO = Ut.aiDataO(data);
+        if (vs.isChange(dataO.getValue(field), dataN.getValue(field), field)) {
+            return executor.get();
+        } else {
+            At.infoFlow(this.getClass(), "The field = {0} of Atom (  identifier = {1} ) has not been changed!",
+                field, atom.identifier());
+            return Ux.future(data);
+        }
     }
 }
