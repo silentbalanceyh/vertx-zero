@@ -12,7 +12,7 @@
                     "metadata": "requestName,出差人,8,,aiListSelector,placeholder=（谁申请出差）",
                     "optionJsx.config": {
                         "ajax": {
-                            "metadata": "POST,/api/user/search,1,10,sorter=createdAt`ASC",
+                            "metadata": "POST,/api/user/search/employee,1,10,sorter=createdAt`ASC",
                             "params.criteria": {
                                 "sigma": "PROP:app.sigma",
                                 "": true
