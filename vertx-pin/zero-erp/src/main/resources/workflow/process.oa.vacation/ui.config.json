@@ -3,26 +3,17 @@
         "height": 240
     },
     "phase": {
-        "forbidden": [
-            "ACCEPTED",
-            "EXPIRED"
+        "addon": [
+            "ADMIT,等待审批:undo,18:#EE3B3B"
         ]
     },
     "synonym": {
-        "phase": "入库单状态",
-        "title": "入库单标题",
-        "serial": "入库单号",
-        "toUserNo": "审批人工号",
-        "toUserName": "审批人",
-        "toUserEmail": "审批人邮箱",
-        "toUserMobile": "审批人电话",
-        "toUserDept": "审批人部门",
-        "toUserTeam": "审批人工作组"
+        "phase": "申请单状态",
+        "title": "申请单标题",
+        "serial": "申请单单号"
     },
-    "request": {
-        "record": {
-            "source": "LINKAGE",
-            "linkage": "linkageAsset"
-        }
-    }
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
 }

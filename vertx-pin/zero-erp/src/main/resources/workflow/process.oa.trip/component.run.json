@@ -13,8 +13,6 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "DONE",
-                    "active": true
                 }
             },
             {
@@ -35,8 +33,6 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "DONE",
-                    "active": true
                 }
             },
             {
