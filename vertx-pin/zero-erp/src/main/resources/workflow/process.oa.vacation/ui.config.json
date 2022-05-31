@@ -2,11 +2,6 @@
     "canvas": {
         "height": 240
     },
-    "phase": {
-        "addon": [
-            "ADMIT,等待审批:undo,18:#EE3B3B"
-        ]
-    },
     "synonym": {
         "phase": "申请单状态",
         "title": "申请单标题",
