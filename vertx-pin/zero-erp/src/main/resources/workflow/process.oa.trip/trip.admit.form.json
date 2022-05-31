@@ -189,7 +189,7 @@
             "data": {
                 "YES": {
                     "confirmed": true,
-                    "phase": "FINISHED",
+                    "phase": "END",
                     "commentApproval": "FORM:confirmedDesc"
                 },
                 "NO": {

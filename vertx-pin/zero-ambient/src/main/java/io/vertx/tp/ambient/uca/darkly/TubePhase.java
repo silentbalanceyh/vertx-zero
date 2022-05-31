@@ -15,7 +15,7 @@ public class TubePhase extends AbstractTube {
         return this.traceVs(data, rule, KName.PHASE, () -> {
             /*
              * java.lang.StackOverflowError fix
-             * Change TubeType.Atom -> TubeType.WORKFLOW
+             * Change TubeType.PHASE -> TubeType.EXPRESSION
              */
             final Tube tube = Tube.instance(TubeType.EXPRESSION);
             return tube.traceAsync(data, rule);
