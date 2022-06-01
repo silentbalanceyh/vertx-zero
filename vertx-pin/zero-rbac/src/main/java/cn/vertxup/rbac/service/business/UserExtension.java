@@ -46,18 +46,24 @@ public class UserExtension {
      * Fix Issue: https://github.com/silentbalanceyh/ox-engine/issues/1207
      */
     public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject query, final boolean isQr) {
-        // The original `criteria` from query part
+        // The original `criteria` from query part, fix Null Pointer Issue
         final JsonObject queryJ = query.copy();
-        final JsonObject criteria = queryJ.getJsonObject(Qr.KEY_CRITERIA);
+        final JsonObject criteria = Ut.valueJObject(queryJ, Qr.KEY_CRITERIA);
         // Qr Json
         final JsonObject condition;
         if (isQr) {
             condition = Ux.whereAnd();
             condition.mergeIn(qr.getCondition());
-            condition.put("$IN$", criteria);
+            if (Ut.notNil(criteria)) {
+                // java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+                // Sub Query Tree Must not be EMPTY
+                condition.put("$IN$", criteria);
+            }
         } else {
             condition = new JsonObject();
-            condition.mergeIn(criteria.copy());
+            if (Ut.notNil(criteria)) {
+                condition.mergeIn(criteria.copy());
+            }
         }
         queryJ.put(Qr.KEY_CRITERIA, condition);
 

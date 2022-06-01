@@ -80,4 +80,11 @@ public interface BizInternal {
         corporation,        // * The Default Customer that stored into CRM system as record
         vendor,             //   The Vendor
     }
+
+    enum StatusEmployee {
+        running,            // * The Default Employee status ( Or NULL )
+        trip,               //   In Trip
+        vacation,           //   In Vacation
+        training,           //   In Training
+    }
 }

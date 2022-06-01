@@ -4,6 +4,7 @@
     "plugin/rbac/oob/data/admin.menu.xlsx",
     "plugin/rbac/oob/data/admin.op.xlsx",
     "plugin/rbac/oob/data/rbac.account.xlsx",
+    "plugin/rbac/oob/data/rbac.dict.xlsx",
     "plugin/rbac/oob/data/rbac.menu.xlsx",
     "plugin/rbac/oob/cab/login.index.xlsx",
     "plugin/rbac/oob/cab/view.personal.xlsx",

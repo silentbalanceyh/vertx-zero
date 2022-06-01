@@ -111,6 +111,10 @@ public final class Ux {
      * 5. Record
      * 6. Record[]
      */
+    public static <T> T cloneT(final T input) {
+        return Compare.cloneT(input);
+    }
+
     public static <T> T updateT(final T query, final JsonObject params) {
         return Compare.updateT(query, params);
     }

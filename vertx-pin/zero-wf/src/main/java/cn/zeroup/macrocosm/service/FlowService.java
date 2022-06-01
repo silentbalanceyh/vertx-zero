@@ -43,6 +43,10 @@ public class FlowService implements FlowStub {
                     KName.Flow.UI_ASSIST,
                     KName.Flow.UI_LINKAGE
                 ).apply(response);
+            }).compose(workflowJ -> {
+                // Simply the linkage configuration for sharing global part
+                workflowJ.put(KName.Flow.UI_LINKAGE, Wf.processLinkage(workflowJ.getJsonObject(KName.Flow.UI_LINKAGE)));
+                return Ux.future(workflowJ);
             });
         });
     }

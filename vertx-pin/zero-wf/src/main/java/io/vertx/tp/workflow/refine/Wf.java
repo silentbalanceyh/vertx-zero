@@ -108,6 +108,10 @@ public class Wf {
         return WfFlow.definition(instanceId);
     }
 
+    public static JsonObject processLinkage(final JsonObject linkageJ) {
+        return WfFlow.processLinkage(linkageJ);
+    }
+
     // BiFunction on ProcessDefinition / ProcessInstance
 
     public static class Log {

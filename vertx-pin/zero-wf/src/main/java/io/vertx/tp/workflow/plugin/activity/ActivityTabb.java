@@ -48,7 +48,7 @@ public class ActivityTabb implements After {
              *     "criteria": {}
              * }
              */
-            .compose(this::dataDelay)
+            .compose(processed -> this.dataDelay(processed, config))
             .compose(processed -> Ux.channel(Valve.class,
                 /*
                  * Returned original JsonObject
@@ -79,7 +79,7 @@ public class ActivityTabb implements After {
      * - toRole
      * - toGroup
      */
-    private Future<JsonObject> dataDelay(final JsonObject normalized) {
+    private Future<JsonObject> dataDelay(final JsonObject normalized, final JsonObject config) {
         /*
          * Collect all User fields:
          * These fields will be mapped to __user here as metadata part
@@ -99,7 +99,9 @@ public class ActivityTabb implements After {
          * }
          */
         final JsonObject user = new JsonObject();
-        user.put(KName.USER, Ut.toJArray(KName.Flow.FIELD_AUDITOR));
+        final JsonArray auditorJ = Ut.valueJArray(config, KName.AUDITOR);
+        auditorJ.addAll(Ut.toJArray(KName.Flow.FIELD_AUDITOR));
+        user.put(KName.USER, auditorJ);
         user.put(KName.ROLE, new JsonArray()
             .add(KName.Flow.Auditor.TO_ROLE)
         );

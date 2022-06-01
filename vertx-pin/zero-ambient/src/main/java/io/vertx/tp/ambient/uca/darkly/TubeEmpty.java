@@ -8,7 +8,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class TubeEmpty implements Tube {
+public class TubeEmpty implements Tube {
     @Override
     public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
         return Ux.future(data);

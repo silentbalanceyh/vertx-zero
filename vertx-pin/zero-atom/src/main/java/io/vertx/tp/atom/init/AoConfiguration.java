@@ -6,6 +6,8 @@ import io.vertx.tp.atom.modeling.config.AoConfig;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 class AoConfiguration {
 
     private static AoConfig CONFIG = null;
@@ -23,6 +25,7 @@ class AoConfiguration {
     }
 
     static AoConfig getConfig() {
-        return CONFIG;
+        // Fix Issue of Atom Disabled Null Pointer
+        return Objects.isNull(CONFIG) ? new AoConfig() : CONFIG;
     }
 }

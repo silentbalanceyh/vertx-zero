@@ -1,7 +1,6 @@
 package io.vertx.tp.optic.mixture;
 
 import io.vertx.tp.atom.cv.AoCache;
-import io.vertx.tp.atom.cv.AoMsg;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
@@ -34,9 +33,10 @@ public class HLoadAtom implements HLoad {
             final Model model = AoCache.CC_MODEL.pick(() -> performer.fetch(identifier), unique);
 
             // Fetch HAtom
-            final DataAtom atom = new DataAtom(app, model);
-            Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
-            return atom;
+            // final DataAtom atom = new DataAtom(app, model);
+            // Remove following Log
+            // Ao.infoAtom(DataAtom.class, AoMsg.DATA_ATOM, unique, model.toJson().encode());
+            return new DataAtom(app, model);
         } catch (final _404ModelNotFoundException ignored) {
             /*
              * 这里的改动主要基于动静态模型同时操作导致，如果可以找到Model则证明模型存在于系统中，这种

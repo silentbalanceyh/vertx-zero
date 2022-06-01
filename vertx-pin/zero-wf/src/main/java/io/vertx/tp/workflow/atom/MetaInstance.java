@@ -187,4 +187,11 @@ public class MetaInstance {
         fields.forEach(field -> childData.put(field, params.getValue(field)));
         return childData;
     }
+
+    public JsonArray childAuditor() {
+        if (Objects.isNull(this.children)) {
+            return new JsonArray();
+        }
+        return this.children.getAuditor();
+    }
 }

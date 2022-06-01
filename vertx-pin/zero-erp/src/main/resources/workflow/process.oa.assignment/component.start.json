@@ -11,7 +11,7 @@
         "virtual": true
     },
     "children": {
-        "dao": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaAssignmentDao",
         "fields": [
             "key",
             "requestBy",
@@ -20,6 +20,9 @@
             "days",
             "reason",
             "workContent"
+        ],
+        "auditor": [
+            "requestBy"
         ]
     }
 }
