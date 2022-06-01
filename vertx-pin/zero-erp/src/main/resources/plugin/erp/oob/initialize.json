@@ -17,6 +17,7 @@
     "plugin/erp/oob/rule/process.vendor.assessment/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.vendor.check-in/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.vendor.check-out/activity-rule.xlsx",
+    "plugin/erp/oob/rule/process.vendor.hour/activity-rule.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.brand.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.company.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.customer.xlsx",
