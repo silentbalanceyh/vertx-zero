@@ -11,21 +11,19 @@
             "type": "FIX:zero.workflow.cat"
         }
     },
-    "data.category": {
-        "uri": "/api/type/categories/:type",
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma"
+    },
+    "oa.customer.type": {
+        "uri": "/api/type/tabulars/:type",
         "magic": {
-            "type": "FIX:ci.type"
+            "type": "FIX:zero.customer.employee"
         }
     },
-    "tabular": {
-        "uri": "/api/types/tabulars",
-        "method": "POST",
+    "oa.customer.rank": {
+        "uri": "/api/type/tabulars/:type",
         "magic": {
-            "$body": [
-                "ci.status",
-                "ci.level"
-            ]
-        },
-        "group": "type"
+            "type": "FIX:zero.customer.rank"
+        }
     }
 }

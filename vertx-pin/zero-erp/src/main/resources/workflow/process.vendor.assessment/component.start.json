@@ -1,13 +1,31 @@
 {
     "todo": {
-        "name": "`出库申请：${serial}, ${name}`",
-        "icon": "upload",
-        "todoUrl": "`/ambient/flow-view?tid=${key}&id=${modelKey}`",
-        "modelComponent": "",
-        "modelId": "",
-        "indent": "WF.NUM.P-OUTCOME"
+        "name": "`考核记录：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.vendor.assessment`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Assessment"
     },
     "record": {
-        "flag": "ADD"
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TVendorAssessmentDao",
+        "fields": [
+            "key",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "assessOn",
+            "assessScore",
+            "commentDept",
+            "commentAssess",
+            "commentLeader"
+        ],
+        "auditor": [
+            "assessOn"
+        ]
     }
 }
