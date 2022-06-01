@@ -53,7 +53,7 @@
                     ]
                 },
                 {
-                    "metadata": "onboardAt,计划时间,8,,aiDatePicker",
+                    "metadata": "onboardAt,计划入场时间,8,,aiDatePicker",
                     "optionJsx.format": "YYYY-MM-DD",
                     "optionJsx.disabledDate": "propFromNow",
                     "optionConfig.rules": [

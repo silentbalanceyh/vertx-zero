@@ -106,9 +106,9 @@ public class Db extends SchemaImpl {
     public final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_VOCATION</code>.
+     * The table <code>DB_ETERNAL.T_OA_VACATION</code>.
      */
-    public final TOaVocation T_OA_VOCATION = TOaVocation.T_OA_VOCATION;
+    public final TOaVacation T_OA_VACATION = TOaVacation.T_OA_VACATION;
 
     /**
      * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.
@@ -162,7 +162,7 @@ public class Db extends SchemaImpl {
             TOaAssignment.T_OA_ASSIGNMENT,
             TOaTraining.T_OA_TRAINING,
             TOaTrip.T_OA_TRIP,
-            TOaVocation.T_OA_VOCATION,
+            TOaVacation.T_OA_VACATION,
             TVendorAssessment.T_VENDOR_ASSESSMENT,
             TVendorCheckIn.T_VENDOR_CHECK_IN,
             TVendorCheckOut.T_VENDOR_CHECK_OUT,

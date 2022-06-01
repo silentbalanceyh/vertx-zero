@@ -11,7 +11,7 @@
         "virtual": true
     },
     "children": {
-        "dao": "cn.vertxup.erp.domain.tables.daos.TOaVocationDao",
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaVacationDao",
         "fields": [
             "key",
             "requestBy",
