@@ -117,10 +117,10 @@
                                 "value": "VALUE"
                             },
                             "range": {
-                                "bad": "[0,60)",
-                                "common": "[60,75)",
-                                "better": "[75,90)",
-                                "best": "[90,100]"
+                                "[0,60)": "bad",
+                                "[60,75)": "common",
+                                "[75,90)": "better",
+                                "[90,100]": "best"
                             },
                             "target": "assessValue"
                         }
