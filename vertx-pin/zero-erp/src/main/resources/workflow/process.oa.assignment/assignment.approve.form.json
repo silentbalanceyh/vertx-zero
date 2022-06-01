@@ -163,7 +163,7 @@
             "data": {
                 "YES": {
                     "confirmed": true,
-                    "phase": "PENDING",
+                    "phase": "ADMIT",
                     "commentApproval": "FORM:confirmedDesc"
                 },
                 "NO": {
