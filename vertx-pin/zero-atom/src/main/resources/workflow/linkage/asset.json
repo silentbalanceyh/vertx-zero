@@ -14,11 +14,7 @@
         "success": "您的关联资产信息已成功保存！"
     },
     "editor": {
-        "selection": {
-            "status": [
-                "Pending"
-            ]
-        },
+        "selection": {},
         "tree": {
             "type": "ci.type",
             "title": "资产分类",
