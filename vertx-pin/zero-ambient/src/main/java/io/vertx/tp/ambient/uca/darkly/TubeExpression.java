@@ -11,7 +11,7 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class TubeExpr extends AbstractTube {
+class TubeExpression extends AbstractTube {
     @Override
     public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
         /*

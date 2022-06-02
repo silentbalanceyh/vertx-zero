@@ -16,5 +16,8 @@
     },
     "lbs.city": {
         "uri": "/api/city/by/sigma"
+    },
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma"
     }
 }

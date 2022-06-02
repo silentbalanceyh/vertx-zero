@@ -13,8 +13,6 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "DONE",
-                    "active": true
                 }
             },
             {
@@ -26,7 +24,7 @@
             }
         ]
     },
-    "e.evaluate": {
+    "e.admit": {
         "data": {
             "confirmed": "confirmed"
         },
@@ -35,8 +33,6 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "DONE",
-                    "active": true
                 }
             },
             {

@@ -114,12 +114,12 @@ public class WRecord implements Serializable {
      *  3. Linkage should be related to current WTodo record
      */
     public WRecord bind(final WTicket ticket) {
-        this.ticket = ticket;
+        this.ticket = Ux.cloneT(ticket);
         return this;
     }
 
     public WRecord bind(final WTodo todo) {
-        this.todo = todo;
+        this.todo = Ux.cloneT(todo);
         return this;
     }
 
@@ -210,9 +210,7 @@ public class WRecord implements Serializable {
             .compose(workflow -> this.dataTicket(response, workflow))
             // `history` field mount
             .compose(this::dataHistory)
-            .compose(Ux.attachJ(KName.HISTORY, response))
-            // `linkageXXXX` field mount ( Children )
-            .compose(this::dataChild);
+            .compose(Ux.attachJ(KName.HISTORY, response));
     }
 
     public Future<WRecord> futureAfter(final JsonObject dataAfter) {
@@ -256,6 +254,10 @@ public class WRecord implements Serializable {
     }
 
     private Future<JsonObject> dataProcess(final WProcessDefinition process, final boolean history) {
+        // Fix: NullPointer for Process Exception
+        if (Objects.isNull(process)) {
+            return Ux.futureJ();
+        }
         /*
          * history to switch
          * 1. instance(), history = false
@@ -323,28 +325,6 @@ public class WRecord implements Serializable {
             }));
     }
 
-    private Future<JsonObject> dataChild(final JsonObject result) {
-        // Linkage Data Put
-        this.linkage.forEach(result::put);
-        // Child
-        if (Ut.notNil(this.child)) {
-            /*
-             * Switch `key` and `traceKey` instead of all records
-             * - `key` field is W_TODO record primary key
-             * - `traceKey` field is W_TICKET record primary key
-             *
-             * Please be careful about following.
-             */
-            final JsonObject childJ = this.child.copy();
-            if (!result.containsKey(KName.Flow.TRACE_KEY)) {
-                result.put(KName.Flow.TRACE_KEY, childJ.getValue(KName.KEY));
-            }
-            childJ.remove(KName.KEY);
-            result.mergeIn(childJ);
-        }
-        return Ux.future(result);
-    }
-
     // ------------- Data Building -------------------------
     /*
      * Data Specification of current record:
@@ -395,40 +375,116 @@ public class WRecord implements Serializable {
         // Objects.requireNonNull(this.ticket);
         final JsonObject response = new JsonObject();
         if (Objects.nonNull(this.ticket)) {
-            final JsonObject ticketJ = Ux.toJson(this.ticket);
-            Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
-            // WTicket
-            // traceKey <- key
-            ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
-            response.mergeIn(ticketJ, true);
-            if (Objects.nonNull(this.todo)) {
-                final JsonObject todoJson = Ux.toJson(this.todo);
-                response.mergeIn(todoJson, true);
-                // WTodo
-                // taskCode <- code
-                // taskSerial <- serial
-                response.put(KName.Flow.TASK_CODE, this.todo.getCode());
-                response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
-            }
-            // WTicket
-            // serial
-            // code
-            response.put(KName.SERIAL, this.ticket.getSerial());
-            response.put(KName.CODE, this.ticket.getCode());
-            if (Objects.nonNull(this.prev)) {
-                // Data Original, UPDATE Only
-                final JsonObject dataPrev = this.prev.data();
-                if (Ut.notNil(dataPrev)) {
-                    response.put(KName.__.DATA, this.prev.data());
-                }
-            }
-            // Operation on Record
-            if (Objects.nonNull(this.tabb)) {
-                response.put(KName.__.FLAG, this.tabb);
-            }
-            // AOP Data After
-            response.mergeIn(this.dataAfter, true);
+            /*
+             * 1. Mount Data to WTicket
+             *  - modelChild -> []
+             *  - traceKey   -> WTicket -> key
+             */
+            this.onTicket(response);
+
+
+            /*
+             * 2. Mount Todo to WTicket
+             *  - taskCode   -> WTodo -> code
+             *  - taskSerial -> WTodo -> serial
+             *  - key        -> WTodo -> key
+             */
+            this.onTodo(response);
+
+
+            /*
+             * 3. Mount Compare
+             *  - __data     -> Previous Data
+             *  - __flag     -> Previous Flag
+             *  - Mount dataAfter   -> Removed ( key, serial, code )
+             */
+            this.onCompare(response);
+
+
+            /*
+             * 4. Mount Child Ticket
+             *  - Set `traceKey` to `key` and removed key
+             *  -> Mount childJ     -> Removed ( key )
+             */
+            this.onChild(response);
         }
         return response;
+    }
+
+    private void onCompare(final JsonObject response) {
+        if (Objects.nonNull(this.prev)) {
+            // Data Original, UPDATE Only
+            final JsonObject dataPrev = this.prev.data();
+            if (Ut.notNil(dataPrev)) {
+                /*
+                 * Here are some calculation, the __data with `this.prev` must exist in
+                 * Todo task generation here, in this kind of situation, here are the matrix
+                 *
+                 * WTodo        OLD            NEW
+                 *  Prev         o              x ( Will be Closed )
+                 *  Generated    x              o
+                 *
+                 * The data structure will populate the `o` marked instead of
+                 * other situation here, it means that:
+                 * 1) The $zo = this.prev.__data ( OLD DATA )
+                 * 2) The $zn = current ( NEW DATA )
+                 */
+                response.put(KName.__.DATA, dataPrev);
+            }
+        }
+        // Operation on Record
+        if (Objects.nonNull(this.tabb)) {
+            response.put(KName.__.FLAG, this.tabb);
+        }
+        // AOP Data After
+        final JsonObject dataAfter = this.dataAfter.copy();
+        dataAfter.remove(KName.KEY);
+        dataAfter.remove(KName.CODE);
+        dataAfter.remove(KName.SERIAL);
+        response.mergeIn(dataAfter, true);
+    }
+
+    private void onTicket(final JsonObject response) {
+        final JsonObject ticketJ = Ux.toJson(this.ticket);
+        Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
+        // WTicket
+        // traceKey <- key
+        ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());
+        response.mergeIn(ticketJ, true);
+    }
+
+    private void onTodo(final JsonObject response) {
+        if (Objects.nonNull(this.todo)) {
+            final JsonObject todoJson = Ux.toJson(this.todo);
+            todoJson.remove(KName.SERIAL);
+            todoJson.remove(KName.CODE);
+            response.mergeIn(todoJson, true);
+            // WTodo
+            // taskCode <- code
+            // taskSerial <- serial
+            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
+            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+        }
+    }
+
+    private void onChild(final JsonObject result) {
+        // Linkage Data Put
+        this.linkage.forEach(result::put);
+        // Child
+        if (Ut.notNil(this.child)) {
+            /*
+             * Switch `key` and `traceKey` instead of all records
+             * - `key` field is W_TODO record primary key
+             * - `traceKey` field is W_TICKET record primary key
+             *
+             * Please be careful about following.
+             */
+            final JsonObject childJ = this.child.copy();
+            if (!result.containsKey(KName.Flow.TRACE_KEY)) {
+                result.put(KName.Flow.TRACE_KEY, childJ.getValue(KName.KEY));
+            }
+            childJ.remove(KName.KEY);
+            result.mergeIn(childJ);
+        }
     }
 }

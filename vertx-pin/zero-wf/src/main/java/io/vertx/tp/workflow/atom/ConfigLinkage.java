@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
@@ -18,8 +19,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConfigLinkage implements Serializable {
-
-    private final static ConcurrentMap<String, Respect> POOL_RESPECT = new ConcurrentHashMap<>();
     private final static Cc<String, Respect> CC_RESPECT = Cc.open();
 
     private final transient ConcurrentMap<String, Class<?>> respectMap = new ConcurrentHashMap<>();
@@ -44,7 +43,8 @@ class ConfigLinkage implements Serializable {
          *      }
          * }
          */
-        Ut.<JsonObject>itJObject(linkageJ, (json, field) -> {
+        final JsonObject parsedJ = Wf.processLinkage(linkageJ);
+        Ut.<JsonObject>itJObject(parsedJ, (json, field) -> {
             final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
             if (Ut.notNil(config)) {

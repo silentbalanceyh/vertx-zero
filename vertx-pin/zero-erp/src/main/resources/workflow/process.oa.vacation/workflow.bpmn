@@ -64,20 +64,20 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.oa.vacation">
       <bpmndi:BPMNEdge id="Flow_1qtqkcj_di" bpmnElement="t.start-approve">
         <di:waypoint x="300" y="252" />
-        <di:waypoint x="300" y="320" />
-        <di:waypoint x="590" y="320" />
+        <di:waypoint x="300" y="300" />
+        <di:waypoint x="590" y="300" />
         <di:waypoint x="590" y="267" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="298" y="323" width="44" height="14" />
+          <dc:Bounds x="298" y="303" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0zxk2q8_di" bpmnElement="t.admit-draft">
         <di:waypoint x="1000" y="202" />
-        <di:waypoint x="1000" y="100" />
-        <di:waypoint x="420" y="100" />
+        <di:waypoint x="1000" y="110" />
+        <di:waypoint x="420" y="110" />
         <di:waypoint x="420" y="187" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="942" y="83" width="55" height="14" />
+          <dc:Bounds x="942" y="93" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1qedwon_di" bpmnElement="t.admit-d">
@@ -138,6 +138,24 @@
       <bpmndi:BPMNShape id="Gateway_19b77g7_di" bpmnElement="e.start.d" isMarkerVisible="true">
         <dc:Bounds x="275" y="202" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hiqi86_di" bpmnElement="e.approve">
+        <dc:Bounds x="540" y="187" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
+        <dc:Bounds x="370" y="187" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_11nr5mu_di" bpmnElement="e.approve.d" isMarkerVisible="true">
+        <dc:Bounds x="695" y="202" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="464.5" y="255" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w42d1b_di" bpmnElement="e.admit">
+        <dc:Bounds x="810" y="187" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0vfwydc_di" bpmnElement="e.end">
         <dc:Bounds x="1082" y="209" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -146,24 +164,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1gdbi4n_di" bpmnElement="e.admit.d" isMarkerVisible="true">
         <dc:Bounds x="975" y="202" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0w42d1b_di" bpmnElement="e.admit">
-        <dc:Bounds x="810" y="187" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
-        <dc:Bounds x="370" y="187" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1hiqi86_di" bpmnElement="e.approve">
-        <dc:Bounds x="540" y="187" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_11nr5mu_di" bpmnElement="e.approve.d" isMarkerVisible="true">
-        <dc:Bounds x="695" y="202" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="464.5" y="255" width="55" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

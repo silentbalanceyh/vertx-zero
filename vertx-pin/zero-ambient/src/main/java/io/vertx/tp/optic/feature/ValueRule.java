@@ -5,6 +5,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
+import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.tp.error._501IndentMissingException;
 import io.vertx.tp.ke.refine.Ke;
@@ -30,6 +31,7 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ValueRule implements Valve {
+
     @Override
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
         /* If criteria is empty, return the input data directly */
@@ -37,7 +39,7 @@ public class ValueRule implements Valve {
         if (Ux.Jooq.isEmpty(criteria)) {
             return Ux.future(data);
         }
-
+        At.infoTabb(this.getClass(), "Qr condition for ActivityRule: {0}", criteria.encode());
         /* Not Skip */
         final Refer ruleRef = new Refer();
         final Refer inputRef = new Refer();
@@ -86,7 +88,7 @@ public class ValueRule implements Valve {
                 ruleMap.put(rule.getKey(), params -> {
                     final TubeType type = Ut.toEnum(rule::getType, TubeType.class, null);
                     final Tube tube = Tube.instance(type);
-                    params.put(KName.SERIAL, serial);
+                    params.put(KName.Flow.TRACE_SERIAL, serial);
                     return tube.traceAsync(params, rule);
                 });
             } else {

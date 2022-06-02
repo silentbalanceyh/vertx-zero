@@ -23,6 +23,9 @@
             "tripAddress",
             "reason",
             "workContent"
+        ],
+        "auditor": [
+            "requestBy"
         ]
     }
 }

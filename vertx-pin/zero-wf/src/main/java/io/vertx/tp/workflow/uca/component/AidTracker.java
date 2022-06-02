@@ -130,17 +130,25 @@ class AidTracker {
         if (Objects.isNull(move)) {
             // DEFAULT
             aspectConfig = AspectConfig.create();
-            aspectConfig.nameAfter().add(ActivityTabb.class);
+            aspectTabb(aspectConfig);
         } else {
             // Configured
             aspectConfig = move.configAop();
             // Because default will add here
-            final List<Class<?>> afterList = aspectConfig.nameAfter();
-            if (!afterList.contains(ActivityTabb.class)) {
-                afterList.add(ActivityTabb.class);
-            }
+            aspectTabb(aspectConfig);
         }
         Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
         return Aspect.create(aspectConfig);
+    }
+
+    private void aspectTabb(final AspectConfig aspectConfig) {
+        final List<Class<?>> afterList = aspectConfig.nameAfter();
+        if (!afterList.contains(ActivityTabb.class)) {
+            afterList.add(ActivityTabb.class);
+            // Add External Configuration for current Component
+            final JsonObject config = new JsonObject();
+            config.put(KName.AUDITOR, this.metadata.childAuditor());
+            aspectConfig.config(ActivityTabb.class, config);
+        }
     }
 }

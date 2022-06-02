@@ -33,9 +33,10 @@ public class HLoadNorm implements HLoad {
             final HModel model = CC_MODEL.pick(() -> new NormModel(app, identifier), unique);
 
             // Fetch HAtom
-            final HAtom atom = new NormAtom(app, model);
-            LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}", unique);
-            return atom;
+            // final HAtom atom = new NormAtom(app, model);
+            // Remove Following Logs
+            // LOGGER.info("Model ( Norm ) Information：<namespace>.<identifier> = {0}", unique);
+            return new NormAtom(app, model);
         } catch (final _404ModelNotFoundException | _409IdentifierConflictException ignored) {
             /*
              * 这里的改动主要基于动静态模型同时操作导致，如果可以找到Model则证明模型存在于系统中，这种

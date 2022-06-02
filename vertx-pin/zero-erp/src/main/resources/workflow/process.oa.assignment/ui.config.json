@@ -2,21 +2,13 @@
     "canvas": {
         "height": 240
     },
-    "phase": {
-        "forbidden": [
-            "ACCEPTED",
-            "EXPIRED"
-        ]
-    },
     "synonym": {
         "phase": "申请单状态",
         "title": "申请单标题",
-        "serial": "申请单单号",
-        "toUserNo": "审批人工号",
-        "toUserName": "审批人",
-        "toUserEmail": "审批人邮箱",
-        "toUserMobile": "审批人电话",
-        "toUserDept": "审批人部门",
-        "toUserTeam": "审批人工作组"
-    }
+        "serial": "申请单单号"
+    },
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
 }

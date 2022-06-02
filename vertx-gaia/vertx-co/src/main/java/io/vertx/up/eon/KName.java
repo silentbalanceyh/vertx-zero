@@ -47,6 +47,7 @@ public interface KName {
     String ROLE = "role";                        /* Security Object: role field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
     String USER = "user";                        /* Security Object: user field */
+    String AUDITOR = "auditor";                  /* Security Object: auditor field */
     String USER_ID = "userId";                   /* Security Object: user id ( X_USER key ) field */
     String USERNAME = "username";                /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";               /* Security Object: user real name field */
@@ -72,6 +73,7 @@ public interface KName {
     String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
+    String DEVELOPER = "developer";              /* Development: for developer */
 
     String APP = "application";                  /* Reserved: */
 

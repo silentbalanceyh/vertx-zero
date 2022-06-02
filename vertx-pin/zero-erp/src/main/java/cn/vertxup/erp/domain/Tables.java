@@ -20,7 +20,7 @@ import cn.vertxup.erp.domain.tables.RTeamEmployee;
 import cn.vertxup.erp.domain.tables.TOaAssignment;
 import cn.vertxup.erp.domain.tables.TOaTraining;
 import cn.vertxup.erp.domain.tables.TOaTrip;
-import cn.vertxup.erp.domain.tables.TOaVocation;
+import cn.vertxup.erp.domain.tables.TOaVacation;
 import cn.vertxup.erp.domain.tables.TVendorAssessment;
 import cn.vertxup.erp.domain.tables.TVendorCheckIn;
 import cn.vertxup.erp.domain.tables.TVendorCheckOut;
@@ -114,9 +114,9 @@ public class Tables {
     public static final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_VOCATION</code>.
+     * The table <code>DB_ETERNAL.T_OA_VACATION</code>.
      */
-    public static final TOaVocation T_OA_VOCATION = TOaVocation.T_OA_VOCATION;
+    public static final TOaVacation T_OA_VACATION = TOaVacation.T_OA_VACATION;
 
     /**
      * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.

@@ -1,8 +1,8 @@
 -- liquibase formatted sql
 
 -- changeset Lang:t-oa-vocation-1
-DROP TABLE IF EXISTS T_OA_VOCATION;
-CREATE TABLE IF NOT EXISTS T_OA_VOCATION
+DROP TABLE IF EXISTS T_OA_VACATION;
+CREATE TABLE IF NOT EXISTS T_OA_VACATION
 (
 
     `KEY`               VARCHAR(36) COMMENT '「key」- Ticket Primary Key',

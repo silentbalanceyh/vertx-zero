@@ -10,5 +10,8 @@
         "magic": {
             "type": "FIX:zero.workflow.cat"
         }
+    },
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma"
     }
 }
