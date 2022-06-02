@@ -117,12 +117,20 @@ class TreeTran implements Tran {
                 if (record.containsKey(field)) {
                     final String value = record.getString(field);
                     final String to = map.get(value);
+                    /*
+                     * When you do mass updating on records, sometimes the `parentId` is null
+                     * The transform rules is as following:
+                     * 1) When parentId is null, skip processing.
+                     * 2) When parentId is not null, transform here
+                     * Fix Issue: https://github.com/silentbalanceyh/hotel/issues/359
+                     *
+                     * ( Mass Update ) Skip Null is true, it means that when to = null, skip putting
+                     * ( Importing ) Skip Null is false ( Default ), when the convert is null, put null into
+                     */
                     record.put(field, to);
                 }
             });
-            return Ux.future(data);
-        } else {
-            return Ux.future(data);
         }
+        return Ux.future(data);
     }
 }

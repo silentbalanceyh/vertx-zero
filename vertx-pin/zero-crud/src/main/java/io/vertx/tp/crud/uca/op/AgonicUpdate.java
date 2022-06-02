@@ -8,7 +8,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.crud.uca.trans.Tran;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -83,7 +82,6 @@ class AgonicUpdate extends AgonicUnique {
         final KModule module = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
-                Tran.tree(true)::inAAsync,                      // After GUID
                 Pre.audit(false)::inAAsync                      // updatedAt, updatedBy
             )
 

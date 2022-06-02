@@ -49,9 +49,10 @@ public class FileActor {
         final Co co = Co.nextJ(request.active(), true);
         return Pre.excel(this.client).inJAAsync(request.dataF(), request.active()).compose(data -> panel
             .input(
-                Tran.initial()::inAAsync,               /* Initial */
-                Tran.fabric(true)::inAAsync,      /* Dict */
-                Tran.map(true)::inAAsync          /* Mapping */
+                Tran.initial()::inAAsync,                   /* Initial */
+                Tran.fabric(true)::inAAsync,          /* Dict */
+                Tran.map(true)::inAAsync,             /* Mapping */
+                Tran.tree(true)::inAAsync             /* Tree Transform in Importing */
             )
             .next(in -> co::next)
             .output(co::ok)
