@@ -66,4 +66,9 @@ public interface HighWay {
 
         String BY_ID = KeIpc.Workflow.EVENT + "W-TODO/BY-ID";
     }
+
+    interface Report {
+        String TICKET_LIST = KeIpc.Workflow.EVENT + "REPORT/LIST";
+        String TICKET_ACTIVITY = KeIpc.Workflow.EVENT + "REPORT/ACTIVITY";
+    }
 }

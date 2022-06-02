@@ -45,6 +45,18 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ke</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ambient</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ambient</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
