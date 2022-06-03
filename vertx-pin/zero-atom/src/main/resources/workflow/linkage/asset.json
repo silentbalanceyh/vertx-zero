@@ -14,7 +14,16 @@
         "success": "您的关联资产信息已成功保存！"
     },
     "editor": {
-        "selection": {},
+        "selection": {
+            "status": [
+                "Pending",
+                "Discard",
+                "Issued",
+                "Destroy",
+                "Stored",
+                "InUse"
+            ]
+        },
         "tree": {
             "type": "ci.type",
             "title": "资产分类",
