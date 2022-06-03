@@ -16,7 +16,12 @@
     "editor": {
         "selection": {
             "status": [
-                "Pending"
+                "Pending",
+                "Discard",
+                "Issued",
+                "Destroy",
+                "Stored",
+                "InUse"
             ]
         },
         "tree": {

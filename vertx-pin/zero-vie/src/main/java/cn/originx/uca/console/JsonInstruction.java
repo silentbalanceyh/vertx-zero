@@ -30,40 +30,46 @@ public class JsonInstruction extends AbstractInstruction {
 
     @Override
     public Future<TermStatus> executeAsync(final CommandInput input) {
-        final String inputPath = this.inString(input, "i");
-        final String outPath = this.inString(input, "o");
         final String appName = this.inString(input, "a");
         /*
-         * 默认值的
+         * appName为null，直接获取app
          */
-        return Ok.vendor(appName).compose(okB -> {
-            final JtApp app = okB.configApp();
-            final AoFile reader = Ut.singleton(ExcelReader.class, inputPath);
+        if (appName==null){
+            return Ok.app().compose(ok -> this.defaultValue(input,ok.copy()));
+        }else {
+            return Ok.vendor(appName).compose(okB -> this.defaultValue(input,okB.configApp()));
+        }
+    }
 
-            /*
-             * 模型文件写入
-             */
-            final Set<Model> models = reader.readModels(app.getName());
-            final Set<Schema> schemata = new HashSet<>();
-            models.forEach(model -> {
-                final JsonObject modelJson = model.toJson();
-                final String resolved = this.outPath(outPath + "model", model.identifier());
-                Ox.Log.infoHub(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
-                Ut.ioOut(resolved, modelJson);
+    private Future<TermStatus> defaultValue(final CommandInput input, final JtApp app) {
+        final String inputPath = this.inString(input, "i");
+        final String outPath = this.inString(input, "o");
 
-                schemata.addAll(model.schema());
-            });
-            /*
-             * 实体文件写入
-             */
-            schemata.forEach(schema -> {
-                final JsonObject schemaJson = schema.toJson();
-                final String resolved = this.outPath(outPath + "schema", schema.identifier());
-                Ox.Log.infoHub(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
-                Ut.ioOut(resolved, schemaJson);
-            });
-            return Ux.future(TermStatus.SUCCESS);
+        final AoFile reader = Ut.singleton(ExcelReader.class, inputPath);
+
+        /*
+         * 模型文件写入
+         */
+        final Set<Model> models = reader.readModels(app.getName());
+        final Set<Schema> schemata = new HashSet<>();
+        models.forEach(model -> {
+            final JsonObject modelJson = model.toJson();
+            final String resolved = this.outPath(outPath + "model", model.identifier());
+            Ox.Log.infoHub(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
+            Ut.ioOut(resolved, modelJson);
+
+            schemata.addAll(model.schema());
         });
+        /*
+         * 实体文件写入
+         */
+        schemata.forEach(schema -> {
+            final JsonObject schemaJson = schema.toJson();
+            final String resolved = this.outPath(outPath + "schema", schema.identifier());
+            Ox.Log.infoHub(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
+            Ut.ioOut(resolved, schemaJson);
+        });
+        return Ux.future(TermStatus.SUCCESS);
     }
 
     private String outPath(final String folder, final String identifier) {
