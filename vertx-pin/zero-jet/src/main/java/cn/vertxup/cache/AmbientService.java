@@ -21,10 +21,10 @@ import io.vertx.up.unity.Ux;
 import java.util.Objects;
 
 public class AmbientService implements AmbientStub {
-    private final transient JobClient client = JobInfix.getClient();
 
     @Override
     public Future<JsonObject> updateJob(final IJob job, final IService service) {
+        JobClient client = JobInfix.getClient();
         /*
          * `io.vertx.tp.jet.atom.JtApp`
          * -- reference extracted from
@@ -56,7 +56,7 @@ public class AmbientService implements AmbientStub {
              * Reset `JobStatus`
              */
             mission.setStatus(JobStatus.STOPPED);
-            this.client.save(mission);
+            client.save(mission);
             return Ux.future(JobKit.toJson(mission));
         }
     }
