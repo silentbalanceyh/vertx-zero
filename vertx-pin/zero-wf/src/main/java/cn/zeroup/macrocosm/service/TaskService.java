@@ -57,38 +57,37 @@ public class TaskService implements TaskStub {
 
 
         // Read Todo Record
-        return this.readTodo(key, record)
-            // Extract traceId from WTodo
-            .compose(processed -> {
-                final WTodo todo = processed.todo();
-                if (Objects.isNull(todo)) {
-                    Wf.Log.infoWeb(this.getClass(), "Ticket Status Conflict, key = {0}", key);
-                    return Ux.futureJ();
-                } else {
-                    return Ux.future(todo.getTraceId())
+        // Extract traceId from WTodo
+        return this.readTodo(key, record).compose(processed -> {
+            final WTodo todo = processed.todo();
+            if (Objects.isNull(todo)) {
+                Wf.Log.infoWeb(this.getClass(), "Ticket Status Conflict, key = {0}", key);
+                return Ux.futureJ();
+            } else {
+                return Ux.future(todo.getTraceId())
 
-                        // Read Ticket Record
-                        .compose(ticketId -> this.readTicket(ticketId, record))
-
-
-                        // Linkage
-                        .compose(AidLinkage::readLinkage)
+                    // Read Ticket Record
+                    .compose(ticketId -> this.readTicket(ticketId, record))
 
 
-                        // Child
-                        .compose(this::readChild)
+                    // Linkage
+                    .compose(AidLinkage::readLinkage)
 
 
-                        // Generate JsonObject of response
-                        .compose(wData -> wData.futureJ(false))
+                    // Child
+                    .compose(this::readChild)
 
 
-                        // Acl Mount
-                        .compose(response -> this.aclStub.authorize(record, userId)
-                            .compose(acl -> Ux.future(response.put(KName.__.ACL, acl)))
-                        );
-                }
-            });
+                    // Generate JsonObject of response
+                    .compose(wData -> wData.futureJ(false))
+
+
+                    // Acl Mount
+                    .compose(response -> this.aclStub.authorize(record, userId)
+                        .compose(acl -> Ux.future(response.put(KName.__.ACL, acl)))
+                    );
+            }
+        });
     }
 
     private Future<WRecord> readTodo(final String key, final WRecord response) {

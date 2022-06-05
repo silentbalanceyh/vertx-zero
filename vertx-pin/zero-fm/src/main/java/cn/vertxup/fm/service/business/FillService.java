@@ -7,6 +7,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -172,6 +173,10 @@ public class FillService implements FillStub {
             item.setSettlementId(settlement.getKey());
             item.setSerial(settlement.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
             item.setCode(settlement.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
+            // Fix: Field 'AMOUNT_PRE' doesn't have a default value
+            if (Objects.isNull(item.getAmountPre())) {
+                item.setAmountPre(BigDecimal.ZERO);
+            }
 
             Ke.umCreated(item, settlement);
         }
