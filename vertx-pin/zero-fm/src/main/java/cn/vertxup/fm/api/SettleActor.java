@@ -24,7 +24,6 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -109,29 +108,20 @@ public class SettleActor {
              */
             .compose(settleItems -> {
                 final FSettlement settlement = settleRef.get();
-
-                final FDebt debt = Ux.fromJson(data, FDebt.class);
                 /*
-                 * isRunUp
-                 * - finished = false
-                 * - finishedAt = null
+                 * Here are different workflow for `FDebt` and `FPayment`
+                 * 1) When isRunUp = true, the system will create `FDebt` here and
+                 *    then when user process: Refund / Debt in future, the system will
+                 *    create `FPayment` soon.
+                 * 2) When isRunUp = false, ignore the FDebt creation because there is
+                 *    no continue workflow, create `FPayment` directly.
                  */
-                if (!isRunUp) {
-                    debt.setFinished(Boolean.TRUE);
-                    debt.setFinishedAt(LocalDateTime.now());
-                }
-                return this.createDebt(debt, settlement, settleItems);
-            })
-            .compose(nil -> {
-                final FSettlement settlement = settleRef.get();
-                if (!isRunUp) {
-                    /*
-                     * isRunUp = false
-                     * Create `payment` record
-                     */
-                    return this.createPayment(data, settlement);
+                if (isRunUp) {
+                    final FDebt debt = Ux.fromJson(data, FDebt.class);
+                    debt.setFinished(Boolean.FALSE);
+                    return this.createDebt(debt, settlement, settleItems);
                 } else {
-                    return Ux.future();
+                    return this.createPayment(data, settlement);
                 }
             })
             .compose(nil -> Ux.future(settleRef.get()))
