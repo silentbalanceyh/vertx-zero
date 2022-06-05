@@ -109,36 +109,29 @@ public class SettleActor {
              */
             .compose(settleItems -> {
                 final FSettlement settlement = settleRef.get();
-                if (isRunUp) {
+
+                final FDebt debt = Ux.fromJson(data, FDebt.class);
+                /*
+                 * isRunUp
+                 * - finished = false
+                 * - finishedAt = null
+                 */
+                if (!isRunUp) {
+                    debt.setFinished(Boolean.TRUE);
+                    debt.setFinishedAt(LocalDateTime.now());
+                }
+                return this.createDebt(debt, settlement, settleItems);
+            })
+            .compose(nil -> {
+                final FSettlement settlement = settleRef.get();
+                if (!isRunUp) {
                     /*
-                     * DEBT Processing, here is the S payment when run up is enabled
-                     * 1. amount > 0, Debt process
-                     * 2. amount < 0, Refund process ( debt ticket is not finished )
+                     * isRunUp = false
+                     * Create `payment` record
                      */
-                    final FDebt debt = Ux.fromJson(data, FDebt.class);
-                    return this.createDebt(debt, settlement, settleItems);
+                    return this.createPayment(data, settlement);
                 } else {
-                    /*
-                     * Payment Processing, here is the standard when run up is disabled
-                     * 1. amount > 0, Standard settlement
-                     * 2. amount < 0,
-                     * -- If payed = true, ( debt ticket is finished, Refund Query )
-                     * -- payed = false, Refund process ( debt ticket is not finished )
-                     */
-                    return this.createPayment(data, settlement).compose(nil -> {
-                        if (0 > settlement.getAmount().doubleValue()) {
-                            // Generate debt new
-                            final FDebt debt = Ux.fromJson(data, FDebt.class);
-                            final Boolean ended = data.getBoolean("payed", Boolean.TRUE);
-                            if (ended) {
-                                debt.setFinished(Boolean.TRUE);
-                                debt.setFinishedAt(LocalDateTime.now());
-                            }
-                            return this.createDebt(debt, settlement, settleItems);
-                        } else {
-                            return Ux.futureT();
-                        }
-                    });
+                    return Ux.future();
                 }
             })
             .compose(nil -> Ux.future(settleRef.get()))
@@ -146,13 +139,16 @@ public class SettleActor {
     }
 
     private Future<Boolean> createPayment(final JsonObject data, final FSettlement settlement) {
-        final List<FPaymentItem> payments = Ux.fromJson(data.getJsonArray(FmCv.ID.PAYMENT), FPaymentItem.class);
+        final JsonArray paymentJ = Ut.valueJArray(data, FmCv.ID.PAYMENT);
+        final List<FPaymentItem> payments = Ux.fromJson(paymentJ, FPaymentItem.class);
         this.fillStub.payment(settlement, payments);
         return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments)
             .compose(nil -> Ux.futureT());
     }
 
-    private Future<Boolean> createDebt(final FDebt debt, final FSettlement settlement, final List<FSettlementItem> settleItems) {
+    private Future<Boolean> createDebt(final FDebt debt,
+                                       final FSettlement settlement,
+                                       final List<FSettlementItem> settleItems) {
         this.fillStub.settle(settlement, debt);
         return Ux.Jooq.on(FDebtDao.class).insertAsync(debt).compose(insertd -> {
             settleItems.forEach(each -> each.setDebtId(insertd.getKey()));
