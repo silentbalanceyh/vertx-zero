@@ -70,5 +70,6 @@ public interface HighWay {
     interface Report {
         String TICKET_LIST = KeIpc.Workflow.EVENT + "REPORT/LIST";
         String TICKET_ACTIVITY = KeIpc.Workflow.EVENT + "REPORT/ACTIVITY";
+        String ASSETS_LIST = KeIpc.Workflow.EVENT + "REPORT/ASSETS/LIST";
     }
 }

@@ -1,5 +1,7 @@
 package cn.zeroup.macrocosm.api.report;
 
+import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
+import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.zeroup.macrocosm.cv.HighWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import cn.zeroup.macrocosm.service.ReportStub;
@@ -96,14 +98,24 @@ public class ReportActor {
 
     @Address(HighWay.Report.TICKET_ACTIVITY)
     public Future<JsonObject> fetchActivity(final String key, final User user) {
+//        return Ux.Jooq.on(XActivityDao.class)
+//                .<XActivity>fetchAndAsync(new JsonObject().put("modelKey",key))
+//                .compose(activity -> {
+//                    return this.reportStub.fetchUserByActivity(key);
+//                })
+//                ;
+        return this.reportStub.fetchActivity(key, user);
+    }
+
+    @Address(HighWay.Report.ASSETS_LIST)
+    public Future<JsonObject> fetchAssets(final User user) {
         final String userId = Ux.keyUser(user);
         final JsonObject qrStatus = Ux.whereAnd();
-        qrStatus.put("modelKey", key);
         qrStatus.put("createdBy", userId);
         final JsonObject condition = new JsonObject();
         condition.put(Qr.KEY_CRITERIA,new JsonObject().put("sigma","Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP"));
         final JsonObject qrCombine = Ux.whereQrA(condition, "$Q$", qrStatus);
 //        Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
-        return this.reportStub.fetchActivity(qrCombine);
+        return this.reportStub.fetchAssets(qrCombine);
     }
 }
