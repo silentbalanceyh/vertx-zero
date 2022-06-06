@@ -18,7 +18,8 @@
             "startAt",
             "endAt",
             "days",
-            "leaveAt"
+            "leaveAt",
+            "reason"
         ]
     }
 }
