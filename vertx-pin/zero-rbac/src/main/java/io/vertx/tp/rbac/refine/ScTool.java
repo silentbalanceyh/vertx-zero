@@ -43,7 +43,7 @@ class ScTool {
     }
 
     static String valuePassword() {
-        return CONFIG.getPasswordInit();
+        return CONFIG.getInitializePassword();
     }
 
     static String valueProfile(final SResource resource) {

@@ -1,5 +1,9 @@
 package io.vertx.tp.rbac.atom;
 
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.up.experiment.specification.KQr;
@@ -94,16 +98,22 @@ public class ScConfig implements Serializable {
     /*
      * Password Init
      */
-    private String passwordInit;
+    private String initializePassword;
 
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject initialize = new JsonObject();
+
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject category = new JsonObject();
 
-    public String getPasswordInit() {
-        return this.passwordInit;
+    public String getInitializePassword() {
+        return this.initializePassword;
     }
 
-    public void setPasswordInit(final String passwordInit) {
-        this.passwordInit = passwordInit;
+    public void setInitializePassword(final String initializePassword) {
+        this.initializePassword = initializePassword;
     }
 
     public ScCondition getCondition() {
@@ -250,6 +260,14 @@ public class ScConfig implements Serializable {
         }, name);
     }
 
+    public JsonObject getInitialize() {
+        return this.initialize;
+    }
+
+    public void setInitialize(final JsonObject initialize) {
+        this.initialize = initialize;
+    }
+
     @Override
     public String toString() {
         return "ScConfig{" +
@@ -269,7 +287,8 @@ public class ScConfig implements Serializable {
             ", poolVerify='" + this.poolVerify + '\'' +
             ", poolLimitation='" + this.poolLimitation + '\'' +
             ", poolToken='" + this.poolToken + '\'' +
-            ", passwordInit='" + this.passwordInit + '\'' +
+            ", initializePassword='" + this.initializePassword + '\'' +
+            ", initialize='" + this.initialize + '\'' +
             '}';
     }
 }
