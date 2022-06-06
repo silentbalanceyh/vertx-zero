@@ -97,25 +97,9 @@ public class ReportActor {
     }
 
     @Address(HighWay.Report.TICKET_ACTIVITY)
-    public Future<JsonObject> fetchActivity(final String key, final User user) {
-//        return Ux.Jooq.on(XActivityDao.class)
-//                .<XActivity>fetchAndAsync(new JsonObject().put("modelKey",key))
-//                .compose(activity -> {
-//                    return this.reportStub.fetchUserByActivity(key);
-//                })
-//                ;
-        return this.reportStub.fetchActivity(key, user);
-    }
-
-    @Address(HighWay.Report.ASSETS_LIST)
-    public Future<JsonObject> fetchAssets(final User user) {
-        final String userId = Ux.keyUser(user);
-        final JsonObject qrStatus = Ux.whereAnd();
-        qrStatus.put("createdBy", userId);
-        final JsonObject condition = new JsonObject();
-        condition.put(Qr.KEY_CRITERIA,new JsonObject().put("sigma","Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP"));
-        final JsonObject qrCombine = Ux.whereQrA(condition, "$Q$", qrStatus);
-//        Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
-        return this.reportStub.fetchAssets(qrCombine);
+    public Future<JsonArray> fetchActivity(final JsonObject data) {
+        String modelKey = data.getString("modelKey");
+        String key = data.getString("key");
+        return this.reportStub.fetchActivity(key, modelKey);
     }
 }

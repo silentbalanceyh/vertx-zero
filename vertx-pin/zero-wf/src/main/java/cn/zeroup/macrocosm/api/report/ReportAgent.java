@@ -1,6 +1,7 @@
 package cn.zeroup.macrocosm.api.report;
 
 import cn.zeroup.macrocosm.cv.HighWay;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
@@ -23,13 +24,8 @@ public interface ReportAgent {
     @Address(HighWay.Report.TICKET_LIST)
     JsonObject list(@BodyParam JsonObject body);
 
-    @GET
-    @Path("/up/report/activity/:key")
+    @POST
+    @Path("/up/report/activity")
     @Address(HighWay.Report.TICKET_ACTIVITY)
-    JsonObject fetchActivity(@PathParam(KName.KEY) String key);
-
-    @GET
-    @Path("/up/report/assets/list/:user")
-    @Address(HighWay.Report.ASSETS_LIST)
-    JsonObject fetchActivity(User user);
+    JsonArray fetchActivity(@BodyParam JsonObject body);
 }

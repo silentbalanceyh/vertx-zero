@@ -1,6 +1,7 @@
 package cn.zeroup.macrocosm.service;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 
@@ -16,13 +17,5 @@ public interface ReportStub {
     /*
     * Fetch Activity
     * */
-//    Future<JsonObject> fetchActivity(JsonObject condition);
-
-    Future<JsonObject> fetchActivity(String key, User user);
-    Future<JsonObject> fetchUserByActivity(String id);
-
-    /*
-     * Fetch Assets
-     * */
-    Future<JsonObject> fetchAssets(JsonObject condition);
+    Future<JsonArray> fetchActivity(String key, String modelKey);
 }
