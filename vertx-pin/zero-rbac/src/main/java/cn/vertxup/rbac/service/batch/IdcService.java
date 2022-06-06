@@ -13,6 +13,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.record.Apt;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
@@ -98,7 +99,9 @@ class IdcService extends AbstractIdc {
                 final String initPwd = Sc.valuePassword();
                 user.setPassword(initPwd);
                 user.setSigma(this.sigma);
-                user.setLanguage("cn");
+                if (Objects.isNull(user.getLanguage())) {
+                    user.setLanguage(Constants.DEFAULT_LANGUAGE);
+                }
             });
             return Ux.Jooq.on(SUserDao.class).insertAsync(users)
                 .compose(this::createToken)
