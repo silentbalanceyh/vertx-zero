@@ -22,6 +22,9 @@
                     "viceName": "realname",
                     "viceMobile": "mobile",
                     "viceEmail": "email"
+                },
+                "initialize": {
+                    "modelId": "employee"
                 }
             }
         }

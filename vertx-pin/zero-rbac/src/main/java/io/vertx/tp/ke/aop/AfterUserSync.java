@@ -1,11 +1,15 @@
 package io.vertx.tp.ke.aop;
 
+import cn.vertxup.rbac.service.batch.IdcStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.sectio.After;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +30,34 @@ public class AfterUserSync implements After {
 
     @Override
     public Future<JsonArray> afterAsync(final JsonArray data, final JsonObject config) {
-
-        return Ux.future(data);
+        final JsonArray users = new JsonArray();
+        // JsonObject Extract from config;
+        final JsonObject mapping = Ut.valueJObject(config, KName.MAPPING);
+        final JsonObject initialize = Ut.valueJObject(config, KName.INITIALIZE);
+        Ut.itJArray(data).forEach(employee -> {
+            final JsonObject inputJ = Ut.valueJObject(employee, KName.__.INPUT);
+            if (inputJ.containsKey(KName.USERNAME)) {
+                // Put initialize into created users
+                final JsonObject userJ = initialize.copy();
+                // 8 Normalized Fields
+                Ke.umCreated(userJ, employee);
+                // Mapping processing
+                Ut.<String>itJObject(mapping, (from, to) -> userJ.put(to, employee.getValue(from)));
+                // Input Extracting
+                userJ.put(KName.USERNAME, inputJ.getValue(KName.USERNAME));
+                final JsonArray roles = Ut.valueJArray(inputJ, "roles");
+                userJ.put("roles", roles);
+                userJ.put(KName.MODEL_KEY, employee.getValue(KName.KEY));
+                users.add(userJ);
+            }
+        });
+        if (Ut.isNil(users)) {
+            return Ux.future(data);
+        } else {
+            final String sigma = Ut.valueString(data, KName.SIGMA);
+            final String by = Ut.valueString(data, KName.UPDATED_BY);
+            final IdcStub idcStub = IdcStub.create(sigma);
+            return idcStub.saveAsync(users, by).compose(created -> Ux.future(data));
+        }
     }
 }
