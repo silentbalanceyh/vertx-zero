@@ -16,6 +16,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KQr;
 import io.vertx.up.log.Annal;
@@ -141,9 +142,9 @@ public class UserService implements UserStub {
         if (Objects.isNull(user.getPassword())) {
             user.setPassword(Sc.valuePassword());
         }
-        return Ux.Jooq.on(SUserDao.class)
-            .insertAsync(user)
-            .compose(this::createOUser);
+        return Ux.Jooq.on(SUserDao.class).insertAsync(user)
+            // 创建认证信息
+            .compose(inserted -> this.createOUser(inserted, params));
     }
 
     @Override
@@ -153,32 +154,31 @@ public class UserService implements UserStub {
         final UxJooq rUserRoleDao = Ux.Jooq.on(RUserRoleDao.class);
         final UxJooq rUserGroupDao = Ux.Jooq.on(RUserGroupDao.class);
 
-        return oUserDao.fetchOneAsync(new JsonObject().put("CLIENT_ID", userKey))
+        return oUserDao.fetchOneAsync(new JsonObject().put(KName.CLIENT_ID, userKey))
             /* delete OUser record */
-            .compose(item -> oUserDao.deleteByIdAsync(Ux.toJson(item).getString("key")))
+            .compose(item -> oUserDao.deleteByIdAsync(Ux.toJson(item).getString(KName.KEY)))
             /* delete related role records */
-            .compose(oUserFlag -> rUserRoleDao.deleteByAsync(new JsonObject().put("USER_ID", userKey)))
+            .compose(oUserFlag -> rUserRoleDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
             /* delete related group records */
-            .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put("USER_ID", userKey)))
+            .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
             /* delete SUser record */
             .compose(rUserGroupFlag -> sUserDao.deleteByIdAsync(userKey));
     }
 
     /**
-     * TODO: replace the fixed value with real value
      * create OUser record
      *
      * @param user SUser entity
      *
      * @return SUser entity
      */
-    private Future<JsonObject> createOUser(final SUser user) {
-        final OUser oUser = new OUser()
-            .setClientId(user.getKey())
+    private Future<JsonObject> createOUser(final SUser user, final JsonObject input) {
+        final String language = input.getString(KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        final JsonObject initializeJ = CONFIG.getInitialize();
+        final OUser oUser = Ux.fromJson(initializeJ, OUser.class);
+        oUser.setClientId(user.getKey())
             .setClientSecret(Ut.randomString(64))
-            .setScope("vie.app.ox")
-            .setGrantType("authorization_code")
-            .setLanguage("cn")
+            .setLanguage(language)
             .setActive(Boolean.TRUE)
             .setKey(UUID.randomUUID().toString());
 

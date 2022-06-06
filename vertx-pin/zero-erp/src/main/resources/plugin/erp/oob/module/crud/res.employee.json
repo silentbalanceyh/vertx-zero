@@ -12,6 +12,20 @@
             ]
         ]
     },
+    "aop": {
+        "plugin.component.after": [
+            "io.vertx.tp.ke.aop.AfterUserSync"
+        ],
+        "plugin.config": {
+            "io.vertx.tp.ke.aop.AfterUserSync": {
+                "mapping": {
+                    "viceName": "realname",
+                    "viceMobile": "mobile",
+                    "viceEmail": "email"
+                }
+            }
+        }
+    },
     "transform": {
         "initial": {
             "type": "regular"
