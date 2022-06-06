@@ -42,11 +42,13 @@ public class AfterUserSync implements After {
                 // 8 Normalized Fields
                 Ke.umCreated(userJ, employee);
                 // Mapping processing
-                Ut.<String>itJObject(mapping, (from, to) -> userJ.put(to, employee.getValue(from)));
+                Ut.<String>itJObject(mapping, (to, from) -> userJ.put(to, employee.getValue(from)));
                 // Input Extracting
                 userJ.put(KName.USERNAME, inputJ.getValue(KName.USERNAME));
-                final JsonArray roles = Ut.valueJArray(inputJ, "roles");
-                userJ.put("roles", roles);
+                final String roles = inputJ.getString("roles", null);
+                if (Ut.notNil(roles)) {
+                    userJ.put("roles", roles);
+                }
                 userJ.put(KName.MODEL_KEY, employee.getValue(KName.KEY));
                 users.add(userJ);
             }
