@@ -1,14 +1,14 @@
-package cn.zeroup.macrocosm.api.report;
+package cn.zeroup.macrocosm.api;
 
 import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.KName;
-import io.vertx.ext.auth.User;
 
-import javax.ws.rs.*;
+import javax.ws.rs.BodyParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 /**
  * Refer actor part to get data format

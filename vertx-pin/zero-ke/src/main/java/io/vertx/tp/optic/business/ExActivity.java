@@ -18,6 +18,8 @@ public interface ExActivity {
      */
     Future<JsonArray> activities(String modelId, String modelKey);
 
+    Future<JsonArray> activities(JsonObject condition);
+
     /*
      * Activity & Activity Change
      */
