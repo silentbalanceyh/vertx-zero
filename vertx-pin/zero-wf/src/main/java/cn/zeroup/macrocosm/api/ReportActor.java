@@ -1,7 +1,5 @@
-package cn.zeroup.macrocosm.api.report;
+package cn.zeroup.macrocosm.api;
 
-import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
-import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.zeroup.macrocosm.cv.HighWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import cn.zeroup.macrocosm.service.ReportStub;
@@ -9,18 +7,10 @@ import cn.zeroup.macrocosm.service.TaskStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
-import io.vertx.tp.workflow.atom.EngineOn;
-import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.component.Movement;
-import io.vertx.tp.workflow.uca.component.Stay;
-import io.vertx.tp.workflow.uca.component.Transfer;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
@@ -33,6 +23,9 @@ import javax.inject.Inject;
 public class ReportActor {
     @Inject
     private transient ReportStub reportStub;
+    @Inject
+    private transient TaskStub taskStub;
+
     /*
     DRAFT Generation Data Request:
     {
@@ -80,27 +73,28 @@ public class ReportActor {
     @Me
     @Address(HighWay.Report.TICKET_LIST)
     public Future<JsonObject> list(final JsonObject qr) {
-        Wf.Log.initQueue(this.getClass(), "Qr Queue Input: {0}", qr.encode());
+        Wf.Log.initQueue(this.getClass(), "Qr Report Input: {0}", qr.encode());
         // Status Must be in following
         // -- PENDING
         // -- DRAFT
         // -- ACCEPTED
         final JsonObject qrStatus = Ux.whereAnd();
         qrStatus.put(KName.STATUS + ",i", new JsonArray()
-                .add(TodoStatus.PENDING.name())
-                .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
-                .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
+            .add(TodoStatus.PENDING.name())
+            .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
+            .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
         );
         final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
-        Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
-        return this.reportStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)
+        Wf.Log.initQueue(this.getClass(), "Qr Report Combined: {0}", qrCombine.encode());
+        return this.taskStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)
     }
 
     @Address(HighWay.Report.TICKET_ACTIVITY)
     public Future<JsonArray> fetchActivity(final JsonObject data) {
-        String modelKey = data.getString("modelKey");
-        JsonObject user = data.getJsonObject("user");
-        String key = data.getString("key");
-        return (user == null) ? this.reportStub.fetchActivity(key, modelKey) : this.reportStub.fetchActivityByUser(key, modelKey, user.getString("key"));
+        final String modelKey = data.getString(KName.MODEL_KEY);
+        final JsonObject user = data.getJsonObject(KName.USER);
+        return (user == null) ?
+            this.reportStub.fetchActivity(modelKey) :
+            this.reportStub.fetchActivityByUser(modelKey, user.getString(KName.KEY));
     }
 }
