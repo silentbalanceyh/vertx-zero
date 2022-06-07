@@ -261,7 +261,9 @@ public class Aspect {
                 .compose(processed -> Fn.passion(processed,
                     this.plugin(this.config::nameBefore, Before::types, type)))
                 // Runner
-                .compose(runner)
+                .compose(inputT -> runner.apply(inputT)
+                    .compose(processed -> Ux.futureC(inputT, processed))
+                )
                 // After
                 .compose(processed -> Fn.passion(processed,
                     this.plugin(this.config::nameAfter, After::types, type)))

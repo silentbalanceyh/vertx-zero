@@ -155,4 +155,45 @@ class Norm {
             return response;
         }
     }
+
+    private static Future<JsonObject> combine(final JsonObject input, final JsonObject processed) {
+        final JsonObject response = processed.copy();
+        if (Ut.notNil(input)) {
+            response.put(KName.__.INPUT, input);
+        }
+        return Ux.future(response);
+    }
+
+    private static Future<JsonArray> combine(final JsonArray input, final JsonArray processed) {
+        final JsonArray array = new JsonArray();
+        final int size = input.size();
+        Ut.itJArray(processed, (item, index) -> {
+            final JsonObject responseJ = item.copy();
+            if (index < size) {
+                final JsonObject inputJ = input.getJsonObject(index);
+                if (Ut.notNil(inputJ)) {
+                    responseJ.put(KName.__.INPUT, inputJ);
+                }
+            }
+            array.add(responseJ);
+        });
+        return Ux.future(array);
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> Future<T> combine(final T input, final T processed) {
+        if (input instanceof JsonObject) {
+            final JsonObject inputJ = (JsonObject) input;
+            final JsonObject processedJ = (JsonObject) processed;
+            return combine(inputJ, processedJ)
+                .compose(json -> To.future((T) json));
+        } else if (input instanceof JsonArray) {
+            final JsonArray inputA = (JsonArray) input;
+            final JsonArray processedA = (JsonArray) processed;
+            return combine(inputA, processedA)
+                .compose(json -> To.future((T) json));
+        } else {
+            return Ux.future(processed);
+        }
+    }
 }

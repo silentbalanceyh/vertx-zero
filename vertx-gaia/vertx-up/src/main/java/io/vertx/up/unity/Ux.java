@@ -494,17 +494,20 @@ public final class Ux {
      * -- futureE(Supplier)
      *
      * Spec Data
-     * 6)
+     * 6) futureJA, futureB
      * -- futureJA(JsonArray)
      * -- futureB(JsonObject)
      * -- futureB(boolean)
      *
      * New Api for normalized mount
-     * 7)
+     * 7) futureN
      * -- futureN(JsonObject, JsonObject)
      * -- futureN(JsonArray, JsonArray)
      * -- futureN(JsonArray, JsonArray, String)
      * > N for normalize and add new field:  __data,  __flag instead of original data
+     *
+     * Combine JsonObject and JsonArray by index
+     * 8) futureC
      */
     public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
         return Norm.effect(input, previous, current);
@@ -516,6 +519,10 @@ public final class Ux {
 
     public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current, final String field) {
         return Norm.effect(previous, current, field);
+    }
+
+    public static <T> Future<T> futureC(final T input, final T processed) {
+        return Norm.combine(input, processed);
     }
 
     public static Future<Boolean> futureT() {
