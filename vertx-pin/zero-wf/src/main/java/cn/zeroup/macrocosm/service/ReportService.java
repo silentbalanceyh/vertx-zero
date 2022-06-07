@@ -2,12 +2,8 @@ package cn.zeroup.macrocosm.service;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
-import cn.vertxup.workflow.domain.tables.daos.TAssetOutDao;
 import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
-import cn.vertxup.workflow.domain.tables.pojos.WTicket;
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import cn.zeroup.macrocosm.cv.WfMsg;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
