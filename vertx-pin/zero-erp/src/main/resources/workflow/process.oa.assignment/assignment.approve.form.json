@@ -155,6 +155,9 @@
         },
         "$opOpen": {
             "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，必须指定下一处理人。"
+                ],
                 "confirmedOk": [
                     "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
                 ]
