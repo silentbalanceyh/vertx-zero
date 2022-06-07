@@ -59,4 +59,15 @@ public class ReportService implements ReportStub {
                 .compose(Ux::futureA)
                 ;
     }
+    @Override
+    public Future<JsonArray> fetchActivityByUser(final String key, final String modelKey, final String userId) {
+        return Ux.Jooq.on(XActivityDao.class)
+                .fetchAndAsync(
+                        new JsonObject()
+                                .put("modelKey", modelKey)
+                                .put("createdBy",userId)
+                )
+                .compose(Ux::futureA)
+                ;
+    }
 }

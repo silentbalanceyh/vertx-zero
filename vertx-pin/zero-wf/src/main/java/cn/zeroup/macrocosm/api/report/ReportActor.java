@@ -99,7 +99,8 @@ public class ReportActor {
     @Address(HighWay.Report.TICKET_ACTIVITY)
     public Future<JsonArray> fetchActivity(final JsonObject data) {
         String modelKey = data.getString("modelKey");
+        JsonObject user = data.getJsonObject("user");
         String key = data.getString("key");
-        return this.reportStub.fetchActivity(key, modelKey);
+        return (user == null) ? this.reportStub.fetchActivity(key, modelKey) : this.reportStub.fetchActivityByUser(key, modelKey, user.getString("key"));
     }
 }

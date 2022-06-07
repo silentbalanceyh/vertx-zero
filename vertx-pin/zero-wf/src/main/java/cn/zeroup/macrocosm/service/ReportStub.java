@@ -18,4 +18,5 @@ public interface ReportStub {
     * Fetch Activity
     * */
     Future<JsonArray> fetchActivity(String key, String modelKey);
+    Future<JsonArray> fetchActivityByUser(String key, String modelKey, String userId);
 }
