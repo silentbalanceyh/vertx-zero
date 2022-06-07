@@ -27,6 +27,11 @@ public class ExActivityTracker implements ExActivity {
     }
 
     @Override
+    public Future<JsonArray> activities(final JsonObject condition) {
+        return Ux.Jooq.on(XActivityDao.class).fetchAsync(condition).compose(Ux::futureA);
+    }
+
+    @Override
     public Future<JsonObject> activity(final String activityId) {
         return Ux.Jooq.on(XActivityDao.class).<XActivity>fetchByIdAsync(activityId).compose(activity -> {
             if (Objects.isNull(activity)) {
