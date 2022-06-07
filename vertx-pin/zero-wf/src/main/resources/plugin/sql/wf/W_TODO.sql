@@ -82,11 +82,15 @@ CREATE TABLE IF NOT EXISTS W_TODO
      */
     `TO_LOCATION`      VARCHAR(36) COMMENT '「toLocation」- 指定地址区域',
     `TO_GROUP`         VARCHAR(36) COMMENT '「toGroup」- 指定用户组',
-    `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
     `TO_TEAM`          VARCHAR(36) COMMENT '「toTeam」- 指定业务组',
-    `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
     `TO_ROLE`          VARCHAR(36) COMMENT '「toRole」- 待办角色（集体）',
-
+    /*
+     * 目前在使用的指定待办人
+     * 1）单指定模式（已测试过），toUser = processed 形成最终结果
+     * 2）组指定模式，toDept = [] 形成最终结果
+     */
+    `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
+    `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
 
     /*
      * 任务三个主体：
