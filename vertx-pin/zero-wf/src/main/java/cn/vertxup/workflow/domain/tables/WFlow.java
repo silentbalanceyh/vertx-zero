@@ -49,7 +49,7 @@ public class WFlow extends TableImpl<WFlowRecord> {
      * The column <code>DB_ETERNAL.W_FLOW.DEFINITION_KEY</code>.
      * 「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId
      */
-    public final TableField<WFlowRecord, String> DEFINITION_KEY = createField(DSL.name("DEFINITION_KEY"), SQLDataType.VARCHAR(64), this, "「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId");
+    public final TableField<WFlowRecord, String> DEFINITION_KEY = createField(DSL.name("DEFINITION_KEY"), SQLDataType.VARCHAR(128), this, "「definitionKey」- 定义ID（读取流程图所需）, getProcessDefinitionId");
     /**
      * The column <code>DB_ETERNAL.W_FLOW.AUTHORIZED_COMPONENT</code>.
      * 「authorizedComponent」- 流程授权组件

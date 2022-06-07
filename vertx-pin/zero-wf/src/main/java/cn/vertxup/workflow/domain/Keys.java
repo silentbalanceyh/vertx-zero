@@ -4,8 +4,13 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.*;
-import cn.vertxup.workflow.domain.tables.records.*;
+import cn.vertxup.workflow.domain.tables.WFlow;
+import cn.vertxup.workflow.domain.tables.WTicket;
+import cn.vertxup.workflow.domain.tables.WTodo;
+import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
+import cn.vertxup.workflow.domain.tables.records.WTicketRecord;
+import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
+
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -16,23 +21,20 @@ import org.jooq.impl.Internal;
  * A class modelling foreign key relationships and constraints of tables in
  * DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<TAssetInRecord> KEY_T_ASSET_IN_PRIMARY = Internal.createUniqueKey(TAssetIn.T_ASSET_IN, DSL.name("KEY_T_ASSET_IN_PRIMARY"), new TableField[]{TAssetIn.T_ASSET_IN.KEY}, true);
-    public static final UniqueKey<TAssetKoRecord> KEY_T_ASSET_KO_PRIMARY = Internal.createUniqueKey(TAssetKo.T_ASSET_KO, DSL.name("KEY_T_ASSET_KO_PRIMARY"), new TableField[]{TAssetKo.T_ASSET_KO.KEY}, true);
-    public static final UniqueKey<TAssetOutRecord> KEY_T_ASSET_OUT_PRIMARY = Internal.createUniqueKey(TAssetOut.T_ASSET_OUT, DSL.name("KEY_T_ASSET_OUT_PRIMARY"), new TableField[]{TAssetOut.T_ASSET_OUT.KEY}, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_CODE = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_CODE"), new TableField[]{WFlow.W_FLOW.CODE, WFlow.W_FLOW.SIGMA}, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_NAME = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_NAME"), new TableField[]{WFlow.W_FLOW.NAME, WFlow.W_FLOW.SIGMA}, true);
-    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_PRIMARY = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_PRIMARY"), new TableField[]{WFlow.W_FLOW.KEY}, true);
-    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_PRIMARY = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_PRIMARY"), new TableField[]{WTicket.W_TICKET.KEY}, true);
-    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_SIGMA = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_SIGMA"), new TableField[]{WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.CODE}, true);
-    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_SIGMA_2 = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_SIGMA_2"), new TableField[]{WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.SERIAL}, true);
-    public static final UniqueKey<WTodoRecord> KEY_W_TODO_PRIMARY = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_PRIMARY"), new TableField[]{WTodo.W_TODO.KEY}, true);
-    public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA"), new TableField[]{WTodo.W_TODO.SIGMA, WTodo.W_TODO.CODE}, true);
-    public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA_2 = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA_2"), new TableField[]{WTodo.W_TODO.SIGMA, WTodo.W_TODO.SERIAL}, true);
+    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_CODE = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_CODE"), new TableField[] { WFlow.W_FLOW.CODE, WFlow.W_FLOW.SIGMA }, true);
+    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_NAME = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_NAME"), new TableField[] { WFlow.W_FLOW.NAME, WFlow.W_FLOW.SIGMA }, true);
+    public static final UniqueKey<WFlowRecord> KEY_W_FLOW_PRIMARY = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_PRIMARY"), new TableField[] { WFlow.W_FLOW.KEY }, true);
+    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_PRIMARY = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_PRIMARY"), new TableField[] { WTicket.W_TICKET.KEY }, true);
+    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_SIGMA = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_SIGMA"), new TableField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.CODE }, true);
+    public static final UniqueKey<WTicketRecord> KEY_W_TICKET_SIGMA_2 = Internal.createUniqueKey(WTicket.W_TICKET, DSL.name("KEY_W_TICKET_SIGMA_2"), new TableField[] { WTicket.W_TICKET.SIGMA, WTicket.W_TICKET.SERIAL }, true);
+    public static final UniqueKey<WTodoRecord> KEY_W_TODO_PRIMARY = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_PRIMARY"), new TableField[] { WTodo.W_TODO.KEY }, true);
+    public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA"), new TableField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.CODE }, true);
+    public static final UniqueKey<WTodoRecord> KEY_W_TODO_SIGMA_2 = Internal.createUniqueKey(WTodo.W_TODO, DSL.name("KEY_W_TODO_SIGMA_2"), new TableField[] { WTodo.W_TODO.SIGMA, WTodo.W_TODO.SERIAL }, true);
 }

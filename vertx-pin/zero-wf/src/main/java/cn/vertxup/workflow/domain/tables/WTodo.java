@@ -98,15 +98,15 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, Integer> TRACE_ORDER = createField(DSL.name("TRACE_ORDER"), SQLDataType.INTEGER, this, "「traceOrder」- 待办的处理顺序");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * The column <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
-    public final TableField<WTodoRecord, String> TASK_ID = createField(DSL.name("TASK_ID"), SQLDataType.VARCHAR(36), this, "「traceTask」- 和待办绑定的taskId（任务）");
+    public final TableField<WTodoRecord, String> TASK_ID = createField(DSL.name("TASK_ID"), SQLDataType.VARCHAR(36), this, "「taskId」- 和待办绑定的taskId（任务）");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * The column <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
      * 和待办绑定的taskKey
      */
-    public final TableField<WTodoRecord, String> TASK_KEY = createField(DSL.name("TASK_KEY"), SQLDataType.VARCHAR(255), this, "「traceTaskKey」- 和待办绑定的taskKey");
+    public final TableField<WTodoRecord, String> TASK_KEY = createField(DSL.name("TASK_KEY"), SQLDataType.VARCHAR(255), this, "「taskKey」- 和待办绑定的taskKey");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
      * 生成的ACTIVITY_ID
@@ -136,21 +136,30 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> TO_GROUP = createField(DSL.name("TO_GROUP"), SQLDataType.VARCHAR(36), this, "「toGroup」- 指定用户组");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    public final TableField<WTodoRecord, String> TO_DEPT = createField(DSL.name("TO_DEPT"), SQLDataType.VARCHAR(36), this, "「toDept」- 指定部门");
-    /**
      * The column <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
      */
     public final TableField<WTodoRecord, String> TO_TEAM = createField(DSL.name("TO_TEAM"), SQLDataType.VARCHAR(36), this, "「toTeam」- 指定业务组");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    public final TableField<WTodoRecord, String> TO_ROLE = createField(DSL.name("TO_ROLE"), SQLDataType.VARCHAR(36), this, "「toRole」- 待办角色（集体）");
     /**
      * The column <code>DB_ETERNAL.W_TODO.TO_USER</code>. 「toUser」- 待办指定人
      */
     public final TableField<WTodoRecord, String> TO_USER = createField(DSL.name("TO_USER"), SQLDataType.VARCHAR(36), this, "「toUser」- 待办指定人");
     /**
-     * The column <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * The column <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
-    public final TableField<WTodoRecord, String> TO_ROLE = createField(DSL.name("TO_ROLE"), SQLDataType.VARCHAR(36), this, "「toRole」- 待办角色（集体）");
+    public final TableField<WTodoRecord, String> TO_DEPT = createField(DSL.name("TO_DEPT"), SQLDataType.VARCHAR(36), this, "「toDept」- 指定部门");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    public final TableField<WTodoRecord, Boolean> ESCALATE = createField(DSL.name("ESCALATE"), SQLDataType.BIT, this, "「escalate」- 是否升级");
+    /**
+     * The column <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    public final TableField<WTodoRecord, String> ESCALATE_DATA = createField(DSL.name("ESCALATE_DATA"), SQLDataType.CLOB, this, "「escalateData」- 升级单据数据");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ASSIGNED_BY</code>. 「assignedBy」-
      * 待办指派人

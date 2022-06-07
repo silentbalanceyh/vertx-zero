@@ -92,6 +92,9 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
     `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
 
+    `ESCALATE`         BIT         DEFAULT NULL COMMENT '「escalate」- 是否升级',
+    `ESCALATE_DATA`    LONGTEXT COMMENT '「escalateData」- 升级单据数据',
+
     /*
      * 任务三个主体：
      * 1. 指派人
