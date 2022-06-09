@@ -317,6 +317,10 @@ public class WRecord implements Serializable {
                 return Ux.future(mapId);
             })
             .compose(map -> Ux.channel(ExActivity.class, JsonArray::new, activity -> {
+                // java.lang.NullPointerException: Avoid null for catalog
+                if (Objects.isNull(this.ticket.getCatalog())) {
+                    return Ux.futureA();
+                }
                 final String modelId = map.getOrDefault(this.ticket.getCatalog(), null);
                 if (Objects.isNull(modelId)) {
                     return Ux.futureA();

@@ -17,7 +17,7 @@ class InletFlow extends AbstractInlet {
     public void compile(final JexlContext context, final JsonObject data, final JsonObject config) {
         final JsonObject workflow = Ut.valueJObject(data, KName.Flow.WORKFLOW);
         final String zw = this.variable("zw");
-        context.set(zw, workflow.getMap());
+        context.set(zw, Ut.toMapExpr(workflow));
         this.console("[ Script ] ( Workflow ) The variable `{0}` has been bind: {1}", zw, workflow.encode());
     }
 }

@@ -34,6 +34,36 @@ final class To {
         return map;
     }
 
+    static <T> Map<String, Object> toMapExpr(final JsonObject data) {
+        // Serialized
+        final Map<String, Object> map = new HashMap<>();
+        data.getMap().forEach((key, value) -> {
+            if (value instanceof JsonObject) {
+                map.put(key, toMapExpr((JsonObject) value));
+            } else if (value instanceof JsonArray) {
+                map.put(key, toMapExpr((JsonArray) value));
+            } else {
+                map.put(key, value);
+            }
+        });
+        return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Object> toMapExpr(final JsonArray data) {
+        final List<Object> nested = new ArrayList<>();
+        data.getList().forEach(item -> {
+            if (item instanceof JsonObject) {
+                nested.add(toMapExpr((JsonObject) item));
+            } else if (item instanceof JsonArray) {
+                nested.add(toMapExpr((JsonArray) item));
+            } else {
+                nested.add(item);
+            }
+        });
+        return nested;
+    }
+
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
         return Fn.getJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
     }

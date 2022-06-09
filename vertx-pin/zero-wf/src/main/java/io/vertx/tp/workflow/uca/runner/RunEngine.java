@@ -27,7 +27,7 @@ class RunEngine implements RunOn {
             .processInstanceId(instance.getId()).singleResult();
         Objects.requireNonNull(task);
         final JsonObject params = move.parameters();
-        service.complete(task.getId(), params.getMap());
+        service.complete(task.getId(), Ut.toMapExpr(params));
         Wf.Log.infoMove(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
             instance.isEnded(), instance.getId(), params.encode());
         return Ux.future(instance);
@@ -40,7 +40,7 @@ class RunEngine implements RunOn {
         final JsonObject params = move.parameters();
         if (Ut.notNil(params)) {
             // Parameters Filling
-            builder.setVariables(params.getMap());
+            builder.setVariables(Ut.toMapExpr(params));
         }
         final ProcessInstance instance = builder.execute();
         Wf.Log.infoMove(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",

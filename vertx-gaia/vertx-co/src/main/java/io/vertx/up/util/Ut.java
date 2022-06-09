@@ -1482,6 +1482,10 @@ public final class Ut {
         return To.toMap(data);
     }
 
+    public static Map<String, Object> toMapExpr(final JsonObject data) {
+        return To.toMapExpr(data);
+    }
+
     /*
      * JsonObject tree visiting
      * 1) visitJObject
