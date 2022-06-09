@@ -38,10 +38,7 @@ class RunEngine implements RunOn {
         final RuntimeService service = WfPin.camundaRuntime();
         final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definitionKey);
         final JsonObject params = move.parameters();
-        if (Ut.notNil(params)) {
-            // Parameters Filling
-            builder.setVariables(Ut.toMapExpr(params));
-        }
+        builder.setVariables(Ut.toMapExpr(params));
         final ProcessInstance instance = builder.execute();
         Wf.Log.infoMove(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",
             instance.getId(), params.encode());
