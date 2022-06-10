@@ -21,10 +21,10 @@ public class MovementNext extends AbstractTransfer implements Movement {
                 /* Here normalized/request shared the same reference */
                 final MoveOn moveOn;
                 if (wProcess.isStart()) {
-                    // Divert Next ( Workflow Started )
+                    // MoveOn Next ( Workflow Started )
                     moveOn = MoveOn.instance(MoveOnNext.class);
                 } else {
-                    // Divert Start ( Workflow Not Started )
+                    // MoveOn Start ( Workflow Not Started )
                     moveOn = MoveOn.instance(MoveOnStart.class);
                 }
                 final ConcurrentMap<String, WMove> rules = this.rules();

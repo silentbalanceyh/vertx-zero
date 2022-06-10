@@ -57,7 +57,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                     /*
                      * Here the taskNext is not null
                      */
-                    return MoveOn.event(taskNext).compose(divert -> {
+                    return MoveOn.event(taskNext).compose(moveOn -> {
                         /*
                          * Create new WProcess based on process / task and move
                          *
@@ -73,10 +73,10 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                          * Add new bind on MetaInstance to fix following issue:
                          * java.lang.NullPointerException
                          *      at java.base/java.util.Objects.requireNonNull(Objects.java:221)
-                         *      at io.vertx.tp.workflow.uca.component.DivertUser.transferAsync(DivertUser.java:37)
+                         *      at io.vertx.tp.workflow.uca.component.MoveOnUser.transferAsync(MoveOnUser.java:37)
                          */
-                        divert.bind(this.rules()).bind(this.metadataIn());
-                        return divert.transferAsync(request, wProcess);
+                        moveOn.bind(this.rules()).bind(this.metadataIn());
+                        return moveOn.transferAsync(request, wProcess);
                     });
                 } else {
                     return Ux.future(record);
