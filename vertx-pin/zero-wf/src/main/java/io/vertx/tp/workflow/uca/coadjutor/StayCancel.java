@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.certain;
+package io.vertx.tp.workflow.uca.coadjutor;
 
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
@@ -16,7 +16,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class StayClose extends AbstractMovement implements Stay {
+public class StayCancel extends AbstractMovement implements Stay {
     @Override
     public Future<WRecord> keepAsync(final WRequest request, final WProcess wProcess) {
         /*
@@ -27,12 +27,12 @@ public class StayClose extends AbstractMovement implements Stay {
         final ProcessInstance instance = wProcess.instance();
         return event.taskHistory(instance).compose(historySet -> {
             // Cancel data processing
-            final JsonObject todoData = AidData.closeJ(request.request(), wProcess, historySet);
+            final JsonObject todoData = AidData.cancelJ(request.request(), wProcess, historySet);
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition
             final StoreOn storeOn = StoreOn.get();
-            return storeOn.instanceEnd(instance, TodoStatus.FINISHED).compose(removed -> Ux.future(record));
+            return storeOn.instanceEnd(instance, TodoStatus.CANCELED).compose(removed -> Ux.future(record));
         }).compose(record -> this.afterAsync(record, wProcess));
     }
 }

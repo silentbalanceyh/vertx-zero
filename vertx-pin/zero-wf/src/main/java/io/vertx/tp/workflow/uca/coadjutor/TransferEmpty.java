@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.certain;
+package io.vertx.tp.workflow.uca.coadjutor;
 
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WProcess;

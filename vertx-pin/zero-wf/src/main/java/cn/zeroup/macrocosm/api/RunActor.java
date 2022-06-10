@@ -9,7 +9,7 @@ import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.Movement;
 import io.vertx.tp.workflow.uca.central.Transfer;
-import io.vertx.tp.workflow.uca.certain.Stay;
+import io.vertx.tp.workflow.uca.coadjutor.Stay;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
