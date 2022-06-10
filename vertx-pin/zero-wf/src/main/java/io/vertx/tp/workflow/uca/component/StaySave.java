@@ -6,8 +6,8 @@ import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.uca.canal.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
-import io.vertx.tp.workflow.uca.top.AbstractMovement;
 import io.vertx.up.unity.Ux;
 
 /**

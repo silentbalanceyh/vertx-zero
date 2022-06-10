@@ -10,7 +10,7 @@ import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.top.AidLinkage;
+import io.vertx.tp.workflow.uca.canal.AidLinkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.top.AbstractTransfer;
+import io.vertx.tp.workflow.uca.canal.AbstractTransfer;
 import io.vertx.up.atom.Refer;
 
 import java.util.concurrent.ConcurrentMap;

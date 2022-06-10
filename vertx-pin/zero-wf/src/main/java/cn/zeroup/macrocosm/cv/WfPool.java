@@ -1,6 +1,7 @@
 package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
+import io.vertx.tp.workflow.uca.canal.Behaviour;
 import io.vertx.tp.workflow.uca.component.Divert;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
@@ -8,7 +9,6 @@ import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
-import io.vertx.tp.workflow.uca.top.Behaviour;
 import io.vertx.up.uca.cache.Cc;
 
 /**

@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.top;
+package io.vertx.tp.workflow.uca.canal;
 
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMove;

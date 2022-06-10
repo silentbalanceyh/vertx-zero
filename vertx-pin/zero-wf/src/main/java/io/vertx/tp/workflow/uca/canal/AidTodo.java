@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.top;
+package io.vertx.tp.workflow.uca.canal;
 
 import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
