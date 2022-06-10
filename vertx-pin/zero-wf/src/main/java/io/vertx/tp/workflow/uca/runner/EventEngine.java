@@ -77,4 +77,10 @@ class EventEngine implements EventOn {
         Objects.requireNonNull(instance);
         return this.tasker.byInstanceId(instance.getId());
     }
+
+    @Override
+    public Task taskActive(final String taskId) {
+        Objects.requireNonNull(taskId);
+        return this.tasker.byTaskId(taskId);
+    }
 }

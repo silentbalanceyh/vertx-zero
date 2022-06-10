@@ -6,6 +6,7 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
+import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.experiment.specification.KFlow;
@@ -34,6 +35,8 @@ public class MoveOnNext extends AbstractMoveOn {
          * 3. Camunda Instance Moving to next
          */
         final String taskId = key.taskId();
+        final Gear scatter = process.scatter();
+
         final EventOn eventOn = EventOn.get();
         return eventOn.taskOldSmart(instance, taskId)
             /* WProcess -> Bind Task */

@@ -109,6 +109,10 @@ public class WProcess {
         return this.instance;
     }
 
+    public Gear scatter() {
+        return this.scatter;
+    }
+
     // --------------------- Move Rule Processing ------------------
     public WMoveRule ruleFind() {
         /*

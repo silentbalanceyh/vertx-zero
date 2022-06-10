@@ -52,4 +52,6 @@ public interface EventOn {
 
     // --------------- New for Gear ---------------
     List<Task> taskActive(ProcessInstance instance);
+
+    Task taskActive(String taskId);
 }
