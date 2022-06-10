@@ -45,7 +45,14 @@ public class WProcess {
         return this;
     }
 
-    public Future<ProcessInstance> future(final ProcessInstance instance) {
+    public Future<WProcess> future() {
+        return Ux.future(this);
+    }
+
+
+    // --------------------- Task & Instance ------------------
+
+    public Future<ProcessInstance> instance(final ProcessInstance instance) {
         this.instance = instance;
         if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
             /*
@@ -66,19 +73,6 @@ public class WProcess {
         } else {
             return Ux.future(instance);
         }
-    }
-
-    public Future<Task> future(final Task task) {
-        this.task = task;
-        return Ux.future(task);
-    }
-
-    public Future<WProcess> future() {
-        return Ux.future(this);
-    }
-
-    public ProcessInstance instance() {
-        return this.instance;
     }
 
     /*
@@ -112,6 +106,11 @@ public class WProcess {
         return this.taskNext;
     }
 
+    public ProcessInstance instance() {
+        return this.instance;
+    }
+
+    // --------------------- Move Rule Processing ------------------
     public WMoveRule ruleFind() {
         /*
          * Fix: java.lang.NullPointerException
@@ -128,6 +127,7 @@ public class WProcess {
         return this.move;
     }
 
+    // --------------------- Process Status ------------------
     public boolean isStart() {
         return Objects.nonNull(this.instance);
     }

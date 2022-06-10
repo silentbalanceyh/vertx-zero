@@ -19,7 +19,7 @@ class WfFlow {
         final WProcess process = WProcess.create();
         final KFlow workflow = request.workflow();
         return WfCamunda.instanceById(workflow.instanceId())
-            .compose(process::future/* WProcess -> Bind Process */)
+            .compose(process::instance/* WProcess -> Bind Process */)
             .compose(instance -> Ux.future(process));
     }
 

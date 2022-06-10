@@ -22,7 +22,8 @@ public class MovementStay extends AbstractTransfer implements Movement {
                 if (wProcess.isStart()) {
                     // Started
                     return event.taskActive(wProcess.instance())
-                        .compose(wProcess::future)              /* Task Bind */
+                        /* Task Bind */
+                        .compose(task -> Ux.future(wProcess.bind(task)))
                         .compose(nil -> wProcess.future());
                 } else {
                     /*

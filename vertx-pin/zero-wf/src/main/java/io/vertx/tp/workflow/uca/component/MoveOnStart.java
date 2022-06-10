@@ -37,11 +37,12 @@ public class MoveOnStart extends AbstractMoveOn {
             .compose(event -> {
                 // WMove Get
                 final WMove move = this.rule(event.getId()).stored(request.request());
+                process.bind(move);
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 return runOn.startAsync(definitionKey, move);
             })
-            .compose(process::future /* WProcess -> Bind Process */)
+            .compose(process::instance /* WProcess -> Bind Process */)
             .compose(nil -> process.future());
     }
 }

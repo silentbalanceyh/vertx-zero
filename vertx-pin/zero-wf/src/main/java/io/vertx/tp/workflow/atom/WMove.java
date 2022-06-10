@@ -32,13 +32,21 @@ public class WMove implements Serializable {
      *             WMoveRule,
      *             WMoveRule
      *         ],
-     *         "aspect": AspectConfig
+     *         "aspect": AspectConfig,
+     *         "fork": {
+     *         }
      *     }
      * }
+     *
+     * 1) When `Standard` Mode, the `fork` configuration will not be used.
+     * 2) When `Multi` Mode, the `fork` configuration will not be used.
+     * 3) 「Valid」When `Fork/Join` Mode, the `fork` configuration will help to create Todo Tickets
      */
     private final transient String node;
     private final transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
     private final transient AspectConfig aspect;
+
+    private final transient JsonObject fork = new JsonObject();
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
@@ -60,6 +68,9 @@ public class WMove implements Serializable {
 
         // Processing for Aspect
         this.aspect = AspectConfig.create(Ut.valueJObject(config, KName.ASPECT));
+
+        // Processing for Fork
+        this.fork.mergeIn(Ut.valueJObject(config, KName.FORK));
     }
 
     public static WMove create(final String node, final JsonObject config) {
@@ -98,5 +109,9 @@ public class WMove implements Serializable {
 
     public JsonObject parameters() {
         return this.params;
+    }
+
+    public JsonObject fork() {
+        return this.fork;
     }
 }

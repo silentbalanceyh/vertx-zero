@@ -59,6 +59,47 @@ public class EngineOn {
         return connect(key.definitionKey());
     }
 
+    /*
+     * Here are EngineOn structure for component management, each item refer to
+     * one RESTful api here.
+     *
+     * 1. /up/flow/start
+     *    1.1) 「Movement」runComponent       ->        ( MovementEmpty )
+     *          componentRun()
+     *    1.2) 「Transfer」startComponent     ->        ( TransferEmpty )
+     *          componentStart()
+     *
+     * 2. /up/flow/saving
+     *    2.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    2.2) 「Stay」    ( Fixed )          ->        ( StaySave )
+     *          stayDraft()
+     *
+     * 3. /up/flow/complete
+     *    3.1) 「Movement」runComponent       ->        ( MovementEmpty )
+     *          componentRun()
+     *    3.2) 「Transfer」generateComponent  ->        ( TransferStandard )
+     *          componentGenerate()
+     *
+     * 4. /up/flow/cancel
+     *    4.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    4.2) 「Stay」    ( Fixed )          ->        ( StayCancel )
+     *          stayCancel()
+     *
+     * 5. /up/flow/close
+     *    5.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    5.2) 「Stay」    ( Fixed )          ->        ( StayClose )
+     *          stayClose()
+     *
+     * For different mode usage here
+     *    <MODE>        runComponent            generateComponent           startComponent
+     *
+     * - Standard       MovementNext            TransferStandard            TransferStart
+     * - Fork/Join      MovementForkNext        TransferForkStandard        TransferForkStart
+     * - Multi          MovementMultiNext       TransferMultiStandard       TransferMultiStart
+     */
     // ----------------------- Configured Component -------------------------
     public Transfer componentStart() {
         return this.component(this.workflow::getStartComponent,
@@ -69,7 +110,7 @@ public class EngineOn {
     public Transfer componentGenerate() {
         return this.component(this.workflow::getGenerateComponent,
             this.workflow.getGenerateConfig(),
-            this::componentGenerateStandard);
+            this::transferStandard);
     }
 
     public Movement componentRun() {
@@ -79,7 +120,7 @@ public class EngineOn {
     }
 
     // ----------------------- Fixed Save -------------------------
-    public Movement environmentPre() {
+    public Movement stayMovement() {
         return this.component(MovementStay.class, null);
     }
 
@@ -96,7 +137,7 @@ public class EngineOn {
     }
 
     // ----------------------- Private Method -------------------------
-    private Transfer componentGenerateStandard() {
+    private Transfer transferStandard() {
         return this.component(TransferStandard.class, this.workflow.getGenerateComponent());
     }
 

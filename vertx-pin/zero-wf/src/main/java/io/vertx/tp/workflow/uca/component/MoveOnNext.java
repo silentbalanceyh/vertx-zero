@@ -11,6 +11,7 @@ import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
 
@@ -35,8 +36,10 @@ public class MoveOnNext extends AbstractMoveOn {
         final String taskId = key.taskId();
         final EventOn eventOn = EventOn.get();
         return eventOn.taskSmart(instance, taskId)
-            .compose(process::future /* WProcess -> Bind Task */)
-            .compose(task -> {
+            /* WProcess -> Bind Task */
+            .compose(task -> Ux.future(process.bind(task)))
+            .compose(nil -> {
+                final Task task = process.task();
                 // WMove Get
                 final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
                 process.bind(move);
