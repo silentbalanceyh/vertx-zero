@@ -132,7 +132,7 @@ public class AidTodo {
                      *  2. taskKey = Task, getTaskDefinitionKey
                      */
                     final EventOn event = EventOn.get();
-                    return event.taskActive(instance)
+                    return event.taskOldActive(instance)
                         .compose(task -> {
                             // Camunda Engine
                             todo.setTaskId(task.getId());

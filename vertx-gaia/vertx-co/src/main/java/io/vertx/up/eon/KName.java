@@ -92,6 +92,8 @@ public interface KName {
 
     String FORK = "fork";                        /* Fork/Join -> Fork */
     String JOIN = "join";                        /* Fork/Join -> Join */
+    String MODE = "mode";                        /* Mode Selection */
+    String GATEWAY = "gateway";                  /* Gateway for Workflow */
     String INPUT = "input";                      /* Input */
     String OUTPUT = "output";                    /* Output */
     String DATUM = "datum";                      /* Common: metadata key */

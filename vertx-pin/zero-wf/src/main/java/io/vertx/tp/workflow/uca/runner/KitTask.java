@@ -4,12 +4,14 @@ import io.vertx.tp.workflow.init.WfPin;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.List;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class KitTask {
 
-    Task byInstanceId(final String instanceId) {
+    Task byOldInstanceId(final String instanceId) {
         final TaskService service = WfPin.camundaTask();
         return service.createTaskQuery()
             .initializeFormKeys()
@@ -20,6 +22,15 @@ class KitTask {
     Task byTaskId(final String taskId) {
         final TaskService service = WfPin.camundaTask();
         return service.createTaskQuery()
-            .taskId(taskId).singleResult();
+            .taskId(taskId)
+            .active().singleResult();
+    }
+
+    List<Task> byInstanceId(final String instanceId) {
+        final TaskService service = WfPin.camundaTask();
+        return service.createTaskQuery()
+            .initializeFormKeys()
+            .processInstanceId(instanceId)
+            .active().list();
     }
 }

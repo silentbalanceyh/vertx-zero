@@ -35,7 +35,7 @@ public class MoveOnNext extends AbstractMoveOn {
          */
         final String taskId = key.taskId();
         final EventOn eventOn = EventOn.get();
-        return eventOn.taskSmart(instance, taskId)
+        return eventOn.taskOldSmart(instance, taskId)
             /* WProcess -> Bind Task */
             .compose(task -> Ux.future(process.bind(task)))
             .compose(nil -> {

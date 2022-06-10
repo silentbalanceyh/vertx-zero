@@ -42,5 +42,6 @@ public interface StoreOn {
 
     Future<JsonObject> formGet(ProcessDefinition definition, ProcessInstance instance);
 
+    @Deprecated
     Future<Boolean> instanceEnd(ProcessInstance instance, TodoStatus status);
 }

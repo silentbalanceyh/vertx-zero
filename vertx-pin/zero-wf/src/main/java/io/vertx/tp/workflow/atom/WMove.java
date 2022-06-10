@@ -46,7 +46,7 @@ public class WMove implements Serializable {
     private final transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
     private final transient AspectConfig aspect;
 
-    private final transient JsonObject fork = new JsonObject();
+    private final transient WMoveWay gateway;
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
@@ -70,7 +70,8 @@ public class WMove implements Serializable {
         this.aspect = AspectConfig.create(Ut.valueJObject(config, KName.ASPECT));
 
         // Processing for Fork
-        this.fork.mergeIn(Ut.valueJObject(config, KName.FORK));
+        final JsonObject moveWayJ = Ut.valueJObject(config, KName.GATEWAY);
+        this.gateway = Ut.deserialize(moveWayJ, WMoveWay.class);
     }
 
     public static WMove create(final String node, final JsonObject config) {
@@ -111,7 +112,7 @@ public class WMove implements Serializable {
         return this.params;
     }
 
-    public JsonObject fork() {
-        return this.fork;
+    public WMoveWay way() {
+        return this.gateway;
     }
 }

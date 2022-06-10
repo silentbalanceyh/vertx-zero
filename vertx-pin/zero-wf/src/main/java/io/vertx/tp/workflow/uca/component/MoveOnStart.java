@@ -42,6 +42,13 @@ public class MoveOnStart extends AbstractMoveOn {
                 final RunOn runOn = RunOn.get();
                 return runOn.startAsync(definitionKey, move);
             })
+
+            /*
+             * 「Engine 1」:
+             * 1) Start the workflow here
+             * 2) Bind the WMove to WProcess first and then bind the ProcessInstance
+             * 3) Each workflow will start here for continue processing
+             */
             .compose(process::instance /* WProcess -> Bind Process */)
             .compose(nil -> process.future());
     }

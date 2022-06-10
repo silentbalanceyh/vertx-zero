@@ -8,6 +8,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -47,18 +48,18 @@ class EventEngine implements EventOn {
     }
 
     @Override
-    public Future<Task> taskActive(final ProcessInstance instance) {
-        return Ux.future(this.tasker.byInstanceId(instance.getId()));
+    public Future<Task> taskOldActive(final ProcessInstance instance) {
+        return Ux.future(this.tasker.byOldInstanceId(instance.getId()));
     }
 
     @Override
-    public Future<Task> taskActive(final String taskId) {
+    public Future<Task> taskOldActive(final String taskId) {
         return Ux.future(this.tasker.byTaskId(taskId));
     }
 
     @Override
-    public Future<Task> taskSmart(final ProcessInstance instance, final String taskId) {
-        return Objects.isNull(taskId) ? this.taskActive(instance) : this.taskActive(taskId);
+    public Future<Task> taskOldSmart(final ProcessInstance instance, final String taskId) {
+        return Objects.isNull(taskId) ? this.taskOldActive(instance) : this.taskOldActive(taskId);
     }
 
     @Override
@@ -69,5 +70,11 @@ class EventEngine implements EventOn {
     @Override
     public Future<Set<String>> taskHistory(final HistoricProcessInstance instance) {
         return Ux.future(this.history.activities(instance.getId()));
+    }
+
+    @Override
+    public List<Task> taskActive(final ProcessInstance instance) {
+        Objects.requireNonNull(instance);
+        return this.tasker.byInstanceId(instance.getId());
     }
 }

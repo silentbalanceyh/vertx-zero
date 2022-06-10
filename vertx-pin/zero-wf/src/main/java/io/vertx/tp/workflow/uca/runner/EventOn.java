@@ -8,6 +8,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,11 +34,14 @@ public interface EventOn {
     /*
      * Event Id from ProcessInstance
      */
-    Future<Task> taskActive(ProcessInstance instance);
+    @Deprecated
+    Future<Task> taskOldActive(ProcessInstance instance);
 
-    Future<Task> taskActive(String taskId);
+    @Deprecated
+    Future<Task> taskOldActive(String taskId);
 
-    Future<Task> taskSmart(ProcessInstance instance, String taskId);
+    @Deprecated
+    Future<Task> taskOldSmart(ProcessInstance instance, String taskId);
 
     /*
      * Task History
@@ -45,4 +49,7 @@ public interface EventOn {
     Future<Set<String>> taskHistory(ProcessInstance instance);
 
     Future<Set<String>> taskHistory(HistoricProcessInstance instance);
+
+    // --------------- New for Gear ---------------
+    List<Task> taskActive(ProcessInstance instance);
 }
