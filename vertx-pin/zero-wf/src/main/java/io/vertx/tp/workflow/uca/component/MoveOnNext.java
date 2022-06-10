@@ -5,7 +5,7 @@ import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.central.AbstractDivert;
+import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.experiment.specification.KFlow;
@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DivertNext extends AbstractDivert {
+public class MoveOnNext extends AbstractMoveOn {
     @Override
     public Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
         final ProcessInstance instance = process.instance();

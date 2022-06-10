@@ -1,11 +1,10 @@
-package io.vertx.tp.workflow.uca.coadjutor;
+package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.AbstractTransfer;
-import io.vertx.tp.workflow.uca.central.Movement;
 import io.vertx.up.unity.Ux;
 
 /**

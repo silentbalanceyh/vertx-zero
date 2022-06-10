@@ -5,7 +5,7 @@ import io.vertx.tp.error._409InValidStartException;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.central.AbstractDivert;
+import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.experiment.specification.KFlow;
@@ -14,7 +14,7 @@ import io.vertx.up.unity.Ux;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DivertStart extends AbstractDivert {
+public class MoveOnStart extends AbstractMoveOn {
     @Override
     public Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
         final KFlow key = request.workflow();

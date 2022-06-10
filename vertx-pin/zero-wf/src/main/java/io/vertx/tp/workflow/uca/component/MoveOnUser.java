@@ -6,7 +6,7 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.central.AbstractDivert;
+import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.tp.workflow.uca.central.AidData;
 import org.camunda.bpm.engine.task.Task;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DivertUser extends AbstractDivert {
+public class MoveOnUser extends AbstractMoveOn {
     @Override
     public Future<WRecord> transferAsync(final WRequest request, final WProcess process) {
         /*

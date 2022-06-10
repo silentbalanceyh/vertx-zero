@@ -4,10 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.AbstractTransfer;
-import io.vertx.tp.workflow.uca.central.Divert;
-import io.vertx.tp.workflow.uca.central.Movement;
-import io.vertx.up.atom.Refer;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -18,22 +16,21 @@ public class MovementNext extends AbstractTransfer implements Movement {
     @Override
     public Future<WProcess> moveAsync(final WRequest request) {
         // Instance Building
-        final Refer process = new Refer();
-        return this.beforeAsync(request, process).compose(normalized
-            /* Here normalized/request shared the same reference */ -> {
-            final Divert divert;
-            final WProcess wProcess = process.get();
-            if (wProcess.isStart()) {
-                // Divert Next ( Workflow Started )
-                divert = Divert.instance(DivertNext.class);
-            } else {
-                // Divert Start ( Workflow Not Started )
-                divert = Divert.instance(DivertStart.class);
-            }
-            final ConcurrentMap<String, WMove> rules = this.rules();
-            // Bind Metadata Instance
-            divert.bind(this.metadataIn());
-            return divert.bind(rules).moveAsync(normalized, wProcess);
-        });
+        return Wf.process(request).compose(wProcess -> this.beforeAsync(request, wProcess)
+            .compose(normalized -> {
+                /* Here normalized/request shared the same reference */
+                final MoveOn moveOn;
+                if (wProcess.isStart()) {
+                    // Divert Next ( Workflow Started )
+                    moveOn = MoveOn.instance(MoveOnNext.class);
+                } else {
+                    // Divert Start ( Workflow Not Started )
+                    moveOn = MoveOn.instance(MoveOnStart.class);
+                }
+                final ConcurrentMap<String, WMove> rules = this.rules();
+                // Bind Metadata Instance
+                moveOn.bind(this.metadataIn());
+                return moveOn.bind(rules).moveAsync(normalized, wProcess);
+            }));
     }
 }

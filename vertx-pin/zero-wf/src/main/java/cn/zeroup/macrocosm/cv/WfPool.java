@@ -2,7 +2,7 @@ package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.uca.central.Behaviour;
-import io.vertx.tp.workflow.uca.central.Divert;
+import io.vertx.tp.workflow.uca.component.MoveOn;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.AidOn;
@@ -34,5 +34,5 @@ public interface WfPool {
     Cc<String, Behaviour> CC_COMPONENT = Cc.openThread();
 
     // uca.component POOL -> Divert
-    Cc<String, Divert> CC_DIVERT = Cc.openThread();
+    Cc<String, MoveOn> CC_DIVERT = Cc.openThread();
 }

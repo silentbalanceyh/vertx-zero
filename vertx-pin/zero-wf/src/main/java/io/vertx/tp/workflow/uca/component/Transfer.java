@@ -1,9 +1,10 @@
-package io.vertx.tp.workflow.uca.central;
+package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.uca.central.Behaviour;
 
 /**
  * Todo Generation

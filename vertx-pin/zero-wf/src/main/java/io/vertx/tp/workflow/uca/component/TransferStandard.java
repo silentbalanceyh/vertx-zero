@@ -6,8 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.central.AidData;
-import io.vertx.tp.workflow.uca.central.Divert;
-import io.vertx.tp.workflow.uca.central.Transfer;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.unity.Ux;
@@ -59,7 +57,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                     /*
                      * Here the taskNext is not null
                      */
-                    return Divert.event(taskNext).compose(divert -> {
+                    return MoveOn.event(taskNext).compose(divert -> {
                         /*
                          * Create new WProcess based on process / task and move
                          *

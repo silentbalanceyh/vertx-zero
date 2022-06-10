@@ -5,7 +5,6 @@ import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
-import io.vertx.tp.workflow.uca.central.Transfer;
 import io.vertx.tp.workflow.uca.modeling.Register;
 
 /**

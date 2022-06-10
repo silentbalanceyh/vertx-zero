@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
@@ -73,13 +72,9 @@ public class BehaviourStandard implements Behaviour {
 
 
     // ==================== Before / After Processing in Current component ======================
-    protected Future<WRequest> beforeAsync(final WRequest request, final Refer process) {
+    protected Future<WRequest> beforeAsync(final WRequest request, final WProcess instance) {
         // Instance Building
-        return Wf.process(request)
-            /* Bind WProcess reference */
-            .compose(process::future)
-            /* Extract WMove from WProcess smartly */
-            .compose(instance -> this.ruleAsync(request, instance))
+        return this.ruleAsync(request, instance)
             /* 「Aop」Before based on WMove */
             .compose(move -> this.trackerKit.beforeAsync(request, move));
     }
