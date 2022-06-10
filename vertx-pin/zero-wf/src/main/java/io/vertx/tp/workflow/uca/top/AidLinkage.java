@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
@@ -62,7 +62,7 @@ public class AidLinkage {
         });
     }
 
-    Future<WRecord> syncAsync(final JsonObject params, final WRecord record) {
+    public Future<WRecord> syncAsync(final JsonObject params, final WRecord record) {
         /*
          * Linkage Sync based on configuration
          */

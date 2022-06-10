@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -71,21 +71,15 @@ public class BehaviourStandard implements Behaviour {
         return this.moveMap.getOrDefault(node, WMove.empty());
     }
 
+
+    // ==================== Before / After Processing in Current component ======================
     protected Future<WRequest> beforeAsync(final WRequest request, final Refer process) {
         // Instance Building
         return Wf.process(request)
             /* Bind WProcess reference */
             .compose(process::future)
             /* Extract WMove from WProcess smartly */
-            .compose(instance -> {
-                if (instance.isStart()) {
-                    // Started Workflow
-                    return this.ruleAsync(instance);
-                } else {
-                    // Not Started Workflow
-                    return this.ruleAsync(request);
-                }
-            })
+            .compose(instance -> this.ruleAsync(request, instance))
             /* 「Aop」Before based on WMove */
             .compose(move -> this.trackerKit.beforeAsync(request, move));
     }
@@ -97,7 +91,18 @@ public class BehaviourStandard implements Behaviour {
             .compose(move -> this.trackerKit.afterAsync(record, process.bind(move)));
     }
 
+
     // ==================== Rule Bind / Get ======================
+    private Future<WMove> ruleAsync(final WRequest request, final WProcess instance) {
+        if (instance.isStart()) {
+            // Started Workflow
+            return this.ruleAsync(instance);
+        } else {
+            // Not Started Workflow
+            return this.ruleAsync(request);
+        }
+    }
+
     private Future<WMove> ruleAsync(final WProcess process) {
         final Task task = process.task();
         final String node = task.getTaskDefinitionKey();

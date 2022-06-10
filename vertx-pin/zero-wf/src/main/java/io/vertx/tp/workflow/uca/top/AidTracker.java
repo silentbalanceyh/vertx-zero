@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -27,7 +27,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-class AidTracker {
+public class AidTracker {
 
     private final transient MetaInstance metadata;
 
@@ -80,7 +80,7 @@ class AidTracker {
         this.metadata = metadata;
     }
 
-    Future<WRequest> beforeAsync(final WRequest request, final WMove move) {
+    public Future<WRequest> beforeAsync(final WRequest request, final WMove move) {
         // Build Aspect Component
         final Aspect aspect = this.aspect(move);
         return aspect.wrapJBefore(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
@@ -88,7 +88,7 @@ class AidTracker {
             .compose(request::future);
     }
 
-    Future<WRecord> afterAsync(final WRecord record, final WProcess process) {
+    public Future<WRecord> afterAsync(final WRecord record, final WProcess process) {
         // Build Aspect Component
         final WMove move = process.rule();
         final Aspect aspect = this.aspect(move);

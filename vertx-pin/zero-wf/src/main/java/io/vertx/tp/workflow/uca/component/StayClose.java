@@ -8,6 +8,8 @@ import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
+import io.vertx.tp.workflow.uca.top.AbstractMovement;
+import io.vertx.tp.workflow.uca.top.AidData;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -25,7 +27,7 @@ public class StayClose extends AbstractMovement implements Stay {
         final ProcessInstance instance = wProcess.instance();
         return event.taskHistory(instance).compose(historySet -> {
             // Cancel data processing
-            final JsonObject todoData = AidTodo.closeJ(request.request(), wProcess, historySet);
+            final JsonObject todoData = AidData.closeJ(request.request(), wProcess, historySet);
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition

@@ -6,6 +6,8 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.uca.top.AbstractDivert;
+import io.vertx.tp.workflow.uca.top.AidData;
 import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
@@ -16,6 +18,9 @@ import java.util.Objects;
 public class DivertUser extends AbstractDivert {
     @Override
     public Future<WRecord> transferAsync(final WRequest request, final WProcess process) {
+        /*
+         * Process creation for new and next step here.
+         */
         final WProcess next = WProcess.create();
         {
             /*
@@ -31,7 +36,7 @@ public class DivertUser extends AbstractDivert {
             next.bind(process.taskNext()).bind(move).bind(process.instance());
         }
         // Record and instance
-        final WRecord generated = AidTodo.nextJ(request.record(), next);
+        final WRecord generated = AidData.nextJ(request.record(), next);
         // TodoKit generateAsync
         final JsonObject params = request.request();
         return Objects.requireNonNull(this.todoKit)

@@ -1,7 +1,8 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.uca.component.Divert;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;

@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;

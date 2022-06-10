@@ -48,7 +48,6 @@ public class WProcess {
     public Future<ProcessInstance> future(final ProcessInstance instance) {
         this.instance = instance;
         if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
-
             /*
              * Get the first task of Active after process
              * instance started. Here after process instance started,

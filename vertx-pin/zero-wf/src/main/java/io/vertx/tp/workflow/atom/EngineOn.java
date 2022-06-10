@@ -6,6 +6,7 @@ import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.component.*;
+import io.vertx.tp.workflow.uca.top.Behaviour;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

@@ -1,11 +1,10 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.Objects;
 
@@ -98,9 +97,8 @@ public abstract class AbstractMovement extends AbstractTransfer {
     */
     protected Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
         // Todo
-        final ProcessInstance instance = process.instance();
         return Objects.requireNonNull(this.todoKit)
-            .insertAsync(params, instance)
+            .insertAsync(params, process)
             // Linkage Sync
             .compose(record -> Objects.requireNonNull(this.linkageKit)
                 .syncAsync(params, record));
@@ -116,9 +114,8 @@ public abstract class AbstractMovement extends AbstractTransfer {
 
     protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
         // Todo
-        final ProcessInstance instance = process.instance();
         return Objects.requireNonNull(this.todoKit)
-            .saveAsync(params, instance)
+            .saveAsync(params, process)
             // Linkage Sync
             .compose(record -> Objects.requireNonNull(this.linkageKit)
                 .syncAsync(params, record));

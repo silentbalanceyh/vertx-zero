@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.top;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +9,6 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -29,22 +28,8 @@ public abstract class AbstractTransfer extends BehaviourStandard {
      * -- record is null ( No Related Here )
      */
     protected Future<JsonObject> inputAsync(final JsonObject params) {
-        if (!params.containsKey(KName.KEY)) {
-            /*
-             * Add `key` field to root json object
-             * Todo Key
-             */
-            params.put(KName.KEY, UUID.randomUUID().toString());
-        }
-
-
-        if (!params.containsKey(KName.Flow.TRACE_KEY)) {
-            /*
-             * Add `traceKey` field to root json object
-             */
-            params.put(KName.Flow.TRACE_KEY, UUID.randomUUID().toString());
-        }
-        return Ux.future(this.recordInput(params));
+        final JsonObject inputJ = AidData.inputJ(params);
+        return Ux.future(this.recordInput(inputJ));
     }
 
     protected JsonObject recordInput(final JsonObject params) {
@@ -53,13 +38,13 @@ public abstract class AbstractTransfer extends BehaviourStandard {
             if (record instanceof JsonObject) {
                 // Record is JsonObject
                 final JsonObject recordJ = (JsonObject) record;
-                this.inputAsync(params, recordJ, true);
+                AidData.inputJ(params, recordJ, true);
             } else if (record instanceof JsonArray) {
                 // Record is JsonArray ( Each Json )
                 final JsonArray recordA = (JsonArray) record;
                 final JsonArray modelChild = new JsonArray();
                 Ut.itJArray(recordA)
-                    .map(json -> this.inputAsync(params, json, false))
+                    .map(json -> AidData.inputJ(params, json, false))
                     .forEach(modelChild::add);
                 params.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
             }
@@ -82,40 +67,5 @@ public abstract class AbstractTransfer extends BehaviourStandard {
             request.put(KName.RECORD, recordA);
         }
         return request;
-    }
-
-    private String inputAsync(final JsonObject params, final JsonObject record, final boolean o2o) {
-        /*
-         * Here the params JsonObject instance must contain `key` field
-         */
-        final String recordKey;
-        if (record.containsKey(KName.KEY)) {
-            /*
-             * Get existing `key` from record json object
-             */
-            recordKey = record.getString(KName.KEY);
-        } else {
-            /*
-             * Generate new `key` here
-             */
-            recordKey = UUID.randomUUID().toString();
-            record.put(KName.KEY, recordKey);
-        }
-
-
-        /*
-         * Copy the `key` of record to ticket when
-         * JsonObject <-> JsonObject
-         */
-        if (o2o) {
-            params.put(KName.MODEL_KEY, recordKey);
-        }
-
-
-        /*
-         * Copy the `key` of ticket to each record
-         */
-        record.put(KName.MODEL_KEY, params.getValue(KName.Flow.TRACE_KEY));
-        return recordKey;
     }
 }
