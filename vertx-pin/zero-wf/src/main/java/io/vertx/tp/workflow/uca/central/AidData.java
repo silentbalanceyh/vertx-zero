@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.canal;
+package io.vertx.tp.workflow.uca.central;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;

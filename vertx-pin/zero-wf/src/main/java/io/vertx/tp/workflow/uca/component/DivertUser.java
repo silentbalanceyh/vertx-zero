@@ -6,8 +6,8 @@ import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.canal.AbstractDivert;
-import io.vertx.tp.workflow.uca.canal.AidData;
+import io.vertx.tp.workflow.uca.central.AbstractDivert;
+import io.vertx.tp.workflow.uca.central.AidData;
 import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;

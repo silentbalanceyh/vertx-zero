@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.component;
+package io.vertx.tp.workflow.uca.certain;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -6,7 +6,7 @@ import io.vertx.tp.workflow.atom.MetaInstance;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.canal.AbstractMovement;
+import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.up.unity.Ux;
 

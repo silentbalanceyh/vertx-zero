@@ -5,7 +5,7 @@ import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.atom.WMove;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.canal.AbstractDivert;
+import io.vertx.tp.workflow.uca.central.AbstractDivert;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.experiment.specification.KFlow;

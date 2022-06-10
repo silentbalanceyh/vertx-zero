@@ -1,8 +1,8 @@
 package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
-import io.vertx.tp.workflow.uca.canal.Behaviour;
-import io.vertx.tp.workflow.uca.component.Divert;
+import io.vertx.tp.workflow.uca.central.Behaviour;
+import io.vertx.tp.workflow.uca.central.Divert;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.AidOn;
