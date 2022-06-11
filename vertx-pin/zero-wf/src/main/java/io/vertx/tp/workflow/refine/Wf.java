@@ -7,34 +7,28 @@ import io.vertx.tp.workflow.atom.WProcessDefinition;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
-
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Wf {
 
-    public static String eventName(final Task task) {
-        return WfCamunda.eventName(task);
-    }
-
     /*
+     * Workflow Output
      * {
-     *      "task": "Event name of task, event id",
-     *      "multiple": "Whether there are more than one task"
+     *      "definitionId": "Process Definition Id",
+     *      "definitionKey": "Process Definition Key",
+     *      "bpmn": "Xml format of BPMN 2.0 diagram",
+     *      "name": "Process Definition Name"
      * }
      */
-    public static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
-        return WfCamunda.taskStart(workflow, starts);
+    public static JsonObject bpmnOut(final ProcessDefinition definition) {
+        return WfCamunda.bpmnOut(definition);
     }
 
-    public static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> ends) {
-        return WfCamunda.taskEnd(workflow, ends);
+    public static String eventName(final Task task) {
+        return WfCamunda.eventName(task);
     }
 
     /*
@@ -71,34 +65,6 @@ public class Wf {
      */
     public static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
         return WfCamunda.formOut(formKey, definitionId, definitionKey);
-    }
-
-    /*
-     * Workflow Output
-     * {
-     *      "definitionId": "Process Definition Id",
-     *      "definitionKey": "Process Definition Key",
-     *      "bpmn": "Xml format of BPMN 2.0 diagram",
-     *      "name": "Process Definition Name"
-     * }
-     */
-    public static JsonObject bpmnOut(final ProcessDefinition definition) {
-        return WfCamunda.bpmnOut(definition);
-    }
-
-    // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> definitionByKey(final String definitionKey) {
-        return WfCamunda.definitionByKey(definitionKey);
-    }
-
-    // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> definitionById(final String definitionId) {
-        return WfCamunda.definitionById(definitionId);
-    }
-
-    // Fetch ProcessInstance
-    public static Future<ProcessInstance> instanceById(final String instanceId) {
-        return WfCamunda.instanceById(instanceId);
     }
 
     // Fetch WProcess

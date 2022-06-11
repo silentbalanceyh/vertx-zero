@@ -32,6 +32,9 @@ public interface Io<P, T> {
 
     // ------------------ Interface Api ----------------------
 
+    Future<ProcessDefinition> definition(String key);
+
+    // ------------------ Fetch Children / Child ----------------------
     // Fetch children by parent
     default Future<List<T>> children(final P parent) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
@@ -50,16 +53,19 @@ public interface Io<P, T> {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
+    // ------------------ Fetch Instance ----------------------
     // Fetch instance
     default Future<T> instance(final String key) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
+    // ------------------ Fetch Parent ----------------------
     // Fetch parent
     default Future<P> parent(final T object) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
+    // ------------------ Build Response ----------------------
     default Future<JsonObject> write(final JsonObject response, final T object) {
         return Ux.future(response);
     }

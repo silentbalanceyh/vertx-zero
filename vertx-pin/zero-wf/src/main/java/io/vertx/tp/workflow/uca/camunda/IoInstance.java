@@ -6,6 +6,6 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class IoInstance implements Io<ProcessDefinition, ProcessInstance> {
+public class IoInstance extends AbstractIo<ProcessDefinition, ProcessInstance> {
 
 }

@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class IoEStart implements Io<ProcessDefinition, StartEvent> {
+public class IoEStart extends AbstractIo<ProcessDefinition, StartEvent> {
 
     // ProcessDefinition -> List<StartEvent>
     @Override

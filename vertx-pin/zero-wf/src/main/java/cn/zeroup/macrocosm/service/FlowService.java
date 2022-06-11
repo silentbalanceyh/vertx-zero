@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.ui.Form;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -21,8 +22,9 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
+        final Io<ProcessDefinition, ProcessInstance> io = Io.instance();
         final StoreOn storeOn = StoreOn.get();
-        return Wf.definitionByKey(definitionKey)
+        return io.definition(definitionKey)
             .compose(storeOn::workflowGet)
             .compose(definition -> {
                 // Fetch X_FLOW

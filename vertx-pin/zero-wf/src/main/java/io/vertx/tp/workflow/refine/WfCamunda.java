@@ -18,12 +18,9 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,20 +34,6 @@ class WfCamunda {
     private static final ConcurrentMap<String, ProcessDefinition> POOL_PROCESS = new ConcurrentHashMap<>();
 
     // --------------- Process Fetching ------------------
-    static Future<ProcessDefinition> definitionByKey(final String definitionKey) {
-        Objects.requireNonNull(definitionKey);
-        if (POOL_PROCESS.containsKey(definitionKey)) {
-            return Ux.future(POOL_PROCESS.get(definitionKey));
-        }
-        final RepositoryService service = WfPin.camundaRepository();
-        final ProcessDefinition definition = service.createProcessDefinitionQuery()
-            // New Version for each
-            .latestVersion().processDefinitionKey(definitionKey).singleResult();
-        if (Objects.nonNull(definition)) {
-            POOL_PROCESS.put(definitionKey, definition);
-        }
-        return processInternal(definition, definitionKey);
-    }
 
     static Future<ProcessDefinition> definitionById(final String definitionId) {
         Objects.requireNonNull(definitionId);
@@ -120,35 +103,6 @@ class WfCamunda {
         final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
         final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
         return node.getElementType().getTypeName();
-    }
-
-    static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
-        if (1 == starts.size()) {
-            final StartEvent event = starts.iterator().next();
-            workflow.put(KName.Flow.TASK, event.getId());
-            workflow.put(KName.Flow.TASK_NAME, event.getName());
-            workflow.put(KName.MULTIPLE, Boolean.FALSE);
-        } else {
-            final JsonObject taskMap = new JsonObject();
-            starts.forEach(start -> taskMap.put(start.getId(), start.getName()));
-            workflow.put(KName.Flow.TASK, taskMap);
-            workflow.put(KName.MULTIPLE, Boolean.TRUE);
-        }
-        return workflow;
-    }
-
-    static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> starts) {
-        if (1 == starts.size()) {
-            final EndEvent event = starts.iterator().next();
-            workflow.put(KName.Flow.TASK, event.getId());
-            workflow.put(KName.MULTIPLE, Boolean.FALSE);
-        } else {
-            final JsonObject startMap = new JsonObject();
-            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
-            workflow.put(KName.Flow.TASK, startMap);
-            workflow.put(KName.MULTIPLE, Boolean.TRUE);
-        }
-        return workflow;
     }
 
     static JsonObject taskOut(final JsonObject workflow, final Task task) {

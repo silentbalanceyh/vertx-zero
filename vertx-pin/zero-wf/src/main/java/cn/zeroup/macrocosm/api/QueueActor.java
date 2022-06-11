@@ -10,11 +10,14 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -136,7 +139,8 @@ public class QueueActor {
         if (isPre) {
             // Start Form
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return Wf.definitionById(definitionId).compose(definition ->
+            final Io<ProcessDefinition, ProcessInstance> io = Io.instance();
+            return io.definition(definitionId).compose(definition ->
                 this.flowStub.fetchFormStart(definition, header.getSigma()));
         } else {
             // Single Task
