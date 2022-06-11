@@ -10,7 +10,6 @@ import io.vertx.tp.workflow.atom.WRecord;
 import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.Behaviour;
-import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -38,21 +37,20 @@ public interface MoveOn extends Behaviour {
 
     static Future<MoveOn> event(final Task task) {
         Objects.requireNonNull(task);
-        final AidOn is = AidOn.get();
-        final String type = is.taskType(task);
-        if (Objects.isNull(type)) {
+        final String eventType = Wf.eventName(task);
+        if (Objects.isNull(eventType)) {
             // Error-80606: event type could not be parsed and extracted from task
             return Ux.thenError(_500EventTypeNullException.class, MoveOn.class, task.getTaskDefinitionKey());
         }
 
-        final Supplier<MoveOn> supplier = Pool.SUPPLIER.getOrDefault(type, null);
+        final Supplier<MoveOn> supplier = Pool.SUPPLIER.getOrDefault(eventType, null);
         if (Objects.isNull(supplier)) {
             // Error-80607: The supplier of event type could not be found.
-            return Ux.thenError(_404DivertSupplierException.class, MoveOn.class, type);
+            return Ux.thenError(_404DivertSupplierException.class, MoveOn.class, eventType);
         }
         final MoveOn moveOn = supplier.get();
         Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected, type = {0}",
-            moveOn.getClass(), type);
+            moveOn.getClass(), eventType);
         return Ux.future(moveOn);
     }
 

@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.uca.runner;
 
 import cn.zeroup.macrocosm.cv.WfPool;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.WMove;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -20,6 +21,5 @@ public interface RunOn {
     // Run
     Future<ProcessInstance> moveAsync(ProcessInstance instance, WMove move);
 
-    // Stop
-    Future<Boolean> stopAsync(ProcessInstance instance);
+    Future<Boolean> stopAsync(ProcessInstance instance, TodoStatus status);
 }

@@ -19,6 +19,10 @@ import java.util.Set;
  */
 public class Wf {
 
+    public static String eventName(final Task task) {
+        return WfCamunda.eventName(task);
+    }
+
     /*
      * {
      *      "task": "Event name of task, event id",

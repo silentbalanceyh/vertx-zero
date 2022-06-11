@@ -22,37 +22,41 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
         final StoreOn storeOn = StoreOn.get();
-        return Wf.definitionByKey(definitionKey).compose(storeOn::workflowGet).compose(definition -> {
-            // Fetch X_FLOW
-            final JsonObject condition = Ux.whereAnd();
-            condition.put(KName.CODE, definitionKey);
-            condition.put(KName.SIGMA, sigma);
-            return Ux.Jooq.on(WFlowDao.class).fetchJOneAsync(condition).compose(workflow -> {
-                // Combine result
-                final JsonObject response = new JsonObject();
-                response.mergeIn(workflow);
-                response.mergeIn(definition);
-                // configuration should be JsonObject type
-                return Ut.ifJObject(
-                    KName.Flow.CONFIG_START,
-                    KName.Flow.CONFIG_AUTHORIZED,
-                    KName.Flow.CONFIG_END,
-                    KName.Flow.CONFIG_RUN,
-                    KName.Flow.CONFIG_GENERATE,
-                    KName.Flow.UI_CONFIG,
-                    KName.Flow.UI_ASSIST,
-                    KName.Flow.UI_LINKAGE
-                ).apply(response);
-            }).compose(workflowJ -> {
-                // Simply the linkage configuration for sharing global part
-                workflowJ.put(KName.Flow.UI_LINKAGE, Wf.processLinkage(workflowJ.getJsonObject(KName.Flow.UI_LINKAGE)));
-                return Ux.future(workflowJ);
+        return Wf.definitionByKey(definitionKey)
+            .compose(storeOn::workflowGet)
+            .compose(definition -> {
+                // Fetch X_FLOW
+                final JsonObject condition = Ux.whereAnd();
+                condition.put(KName.CODE, definitionKey);
+                condition.put(KName.SIGMA, sigma);
+                return Ux.Jooq.on(WFlowDao.class).fetchJOneAsync(condition).compose(workflow -> {
+                    // Combine result
+                    final JsonObject response = new JsonObject();
+                    response.mergeIn(workflow);
+                    response.mergeIn(definition);
+                    // configuration should be JsonObject type
+                    return Ut.ifJObject(
+                        KName.Flow.CONFIG_START,
+                        KName.Flow.CONFIG_AUTHORIZED,
+                        KName.Flow.CONFIG_END,
+                        KName.Flow.CONFIG_RUN,
+                        KName.Flow.CONFIG_GENERATE,
+                        KName.Flow.UI_CONFIG,
+                        KName.Flow.UI_ASSIST,
+                        KName.Flow.UI_LINKAGE
+                    ).apply(response);
+                }).compose(workflowJ -> {
+                    // Simply the linkage configuration for sharing global part
+                    workflowJ.put(KName.Flow.UI_LINKAGE,
+                        Wf.processLinkage(workflowJ.getJsonObject(KName.Flow.UI_LINKAGE)));
+                    return Ux.future(workflowJ);
+                });
             });
-        });
     }
 
     @Override
-    public Future<JsonObject> fetchFormStart(final ProcessDefinition definition, final String sigma) {
+    public Future<JsonObject> fetchFormStart(final ProcessDefinition definition,
+                                             final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formGet(definition)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
@@ -62,7 +66,8 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final ProcessInstance instance, final String sigma) {
+    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final ProcessInstance instance,
+                                        final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formGet(definition, instance)
             .compose(formData -> this.fetchFormInternal(formData, sigma))
@@ -72,7 +77,8 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final HistoricProcessInstance instance, final String sigma) {
+    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final HistoricProcessInstance instance,
+                                           final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         final JsonObject response = new JsonObject();
         return storeOn.workflowGet(definition, instance)

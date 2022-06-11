@@ -9,7 +9,7 @@ import io.vertx.tp.workflow.atom.WRequest;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.central.AidData;
 import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.tp.workflow.uca.runner.StoreOn;
+import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -31,8 +31,8 @@ public class StayCancel extends AbstractMovement implements Stay {
             return this.updateAsync(todoData);
         }).compose(record -> {
             // Remove ProcessDefinition
-            final StoreOn storeOn = StoreOn.get();
-            return storeOn.instanceEnd(instance, TodoStatus.CANCELED).compose(removed -> Ux.future(record));
+            final RunOn runOn = RunOn.get();
+            return runOn.stopAsync(instance, TodoStatus.CANCELED).compose(removed -> Ux.future(record));
         }).compose(record -> this.afterAsync(record, wProcess));
     }
 }

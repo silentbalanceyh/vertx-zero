@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.runner;
 
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WMove;
@@ -46,9 +47,10 @@ class RunEngine implements RunOn {
     }
 
     @Override
-    public Future<Boolean> stopAsync(final ProcessInstance instance) {
+    public Future<Boolean> stopAsync(final ProcessInstance instance, final TodoStatus status) {
         final RuntimeService service = WfPin.camundaRuntime();
-        // Remove the instance cascade
-        return null;
+        service.deleteProcessInstanceIfExists(instance.getId(), status.name(),
+            false, false, false, false);
+        return Ux.futureT();
     }
 }

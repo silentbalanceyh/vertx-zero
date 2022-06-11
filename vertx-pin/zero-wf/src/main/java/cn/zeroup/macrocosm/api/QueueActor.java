@@ -130,17 +130,6 @@ public class QueueActor {
         return this.flowStub.fetchFlow(code, sigma);
     }
 
-    /*
-     * Response:
-     * {
-     *      "form": {
-     *
-     *      },
-     *      "workflow": {
-     *
-     *      }
-     * }
-     */
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {

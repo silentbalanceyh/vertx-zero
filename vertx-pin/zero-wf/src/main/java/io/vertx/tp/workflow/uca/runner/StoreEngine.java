@@ -1,22 +1,23 @@
 package io.vertx.tp.workflow.uca.runner;
 
-import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
-import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.EndEvent;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 
@@ -38,15 +39,15 @@ class StoreEngine implements StoreOn {
     @Override
     public Future<JsonObject> workflowGet(final ProcessDefinition definition) {
         final JsonObject workflow = Wf.bpmnOut(definition);
-        final EventOn eventOn = EventOn.get();
-        return eventOn.startSet(definition.getId())
+        final Io<ProcessDefinition, StartEvent> io = Io.ioStart();
+        return io.children(definition)
             /*
              * {
              *      "task": "???",
              *      "multiple": "???"
              * }
              */
-            .compose(starts -> Ux.future(Wf.taskStart(workflow, starts)));
+            .compose(starts -> io.write(workflow, starts));
     }
 
     /*
@@ -63,14 +64,15 @@ class StoreEngine implements StoreOn {
     public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
-        return eventOn.endSet(definition.getId())
+        final Io<ProcessDefinition, EndEvent> io = Io.ioEnd();
+        return io.children(definition)
             /*
              * {
              *      "task": "???",
              *      "multiple": "???"
              * }
              */
-            .compose(ends -> Ux.future(Wf.taskEnd(workflow, ends)))
+            .compose(ends -> io.write(workflow, ends))
             .compose(response -> eventOn.taskHistory(instance).compose(history -> {
                 response.put(KName.HISTORY, Ut.toJArray(history));
                 return Ux.future(response);
@@ -167,13 +169,5 @@ class StoreEngine implements StoreOn {
                 final String formKey = task.getFormKey();
                 return Ux.future(Wf.formOut(formKey, definition.getId(), definition.getKey()));
             });
-    }
-
-    @Override
-    public Future<Boolean> instanceEnd(final ProcessInstance instance, final TodoStatus status) {
-        final RuntimeService service = WfPin.camundaRuntime();
-        service.deleteProcessInstanceIfExists(instance.getId(), status.name(),
-            false, false, false, false);
-        return Ux.futureT();
     }
 }

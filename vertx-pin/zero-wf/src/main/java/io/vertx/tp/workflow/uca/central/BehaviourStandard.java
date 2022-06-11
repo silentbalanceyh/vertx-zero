@@ -4,12 +4,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -106,11 +108,10 @@ public class BehaviourStandard implements Behaviour {
     }
 
     private Future<WMove> ruleAsync(final WRequest request) {
-        final EventOn eventOn = EventOn.get();
         final KFlow workflow = request.workflow();
         final String node = workflow.definitionId();
         Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
-        return eventOn.start(node)
-            .compose(event -> Ux.future(this.rule(event.getId())));
+        final Io<ProcessDefinition, StartEvent> io = Io.ioStart();
+        return io.child(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

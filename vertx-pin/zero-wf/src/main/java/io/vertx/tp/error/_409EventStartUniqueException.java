@@ -6,9 +6,9 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _409UniqueStartEventException extends WebException {
+public class _409EventStartUniqueException extends WebException {
 
-    public _409UniqueStartEventException(final Class<?> clazz,
+    public _409EventStartUniqueException(final Class<?> clazz,
                                          final Integer size,
                                          final String definitionId) {
         super(clazz, String.valueOf(size), definitionId);

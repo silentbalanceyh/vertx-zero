@@ -20,6 +20,7 @@ import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
+import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
 import java.util.Objects;
 import java.util.Set;
@@ -109,6 +110,16 @@ class WfCamunda {
         workflow.put(KName.Flow.BPMN, xml);
         workflow.put(KName.NAME, definition.getName());
         return workflow;
+    }
+
+    static String eventName(final Task task) {
+        if (Objects.isNull(task)) {
+            return null;
+        }
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
+        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
+        return node.getElementType().getTypeName();
     }
 
     static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {

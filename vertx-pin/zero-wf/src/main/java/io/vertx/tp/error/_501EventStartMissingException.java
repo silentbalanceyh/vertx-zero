@@ -6,9 +6,9 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _501ProcessStartException extends WebException {
+public class _501EventStartMissingException extends WebException {
 
-    public _501ProcessStartException(final Class<?> clazz, final String definitionId) {
+    public _501EventStartMissingException(final Class<?> clazz, final String definitionId) {
         super(clazz, definitionId);
     }
 

@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.atom;
 
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.uca.conformity.Gear;
-import io.vertx.tp.workflow.uca.runner.AidOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -136,8 +135,7 @@ public class WProcess {
     }
 
     public boolean isEnd() {
-        final AidOn is = AidOn.get();
-        return is.isEnd(this.instance);
+        return this.instance.isEnded();
     }
 
     public boolean isContinue(final Task task) {
