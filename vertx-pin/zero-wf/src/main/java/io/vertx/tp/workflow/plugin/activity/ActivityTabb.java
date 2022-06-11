@@ -12,7 +12,7 @@ import io.vertx.up.uca.sectio.After;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.Set;
@@ -167,7 +167,7 @@ public class ActivityTabb implements After {
          * Process Definition Extract
          */
         final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
-        final Io<ProcessDefinition, ProcessInstance> io = Io.instance();
+        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
         return io.definition(definitionKey).compose(definition -> {
             workflow.put(KName.NAME, definition.getName());
             return Ux.future(workflow);

@@ -29,6 +29,10 @@ public interface StoreOn {
 
     Future<JsonObject> workflowGet(ProcessDefinition definition, HistoricProcessInstance instance);
 
+    Future<JsonObject> workflowGet(ProcessInstance instance);
+
+    Future<JsonObject> workflowGet(HistoricProcessInstance instance);
+
     /*
      * {
      *      "code": "the last one",

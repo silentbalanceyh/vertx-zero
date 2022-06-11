@@ -79,6 +79,16 @@ class StoreEngine implements StoreOn {
             }));
     }
 
+    @Override
+    public Future<JsonObject> workflowGet(final ProcessInstance instance) {
+        return null;
+    }
+
+    @Override
+    public Future<JsonObject> workflowGet(final HistoricProcessInstance instance) {
+        return null;
+    }
+
     /*
      * Workflow Output
      * {

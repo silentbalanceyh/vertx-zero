@@ -3,13 +3,13 @@ package io.vertx.tp.workflow.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WProcessDefinition;
 import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-
-import java.util.Objects;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -18,31 +18,10 @@ class WfFlow {
     static Future<WProcess> process(final WRequest request) {
         final WProcess process = WProcess.create();
         final KFlow workflow = request.workflow();
-        return WfCamunda.instanceById(workflow.instanceId())
+        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
+        return io.instance(workflow.instanceId())
             .compose(process::instance/* WProcess -> Bind Process */)
             .compose(instance -> Ux.future(process));
-    }
-
-    static Future<WProcessDefinition> definition(final String instanceId) {
-        // Fetch Instance First
-        return WfCamunda.instanceById(instanceId).compose(instance -> {
-            if (Objects.isNull(instance)) {
-                // History
-                return WfCamunda.instanceFinished(instanceId)
-                    .compose(instanceFinished -> {
-                        // Fix: NullPointer for Process Exception
-                        if (Objects.isNull(instanceFinished)) {
-                            return Ux.future();
-                        }
-                        return WfCamunda.definitionById(instanceFinished.getProcessDefinitionId())
-                            .compose(definition -> WProcessDefinition.future(definition, instanceFinished));
-                    });
-            } else {
-                // Running
-                return WfCamunda.definitionById(instance.getProcessDefinitionId())
-                    .compose(definition -> WProcessDefinition.future(definition, instance));
-            }
-        });
     }
 
     static JsonObject processLinkage(final JsonObject linkageJ) {

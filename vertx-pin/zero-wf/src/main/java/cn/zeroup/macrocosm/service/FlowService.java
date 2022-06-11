@@ -22,7 +22,7 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
-        final Io<ProcessDefinition, ProcessInstance> io = Io.instance();
+        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
         final StoreOn storeOn = StoreOn.get();
         return io.definition(definitionKey)
             .compose(storeOn::workflowGet)

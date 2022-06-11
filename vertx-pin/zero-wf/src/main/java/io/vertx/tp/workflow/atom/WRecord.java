@@ -9,13 +9,15 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExActivity;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -203,9 +205,8 @@ public class WRecord implements Serializable {
         // Here read `flowProcessId`
         final String instanceId = this.ticket.getFlowInstanceId();
         final JsonObject response = this.data();
-        return Wf.definition(instanceId)
-            // WProcessDefinition put into response data
-            .compose(process -> this.dataProcess(process, history))
+        // WProcessDefinition put into response data
+        return this.dataProcess(instanceId, history)
             // WTicket / WTodo data part of current code logical
             .compose(workflow -> this.dataTicket(response, workflow))
             // `history` field mount
@@ -253,9 +254,9 @@ public class WRecord implements Serializable {
         }
     }
 
-    private Future<JsonObject> dataProcess(final WProcessDefinition process, final boolean history) {
+    private Future<JsonObject> dataProcess(final String instanceId, final boolean history) {
         // Fix: NullPointer for Process Exception
-        if (Objects.isNull(process)) {
+        if (Objects.isNull(instanceId)) {
             return Ux.futureJ();
         }
         /*
@@ -265,14 +266,23 @@ public class WRecord implements Serializable {
          */
         // this.process = process;
         final StoreOn storeOn = StoreOn.get();
+        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
         if (history) {
             // Fetch History Only
-            return storeOn.workflowGet(process.definition(),
-                process.instanceFinished());
+            return io.inverse(instanceId).compose(instance -> {
+                if (Objects.isNull(instance)) {
+                    return Ux.futureJ();
+                }
+                return storeOn.workflowGet(instance);
+            });
         } else {
             // Fetch Workflow
-            return storeOn.workflowGet(process.definition(),
-                process.instance());
+            return io.instance(instanceId).compose(instance -> {
+                if (Objects.isNull(instance)) {
+                    return Ux.futureJ();
+                }
+                return storeOn.workflowGet(instance);
+            });
         }
     }
 

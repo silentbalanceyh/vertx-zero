@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
@@ -26,7 +27,7 @@ public interface Io<P, T> {
         return WfPool.CC_IO.pick(IoEEnd::new, IoEEnd.class.getName());
     }
 
-    static Io<ProcessDefinition, ProcessInstance> instance() {
+    static Io<HistoricProcessInstance, ProcessInstance> instance() {
         return WfPool.CC_IO.pick(IoInstance::new, IoInstance.class.getName());
     }
 
@@ -61,7 +62,11 @@ public interface Io<P, T> {
 
     // ------------------ Fetch Parent ----------------------
     // Fetch parent
-    default Future<P> parent(final T object) {
+    default Future<P> inverse(final T object) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    default Future<P> inverse(final String key) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 

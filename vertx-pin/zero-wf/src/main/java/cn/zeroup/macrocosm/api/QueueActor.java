@@ -16,11 +16,10 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import javax.inject.Inject;
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -136,28 +135,29 @@ public class QueueActor {
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
+        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
         if (isPre) {
             // Start Form
             final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            final Io<ProcessDefinition, ProcessInstance> io = Io.instance();
             return io.definition(definitionId).compose(definition ->
                 this.flowStub.fetchFormStart(definition, header.getSigma()));
         } else {
             // Single Task
             final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return Wf.definition(instanceId).compose(process -> {
-                // Fix: NullPointer for Process Exception
-                if (Objects.isNull(process)) {
-                    return Ux.futureJ();
-                }
-                if (process.isRunning()) {
-                    // Running Form
-                    return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());
-                } else {
-                    // History Form
-                    return this.flowStub.fetchFormEnd(process.definition(), process.instanceFinished(), header.getSigma());
-                }
-            });
+            return null;
+            //            return Wf.definition(instanceId).compose(process -> {
+            //                // Fix: NullPointer for Process Exception
+            //                if (Objects.isNull(process)) {
+            //                    return Ux.futureJ();
+            //                }
+            //                if (process.isRunning()) {
+            //                    // Running Form
+            //                    return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());
+            //                } else {
+            //                    // History Form
+            //                    return this.flowStub.fetchFormEnd(process.definition(), process.instanceFinished(), header.getSigma());
+            //                }
+            //            });
         }
     }
 

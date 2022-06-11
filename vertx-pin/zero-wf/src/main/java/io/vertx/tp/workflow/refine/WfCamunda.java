@@ -1,83 +1,24 @@
 package io.vertx.tp.workflow.refine;
 
 import cn.zeroup.macrocosm.cv.WfCv;
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._404ProcessMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class WfCamunda {
-    /*
-     * Pool Cached for ProcessDefinition
-     */
-    private static final ConcurrentMap<String, ProcessDefinition> POOL_PROCESS = new ConcurrentHashMap<>();
-
-    // --------------- Process Fetching ------------------
-
-    static Future<ProcessDefinition> definitionById(final String definitionId) {
-        Objects.requireNonNull(definitionId);
-        if (POOL_PROCESS.containsKey(definitionId)) {
-            return Ux.future(POOL_PROCESS.get(definitionId));
-        }
-        final RepositoryService service = WfPin.camundaRepository();
-        final ProcessDefinition definition = service.getProcessDefinition(definitionId);
-        if (Objects.nonNull(definition)) {
-            POOL_PROCESS.put(definitionId, definition);
-        }
-        return processInternal(definition, definitionId);
-    }
-
-    static Future<ProcessInstance> instanceById(final String instanceId) {
-        if (Objects.isNull(instanceId)) {
-            return Ux.future();
-        } else {
-            final RuntimeService service = WfPin.camundaRuntime();
-            final ProcessInstance instance = service.createProcessInstanceQuery()
-                .processInstanceId(instanceId).singleResult();
-            return Ux.future(instance);
-        }
-    }
-
-    static Future<HistoricProcessInstance> instanceFinished(final String instanceId) {
-        if (Objects.isNull(instanceId)) {
-            return Ux.future();
-        } else {
-            final HistoryService service = WfPin.camundaHistory();
-            final HistoricProcessInstance instance = service.createHistoricProcessInstanceQuery()
-                .processInstanceId(instanceId).singleResult();
-            return Ux.future(instance);
-        }
-    }
-
-    private static Future<ProcessDefinition> processInternal(final ProcessDefinition definition, final String key) {
-        if (Objects.isNull(definition)) {
-            // Error
-            return Ux.thenError(_404ProcessMissingException.class, WfCamunda.class, key);
-        } else {
-            return Ux.future(definition);
-        }
-    }
 
     // ------------------- Other Output ------------------------
     static JsonObject bpmnOut(final ProcessDefinition definition) {
