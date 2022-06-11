@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.*;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.camunda.IoOld;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
@@ -111,7 +111,7 @@ public class BehaviourStandard implements Behaviour {
         final KFlow workflow = request.workflow();
         final String node = workflow.definitionId();
         Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
-        final IoOld<ProcessDefinition, StartEvent> ioOld = IoOld.ioStart();
-        return ioOld.child(node).compose(event -> Ux.future(this.rule(event.getId())));
+        final Io<StartEvent, ProcessDefinition> io = Io.ioStart();
+        return io.downOne(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

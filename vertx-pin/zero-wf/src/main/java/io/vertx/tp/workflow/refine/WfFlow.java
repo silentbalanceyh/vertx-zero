@@ -4,11 +4,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.camunda.IoOld;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 /**
@@ -18,10 +17,10 @@ class WfFlow {
     static Future<WProcess> process(final WRequest request) {
         final WProcess process = WProcess.create();
         final KFlow workflow = request.workflow();
-        final IoOld<HistoricProcessInstance, ProcessInstance> ioOld = IoOld.instance();
-        return ioOld.instance(workflow.instanceId())
-            .compose(process::instance/* WProcess -> Bind Process */)
-            .compose(instance -> Ux.future(process));
+        final Io<Void, Void> io = Io.io();
+        final ProcessInstance instance = io.pInstance(workflow.instanceId());
+        return process.instance(instance/* WProcess -> Bind Process */)
+            .compose(bind -> Ux.future(process));
     }
 
     static JsonObject processLinkage(final JsonObject linkageJ) {

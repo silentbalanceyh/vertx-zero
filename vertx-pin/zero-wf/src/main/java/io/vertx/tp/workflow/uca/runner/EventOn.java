@@ -40,7 +40,9 @@ public interface EventOn {
     Future<Set<String>> taskHistory(HistoricProcessInstance instance);
 
     // --------------- New for Gear ---------------
+    @Deprecated
     List<Task> taskActive(ProcessInstance instance);
 
+    @Deprecated
     Task taskActive(String taskId);
 }

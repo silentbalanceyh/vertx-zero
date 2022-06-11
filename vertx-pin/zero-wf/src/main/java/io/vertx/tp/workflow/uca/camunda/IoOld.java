@@ -20,15 +20,15 @@ import java.util.List;
 public interface IoOld<P, T> {
 
     static IoOld<ProcessDefinition, StartEvent> ioStart() {
-        return WfPool.CC_IO.pick(IoOldEStart::new, IoOldEStart.class.getName());
+        return WfPool.CC_IO_OLD.pick(IoOldEStart::new, IoOldEStart.class.getName());
     }
 
     static IoOld<ProcessDefinition, EndEvent> ioEnd() {
-        return WfPool.CC_IO.pick(IoOldEEnd::new, IoOldEEnd.class.getName());
+        return WfPool.CC_IO_OLD.pick(IoOldEEnd::new, IoOldEEnd.class.getName());
     }
 
     static IoOld<HistoricProcessInstance, ProcessInstance> instance() {
-        return WfPool.CC_IO.pick(IoOldInstance::new, IoOldInstance.class.getName());
+        return WfPool.CC_IO_OLD.pick(IoOldInstance::new, IoOldInstance.class.getName());
     }
 
     // ------------------ Interface Api ----------------------

@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.ui.Form;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.camunda.IoOld;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -23,15 +23,13 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
-        final IoOld<ProcessDefinition, StartEvent> ioOld = IoOld.ioStart();
+        final Io<StartEvent, ProcessDefinition> io = Io.ioStart();
         final JsonObject workflowJ = new JsonObject();
-        return ioOld.definition(definitionKey)
-            .compose(definition -> {
-                workflowJ.mergeIn(Wf.bpmnOut(definition), true);
-                return ioOld.children(definition);
-            })
-            .compose(starts -> ioOld.write(workflowJ, starts))
-            .compose(definition -> {
+        final ProcessDefinition definition = io.pDefinition(definitionKey);
+        workflowJ.mergeIn(Wf.bpmnOut(definition), true);
+        return io.down(definition.getId())
+            .compose(starts -> io.out(workflowJ, starts))
+            .compose(definitionJ -> {
                 // Fetch X_FLOW
                 final JsonObject condition = Ux.whereAnd();
                 condition.put(KName.CODE, definitionKey);
@@ -40,7 +38,7 @@ public class FlowService implements FlowStub {
                     // Combine result
                     final JsonObject response = new JsonObject();
                     response.mergeIn(workflow);
-                    response.mergeIn(definition);
+                    response.mergeIn(definitionJ);
                     // configuration should be JsonObject type
                     Ut.ifJObject(
                         response,

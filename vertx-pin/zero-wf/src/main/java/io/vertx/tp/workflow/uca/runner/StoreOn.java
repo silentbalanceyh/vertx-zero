@@ -23,25 +23,32 @@ public interface StoreOn {
      * }
      */
 
+    @Deprecated
     Future<JsonObject> workflowGet(ProcessDefinition definition);
 
+    @Deprecated
     Future<JsonObject> workflowGet(ProcessDefinition definition, ProcessInstance instance);
 
+    @Deprecated
     Future<JsonObject> workflowGet(ProcessDefinition definition, HistoricProcessInstance instance);
 
+    @Deprecated
     Future<JsonObject> workflowGet(ProcessInstance instance);
 
+    @Deprecated
     Future<JsonObject> workflowGet(HistoricProcessInstance instance);
 
-    /*
-     * {
-     *      "code": "the last one",
-     *      "formKey": "the original form Key",
-     *      "fields": {
-     *      }
-     * }
-     */
+    @Deprecated
+        /*
+         * {
+         *      "code": "the last one",
+         *      "formKey": "the original form Key",
+         *      "fields": {
+         *      }
+         * }
+         */
     Future<JsonObject> formGet(ProcessDefinition definition);
 
+    @Deprecated
     Future<JsonObject> formGet(ProcessDefinition definition, ProcessInstance instance);
 }
