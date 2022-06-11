@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class IoEEnd extends AbstractIo<EndEvent, ProcessDefinition> {
+class IoEventEnd extends AbstractIo<EndEvent, ProcessDefinition> {
     @Override
     public Future<List<EndEvent>> down(final String definitionId) {
         if (Ut.isNil(definitionId)) {

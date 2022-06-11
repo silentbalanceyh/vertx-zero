@@ -24,9 +24,6 @@ public interface StoreOn {
      */
 
     @Deprecated
-    Future<JsonObject> workflowGet(ProcessDefinition definition);
-
-    @Deprecated
     Future<JsonObject> workflowGet(ProcessDefinition definition, ProcessInstance instance);
 
     @Deprecated

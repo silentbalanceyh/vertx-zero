@@ -11,6 +11,7 @@ import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -23,7 +24,7 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
-        final Io<StartEvent, ProcessDefinition> io = Io.ioStart();
+        final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
         final JsonObject workflowJ = new JsonObject();
         final ProcessDefinition definition = io.pDefinition(definitionKey);
         workflowJ.mergeIn(Wf.bpmnOut(definition), true);
@@ -60,14 +61,20 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final ProcessDefinition definition,
-                                        final String sigma) {
-        final StoreOn storeOn = StoreOn.get();
-        return storeOn.formGet(definition)
+    public Future<JsonObject> fetchFormStart(final String definitionId,
+                                             final String sigma) {
+        // Io Building
+        final Io<StartFormData, ProcessDefinition> ioForm = Io.ioFormStart();
+        final Io<JsonObject, ProcessDefinition> ioFlow = Io.ioFlowStart();
+
+        final JsonObject response = new JsonObject();
+        // Form Fetch
+        return ioForm.downOne(definitionId)
+            .compose(formData -> ioForm.out(response, formData))
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            .compose(response -> storeOn.workflowGet(definition)
-                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
-            );
+            // Workflow Fetch
+            .compose(nil -> ioFlow.downOne(definitionId))
+            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response));
     }
 
     @Override

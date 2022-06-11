@@ -34,7 +34,7 @@ public class MoveOnStart extends AbstractMoveOn {
          */
         // Engine Connect
         final String definitionId = key.definitionId();
-        final Io<StartEvent, ProcessDefinition> io = Io.ioStart();
+        final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
         return io.downOne(definitionId)
             .compose(event -> {
                 // WMove Get

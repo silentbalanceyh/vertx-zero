@@ -17,7 +17,6 @@ import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 
@@ -25,30 +24,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class StoreEngine implements StoreOn {
-    /*
-     * Workflow Output
-     * {
-     *      "definitionId": "???",
-     *      "definitionKey": "???",
-     *      "bpmn": "???",
-     *      "name": "???",
-     *      "task": "???",
-     *      "multiple": "???"
-     * }
-     */
-    @Override
-    public Future<JsonObject> workflowGet(final ProcessDefinition definition) {
-        final JsonObject workflow = Wf.bpmnOut(definition);
-        final Io<StartEvent, ProcessDefinition> io = Io.ioStart();
-        return io.downOne(definition.getId())
-            /*
-             * {
-             *      "task": "???",
-             *      "multiple": "???"
-             * }
-             */
-            .compose(starts -> io.out(workflow, starts));
-    }
 
     /*
      * Workflow Output
@@ -64,7 +39,7 @@ class StoreEngine implements StoreOn {
     public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
-        final Io<EndEvent, ProcessDefinition> io = Io.ioEnd();
+        final Io<EndEvent, ProcessDefinition> io = Io.ioEventEnd();
         return io.down(definition.getId())
             /*
              * {

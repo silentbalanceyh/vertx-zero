@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -19,16 +20,24 @@ import java.util.List;
 @SuppressWarnings("all")
 public interface Io<I, O> extends IoInternal {
 
-    static Io<StartEvent, ProcessDefinition> ioStart() {
-        return WfPool.CC_IO.pick(IoEStart::new, IoEStart.class.getName());
+    static Io<StartEvent, ProcessDefinition> ioEventStart() {
+        return WfPool.CC_IO.pick(IoEventStart::new, IoEventStart.class.getName());
     }
 
-    static Io<EndEvent, ProcessDefinition> ioEnd() {
-        return WfPool.CC_IO.pick(IoEEnd::new, IoEEnd.class.getName());
+    static Io<EndEvent, ProcessDefinition> ioEventEnd() {
+        return WfPool.CC_IO.pick(IoEventEnd::new, IoEventEnd.class.getName());
     }
 
     static Io<Void, Void> io() {
         return WfPool.CC_IO.pick(IoVoid::new, IoVoid.class.getName());
+    }
+
+    static Io<StartFormData, ProcessDefinition> ioFormStart() {
+        return WfPool.CC_IO.pick(IoFormStart::new, IoFormStart.class.getName());
+    }
+
+    static Io<JsonObject, ProcessDefinition> ioFlowStart() {
+        return WfPool.CC_IO.pick(IoFlowStart::new, IoFlowStart.class.getName());
     }
 
     /*
