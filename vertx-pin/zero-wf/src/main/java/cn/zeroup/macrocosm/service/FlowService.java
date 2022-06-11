@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.ui.Form;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.camunda.IoOld;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -14,6 +14,7 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -22,10 +23,14 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
-        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
-        final StoreOn storeOn = StoreOn.get();
-        return io.definition(definitionKey)
-            .compose(storeOn::workflowGet)
+        final IoOld<ProcessDefinition, StartEvent> ioOld = IoOld.ioStart();
+        final JsonObject workflowJ = new JsonObject();
+        return ioOld.definition(definitionKey)
+            .compose(definition -> {
+                workflowJ.mergeIn(Wf.bpmnOut(definition), true);
+                return ioOld.children(definition);
+            })
+            .compose(starts -> ioOld.write(workflowJ, starts))
             .compose(definition -> {
                 // Fetch X_FLOW
                 final JsonObject condition = Ux.whereAnd();
@@ -37,7 +42,8 @@ public class FlowService implements FlowStub {
                     response.mergeIn(workflow);
                     response.mergeIn(definition);
                     // configuration should be JsonObject type
-                    return Ut.ifJObject(
+                    Ut.ifJObject(
+                        response,
                         KName.Flow.CONFIG_START,
                         KName.Flow.CONFIG_AUTHORIZED,
                         KName.Flow.CONFIG_END,
@@ -46,19 +52,18 @@ public class FlowService implements FlowStub {
                         KName.Flow.UI_CONFIG,
                         KName.Flow.UI_ASSIST,
                         KName.Flow.UI_LINKAGE
-                    ).apply(response);
-                }).compose(workflowJ -> {
+                    );
                     // Simply the linkage configuration for sharing global part
-                    workflowJ.put(KName.Flow.UI_LINKAGE,
-                        Wf.processLinkage(workflowJ.getJsonObject(KName.Flow.UI_LINKAGE)));
-                    return Ux.future(workflowJ);
+                    final JsonObject linkageJ = Ut.valueJObject(response, KName.Flow.UI_LINKAGE);
+                    response.put(KName.Flow.UI_LINKAGE, Wf.processLinkage(linkageJ));
+                    return Ux.future(response);
                 });
             });
     }
 
     @Override
-    public Future<JsonObject> fetchFormStart(final ProcessDefinition definition,
-                                             final String sigma) {
+    public Future<JsonObject> fetchForm(final ProcessDefinition definition,
+                                        final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formGet(definition)
             .compose(formData -> this.fetchFormInternal(formData, sigma))

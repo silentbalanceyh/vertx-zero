@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExActivity;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.camunda.IoOld;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
@@ -266,10 +266,10 @@ public class WRecord implements Serializable {
          */
         // this.process = process;
         final StoreOn storeOn = StoreOn.get();
-        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
+        final IoOld<HistoricProcessInstance, ProcessInstance> ioOld = IoOld.instance();
         if (history) {
             // Fetch History Only
-            return io.inverse(instanceId).compose(instance -> {
+            return ioOld.inverse(instanceId).compose(instance -> {
                 if (Objects.isNull(instance)) {
                     return Ux.futureJ();
                 }
@@ -277,7 +277,7 @@ public class WRecord implements Serializable {
             });
         } else {
             // Fetch Workflow
-            return io.instance(instanceId).compose(instance -> {
+            return ioOld.instance(instanceId).compose(instance -> {
                 if (Objects.isNull(instance)) {
                     return Ux.futureJ();
                 }

@@ -16,7 +16,7 @@ public interface FlowStub {
     /*
      * Process by id ( unique )
      */
-    Future<JsonObject> fetchFormStart(ProcessDefinition definition, String sigma);
+    Future<JsonObject> fetchForm(ProcessDefinition definition, String sigma);
 
     Future<JsonObject> fetchFormEnd(ProcessDefinition definition, HistoricProcessInstance instance, String sigma);
 

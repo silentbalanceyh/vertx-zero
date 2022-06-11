@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.WProcess;
 import io.vertx.tp.workflow.atom.WRequest;
-import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.camunda.IoOld;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -18,8 +18,8 @@ class WfFlow {
     static Future<WProcess> process(final WRequest request) {
         final WProcess process = WProcess.create();
         final KFlow workflow = request.workflow();
-        final Io<HistoricProcessInstance, ProcessInstance> io = Io.instance();
-        return io.instance(workflow.instanceId())
+        final IoOld<HistoricProcessInstance, ProcessInstance> ioOld = IoOld.instance();
+        return ioOld.instance(workflow.instanceId())
             .compose(process::instance/* WProcess -> Bind Process */)
             .compose(instance -> Ux.future(process));
     }

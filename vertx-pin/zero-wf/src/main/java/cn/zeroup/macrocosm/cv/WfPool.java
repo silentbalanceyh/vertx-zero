@@ -1,13 +1,13 @@
 package cn.zeroup.macrocosm.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
-import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.camunda.IoOld;
+import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.Behaviour;
 import io.vertx.tp.workflow.uca.component.MoveOn;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.tp.workflow.uca.runner.EventOn;
-import io.vertx.tp.workflow.uca.runner.RunOn;
 import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.uca.cache.Cc;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -17,7 +17,7 @@ import org.camunda.bpm.engine.repository.ProcessDefinition;
  */
 public interface WfPool {
     @SuppressWarnings("all")
-    Cc<String, Io> CC_IO = Cc.openThread();
+    Cc<String, IoOld> CC_IO = Cc.openThread();
     Cc<String, ProcessDefinition> CC_DEFINITION = Cc.open();
     // uca.runner POOL
     Cc<String, StoreOn> CC_STORE = Cc.openThread();

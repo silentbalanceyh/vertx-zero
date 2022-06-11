@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class IoInstance extends AbstractIo<HistoricProcessInstance, ProcessInstance> {
+public class IoOldInstance extends AbstractIoOld<HistoricProcessInstance, ProcessInstance> {
 
     // ProcessInstance by instanceId
     @Override

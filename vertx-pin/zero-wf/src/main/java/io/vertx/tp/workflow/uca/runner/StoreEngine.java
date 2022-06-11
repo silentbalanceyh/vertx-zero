@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.camunda.IoOld;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -39,15 +39,15 @@ class StoreEngine implements StoreOn {
     @Override
     public Future<JsonObject> workflowGet(final ProcessDefinition definition) {
         final JsonObject workflow = Wf.bpmnOut(definition);
-        final Io<ProcessDefinition, StartEvent> io = Io.ioStart();
-        return io.children(definition)
+        final IoOld<ProcessDefinition, StartEvent> ioOld = IoOld.ioStart();
+        return ioOld.children(definition)
             /*
              * {
              *      "task": "???",
              *      "multiple": "???"
              * }
              */
-            .compose(starts -> io.write(workflow, starts));
+            .compose(starts -> ioOld.write(workflow, starts));
     }
 
     /*
@@ -64,15 +64,15 @@ class StoreEngine implements StoreOn {
     public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
-        final Io<ProcessDefinition, EndEvent> io = Io.ioEnd();
-        return io.children(definition)
+        final IoOld<ProcessDefinition, EndEvent> ioOld = IoOld.ioEnd();
+        return ioOld.children(definition)
             /*
              * {
              *      "task": "???",
              *      "multiple": "???"
              * }
              */
-            .compose(ends -> io.write(workflow, ends))
+            .compose(ends -> ioOld.write(workflow, ends))
             .compose(response -> eventOn.taskHistory(instance).compose(history -> {
                 response.put(KName.HISTORY, Ut.toJArray(history));
                 return Ux.future(response);

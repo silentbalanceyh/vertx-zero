@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class IoEEnd extends AbstractIo<ProcessDefinition, EndEvent> {
+public class IoOldEEnd extends AbstractIoOld<ProcessDefinition, EndEvent> {
 
     // ProcessDefinition -> List<EndEvent>
 
