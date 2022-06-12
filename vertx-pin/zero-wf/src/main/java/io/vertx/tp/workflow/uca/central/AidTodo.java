@@ -9,13 +9,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.uca.runner.EventOn;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
 
@@ -131,8 +132,8 @@ public class AidTodo {
                      *  1. taskId = Task, getId
                      *  2. taskKey = Task, getTaskDefinitionKey
                      */
-                    final EventOn event = EventOn.get();
-                    return event.taskOldActive(instance)
+                    final Io<Task> ioTask = Io.ioTask();
+                    return ioTask.child(instance.getId())
                         .compose(task -> {
                             // Camunda Engine
                             todo.setTaskId(task.getId());

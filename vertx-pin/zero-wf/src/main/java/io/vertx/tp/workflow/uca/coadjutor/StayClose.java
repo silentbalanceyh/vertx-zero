@@ -27,7 +27,7 @@ public class StayClose extends AbstractMovement implements Stay {
          */
         final ProcessInstance instance = wProcess.instance();
         final Io<Set<String>> ioHistory = Io.ioHistory();
-        return ioHistory.run(instance.getId()).compose(historySet -> {
+        return ioHistory.run(instance).compose(historySet -> {
             // Cancel data processing
             final JsonObject todoData = AidData.closeJ(request.request(), wProcess, historySet);
             return this.updateAsync(todoData);

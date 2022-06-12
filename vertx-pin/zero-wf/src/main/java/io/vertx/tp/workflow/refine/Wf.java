@@ -41,31 +41,6 @@ public class Wf {
         return WfCamunda.taskOut(workflow, task);
     }
 
-    /*
-     * Form Query parameters
-     * {
-     *      "dynamic": "Boolean value to check whether form is static or dynamic",
-     *      "code": "configFile, STATIC | form code ( UI_FORM ), DYNAMIC",
-     *      "sigma": "When dynamic = true, it's required here."
-     * }
-     */
-    public static JsonObject formInput(final JsonObject form, final String sigma) {
-        return WfCamunda.formInput(form, sigma);
-    }
-
-    /*
-     * Form output here
-     * {
-     *      "code": "Process Definition Key",
-     *      "formKey": "The extract form key here, such as 'camunda-forms:deployment:xxx'",
-     *      "definitionId": "Process Definition Id",
-     *      "definitionKey": "Process Definition Key",
-     * }
-     */
-    public static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
-        return WfCamunda.formOut(formKey, definitionId, definitionKey);
-    }
-
     // Fetch WProcess
     public static Future<WProcess> process(final WRequest request) {
         return WfFlow.process(request);

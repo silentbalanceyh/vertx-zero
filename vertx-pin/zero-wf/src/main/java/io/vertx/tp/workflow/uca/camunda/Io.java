@@ -5,10 +5,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.form.FormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -47,7 +47,7 @@ public interface Io<I> extends IoDefine, IoRuntime<I> {
         return WfPool.CC_IO.pick(IoVoid::new, IoVoid.class.getName());
     }
 
-    static Io<FormData> ioForm() {
+    static Io<JsonObject> ioForm() {
         return WfPool.CC_IO.pick(IoForm::new, IoForm.class.getName());
     }
 
@@ -57,6 +57,10 @@ public interface Io<I> extends IoDefine, IoRuntime<I> {
 
     static Io<Set<String>> ioHistory() {
         return WfPool.CC_IO.pick(IoHistory::new, IoHistory.class.getName());
+    }
+
+    static Io<Task> ioTask() {
+        return WfPool.CC_IO.pick(IoTask::new, IoTask.class.getName());
     }
 }
 
@@ -78,15 +82,26 @@ interface IoRuntime<I> {
      * 6. Activities                    - Based: History Instance
      *
      */
+    // Definition Level
+    default Future<I> run(final ProcessInstance instance) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    // Process / Task Level
+    default Future<I> run(final ProcessInstance instance, final Task task) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    // Task Level
     default Future<I> run(final String iKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<I> start(final String iKey) {
+    default Future<I> start(final ProcessDefinition definition) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<I> end(final String iKey) {
+    default Future<I> end(final HistoricProcessInstance instance) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 

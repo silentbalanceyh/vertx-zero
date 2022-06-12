@@ -1,8 +1,8 @@
 package io.vertx.tp.workflow.atom.runtime;
 
 import io.vertx.core.Future;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
-import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -59,8 +59,8 @@ public class WProcess {
              * the workflow engine should set the task instance to
              * WProcess here
              */
-            final EventOn event = EventOn.get();
-            return event.taskOldActive(instance).compose(task -> {
+            final Io<Task> ioTask = Io.ioTask();
+            return ioTask.child(instance.getId()).compose(task -> {
                 /*
                  * Here the WProcess should set `task` instance
                  * The task object must be located after workflow started.
@@ -80,8 +80,8 @@ public class WProcess {
      * 2) After current process moved, the active task may be the next active task instead
      */
     public Future<Task> taskActive() {
-        final EventOn event = EventOn.get();
-        return event.taskOldActive(this.instance).compose(taskThen -> {
+        final Io<Task> ioTask = Io.ioTask();
+        return ioTask.child(this.instance.getId()).compose(taskThen -> {
             if (Objects.nonNull(this.task) && Objects.nonNull(taskThen)) {
                 /*
                  * Task & TaskThen are different, it means that there exist

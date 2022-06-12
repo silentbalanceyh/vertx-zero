@@ -11,15 +11,11 @@ import io.vertx.tp.optic.business.ExActivity;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.uca.camunda.IoOld;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
-import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -267,25 +263,26 @@ public class WRecord implements Serializable {
          * 2. instanceFinished(), history = true
          */
         // this.process = process;
-        final StoreOn storeOn = StoreOn.get();
-        final IoOld<HistoricProcessInstance, ProcessInstance> ioOld = IoOld.instance();
-        if (history) {
-            // Fetch History Only
-            return ioOld.inverse(instanceId).compose(instance -> {
-                if (Objects.isNull(instance)) {
-                    return Ux.futureJ();
-                }
-                return storeOn.workflowGet(instance);
-            });
-        } else {
-            // Fetch Workflow
-            return ioOld.instance(instanceId).compose(instance -> {
-                if (Objects.isNull(instance)) {
-                    return Ux.futureJ();
-                }
-                return storeOn.workflowGet(instance);
-            });
-        }
+        //        final StoreOn storeOn = StoreOn.get();
+        //        final IoOld<HistoricProcessInstance, ProcessInstance> ioOld = IoOld.instance();
+        //        if (history) {
+        //            // Fetch History Only
+        //            return ioOld.inverse(instanceId).compose(instance -> {
+        //                if (Objects.isNull(instance)) {
+        //                    return Ux.futureJ();
+        //                }
+        //                return storeOn.workflowGet(instance);
+        //            });
+        //        } else {
+        //            // Fetch Workflow
+        //            return ioOld.instance(instanceId).compose(instance -> {
+        //                if (Objects.isNull(instance)) {
+        //                    return Ux.futureJ();
+        //                }
+        //                return storeOn.workflowGet(instance);
+        //            });
+        //        }
+        return null;
     }
 
     private Future<JsonArray> dataHistory(final JsonObject processed) {

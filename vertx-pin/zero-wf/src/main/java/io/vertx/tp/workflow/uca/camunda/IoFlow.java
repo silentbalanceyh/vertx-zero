@@ -2,18 +2,15 @@ package io.vertx.tp.workflow.uca.camunda;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -36,8 +33,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
      * }
      */
     @Override
-    public Future<JsonObject> start(final String definitionId) {
-        final ProcessDefinition definition = this.inProcess(definitionId);
+    public Future<JsonObject> start(final ProcessDefinition definition) {
         final JsonObject workflow = Wf.bpmnOut(definition);
 
         // Capture the definition from BPMN
@@ -59,16 +55,6 @@ public class IoFlow extends AbstractIo<JsonObject> {
      *      "history": []
      * }
      */
-    @Override
-    public Future<JsonObject> run(final String instanceId) {
-        final ProcessInstance instance = this.inInstance(instanceId);
-        if (Objects.isNull(instance)) {
-            return Ux.thenError(_409InValidInstanceException.class, this.getClass(), instanceId);
-        }
-        final ProcessDefinition definition = this.inProcess(instance.getProcessDefinitionId());
-
-        return null;
-    }
 
     // 「IoRuntime」Instance when the workflow is finished
     /*
@@ -82,15 +68,11 @@ public class IoFlow extends AbstractIo<JsonObject> {
      * }
      */
     @Override
-    public Future<JsonObject> end(final String instanceId) {
+    public Future<JsonObject> end(final HistoricProcessInstance instance) {
         /*
          * 1. ProcessDefinition
          * 2. HistoricProcessInstance
          */
-        final HistoricProcessInstance instance = this.inHistoric(instanceId);
-        if (Objects.isNull(instance)) {
-            return Ux.thenError(_409InValidInstanceException.class, this.getClass(), instanceId);
-        }
         final ProcessDefinition definition = this.inProcess(instance.getProcessDefinitionId());
 
         final JsonObject workflow = Wf.bpmnOut(definition);
@@ -102,7 +84,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
             .compose(ends -> ioEnd.out(workflow, ends))
 
             // History Fetching
-            .compose(nil -> ioHistory.end(instanceId))
+            .compose(nil -> ioHistory.end(instance))
             .compose(historySet -> ioHistory.out(workflow, historySet));
     }
 

@@ -4,9 +4,11 @@ import io.vertx.core.Future;
 import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.central.AbstractTransfer;
-import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -18,10 +20,11 @@ public class MovementStay extends AbstractTransfer implements Movement {
         return Wf.process(request).compose(wProcess -> this.beforeAsync(request, wProcess)
             .compose(normalized -> {
                 /* Here normalized/request shared the same reference */
-                final EventOn event = EventOn.get();
                 if (wProcess.isStart()) {
                     // Started
-                    return event.taskOldActive(wProcess.instance())
+                    final ProcessInstance instance = wProcess.instance();
+                    final Io<Task> ioTask = Io.ioTask();
+                    return ioTask.child(instance.getId())
                         /* Task Bind */
                         .compose(task -> Ux.future(wProcess.bind(task)))
                         .compose(nil -> wProcess.future());

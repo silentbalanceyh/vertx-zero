@@ -1,11 +1,8 @@
 package io.vertx.tp.workflow.refine;
 
-import cn.zeroup.macrocosm.cv.WfCv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
@@ -53,35 +50,5 @@ class WfCamunda {
         workflow.put(KName.Flow.TASK_NAME, task.getName());
         // History Processing
         return workflow;
-    }
-
-    // --------------- Form Fetching ------------------
-    static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
-        Objects.requireNonNull(formKey);
-        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
-        // Build Form ConfigRunner parameters
-        final JsonObject response = new JsonObject();
-        response.put(KName.CODE, code);
-        response.put(KName.Flow.FORM_KEY, formKey);
-        response.put(KName.Flow.DEFINITION_KEY, definitionKey);
-        response.put(KName.Flow.DEFINITION_ID, definitionId);
-        return response;
-    }
-
-    static JsonObject formInput(final JsonObject form, final String sigma) {
-        final String definition = form.getString(KName.Flow.DEFINITION_KEY);
-        final JsonObject parameters = new JsonObject();
-        final String code = form.getString(KName.CODE);
-        final String configFile = WfCv.FOLDER_ROOT + "/" + definition + "/" + code + ".json";
-        // Dynamic Processing
-        if (Ut.ioExist(configFile)) {
-            parameters.put(KName.DYNAMIC, Boolean.FALSE);
-            parameters.put(KName.CODE, configFile);
-        } else {
-            parameters.put(KName.DYNAMIC, Boolean.TRUE);
-            parameters.put(KName.CODE, code);
-            parameters.put(KName.SIGMA, sigma);
-        }
-        return parameters;
     }
 }

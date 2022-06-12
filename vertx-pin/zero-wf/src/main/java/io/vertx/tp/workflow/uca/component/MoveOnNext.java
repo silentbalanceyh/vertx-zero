@@ -5,10 +5,9 @@ import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
-import io.vertx.tp.workflow.uca.conformity.Gear;
-import io.vertx.tp.workflow.uca.runner.EventOn;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -35,10 +34,10 @@ public class MoveOnNext extends AbstractMoveOn {
          * 3. Camunda Instance Moving to next
          */
         final String taskId = key.taskId();
-        final Gear scatter = process.scatter();
+        Objects.requireNonNull(taskId);
+        final Io<Task> ioTask = Io.ioTask();
 
-        final EventOn eventOn = EventOn.get();
-        return eventOn.taskOldSmart(instance, taskId)
+        return ioTask.run(taskId)
             /* WProcess -> Bind Task */
             .compose(task -> Ux.future(process.bind(task)))
             .compose(nil -> {

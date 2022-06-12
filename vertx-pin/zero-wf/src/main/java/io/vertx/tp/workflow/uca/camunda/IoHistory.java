@@ -10,6 +10,8 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.history.HistoricActivityInstance;
 import org.camunda.bpm.engine.history.HistoricActivityInstanceQuery;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,13 +22,13 @@ import java.util.Set;
  */
 public class IoHistory extends AbstractIo<Set<String>> {
     @Override
-    public Future<Set<String>> run(final String instanceId) {
-        return Ux.future(this.activities(instanceId));
+    public Future<Set<String>> run(final ProcessInstance instance) {
+        return Ux.future(this.activities(instance.getId()));
     }
 
     @Override
-    public Future<Set<String>> end(final String historicInstanceId) {
-        return Ux.future(this.activities(historicInstanceId));
+    public Future<Set<String>> end(final HistoricProcessInstance instance) {
+        return Ux.future(this.activities(instance.getId()));
     }
 
     private Set<String> activities(final String instanceId) {
@@ -46,6 +48,12 @@ public class IoHistory extends AbstractIo<Set<String>> {
         return historySet;
     }
 
+    /*
+     * Build Response:
+     * {
+     *     "history": []
+     * }
+     */
     @Override
     public Future<JsonObject> out(final JsonObject workflow, final Set<String> strings) {
         final JsonArray historyA = Ut.toJArray(strings);

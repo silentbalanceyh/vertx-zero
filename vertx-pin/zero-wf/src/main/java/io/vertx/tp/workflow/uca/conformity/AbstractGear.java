@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.uca.conformity;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
-import io.vertx.tp.workflow.uca.runner.EventOn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -20,7 +19,6 @@ public abstract class AbstractGear implements Gear {
 
     @Override
     public Task taskActive(final String taskId) {
-        final EventOn event = EventOn.get();
         return null;
     }
 
