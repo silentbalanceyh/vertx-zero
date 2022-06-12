@@ -17,7 +17,7 @@ class WfFlow {
     static Future<WProcess> process(final WRequest request) {
         final WProcess process = WProcess.create();
         final KFlow workflow = request.workflow();
-        final Io<Void, Void> io = Io.io();
+        final Io<Void> io = Io.io();
         final ProcessInstance instance = io.inInstance(workflow.instanceId());
         return process.instance(instance/* WProcess -> Bind Process */)
             .compose(bind -> Ux.future(process));

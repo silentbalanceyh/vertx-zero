@@ -19,6 +19,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -38,9 +39,9 @@ class StoreEngine implements StoreOn {
     @Override
     public Future<JsonObject> workflowGet(final ProcessDefinition definition, final HistoricProcessInstance instance) {
         final JsonObject workflow = Wf.bpmnOut(definition);
-        final EventOn eventOn = EventOn.get();
-        final Io<EndEvent, ProcessDefinition> io = Io.ioEventEnd();
-        return io.inElementChildren(definition.getId())
+        final Io<EndEvent> io = Io.ioEventEnd();
+        final Io<Set<String>> ioHistory = Io.ioHistory();
+        return io.children(definition.getId())
             /*
              * {
              *      "task": "???",
@@ -48,10 +49,8 @@ class StoreEngine implements StoreOn {
              * }
              */
             .compose(ends -> io.out(workflow, ends))
-            .compose(response -> eventOn.taskHistory(instance).compose(history -> {
-                response.put(KName.HISTORY, Ut.toJArray(history));
-                return Ux.future(response);
-            }));
+            .compose(response -> ioHistory.end(instance.getId()))
+            .compose(history -> ioHistory.out(workflow, history));
     }
 
     @Override
@@ -82,6 +81,7 @@ class StoreEngine implements StoreOn {
         final EventOn eventOn = EventOn.get();
         final Refer responseRef = new Refer();
         final Refer taskRef = new Refer();
+        final Io<Set<String>> ioHistory = Io.ioHistory();
         return eventOn.taskOldActive(instance)
             .compose(taskRef::future)
             /*
@@ -92,7 +92,7 @@ class StoreEngine implements StoreOn {
              */
             .compose(task -> Ux.future(Wf.taskOut(workflow, task)))
             .compose(responseRef::future)
-            .compose(nil -> eventOn.taskHistory(instance))
+            .compose(nil -> ioHistory.run(instance.getId()))
             .compose(history -> {
                 /*
                  * Remove current task for printing to avoid

@@ -13,6 +13,7 @@ import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Two situations:
@@ -20,7 +21,7 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-public interface Io<I, O> extends IoDefine, IoBpmn<I>, IoRuntime<I> {
+public interface Io<I> extends IoDefine, IoRuntime<I> {
     /*
      * 1) Bpmn Definition Method:
      *    pElements
@@ -34,24 +35,28 @@ public interface Io<I, O> extends IoDefine, IoBpmn<I>, IoRuntime<I> {
      *    run
      *    end
      */
-    static Io<StartEvent, ProcessDefinition> ioEventStart() {
+    static Io<StartEvent> ioEventStart() {
         return WfPool.CC_IO.pick(IoEventStart::new, IoEventStart.class.getName());
     }
 
-    static Io<EndEvent, ProcessDefinition> ioEventEnd() {
+    static Io<EndEvent> ioEventEnd() {
         return WfPool.CC_IO.pick(IoEventEnd::new, IoEventEnd.class.getName());
     }
 
-    static Io<Void, Void> io() {
+    static Io<Void> io() {
         return WfPool.CC_IO.pick(IoVoid::new, IoVoid.class.getName());
     }
 
-    static Io<FormData, ProcessDefinition> ioForm() {
+    static Io<FormData> ioForm() {
         return WfPool.CC_IO.pick(IoForm::new, IoForm.class.getName());
     }
 
-    static Io<JsonObject, ProcessDefinition> ioFlow() {
+    static Io<JsonObject> ioFlow() {
         return WfPool.CC_IO.pick(IoFlow::new, IoFlow.class.getName());
+    }
+
+    static Io<Set<String>> ioHistory() {
+        return WfPool.CC_IO.pick(IoHistory::new, IoHistory.class.getName());
     }
 }
 
@@ -93,15 +98,13 @@ interface IoRuntime<I> {
     default Future<JsonObject> out(final JsonObject workflow, final List<I> i) {
         return Ux.futureJ(workflow);
     }
-}
 
-interface IoBpmn<I> {
     // ---------------- Child Fetching -----------------
-    default Future<List<I>> inElementChildren(final String oKey) {
+    default Future<List<I>> children(final String oKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<I> inElementChild(final String oKey) {
+    default Future<I> child(final String oKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 }

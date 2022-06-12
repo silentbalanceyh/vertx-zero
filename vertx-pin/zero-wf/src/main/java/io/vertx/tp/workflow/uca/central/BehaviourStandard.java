@@ -13,7 +13,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -115,7 +114,7 @@ public class BehaviourStandard implements Behaviour {
         final KFlow workflow = request.workflow();
         final String node = workflow.definitionId();
         Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
-        final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
-        return io.inElementChild(node).compose(event -> Ux.future(this.rule(event.getId())));
+        final Io<StartEvent> io = Io.ioEventStart();
+        return io.child(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

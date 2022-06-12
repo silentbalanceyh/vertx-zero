@@ -10,7 +10,6 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -21,12 +20,12 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class IoEventStart extends AbstractIo<StartEvent, ProcessDefinition> {
+class IoEventStart extends AbstractIo<StartEvent> {
 
 
     // 「IoBpmn」ProcessDefinition -> List<StartEvent>
     @Override
-    public Future<List<StartEvent>> inElementChildren(final String definitionId) {
+    public Future<List<StartEvent>> children(final String definitionId) {
         if (Ut.isNil(definitionId)) {
             return Ux.futureL();
         }
@@ -42,8 +41,8 @@ class IoEventStart extends AbstractIo<StartEvent, ProcessDefinition> {
 
     // 「IoBpmn」ProcessDefinition -> StartEvent
     @Override
-    public Future<StartEvent> inElementChild(final String definitionId) {
-        return this.inElementChildren(definitionId).compose(list -> {
+    public Future<StartEvent> child(final String definitionId) {
+        return this.children(definitionId).compose(list -> {
             final int size = list.size();
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));

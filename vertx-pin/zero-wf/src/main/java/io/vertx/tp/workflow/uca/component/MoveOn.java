@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.component;
 
 import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
-import io.vertx.tp.error._404DivertSupplierException;
+import io.vertx.tp.error._404RunOnSupplierException;
 import io.vertx.tp.error._500EventTypeNullException;
 import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WProcess;
@@ -46,7 +46,7 @@ public interface MoveOn extends Behaviour {
         final Supplier<MoveOn> supplier = Pool.SUPPLIER.getOrDefault(eventType, null);
         if (Objects.isNull(supplier)) {
             // Error-80607: The supplier of event type could not be found.
-            return Ux.thenError(_404DivertSupplierException.class, MoveOn.class, eventType);
+            return Ux.thenError(_404RunOnSupplierException.class, MoveOn.class, eventType);
         }
         final MoveOn moveOn = supplier.get();
         Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected, type = {0}",

@@ -6,8 +6,8 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _404DivertSupplierException extends WebException {
-    public _404DivertSupplierException(final Class<?> clazz, final String eventType) {
+public class _404RunOnSupplierException extends WebException {
+    public _404RunOnSupplierException(final Class<?> clazz, final String eventType) {
         super(clazz, eventType);
     }
 

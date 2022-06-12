@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class IoForm extends AbstractIo<FormData, ProcessDefinition> {
+class IoForm extends AbstractIo<FormData> {
 
     // 「IoRuntime」ProcessDefinition -> StartFormData ( FormData )
     @Override

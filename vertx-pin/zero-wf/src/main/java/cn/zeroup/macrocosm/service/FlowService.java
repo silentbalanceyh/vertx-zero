@@ -24,11 +24,11 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFlow(final String definitionKey, final String sigma) {
         // 1. Fetch workflow definition from Camunda
-        final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
+        final Io<StartEvent> io = Io.ioEventStart();
         final JsonObject workflowJ = new JsonObject();
         final ProcessDefinition definition = io.inProcess(definitionKey);
         workflowJ.mergeIn(Wf.bpmnOut(definition), true);
-        return io.inElementChildren(definition.getId())
+        return io.children(definition.getId())
             .compose(starts -> io.out(workflowJ, starts))
             .compose(definitionJ -> {
                 // Fetch X_FLOW
@@ -64,8 +64,8 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFormStart(final String definitionId,
                                              final String sigma) {
         // Io Building
-        final Io<FormData, ProcessDefinition> ioForm = Io.ioForm();
-        final Io<JsonObject, ProcessDefinition> ioFlow = Io.ioFlow();
+        final Io<FormData> ioForm = Io.ioForm();
+        final Io<JsonObject> ioFlow = Io.ioFlow();
 
         final JsonObject response = new JsonObject();
         return Ux.future(definitionId)
@@ -74,7 +74,7 @@ public class FlowService implements FlowStub {
             // Form Fetch -> Out
             .compose(ioForm::start)
             .compose(formData -> ioForm.out(response, formData))
-            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(formData -> this.formInternal(formData, sigma))
 
 
             // Workflow Fetch -> Out
@@ -87,7 +87,7 @@ public class FlowService implements FlowStub {
                                         final String sigma) {
         final StoreOn storeOn = StoreOn.get();
         return storeOn.formGet(definition, instance)
-            .compose(formData -> this.fetchFormInternal(formData, sigma))
+            .compose(formData -> this.formInternal(formData, sigma))
             .compose(response -> storeOn.workflowGet(definition, instance)
                 .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
             );
@@ -96,20 +96,28 @@ public class FlowService implements FlowStub {
     @Override
     public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final HistoricProcessInstance instance,
                                            final String sigma) {
-        final StoreOn storeOn = StoreOn.get();
         final JsonObject response = new JsonObject();
-        return storeOn.workflowGet(definition, instance)
-            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
-            .compose(processed -> {
-                final JsonObject workflow = Ut.valueJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
-                final JsonObject formData = workflow.copy();
-                formData.put(KName.CODE, WfCv.CODE_HISTORY);
-                return this.fetchFormInternal(formData, sigma);
-            })
+
+
+        final Io<JsonObject> ioFlow = Io.ioFlow();
+        return Ux.future(instance.getId())
+            // Fetch workflow
+            .compose(ioFlow::end)
+            .compose(workflow -> ioFlow.out(response, workflow))
+
+            // Fetch form data
+            .compose(processed -> this.formHistory(processed, sigma))
             .compose(formData -> Ux.future(response.mergeIn(formData)));
     }
 
-    private Future<JsonObject> fetchFormInternal(final JsonObject formData, final String sigma) {
+    private Future<JsonObject> formHistory(final JsonObject processed, final String sigma) {
+        final JsonObject workflow = Ut.valueJObject(processed.getJsonObject(KName.Flow.WORKFLOW));
+        final JsonObject formData = workflow.copy();
+        formData.put(KName.CODE, WfCv.CODE_HISTORY);
+        return this.formInternal(formData, sigma);
+    }
+
+    private Future<JsonObject> formInternal(final JsonObject formData, final String sigma) {
         final JsonObject response = new JsonObject();
         final JsonObject parameters = Wf.formInput(formData, sigma);
         return Ux.channel(Form.class, JsonObject::new, stub -> stub.fetchUi(parameters))

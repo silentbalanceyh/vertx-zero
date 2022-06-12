@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractIo<I, O> implements Io<I, O> {
+public abstract class AbstractIo<I> implements Io<I> {
     @Override
     public ProcessDefinition inProcess(final String idOrKey) {
         Objects.requireNonNull(idOrKey);
