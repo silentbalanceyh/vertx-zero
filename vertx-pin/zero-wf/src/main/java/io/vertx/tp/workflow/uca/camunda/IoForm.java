@@ -18,10 +18,10 @@ import java.util.Objects;
  */
 class IoForm extends AbstractIo<FormData, ProcessDefinition> {
 
-    // ProcessDefinition -> StartFormData ( FormData )
+    // 「IoRuntime」ProcessDefinition -> StartFormData ( FormData )
     @Override
     public Future<FormData> start(final String definitionId) {
-        final ProcessDefinition definition = this.pDefinition(definitionId);
+        final ProcessDefinition definition = this.inProcess(definitionId);
         Objects.requireNonNull(definition);
         final FormService formService = WfPin.camundaForm();
         final StartFormData startForm = formService.getStartFormData(definition.getId());

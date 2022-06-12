@@ -17,18 +17,25 @@ import java.util.Objects;
  */
 public abstract class AbstractIo<I, O> implements Io<I, O> {
     @Override
-    public ProcessDefinition pDefinition(final String idOrKey) {
+    public ProcessDefinition inProcess(final String idOrKey) {
         Objects.requireNonNull(idOrKey);
         final ProcessDefinition result = WfPool.CC_DEFINITION.pick(() -> {
             final RepositoryService service = WfPin.camundaRepository();
-            // By id first
+            /*
+             * Fetch ProcessDefinition by two dim:
+             * 1) By id first
+             * 2) By key then
+             *
+             * In Camunda, the specification describe the following situations:
+             * 1. Each id will be unique workflow ( ProcessDefinition instance )
+             * 2. Each key will be more than one workflow because of different version, but
+             *    in Zero workflow engine, the unique one should be here for common usage
+             */
             final ProcessDefinition definition = service.getProcessDefinition(idOrKey);
             if (Objects.nonNull(definition)) {
                 return definition;
             }
-            // By key then
             return service.createProcessDefinitionQuery()
-                // New Version for each
                 .latestVersion().processDefinitionKey(idOrKey).singleResult();
         }, idOrKey);
         if (Objects.isNull(result)) {
@@ -38,14 +45,14 @@ public abstract class AbstractIo<I, O> implements Io<I, O> {
     }
 
     @Override
-    public ProcessInstance pInstance(final String instanceId) {
+    public ProcessInstance inInstance(final String instanceId) {
         final RuntimeService service = WfPin.camundaRuntime();
         return service.createProcessInstanceQuery()
             .processInstanceId(instanceId).singleResult();
     }
 
     @Override
-    public HistoricProcessInstance pHistory(final String instanceId) {
+    public HistoricProcessInstance inHistoric(final String instanceId) {
         final HistoryService service = WfPin.camundaHistory();
         return service.createHistoricProcessInstanceQuery()
             .processInstanceId(instanceId).singleResult();

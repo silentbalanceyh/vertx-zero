@@ -24,9 +24,9 @@ import java.util.List;
 class IoEventStart extends AbstractIo<StartEvent, ProcessDefinition> {
 
 
-    // ProcessDefinition -> List<StartEvent>
+    // 「IoBpmn」ProcessDefinition -> List<StartEvent>
     @Override
-    public Future<List<StartEvent>> children(final String definitionId) {
+    public Future<List<StartEvent>> inElementChildren(final String definitionId) {
         if (Ut.isNil(definitionId)) {
             return Ux.futureL();
         }
@@ -40,10 +40,10 @@ class IoEventStart extends AbstractIo<StartEvent, ProcessDefinition> {
     }
 
 
-    // ProcessDefinition -> StartEvent
+    // 「IoBpmn」ProcessDefinition -> StartEvent
     @Override
-    public Future<StartEvent> child(final String definitionId) {
-        return this.children(definitionId).compose(list -> {
+    public Future<StartEvent> inElementChild(final String definitionId) {
+        return this.inElementChildren(definitionId).compose(list -> {
             final int size = list.size();
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));

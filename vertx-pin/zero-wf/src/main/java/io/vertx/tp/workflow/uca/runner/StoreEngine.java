@@ -40,7 +40,7 @@ class StoreEngine implements StoreOn {
         final JsonObject workflow = Wf.bpmnOut(definition);
         final EventOn eventOn = EventOn.get();
         final Io<EndEvent, ProcessDefinition> io = Io.ioEventEnd();
-        return io.children(definition.getId())
+        return io.inElementChildren(definition.getId())
             /*
              * {
              *      "task": "???",

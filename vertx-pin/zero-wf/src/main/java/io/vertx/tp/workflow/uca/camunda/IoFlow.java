@@ -15,6 +15,8 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class IoFlow extends AbstractIo<JsonObject, ProcessDefinition> {
+
+    // 「IoRuntime」ProcessDefinition before workflow start
     /*
      * Workflow Output
      * {
@@ -28,17 +30,29 @@ public class IoFlow extends AbstractIo<JsonObject, ProcessDefinition> {
      */
     @Override
     public Future<JsonObject> start(final String definitionId) {
-        final ProcessDefinition definition = this.pDefinition(definitionId);
+        final ProcessDefinition definition = this.inProcess(definitionId);
         final JsonObject workflow = Wf.bpmnOut(definition);
+
+        // Capture the definition from BPMN
         final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
-        return io.child(definition.getId())
-            /*
-             * {
-             *      "task": "???",
-             *      "multiple": "???"
-             * }
-             */
+        return io.inElementChild(definition.getId())
             .compose(starts -> io.out(workflow, starts));
+    }
+
+    // 「IoRuntime」Instance when the workflow is running
+    /*
+     * Workflow Output
+     * {
+     *      "definitionId": "???",
+     *      "definitionKey": "???",
+     *      "bpmn": "???",
+     *      "name": "???",
+     *      "history": []
+     * }
+     */
+    @Override
+    public Future<JsonObject> run(final String instanceId) {
+        return null;
     }
 
     @Override

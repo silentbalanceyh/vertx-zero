@@ -167,7 +167,7 @@ public class ActivityTabb implements After {
          */
         final String definitionKey = workflow.getString(KName.Flow.DEFINITION_KEY);
         final Io<Void, Void> io = Io.io();
-        final ProcessDefinition definition = io.pDefinition(definitionKey);
+        final ProcessDefinition definition = io.inProcess(definitionKey);
         workflow.put(KName.NAME, definition.getName());
         return Ux.future(workflow);
     }

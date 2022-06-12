@@ -116,6 +116,6 @@ public class BehaviourStandard implements Behaviour {
         final String node = workflow.definitionId();
         Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
         final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
-        return io.child(node).compose(event -> Ux.future(this.rule(event.getId())));
+        return io.inElementChild(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

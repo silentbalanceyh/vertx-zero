@@ -23,10 +23,9 @@ import java.util.List;
  */
 class IoEventEnd extends AbstractIo<EndEvent, ProcessDefinition> {
 
-
-    // ProcessDefinition -> List<EndEvent>
+    // 「IoBpmn」ProcessDefinition -> List<EndEvent>
     @Override
-    public Future<List<EndEvent>> children(final String definitionId) {
+    public Future<List<EndEvent>> inElementChildren(final String definitionId) {
         if (Ut.isNil(definitionId)) {
             return Ux.futureL();
         }
@@ -40,10 +39,10 @@ class IoEventEnd extends AbstractIo<EndEvent, ProcessDefinition> {
     }
 
 
-    // ProcessDefinition -> EndEvent
+    // 「IoBpmn」ProcessDefinition -> EndEvent
     @Override
-    public Future<EndEvent> child(final String definitionId) {
-        return this.children(definitionId).compose(list -> {
+    public Future<EndEvent> inElementChild(final String definitionId) {
+        return this.inElementChildren(definitionId).compose(list -> {
             final int size = list.size();
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));

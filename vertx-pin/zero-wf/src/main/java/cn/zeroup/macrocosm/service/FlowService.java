@@ -26,9 +26,9 @@ public class FlowService implements FlowStub {
         // 1. Fetch workflow definition from Camunda
         final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
         final JsonObject workflowJ = new JsonObject();
-        final ProcessDefinition definition = io.pDefinition(definitionKey);
+        final ProcessDefinition definition = io.inProcess(definitionKey);
         workflowJ.mergeIn(Wf.bpmnOut(definition), true);
-        return io.children(definition.getId())
+        return io.inElementChildren(definition.getId())
             .compose(starts -> io.out(workflowJ, starts))
             .compose(definitionJ -> {
                 // Fetch X_FLOW

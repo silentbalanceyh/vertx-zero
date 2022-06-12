@@ -15,11 +15,25 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import java.util.List;
 
 /**
+ * Two situations:
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-public interface Io<I, O> extends IoInternal {
-
+public interface Io<I, O> extends IoDefine, IoBpmn<I>, IoRuntime<I> {
+    /*
+     * 1) Bpmn Definition Method:
+     *    pElements
+     *    pElement
+     * 2) Process Definition
+     *    pDefinition
+     *    pInstance
+     *    pHistory
+     * 3) Common Runtime Instances:
+     *    start
+     *    run
+     *    end
+     */
     static Io<StartEvent, ProcessDefinition> ioEventStart() {
         return WfPool.CC_IO.pick(IoEventStart::new, IoEventStart.class.getName());
     }
@@ -39,7 +53,9 @@ public interface Io<I, O> extends IoInternal {
     static Io<JsonObject, ProcessDefinition> ioFlow() {
         return WfPool.CC_IO.pick(IoFlow::new, IoFlow.class.getName());
     }
+}
 
+interface IoRuntime<I> {
     /*
      * Sync Method for following three types
      * - ProcessDefinition
@@ -55,6 +71,7 @@ public interface Io<I, O> extends IoInternal {
      *                                           Task
      * 5. Task                          - Based: Instance
      * 6. Activities                    - Based: History Instance
+     *
      */
     default Future<I> run(final String iKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
@@ -68,16 +85,6 @@ public interface Io<I, O> extends IoInternal {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    // ---------------- Child Fetching -----------------
-    // Child Element by Parent key
-    default Future<List<I>> children(final String oKey) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
-    }
-
-    default Future<I> child(final String oKey) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
-    }
-
     // --------------------- Output Method ------------------
     default Future<JsonObject> out(final JsonObject workflow, final I i) {
         return Ux.futureJ(workflow);
@@ -88,13 +95,26 @@ public interface Io<I, O> extends IoInternal {
     }
 }
 
-interface IoInternal {
-    // Fetch ProcessDefinition              : id -> key
-    ProcessDefinition pDefinition(String idOrKey);
-    // Fetch ProcessInstance                : id
+interface IoBpmn<I> {
+    // ---------------- Child Fetching -----------------
+    default Future<List<I>> inElementChildren(final String oKey) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
 
-    ProcessInstance pInstance(String instanceId);
-    // Fetch HistoricProcessInstance        : id
+    default Future<I> inElementChild(final String oKey) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+}
 
-    HistoricProcessInstance pHistory(String instanceId);
+interface IoDefine {
+    /*
+     * Fetch ProcessDefinition              : id -> key
+     * Fetch ProcessInstance                : id
+     * Fetch HistoricProcessInstance        : id
+     */
+    ProcessDefinition inProcess(String idOrKey);
+
+    ProcessInstance inInstance(String instanceId);
+
+    HistoricProcessInstance inHistoric(String instanceId);
 }
