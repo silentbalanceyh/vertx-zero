@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.configuration;
 
 import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;

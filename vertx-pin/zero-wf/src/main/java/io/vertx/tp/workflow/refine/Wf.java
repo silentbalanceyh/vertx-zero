@@ -2,8 +2,8 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;

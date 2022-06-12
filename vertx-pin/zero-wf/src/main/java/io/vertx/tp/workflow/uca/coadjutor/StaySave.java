@@ -2,10 +2,10 @@ package io.vertx.tp.workflow.uca.coadjutor;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.up.unity.Ux;

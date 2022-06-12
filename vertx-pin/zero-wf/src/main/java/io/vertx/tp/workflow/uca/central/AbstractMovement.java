@@ -2,9 +2,9 @@ package io.vertx.tp.workflow.uca.central;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
 
 import java.util.Objects;
 

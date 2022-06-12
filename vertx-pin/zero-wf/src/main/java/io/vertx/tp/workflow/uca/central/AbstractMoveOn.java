@@ -1,7 +1,7 @@
 package io.vertx.tp.workflow.uca.central;
 
-import io.vertx.tp.workflow.atom.MetaInstance;
-import io.vertx.tp.workflow.atom.WMove;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
+import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.uca.component.MoveOn;
 
 import java.util.Objects;

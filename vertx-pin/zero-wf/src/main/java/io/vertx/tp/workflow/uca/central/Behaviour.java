@@ -1,7 +1,7 @@
 package io.vertx.tp.workflow.uca.central;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

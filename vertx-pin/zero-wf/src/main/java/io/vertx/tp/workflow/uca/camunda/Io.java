@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.engine.form.StartFormData;
+import org.camunda.bpm.engine.form.FormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -32,8 +32,8 @@ public interface Io<I, O> extends IoInternal {
         return WfPool.CC_IO.pick(IoVoid::new, IoVoid.class.getName());
     }
 
-    static Io<StartFormData, ProcessDefinition> ioFormStart() {
-        return WfPool.CC_IO.pick(IoFormStart::new, IoFormStart.class.getName());
+    static Io<FormData, ProcessDefinition> ioFormStart() {
+        return WfPool.CC_IO.pick(IoForm::new, IoForm.class.getName());
     }
 
     static Io<JsonObject, ProcessDefinition> ioFlowStart() {
@@ -55,30 +55,26 @@ public interface Io<I, O> extends IoInternal {
      *                                           Task
      * 5. Task                          - Based: Instance
      * 6. Activities                    - Based: History Instance
-     *
-     * I/Ikey,      O/Okey
-     *
-     * Method Design
-     * 1) First Level
-     * Ikey -> I
-     * 2) Second Level
-     * Ikey -> O
-     * Okey -> List<I>
-     * Okey -> I ( Unique Child )
      */
-    default Future<I> instance(final String iKey) {
+    default Future<I> run(final String iKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<O> up(final String iKey) {
+    default Future<I> start(final String iKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<List<I>> down(final String oKey) {
+    default Future<I> end(final String iKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<I> downOne(final String oKey) {
+    // ---------------- Child Fetching -----------------
+    // Child Element by Parent key
+    default Future<List<I>> children(final String oKey) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    default Future<I> child(final String oKey) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 

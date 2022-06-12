@@ -2,8 +2,8 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;

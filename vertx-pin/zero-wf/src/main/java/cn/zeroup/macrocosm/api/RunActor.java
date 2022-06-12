@@ -4,8 +4,8 @@ import cn.zeroup.macrocosm.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
-import io.vertx.tp.workflow.atom.WRecord;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.coadjutor.Stay;
 import io.vertx.tp.workflow.uca.component.Movement;
@@ -164,7 +164,7 @@ public class RunActor {
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback
             // Fix issue:
-            // No serializer found for class io.vertx.tp.workflow.atom.WRecord
+            // No serializer found for class io.vertx.tp.workflow.atom.runtime.WRecord
             // and no properties discovered to create BeanSerializer
             .compose(WRecord::futureJ);
     }
@@ -182,7 +182,7 @@ public class RunActor {
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback
             // Fix issue:
-            // No serializer found for class io.vertx.tp.workflow.atom.WRecord
+            // No serializer found for class io.vertx.tp.workflow.atom.runtime.WRecord
             // and no properties discovered to create BeanSerializer
             .compose(WRecord::futureJ);
     }

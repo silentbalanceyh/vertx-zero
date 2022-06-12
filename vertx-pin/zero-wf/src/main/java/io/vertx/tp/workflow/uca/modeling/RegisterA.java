@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.up.eon.KName;
 
 import java.util.Set;

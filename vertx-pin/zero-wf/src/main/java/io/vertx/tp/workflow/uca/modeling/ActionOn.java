@@ -5,7 +5,7 @@ import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 
 import java.util.Objects;
 import java.util.Set;

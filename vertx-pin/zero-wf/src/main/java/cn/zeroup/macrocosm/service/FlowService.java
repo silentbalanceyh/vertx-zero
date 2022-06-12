@@ -11,7 +11,7 @@ import io.vertx.tp.workflow.uca.runner.StoreOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.form.StartFormData;
+import org.camunda.bpm.engine.form.FormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -28,7 +28,7 @@ public class FlowService implements FlowStub {
         final JsonObject workflowJ = new JsonObject();
         final ProcessDefinition definition = io.pDefinition(definitionKey);
         workflowJ.mergeIn(Wf.bpmnOut(definition), true);
-        return io.down(definition.getId())
+        return io.children(definition.getId())
             .compose(starts -> io.out(workflowJ, starts))
             .compose(definitionJ -> {
                 // Fetch X_FLOW
@@ -64,16 +64,16 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFormStart(final String definitionId,
                                              final String sigma) {
         // Io Building
-        final Io<StartFormData, ProcessDefinition> ioForm = Io.ioFormStart();
+        final Io<FormData, ProcessDefinition> ioForm = Io.ioFormStart();
         final Io<JsonObject, ProcessDefinition> ioFlow = Io.ioFlowStart();
 
         final JsonObject response = new JsonObject();
         // Form Fetch
-        return ioForm.downOne(definitionId)
+        return ioForm.start(definitionId)
             .compose(formData -> ioForm.out(response, formData))
             .compose(formData -> this.fetchFormInternal(formData, sigma))
             // Workflow Fetch
-            .compose(nil -> ioFlow.downOne(definitionId))
+            .compose(nil -> ioFlow.child(definitionId))
             .compose(Ux.attachJ(KName.Flow.WORKFLOW, response));
     }
 

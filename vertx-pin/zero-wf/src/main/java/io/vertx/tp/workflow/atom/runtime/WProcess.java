@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.runtime;
 
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.uca.conformity.Gear;

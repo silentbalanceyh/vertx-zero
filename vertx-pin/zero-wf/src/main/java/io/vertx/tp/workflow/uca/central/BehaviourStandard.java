@@ -2,7 +2,11 @@ package io.vertx.tp.workflow.uca.central;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.*;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
+import io.vertx.tp.workflow.atom.runtime.WMove;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
@@ -112,6 +116,6 @@ public class BehaviourStandard implements Behaviour {
         final String node = workflow.definitionId();
         Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
         final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
-        return io.downOne(node).compose(event -> Ux.future(this.rule(event.getId())));
+        return io.child(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

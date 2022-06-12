@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;

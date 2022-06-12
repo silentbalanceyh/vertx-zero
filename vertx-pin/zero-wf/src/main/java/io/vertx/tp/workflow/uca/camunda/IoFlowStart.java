@@ -24,11 +24,11 @@ public class IoFlowStart extends AbstractIo<JsonObject, ProcessDefinition> {
      * }
      */
     @Override
-    public Future<JsonObject> downOne(final String definitionId) {
+    public Future<JsonObject> child(final String definitionId) {
         final ProcessDefinition definition = this.pDefinition(definitionId);
         final JsonObject workflow = Wf.bpmnOut(definition);
         final Io<StartEvent, ProcessDefinition> io = Io.ioEventStart();
-        return io.downOne(definition.getId())
+        return io.child(definition.getId())
             /*
              * {
              *      "task": "???",

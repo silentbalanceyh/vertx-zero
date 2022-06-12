@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.modeling;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
 

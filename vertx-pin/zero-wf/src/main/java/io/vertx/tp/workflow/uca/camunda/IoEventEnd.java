@@ -22,8 +22,11 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class IoEventEnd extends AbstractIo<EndEvent, ProcessDefinition> {
+
+
+    // ProcessDefinition -> List<EndEvent>
     @Override
-    public Future<List<EndEvent>> down(final String definitionId) {
+    public Future<List<EndEvent>> children(final String definitionId) {
         if (Ut.isNil(definitionId)) {
             return Ux.futureL();
         }
@@ -36,9 +39,11 @@ class IoEventEnd extends AbstractIo<EndEvent, ProcessDefinition> {
         return Ux.future(new ArrayList<>(ends));
     }
 
+
+    // ProcessDefinition -> EndEvent
     @Override
-    public Future<EndEvent> downOne(final String definitionId) {
-        return this.down(definitionId).compose(list -> {
+    public Future<EndEvent> child(final String definitionId) {
+        return this.children(definitionId).compose(list -> {
             final int size = list.size();
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));

@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WMoveRule;
+import io.vertx.tp.workflow.atom.runtime.WMoveRule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

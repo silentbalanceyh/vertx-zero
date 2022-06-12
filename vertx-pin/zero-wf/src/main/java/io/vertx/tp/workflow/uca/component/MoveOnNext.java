@@ -2,9 +2,9 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.tp.error._409InValidInstanceException;
-import io.vertx.tp.workflow.atom.WMove;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WMove;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.tp.workflow.uca.conformity.Gear;

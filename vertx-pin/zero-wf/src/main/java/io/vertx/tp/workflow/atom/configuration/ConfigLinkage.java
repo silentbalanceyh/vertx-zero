@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.configuration;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;

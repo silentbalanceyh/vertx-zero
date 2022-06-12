@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.uca.modeling;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.runtime;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;

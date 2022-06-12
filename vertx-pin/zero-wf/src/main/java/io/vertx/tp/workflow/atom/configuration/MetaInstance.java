@@ -1,9 +1,10 @@
-package io.vertx.tp.workflow.atom;
+package io.vertx.tp.workflow.atom.configuration;
 
 import cn.zeroup.macrocosm.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
