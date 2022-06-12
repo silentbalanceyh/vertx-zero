@@ -32,12 +32,12 @@ public interface Io<I, O> extends IoInternal {
         return WfPool.CC_IO.pick(IoVoid::new, IoVoid.class.getName());
     }
 
-    static Io<FormData, ProcessDefinition> ioFormStart() {
+    static Io<FormData, ProcessDefinition> ioForm() {
         return WfPool.CC_IO.pick(IoForm::new, IoForm.class.getName());
     }
 
-    static Io<JsonObject, ProcessDefinition> ioFlowStart() {
-        return WfPool.CC_IO.pick(IoFlowStart::new, IoFlowStart.class.getName());
+    static Io<JsonObject, ProcessDefinition> ioFlow() {
+        return WfPool.CC_IO.pick(IoFlow::new, IoFlow.class.getName());
     }
 
     /*

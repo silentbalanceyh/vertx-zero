@@ -64,17 +64,22 @@ public class FlowService implements FlowStub {
     public Future<JsonObject> fetchFormStart(final String definitionId,
                                              final String sigma) {
         // Io Building
-        final Io<FormData, ProcessDefinition> ioForm = Io.ioFormStart();
-        final Io<JsonObject, ProcessDefinition> ioFlow = Io.ioFlowStart();
+        final Io<FormData, ProcessDefinition> ioForm = Io.ioForm();
+        final Io<JsonObject, ProcessDefinition> ioFlow = Io.ioFlow();
 
         final JsonObject response = new JsonObject();
-        // Form Fetch
-        return ioForm.start(definitionId)
+        return Ux.future(definitionId)
+
+
+            // Form Fetch -> Out
+            .compose(ioForm::start)
             .compose(formData -> ioForm.out(response, formData))
             .compose(formData -> this.fetchFormInternal(formData, sigma))
-            // Workflow Fetch
-            .compose(nil -> ioFlow.child(definitionId))
-            .compose(Ux.attachJ(KName.Flow.WORKFLOW, response));
+
+
+            // Workflow Fetch -> Out
+            .compose(nil -> ioFlow.start(definitionId))
+            .compose(workflow -> ioFlow.out(response, workflow));
     }
 
     @Override
