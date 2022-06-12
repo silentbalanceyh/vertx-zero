@@ -88,7 +88,7 @@ interface IoRuntime<I> {
     }
 
     // Process / Task Level
-    default Future<I> run(final ProcessInstance instance, final Task task) {
+    default Future<I> run(final Task task) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 

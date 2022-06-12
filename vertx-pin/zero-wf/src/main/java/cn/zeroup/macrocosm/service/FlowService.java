@@ -11,6 +11,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -53,8 +54,8 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchFormStart(final ProcessDefinition definition,
-                                             final String sigma) {
+    public Future<JsonObject> fetchForm(final ProcessDefinition definition,
+                                        final String sigma) {
         // Io Building
         final Io<JsonObject> ioForm = Io.ioForm();
         final Io<JsonObject> ioFlow = Io.ioFlow();
@@ -75,24 +76,29 @@ public class FlowService implements FlowStub {
     }
 
     @Override
-    public Future<JsonObject> fetchForm(final ProcessDefinition definition, final Task task,
+    public Future<JsonObject> fetchForm(final ProcessInstance instance, final Task task,
                                         final String sigma) {
-        return null;
-        //        final StoreOn storeOn = StoreOn.get();
-        //        return storeOn.formGet(definition, instance)
-        //            .compose(formData -> this.formInternal(formData, sigma))
-        //            .compose(response -> storeOn.workflowGet(definition, instance)
-        //                .compose(Ux.attachJ(KName.Flow.WORKFLOW, response))
-        //            );
+        final JsonObject response = new JsonObject();
+        final Io<JsonObject> ioForm = Io.ioForm();
+        final Io<JsonObject> ioFlow = Io.ioFlow();
+        return Ux.future(task)
+            // Fetch form data
+            .compose(ioForm::run)
+            .compose(formInput -> this.formInternal(formInput, sigma))
+            .compose(formOutput -> ioForm.out(response, formOutput))
+
+            // Fetch workflow
+            .compose(nil -> ioFlow.run(task))
+            .compose(workflow -> ioFlow.out(response, workflow));
     }
 
     @Override
-    public Future<JsonObject> fetchFormEnd(final ProcessDefinition definition, final HistoricProcessInstance instance,
-                                           final String sigma) {
+    public Future<JsonObject> fetchForm(final HistoricProcessInstance instance,
+                                        final String sigma) {
         final JsonObject response = new JsonObject();
 
-        final Io<JsonObject> ioFlow = Io.ioFlow();
         final Io<JsonObject> ioForm = Io.ioForm();
+        final Io<JsonObject> ioFlow = Io.ioFlow();
         return Ux.future(instance)
 
 

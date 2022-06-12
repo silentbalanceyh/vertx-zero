@@ -139,7 +139,7 @@ public class QueueActor {
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
-        // ProcessDefinition must be existing here
+        // 「Predicate Checking」ProcessDefinition must be existing here
         final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
         final Io<Task> ioTask = Io.ioTask();
         final ProcessDefinition definition = ioTask.inProcess(definitionId);
@@ -147,32 +147,33 @@ public class QueueActor {
             return Ux.thenError(_404ProcessMissingException.class, this.getClass(), definitionId);
         }
 
-        final String sigma = header.getSigma();
 
+        final String sigma = header.getSigma();
         if (isPre) {
-            // Start Form
-            return this.flowStub.fetchFormStart(definition, sigma);
+            // 「Start」
+            return this.flowStub.fetchForm(definition, sigma);
         }
 
-        // Single Task
+
         final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-        // ProcessInstance found
         final ProcessInstance instance = ioTask.inInstance(instanceId);
         if (Objects.isNull(instance)) {
-            // Fetch End
+            // 「End」
             final HistoricProcessInstance instanceHistory = ioTask.inHistoric(instanceId);
-            return this.flowStub.fetchFormEnd(definition, instanceHistory, sigma);
-        } else {
-            final String taskKey = data.getString(KName.Flow.TASK_KEY);
-            return ioTask.run(taskKey).compose(task -> {
-                // Fix: NullPointer for Task & Process
-                if (Objects.isNull(task)) {
-                    return Ux.futureJ();
-                }
-                // ProcessInstance Fetch
-                return this.flowStub.fetchForm(definition, task, sigma);
-            });
+            return this.flowStub.fetchForm(instanceHistory, sigma);
         }
+
+
+        // 「Run」
+        final String taskKey = data.getString(KName.Flow.TASK_KEY);
+        return ioTask.run(taskKey).compose(task -> {
+            // Fix: NullPointer for Task & Process
+            if (Objects.isNull(task)) {
+                return Ux.futureJ();
+            }
+            // Task Form ( Running )
+            return this.flowStub.fetchForm(instance, task, sigma);
+        });
     }
 
 

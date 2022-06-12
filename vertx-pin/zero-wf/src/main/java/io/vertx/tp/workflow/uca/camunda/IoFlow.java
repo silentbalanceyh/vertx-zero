@@ -8,6 +8,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.EndEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
@@ -86,6 +88,31 @@ public class IoFlow extends AbstractIo<JsonObject> {
             // History Fetching
             .compose(nil -> ioHistory.end(instance))
             .compose(historySet -> ioHistory.out(workflow, historySet));
+    }
+
+    @Override
+    public Future<JsonObject> run(final Task task) {
+        final ProcessDefinition definition = this.inProcess(task.getProcessDefinitionId());
+        final JsonObject workflow = Wf.bpmnOut(definition);
+
+        final ProcessInstance instance = this.inInstance(task.getProcessInstanceId());
+
+        final Io<Set<String>> ioHistory = Io.ioHistory();
+        final Io<Task> ioTask = Io.ioTask();
+        return ioTask.out(workflow, task)
+            .compose(nil -> ioHistory.run(instance))
+            .compose(historySet -> {
+                /*
+                 * Remove current task for printing to avoid
+                 * `success` and `active` here, because we'll draw ongoing process in this method
+                 * it means that the system must distinguish history and active,
+                 *
+                 * 1. active is current
+                 * 2. history should be finished
+                 */
+                historySet.remove(task.getTaskDefinitionKey());
+                return ioHistory.out(workflow, historySet);
+            });
     }
 
     @Override

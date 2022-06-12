@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.form.StartFormData;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
 
@@ -44,6 +45,16 @@ class IoForm extends AbstractIo<JsonObject> {
          * Embedded or External Task Forms
          */
         final String formKey = startForm.getFormKey();
+        Objects.requireNonNull(formKey);
+        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
+        return Ux.future(this.formInput(code, definition));
+    }
+
+    @Override
+    public Future<JsonObject> run(final Task task) {
+        final ProcessDefinition definition = this.inProcess(task.getProcessDefinitionId());
+        Objects.requireNonNull(definition);
+        final String formKey = task.getFormKey();
         Objects.requireNonNull(formKey);
         final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
         return Ux.future(this.formInput(code, definition));
