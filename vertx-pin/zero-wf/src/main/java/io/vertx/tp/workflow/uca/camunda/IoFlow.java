@@ -36,7 +36,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
      */
     @Override
     public Future<JsonObject> start(final ProcessDefinition definition) {
-        final JsonObject workflow = Wf.bpmnOut(definition);
+        final JsonObject workflow = Wf.outBpmn(definition);
 
         // Capture the definition from BPMN
         final Io<StartEvent> ioStart = Io.ioEventStart();
@@ -77,7 +77,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
          */
         final ProcessDefinition definition = this.inProcess(instance.getProcessDefinitionId());
 
-        final JsonObject workflow = Wf.bpmnOut(definition);
+        final JsonObject workflow = Wf.outBpmn(definition);
         final Io<EndEvent> ioEnd = Io.ioEventEnd();
         final Io<Set<String>> ioHistory = Io.ioHistory();
         return Ux.future(definition.getId())
@@ -93,7 +93,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
     @Override
     public Future<JsonObject> run(final Task task) {
         final ProcessDefinition definition = this.inProcess(task.getProcessDefinitionId());
-        final JsonObject workflow = Wf.bpmnOut(definition);
+        final JsonObject workflow = Wf.outBpmn(definition);
 
         final ProcessInstance instance = this.inInstance(task.getProcessInstanceId());
 

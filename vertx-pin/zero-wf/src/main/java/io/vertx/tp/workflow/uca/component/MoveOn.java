@@ -37,7 +37,7 @@ public interface MoveOn extends Behaviour {
 
     static Future<MoveOn> event(final Task task) {
         Objects.requireNonNull(task);
-        final String eventType = Wf.eventName(task);
+        final String eventType = Wf.nameEvent(task);
         if (Objects.isNull(eventType)) {
             // Error-80606: event type could not be parsed and extracted from task
             return Ux.thenError(_500EventTypeNullException.class, MoveOn.class, task.getTaskDefinitionKey());

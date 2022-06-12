@@ -25,7 +25,7 @@ public class FlowService implements FlowStub {
         final Io<StartEvent> io = Io.ioEventStart();
         final JsonObject workflowJ = new JsonObject();
         final ProcessDefinition definition = io.inProcess(definitionKey);
-        workflowJ.mergeIn(Wf.bpmnOut(definition), true);
+        workflowJ.mergeIn(Wf.outBpmn(definition), true);
         return io.children(definition.getId())
             .compose(starts -> io.out(workflowJ, starts))
             // Fetch X_FLOW
@@ -48,7 +48,7 @@ public class FlowService implements FlowStub {
                 );
                 // Simply the linkage configuration for sharing global part
                 final JsonObject linkageJ = Ut.valueJObject(response, KName.Flow.UI_LINKAGE);
-                response.put(KName.Flow.UI_LINKAGE, Wf.processLinkage(linkageJ));
+                response.put(KName.Flow.UI_LINKAGE, Wf.outLinkage(linkageJ));
                 return Ux.future(response);
             }));
     }

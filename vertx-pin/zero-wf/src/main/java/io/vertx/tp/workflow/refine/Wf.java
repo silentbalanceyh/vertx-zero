@@ -22,32 +22,21 @@ public class Wf {
      *      "name": "Process Definition Name"
      * }
      */
-    public static JsonObject bpmnOut(final ProcessDefinition definition) {
-        return WfCamunda.bpmnOut(definition);
+    public static JsonObject outBpmn(final ProcessDefinition definition) {
+        return WfFlow.outBpmn(definition);
     }
 
-    public static String eventName(final Task task) {
-        return WfCamunda.eventName(task);
+    public static JsonObject outLinkage(final JsonObject linkageJ) {
+        return WfFlow.outLinkage(linkageJ);
     }
 
-    /*
-     * {
-     *      "task": "Event name of task, event id",
-     *      "multiple": "Whether there are more than one task",
-     *      "history": []
-     * }
-     */
-    public static JsonObject taskOut(final JsonObject workflow, final Task task) {
-        return WfCamunda.taskOut(workflow, task);
+    public static String nameEvent(final Task task) {
+        return WfFlow.nameEvent(task);
     }
 
     // Fetch WProcess
-    public static Future<WProcess> process(final WRequest request) {
-        return WfFlow.process(request);
-    }
-
-    public static JsonObject processLinkage(final JsonObject linkageJ) {
-        return WfFlow.processLinkage(linkageJ);
+    public static Future<WProcess> createProcess(final WRequest request) {
+        return WfFlow.createProcess(request);
     }
 
     // BiFunction on ProcessDefinition / ProcessInstance

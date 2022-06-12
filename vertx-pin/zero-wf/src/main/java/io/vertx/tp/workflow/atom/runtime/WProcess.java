@@ -52,25 +52,7 @@ public class WProcess {
 
     public Future<ProcessInstance> instance(final ProcessInstance instance) {
         this.instance = instance;
-        if (Objects.isNull(this.task) && Objects.nonNull(instance)) {
-            /*
-             * Get the first task of Active after process
-             * instance started. Here after process instance started,
-             * the workflow engine should set the task instance to
-             * WProcess here
-             */
-            final Io<Task> ioTask = Io.ioTask();
-            return ioTask.child(instance.getId()).compose(task -> {
-                /*
-                 * Here the WProcess should set `task` instance
-                 * The task object must be located after workflow started.
-                 */
-                this.task = task;
-                return Ux.future(instance);
-            });
-        } else {
-            return Ux.future(instance);
-        }
+        return Ux.future(instance);
     }
 
     /*
@@ -79,6 +61,7 @@ public class WProcess {
      * 1) When the process is not moved, active task is current one
      * 2) After current process moved, the active task may be the next active task instead
      */
+    @Deprecated
     public Future<Task> taskActive() {
         final Io<Task> ioTask = Io.ioTask();
         return ioTask.child(this.instance.getId()).compose(taskThen -> {
@@ -106,10 +89,6 @@ public class WProcess {
 
     public ProcessInstance instance() {
         return this.instance;
-    }
-
-    public Gear scatter() {
-        return this.scatter;
     }
 
     // --------------------- Move Rule Processing ------------------

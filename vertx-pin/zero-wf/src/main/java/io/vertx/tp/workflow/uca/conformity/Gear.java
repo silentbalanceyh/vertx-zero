@@ -1,18 +1,12 @@
 package io.vertx.tp.workflow.uca.conformity;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTicket;
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.MoveMode;
-import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WMode;
 import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.uca.cache.Cc;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -48,10 +42,10 @@ public interface Gear {
 
         final WMode way = move.way();
         if (Objects.isNull(way)) {
-            // MoveWay is null;
+            // MoveMode is null;
             gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());
             Wf.Log.infoInit(Gear.class,
-                "( Gear ) <MoveWay Null> Component Initialized: {0}", gear.getClass());
+                "( Gear ) <MoveMode Null> Component Initialized: {0}", gear.getClass());
             return gear;
         }
 
@@ -75,29 +69,4 @@ public interface Gear {
     default Gear configuration(final JsonObject config) {
         return this;
     }
-
-    /*
-     * Step 1: Generation
-     * This api is for todo record generation ( May be single / multi )
-     */
-    List<WTodo> todoInitialize(ProcessInstance instance, WTicket ticket);
-
-    /*
-     * Step 2: Fetch
-     * Fetch Task instance by `taskId`
-     */
-    Task taskActive(String taskId);
-
-    /*
-     * Step 3: Fetch Next
-     * Fetch next task list by current task ( May be closed )
-     */
-    List<Task> taskNext(Task task);
-
-    /*
-     * Step 4: Close / Cancel for task
-     * 1. Close / Cancel current task
-     * 2. Close / Cancel instance by calculating
-     */
-    boolean taskClose(String taskId, TodoStatus status);
 }

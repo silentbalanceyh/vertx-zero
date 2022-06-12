@@ -43,7 +43,7 @@ class ConfigLinkage implements Serializable {
          *      }
          * }
          */
-        final JsonObject parsedJ = Wf.processLinkage(linkageJ);
+        final JsonObject parsedJ = Wf.outLinkage(linkageJ);
         Ut.<JsonObject>itJObject(parsedJ, (json, field) -> {
             final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
