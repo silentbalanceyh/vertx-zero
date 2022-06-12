@@ -5,8 +5,8 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.MoveMode;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.runtime.WMode;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WMoveWay;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.uca.cache.Cc;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -46,7 +46,7 @@ public interface Gear {
         }
 
 
-        final WMoveWay way = move.way();
+        final WMode way = move.way();
         if (Objects.isNull(way)) {
             // MoveWay is null;
             gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());

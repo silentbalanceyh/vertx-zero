@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WMoveWay implements Serializable {
+public class WMode implements Serializable {
 
     private MoveMode type = MoveMode.Standard;
 
