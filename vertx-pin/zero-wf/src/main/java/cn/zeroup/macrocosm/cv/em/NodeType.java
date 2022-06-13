@@ -7,4 +7,5 @@ public enum NodeType {
     Fork,       // Fork/Join
     Multi,      // Multi
     Standard,   // Standard ( Default )
+    Grid,       // Grid
 }

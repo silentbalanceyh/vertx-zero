@@ -8,6 +8,7 @@ import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,20 +18,27 @@ public class IoTask extends AbstractIo<Task> {
     @Override
     public Future<Task> run(final String taskId) {
         final TaskService service = WfPin.camundaTask();
-        final Task task = service.createTaskQuery()
+        return Ux.future(service.createTaskQuery()
             .taskId(taskId)
-            .active().singleResult();
-        return Ux.future(task);
+            .active().singleResult());
     }
 
     @Override
     public Future<Task> child(final String instanceId) {
         final TaskService service = WfPin.camundaTask();
-        final Task task = service.createTaskQuery()
+        return Ux.future(service.createTaskQuery()
             .initializeFormKeys()
             .processInstanceId(instanceId)
-            .active().singleResult();
-        return Ux.future(task);
+            .active().singleResult());
+    }
+
+    @Override
+    public Future<List<Task>> children(final String instanceId) {
+        final TaskService service = WfPin.camundaTask();
+        return Ux.future(service.createTaskQuery()
+            .initializeFormKeys()
+            .processInstanceId(instanceId)
+            .active().list());
     }
 
     @Override

@@ -1,8 +1,12 @@
 package io.vertx.tp.workflow.uca.central;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMove;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -16,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class BehaviourStandard implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
-    protected transient AidTracker trackerKit;
+    private transient AidTracker trackerKit;
     private transient MetaInstance metadata;
 
     @Override
@@ -59,7 +63,19 @@ public class BehaviourStandard implements Behaviour {
      *
      * This action will be done inner WTransition
      */
-    protected ConcurrentMap<String, WMove> rules() {
-        return this.moveMap;
+    protected WTransition createTransition(final WRequest request) {
+        return WTransition.create(request, this.moveMap);
+    }
+
+    protected Future<WRequest> beforeAsync(final WRequest request, final WTransition wTransition) {
+        return wTransition.start()
+            // 「AOP」Before
+            .compose(started -> this.trackerKit.beforeAsync(request, started));
+    }
+
+    protected Future<WRecord> afterAsync(final WRecord record, final WTransition wTransition) {
+        return wTransition.start()
+            // 「AOP」After
+            .compose(started -> this.trackerKit.afterAsync(record, started));
     }
 }

@@ -38,7 +38,7 @@ public class MoveOnNext extends AbstractMoveOn {
 
         return ioTask.run(taskId)
             /* WProcess -> Bind Task */
-            .compose(task -> Ux.future(process.from(task)))
+            //.compose(task -> Ux.future(process.from(task)))
             .compose(nil -> {
                 final Task task = process.from();
                 // WMove Get

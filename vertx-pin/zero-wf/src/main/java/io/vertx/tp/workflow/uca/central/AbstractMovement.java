@@ -24,7 +24,6 @@ public abstract class AbstractMovement extends AbstractTransfer {
         Objects.requireNonNull(metadata);
         this.todoKit = new AidTodo(metadata);
         this.linkageKit = new AidLinkage(metadata);
-        this.trackerKit = new AidTracker(metadata);
         return super.bind(metadata);
     }
 

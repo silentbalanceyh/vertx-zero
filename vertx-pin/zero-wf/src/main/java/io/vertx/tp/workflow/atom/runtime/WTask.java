@@ -1,0 +1,52 @@
+package io.vertx.tp.workflow.atom.runtime;
+
+import cn.zeroup.macrocosm.cv.em.NodeType;
+import org.camunda.bpm.engine.task.Task;
+
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+/**
+ * The call back of camunda workflow engine and it's related to gateway result.
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
+public class WTask {
+
+    /*
+     * This tasks is matrix for 2 level
+     * 1) taskKey = TaskMap
+     * 2) TaskMap = taskId: Task
+     *
+     * It's based on gateway type and checking for task specification
+     * 1. Standard -- size = 1 ( size = 1 )
+     * 2. Fork     -- size = N ( size = 1 )
+     * 3. Multi    -- size = 1 ( size = N )
+     * 4. Grid     -- size = N ( size = N )
+     */
+    private final ConcurrentMap<String, ConcurrentMap<String, Task>> tasks = new ConcurrentHashMap<>();
+    private final NodeType type;
+
+    public WTask(final NodeType type) {
+        Objects.requireNonNull(type);
+        this.type = type;
+    }
+
+    public WTask add(final Task task) {
+        if (Objects.nonNull(task)) {
+            // Key 1: task key
+            final String taskKey = task.getTaskDefinitionKey();
+            final ConcurrentMap<String, Task> taskRef;
+            if (this.tasks.containsKey(taskKey)) {
+                taskRef = this.tasks.get(taskKey);
+            } else {
+                taskRef = new ConcurrentHashMap<>();
+                this.tasks.put(taskKey, taskRef);
+            }
+            // Key 2: task id
+            taskRef.put(task.getId(), task);
+        }
+        return this;
+    }
+}

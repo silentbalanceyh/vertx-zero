@@ -8,9 +8,9 @@ import io.vertx.tp.workflow.atom.runtime.WTask;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class GearMulti extends AbstractGear {
-    public GearMulti() {
-        super(NodeType.Multi);
+public class GearGrid extends AbstractGear {
+    public GearGrid() {
+        super(NodeType.Grid);
     }
 
     @Override
