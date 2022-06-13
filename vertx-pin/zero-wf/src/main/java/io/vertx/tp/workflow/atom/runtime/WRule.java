@@ -28,7 +28,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WMoveRule implements Serializable {
+public class WRule implements Serializable {
     // The condition field name, it should be in root data part
     private transient String field;
     // The condition result value, it should be detected by the workflow engine
@@ -104,8 +104,8 @@ public class WMoveRule implements Serializable {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        final WMoveRule wMoveRule = (WMoveRule) o;
-        return this.field.equals(wMoveRule.field) && this.value.equals(wMoveRule.value);
+        final WRule wRule = (WRule) o;
+        return this.field.equals(wRule.field) && this.value.equals(wRule.value);
     }
 
     @Override

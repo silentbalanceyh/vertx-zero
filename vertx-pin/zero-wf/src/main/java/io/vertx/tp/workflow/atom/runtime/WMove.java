@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
-    private final transient ConcurrentMap<String, WMoveRule> rules = new ConcurrentHashMap<>();
+    private final transient ConcurrentMap<String, WRule> rules = new ConcurrentHashMap<>();
     private final transient JsonObject params = new JsonObject();
     /*
      * The data structure is as following:
@@ -58,7 +58,7 @@ public class WMove implements Serializable {
         // Processing for left rules
         final JsonArray rules = Ut.valueJArray(config.getJsonArray(KName.RULE));
         Ut.itJArray(rules).forEach(json -> {
-            final WMoveRule rule = Ux.fromJson(json, WMoveRule.class);
+            final WRule rule = Ux.fromJson(json, WRule.class);
             if (rule.valid()) {
                 this.rules.put(rule.key(), rule);
             } else {
@@ -82,14 +82,14 @@ public class WMove implements Serializable {
         return new WMove(null, new JsonObject());
     }
 
-    public WMove stored(final JsonObject request) {
+    WMove stored(final JsonObject request) {
         // Clean Params
         this.params.clear();
         this.data.forEach((to, from) -> this.params.put(to, request.getValue(from)));
         return this;
     }
 
-    public WMoveRule ruleFind() {
+    WRule ruleFind() {
         final Set<String> keys = new TreeSet<>();
         this.params.fieldNames().forEach(field -> {
             final Object value = this.params.getValue(field);
@@ -99,12 +99,12 @@ public class WMove implements Serializable {
             }
         });
         final String key = Ut.fromJoin(keys);
-        final WMoveRule rule = this.rules.getOrDefault(key, null);
+        final WRule rule = this.rules.getOrDefault(key, null);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
     }
 
-    public AspectConfig configAop() {
+    AspectConfig configAop() {
         return this.aspect;
     }
 

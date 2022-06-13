@@ -4,9 +4,9 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.atom.runtime.WMoveRule;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.central.AidData;
@@ -85,7 +85,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 } else {
                     return Ux.future(record);
                 }
-            })).compose(record -> this.afterAsync(record, wTransition));
+            })).compose(record -> wTransition.start()
+                .compose(started -> this.trackerKit.afterAsync(record, started))
+            );
     }
 
     private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WTransition process) {
@@ -107,7 +109,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 /*
                  * Move Rules
                  */
-                final WMoveRule moveRule = process.ruleFind();
+                final WRule moveRule = process.ruleFind();
                 if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
                     /*
                      * Here will fetch record auto

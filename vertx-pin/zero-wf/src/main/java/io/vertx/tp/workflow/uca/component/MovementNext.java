@@ -13,19 +13,21 @@ public class MovementNext extends AbstractTransfer implements Movement {
     public Future<WTransition> moveAsync(final WRequest request) {
         // Instance Building
         final WTransition wTransition = WTransition.create(request, this.rules());
-        return this.beforeAsync(request, wTransition).compose(normalized -> {
-            /* Here normalized/request shared the same reference */
-            final MoveOn moveOn;
-            if (wTransition.isStarted()) {
-                // MoveOn Next ( Workflow Started )
-                moveOn = MoveOn.instance(MoveOnNext.class);
-            } else {
-                // MoveOn Start ( Workflow Not Started )
-                moveOn = MoveOn.instance(MoveOnStart.class);
-            }
-            // Bind Metadata Instance
-            moveOn.bind(this.metadataIn());
-            return moveOn.moveAsync(normalized, wTransition);
-        });
+        return wTransition.start()
+            .compose(started -> this.trackerKit.beforeAsync(request, started))
+            .compose(normalized -> {
+                /* Here normalized/request shared the same reference */
+                final MoveOn moveOn;
+                if (wTransition.isStarted()) {
+                    // MoveOn Next ( Workflow Started )
+                    moveOn = MoveOn.instance(MoveOnNext.class);
+                } else {
+                    // MoveOn Start ( Workflow Not Started )
+                    moveOn = MoveOn.instance(MoveOnStart.class);
+                }
+                // Bind Metadata Instance
+                moveOn.bind(this.metadataIn());
+                return moveOn.moveAsync(normalized, wTransition);
+            });
     }
 }

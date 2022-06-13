@@ -1,12 +1,8 @@
 package io.vertx.tp.workflow.uca.central;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.atom.runtime.WRequest;
-import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -65,21 +61,5 @@ public class BehaviourStandard implements Behaviour {
      */
     protected ConcurrentMap<String, WMove> rules() {
         return this.moveMap;
-    }
-
-
-    // ==================== Before / After Processing in Current component ======================
-    protected Future<WRequest> beforeAsync(final WRequest request, final WTransition transition) {
-        // Instance Building
-        return transition.start()
-            /* 「Aop」Before based on WTransition */
-            .compose(started -> this.trackerKit.beforeAsync(request, started));
-    }
-
-    protected Future<WRecord> afterAsync(final WRecord record, final WTransition transition) {
-        // Started Workflow
-        return transition.start()
-            /* 「Aop」After based on WMove */
-            .compose(started -> this.trackerKit.afterAsync(record, started));
     }
 }

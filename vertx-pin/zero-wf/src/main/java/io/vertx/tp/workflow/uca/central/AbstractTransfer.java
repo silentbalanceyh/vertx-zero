@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WMoveRule;
+import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -52,7 +52,7 @@ public abstract class AbstractTransfer extends BehaviourStandard {
         return params;
     }
 
-    protected JsonObject recordMove(final JsonObject request, final WMoveRule rule) {
+    protected JsonObject recordMove(final JsonObject request, final WRule rule) {
         final Object recordData = request.getValue(KName.RECORD);
         if (Objects.isNull(recordData)) {
             return request;

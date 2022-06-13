@@ -48,6 +48,8 @@ public class WTransition {
 
     public WTransition from(final Task task) {
         this.from = task;
+        // Task Definition Key ( e.xxx )
+        this.move = this.define.rule(task.getTaskDefinitionKey());
         return this;
     }
 
@@ -103,7 +105,7 @@ public class WTransition {
     // --------------------- Move Rule Processing ------------------
 
     @Deprecated
-    public WMoveRule ruleFind() {
+    public WRule ruleFind() {
         /*
          * Fix: java.lang.NullPointerException
 	        at java.base/java.util.Objects.requireNonNull(Objects.java:221)
@@ -117,6 +119,10 @@ public class WTransition {
 
     // --------------------- WTransition Action for Task Data ------------------
     public Future<WTransition> start() {
+        // Here the move means that the transition has been bind to `from`
+        if (Objects.nonNull(this.move)) {
+            return Ux.future(this);
+        }
         final KFlow flow = this.define.workflow();
         final String taskId = flow.taskId();
         if (Ut.isNil(taskId)) {
@@ -145,12 +151,10 @@ public class WTransition {
             Objects.requireNonNull(this.instance);
             final Io<Task> ioTask = Io.ioTask();
             return ioTask.run(flow.taskId()).compose(task -> {
-                this.from(task);
                 if (Objects.isNull(task)) {
                     return Ux.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
                 } else {
-                    // Task Definition Key ( e.xxx )
-                    this.move = this.define.rule(this.from.getTaskDefinitionKey());
+                    this.from(task);
                     return Ux.future(this);
                 }
             });

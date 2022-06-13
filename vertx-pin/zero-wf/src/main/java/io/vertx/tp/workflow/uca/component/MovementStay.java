@@ -17,24 +17,26 @@ public class MovementStay extends AbstractTransfer implements Movement {
     public Future<WTransition> moveAsync(final WRequest request) {
         final WTransition wTransition = WTransition.create(request, this.rules());
         // Instance Building
-        return this.beforeAsync(request, wTransition).compose(normalized -> {
-            /* Here normalized/request shared the same reference */
-            if (wTransition.isStarted()) {
-                // Started
-                final ProcessInstance instance = wTransition.instance();
-                final Io<Task> ioTask = Io.ioTask();
-                return ioTask.child(instance.getId())
-                    /* Task Bind */
-                    .compose(task -> Ux.future(wTransition.from(task)))
-                    .compose(nil -> Ux.future(wTransition));
-            } else {
-                /*
-                 *  When you stay at `e.start`, the workflow has not been started
-                 *  In this kind of situation: here should return to default process
-                 *  Not Started -> null
-                 */
-                return Ux.future(wTransition);
-            }
-        });
+        return wTransition.start()
+            .compose(started -> this.trackerKit.beforeAsync(request, started))
+            .compose(normalized -> {
+                /* Here normalized/request shared the same reference */
+                if (wTransition.isStarted()) {
+                    // Started
+                    final ProcessInstance instance = wTransition.instance();
+                    final Io<Task> ioTask = Io.ioTask();
+                    return ioTask.child(instance.getId())
+                        /* Task Bind */
+                        .compose(task -> Ux.future(wTransition.from(task)))
+                        .compose(nil -> Ux.future(wTransition));
+                } else {
+                    /*
+                     *  When you stay at `e.start`, the workflow has not been started
+                     *  In this kind of situation: here should return to default process
+                     *  Not Started -> null
+                     */
+                    return Ux.future(wTransition);
+                }
+            });
     }
 }
