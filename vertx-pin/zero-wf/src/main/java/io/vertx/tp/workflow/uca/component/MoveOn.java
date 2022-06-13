@@ -48,14 +48,14 @@ public interface MoveOn extends Behaviour {
             return Ux.thenError(_404RunOnSupplierException.class, MoveOn.class, eventType);
         }
         final MoveOn moveOn = supplier.get();
-        Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected, type = {0}",
+        Wf.Log.infoWeb(MoveOn.class, "MoveOn {0} has been selected, type = {0}",
             moveOn.getClass(), eventType);
         return Ux.future(moveOn);
     }
 
     static MoveOn instance(final Class<?> moveOnCls) {
         final MoveOn moveOn = WfPool.CC_MOVE_ON.pick(() -> Ut.instance(moveOnCls), moveOnCls.getName());
-        Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected", moveOn.getClass());
+        Wf.Log.infoWeb(MoveOn.class, "MoveOn {0} has been selected", moveOn.getClass());
         return moveOn;
     }
 
