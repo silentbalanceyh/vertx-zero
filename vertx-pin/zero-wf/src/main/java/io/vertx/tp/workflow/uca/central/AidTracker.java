@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
@@ -92,7 +92,7 @@ public class AidTracker {
             .compose(request::future);
     }
 
-    public Future<WRecord> afterAsync(final WRecord record, final WProcess process) {
+    public Future<WRecord> afterAsync(final WRecord record, final WTransition process) {
         // Build Aspect Component
         final WMove move = process.rule();
         final Aspect aspect = this.aspect(move);
@@ -101,7 +101,7 @@ public class AidTracker {
             .compose(record::futureAfter);
     }
 
-    private JsonObject aspectParameter(final WRecord record, final WProcess process) {
+    private JsonObject aspectParameter(final WRecord record, final WTransition process) {
         /*
          * Data Analyzing on
          * {

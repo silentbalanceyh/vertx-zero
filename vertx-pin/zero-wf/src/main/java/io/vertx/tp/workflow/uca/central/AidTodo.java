@@ -7,8 +7,8 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -39,8 +39,8 @@ public class AidTodo {
 
     // ------------- Insert Operation ----------------------
     // Save = Insert + Update
-    public Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
-        final ProcessInstance instance = process.instance();
+    public Future<WRecord> insertAsync(final JsonObject params, final WTransition process) {
+        final ProcessInstance instance = process.referenceInstance();
         // Todo Build
         return this.metadata.todoInitialize(params).compose(normalized -> {
             // Ticket Workflow
@@ -152,7 +152,7 @@ public class AidTodo {
         });
     }
 
-    public Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
+    public Future<WRecord> saveAsync(final JsonObject params, final WTransition process) {
         /*
          * Ticket Data Updating
          * 1. Fetch record by `traceId` field

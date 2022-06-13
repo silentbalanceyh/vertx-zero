@@ -5,9 +5,9 @@ import io.vertx.core.Future;
 import io.vertx.tp.error._404RunOnSupplierException;
 import io.vertx.tp.error._500EventTypeNullException;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.Behaviour;
 import io.vertx.up.exception.web._501NotSupportException;
@@ -65,11 +65,11 @@ public interface MoveOn extends Behaviour {
     /*
      *  Event Fire by Programming
      */
-    default Future<WRecord> transferAsync(final WRequest request, final WProcess process) {
+    default Future<WRecord> transferAsync(final WRequest request, final WTransition process) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 
-    default Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
+    default Future<WTransition> moveAsync(final WRequest request, final WTransition process) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 }

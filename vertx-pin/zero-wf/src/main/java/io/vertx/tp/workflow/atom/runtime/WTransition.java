@@ -3,7 +3,9 @@ package io.vertx.tp.workflow.atom.runtime;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
+import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -12,83 +14,82 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class WProcess {
-    private transient ProcessInstance instance;
-    private transient Task task;
-    private transient Task taskNext;
+public class WTransition {
+    private final transient ProcessDefinition definition;
+    private final transient ProcessInstance instance;
+    private transient Task from;
+    private transient Task to;
     private transient WMove move;
-
     private transient Gear scatter;
 
-    private WProcess() {
+    private WTransition(final KFlow workflow) {
+        // Io<Void> io when create the new Transaction
+        final Io<Void> io = Io.io();
+        /*
+         * ProcessDefinition
+         * ProcessInstance
+         */
+        this.definition = io.inProcess(workflow.definitionId());
+        this.instance = io.inInstance(workflow.instanceId());
     }
 
-    public static WProcess create() {
-        return new WProcess();
+    public static WTransition create(final WRequest request) {
+        final KFlow workflow = request.workflow();
+        return new WTransition(workflow);
     }
 
-    public WProcess bind(final ProcessInstance instance) {
-        this.instance = instance;
+    public WTransition bind(final Task task) {
+        this.from = task;
         return this;
     }
 
-    public WProcess bind(final Task task) {
-        this.task = task;
-        return this;
-    }
-
-    public WProcess bind(final WMove move) {
+    public WTransition bind(final WMove move) {
         this.move = move;
         this.scatter = Gear.instance(move);
         return this;
     }
 
-    public Future<WProcess> future() {
-        return Ux.future(this);
-    }
-
 
     // --------------------- Task & Instance ------------------
 
-    public Future<ProcessInstance> instance(final ProcessInstance instance) {
-        this.instance = instance;
-        return Ux.future(instance);
-    }
-
     /*
-     * This task is for active task extracting, the active task should be following
+     * This from is for active from extracting, the active from should be following
      *
-     * 1) When the process is not moved, active task is current one
-     * 2) After current process moved, the active task may be the next active task instead
+     * 1) When the process is not moved, active from is current one
+     * 2) After current process moved, the active from may be the next active from instead
      */
     @Deprecated
     public Future<Task> taskActive() {
         final Io<Task> ioTask = Io.ioTask();
         return ioTask.child(this.instance.getId()).compose(taskThen -> {
-            if (Objects.nonNull(this.task) && Objects.nonNull(taskThen)) {
+            if (Objects.nonNull(this.from) && Objects.nonNull(taskThen)) {
                 /*
                  * Task & TaskThen are different, it means that there exist
                  * workflow moving operation.
                  * if `TaskThen` is null, it means that workflow has been finished
                  */
-                if (!this.task.getId().equals(taskThen.getId())) {
-                    this.taskNext = taskThen;
+                if (!this.from.getId().equals(taskThen.getId())) {
+                    this.to = taskThen;
                 }
             }
-            return Ux.future(this.taskNext);
+            return Ux.future(this.to);
         });
     }
 
     public Task task() {
-        return this.task;
+        return this.from;
     }
 
     public Task taskNext() {
-        return this.taskNext;
+        return this.to;
     }
 
-    public ProcessInstance instance() {
+    public ProcessInstance referenceInstance() {
         return this.instance;
+    }
+
+    public ProcessDefinition referenceDefinition() {
+        return this.definition;
     }
 
     // --------------------- Move Rule Processing ------------------
@@ -108,17 +109,18 @@ public class WProcess {
         return this.move;
     }
 
-    // --------------------- Process Status ------------------
-    public boolean isStart() {
+    // --------------------- WTransition Checking for Status ------------------
+    public boolean isStarted() {
         return Objects.nonNull(this.instance);
     }
 
-    public boolean isEnd() {
+    public boolean isEnded() {
+        Objects.requireNonNull(this.instance);
         return this.instance.isEnded();
     }
 
-    public boolean isContinue(final Task task) {
-        final boolean isEnd = this.isEnd();
+    public boolean isRunning(final Task task) {
+        final boolean isEnd = this.isEnded();
         if (isEnd) {
             return Boolean.FALSE;
         }

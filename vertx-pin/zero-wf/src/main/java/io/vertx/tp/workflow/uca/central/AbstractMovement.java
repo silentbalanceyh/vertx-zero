@@ -3,8 +3,8 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 
 import java.util.Objects;
 
@@ -95,7 +95,7 @@ public abstract class AbstractMovement extends AbstractTransfer {
             "modelId": "x.attachment"
         }
     */
-    protected Future<WRecord> insertAsync(final JsonObject params, final WProcess process) {
+    protected Future<WRecord> insertAsync(final JsonObject params, final WTransition process) {
         // Todo
         return Objects.requireNonNull(this.todoKit)
             .insertAsync(params, process)
@@ -112,7 +112,7 @@ public abstract class AbstractMovement extends AbstractTransfer {
                 .syncAsync(params, record));
     }
 
-    protected Future<WRecord> saveAsync(final JsonObject params, final WProcess process) {
+    protected Future<WRecord> saveAsync(final JsonObject params, final WTransition process) {
         // Todo
         return Objects.requireNonNull(this.todoKit)
             .saveAsync(params, process)

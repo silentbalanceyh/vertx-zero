@@ -21,5 +21,9 @@ public interface RunOn {
     // Run
     Future<ProcessInstance> moveAsync(ProcessInstance instance, WMove move);
 
+    // Stop
     Future<Boolean> stopAsync(ProcessInstance instance, TodoStatus status);
+
+    // ---------------------- Running Checking -----------------------
+
 }
