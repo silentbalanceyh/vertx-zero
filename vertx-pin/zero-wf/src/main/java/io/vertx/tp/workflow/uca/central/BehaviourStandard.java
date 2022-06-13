@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
@@ -77,24 +77,23 @@ public class BehaviourStandard implements Behaviour {
 
 
     // ==================== Before / After Processing in Current component ======================
-    protected Future<WRequest> beforeAsync(final WRequest request, final WProcess instance) {
+    protected Future<WRequest> beforeAsync(final WRequest request, final WTransition instance) {
         // Instance Building
         return this.ruleAsync(request, instance)
             /* 「Aop」Before based on WMove */
             .compose(move -> this.trackerKit.beforeAsync(request, move));
     }
 
-    protected Future<WRecord> afterAsync(final WRecord record, final WProcess process) {
+    protected Future<WRecord> afterAsync(final WRecord record, final WTransition process) {
         // Started Workflow
         return this.ruleAsync(process)
             /* 「Aop」After based on WMove */
             .compose(move -> this.trackerKit.afterAsync(record, process.bind(move)));
     }
 
-
     // ==================== Rule Bind / Get ======================
-    private Future<WMove> ruleAsync(final WRequest request, final WProcess instance) {
-        if (instance.isStart()) {
+    private Future<WMove> ruleAsync(final WRequest request, final WTransition instance) {
+        if (instance.isStarted()) {
             // Started Workflow
             return this.ruleAsync(instance);
         } else {
@@ -103,8 +102,8 @@ public class BehaviourStandard implements Behaviour {
         }
     }
 
-    private Future<WMove> ruleAsync(final WProcess process) {
-        final Task task = process.task();
+    private Future<WMove> ruleAsync(final WTransition process) {
+        final Task task = process.from();
         final String node = task.getTaskDefinitionKey();
         Wf.Log.infoWeb(this.getClass(), "Flow Started, rule fetched by {0}", node);
         return Ux.future(this.rule(node));

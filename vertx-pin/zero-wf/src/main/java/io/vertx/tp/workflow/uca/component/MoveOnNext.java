@@ -3,8 +3,8 @@ package io.vertx.tp.workflow.uca.component;
 import io.vertx.core.Future;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
@@ -20,8 +20,8 @@ import java.util.Objects;
  */
 public class MoveOnNext extends AbstractMoveOn {
     @Override
-    public Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
-        final ProcessInstance instance = process.instance();
+    public Future<WTransition> moveAsync(final WRequest request, final WTransition process) {
+        final ProcessInstance instance = process.flowInstance();
         final KFlow key = request.workflow();
         final String instanceId = key.instanceId();
         if (Objects.isNull(instance)) {
@@ -39,9 +39,9 @@ public class MoveOnNext extends AbstractMoveOn {
 
         return ioTask.run(taskId)
             /* WProcess -> Bind Task */
-            .compose(task -> Ux.future(process.bind(task)))
+            .compose(task -> Ux.future(process.from(task)))
             .compose(nil -> {
-                final Task task = process.task();
+                final Task task = process.from();
                 // WMove Get
                 final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
                 process.bind(move);
@@ -49,6 +49,6 @@ public class MoveOnNext extends AbstractMoveOn {
                 final RunOn runOn = RunOn.get();
                 return runOn.moveAsync(instance, move);
             })
-            .compose(nil -> process.future());
+            .compose(nil -> Ux.future(process));
     }
 }

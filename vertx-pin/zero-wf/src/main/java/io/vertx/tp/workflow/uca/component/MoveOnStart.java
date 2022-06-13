@@ -3,8 +3,8 @@ package io.vertx.tp.workflow.uca.component;
 import io.vertx.core.Future;
 import io.vertx.tp.error._409InValidStartException;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
@@ -17,12 +17,12 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
  */
 public class MoveOnStart extends AbstractMoveOn {
     @Override
-    public Future<WProcess> moveAsync(final WRequest request, final WProcess process) {
+    public Future<WTransition> moveAsync(final WRequest request, final WTransition wTransition) {
         final KFlow key = request.workflow();
         final String definitionKey = key.definitionKey();
 
-        if (process.isStart()) {
-            // Error-80604: The process has been started, could not call current divert
+        if (wTransition.isStarted()) {
+            // Error-80604: The wTransition has been started, could not call current divert
             return Ux.thenError(_409InValidStartException.class, this.getClass(), definitionKey);
         }
         /*
@@ -38,7 +38,7 @@ public class MoveOnStart extends AbstractMoveOn {
             .compose(event -> {
                 // WMove Get
                 final WMove move = this.rule(event.getId()).stored(request.request());
-                process.bind(move);
+                wTransition.bind(move);
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
                 return runOn.startAsync(definitionKey, move);
@@ -48,9 +48,8 @@ public class MoveOnStart extends AbstractMoveOn {
              * 「Engine 1」:
              * 1) Start the workflow here
              * 2) Bind the WMove to WProcess first and then bind the ProcessInstance
-             * 3) Each workflow will start here for continue processing
+             * 3) Each workflow will start here for continue wTransitioning
              */
-            .compose(process::instance /* WProcess -> Bind Process */)
-            .compose(nil -> process.future());
+            .compose(nil -> Ux.future(wTransition));
     }
 }

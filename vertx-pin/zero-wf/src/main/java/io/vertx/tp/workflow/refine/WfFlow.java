@@ -1,18 +1,11 @@
 package io.vertx.tp.workflow.refine;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
-import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KFlow;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -49,15 +42,6 @@ class WfFlow {
         final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
         final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
         return node.getElementType().getTypeName();
-    }
-
-    static Future<WProcess> createProcess(final WRequest request) {
-        final WProcess process = WProcess.create();
-        final KFlow workflow = request.workflow();
-        final Io<Void> io = Io.io();
-        final ProcessInstance instance = io.inInstance(workflow.instanceId());
-        return process.instance(instance/* WProcess -> Bind Process */)
-            .compose(bind -> Ux.future(process));
     }
 
     static JsonObject outLinkage(final JsonObject linkageJ) {

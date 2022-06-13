@@ -5,9 +5,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMoveRule;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.central.AidData;
 import io.vertx.tp.workflow.uca.modeling.Register;
@@ -23,7 +23,7 @@ import java.util.function.Function;
  */
 public class TransferStandard extends AbstractMovement implements Transfer {
     @Override
-    public Future<WRecord> moveAsync(final WRequest request, final WProcess wProcess) {
+    public Future<WRecord> moveAsync(final WRequest request, final WTransition wTransition) {
         /*
          * Capture the next task for standard workflow
          * 1. Here camunda-workflow task has been finished
@@ -44,20 +44,20 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 /*
                  * Todo Data Only
                  */
-                AidData.closeJ(normalized, wProcess), wProcess)
+                AidData.closeJ(normalized, wTransition), wTransition)
             )
-            .compose(this.saveAsyncFn(refer.get(), wProcess))
+            .compose(this.saveAsyncFn(refer.get(), wTransition))
             .compose(request::record)
             /*
              * Trigger next todo generation here
              */
-            .compose(record -> wProcess.taskActive().compose(taskNext -> {
+            .compose(record -> wTransition.taskActive().compose(taskNext -> {
                 /*
                  * Todo Generation Condition
                  * 1. Instance is not ended
                  * 2. Next task is not null
                  */
-                if (wProcess.isContinue(taskNext)) {
+                if (wTransition.isRunning(taskNext)) {
                     /*
                      * Here the taskNext is not null
                      */
@@ -80,15 +80,15 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                          *      at io.vertx.tp.workflow.uca.component.MoveOnUser.transferAsync(MoveOnUser.java:37)
                          */
                         moveOn.bind(this.rules()).bind(this.metadataIn());
-                        return moveOn.transferAsync(request, wProcess);
+                        return moveOn.transferAsync(request, wTransition);
                     });
                 } else {
                     return Ux.future(record);
                 }
-            })).compose(record -> this.afterAsync(record, wProcess));
+            })).compose(record -> this.afterAsync(record, wTransition));
     }
 
-    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WProcess process) {
+    private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WTransition process) {
         return record -> {
             /*
              * Double check for `insert record`
