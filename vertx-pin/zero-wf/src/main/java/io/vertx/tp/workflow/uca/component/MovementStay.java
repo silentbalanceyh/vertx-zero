@@ -15,7 +15,7 @@ import org.camunda.bpm.engine.task.Task;
 public class MovementStay extends AbstractTransfer implements Movement {
     @Override
     public Future<WTransition> moveAsync(final WRequest request) {
-        final WTransition wTransition = WTransition.create(request);
+        final WTransition wTransition = WTransition.create(request, this.rules());
         // Instance Building
         return this.beforeAsync(request, wTransition).compose(normalized -> {
             /* Here normalized/request shared the same reference */
