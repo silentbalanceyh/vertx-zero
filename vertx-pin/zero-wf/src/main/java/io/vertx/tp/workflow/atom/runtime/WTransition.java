@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.atom.runtime;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
@@ -42,15 +42,28 @@ public class WTransition {
     private WTask to;
     private WMove move;
 
+    private PassWay way;
+
     private WTransition(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
         this.define = new WTransitionDefine(workflow, move);
         final Io<Void> io = Io.io();
-        this.instance = io.inInstance(workflow.instanceId());
+        /*
+         * Fix Issue: 「Camunda Exception」
+         * org.camunda.bpm.engine.exception.NullValueException: Process instance id is null
+         */
+        if (Ut.notNil(workflow.instanceId())) {
+            this.instance = io.inInstance(workflow.instanceId());
+        }
     }
 
     public static WTransition create(final WRequest request, final ConcurrentMap<String, WMove> move) {
         final KFlow workflow = request.workflow();
-        return new WTransition(workflow, move);
+        final WTransition transition = new WTransition(workflow, move);
+        /*
+         * Private Scope for PassWay of request
+         */
+        transition.way = Wf.inGateway(request.request());
+        return transition;
     }
 
     // --------------------- From/To Task ------------------
@@ -110,9 +123,9 @@ public class WTransition {
         return this.move.inputTransfer(this.moveData.copy());
     }
 
-    public NodeType type() {
+    public PassWay vague() {
         Objects.requireNonNull(this.to);
-        return this.to.type();
+        return this.to.vague();
     }
 
     // --------------------- WTransition Action for Task Data ------------------
@@ -120,7 +133,7 @@ public class WTransition {
     public Future<WTransition> end(final ProcessInstance instance) {
         Objects.requireNonNull(this.move);
         this.instance = instance;
-        final Gear gear = this.move.inputGear();
+        final Gear gear = this.move.inputGear(this.way);
         return gear.taskAsync(instance).compose(wTask -> {
             /*
              * 0 == size, End
@@ -134,7 +147,7 @@ public class WTransition {
 
     public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket) {
         Objects.requireNonNull(this.move);
-        final Gear gear = this.move.inputGear();
+        final Gear gear = this.move.inputGear(this.way);
         return gear.todoAsync(parameters, ticket, this.to);
     }
 

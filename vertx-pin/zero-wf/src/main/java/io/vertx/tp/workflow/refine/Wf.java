@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.refine;
 
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -25,6 +26,10 @@ public class Wf {
 
     public static JsonObject outLinkage(final JsonObject linkageJ) {
         return WfFlow.outLinkage(linkageJ);
+    }
+
+    public static PassWay inGateway(final JsonObject requestJ) {
+        return WfFlow.inGateway(requestJ);
     }
 
     public static String nameEvent(final Task task) {

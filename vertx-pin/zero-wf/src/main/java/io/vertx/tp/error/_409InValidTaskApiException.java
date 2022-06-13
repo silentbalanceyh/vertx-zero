@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 
@@ -10,8 +10,8 @@ import io.vertx.up.exception.WebException;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class _409InValidTaskApiException extends WebException {
-    public _409InValidTaskApiException(final Class<?> clazz, final NodeType input,
-                                       final NodeType expected) {
+    public _409InValidTaskApiException(final Class<?> clazz, final PassWay input,
+                                       final PassWay expected) {
         super(clazz, input, expected);
     }
 

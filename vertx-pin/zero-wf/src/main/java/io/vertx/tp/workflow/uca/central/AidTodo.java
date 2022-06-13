@@ -74,7 +74,7 @@ public class AidTodo {
             ticket.setFlowInstanceId(instance.getId());
             final WRecord record = WRecord
                 .create(true, ChangeFlag.ADD)
-                .bind(wTransition.type());
+                .bind(wTransition.vague());
             return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket)
                 .compose(inserted -> this.updateChild(normalized, record.ticket(inserted)))
                 .compose(processed -> {
@@ -122,7 +122,7 @@ public class AidTodo {
             } else {
                 final WRecord record = WRecord
                     .create(true, ChangeFlag.UPDATE)
-                    .bind(wTransition.type());
+                    .bind(wTransition.vague());
                 return this.updateTicket(params, ticket, record)
                     .compose(processed -> this.updateChild(params, processed))
                     .compose(processed -> this.updateTodo(params, processed));
@@ -141,7 +141,7 @@ public class AidTodo {
         final String tKey = params.getString(KName.Flow.TRACE_ID);
         final WRecord record = WRecord
             .create(true, ChangeFlag.UPDATE)
-            .bind(wTransition.type());
+            .bind(wTransition.vague());
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(tKey)
             .compose(ticket -> this.updateTicket(params, ticket, record))
             .compose(processed -> this.updateChild(params, processed))

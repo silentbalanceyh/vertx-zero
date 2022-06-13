@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.conformity;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 interface GearSupplier {
-    ConcurrentMap<NodeType, Kv<String, Supplier<Gear>>> SUPPLIERS = new ConcurrentHashMap<>() {
+    ConcurrentMap<PassWay, Kv<String, Supplier<Gear>>> SUPPLIERS = new ConcurrentHashMap<>() {
         {
-            this.put(NodeType.Standard, Kv.create(GearStandard.class.getName(), GearStandard::new));
-            this.put(NodeType.Fork, Kv.create(GearForkJoin.class.getName(), GearForkJoin::new));
-            this.put(NodeType.Multi, Kv.create(GearMulti.class.getName(), GearMulti::new));
-            this.put(NodeType.Grid, Kv.create(GearGrid.class.getName(), GearGrid::new));
+            this.put(PassWay.Standard, Kv.create(GearStandard.class.getName(), GearStandard::new));
+            this.put(PassWay.Fork, Kv.create(GearForkJoin.class.getName(), GearForkJoin::new));
+            this.put(PassWay.Multi, Kv.create(GearMulti.class.getName(), GearMulti::new));
+            this.put(PassWay.Grid, Kv.create(GearGrid.class.getName(), GearGrid::new));
         }
     };
 }
@@ -34,9 +34,9 @@ interface GearSupplier {
  */
 public abstract class AbstractGear implements Gear {
 
-    protected NodeType type;
+    protected PassWay type;
 
-    protected AbstractGear(final NodeType type) {
+    protected AbstractGear(final PassWay type) {
         this.type = type;
     }
 

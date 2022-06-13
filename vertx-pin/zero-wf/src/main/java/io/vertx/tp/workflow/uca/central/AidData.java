@@ -210,7 +210,7 @@ public class AidData {
             entity = Ux.updateT(entity, todoUpdate);
         }
         final WRecord created = WRecord.create(true, ChangeFlag.UPDATE)
-            .bind(wTransition.type())
+            .bind(wTransition.vague())
             .task(entity)                       // WTodo
             .ticket(ticket)                     // WTicket
             .ticket(record.child());            // JsonObject for Child Data
@@ -231,9 +231,9 @@ public class AidData {
          *
          */
         if (Objects.isNull(prev)) {
-            created.prev(record.bind(wTransition.type()));
+            created.prev(record.bind(wTransition.vague()));
         } else {
-            created.prev(prev.bind(wTransition.type()));
+            created.prev(prev.bind(wTransition.vague()));
         }
         return created;
     }

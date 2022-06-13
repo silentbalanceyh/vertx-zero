@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.conformity;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class GearStandard extends AbstractGear {
 
     public GearStandard() {
-        super(NodeType.Standard);
+        super(PassWay.Standard);
     }
 
     /*
@@ -34,7 +34,7 @@ public class GearStandard extends AbstractGear {
          */
         final Io<Task> io = Io.ioTask();
         return io.child(instance.getId()).compose(task -> {
-            final WTask wTask = new WTask(NodeType.Standard);
+            final WTask wTask = new WTask(PassWay.Standard);
             wTask.add(task);
             return Ux.future(wTask);
         });
