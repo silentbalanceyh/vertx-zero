@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.conformity;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
@@ -35,7 +35,7 @@ public interface Gear {
      * ProcessInstance / WMove to processing
      * The final Gear instance
      */
-    static Gear instance(final NodeType type) {
+    static Gear instance(final PassWay type) {
         final Gear gear;
         if (Objects.isNull(type) || !GearSupplier.SUPPLIERS.containsKey(type)) {
             // MoveMode is null;

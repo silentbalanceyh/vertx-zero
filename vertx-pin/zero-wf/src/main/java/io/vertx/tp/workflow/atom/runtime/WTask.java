@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.tp.error._409InValidTaskApiException;
 import org.camunda.bpm.engine.task.Task;
 
@@ -29,9 +29,9 @@ public class WTask {
      * 4. Grid     -- size = N ( size = N )
      */
     private final ConcurrentMap<String, ConcurrentMap<String, Task>> tasks = new ConcurrentHashMap<>();
-    private final NodeType type;
+    private final PassWay type;
 
-    public WTask(final NodeType type) {
+    public WTask(final PassWay type) {
         Objects.requireNonNull(type);
         this.type = type;
     }
@@ -56,7 +56,7 @@ public class WTask {
     // ----------------- Mode for Different Usage -------------------
 
     public Task standard() {
-        this.ensure(NodeType.Standard);
+        this.ensure(PassWay.Standard);
         if (this.tasks.isEmpty()) {
             return null;
         }
@@ -68,7 +68,7 @@ public class WTask {
     }
 
     public List<Task> multi() {
-        this.ensure(NodeType.Multi);
+        this.ensure(PassWay.Multi);
         if (this.tasks.isEmpty()) {
             return new ArrayList<>();
         }
@@ -80,7 +80,7 @@ public class WTask {
     }
 
     public ConcurrentMap<String, Task> fork() {
-        this.ensure(NodeType.Fork);
+        this.ensure(PassWay.Fork);
         if (this.tasks.isEmpty()) {
             return new ConcurrentHashMap<>();
         }
@@ -92,7 +92,7 @@ public class WTask {
     }
 
     public ConcurrentMap<String, List<Task>> grid() {
-        this.ensure(NodeType.Grid);
+        this.ensure(PassWay.Grid);
         final ConcurrentMap<String, List<Task>> taskMap = new ConcurrentHashMap<>();
         this.tasks.forEach((taskKey, valueMap) -> {
             final List<Task> valueList = new ArrayList<>(valueMap.values());
@@ -103,13 +103,13 @@ public class WTask {
         return taskMap;
     }
 
-    private void ensure(final NodeType expected) {
+    private void ensure(final PassWay expected) {
         if (expected != this.type) {
             throw new _409InValidTaskApiException(this.getClass(), this.type, expected);
         }
     }
 
-    public NodeType type() {
+    public PassWay vague() {
         return this.type;
     }
 }

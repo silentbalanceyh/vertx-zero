@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.atom.runtime;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.WfCv;
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -40,7 +40,7 @@ public class WRecord implements Serializable {
     private final transient JsonObject dataAfter = new JsonObject();
     // Change Flag for activity
     private final transient ChangeFlag tabb;
-    private transient NodeType type;
+    private transient PassWay type;
     /*
      * This variable stored prev record when do different operation
      * 1) ADD:          prev = null
@@ -110,7 +110,7 @@ public class WRecord implements Serializable {
         return this;
     }
 
-    public WRecord bind(final NodeType type) {
+    public WRecord bind(final PassWay type) {
         this.type = type;
         return this;
     }
@@ -176,7 +176,7 @@ public class WRecord implements Serializable {
      * - status()                       Todo Status ( Original Status stored in database )
      */
     public WTodo todo() {
-        this.ensure(NodeType.Standard);
+        this.ensure(PassWay.Standard);
         if (this.todo.isEmpty() || Values.ONE < this.todo.size()) {
             return null;
         } else {
@@ -519,7 +519,7 @@ public class WRecord implements Serializable {
         }
     }
 
-    private void ensure(final NodeType expected) {
+    private void ensure(final PassWay expected) {
         if (expected != this.type) {
             throw new _409InValidTaskApiException(this.getClass(), this.type, expected);
         }

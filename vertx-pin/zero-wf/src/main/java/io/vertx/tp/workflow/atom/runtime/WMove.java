@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.NodeType;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
@@ -47,7 +47,6 @@ public class WMove implements Serializable {
      */
     private final String node;
 
-    private final NodeType type;
     private final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
     private final AspectConfig aspect;
 
@@ -83,7 +82,6 @@ public class WMove implements Serializable {
          * The configuration node should be gateway, in current version, this
          * configuration is Ok for `Fork` only.
          */
-        this.type = Ut.toEnum(() -> config.getString(KName.TYPE), NodeType.class, NodeType.Standard);
         this.gateway.mergeIn(Ut.valueJObject(config, KName.GATEWAY));
     }
 
@@ -99,8 +97,8 @@ public class WMove implements Serializable {
         return this.aspect;
     }
 
-    Gear inputGear() {
-        final Gear gear = Gear.instance(this.type);
+    Gear inputGear(final PassWay type) {
+        final Gear gear = Gear.instance(type);
         gear.configuration(this.gateway.copy());
         return gear;
     }
