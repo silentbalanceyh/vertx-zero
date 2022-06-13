@@ -1,5 +1,7 @@
 package io.vertx.tp.workflow.uca.conformity;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.NodeType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -8,6 +10,9 @@ import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -36,7 +41,12 @@ public class GearStandard extends AbstractGear {
     }
 
     @Override
-    public Future<JsonObject> todoAsync(final JsonObject parameters, final WTask task) {
-        return null;
+    public Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTicket ticket, final WTask wTask) {
+        final Task task = wTask.standard();
+        if (Objects.isNull(task)) {
+            return Ux.futureL();
+        }
+        final WTodo todo = this.todoBuild(parameters, ticket, task);
+        return Ux.futureL(todo);
     }
 }

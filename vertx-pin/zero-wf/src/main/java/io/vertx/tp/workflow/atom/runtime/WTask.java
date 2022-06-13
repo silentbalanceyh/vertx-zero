@@ -1,8 +1,11 @@
 package io.vertx.tp.workflow.atom.runtime;
 
 import cn.zeroup.macrocosm.cv.em.NodeType;
+import io.vertx.tp.error._409InValidTaskApiException;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -48,5 +51,65 @@ public class WTask {
             taskRef.put(task.getId(), task);
         }
         return this;
+    }
+
+    // ----------------- Mode for Different Usage -------------------
+
+    public Task standard() {
+        this.ensure(NodeType.Standard);
+        if (this.tasks.isEmpty()) {
+            return null;
+        }
+        final ConcurrentMap<String, Task> item = this.tasks.values().iterator().next();
+        if (Objects.isNull(item) || item.isEmpty()) {
+            return null;
+        }
+        return item.values().iterator().next();
+    }
+
+    public List<Task> multi() {
+        this.ensure(NodeType.Multi);
+        if (this.tasks.isEmpty()) {
+            return new ArrayList<>();
+        }
+        final ConcurrentMap<String, Task> item = this.tasks.values().iterator().next();
+        if (Objects.isNull(item) || item.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(item.values());
+    }
+
+    public ConcurrentMap<String, Task> fork() {
+        this.ensure(NodeType.Fork);
+        if (this.tasks.isEmpty()) {
+            return new ConcurrentHashMap<>();
+        }
+        final ConcurrentMap<String, Task> item = this.tasks.values().iterator().next();
+        if (Objects.isNull(item)) {
+            return new ConcurrentHashMap<>();
+        }
+        return item;
+    }
+
+    public ConcurrentMap<String, List<Task>> grid() {
+        this.ensure(NodeType.Grid);
+        final ConcurrentMap<String, List<Task>> taskMap = new ConcurrentHashMap<>();
+        this.tasks.forEach((taskKey, valueMap) -> {
+            final List<Task> valueList = new ArrayList<>(valueMap.values());
+            if (!valueList.isEmpty()) {
+                taskMap.put(taskKey, valueList);
+            }
+        });
+        return taskMap;
+    }
+
+    private void ensure(final NodeType expected) {
+        if (expected != this.type) {
+            throw new _409InValidTaskApiException(this.getClass(), this.type, expected);
+        }
+    }
+
+    public NodeType type() {
+        return this.type;
     }
 }

@@ -92,12 +92,12 @@ public class TaskService implements TaskStub {
 
     private Future<WRecord> readTodo(final String key, final WRecord response) {
         return Ux.Jooq.on(WTodoDao.class).<WTodo>fetchByIdAsync(key)
-            .compose(Ut.ifNil(response::bind, todo -> Ux.future(response.bind(todo))));
+            .compose(Ut.ifNil(response::bind, todo -> Ux.future(response.task(todo))));
     }
 
     private Future<WRecord> readTicket(final String key, final WRecord response) {
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
-            .compose(Ut.ifNil(response::bind, ticket -> Ux.future(response.bind(ticket))));
+            .compose(Ut.ifNil(response::bind, ticket -> Ux.future(response.ticket(ticket))));
     }
 
     private Future<WRecord> readChild(final WRecord response) {
@@ -114,7 +114,7 @@ public class TaskService implements TaskStub {
             return Ux.future(response);
         }
         return jq.fetchJByIdAsync(ticket.getKey())
-            .compose(queried -> Ux.future(response.bind(queried)));
+            .compose(queried -> Ux.future(response.ticket(queried)));
     }
 
 

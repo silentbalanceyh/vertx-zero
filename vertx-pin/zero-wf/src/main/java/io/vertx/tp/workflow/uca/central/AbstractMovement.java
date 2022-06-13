@@ -103,9 +103,9 @@ public abstract class AbstractMovement extends AbstractTransfer {
                 .syncAsync(params, record));
     }
 
-    protected Future<WRecord> updateAsync(final JsonObject params) {
+    protected Future<WRecord> updateAsync(final JsonObject params, final WTransition WTransition) {
         return Objects.requireNonNull(this.todoKit)
-            .updateAsync(params)
+            .updateAsync(params, WTransition)
             // Linkage Sync
             .compose(record -> Objects.requireNonNull(this.linkageKit)
                 .syncAsync(params, record));

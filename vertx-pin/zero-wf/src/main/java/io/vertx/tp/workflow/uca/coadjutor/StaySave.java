@@ -18,7 +18,7 @@ public class StaySave extends AbstractMovement implements Stay {
     public Future<WRecord> keepAsync(final WRequest request, final WTransition wTransition) {
         // Todo Updating
         final JsonObject params = request.request();
-        return this.updateAsync(params).compose(record -> {
+        return this.updateAsync(params, wTransition).compose(record -> {
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             // Record Updating
             final Register register = Register.phantom(params, metadataOut);

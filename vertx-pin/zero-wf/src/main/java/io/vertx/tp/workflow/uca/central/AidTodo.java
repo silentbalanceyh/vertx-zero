@@ -9,14 +9,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
 
@@ -39,8 +37,8 @@ public class AidTodo {
 
     // ------------- Insert Operation ----------------------
     // Save = Insert + Update
-    public Future<WRecord> insertAsync(final JsonObject params, final WTransition transition) {
-        final ProcessInstance instance = transition.instance();
+    public Future<WRecord> insertAsync(final JsonObject params, final WTransition wTransition) {
+        final ProcessInstance instance = wTransition.instance();
         // Todo Build
         return this.metadata.todoInitialize(params).compose(normalized -> {
             // Ticket Workflow
@@ -74,85 +72,28 @@ public class AidTodo {
              */
             ticket.setFlowEnd(Boolean.FALSE);
             ticket.setFlowInstanceId(instance.getId());
-            final WRecord record = WRecord.create(true, ChangeFlag.ADD);
+            final WRecord record = WRecord
+                .create(true, ChangeFlag.ADD)
+                .bind(wTransition.type());
             return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket)
-                .compose(inserted -> this.updateChild(normalized, record.bind(inserted)))
+                .compose(inserted -> this.updateChild(normalized, record.ticket(inserted)))
                 .compose(processed -> {
                     final WTicket inserted = processed.ticket();
-                    /*
-                     * Key Point for attachment linkage here, the linkage must contain
-                     * serial part in params instead of distinguish between ADD / EDIT
-                     */
-                    if (!params.containsKey(KName.SERIAL)) {
-                        params.put(KName.SERIAL, inserted.getSerial());
-                    }
-                    // Todo Workflow
-                    final WTodo todo = Ux.fromJson(normalized, WTodo.class);
-                    /*
-                     * Key Point: The todo key will be used in `todoUrl` field here,
-                     * it means that we must set the `key` fixed to avoid todoUrl capture
-                     * the key of ticket.
-                     */
-                    todo.setKey(todoKey);
-                    /*
-                     * null value when processed
-                     * 「Related」
-                     *  - traceId
-                     *  - traceOrder
-                     *  - parentId
-                     *
-                     * 「Camunda」
-                     *  - taskId
-                     *  - taskKey
-                     *
-                     * 「Flow」
-                     *  - assignedBy
-                     *  - assignedAt
-                     *  - acceptedBy
-                     *  - acceptedAt
-                     *  - finishedBy
-                     *  - finishedAt
-                     *  - comment
-                     *  - commentApproval
-                     *  - commentReject
-                     *
-                     * 「Future」
-                     *  - metadata
-                     *  - modelCategory
-                     *  - activityId
-                     */
-                    todo.setTraceId(inserted.getKey());
-                    todo.setTraceOrder(1);
-                    todo.setCode(inserted.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
-                    todo.setSerial(inserted.getSerial() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
 
+                    final JsonObject gearInput = params.copy();
+                    gearInput.put(KName.KEY, todoKey);
 
-                    /*
-                     *  Connect WTodo and ProcessInstance
-                     *  1. taskId = Task, getId
-                     *  2. taskKey = Task, getTaskDefinitionKey
-                     */
-                    final Io<Task> ioTask = Io.ioTask();
-                    return ioTask.child(instance.getId())
-                        .compose(task -> {
-                            // Camunda Engine
-                            todo.setTaskId(task.getId());
-                            todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
-                            return Ux.future(todo);
-                        })
-                        .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
-                        .compose(insertedTodo -> {
-                            /*
-                             * No `status` field here.
-                             */
-                            record.bind(insertedTodo);
-                            return Ux.future(record);
-                        });
+                    return wTransition.end(gearInput, inserted);
+                })
+                .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
+                .compose(inserted -> {
+                    record.task(inserted);
+                    return Ux.future(record);
                 });
         });
     }
 
-    public Future<WRecord> saveAsync(final JsonObject params, final WTransition process) {
+    public Future<WRecord> saveAsync(final JsonObject params, final WTransition wTransition) {
         /*
          * Ticket Data Updating
          * 1. Fetch record by `traceId` field
@@ -177,9 +118,11 @@ public class AidTodo {
                  * -- WTicket + Extension Entity
                  *
                  */
-                return this.insertAsync(params, process);
+                return this.insertAsync(params, wTransition);
             } else {
-                final WRecord record = WRecord.create(true, ChangeFlag.UPDATE);
+                final WRecord record = WRecord
+                    .create(true, ChangeFlag.UPDATE)
+                    .bind(wTransition.type());
                 return this.updateTicket(params, ticket, record)
                     .compose(processed -> this.updateChild(params, processed))
                     .compose(processed -> this.updateTodo(params, processed));
@@ -189,14 +132,16 @@ public class AidTodo {
 
     // ------------- Update Operation ----------------------
 
-    public Future<WRecord> updateAsync(final JsonObject params) {
+    public Future<WRecord> updateAsync(final JsonObject params, final WTransition wTransition) {
         /*
          * Ticket Data Updating
          * 1. Extract key from `traceId` field
          * 2. Remove `key` because here the `key` field is W_TODO
          */
         final String tKey = params.getString(KName.Flow.TRACE_ID);
-        final WRecord record = WRecord.create(true, ChangeFlag.UPDATE);
+        final WRecord record = WRecord
+            .create(true, ChangeFlag.UPDATE)
+            .bind(wTransition.type());
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(tKey)
             .compose(ticket -> this.updateTicket(params, ticket, record))
             .compose(processed -> this.updateChild(params, processed))
@@ -215,7 +160,7 @@ public class AidTodo {
             // ------------- Previous ----------------------
             // Bind Original
             final WRecord prev = recordRef.prev();
-            prev.bind(ticket);
+            prev.ticket(ticket);
         }
         final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
         final JsonObject ticketJ = params.copy();
@@ -234,7 +179,7 @@ public class AidTodo {
             if (!params.containsKey(KName.SERIAL)) {
                 params.put(KName.SERIAL, ticket.getSerial());
             }
-            recordRef.bind(updated);
+            recordRef.ticket(updated);
             return Ux.future(recordRef);
         });
     }
@@ -248,7 +193,7 @@ public class AidTodo {
                 // ------------- Previous ----------------------
                 // Bind Original
                 final WRecord prev = recordRef.prev();
-                prev.bind(query);
+                prev.task(query);
             }
 
             final JsonObject todoJ = params.copy();
@@ -259,7 +204,7 @@ public class AidTodo {
             final WTodo updated = Ux.updateT(query, todoJ);
             return tJq.updateAsync(updated).compose(todo -> {
                 // Bind Updated
-                recordRef.bind(todo);
+                recordRef.task(todo);
                 return Ux.future(recordRef);
             });
         });
@@ -281,7 +226,7 @@ public class AidTodo {
             {
                 // ------------- Previous ----------------------
                 final WRecord prev = recordRef.prev();
-                prev.bind(queryJ);
+                prev.ticket(queryJ);
             }
 
             // Updated Json for Child
@@ -302,7 +247,7 @@ public class AidTodo {
             }
         }).compose(updated -> {
             // Bind Updated
-            recordRef.bind(updated);
+            recordRef.ticket(updated);
             return Ux.future(recordRef);
         });
     }
