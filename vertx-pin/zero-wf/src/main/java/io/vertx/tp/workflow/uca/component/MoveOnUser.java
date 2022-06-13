@@ -20,7 +20,7 @@ public class MoveOnUser extends AbstractMoveOn {
         /*
          * Process creation for new and next step here.
          */
-        final WTransition next = WTransition.create(request, this.rules());
+        final WTransition next = this.createTransition(request);
         {
             /*
              * Processing WProcess creation based on process here

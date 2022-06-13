@@ -1,11 +1,16 @@
 package io.vertx.tp.workflow.uca.conformity;
 
 import cn.zeroup.macrocosm.cv.em.NodeType;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.uca.cache.Cc;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * 1) Bind instance for Task seeking
@@ -27,23 +32,15 @@ public interface Gear {
      */
     static Gear instance(final NodeType type) {
         final Gear gear;
-        if (Objects.isNull(type)) {
+        if (Objects.isNull(type) || !GearSupplier.SUPPLIERS.containsKey(type)) {
             // MoveMode is null;
             gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());
             Wf.Log.infoInit(Gear.class,
                 "( Gear ) <NodeType Null> Component Initialized: {0}", gear.getClass());
             return gear;
         }
-        if (NodeType.Fork == type) {
-            // Fork/Join
-            gear = CC_GEAR.pick(GearForkJoin::new, GearForkJoin.class.getName());
-        } else if (NodeType.Multi == type) {
-            // Multi
-            gear = CC_GEAR.pick(GearMulti::new, GearMulti.class.getName());
-        } else {
-            // Standard
-            gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());
-        }
+        final Kv<String, Supplier<Gear>> kv = GearSupplier.SUPPLIERS.get(type);
+        gear = CC_GEAR.pick(kv.getValue(), kv.getKey());
         Wf.Log.infoInit(Gear.class,
             "( Gear ) Component Initialized: {0}, Mode = {1}", gear.getClass(), type);
         return gear;
@@ -52,4 +49,8 @@ public interface Gear {
     default Gear configuration(final JsonObject config) {
         return this;
     }
+
+    Future<WTask> taskAsync(ProcessInstance instance);
+
+    Future<JsonObject> todoAsync(JsonObject parameters, WTask task);
 }

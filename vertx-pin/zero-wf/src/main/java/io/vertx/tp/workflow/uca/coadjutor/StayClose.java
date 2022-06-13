@@ -35,8 +35,6 @@ public class StayClose extends AbstractMovement implements Stay {
             // Remove ProcessDefinition
             final RunOn runOn = RunOn.get();
             return runOn.stopAsync(instance, TodoStatus.FINISHED).compose(removed -> Ux.future(record));
-        }).compose(record -> wTransition.start()
-            .compose(started -> this.trackerKit.afterAsync(record, started))
-        );
+        }).compose(record -> this.afterAsync(record, wTransition));
     }
 }

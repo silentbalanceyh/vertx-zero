@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.em.NodeType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.sectio.AspectConfig;
@@ -50,7 +51,7 @@ public class WMove implements Serializable {
     private final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
     private final AspectConfig aspect;
 
-    private final ConcurrentMap<String, String> gateway = new ConcurrentHashMap<>();
+    private final JsonObject gateway = new JsonObject();
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
@@ -83,8 +84,7 @@ public class WMove implements Serializable {
          * configuration is Ok for `Fork` only.
          */
         this.type = Ut.toEnum(() -> config.getString(KName.TYPE), NodeType.class, NodeType.Standard);
-        final JsonObject gatewayJ = Ut.valueJObject(config, KName.GATEWAY);
-        Ut.<String>itJObject(gatewayJ, (to, from) -> this.gateway.put(from, to));
+        this.gateway.mergeIn(Ut.valueJObject(config, KName.GATEWAY));
     }
 
     public static WMove create(final String node, final JsonObject config) {
@@ -97,6 +97,12 @@ public class WMove implements Serializable {
 
     AspectConfig configAop() {
         return this.aspect;
+    }
+
+    Gear inputGear() {
+        final Gear gear = Gear.instance(this.type);
+        gear.configuration(this.gateway.copy());
+        return gear;
     }
 
     /*

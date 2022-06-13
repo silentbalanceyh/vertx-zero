@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
+import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
@@ -30,11 +31,12 @@ public class WTransition {
      */
     private final WTransitionDefine define;
 
-    private final transient JsonObject moveData = new JsonObject();
+    private final JsonObject moveData = new JsonObject();
     private ProcessInstance instance;
-    private transient Task from;
-    private transient Task to;
-    private transient WMove move;
+    private Task from;
+
+    private WTask to;
+    private WMove move;
 
     private WTransition(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
         this.define = new WTransitionDefine(workflow, move);
@@ -47,15 +49,13 @@ public class WTransition {
         return new WTransition(workflow, move);
     }
 
-    public WTransition from(final Task task) {
-        this.from = task;
-        // Task Definition Key ( e.xxx )
-        this.move = this.define.rule(task.getTaskDefinitionKey());
-        return this;
-    }
-
+    // --------------------- From/To Task ------------------
     public Task from() {
         return this.from;
+    }
+
+    public WTask to() {
+        return this.to;
     }
 
     // --------------------- Task & Instance ------------------
@@ -109,8 +109,18 @@ public class WTransition {
     // --------------------- WTransition Action for Task Data ------------------
 
     public Future<WTransition> end(final ProcessInstance instance) {
+        Objects.requireNonNull(this.move);
         this.instance = instance;
-        return Ux.future(this);
+        final Gear gear = this.move.inputGear();
+        return gear.taskAsync(instance).compose(wTask -> {
+            /*
+             * 0 == size, End
+             * 1 == size, Standard
+             * 1 <  size, Fork/Join, Multi
+             */
+            this.to = wTask;
+            return Ux.future(this);
+        });
     }
 
     public Future<WTransition> start() {
@@ -150,7 +160,9 @@ public class WTransition {
                 if (Objects.isNull(task)) {
                     return Ux.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
                 } else {
-                    this.from(task);
+                    this.from = task;
+                    // Task Definition Key ( e.xxx )
+                    this.move = this.define.rule(task.getTaskDefinitionKey());
                     Objects.requireNonNull(this.move);
                     return Ux.future(this);
                 }

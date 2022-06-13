@@ -85,9 +85,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 } else {
                     return Ux.future(record);
                 }
-            })).compose(record -> wTransition.start()
-                .compose(started -> this.trackerKit.afterAsync(record, started))
-            );
+            })).compose(record -> this.afterAsync(record, wTransition));
     }
 
     private Function<WRecord, Future<WRecord>> saveAsyncFn(final JsonObject input, final WTransition process) {
