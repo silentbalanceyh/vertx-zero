@@ -10,32 +10,37 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WTransition {
-    private final transient ProcessDefinition definition;
-    private final transient ProcessInstance instance;
+
+    /*
+     * Workflow Definition Level
+     * 1. ProcessDefinition reference
+     * 2. ConcurrentMap<String, WMove> for Transition Only
+     */
+    private final WTransitionDefine define;
+
+    private final ProcessInstance instance;
+
     private transient Task from;
     private transient Task to;
     private transient WMove move;
     private transient Gear scatter;
 
-    private WTransition(final KFlow workflow) {
-        // Io<Void> io when create the new Transaction
+    private WTransition(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
+        this.define = new WTransitionDefine(workflow, move);
         final Io<Void> io = Io.io();
-        /*
-         * ProcessDefinition
-         * ProcessInstance
-         */
-        this.definition = io.inProcess(workflow.definitionId());
         this.instance = io.inInstance(workflow.instanceId());
     }
 
-    public static WTransition create(final WRequest request) {
+    public static WTransition create(final WRequest request, final ConcurrentMap<String, WMove> move) {
         final KFlow workflow = request.workflow();
-        return new WTransition(workflow);
+        return new WTransition(workflow, move);
     }
 
     public WTransition from(final Task task) {
@@ -89,7 +94,7 @@ public class WTransition {
     }
 
     public ProcessDefinition flowDefinition() {
-        return this.definition;
+        return this.define.definition();
     }
 
     // --------------------- Move Rule Processing ------------------
@@ -131,6 +136,26 @@ public class WTransition {
     }
 }
 
-class WTransitionInternal {
+class WTransitionDefine {
+    private final ProcessDefinition definition;
 
+    private final ConcurrentMap<String, WMove> move = new ConcurrentHashMap<>();
+
+    WTransitionDefine(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
+        // Io<Void> io when create the new Transaction
+        final Io<Void> io = Io.io();
+        /*
+         * ProcessDefinition
+         * ProcessInstance
+         */
+        this.definition = io.inProcess(workflow.definitionId());
+        if (Objects.nonNull(move)) {
+            this.move.clear();
+            this.move.putAll(move);
+        }
+    }
+
+    ProcessDefinition definition() {
+        return this.definition;
+    }
 }
