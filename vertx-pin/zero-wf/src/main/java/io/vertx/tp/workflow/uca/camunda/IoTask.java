@@ -19,6 +19,12 @@ public class IoTask extends AbstractIo<Task> {
     public Future<Task> run(final String taskId) {
         final TaskService service = WfPin.camundaTask();
         return Ux.future(service.createTaskQuery()
+            /*
+             * Fix Issue:
+             * The form key / form reference is not initialized. You must call initializeFormKeys()
+             * on the task query before you can retrieve the form key or the form reference.
+             */
+            .initializeFormKeys()
             .taskId(taskId)
             .active().singleResult());
     }
@@ -27,6 +33,11 @@ public class IoTask extends AbstractIo<Task> {
     public Future<Task> child(final String instanceId) {
         final TaskService service = WfPin.camundaTask();
         return Ux.future(service.createTaskQuery()
+            /*
+             * Fix Issue:
+             * The form key / form reference is not initialized. You must call initializeFormKeys()
+             * on the task query before you can retrieve the form key or the form reference.
+             */
             .initializeFormKeys()
             .processInstanceId(instanceId)
             .active().singleResult());
@@ -36,6 +47,11 @@ public class IoTask extends AbstractIo<Task> {
     public Future<List<Task>> children(final String instanceId) {
         final TaskService service = WfPin.camundaTask();
         return Ux.future(service.createTaskQuery()
+            /*
+             * Fix Issue:
+             * The form key / form reference is not initialized. You must call initializeFormKeys()
+             * on the task query before you can retrieve the form key or the form reference.
+             */
             .initializeFormKeys()
             .processInstanceId(instanceId)
             .active().list());

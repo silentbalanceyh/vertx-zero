@@ -176,7 +176,6 @@ public class WRecord implements Serializable {
      * - status()                       Todo Status ( Original Status stored in database )
      */
     public WTodo todo() {
-        this.ensure(PassWay.Standard);
         if (this.todo.isEmpty() || Values.ONE < this.todo.size()) {
             return null;
         } else {
