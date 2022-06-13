@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
@@ -84,20 +83,19 @@ public class AidTracker {
         this.metadata = metadata;
     }
 
-    public Future<WRequest> beforeAsync(final WRequest request, final WMove move) {
+    public Future<WRequest> beforeAsync(final WRequest request, final WTransition transition) {
         // Build Aspect Component
-        final Aspect aspect = this.aspect(move);
+        final Aspect aspect = this.aspect(transition);
         return aspect.wrapJBefore(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
             .apply(request.request())
             .compose(request::future);
     }
 
-    public Future<WRecord> afterAsync(final WRecord record, final WTransition process) {
+    public Future<WRecord> afterAsync(final WRecord record, final WTransition transition) {
         // Build Aspect Component
-        final WMove move = process.rule();
-        final Aspect aspect = this.aspect(move);
+        final Aspect aspect = this.aspect(transition);
         return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
-            .apply(aspectParameter(record, process))
+            .apply(aspectParameter(record, transition))
             .compose(record::futureAfter);
     }
 
@@ -129,23 +127,8 @@ public class AidTracker {
         return parameters;
     }
 
-    private Aspect aspect(final WMove move) {
-        final AspectConfig aspectConfig;
-        if (Objects.isNull(move)) {
-            // DEFAULT
-            aspectConfig = AspectConfig.create();
-            aspectTabb(aspectConfig);
-        } else {
-            // Configured
-            aspectConfig = move.configAop();
-            // Because default will add here
-            aspectTabb(aspectConfig);
-        }
-        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
-        return Aspect.create(aspectConfig);
-    }
-
-    private void aspectTabb(final AspectConfig aspectConfig) {
+    private Aspect aspect(final WTransition transition) {
+        final AspectConfig aspectConfig = transition.configAop();
         final List<Class<?>> afterList = aspectConfig.nameAfter();
         if (!afterList.contains(ActivityTabb.class)) {
             afterList.add(ActivityTabb.class);
@@ -154,5 +137,7 @@ public class AidTracker {
             config.put(KName.AUDITOR, this.metadata.childAuditor());
             aspectConfig.config(ActivityTabb.class, config);
         }
+        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
+        return Aspect.create(aspectConfig);
     }
 }

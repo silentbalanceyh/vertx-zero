@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.tp.error._409InValidInstanceException;
-import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.Io;
@@ -21,7 +20,7 @@ import java.util.Objects;
 public class MoveOnNext extends AbstractMoveOn {
     @Override
     public Future<WTransition> moveAsync(final WRequest request, final WTransition process) {
-        final ProcessInstance instance = process.flowInstance();
+        final ProcessInstance instance = process.instance();
         final KFlow key = request.workflow();
         final String instanceId = key.instanceId();
         if (Objects.isNull(instance)) {
@@ -43,11 +42,11 @@ public class MoveOnNext extends AbstractMoveOn {
             .compose(nil -> {
                 final Task task = process.from();
                 // WMove Get
-                final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
-                process.bind(move);
+                // final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
+                // process.bind(move);
                 // Camunda Workflow Running
                 final RunOn runOn = RunOn.get();
-                return runOn.moveAsync(instance, move);
+                return runOn.moveAsync(instance, process);
             })
             .compose(nil -> Ux.future(process));
     }

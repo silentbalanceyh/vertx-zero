@@ -21,7 +21,7 @@ public class MovementStay extends AbstractTransfer implements Movement {
             /* Here normalized/request shared the same reference */
             if (wTransition.isStarted()) {
                 // Started
-                final ProcessInstance instance = wTransition.flowInstance();
+                final ProcessInstance instance = wTransition.instance();
                 final Io<Task> ioTask = Io.ioTask();
                 return ioTask.child(instance.getId())
                     /* Task Bind */

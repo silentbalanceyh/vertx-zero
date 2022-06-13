@@ -40,7 +40,7 @@ public class AidTodo {
     // ------------- Insert Operation ----------------------
     // Save = Insert + Update
     public Future<WRecord> insertAsync(final JsonObject params, final WTransition process) {
-        final ProcessInstance instance = process.flowInstance();
+        final ProcessInstance instance = process.instance();
         // Todo Build
         return this.metadata.todoInitialize(params).compose(normalized -> {
             // Ticket Workflow

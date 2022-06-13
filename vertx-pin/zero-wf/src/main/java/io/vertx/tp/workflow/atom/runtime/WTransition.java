@@ -1,13 +1,17 @@
 package io.vertx.tp.workflow.atom.runtime;
 
 import io.vertx.core.Future;
+import io.vertx.tp.error._409InValidInstanceException;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
-import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.experiment.specification.KFlow;
+import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +34,6 @@ public class WTransition {
     private transient Task from;
     private transient Task to;
     private transient WMove move;
-    private transient Gear scatter;
 
     private WTransition(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
         this.define = new WTransitionDefine(workflow, move);
@@ -48,9 +51,9 @@ public class WTransition {
         return this;
     }
 
+    @Deprecated
     public WTransition bind(final WMove move) {
         this.move = move;
-        this.scatter = Gear.instance(move);
         return this;
     }
 
@@ -89,15 +92,17 @@ public class WTransition {
         return this.to;
     }
 
-    public ProcessInstance flowInstance() {
+    public ProcessInstance instance() {
         return this.instance;
     }
 
-    public ProcessDefinition flowDefinition() {
+    public ProcessDefinition definition() {
         return this.define.definition();
     }
 
     // --------------------- Move Rule Processing ------------------
+
+    @Deprecated
     public WMoveRule ruleFind() {
         /*
          * Fix: java.lang.NullPointerException
@@ -110,8 +115,50 @@ public class WTransition {
         }
     }
 
-    public WMove rule() {
-        return this.move;
+    // --------------------- WTransition Action for Task Data ------------------
+    public Future<WTransition> start() {
+        final KFlow flow = this.define.workflow();
+        final String taskId = flow.taskId();
+        if (Ut.isNil(taskId)) {
+            /*
+             * The instance has not bee started, the `WMove` should be calculated by
+             * Start event instead of taskId directly, it means that after current process
+             * 1) The from = null ( Task )
+             * 2) The move = value ( Not be null, at least Empty )
+             */
+            final ProcessDefinition definition = this.definition();
+            Wf.Log.infoTransition(this.getClass(),
+                "Flow Not Started, rule fetched by definition = {0}", definition.getId());
+            final Io<StartEvent> io = Io.ioEventStart();
+            return io.child(definition.getId()).compose(event -> {
+                // e.start ( StartEvent )
+                this.move = this.define.rule(event.getId());
+                return Ux.future(this);
+            });
+        } else {
+            /*
+             * Ths instance has been started, it means that `WMove` should be calculated by
+             * task definition key instead of ( StartEvent ), after current process
+             * 1) The from = value
+             * 2) The move = value
+             */
+            Objects.requireNonNull(this.instance);
+            final Io<Task> ioTask = Io.ioTask();
+            return ioTask.run(flow.taskId()).compose(task -> {
+                this.from(task);
+                if (Objects.isNull(task)) {
+                    return Ux.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
+                } else {
+                    // Task Definition Key ( e.xxx )
+                    this.move = this.define.rule(this.from.getTaskDefinitionKey());
+                    return Ux.future(this);
+                }
+            });
+        }
+    }
+
+    public AspectConfig configAop() {
+        return Objects.isNull(this.move) ? AspectConfig.create() : this.move.configAop();
     }
 
     // --------------------- WTransition Checking for Status ------------------
@@ -139,9 +186,12 @@ public class WTransition {
 class WTransitionDefine {
     private final ProcessDefinition definition;
 
+    private final KFlow workflow;
+
     private final ConcurrentMap<String, WMove> move = new ConcurrentHashMap<>();
 
     WTransitionDefine(final KFlow workflow, final ConcurrentMap<String, WMove> move) {
+        this.workflow = workflow;
         // Io<Void> io when create the new Transaction
         final Io<Void> io = Io.io();
         /*
@@ -157,5 +207,13 @@ class WTransitionDefine {
 
     ProcessDefinition definition() {
         return this.definition;
+    }
+
+    KFlow workflow() {
+        return this.workflow;
+    }
+
+    WMove rule(final String node) {
+        return this.move.getOrDefault(node, WMove.empty());
     }
 }

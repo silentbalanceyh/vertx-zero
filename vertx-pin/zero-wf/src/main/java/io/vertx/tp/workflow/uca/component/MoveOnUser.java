@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
@@ -31,9 +30,9 @@ public class MoveOnUser extends AbstractMoveOn {
              * - ProcessInstance
              */
             final Task task = process.from();
-            final WMove move = this.rule(task.getTaskDefinitionKey());
-            move.stored(request.request());
-            next.from(process.to()).bind(move);
+            // final WMove move = this.rule(task.getTaskDefinitionKey());
+            // move.stored(request.request());
+            // next.from(process.to()).bind(move);
         }
         // Record and instance
         final WRecord generated = AidData.nextJ(request.record(), next);

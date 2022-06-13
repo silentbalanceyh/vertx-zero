@@ -79,7 +79,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                          *      at java.base/java.util.Objects.requireNonNull(Objects.java:221)
                          *      at io.vertx.tp.workflow.uca.component.MoveOnUser.transferAsync(MoveOnUser.java:37)
                          */
-                        moveOn.bind(this.rules()).bind(this.metadataIn());
+                        moveOn.bind(this.metadataIn());
                         return moveOn.transferAsync(request, wTransition);
                     });
                 } else {

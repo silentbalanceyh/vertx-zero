@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.uca.camunda;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WMove;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
@@ -21,13 +21,13 @@ import java.util.Objects;
  */
 class RunEngine implements RunOn {
     @Override
-    public Future<ProcessInstance> moveAsync(final ProcessInstance instance, final WMove move) {
+    public Future<ProcessInstance> moveAsync(final ProcessInstance instance, final WTransition transition) {
         Objects.requireNonNull(instance);
         final TaskService service = WfPin.camundaTask();
         final Task task = service.createTaskQuery().active()
             .processInstanceId(instance.getId()).singleResult();
         Objects.requireNonNull(task);
-        final JsonObject params = move.parameters();
+        final JsonObject params = new JsonObject(); // move.parameters();
         service.complete(task.getId(), Ut.toMapExpr(params));
         Wf.Log.infoMove(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
             instance.isEnded(), instance.getId(), params.encode());
@@ -35,10 +35,10 @@ class RunEngine implements RunOn {
     }
 
     @Override
-    public Future<ProcessInstance> startAsync(final String definitionKey, final WMove move) {
+    public Future<ProcessInstance> startAsync(final String definitionKey, final WTransition transition) {
         final RuntimeService service = WfPin.camundaRuntime();
         final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definitionKey);
-        final JsonObject params = move.parameters();
+        final JsonObject params = new JsonObject(); // move.parameters();
         builder.setVariables(Ut.toMapExpr(params));
         final ProcessInstance instance = builder.execute();
         Wf.Log.infoMove(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",
