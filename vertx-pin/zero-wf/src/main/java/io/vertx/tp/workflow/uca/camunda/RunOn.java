@@ -20,7 +20,7 @@ public interface RunOn {
     Future<ProcessInstance> startAsync(JsonObject params, WTransition transition);
 
     // Run
-    Future<ProcessInstance> moveAsync(ProcessInstance instance, WTransition transition);
+    Future<ProcessInstance> moveAsync(JsonObject params, WTransition transition);
 
     // Stop
     Future<Boolean> stopAsync(ProcessInstance instance, TodoStatus status);

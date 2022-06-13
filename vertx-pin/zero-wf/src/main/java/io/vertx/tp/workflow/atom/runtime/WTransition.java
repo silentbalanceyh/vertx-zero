@@ -1,5 +1,8 @@
 package io.vertx.tp.workflow.atom.runtime;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import cn.zeroup.macrocosm.cv.em.NodeType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
@@ -15,6 +18,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -106,6 +110,11 @@ public class WTransition {
         return this.move.inputTransfer(this.moveData.copy());
     }
 
+    public NodeType type() {
+        Objects.requireNonNull(this.to);
+        return this.to.type();
+    }
+
     // --------------------- WTransition Action for Task Data ------------------
 
     public Future<WTransition> end(final ProcessInstance instance) {
@@ -121,6 +130,12 @@ public class WTransition {
             this.to = wTask;
             return Ux.future(this);
         });
+    }
+
+    public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket) {
+        Objects.requireNonNull(this.move);
+        final Gear gear = this.move.inputGear();
+        return gear.todoAsync(parameters, ticket, this.to);
     }
 
     public Future<WTransition> start() {
@@ -224,5 +239,9 @@ class WTransitionDefine {
 
     WMove rule(final String node) {
         return this.move.getOrDefault(node, WMove.empty());
+    }
+
+    ConcurrentMap<String, WMove> rules() {
+        return this.move;
     }
 }

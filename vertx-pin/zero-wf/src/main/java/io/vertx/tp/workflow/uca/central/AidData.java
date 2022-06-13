@@ -210,9 +210,10 @@ public class AidData {
             entity = Ux.updateT(entity, todoUpdate);
         }
         final WRecord created = WRecord.create(true, ChangeFlag.UPDATE)
-            .bind(ticket)           // WTicket
-            .bind(entity)           // WTodo
-            .bind(record.child());  // JsonObject for Child Data
+            .bind(wTransition.type())
+            .task(entity)                       // WTodo
+            .ticket(ticket)                     // WTicket
+            .ticket(record.child());            // JsonObject for Child Data
         final WRecord prev = record.prev();
         /*
          * Fix $zo has no value here
@@ -230,9 +231,9 @@ public class AidData {
          *
          */
         if (Objects.isNull(prev)) {
-            created.prev(record);
+            created.prev(record.bind(wTransition.type()));
         } else {
-            created.prev(prev);
+            created.prev(prev.bind(wTransition.type()));
         }
         return created;
     }
