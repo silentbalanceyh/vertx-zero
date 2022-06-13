@@ -6,46 +6,15 @@
         "TICKET": [
             [
                 {
-                    "metadata": "requestName,出差人,8,,aiListSelector,placeholder=（谁申请出差）",
+                    "metadata": "requestName,出差人,8,,aiUserSelector,placeholder=（谁申请出差）",
                     "optionJsx.config": {
-                        "ajax": {
-                            "metadata": "POST,/api/user/search/employee,1,10,sorter=createdAt`ASC",
-                            "params.criteria": {
-                                "sigma": "PROP:app.sigma",
-                                "": true
-                            }
-                        },
                         "linker": {
                             "key": "requestBy",
                             "realname": "requestName",
                             "workNumber": "requestNo",
                             "mobile": "requestMobile"
                         },
-                        "table": {
-                            "columns": [
-                                {
-                                    "title": "部门",
-                                    "dataIndex": "deptId",
-                                    "$render": "USER",
-                                    "$config": {
-                                        "uri": "/api/dept/:key",
-                                        "field": "name",
-                                        "icon": false
-                                    },
-                                    "$empty": "（无）"
-                                },
-                                "workNumber,员工号",
-                                "username,登录账号",
-                                "realname,姓名",
-                                "workPhone,工作电话"
-                            ]
-                        },
-                        "validation": "请选择处理人！",
-                        "window": "选择处理人,选择,关闭,false,800,false",
-                        "search": {
-                            "username,c": "账号",
-                            "realname,c": "姓名"
-                        }
+                        "user": "出差人"
                     },
                     "optionJsx.allowClear": true,
                     "optionConfig.rules": [

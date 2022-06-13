@@ -7,7 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.workflow.atom.MetaWorkflow;
+import io.vertx.tp.workflow.atom.configuration.MetaWorkflow;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.uca.yaml.Node;

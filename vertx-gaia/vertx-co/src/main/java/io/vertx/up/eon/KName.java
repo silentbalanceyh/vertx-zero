@@ -89,6 +89,11 @@ public interface KName {
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
     String DATA = "data";                        /* Common: data */
+
+    String FORK = "fork";                        /* Fork/Join -> Fork */
+    String JOIN = "join";                        /* Fork/Join -> Join */
+    String MODE = "mode";                        /* Mode Selection */
+    String GATEWAY = "gateway";                  /* Gateway for Workflow */
     String INPUT = "input";                      /* Input */
     String OUTPUT = "output";                    /* Output */
     String DATUM = "datum";                      /* Common: metadata key */

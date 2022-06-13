@@ -9,12 +9,18 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
+import io.vertx.tp.error._404ProcessMissingException;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -130,42 +136,44 @@ public class QueueActor {
         return this.flowStub.fetchFlow(code, sigma);
     }
 
-    /*
-     * Response:
-     * {
-     *      "form": {
-     *
-     *      },
-     *      "workflow": {
-     *
-     *      }
-     * }
-     */
     @Address(HighWay.Queue.TASK_FORM)
     public Future<JsonObject> fetchForm(final JsonObject data,
                                         final Boolean isPre, final XHeader header) {
-        if (isPre) {
-            // Start Form
-            final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
-            return Wf.definitionById(definitionId).compose(definition ->
-                this.flowStub.fetchFormStart(definition, header.getSigma()));
-        } else {
-            // Single Task
-            final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
-            return Wf.definition(instanceId).compose(process -> {
-                // Fix: NullPointer for Process Exception
-                if (Objects.isNull(process)) {
-                    return Ux.futureJ();
-                }
-                if (process.isRunning()) {
-                    // Running Form
-                    return this.flowStub.fetchForm(process.definition(), process.instance(), header.getSigma());
-                } else {
-                    // History Form
-                    return this.flowStub.fetchFormEnd(process.definition(), process.instanceFinished(), header.getSigma());
-                }
-            });
+        // 「Predicate Checking」ProcessDefinition must be existing here
+        final String definitionId = data.getString(KName.Flow.DEFINITION_ID);
+        final Io<Task> ioTask = Io.ioTask();
+        final ProcessDefinition definition = ioTask.inProcess(definitionId);
+        if (Objects.isNull(definition)) {
+            return Ux.thenError(_404ProcessMissingException.class, this.getClass(), definitionId);
         }
+
+
+        final String sigma = header.getSigma();
+        if (isPre) {
+            // 「Start」
+            return this.flowStub.fetchForm(definition, sigma);
+        }
+
+
+        final String instanceId = data.getString(KName.Flow.INSTANCE_ID);
+        final ProcessInstance instance = ioTask.inInstance(instanceId);
+        if (Objects.isNull(instance)) {
+            // 「End」
+            final HistoricProcessInstance instanceHistory = ioTask.inHistoric(instanceId);
+            return this.flowStub.fetchForm(instanceHistory, sigma);
+        }
+
+
+        // 「Run」
+        final String taskKey = data.getString(KName.Flow.TASK_KEY);
+        return ioTask.run(taskKey).compose(task -> {
+            // Fix: NullPointer for Task & Process
+            if (Objects.isNull(task)) {
+                return Ux.futureJ();
+            }
+            // Task Form ( Running )
+            return this.flowStub.fetchForm(instance, task, sigma);
+        });
     }
 
 

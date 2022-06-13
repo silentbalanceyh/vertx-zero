@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.uca.modeling;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

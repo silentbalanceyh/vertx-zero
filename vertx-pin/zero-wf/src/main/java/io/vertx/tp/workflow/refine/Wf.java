@@ -2,72 +2,16 @@ package io.vertx.tp.workflow.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.WProcess;
-import io.vertx.tp.workflow.atom.WProcessDefinition;
-import io.vertx.tp.workflow.atom.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WProcess;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
-
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Wf {
-
-    /*
-     * {
-     *      "task": "Event name of task, event id",
-     *      "multiple": "Whether there are more than one task"
-     * }
-     */
-    public static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
-        return WfCamunda.taskStart(workflow, starts);
-    }
-
-    public static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> ends) {
-        return WfCamunda.taskEnd(workflow, ends);
-    }
-
-    /*
-     * {
-     *      "task": "Event name of task, event id",
-     *      "multiple": "Whether there are more than one task",
-     *      "history": []
-     * }
-     */
-    public static JsonObject taskOut(final JsonObject workflow, final Task task) {
-        return WfCamunda.taskOut(workflow, task);
-    }
-
-    /*
-     * Form Query parameters
-     * {
-     *      "dynamic": "Boolean value to check whether form is static or dynamic",
-     *      "code": "configFile, STATIC | form code ( UI_FORM ), DYNAMIC",
-     *      "sigma": "When dynamic = true, it's required here."
-     * }
-     */
-    public static JsonObject formInput(final JsonObject form, final String sigma) {
-        return WfCamunda.formInput(form, sigma);
-    }
-
-    /*
-     * Form output here
-     * {
-     *      "code": "Process Definition Key",
-     *      "formKey": "The extract form key here, such as 'camunda-forms:deployment:xxx'",
-     *      "definitionId": "Process Definition Id",
-     *      "definitionKey": "Process Definition Key",
-     * }
-     */
-    public static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
-        return WfCamunda.formOut(formKey, definitionId, definitionKey);
-    }
 
     /*
      * Workflow Output
@@ -78,38 +22,21 @@ public class Wf {
      *      "name": "Process Definition Name"
      * }
      */
-    public static JsonObject bpmnOut(final ProcessDefinition definition) {
-        return WfCamunda.bpmnOut(definition);
+    public static JsonObject outBpmn(final ProcessDefinition definition) {
+        return WfFlow.outBpmn(definition);
     }
 
-    // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> definitionByKey(final String definitionKey) {
-        return WfCamunda.definitionByKey(definitionKey);
+    public static JsonObject outLinkage(final JsonObject linkageJ) {
+        return WfFlow.outLinkage(linkageJ);
     }
 
-    // Fetch ProcessDefinition
-    public static Future<ProcessDefinition> definitionById(final String definitionId) {
-        return WfCamunda.definitionById(definitionId);
-    }
-
-    // Fetch ProcessInstance
-    public static Future<ProcessInstance> instanceById(final String instanceId) {
-        return WfCamunda.instanceById(instanceId);
+    public static String nameEvent(final Task task) {
+        return WfFlow.nameEvent(task);
     }
 
     // Fetch WProcess
-    public static Future<WProcess> process(final WRequest request) {
-        return WfFlow.process(request);
-    }
-
-    // Fetch WProcessDefinition ( Running )
-    public static Future<WProcessDefinition> definition(final String instanceId) {
-        // Fetch Instance First
-        return WfFlow.definition(instanceId);
-    }
-
-    public static JsonObject processLinkage(final JsonObject linkageJ) {
-        return WfFlow.processLinkage(linkageJ);
+    public static Future<WProcess> createProcess(final WRequest request) {
+        return WfFlow.createProcess(request);
     }
 
     // BiFunction on ProcessDefinition / ProcessInstance
