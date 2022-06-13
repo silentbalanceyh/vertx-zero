@@ -127,7 +127,7 @@ class WfFlow {
         } else if (toUser instanceof JsonArray) {
             // JsonArray
             return PassWay.Multi;
-        } else {
+        } else if (toUser instanceof JsonObject) {
             // JsonObject
             /*
              * - Fork/Join:  All String
@@ -145,6 +145,9 @@ class WfFlow {
                 // Grid
                 return PassWay.Grid;
             }
+        } else {
+            // Undermine
+            return null;
         }
     }
 
