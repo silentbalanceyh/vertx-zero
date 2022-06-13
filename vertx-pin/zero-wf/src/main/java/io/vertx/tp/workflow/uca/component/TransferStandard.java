@@ -109,7 +109,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                 /*
                  * Move Rules
                  */
-                final WRule moveRule = process.ruleFind();
+                final WRule moveRule = process.rule();
                 if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
                     /*
                      * Here will fetch record auto

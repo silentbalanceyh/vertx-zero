@@ -1,6 +1,7 @@
 package io.vertx.tp.workflow.atom.runtime;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
@@ -29,8 +30,8 @@ public class WTransition {
      */
     private final WTransitionDefine define;
 
-    private final ProcessInstance instance;
-
+    private final transient JsonObject moveData = new JsonObject();
+    private ProcessInstance instance;
     private transient Task from;
     private transient Task to;
     private transient WMove move;
@@ -53,12 +54,9 @@ public class WTransition {
         return this;
     }
 
-    @Deprecated
-    public WTransition bind(final WMove move) {
-        this.move = move;
-        return this;
+    public Task from() {
+        return this.from;
     }
-
 
     // --------------------- Task & Instance ------------------
 
@@ -70,30 +68,17 @@ public class WTransition {
      */
     @Deprecated
     public Future<Task> taskActive() {
-        final Io<Task> ioTask = Io.ioTask();
-        return ioTask.child(this.instance.getId()).compose(taskThen -> {
-            if (Objects.nonNull(this.from) && Objects.nonNull(taskThen)) {
-                /*
-                 * Task & TaskThen are different, it means that there exist
-                 * workflow moving operation.
-                 * if `TaskThen` is null, it means that workflow has been finished
-                 */
-                if (!this.from.getId().equals(taskThen.getId())) {
-                    this.to = taskThen;
-                }
-            }
-            return Ux.future(this.to);
-        });
+        return null;
     }
 
-    public Task from() {
-        return this.from;
-    }
-
-    public Task to() {
-        return this.to;
-    }
-
+    // --------------------- High Level Configuration ------------------
+    /*
+     * 1. instance()        -> Running ProcessInstance
+     * 2. definition()      -> Running ProcessDefinition
+     *
+     * By WMove
+     * 3. aspect()          -> Running Aspect based on `WMove`
+     */
     public ProcessInstance instance() {
         return this.instance;
     }
@@ -102,22 +87,32 @@ public class WTransition {
         return this.define.definition();
     }
 
+    public AspectConfig aspect() {
+        return Objects.isNull(this.move) ? AspectConfig.create() : this.move.configAop();
+    }
     // --------------------- Move Rule Processing ------------------
 
-    @Deprecated
-    public WRule ruleFind() {
-        /*
-         * Fix: java.lang.NullPointerException
-	        at java.base/java.util.Objects.requireNonNull(Objects.java:221)
-         */
-        if (Objects.nonNull(this.move)) {
-            return this.move.ruleFind();
-        } else {
-            return null;
+    public JsonObject rule(final JsonObject requestJ) {
+        if (Objects.isNull(this.move)) {
+            return new JsonObject();
         }
+        final JsonObject parsed = this.move.inputMovement(requestJ);
+        this.moveData.clear();
+        this.moveData.mergeIn(parsed, true);
+        return this.moveData.copy();
+    }
+
+    public WRule rule() {
+        return this.move.inputTransfer(this.moveData.copy());
     }
 
     // --------------------- WTransition Action for Task Data ------------------
+
+    public Future<WTransition> end(final ProcessInstance instance) {
+        this.instance = instance;
+        return Ux.future(this);
+    }
+
     public Future<WTransition> start() {
         // Here the move means that the transition has been bind to `from`
         if (Objects.nonNull(this.move)) {
@@ -139,6 +134,7 @@ public class WTransition {
             return io.child(definition.getId()).compose(event -> {
                 // e.start ( StartEvent )
                 this.move = this.define.rule(event.getId());
+                Objects.requireNonNull(this.move);
                 return Ux.future(this);
             });
         } else {
@@ -155,14 +151,11 @@ public class WTransition {
                     return Ux.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
                 } else {
                     this.from(task);
+                    Objects.requireNonNull(this.move);
                     return Ux.future(this);
                 }
             });
         }
-    }
-
-    public AspectConfig configAop() {
-        return Objects.isNull(this.move) ? AspectConfig.create() : this.move.configAop();
     }
 
     // --------------------- WTransition Checking for Status ------------------

@@ -1,15 +1,14 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidStartException;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
-import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -17,12 +16,11 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
 public class MoveOnStart extends AbstractMoveOn {
     @Override
     public Future<WTransition> moveAsync(final WRequest request, final WTransition wTransition) {
-        final KFlow key = request.workflow();
-        final String definitionKey = key.definitionKey();
+        final ProcessDefinition definition = wTransition.definition();
 
         if (wTransition.isStarted()) {
             // Error-80604: The wTransition has been started, could not call current divert
-            return Ux.thenError(_409InValidStartException.class, this.getClass(), definitionKey);
+            return Ux.thenError(_409InValidStartException.class, this.getClass(), definition.getKey());
         }
         /*
          * instance does not exist in your system here, it means that you must do as following:
@@ -30,25 +28,29 @@ public class MoveOnStart extends AbstractMoveOn {
          * 2. Get new WMove of started and Bind Moving
          * 3. Camunda Instance Moving to next
          */
-        // Engine Connect
-        final String definitionId = key.definitionId();
-        final Io<StartEvent> io = Io.ioEventStart();
-        return io.child(definitionId)
-            .compose(event -> {
-                // WMove Get
-                // final WMove move = this.rule(event.getId()).stored(request.request());
-                // wTransition.bind(move);
-                // Camunda Workflow Running
-                final RunOn runOn = RunOn.get();
-                return runOn.startAsync(definitionKey, wTransition);
-            })
-
+        return wTransition.start().compose(started -> {
             /*
-             * 「Engine 1」:
-             * 1) Start the workflow here
-             * 2) Bind the WMove to WProcess first and then bind the ProcessInstance
-             * 3) Each workflow will start here for continue wTransitioning
+             * Input `taskId` is null, in this kind of situation the workflow has not been
+             * started, the `WMove` is based on `StartEvent`
+             *
+             * After start() calling, the `move` has the configured value but
+             * `ProcessInstance/Task` are both null.
+             *
+             * Following code should locate the correct `WRule` for parameters, the collection
+             * should be
+             *
+             * [
+             *     WRule,
+             *     WRule,
+             *     WRule,
+             *     ...
+             * ]
+             *
+             * Based on configuration the `WRule` must be mutual exclusion
              */
-            .compose(nil -> Ux.future(wTransition));
+            final JsonObject parameters = wTransition.rule(request.request());
+            final RunOn runOn = RunOn.get();
+            return runOn.startAsync(parameters, wTransition);
+        }).compose(wTransition::end);
     }
 }

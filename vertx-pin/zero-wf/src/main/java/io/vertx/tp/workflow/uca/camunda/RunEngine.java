@@ -10,6 +10,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstantiationBuilder;
 import org.camunda.bpm.engine.task.Task;
@@ -35,10 +36,10 @@ class RunEngine implements RunOn {
     }
 
     @Override
-    public Future<ProcessInstance> startAsync(final String definitionKey, final WTransition transition) {
+    public Future<ProcessInstance> startAsync(final JsonObject params, final WTransition transition) {
+        final ProcessDefinition definition = transition.definition();
         final RuntimeService service = WfPin.camundaRuntime();
-        final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definitionKey);
-        final JsonObject params = new JsonObject(); // move.parameters();
+        final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definition.getKey());
         builder.setVariables(Ut.toMapExpr(params));
         final ProcessInstance instance = builder.execute();
         Wf.Log.infoMove(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",

@@ -118,7 +118,7 @@ public class AidData {
             updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
         }
         // Todo based on previous
-        final WRule rule = wTransition.ruleFind();
+        final WRule rule = wTransition.rule();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
             final JsonObject parsed = parseValue(rule.getTodo(), params);
             updatedData.mergeIn(parsed);
@@ -204,7 +204,7 @@ public class AidData {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WRule rule = wTransition.ruleFind();
+        final WRule rule = wTransition.rule();
         if (Objects.nonNull(rule)) {
             final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
             entity = Ux.updateT(entity, todoUpdate);

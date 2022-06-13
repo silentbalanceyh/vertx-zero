@@ -128,7 +128,7 @@ public class AidTracker {
     }
 
     private Aspect aspect(final WTransition transition) {
-        final AspectConfig aspectConfig = transition.configAop();
+        final AspectConfig aspectConfig = transition.aspect();
         final List<Class<?>> afterList = aspectConfig.nameAfter();
         if (!afterList.contains(ActivityTabb.class)) {
             afterList.add(ActivityTabb.class);

@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.uca.camunda;
 import cn.zeroup.macrocosm.cv.WfPool;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -16,7 +17,7 @@ public interface RunOn {
     }
 
     // Start
-    Future<ProcessInstance> startAsync(String definitionKey, WTransition transition);
+    Future<ProcessInstance> startAsync(JsonObject params, WTransition transition);
 
     // Run
     Future<ProcessInstance> moveAsync(ProcessInstance instance, WTransition transition);
