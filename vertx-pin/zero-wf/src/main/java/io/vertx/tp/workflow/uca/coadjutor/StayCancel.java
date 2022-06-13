@@ -25,7 +25,7 @@ public class StayCancel extends AbstractMovement implements Stay {
          * Instance deleting, but fetch the history and stored into `metadata` field as the final processing
          * Cancel for W_TODO and Camunda
          */
-        final ProcessInstance instance = wTransition.referenceInstance();
+        final ProcessInstance instance = wTransition.flowInstance();
         final Io<Set<String>> ioHistory = Io.ioHistory();
         return ioHistory.run(instance).compose(historySet -> {
             // Cancel data processing

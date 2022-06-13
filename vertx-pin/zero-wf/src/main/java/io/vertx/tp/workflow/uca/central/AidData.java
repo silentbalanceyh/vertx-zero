@@ -185,7 +185,7 @@ public class AidData {
             entity.setCommentReject(null);
         }
         {
-            final Task nextTask = wTransition.task();
+            final Task nextTask = wTransition.from();
             // entity.setTraceId(nextTask.getProcessInstanceId());
             // entity.setTraceTaskId(nextTask.getId());
             entity.setTraceId(ticket.getKey());
@@ -266,7 +266,7 @@ public class AidData {
          * History building
          */
         final Set<String> traceSet = new HashSet<>(historySet);
-        final Task task = wTransition.task();
+        final Task task = wTransition.from();
         if (Objects.nonNull(task)) {
             traceSet.add(task.getTaskDefinitionKey());
         }

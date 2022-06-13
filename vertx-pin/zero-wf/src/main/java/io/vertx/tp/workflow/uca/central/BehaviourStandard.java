@@ -103,7 +103,7 @@ public class BehaviourStandard implements Behaviour {
     }
 
     private Future<WMove> ruleAsync(final WTransition process) {
-        final Task task = process.task();
+        final Task task = process.from();
         final String node = task.getTaskDefinitionKey();
         Wf.Log.infoWeb(this.getClass(), "Flow Started, rule fetched by {0}", node);
         return Ux.future(this.rule(node));

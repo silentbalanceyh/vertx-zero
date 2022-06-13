@@ -32,5 +32,5 @@ public interface WfPool {
     Cc<String, Behaviour> CC_COMPONENT = Cc.openThread();
 
     // uca.component POOL -> MoveOn
-    Cc<String, MoveOn> CC_DIVERT = Cc.openThread();
+    Cc<String, MoveOn> CC_MOVE_ON = Cc.openThread();
 }

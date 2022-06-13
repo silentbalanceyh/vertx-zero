@@ -55,7 +55,7 @@ public interface MoveOn extends Behaviour {
     }
 
     static MoveOn instance(final Class<?> divertCls) {
-        final MoveOn moveOn = WfPool.CC_DIVERT.pick(() -> Ut.instance(divertCls), divertCls.getName());
+        final MoveOn moveOn = WfPool.CC_MOVE_ON.pick(() -> Ut.instance(divertCls), divertCls.getName());
         Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected", moveOn.getClass());
         return moveOn;
     }

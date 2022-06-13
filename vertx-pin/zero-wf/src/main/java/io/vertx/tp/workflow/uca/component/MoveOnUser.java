@@ -30,10 +30,10 @@ public class MoveOnUser extends AbstractMoveOn {
              * - WMove
              * - ProcessInstance
              */
-            final Task task = process.task();
+            final Task task = process.from();
             final WMove move = this.rule(task.getTaskDefinitionKey());
             move.stored(request.request());
-            next.bind(process.taskNext()).bind(move);
+            next.from(process.to()).bind(move);
         }
         // Record and instance
         final WRecord generated = AidData.nextJ(request.record(), next);

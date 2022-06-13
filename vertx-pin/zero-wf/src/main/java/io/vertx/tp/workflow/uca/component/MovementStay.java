@@ -21,11 +21,11 @@ public class MovementStay extends AbstractTransfer implements Movement {
             /* Here normalized/request shared the same reference */
             if (wTransition.isStarted()) {
                 // Started
-                final ProcessInstance instance = wTransition.referenceInstance();
+                final ProcessInstance instance = wTransition.flowInstance();
                 final Io<Task> ioTask = Io.ioTask();
                 return ioTask.child(instance.getId())
                     /* Task Bind */
-                    .compose(task -> Ux.future(wTransition.bind(task)))
+                    .compose(task -> Ux.future(wTransition.from(task)))
                     .compose(nil -> Ux.future(wTransition));
             } else {
                 /*

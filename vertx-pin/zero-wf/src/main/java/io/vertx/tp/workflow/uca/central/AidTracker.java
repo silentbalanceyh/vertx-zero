@@ -120,7 +120,7 @@ public class AidTracker {
         final JsonObject parameters = record.data();
         {
             // Add new parameters of instance
-            final Task task = process.task();
+            final Task task = process.from();
             if (Objects.nonNull(task)) {
                 // Task Name
                 parameters.put(KName.Flow.TASK_NAME, task.getName());

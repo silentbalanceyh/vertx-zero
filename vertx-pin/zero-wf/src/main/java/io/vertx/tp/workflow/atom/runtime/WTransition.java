@@ -38,7 +38,7 @@ public class WTransition {
         return new WTransition(workflow);
     }
 
-    public WTransition bind(final Task task) {
+    public WTransition from(final Task task) {
         this.from = task;
         return this;
     }
@@ -76,19 +76,19 @@ public class WTransition {
         });
     }
 
-    public Task task() {
+    public Task from() {
         return this.from;
     }
 
-    public Task taskNext() {
+    public Task to() {
         return this.to;
     }
 
-    public ProcessInstance referenceInstance() {
+    public ProcessInstance flowInstance() {
         return this.instance;
     }
 
-    public ProcessDefinition referenceDefinition() {
+    public ProcessDefinition flowDefinition() {
         return this.definition;
     }
 
@@ -129,4 +129,8 @@ public class WTransition {
         }
         return Boolean.TRUE;
     }
+}
+
+class WTransitionInternal {
+
 }
