@@ -22,14 +22,12 @@ import java.util.Objects;
  */
 class RunEngine implements RunOn {
     @Override
-    public Future<ProcessInstance> moveAsync(final ProcessInstance instance, final WTransition transition) {
-        Objects.requireNonNull(instance);
+    public Future<ProcessInstance> moveAsync(final JsonObject params, final WTransition transition) {
         final TaskService service = WfPin.camundaTask();
-        final Task task = service.createTaskQuery().active()
-            .processInstanceId(instance.getId()).singleResult();
+        final Task task = transition.from();
         Objects.requireNonNull(task);
-        final JsonObject params = new JsonObject(); // move.parameters();
         service.complete(task.getId(), Ut.toMapExpr(params));
+        final ProcessInstance instance = transition.instance();
         Wf.Log.infoMove(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
             instance.isEnded(), instance.getId(), params.encode());
         return Ux.future(instance);

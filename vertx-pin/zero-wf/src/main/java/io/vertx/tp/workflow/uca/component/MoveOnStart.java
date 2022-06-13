@@ -22,12 +22,6 @@ public class MoveOnStart extends AbstractMoveOn {
             // Error-80604: The wTransition has been started, could not call current divert
             return Ux.thenError(_409InValidStartException.class, this.getClass(), definition.getKey());
         }
-        /*
-         * instance does not exist in your system here, it means that you must do as following:
-         * 1. Call Start Process
-         * 2. Get new WMove of started and Bind Moving
-         * 3. Camunda Instance Moving to next
-         */
         return wTransition.start().compose(started -> {
             /*
              * Input `taskId` is null, in this kind of situation the workflow has not been

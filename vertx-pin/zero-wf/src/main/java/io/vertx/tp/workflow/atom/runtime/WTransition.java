@@ -225,4 +225,8 @@ class WTransitionDefine {
     WMove rule(final String node) {
         return this.move.getOrDefault(node, WMove.empty());
     }
+
+    ConcurrentMap<String, WMove> rules() {
+        return this.move;
+    }
 }

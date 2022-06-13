@@ -1,16 +1,15 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
 
@@ -19,35 +18,17 @@ import java.util.Objects;
  */
 public class MoveOnNext extends AbstractMoveOn {
     @Override
-    public Future<WTransition> moveAsync(final WRequest request, final WTransition process) {
-        final ProcessInstance instance = process.instance();
+    public Future<WTransition> moveAsync(final WRequest request, final WTransition wTransition) {
+        final ProcessInstance instance = wTransition.instance();
         final KFlow key = request.workflow();
         final String instanceId = key.instanceId();
         if (Objects.isNull(instance)) {
             return Ux.thenError(_409InValidInstanceException.class, this.getClass(), instanceId);
         }
-        /*
-         * instance exist in your system
-         * 1. Call Next Process with active task
-         * 2. Get the WMove of current active task
-         * 3. Camunda Instance Moving to next
-         */
-        final String taskId = key.taskId();
-        Objects.requireNonNull(taskId);
-        final Io<Task> ioTask = Io.ioTask();
-
-        return ioTask.run(taskId)
-            /* WProcess -> Bind Task */
-            //.compose(task -> Ux.future(process.from(task)))
-            .compose(nil -> {
-                final Task task = process.from();
-                // WMove Get
-                // final WMove move = this.rule(task.getTaskDefinitionKey()).stored(request.request());
-                // process.bind(move);
-                // Camunda Workflow Running
-                final RunOn runOn = RunOn.get();
-                return runOn.moveAsync(instance, process);
-            })
-            .compose(nil -> Ux.future(process));
+        return wTransition.start().compose(started -> {
+            final JsonObject parameters = wTransition.rule(request.request());
+            final RunOn runOn = RunOn.get();
+            return runOn.moveAsync(parameters, wTransition);
+        }).compose(wTransition::end);
     }
 }

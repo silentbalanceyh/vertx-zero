@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class MoveOnUser extends AbstractMoveOn {
     @Override
-    public Future<WRecord> transferAsync(final WRequest request, final WTransition process) {
+    public Future<WRecord> transferAsync(final WRequest request, final WTransition wTransition) {
         /*
          * Process creation for new and next step here.
          */
@@ -29,7 +29,7 @@ public class MoveOnUser extends AbstractMoveOn {
              * - WMove
              * - ProcessInstance
              */
-            final Task task = process.from();
+            final Task task = wTransition.from();
             // final WMove move = this.rule(task.getTaskDefinitionKey());
             // move.stored(request.request());
             // next.from(process.to()).bind(move);
