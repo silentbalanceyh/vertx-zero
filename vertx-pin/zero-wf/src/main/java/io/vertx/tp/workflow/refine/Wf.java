@@ -79,6 +79,11 @@ public class Wf {
             WfLog.info(logger, "Web", message, args);
         }
 
+        public static void infoTransition(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.info(logger, "Transition", message, args);
+        }
+
         public static void debugMove(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.debug(logger, "Move", message, args);

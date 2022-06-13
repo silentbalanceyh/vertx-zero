@@ -1,20 +1,10 @@
 package io.vertx.tp.workflow.uca.central;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.atom.runtime.WRequest;
-import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KFlow;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,8 +30,7 @@ public class BehaviourStandard implements Behaviour {
             .filter(field -> !KName.LINKAGE.equals(field))
             .forEach(field -> {
                 final JsonObject value = this.config.getJsonObject(field);
-                final WMove item = WMove.create(field, value);
-                this.moveMap.put(field, item);
+                this.moveMap.put(field, WMove.create(field, value));
             });
         return this;
     }
@@ -60,60 +49,17 @@ public class BehaviourStandard implements Behaviour {
     }
 
     // ==================== Rule Bind / Get ======================
+    /*
+     * BehaviourStandard contains only one definition for moving here
+     * This move map will be bind after the component has been created, in future usage this instance
+     * will be passed into `WTransition` to store, instead of the old version,
+     * WTransition will wrap the `WMove/WRule` etc and abay following rules:
+     * 1) WMove won't be exposed to any component out of WTransition
+     * 2) WRule could be exposed to all the component for selection the path
+     *
+     * This action will be done inner WTransition
+     */
     protected ConcurrentMap<String, WMove> rules() {
         return this.moveMap;
-    }
-
-    protected void rules(final ConcurrentMap<String, WMove> moveMap) {
-        if (Objects.nonNull(moveMap)) {
-            this.moveMap.clear();
-            this.moveMap.putAll(moveMap);
-        }
-    }
-
-    protected WMove rule(final String node) {
-        return this.moveMap.getOrDefault(node, WMove.empty());
-    }
-
-
-    // ==================== Before / After Processing in Current component ======================
-    protected Future<WRequest> beforeAsync(final WRequest request, final WTransition instance) {
-        // Instance Building
-        return this.ruleAsync(request, instance)
-            /* 「Aop」Before based on WMove */
-            .compose(move -> this.trackerKit.beforeAsync(request, move));
-    }
-
-    protected Future<WRecord> afterAsync(final WRecord record, final WTransition process) {
-        // Started Workflow
-        return this.ruleAsync(process)
-            /* 「Aop」After based on WMove */
-            .compose(move -> this.trackerKit.afterAsync(record, process.bind(move)));
-    }
-
-    // ==================== Rule Bind / Get ======================
-    private Future<WMove> ruleAsync(final WRequest request, final WTransition instance) {
-        if (instance.isStarted()) {
-            // Started Workflow
-            return this.ruleAsync(instance);
-        } else {
-            // Not Started Workflow
-            return this.ruleAsync(request);
-        }
-    }
-
-    private Future<WMove> ruleAsync(final WTransition process) {
-        final Task task = process.from();
-        final String node = task.getTaskDefinitionKey();
-        Wf.Log.infoWeb(this.getClass(), "Flow Started, rule fetched by {0}", node);
-        return Ux.future(this.rule(node));
-    }
-
-    private Future<WMove> ruleAsync(final WRequest request) {
-        final KFlow workflow = request.workflow();
-        final String node = workflow.definitionId();
-        Wf.Log.infoWeb(this.getClass(), "Flow Not Started, rule fetched by {0}", node);
-        final Io<StartEvent> io = Io.ioEventStart();
-        return io.child(node).compose(event -> Ux.future(this.rule(event.getId())));
     }
 }

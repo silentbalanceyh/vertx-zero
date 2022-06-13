@@ -25,7 +25,7 @@ public class StayClose extends AbstractMovement implements Stay {
          * Instance deleting, but fetch the history and stored into `metadata` field as the final processing
          * Cancel for W_TODO and Camunda
          */
-        final ProcessInstance instance = wTransition.flowInstance();
+        final ProcessInstance instance = wTransition.instance();
         final Io<Set<String>> ioHistory = Io.ioHistory();
         return ioHistory.run(instance).compose(historySet -> {
             // Cancel data processing
@@ -35,6 +35,8 @@ public class StayClose extends AbstractMovement implements Stay {
             // Remove ProcessDefinition
             final RunOn runOn = RunOn.get();
             return runOn.stopAsync(instance, TodoStatus.FINISHED).compose(removed -> Ux.future(record));
-        }).compose(record -> this.afterAsync(record, wTransition));
+        }).compose(record -> wTransition.start()
+            .compose(started -> this.trackerKit.afterAsync(record, started))
+        );
     }
 }

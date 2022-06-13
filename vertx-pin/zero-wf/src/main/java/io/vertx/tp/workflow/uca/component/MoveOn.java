@@ -4,7 +4,6 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.tp.error._404RunOnSupplierException;
 import io.vertx.tp.error._500EventTypeNullException;
-import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
@@ -54,13 +53,11 @@ public interface MoveOn extends Behaviour {
         return Ux.future(moveOn);
     }
 
-    static MoveOn instance(final Class<?> divertCls) {
-        final MoveOn moveOn = WfPool.CC_MOVE_ON.pick(() -> Ut.instance(divertCls), divertCls.getName());
+    static MoveOn instance(final Class<?> moveOnCls) {
+        final MoveOn moveOn = WfPool.CC_MOVE_ON.pick(() -> Ut.instance(moveOnCls), moveOnCls.getName());
         Wf.Log.infoWeb(MoveOn.class, "Divert {0} has been selected", moveOn.getClass());
         return moveOn;
     }
-
-    MoveOn bind(ConcurrentMap<String, WMove> moveMap);
 
     /*
      *  Event Fire by Programming

@@ -24,6 +24,8 @@ public class StaySave extends AbstractMovement implements Stay {
             final Register register = Register.phantom(params, metadataOut);
             return register.updateAsync(params, metadataOut)
                 .compose(nil -> Ux.future(record));
-        }).compose(record -> this.afterAsync(record, wTransition));
+        }).compose(record -> wTransition.start()
+            .compose(started -> this.trackerKit.afterAsync(record, started))
+        );
     }
 }
