@@ -411,31 +411,73 @@ public class WRecord implements Serializable {
              */
             this.onTicket(response);
 
+            /*
+             * 2. Mount Child Ticket
+             *  - Set `traceKey` to `key` and removed key
+             *  -> Mount childJ     -> Removed ( key )
+             */
+            this.onChild(response);
 
             /*
-             * 2. Mount Todo to WTicket
+             * 3. Mount Todo to WTicket
              *  - taskCode   -> WTodo -> code
              *  - taskSerial -> WTodo -> serial
              *  - key        -> WTodo -> key
              */
-            this.onTodo(response);
+            final WTodo todo = this.todo();
+            if (Objects.nonNull(todo)) {
+                this.onTodo(response, todo);
+            }
 
 
             /*
-             * 3. Mount Compare
+             * 4. Mount Compare
              *  - __data     -> Previous Data
              *  - __flag     -> Previous Flag
              *  - Mount dataAfter   -> Removed ( key, serial, code )
              */
             this.onCompare(response);
+        }
+        return response;
+    }
 
+    public JsonArray dataAop() {
+        final JsonArray response = new JsonArray();
+        if (Objects.nonNull(this.ticket)) {
+            final JsonObject ticketJ = new JsonObject();
+            /*
+             * 1. Mount Data to WTicket
+             *  - modelChild -> []
+             *  - traceKey   -> WTicket -> key
+             */
+            this.onTicket(ticketJ);
 
             /*
-             * 4. Mount Child Ticket
+             * 2. Mount Child Ticket
              *  - Set `traceKey` to `key` and removed key
              *  -> Mount childJ     -> Removed ( key )
              */
-            this.onChild(response);
+            this.onChild(ticketJ);
+
+            this.todo.forEach(todoItem -> {
+                final JsonObject ticketData = ticketJ.copy();
+                /*
+                 * 3. Mount Todo to WTicket
+                 *  - taskCode   -> WTodo -> code
+                 *  - taskSerial -> WTodo -> serial
+                 *  - key        -> WTodo -> key
+                 */
+                this.onTodo(ticketData, todoItem);
+
+                /*
+                 * 4. Mount Compare
+                 *  - __data     -> Previous Data
+                 *  - __flag     -> Previous Flag
+                 *  - Mount dataAfter   -> Removed ( key, serial, code )
+                 */
+                this.onCompare(ticketData);
+                response.add(ticketData);
+            });
         }
         return response;
     }
@@ -482,19 +524,16 @@ public class WRecord implements Serializable {
         response.mergeIn(ticketJ, true);
     }
 
-    private void onTodo(final JsonObject response) {
-        final WTodo todo = this.todo();
-        if (Objects.nonNull(todo)) {
-            final JsonObject todoJson = Ux.toJson(todo);
-            todoJson.remove(KName.SERIAL);
-            todoJson.remove(KName.CODE);
-            response.mergeIn(todoJson, true);
-            // WTodo
-            // taskCode <- code
-            // taskSerial <- serial
-            response.put(KName.Flow.TASK_CODE, todo.getCode());
-            response.put(KName.Flow.TASK_SERIAL, todo.getSerial());
-        }
+    private void onTodo(final JsonObject response, final WTodo todo) {
+        final JsonObject todoJson = Ux.toJson(todo);
+        todoJson.remove(KName.SERIAL);
+        todoJson.remove(KName.CODE);
+        response.mergeIn(todoJson, true);
+        // WTodo
+        // taskCode <- code
+        // taskSerial <- serial
+        response.put(KName.Flow.TASK_CODE, todo.getCode());
+        response.put(KName.Flow.TASK_SERIAL, todo.getSerial());
     }
 
     private void onChild(final JsonObject result) {
