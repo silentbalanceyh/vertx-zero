@@ -44,4 +44,6 @@ public interface Strings {
     String FROM_TO = " -> ";
 
     String NEW_LINE = "\n";
+
+    String ACCENT_SIGN = "`";
 }

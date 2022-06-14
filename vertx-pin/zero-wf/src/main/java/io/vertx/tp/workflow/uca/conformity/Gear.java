@@ -55,6 +55,9 @@ public interface Gear {
         return this;
     }
 
+    /*
+     * Read the running ProcessInstance and capture the `active` tasks.
+     */
     Future<WTask> taskAsync(ProcessInstance instance);
 
     default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTicket ticket, final WTask task) {

@@ -1638,8 +1638,12 @@ public final class Ut {
         return StringUtil.expression(expr, params);
     }
 
-    public static JsonObject fromExpression(final JsonObject data, final JsonObject params) {
-        return StringUtil.expression(data, params);
+    public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
+        return StringUtil.expression(exprObject, params);
+    }
+
+    public static JsonArray fromExpression(final JsonArray exprArray, final JsonObject params) {
+        return StringUtil.expression(exprArray, params);
     }
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {

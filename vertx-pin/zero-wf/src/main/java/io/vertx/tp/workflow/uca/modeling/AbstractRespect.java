@@ -24,8 +24,9 @@ public abstract class AbstractRespect implements Respect {
 
     protected JsonObject queryTpl(final WTicket ticket) {
         final JsonObject parameters = Ux.toJson(ticket);
-        final JsonObject queryJ = this.query.copy();
-        return Ut.fromExpression(queryJ, parameters);
+        // Old Code: final JsonObject queryJ = this.query.copy();
+        // Create new Object to avoid modify
+        return Ut.fromExpression(this.query, parameters);
     }
 
     /*

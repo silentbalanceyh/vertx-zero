@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.central;
+package io.vertx.tp.workflow.uca.toolkit;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
@@ -20,15 +20,15 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AidLinkage {
+public class ULinkage {
 
     private final transient MetaInstance metadata;
 
-    AidLinkage(final MetaInstance metadata) {
+    public ULinkage(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 
-    private AidLinkage(final WRecord record) {
+    private ULinkage(final WRecord record) {
         final WTicket ticket = record.ticket();
         Objects.requireNonNull(ticket);
 
@@ -38,7 +38,7 @@ public class AidLinkage {
     }
 
     public static Future<WRecord> readLinkage(final WRecord record) {
-        final AidLinkage helper = new AidLinkage(record);
+        final ULinkage helper = new ULinkage(record);
         return helper.fetchAsync(record);
     }
 
