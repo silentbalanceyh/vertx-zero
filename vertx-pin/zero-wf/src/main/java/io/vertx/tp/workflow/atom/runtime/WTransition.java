@@ -192,7 +192,14 @@ public class WTransition {
         Objects.requireNonNull(this.move);
         final Gear gear = Gear.instance(this.vague());
         gear.configuration(this.move.configWay());
-        return gear.createAsync(parameters, ticket, this.to);
+        return gear.todoAsync(parameters, this.to, ticket);
+    }
+
+    public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket, final WTodo todo) {
+        Objects.requireNonNull(this.move);
+        final Gear gear = Gear.instance(this.vague());
+        gear.configuration(this.move.configWay());
+        return gear.todoAsync(parameters, this.to, ticket, todo);
     }
 
     public Future<WTransition> start() {
