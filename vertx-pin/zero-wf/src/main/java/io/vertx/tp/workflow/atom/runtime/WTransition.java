@@ -124,8 +124,11 @@ public class WTransition {
     }
 
     public PassWay vague() {
-        Objects.requireNonNull(this.to);
-        return this.to.vague();
+        /*
+         * java.lang.NullPointerException
+         * 	at io.vertx.tp.workflow.atom.runtime.WTransition.vague(WTransition.java:127)
+         */
+        return Objects.isNull(this.to) ? null : this.to.vague();
     }
 
     // --------------------- WTransition Action for Task Data ------------------
@@ -133,10 +136,6 @@ public class WTransition {
     public Future<WTransition> end(final ProcessInstance instance) {
         Objects.requireNonNull(this.move);
         this.instance = instance;
-        if (Objects.isNull(this.way)) {
-            // Fix: java.lang.NullPointerException for PassWay
-            return Ux.future(this);
-        }
         final Gear gear = this.move.inputGear(this.way);
         return gear.taskAsync(instance).compose(wTask -> {
             /*
@@ -151,10 +150,6 @@ public class WTransition {
 
     public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket) {
         Objects.requireNonNull(this.move);
-        if (Objects.isNull(this.way)) {
-            // Fix: java.lang.NullPointerException for PassWay
-            return Ux.futureL();
-        }
         final Gear gear = this.move.inputGear(this.way);
         return gear.todoAsync(parameters, ticket, this.to);
     }

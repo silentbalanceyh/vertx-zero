@@ -1,10 +1,8 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.unity.Ux;
@@ -61,10 +59,6 @@ public class WRequest implements Serializable {
     public Future<WRecord> record(final WRecord record) {
         this.record = record;
         return Ux.future(record);
-    }
-
-    public PassWay vague() {
-        return Wf.inGateway(this.request);
     }
     // =================== Fluent Method for Set =======================
 

@@ -80,7 +80,7 @@ public class AidTodo {
                 .compose(processed -> {
                     final WTicket inserted = processed.ticket();
 
-                    final JsonObject gearInput = params.copy();
+                    final JsonObject gearInput = normalized.copy();
                     gearInput.put(KName.KEY, todoKey);
 
                     return wTransition.end(gearInput, inserted);

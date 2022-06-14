@@ -98,7 +98,6 @@ public class WMove implements Serializable {
     }
 
     Gear inputGear(final PassWay type) {
-        Objects.requireNonNull(type);
         final Gear gear = Gear.instance(type);
         gear.configuration(this.gateway.copy());
         return gear;
