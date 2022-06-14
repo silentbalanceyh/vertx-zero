@@ -6,16 +6,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
-import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.tp.workflow.uca.toolkit.UData;
 import io.vertx.tp.workflow.uca.toolkit.UGeneration;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -98,21 +94,14 @@ public class TransferStandard extends AbstractMovement implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            JsonObject request = normalized.copy();
+            final JsonObject request = normalized.copy();
             request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             if (TodoStatus.PENDING == status) {
                 /*
                  * Move Rules
                  */
-                final WRule moveRule = wTransition.rule();
-                if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
-                    /*
-                     * Here will fetch record auto
-                     * Critical step to update `record` field here
-                     */
-                    request = this.recordMove(request, moveRule);
-                }
+                request.mergeIn(wTransition.ruleRecord(request));
             }
             /*
              * Contains record modification, do update on record.

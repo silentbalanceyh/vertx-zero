@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -73,19 +74,6 @@ public class WTransition {
         return this.to;
     }
 
-    // --------------------- Task & Instance ------------------
-
-    /*
-     * This from is for active from extracting, the active from should be following
-     *
-     * 1) When the process is not moved, active from is current one
-     * 2) After current process moved, the active from may be the next active from instead
-     */
-    @Deprecated
-    public Future<Task> taskActive() {
-        return null;
-    }
-
     // --------------------- High Level Configuration ------------------
     /*
      * 1. instance()        -> Running ProcessInstance
@@ -105,6 +93,14 @@ public class WTransition {
     public AspectConfig aspect() {
         return Objects.isNull(this.move) ? AspectConfig.create() : this.move.configAop();
     }
+
+    public PassWay vague() {
+        /*
+         * java.lang.NullPointerException
+         * 	at io.vertx.tp.workflow.atom.runtime.WTransition.vague(WTransition.java:127)
+         */
+        return Objects.isNull(this.to) ? null : this.to.vague();
+    }
     // --------------------- Move Rule Processing ------------------
 
     public JsonObject rule(final JsonObject requestJ) {
@@ -117,23 +113,31 @@ public class WTransition {
         return this.moveData.copy();
     }
 
-    public JsonObject rule(final JsonObject requestJ, final boolean isRecord) {
+    public JsonObject ruleRecord(final JsonObject requestJ) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        /* Modify the input JsonObject of requestJ */
-        return null;
+        return this.ruleInternal(requestJ, rule::getRecord);
     }
 
-    @Deprecated
-    public WRule rule() {
-        return this.move.inputTransfer(this.moveData.copy());
+    public JsonObject ruleTodo(final JsonObject requestJ) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+        return this.ruleInternal(requestJ, rule::getTodo);
     }
 
-    public PassWay vague() {
-        /*
-         * java.lang.NullPointerException
-         * 	at io.vertx.tp.workflow.atom.runtime.WTransition.vague(WTransition.java:127)
-         */
-        return Objects.isNull(this.to) ? null : this.to.vague();
+    public JsonObject ruleTicket(final JsonObject requestJ) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+        final JsonObject ticketJ = this.ruleInternal(requestJ, rule::getTicket);
+        ticketJ.mergeIn(this.ruleInternal(requestJ, rule::getExtension));
+        return ticketJ;
+    }
+
+    private JsonObject ruleInternal(final JsonObject requestJ, final Supplier<JsonObject> supplier) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+        final JsonObject parsedJ = new JsonObject();
+        if (Objects.nonNull(rule)) {
+            // Todo, Ticket, Extension
+            parsedJ.mergeIn(Ut.fromExpression(supplier.get(), requestJ));
+        }
+        return parsedJ;
     }
 
     // --------------------- WTransition Action for Task Data ------------------

@@ -5,7 +5,6 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
@@ -118,11 +117,7 @@ public class UData {
             updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
         }
         // Todo based on previous
-        final WRule rule = wTransition.rule();
-        if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
-            final JsonObject parsed = parseValue(rule.getTodo(), params);
-            updatedData.mergeIn(parsed);
-        }
+        updatedData.mergeIn(wTransition.ruleTodo(params));
         return updatedData;
     }
 
@@ -204,9 +199,8 @@ public class UData {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WRule rule = wTransition.rule();
-        if (Objects.nonNull(rule)) {
-            final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
+        final JsonObject todoUpdate = wTransition.ruleTodo(newJson);
+        if (Ut.notNil(todoUpdate)) {
             entity = Ux.updateT(entity, todoUpdate);
         }
         final WRecord created = WRecord.create(true, ChangeFlag.UPDATE)

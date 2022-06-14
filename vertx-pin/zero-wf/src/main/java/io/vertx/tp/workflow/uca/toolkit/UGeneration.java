@@ -19,7 +19,7 @@ public class UGeneration {
 
     public Future<WRecord> runAsync(final WRequest request, final WTransition transition) {
         /*
-         * Here are generation workflow for usage
+         * Here are generation workflow for usage for future usage
          */
         return null;
     }
