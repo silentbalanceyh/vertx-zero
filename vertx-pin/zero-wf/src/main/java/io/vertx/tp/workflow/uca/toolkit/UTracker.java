@@ -137,12 +137,10 @@ public class UTracker {
          * }
          */
         // final JsonObject parameters = record.data();
-        {
-            // Add new parameters of instance
-            if (Objects.nonNull(task)) {
-                // Task Name
-                parameters.put(KName.Flow.TASK_NAME, task.getName());
-            }
+        // Add new parameters of instance
+        if (Objects.nonNull(task)) {
+            // Task Name
+            parameters.put(KName.Flow.TASK_NAME, task.getName());
         }
         return parameters;
     }
