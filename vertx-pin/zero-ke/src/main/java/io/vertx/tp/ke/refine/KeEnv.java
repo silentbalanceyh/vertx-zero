@@ -164,35 +164,18 @@ class KeEnv {
      */
     static Future<JsonObject> daoJ(final JsonObject config, final JsonObject params) {
         return daoT(config, JsonObject::new, jq -> {
-            final JsonObject condition = daoArgs(config, params);
+            final JsonObject exprTpl = Ut.valueJObject(config, Qr.KEY_CRITERIA);
+            final JsonObject condition = Ut.fromExpression(exprTpl, params);
             return jq.fetchJOneAsync(condition);
         });
     }
 
     static Future<JsonArray> daoA(final JsonObject config, final JsonObject params) {
         return daoT(config, JsonArray::new, jq -> {
-            final JsonObject condition = daoArgs(config, params);
+            final JsonObject exprTpl = Ut.valueJObject(config, Qr.KEY_CRITERIA);
+            final JsonObject condition = Ut.fromExpression(exprTpl, params);
             return jq.fetchJAsync(condition);
         });
-    }
-
-    private static JsonObject daoArgs(final JsonObject config, final JsonObject params) {
-        final JsonObject pattern = Ut.valueJObject(config, Qr.KEY_CRITERIA);
-        final JsonObject parameters = new JsonObject();
-        Ut.itJObject(pattern, (value, field) -> {
-            if (value instanceof String) {
-                final String expr = value.toString();
-                if (expr.contains("`")) {
-                    final String parsed = Ut.fromExpression(expr, params);
-                    parameters.put(field, parsed);
-                } else {
-                    parameters.put(field, value);
-                }
-            } else {
-                parameters.put(field, value);
-            }
-        });
-        return parameters;
     }
 
     private static <T> Future<T> daoT(final JsonObject config,

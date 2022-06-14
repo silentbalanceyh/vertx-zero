@@ -35,26 +35,4 @@ class RadixTool {
             }
         }
     }
-
-    static JsonObject toCriteria(final JsonObject inputData, final JsonObject tpl) {
-        final JsonObject formatTpl = Ut.valueJObject(tpl);
-        final JsonObject normalized = formatTpl.copy();
-        Ut.itJObject(formatTpl, (item, field) -> {
-            if (item instanceof String) {
-                final String literal = item.toString();
-                if (literal.contains("`")) {
-                    final String formatted = Ut.fromExpression(literal, inputData);
-                    normalized.put(field, formatted);
-                } else {
-                    // Fixed value condition instead
-                    normalized.put(field, literal);
-                }
-            } else if (item instanceof JsonObject) {
-                final JsonObject input = ((JsonObject) item);
-                final JsonObject formatted = toCriteria(inputData, input);
-                normalized.put(field, formatted);
-            }
-        });
-        return normalized;
-    }
 }

@@ -5,6 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
+import io.vertx.tp.workflow.uca.toolkit.ULinkage;
+import io.vertx.tp.workflow.uca.toolkit.UTicket;
 
 import java.util.Objects;
 
@@ -13,8 +15,8 @@ import java.util.Objects;
  */
 public abstract class AbstractMovement extends AbstractTransfer {
 
-    private transient AidTodo todoKit;
-    private transient AidLinkage linkageKit;
+    private transient UTicket todoKit;
+    private transient ULinkage linkageKit;
 
     /*
      * Overwrite the `Todo` Here
@@ -22,8 +24,8 @@ public abstract class AbstractMovement extends AbstractTransfer {
     @Override
     public Behaviour bind(final MetaInstance metadata) {
         Objects.requireNonNull(metadata);
-        this.todoKit = new AidTodo(metadata);
-        this.linkageKit = new AidLinkage(metadata);
+        this.todoKit = new UTicket(metadata);
+        this.linkageKit = new ULinkage(metadata);
         return super.bind(metadata);
     }
 
@@ -95,28 +97,29 @@ public abstract class AbstractMovement extends AbstractTransfer {
         }
     */
     protected Future<WRecord> insertAsync(final JsonObject params, final WTransition wTransition) {
-        // Todo
-        return Objects.requireNonNull(this.todoKit)
-            .insertAsync(params, wTransition)
+        Objects.requireNonNull(this.todoKit);
+        Objects.requireNonNull(this.linkageKit);
+        // Todo Insert
+        return this.todoKit.insertAsync(params, wTransition)
             // Linkage Sync
-            .compose(record -> Objects.requireNonNull(this.linkageKit)
-                .syncAsync(params, record));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
-    protected Future<WRecord> updateAsync(final JsonObject params, final WTransition WTransition) {
-        return Objects.requireNonNull(this.todoKit)
-            .updateAsync(params, WTransition)
+    protected Future<WRecord> updateAsync(final JsonObject params, final WTransition wTransition) {
+        Objects.requireNonNull(this.todoKit);
+        Objects.requireNonNull(this.linkageKit);
+        // Todo Update
+        return this.todoKit.updateAsync(params, wTransition)
             // Linkage Sync
-            .compose(record -> Objects.requireNonNull(this.linkageKit)
-                .syncAsync(params, record));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 
-    protected Future<WRecord> saveAsync(final JsonObject params, final WTransition process) {
-        // Todo
-        return Objects.requireNonNull(this.todoKit)
-            .saveAsync(params, process)
+    protected Future<WRecord> saveAsync(final JsonObject params, final WTransition wTransition) {
+        Objects.requireNonNull(this.todoKit);
+        Objects.requireNonNull(this.linkageKit);
+        // Todo Saving ( Insert / Update )
+        return this.todoKit.saveAsync(params, wTransition)
             // Linkage Sync
-            .compose(record -> Objects.requireNonNull(this.linkageKit)
-                .syncAsync(params, record));
+            .compose(record -> this.linkageKit.syncAsync(params, record));
     }
 }

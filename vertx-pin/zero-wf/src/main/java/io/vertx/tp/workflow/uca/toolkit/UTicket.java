@@ -1,4 +1,4 @@
-package io.vertx.tp.workflow.uca.central;
+package io.vertx.tp.workflow.uca.toolkit;
 
 import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
@@ -21,18 +21,18 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AidTodo {
+public class UTicket {
     private final transient MetaInstance metadata;
 
-    AidTodo(final MetaInstance metadata) {
+    public UTicket(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 
     // ------------- Generate Operation ----------------------
     public Future<WRecord> generateAsync(final WRecord record) {
         return Ux.Jooq.on(WTicketDao.class).updateAsync(record.ticket())
-            .compose(ticket -> Ux.Jooq.on(WTodoDao.class).insertAsync(record.todo())
-                .compose(nil -> Ux.future(record)));
+            .compose(ticket -> Ux.Jooq.on(WTodoDao.class).insertAsync(record.todo()))
+            .compose(nil -> Ux.future(record));
     }
 
     // ------------- Insert Operation ----------------------

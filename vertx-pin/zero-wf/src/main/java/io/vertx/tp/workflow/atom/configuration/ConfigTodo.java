@@ -103,14 +103,7 @@ class ConfigTodo implements Serializable {
             // ---------- todo data include name expression parsing
             {
                 final JsonObject todo = this.todoData.copy();
-                final JsonObject combine = new JsonObject();
-                Ut.<String>itJObject(todo, (expression, field) -> {
-                    if (expression.contains("`")) {
-                        combine.put(field, Ut.fromExpression(expression, ticketData));
-                    } else {
-                        combine.put(field, expression);
-                    }
-                });
+                final JsonObject combine = Ut.fromExpression(todo, ticketData);
                 ticketData.mergeIn(combine);
             }
 

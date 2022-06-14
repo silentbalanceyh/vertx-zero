@@ -59,9 +59,7 @@ public class WTransition {
     public static WTransition create(final WRequest request, final ConcurrentMap<String, WMove> move) {
         final KFlow workflow = request.workflow();
         final WTransition transition = new WTransition(workflow, move);
-        /*
-         * Private Scope for PassWay of request
-         */
+        /* Private Scope for PassWay of request */
         transition.way = Wf.inGateway(request.request());
         return transition;
     }
@@ -119,6 +117,13 @@ public class WTransition {
         return this.moveData.copy();
     }
 
+    public JsonObject rule(final JsonObject requestJ, final boolean isRecord) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+        /* Modify the input JsonObject of requestJ */
+        return null;
+    }
+
+    @Deprecated
     public WRule rule() {
         return this.move.inputTransfer(this.moveData.copy());
     }
@@ -211,12 +216,15 @@ public class WTransition {
         return this.instance.isEnded();
     }
 
-    public boolean isRunning(final Task task) {
+    public boolean isRunning() {
         final boolean isEnd = this.isEnded();
         if (isEnd) {
             return Boolean.FALSE;
         }
-        if (Objects.isNull(task)) {
+        if (Objects.isNull(this.to)) {
+            return Boolean.FALSE;
+        }
+        if (this.to.isEmpty()) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
@@ -255,9 +263,5 @@ class WTransitionDefine {
 
     WMove rule(final String node) {
         return this.move.getOrDefault(node, WMove.empty());
-    }
-
-    ConcurrentMap<String, WMove> rules() {
-        return this.move;
     }
 }

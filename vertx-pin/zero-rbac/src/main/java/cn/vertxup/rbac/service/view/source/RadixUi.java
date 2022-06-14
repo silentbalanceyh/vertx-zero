@@ -4,9 +4,11 @@ import cn.vertxup.rbac.service.view.RuleSource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -23,9 +25,10 @@ public class RadixUi implements RuleSource {
          *
          * uiCondition: Processing condition
          */
-        final JsonObject condition = RadixTool.toCriteria(
-            inputData, config.getJsonObject("uiCondition"));
-        LOGGER.info("Condition for Rule: input = {0}, normalized = {1}",
+        final JsonObject exprTpl = config.getJsonObject("uiCondition");
+        final JsonObject condition = Ut.fromExpression(exprTpl, inputData);
+        // RadixTool.toCriteria(inputData, config.getJsonObject("uiCondition"));
+        Sc.infoView(this.getClass(), "Condition for Rule: input = {0}, normalized = {1}",
             inputData.encode(), condition.encode());
         final UxJooq dao = RadixTool.toDao(config.getString("uiComponent"));
         if (Objects.isNull(dao)) {
