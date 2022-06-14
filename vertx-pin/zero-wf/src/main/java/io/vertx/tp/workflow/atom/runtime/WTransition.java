@@ -57,6 +57,10 @@ public class WTransition {
         }
     }
 
+    private WTransition(final WTransitionDefine define) {
+        this.define = define;
+    }
+
     public static WTransition create(final WRequest request, final ConcurrentMap<String, WMove> move) {
         final KFlow workflow = request.workflow();
         final WTransition transition = new WTransition(workflow, move);
@@ -142,10 +146,23 @@ public class WTransition {
 
     // --------------------- WTransition Action for Task Data ------------------
 
+    /*
+     * Camunda Engine Ran and after this method, the `to` variable ( WTask )
+     * will be filled the value based on different Gear
+     * 1) Standard
+     * 2) Fork/Join
+     * 3) Multi
+     * 4) Grid
+     *
+     * For different PassWay here
+     * 1. Before Camunda Engine, the PassWay will be calculated by data format.
+     * 2. After Camunda Engine, the PassWay could be passed directly
+     */
     public Future<WTransition> end(final ProcessInstance instance) {
         Objects.requireNonNull(this.move);
         this.instance = instance;
-        final Gear gear = this.move.inputGear(this.way);
+        final Gear gear = Gear.instance(this.way);
+        gear.configuration(this.move.configWay());
         return gear.taskAsync(instance).compose(wTask -> {
             /*
              * 0 == size, End
@@ -159,8 +176,9 @@ public class WTransition {
 
     public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket) {
         Objects.requireNonNull(this.move);
-        final Gear gear = this.move.inputGear(this.way);
-        return gear.todoAsync(parameters, ticket, this.to);
+        final Gear gear = Gear.instance(this.vague());
+        gear.configuration(this.move.configWay());
+        return gear.createAsync(parameters, ticket, this.to);
     }
 
     public Future<WTransition> start() {

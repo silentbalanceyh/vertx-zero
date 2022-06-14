@@ -60,7 +60,11 @@ public interface Gear {
      */
     Future<WTask> taskAsync(ProcessInstance instance);
 
-    default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTicket ticket, final WTask task) {
+    default Future<List<WTodo>> createAsync(final JsonObject parameters, final WTicket ticket, final WTask task) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    default Future<List<WTodo>> generateAsync(final JsonObject parameters, final WTicket ticket, final WTask task) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 }

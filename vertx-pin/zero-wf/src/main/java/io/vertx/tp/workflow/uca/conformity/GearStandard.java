@@ -41,12 +41,19 @@ public class GearStandard extends AbstractGear {
     }
 
     @Override
-    public Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTicket ticket, final WTask wTask) {
+    public Future<List<WTodo>> createAsync(final JsonObject parameters, final WTicket ticket, final WTask wTask) {
         final Task task = wTask.standard();
         if (Objects.isNull(task)) {
             return Ux.futureL();
         }
-        final WTodo todo = this.todoBuild(parameters, ticket, task);
+        // `key` - todoKey is inner parameters
+        final WTodo todo = Ux.fromJson(parameters, WTodo.class);
+
+        // Normalize for common
+        this.todoNorm(todo, ticket, task);
+
+        // traceOrder = 1 when create
+        todo.setTraceOrder(1);
         return Ux.futureL(todo);
     }
 }

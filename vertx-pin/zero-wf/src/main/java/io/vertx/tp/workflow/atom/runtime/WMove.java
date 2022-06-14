@@ -1,10 +1,8 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.sectio.AspectConfig;
@@ -97,10 +95,8 @@ public class WMove implements Serializable {
         return this.aspect;
     }
 
-    Gear inputGear(final PassWay type) {
-        final Gear gear = Gear.instance(type);
-        gear.configuration(this.gateway.copy());
-        return gear;
+    JsonObject configWay() {
+        return this.gateway.copy();
     }
 
     /*

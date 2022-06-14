@@ -10,7 +10,6 @@ import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.tp.workflow.uca.toolkit.UData;
-import io.vertx.tp.workflow.uca.toolkit.UGeneration;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -64,8 +63,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                      * Here means the `to` attribute is not null, it should generate many `todo`
                      * Also the record in request should contain values.
                      */
-                    final UGeneration generation = new UGeneration(this.metadataIn());
-                    return generation.runAsync(request, wTransition);
+                    final MoveOn move = MoveOn.instance(MoveOnGenerate.class);
+                    move.bind(this.metadataIn());
+                    return move.transferAsync(request, wTransition);
                 } else {
                     return Ux.future(record);
                 }
@@ -80,6 +80,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          *     - If Not, do not modify the main ticket record status/phase etc.
          */
         final JsonObject closeJ = UData.closeJ(normalized, wTransition);
+
+        closeJ.mergeIn(wTransition.ruleTodo(normalized));
+
         return this.saveAsync(closeJ, wTransition).compose(record -> {
             /*
              * 2. Processing for `record` field on entity records
