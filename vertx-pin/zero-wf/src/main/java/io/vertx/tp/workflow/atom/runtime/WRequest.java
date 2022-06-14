@@ -60,8 +60,6 @@ public class WRequest implements Serializable {
         this.record = record;
         return Ux.future(record);
     }
-
-
     // =================== Fluent Method for Set =======================
 
     @Fluent

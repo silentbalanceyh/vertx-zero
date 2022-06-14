@@ -3,10 +3,12 @@ package io.vertx.tp.workflow.atom.runtime;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.WfCv;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._409InValidTaskApiException;
 import io.vertx.tp.optic.business.ExActivity;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.tp.workflow.atom.EngineOn;
@@ -14,6 +16,7 @@ import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -21,6 +24,8 @@ import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,6 +40,7 @@ public class WRecord implements Serializable {
     private final transient JsonObject dataAfter = new JsonObject();
     // Change Flag for activity
     private final transient ChangeFlag tabb;
+    private transient PassWay type;
     /*
      * This variable stored prev record when do different operation
      * 1) ADD:          prev = null
@@ -44,10 +50,10 @@ public class WRecord implements Serializable {
      * When current record data() called, the original record stored in
      * __data node and write __flag node for normalization
      */
-    private transient WRecord prev;
+    private WRecord prev;
     // Before WRecord
-    private transient WTicket ticket;
-    private transient WTodo todo;
+    private WTicket ticket;
+    private List<WTodo> todo = new ArrayList<>();
 
     private WRecord(final ChangeFlag tabb) {
         this.tabb = tabb;
@@ -99,8 +105,13 @@ public class WRecord implements Serializable {
      *  - WTicket = null
      */
     public WRecord bind() {
-        this.todo = null;
+        this.todo = new ArrayList<>();
         this.ticket = null;
+        return this;
+    }
+
+    public WRecord bind(final PassWay type) {
+        this.type = type;
         return this;
     }
 
@@ -116,20 +127,29 @@ public class WRecord implements Serializable {
      *  2. History should be JsonArray ( Captured WTodo / Camunda Task )
      *  3. Linkage should be related to current WTodo record
      */
-    public WRecord bind(final WTicket ticket) {
+    public WRecord ticket(final WTicket ticket) {
         this.ticket = Ux.cloneT(ticket);
         return this;
     }
 
-    public WRecord bind(final WTodo todo) {
-        this.todo = Ux.cloneT(todo);
+    public WRecord task(final WTodo todo) {
+        this.todo.clear();
+        this.todo.add(Ux.cloneT(todo));
+        return this;
+    }
+
+    public WRecord task(final List<WTodo> todoList) {
+        if (Objects.nonNull(todoList)) {
+            this.todo.clear();
+            this.todo.addAll(todoList);
+        }
         return this;
     }
 
     /*
      * Child Bind
      */
-    public WRecord bind(final JsonObject child) {
+    public WRecord ticket(final JsonObject child) {
         if (Ut.notNil(child)) {
             this.child.mergeIn(child.copy());
         }
@@ -156,7 +176,11 @@ public class WRecord implements Serializable {
      * - status()                       Todo Status ( Original Status stored in database )
      */
     public WTodo todo() {
-        return this.todo;
+        if (this.todo.isEmpty() || Values.ONE < this.todo.size()) {
+            return null;
+        } else {
+            return this.todo.get(Values.IDX);
+        }
     }
 
     public WTicket ticket() {
@@ -186,7 +210,7 @@ public class WRecord implements Serializable {
         if (Objects.isNull(this.prev) || Objects.isNull(this.prev.todo)) {
             return null;
         }
-        final WTodo todo = this.prev.todo;
+        final WTodo todo = this.prev.todo();
         return Ut.toEnum(todo::getStatus, TodoStatus.class, null);
     }
 
@@ -263,9 +287,10 @@ public class WRecord implements Serializable {
         final Io<JsonObject> ioFlow = Io.ioFlow();
         if (history) {
             // Task must not be null
-            Objects.requireNonNull(this.todo);
+            final WTodo todo = this.todo();
+            Objects.requireNonNull(todo);
             final Io<Task> ioTask = Io.ioTask();
-            final String taskId = this.todo.getTaskId();
+            final String taskId = todo.getTaskId();
             return ioTask.run(taskId).compose(ioFlow::run);
         } else {
             // Instance must not be null
@@ -458,16 +483,17 @@ public class WRecord implements Serializable {
     }
 
     private void onTodo(final JsonObject response) {
-        if (Objects.nonNull(this.todo)) {
-            final JsonObject todoJson = Ux.toJson(this.todo);
+        final WTodo todo = this.todo();
+        if (Objects.nonNull(todo)) {
+            final JsonObject todoJson = Ux.toJson(todo);
             todoJson.remove(KName.SERIAL);
             todoJson.remove(KName.CODE);
             response.mergeIn(todoJson, true);
             // WTodo
             // taskCode <- code
             // taskSerial <- serial
-            response.put(KName.Flow.TASK_CODE, this.todo.getCode());
-            response.put(KName.Flow.TASK_SERIAL, this.todo.getSerial());
+            response.put(KName.Flow.TASK_CODE, todo.getCode());
+            response.put(KName.Flow.TASK_SERIAL, todo.getSerial());
         }
     }
 
@@ -489,6 +515,12 @@ public class WRecord implements Serializable {
             }
             childJ.remove(KName.KEY);
             result.mergeIn(childJ);
+        }
+    }
+
+    private void ensure(final PassWay expected) {
+        if (expected != this.type) {
+            throw new _409InValidTaskApiException(this.getClass(), this.type, expected);
         }
     }
 }

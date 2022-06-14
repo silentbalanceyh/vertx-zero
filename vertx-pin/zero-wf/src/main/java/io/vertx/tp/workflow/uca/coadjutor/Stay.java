@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.coadjutor;
 
 import io.vertx.core.Future;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.Behaviour;
 
 /**
@@ -11,5 +11,5 @@ import io.vertx.tp.workflow.uca.central.Behaviour;
  */
 public interface Stay extends Behaviour {
 
-    Future<WRecord> keepAsync(WRequest request, WProcess instance);
+    Future<WRecord> keepAsync(WRequest request, WTransition instance);
 }

@@ -201,7 +201,7 @@ E80219: "(403) - (Ke) You have no access to create cross `application` account t
 
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
 E80543: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
-E80544: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
+E80548: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
 
 # Ambient Module
 E80300: "(500) - (Ambient) The application environment error, could not get app data"
@@ -280,12 +280,13 @@ E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by c
 E80601: "(501) - (Workflow) Your BPMN file has no `StartEvent`, please check by id = `{0}`"
 E80602: "(409) - (Workflow) This api could be called when unique `StartEvent`, but not the size is `{0}`, id = `{1}`"
 E80603: "(404) - (Workflow) The system could not find workflow record by definitionKey = `{0}`"
-E80604: "(409) - (Workflow) The workflow of definitionKey = `{0}` has already been started ! Invalid Call Divert"
+E80604: "(409) - (Workflow) The workflow of definitionKey = `{0}` has already been started ! Invalid Call MoveOn"
 E80605: "(404) - (Workflow) The workflow of instanceId = `{0}` has been not found in your workflow engine"
 E80606: "(500) - (Workflow) The workflow engine could not parsed task type of `{0}`"
 E80607: "(404) - (Workflow) The supplier of event type = `{0}` could not be found"
-E80608: "(501) - (Workflow) Your BPMN file has no `EndEvent`, please check by id = `{0}`",
+E80608: "(501) - (Workflow) Your BPMN file has no `EndEvent`, please check by id = `{0}`"
 E80609: "(409) - (Workflow) This api could be called when unique `EndEvent`, but not the size is `{0}`, id = `{1}`"
+E80610: "(409) - (Workflow) This api could not be called because of NodeType conflict, input = {0} and expected = {1}"
 
 # Extension Vie Platform
 E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."

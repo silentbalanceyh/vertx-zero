@@ -13,7 +13,7 @@ public class _412IndentUnknownException extends WebException {
 
     @Override
     public int getCode() {
-        return -80544;
+        return -80548;
     }
 
     @Override

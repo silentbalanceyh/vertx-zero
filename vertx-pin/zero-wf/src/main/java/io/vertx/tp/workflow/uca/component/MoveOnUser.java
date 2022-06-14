@@ -2,10 +2,9 @@ package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WMove;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.tp.workflow.uca.central.AidData;
 import org.camunda.bpm.engine.task.Task;
@@ -17,11 +16,11 @@ import java.util.Objects;
  */
 public class MoveOnUser extends AbstractMoveOn {
     @Override
-    public Future<WRecord> transferAsync(final WRequest request, final WProcess process) {
+    public Future<WRecord> transferAsync(final WRequest request, final WTransition wTransition) {
         /*
          * Process creation for new and next step here.
          */
-        final WProcess next = WProcess.create();
+        final WTransition next = this.createTransition(request);
         {
             /*
              * Processing WProcess creation based on process here
@@ -30,10 +29,10 @@ public class MoveOnUser extends AbstractMoveOn {
              * - WMove
              * - ProcessInstance
              */
-            final Task task = process.task();
-            final WMove move = this.rule(task.getTaskDefinitionKey());
-            move.stored(request.request());
-            next.bind(process.taskNext()).bind(move).bind(process.instance());
+            final Task task = wTransition.from();
+            // final WMove move = this.rule(task.getTaskDefinitionKey());
+            // move.stored(request.request());
+            // next.from(process.to()).bind(move);
         }
         // Record and instance
         final WRecord generated = AidData.nextJ(request.record(), next);

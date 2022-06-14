@@ -1,24 +1,20 @@
 package io.vertx.tp.workflow.refine;
 
-import io.vertx.core.Future;
+import cn.zeroup.macrocosm.cv.em.PassWay;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
-import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KFlow;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,25 +35,6 @@ class WfFlow {
         workflow.put(KName.Flow.BPMN, xml);
         workflow.put(KName.NAME, definition.getName());
         return workflow;
-    }
-
-    static String nameEvent(final Task task) {
-        if (Objects.isNull(task)) {
-            return null;
-        }
-        final RepositoryService service = WfPin.camundaRepository();
-        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
-        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
-        return node.getElementType().getTypeName();
-    }
-
-    static Future<WProcess> createProcess(final WRequest request) {
-        final WProcess process = WProcess.create();
-        final KFlow workflow = request.workflow();
-        final Io<Void> io = Io.io();
-        final ProcessInstance instance = io.inInstance(workflow.instanceId());
-        return process.instance(instance/* WProcess -> Bind Process */)
-            .compose(bind -> Ux.future(process));
     }
 
     static JsonObject outLinkage(final JsonObject linkageJ) {
@@ -81,5 +58,107 @@ class WfFlow {
             }
         });
         return parsed;
+    }
+
+    // ------------------- Gateway Type Analyzing ------------------------
+    /*
+     * PassWay Input Data
+     * 1: 1
+     * {
+     *     "toUser": "user1"
+     * }
+     *
+     * n: 1
+     * {
+     *     "toUser": {
+     *         "type1": "user1",
+     *         "type2": "user2",
+     *         "type3": "user3",
+     *         "...":   "...",
+     *         "typeN": "userN"
+     *     }
+     * }
+     *
+     * 1: n
+     * {
+     *     "toUser": [
+     *         "user1",
+     *         "user2",
+     *         "user3",
+     *         "...",
+     *         "userN"
+     *     ]
+     * }
+     *
+     * n: n
+     * {
+     *     "toUser": {
+     *         "type1": [
+     *              "user1",
+     *              "user2",
+     *              "..."
+     *         ],
+     *         "type2": [
+     *              "user3",
+     *              "user4",
+     *              "...",
+     *              "userY"
+     *         ],
+     *         "...": [
+     *              "...",
+     *              "userN"
+     *         ],
+     *         "typeN": [
+     *              "user2",
+     *              "user3",
+     *              "...",
+     *              "userX"
+     *         ],
+     *     }
+     * }
+     */
+    static PassWay inGateway(final JsonObject requestJ) {
+        // toUser field extraction
+        final JsonObject requestData = Ut.valueJObject(requestJ);
+        final Object toUser = requestData.getValue(KName.Flow.Auditor.TO_USER);
+        if (toUser instanceof String) {
+            // String
+            return PassWay.Standard;
+        } else if (toUser instanceof JsonArray) {
+            // JsonArray
+            return PassWay.Multi;
+        } else if (toUser instanceof JsonObject) {
+            // JsonObject
+            /*
+             * - Fork/Join:  All String
+             * - Grid:       All JsonObject
+             */
+            final JsonObject toUserJ = ((JsonObject) toUser);
+            final Set<String> typeSet = toUserJ.fieldNames();
+            final long strCount = typeSet.stream()
+                .filter(field -> (toUserJ.getValue(field) instanceof String))
+                .count();
+            if (typeSet.size() == strCount) {
+                // Fork/Join
+                return PassWay.Fork;
+            } else {
+                // Grid
+                return PassWay.Grid;
+            }
+        } else {
+            // Undermine
+            return null;
+        }
+    }
+
+    // ------------------- Name Event ------------------------
+    static String nameEvent(final Task task) {
+        if (Objects.isNull(task)) {
+            return null;
+        }
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
+        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
+        return node.getElementType().getTypeName();
     }
 }

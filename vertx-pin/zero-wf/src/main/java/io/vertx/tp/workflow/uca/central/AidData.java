@@ -4,9 +4,9 @@ import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WMoveRule;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRule;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
@@ -94,7 +94,7 @@ public class AidData {
      *      "active": true
      * }
      */
-    public static JsonObject closeJ(final JsonObject params, final WProcess wProcess) {
+    public static JsonObject closeJ(final JsonObject params, final WTransition wTransition) {
         final JsonObject updatedData = params.copy();
         updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
         final String user = params.getString(KName.UPDATED_BY);
@@ -104,7 +104,7 @@ public class AidData {
         updatedData.put(KName.ACTIVE, Boolean.TRUE);
 
 
-        if (wProcess.isEnd()) {
+        if (wTransition.isEnded()) {
             /*
              * Closable Data, following three fields must be happened the same
              * - flowEnd = true
@@ -118,7 +118,7 @@ public class AidData {
             updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
         }
         // Todo based on previous
-        final WMoveRule rule = wProcess.ruleFind();
+        final WRule rule = wTransition.rule();
         if (Objects.nonNull(rule) && Ut.notNil(rule.getTodo())) {
             final JsonObject parsed = parseValue(rule.getTodo(), params);
             updatedData.mergeIn(parsed);
@@ -126,12 +126,12 @@ public class AidData {
         return updatedData;
     }
 
-    public static JsonObject cancelJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
-        return endJ(params, wProcess, historySet, TodoStatus.CANCELED);
+    public static JsonObject cancelJ(final JsonObject params, final WTransition wTransition, final Set<String> historySet) {
+        return endJ(params, wTransition, historySet, TodoStatus.CANCELED);
     }
 
-    public static JsonObject closeJ(final JsonObject params, final WProcess wProcess, final Set<String> historySet) {
-        return endJ(params, wProcess, historySet, TodoStatus.FINISHED);
+    public static JsonObject closeJ(final JsonObject params, final WTransition wTransition, final Set<String> historySet) {
+        return endJ(params, wTransition, historySet, TodoStatus.FINISHED);
     }
 
 
@@ -161,7 +161,7 @@ public class AidData {
      *      "toUser": null
      * }
      */
-    public static WRecord nextJ(final WRecord record, final WProcess wProcess) {
+    public static WRecord nextJ(final WRecord record, final WTransition wTransition) {
         // Todo New
         final JsonObject newJson = record.data();
         {
@@ -185,7 +185,7 @@ public class AidData {
             entity.setCommentReject(null);
         }
         {
-            final Task nextTask = wProcess.task();
+            final Task nextTask = wTransition.from();
             // entity.setTraceId(nextTask.getProcessInstanceId());
             // entity.setTraceTaskId(nextTask.getId());
             entity.setTraceId(ticket.getKey());
@@ -204,15 +204,16 @@ public class AidData {
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setUpdatedBy(todo.getUpdatedBy());
         }
-        final WMoveRule rule = wProcess.ruleFind();
+        final WRule rule = wTransition.rule();
         if (Objects.nonNull(rule)) {
             final JsonObject todoUpdate = parseValue(rule.getTodo(), newJson);
             entity = Ux.updateT(entity, todoUpdate);
         }
         final WRecord created = WRecord.create(true, ChangeFlag.UPDATE)
-            .bind(ticket)           // WTicket
-            .bind(entity)           // WTodo
-            .bind(record.child());  // JsonObject for Child Data
+            .bind(wTransition.vague())
+            .task(entity)                       // WTodo
+            .ticket(ticket)                     // WTicket
+            .ticket(record.child());            // JsonObject for Child Data
         final WRecord prev = record.prev();
         /*
          * Fix $zo has no value here
@@ -230,9 +231,9 @@ public class AidData {
          *
          */
         if (Objects.isNull(prev)) {
-            created.prev(record);
+            created.prev(record.bind(wTransition.vague()));
         } else {
-            created.prev(prev);
+            created.prev(prev.bind(wTransition.vague()));
         }
         return created;
     }
@@ -257,7 +258,7 @@ public class AidData {
     }
 
     private static JsonObject endJ(final JsonObject params,
-                                   final WProcess wProcess,
+                                   final WTransition wTransition,
                                    final Set<String> historySet,
                                    final TodoStatus status) {
         final JsonObject todoData = params.copy();
@@ -266,7 +267,7 @@ public class AidData {
          * History building
          */
         final Set<String> traceSet = new HashSet<>(historySet);
-        final Task task = wProcess.task();
+        final Task task = wTransition.from();
         if (Objects.nonNull(task)) {
             traceSet.add(task.getTaskDefinitionKey());
         }

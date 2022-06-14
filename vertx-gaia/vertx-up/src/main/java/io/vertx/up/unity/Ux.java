@@ -537,6 +537,12 @@ public final class Ux {
         return future(new ArrayList<>());
     }
 
+    public static <T> Future<List<T>> futureL(final T single) {
+        final List<T> list = new ArrayList<>();
+        list.add(single);
+        return future(list);
+    }
+
     public static Future<JsonObject> futureB(final boolean checked) {
         return To.future(outBool(checked));
     }

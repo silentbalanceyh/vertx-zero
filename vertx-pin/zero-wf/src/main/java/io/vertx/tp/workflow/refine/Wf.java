@@ -1,9 +1,7 @@
 package io.vertx.tp.workflow.refine;
 
-import io.vertx.core.Future;
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
-import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
@@ -30,13 +28,12 @@ public class Wf {
         return WfFlow.outLinkage(linkageJ);
     }
 
-    public static String nameEvent(final Task task) {
-        return WfFlow.nameEvent(task);
+    public static PassWay inGateway(final JsonObject requestJ) {
+        return WfFlow.inGateway(requestJ);
     }
 
-    // Fetch WProcess
-    public static Future<WProcess> createProcess(final WRequest request) {
-        return WfFlow.createProcess(request);
+    public static String nameEvent(final Task task) {
+        return WfFlow.nameEvent(task);
     }
 
     // BiFunction on ProcessDefinition / ProcessInstance
@@ -85,6 +82,11 @@ public class Wf {
         public static void infoWeb(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             WfLog.info(logger, "Web", message, args);
+        }
+
+        public static void infoTransition(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            WfLog.info(logger, "Transition", message, args);
         }
 
         public static void debugMove(final Class<?> clazz, final String message, final Object... args) {

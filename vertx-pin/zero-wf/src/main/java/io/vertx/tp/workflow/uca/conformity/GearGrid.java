@@ -5,10 +5,8 @@ import cn.zeroup.macrocosm.cv.em.PassWay;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class GearForkJoin extends AbstractGear {
-
-    public GearForkJoin() {
+public class GearGrid extends AbstractGear {
+    public GearGrid() {
         super(PassWay.Grid);
     }
-
 }

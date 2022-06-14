@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.component;
 
 import io.vertx.core.Future;
-import io.vertx.tp.workflow.atom.runtime.WProcess;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 
@@ -12,7 +12,7 @@ import io.vertx.tp.workflow.uca.modeling.Register;
  */
 public class TransferStart extends AbstractMovement implements Transfer {
     @Override
-    public Future<WRecord> moveAsync(final WRequest request, final WProcess wProcess) {
+    public Future<WRecord> moveAsync(final WRequest request, final WTransition wTransition) {
         /*
          * Record processing first, here the parameters are following:
          *
@@ -32,7 +32,7 @@ public class TransferStart extends AbstractMovement implements Transfer {
 
 
             /* Todo Execution ( Todo Insert ) */
-            .compose(processed -> this.insertAsync(processed, wProcess))
-            .compose(record -> this.afterAsync(record, wProcess));
+            .compose(processed -> this.insertAsync(processed, wTransition))
+            .compose(record -> this.afterAsync(record, wTransition));
     }
 }

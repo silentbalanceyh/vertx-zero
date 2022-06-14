@@ -1,8 +1,10 @@
 package io.vertx.tp.workflow.atom.runtime;
 
+import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.sectio.AspectConfig;
@@ -20,20 +22,21 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
-    private final transient ConcurrentMap<String, WMoveRule> rules = new ConcurrentHashMap<>();
-    private final transient JsonObject params = new JsonObject();
+    private final ConcurrentMap<String, WRule> rules = new ConcurrentHashMap<>();
     /*
      * The data structure is as following:
      * {
      *     "node": {
+     *         "type": "Standard | Fork | Multi"
      *         "data": {
      *         },
      *         "rule": [
-     *             WMoveRule,
-     *             WMoveRule
+     *             WRule,
+     *             WRule
      *         ],
      *         "aspect": AspectConfig,
-     *         "fork": {
+     *         "gateway": {
+     *              "taskKey": "path of value"
      *         }
      *     }
      * }
@@ -42,11 +45,12 @@ public class WMove implements Serializable {
      * 2) When `Multi` Mode, the `fork` configuration will not be used.
      * 3) 「Valid」When `Fork/Join` Mode, the `fork` configuration will help to create Todo Tickets
      */
-    private final transient String node;
-    private final transient ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
-    private final transient AspectConfig aspect;
+    private final String node;
 
-    private final transient WMode gateway;
+    private final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
+    private final AspectConfig aspect;
+
+    private final JsonObject gateway = new JsonObject();
 
     private WMove(final String node, final JsonObject config) {
         // Node Name
@@ -58,7 +62,7 @@ public class WMove implements Serializable {
         // Processing for left rules
         final JsonArray rules = Ut.valueJArray(config.getJsonArray(KName.RULE));
         Ut.itJArray(rules).forEach(json -> {
-            final WMoveRule rule = Ux.fromJson(json, WMoveRule.class);
+            final WRule rule = Ux.fromJson(json, WRule.class);
             if (rule.valid()) {
                 this.rules.put(rule.key(), rule);
             } else {
@@ -69,9 +73,16 @@ public class WMove implements Serializable {
         // Processing for Aspect
         this.aspect = AspectConfig.create(Ut.valueJObject(config, KName.ASPECT));
 
-        // Processing for Fork
-        final JsonObject moveWayJ = Ut.valueJObject(config, KName.GATEWAY);
-        this.gateway = Ut.deserialize(moveWayJ, WMode.class);
+        /*
+         * Processing for NodeType configuration
+         * 1. type = Standard
+         * 2. type = Fork
+         * 3. type = Multi
+         *
+         * The configuration node should be gateway, in current version, this
+         * configuration is Ok for `Fork` only.
+         */
+        this.gateway.mergeIn(Ut.valueJObject(config, KName.GATEWAY));
     }
 
     public static WMove create(final String node, final JsonObject config) {
@@ -82,37 +93,40 @@ public class WMove implements Serializable {
         return new WMove(null, new JsonObject());
     }
 
-    public WMove stored(final JsonObject request) {
-        // Clean Params
-        this.params.clear();
-        this.data.forEach((to, from) -> this.params.put(to, request.getValue(from)));
-        return this;
+    AspectConfig configAop() {
+        return this.aspect;
     }
 
-    public WMoveRule ruleFind() {
+    Gear inputGear(final PassWay type) {
+        final Gear gear = Gear.instance(type);
+        gear.configuration(this.gateway.copy());
+        return gear;
+    }
+
+    /*
+     * parameters for two components
+     * 1. Movement Internal call `RunOn`, based on WRequest request
+     * 2. Transfer will select `WRule` for process execution
+     */
+    JsonObject inputMovement(final JsonObject requestJ) {
+        // Extract Data from `data` configuration
+        final JsonObject arguments = new JsonObject();
+        this.data.forEach((to, from) -> arguments.put(to, requestJ.getValue(from)));
+        return arguments;
+    }
+
+    WRule inputTransfer(final JsonObject params) {
         final Set<String> keys = new TreeSet<>();
-        this.params.fieldNames().forEach(field -> {
-            final Object value = this.params.getValue(field);
+        params.fieldNames().forEach(field -> {
+            final Object value = params.getValue(field);
             if (Objects.nonNull(value)) {
                 final String key = field + Strings.EQUAL + value;
                 keys.add(key);
             }
         });
         final String key = Ut.fromJoin(keys);
-        final WMoveRule rule = this.rules.getOrDefault(key, null);
+        final WRule rule = this.rules.getOrDefault(key, null);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
-    }
-
-    public AspectConfig configAop() {
-        return this.aspect;
-    }
-
-    public JsonObject parameters() {
-        return this.params;
-    }
-
-    public WMode way() {
-        return this.gateway;
     }
 }
