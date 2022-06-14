@@ -56,21 +56,4 @@ public abstract class AbstractTransfer extends BehaviourStandard {
         }
         return requestJ;
     }
-
-    protected JsonObject recordMove(final JsonObject request, final JsonObject record) {
-        final Object recordData = request.getValue(KName.RECORD);
-        if (Objects.isNull(recordData)) {
-            return request;
-        }
-        if (recordData instanceof JsonObject) {
-            final JsonObject recordJ = ((JsonObject) recordData);
-            recordJ.mergeIn(record, true);
-            request.put(KName.RECORD, recordJ);
-        } else if (recordData instanceof JsonArray) {
-            final JsonArray recordA = ((JsonArray) recordData);
-            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(record, true));
-            request.put(KName.RECORD, recordA);
-        }
-        return request;
-    }
 }

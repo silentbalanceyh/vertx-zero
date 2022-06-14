@@ -4,11 +4,13 @@ import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
+import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
@@ -57,10 +59,6 @@ public class WTransition {
         }
     }
 
-    private WTransition(final WTransitionDefine define) {
-        this.define = define;
-    }
-
     public static WTransition create(final WRequest request, final ConcurrentMap<String, WMove> move) {
         final KFlow workflow = request.workflow();
         final WTransition transition = new WTransition(workflow, move);
@@ -107,7 +105,7 @@ public class WTransition {
     }
     // --------------------- Move Rule Processing ------------------
 
-    public JsonObject rule(final JsonObject requestJ) {
+    public JsonObject moveParameter(final JsonObject requestJ) {
         if (Objects.isNull(this.move)) {
             return new JsonObject();
         }
@@ -117,24 +115,40 @@ public class WTransition {
         return this.moveData.copy();
     }
 
-    public JsonObject ruleRecord(final JsonObject requestJ) {
+    public JsonObject moveTicket(final JsonObject requestJ) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        return this.ruleInternal(requestJ, rule::getRecord);
+        // WTodo, WTicket, Extension
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTodo), true);
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTicket), true);
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getExtension), true);
+
+
+        // Record Processing
+        return this.moveRecord(requestJ);
     }
 
-    public JsonObject ruleTodo(final JsonObject requestJ) {
+    public JsonObject moveRecord(final JsonObject requestJ) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        return this.ruleInternal(requestJ, rule::getTodo);
+
+        // Record Processing
+        final Object recordRef = requestJ.getValue(KName.RECORD);
+        if (Objects.isNull(recordRef)) {
+            return requestJ;
+        }
+        final JsonObject recordData = this.moveInternal(requestJ, rule::getRecord);
+        if (recordRef instanceof JsonObject) {
+            final JsonObject recordJ = ((JsonObject) recordRef);
+            recordJ.mergeIn(recordData, true);
+            requestJ.put(KName.RECORD, recordJ);
+        } else if (recordRef instanceof JsonArray) {
+            final JsonArray recordA = ((JsonArray) recordRef);
+            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(recordData, true));
+            requestJ.put(KName.RECORD, recordA);
+        }
+        return requestJ;
     }
 
-    public JsonObject ruleTicket(final JsonObject requestJ) {
-        final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        final JsonObject ticketJ = this.ruleInternal(requestJ, rule::getTicket);
-        ticketJ.mergeIn(this.ruleInternal(requestJ, rule::getExtension));
-        return ticketJ;
-    }
-
-    private JsonObject ruleInternal(final JsonObject requestJ, final Supplier<JsonObject> supplier) {
+    private JsonObject moveInternal(final JsonObject requestJ, final Supplier<JsonObject> supplier) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
         final JsonObject parsedJ = new JsonObject();
         if (Objects.nonNull(rule)) {

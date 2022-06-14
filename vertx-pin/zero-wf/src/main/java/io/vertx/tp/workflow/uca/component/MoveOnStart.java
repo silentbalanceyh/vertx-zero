@@ -42,7 +42,7 @@ public class MoveOnStart extends AbstractMoveOn {
              *
              * Based on configuration the `WRule` must be mutual exclusion
              */
-            final JsonObject parameters = wTransition.rule(request.request());
+            final JsonObject parameters = wTransition.moveParameter(request.request());
             final RunOn runOn = RunOn.get();
             return runOn.startAsync(parameters, wTransition);
         }).compose(wTransition::end);

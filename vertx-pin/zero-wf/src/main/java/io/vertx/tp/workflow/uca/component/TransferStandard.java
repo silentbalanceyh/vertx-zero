@@ -25,7 +25,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          * -- 2.1. Active task is not end
          * -- 2.2. Next task is user task
          * */
-        return this.inputAsync(request.request(), wTransition)
+        final JsonObject requestJ = request.request();
+        return this.inputAsync(requestJ, wTransition)
+            .compose(normalized -> Ux.future(wTransition.moveTicket(normalized)))
 
             /*
              * Entity / Extension Ticket Record Execution, ( Update )
@@ -81,8 +83,6 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          */
         final JsonObject closeJ = UData.closeJ(normalized, wTransition);
 
-        closeJ.mergeIn(wTransition.ruleTodo(normalized));
-
         return this.saveAsync(closeJ, wTransition).compose(record -> {
             /*
              * 2. Processing for `record` field on entity records
@@ -97,14 +97,12 @@ public class TransferStandard extends AbstractMovement implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            final JsonObject request = normalized.copy();
+            JsonObject request = normalized.copy();
             request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             if (TodoStatus.PENDING == status) {
-                /*
-                 * Move Rules
-                 */
-                request.mergeIn(wTransition.ruleRecord(request));
+                /* Move Rules: moveRecord Calling */
+                request = wTransition.moveRecord(request);
             }
             /*
              * Contains record modification, do update on record.
