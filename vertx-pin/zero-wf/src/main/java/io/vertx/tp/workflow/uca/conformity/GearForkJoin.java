@@ -49,7 +49,7 @@ public class GearForkJoin extends AbstractGear {
             todo.setKey(UUID.randomUUID().toString());
 
             // 2. Serial Generation
-            todo.setSerialFork(String.valueOf(seed));
+            todo.setSerialFork(String.valueOf(seed.getAndIncrement()));
             this.todoSerial(todo, ticket, null);
 
             todos.add(todo);
@@ -78,7 +78,7 @@ public class GearForkJoin extends AbstractGear {
             // 2. Serial Generation
             final String serialFork = todo.getSerialFork();
             if (Ut.isNil(serialFork)) {
-                generated.setSerialFork(String.valueOf(seed));
+                generated.setSerialFork(String.valueOf(seed.getAndIncrement()));
             } else {
                 generated.setSerialFork(serialFork);
             }
