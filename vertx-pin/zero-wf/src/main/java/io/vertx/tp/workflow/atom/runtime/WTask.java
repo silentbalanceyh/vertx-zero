@@ -84,15 +84,19 @@ public class WTask {
         if (this.tasks.isEmpty()) {
             return new ConcurrentHashMap<>();
         }
-        final ConcurrentMap<String, Task> item = this.tasks.values().iterator().next();
-        if (Objects.isNull(item)) {
-            return new ConcurrentHashMap<>();
-        }
-        return item;
+        final ConcurrentMap<String, Task> taskMap = new ConcurrentHashMap<>();
+        this.tasks.forEach((taskKey, valueMap) -> {
+            final Task task = valueMap.values().iterator().next();
+            taskMap.put(taskKey, task);
+        });
+        return taskMap;
     }
 
     public ConcurrentMap<String, List<Task>> grid() {
         this.ensure(PassWay.Grid);
+        if (this.tasks.isEmpty()) {
+            return new ConcurrentHashMap<>();
+        }
         final ConcurrentMap<String, List<Task>> taskMap = new ConcurrentHashMap<>();
         this.tasks.forEach((taskKey, valueMap) -> {
             final List<Task> valueList = new ArrayList<>(valueMap.values());

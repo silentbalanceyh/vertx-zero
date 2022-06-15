@@ -22,8 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class GearForkJoin extends AbstractGear {
 
-    private final JsonObject configuration = new JsonObject();
-
     public GearForkJoin() {
         super(PassWay.Fork);
     }
