@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
+    private static final WRule RULE_EMPTY = new WRule();
     private final ConcurrentMap<String, WRule> rules = new ConcurrentHashMap<>();
     /*
      * The data structure is as following:
@@ -119,7 +120,8 @@ public class WMove implements Serializable {
             }
         });
         final String key = Ut.fromJoin(keys);
-        final WRule rule = this.rules.getOrDefault(key, null);
+        // Fix: java.lang.NullPointerException
+        final WRule rule = this.rules.getOrDefault(key, RULE_EMPTY);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
     }
