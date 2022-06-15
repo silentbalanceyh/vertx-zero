@@ -47,7 +47,7 @@ public class GearForkJoin extends AbstractGear {
             final WTodo todo = this.todoStart(parameters, ticket, task);
 
             // 2. Serial Generation
-            todo.setSerialFork(Ut.fromAdjust(seed.getAndIncrement(), 2));
+            todo.setSerialFork(String.valueOf(seed));
             this.todoSerial(todo, ticket, null);
 
             todos.add(todo);
@@ -76,7 +76,7 @@ public class GearForkJoin extends AbstractGear {
             // 2. Serial Generation
             final String serialFork = todo.getSerialFork();
             if (Ut.isNil(serialFork)) {
-                generated.setSerialFork(Ut.fromAdjust(seed.getAndIncrement(), 2));
+                generated.setSerialFork(String.valueOf(seed));
             } else {
                 generated.setSerialFork(serialFork);
             }

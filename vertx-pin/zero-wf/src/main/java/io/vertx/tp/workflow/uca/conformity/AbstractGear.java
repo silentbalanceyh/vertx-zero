@@ -10,6 +10,7 @@ import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -109,16 +110,17 @@ public abstract class AbstractGear implements Gear {
         serialBuf.append(ticket.getSerial()).append(Strings.DASH);
         serialBuf.append(Ut.fromAdjust(todo.getTraceOrder(), 2));
         if (Ut.isNil(serialFork)) {
+            serialBuf.append(Values.ZERO);
             if (Objects.nonNull(sequence)) {
-                // XXX-01-01
+                // XXX-010-01
                 serialBuf.append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
-            } // else = XXX-01
+            } // else = XXX-010
         } else {
             if (Objects.isNull(sequence)) {
-                // XXX-0101
+                // XXX-011
                 serialBuf.append(serialFork);
             } else {
-                // XXX-0101-01
+                // XXX-011-01
                 serialBuf.append(serialFork).append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
             }
         }
