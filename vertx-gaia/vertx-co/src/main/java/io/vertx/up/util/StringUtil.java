@@ -162,7 +162,7 @@ final class StringUtil {
 
 
                     // 「String」
-                    final String formatted = expressionWith((String) value, params);
+                    final Object formatted = expressionWith((String) value, params);
                     parsed.put(k, formatted);
                 } else if (value instanceof JsonObject) {
 
@@ -192,7 +192,7 @@ final class StringUtil {
                 if (valueElement instanceof String) {
 
                     // Element = String
-                    final String formatted = expressionWith((String) valueElement, params);
+                    final Object formatted = expressionWith((String) valueElement, params);
                     normalized.add(formatted);
                 } else if (valueElement instanceof JsonObject) {
 
@@ -217,12 +217,12 @@ final class StringUtil {
         return normalized;
     }
 
-    private static String expressionWith(final String valueExpr, final JsonObject params) {
+    private static Object expressionWith(final String valueExpr, final JsonObject params) {
         if (Ut.notNil(valueExpr)) {
-            final String valueResult;
+            final Object valueResult;
             if (valueExpr.contains("`")) {
                 // Actual Parsing
-                valueResult = expression(valueExpr, params);
+                valueResult = expressionT(valueExpr, params);
             } else {
                 // 「Keep」Original String
                 valueResult = valueExpr;
@@ -231,6 +231,34 @@ final class StringUtil {
         } else {
             // 「Keep」Empty String
             return valueExpr;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> T expressionT(final String valueExpr, final JsonObject params) {
+        try {
+            /*
+             * cache(4096), the default cache size is 4096.
+             * silent(false): silent = false means the exception will be thrown.
+             */
+            final JexlExpression expression = EXPR.createExpression(valueExpr);
+            // Parameter
+            final JexlContext context = new MapContext();
+            Ut.itJObject(params, (value, key) -> context.set(key, value));
+            // Processed
+            final Object result = expression.evaluate(context);
+            if (Objects.nonNull(result)) {
+                return (T) result;
+            } else {
+                return null;
+            }
+        } catch (final JexlException ex) {
+            // ex.printStackTrace();    // For Debug
+            if (Debugger.onStackTracing()) {
+                ex.printStackTrace();
+            }
+            return null;                // Get null
+            // throw new JexlExpressionException(StringUtil.class, expr, ex);
         }
     }
 
@@ -258,30 +286,7 @@ final class StringUtil {
      * it could be parsed, other situations will be ignored.
      */
     static String expression(final String expr, final JsonObject params) {
-        try {
-            /*
-             * cache(4096), the default cache size is 4096.
-             * silent(false): silent = false means the exception will be thrown.
-             */
-            final JexlExpression expression = EXPR.createExpression(expr);
-            // Parameter
-            final JexlContext context = new MapContext();
-            Ut.itJObject(params, (value, key) -> context.set(key, value));
-            // Processed
-            final Object result = expression.evaluate(context);
-            if (Objects.nonNull(result)) {
-                return result.toString();
-            } else {
-                return null;
-            }
-        } catch (final JexlException ex) {
-            // ex.printStackTrace();    // For Debug
-            if (Debugger.onStackTracing()) {
-                ex.printStackTrace();
-            }
-            return null;                // Get null
-            // throw new JexlExpressionException(StringUtil.class, expr, ex);
-        }
+        return expressionT(expr, params);
     }
 
     static boolean isNil(final String input) {
