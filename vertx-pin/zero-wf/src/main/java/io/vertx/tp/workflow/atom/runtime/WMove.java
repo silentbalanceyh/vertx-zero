@@ -1,10 +1,8 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.sectio.AspectConfig;
@@ -22,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
+    private static final WRule RULE_EMPTY = new WRule();
     private final ConcurrentMap<String, WRule> rules = new ConcurrentHashMap<>();
     /*
      * The data structure is as following:
@@ -47,7 +46,7 @@ public class WMove implements Serializable {
      */
     private final String node;
 
-    private final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
+    private final JsonObject data = new JsonObject();
     private final AspectConfig aspect;
 
     private final JsonObject gateway = new JsonObject();
@@ -56,8 +55,8 @@ public class WMove implements Serializable {
         // Node Name
         this.node = node;
         // Config for Camunda Engine
-        final JsonObject data = Ut.valueJObject(config.getJsonObject(KName.DATA));
-        Ut.<String>itJObject(data, (value, field) -> this.data.put(field, value));
+        this.data.mergeIn(Ut.valueJObject(config.getJsonObject(KName.DATA)), true);
+        // Ut.<String>itJObject(data, (value, field) -> this.data.put(field, value));
 
         // Processing for left rules
         final JsonArray rules = Ut.valueJArray(config.getJsonArray(KName.RULE));
@@ -97,10 +96,8 @@ public class WMove implements Serializable {
         return this.aspect;
     }
 
-    Gear inputGear(final PassWay type) {
-        final Gear gear = Gear.instance(type);
-        gear.configuration(this.gateway.copy());
-        return gear;
+    JsonObject configWay() {
+        return this.gateway.copy();
     }
 
     /*
@@ -110,9 +107,7 @@ public class WMove implements Serializable {
      */
     JsonObject inputMovement(final JsonObject requestJ) {
         // Extract Data from `data` configuration
-        final JsonObject arguments = new JsonObject();
-        this.data.forEach((to, from) -> arguments.put(to, requestJ.getValue(from)));
-        return arguments;
+        return Ut.fromExpression(this.data, requestJ);
     }
 
     WRule inputTransfer(final JsonObject params) {
@@ -125,7 +120,8 @@ public class WMove implements Serializable {
             }
         });
         final String key = Ut.fromJoin(keys);
-        final WRule rule = this.rules.getOrDefault(key, null);
+        // Fix: java.lang.NullPointerException when `WRule` is null
+        final WRule rule = this.rules.getOrDefault(key, RULE_EMPTY);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
     }

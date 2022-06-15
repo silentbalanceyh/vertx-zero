@@ -68,6 +68,14 @@ final class Jackson {
         }
     }
 
+    static <T> T visitT(
+        final JsonObject item,
+        final String... keys
+    ) {
+        Fn.inLenMin(Jackson.class, 0, keys);
+        return (T) Jackson.searchData(item, null, keys);
+    }
+
     static JsonArray visitJArray(
         final JsonObject item,
         final String... keys
@@ -115,7 +123,11 @@ final class Jackson {
                 T result = null;
                 if (Values.ONE == pathes.length) {
                     /* 3.1. Get the end node. **/
-                    if (clazz == curVal.getClass()) {
+                    if (Objects.nonNull(clazz) && clazz == curVal.getClass()) {
+                        // Strict Mode
+                        result = (T) curVal;
+                    } else {
+                        // Cast Mode
                         result = (T) curVal;
                     }
                 } else {
@@ -127,9 +139,7 @@ final class Jackson {
                             Arrays.copyOfRange(pathes,
                                 Values.ONE,
                                 pathes.length);
-                        result = Jackson.searchData(continueNode,
-                            clazz,
-                            continueKeys);
+                        result = Jackson.searchData(continueNode, clazz, continueKeys);
                     }
                 }
                 return result;

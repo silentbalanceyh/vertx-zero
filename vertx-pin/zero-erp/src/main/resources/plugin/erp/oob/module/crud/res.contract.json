@@ -1,0 +1,42 @@
+{
+    "name": "contract",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EContractDao",
+    "field": {
+        "numbers": {
+            "code": "NUM.CONTRACT"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ],
+        "attachment": [
+            {
+                "field": "files",
+                "condition": {
+                    "modelId": "res.contract"
+                }
+            }
+        ]
+    },
+    "transform": {
+        "fabric": {
+            "source": [
+                {
+                    "source": "TABULAR",
+                    "types": [
+                        "zero.contract"
+                    ]
+                }
+            ],
+            "epsilon": {
+                "type": {
+                    "source": "zero.contract",
+                    "in": "name",
+                    "out": "code"
+                }
+            }
+        }
+    }
+}

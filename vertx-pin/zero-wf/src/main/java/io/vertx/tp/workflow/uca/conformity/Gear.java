@@ -26,6 +26,32 @@ import java.util.function.Supplier;
  * 1. The WMove must be bind
  * 2. The ProcessInstance must be valid
  *
+ * * null value when processed
+ * * 「Related」
+ * *  - traceId
+ * *  - traceOrder
+ * *  - parentId
+ * *
+ * * 「Camunda」
+ * *  - taskId
+ * *  - taskKey
+ * *
+ * * 「Flow」
+ * *  - assignedBy
+ * *  - assignedAt
+ * *  - acceptedBy
+ * *  - acceptedAt
+ * *  - finishedBy
+ * *  - finishedAt
+ * *  - comment
+ * *  - commentApproval
+ * *  - commentReject
+ * *
+ * * 「Future」
+ * *  - metadata
+ * *  - modelCategory
+ * *  - activityId
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Gear {
@@ -55,9 +81,16 @@ public interface Gear {
         return this;
     }
 
+    /*
+     * Read the running ProcessInstance and capture the `active` tasks.
+     */
     Future<WTask> taskAsync(ProcessInstance instance);
 
-    default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTicket ticket, final WTask task) {
+    default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask task, final WTicket ticket) {
+        return Ux.thenError(_501NotSupportException.class, this.getClass());
+    }
+
+    default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask task, final WTicket ticket, final WTodo todo) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());
     }
 }

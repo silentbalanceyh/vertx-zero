@@ -10,7 +10,7 @@ import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.tp.workflow.uca.central.AidLinkage;
+import io.vertx.tp.workflow.uca.toolkit.ULinkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -71,7 +71,7 @@ public class TaskService implements TaskStub {
 
 
                     // Linkage
-                    .compose(AidLinkage::readLinkage)
+                    .compose(ULinkage::readLinkage)
 
 
                     // Child
@@ -128,7 +128,7 @@ public class TaskService implements TaskStub {
 
 
             // Linkage
-            .compose(AidLinkage::readLinkage)
+            .compose(ULinkage::readLinkage)
 
 
             // Child

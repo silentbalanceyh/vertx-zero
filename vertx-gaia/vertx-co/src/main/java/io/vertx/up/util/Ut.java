@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
@@ -1492,6 +1493,7 @@ public final class Ut {
      * 2) visitJArray
      * 3) visitInt
      * 4) visitString
+     * 5) visitT
      */
     public static JsonObject visitJObject(final JsonObject item, final String... keys) {
         return Jackson.visitJObject(item, keys);
@@ -1509,6 +1511,14 @@ public final class Ut {
         return Jackson.visitString(item, keys);
     }
 
+    public static <T> T visitT(final JsonObject item, final String... keys) {
+        return Jackson.visitT(item, keys);
+    }
+
+    public static <T> T visitT(final JsonObject item, final String path) {
+        final String[] pathes = path.split(Strings.DOT);
+        return Jackson.visitT(item, pathes);
+    }
 
     /**
      * @param length Length of intended captcha string.
@@ -1638,8 +1648,12 @@ public final class Ut {
         return StringUtil.expression(expr, params);
     }
 
-    public static JsonObject fromExpression(final JsonObject data, final JsonObject params) {
-        return StringUtil.expression(data, params);
+    public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
+        return StringUtil.expression(exprObject, params);
+    }
+
+    public static JsonArray fromExpression(final JsonArray exprArray, final JsonObject params) {
+        return StringUtil.expression(exprArray, params);
     }
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {

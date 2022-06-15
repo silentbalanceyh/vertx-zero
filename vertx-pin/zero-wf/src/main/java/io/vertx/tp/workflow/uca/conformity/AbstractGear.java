@@ -1,19 +1,18 @@
 package io.vertx.tp.workflow.uca.conformity;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.PassWay;
+import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
@@ -57,56 +56,33 @@ public abstract class AbstractGear implements Gear {
         });
     }
 
-    protected WTodo todoBuild(final JsonObject normalized, final WTicket inserted, final Task task) {
-        /*
-         * Key Point for attachment linkage here, the linkage must contain
-         * serial part in params instead of distinguish between ADD / EDIT
-         */
-        final String todoKey = normalized.getString(KName.KEY);
-        if (!normalized.containsKey(KName.SERIAL)) {
-            normalized.put(KName.SERIAL, inserted.getSerial());
-        }
-        // Todo Workflow
-        final WTodo todo = Ux.fromJson(normalized, WTodo.class);
-        /*
-         * Key Point: The todo key will be used in `todoUrl` field here,
-         * it means that we must set the `key` fixed to avoid todoUrl capture
-         * the key of ticket.
-         */
-        todo.setKey(todoKey);
-        /*
-         * null value when processed
-         * 「Related」
-         *  - traceId
-         *  - traceOrder
-         *  - parentId
-         *
-         * 「Camunda」
-         *  - taskId
-         *  - taskKey
-         *
-         * 「Flow」
-         *  - assignedBy
-         *  - assignedAt
-         *  - acceptedBy
-         *  - acceptedAt
-         *  - finishedBy
-         *  - finishedAt
-         *  - comment
-         *  - commentApproval
-         *  - commentReject
-         *
-         * 「Future」
-         *  - metadata
-         *  - modelCategory
-         *  - activityId
-         */
-        todo.setTraceId(inserted.getKey());
-        todo.setTraceOrder(1);
-        todo.setCode(inserted.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
-        todo.setSerial(inserted.getSerial() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2));
+    protected WTodo todoGenerate(final JsonObject parameters) {
 
+        final WTodo generated = Ux.fromJson(parameters, WTodo.class);
+        // Key Remove ( Comment Clear )
+        generated.setKey(UUID.randomUUID().toString());
 
+        // Comment Clear
+        generated.setComment(null);
+        generated.setCommentApproval(null);
+        generated.setCommentReject(null);
+
+        // Status Force to PENDING
+        generated.setStatus(TodoStatus.PENDING.name());
+
+        // Auditor Processing
+        generated.setFinishedAt(null);
+        generated.setFinishedBy(null);
+
+        // Escalate Null
+        generated.setEscalate(null);
+        generated.setEscalateData(null);
+        return generated;
+    }
+
+    protected void todoComplete(final WTodo todo, final Task task,
+                                final String traceId) {
+        todo.setTraceId(traceId);
         /*
          *  Connect WTodo and ProcessInstance
          *  1. taskId = Task, getId
@@ -115,6 +91,5 @@ public abstract class AbstractGear implements Gear {
         // Camunda Engine
         todo.setTaskId(task.getId());
         todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
-        return todo;
     }
 }

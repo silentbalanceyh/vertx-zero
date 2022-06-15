@@ -3,7 +3,8 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WRule;
+import io.vertx.tp.workflow.atom.runtime.WTransition;
+import io.vertx.tp.workflow.uca.toolkit.UData;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -27,45 +28,32 @@ public abstract class AbstractTransfer extends BehaviourStandard {
      * Here the request could be the spec situation
      * -- record is null ( No Related Here )
      */
-    protected Future<JsonObject> inputAsync(final JsonObject params) {
-        final JsonObject inputJ = AidData.inputJ(params);
-        return Ux.future(this.recordInput(inputJ));
+    protected Future<JsonObject> inputAsync(final JsonObject params, final WTransition wTransition) {
+        return wTransition.start().compose(started -> {
+            // Prepare for Todo
+            final JsonObject inputJ = UData.inputJ(params);
+            // Prepare for Record
+            return Ux.future(this.recordInput(inputJ));
+        });
     }
 
-    protected JsonObject recordInput(final JsonObject params) {
-        final Object record = params.getValue(KName.RECORD);
+    protected JsonObject recordInput(final JsonObject requestJ) {
+        final Object record = requestJ.getValue(KName.RECORD);
         if (Objects.nonNull(record)) {
             if (record instanceof JsonObject) {
                 // Record is JsonObject
                 final JsonObject recordJ = (JsonObject) record;
-                AidData.inputJ(params, recordJ, true);
+                UData.inputJ(requestJ, recordJ, true);
             } else if (record instanceof JsonArray) {
                 // Record is JsonArray ( Each Json )
                 final JsonArray recordA = (JsonArray) record;
                 final JsonArray modelChild = new JsonArray();
                 Ut.itJArray(recordA)
-                    .map(json -> AidData.inputJ(params, json, false))
+                    .map(json -> UData.inputJ(requestJ, json, false))
                     .forEach(modelChild::add);
-                params.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
+                requestJ.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
             }
         }
-        return params;
-    }
-
-    protected JsonObject recordMove(final JsonObject request, final WRule rule) {
-        final Object recordData = request.getValue(KName.RECORD);
-        if (Objects.isNull(recordData)) {
-            return request;
-        }
-        if (recordData instanceof JsonObject) {
-            final JsonObject recordJ = ((JsonObject) recordData);
-            recordJ.mergeIn(rule.getRecord());
-            request.put(KName.RECORD, recordJ);
-        } else if (recordData instanceof JsonArray) {
-            final JsonArray recordA = ((JsonArray) recordData);
-            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(rule.getRecord()));
-            request.put(KName.RECORD, recordA);
-        }
-        return request;
+        return requestJ;
     }
 }

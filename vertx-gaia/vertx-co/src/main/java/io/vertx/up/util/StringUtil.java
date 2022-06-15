@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
@@ -139,20 +140,98 @@ final class StringUtil {
         return builder.toString();
     }
 
-    //////
-
-    static JsonObject expression(final JsonObject data, final JsonObject params) {
+    /*
+     * Input Data Structure
+     * {
+     *     "field1": "expr1",
+     *     "field2": "expr2"
+     * }
+     *
+     * 1. If expr contains ` character, it will be replaced by parsed result.
+     * 2. If expr does not contain ` character, it will be kept.
+     *
+     * Then the method will create new parts of normalized to avoid modify input exprObject
+     */
+    static JsonObject expression(final JsonObject exprObject, final JsonObject params) {
         // Iterator On Json Object
-        data.fieldNames().forEach(k -> {
-            final Object value = data.getValue(k);
-            if (value instanceof String) {
-                final String valueExpr = (String) value;
-                if (Ut.notNil(valueExpr) && valueExpr.contains("`")) {
-                    data.put(k, expression(valueExpr, params));
+        final JsonObject parsed = new JsonObject();
+        if (Ut.notNil(exprObject)) {
+            exprObject.fieldNames().forEach(k -> {
+                final Object value = exprObject.getValue(k);
+                if (value instanceof String) {
+
+
+                    // 「String」
+                    final String formatted = expressionWith((String) value, params);
+                    parsed.put(k, formatted);
+                } else if (value instanceof JsonObject) {
+
+
+                    // 「JsonObject」
+                    final JsonObject formatted = expression((JsonObject) value, params);
+                    parsed.put(k, formatted);
+                } else if (value instanceof JsonArray) {
+
+
+                    // 「JsonArray」
+                    final JsonArray formatted = expression((JsonArray) value, params);
+                    parsed.put(k, formatted);
+                } else {
+                    // 「Keep」Non-String Part include `null`
+                    parsed.put(k, value);
                 }
+            });
+        }
+        return parsed;
+    }
+
+    static JsonArray expression(final JsonArray exprArray, final JsonObject params) {
+        final JsonArray normalized = new JsonArray();
+        if (Ut.notNil(exprArray)) {
+            exprArray.forEach(valueElement -> {
+                if (valueElement instanceof String) {
+
+                    // Element = String
+                    final String formatted = expressionWith((String) valueElement, params);
+                    normalized.add(formatted);
+                } else if (valueElement instanceof JsonObject) {
+
+
+                    // Element = JsonObject
+                    final JsonObject formatted = expression((JsonObject) valueElement, params);
+                    normalized.add(formatted);
+                } else if (valueElement instanceof JsonArray) {
+
+
+                    // Element = JsonArray
+                    final JsonArray formatted = expression((JsonArray) valueElement, params);
+                    normalized.add(formatted);
+                } else {
+
+
+                    // Element = Other
+                    normalized.add(valueElement);
+                }
+            });
+        }
+        return normalized;
+    }
+
+    private static String expressionWith(final String valueExpr, final JsonObject params) {
+        if (Ut.notNil(valueExpr)) {
+            final String valueResult;
+            if (valueExpr.contains("`")) {
+                // Actual Parsing
+                valueResult = expression(valueExpr, params);
+            } else {
+                // 「Keep」Original String
+                valueResult = valueExpr;
             }
-        });
-        return data;
+            return valueResult;
+        } else {
+            // 「Keep」Empty String
+            return valueExpr;
+        }
     }
 
     static JsonObject prefix(final JsonObject data, final String prefix) {
@@ -161,7 +240,6 @@ final class StringUtil {
         data.fieldNames().forEach(k -> resultJ.put(prefix + Strings.DOT + k, data.getValue(k)));
         return resultJ;
     }
-
 
     /*
      * The engine is:
@@ -229,7 +307,6 @@ final class StringUtil {
         }
         return matchSet;
     }
-
 
     static String path(final String folder, final String file) {
         Objects.requireNonNull(file);

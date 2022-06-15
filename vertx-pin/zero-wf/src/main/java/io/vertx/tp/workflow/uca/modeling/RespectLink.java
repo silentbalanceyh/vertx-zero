@@ -72,8 +72,9 @@ public class RespectLink extends AbstractRespect {
             final JsonObject targetData = data.getJsonObject(KName.TARGET_DATA);
             parameters.mergeIn(Ut.fromPrefix(targetData, KName.TARGET));
         }
-        // Parsing Expression
-        Ut.fromExpression(data, parameters);
+        // Parsing Expression ( Create Copy )
+        final JsonObject parsed = Ut.fromExpression(data, parameters);
+        data.mergeIn(parsed, true);
     }
 
     @Override

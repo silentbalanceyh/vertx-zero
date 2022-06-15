@@ -52,21 +52,10 @@ class DataAcl {
                 input.put(KName.LANGUAGE, viewData.getString(KName.LANGUAGE));
                 input.put(KName.VIEW_ID, viewData.getString(KName.KEY));
             }
-            final JsonObject condition = new JsonObject();
-            {
-                final JsonObject syntaxData = Ut.valueJObject(syntax.getJsonObject(KName.DATA));
-                Ut.<String>itJObject(syntaxData, (expr, field) -> {
-                    final String literal;
-                    if (expr.contains("`")) {
-                        literal = Ut.fromExpression(expr, input);
-                    } else {
-                        literal = expr;
-                    }
-                    if (Ut.notNil(literal)) {
-                        condition.put(field, literal);
-                    }
-                });
-            }
+            // Expression Parsing
+            final JsonObject exprTpl = Ut.valueJObject(syntax.getJsonObject(KName.DATA));
+            final JsonObject condition = Ut.fromExpression(exprTpl, input);
+
             Sc.infoView(DataAcl.class, "Visitant unique query condition: {0}", condition);
             if (Ut.notNil(condition)) {
                 return Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchAndAsync(condition).compose(visitant -> {
@@ -82,7 +71,9 @@ class DataAcl {
                         return Ux.future(new AclData(ret).config(syntax.getJsonObject(KName.CONFIG)));
                     }
                 });
-            } else return Ux.future();
+            } else {
+                return Ux.future();
+            }
         } else {
             /*
              * Keep no change here for envelop acl

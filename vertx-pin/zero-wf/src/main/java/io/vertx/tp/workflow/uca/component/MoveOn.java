@@ -27,7 +27,7 @@ interface Pool {
     ConcurrentMap<String, Supplier<MoveOn>> SUPPLIER = new ConcurrentHashMap<>() {
         {
             // UserTask
-            this.put(BpmnModelConstants.BPMN_ELEMENT_USER_TASK, MoveOnUser::new);
+            this.put(BpmnModelConstants.BPMN_ELEMENT_USER_TASK, MoveOnGenerate::new);
         }
     };
 }

@@ -112,4 +112,8 @@ public class WTask {
     public PassWay vague() {
         return this.type;
     }
+
+    public boolean isEmpty() {
+        return this.tasks.isEmpty();
+    }
 }

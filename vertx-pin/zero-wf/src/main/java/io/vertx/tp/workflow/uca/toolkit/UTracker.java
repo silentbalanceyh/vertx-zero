@@ -1,6 +1,7 @@
-package io.vertx.tp.workflow.uca.central;
+package io.vertx.tp.workflow.uca.toolkit;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
@@ -9,12 +10,16 @@ import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.uca.sectio.AspectConfig;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +35,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-public class AidTracker {
+public class UTracker {
 
     private final transient MetaInstance metadata;
 
@@ -79,7 +84,7 @@ public class AidTracker {
      * 1) Impact Request Data
      * 2) Callback after the whole operations
      */
-    AidTracker(final MetaInstance metadata) {
+    public UTracker(final MetaInstance metadata) {
         this.metadata = metadata;
     }
 
@@ -94,12 +99,28 @@ public class AidTracker {
     public Future<WRecord> afterAsync(final WRecord record, final WTransition transition) {
         // Build Aspect Component
         final Aspect aspect = this.aspect(transition);
-        return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
-            .apply(aspectParameter(record, transition))
-            .compose(record::futureAfter);
+        final JsonArray todo = record.dataAop();
+        if (Ut.isNil(todo)) {
+            return Ux.future(record);
+        }
+        if (Values.ONE == todo.size()) {
+            final JsonObject input = todo.getJsonObject(Values.IDX);
+            final Task task = transition.from();
+            return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
+                .apply(aspectParameter(input, task))
+                .compose(record::futureAfter);
+        } else {
+            final List<Future<JsonObject>> runner = new ArrayList<>();
+            Ut.itJArray(todo).forEach(json -> {
+                final Future<JsonObject> future = aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
+                    .apply(json);
+                runner.add(future);
+            });
+            return Ux.thenCombine(runner).compose(nil -> Ux.future(record));
+        }
     }
 
-    private JsonObject aspectParameter(final WRecord record, final WTransition process) {
+    private JsonObject aspectParameter(final JsonObject parameters, final Task task) {
         /*
          * Data Analyzing on
          * {
@@ -115,14 +136,11 @@ public class AidTracker {
                 "taskName": "xxxx"
          * }
          */
-        final JsonObject parameters = record.data();
-        {
-            // Add new parameters of instance
-            final Task task = process.from();
-            if (Objects.nonNull(task)) {
-                // Task Name
-                parameters.put(KName.Flow.TASK_NAME, task.getName());
-            }
+        // final JsonObject parameters = record.data();
+        // Add new parameters of instance
+        if (Objects.nonNull(task)) {
+            // Task Name
+            parameters.put(KName.Flow.TASK_NAME, task.getName());
         }
         return parameters;
     }

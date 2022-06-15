@@ -7,6 +7,7 @@ import io.vertx.tp.workflow.atom.runtime.WMove;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
+import io.vertx.tp.workflow.uca.toolkit.UTracker;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
 public class BehaviourStandard implements Behaviour {
     protected final transient JsonObject config = new JsonObject();
     private final transient ConcurrentMap<String, WMove> moveMap = new ConcurrentHashMap<>();
-    private transient AidTracker trackerKit;
+    private transient UTracker trackerKit;
     private transient MetaInstance metadata;
 
     @Override
@@ -48,7 +49,7 @@ public class BehaviourStandard implements Behaviour {
         // Empty Binding on Instance
         Objects.requireNonNull(metadata);
         this.metadata = metadata;
-        this.trackerKit = new AidTracker(metadata);
+        this.trackerKit = new UTracker(metadata);
         return this;
     }
 
@@ -67,6 +68,19 @@ public class BehaviourStandard implements Behaviour {
         return WTransition.create(request, this.moveMap);
     }
 
+    /*
+     * The beforeAsync method will call `wTransition.start()` method for any continue operation.
+     * Here the `start()` method will get two results:
+     *
+     * 1) When workflow is not running:
+     *    - Bind the `WMove` to `e.start` internal the instance of WTransition
+     * 2) When workflow is running:
+     *    - Bind the `WMove` to correct position here
+     *    - Bind the `from` variable that refer to Task inner the instance of WTransition
+     *
+     * Here are shorten code logical is that when the `WMove` has been bind, the method will be ignored
+     * all the actual operations.
+     */
     protected Future<WRequest> beforeAsync(final WRequest request, final WTransition wTransition) {
         return wTransition.start()
             // 「AOP」Before
