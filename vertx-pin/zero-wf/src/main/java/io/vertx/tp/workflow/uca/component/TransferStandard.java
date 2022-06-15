@@ -6,16 +6,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
-import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
 import io.vertx.tp.workflow.uca.toolkit.UData;
-import io.vertx.tp.workflow.uca.toolkit.UGeneration;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -30,7 +25,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          * -- 2.1. Active task is not end
          * -- 2.2. Next task is user task
          * */
-        return this.inputAsync(request.request(), wTransition)
+        final JsonObject requestJ = request.request();
+        return this.inputAsync(requestJ, wTransition)
+            .compose(normalized -> Ux.future(wTransition.moveTicket(normalized)))
 
             /*
              * Entity / Extension Ticket Record Execution, ( Update )
@@ -68,8 +65,9 @@ public class TransferStandard extends AbstractMovement implements Transfer {
                      * Here means the `to` attribute is not null, it should generate many `todo`
                      * Also the record in request should contain values.
                      */
-                    final UGeneration generation = new UGeneration(this.metadataIn());
-                    return generation.runAsync(request, wTransition);
+                    final MoveOn move = MoveOn.instance(MoveOnGenerate.class);
+                    move.bind(this.metadataIn());
+                    return move.transferAsync(request, wTransition);
                 } else {
                     return Ux.future(record);
                 }
@@ -84,6 +82,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          *     - If Not, do not modify the main ticket record status/phase etc.
          */
         final JsonObject closeJ = UData.closeJ(normalized, wTransition);
+
         return this.saveAsync(closeJ, wTransition).compose(record -> {
             /*
              * 2. Processing for `record` field on entity records
@@ -102,17 +101,8 @@ public class TransferStandard extends AbstractMovement implements Transfer {
             request.mergeIn(record.data());
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             if (TodoStatus.PENDING == status) {
-                /*
-                 * Move Rules
-                 */
-                final WRule moveRule = wTransition.rule();
-                if (Objects.nonNull(moveRule) && Ut.notNil(moveRule.getRecord())) {
-                    /*
-                     * Here will fetch record auto
-                     * Critical step to update `record` field here
-                     */
-                    request = this.recordMove(request, moveRule);
-                }
+                /* Move Rules: moveRecord Calling */
+                request = wTransition.moveRecord(request);
             }
             /*
              * Contains record modification, do update on record.

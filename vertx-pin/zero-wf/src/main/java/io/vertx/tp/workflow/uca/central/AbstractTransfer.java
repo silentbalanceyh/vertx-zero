@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.uca.central;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.runtime.WRule;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.toolkit.UData;
 import io.vertx.up.eon.KName;
@@ -56,22 +55,5 @@ public abstract class AbstractTransfer extends BehaviourStandard {
             }
         }
         return requestJ;
-    }
-
-    protected JsonObject recordMove(final JsonObject request, final WRule rule) {
-        final Object recordData = request.getValue(KName.RECORD);
-        if (Objects.isNull(recordData)) {
-            return request;
-        }
-        if (recordData instanceof JsonObject) {
-            final JsonObject recordJ = ((JsonObject) recordData);
-            recordJ.mergeIn(rule.getRecord());
-            request.put(KName.RECORD, recordJ);
-        } else if (recordData instanceof JsonArray) {
-            final JsonArray recordA = ((JsonArray) recordData);
-            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(rule.getRecord()));
-            request.put(KName.RECORD, recordA);
-        }
-        return request;
     }
 }

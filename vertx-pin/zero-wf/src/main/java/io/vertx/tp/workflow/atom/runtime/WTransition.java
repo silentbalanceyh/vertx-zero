@@ -4,11 +4,13 @@ import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
+import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -73,19 +76,6 @@ public class WTransition {
         return this.to;
     }
 
-    // --------------------- Task & Instance ------------------
-
-    /*
-     * This from is for active from extracting, the active from should be following
-     *
-     * 1) When the process is not moved, active from is current one
-     * 2) After current process moved, the active from may be the next active from instead
-     */
-    @Deprecated
-    public Future<Task> taskActive() {
-        return null;
-    }
-
     // --------------------- High Level Configuration ------------------
     /*
      * 1. instance()        -> Running ProcessInstance
@@ -105,9 +95,17 @@ public class WTransition {
     public AspectConfig aspect() {
         return Objects.isNull(this.move) ? AspectConfig.create() : this.move.configAop();
     }
+
+    public PassWay vague() {
+        /*
+         * java.lang.NullPointerException
+         * 	at io.vertx.tp.workflow.atom.runtime.WTransition.vague(WTransition.java:127)
+         */
+        return Objects.isNull(this.to) ? null : this.to.vague();
+    }
     // --------------------- Move Rule Processing ------------------
 
-    public JsonObject rule(final JsonObject requestJ) {
+    public JsonObject moveParameter(final JsonObject requestJ) {
         if (Objects.isNull(this.move)) {
             return new JsonObject();
         }
@@ -117,31 +115,68 @@ public class WTransition {
         return this.moveData.copy();
     }
 
-    public JsonObject rule(final JsonObject requestJ, final boolean isRecord) {
+    public JsonObject moveTicket(final JsonObject requestJ) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        /* Modify the input JsonObject of requestJ */
-        return null;
+        // WTodo, WTicket, Extension
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTodo), true);
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTicket), true);
+        requestJ.mergeIn(this.moveInternal(requestJ, rule::getExtension), true);
+
+
+        // Record Processing
+        return this.moveRecord(requestJ);
     }
 
-    @Deprecated
-    public WRule rule() {
-        return this.move.inputTransfer(this.moveData.copy());
+    public JsonObject moveRecord(final JsonObject requestJ) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+
+        // Record Processing
+        final Object recordRef = requestJ.getValue(KName.RECORD);
+        if (Objects.isNull(recordRef)) {
+            return requestJ;
+        }
+        final JsonObject recordData = this.moveInternal(requestJ, rule::getRecord);
+        if (recordRef instanceof JsonObject) {
+            final JsonObject recordJ = ((JsonObject) recordRef);
+            recordJ.mergeIn(recordData, true);
+            requestJ.put(KName.RECORD, recordJ);
+        } else if (recordRef instanceof JsonArray) {
+            final JsonArray recordA = ((JsonArray) recordRef);
+            Ut.itJArray(recordA).forEach(recordJ -> recordJ.mergeIn(recordData, true));
+            requestJ.put(KName.RECORD, recordA);
+        }
+        return requestJ;
     }
 
-    public PassWay vague() {
-        /*
-         * java.lang.NullPointerException
-         * 	at io.vertx.tp.workflow.atom.runtime.WTransition.vague(WTransition.java:127)
-         */
-        return Objects.isNull(this.to) ? null : this.to.vague();
+    private JsonObject moveInternal(final JsonObject requestJ, final Supplier<JsonObject> supplier) {
+        final WRule rule = this.move.inputTransfer(this.moveData.copy());
+        final JsonObject parsedJ = new JsonObject();
+        if (Objects.nonNull(rule)) {
+            // Todo, Ticket, Extension
+            parsedJ.mergeIn(Ut.fromExpression(supplier.get(), requestJ));
+        }
+        return parsedJ;
     }
 
     // --------------------- WTransition Action for Task Data ------------------
 
+    /*
+     * Camunda Engine Ran and after this method, the `to` variable ( WTask )
+     * will be filled the value based on different Gear
+     * 1) Standard
+     * 2) Fork/Join
+     * 3) Multi
+     * 4) Grid
+     *
+     * For different PassWay here
+     * 1. Before Camunda Engine, the PassWay will be calculated by data format.
+     * 2. After Camunda Engine, the PassWay could be passed directly
+     */
     public Future<WTransition> end(final ProcessInstance instance) {
         Objects.requireNonNull(this.move);
         this.instance = instance;
-        final Gear gear = this.move.inputGear(this.way);
+        final Gear gear = Gear.instance(this.way);
+        gear.configuration(this.move.configWay());
         return gear.taskAsync(instance).compose(wTask -> {
             /*
              * 0 == size, End
@@ -155,8 +190,16 @@ public class WTransition {
 
     public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket) {
         Objects.requireNonNull(this.move);
-        final Gear gear = this.move.inputGear(this.way);
-        return gear.todoAsync(parameters, ticket, this.to);
+        final Gear gear = Gear.instance(this.vague());
+        gear.configuration(this.move.configWay());
+        return gear.todoAsync(parameters, this.to, ticket);
+    }
+
+    public Future<List<WTodo>> end(final JsonObject parameters, final WTicket ticket, final WTodo todo) {
+        Objects.requireNonNull(this.move);
+        final Gear gear = Gear.instance(this.vague());
+        gear.configuration(this.move.configWay());
+        return gear.todoAsync(parameters, this.to, ticket, todo);
     }
 
     public Future<WTransition> start() {
