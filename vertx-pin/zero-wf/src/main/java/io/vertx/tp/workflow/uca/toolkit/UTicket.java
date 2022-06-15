@@ -58,11 +58,18 @@ public class UTicket {
             }
         }
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(ticket.getKey())
-            .compose(processed -> this.updateTicket(requestJ, processed, record))
+            .compose(processed -> this.updateTicket(requestJ, processed, generated))
             .compose(processed -> this.updateExtension(requestJ, processed))
             .compose(processed -> {
                 final WTodo todo = record.todo();
-                return wTransition.end(requestJ, generated.ticket(), todo);
+                /*
+                 * Generation based data should be
+                 * Original WTodo Json + Input RequestJ here to combine
+                 * json content for generation new WTodo
+                 */
+                final JsonObject todoJ = Ux.toJson(todo);
+                todoJ.mergeIn(requestJ, true);
+                return wTransition.end(todoJ, generated.ticket(), todo);
             })
             .compose(Ux.Jooq.on(WTodoDao.class)::insertAsync)
             .compose(tasks -> {
