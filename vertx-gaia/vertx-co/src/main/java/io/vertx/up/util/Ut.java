@@ -1590,7 +1590,9 @@ public final class Ut {
      * 4) fromJoin
      * 5) fromAdjust
      * 6) fromExpression
-     * 7) fromAt
+     * 7) fromExpressionT
+     * 8) fromPrefix
+     * 9) fromAt
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return Stream.from(pos, buffer);
@@ -1642,6 +1644,10 @@ public final class Ut {
 
     public static String fromAdjust(final Integer seed, final Integer width) {
         return StringUtil.adjust(seed, width, '0');
+    }
+
+    public static <T> T fromExpressionT(final String expr, final JsonObject params) {
+        return StringUtil.expressionT(expr, params);
     }
 
     public static String fromExpression(final String expr, final JsonObject params) {

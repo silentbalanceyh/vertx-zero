@@ -41,6 +41,15 @@ public class MoveOnStart extends AbstractMoveOn {
              * ]
              *
              * Based on configuration the `WRule` must be mutual exclusion
+             *
+             * Be careful about the definition of `data` of current node:
+             *
+             * Example:
+             * {
+             *     "data": {
+             *         "draft": "draft"
+             *     }
+             * }
              */
             final JsonObject parameters = wTransition.moveParameter(request.request());
             final RunOn runOn = RunOn.get();
