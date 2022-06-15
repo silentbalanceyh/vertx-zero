@@ -39,3 +39,9 @@
     unique:
     - taxCode
     - sigma
+# 合同信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EContractDao
+    key: key
+    unique:
+    - code
+    - sigma

@@ -1,6 +1,7 @@
 [
     "res.brand",
     "res.company",
+    "res.contract",
     "res.customer",
     "res.dept",
     "res.employee",
