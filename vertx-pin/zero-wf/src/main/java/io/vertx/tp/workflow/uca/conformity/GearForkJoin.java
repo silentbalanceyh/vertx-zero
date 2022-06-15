@@ -29,14 +29,6 @@ public class GearForkJoin extends AbstractGear {
     }
 
     @Override
-    public Gear configuration(final JsonObject config) {
-        if (Ut.notNil(config)) {
-            this.configuration.mergeIn(config, true);
-        }
-        return this;
-    }
-
-    @Override
     public Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask wTask, final WTicket ticket) {
         final ConcurrentMap<String, Task> taskMap = wTask.fork();
         if (taskMap.isEmpty()) {
@@ -45,20 +37,19 @@ public class GearForkJoin extends AbstractGear {
         final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskMap, false);
         final List<WTodo> todos = new ArrayList<>();
         final AtomicInteger seed = new AtomicInteger(1);
-        taskMap.keySet().forEach(taskKey -> {
+        taskMap.forEach((taskKey, task) -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
             final JsonObject assignData = assignMap.getOrDefault(taskKey, new JsonObject());
             eachData.mergeIn(assignData, true);
+
             // 1. Deserialize new WTodo
-            final WTodo todo = Ux.fromJson(eachData, WTodo.class);
+            final WTodo todo = this.todoStart(parameters, ticket, task);
 
-            // 2. Set relation
-            todo.setTraceId(ticket.getKey());
+            // 2. Serial Generation
+            todo.setSerialFork(Ut.fromAdjust(seed.getAndIncrement(), 2));
+            this.todoSerial(todo, ticket);
 
-            // 3. traceOrder = 1 and generate serial/code
-            todo.setTraceOrder(1);
-            this.todoSerial(todo, ticket, seed.getAndIncrement());
             todos.add(todo);
         });
         return Ux.future(todos);
@@ -73,38 +64,28 @@ public class GearForkJoin extends AbstractGear {
         final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskMap, true);
         final List<WTodo> todos = new ArrayList<>();
         final AtomicInteger seed = new AtomicInteger(1);
-        taskMap.keySet().forEach(taskKey -> {
+        taskMap.forEach((taskKey, task) -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
             final JsonObject assignData = assignMap.getOrDefault(taskKey, new JsonObject());
             eachData.mergeIn(assignData, true);
+
             // 1. Deserialize new WTodo
-            final WTodo generated = Ux.fromJson(eachData, WTodo.class);
+            final WTodo generated = this.todoGenerate(eachData, ticket, task, todo);
 
-            // 2. Set relation
-            generated.setTraceId(ticket.getKey());
+            // 2. Serial Generation
+            final String serialFork = todo.getSerialFork();
+            if (Ut.isNil(serialFork)) {
+                generated.setSerialFork(Ut.fromAdjust(seed.getAndIncrement(), 2));
+            } else {
+                generated.setSerialFork(serialFork);
+            }
+            this.todoSerial(generated, ticket);
 
-            // 3. traceOrder = 1 and generate serial/code
-            generated.setTraceOrder(todo.getTraceOrder() + 1);
-            this.todoSerial(todo, ticket, seed.getAndIncrement());
-
-            // 4. Set todo auditor information
-            this.todoAuditor(generated, todo);
+            // 2. Select Method to set serial
             todos.add(generated);
         });
         return Ux.future(todos);
-    }
-
-    /*
-     *  The format: <Ticket Serial>-<traceOrder><sequence>
-     *  Here the `sequence` means current generated all size from `01 ~ XX`.
-     */
-    private void todoSerial(final WTodo todo, final WTicket ticket, final int sequence) {
-        final String serial = ticket.getCode() + "-" +
-            Ut.fromAdjust(todo.getTraceOrder(), 2) +
-            Ut.fromAdjust(sequence, 2);
-        todo.setCode(serial);
-        todo.setSerial(serial);
     }
 
     /*
@@ -127,8 +108,6 @@ public class GearForkJoin extends AbstractGear {
      * Also sync the `accepted` and `toUser`, the result data structure:
      * {
      *     "taskKey": {
-     *         "taskKey": "...",
-     *         "taskId": "...",
      *         "toUser": "...",
      *         "accepted": "..."
      *     }
@@ -141,11 +120,9 @@ public class GearForkJoin extends AbstractGear {
         taskMap.forEach((taskKey, task) -> {
             // 1.1. Path extract from configuration
             final String path = this.configuration.getString(taskKey);
-            final String toUser = Ut.visitT(parameters, path);
             // 1.2. Data Building
             final JsonObject value = new JsonObject();
-            value.put(KName.Flow.TASK_ID, task.getId());
-            value.put(KName.Flow.TASK_KEY, task.getTaskDefinitionKey());
+            final String toUser = Ut.visitT(parameters, path);
             if (generation) {
                 value.putNull(KName.Flow.Auditor.TO_USER);
             } else {
@@ -158,5 +135,13 @@ public class GearForkJoin extends AbstractGear {
         parameters.remove(KName.Flow.Auditor.TO_USER);
         parameters.remove(KName.Flow.Auditor.ACCEPTED_BY);
         return response;
+    }
+
+    private void todoSerial(final WTodo todo, final WTicket ticket) {
+        final String serial = ticket.getCode() + "-" +
+            Ut.fromAdjust(todo.getTraceOrder(), 2) +
+            todo.getSerialFork();
+        todo.setCode(serial);
+        todo.setSerial(serial);
     }
 }

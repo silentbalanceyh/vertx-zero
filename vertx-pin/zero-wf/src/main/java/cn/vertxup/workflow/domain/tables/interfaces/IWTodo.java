@@ -160,6 +160,18 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getParentId();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    public IWTodo setSerialFork(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    public String getSerialFork();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -206,18 +218,6 @@ public interface IWTodo extends VertxPojo, Serializable {
      * 和待办绑定的taskKey
      */
     public String getTaskKey();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    public IWTodo setActivityId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    public String getActivityId();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
@@ -514,11 +514,11 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setSerialFork,json::getString,"SERIAL_FORK","java.lang.String");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
                 setOrThrow(this::setTraceOrder,json::getInteger,"TRACE_ORDER","java.lang.Integer");
                 setOrThrow(this::setTaskId,json::getString,"TASK_ID","java.lang.String");
                 setOrThrow(this::setTaskKey,json::getString,"TASK_KEY","java.lang.String");
-                setOrThrow(this::setActivityId,json::getString,"ACTIVITY_ID","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setCommentApproval,json::getString,"COMMENT_APPROVAL","java.lang.String");
                 setOrThrow(this::setCommentReject,json::getString,"COMMENT_REJECT","java.lang.String");
@@ -564,11 +564,11 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());
                 json.put("PARENT_ID",getParentId());
+                json.put("SERIAL_FORK",getSerialFork());
                 json.put("TRACE_ID",getTraceId());
                 json.put("TRACE_ORDER",getTraceOrder());
                 json.put("TASK_ID",getTaskId());
                 json.put("TASK_KEY",getTaskKey());
-                json.put("ACTIVITY_ID",getActivityId());
                 json.put("COMMENT",getComment());
                 json.put("COMMENT_APPROVAL",getCommentApproval());
                 json.put("COMMENT_REJECT",getCommentReject());

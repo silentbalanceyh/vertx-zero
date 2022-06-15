@@ -49,14 +49,9 @@ public class GearStandard extends AbstractGear {
             return Ux.futureL();
         }
         // 0. Keep the same acceptedBy / toUser value and do nothing
-        // 1. Deserialize new WTodo
-        final WTodo todo = Ux.fromJson(parameters, WTodo.class);
+        final WTodo todo = this.todoStart(parameters, ticket, task);
 
-        // 2. Set relation between WTodo and Camunda Task
-        this.todoTask(todo, task, ticket.getKey());
-
-        // 3. traceOrder = 1 and generate serial/code
-        todo.setTraceOrder(1);
+        // 1. Select Method to set Serial
         this.todoSerial(todo, ticket);
 
         return Ux.futureL(todo);
@@ -74,33 +69,19 @@ public class GearStandard extends AbstractGear {
         this.todoAssign(parameters);
 
         // 1. Generate new WTodo
-        final WTodo generated = this.todoGenerate(parameters);
+        final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
 
-        // 2. Set relation between WTodo and Camunda Task
-        this.todoTask(generated, task, todo.getTraceId());
-
-        // 3. traceOrder = original + 1 and generate serial/code
-        generated.setTraceOrder(todo.getTraceOrder() + 1);
-        this.todoSerial(generated, ticket);
-
-        // 4. Set todo auditor information
-        this.todoAuditor(generated, todo);
+        // 2. Select Method to set Serial
+        this.todoSerial(todo, ticket);
 
         return Ux.futureL(generated);
     }
 
 
-    private void todoTask(final WTodo todo, final Task task,
-                          final String traceId) {
-        todo.setTraceId(traceId);
-        /*
-         *  Connect WTodo and ProcessInstance
-         *  1. taskId = Task, getId
-         *  2. taskKey = Task, getTaskDefinitionKey
-         */
-        // Camunda Engine
-        todo.setTaskId(task.getId());
-        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
+    private void todoSerial(final WTodo todo, final WTicket ticket) {
+        final String serial = ticket.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2);
+        todo.setCode(serial);
+        todo.setSerial(serial);
     }
 
     private void todoAssign(final JsonObject parameters) {
@@ -108,14 +89,5 @@ public class GearStandard extends AbstractGear {
         final String toUser = parameters.getString(KName.Flow.Auditor.TO_USER);
         parameters.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
         parameters.remove(KName.Flow.Auditor.TO_USER);
-    }
-
-    /*
-     *  The format:  <Ticket Serial>-<traceOrder>
-     */
-    private void todoSerial(final WTodo todo, final WTicket ticket) {
-        final String serial = ticket.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2);
-        todo.setCode(serial);
-        todo.setSerial(serial);
     }
 }

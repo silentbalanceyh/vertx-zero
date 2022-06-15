@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.conformity;
 
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.zeroup.macrocosm.cv.em.PassWay;
 import cn.zeroup.macrocosm.cv.em.TodoStatus;
@@ -9,6 +10,7 @@ import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -34,10 +36,19 @@ interface GearSupplier {
  */
 public abstract class AbstractGear implements Gear {
 
+    protected final JsonObject configuration = new JsonObject();
     protected PassWay type;
 
     protected AbstractGear(final PassWay type) {
         this.type = type;
+    }
+
+    @Override
+    public Gear configuration(final JsonObject config) {
+        if (Ut.notNil(config)) {
+            this.configuration.mergeIn(config, true);
+        }
+        return this;
     }
 
     /*
@@ -57,7 +68,50 @@ public abstract class AbstractGear implements Gear {
         });
     }
 
-    protected WTodo todoGenerate(final JsonObject parameters) {
+    protected WTodo todoGenerate(final JsonObject parameters, final WTicket ticket, final Task task, final WTodo todo) {
+        // 1. Generate new WTodo
+        final WTodo generated = this.todoGenerate(parameters);
+
+        // 2. Set relation between WTodo and Camunda Task
+        this.todoTask(generated, task, todo.getTraceId());
+
+        // 3. traceOrder = original + 1 and generate serial/code
+        generated.setTraceOrder(todo.getTraceOrder() + 1);
+
+        // 4. Set todo auditor information
+        this.todoAuditor(generated, todo);
+        return generated;
+    }
+
+    protected WTodo todoStart(final JsonObject parameters, final WTicket ticket, final Task task) {
+        // 0. Keep the same acceptedBy / toUser value and do nothing
+        // 1. Deserialize new WTodo
+        final WTodo todo = Ux.fromJson(parameters, WTodo.class);
+
+        // 2. Set relation between WTodo and Camunda Task
+        this.todoTask(todo, task, ticket.getKey());
+
+        // 3. traceOrder = 1 and generate serial/code
+        todo.setTraceOrder(1);
+
+        return todo;
+    }
+
+    // --------------- Private Method ------------------
+    private void todoTask(final WTodo todo, final Task task,
+                          final String traceId) {
+        todo.setTraceId(traceId);
+        /*
+         *  Connect WTodo and ProcessInstance
+         *  1. taskId = Task, getId
+         *  2. taskKey = Task, getTaskDefinitionKey
+         */
+        // Camunda Engine
+        todo.setTaskId(task.getId());
+        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
+    }
+
+    private WTodo todoGenerate(final JsonObject parameters) {
 
         final WTodo generated = Ux.fromJson(parameters, WTodo.class);
         // Key Remove ( Comment Clear )
@@ -81,7 +135,7 @@ public abstract class AbstractGear implements Gear {
         return generated;
     }
 
-    protected void todoAuditor(final WTodo todo, final WTodo input) {
+    private void todoAuditor(final WTodo todo, final WTodo input) {
         todo.setCreatedAt(LocalDateTime.now());
         todo.setCreatedBy(input.getUpdatedBy());
         todo.setUpdatedAt(LocalDateTime.now());

@@ -220,6 +220,22 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>SERIAL_FORK IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyBySerialFork(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.SERIAL_FORK.in(values));
+        }
+
+        /**
+     * Find records that have <code>SERIAL_FORK IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyBySerialFork(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.SERIAL_FORK.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values) {
@@ -278,22 +294,6 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTaskKey(Collection<String> values, int limit) {
                 return findManyByCondition(WTodo.W_TODO.TASK_KEY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ACTIVITY_ID IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByActivityId(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.ACTIVITY_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>ACTIVITY_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByActivityId(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.ACTIVITY_ID.in(values),limit);
         }
 
         /**

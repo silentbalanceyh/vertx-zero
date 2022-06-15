@@ -33,11 +33,11 @@ public class WTodo implements VertxPojo, IWTodo {
     private String        modelKey;
     private String        modelCategory;
     private String        parentId;
+    private String        serialFork;
     private String        traceId;
     private Integer       traceOrder;
     private String        taskId;
     private String        taskKey;
-    private String        activityId;
     private String        comment;
     private String        commentApproval;
     private String        commentReject;
@@ -80,11 +80,11 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
         this.parentId = value.getParentId();
+        this.serialFork = value.getSerialFork();
         this.traceId = value.getTraceId();
         this.traceOrder = value.getTraceOrder();
         this.taskId = value.getTaskId();
         this.taskKey = value.getTaskKey();
-        this.activityId = value.getActivityId();
         this.comment = value.getComment();
         this.commentApproval = value.getCommentApproval();
         this.commentReject = value.getCommentReject();
@@ -126,11 +126,11 @@ public class WTodo implements VertxPojo, IWTodo {
         String        modelKey,
         String        modelCategory,
         String        parentId,
+        String        serialFork,
         String        traceId,
         Integer       traceOrder,
         String        taskId,
         String        taskKey,
-        String        activityId,
         String        comment,
         String        commentApproval,
         String        commentReject,
@@ -170,11 +170,11 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
         this.parentId = parentId;
+        this.serialFork = serialFork;
         this.traceId = traceId;
         this.traceOrder = traceOrder;
         this.taskId = taskId;
         this.taskKey = taskKey;
-        this.activityId = activityId;
         this.comment = comment;
         this.commentApproval = commentApproval;
         this.commentReject = commentReject;
@@ -441,6 +441,25 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public String getSerialFork() {
+        return this.serialFork;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public WTodo setSerialFork(String serialFork) {
+        this.serialFork = serialFork;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -513,25 +532,6 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setTaskKey(String taskKey) {
         this.taskKey = taskKey;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public String getActivityId() {
-        return this.activityId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public WTodo setActivityId(String activityId) {
-        this.activityId = activityId;
         return this;
     }
 
@@ -991,11 +991,11 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
         sb.append(", ").append(parentId);
+        sb.append(", ").append(serialFork);
         sb.append(", ").append(traceId);
         sb.append(", ").append(traceOrder);
         sb.append(", ").append(taskId);
         sb.append(", ").append(taskKey);
-        sb.append(", ").append(activityId);
         sb.append(", ").append(comment);
         sb.append(", ").append(commentApproval);
         sb.append(", ").append(commentReject);
@@ -1045,11 +1045,11 @@ public class WTodo implements VertxPojo, IWTodo {
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
         setParentId(from.getParentId());
+        setSerialFork(from.getSerialFork());
         setTraceId(from.getTraceId());
         setTraceOrder(from.getTraceOrder());
         setTaskId(from.getTaskId());
         setTaskKey(from.getTaskKey());
-        setActivityId(from.getActivityId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());

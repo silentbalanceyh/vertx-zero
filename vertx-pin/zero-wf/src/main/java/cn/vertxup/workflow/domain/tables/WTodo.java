@@ -37,7 +37,7 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.SERIAL</code>. 「serial」- 待办编号，使用
      * X_NUMBER 生成
      */
-    public final TableField<WTodoRecord, String> SERIAL = createField(DSL.name("SERIAL"), SQLDataType.VARCHAR(255), this, "「serial」- 待办编号，使用 X_NUMBER 生成");
+    public final TableField<WTodoRecord, String> SERIAL = createField(DSL.name("SERIAL"), SQLDataType.VARCHAR(128), this, "「serial」- 待办编号，使用 X_NUMBER 生成");
     /**
      * The column <code>DB_ETERNAL.W_TODO.NAME</code>. 「name」- 待办名称（标题）
      */
@@ -46,7 +46,7 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * The column <code>DB_ETERNAL.W_TODO.CODE</code>. 「code」-
      * 待办系统码，使用流程时候关联流程的任务ID
      */
-    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(36), this, "「code」- 待办系统码，使用流程时候关联流程的任务ID");
+    public final TableField<WTodoRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(128), this, "「code」- 待办系统码，使用流程时候关联流程的任务ID");
     /**
      * The column <code>DB_ETERNAL.W_TODO.ICON</code>. 「icon」- 待办显示的图标
      */
@@ -88,6 +88,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行");
     /**
+     * The column <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    public final TableField<WTodoRecord, String> SERIAL_FORK = createField(DSL.name("SERIAL_FORK"), SQLDataType.VARCHAR(255), this, "「serialFork」- 生成序号的分支序号");
+    /**
      * The column <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -107,11 +112,6 @@ public class WTodo extends TableImpl<WTodoRecord> {
      * 和待办绑定的taskKey
      */
     public final TableField<WTodoRecord, String> TASK_KEY = createField(DSL.name("TASK_KEY"), SQLDataType.VARCHAR(255), this, "「taskKey」- 和待办绑定的taskKey");
-    /**
-     * The column <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    public final TableField<WTodoRecord, String> ACTIVITY_ID = createField(DSL.name("ACTIVITY_ID"), SQLDataType.VARCHAR(36), this, "「activityId」- 生成的ACTIVITY_ID");
     /**
      * The column <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
      */
