@@ -54,8 +54,39 @@ public class WMove implements Serializable {
     private WMove(final String node, final JsonObject config) {
         // Node Name
         this.node = node;
+
+
         // Config for Camunda Engine
-        this.data.mergeIn(Ut.valueJObject(config.getJsonObject(KName.DATA)), true);
+        /*
+         * Here are some modification of data node definition
+         *
+         * From:
+         * data:{
+         *     "draft": "draft"
+         * }
+         *
+         * To:
+         * data:{
+         *     "draft": "`${draft}`"
+         * }
+         *
+         * Here are the config specification to set the original config running.
+         * All these kind of configuration will be the same in future.
+         * 1) `data` Part
+         * 2) `rule` Part:
+         *    -- record
+         *    -- todo
+         *    -- ticket
+         *    -- extension
+         * 3) `gateway` Part ( visitT method in future )
+         */
+        final JsonObject expression = new JsonObject();
+        final JsonObject original = Ut.valueJObject(config.getJsonObject(KName.DATA));
+        Ut.<String>itJObject(original, (to, from) -> {
+            final String valueExpr = "`${" + to + "}`";
+            expression.put(from, valueExpr);
+        });
+        this.data.mergeIn(expression, true);
         // Ut.<String>itJObject(data, (value, field) -> this.data.put(field, value));
 
         // Processing for left rules
