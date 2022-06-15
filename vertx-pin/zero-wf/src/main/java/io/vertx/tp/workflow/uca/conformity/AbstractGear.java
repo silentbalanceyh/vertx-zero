@@ -110,16 +110,16 @@ public abstract class AbstractGear implements Gear {
         serialBuf.append(Ut.fromAdjust(todo.getTraceOrder(), 2));
         if (Ut.isNil(serialFork)) {
             if (Objects.nonNull(sequence)) {
-                // XXX-0101
-                serialBuf.append(Ut.fromAdjust(sequence, 2));
+                // XXX-01-01
+                serialBuf.append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
             } // else = XXX-01
         } else {
             if (Objects.isNull(sequence)) {
                 // XXX-0101
                 serialBuf.append(serialFork);
             } else {
-                // XXX-010101
-                serialBuf.append(serialFork).append(Ut.fromAdjust(sequence, 2));
+                // XXX-0101-01
+                serialBuf.append(serialFork).append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
             }
         }
 
