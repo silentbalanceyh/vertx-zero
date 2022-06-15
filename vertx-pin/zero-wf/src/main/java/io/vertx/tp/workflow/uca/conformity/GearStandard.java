@@ -51,6 +51,7 @@ public class GearStandard extends AbstractGear {
         final WTodo todo = this.todoStart(parameters, ticket, task);
 
         // 1. Select Method to set Serial
+        todo.setSerialFork(null);
         this.todoSerial(todo, ticket, null);
 
         return Ux.futureL(todo);
@@ -71,7 +72,8 @@ public class GearStandard extends AbstractGear {
         final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
 
         // 2. Select Method to set Serial
-        this.todoSerial(todo, ticket, null);
+        generated.setSerialFork(todo.getSerialFork());
+        this.todoSerial(generated, ticket, null);
 
         return Ux.futureL(generated);
     }

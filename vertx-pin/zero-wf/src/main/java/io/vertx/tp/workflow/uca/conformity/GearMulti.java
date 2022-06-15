@@ -46,6 +46,7 @@ public class GearMulti extends AbstractGear {
             final WTodo todo = this.todoStart(parameters, ticket, task);
 
             // 2. Select Method to Set Serial
+            todo.setSerialFork(null);
             this.todoSerial(todo, ticket, seed.getAndIncrement());
             todos.add(todo);
         });
@@ -71,6 +72,7 @@ public class GearMulti extends AbstractGear {
             final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
 
             // 2. Select Method to Set Serial
+            generated.setSerialFork(todo.getSerialFork());
             this.todoSerial(generated, ticket, seed.getAndIncrement());
             todos.add(generated);
         });
