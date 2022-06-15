@@ -6,6 +6,7 @@ import cn.zeroup.macrocosm.cv.em.PassWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -118,6 +119,7 @@ public class GearForkJoin extends AbstractGear {
         taskMap.forEach((taskKey, task) -> {
             // 1.1. Path extract from configuration
             final String path = this.configuration.getString(taskKey);
+            Wf.Log.infoTransition(this.getClass(), "Task key = {0} will parse {1}", taskKey, path);
             // 1.2. Data Building
             final JsonObject value = new JsonObject();
             final String toUser = Ut.visitTSmart(parameters, path);
