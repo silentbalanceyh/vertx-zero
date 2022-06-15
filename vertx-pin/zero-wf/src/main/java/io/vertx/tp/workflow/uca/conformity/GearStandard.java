@@ -13,7 +13,6 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,12 +48,14 @@ public class GearStandard extends AbstractGear {
         if (Objects.isNull(task)) {
             return Ux.futureL();
         }
-        // `key` - todoKey is inner parameters
+        // 0. Keep the same acceptedBy / toUser value and do nothing
+        // 1. Deserialize new WTodo
         final WTodo todo = Ux.fromJson(parameters, WTodo.class);
 
-        this.todoComplete(todo, task, ticket.getKey());
+        // 2. Set relation between WTodo and Camunda Task
+        this.todoTask(todo, task, ticket.getKey());
 
-        // traceOrder = 1 when create
+        // 3. traceOrder = 1 and generate serial/code
         todo.setTraceOrder(1);
         this.todoSerial(todo, ticket);
 
@@ -69,26 +70,49 @@ public class GearStandard extends AbstractGear {
             return Ux.futureL();
         }
 
-        // toUser -> acceptedBy
-        final String toUser = parameters.getString(KName.Flow.Auditor.TO_USER);
-        parameters.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
-        parameters.remove(KName.Flow.Auditor.TO_USER);
+        // 0. Pre-Assignment: toUser -> acceptedBy
+        this.todoAssign(parameters);
 
+        // 1. Generate new WTodo
         final WTodo generated = this.todoGenerate(parameters);
-        this.todoComplete(generated, task, todo.getTraceId());
 
-        // traceOrder = original + 1
+        // 2. Set relation between WTodo and Camunda Task
+        this.todoTask(generated, task, todo.getTraceId());
+
+        // 3. traceOrder = original + 1 and generate serial/code
         generated.setTraceOrder(todo.getTraceOrder() + 1);
         this.todoSerial(generated, ticket);
 
-        generated.setCreatedAt(LocalDateTime.now());
-        generated.setCreatedBy(todo.getUpdatedBy());
-        generated.setUpdatedAt(LocalDateTime.now());
-        generated.setUpdatedBy(todo.getUpdatedBy());
+        // 4. Set todo auditor information
+        this.todoAuditor(generated, todo);
 
         return Ux.futureL(generated);
     }
 
+
+    private void todoTask(final WTodo todo, final Task task,
+                          final String traceId) {
+        todo.setTraceId(traceId);
+        /*
+         *  Connect WTodo and ProcessInstance
+         *  1. taskId = Task, getId
+         *  2. taskKey = Task, getTaskDefinitionKey
+         */
+        // Camunda Engine
+        todo.setTaskId(task.getId());
+        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
+    }
+
+    private void todoAssign(final JsonObject parameters) {
+        // toUser -> acceptedBy
+        final String toUser = parameters.getString(KName.Flow.Auditor.TO_USER);
+        parameters.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
+        parameters.remove(KName.Flow.Auditor.TO_USER);
+    }
+
+    /*
+     *  The format:  <Ticket Serial>-<traceOrder>
+     */
     private void todoSerial(final WTodo todo, final WTicket ticket) {
         final String serial = ticket.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2);
         todo.setCode(serial);

@@ -12,6 +12,7 @@ import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -80,16 +81,10 @@ public abstract class AbstractGear implements Gear {
         return generated;
     }
 
-    protected void todoComplete(final WTodo todo, final Task task,
-                                final String traceId) {
-        todo.setTraceId(traceId);
-        /*
-         *  Connect WTodo and ProcessInstance
-         *  1. taskId = Task, getId
-         *  2. taskKey = Task, getTaskDefinitionKey
-         */
-        // Camunda Engine
-        todo.setTaskId(task.getId());
-        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
+    protected void todoAuditor(final WTodo todo, final WTodo input) {
+        todo.setCreatedAt(LocalDateTime.now());
+        todo.setCreatedBy(input.getUpdatedBy());
+        todo.setUpdatedAt(LocalDateTime.now());
+        todo.setUpdatedBy(input.getUpdatedBy());
     }
 }
