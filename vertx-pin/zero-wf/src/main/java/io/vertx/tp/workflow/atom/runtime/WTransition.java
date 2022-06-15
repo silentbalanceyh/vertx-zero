@@ -37,9 +37,10 @@ public class WTransition {
      */
     private final WTransitionDefine define;
 
-    private final JsonObject moveData = new JsonObject();
     private ProcessInstance instance;
     private Task from;
+
+    private WRule rule = WMove.RULE_EMPTY;
 
     private WTask to;
     private WMove move;
@@ -108,34 +109,29 @@ public class WTransition {
         if (Objects.isNull(this.move)) {
             return new JsonObject();
         }
-        final JsonObject parsed = this.move.inputMovement(requestJ);
-        Wf.Log.infoMove(this.getClass(), "[ Move ] The Camunda Engine parameter has been: {0}", parsed.encode());
-        this.moveData.clear();
-        this.moveData.mergeIn(parsed, true);
-        return this.moveData.copy();
+        final JsonObject moveData = this.move.inputMovement(requestJ);
+        this.rule = this.move.inputTransfer(moveData);
+        return moveData;
     }
 
     public JsonObject moveTicket(final JsonObject requestJ) {
-        final WRule rule = this.move.inputTransfer(this.moveData.copy());
         // WTodo, WTicket, Extension
-        requestJ.mergeIn(Ut.fromExpression(rule.getTodo(), requestJ), true);
-        requestJ.mergeIn(Ut.fromExpression(rule.getTicket(), requestJ), true);
-        requestJ.mergeIn(Ut.fromExpression(rule.getExtension(), requestJ), true);
-
+        requestJ.mergeIn(Ut.fromExpression(this.rule.getTodo(), requestJ), true);
+        requestJ.mergeIn(Ut.fromExpression(this.rule.getTicket(), requestJ), true);
+        requestJ.mergeIn(Ut.fromExpression(this.rule.getExtension(), requestJ), true);
 
         // Record Processing
         return this.moveRecord(requestJ);
     }
 
     public JsonObject moveRecord(final JsonObject requestJ) {
-        final WRule rule = this.move.inputTransfer(this.moveData.copy());
 
         // Record Processing
         final Object recordRef = requestJ.getValue(KName.RECORD);
         if (Objects.isNull(recordRef)) {
             return requestJ;
         }
-        final JsonObject recordData = Ut.fromExpression(rule.getRecord(), requestJ);
+        final JsonObject recordData = Ut.fromExpression(this.rule.getRecord(), requestJ);
         if (recordRef instanceof JsonObject) {
             final JsonObject recordJ = ((JsonObject) recordRef);
             recordJ.mergeIn(recordData, true);

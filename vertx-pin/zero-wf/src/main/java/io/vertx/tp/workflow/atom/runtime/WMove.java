@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class WMove implements Serializable {
-    private static final WRule RULE_EMPTY = new WRule();
+    static final WRule RULE_EMPTY = new WRule();
     private final ConcurrentMap<String, WRule> rules = new ConcurrentHashMap<>();
     /*
      * The data structure is as following:
