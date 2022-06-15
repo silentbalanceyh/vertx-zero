@@ -44,7 +44,7 @@ public class GearForkJoin extends AbstractGear {
             eachData.mergeIn(assignData, true);
 
             // 1. Deserialize new WTodo
-            final WTodo todo = this.todoStart(parameters, ticket, task);
+            final WTodo todo = this.todoStart(eachData, ticket, task);
             // Duplicate entry 'da89a198-a9fb-40f8-a3cc-6a77df8cea22' for key 'PRIMARY'
             todo.setKey(UUID.randomUUID().toString());
 
