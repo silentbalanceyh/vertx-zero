@@ -120,7 +120,7 @@ public class GearForkJoin extends AbstractGear {
             final String path = this.configuration.getString(taskKey);
             // 1.2. Data Building
             final JsonObject value = new JsonObject();
-            final String toUser = Ut.visitT(parameters, path);
+            final String toUser = Ut.visitTSmart(parameters, path);
             if (generation) {
                 value.putNull(KName.Flow.Auditor.TO_USER);
             } else {

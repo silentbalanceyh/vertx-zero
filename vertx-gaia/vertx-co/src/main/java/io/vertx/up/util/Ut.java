@@ -1515,7 +1515,7 @@ public final class Ut {
         return Jackson.visitT(item, keys);
     }
 
-    public static <T> T visitT(final JsonObject item, final String path) {
+    public static <T> T visitTSmart(final JsonObject item, final String path) {
         final String[] pathes = path.split(Strings.DOT);
         return Jackson.visitT(item, pathes);
     }
