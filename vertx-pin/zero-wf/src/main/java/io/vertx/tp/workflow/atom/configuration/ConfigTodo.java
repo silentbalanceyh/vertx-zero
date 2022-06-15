@@ -84,8 +84,19 @@ class ConfigTodo implements Serializable {
     }
 
     public Future<JsonObject> initialize(final JsonObject data) {
-        return Ke.umIndent(data, this.indent).compose(processed -> {
-            final JsonObject ticketData = processed.copy();
+        return Ke.umIndent(data, this.indent).compose(ticketData -> {
+            /*
+             * Be careful about this method following code because
+             * here could use copy of JsonObject, this method must impact the
+             * input reference `data` to set following fields
+             * - serial
+             * - code
+             * - modelKey / modelChild
+             * - <Todo> ( Configured )
+             * - flowDefinitionKey
+             * - flowDefinitionId
+             */
+            // final JsonObject ticketData = processed.copy();
             Ut.ifJCopy(ticketData, KName.INDENT, KName.SERIAL);
             /*
              * Todo Generate `key` for `todoUrl`

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -118,9 +117,9 @@ public class WTransition {
     public JsonObject moveTicket(final JsonObject requestJ) {
         final WRule rule = this.move.inputTransfer(this.moveData.copy());
         // WTodo, WTicket, Extension
-        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTodo), true);
-        requestJ.mergeIn(this.moveInternal(requestJ, rule::getTicket), true);
-        requestJ.mergeIn(this.moveInternal(requestJ, rule::getExtension), true);
+        requestJ.mergeIn(Ut.fromExpression(rule.getTodo(), requestJ), true);
+        requestJ.mergeIn(Ut.fromExpression(rule.getTicket(), requestJ), true);
+        requestJ.mergeIn(Ut.fromExpression(rule.getExtension(), requestJ), true);
 
 
         // Record Processing
@@ -135,7 +134,7 @@ public class WTransition {
         if (Objects.isNull(recordRef)) {
             return requestJ;
         }
-        final JsonObject recordData = this.moveInternal(requestJ, rule::getRecord);
+        final JsonObject recordData = Ut.fromExpression(rule.getRecord(), requestJ);
         if (recordRef instanceof JsonObject) {
             final JsonObject recordJ = ((JsonObject) recordRef);
             recordJ.mergeIn(recordData, true);
@@ -146,16 +145,6 @@ public class WTransition {
             requestJ.put(KName.RECORD, recordA);
         }
         return requestJ;
-    }
-
-    private JsonObject moveInternal(final JsonObject requestJ, final Supplier<JsonObject> supplier) {
-        final WRule rule = this.move.inputTransfer(this.moveData.copy());
-        final JsonObject parsedJ = new JsonObject();
-        if (Objects.nonNull(rule)) {
-            // Todo, Ticket, Extension
-            parsedJ.mergeIn(Ut.fromExpression(supplier.get(), requestJ));
-        }
-        return parsedJ;
     }
 
     // --------------------- WTransition Action for Task Data ------------------

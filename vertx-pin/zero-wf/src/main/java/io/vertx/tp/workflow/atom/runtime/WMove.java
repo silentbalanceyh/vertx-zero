@@ -120,7 +120,7 @@ public class WMove implements Serializable {
             }
         });
         final String key = Ut.fromJoin(keys);
-        // Fix: java.lang.NullPointerException
+        // Fix: java.lang.NullPointerException when `WRule` is null
         final WRule rule = this.rules.getOrDefault(key, RULE_EMPTY);
         Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
