@@ -124,17 +124,4 @@ public class GearMulti extends AbstractGear {
         parameters.remove(KName.Flow.Auditor.ACCEPTED_BY);
         return response;
     }
-
-
-    /*
-     *  The format: <Ticket Serial>-<traceOrder><sequence>
-     *  Here the `sequence` means current generated all size from `01 ~ XX`.
-     */
-    private void todoSerial(final WTodo todo, final WTicket ticket, final int sequence) {
-        final String serial = ticket.getCode() + "-" +
-            Ut.fromAdjust(todo.getTraceOrder(), 2) +
-            Ut.fromAdjust(sequence, 2);
-        todo.setCode(serial);
-        todo.setSerial(serial);
-    }
 }

@@ -9,12 +9,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -95,6 +97,34 @@ public abstract class AbstractGear implements Gear {
         todo.setTraceOrder(1);
 
         return todo;
+    }
+
+    /*
+     * Start Serial generation here
+     */
+    protected void todoSerial(final WTodo todo, final WTicket ticket, final Integer sequence) {
+        // Based On SerialFork
+        final String serialFork = todo.getSerialFork();
+        final StringBuilder serialBuf = new StringBuilder();
+        serialBuf.append(ticket.getSerial()).append(Strings.DASH);
+        serialBuf.append(Ut.fromAdjust(todo.getTraceOrder(), 2));
+        if (Ut.isNil(serialFork)) {
+            if (Objects.nonNull(sequence)) {
+                // XXX-0101
+                serialBuf.append(Ut.fromAdjust(sequence, 2));
+            } // else = XXX-01
+        } else {
+            if (Objects.isNull(sequence)) {
+                // XXX-0101
+                serialBuf.append(serialFork);
+            } else {
+                // XXX-010101
+                serialBuf.append(serialFork).append(Ut.fromAdjust(sequence, 2));
+            }
+        }
+
+        todo.setCode(serialBuf.toString());
+        todo.setSerial(todo.getCode());
     }
 
     // --------------- Private Method ------------------

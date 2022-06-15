@@ -9,7 +9,6 @@ import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -52,7 +51,7 @@ public class GearStandard extends AbstractGear {
         final WTodo todo = this.todoStart(parameters, ticket, task);
 
         // 1. Select Method to set Serial
-        this.todoSerial(todo, ticket);
+        this.todoSerial(todo, ticket, null);
 
         return Ux.futureL(todo);
     }
@@ -72,16 +71,9 @@ public class GearStandard extends AbstractGear {
         final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
 
         // 2. Select Method to set Serial
-        this.todoSerial(todo, ticket);
+        this.todoSerial(todo, ticket, null);
 
         return Ux.futureL(generated);
-    }
-
-
-    private void todoSerial(final WTodo todo, final WTicket ticket) {
-        final String serial = ticket.getCode() + "-" + Ut.fromAdjust(todo.getTraceOrder(), 2);
-        todo.setCode(serial);
-        todo.setSerial(serial);
     }
 
     private void todoAssign(final JsonObject parameters) {

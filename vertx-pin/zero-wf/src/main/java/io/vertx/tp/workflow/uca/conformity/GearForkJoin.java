@@ -48,7 +48,7 @@ public class GearForkJoin extends AbstractGear {
 
             // 2. Serial Generation
             todo.setSerialFork(Ut.fromAdjust(seed.getAndIncrement(), 2));
-            this.todoSerial(todo, ticket);
+            this.todoSerial(todo, ticket, null);
 
             todos.add(todo);
         });
@@ -80,7 +80,7 @@ public class GearForkJoin extends AbstractGear {
             } else {
                 generated.setSerialFork(serialFork);
             }
-            this.todoSerial(generated, ticket);
+            this.todoSerial(generated, ticket, null);
 
             // 2. Select Method to set serial
             todos.add(generated);
@@ -135,13 +135,5 @@ public class GearForkJoin extends AbstractGear {
         parameters.remove(KName.Flow.Auditor.TO_USER);
         parameters.remove(KName.Flow.Auditor.ACCEPTED_BY);
         return response;
-    }
-
-    private void todoSerial(final WTodo todo, final WTicket ticket) {
-        final String serial = ticket.getCode() + "-" +
-            Ut.fromAdjust(todo.getTraceOrder(), 2) +
-            todo.getSerialFork();
-        todo.setCode(serial);
-        todo.setSerial(serial);
     }
 }
