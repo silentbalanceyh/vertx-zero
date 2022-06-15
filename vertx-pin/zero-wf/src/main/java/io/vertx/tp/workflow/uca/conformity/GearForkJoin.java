@@ -14,6 +14,7 @@ import org.camunda.bpm.engine.task.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,6 +45,8 @@ public class GearForkJoin extends AbstractGear {
 
             // 1. Deserialize new WTodo
             final WTodo todo = this.todoStart(parameters, ticket, task);
+            // Duplicate entry 'da89a198-a9fb-40f8-a3cc-6a77df8cea22' for key 'PRIMARY'
+            todo.setKey(UUID.randomUUID().toString());
 
             // 2. Serial Generation
             todo.setSerialFork(String.valueOf(seed));
