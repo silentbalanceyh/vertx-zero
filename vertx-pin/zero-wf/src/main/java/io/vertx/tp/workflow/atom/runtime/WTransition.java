@@ -109,6 +109,7 @@ public class WTransition {
             return new JsonObject();
         }
         final JsonObject parsed = this.move.inputMovement(requestJ);
+        Wf.Log.infoMove(this.getClass(), "[ Move ] The Camunda Engine parameter has been: {0}", parsed.encode());
         this.moveData.clear();
         this.moveData.mergeIn(parsed, true);
         return this.moveData.copy();
