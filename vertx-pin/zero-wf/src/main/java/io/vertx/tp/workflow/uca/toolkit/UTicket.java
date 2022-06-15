@@ -157,46 +157,44 @@ public class UTicket {
             .bind(wTransition.vague());
 
         // Todo Build
-        return this.metadata.todoInitialize(params)
-            .compose(normalized -> {
-                // Ticket Workflow ( normalized = params )
-                final JsonObject ticketJ = normalized.copy();
-                ticketJ.remove(KName.KEY);
-                final WTicket ticket = Ux.fromJson(ticketJ, WTicket.class);
-                /*
-                 * null value when ticket processed
-                 *
-                 *  - code: came from serial
-                 * 「Camunda」
-                 *  - flowDefinitionKey: came from json
-                 *  - flowDefinitionId: came from json
-                 *  - flowInstanceId: came from process
-                 *  - flowEnd: false when insert todo
-                 *
-                 * 「Flow」
-                 *  - cancelBy
-                 *  - cancelAt
-                 *  - closeBy
-                 *  - closeAt
-                 *  - closeSolution
-                 *  - closeCode
-                 *
-                 * 「Future」
-                 *  - metadata
-                 *  - modelCategory
-                 *  - category
-                 *  - categorySub
-                 */
-                ticket.setKey(normalized.getString(KName.Flow.TRACE_KEY));      // Connect ticket key
-                ticket.setFlowEnd(Boolean.FALSE);
-                final ProcessInstance instance = wTransition.instance();
-                ticket.setFlowInstanceId(instance.getId());
-                return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket).compose(inserted -> {
-                    record.ticket(inserted);
-                    return Ux.future(normalized);
-                });
-            })
-            .compose(dataJ -> this.updateExtension(dataJ, record));
+        return this.metadata.todoInitialize(params).compose(normalized -> {
+            // Ticket Workflow ( normalized = params )
+            final JsonObject ticketJ = normalized.copy();
+            ticketJ.remove(KName.KEY);
+            final WTicket ticket = Ux.fromJson(ticketJ, WTicket.class);
+            /*
+             * null value when ticket processed
+             *
+             *  - code: came from serial
+             * 「Camunda」
+             *  - flowDefinitionKey: came from json
+             *  - flowDefinitionId: came from json
+             *  - flowInstanceId: came from process
+             *  - flowEnd: false when insert todo
+             *
+             * 「Flow」
+             *  - cancelBy
+             *  - cancelAt
+             *  - closeBy
+             *  - closeAt
+             *  - closeSolution
+             *  - closeCode
+             *
+             * 「Future」
+             *  - metadata
+             *  - modelCategory
+             *  - category
+             *  - categorySub
+             */
+            ticket.setKey(normalized.getString(KName.Flow.TRACE_KEY));      // Connect ticket key
+            ticket.setFlowEnd(Boolean.FALSE);
+            final ProcessInstance instance = wTransition.instance();
+            ticket.setFlowInstanceId(instance.getId());
+            return Ux.Jooq.on(WTicketDao.class).insertAsync(ticket).compose(inserted -> {
+                record.ticket(inserted);
+                return this.updateExtension(normalized, record);
+            });
+        });
     }
 
     private Future<WRecord> updateTicket(final JsonObject params, final WTicket ticket, final WRecord recordRef) {
