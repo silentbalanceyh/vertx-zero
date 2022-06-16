@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables.interfaces;
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -48,34 +49,108 @@ public interface IEProject extends VertxPojo, Serializable {
     public String getCode();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
+     * 项目简称
+     */
+    public IEProject setShortName(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
+     * 项目简称
+     */
+    public String getShortName();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
+     */
+    public IEProject setDeptId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
+     */
+    public String getDeptId();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
-     * 项目分类（不同类型代表不同项目）
+     * 项目分类，zero.project
      */
     public IEProject setType(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
-     * 项目分类（不同类型代表不同项目）
+     * 项目分类，zero.project
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」- 项目状态
+     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * 项目状态，zero.project.status
      */
     public IEProject setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」- 项目状态
+     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * 项目状态，zero.project.status
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 主单业务标题
+     * Setter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.project.budget
+     */
+    public IEProject setBudget(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.project.budget
+     */
+    public String getBudget();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * 项目级别，zero.project.level
+     */
+    public IEProject setLevel(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * 项目级别，zero.project.level
+     */
+    public String getLevel();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * 项目优先级，zero.project.priority
+     */
+    public IEProject setPriority(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * 项目优先级，zero.project.priority
+     */
+    public String getPriority();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * 项目风险，zero.project.risk
+     */
+    public IEProject setRisk(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * 项目风险，zero.project.risk
+     */
+    public String getRisk();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     public IEProject setTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 主单业务标题
+     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     public String getTitle();
 
@@ -90,6 +165,26 @@ public interface IEProject extends VertxPojo, Serializable {
     public String getIcon();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     */
+    public IEProject setAmount(BigDecimal value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     */
+    public BigDecimal getAmount();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     */
+    public IEProject setSubject(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     */
+    public String getSubject();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
@@ -102,6 +197,16 @@ public interface IEProject extends VertxPojo, Serializable {
     public String getDescription();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     */
+    public IEProject setRemark(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     */
+    public String getRemark();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     public IEProject setLeadBy(String value);
@@ -110,6 +215,50 @@ public interface IEProject extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     public String getLeadBy();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    public IEProject setPlanStartAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    public LocalDateTime getPlanStartAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    public IEProject setPlanEndAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    public LocalDateTime getPlanEndAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    public IEProject setStartAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    public LocalDateTime getStartAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    public IEProject setEndAt(LocalDateTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    public LocalDateTime getEndAt();
 
     /**
      * Setter for <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
@@ -216,12 +365,25 @@ public interface IEProject extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
+                setOrThrow(this::setShortName,json::getString,"SHORT_NAME","java.lang.String");
+                setOrThrow(this::setDeptId,json::getString,"DEPT_ID","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
+                setOrThrow(this::setBudget,json::getString,"BUDGET","java.lang.String");
+                setOrThrow(this::setLevel,json::getString,"LEVEL","java.lang.String");
+                setOrThrow(this::setPriority,json::getString,"PRIORITY","java.lang.String");
+                setOrThrow(this::setRisk,json::getString,"RISK","java.lang.String");
                 setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
                 setOrThrow(this::setIcon,json::getString,"ICON","java.lang.String");
+                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setSubject,json::getString,"SUBJECT","java.lang.String");
                 setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
+                setOrThrow(this::setRemark,json::getString,"REMARK","java.lang.String");
                 setOrThrow(this::setLeadBy,json::getString,"LEAD_BY","java.lang.String");
+                setOrThrow(this::setPlanStartAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"PLAN_START_AT","java.time.LocalDateTime");
+                setOrThrow(this::setPlanEndAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"PLAN_END_AT","java.time.LocalDateTime");
+                setOrThrow(this::setStartAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"START_AT","java.time.LocalDateTime");
+                setOrThrow(this::setEndAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"END_AT","java.time.LocalDateTime");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -240,12 +402,25 @@ public interface IEProject extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
+                json.put("SHORT_NAME",getShortName());
+                json.put("DEPT_ID",getDeptId());
                 json.put("TYPE",getType());
                 json.put("STATUS",getStatus());
+                json.put("BUDGET",getBudget());
+                json.put("LEVEL",getLevel());
+                json.put("PRIORITY",getPriority());
+                json.put("RISK",getRisk());
                 json.put("TITLE",getTitle());
                 json.put("ICON",getIcon());
+                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("SUBJECT",getSubject());
                 json.put("DESCRIPTION",getDescription());
+                json.put("REMARK",getRemark());
                 json.put("LEAD_BY",getLeadBy());
+                json.put("PLAN_START_AT",getPlanStartAt()==null?null:getPlanStartAt().toString());
+                json.put("PLAN_END_AT",getPlanEndAt()==null?null:getPlanEndAt().toString());
+                json.put("START_AT",getStartAt()==null?null:getStartAt().toString());
+                json.put("END_AT",getEndAt()==null?null:getEndAt().toString());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

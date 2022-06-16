@@ -12,6 +12,7 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -41,31 +42,92 @@ public class EProject extends TableImpl<EProjectRecord> {
      */
     public final TableField<EProjectRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 项目编号");
     /**
+     * The column <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
+     * 项目简称
+     */
+    public final TableField<EProjectRecord, String> SHORT_NAME = createField(DSL.name("SHORT_NAME"), SQLDataType.VARCHAR(255), this, "「shortName」- 项目简称");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
+     */
+    public final TableField<EProjectRecord, String> DEPT_ID = createField(DSL.name("DEPT_ID"), SQLDataType.VARCHAR(36), this, "「deptId」- 所属部门, resource.departments");
+    /**
      * The column <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
-     * 项目分类（不同类型代表不同项目）
+     * 项目分类，zero.project
      */
-    public final TableField<EProjectRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 项目分类（不同类型代表不同项目）");
+    public final TableField<EProjectRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 项目分类，zero.project");
     /**
-     * The column <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」- 项目状态
+     * The column <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * 项目状态，zero.project.status
      */
-    public final TableField<EProjectRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 项目状态");
+    public final TableField<EProjectRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 项目状态，zero.project.status");
     /**
-     * The column <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 主单业务标题
+     * The column <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.project.budget
      */
-    public final TableField<EProjectRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(1024), this, "「title」- 主单业务标题");
+    public final TableField<EProjectRecord, String> BUDGET = createField(DSL.name("BUDGET"), SQLDataType.VARCHAR(36), this, "「budget」- 所属预算，zero.project.budget");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * 项目级别，zero.project.level
+     */
+    public final TableField<EProjectRecord, String> LEVEL = createField(DSL.name("LEVEL"), SQLDataType.VARCHAR(36), this, "「level」- 项目级别，zero.project.level");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * 项目优先级，zero.project.priority
+     */
+    public final TableField<EProjectRecord, String> PRIORITY = createField(DSL.name("PRIORITY"), SQLDataType.VARCHAR(36), this, "「priority」- 项目优先级，zero.project.priority");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * 项目风险，zero.project.risk
+     */
+    public final TableField<EProjectRecord, String> RISK = createField(DSL.name("RISK"), SQLDataType.VARCHAR(36), this, "「risk」- 项目风险，zero.project.risk");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
+     */
+    public final TableField<EProjectRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(1024), this, "「title」- 项目标题");
     /**
      * The column <code>DB_ETERNAL.E_PROJECT.ICON</code>. 「icon」- 项目图标
      */
     public final TableField<EProjectRecord, String> ICON = createField(DSL.name("ICON"), SQLDataType.VARCHAR(255), this, "「icon」- 项目图标");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     */
+    public final TableField<EProjectRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「amount」- 项目金额");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     */
+    public final TableField<EProjectRecord, String> SUBJECT = createField(DSL.name("SUBJECT"), SQLDataType.CLOB, this, "「subject」- 项目目标");
     /**
      * The column <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
     public final TableField<EProjectRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 主单描述内容");
     /**
+     * The column <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     */
+    public final TableField<EProjectRecord, String> REMARK = createField(DSL.name("REMARK"), SQLDataType.CLOB, this, "「remark」- 项目备注");
+    /**
      * The column <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     public final TableField<EProjectRecord, String> LEAD_BY = createField(DSL.name("LEAD_BY"), SQLDataType.VARCHAR(36), this, "「leadBy」- 项目经理");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    public final TableField<EProjectRecord, LocalDateTime> PLAN_START_AT = createField(DSL.name("PLAN_START_AT"), SQLDataType.LOCALDATETIME(0), this, "「planStartAt」- 开始日期");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    public final TableField<EProjectRecord, LocalDateTime> PLAN_END_AT = createField(DSL.name("PLAN_END_AT"), SQLDataType.LOCALDATETIME(0), this, "「planEndAt」- 结束日期");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    public final TableField<EProjectRecord, LocalDateTime> START_AT = createField(DSL.name("START_AT"), SQLDataType.LOCALDATETIME(0), this, "「startAt」- 实际开始日期");
+    /**
+     * The column <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    public final TableField<EProjectRecord, LocalDateTime> END_AT = createField(DSL.name("END_AT"), SQLDataType.LOCALDATETIME(0), this, "「endAt」- 实际结束日期");
     /**
      * The column <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
      */
@@ -181,14 +243,5 @@ public class EProject extends TableImpl<EProjectRecord> {
     @Override
     public EProject rename(Name name) {
         return new EProject(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row17 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row17<String, String, String, String, String, String, String, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row17) super.fieldsRow();
     }
 }

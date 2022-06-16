@@ -9,6 +9,7 @@ import cn.vertxup.erp.domain.tables.records.EProjectRecord;
 
 import io.github.jklingsporn.vertx.jooq.shared.internal.AbstractVertxDAO;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -69,6 +70,36 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
         }
 
         /**
+     * Find records that have <code>SHORT_NAME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByShortName(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.SHORT_NAME.in(values));
+        }
+
+        /**
+     * Find records that have <code>SHORT_NAME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByShortName(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.SHORT_NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DEPT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByDeptId(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.DEPT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>DEPT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByDeptId(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.DEPT_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TYPE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByType(Collection<String> values) {
@@ -96,6 +127,66 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByStatus(Collection<String> values, int limit) {
                 return findManyByCondition(EProject.E_PROJECT.STATUS.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BUDGET IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByBudget(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.BUDGET.in(values));
+        }
+
+        /**
+     * Find records that have <code>BUDGET IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByBudget(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.BUDGET.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>LEVEL IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByLevel(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.LEVEL.in(values));
+        }
+
+        /**
+     * Find records that have <code>LEVEL IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByLevel(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.LEVEL.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PRIORITY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPriority(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.PRIORITY.in(values));
+        }
+
+        /**
+     * Find records that have <code>PRIORITY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPriority(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.PRIORITY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RISK IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByRisk(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.RISK.in(values));
+        }
+
+        /**
+     * Find records that have <code>RISK IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByRisk(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.RISK.in(values),limit);
         }
 
         /**
@@ -129,6 +220,36 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
         }
 
         /**
+     * Find records that have <code>AMOUNT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByAmount(Collection<BigDecimal> values) {
+                return findManyByCondition(EProject.E_PROJECT.AMOUNT.in(values));
+        }
+
+        /**
+     * Find records that have <code>AMOUNT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByAmount(Collection<BigDecimal> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.AMOUNT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SUBJECT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyBySubject(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.SUBJECT.in(values));
+        }
+
+        /**
+     * Find records that have <code>SUBJECT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyBySubject(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.SUBJECT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>DESCRIPTION IN (values)</code>
      * asynchronously
      */
@@ -145,6 +266,21 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
         }
 
         /**
+     * Find records that have <code>REMARK IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByRemark(Collection<String> values) {
+                return findManyByCondition(EProject.E_PROJECT.REMARK.in(values));
+        }
+
+        /**
+     * Find records that have <code>REMARK IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByRemark(Collection<String> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.REMARK.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>LEAD_BY IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByLeadBy(Collection<String> values) {
@@ -157,6 +293,68 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByLeadBy(Collection<String> values, int limit) {
                 return findManyByCondition(EProject.E_PROJECT.LEAD_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PLAN_START_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPlanStartAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EProject.E_PROJECT.PLAN_START_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>PLAN_START_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPlanStartAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.PLAN_START_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PLAN_END_AT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPlanEndAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EProject.E_PROJECT.PLAN_END_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>PLAN_END_AT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByPlanEndAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.PLAN_END_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>START_AT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByStartAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EProject.E_PROJECT.START_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>START_AT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByStartAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.START_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>END_AT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByEndAt(Collection<LocalDateTime> values) {
+                return findManyByCondition(EProject.E_PROJECT.END_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>END_AT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EProject>> findManyByEndAt(Collection<LocalDateTime> values, int limit) {
+                return findManyByCondition(EProject.E_PROJECT.END_AT.in(values),limit);
         }
 
         /**
