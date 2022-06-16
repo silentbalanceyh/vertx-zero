@@ -19,7 +19,8 @@ CREATE TABLE `E_CONTRACT`
 
     -- 金额信息
     `TITLE`       VARCHAR(255) COMMENT '「title」- 合同标题',
-    `DESCRIPTION` LONGTEXT COMMENT '「description」- 合同详细描述',
+    `SUBJECT`     TEXT COMMENT '「subject」- 合同目标',
+    `DESCRIPTION` LONGTEXT COMMENT '「description」- 合同描述',
     `AMOUNT`      DECIMAL(18, 2) COMMENT '「amount」- 合同金额',
 
     -- 时间
