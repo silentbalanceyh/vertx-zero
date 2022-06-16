@@ -6,9 +6,9 @@ DROP TABLE IF EXISTS W_TODO;
 CREATE TABLE IF NOT EXISTS W_TODO
 (
     `KEY`              VARCHAR(36) COMMENT '「key」- 待办主键',
-    `SERIAL`           VARCHAR(255) COMMENT '「serial」- 待办编号，使用 X_NUMBER 生成',
+    `SERIAL`           VARCHAR(128) COMMENT '「serial」- 待办编号，使用 X_NUMBER 生成',
     `NAME`             VARCHAR(255) COMMENT '「name」- 待办名称（标题）',
-    `CODE`             VARCHAR(36) COMMENT '「code」- 待办系统码，使用流程时候关联流程的任务ID',
+    `CODE`             VARCHAR(128) COMMENT '「code」- 待办系统码，使用流程时候关联流程的任务ID',
     `ICON`             VARCHAR(255) COMMENT '「icon」- 待办显示的图标',
     -- 待办相关内容
     /*
@@ -58,6 +58,15 @@ CREATE TABLE IF NOT EXISTS W_TODO
      * trace_task_id = Active Task ID ( Multi Tasks )
      */
     `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
+    /*
+     * 1:1,
+     * 1:N,
+     * N:1,
+     * N:N
+     * 1）1:1,1:N 不考虑分支序号，直接生成
+     * 2）N:1,N:N 考虑分支序号，根据分支序号生成
+     */
+    `SERIAL_FORK`      VARCHAR(255) COMMENT '「serialFork」- 生成序号的分支序号',
 
     -- 主单ID（TraceId）
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
@@ -65,7 +74,6 @@ CREATE TABLE IF NOT EXISTS W_TODO
 
     `TASK_ID`          VARCHAR(36) COMMENT '「taskId」- 和待办绑定的taskId（任务）',
     `TASK_KEY`         VARCHAR(255) COMMENT '「taskKey」- 和待办绑定的taskKey',
-    `ACTIVITY_ID`      VARCHAR(36) COMMENT '「activityId」- 生成的ACTIVITY_ID',
 
 
     -- 特殊字段

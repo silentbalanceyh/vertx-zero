@@ -258,12 +258,31 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public WTodoRecord setSerialFork(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public String getSerialFork() {
+        return (String) get(13);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
     @Override
     public WTodoRecord setTraceId(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -273,7 +292,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getTraceId() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -282,7 +301,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setTraceOrder(Integer value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -292,7 +311,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public Integer getTraceOrder() {
-        return (Integer) get(14);
+        return (Integer) get(15);
     }
 
     /**
@@ -301,7 +320,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setTaskId(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -311,7 +330,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getTaskId() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -320,7 +339,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setTaskKey(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -330,25 +349,6 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getTaskKey() {
-        return (String) get(16);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public WTodoRecord setActivityId(String value) {
-        set(17, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public String getActivityId() {
         return (String) get(17);
     }
 
@@ -819,11 +819,11 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
         setParentId(from.getParentId());
+        setSerialFork(from.getSerialFork());
         setTraceId(from.getTraceId());
         setTraceOrder(from.getTraceOrder());
         setTaskId(from.getTaskId());
         setTaskKey(from.getTaskKey());
-        setActivityId(from.getActivityId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());
@@ -871,7 +871,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     /**
      * Create a detached, initialised WTodoRecord
      */
-    public WTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String parentId, String traceId, Integer traceOrder, String taskId, String taskKey, String activityId, String comment, String commentApproval, String commentReject, String toLocation, String toGroup, String toTeam, String toRole, String toUser, String toDept, Boolean escalate, String escalateData, String assignedBy, LocalDateTime assignedAt, String acceptedBy, LocalDateTime acceptedAt, String finishedBy, LocalDateTime finishedAt, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public WTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String parentId, String serialFork, String traceId, Integer traceOrder, String taskId, String taskKey, String comment, String commentApproval, String commentReject, String toLocation, String toGroup, String toTeam, String toRole, String toUser, String toDept, Boolean escalate, String escalateData, String assignedBy, LocalDateTime assignedAt, String acceptedBy, LocalDateTime acceptedAt, String finishedBy, LocalDateTime finishedAt, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(WTodo.W_TODO);
 
         setKey(key);
@@ -887,11 +887,11 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
         setModelKey(modelKey);
         setModelCategory(modelCategory);
         setParentId(parentId);
+        setSerialFork(serialFork);
         setTraceId(traceId);
         setTraceOrder(traceOrder);
         setTaskId(taskId);
         setTaskKey(taskKey);
-        setActivityId(activityId);
         setComment(comment);
         setCommentApproval(commentApproval);
         setCommentReject(commentReject);
@@ -939,11 +939,11 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
             setModelKey(value.getModelKey());
             setModelCategory(value.getModelCategory());
             setParentId(value.getParentId());
+            setSerialFork(value.getSerialFork());
             setTraceId(value.getTraceId());
             setTraceOrder(value.getTraceOrder());
             setTaskId(value.getTaskId());
             setTaskKey(value.getTaskKey());
-            setActivityId(value.getActivityId());
             setComment(value.getComment());
             setCommentApproval(value.getCommentApproval());
             setCommentReject(value.getCommentReject());

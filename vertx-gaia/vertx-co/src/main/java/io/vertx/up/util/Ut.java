@@ -12,7 +12,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
@@ -1515,8 +1514,9 @@ public final class Ut {
         return Jackson.visitT(item, keys);
     }
 
-    public static <T> T visitT(final JsonObject item, final String path) {
-        final String[] pathes = path.split(Strings.DOT);
+    public static <T> T visitTSmart(final JsonObject item, final String path) {
+        // Fix issue of split by regex, the . must be \\.
+        final String[] pathes = path.split("\\.");
         return Jackson.visitT(item, pathes);
     }
 
