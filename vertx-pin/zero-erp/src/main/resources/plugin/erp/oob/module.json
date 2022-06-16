@@ -6,5 +6,6 @@
     "res.dept",
     "res.employee",
     "res.identity",
-    "res.team"
+    "res.team",
+    "res.project"
 ]
