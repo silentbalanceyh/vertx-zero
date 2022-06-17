@@ -27,6 +27,10 @@ public interface Addr {
         String IN_MULTI = Prefix._EVENT + "BILL/MULTI";
         // Transfer
         String UP_TRANSFER = Prefix._EVENT + "BILL/TRANSFER";
+
+        String FETCH_BILLS = Prefix._EVENT + "FETCH/BILLS/BY/ORDER";
+
+        String FETCH_BILL = Prefix._EVENT + "FETCH/BILL/BY/KEY";
     }
 
     interface Settle {

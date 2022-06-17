@@ -60,7 +60,10 @@ public class PowerBlock implements Serializable {
                  * value processing
                  */
                 final Object value = normalized.getValue(field);
-                this.storedData.put(field, value);
+                if (Objects.nonNull(value)) {
+                    // Fix: java.lang.NullPointerException
+                    this.storedData.put(field, value);
+                }
                 final Class<?> clazz = TYPE_MAP.getOrDefault(typeStr, String.class);
                 this.storedType.put(field, clazz);
             }
