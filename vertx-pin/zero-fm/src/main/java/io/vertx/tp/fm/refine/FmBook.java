@@ -85,12 +85,14 @@ class FmBook {
         /*
          * type
          * modelId
-         * modelKey - null
-         * orderId - reference
+         * modelKey     - null
+         * orderId      - reference
+         * name         - The name for current book
          */
         created.setType(spec.getType());
         created.setModelId(spec.getIdentifier());
         created.setOrderId(spec.getReference());
+        created.setName(spec.getName());
         /*
          * code, serial
          */

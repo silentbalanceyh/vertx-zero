@@ -25,18 +25,35 @@ public interface BizInternal {
      * zero.tabular
      * zero.wh
      * zero.workflow.cat
+     * zero.contract
+     * zero.project
      */
     enum TypeEntity {
+        // RBAC Module of Security
         Authority("zero.authority"),
+
+
+        // Data Dict Part ( List / Tree )
         Category("zero.category"),
-        CloseCode("zero.close.code"),
+        Tabular("zero.tabular"),
+
+
+        // Business Part of Erp System
         Company("zero.company"),
         Customer("zero.customer"),
+        Contract("zero.contract"),
+        Project("zero.project"),
         Employee("zero.employee"),
         Identity("zero.identity"),
+
+
+        // Integration Part
         Integration("zero.integration"),
-        Tabular("zero.tabular"),
+
+
+        // Workflow Flow Type
         Wh("zero.wh"),
+        CloseCode("zero.close.code"),
         WorkflowCat("zero.workflow.cat");
 
         // region TypeEntity
@@ -57,6 +74,13 @@ public interface BizInternal {
         // endregion
     }
 
+    // ---------------------------- Employee -------------------------------
+    /*
+     * Account / Employee information of definition inner framework
+     * 1) The type of account:          TypeUser
+     * 2) The type of employee:         TypeEmployee
+     * 3) The status of employee:       StatusEmployee
+     */
     enum TypeUser {
         employee,           // * employee         - EEmployee
         customer,           //   customer         - ECustomer
@@ -70,6 +94,19 @@ public interface BizInternal {
         third_party,        //   The third party employee ( Reserved )
     }
 
+    enum StatusEmployee {
+        running,            // * The Default Employee status ( Or NULL )
+        trip,               //   In Trip
+        vacation,           //   In Vacation
+        training,           //   In Training
+    }
+
+    // ---------------------------- Company / Customer -------------------
+    /*
+     * Company / Customer information of definition inner framework
+     * 1) The type of company
+     * 2) The type of customer
+     */
     enum TypeCompany {
         company,            // * The Company entity
         branch,             //   The Branch Company
@@ -80,11 +117,10 @@ public interface BizInternal {
         corporation,        // * The Default Customer that stored into CRM system as record
         vendor,             //   The Vendor
     }
-
-    enum StatusEmployee {
-        running,            // * The Default Employee status ( Or NULL )
-        trip,               //   In Trip
-        vacation,           //   In Vacation
-        training,           //   In Training
-    }
+    // ---------------------------- For Contract / Project ---------------
+    /*
+     * This part will be empty because all the status/types will be stored in data dict
+     * database for usage and it won't be specific and contains code logical for different
+     * type / status here.
+     */
 }

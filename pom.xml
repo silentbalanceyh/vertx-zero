@@ -77,8 +77,8 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.6</jooq.version>
-        <vertx.jooq.version>6.5.1</vertx.jooq.version>
+        <jooq.version>3.16.7</jooq.version>
+        <vertx.jooq.version>6.5.3</vertx.jooq.version>
         <mysql.version>8.0.29</mysql.version>
 
         <!-- Java Reflection -->

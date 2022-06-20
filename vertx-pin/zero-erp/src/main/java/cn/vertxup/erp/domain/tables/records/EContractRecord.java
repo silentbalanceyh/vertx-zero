@@ -77,37 +77,98 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
      */
     @Override
-    public EContractRecord setType(String value) {
+    public EContractRecord setDeptId(String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
      */
     @Override
-    public String getType() {
+    public String getDeptId() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」-
+     * 合同分类，zero.contract
      */
     @Override
-    public EContractRecord setStatus(String value) {
+    public EContractRecord setType(String value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」-
+     * 合同分类，zero.contract
+     */
+    @Override
+    public String getType() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」-
+     * 合同状态，zero.contract.status
+     */
+    @Override
+    public EContractRecord setStatus(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」-
+     * 合同状态，zero.contract.status
      */
     @Override
     public String getStatus() {
-        return (String) get(4);
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.contract.budget
+     */
+    @Override
+    public EContractRecord setBudget(String value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.contract.budget
+     */
+    @Override
+    public String getBudget() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.LEVEL</code>. 「level」-
+     * 合同级别，zero.contract.level
+     */
+    @Override
+    public EContractRecord setLevel(String value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.LEVEL</code>. 「level」-
+     * 合同级别，zero.contract.level
+     */
+    @Override
+    public String getLevel() {
+        return (String) get(7);
     }
 
     /**
@@ -115,7 +176,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setTitle(String value) {
-        set(5, value);
+        set(8, value);
         return this;
     }
 
@@ -124,26 +185,43 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getTitle() {
-        return (String) get(5);
+        return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
+     */
+    @Override
+    public EContractRecord setSubject(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
+     */
+    @Override
+    public String getSubject() {
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
-     * 合同详细描述
+     * 合同描述
      */
     @Override
     public EContractRecord setDescription(String value) {
-        set(6, value);
+        set(10, value);
         return this;
     }
 
     /**
      * Getter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
-     * 合同详细描述
+     * 合同描述
      */
     @Override
     public String getDescription() {
-        return (String) get(6);
+        return (String) get(10);
     }
 
     /**
@@ -151,7 +229,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setAmount(BigDecimal value) {
-        set(7, value);
+        set(11, value);
         return this;
     }
 
@@ -160,41 +238,113 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public BigDecimal getAmount() {
-        return (BigDecimal) get(7);
+        return (BigDecimal) get(11);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
+     */
+    @Override
+    public EContractRecord setRemark(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
+     */
+    @Override
+    public String getRemark() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    @Override
+    public EContractRecord setPlanStartAt(LocalDateTime value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    @Override
+    public LocalDateTime getPlanStartAt() {
+        return (LocalDateTime) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    @Override
+    public EContractRecord setPlanEndAt(LocalDateTime value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    @Override
+    public LocalDateTime getPlanEndAt() {
+        return (LocalDateTime) get(14);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
      */
     @Override
     public EContractRecord setStartAt(LocalDateTime value) {
-        set(8, value);
+        set(15, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
      */
     @Override
     public LocalDateTime getStartAt() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(15);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
      */
     @Override
     public EContractRecord setEndAt(LocalDateTime value) {
-        set(9, value);
+        set(16, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
      */
     @Override
     public LocalDateTime getEndAt() {
-        return (LocalDateTime) get(9);
+        return (LocalDateTime) get(16);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
+     */
+    @Override
+    public EContractRecord setSignedBy(String value) {
+        set(17, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
+     */
+    @Override
+    public String getSignedBy() {
+        return (String) get(17);
     }
 
     /**
@@ -202,7 +352,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setSignedAt(LocalDateTime value) {
-        set(10, value);
+        set(18, value);
         return this;
     }
 
@@ -211,7 +361,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public LocalDateTime getSignedAt() {
-        return (LocalDateTime) get(10);
+        return (LocalDateTime) get(18);
     }
 
     /**
@@ -220,7 +370,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setPartyA(String value) {
-        set(11, value);
+        set(19, value);
         return this;
     }
 
@@ -230,7 +380,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getPartyA() {
-        return (String) get(11);
+        return (String) get(19);
     }
 
     /**
@@ -239,7 +389,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setPartyB(String value) {
-        set(12, value);
+        set(20, value);
         return this;
     }
 
@@ -249,62 +399,43 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getPartyB() {
-        return (String) get(12);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
-     * 丙方（关联客户ID，E_CUSTOMER）
-     */
-    @Override
-    public EContractRecord setPartyC(String value) {
-        set(13, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
-     * 丙方（关联客户ID，E_CUSTOMER）
-     */
-    @Override
-    public String getPartyC() {
-        return (String) get(13);
+        return (String) get(20);
     }
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
-     * 甲方签订名称（个人为姓名/企业为企业名）
+     * 甲方名称（个人为姓名/企业为企业名）
      */
     @Override
     public EContractRecord setAName(String value) {
-        set(14, value);
+        set(21, value);
         return this;
     }
 
     /**
      * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
-     * 甲方签订名称（个人为姓名/企业为企业名）
+     * 甲方名称（个人为姓名/企业为企业名）
      */
     @Override
     public String getAName() {
-        return (String) get(14);
+        return (String) get(21);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
      */
     @Override
     public EContractRecord setAPhone(String value) {
-        set(15, value);
+        set(22, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
      */
     @Override
     public String getAPhone() {
-        return (String) get(15);
+        return (String) get(22);
     }
 
     /**
@@ -313,7 +444,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setALegal(String value) {
-        set(16, value);
+        set(23, value);
         return this;
     }
 
@@ -323,62 +454,60 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getALegal() {
-        return (String) get(16);
+        return (String) get(23);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」-
-     * 甲方联系地址
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
      */
     @Override
     public EContractRecord setAAddress(String value) {
-        set(17, value);
+        set(24, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」-
-     * 甲方联系地址
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
      */
     @Override
     public String getAAddress() {
-        return (String) get(17);
+        return (String) get(24);
     }
 
     /**
      * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
-     * 乙方签订名称（个人为姓名/企业为企业名）
+     * 乙方名称（个人为姓名/企业为企业名）
      */
     @Override
     public EContractRecord setBName(String value) {
-        set(18, value);
+        set(25, value);
         return this;
     }
 
     /**
      * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
-     * 乙方签订名称（个人为姓名/企业为企业名）
+     * 乙方名称（个人为姓名/企业为企业名）
      */
     @Override
     public String getBName() {
-        return (String) get(18);
+        return (String) get(25);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
      */
     @Override
     public EContractRecord setBPhone(String value) {
-        set(19, value);
+        set(26, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
      */
     @Override
     public String getBPhone() {
-        return (String) get(19);
+        return (String) get(26);
     }
 
     /**
@@ -387,7 +516,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setBLegal(String value) {
-        set(20, value);
+        set(27, value);
         return this;
     }
 
@@ -397,100 +526,24 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getBLegal() {
-        return (String) get(20);
+        return (String) get(27);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」-
-     * 乙方联系地址
+     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
      */
     @Override
     public EContractRecord setBAddress(String value) {
-        set(21, value);
+        set(28, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」-
-     * 乙方联系地址
+     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
      */
     @Override
     public String getBAddress() {
-        return (String) get(21);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
-     * 丙方签订名称（个人为姓名/企业为企业名）
-     */
-    @Override
-    public EContractRecord setCName(String value) {
-        set(22, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
-     * 丙方签订名称（个人为姓名/企业为企业名）
-     */
-    @Override
-    public String getCName() {
-        return (String) get(22);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
-     */
-    @Override
-    public EContractRecord setCPhone(String value) {
-        set(23, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
-     */
-    @Override
-    public String getCPhone() {
-        return (String) get(23);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
-     * 丙方法人（企业合同专用）
-     */
-    @Override
-    public EContractRecord setCLegal(String value) {
-        set(24, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
-     * 丙方法人（企业合同专用）
-     */
-    @Override
-    public String getCLegal() {
-        return (String) get(24);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
-     * 丙方联系地址
-     */
-    @Override
-    public EContractRecord setCAddress(String value) {
-        set(25, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
-     * 丙方联系地址
-     */
-    @Override
-    public String getCAddress() {
-        return (String) get(25);
+        return (String) get(28);
     }
 
     /**
@@ -498,7 +551,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setMetadata(String value) {
-        set(26, value);
+        set(29, value);
         return this;
     }
 
@@ -507,7 +560,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getMetadata() {
-        return (String) get(26);
+        return (String) get(29);
     }
 
     /**
@@ -515,7 +568,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setActive(Boolean value) {
-        set(27, value);
+        set(30, value);
         return this;
     }
 
@@ -524,7 +577,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(27);
+        return (Boolean) get(30);
     }
 
     /**
@@ -533,7 +586,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setSigma(String value) {
-        set(28, value);
+        set(31, value);
         return this;
     }
 
@@ -543,7 +596,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getSigma() {
-        return (String) get(28);
+        return (String) get(31);
     }
 
     /**
@@ -551,7 +604,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setLanguage(String value) {
-        set(29, value);
+        set(32, value);
         return this;
     }
 
@@ -560,7 +613,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getLanguage() {
-        return (String) get(29);
+        return (String) get(32);
     }
 
     /**
@@ -569,7 +622,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setCreatedAt(LocalDateTime value) {
-        set(30, value);
+        set(33, value);
         return this;
     }
 
@@ -579,7 +632,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(30);
+        return (LocalDateTime) get(33);
     }
 
     /**
@@ -588,7 +641,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setCreatedBy(String value) {
-        set(31, value);
+        set(34, value);
         return this;
     }
 
@@ -598,7 +651,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(31);
+        return (String) get(34);
     }
 
     /**
@@ -607,7 +660,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setUpdatedAt(LocalDateTime value) {
-        set(32, value);
+        set(35, value);
         return this;
     }
 
@@ -617,7 +670,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(32);
+        return (LocalDateTime) get(35);
     }
 
     /**
@@ -626,7 +679,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public EContractRecord setUpdatedBy(String value) {
-        set(33, value);
+        set(36, value);
         return this;
     }
 
@@ -636,7 +689,7 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(33);
+        return (String) get(36);
     }
 
     // -------------------------------------------------------------------------
@@ -657,17 +710,24 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setDeptId(from.getDeptId());
         setType(from.getType());
         setStatus(from.getStatus());
+        setBudget(from.getBudget());
+        setLevel(from.getLevel());
         setTitle(from.getTitle());
+        setSubject(from.getSubject());
         setDescription(from.getDescription());
         setAmount(from.getAmount());
+        setRemark(from.getRemark());
+        setPlanStartAt(from.getPlanStartAt());
+        setPlanEndAt(from.getPlanEndAt());
         setStartAt(from.getStartAt());
         setEndAt(from.getEndAt());
+        setSignedBy(from.getSignedBy());
         setSignedAt(from.getSignedAt());
         setPartyA(from.getPartyA());
         setPartyB(from.getPartyB());
-        setPartyC(from.getPartyC());
         setAName(from.getAName());
         setAPhone(from.getAPhone());
         setALegal(from.getALegal());
@@ -676,10 +736,6 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
         setBPhone(from.getBPhone());
         setBLegal(from.getBLegal());
         setBAddress(from.getBAddress());
-        setCName(from.getCName());
-        setCPhone(from.getCPhone());
-        setCLegal(from.getCLegal());
-        setCAddress(from.getCAddress());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());
@@ -710,23 +766,30 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
     /**
      * Create a detached, initialised EContractRecord
      */
-    public EContractRecord(String key, String name, String code, String type, String status, String title, String description, BigDecimal amount, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime signedAt, String partyA, String partyB, String partyC, String aName, String aPhone, String aLegal, String aAddress, String bName, String bPhone, String bLegal, String bAddress, String cName, String cPhone, String cLegal, String cAddress, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public EContractRecord(String key, String name, String code, String deptId, String type, String status, String budget, String level, String title, String subject, String description, BigDecimal amount, String remark, LocalDateTime planStartAt, LocalDateTime planEndAt, LocalDateTime startAt, LocalDateTime endAt, String signedBy, LocalDateTime signedAt, String partyA, String partyB, String aName, String aPhone, String aLegal, String aAddress, String bName, String bPhone, String bLegal, String bAddress, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(EContract.E_CONTRACT);
 
         setKey(key);
         setName(name);
         setCode(code);
+        setDeptId(deptId);
         setType(type);
         setStatus(status);
+        setBudget(budget);
+        setLevel(level);
         setTitle(title);
+        setSubject(subject);
         setDescription(description);
         setAmount(amount);
+        setRemark(remark);
+        setPlanStartAt(planStartAt);
+        setPlanEndAt(planEndAt);
         setStartAt(startAt);
         setEndAt(endAt);
+        setSignedBy(signedBy);
         setSignedAt(signedAt);
         setPartyA(partyA);
         setPartyB(partyB);
-        setPartyC(partyC);
         setAName(aName);
         setAPhone(aPhone);
         setALegal(aLegal);
@@ -735,10 +798,6 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
         setBPhone(bPhone);
         setBLegal(bLegal);
         setBAddress(bAddress);
-        setCName(cName);
-        setCPhone(cPhone);
-        setCLegal(cLegal);
-        setCAddress(cAddress);
         setMetadata(metadata);
         setActive(active);
         setSigma(sigma);
@@ -759,17 +818,24 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
             setKey(value.getKey());
             setName(value.getName());
             setCode(value.getCode());
+            setDeptId(value.getDeptId());
             setType(value.getType());
             setStatus(value.getStatus());
+            setBudget(value.getBudget());
+            setLevel(value.getLevel());
             setTitle(value.getTitle());
+            setSubject(value.getSubject());
             setDescription(value.getDescription());
             setAmount(value.getAmount());
+            setRemark(value.getRemark());
+            setPlanStartAt(value.getPlanStartAt());
+            setPlanEndAt(value.getPlanEndAt());
             setStartAt(value.getStartAt());
             setEndAt(value.getEndAt());
+            setSignedBy(value.getSignedBy());
             setSignedAt(value.getSignedAt());
             setPartyA(value.getPartyA());
             setPartyB(value.getPartyB());
-            setPartyC(value.getPartyC());
             setAName(value.getAName());
             setAPhone(value.getAPhone());
             setALegal(value.getALegal());
@@ -778,10 +844,6 @@ public class EContractRecord extends UpdatableRecordImpl<EContractRecord> implem
             setBPhone(value.getBPhone());
             setBLegal(value.getBLegal());
             setBAddress(value.getBAddress());
-            setCName(value.getCName());
-            setCPhone(value.getCPhone());
-            setCLegal(value.getCLegal());
-            setCAddress(value.getCAddress());
             setMetadata(value.getMetadata());
             setActive(value.getActive());
             setSigma(value.getSigma());

@@ -7,9 +7,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -21,6 +19,17 @@ public interface FetchAgent {
     @Path("/bills/order/:orderId")
     @Address(Addr.BillItem.FETCH_AGGR)
     JsonObject fetchItem(@PathParam("orderId") String orderId);
+
+    @GET
+    @Path("/bills/:key")
+    @Address(Addr.Bill.FETCH_BILL)
+    JsonObject fetchByKey(@PathParam(KName.KEY) String key);
+
+    @POST
+    @Path("/bills/search/full")
+    @Address(Addr.Bill.FETCH_BILLS)
+    JsonObject fetchBills(@BodyParam JsonObject query);
+
 
     /*
      * Settlement to read book with authorize information

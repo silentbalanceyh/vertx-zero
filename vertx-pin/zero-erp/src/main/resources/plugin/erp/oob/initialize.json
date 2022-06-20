@@ -13,6 +13,7 @@
     "plugin/erp/oob/cab/organization.dept.xlsx",
     "plugin/erp/oob/cab/organization.employee.identity.xlsx",
     "plugin/erp/oob/cab/organization.employee.xlsx",
+    "plugin/erp/oob/cab/organization.project.xlsx",
     "plugin/erp/oob/rule/process.oa.assignment/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.oa.trip/activity-rule.xlsx",
     "plugin/erp/oob/rule/process.oa.vacation/activity-rule.xlsx",
@@ -27,5 +28,6 @@
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.dept.team.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.dept.xlsx",
     "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.employee.identity.xlsx",
-    "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.employee.xlsx"
+    "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.employee.xlsx",
+    "plugin/erp/oob/role/ADMIN.SUPER/falcon.organization.project.xlsx"
 ]

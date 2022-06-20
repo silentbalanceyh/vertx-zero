@@ -8,6 +8,7 @@ import cn.vertxup.erp.domain.tables.interfaces.IEProject;
 
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -23,12 +24,25 @@ public class EProject implements VertxPojo, IEProject {
     private String        key;
     private String        name;
     private String        code;
+    private String        shortName;
+    private String        deptId;
     private String        type;
     private String        status;
+    private String        budget;
+    private String        level;
+    private String        priority;
+    private String        risk;
     private String        title;
     private String        icon;
+    private BigDecimal    amount;
+    private String        subject;
     private String        description;
+    private String        remark;
     private String        leadBy;
+    private LocalDateTime planStartAt;
+    private LocalDateTime planEndAt;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -44,12 +58,25 @@ public class EProject implements VertxPojo, IEProject {
         this.key = value.getKey();
         this.name = value.getName();
         this.code = value.getCode();
+        this.shortName = value.getShortName();
+        this.deptId = value.getDeptId();
         this.type = value.getType();
         this.status = value.getStatus();
+        this.budget = value.getBudget();
+        this.level = value.getLevel();
+        this.priority = value.getPriority();
+        this.risk = value.getRisk();
         this.title = value.getTitle();
         this.icon = value.getIcon();
+        this.amount = value.getAmount();
+        this.subject = value.getSubject();
         this.description = value.getDescription();
+        this.remark = value.getRemark();
         this.leadBy = value.getLeadBy();
+        this.planStartAt = value.getPlanStartAt();
+        this.planEndAt = value.getPlanEndAt();
+        this.startAt = value.getStartAt();
+        this.endAt = value.getEndAt();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -64,12 +91,25 @@ public class EProject implements VertxPojo, IEProject {
         String        key,
         String        name,
         String        code,
+        String        shortName,
+        String        deptId,
         String        type,
         String        status,
+        String        budget,
+        String        level,
+        String        priority,
+        String        risk,
         String        title,
         String        icon,
+        BigDecimal    amount,
+        String        subject,
         String        description,
+        String        remark,
         String        leadBy,
+        LocalDateTime planStartAt,
+        LocalDateTime planEndAt,
+        LocalDateTime startAt,
+        LocalDateTime endAt,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -82,12 +122,25 @@ public class EProject implements VertxPojo, IEProject {
         this.key = key;
         this.name = name;
         this.code = code;
+        this.shortName = shortName;
+        this.deptId = deptId;
         this.type = type;
         this.status = status;
+        this.budget = budget;
+        this.level = level;
+        this.priority = priority;
+        this.risk = risk;
         this.title = title;
         this.icon = icon;
+        this.amount = amount;
+        this.subject = subject;
         this.description = description;
+        this.remark = remark;
         this.leadBy = leadBy;
+        this.planStartAt = planStartAt;
+        this.planEndAt = planEndAt;
+        this.startAt = startAt;
+        this.endAt = endAt;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -155,8 +208,46 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
+     * 项目简称
+     */
+    @Override
+    public String getShortName() {
+        return this.shortName;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
+     * 项目简称
+     */
+    @Override
+    public EProject setShortName(String shortName) {
+        this.shortName = shortName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
+     */
+    @Override
+    public String getDeptId() {
+        return this.deptId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
+     */
+    @Override
+    public EProject setDeptId(String deptId) {
+        this.deptId = deptId;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
-     * 项目分类（不同类型代表不同项目）
+     * 项目分类，zero.project
      */
     @Override
     public String getType() {
@@ -165,7 +256,7 @@ public class EProject implements VertxPojo, IEProject {
 
     /**
      * Setter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
-     * 项目分类（不同类型代表不同项目）
+     * 项目分类，zero.project
      */
     @Override
     public EProject setType(String type) {
@@ -174,7 +265,8 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」- 项目状态
+     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * 项目状态，zero.project.status
      */
     @Override
     public String getStatus() {
@@ -182,7 +274,8 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」- 项目状态
+     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * 项目状态，zero.project.status
      */
     @Override
     public EProject setStatus(String status) {
@@ -191,7 +284,83 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 主单业务标题
+     * Getter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.project.budget
+     */
+    @Override
+    public String getBudget() {
+        return this.budget;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.project.budget
+     */
+    @Override
+    public EProject setBudget(String budget) {
+        this.budget = budget;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * 项目级别，zero.project.level
+     */
+    @Override
+    public String getLevel() {
+        return this.level;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * 项目级别，zero.project.level
+     */
+    @Override
+    public EProject setLevel(String level) {
+        this.level = level;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * 项目优先级，zero.project.priority
+     */
+    @Override
+    public String getPriority() {
+        return this.priority;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * 项目优先级，zero.project.priority
+     */
+    @Override
+    public EProject setPriority(String priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * 项目风险，zero.project.risk
+     */
+    @Override
+    public String getRisk() {
+        return this.risk;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * 项目风险，zero.project.risk
+     */
+    @Override
+    public EProject setRisk(String risk) {
+        this.risk = risk;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     @Override
     public String getTitle() {
@@ -199,7 +368,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 主单业务标题
+     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     @Override
     public EProject setTitle(String title) {
@@ -225,6 +394,40 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     */
+    @Override
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     */
+    @Override
+    public EProject setAmount(BigDecimal amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     */
+    @Override
+    public String getSubject() {
+        return this.subject;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     */
+    @Override
+    public EProject setSubject(String subject) {
+        this.subject = subject;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
@@ -244,6 +447,23 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     */
+    @Override
+    public String getRemark() {
+        return this.remark;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     */
+    @Override
+    public EProject setRemark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     @Override
@@ -257,6 +477,78 @@ public class EProject implements VertxPojo, IEProject {
     @Override
     public EProject setLeadBy(String leadBy) {
         this.leadBy = leadBy;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    @Override
+    public LocalDateTime getPlanStartAt() {
+        return this.planStartAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
+     */
+    @Override
+    public EProject setPlanStartAt(LocalDateTime planStartAt) {
+        this.planStartAt = planStartAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    @Override
+    public LocalDateTime getPlanEndAt() {
+        return this.planEndAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    @Override
+    public EProject setPlanEndAt(LocalDateTime planEndAt) {
+        this.planEndAt = planEndAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    @Override
+    public LocalDateTime getStartAt() {
+        return this.startAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    @Override
+    public EProject setStartAt(LocalDateTime startAt) {
+        this.startAt = startAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    @Override
+    public LocalDateTime getEndAt() {
+        return this.endAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    @Override
+    public EProject setEndAt(LocalDateTime endAt) {
+        this.endAt = endAt;
         return this;
     }
 
@@ -407,12 +699,25 @@ public class EProject implements VertxPojo, IEProject {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
+        sb.append(", ").append(shortName);
+        sb.append(", ").append(deptId);
         sb.append(", ").append(type);
         sb.append(", ").append(status);
+        sb.append(", ").append(budget);
+        sb.append(", ").append(level);
+        sb.append(", ").append(priority);
+        sb.append(", ").append(risk);
         sb.append(", ").append(title);
         sb.append(", ").append(icon);
+        sb.append(", ").append(amount);
+        sb.append(", ").append(subject);
         sb.append(", ").append(description);
+        sb.append(", ").append(remark);
         sb.append(", ").append(leadBy);
+        sb.append(", ").append(planStartAt);
+        sb.append(", ").append(planEndAt);
+        sb.append(", ").append(startAt);
+        sb.append(", ").append(endAt);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -435,12 +740,25 @@ public class EProject implements VertxPojo, IEProject {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setShortName(from.getShortName());
+        setDeptId(from.getDeptId());
         setType(from.getType());
         setStatus(from.getStatus());
+        setBudget(from.getBudget());
+        setLevel(from.getLevel());
+        setPriority(from.getPriority());
+        setRisk(from.getRisk());
         setTitle(from.getTitle());
         setIcon(from.getIcon());
+        setAmount(from.getAmount());
+        setSubject(from.getSubject());
         setDescription(from.getDescription());
+        setRemark(from.getRemark());
         setLeadBy(from.getLeadBy());
+        setPlanStartAt(from.getPlanStartAt());
+        setPlanEndAt(from.getPlanEndAt());
+        setStartAt(from.getStartAt());
+        setEndAt(from.getEndAt());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());

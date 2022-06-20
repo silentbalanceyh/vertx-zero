@@ -42,34 +42,73 @@ public class EContract extends TableImpl<EContractRecord> {
      */
     public final TableField<EContractRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 合同编号");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」- 合同分类
+     * The column <code>DB_ETERNAL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * resource.departments
      */
-    public final TableField<EContractRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 合同分类");
+    public final TableField<EContractRecord, String> DEPT_ID = createField(DSL.name("DEPT_ID"), SQLDataType.VARCHAR(36), this, "「deptId」- 所属部门, resource.departments");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」- 合同状态
+     * The column <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」-
+     * 合同分类，zero.contract
      */
-    public final TableField<EContractRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 合同状态");
+    public final TableField<EContractRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 合同分类，zero.contract");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」-
+     * 合同状态，zero.contract.status
+     */
+    public final TableField<EContractRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 合同状态，zero.contract.status");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.BUDGET</code>. 「budget」-
+     * 所属预算，zero.contract.budget
+     */
+    public final TableField<EContractRecord, String> BUDGET = createField(DSL.name("BUDGET"), SQLDataType.VARCHAR(36), this, "「budget」- 所属预算，zero.contract.budget");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.LEVEL</code>. 「level」-
+     * 合同级别，zero.contract.level
+     */
+    public final TableField<EContractRecord, String> LEVEL = createField(DSL.name("LEVEL"), SQLDataType.VARCHAR(36), this, "「level」- 合同级别，zero.contract.level");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
      */
     public final TableField<EContractRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255), this, "「title」- 合同标题");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
-     * 合同详细描述
+     * The column <code>DB_ETERNAL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
      */
-    public final TableField<EContractRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 合同详细描述");
+    public final TableField<EContractRecord, String> SUBJECT = createField(DSL.name("SUBJECT"), SQLDataType.CLOB, this, "「subject」- 合同目标");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * 合同描述
+     */
+    public final TableField<EContractRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "「description」- 合同描述");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
      */
     public final TableField<EContractRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「amount」- 合同金额");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 生效时间
+     * The column <code>DB_ETERNAL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
      */
-    public final TableField<EContractRecord, LocalDateTime> START_AT = createField(DSL.name("START_AT"), SQLDataType.LOCALDATETIME(0), this, "「startAt」- 生效时间");
+    public final TableField<EContractRecord, String> REMARK = createField(DSL.name("REMARK"), SQLDataType.CLOB, this, "「remark」- 合同备注");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 终止时间
+     * The column <code>DB_ETERNAL.E_CONTRACT.PLAN_START_AT</code>.
+     * 「planStartAt」- 开始日期
      */
-    public final TableField<EContractRecord, LocalDateTime> END_AT = createField(DSL.name("END_AT"), SQLDataType.LOCALDATETIME(0), this, "「endAt」- 终止时间");
+    public final TableField<EContractRecord, LocalDateTime> PLAN_START_AT = createField(DSL.name("PLAN_START_AT"), SQLDataType.LOCALDATETIME(0), this, "「planStartAt」- 开始日期");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
+     * 结束日期
+     */
+    public final TableField<EContractRecord, LocalDateTime> PLAN_END_AT = createField(DSL.name("PLAN_END_AT"), SQLDataType.LOCALDATETIME(0), this, "「planEndAt」- 结束日期");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
+     */
+    public final TableField<EContractRecord, LocalDateTime> START_AT = createField(DSL.name("START_AT"), SQLDataType.LOCALDATETIME(0), this, "「startAt」- 实际开始日期");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
+     */
+    public final TableField<EContractRecord, LocalDateTime> END_AT = createField(DSL.name("END_AT"), SQLDataType.LOCALDATETIME(0), this, "「endAt」- 实际结束日期");
+    /**
+     * The column <code>DB_ETERNAL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
+     */
+    public final TableField<EContractRecord, String> SIGNED_BY = createField(DSL.name("SIGNED_BY"), SQLDataType.VARCHAR(36), this, "「signedBy」- 签订人");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
      */
@@ -85,67 +124,41 @@ public class EContract extends TableImpl<EContractRecord> {
      */
     public final TableField<EContractRecord, String> PARTY_B = createField(DSL.name("PARTY_B"), SQLDataType.VARCHAR(36), this, "「partyB」- 乙方（关联客户ID，E_CUSTOMER）");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.PARTY_C</code>. 「partyC」-
-     * 丙方（关联客户ID，E_CUSTOMER）
-     */
-    public final TableField<EContractRecord, String> PARTY_C = createField(DSL.name("PARTY_C"), SQLDataType.VARCHAR(36), this, "「partyC」- 丙方（关联客户ID，E_CUSTOMER）");
-    /**
      * The column <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
-     * 甲方签订名称（个人为姓名/企业为企业名）
+     * 甲方名称（个人为姓名/企业为企业名）
      */
-    public final TableField<EContractRecord, String> A_NAME = createField(DSL.name("A_NAME"), SQLDataType.VARCHAR(255), this, "「aName」- 甲方签订名称（个人为姓名/企业为企业名）");
+    public final TableField<EContractRecord, String> A_NAME = createField(DSL.name("A_NAME"), SQLDataType.VARCHAR(255), this, "「aName」- 甲方名称（个人为姓名/企业为企业名）");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方签订人电话
+     * The column <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
      */
-    public final TableField<EContractRecord, String> A_PHONE = createField(DSL.name("A_PHONE"), SQLDataType.VARCHAR(20), this, "「aPhone」- 甲方签订人电话");
+    public final TableField<EContractRecord, String> A_PHONE = createField(DSL.name("A_PHONE"), SQLDataType.VARCHAR(20), this, "「aPhone」- 甲方电话");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
      * 甲方法人（企业合同专用）
      */
     public final TableField<EContractRecord, String> A_LEGAL = createField(DSL.name("A_LEGAL"), SQLDataType.VARCHAR(255), this, "「aLegal」- 甲方法人（企业合同专用）");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」-
-     * 甲方联系地址
+     * The column <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
      */
-    public final TableField<EContractRecord, String> A_ADDRESS = createField(DSL.name("A_ADDRESS"), SQLDataType.CLOB, this, "「aAddress」- 甲方联系地址");
+    public final TableField<EContractRecord, String> A_ADDRESS = createField(DSL.name("A_ADDRESS"), SQLDataType.CLOB, this, "「aAddress」- 甲方地址");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
-     * 乙方签订名称（个人为姓名/企业为企业名）
+     * 乙方名称（个人为姓名/企业为企业名）
      */
-    public final TableField<EContractRecord, String> B_NAME = createField(DSL.name("B_NAME"), SQLDataType.VARCHAR(255), this, "「bName」- 乙方签订名称（个人为姓名/企业为企业名）");
+    public final TableField<EContractRecord, String> B_NAME = createField(DSL.name("B_NAME"), SQLDataType.VARCHAR(255), this, "「bName」- 乙方名称（个人为姓名/企业为企业名）");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方签订人电话
+     * The column <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
      */
-    public final TableField<EContractRecord, String> B_PHONE = createField(DSL.name("B_PHONE"), SQLDataType.VARCHAR(20), this, "「bPhone」- 乙方签订人电话");
+    public final TableField<EContractRecord, String> B_PHONE = createField(DSL.name("B_PHONE"), SQLDataType.VARCHAR(20), this, "「bPhone」- 乙方人电话");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
      * 乙方法人（企业合同专用）
      */
     public final TableField<EContractRecord, String> B_LEGAL = createField(DSL.name("B_LEGAL"), SQLDataType.VARCHAR(255), this, "「bLegal」- 乙方法人（企业合同专用）");
     /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」-
-     * 乙方联系地址
+     * The column <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
      */
-    public final TableField<EContractRecord, String> B_ADDRESS = createField(DSL.name("B_ADDRESS"), SQLDataType.CLOB, this, "「bAddress」- 乙方联系地址");
-    /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.C_NAME</code>. 「cName」-
-     * 丙方签订名称（个人为姓名/企业为企业名）
-     */
-    public final TableField<EContractRecord, String> C_NAME = createField(DSL.name("C_NAME"), SQLDataType.VARCHAR(255), this, "「cName」- 丙方签订名称（个人为姓名/企业为企业名）");
-    /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.C_PHONE</code>. 「cPhone」- 丙方签订人电话
-     */
-    public final TableField<EContractRecord, String> C_PHONE = createField(DSL.name("C_PHONE"), SQLDataType.VARCHAR(20), this, "「cPhone」- 丙方签订人电话");
-    /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.C_LEGAL</code>. 「cLegal」-
-     * 丙方法人（企业合同专用）
-     */
-    public final TableField<EContractRecord, String> C_LEGAL = createField(DSL.name("C_LEGAL"), SQLDataType.VARCHAR(255), this, "「cLegal」- 丙方法人（企业合同专用）");
-    /**
-     * The column <code>DB_ETERNAL.E_CONTRACT.C_ADDRESS</code>. 「cAddress」-
-     * 丙方联系地址
-     */
-    public final TableField<EContractRecord, String> C_ADDRESS = createField(DSL.name("C_ADDRESS"), SQLDataType.CLOB, this, "「cAddress」- 丙方联系地址");
+    public final TableField<EContractRecord, String> B_ADDRESS = createField(DSL.name("B_ADDRESS"), SQLDataType.CLOB, this, "「bAddress」- 乙方地址");
     /**
      * The column <code>DB_ETERNAL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
      */

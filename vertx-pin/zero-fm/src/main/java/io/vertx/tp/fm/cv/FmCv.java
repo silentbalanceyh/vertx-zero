@@ -8,8 +8,11 @@ public interface FmCv {
 
     interface Status {
         String PENDING = "Pending";
+
         String FINISHED = "Finished";
         String INVALID = "InValid";
+
+        String FIXED = "FIXED";
     }
 
     interface Type {

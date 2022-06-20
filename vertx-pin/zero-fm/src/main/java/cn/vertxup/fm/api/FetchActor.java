@@ -1,5 +1,7 @@
 package cn.vertxup.fm.api;
 
+import cn.vertxup.fm.domain.tables.daos.FBillDao;
+import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.service.BillStub;
 import cn.vertxup.fm.service.BookStub;
 import cn.vertxup.fm.service.end.QrStub;
@@ -15,6 +17,9 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -41,6 +46,42 @@ public class FetchActor {
             .compose(this.billStub::fetchSettlements)
             .compose(data::settlement)
             .compose(nil -> data.response(true));
+    }
+
+
+    @Address(Addr.Bill.FETCH_BILLS)
+    public Future<JsonObject> fetchBills(final JsonObject query) {
+        // Search Bills by Pagination ( Qr Engine )
+        return Ux.Jooq.on(FBillDao.class).searchAsync(query);
+    }
+
+    @Address(Addr.Bill.FETCH_BILL)
+    public Future<JsonObject> fetchByKey(final String key) {
+        // Fetch Bill details
+        /*
+         * {
+         *     "items":
+         *     "settlements":
+         * }
+         */
+        final JsonObject response = new JsonObject();
+        return Ux.Jooq.on(FBillDao.class).<FBill>fetchByIdAsync(key).compose(bill -> {
+            if (Objects.isNull(bill)) {
+                return Ux.futureJ();
+            }
+            response.mergeIn(Ux.toJson(bill));
+            final List<FBill> bills = new ArrayList<>();
+            bills.add(bill);
+            return this.billStub.fetchByBills(bills)
+                .compose(items -> {
+                    response.put(KName.ITEMS, Ux.toJson(items));
+                    return this.billStub.fetchSettlements(items);
+                })
+                .compose(settlement -> {
+                    response.put("settlements", Ux.toJson(settlement));
+                    return Ux.future(response);
+                });
+        });
     }
 
     @Address(Addr.BillItem.FETCH_BOOK)

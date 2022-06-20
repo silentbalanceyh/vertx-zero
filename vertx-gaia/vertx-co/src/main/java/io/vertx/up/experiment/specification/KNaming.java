@@ -3,7 +3,6 @@ package io.vertx.up.experiment.specification;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -196,7 +195,7 @@ public class KNaming implements Serializable {
     }
 
     public boolean multiple() {
-        return Objects.nonNull(this.qrKeys);
+        return !this.qrKeys.isEmpty();
     }
 
     public String getModelCategory() {
