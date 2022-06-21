@@ -47,7 +47,8 @@ public class FetchActor {
             .compose(data::items)
             .compose(this.billStub::fetchSettlements)
             .compose(data::settlement)
-            .compose(nil -> data.response(true));
+            .compose(this.billStub::fetchPayments)
+            .compose(payments -> data.response(true));
     }
 
 
@@ -92,15 +93,26 @@ public class FetchActor {
             response.mergeIn(Ux.toJson(bill));
             final List<FBill> bills = new ArrayList<>();
             bills.add(bill);
-            return this.billStub.fetchByBills(bills)
-                .compose(items -> {
-                    response.put(KName.ITEMS, Ux.toJson(items));
-                    return this.billStub.fetchSettlements(items);
-                })
-                .compose(settlement -> {
-                    response.put("settlements", Ux.toJson(settlement));
-                    return Ux.future(response);
+            return this.billStub.fetchByBills(bills).compose(items -> {
+                response.put(KName.ITEMS, Ux.toJson(items));
+                return this.billStub.fetchSettlements(items);
+            }).compose(settlements -> this.billStub.fetchPayments(settlements).compose(payments -> {
+                // Append `payment` into settlement list ( JsonArray )
+                final JsonArray paymentJ = Ux.toJson(payments);
+                final ConcurrentMap<String, JsonArray> paymentMap =
+                    Ut.elementGroup(paymentJ, "settlementId");
+                final JsonArray settlementJ = Ux.toJson(settlements);
+                Ut.itJArray(settlementJ).forEach(settlement -> {
+                    final String settleKey = settlement.getString(KName.KEY);
+                    if (paymentMap.containsKey(settleKey)) {
+                        settlement.put("payment", paymentMap.getOrDefault(settleKey, new JsonArray()));
+                    } else {
+                        settlement.put("payment", new JsonArray());
+                    }
                 });
+                response.put("settlements", settlementJ);
+                return Ux.future(response);
+            })).otherwise(Ux.otherwise(new JsonObject()));
         });
     }
 

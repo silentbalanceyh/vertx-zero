@@ -2,9 +2,11 @@ package cn.vertxup.fm.service;
 
 import cn.vertxup.fm.domain.tables.daos.FBillDao;
 import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
+import cn.vertxup.fm.domain.tables.daos.FPaymentItemDao;
 import cn.vertxup.fm.domain.tables.daos.FSettlementDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.domain.tables.pojos.FBillItem;
+import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
 import cn.vertxup.fm.domain.tables.pojos.FSettlement;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -16,6 +18,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +27,14 @@ import java.util.stream.Collectors;
 public class BillService implements BillStub {
     @Inject
     private transient BookStub bookStub;
+
+    @Override
+    public Future<List<FPaymentItem>> fetchPayments(final List<FSettlement> settlements) {
+        final Set<String> settlementIds = Ut.valueSetString(settlements, FSettlement::getKey);
+        final JsonObject condition = Ux.whereAnd();
+        condition.put("settlementId,i", Ut.toJArray(settlementIds));
+        return Ux.Jooq.on(FPaymentItemDao.class).fetchAsync(condition);
+    }
 
     @Override
     public Future<List<FBill>> fetchByOrder(final String orderId) {
