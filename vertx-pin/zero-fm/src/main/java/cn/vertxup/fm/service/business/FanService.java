@@ -53,7 +53,7 @@ public class FanService implements FanStub {
             itemList.add(billItem);
             return Ux.thenCombine(futures)
                 .compose(nil -> this.accountStub.inBook(bill, itemList))
-                .compose(nil -> Ux.futureJ(bill));
+                .compose(nil -> this.billAsync(bill, itemList));
         });
     }
 
@@ -72,8 +72,14 @@ public class FanService implements FanStub {
             this.fillStub.income(bill, items);
             return Ux.Jooq.on(FBillItemDao.class).insertJAsync(items)
                 .compose(nil -> this.accountStub.inBook(bill, items))
-                .compose(nil -> Ux.futureJ(bill));
+                .compose(nil -> this.billAsync(bill, items));
         });
+    }
+
+    private Future<JsonObject> billAsync(final FBill bill, final List<FBillItem> items) {
+        final JsonObject response = Ux.toJson(bill);
+        response.put(KName.ITEMS, Ux.toJson(items));
+        return Ux.future(response);
     }
 
     @Override

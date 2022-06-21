@@ -12,7 +12,7 @@ public interface FmCv {
         String FINISHED = "Finished";
         String INVALID = "InValid";
 
-        String FIXED = "FIXED";
+        String FIXED = "Fixed";
     }
 
     interface Type {
