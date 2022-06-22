@@ -119,7 +119,7 @@ final class Codec {
             return null;
         }
         final String trimInput = literal.trim();
-        if (trimInput.startsWith(Strings.LEFT_BRACKET)) {
+        if (trimInput.startsWith(Strings.LEFT_BRACE)) {
             return (T) To.toJObject(literal);
         } else if (trimInput.startsWith(Strings.LEFT_SQUARE)) {
             return (T) To.toJArray(literal);
