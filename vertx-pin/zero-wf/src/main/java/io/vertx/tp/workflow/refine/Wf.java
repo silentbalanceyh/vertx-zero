@@ -6,6 +6,8 @@ import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
 
+import java.util.List;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -36,7 +38,9 @@ public class Wf {
         return WfFlow.nameEvent(task);
     }
 
-    // BiFunction on ProcessDefinition / ProcessInstance
+    public static List<Task> taskNext(final Task task, final List<Task> source) {
+        return WfFlow.taskNext(task, source);
+    }
 
     public static class Log {
         public static void infoInit(final Class<?> clazz, final String message, final Object... args) {

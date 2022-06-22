@@ -163,7 +163,7 @@ public class WTransition {
         this.instance = instance;
         final Gear gear = Gear.instance(this.way);
         gear.configuration(this.move.configWay());
-        return gear.taskAsync(instance).compose(wTask -> {
+        return gear.taskAsync(instance, this.from).compose(wTask -> {
             /*
              * 0 == size, End
              * 1 == size, Standard

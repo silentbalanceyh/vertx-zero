@@ -12,6 +12,7 @@ import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.List;
 import java.util.Objects;
@@ -84,7 +85,7 @@ public interface Gear {
     /*
      * Read the running ProcessInstance and capture the `active` tasks.
      */
-    Future<WTask> taskAsync(ProcessInstance instance);
+    Future<WTask> taskAsync(ProcessInstance instance, Task from);
 
     default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask wTask, final WTicket ticket) {
         return Ux.thenError(_501NotSupportException.class, this.getClass());

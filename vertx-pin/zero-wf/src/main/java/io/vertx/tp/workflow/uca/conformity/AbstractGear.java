@@ -7,6 +7,7 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
+import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Strings;
@@ -59,14 +60,15 @@ public abstract class AbstractGear implements Gear {
      * The next task is only one
      */
     @Override
-    public Future<WTask> taskAsync(final ProcessInstance instance) {
+    public Future<WTask> taskAsync(final ProcessInstance instance, final Task from) {
         /*
          * One Size
          */
         final Io<Task> io = Io.ioTask();
         return io.children(instance.getId()).compose(taskList -> {
             final WTask wTask = new WTask(this.type);
-            taskList.forEach(wTask::add);
+            // Search the next task and find into `taskList` to determine the running
+            Wf.taskNext(from, taskList).forEach(wTask::add);
             return Ux.future(wTask);
         });
     }
