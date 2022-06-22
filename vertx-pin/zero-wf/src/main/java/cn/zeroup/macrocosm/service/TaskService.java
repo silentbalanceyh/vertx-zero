@@ -114,6 +114,8 @@ public class TaskService implements TaskStub {
             return Ux.future(response);
         }
         return jq.fetchJByIdAsync(ticket.getKey())
+            // ChildOut
+            .compose(queried -> Ux.future(meta.childOut(queried)))
             .compose(queried -> Ux.future(response.ticket(queried)));
     }
 

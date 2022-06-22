@@ -340,6 +340,14 @@ public final class Ut {
         return Codec.url(input, false);
     }
 
+    public static String encryptJ(final Object value) {
+        return Codec.encodeJ(value);
+    }
+
+    public static <T> T decryptJ(final String literal) {
+        return Codec.decodeJ(literal);
+    }
+
 
     // This is usage in case1 for integration, that's why keep here
     //    public static String encryptRSAPIo(final String input, final String keyPath) {

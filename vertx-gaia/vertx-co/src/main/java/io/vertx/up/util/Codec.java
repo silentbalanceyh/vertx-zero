@@ -1,5 +1,8 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
@@ -7,6 +10,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.Base64;
+import java.util.Objects;
 
 final class Codec {
     private Codec() {
@@ -97,5 +101,29 @@ final class Codec {
                 return URLDecoder.decode(input, Values.ENCODING);
             }
         }, input);
+    }
+
+    static String encodeJ(final Object value) {
+        if (value instanceof JsonObject) {
+            return ((JsonObject) value).encode();
+        }
+        if (value instanceof JsonArray) {
+            return ((JsonArray) value).encode();
+        }
+        return Objects.isNull(value) ? Strings.EMPTY : value.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> T decodeJ(final String literal) {
+        if (StringUtil.isNil(literal)) {
+            return null;
+        }
+        final String trimInput = literal.trim();
+        if (trimInput.startsWith(Strings.LEFT_BRACKET)) {
+            return (T) To.toJObject(literal);
+        } else if (trimInput.startsWith(Strings.LEFT_SQUARE)) {
+            return (T) To.toJArray(literal);
+        }
+        return null;
     }
 }

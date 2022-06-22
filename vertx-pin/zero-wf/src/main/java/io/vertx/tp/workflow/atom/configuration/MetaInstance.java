@@ -182,11 +182,36 @@ public class MetaInstance {
         return Ux.Jooq.on(this.children.getDao());
     }
 
-    public JsonObject childData(final JsonObject params) {
+    public JsonObject childIn(final JsonObject params) {
         final JsonObject childData = new JsonObject();
         final Set<String> fields = Ut.toSet(this.children.getFields());
-        fields.forEach(field -> childData.put(field, params.getValue(field)));
+        // JsonObject / JsonArray Serialization
+        final Set<String> complex = Ut.toSet(this.children.getComplex());
+        fields.forEach(field -> {
+            final Object value = params.getValue(field);
+            if (complex.contains(field)) {
+                // Complex -> To String Required
+                childData.put(field, Ut.encryptJ(value));
+            } else {
+                // Common Field
+                childData.put(field, value);
+            }
+        });
         return childData;
+    }
+
+    public JsonObject childOut(final JsonObject queryJ) {
+        // JsonObject / JsonArray Serialization
+        final Set<String> complex = Ut.toSet(this.children.getComplex());
+        final JsonObject responseJ = queryJ.copy();
+        complex.forEach(field -> {
+            final Object value = queryJ.getValue(field);
+            if (complex.contains(field) && value instanceof String) {
+                final Object replaced = Ut.decryptJ((String) value);
+                responseJ.put(field, replaced);
+            }
+        });
+        return responseJ;
     }
 
     public JsonArray childAuditor() {

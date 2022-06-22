@@ -8,7 +8,6 @@ import cn.zeroup.macrocosm.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._409InValidTaskApiException;
 import io.vertx.tp.optic.business.ExActivity;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.tp.workflow.atom.EngineOn;
@@ -554,12 +553,6 @@ public class WRecord implements Serializable {
             }
             childJ.remove(KName.KEY);
             result.mergeIn(childJ);
-        }
-    }
-
-    private void ensure(final PassWay expected) {
-        if (expected != this.type) {
-            throw new _409InValidTaskApiException(this.getClass(), this.type, expected);
         }
     }
 }
