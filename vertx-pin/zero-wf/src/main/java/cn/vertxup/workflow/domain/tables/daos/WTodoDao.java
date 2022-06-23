@@ -27,7 +27,7 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WTodoDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WTodo.W_TODO, cn.vertxup.workflow.domain.tables.pojos.WTodo.class, new JDBCClassicQueryExecutor<WTodoRecord,cn.vertxup.workflow.domain.tables.pojos.WTodo,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WTodo.class,vertx));

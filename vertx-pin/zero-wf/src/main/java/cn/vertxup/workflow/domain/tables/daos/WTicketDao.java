@@ -27,7 +27,7 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WTicketDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WTicket.W_TICKET, cn.vertxup.workflow.domain.tables.pojos.WTicket.class, new JDBCClassicQueryExecutor<WTicketRecord,cn.vertxup.workflow.domain.tables.pojos.WTicket,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WTicket.class,vertx));
