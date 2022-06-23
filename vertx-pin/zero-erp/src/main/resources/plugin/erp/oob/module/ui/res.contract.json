@@ -1,15 +1,17 @@
 [
     {
-        "metadata": "status,合同状态,MAPPING",
-        "$mapping": {
-            "RUNNING": "发布中,notification,16,#58c623",
-            "FINISHED": "已结束,stop,16,#3053EB"
+        "metadata": "code,合同编号,,true",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入合同编号",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
         }
     },
     {
-        "title": "合同名称",
-        "dataIndex": "name",
-        "sorter": true,
+        "metadata": "title,合同标题,,true",
         "$filter.type": "SEARCH",
         "$filter.config": {
             "placeholder": "输入合同名称",
@@ -20,65 +22,39 @@
         }
     },
     {
-        "title": "合同编码",
-        "dataIndex": "code",
-        "sorter": true,
-        "$filter.type": "SEARCH",
-        "$filter.config": {
-            "placeholder": "输入合同编码",
-            "button": {
-                "search": "搜索",
-                "reset": "重置"
-            }
-        }
+        "metadata": "deptId,所属部门,DATUM",
+        "$datum": "source=resource.departments,value=key,display=name"
     },
     {
-        "title": "合同分类",
-        "dataIndex": "type",
-        "$render": "DATUM",
-        "$datum": {
-            "source": "zero.contract",
-            "value": "code",
-            "display": "name"
-        }
+        "metadata": "budget,所属预算,DATUM",
+        "$datum": "source=zero.contract.budget,value=code,display=name"
     },
     {
-        "title": "是否启用",
-        "dataIndex": "active",
-        "sorter": true,
-        "$render": "LOGICAL",
-        "$mapping": {
-            "true": "启用",
-            "false": "禁用"
-        },
-        "$filter.config.dataType": "BOOLEAN",
-        "$filter.config.items": [
-            "true,启用",
-            "false,禁用"
-        ],
-        "$filter.config.button": {
-            "yes": "确认",
-            "reset": "重置"
-        },
-        "$filter.config.width": {
-            "radio": 110,
-            "button": 55
-        }
+        "metadata": "amount,合同金额,CURRENCY,true"
     },
     {
-        "title": "更新人",
-        "dataIndex": "updatedBy",
-        "$render": "USER",
-        "$config": {
-            "uri": "/api/user/:key",
-            "field": "realname"
-        },
-        "$empty": "（系统）"
+        "metadata": "level,合同级别,DATUM",
+        "$datum": "source=zero.contract.level,value=code,display=name"
     },
     {
-        "title": "更新时间",
-        "dataIndex": "updatedAt",
-        "$render": "DATE",
+        "metadata": "type,合同分类,DATUM",
+        "$datum": "source=zero.contract,value=code,display=name"
+    },
+    {
+        "metadata": "status,合同状态,DATUM",
+        "$datum": "source=zero.contract.status,value=code,display=name"
+    },
+    {
+        "metadata": "aName,甲方"
+    },
+    {
+        "metadata": "bName,乙方"
+    },
+    {
+        "metadata": "bPhone,乙方电话"
+    },
+    {
+        "metadata": "signedAt,签订时间,DATE",
         "$format": "YYYY-MM-DD HH:mm"
     }
 ]
