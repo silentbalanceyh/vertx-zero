@@ -61,5 +61,11 @@
                 <ignoreVersion type="regex">4.*</ignoreVersion>
             </ignoreVersions>
         </rule>
+        <!-- jooq: 3.17.0 require JDK Upgrade First -->
+        <rule groupId="org.jooq" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">3.17.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
     </rules>
 </ruleset>
