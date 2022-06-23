@@ -27,7 +27,7 @@ public class EEmployeeDao extends AbstractVertxDAO<EEmployeeRecord, cn.vertxup.e
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EEmployeeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EEmployee.E_EMPLOYEE, cn.vertxup.erp.domain.tables.pojos.EEmployee.class, new JDBCClassicQueryExecutor<EEmployeeRecord,cn.vertxup.erp.domain.tables.pojos.EEmployee,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EEmployee.class,vertx));

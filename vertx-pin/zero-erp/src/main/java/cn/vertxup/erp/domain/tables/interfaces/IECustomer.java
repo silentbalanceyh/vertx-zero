@@ -418,7 +418,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignPhone,json::getString,"SIGN_PHONE","java.lang.String");
                 setOrThrow(this::setRunUp,json::getBoolean,"RUN_UP","java.lang.Boolean");
-                // Omitting unrecognized type java.math.BigDecimal for column RUN_UP_AMOUNT!
+                setOrThrow(this::setRunUpAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"RUN_UP_AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
                 setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -458,7 +458,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_PHONE",getSignPhone());
                 json.put("RUN_UP",getRunUp());
-                // Omitting unrecognized type java.math.BigDecimal for column RUN_UP_AMOUNT!
+                json.put("RUN_UP_AMOUNT",getRunUpAmount()==null?null:getRunUpAmount().toString());
                 json.put("BANK_ID",getBankId());
                 json.put("BANK_CARD",getBankCard());
                 json.put("METADATA",getMetadata());

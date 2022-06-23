@@ -27,7 +27,7 @@ public class TVendorCheckOutDao extends AbstractVertxDAO<TVendorCheckOutRecord, 
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TVendorCheckOutDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TVendorCheckOut.T_VENDOR_CHECK_OUT, cn.vertxup.erp.domain.tables.pojos.TVendorCheckOut.class, new JDBCClassicQueryExecutor<TVendorCheckOutRecord,cn.vertxup.erp.domain.tables.pojos.TVendorCheckOut,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TVendorCheckOut.class,vertx));

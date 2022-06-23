@@ -27,7 +27,7 @@ public class RAssetShareDao extends AbstractVertxDAO<RAssetShareRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RAssetShareDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RAssetShare.R_ASSET_SHARE, cn.vertxup.erp.domain.tables.pojos.RAssetShare.class, new JDBCClassicQueryExecutor<RAssetShareRecord,cn.vertxup.erp.domain.tables.pojos.RAssetShare,Record3<String, String, String>>(configuration,cn.vertxup.erp.domain.tables.pojos.RAssetShare.class,vertx));

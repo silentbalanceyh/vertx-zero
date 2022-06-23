@@ -28,7 +28,7 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public ECustomerDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(ECustomer.E_CUSTOMER, cn.vertxup.erp.domain.tables.pojos.ECustomer.class, new JDBCClassicQueryExecutor<ECustomerRecord,cn.vertxup.erp.domain.tables.pojos.ECustomer,String>(configuration,cn.vertxup.erp.domain.tables.pojos.ECustomer.class,vertx));

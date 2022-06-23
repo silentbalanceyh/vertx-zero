@@ -27,7 +27,7 @@ public class TOaTrainingDao extends AbstractVertxDAO<TOaTrainingRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TOaTrainingDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TOaTraining.T_OA_TRAINING, cn.vertxup.erp.domain.tables.pojos.TOaTraining.class, new JDBCClassicQueryExecutor<TOaTrainingRecord,cn.vertxup.erp.domain.tables.pojos.TOaTraining,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TOaTraining.class,vertx));
