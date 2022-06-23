@@ -4,13 +4,25 @@
 package cn.vertxup.ui.domain;
 
 
-import cn.vertxup.ui.domain.tables.*;
+import cn.vertxup.ui.domain.tables.UiColumn;
+import cn.vertxup.ui.domain.tables.UiControl;
+import cn.vertxup.ui.domain.tables.UiField;
+import cn.vertxup.ui.domain.tables.UiForm;
+import cn.vertxup.ui.domain.tables.UiLayout;
+import cn.vertxup.ui.domain.tables.UiList;
+import cn.vertxup.ui.domain.tables.UiOp;
+import cn.vertxup.ui.domain.tables.UiPage;
+import cn.vertxup.ui.domain.tables.UiVisitor;
+import cn.vertxup.ui.domain.tables.VFragment;
+import cn.vertxup.ui.domain.tables.VQuery;
+import cn.vertxup.ui.domain.tables.VSearch;
+import cn.vertxup.ui.domain.tables.VTable;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
