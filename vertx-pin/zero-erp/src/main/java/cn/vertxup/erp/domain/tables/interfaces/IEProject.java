@@ -375,7 +375,7 @@ public interface IEProject extends VertxPojo, Serializable {
                 setOrThrow(this::setRisk,json::getString,"RISK","java.lang.String");
                 setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
                 setOrThrow(this::setIcon,json::getString,"ICON","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setSubject,json::getString,"SUBJECT","java.lang.String");
                 setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
                 setOrThrow(this::setRemark,json::getString,"REMARK","java.lang.String");
@@ -412,7 +412,7 @@ public interface IEProject extends VertxPojo, Serializable {
                 json.put("RISK",getRisk());
                 json.put("TITLE",getTitle());
                 json.put("ICON",getIcon());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("SUBJECT",getSubject());
                 json.put("DESCRIPTION",getDescription());
                 json.put("REMARK",getRemark());

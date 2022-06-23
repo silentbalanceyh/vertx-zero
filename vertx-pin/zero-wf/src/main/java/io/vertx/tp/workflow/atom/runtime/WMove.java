@@ -10,6 +10,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -47,6 +48,7 @@ public class WMove implements Serializable {
     private final String node;
 
     private final JsonObject data = new JsonObject();
+    private final Set<String> required = new HashSet<>();
     private final AspectConfig aspect;
 
     private final JsonObject gateway = new JsonObject();
@@ -83,6 +85,7 @@ public class WMove implements Serializable {
         final JsonObject expression = new JsonObject();
         final JsonObject original = Ut.valueJObject(config.getJsonObject(KName.DATA));
         Ut.<String>itJObject(original, (to, from) -> {
+            this.required.add(to);
             final String valueExpr = "`${" + to + "}`";
             expression.put(from, valueExpr);
         });
@@ -138,6 +141,12 @@ public class WMove implements Serializable {
      */
     JsonObject inputMovement(final JsonObject requestJ) {
         // Extract Data from `data` configuration
+        // Fix Issue: 'toUser' exception error : failed to evaluate '${toUser}'
+        this.required.forEach(fieldExpr -> {
+            if (!requestJ.containsKey(fieldExpr)) {
+                requestJ.putNull(fieldExpr);
+            }
+        });
         return Ut.fromExpression(this.data, requestJ);
     }
 

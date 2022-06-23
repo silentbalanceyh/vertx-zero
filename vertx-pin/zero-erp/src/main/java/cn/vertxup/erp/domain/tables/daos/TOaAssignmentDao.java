@@ -27,7 +27,7 @@ public class TOaAssignmentDao extends AbstractVertxDAO<TOaAssignmentRecord, cn.v
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TOaAssignmentDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TOaAssignment.T_OA_ASSIGNMENT, cn.vertxup.erp.domain.tables.pojos.TOaAssignment.class, new JDBCClassicQueryExecutor<TOaAssignmentRecord,cn.vertxup.erp.domain.tables.pojos.TOaAssignment,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TOaAssignment.class,vertx));

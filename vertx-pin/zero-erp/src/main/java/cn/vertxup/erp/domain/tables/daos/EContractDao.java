@@ -28,7 +28,7 @@ public class EContractDao extends AbstractVertxDAO<EContractRecord, cn.vertxup.e
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EContractDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EContract.E_CONTRACT, cn.vertxup.erp.domain.tables.pojos.EContract.class, new JDBCClassicQueryExecutor<EContractRecord,cn.vertxup.erp.domain.tables.pojos.EContract,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EContract.class,vertx));

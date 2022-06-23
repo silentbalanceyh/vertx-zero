@@ -27,7 +27,7 @@ public class TVendorAssessmentDao extends AbstractVertxDAO<TVendorAssessmentReco
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TVendorAssessmentDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TVendorAssessment.T_VENDOR_ASSESSMENT, cn.vertxup.erp.domain.tables.pojos.TVendorAssessment.class, new JDBCClassicQueryExecutor<TVendorAssessmentRecord,cn.vertxup.erp.domain.tables.pojos.TVendorAssessment,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TVendorAssessment.class,vertx));

@@ -28,7 +28,7 @@ public class EProjectDao extends AbstractVertxDAO<EProjectRecord, cn.vertxup.erp
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EProjectDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EProject.E_PROJECT, cn.vertxup.erp.domain.tables.pojos.EProject.class, new JDBCClassicQueryExecutor<EProjectRecord,cn.vertxup.erp.domain.tables.pojos.EProject,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EProject.class,vertx));

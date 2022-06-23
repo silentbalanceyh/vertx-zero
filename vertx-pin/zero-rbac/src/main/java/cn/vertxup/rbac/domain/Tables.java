@@ -4,13 +4,29 @@
 package cn.vertxup.rbac.domain;
 
 
-import cn.vertxup.rbac.domain.tables.*;
+import cn.vertxup.rbac.domain.tables.OAccessToken;
+import cn.vertxup.rbac.domain.tables.OUser;
+import cn.vertxup.rbac.domain.tables.RGroupRole;
+import cn.vertxup.rbac.domain.tables.RRolePerm;
+import cn.vertxup.rbac.domain.tables.RUserGroup;
+import cn.vertxup.rbac.domain.tables.RUserRole;
+import cn.vertxup.rbac.domain.tables.SAction;
+import cn.vertxup.rbac.domain.tables.SGroup;
+import cn.vertxup.rbac.domain.tables.SPacket;
+import cn.vertxup.rbac.domain.tables.SPath;
+import cn.vertxup.rbac.domain.tables.SPermSet;
+import cn.vertxup.rbac.domain.tables.SPermission;
+import cn.vertxup.rbac.domain.tables.SResource;
+import cn.vertxup.rbac.domain.tables.SRole;
+import cn.vertxup.rbac.domain.tables.SUser;
+import cn.vertxup.rbac.domain.tables.SView;
+import cn.vertxup.rbac.domain.tables.SVisitant;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

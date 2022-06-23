@@ -4,13 +4,17 @@
 package cn.vertxup.battery.domain;
 
 
-import cn.vertxup.battery.domain.tables.*;
+import cn.vertxup.battery.domain.tables.BAuthority;
+import cn.vertxup.battery.domain.tables.BBag;
+import cn.vertxup.battery.domain.tables.BBlock;
+import cn.vertxup.battery.domain.tables.BComponent;
+import cn.vertxup.battery.domain.tables.BWeb;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

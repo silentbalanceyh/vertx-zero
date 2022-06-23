@@ -27,7 +27,7 @@ public class XSourceDao extends AbstractVertxDAO<XSourceRecord, cn.vertxup.ambie
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XSourceDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XSource.X_SOURCE, cn.vertxup.ambient.domain.tables.pojos.XSource.class, new JDBCClassicQueryExecutor<XSourceRecord,cn.vertxup.ambient.domain.tables.pojos.XSource,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XSource.class,vertx));

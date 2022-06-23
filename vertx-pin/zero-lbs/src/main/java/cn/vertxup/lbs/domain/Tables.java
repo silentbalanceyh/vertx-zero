@@ -4,13 +4,20 @@
 package cn.vertxup.lbs.domain;
 
 
-import cn.vertxup.lbs.domain.tables.*;
+import cn.vertxup.lbs.domain.tables.LCity;
+import cn.vertxup.lbs.domain.tables.LCountry;
+import cn.vertxup.lbs.domain.tables.LFloor;
+import cn.vertxup.lbs.domain.tables.LLocation;
+import cn.vertxup.lbs.domain.tables.LRegion;
+import cn.vertxup.lbs.domain.tables.LState;
+import cn.vertxup.lbs.domain.tables.LTent;
+import cn.vertxup.lbs.domain.tables.LYard;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

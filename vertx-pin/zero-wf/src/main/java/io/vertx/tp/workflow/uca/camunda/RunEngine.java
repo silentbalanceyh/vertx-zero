@@ -46,10 +46,23 @@ class RunEngine implements RunOn {
     }
 
     @Override
-    public Future<Boolean> stopAsync(final ProcessInstance instance, final TodoStatus status) {
-        final RuntimeService service = WfPin.camundaRuntime();
-        service.deleteProcessInstanceIfExists(instance.getId(), status.name(),
-            false, false, false, false);
-        return Ux.futureT();
+    public Future<Boolean> stopAsync(final TodoStatus status, final WTransition transition) {
+        final TaskService service = WfPin.camundaTask();
+        return transition.start().compose(started -> {
+            final Task task = started.from();
+            service.deleteTask(task.getId(), status.name());
+            // Read all task information based on instance after deleted.
+            final ProcessInstance instance = transition.instance();
+            final Io<Task> keeps = Io.ioTask();
+            return keeps.children(instance.getId()).compose(tasks -> {
+                if (tasks.isEmpty()) {
+                    // There is no active tasks lefts
+                    final RuntimeService runtime = WfPin.camundaRuntime();
+                    runtime.deleteProcessInstanceIfExists(instance.getId(), status.name(),
+                        false, false, false, false);
+                }
+                return Ux.futureT();
+            });
+        });
     }
 }

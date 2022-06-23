@@ -26,6 +26,10 @@ class ConfigChild implements Serializable {
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private JsonArray auditor = new JsonArray();
 
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray complex = new JsonArray();
+
     public Class<?> getDao() {
         return this.dao;
     }
@@ -48,5 +52,13 @@ class ConfigChild implements Serializable {
 
     public void setAuditor(final JsonArray auditor) {
         this.auditor = auditor;
+    }
+
+    public JsonArray getComplex() {
+        return this.complex;
+    }
+
+    public void setComplex(final JsonArray complex) {
+        this.complex = complex;
     }
 }

@@ -27,7 +27,7 @@ public class EDeptDao extends AbstractVertxDAO<EDeptRecord, cn.vertxup.erp.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EDeptDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EDept.E_DEPT, cn.vertxup.erp.domain.tables.pojos.EDept.class, new JDBCClassicQueryExecutor<EDeptRecord,cn.vertxup.erp.domain.tables.pojos.EDept,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EDept.class,vertx));

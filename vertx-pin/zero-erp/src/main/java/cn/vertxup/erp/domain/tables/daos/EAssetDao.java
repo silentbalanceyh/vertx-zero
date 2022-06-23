@@ -28,7 +28,7 @@ public class EAssetDao extends AbstractVertxDAO<EAssetRecord, cn.vertxup.erp.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EAssetDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EAsset.E_ASSET, cn.vertxup.erp.domain.tables.pojos.EAsset.class, new JDBCClassicQueryExecutor<EAssetRecord,cn.vertxup.erp.domain.tables.pojos.EAsset,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EAsset.class,vertx));

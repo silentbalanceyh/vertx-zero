@@ -4,13 +4,22 @@
 package cn.vertxup.atom.domain;
 
 
-import cn.vertxup.atom.domain.tables.*;
+import cn.vertxup.atom.domain.tables.MAcc;
+import cn.vertxup.atom.domain.tables.MAttribute;
+import cn.vertxup.atom.domain.tables.MEntity;
+import cn.vertxup.atom.domain.tables.MField;
+import cn.vertxup.atom.domain.tables.MIndex;
+import cn.vertxup.atom.domain.tables.MJoin;
+import cn.vertxup.atom.domain.tables.MKey;
+import cn.vertxup.atom.domain.tables.MModel;
+import cn.vertxup.atom.domain.tables.MRelation;
+import cn.vertxup.atom.domain.tables.MTpl;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

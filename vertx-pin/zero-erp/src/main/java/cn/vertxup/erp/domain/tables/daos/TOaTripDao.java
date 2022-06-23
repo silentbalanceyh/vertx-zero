@@ -27,7 +27,7 @@ public class TOaTripDao extends AbstractVertxDAO<TOaTripRecord, cn.vertxup.erp.d
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TOaTripDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TOaTrip.T_OA_TRIP, cn.vertxup.erp.domain.tables.pojos.TOaTrip.class, new JDBCClassicQueryExecutor<TOaTripRecord,cn.vertxup.erp.domain.tables.pojos.TOaTrip,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TOaTrip.class,vertx));

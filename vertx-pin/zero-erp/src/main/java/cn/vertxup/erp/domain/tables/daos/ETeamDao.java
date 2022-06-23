@@ -27,7 +27,7 @@ public class ETeamDao extends AbstractVertxDAO<ETeamRecord, cn.vertxup.erp.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public ETeamDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(ETeam.E_TEAM, cn.vertxup.erp.domain.tables.pojos.ETeam.class, new JDBCClassicQueryExecutor<ETeamRecord,cn.vertxup.erp.domain.tables.pojos.ETeam,String>(configuration,cn.vertxup.erp.domain.tables.pojos.ETeam.class,vertx));

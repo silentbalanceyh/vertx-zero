@@ -27,7 +27,7 @@ public class TOaVacationDao extends AbstractVertxDAO<TOaVacationRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TOaVacationDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TOaVacation.T_OA_VACATION, cn.vertxup.erp.domain.tables.pojos.TOaVacation.class, new JDBCClassicQueryExecutor<TOaVacationRecord,cn.vertxup.erp.domain.tables.pojos.TOaVacation,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TOaVacation.class,vertx));

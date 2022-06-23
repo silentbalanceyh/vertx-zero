@@ -27,7 +27,7 @@ public class XMenuMyDao extends AbstractVertxDAO<XMenuMyRecord, cn.vertxup.ambie
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XMenuMyDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XMenuMy.X_MENU_MY, cn.vertxup.ambient.domain.tables.pojos.XMenuMy.class, new JDBCClassicQueryExecutor<XMenuMyRecord,cn.vertxup.ambient.domain.tables.pojos.XMenuMy,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XMenuMy.class,vertx));

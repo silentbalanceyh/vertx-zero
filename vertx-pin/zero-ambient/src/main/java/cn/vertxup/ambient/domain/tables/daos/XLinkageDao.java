@@ -27,7 +27,7 @@ public class XLinkageDao extends AbstractVertxDAO<XLinkageRecord, cn.vertxup.amb
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XLinkageDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XLinkage.X_LINKAGE, cn.vertxup.ambient.domain.tables.pojos.XLinkage.class, new JDBCClassicQueryExecutor<XLinkageRecord,cn.vertxup.ambient.domain.tables.pojos.XLinkage,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XLinkage.class,vertx));

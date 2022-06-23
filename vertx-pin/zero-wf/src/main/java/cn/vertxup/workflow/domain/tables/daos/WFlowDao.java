@@ -27,7 +27,7 @@ public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WFlowDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WFlow.W_FLOW, cn.vertxup.workflow.domain.tables.pojos.WFlow.class, new JDBCClassicQueryExecutor<WFlowRecord,cn.vertxup.workflow.domain.tables.pojos.WFlow,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WFlow.class,vertx));

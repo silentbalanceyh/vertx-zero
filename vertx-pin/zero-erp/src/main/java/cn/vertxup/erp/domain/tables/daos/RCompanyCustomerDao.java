@@ -27,7 +27,7 @@ public class RCompanyCustomerDao extends AbstractVertxDAO<RCompanyCustomerRecord
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RCompanyCustomerDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RCompanyCustomer.R_COMPANY_CUSTOMER, cn.vertxup.erp.domain.tables.pojos.RCompanyCustomer.class, new JDBCClassicQueryExecutor<RCompanyCustomerRecord,cn.vertxup.erp.domain.tables.pojos.RCompanyCustomer,Record2<String, String>>(configuration,cn.vertxup.erp.domain.tables.pojos.RCompanyCustomer.class,vertx));

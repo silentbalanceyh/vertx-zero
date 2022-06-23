@@ -244,7 +244,12 @@ final class StringUtil {
             final JexlExpression expression = EXPR.createExpression(valueExpr);
             // Parameter
             final JexlContext context = new MapContext();
-            Ut.itJObject(params, (value, key) -> context.set(key, value));
+            params.fieldNames().forEach(field -> {
+                // Here the null should be valid
+                final Object value = params.getValue(field);
+                context.set(field, value);
+            });
+            // Ut.itJObject(params, (value, key) -> context.set(key, value));
             // Processed
             final Object result = expression.evaluate(context);
             if (Objects.nonNull(result)) {

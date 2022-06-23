@@ -27,7 +27,7 @@ public class XAppDao extends AbstractVertxDAO<XAppRecord, cn.vertxup.ambient.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XAppDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XApp.X_APP, cn.vertxup.ambient.domain.tables.pojos.XApp.class, new JDBCClassicQueryExecutor<XAppRecord,cn.vertxup.ambient.domain.tables.pojos.XApp,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XApp.class,vertx));

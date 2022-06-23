@@ -27,7 +27,7 @@ public class TVendorHourDao extends AbstractVertxDAO<TVendorHourRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public TVendorHourDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(TVendorHour.T_VENDOR_HOUR, cn.vertxup.erp.domain.tables.pojos.TVendorHour.class, new JDBCClassicQueryExecutor<TVendorHourRecord,cn.vertxup.erp.domain.tables.pojos.TVendorHour,String>(configuration,cn.vertxup.erp.domain.tables.pojos.TVendorHour.class,vertx));

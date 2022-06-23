@@ -455,7 +455,7 @@ public interface IEContract extends VertxPojo, Serializable {
                 setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
                 setOrThrow(this::setSubject,json::getString,"SUBJECT","java.lang.String");
                 setOrThrow(this::setDescription,json::getString,"DESCRIPTION","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setRemark,json::getString,"REMARK","java.lang.String");
                 setOrThrow(this::setPlanStartAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"PLAN_START_AT","java.time.LocalDateTime");
                 setOrThrow(this::setPlanEndAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"PLAN_END_AT","java.time.LocalDateTime");
@@ -499,7 +499,7 @@ public interface IEContract extends VertxPojo, Serializable {
                 json.put("TITLE",getTitle());
                 json.put("SUBJECT",getSubject());
                 json.put("DESCRIPTION",getDescription());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("REMARK",getRemark());
                 json.put("PLAN_START_AT",getPlanStartAt()==null?null:getPlanStartAt().toString());
                 json.put("PLAN_END_AT",getPlanEndAt()==null?null:getPlanEndAt().toString());

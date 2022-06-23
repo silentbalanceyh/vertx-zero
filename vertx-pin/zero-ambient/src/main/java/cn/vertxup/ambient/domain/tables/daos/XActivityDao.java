@@ -27,7 +27,7 @@ public class XActivityDao extends AbstractVertxDAO<XActivityRecord, cn.vertxup.a
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XActivityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XActivity.X_ACTIVITY, cn.vertxup.ambient.domain.tables.pojos.XActivity.class, new JDBCClassicQueryExecutor<XActivityRecord,cn.vertxup.ambient.domain.tables.pojos.XActivity,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XActivity.class,vertx));

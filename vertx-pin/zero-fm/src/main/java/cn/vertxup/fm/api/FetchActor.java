@@ -1,6 +1,7 @@
 package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.domain.tables.daos.FBillDao;
+import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
 import cn.vertxup.fm.service.BillStub;
 import cn.vertxup.fm.service.BookStub;
@@ -20,6 +21,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -45,14 +47,33 @@ public class FetchActor {
             .compose(data::items)
             .compose(this.billStub::fetchSettlements)
             .compose(data::settlement)
-            .compose(nil -> data.response(true));
+            .compose(this.billStub::fetchPayments)
+            .compose(payments -> data.response(true));
     }
 
 
     @Address(Addr.Bill.FETCH_BILLS)
     public Future<JsonObject> fetchBills(final JsonObject query) {
         // Search Bills by Pagination ( Qr Engine )
-        return Ux.Jooq.on(FBillDao.class).searchAsync(query);
+        return Ux.Jooq.on(FBillDao.class).searchAsync(query).compose(response -> {
+            final JsonArray bill = Ut.valueJArray(response, KName.LIST);
+            final Set<String> bills = Ut.valueSetString(bill, KName.KEY);
+            return Ux.Jooq.on(FBillItemDao.class).fetchJInAsync("billId", Ut.toJArray(bills))
+                .compose(items -> {
+                    final ConcurrentMap<String, JsonArray> grouped = Ut.elementGroup(items, "billId");
+                    Ut.itJArray(bill).forEach(json -> {
+                        final String key = json.getString(KName.KEY);
+                        if (grouped.containsKey(key)) {
+                            json.put(KName.ITEMS, grouped.getOrDefault(key, new JsonArray()));
+                        } else {
+                            json.put(KName.ITEMS, new JsonArray());
+                        }
+                    });
+                    response.put(KName.LIST, bill);
+                    return Ux.future(response);
+                });
+        });
+        // return Ux.Jooq.on(FBillDao.class).searchAsync(query);
     }
 
     @Address(Addr.Bill.FETCH_BILL)
@@ -72,15 +93,26 @@ public class FetchActor {
             response.mergeIn(Ux.toJson(bill));
             final List<FBill> bills = new ArrayList<>();
             bills.add(bill);
-            return this.billStub.fetchByBills(bills)
-                .compose(items -> {
-                    response.put(KName.ITEMS, Ux.toJson(items));
-                    return this.billStub.fetchSettlements(items);
-                })
-                .compose(settlement -> {
-                    response.put("settlements", Ux.toJson(settlement));
-                    return Ux.future(response);
+            return this.billStub.fetchByBills(bills).compose(items -> {
+                response.put(KName.ITEMS, Ux.toJson(items));
+                return this.billStub.fetchSettlements(items);
+            }).compose(settlements -> this.billStub.fetchPayments(settlements).compose(payments -> {
+                // Append `payment` into settlement list ( JsonArray )
+                final JsonArray paymentJ = Ux.toJson(payments);
+                final ConcurrentMap<String, JsonArray> paymentMap =
+                    Ut.elementGroup(paymentJ, "settlementId");
+                final JsonArray settlementJ = Ux.toJson(settlements);
+                Ut.itJArray(settlementJ).forEach(settlement -> {
+                    final String settleKey = settlement.getString(KName.KEY);
+                    if (paymentMap.containsKey(settleKey)) {
+                        settlement.put("payment", paymentMap.getOrDefault(settleKey, new JsonArray()));
+                    } else {
+                        settlement.put("payment", new JsonArray());
+                    }
                 });
+                response.put("settlements", settlementJ);
+                return Ux.future(response);
+            })).otherwise(Ux.otherwise(new JsonObject()));
         });
     }
 

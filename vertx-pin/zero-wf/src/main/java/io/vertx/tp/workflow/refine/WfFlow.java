@@ -11,10 +11,13 @@ import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.impl.instance.Outgoing;
+import org.camunda.bpm.model.bpmn.instance.FlowNode;
+import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -160,5 +163,32 @@ class WfFlow {
         final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
         final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
         return node.getElementType().getTypeName();
+    }
+
+    static List<Task> taskNext(final Task task, final List<Task> source) {
+        Objects.requireNonNull(task);
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
+        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
+        final Set<String> nextKeys = taskSearch(node, instance);
+        Wf.Log.infoMove(WfFlow.class, "[Outgoing] Keys = {0}", Ut.fromJoin(nextKeys));
+        return source.stream()
+            .filter(taskNext -> nextKeys.contains(taskNext.getTaskDefinitionKey()))
+            .collect(Collectors.toList());
+    }
+
+    private static Set<String> taskSearch(final ModelElementInstance nodeTask, final BpmnModelInstance instance) {
+        // Find all `outgoing` that belong to `nodeTask`
+        final Collection<Outgoing> children = nodeTask.getChildElementsByType(Outgoing.class);
+        final Set<String> keys = new HashSet<>();
+        children.forEach(child -> {
+            // SequenceFlow
+            final ModelElementInstance sequence = instance.getModelElementById(child.getTextContent());
+            if (sequence instanceof SequenceFlow) {
+                final FlowNode target = ((SequenceFlow) sequence).getTarget();
+                keys.add(target.getId());
+            }
+        });
+        return keys;
     }
 }

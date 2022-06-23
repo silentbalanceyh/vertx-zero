@@ -291,7 +291,7 @@ public class UTicket {
          * Extract the data based on fields.
          */
         // JsonObject data for child
-        final JsonObject data = this.metadata.childData(params);
+        final JsonObject data = this.metadata.childIn(params);
 
 
         /*
@@ -333,7 +333,10 @@ public class UTicket {
                     // Existing
                     return tJq.updateJAsync(ticket.getKey(), combineJ);
                 }
-            }).compose(updated -> {
+            })
+            // ChildOut
+            .compose(updated -> Ux.future(this.metadata.childOut(updated)))
+            .compose(updated -> {
                 // 「Record」Bind Updated, Update the ticket in WRecord
                 recordRef.ticket(updated);
                 return Ux.future(recordRef);
