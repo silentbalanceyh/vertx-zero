@@ -27,7 +27,7 @@ public class IIntegrationDao extends AbstractVertxDAO<IIntegrationRecord, cn.ver
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public IIntegrationDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(IIntegration.I_INTEGRATION, cn.vertxup.integration.domain.tables.pojos.IIntegration.class, new JDBCClassicQueryExecutor<IIntegrationRecord,cn.vertxup.integration.domain.tables.pojos.IIntegration,String>(configuration,cn.vertxup.integration.domain.tables.pojos.IIntegration.class,vertx));

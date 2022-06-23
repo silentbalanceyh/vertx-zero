@@ -27,7 +27,7 @@ public class IMessageTplDao extends AbstractVertxDAO<IMessageTplRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public IMessageTplDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(IMessageTpl.I_MESSAGE_TPL, cn.vertxup.integration.domain.tables.pojos.IMessageTpl.class, new JDBCClassicQueryExecutor<IMessageTplRecord,cn.vertxup.integration.domain.tables.pojos.IMessageTpl,String>(configuration,cn.vertxup.integration.domain.tables.pojos.IMessageTpl.class,vertx));
