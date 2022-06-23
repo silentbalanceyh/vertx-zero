@@ -4,13 +4,24 @@
 package cn.vertxup.psi.domain;
 
 
-import cn.vertxup.psi.domain.tables.*;
+import cn.vertxup.psi.domain.tables.PAmountSpec;
+import cn.vertxup.psi.domain.tables.PBuyItem;
+import cn.vertxup.psi.domain.tables.PBuyOrder;
+import cn.vertxup.psi.domain.tables.PBuyTicket;
+import cn.vertxup.psi.domain.tables.PCommodity;
+import cn.vertxup.psi.domain.tables.PCommodityHis;
+import cn.vertxup.psi.domain.tables.PInItem;
+import cn.vertxup.psi.domain.tables.PInTicket;
+import cn.vertxup.psi.domain.tables.POutItem;
+import cn.vertxup.psi.domain.tables.POutTicket;
+import cn.vertxup.psi.domain.tables.PPos;
+import cn.vertxup.psi.domain.tables.PWh;
 
 
 /**
  * Convenience access to all tables in DB_ETERNAL.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
