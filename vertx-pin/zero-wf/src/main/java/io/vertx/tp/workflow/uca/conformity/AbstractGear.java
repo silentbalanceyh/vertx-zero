@@ -67,8 +67,13 @@ public abstract class AbstractGear implements Gear {
         final Io<Task> io = Io.ioTask();
         return io.children(instance.getId()).compose(taskList -> {
             final WTask wTask = new WTask(this.type);
-            // Search the next task and find into `taskList` to determine the running
-            Wf.taskNext(from, taskList).forEach(wTask::add);
+            if (Objects.isNull(from)) {
+                // Start Point Here
+                taskList.forEach(wTask::add);
+            } else {
+                // Search the next task and find into `taskList` to determine the running
+                Wf.taskNext(from, taskList).forEach(wTask::add);
+            }
             return Ux.future(wTask);
         });
     }
