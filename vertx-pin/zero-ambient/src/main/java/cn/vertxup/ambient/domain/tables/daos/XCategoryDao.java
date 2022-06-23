@@ -27,7 +27,7 @@ public class XCategoryDao extends AbstractVertxDAO<XCategoryRecord, cn.vertxup.a
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XCategoryDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XCategory.X_CATEGORY, cn.vertxup.ambient.domain.tables.pojos.XCategory.class, new JDBCClassicQueryExecutor<XCategoryRecord,cn.vertxup.ambient.domain.tables.pojos.XCategory,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XCategory.class,vertx));

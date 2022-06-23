@@ -27,7 +27,7 @@ public class XActivityRuleDao extends AbstractVertxDAO<XActivityRuleRecord, cn.v
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XActivityRuleDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XActivityRule.X_ACTIVITY_RULE, cn.vertxup.ambient.domain.tables.pojos.XActivityRule.class, new JDBCClassicQueryExecutor<XActivityRuleRecord,cn.vertxup.ambient.domain.tables.pojos.XActivityRule,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XActivityRule.class,vertx));

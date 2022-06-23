@@ -27,7 +27,7 @@ public class XTagDao extends AbstractVertxDAO<XTagRecord, cn.vertxup.ambient.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XTagDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XTag.X_TAG, cn.vertxup.ambient.domain.tables.pojos.XTag.class, new JDBCClassicQueryExecutor<XTagRecord,cn.vertxup.ambient.domain.tables.pojos.XTag,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XTag.class,vertx));
