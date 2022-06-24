@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /*
  * Job ( JOB + SERVICE )
@@ -115,6 +116,7 @@ public class JtJob extends JtCommercial {
             app.language(runtimeApp.getLanguage());
         }
         mission.app(app);
+        mission.timeout(this.job.getThreshold(), TimeUnit.MINUTES);
 
         this.setTimer(mission);
         /*
@@ -156,12 +158,15 @@ public class JtJob extends JtCommercial {
              * Final LocalTime calculation
              */
             final LocalDateTime result = LocalDateTime.of(today, runAt);
-            timer.scheduler(Ut.parse(result).toInstant());
+            timer.waitFor(Ut.parse(result).toInstant());
             // mission.setInstant(Ut.parse(result).toInstant());
         }
 
-        timer.scheduler(this.job.getDuration());
-        timer.timeout(this.job.getThreshold());
+        if (Objects.nonNull(this.job.getDuration())) {
+            timer.scheduler(this.job.getDuration(), TimeUnit.MINUTES);
+        }
+        // timer.scheduler(this.job.getDuration());
+        // timer.timeout(this.job.getThreshold());
         mission.timer(timer);
     }
 

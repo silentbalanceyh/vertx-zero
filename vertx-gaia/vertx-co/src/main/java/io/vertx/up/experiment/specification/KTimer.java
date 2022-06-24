@@ -10,6 +10,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -23,12 +25,29 @@ public class KTimer implements Serializable {
     private static final Annal LOGGER = Annal.get(KTimer.class);
     private final String unique;
     /*
-     * threshold information of one Job
-     * Job Information of timeout Part
+     * View based on FIXED ( Plan ) Here.
+     * FIXED ->
+     *       -> Time = runAt
+     *       -> Duration = ( ms ) The system unit of FIXED, it's common scheduler.
+     *
+     * ( Width is Fixed )
+     * DAY   -> Time = runAt
+     *       -> Duration = ( day ) The system unit will convert `day -> ms`.
+     * WEEK  -> Time = runAt
+     *       -> Duration = ( week ) The system unit will convert `week -> ms`.
+     *
+     * ( Width is Non Fixed )
+     * MONTH    -> Time = runAt
+     *          -> Duration = ( Invalid )
+     *          -> viewAt = 1 ~ 28/29/30/31 etc.
+     * QUARTER  -> Time = runAt
+     *          -> Duration = ( Invalid )
+     *          -> viewAt = [1/2/3, 1 ~ 28/29/30/31] etc.
+     * YEAR     -> Time = runAt
+     *          -> Duration = ( Invalid )
+     *          -> viewAt = [1 ~ 12, 1 ~ 28/29/30/31] etc.
      */
-    private TimeUnit thresholdUnit = TimeUnit.SECONDS;
-    /* Default value should be 15 min, here the threshold means nanos */
-    private long threshold = Values.RANGE;
+    private final List<Integer> viewAt = new ArrayList<>();
     /*
      * duration information of two Job
      * Job1 | ------------ duration -------------| Job2 | ------------- duration -------------
@@ -46,7 +65,7 @@ public class KTimer implements Serializable {
     }
 
     // -------------------------- Bind -----------------------------
-    public KTimer scheduler(final Instant runAt) {
+    public KTimer waitFor(final Instant runAt) {
         this.runAt = runAt;
         return this;
     }
@@ -65,45 +84,7 @@ public class KTimer implements Serializable {
         return this;
     }
 
-    public KTimer timeout(final long threshold, final TimeUnit unit) {
-        this.threshold = unit.toNanos(threshold);
-        this.thresholdUnit = unit;
-        return this;
-    }
-
-    /*
-     * Fast setting based on `seconds` that stored into `I_JOB`
-     */
-    public KTimer scheduler(final Long duration) {
-        if (Objects.isNull(duration)) {
-            this.duration = Values.RANGE;
-            return this;
-        } else {
-            // Seconds -> Mill Seconds
-            return this.scheduler(duration, this.durationUnit);
-        }
-    }
-
-    public KTimer timeout(final Integer threshold) {
-        if (Objects.isNull(threshold)) {
-            this.threshold = Values.RANGE;
-            return this;
-        } else {
-            // Seconds -> Nano Seconds
-            return this.timeout(threshold, this.thresholdUnit);
-        }
-    }
-
     // -------------------------- Calculation -----------------------------
-
-    public long threshold() {
-        // Default 15 mins
-        if (Values.RANGE == this.threshold) {
-            return TimeUnit.MINUTES.toNanos(15);
-        } else {
-            return this.threshold;
-        }
-    }
 
     public long duration() {
         // Default 5 mins
@@ -133,8 +114,6 @@ public class KTimer implements Serializable {
     public String toString() {
         return "KTimer{" +
             "unique='" + this.unique + '\'' +
-            ", thresholdUnit=" + this.thresholdUnit +
-            ", threshold=" + this.threshold +
             ", durationUnit=" + this.durationUnit +
             ", duration=" + this.duration +
             ", runAt=" + this.runAt +

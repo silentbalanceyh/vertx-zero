@@ -74,6 +74,13 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
         /* The first status of each Job */
         mission.setStatus(JobStatus.STARTING);
 
+        {
+            /* threshold / thresholdUnit */
+            final TimeUnit thresholdUnit = Ut.invoke(annotation, "thresholdUnit");
+            final Integer threshold = Ut.invoke(annotation, "threshold");
+            // threshold = thresholdUnit.toNanos(threshold);
+            mission.timeout(threshold, thresholdUnit);
+        }
         /* Set Timer */
         this.setTimer(mission, annotation);
 
@@ -100,18 +107,11 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             // duration = durationUnit.toMillis(duration);
             timer.scheduler(duration, durationUnit);
         }
-        {
-            /* threshold / thresholdUnit */
-            final TimeUnit thresholdUnit = Ut.invoke(annotation, "thresholdUnit");
-            final long threshold = Ut.invoke(annotation, "threshold");
-            // threshold = thresholdUnit.toNanos(threshold);
-            timer.timeout(threshold, thresholdUnit);
-        }
         final JobType type = mission.getType();
         /* runAt calculate */
         if (JobType.FIXED == type) {
             final String expr = Ut.invoke(annotation, "runAt");
-            timer.scheduler(Ut.fromAt(expr));
+            timer.waitFor(Ut.fromAt(expr));
         }
         mission.timer(timer);
     }

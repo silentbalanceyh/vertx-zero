@@ -23,7 +23,7 @@ class PlanAgha extends AbstractAgha {
          * STARTING -> READY
          **/
         this.moveOn(mission, true);
-        final long jobId = this.interval().startAt(duration, (timeId) -> this.working(mission, () -> {
+        final long jobId = this.interval().startOldAt(duration, (timeId) -> this.working(mission, () -> {
             /*fd
              * Complete future and returned Async
              */

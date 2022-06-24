@@ -25,7 +25,7 @@ class OnceAgha extends AbstractAgha {
         this.moveOn(mission, true);
 
         final Promise<Long> promise = Promise.promise();
-        final long jobId = this.interval().startAt((timeId) -> this.working(mission, () -> {
+        final long jobId = this.interval().startOldAt((timeId) -> this.working(mission, () -> {
             /*
              * Complete future and returned Async
              */

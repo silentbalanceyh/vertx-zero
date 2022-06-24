@@ -30,7 +30,7 @@ class FixedAgha extends AbstractAgha {
         this.moveOn(mission, true);
 
         final Promise<Long> future = Promise.promise();
-        final long jobId = this.interval().startAt(delay, duration, (timeId) -> this.working(mission, () -> {
+        final long jobId = this.interval().startOldAt(delay, duration, (timeId) -> this.working(mission, () -> {
             /*
              * Complete future and returned Async
              */

@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
 import io.vertx.up.eon.Info;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.exception.web._501JobOnMissingException;
@@ -26,6 +27,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
@@ -47,6 +49,30 @@ public class Mission implements Serializable {
     private String comment;
     /* Whether this job is read only */
     private boolean readOnly;
+    /*
+     * Threshold value for timeout of worker here.
+     * This parameter will be bind to current mission for set worker timeout when long time worker executed.
+     * It means that the following code will be executed:
+     *
+     * final WorkerExecutor executor = this.vertx.createSharedWorkerExecutor(code, 1, threshold);
+     *
+     * For above code, the system will set the timeout parameter of current worker ( Background Job ) and it's
+     * not related to scheduling instead.
+     *
+     * So I moved the code from `KTimer` into `Mission` here.
+     *
+     * There are two mode focus on this parameter calculation as:
+     * 1) From programming part:
+     * 2) From configuration part:
+     *
+     * - The default time unit is TimeUnit.SECONDS
+     * - The final result should be `ns`.
+     *
+     * This field could not be serialized directly, you must call `timeout` to set this value
+     * or the worker will use default parameters.
+     **/
+    @JsonIgnore
+    private long threshold = Values.RANGE;
     /* Job configuration */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -294,6 +320,25 @@ public class Mission implements Serializable {
             reference = Ut.invoke(annotation, annotationMethod);
         }
         return reference;
+    }
+
+    public Mission timeout(final Integer input, final TimeUnit unit) {
+        if (Objects.isNull(input)) {
+            this.threshold = Values.RANGE;
+            return this;
+        } else {
+            this.threshold = unit.toNanos(input);
+            return this;
+        }
+    }
+
+    public long timeout() {
+        if (Values.RANGE == this.threshold) {
+            // The default timeout is 15 min
+            return TimeUnit.MINUTES.toNanos(15);
+        } else {
+            return this.threshold;
+        }
     }
 
     // ========================== KApp Information =======================

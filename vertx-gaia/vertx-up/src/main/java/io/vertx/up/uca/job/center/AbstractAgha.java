@@ -61,7 +61,7 @@ public abstract class AbstractAgha implements Agha {
      *     |------- ERROR
      *
      */
-    private static final ConcurrentMap<JobStatus, JobStatus> MOVING = new ConcurrentHashMap<JobStatus, JobStatus>() {
+    private static final ConcurrentMap<JobStatus, JobStatus> VM = new ConcurrentHashMap<>() {
         {
             /* STARTING -> READY */
             this.put(JobStatus.STARTING, JobStatus.READY);
@@ -153,7 +153,7 @@ public abstract class AbstractAgha implements Agha {
              */
             final KTimer timer = mission.timer();
             Objects.requireNonNull(timer);
-            final long threshold = timer.threshold();
+            final long threshold = mission.timeout();
             /*
              * Worker Executor of New created
              * 1) Create new worker pool for next execution here
@@ -216,11 +216,11 @@ public abstract class AbstractAgha implements Agha {
             /*
              * Preparing for job
              **/
-            if (MOVING.containsKey(mission.getStatus())) {
+            if (VM.containsKey(mission.getStatus())) {
                 /*
                  * Next Status
                  */
-                final JobStatus moved = MOVING.get(mission.getStatus());
+                final JobStatus moved = VM.get(mission.getStatus());
                 final JobStatus original = mission.getStatus();
                 mission.setStatus(moved);
                 /*

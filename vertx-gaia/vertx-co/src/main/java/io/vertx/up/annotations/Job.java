@@ -44,7 +44,7 @@ public @interface Job {
      * Threshold value of current job
      * 900 s
      */
-    long threshold() default 900;
+    int threshold() default 900;
 
     /**
      * Duration unit ( time unit ) for current job

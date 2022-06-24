@@ -12,7 +12,9 @@ public enum JobType {
      * 2. Week
      * 3. Quarter
      * 4. Year
+     * 5. Day
      */
+    DAY,
     MONTH,
     WEEK,
     QUARTER,
