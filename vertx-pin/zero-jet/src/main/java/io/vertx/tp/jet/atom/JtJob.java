@@ -5,16 +5,17 @@ import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.refine.Jt;
+import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobType;
+import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.KTimer;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /*
  * Job ( JOB + SERVICE )
@@ -86,50 +87,38 @@ public class JtJob extends JtCommercial {
         mission.setType(Ut.toEnum(this.job::getType, JobType.class, JobType.ONCE));
         mission.setCode(Jt.jobCode(this.job));
         mission.setReadOnly(Boolean.FALSE);
-        /*
-         * Basic information
-         */
+        /* Basic information */
         mission.setComment(this.job.getComment());
         mission.setAdditional(Ut.toJObject(this.job.getAdditional()));
-        /*
-         * Set job configuration of current environment. bind to `service`
-         */
+        /* Set job configuration of current environment. bind to `service` */
         mission.setMetadata(this.toJson().copy());
+
+
         /*
-         * Instant / duration
+         * Application `name` missing in future
+         * JtApp processing
          */
-        if (Objects.nonNull(this.job.getRunAt())) {
-            final LocalTime runAt = this.job.getRunAt();
-            final LocalTime runNow = LocalTime.now();
-            /*
-             * Whether adjust 1 day plus
-             */
-            LocalDate today = LocalDate.now();
-            if (runAt.isBefore(runNow)) {
-                today = today.plusDays(1);
-            }
-            /*
-             * Final LocalTime calculation
-             */
-            final LocalDateTime result = LocalDateTime.of(today, runAt);
-            mission.setInstant(Ut.parse(result).toInstant());
-        }
-        /*
-         * Proxy & @On @Off without @Job method
-         */
-        if (Objects.isNull(this.job.getDuration())) {
-            mission.setDuration(Values.RANGE);
+        final IService service = this.service();
+        final JtApp runtimeApp = Ambient.getApp(service.getSigma());
+        final KApp app;
+        if (Objects.isNull(runtimeApp)) {
+            // Capture the data based on JtApp first
+            app = new KApp(null);
+            app.ns(service.getNamespace());
+            app.sigma(service.getSigma());
+            app.language(service.getLanguage());
         } else {
-            final long duration = TimeUnit.SECONDS.toMillis(this.job.getDuration());
-            mission.setDuration(duration);
+            // Capture the data based on IService only ( The name is null )
+            app = new KApp(runtimeApp.getName());
+            app.ns(service.getNamespace());
+            app.sigma(runtimeApp.getSigma());
+            app.language(runtimeApp.getLanguage());
         }
-        if (Objects.isNull(this.job.getThreshold())) {
-            mission.setThreshold(Values.RANGE);
-        } else {
-            final long threshold = TimeUnit.SECONDS.toNanos(this.job.getThreshold());
-            mission.setThreshold(threshold);
-        }
+        mission.app(app);
+
+        this.setTimer(mission);
         /*
+         * Component executor here.
          * Income / incomeAddress
          */
         if (Objects.nonNull(this.job.getIncomeComponent())) {
@@ -144,6 +133,36 @@ public class JtJob extends JtCommercial {
         }
         mission.setOutcomeAddress(this.job.getOutcomeAddress());
         return this.mount(mission);
+    }
+
+    private void setTimer(final Mission mission) {
+        /*
+         * Scheduler of Mission definition here and you can set any information
+         * of current Part.
+         */
+        final KTimer timer = new KTimer(mission.getCode());
+        // runAt processing
+        if (Objects.nonNull(this.job.getRunAt())) {
+            final LocalTime runAt = this.job.getRunAt();
+            final LocalTime runNow = LocalTime.now();
+            /*
+             * Whether adjust 1 day plus
+             */
+            LocalDate today = LocalDate.now();
+            if (runAt.isBefore(runNow)) {
+                today = today.plusDays(1);
+            }
+            /*
+             * Final LocalTime calculation
+             */
+            final LocalDateTime result = LocalDateTime.of(today, runAt);
+            timer.scheduler(Ut.parse(result).toInstant());
+            // mission.setInstant(Ut.parse(result).toInstant());
+        }
+
+        timer.scheduler(this.job.getDuration());
+        timer.timeout(this.job.getThreshold());
+        mission.timer(timer);
     }
 
     private Mission mount(final Mission mission) {

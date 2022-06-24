@@ -11,10 +11,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.exception.web._501JobOnMissingException;
+import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.KTimer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -23,7 +24,6 @@ import io.vertx.up.util.Ut;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -55,13 +55,6 @@ public class Mission implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject additional = new JsonObject();
-    /* Time: started time */
-    @JsonIgnore
-    private Instant instant = Instant.now();
-    /* Time: duration, default is 5 min */
-    private long duration = Values.RANGE;
-    /* Time: threshold, default is 15 min */
-    private long threshold = Values.RANGE;
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
@@ -83,6 +76,27 @@ public class Mission implements Serializable {
     /* Job end method */
     @JsonIgnore
     private Method off;
+    /*
+     * New attribute for
+     * Application Scope based on KApp specification here that belong to one KApp information
+     * The attribute is as following:
+     * {
+     *     "name":      "application name",
+     *     "ns":        "the default namespace",
+     *     "language":  "the default language",
+     *     "sigma":     "the uniform sigma identifier"
+     * }
+     *
+     * Be careful that this variable will be used in Zero Extension Framework and it's based on
+     * `X_APP` etc here, for programming part it's null before SVN Store connected. In future
+     * version all the configuration data will be stored in integration, it means that you can
+     * set any information of current Mission reference.
+     * */
+    @JsonIgnore
+    private KApp app;
+
+    @JsonIgnore
+    private KTimer timer;
 
     public JobStatus getStatus() {
         return this.status;
@@ -146,30 +160,6 @@ public class Mission implements Serializable {
 
     public void setAdditional(final JsonObject additional) {
         this.additional = additional;
-    }
-
-    public Instant getInstant() {
-        return this.instant;
-    }
-
-    public void setInstant(final Instant instant) {
-        this.instant = instant;
-    }
-
-    public long getDuration() {
-        return this.duration;
-    }
-
-    public void setDuration(final long duration) {
-        this.duration = duration;
-    }
-
-    public long getThreshold() {
-        return this.threshold;
-    }
-
-    public void setThreshold(final long threshold) {
-        this.threshold = threshold;
     }
 
     public Object getProxy() {
@@ -306,6 +296,26 @@ public class Mission implements Serializable {
         return reference;
     }
 
+    // ========================== KApp Information =======================
+    // The bind method on KApp
+    public Mission app(final KApp app) {
+        this.app = app;
+        return this;
+    }
+
+    public KApp app() {
+        return this.app;
+    }
+
+    public Mission timer(final KTimer timer) {
+        this.timer = timer;
+        return this;
+    }
+
+    public KTimer timer() {
+        return this.timer;
+    }
+
     @Override
     public String toString() {
         return "Mission{" +
@@ -317,9 +327,6 @@ public class Mission implements Serializable {
             ", comment='" + this.comment + '\'' +
             ", metadata=" + this.metadata +
             ", additional=" + this.additional +
-            ", instant=" + this.instant +
-            ", duration=" + this.duration +
-            ", threshold=" + this.threshold +
             ", income=" + this.income +
             ", incomeAddress='" + this.incomeAddress + '\'' +
             ", outcome=" + this.outcome +
@@ -327,6 +334,8 @@ public class Mission implements Serializable {
             ", proxy=" + this.proxy +
             ", on=" + this.on +
             ", off=" + this.off +
+            ", app=" + this.app +
+            ", timer=" + this.timer +
             '}';
     }
 }

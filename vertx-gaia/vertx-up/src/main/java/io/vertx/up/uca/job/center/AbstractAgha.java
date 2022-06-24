@@ -8,8 +8,8 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
+import io.vertx.up.experiment.specification.KTimer;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
@@ -151,13 +151,9 @@ public abstract class AbstractAgha implements Agha {
             /*
              * Read threshold
              */
-            long threshold = mission.getThreshold();
-            if (Values.RANGE == threshold) {
-                /*
-                 * Zero here
-                 */
-                threshold = TimeUnit.MINUTES.toNanos(5);
-            }
+            final KTimer timer = mission.timer();
+            Objects.requireNonNull(timer);
+            final long threshold = timer.threshold();
             /*
              * Worker Executor of New created
              * 1) Create new worker pool for next execution here
