@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 interface Pool {
-    ConcurrentMap<JobType, Agha> AGHAS = new ConcurrentHashMap<JobType, Agha>() {
+    ConcurrentMap<JobType, Agha> AGHAS = new ConcurrentHashMap<>() {
         {
-            put(JobType.FIXED, new FixedAgha());
-            put(JobType.ONCE, new OnceAgha());
-            put(JobType.PLAN, new PlanAgha());
+            this.put(JobType.FIXED, new FixedAgha());
+            this.put(JobType.ONCE, new OnceAgha());
+            this.put(JobType.FORMULA, new FormulaAgha());
         }
     };
 }

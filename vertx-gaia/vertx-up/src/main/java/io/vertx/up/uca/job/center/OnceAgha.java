@@ -2,10 +2,8 @@ package io.vertx.up.uca.job.center;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Info;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.uca.job.timer.Interval;
 
 /**
  * Start one time
@@ -22,24 +20,21 @@ class OnceAgha extends AbstractAgha {
          * 3. This kind fo task must be triggered, could not be in plan here. It's not needed to call
          *    Interval to process task.
          * */
+
+        // STARTING -> READY
         this.moveOn(mission, true);
 
         final Promise<Long> promise = Promise.promise();
-        final long jobId = this.interval().startOldAt((timeId) -> this.working(mission, () -> {
+        final Interval interval = this.interval();
+        interval.startAt((timeId) -> this.working(mission, () -> {
             /*
              * Complete future and returned Async
              */
             promise.tryComplete(timeId);
-            /*
-             * RUNNING -> STOPPED
-             */
+
+            // RUNNING -> STOPPED
             this.moveOn(mission, true);
         }));
-        JobClient.bind(jobId, mission.getCode());
-        if (Debugger.onJobBooting()) {
-            this.getLogger().info(Info.JOB_INTERVAL, mission.getCode(),
-                String.valueOf(0), String.valueOf(-1), String.valueOf(jobId));
-        }
         return promise.future();
     }
 }

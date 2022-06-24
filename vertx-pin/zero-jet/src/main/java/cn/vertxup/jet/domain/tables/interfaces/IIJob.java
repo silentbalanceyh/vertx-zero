@@ -59,16 +59,6 @@ public interface IIJob extends VertxPojo, Serializable {
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    public IIJob setType(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    public String getType();
-
-    /**
      * Setter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
      */
     public IIJob setGroup(String value);
@@ -99,28 +89,6 @@ public interface IIJob extends VertxPojo, Serializable {
     public String getAdditional();
 
     /**
-     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    public IIJob setRunAt(LocalTime value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    public LocalTime getRunAt();
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    public IIJob setDuration(Long value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    public Long getDuration();
-
-    /**
      * Setter for <code>DB_ETERNAL.I_JOB.PROXY</code>. 「proxy」- 代理类，带有@On/@Off
      */
     public IIJob setProxy(String value);
@@ -141,6 +109,74 @@ public interface IIJob extends VertxPojo, Serializable {
      * s，（秒为单位）
      */
     public Integer getThreshold();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    public IIJob setType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    public String getType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    public IIJob setRunAt(LocalTime value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    public LocalTime getRunAt();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    public IIJob setRunFormula(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    public String getRunFormula();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    public IIJob setDuration(Long value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    public Long getDuration();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    public IIJob setDurationComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    public String getDurationComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    public IIJob setDurationConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    public String getDurationConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
@@ -302,14 +338,17 @@ public interface IIJob extends VertxPojo, Serializable {
                 setOrThrow(this::setNamespace,json::getString,"NAMESPACE","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
-                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setGroup,json::getString,"GROUP","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setAdditional,json::getString,"ADDITIONAL","java.lang.String");
-                setOrThrow(this::setRunAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalTime.parse(s);},"RUN_AT","java.time.LocalTime");
-                setOrThrow(this::setDuration,json::getLong,"DURATION","java.lang.Long");
                 setOrThrow(this::setProxy,json::getString,"PROXY","java.lang.String");
                 setOrThrow(this::setThreshold,json::getInteger,"THRESHOLD","java.lang.Integer");
+                setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
+                setOrThrow(this::setRunAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalTime.parse(s);},"RUN_AT","java.time.LocalTime");
+                setOrThrow(this::setRunFormula,json::getString,"RUN_FORMULA","java.lang.String");
+                setOrThrow(this::setDuration,json::getLong,"DURATION","java.lang.Long");
+                setOrThrow(this::setDurationComponent,json::getString,"DURATION_COMPONENT","java.lang.String");
+                setOrThrow(this::setDurationConfig,json::getString,"DURATION_CONFIG","java.lang.String");
                 setOrThrow(this::setIncomeComponent,json::getString,"INCOME_COMPONENT","java.lang.String");
                 setOrThrow(this::setIncomeAddress,json::getString,"INCOME_ADDRESS","java.lang.String");
                 setOrThrow(this::setOutcomeComponent,json::getString,"OUTCOME_COMPONENT","java.lang.String");
@@ -334,14 +373,17 @@ public interface IIJob extends VertxPojo, Serializable {
                 json.put("NAMESPACE",getNamespace());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
-                json.put("TYPE",getType());
                 json.put("GROUP",getGroup());
                 json.put("COMMENT",getComment());
                 json.put("ADDITIONAL",getAdditional());
-                json.put("RUN_AT",getRunAt()==null?null:getRunAt().toString());
-                json.put("DURATION",getDuration());
                 json.put("PROXY",getProxy());
                 json.put("THRESHOLD",getThreshold());
+                json.put("TYPE",getType());
+                json.put("RUN_AT",getRunAt()==null?null:getRunAt().toString());
+                json.put("RUN_FORMULA",getRunFormula());
+                json.put("DURATION",getDuration());
+                json.put("DURATION_COMPONENT",getDurationComponent());
+                json.put("DURATION_CONFIG",getDurationConfig());
                 json.put("INCOME_COMPONENT",getIncomeComponent());
                 json.put("INCOME_ADDRESS",getIncomeAddress());
                 json.put("OUTCOME_COMPONENT",getOutcomeComponent());

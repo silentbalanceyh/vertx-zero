@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.specification.sch;
 
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Values;
@@ -7,11 +7,11 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -21,33 +21,8 @@ import java.util.concurrent.TimeUnit;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KTimer implements Serializable {
-
     private static final Annal LOGGER = Annal.get(KTimer.class);
     private final String unique;
-    /*
-     * View based on FIXED ( Plan ) Here.
-     * FIXED ->
-     *       -> Time = runAt
-     *       -> Duration = ( ms ) The system unit of FIXED, it's common scheduler.
-     *
-     * ( Width is Fixed )
-     * DAY   -> Time = runAt
-     *       -> Duration = ( day ) The system unit will convert `day -> ms`.
-     * WEEK  -> Time = runAt
-     *       -> Duration = ( week ) The system unit will convert `week -> ms`.
-     *
-     * ( Width is Non Fixed )
-     * MONTH    -> Time = runAt
-     *          -> Duration = ( Invalid )
-     *          -> viewAt = 1 ~ 28/29/30/31 etc.
-     * QUARTER  -> Time = runAt
-     *          -> Duration = ( Invalid )
-     *          -> viewAt = [1/2/3, 1 ~ 28/29/30/31] etc.
-     * YEAR     -> Time = runAt
-     *          -> Duration = ( Invalid )
-     *          -> viewAt = [1 ~ 12, 1 ~ 28/29/30/31] etc.
-     */
-    private final List<Integer> viewAt = new ArrayList<>();
     /*
      * duration information of two Job
      * Job1 | ------------ duration -------------| Job2 | ------------- duration -------------
@@ -55,18 +30,37 @@ public class KTimer implements Serializable {
     private TimeUnit durationUnit = TimeUnit.SECONDS;
     /* Default value should be 5 min, here the threshold means seconds */
     private long duration = Values.RANGE;
-    /*
-     * Job Type for next time runAt Part
-     */
-    private Instant runAt;
+    private KTimerFormula formula;
 
     public KTimer(final String unique) {
         this.unique = unique;
     }
 
     // -------------------------- Bind -----------------------------
-    public KTimer waitFor(final Instant runAt) {
-        this.runAt = runAt;
+
+    public KTimer scheduler(final String formula) {
+        this.formula = new KTimerFormula(formula, null);
+        return this;
+    }
+
+    public KTimer scheduler(final String formula, final LocalTime runAt) {
+        /* Calculation by runAt */
+        if (Objects.isNull(runAt)) {
+            Objects.requireNonNull(formula);
+            this.formula = new KTimerFormula(formula, null);
+        } else {
+            /* Formula may be */
+            final LocalTime runNow = LocalTime.now();
+            // runAt < runNow, day should be adjust for 1
+            LocalDate today = LocalDate.now();
+            if (runAt.isBefore(runNow)) {
+                // Tomorrow
+                today = today.plusDays(1);
+            }
+            final LocalDateTime dateTime = LocalDateTime.of(today, runAt);
+            final Instant instant = Ut.parse(dateTime).toInstant();
+            this.formula = new KTimerFormula(formula, instant);
+        }
         return this;
     }
 
@@ -86,7 +80,7 @@ public class KTimer implements Serializable {
 
     // -------------------------- Calculation -----------------------------
 
-    public long duration() {
+    public long waitDuration() {
         // Default 5 mins
         if (Values.RANGE == this.duration) {
             return TimeUnit.MINUTES.toMillis(5);
@@ -95,19 +89,31 @@ public class KTimer implements Serializable {
         }
     }
 
-    // -------------------------- Future At ------------------------------
-    public long delay() {
-        Objects.requireNonNull(this.runAt);
-        final Instant end = this.runAt;
-        final Instant start = Instant.now();
-
-        final long delay = ChronoUnit.MILLIS.between(start, end);
-        if (0 < delay) {
-            final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-            final LocalDateTime datetime = Ut.toDuration(delay);
-            LOGGER.info(Info.JOB_DELAY, this.unique, format.format(datetime));
+    public long waitUntil() {
+        final Instant end = this.formula.runAt();
+        if (Objects.isNull(end)) {
+            /*
+             * Fix issue of delay < 1ms, the default should be 1
+             * Cannot schedule a timer with delay < 1 ms
+             *
+             * Type = ONCE
+             */
+            return 1;
+        } else {
+            /*
+             * Type != ONCE
+             */
+            final Instant start = Instant.now();
+            final long delay = ChronoUnit.MILLIS.between(start, end);
+            if (0 < delay) {
+                final DateTimeFormatter formatter = this.formula.formatter();
+                if (Objects.nonNull(formatter)) {
+                    final LocalDateTime datetime = Ut.toDuration(delay);
+                    LOGGER.info(Info.JOB_DELAY, this.unique, formatter.format(datetime));
+                }
+            }
+            return delay < 0 ? 1L : delay;
         }
-        return delay < 0 ? 0L : delay;
     }
 
     @Override
@@ -116,7 +122,7 @@ public class KTimer implements Serializable {
             "unique='" + this.unique + '\'' +
             ", durationUnit=" + this.durationUnit +
             ", duration=" + this.duration +
-            ", runAt=" + this.runAt +
+            ", formula=" + this.formula +
             '}';
     }
 }

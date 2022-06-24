@@ -25,14 +25,17 @@ public class IJob implements VertxPojo, IIJob {
     private String        namespace;
     private String        name;
     private String        code;
-    private String        type;
     private String        group;
     private String        comment;
     private String        additional;
-    private LocalTime     runAt;
-    private Long          duration;
     private String        proxy;
     private Integer       threshold;
+    private String        type;
+    private LocalTime     runAt;
+    private String        runFormula;
+    private Long          duration;
+    private String        durationComponent;
+    private String        durationConfig;
     private String        incomeComponent;
     private String        incomeAddress;
     private String        outcomeComponent;
@@ -54,14 +57,17 @@ public class IJob implements VertxPojo, IIJob {
         this.namespace = value.getNamespace();
         this.name = value.getName();
         this.code = value.getCode();
-        this.type = value.getType();
         this.group = value.getGroup();
         this.comment = value.getComment();
         this.additional = value.getAdditional();
-        this.runAt = value.getRunAt();
-        this.duration = value.getDuration();
         this.proxy = value.getProxy();
         this.threshold = value.getThreshold();
+        this.type = value.getType();
+        this.runAt = value.getRunAt();
+        this.runFormula = value.getRunFormula();
+        this.duration = value.getDuration();
+        this.durationComponent = value.getDurationComponent();
+        this.durationConfig = value.getDurationConfig();
         this.incomeComponent = value.getIncomeComponent();
         this.incomeAddress = value.getIncomeAddress();
         this.outcomeComponent = value.getOutcomeComponent();
@@ -82,14 +88,17 @@ public class IJob implements VertxPojo, IIJob {
         String        namespace,
         String        name,
         String        code,
-        String        type,
         String        group,
         String        comment,
         String        additional,
-        LocalTime     runAt,
-        Long          duration,
         String        proxy,
         Integer       threshold,
+        String        type,
+        LocalTime     runAt,
+        String        runFormula,
+        Long          duration,
+        String        durationComponent,
+        String        durationConfig,
         String        incomeComponent,
         String        incomeAddress,
         String        outcomeComponent,
@@ -108,14 +117,17 @@ public class IJob implements VertxPojo, IIJob {
         this.namespace = namespace;
         this.name = name;
         this.code = code;
-        this.type = type;
         this.group = group;
         this.comment = comment;
         this.additional = additional;
-        this.runAt = runAt;
-        this.duration = duration;
         this.proxy = proxy;
         this.threshold = threshold;
+        this.type = type;
+        this.runAt = runAt;
+        this.runFormula = runFormula;
+        this.duration = duration;
+        this.durationComponent = durationComponent;
+        this.durationConfig = durationConfig;
         this.incomeComponent = incomeComponent;
         this.incomeAddress = incomeAddress;
         this.outcomeComponent = outcomeComponent;
@@ -205,23 +217,6 @@ public class IJob implements VertxPojo, IIJob {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    @Override
-    public String getType() {
-        return this.type;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    @Override
-    public IJob setType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
      */
     @Override
@@ -273,42 +268,6 @@ public class IJob implements VertxPojo, IIJob {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    @Override
-    public LocalTime getRunAt() {
-        return this.runAt;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    @Override
-    public IJob setRunAt(LocalTime runAt) {
-        this.runAt = runAt;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    @Override
-    public Long getDuration() {
-        return this.duration;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    @Override
-    public IJob setDuration(Long duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.I_JOB.PROXY</code>. 「proxy」- 代理类，带有@On/@Off
      */
     @Override
@@ -341,6 +300,116 @@ public class IJob implements VertxPojo, IIJob {
     @Override
     public IJob setThreshold(Integer threshold) {
         this.threshold = threshold;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    @Override
+    public IJob setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    @Override
+    public LocalTime getRunAt() {
+        return this.runAt;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    @Override
+    public IJob setRunAt(LocalTime runAt) {
+        this.runAt = runAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    @Override
+    public String getRunFormula() {
+        return this.runFormula;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    @Override
+    public IJob setRunFormula(String runFormula) {
+        this.runFormula = runFormula;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    @Override
+    public Long getDuration() {
+        return this.duration;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    @Override
+    public IJob setDuration(Long duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    @Override
+    public String getDurationComponent() {
+        return this.durationComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    @Override
+    public IJob setDurationComponent(String durationComponent) {
+        this.durationComponent = durationComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    @Override
+    public String getDurationConfig() {
+        return this.durationConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    @Override
+    public IJob setDurationConfig(String durationConfig) {
+        this.durationConfig = durationConfig;
         return this;
     }
 
@@ -581,14 +650,17 @@ public class IJob implements VertxPojo, IIJob {
         sb.append(", ").append(namespace);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
-        sb.append(", ").append(type);
         sb.append(", ").append(group);
         sb.append(", ").append(comment);
         sb.append(", ").append(additional);
-        sb.append(", ").append(runAt);
-        sb.append(", ").append(duration);
         sb.append(", ").append(proxy);
         sb.append(", ").append(threshold);
+        sb.append(", ").append(type);
+        sb.append(", ").append(runAt);
+        sb.append(", ").append(runFormula);
+        sb.append(", ").append(duration);
+        sb.append(", ").append(durationComponent);
+        sb.append(", ").append(durationConfig);
         sb.append(", ").append(incomeComponent);
         sb.append(", ").append(incomeAddress);
         sb.append(", ").append(outcomeComponent);
@@ -617,14 +689,17 @@ public class IJob implements VertxPojo, IIJob {
         setNamespace(from.getNamespace());
         setName(from.getName());
         setCode(from.getCode());
-        setType(from.getType());
         setGroup(from.getGroup());
         setComment(from.getComment());
         setAdditional(from.getAdditional());
-        setRunAt(from.getRunAt());
-        setDuration(from.getDuration());
         setProxy(from.getProxy());
         setThreshold(from.getThreshold());
+        setType(from.getType());
+        setRunAt(from.getRunAt());
+        setRunFormula(from.getRunFormula());
+        setDuration(from.getDuration());
+        setDurationComponent(from.getDurationComponent());
+        setDurationConfig(from.getDurationConfig());
         setIncomeComponent(from.getIncomeComponent());
         setIncomeAddress(from.getIncomeAddress());
         setOutcomeComponent(from.getOutcomeComponent());

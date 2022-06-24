@@ -9,7 +9,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 /*
  * The chain should be
@@ -82,7 +83,7 @@ public abstract class AbstractAgha implements Agha {
     @Contract
     private transient Vertx vertx;
 
-    Interval interval() {
+    Interval interval(final Consumer<Long> consumer) {
         final Class<?> intervalCls = CONFIG.getInterval().getComponent();
         final Interval interval = Ut.singleton(intervalCls);
         Ut.contract(interval, Vertx.class, this.vertx);
@@ -91,7 +92,14 @@ public abstract class AbstractAgha implements Agha {
             /* Be sure the log only provide once */
             this.getLogger().info(Info.JOB_COMPONENT_SELECTED, "Interval", interval.getClass().getName());
         }
+        if (Objects.nonNull(consumer)) {
+            interval.bind(consumer);
+        }
         return interval;
+    }
+
+    Interval interval() {
+        return this.interval(null);
     }
 
     JobStore store() {

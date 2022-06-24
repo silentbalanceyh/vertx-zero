@@ -9,7 +9,7 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -107,12 +107,11 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             // duration = durationUnit.toMillis(duration);
             timer.scheduler(duration, durationUnit);
         }
-        final JobType type = mission.getType();
-        /* runAt calculate */
-        if (JobType.FIXED == type) {
-            final String expr = Ut.invoke(annotation, "runAt");
-            timer.waitFor(Ut.fromAt(expr));
-        }
+        /* formula calculate */
+        final String runFormula = Ut.invoke(annotation, "formula");
+        // Error-40078 Detect
+        mission.detectPre(runFormula);
+        timer.scheduler(runFormula, null);
         mission.timer(timer);
     }
 

@@ -94,28 +94,11 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    @Override
-    public IJobRecord setType(String value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    @Override
-    public String getType() {
-        return (String) get(4);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
      */
     @Override
     public IJobRecord setGroup(String value) {
-        set(5, value);
+        set(4, value);
         return this;
     }
 
@@ -124,7 +107,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getGroup() {
-        return (String) get(5);
+        return (String) get(4);
     }
 
     /**
@@ -132,7 +115,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setComment(String value) {
-        set(6, value);
+        set(5, value);
         return this;
     }
 
@@ -141,7 +124,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getComment() {
-        return (String) get(6);
+        return (String) get(5);
     }
 
     /**
@@ -149,7 +132,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setAdditional(String value) {
-        set(7, value);
+        set(6, value);
         return this;
     }
 
@@ -158,43 +141,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getAdditional() {
-        return (String) get(7);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    @Override
-    public IJobRecord setRunAt(LocalTime value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    @Override
-    public LocalTime getRunAt() {
-        return (LocalTime) get(8);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    @Override
-    public IJobRecord setDuration(Long value) {
-        set(9, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    @Override
-    public Long getDuration() {
-        return (Long) get(9);
+        return (String) get(6);
     }
 
     /**
@@ -202,7 +149,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setProxy(String value) {
-        set(10, value);
+        set(7, value);
         return this;
     }
 
@@ -211,7 +158,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getProxy() {
-        return (String) get(10);
+        return (String) get(7);
     }
 
     /**
@@ -220,7 +167,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setThreshold(Integer value) {
-        set(11, value);
+        set(8, value);
         return this;
     }
 
@@ -230,7 +177,117 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public Integer getThreshold() {
-        return (Integer) get(11);
+        return (Integer) get(8);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    @Override
+    public IJobRecord setType(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    @Override
+    public String getType() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    @Override
+    public IJobRecord setRunAt(LocalTime value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    @Override
+    public LocalTime getRunAt() {
+        return (LocalTime) get(10);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    @Override
+    public IJobRecord setRunFormula(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    @Override
+    public String getRunFormula() {
+        return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    @Override
+    public IJobRecord setDuration(Long value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    @Override
+    public Long getDuration() {
+        return (Long) get(12);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    @Override
+    public IJobRecord setDurationComponent(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    @Override
+    public String getDurationComponent() {
+        return (String) get(13);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    @Override
+    public IJobRecord setDurationConfig(String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    @Override
+    public String getDurationConfig() {
+        return (String) get(14);
     }
 
     /**
@@ -239,7 +296,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setIncomeComponent(String value) {
-        set(12, value);
+        set(15, value);
         return this;
     }
 
@@ -249,7 +306,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getIncomeComponent() {
-        return (String) get(12);
+        return (String) get(15);
     }
 
     /**
@@ -258,7 +315,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setIncomeAddress(String value) {
-        set(13, value);
+        set(16, value);
         return this;
     }
 
@@ -268,7 +325,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getIncomeAddress() {
-        return (String) get(13);
+        return (String) get(16);
     }
 
     /**
@@ -277,7 +334,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setOutcomeComponent(String value) {
-        set(14, value);
+        set(17, value);
         return this;
     }
 
@@ -287,7 +344,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getOutcomeComponent() {
-        return (String) get(14);
+        return (String) get(17);
     }
 
     /**
@@ -296,7 +353,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setOutcomeAddress(String value) {
-        set(15, value);
+        set(18, value);
         return this;
     }
 
@@ -306,7 +363,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getOutcomeAddress() {
-        return (String) get(15);
+        return (String) get(18);
     }
 
     /**
@@ -314,7 +371,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setServiceId(String value) {
-        set(16, value);
+        set(19, value);
         return this;
     }
 
@@ -323,7 +380,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getServiceId() {
-        return (String) get(16);
+        return (String) get(19);
     }
 
     /**
@@ -331,7 +388,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setSigma(String value) {
-        set(17, value);
+        set(20, value);
         return this;
     }
 
@@ -340,7 +397,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getSigma() {
-        return (String) get(17);
+        return (String) get(20);
     }
 
     /**
@@ -348,7 +405,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setLanguage(String value) {
-        set(18, value);
+        set(21, value);
         return this;
     }
 
@@ -357,7 +414,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getLanguage() {
-        return (String) get(18);
+        return (String) get(21);
     }
 
     /**
@@ -365,7 +422,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setActive(Boolean value) {
-        set(19, value);
+        set(22, value);
         return this;
     }
 
@@ -374,7 +431,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(19);
+        return (Boolean) get(22);
     }
 
     /**
@@ -382,7 +439,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setMetadata(String value) {
-        set(20, value);
+        set(23, value);
         return this;
     }
 
@@ -391,7 +448,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getMetadata() {
-        return (String) get(20);
+        return (String) get(23);
     }
 
     /**
@@ -399,7 +456,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setCreatedAt(LocalDateTime value) {
-        set(21, value);
+        set(24, value);
         return this;
     }
 
@@ -408,7 +465,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(24);
     }
 
     /**
@@ -416,7 +473,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setCreatedBy(String value) {
-        set(22, value);
+        set(25, value);
         return this;
     }
 
@@ -425,7 +482,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(22);
+        return (String) get(25);
     }
 
     /**
@@ -433,7 +490,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setUpdatedAt(LocalDateTime value) {
-        set(23, value);
+        set(26, value);
         return this;
     }
 
@@ -442,7 +499,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(23);
+        return (LocalDateTime) get(26);
     }
 
     /**
@@ -450,7 +507,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public IJobRecord setUpdatedBy(String value) {
-        set(24, value);
+        set(27, value);
         return this;
     }
 
@@ -459,7 +516,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(24);
+        return (String) get(27);
     }
 
     // -------------------------------------------------------------------------
@@ -481,14 +538,17 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
         setNamespace(from.getNamespace());
         setName(from.getName());
         setCode(from.getCode());
-        setType(from.getType());
         setGroup(from.getGroup());
         setComment(from.getComment());
         setAdditional(from.getAdditional());
-        setRunAt(from.getRunAt());
-        setDuration(from.getDuration());
         setProxy(from.getProxy());
         setThreshold(from.getThreshold());
+        setType(from.getType());
+        setRunAt(from.getRunAt());
+        setRunFormula(from.getRunFormula());
+        setDuration(from.getDuration());
+        setDurationComponent(from.getDurationComponent());
+        setDurationConfig(from.getDurationConfig());
         setIncomeComponent(from.getIncomeComponent());
         setIncomeAddress(from.getIncomeAddress());
         setOutcomeComponent(from.getOutcomeComponent());
@@ -524,21 +584,24 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
     /**
      * Create a detached, initialised IJobRecord
      */
-    public IJobRecord(String key, String namespace, String name, String code, String type, String group, String comment, String additional, LocalTime runAt, Long duration, String proxy, Integer threshold, String incomeComponent, String incomeAddress, String outcomeComponent, String outcomeAddress, String serviceId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public IJobRecord(String key, String namespace, String name, String code, String group, String comment, String additional, String proxy, Integer threshold, String type, LocalTime runAt, String runFormula, Long duration, String durationComponent, String durationConfig, String incomeComponent, String incomeAddress, String outcomeComponent, String outcomeAddress, String serviceId, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(IJob.I_JOB);
 
         setKey(key);
         setNamespace(namespace);
         setName(name);
         setCode(code);
-        setType(type);
         setGroup(group);
         setComment(comment);
         setAdditional(additional);
-        setRunAt(runAt);
-        setDuration(duration);
         setProxy(proxy);
         setThreshold(threshold);
+        setType(type);
+        setRunAt(runAt);
+        setRunFormula(runFormula);
+        setDuration(duration);
+        setDurationComponent(durationComponent);
+        setDurationConfig(durationConfig);
         setIncomeComponent(incomeComponent);
         setIncomeAddress(incomeAddress);
         setOutcomeComponent(outcomeComponent);
@@ -565,14 +628,17 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
             setNamespace(value.getNamespace());
             setName(value.getName());
             setCode(value.getCode());
-            setType(value.getType());
             setGroup(value.getGroup());
             setComment(value.getComment());
             setAdditional(value.getAdditional());
-            setRunAt(value.getRunAt());
-            setDuration(value.getDuration());
             setProxy(value.getProxy());
             setThreshold(value.getThreshold());
+            setType(value.getType());
+            setRunAt(value.getRunAt());
+            setRunFormula(value.getRunFormula());
+            setDuration(value.getDuration());
+            setDurationComponent(value.getDurationComponent());
+            setDurationConfig(value.getDurationConfig());
             setIncomeComponent(value.getIncomeComponent());
             setIncomeAddress(value.getIncomeAddress());
             setOutcomeComponent(value.getOutcomeComponent());

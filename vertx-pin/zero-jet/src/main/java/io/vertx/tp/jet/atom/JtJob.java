@@ -9,12 +9,9 @@ import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.util.Ut;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -143,30 +140,13 @@ public class JtJob extends JtCommercial {
          * of current Part.
          */
         final KTimer timer = new KTimer(mission.getCode());
-        // runAt processing
-        if (Objects.nonNull(this.job.getRunAt())) {
-            final LocalTime runAt = this.job.getRunAt();
-            final LocalTime runNow = LocalTime.now();
-            /*
-             * Whether adjust 1 day plus
-             */
-            LocalDate today = LocalDate.now();
-            if (runAt.isBefore(runNow)) {
-                today = today.plusDays(1);
-            }
-            /*
-             * Final LocalTime calculation
-             */
-            final LocalDateTime result = LocalDateTime.of(today, runAt);
-            timer.waitFor(Ut.parse(result).toInstant());
-            // mission.setInstant(Ut.parse(result).toInstant());
-        }
-
+        final String runFormula = this.job.getRunFormula();
+        // Error-40078 Detect
+        mission.detectPre(runFormula);
+        timer.scheduler(runFormula, this.job.getRunAt());
         if (Objects.nonNull(this.job.getDuration())) {
             timer.scheduler(this.job.getDuration(), TimeUnit.MINUTES);
         }
-        // timer.scheduler(this.job.getDuration());
-        // timer.timeout(this.job.getThreshold());
         mission.timer(timer);
     }
 

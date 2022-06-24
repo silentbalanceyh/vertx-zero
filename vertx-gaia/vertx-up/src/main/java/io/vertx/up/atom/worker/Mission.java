@@ -14,9 +14,10 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
+import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -359,6 +360,17 @@ public class Mission implements Serializable {
 
     public KTimer timer() {
         return this.timer;
+    }
+
+    // ========================== Ensure the correct configuration =======================
+    public void detectPre(final String formula) {
+        if (JobType.FORMULA == this.type) {
+            Fn.outWeb(Ut.isNil(formula), _409JobFormulaErrorException.class, this.getClass(), formula);
+        }
+    }
+
+    public void detectPost() {
+
     }
 
     @Override

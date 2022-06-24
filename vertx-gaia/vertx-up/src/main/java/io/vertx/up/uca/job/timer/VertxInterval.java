@@ -3,7 +3,10 @@ package io.vertx.up.uca.job.timer;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
+
+import java.util.Objects;
+import java.util.function.Consumer;
 
 public class VertxInterval implements Interval {
     /*
@@ -15,49 +18,70 @@ public class VertxInterval implements Interval {
     @Contract
     private transient Vertx vertx;
 
+    private Consumer<Long> controlFn;
+
     @Override
-    public Long startAt(final Handler<Long> actuator) {
-        return null;
+    public Interval bind(final Consumer<Long> controlFn) {
+        this.controlFn = controlFn;
+        return this;
+    }
+
+    /*
+     * This situation is for executing without any `delay` part
+     * here, although you have set the `delay` parameter in `Timer` here
+     * but the code logical will ignore `delay`.
+     *
+     * For `delay` part the system should avoid following issue:
+     * Fix issue of delay < 1ms, the default should be 1, Cannot schedule a timer with delay < 1 ms
+     *
+     * The 1ms is started. When following condition has been triggered, here are two code logical
+     *
+     * 1) KTimer is null        ( Once Job )
+     * 2) KTimer is not null    ( Legacy Plan Job )
+     */
+    @Override
+    public void startAt(final Handler<Long> actuator, final KTimer timer) {
+        if (Objects.isNull(timer)) {
+            /*
+             * Because timer is null, delay ms is not needed
+             * In this kind of situation
+             * call vertx.setTimer only, the smallest is 1ms ( Right Now )
+             */
+            this.vertx.setTimer(START_UP_MS, actuator);
+        } else {
+            /*
+             * Extract delay ms from `timer` reference
+             * Be careful about the timerId here, the returned timerId
+             *
+             * Here are two timerId
+             * 1. setTimer          ( Returned Directly )
+             * 2. setPeriodic       ( Output by actuator )
+             */
+            final long delay = timer.waitUntil() + START_UP_MS;
+            this.vertx.setTimer(delay, ignored -> {
+                final long duration = timer.waitDuration() + START_UP_MS;
+                final long timerId = this.vertx.setPeriodic(duration, actuator);
+                /*
+                 * Bind the controlFn to consume the timerId of periodic timer
+                 * In the document of vert.x here are comments:
+                 *
+                 * To cancel a periodic timer, call cancelTimer specifying the timer id. For example:
+                 * vertx.cancelTimer(timerID);
+                 */
+                if (Objects.nonNull(this.controlFn)) {
+                    this.controlFn.accept(timerId);
+                }
+            });
+        }
     }
 
     @Override
-    public Long startAt(final Handler<Long> actuator, final KTimer timer) {
-        return null;
-    }
-
-    @Override
-    public Long startAt(final Long delay, final Handler<Long> actuator) {
-        return null;
-    }
-
-    @Override
-    public Long startAt(final Long delay, final Handler<Long> actuator, final KTimer timer) {
-        return null;
-    }
-
-    @Override
-    public long startOldAt(final long delay, final long duration, final Handler<Long> actuator) {
-        /*
-         * In this kind of situation, only predicate is ok
-         * Adjust 10 ms for :
-         * -- Cannot schedule a timer with delay < 1 ms
-         */
-        return this.vertx.setTimer(delay + START_UP_MS, ignored ->
-            this.vertx.setPeriodic(START_UP_MS + duration, actuator));
-    }
-
-    @Override
-    public long startOldAt(final long duration, final Handler<Long> actuator) {
-        return this.vertx.setPeriodic(START_UP_MS + duration, actuator);
-    }
-
-    @Override
-    public long startOldAt(final Handler<Long> handler) {
-        /*
-         * To avoid booting error, delay set to 3000 ms
-         * Instead of start up running
-         * Cannot schedule a timer with delay < 1 ms
-         */
-        return this.vertx.setTimer(START_UP_MS, handler);
+    public void restartAt(final Handler<Long> actuator, final KTimer timer) {
+        if (Objects.isNull(timer)) {
+            this.vertx.setTimer(START_UP_MS, actuator);
+        } else {
+            final long delay = timer.waitUntil() + START_UP_MS;
+            this.vertx.setTimer(delay, actuator);
+        }
     }
 }

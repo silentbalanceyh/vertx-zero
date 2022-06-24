@@ -1,12 +1,16 @@
 package io.vertx.up.uca.job.timer;
 
 import io.vertx.core.Handler;
-import io.vertx.up.experiment.specification.KTimer;
+import io.vertx.up.experiment.specification.sch.KTimer;
+
+import java.util.function.Consumer;
 
 /*
  * Scheduled for each
  */
 public interface Interval {
+
+    Interval bind(Consumer<Long> controlFn);
     /*
      * New design for job extension interval scheduler management the schedule instead of
      * original three:
@@ -37,41 +41,13 @@ public interface Interval {
      * the developer want to debug the job detail from user interface, this api could be
      * called to see the job running details.
      *
-     * 1.
-     *
-     * @param actuator Executor
-     *
-     * @return TimerId
-     */
-    Long startAt(Handler<Long> actuator);
-
-    Long startAt(Handler<Long> actuator, KTimer timer);
-
-    Long startAt(Long delay, Handler<Long> actuator);
-
-    Long startAt(Long delay, Handler<Long> actuator, KTimer timer);
-
-    /**
-     * Start schedule at
-     *
-     * @param delay    delay ms to begin
-     * @param duration repeat for each duration
      * @param actuator Executor
      */
-    long startOldAt(long delay, long duration, Handler<Long> actuator);
+    default void startAt(final Handler<Long> actuator) {
+        this.startAt(actuator, null);
+    }
 
-    /**
-     * Start schedule from now without delay
-     *
-     * @param duration repeat for each duration
-     * @param actuator Executor
-     */
-    long startOldAt(long duration, Handler<Long> actuator);
+    void startAt(Handler<Long> actuator, KTimer timer);
 
-    /**
-     * Start schedule once
-     *
-     * @param actuator Executor
-     */
-    long startOldAt(Handler<Long> actuator);
+    void restartAt(Handler<Long> actuator, KTimer timer);
 }

@@ -47,10 +47,6 @@ public class IJob extends TableImpl<IJobRecord> {
      */
     public final TableField<IJobRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「comment」- 任务编码");
     /**
-     * The column <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
-     */
-    public final TableField<IJobRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(20), this, "「type」- 任务类型");
-    /**
      * The column <code>DB_ETERNAL.I_JOB.GROUP</code>. 「group」- 任务组（按组查询），自由字符串
      */
     public final TableField<IJobRecord, String> GROUP = createField(DSL.name("GROUP"), SQLDataType.VARCHAR(64), this, "「group」- 任务组（按组查询），自由字符串");
@@ -63,15 +59,6 @@ public class IJob extends TableImpl<IJobRecord> {
      */
     public final TableField<IJobRecord, String> ADDITIONAL = createField(DSL.name("ADDITIONAL"), SQLDataType.CLOB, this, "「additional」- 额外配置信息");
     /**
-     * The column <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
-     */
-    public final TableField<IJobRecord, LocalTime> RUN_AT = createField(DSL.name("RUN_AT"), SQLDataType.LOCALTIME, this, "「runAt」- 定时任务中的JOB时间");
-    /**
-     * The column <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
-     * JOB的间隔时间，（秒为单位）
-     */
-    public final TableField<IJobRecord, Long> DURATION = createField(DSL.name("DURATION"), SQLDataType.BIGINT, this, "「duration」- JOB的间隔时间，（秒为单位）");
-    /**
      * The column <code>DB_ETERNAL.I_JOB.PROXY</code>. 「proxy」- 代理类，带有@On/@Off
      */
     public final TableField<IJobRecord, String> PROXY = createField(DSL.name("PROXY"), SQLDataType.VARCHAR(255), this, "「proxy」- 代理类，带有@On/@Off");
@@ -80,6 +67,34 @@ public class IJob extends TableImpl<IJobRecord> {
      * s，（秒为单位）
      */
     public final TableField<IJobRecord, Integer> THRESHOLD = createField(DSL.name("THRESHOLD"), SQLDataType.INTEGER, this, "「threshold」- 默认值 300 s，（秒为单位）");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.TYPE</code>. 「type」- 任务类型
+     */
+    public final TableField<IJobRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(20), this, "「type」- 任务类型");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.RUN_AT</code>. 「runAt」- 定时任务中的JOB时间
+     */
+    public final TableField<IJobRecord, LocalTime> RUN_AT = createField(DSL.name("RUN_AT"), SQLDataType.LOCALTIME, this, "「runAt」- 定时任务中的JOB时间");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.RUN_FORMULA</code>. 「runFormula」-
+     * 运行周期专用的表达式
+     */
+    public final TableField<IJobRecord, String> RUN_FORMULA = createField(DSL.name("RUN_FORMULA"), SQLDataType.CLOB, this, "「runFormula」- 运行周期专用的表达式");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.DURATION</code>. 「duration」-
+     * JOB的间隔时间，（秒为单位）
+     */
+    public final TableField<IJobRecord, Long> DURATION = createField(DSL.name("DURATION"), SQLDataType.BIGINT, this, "「duration」- JOB的间隔时间，（秒为单位）");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.DURATION_COMPONENT</code>.
+     * 「durationComponent」对应复杂调度问题
+     */
+    public final TableField<IJobRecord, String> DURATION_COMPONENT = createField(DSL.name("DURATION_COMPONENT"), SQLDataType.VARCHAR(255), this, "「durationComponent」对应复杂调度问题");
+    /**
+     * The column <code>DB_ETERNAL.I_JOB.DURATION_CONFIG</code>.
+     * 「durationConfig」复杂调度配置
+     */
+    public final TableField<IJobRecord, String> DURATION_CONFIG = createField(DSL.name("DURATION_CONFIG"), SQLDataType.CLOB, this, "「durationConfig」复杂调度配置");
     /**
      * The column <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
      * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
