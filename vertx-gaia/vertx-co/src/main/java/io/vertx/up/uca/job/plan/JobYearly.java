@@ -1,13 +1,12 @@
 package io.vertx.up.uca.job.plan;
 
-import java.time.Instant;
-
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class JobYearly extends AbstractJobAt {
+
     @Override
-    protected Instant analyze(final String formula, final Instant instant) {
-        return null;
+    public String format() {
+        return "'Years'=yyyy,'Months'=MM,'Days'=dd,'Time='HH:mm:ss.SSS";
     }
 }

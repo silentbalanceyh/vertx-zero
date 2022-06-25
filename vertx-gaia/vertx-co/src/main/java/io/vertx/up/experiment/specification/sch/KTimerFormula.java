@@ -72,6 +72,10 @@ public class KTimerFormula {
         }
     }
 
+    public PerMode mode() {
+        return this.mode;
+    }
+
     public DateTimeFormatter formatter() {
         final JobAt job;
         if (this.isComplex) {
