@@ -6,6 +6,7 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.eon.Info;
 import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -63,7 +64,7 @@ public class VertxInterval implements Interval {
              */
             final long waitSec = timer.waitUntil();
             final long delay = waitSec + START_UP_MS;
-            final long delayId = this.vertx.setTimer(delay, ignored -> {
+            this.vertx.setTimer(delay, ignored -> {
                 final long duration = timer.waitDuration() + START_UP_MS;
                 final long timerId = this.vertx.setPeriodic(duration, actuator);
                 /*
@@ -78,7 +79,7 @@ public class VertxInterval implements Interval {
                     this.controlFn.accept(timerId);
                 }
             });
-            LOGGER.info(Info.JOB_RUN_DELAY, String.valueOf(delayId), timer.name(), String.valueOf(waitSec));
+            LOGGER.info(Info.JOB_RUN_DELAY, timer.name(), Ut.toDuration(waitSec));
         }
     }
 
@@ -90,8 +91,8 @@ public class VertxInterval implements Interval {
         } else {
             final long waitSec = timer.waitUntil();
             final long delay = waitSec + START_UP_MS;
-            final long delayId = this.vertx.setTimer(delay, actuator);
-            LOGGER.info(Info.JOB_RUN_RE_DELAY, String.valueOf(delayId), timer.name(), String.valueOf(waitSec));
+            this.vertx.setTimer(delay, actuator);
+            LOGGER.info(Info.JOB_RUN_RE_DELAY, timer.name(), Ut.toDuration(waitSec));
         }
     }
 }

@@ -66,8 +66,8 @@ public interface Info {
     String JOB_RUN = "[ Job ] (timer = null) The job will start right now.";
     String JOB_RUN_RE = "[ Job ] (timer = null) The job will restart right now.";
 
-    String JOB_RUN_DELAY = "[ Job ] (timer = {0}) `{1}` will start after {2} ms.";
-    String JOB_RUN_RE_DELAY = "[ Job ] (timer = {0}) `{1}` will restart after {2} ms.";
+    String JOB_RUN_DELAY = "[ Job ] `{0}` will start after {1} ms.";
+    String JOB_RUN_RE_DELAY = "[ Job ] `{0}` will restart after {1} ms.";
 
     String JOB_RUN_SCHEDULED = "[ Job ] (timer = {0}) `{1}` scheduled duration {2} ms in each.";
 
