@@ -8,11 +8,13 @@ import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class VertxInterval implements Interval {
     private static final Annal LOGGER = Annal.get(VertxInterval.class);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm.ss.SSS");
     /*
      * Fix issue of delay < 1ms, the default should be 1
      * Cannot schedule a timer with delay < 1 ms
@@ -79,7 +81,7 @@ public class VertxInterval implements Interval {
                     this.controlFn.accept(timerId);
                 }
             });
-            LOGGER.info(Info.JOB_RUN_DELAY, timer.name(), Ut.toDuration(waitSec));
+            LOGGER.info(Info.JOB_RUN_DELAY, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
         }
     }
 
@@ -92,7 +94,7 @@ public class VertxInterval implements Interval {
             final long waitSec = timer.waitUntil();
             final long delay = waitSec + START_UP_MS;
             this.vertx.setTimer(delay, actuator);
-            LOGGER.info(Info.JOB_RUN_RE_DELAY, timer.name(), Ut.toDuration(waitSec));
+            LOGGER.info(Info.JOB_RUN_RE_DELAY, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
         }
     }
 }
