@@ -1,5 +1,6 @@
 package io.vertx.up.uca.job.plan;
 
+import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.log.Annal;
@@ -77,5 +78,32 @@ public abstract class AbstractJobAt implements JobAt {
 
     protected Annal logger() {
         return Annal.get(this.getClass());
+    }
+
+    private Kv<Integer, Integer> parseSegment(final String segment) {
+        if (Ut.notNil(segment) && segment.contains(Strings.DASH)) {
+            try {
+                final String[] split = segment.split(Strings.DASH);
+                final Integer m = Integer.parseInt(split[0]);
+                final Integer d = Integer.parseInt(split[1]);
+                return Kv.create(m, d);
+            } catch (final Throwable ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    protected LocalDateTime plusWith(final LocalDateTime find, final String segment) {
+        final Kv<Integer, Integer> md = this.parseSegment(segment);// Calculate the New Day
+        if (Objects.isNull(md)) {
+            final int dayAdjust = Integer.parseInt(segment);
+            return find.plusDays(dayAdjust - 1);
+        } else {
+            return find.plusMonths(md.getKey() - 1)
+                .plusDays(md.getValue() - 1);
+        }
     }
 }
