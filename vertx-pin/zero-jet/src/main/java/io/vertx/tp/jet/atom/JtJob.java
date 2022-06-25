@@ -143,11 +143,14 @@ public class JtJob extends JtCommercial {
         final String runFormula = this.job.getRunFormula();
         // Error-40078 Detect
         mission.detectPre(runFormula);
-        timer.scheduler(runFormula, this.job.getRunAt());
-        if (Objects.nonNull(this.job.getDuration())) {
-            timer.scheduler(this.job.getDuration(), TimeUnit.MINUTES);
+        final JobType type = mission.getType();
+        if (JobType.ONCE != type) {
+            timer.scheduler(runFormula, this.job.getRunAt());
+            if (Objects.nonNull(this.job.getDuration())) {
+                timer.scheduler(this.job.getDuration(), TimeUnit.MINUTES);
+            }
+            mission.timer(timer);
         }
-        mission.timer(timer);
     }
 
     private Mission mount(final Mission mission) {

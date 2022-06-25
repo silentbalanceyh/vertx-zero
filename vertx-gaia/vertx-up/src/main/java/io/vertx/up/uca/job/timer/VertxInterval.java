@@ -3,12 +3,15 @@ package io.vertx.up.uca.job.timer;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Contract;
+import io.vertx.up.eon.Info;
 import io.vertx.up.experiment.specification.sch.KTimer;
+import io.vertx.up.log.Annal;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class VertxInterval implements Interval {
+    private static final Annal LOGGER = Annal.get(VertxInterval.class);
     /*
      * Fix issue of delay < 1ms, the default should be 1
      * Cannot schedule a timer with delay < 1 ms
@@ -47,6 +50,7 @@ public class VertxInterval implements Interval {
              * In this kind of situation
              * call vertx.setTimer only, the smallest is 1ms ( Right Now )
              */
+            LOGGER.info(Info.JOB_RUN);
             this.vertx.setTimer(START_UP_MS, actuator);
         } else {
             /*
@@ -57,8 +61,9 @@ public class VertxInterval implements Interval {
              * 1. setTimer          ( Returned Directly )
              * 2. setPeriodic       ( Output by actuator )
              */
-            final long delay = timer.waitUntil() + START_UP_MS;
-            this.vertx.setTimer(delay, ignored -> {
+            final long waitSec = timer.waitUntil();
+            final long delay = waitSec + START_UP_MS;
+            final long delayId = this.vertx.setTimer(delay, ignored -> {
                 final long duration = timer.waitDuration() + START_UP_MS;
                 final long timerId = this.vertx.setPeriodic(duration, actuator);
                 /*
@@ -68,20 +73,25 @@ public class VertxInterval implements Interval {
                  * To cancel a periodic timer, call cancelTimer specifying the timer id. For example:
                  * vertx.cancelTimer(timerID);
                  */
+                LOGGER.info(Info.JOB_RUN_SCHEDULED, String.valueOf(timerId), timer.name(), duration);
                 if (Objects.nonNull(this.controlFn)) {
                     this.controlFn.accept(timerId);
                 }
             });
+            LOGGER.info(Info.JOB_RUN_DELAY, String.valueOf(delayId), timer.name(), String.valueOf(waitSec));
         }
     }
 
     @Override
     public void restartAt(final Handler<Long> actuator, final KTimer timer) {
         if (Objects.isNull(timer)) {
+            LOGGER.info(Info.JOB_RUN_RE);
             this.vertx.setTimer(START_UP_MS, actuator);
         } else {
-            final long delay = timer.waitUntil() + START_UP_MS;
-            this.vertx.setTimer(delay, actuator);
+            final long waitSec = timer.waitUntil();
+            final long delay = waitSec + START_UP_MS;
+            final long delayId = this.vertx.setTimer(delay, actuator);
+            LOGGER.info(Info.JOB_RUN_RE_DELAY, String.valueOf(delayId), timer.name(), String.valueOf(waitSec));
         }
     }
 }

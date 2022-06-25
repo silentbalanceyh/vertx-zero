@@ -80,6 +80,10 @@ public class KTimer implements Serializable {
 
     // -------------------------- Calculation -----------------------------
 
+    public String name() {
+        return this.unique;
+    }
+
     public long waitDuration() {
         // Default 5 mins
         if (Values.RANGE == this.duration) {

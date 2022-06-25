@@ -9,7 +9,6 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
@@ -158,9 +157,11 @@ public abstract class AbstractAgha implements Agha {
             this.moveOn(mission, true);
             /*
              * Read threshold
+             * 「OLD」for KTimer not null, but in ONCE or some spec types,
+             * the timer could be null
+             * final KTimer timer = mission.timer();
+             * Objects.requireNonNull(timer);
              */
-            final KTimer timer = mission.timer();
-            Objects.requireNonNull(timer);
             final long threshold = mission.timeout();
             /*
              * Worker Executor of New created
@@ -243,7 +244,7 @@ public abstract class AbstractAgha implements Agha {
              */
             if (JobStatus.RUNNING == mission.getStatus()) {
                 mission.setStatus(JobStatus.ERROR);
-                this.getLogger().info(Info.JOB_TERMINAL, mission.getCode());
+                this.getLogger().info(Info.JOB_TERMINAL, mission.getType(), mission.getCode());
                 this.store().update(mission);
             }
         }
