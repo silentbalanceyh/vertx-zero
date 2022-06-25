@@ -28,7 +28,7 @@ public class JobAtTc {
     public void testParse() {
         // this.parsing("D,00:08");
         // this.parsing("D,07:01,06:15");
-        this.parsing("Q,00:15/57,00:16/2-9");
+        this.parsing("Y,00:15/57,00:16/11-9");
     }
 
     // ==================== Private Format ===================
