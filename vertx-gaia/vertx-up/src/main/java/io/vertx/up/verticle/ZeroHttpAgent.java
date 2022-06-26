@@ -41,8 +41,8 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
     @Override
     public void start() {
-        /* 1.Call router hub to mount commont **/
-        final Axis<Router> routerAxiser = Pool.CC_ROUTER.pick(
+        /* 1.Call router hub to mount common **/
+        final Axis<Router> routerAxis = Pool.CC_ROUTER.pick(
             () -> new RouterAxis(this.vertx), RouterAxis.class.getName());
         // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
@@ -87,7 +87,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
             final Router router = Router.router(this.vertx);
 
             // Router
-            routerAxiser.mount(router);
+            routerAxis.mount(router);
             // Wall
             wallAxis.mount(router);
             // Event
