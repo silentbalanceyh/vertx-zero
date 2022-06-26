@@ -176,47 +176,45 @@ public abstract class AbstractAgha implements Agha {
             /*
              * The executor start to process the workers here.
              */
-            executor.<Envelop>executeBlocking(
-                promise -> promise.handle(this.workingAsync(mission)
-                    .compose(result -> {
+            executor.<Envelop>executeBlocking(promise -> promise.handle(this.workingAsync(mission)
+                .compose(result -> {
+                    /*
+                     * The job is executing successfully and then stopped
+                     */
+                    actuator.execute();
+                    this.getLogger().info(Info.JOB_WORKER_END, code);
+                    return Future.succeededFuture(result);
+                })
+                .otherwise(error -> {
+                    /*
+                     * The job exception
+                     */
+                    if (!(error instanceof NoStackTraceThrowable)) {
+                        error.printStackTrace();
+                        this.moveOn(mission, false);
+                    }
+                    return Envelop.failure(error);
+                })), handler -> {
+                /*
+                 * Async result here to check whether it's ended
+                 */
+                if (handler.succeeded()) {
+                    /*
+                     * Successful, close worker executor
+                     */
+                    executor.close();
+                } else {
+                    if (Objects.nonNull(handler.cause())) {
                         /*
-                         * The job is executing successfully and then stopped
+                         * Failure, print stack instead of other exception here.
                          */
-                        actuator.execute();
-                        this.getLogger().info(Info.JOB_WORKER_END, code);
-                        return Future.succeededFuture(result);
-                    })
-                    .otherwise(error -> {
-                        /*
-                         * The job exception
-                         */
+                        final Throwable error = handler.cause();
                         if (!(error instanceof NoStackTraceThrowable)) {
                             error.printStackTrace();
-                            this.moveOn(mission, false);
-                        }
-                        return Envelop.failure(error);
-                    })),
-                handler -> {
-                    /*
-                     * Async result here to check whether it's ended
-                     */
-                    if (handler.succeeded()) {
-                        /*
-                         * Successful, close worker executor
-                         */
-                        executor.close();
-                    } else {
-                        if (Objects.nonNull(handler.cause())) {
-                            /*
-                             * Failure, print stack instead of other exception here.
-                             */
-                            final Throwable error = handler.cause();
-                            if (!(error instanceof NoStackTraceThrowable)) {
-                                error.printStackTrace();
-                            }
                         }
                     }
-                });
+                }
+            });
         }
     }
 
