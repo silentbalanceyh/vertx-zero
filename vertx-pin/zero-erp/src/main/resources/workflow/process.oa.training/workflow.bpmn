@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v4vksd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v4vksd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="process.oa.training" name="培训管理流程" isExecutable="true">
     <bpmn:startEvent id="e.start" name="开始" camunda:formKey="camunda-forms:deployment:training.start.form">
       <bpmn:outgoing>t.start-d</bpmn:outgoing>
@@ -65,19 +65,19 @@
     <bpmn:sequenceFlow id="t.approve-admit" name="通过" sourceRef="e.approve.d" targetRef="e.admit">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="e.approve.boss.d">
+    <bpmn:exclusiveGateway id="e.admit.d">
       <bpmn:incoming>t.admit-d</bpmn:incoming>
       <bpmn:outgoing>t.admit-draft</bpmn:outgoing>
       <bpmn:outgoing>t.admit-begin</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="t.admit-d" sourceRef="e.admit" targetRef="e.approve.boss.d" />
-    <bpmn:sequenceFlow id="t.admit-draft" name="审批未通过" sourceRef="e.approve.boss.d" targetRef="e.draft">
+    <bpmn:sequenceFlow id="t.admit-d" sourceRef="e.admit" targetRef="e.admit.d" />
+    <bpmn:sequenceFlow id="t.admit-draft" name="审批未通过" sourceRef="e.admit.d" targetRef="e.draft">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="t.admit-begin" name="通过" sourceRef="e.approve.boss.d" targetRef="e.begin">
+    <bpmn:sequenceFlow id="t.admit-begin" name="通过" sourceRef="e.admit.d" targetRef="e.begin">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="e.begin" name="填写培训信息&#10;资料上传" camunda:formKey="camunda-forms:deployment:training.upload.form">
+    <bpmn:userTask id="e.begin" name="填写培训信息&#10;资料上传" camunda:formKey="camunda-forms:deployment:training.begin.form">
       <bpmn:incoming>t.admit-begin</bpmn:incoming>
       <bpmn:outgoing>t.begin-running</bpmn:outgoing>
     </bpmn:userTask>
@@ -195,19 +195,12 @@
       <bpmndi:BPMNShape id="Gateway_19b77g7_di" bpmnElement="e.start.d" isMarkerVisible="true">
         <dc:Bounds x="265" y="195" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
-        <dc:Bounds x="370" y="180" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0491wvp_di" bpmnElement="e.approve.boss.d" isMarkerVisible="true">
-        <dc:Bounds x="1065" y="195" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ilw9lu_di" bpmnElement="e.admit">
-        <dc:Bounds x="880" y="180" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1hiqi86_di" bpmnElement="e.approve">
         <dc:Bounds x="550" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
+        <dc:Bounds x="370" y="180" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_11nr5mu_di" bpmnElement="e.approve.d" isMarkerVisible="true">
@@ -215,10 +208,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="591" y="73" width="77" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ntznpl_di" bpmnElement="e.begin">
-        <dc:Bounds x="240" y="400" width="100" height="80" />
-        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ciia8t_di" bpmnElement="e.running">
         <dc:Bounds x="550" y="400" width="100" height="80" />
@@ -239,6 +228,17 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1079" y="463" width="22" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0491wvp_di" bpmnElement="e.admit.d" isMarkerVisible="true">
+        <dc:Bounds x="1065" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ntznpl_di" bpmnElement="e.begin">
+        <dc:Bounds x="240" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ilw9lu_di" bpmnElement="e.admit">
+        <dc:Bounds x="880" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

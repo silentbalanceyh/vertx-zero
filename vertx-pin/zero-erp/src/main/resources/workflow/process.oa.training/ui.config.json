@@ -1,28 +1,20 @@
 {
     "canvas": {
-        "height": 240
+        "height": 360
     },
     "phase": {
-        "forbidden": [
-            "ACCEPTED",
-            "EXPIRED"
+        "addon": [
+            "BEGIN,处理中:clock-circle,18:#3053EB",
+            "SUMMARY,审批审批:undo,18:#EE3B3B"
         ]
     },
     "synonym": {
-        "phase": "入库单状态",
-        "title": "入库单标题",
-        "serial": "入库单号",
-        "toUserNo": "审批人工号",
-        "toUserName": "审批人",
-        "toUserEmail": "审批人邮箱",
-        "toUserMobile": "审批人电话",
-        "toUserDept": "审批人部门",
-        "toUserTeam": "审批人工作组"
+        "phase": "培训单状态",
+        "title": "培训单标题",
+        "serial": "培训单单号"
     },
-    "request": {
-        "record": {
-            "source": "LINKAGE",
-            "linkage": "linkageAsset"
-        }
-    }
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
 }

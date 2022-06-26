@@ -13,8 +13,46 @@
                 "field": "confirmed",
                 "value": true,
                 "record": {
-                    "status": "DONE",
-                    "active": true
+                }
+            },
+            {
+                "field": "confirmed",
+                "value": false,
+                "todo": {
+                    "status": "REJECTED"
+                }
+            }
+        ]
+    },
+    "e.admit": {
+        "data": {
+            "confirmed": "confirmed"
+        },
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": true,
+                "record": {
+                }
+            },
+            {
+                "field": "confirmed",
+                "value": false,
+                "todo": {
+                    "status": "REJECTED"
+                }
+            }
+        ]
+    },
+    "e.running": {
+        "data": {
+            "confirmed": "confirmed"
+        },
+        "rule": [
+            {
+                "field": "confirmed",
+                "value": true,
+                "record": {
                 }
             },
             {
