@@ -29,8 +29,6 @@ public class ZeroGrid {
         new ConcurrentHashMap<>();
     private static final ConcurrentMap<Integer, HttpServerOptions> RX_OPTS =
         new ConcurrentHashMap<>();
-    private static final ConcurrentMap<Integer, HttpServerOptions> SOCK_OPTS =
-        new ConcurrentHashMap<>();
     private static ClusterOptions CLUSTER;
 
     static {
@@ -69,11 +67,11 @@ public class ZeroGrid {
                 RPC_OPTS.putAll(visitor.visit());
             }
             // Init for SockServerOptions
-            if (SOCK_OPTS.isEmpty()) {
-                final ServerVisitor<HttpServerOptions> visitor =
-                    Ut.singleton(SockServerVisitor.class);
-                SOCK_OPTS.putAll(visitor.visit());
-            }
+            //            if (SOCK_OPTS.isEmpty()) {
+            //                final ServerVisitor<HttpServerOptions> visitor =
+            //                    Ut.singleton(SockServerVisitor.class);
+            //                SOCK_OPTS.putAll(visitor.visit());
+            //            }
             // Init for all plugin options.
             ZeroAmbient.init();
         }, LOGGER);
@@ -99,9 +97,9 @@ public class ZeroGrid {
         return RPC_OPTS;
     }
 
-    public static ConcurrentMap<Integer, HttpServerOptions> getSockOptions() {
-        return SOCK_OPTS;
-    }
+    //    public static ConcurrentMap<Integer, HttpServerOptions> getSockOptions() {
+    //        return SOCK_OPTS;
+    //    }
 
     public static ClusterOptions getClusterOption() {
         return CLUSTER;

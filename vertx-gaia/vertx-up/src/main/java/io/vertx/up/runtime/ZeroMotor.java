@@ -116,12 +116,6 @@ public final class ZeroMotor {
         } else {
             LOGGER.info(Info.RPC_ENABLED);
         }
-        // Check Socket Enabled
-        if (ZeroGrid.getSockOptions().isEmpty()) {
-            agents.remove(ServerType.SOCK);
-        } else {
-            LOGGER.info(Info.SOCK_ENABLED);
-        }
         return agents;
     }
 

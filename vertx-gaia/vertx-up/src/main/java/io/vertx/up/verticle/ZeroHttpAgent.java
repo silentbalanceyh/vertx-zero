@@ -14,7 +14,7 @@ import io.vertx.up.eon.em.Etat;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
-import io.vertx.up.uca.monitor.MeansureAxis;
+import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.uca.rs.Axis;
@@ -42,32 +42,42 @@ public class ZeroHttpAgent extends AbstractVerticle {
     @Override
     public void start() {
         /* 1.Call router hub to mount commont **/
-        final Axis<Router> routerAxiser =
-            Pool.CC_ROUTER.pick(() -> new RouterAxis(this.vertx), RouterAxis.class.getName());
+        final Axis<Router> routerAxiser = Pool.CC_ROUTER.pick(
+            () -> new RouterAxis(this.vertx), RouterAxis.class.getName());
         // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
+
         /* 2.Call route hub to mount defined **/
-        final Axis<Router> axiser =
-            Pool.CC_ROUTER.pick(EventAxis::new, EventAxis.class.getName());
+        final Axis<Router> axis = Pool.CC_ROUTER.pick(
+            EventAxis::new, EventAxis.class.getName());
         // Fn.po?lThread(Pool.EVENTS, EventAxis::new);
-        final Axis<Router> dynamic =
-            Pool.CC_ROUTER.pick(DynamicAxis::new, DynamicAxis.class.getName());
+        final Axis<Router> dynamic = Pool.CC_ROUTER.pick(
+            DynamicAxis::new, DynamicAxis.class.getName());
         // Fn.po?lThread(Pool.DYNAMICS, DynamicAxis::new);
 
+
         /* 3.Call route hub to mount walls **/
-        final Axis<Router> wallAxiser =
-            Pool.CC_ROUTER.pick(() -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
+        final Axis<Router> wallAxis = Pool.CC_ROUTER.pick(
+            () -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
         // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
 
+
         /* 4.Call route hub to mount filters **/
-        final Axis<Router> filterAxiser =
-            Pool.CC_ROUTER.pick(FilterAxis::new, FilterAxis.class.getName());
+        final Axis<Router> filterAxis = Pool.CC_ROUTER.pick(
+            FilterAxis::new, FilterAxis.class.getName());
         // Fn.po?lThread(Pool.FILTERS, FilterAxis::new);
 
-        /* 5.Call route to mount meansure **/
-        final Axis<Router> monitorAxiser =
-            Pool.CC_ROUTER.pick(() -> new MeansureAxis(this.vertx, false), MeansureAxis.class.getName() + "/" + false);
+
+        /* 5.Call route to mount Measure **/
+        final Axis<Router> monitorAxis = Pool.CC_ROUTER.pick(
+            () -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + false);
         // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, false));
+
+        /* 6.SockJs route to mount WebSocket Part **/
+        final Axis<Router> sockAxis = Pool.CC_ROUTER.pick(
+            SockAxis::new, SockAxis.class.getName());
+
+
         /* Get the default HttpServer Options **/
         ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
             /* Single server processing **/
@@ -79,11 +89,13 @@ public class ZeroHttpAgent extends AbstractVerticle {
             // Router
             routerAxiser.mount(router);
             // Wall
-            wallAxiser.mount(router);
+            wallAxis.mount(router);
             // Event
-            axiser.mount(router);
-            // Meansure
-            monitorAxiser.mount(router);
+            axis.mount(router);
+            // Measure
+            monitorAxis.mount(router);
+            // Socket
+            sockAxis.mount(router);
             {
                 /*
                  * Dynamic Extension for some user-defined router to resolve some spec
@@ -94,7 +106,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
                 ((DynamicAxis) dynamic).bind(this.vertx).mount(router);
             }
             // Filter
-            filterAxiser.mount(router);
+            filterAxis.mount(router);
             /* Listen for router on the server **/
             server.requestHandler(router).listen();
             {
@@ -119,7 +131,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
     private void registryServer(final HttpServerOptions options,
                                 final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.HTTP_START_LOGS.get(port);
+        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
