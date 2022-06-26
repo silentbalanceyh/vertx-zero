@@ -72,7 +72,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
     private void registryServer(final AsyncResult<Void> handler,
                                 final ServidorOptions options) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.RPC_START_LOGS.get(port);
+        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
         if (Values.ONE == out.getAndIncrement()) {
             if (handler.succeeded()) {
                 LOGGER.info(Info.RPC_LISTEN, Ut.netIPv4(), String.valueOf(options.getPort()));

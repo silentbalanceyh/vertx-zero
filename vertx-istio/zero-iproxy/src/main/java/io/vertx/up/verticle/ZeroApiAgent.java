@@ -9,7 +9,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.monitor.MeansureAxis;
+import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.rs.Axis;
@@ -62,7 +62,7 @@ public class ZeroApiAgent extends AbstractVerticle {
         // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
         /* 3.Health route */
         final Axis<Router> montiorAxiser =
-            Pool.CC_ROUTER.pick(() -> new MeansureAxis(this.vertx, false), MeansureAxis.class.getName() + "/" + true);
+            Pool.CC_ROUTER.pick(() -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + true);
 
         // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, true));
         Fn.outUp(() -> {

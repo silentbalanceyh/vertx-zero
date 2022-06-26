@@ -3,6 +3,7 @@ package io.vertx.up.experiment.mixture;
 import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -18,7 +19,7 @@ public interface HApp extends Serializable, Json {
      * Also you could provide your only implementation to replace some configuration.
      */
     static String ns(final String appName) {
-        return MessageFormat.format(KValue.NS.DEFAULT, appName);
+        return Ut.isNil(appName) ? null : MessageFormat.format(KValue.NS.DEFAULT, appName);
     }
 
     static String ns(final String appName, final String identifier) {

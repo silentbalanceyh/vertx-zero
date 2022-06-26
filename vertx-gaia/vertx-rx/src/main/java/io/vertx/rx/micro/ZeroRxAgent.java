@@ -66,7 +66,7 @@ public class ZeroRxAgent extends AbstractVerticle {
     private void recordServer(final HttpServerOptions options,
                               final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.RX_START_LOGS.get(port);
+        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);

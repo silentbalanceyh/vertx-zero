@@ -10,7 +10,7 @@ import io.vertx.up.eon.em.JobType;
 public interface Agha {
 
     static Agha get(final JobType type) {
-        return Pool.AGHAS.getOrDefault(type, new PlanAgha());
+        return Pool.AGHAS.getOrDefault(type, new OnceAgha());
     }
 
     /**

@@ -3,9 +3,13 @@ package io.vertx.up.uca.web.origin;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.*;
+import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.Info;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -69,15 +73,17 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
 
         /* The first status of each Job */
         mission.setStatus(JobStatus.STARTING);
-        /* Time of duration */
-        if (Values.RANGE == mission.getDuration()) {
-            mission.setDuration(this.time(annotation, "duration", "durationUnit"));
+
+        {
+            /* threshold / thresholdUnit */
+            final TimeUnit thresholdUnit = Ut.invoke(annotation, "thresholdUnit");
+            final Integer threshold = Ut.invoke(annotation, "threshold");
+            // threshold = thresholdUnit.toNanos(threshold);
+            mission.timeout(threshold, thresholdUnit);
         }
-        /* Time of threshold */
-        if (Values.RANGE == mission.getThreshold()) {
-            final long millSec = this.time(annotation, "threshold", "thresholdUnit");
-            mission.setThreshold(TimeUnit.MILLISECONDS.toNanos(millSec));
-        }
+        /* Set Timer */
+        this.setTimer(mission, annotation);
+
         /* code sync */
         if (Ut.isNil(mission.getCode())) {
             mission.setCode(Constants.DEFAULT_JOB_NAMESPACE + Strings.DASH + mission.getName());
@@ -88,12 +94,25 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             LOGGER.warn(Info.JOB_IGNORE, clazz.getName());
             return null;
         }
-        /* runAt calculate */
-        if (JobType.FIXED == type) {
-            final String expr = Ut.invoke(annotation, "runAt");
-            mission.setInstant(Ut.fromAt(expr));
-        }
         return mission;
+    }
+
+    private void setTimer(final Mission mission, final Annotation annotation) {
+        /* Timer of Mission Building */
+        final KTimer timer = new KTimer(mission.getCode());
+        {
+            /* duration / durationUnit */
+            final TimeUnit durationUnit = Ut.invoke(annotation, "durationUnit");
+            final long duration = Ut.invoke(annotation, "duration");
+            // duration = durationUnit.toMillis(duration);
+            timer.scheduler(duration, durationUnit);
+        }
+        /* formula calculate */
+        final String runFormula = Ut.invoke(annotation, "formula");
+        // Error-40078 Detect
+        mission.detectPre(runFormula);
+        timer.scheduler(runFormula, null);
+        mission.timer(timer);
     }
 
     private Mission config(final Annotation annotation) {
@@ -122,12 +141,6 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             mission = new Mission();
         }
         return mission;
-    }
-
-    private long time(final Annotation annotation, final String field, final String fieldUnit) {
-        final long duration = Ut.invoke(annotation, field);
-        final TimeUnit timeUnit = Ut.invoke(annotation, fieldUnit);
-        return timeUnit.toMillis(duration);
     }
 
     private String resolve(final String config) {
