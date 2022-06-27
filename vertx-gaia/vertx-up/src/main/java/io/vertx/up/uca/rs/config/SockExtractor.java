@@ -2,6 +2,7 @@ package io.vertx.up.uca.rs.config;
 
 import io.vertx.up.annotations.WebSocket;
 import io.vertx.up.atom.worker.Remind;
+import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;
@@ -53,7 +54,10 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         remind.setProxy(proxy);
         remind.setName(Ut.invoke(annotation, KName.NAME));
         // Input Part: input / inputAddress
-        remind.setIncome(Ut.invoke(annotation, "input"));
+        final Class<?> inputCls = Ut.invoke(annotation, "input");
+        if (DefaultClass.class != inputCls) {
+            remind.setIncome(inputCls);
+        }
         remind.setIncomeAddress(Ut.invoke(address, "inputAddress"));
 
         return remind;
