@@ -6,6 +6,7 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.atom.worker.Receipt;
+import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -24,26 +25,18 @@ public class ZeroAnno {
 
     private static final Annal LOGGER = Annal.get(ZeroAnno.class);
 
-    private final static Set<Class<?>>
-        ENDPOINTS = new HashSet<>();
-    private final static Set<Receipt>
-        RECEIPTS = new HashSet<>();
-    private final static Set<Event>
-        EVENTS = new HashSet<>();
-    private final static ConcurrentMap<String, Set<Event>>
-        FILTERS = new ConcurrentHashMap<>();
-    private final static ConcurrentMap<ServerType, List<Class<?>>>
-        AGENTS = new ConcurrentHashMap<>();
-    private final static Set<Class<?>>
-        WORKERS = new HashSet<>();
-    private final static Set<Aegis>
-        WALLS = new TreeSet<>();
-    private final static ConcurrentMap<String, Method>
-        IPCS = new ConcurrentHashMap<>();
-    private final static Set<Class<?>>
-        TPS = new HashSet<>();
-    private final static Set<Mission>
-        JOBS = new HashSet<>();
+    private final static Set<Class<?>> ENDPOINTS = new HashSet<>();
+    private final static Set<Receipt> RECEIPTS = new HashSet<>();
+    private final static Set<Event> EVENTS = new HashSet<>();
+    private final static ConcurrentMap<String, Set<Event>> FILTERS = new ConcurrentHashMap<>();
+    private final static ConcurrentMap<ServerType, List<Class<?>>> AGENTS = new ConcurrentHashMap<>();
+    private final static Set<Class<?>> WORKERS = new HashSet<>();
+    private final static Set<Aegis> WALLS = new TreeSet<>();
+    private final static ConcurrentMap<String, Method> IPCS = new ConcurrentHashMap<>();
+    private final static Set<Class<?>> TPS = new HashSet<>();
+    private final static Set<Mission> JOBS = new HashSet<>();
+
+    private final static Set<Remind> SOCKS = new HashSet<>();
     private static Injector DI;
 
     /*
@@ -60,33 +53,27 @@ public class ZeroAnno {
         DI = guice.scan(clazzes);
 
         /* EndPoint **/
-        Inquirer<Set<Class<?>>> inquirer =
-            Ut.singleton(EndPointInquirer.class);
+        Inquirer<Set<Class<?>>> inquirer = Ut.singleton(EndPointInquirer.class);
         ENDPOINTS.addAll(inquirer.scan(clazzes));
 
         /* EndPoint -> Event **/
-        Fn.safeSemi(!ENDPOINTS.isEmpty(),
-            LOGGER,
-            () -> {
-                final Inquirer<Set<Event>> event = Ut.singleton(EventInquirer.class);
-                EVENTS.addAll(event.scan(ENDPOINTS));
-            });
+        Fn.safeSemi(!ENDPOINTS.isEmpty(), LOGGER, () -> {
+            final Inquirer<Set<Event>> event = Ut.singleton(EventInquirer.class);
+            EVENTS.addAll(event.scan(ENDPOINTS));
+        });
         /* 1.1. Put Path Uri into Set */
-        EVENTS.stream()
-            .filter(Objects::nonNull)
+        EVENTS.stream().filter(Objects::nonNull)
             /* Only Uri Pattern will be extracted to URI_PATHS */
             .filter(item -> 0 < item.getPath().indexOf(":"))
             .forEach(ZeroUri::resolve);
         ZeroUri.report();
 
         /* Wall -> Authenticate, Authorize **/
-        final Inquirer<Set<Aegis>> walls =
-            Ut.singleton(WallInquirer.class);
+        final Inquirer<Set<Aegis>> walls = Ut.singleton(WallInquirer.class);
         WALLS.addAll(walls.scan(clazzes));
 
         /* Filter -> WebFilter **/
-        final Inquirer<ConcurrentMap<String, Set<Event>>> filters =
-            Ut.singleton(FilterInquirer.class);
+        final Inquirer<ConcurrentMap<String, Set<Event>>> filters = Ut.singleton(FilterInquirer.class);
         FILTERS.putAll(filters.scan(clazzes));
 
         /* Queue **/
@@ -94,16 +81,15 @@ public class ZeroAnno {
         final Set<Class<?>> queues = inquirer.scan(clazzes);
 
         /* Queue -> Receipt **/
-        Fn.safeSemi(!queues.isEmpty(),
-            LOGGER,
-            () -> {
-                final Inquirer<Set<Receipt>> receipt = Ut.singleton(ReceiptInquirer.class);
-                RECEIPTS.addAll(receipt.scan(queues));
-            });
+        Fn.safeSemi(!queues.isEmpty(), LOGGER, () -> {
+            final Inquirer<Set<Receipt>> receipt = Ut.singleton(ReceiptInquirer.class);
+            RECEIPTS.addAll(receipt.scan(queues));
+        });
 
         /* Ipc Only **/
         final Inquirer<ConcurrentMap<String, Method>> ipc = Ut.singleton(IpcInquirer.class);
         IPCS.putAll(ipc.scan(clazzes));
+
         /* Agent **/
         final Inquirer<ConcurrentMap<ServerType, List<Class<?>>>> agent = Ut.singleton(AgentInquirer.class);
         AGENTS.putAll(agent.scan(clazzes));
@@ -119,6 +105,14 @@ public class ZeroAnno {
         /* Worker **/
         final Inquirer<Set<Class<?>>> worker = Ut.singleton(WorkerInquirer.class);
         WORKERS.addAll(worker.scan(clazzes));
+
+        /*
+         * For `Job` and `Sock`, there is no additional extractor to get
+         * The lower
+         */
+        /* WebSock */
+        final Inquirer<Set<Remind>> socks = Ut.singleton(SockInquirer.class);
+        SOCKS.addAll(socks.scan(clazzes));
 
         /* Jobs with description in zero */
         final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
@@ -192,6 +186,10 @@ public class ZeroAnno {
      */
     public static Set<Event> getEvents() {
         return EVENTS;
+    }
+
+    public static Set<Remind> getSocks() {
+        return SOCKS;
     }
 
     /**

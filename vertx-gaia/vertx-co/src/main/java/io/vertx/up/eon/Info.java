@@ -28,6 +28,9 @@ public interface Info {
     String SCANED_ENDPOINT = "( {0} EndPoint ) The Zero system has found " +
         "{0} components of @EndPoint.";
 
+    String SCANED_WEBSOCKET = "( {0} WebSocket ) The Zero system has found " +
+        "{0} components of @EndPoint.";
+
     String SCANED_JOB = "( {0} Job ) The Zero system has found " +
         "{0} components of @Job.";
 

@@ -9,6 +9,7 @@ import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroHelper;
@@ -156,7 +157,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // 8. Order
         if (method.isAnnotationPresent(Adjust.class)) {
             final Annotation adjust = method.getDeclaredAnnotation(Adjust.class);
-            final Integer order = Ut.invoke(adjust, "value");
+            final Integer order = Ut.invoke(adjust, KName.VALUE);
             if (Objects.nonNull(order)) {
                 /*
                  * Routing order modification.

@@ -1,5 +1,6 @@
 package io.vertx.up.annotations;
 
+import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.Strings;
 
 import java.lang.annotation.*;
@@ -33,6 +34,10 @@ public @interface WebSocket {
      * 2. The critical `address` is stored into `value` for Router mounting
      */
     String inputAddress() default Strings.EMPTY;
+
+    String name() default Strings.EMPTY;
+
+    Class<?> input() default DefaultClass.class;
 
     String value();
 }
