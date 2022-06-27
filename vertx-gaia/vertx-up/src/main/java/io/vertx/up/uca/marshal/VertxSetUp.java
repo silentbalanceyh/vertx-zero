@@ -6,15 +6,20 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.NodeVisitor;
 
-public class VertxStrada implements JTransformer<VertxOptions> {
+import java.util.Objects;
 
-    private static final Annal LOGGER = Annal.get(VertxStrada.class);
+public class VertxSetUp implements JTransformer<VertxOptions> {
+
+    private static final Annal LOGGER = Annal.get(VertxSetUp.class);
 
     @Override
     public VertxOptions transform(final JsonObject input) {
         final JsonObject config = input.getJsonObject(NodeVisitor.YKEY_OPTIONS, null);
         return Fn.getSemi(null == config, LOGGER,
             VertxOptions::new,
-            () -> new VertxOptions(config));
+            () -> {
+                assert Objects.nonNull(config) : "`config` should not be null";
+                return new VertxOptions(config);
+            });
     }
 }

@@ -2,6 +2,7 @@ package io.vertx.core;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 
 import java.io.Serializable;
 
@@ -41,7 +42,7 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ServidorOptions implements Serializable {
+public class RpcOptions implements Serializable {
 
     /**
      * Default `port`, 6084
@@ -71,7 +72,7 @@ public class ServidorOptions implements Serializable {
     /**
      * Default constructor
      */
-    public ServidorOptions() {
+    public RpcOptions() {
     }
 
     /**
@@ -79,7 +80,7 @@ public class ServidorOptions implements Serializable {
      *
      * @param other The other {@code ServidorOptions} to copy when creating this
      */
-    public ServidorOptions(final ServidorOptions other) {
+    public RpcOptions(final RpcOptions other) {
         this.name = other.getName();
         this.host = other.getHost();
         this.port = other.getPort();
@@ -91,8 +92,8 @@ public class ServidorOptions implements Serializable {
      *
      * @param json the JsonObject to create it from
      */
-    public ServidorOptions(final JsonObject json) {
-        ServidorOptionsConverter.fromJson(json, this);
+    public RpcOptions(final JsonObject json) {
+        RpcOptionsConverter.fromJson(json, this);
     }
 
     /**
@@ -113,7 +114,7 @@ public class ServidorOptions implements Serializable {
      * @return a reference to this.
      */
     @Fluent
-    public ServidorOptions setName(final String name) {
+    public RpcOptions setName(final String name) {
         this.name = name;
         return this;
     }
@@ -137,7 +138,7 @@ public class ServidorOptions implements Serializable {
      * @return a reference to this
      */
     @Fluent
-    public ServidorOptions setHost(final String host) {
+    public RpcOptions setHost(final String host) {
         this.host = host;
         return this;
     }
@@ -161,7 +162,7 @@ public class ServidorOptions implements Serializable {
      * @return a reference to this
      */
     @Fluent
-    public ServidorOptions setPort(final Integer port) {
+    public RpcOptions setPort(final Integer port) {
         this.port = port;
         return this;
     }
@@ -184,7 +185,7 @@ public class ServidorOptions implements Serializable {
      *
      * @return a reference to this
      */
-    public ServidorOptions setOptions(final JsonObject options) {
+    public RpcOptions setOptions(final JsonObject options) {
         this.options = options;
         return this;
     }
@@ -196,11 +197,11 @@ public class ServidorOptions implements Serializable {
      */
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();
-        data.put("name", this.name);
+        data.put(KName.NAME, this.name);
         final JsonObject config = null == this.options ? new JsonObject() : this.options.copy();
-        config.put("host", this.host);
-        config.put("port", this.port);
-        data.put("config", config);
+        config.put(KName.HOST, this.host);
+        config.put(KName.PORT, this.port);
+        data.put(KName.CONFIG, config);
         return data;
     }
 

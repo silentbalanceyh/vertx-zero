@@ -2,7 +2,7 @@ package io.vertx.up.verticle;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.ServidorOptions;
+import io.vertx.core.RpcOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
@@ -70,7 +70,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
      * @param options rpc options
      */
     private void registryServer(final AsyncResult<Void> handler,
-                                final ServidorOptions options) {
+                                final RpcOptions options) {
         final Integer port = options.getPort();
         final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
         if (Values.ONE == out.getAndIncrement()) {
@@ -86,7 +86,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
         }
     }
 
-    private void startRegistry(final ServidorOptions options) {
+    private void startRegistry(final RpcOptions options) {
         // Rpc Agent is only valid in Micro mode
         final EventBus bus = this.vertx.eventBus();
         final String address = ID.Addr.IPC_START;

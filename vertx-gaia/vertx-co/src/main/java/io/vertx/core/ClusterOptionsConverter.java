@@ -2,6 +2,7 @@ package io.vertx.core;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -36,8 +37,8 @@ final class ClusterOptionsConverter {
         if (json.getValue("enabled") instanceof Boolean) {
             obj.setEnabled(json.getBoolean("enabled"));
         }
-        if (json.getValue("options") instanceof JsonObject) {
-            obj.setOptions(json.getJsonObject("options"));
+        if (json.getValue(KName.OPTIONS) instanceof JsonObject) {
+            obj.setOptions(json.getJsonObject(KName.OPTIONS));
         }
         final Object managerObj = json.getValue("manager");
         Fn.safeNull(() -> {

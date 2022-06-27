@@ -24,7 +24,7 @@ public class DynamicAxis implements Axis<Router> {
     private static final AtomicInteger LOG_FLAG_END = new AtomicInteger(0);
     private static final String NAME = DynamicAxis.class.getSimpleName();
     private static final Cc<String, PlugRouter> CC_PLUGS = Cc.openThread();
-    private transient Vertx vertxRef;
+    private Vertx vertxRef;
 
     @Override
     public void mount(final Router router) {

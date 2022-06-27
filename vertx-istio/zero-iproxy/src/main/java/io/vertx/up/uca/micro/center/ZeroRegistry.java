@@ -1,7 +1,7 @@
 package io.vertx.up.uca.micro.center;
 
 import io.reactivex.Observable;
-import io.vertx.core.ServidorOptions;
+import io.vertx.core.RpcOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -140,7 +140,7 @@ public class ZeroRegistry implements UddiRegistry {
         }
     }
 
-    public void registryRpc(final ServidorOptions options, final Etat etat) {
+    public void registryRpc(final RpcOptions options, final Etat etat) {
         final String path = MessageFormat.format(PATH_STATUS, this.etcd.getApplication(),
             EtcdPath.IPC.toString().toLowerCase(), options.getName(),
             Ut.netIPv4(), String.valueOf(options.getPort()));
@@ -148,7 +148,7 @@ public class ZeroRegistry implements UddiRegistry {
         this.etcd.write(path, etat, Values.ZERO);
     }
 
-    public void registryIpcs(final ServidorOptions options, final Set<String> ipcs) {
+    public void registryIpcs(final RpcOptions options, final Set<String> ipcs) {
         final String path = MessageFormat.format(ROUTE_TREE, this.etcd.getApplication(),
             EtcdPath.IPC.toString().toLowerCase(),
             MessageFormat.format("{0}:{1}:{2}", options.getName(),

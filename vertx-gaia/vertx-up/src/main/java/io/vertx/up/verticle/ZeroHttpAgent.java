@@ -1,6 +1,7 @@
 package io.vertx.up.verticle;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.SockOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
@@ -94,17 +95,30 @@ public class ZeroHttpAgent extends AbstractVerticle {
             axis.mount(router);
             // Measure
             monitorAxis.mount(router);
+
+
+            /*
+             * WebSocket Extension for user-defined WebSocket server that be connected
+             * to current HTTP server by `port`. Here the WebSocket configuration should share
+             * HTTP Port instead of standalone. it means that when you configure the WebSocket
+             * in your environment, the port number must be the same as HTTP server, if the port
+             * does not exist in your HTTP server instances, the WebSocket server will be
+             * ignored.
+             */
             // Socket
-            sockAxis.mount(router);
-            {
-                /*
-                 * Dynamic Extension for some user-defined router to resolve some spec
-                 * requirement such as Data Driven System and Origin X etc.
-                 * Call second method to inject vertx reference.
-                 */
-                // This step is required for bind vertx instance
-                ((DynamicAxis) dynamic).bind(this.vertx).mount(router);
-            }
+            final SockOptions optionSock = ZeroAtomic.SOCK_OPTS.getOrDefault(port, null);
+            ((SockAxis) sockAxis).bind(this.vertx, optionSock).mount(router);
+
+
+            /*
+             * Dynamic Extension for some user-defined router to resolve some spec
+             * requirement such as Data Driven System and Origin X etc.
+             * Call second method to inject vertx reference.
+             */
+            // This step is required for bind vertx instance
+            ((DynamicAxis) dynamic).bind(this.vertx).mount(router);
+
+
             // Filter
             filterAxis.mount(router);
             /* Listen for router on the server **/
