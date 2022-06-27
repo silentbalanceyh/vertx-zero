@@ -107,7 +107,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
              */
             // Socket
             final SockOptions optionSock = ZeroAtomic.SOCK_OPTS.getOrDefault(port, null);
-            ((SockAxis) sockAxis).bind(this.vertx, optionSock).mount(router);
+            ((SockAxis) sockAxis).bind(optionSock).mount(router);
 
 
             /*
