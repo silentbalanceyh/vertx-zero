@@ -3,6 +3,8 @@ package io.vertx.up.eon.em;
 public enum ServerType {
     // Http Server
     HTTP("http"),
+    // Sock Server
+    SOCK("sock"),
     // Rx Server
     RX("rx"),
     // Rpc Server

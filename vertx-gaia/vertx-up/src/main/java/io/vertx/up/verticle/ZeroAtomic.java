@@ -1,6 +1,7 @@
 package io.vertx.up.verticle;
 
-import io.vertx.core.ServidorOptions;
+import io.vertx.core.RpcOptions;
+import io.vertx.core.SockOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.up.runtime.ZeroGrid;
 
@@ -19,7 +20,7 @@ public interface ZeroAtomic {
      * 2) Internal communication to be instead of HTTP / RESTful
      * 3) Keep connection Alive always.
      */
-    ConcurrentMap<Integer, ServidorOptions> RPC_OPTS = ZeroGrid.getRpcOptions();
+    ConcurrentMap<Integer, RpcOptions> RPC_OPTS = ZeroGrid.getRpcOptions();
 
 
     /**
@@ -28,6 +29,8 @@ public interface ZeroAtomic {
      * part in real production environment.
      */
     ConcurrentMap<Integer, HttpServerOptions> HTTP_OPTS = ZeroGrid.getServerOptions();
+
+    ConcurrentMap<Integer, SockOptions> SOCK_OPTS = ZeroGrid.getSockOptions();
 
     /*
      * Sock Server information, in current situation to avoid sharing information between

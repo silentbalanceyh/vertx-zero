@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-public class ClusterStrada implements JTransformer<ClusterOptions> {
+public class ClusterSetUp implements JTransformer<ClusterOptions> {
 
-    private static final Annal LOGGER = Annal.get(ClusterStrada.class);
+    private static final Annal LOGGER = Annal.get(ClusterSetUp.class);
 
     @Override
     public ClusterOptions transform(final JsonObject config) {
