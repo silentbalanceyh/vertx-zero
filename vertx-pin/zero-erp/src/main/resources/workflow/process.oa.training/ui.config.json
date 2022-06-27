@@ -5,7 +5,8 @@
     "phase": {
         "addon": [
             "BEGIN,处理中:clock-circle,18:#3053EB",
-            "SUMMARY,审批审批:undo,18:#EE3B3B"
+            "RUNNING,处理中:clock-circle,18:#3053EB",
+            "SUMMARY,等待审批:undo,18:#EE3B3B"
         ]
     },
     "synonym": {
