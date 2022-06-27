@@ -369,10 +369,6 @@ public class Mission implements Serializable {
         }
     }
 
-    public void detectPost() {
-
-    }
-
     @Override
     public String toString() {
         return "Mission{" +

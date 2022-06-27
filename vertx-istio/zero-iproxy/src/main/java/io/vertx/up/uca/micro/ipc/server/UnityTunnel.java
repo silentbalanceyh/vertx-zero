@@ -7,7 +7,7 @@ import io.vertx.tp.ipc.eon.IpcRequest;
 import io.vertx.tp.ipc.eon.IpcResponse;
 import io.vertx.tp.ipc.service.VertxUnityServiceGrpc;
 import io.vertx.up.annotations.Ipc;
-import io.vertx.up.atom.rpc.IpcData;
+import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.em.IpcType;
 import io.vertx.up.exception.web._501RpcMethodMissingException;

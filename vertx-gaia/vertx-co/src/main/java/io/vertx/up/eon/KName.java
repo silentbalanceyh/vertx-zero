@@ -170,6 +170,7 @@ public interface KName {
     String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 
+    String WEB_SOCKET = "websocket";             /* Web Socket */
     String CONFIG = "config";                    /* Acl Usage */
     String PHASE = "phase";                      /* Acl Phase */
     String SEEKER = "seeker";                    /* Acl Seeker */

@@ -6,8 +6,5 @@ databaseChangeLog:
       file: plugin/sql/is/I_DIRECTORY.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/is/I_MESSAGE_TPL.sql
-      relativeToChangelogFile: false
-  - include:
       file: plugin/sql/is/I_MESSAGE.sql
       relativeToChangelogFile: false

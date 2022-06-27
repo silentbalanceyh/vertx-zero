@@ -3,6 +3,7 @@ package io.vertx.up.uca.rs.config;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.worker.Receipt;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Anno;
@@ -14,6 +15,7 @@ import io.vertx.zero.exception.AddressWrongException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -56,12 +58,11 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
             // 2. Scan method to find @Address
             final Set<Receipt> receipts = new HashSet<>();
             final Method[] methods = clazz.getDeclaredMethods();
-            Observable.fromArray(methods)
+            Arrays.stream(methods)
                 .filter(MethodResolver::isValid)
                 .filter(method -> method.isAnnotationPresent(Address.class))
                 .map(this::extract)
-                .subscribe(receipts::add)
-                .dispose();
+                .forEach(receipts::add);
             return receipts;
         }, clazz);
     }
@@ -70,7 +71,7 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
         // 1. Scan whole Endpoints
         final Class<?> clazz = method.getDeclaringClass();
         final Annotation annotation = method.getDeclaredAnnotation(Address.class);
-        final String address = Ut.invoke(annotation, "value");
+        final String address = Ut.invoke(annotation, KName.VALUE);
         // 2. Ensure address incoming.
         Fn.outUp(!ADDRESS.contains(address), LOGGER,
             AddressWrongException.class,

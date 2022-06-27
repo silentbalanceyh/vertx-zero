@@ -7,7 +7,7 @@ import io.vertx.tp.ipc.eon.IpcRequest;
 import io.vertx.tp.ipc.service.VertxUnityServiceGrpc;
 import io.vertx.tp.plugin.rpc.RpcRepdor;
 import io.vertx.tp.plugin.rpc.RpcSslTool;
-import io.vertx.up.atom.rpc.IpcData;
+import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.micro.ipc.DataEncap;
 

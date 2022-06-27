@@ -97,6 +97,12 @@
             <artifactId>zero-lbs</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Tpl -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-tpl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- History 专用包 -->
         <dependency>
             <groupId>cn.vertxup</groupId>

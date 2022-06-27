@@ -161,6 +161,11 @@
                 <artifactId>zero-battery</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-tpl</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Infix -->
             <dependency>
                 <groupId>cn.vertxup</groupId>

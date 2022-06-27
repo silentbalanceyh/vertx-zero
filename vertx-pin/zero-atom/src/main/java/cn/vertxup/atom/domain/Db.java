@@ -71,11 +71,6 @@ public class Db extends SchemaImpl {
     public final MRelation M_RELATION = MRelation.M_RELATION;
 
     /**
-     * The table <code>DB_ETERNAL.M_TPL</code>.
-     */
-    public final MTpl M_TPL = MTpl.M_TPL;
-
-    /**
      * No further instances allowed
      */
     private Db() {
@@ -99,8 +94,7 @@ public class Db extends SchemaImpl {
             MJoin.M_JOIN,
             MKey.M_KEY,
             MModel.M_MODEL,
-            MRelation.M_RELATION,
-            MTpl.M_TPL
+            MRelation.M_RELATION
         );
     }
 }
