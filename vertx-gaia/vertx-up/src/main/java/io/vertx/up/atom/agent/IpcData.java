@@ -1,4 +1,4 @@
-package io.vertx.up.atom.rpc;
+package io.vertx.up.atom.agent;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -38,7 +38,7 @@ public class IpcData implements Serializable {
     private JsonObject config = new JsonObject();
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(final String name) {
@@ -46,7 +46,7 @@ public class IpcData implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(final String address) {
@@ -54,7 +54,7 @@ public class IpcData implements Serializable {
     }
 
     public IpcType getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(final IpcType type) {
@@ -62,7 +62,7 @@ public class IpcData implements Serializable {
     }
 
     public Integer getPort() {
-        return port;
+        return this.port;
     }
 
     public void setPort(final Integer port) {
@@ -70,7 +70,7 @@ public class IpcData implements Serializable {
     }
 
     public String getHost() {
-        return host;
+        return this.host;
     }
 
     public void setHost(final String host) {
@@ -78,7 +78,7 @@ public class IpcData implements Serializable {
     }
 
     public Buffer getData() {
-        return data;
+        return this.data;
     }
 
     public void setData(final Buffer data) {
@@ -86,7 +86,7 @@ public class IpcData implements Serializable {
     }
 
     public JsonObject getConfig() {
-        return config;
+        return this.config;
     }
 
     public void setConfig(final JsonObject config) {
@@ -96,12 +96,12 @@ public class IpcData implements Serializable {
     @Override
     public String toString() {
         return "IpcData{" +
-            "type=" + type +
-            ", port=" + port +
-            ", host='" + host + '\'' +
-            ", data=" + data +
-            ", address=" + address +
-            ", config=" + config +
+            "type=" + this.type +
+            ", port=" + this.port +
+            ", host='" + this.host + '\'' +
+            ", data=" + this.data +
+            ", address=" + this.address +
+            ", config=" + this.config +
             '}';
     }
 }

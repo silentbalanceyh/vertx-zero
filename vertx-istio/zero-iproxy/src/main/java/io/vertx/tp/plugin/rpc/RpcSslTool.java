@@ -4,7 +4,7 @@ import io.grpc.ManagedChannel;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
-import io.vertx.up.atom.rpc.IpcData;
+import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.eon.em.CertType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

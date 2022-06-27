@@ -9,7 +9,7 @@ import io.vertx.core.shareddata.LocalMap;
 import io.vertx.servicediscovery.Record;
 import io.vertx.tp.plugin.rpc.client.RpcStub;
 import io.vertx.tp.plugin.rpc.client.UnityStub;
-import io.vertx.up.atom.rpc.IpcData;
+import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.em.IpcType;
 import io.vertx.up.log.Annal;

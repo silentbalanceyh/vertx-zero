@@ -13,7 +13,6 @@ import cn.vertxup.atom.domain.tables.MJoin;
 import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
-import cn.vertxup.atom.domain.tables.MTpl;
 
 
 /**
@@ -66,9 +65,4 @@ public class Tables {
      * The table <code>DB_ETERNAL.M_RELATION</code>.
      */
     public static final MRelation M_RELATION = MRelation.M_RELATION;
-
-    /**
-     * The table <code>DB_ETERNAL.M_TPL</code>.
-     */
-    public static final MTpl M_TPL = MTpl.M_TPL;
 }

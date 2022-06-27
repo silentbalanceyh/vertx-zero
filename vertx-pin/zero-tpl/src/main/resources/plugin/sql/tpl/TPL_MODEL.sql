@@ -1,9 +1,9 @@
 -- liquibase formatted sql
 
--- changeset Lang:ox-tpl-1
--- 模板表：M_TPL
-DROP TABLE IF EXISTS M_TPL;
-CREATE TABLE IF NOT EXISTS M_TPL
+-- changeset Lang:tpl-model-1
+-- 模板表：TPL_MODEL
+DROP TABLE IF EXISTS TPL_MODEL;
+CREATE TABLE IF NOT EXISTS TPL_MODEL
 (
     `KEY`             VARCHAR(36) COMMENT '「key」- 模板ID',
     `NAME`            VARCHAR(256) COMMENT '「name」- 模板名称',
@@ -42,6 +42,6 @@ CREATE TABLE IF NOT EXISTS M_TPL
     `UPDATED_BY`      VARCHAR(36) COMMENT '「updatedBy」- 更新人',
     PRIMARY KEY (`KEY`)
 );
--- changeset Lang:ox-tpl-2
-ALTER TABLE M_TPL
+-- changeset Lang:tpl-model-2
+ALTER TABLE TPL_MODEL
     ADD UNIQUE (`CODE`, `SIGMA`);

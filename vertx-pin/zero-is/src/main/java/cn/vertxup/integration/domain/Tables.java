@@ -7,7 +7,6 @@ package cn.vertxup.integration.domain;
 import cn.vertxup.integration.domain.tables.IDirectory;
 import cn.vertxup.integration.domain.tables.IIntegration;
 import cn.vertxup.integration.domain.tables.IMessage;
-import cn.vertxup.integration.domain.tables.IMessageTpl;
 
 
 /**
@@ -30,9 +29,4 @@ public class Tables {
      * The table <code>DB_ETERNAL.I_MESSAGE</code>.
      */
     public static final IMessage I_MESSAGE = IMessage.I_MESSAGE;
-
-    /**
-     * The table <code>DB_ETERNAL.I_MESSAGE_TPL</code>.
-     */
-    public static final IMessageTpl I_MESSAGE_TPL = IMessageTpl.I_MESSAGE_TPL;
 }

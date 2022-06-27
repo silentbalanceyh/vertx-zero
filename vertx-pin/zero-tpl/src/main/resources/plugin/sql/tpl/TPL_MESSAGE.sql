@@ -1,9 +1,9 @@
 -- liquibase formatted sql
 
--- changeset Lang:i-message-tpl-1
--- 邮件模板：I_MESSAGE_TPL
-DROP TABLE IF EXISTS I_MESSAGE_TPL;
-CREATE TABLE IF NOT EXISTS I_MESSAGE_TPL
+-- changeset Lang:tpl-message-1
+-- 邮件模板：TPL_MESSAGE
+DROP TABLE IF EXISTS TPL_MESSAGE;
+CREATE TABLE IF NOT EXISTS TPL_MESSAGE
 (
     `KEY`            VARCHAR(36) COMMENT '「key」- 模板唯一主键',
     `NAME`           VARCHAR(255) COMMENT '「name」- 模板名称',
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS I_MESSAGE_TPL
     `UPDATED_BY`     VARCHAR(36) COMMENT '「updatedBy」- 更新人',
     PRIMARY KEY (`KEY`) USING BTREE
 );
--- changeset Lang:i-message-tpl-2
-ALTER TABLE I_MESSAGE_TPL
+-- changeset Lang:tpl-message-2
+ALTER TABLE TPL_MESSAGE
     ADD UNIQUE (`APP_ID`, `CODE`); -- 模板名称/编码
-ALTER TABLE I_MESSAGE_TPL
+ALTER TABLE TPL_MESSAGE
     ADD UNIQUE (`APP_ID`, `NAME`);

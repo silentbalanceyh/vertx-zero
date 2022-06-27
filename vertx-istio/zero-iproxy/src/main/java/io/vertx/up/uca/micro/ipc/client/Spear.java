@@ -2,7 +2,7 @@ package io.vertx.up.uca.micro.ipc.client;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.up.atom.rpc.IpcData;
+import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
 
 /**
