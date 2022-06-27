@@ -4,3 +4,4 @@ required:
   - config
 typed:
   config: JOBJECT
+  websocket: JOBJECT
