@@ -1,0 +1,7 @@
+typed:
+  headerTableSize: INTEGER
+  initialWindowSize: INTEGER
+  maxConcurrentStreams: INTEGER
+  maxFrameSize: INTEGER
+  maxHeaderListSize: INTEGER
+  pushEnabled: BOOLEAN

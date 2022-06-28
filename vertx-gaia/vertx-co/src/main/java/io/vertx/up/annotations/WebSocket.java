@@ -41,5 +41,5 @@ public @interface WebSocket {
 
     String value();
 
-    boolean secure() default false;
+    boolean secure() default true;
 }

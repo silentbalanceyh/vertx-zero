@@ -22,10 +22,6 @@ public class SockOptions implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject config = new JsonObject();
-
-    @JsonSerialize(using = JsonObjectSerializer.class)
-    @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private JsonObject server = new JsonObject();
     private String publish;
 
     @JsonSerialize(using = ClassSerializer.class)
@@ -74,14 +70,6 @@ public class SockOptions implements Serializable {
 
     public void setConfig(final JsonObject config) {
         this.config = config;
-    }
-
-    public JsonObject getServer() {
-        return this.server;
-    }
-
-    public void setServer(final JsonObject server) {
-        this.server = server;
     }
 
     public String getPublish() {
