@@ -16,6 +16,7 @@ import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -25,6 +26,10 @@ class AresWs extends AbstractAres {
 
     private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
     private static final boolean ENABLED = !ZeroAtomic.SOCK_OPTS.isEmpty() && !SOCKS.isEmpty();
+    // Single Log Needed
+    private static final AtomicBoolean LOG_DISABLED = new AtomicBoolean(Boolean.TRUE);
+    private static final AtomicBoolean LOG_PUBLISH = new AtomicBoolean(Boolean.TRUE);
+    private static final AtomicBoolean LOG_COMPONENT = new AtomicBoolean(Boolean.TRUE);
     private final Ares publish;
     private Ares executor;
     private SockOptions sockOptions;
@@ -44,20 +49,26 @@ class AresWs extends AbstractAres {
                 final String publish = this.sockOptions.getPublish();
                 if (Ut.notNil(publish)) {
                     this.publish.configure(options);
-                    this.logger().info(Info.WS_PUBLISH, String.valueOf(options.getPort()),
-                        options.getHost(), publish);
+                    if (LOG_PUBLISH.getAndSet(Boolean.FALSE)) {
+                        this.logger().info(Info.WS_PUBLISH, String.valueOf(options.getPort()),
+                            options.getHost(), publish);
+                    }
                 }
 
                 // 1. The default component implementation class for publish only ( Non Secure )
                 final Class<?> aresCls = Objects.isNull(this.sockOptions.getComponent()) ? AresBridge.class : this.sockOptions.getComponent();
-                this.logger().info(Info.WS_COMPONENT, aresCls, this.sockOptions.getComponent());
+                if (LOG_COMPONENT.getAndSet(Boolean.FALSE)) {
+                    this.logger().info(Info.WS_COMPONENT, aresCls, this.sockOptions.getComponent());
+                }
 
                 // 2. Build reference of component of Ares
                 this.executor = Ut.instance(aresCls, this.vertx());
                 this.executor.configure(options);
             }
         } else {
-            this.logger().info(Info.WS_DISABLED, String.valueOf(options.getPort()), options.getHost());
+            if (LOG_DISABLED.getAndSet(Boolean.FALSE)) {
+                this.logger().info(Info.WS_DISABLED, String.valueOf(options.getPort()), options.getHost());
+            }
         }
     }
 

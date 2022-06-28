@@ -14,5 +14,5 @@ interface Info {
 
     String WS_PUBLISH = "[ Sock ] The WebSocket publish channel has been opened: http://{1}:{0}{2}";
 
-    String WS_COMPONENT = "[ Sock ] The WebSocket component has been selected: {0} ( Default {1} )";
+    String WS_COMPONENT = "[ Sock ] The WebSocket component has been selected: {0}";
 }

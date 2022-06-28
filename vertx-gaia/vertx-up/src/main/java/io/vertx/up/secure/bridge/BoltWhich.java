@@ -88,7 +88,7 @@ class BoltWhich implements Bolt {
         if (Objects.isNull(lee)) {
             return null;
         }
-        return lee.authenticateProvider(vertx, config);
+        return lee.provider(vertx, config);
     }
 
     /*

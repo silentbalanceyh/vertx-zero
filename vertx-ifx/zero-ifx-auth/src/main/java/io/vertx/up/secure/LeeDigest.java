@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.htdigest.HtdigestAuth;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.impl.HTTPAuthorizationHandler;
@@ -17,7 +18,7 @@ class LeeDigest extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         // provider processing
-        final HtdigestAuth standard = this.authenticateProvider(vertx, config);
+        final HtdigestAuth standard = this.providerInternal(vertx, config);
         // handler building
         final AuthenticationHandler handler = this.buildHandler(standard, config,
             HTTPAuthorizationHandler.Type.DIGEST);
@@ -25,8 +26,14 @@ class LeeDigest extends AbstractLee {
     }
 
     @Override
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
+        final HtdigestAuth standard = this.providerInternal(vertx, config);
+        return this.wrapProvider(standard, config);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public HtdigestAuth authenticateProvider(final Vertx vertx, final Aegis config) {
+    public HtdigestAuth providerInternal(final Vertx vertx, final Aegis config) {
         final String filename = this.option(config, "filename");
         final HtdigestAuth standard;
         if (Ut.isNil(filename)) {

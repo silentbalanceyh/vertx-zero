@@ -43,9 +43,9 @@ public class BridgeLee implements LeeBuiltIn {
     }
 
     @Override
-    public <T extends AuthenticationProvider> T authenticateProvider(final Vertx vertx, final Aegis config) {
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final Lee reference = this.component(config.getType());
-        return reference.authenticateProvider(vertx, config);
+        return reference.provider(vertx, config);
     }
 
     @Override

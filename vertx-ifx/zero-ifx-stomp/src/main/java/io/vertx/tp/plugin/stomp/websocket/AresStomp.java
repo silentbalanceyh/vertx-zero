@@ -16,18 +16,23 @@ import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
 import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.matcher.RegexPath;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AresStomp extends AbstractAres {
     private static final Cc<String, Set<Aegis>> CC_WALLS = ZeroAnno.getWalls();
+    private static final AtomicBoolean LOG_FOUND = new AtomicBoolean(Boolean.TRUE);
+    private static final AtomicBoolean LOG_PROVIDER = new AtomicBoolean(Boolean.TRUE);
     private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
     private transient final Bolt bolt;
 
@@ -93,15 +98,20 @@ public class AresStomp extends AbstractAres {
              * Stomp:   /api/web-socket/stomp
              * Path:    /api/
              */
-            if (!aegisSet.isEmpty() && stomp.startsWith(path)) {
-                this.logger().info(Info.SECURE_FOUND, stomp, path, String.valueOf(aegisSet.size()));
+            final Pattern regexPath = RegexPath.createRegex(path);
+            if (!aegisSet.isEmpty() && regexPath.matcher(stomp).matches()) {
+                if (LOG_FOUND.getAndSet(Boolean.FALSE)) {
+                    this.logger().info(Info.SECURE_FOUND, stomp, path, String.valueOf(aegisSet.size()));
+                }
                 reference.set(aegisSet.iterator().next());
             }
         });
         final Aegis config = reference.get();
         if (Objects.nonNull(config)) {
             final AuthenticationProvider provider = this.bolt.authenticateProvider(this.vertx(), config);
-            this.logger().info(Info.SECURE_PROVIDER, provider.getClass());
+            if (LOG_PROVIDER.getAndSet(Boolean.FALSE)) {
+                this.logger().info(Info.SECURE_PROVIDER, provider.getClass());
+            }
             handler.authProvider(provider);
         }
     }

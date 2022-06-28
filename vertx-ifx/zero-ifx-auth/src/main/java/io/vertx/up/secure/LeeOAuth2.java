@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2Options;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -20,7 +21,7 @@ class LeeOAuth2 extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         // Options
-        final OAuth2Auth provider = this.authenticateProvider(vertx, config);
+        final OAuth2Auth provider = this.providerInternal(vertx, config);
         final String callback = this.option(config, "callback");
         final OAuth2AuthHandler standard;
         if (Ut.isNil(callback)) {
@@ -32,8 +33,14 @@ class LeeOAuth2 extends AbstractLee {
     }
 
     @Override
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
+        final OAuth2Auth standard = this.providerInternal(vertx, config);
+        return this.wrapProvider(standard, config);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public OAuth2Auth authenticateProvider(final Vertx vertx, final Aegis config) {
+    public OAuth2Auth providerInternal(final Vertx vertx, final Aegis config) {
         // Options
         final AegisItem item = config.item();
         final OAuth2Options options = new OAuth2Options(item.options());

@@ -33,10 +33,10 @@ public class WallExtension implements LeeExtension {
     }
 
     @Override
-    public <T extends AuthenticationProvider> T authenticateProvider(final Vertx vertx, final Aegis config) {
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final LeeBuiltIn internal = Ut.service(LeeBuiltIn.class);
         final Aegis copy = config.copy().setType(AuthWall.JWT);
-        return internal.authenticateProvider(vertx, config);
+        return internal.provider(vertx, copy);
     }
 
     @Override

@@ -40,13 +40,13 @@ import io.vertx.up.atom.secure.AegisItem;
  */
 public interface Lee {
 
+    AuthenticationProvider provider(final Vertx vertx, final Aegis config);
+
     /*
      * 1. Authenticate Handler
      *    Authenticate Provider For Usage etc such as WebSocket
      */
     AuthenticationHandler authenticate(Vertx vertx, Aegis config);
-
-    <T extends AuthenticationProvider> T authenticateProvider(Vertx vertx, Aegis config);
 
     /*
      * 2. Authorization Handler

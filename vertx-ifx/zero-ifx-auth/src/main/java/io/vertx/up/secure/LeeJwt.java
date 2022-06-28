@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.impl.jose.JWT;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
@@ -26,7 +27,7 @@ class LeeJwt extends AbstractLee {
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        final JWTAuth provider = this.authenticateProvider(vertx, config);
+        final JWTAuth provider = this.providerInternal(vertx, config);
         // Jwt Handler Generated
         final String realm = this.option(config, "realm");
         final JWTAuthHandler standard;
@@ -39,8 +40,14 @@ class LeeJwt extends AbstractLee {
     }
 
     @Override
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
+        final JWTAuth standard = this.providerInternal(vertx, config);
+        return this.wrapProvider(standard, config);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public JWTAuth authenticateProvider(final Vertx vertx, final Aegis config) {
+    public JWTAuth providerInternal(final Vertx vertx, final Aegis config) {
         // Options
         final AegisItem item = config.item();
         return this.provider(vertx, item);
