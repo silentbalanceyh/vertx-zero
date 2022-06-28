@@ -10,6 +10,7 @@ import io.vertx.ext.stomp.StompServer;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
+import io.vertx.tp.plugin.stomp.handler.BuiltInHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
@@ -75,7 +76,11 @@ public class AresStomp extends AbstractAres {
         final StompServerHandler handler = StompServerHandler.create(this.vertx());
 
         // Security for WebSocket
-        this.mountAuthenticateProvider(handler, stompOptions);
+        final Aegis aegis = this.mountAuthenticateProvider(handler, stompOptions);
+
+        // Mount user definition handler
+        this.mountHandler(handler, aegis);
+
         // Grouped Socks
         handler.destinationFactory((v, name) -> {
             System.out.println(name);
@@ -89,7 +94,13 @@ public class AresStomp extends AbstractAres {
         this.server.webSocketHandler(stompServer.webSocketHandler());
     }
 
-    protected void mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {
+    protected void mountHandler(final StompServerHandler handler, final Aegis aegis) {
+        // Replace Connect Handler because of Security Needed.
+        final BuiltInHandler connectHandler = BuiltInHandler.connect(this.vertx());
+        handler.connectHandler(connectHandler.bind(aegis));
+    }
+
+    protected Aegis mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {
         // Stomp Path Find
         final String stomp = option.getWebsocketPath();
         final AtomicReference<Aegis> reference = new AtomicReference<>();
@@ -114,5 +125,6 @@ public class AresStomp extends AbstractAres {
             }
             handler.authProvider(provider);
         }
+        return config;
     }
 }
