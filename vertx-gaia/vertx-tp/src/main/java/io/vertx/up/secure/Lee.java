@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
@@ -41,8 +42,11 @@ public interface Lee {
 
     /*
      * 1. Authenticate Handler
+     *    Authenticate Provider For Usage etc such as WebSocket
      */
     AuthenticationHandler authenticate(Vertx vertx, Aegis config);
+
+    <T extends AuthenticationProvider> T authenticateProvider(Vertx vertx, Aegis config);
 
     /*
      * 2. Authorization Handler

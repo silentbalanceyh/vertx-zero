@@ -20,7 +20,7 @@ class LeeOAuth2 extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         // Options
-        final OAuth2Auth provider = this.provider(vertx, config.item());
+        final OAuth2Auth provider = this.authenticateProvider(vertx, config);
         final String callback = this.option(config, "callback");
         final OAuth2AuthHandler standard;
         if (Ut.isNil(callback)) {
@@ -31,8 +31,11 @@ class LeeOAuth2 extends AbstractLee {
         return this.wrapHandler(standard, config);
     }
 
-    private OAuth2Auth provider(final Vertx vertx, final AegisItem item) {
+    @Override
+    @SuppressWarnings("unchecked")
+    public OAuth2Auth authenticateProvider(final Vertx vertx, final Aegis config) {
         // Options
+        final AegisItem item = config.item();
         final OAuth2Options options = new OAuth2Options(item.options());
         final String key = item.wall().name() + options.hashCode();
         return CC_PROVIDER.pick(() -> OAuth2Auth.create(vertx, options), key);

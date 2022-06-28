@@ -78,6 +78,19 @@ class BoltWhich implements Bolt {
         return lee.authorization(vertx, config);
     }
 
+    @Override
+    public AuthenticationProvider authenticateProvider(final Vertx vertx, final Aegis config) {
+        Objects.requireNonNull(config);
+        if (config.noAuthentication()) {
+            return null;
+        }
+        final Lee lee = this.reference(config);
+        if (Objects.isNull(lee)) {
+            return null;
+        }
+        return lee.authenticateProvider(vertx, config);
+    }
+
     /*
      * Here the validation rules
      * 1. The size of provider should be matched

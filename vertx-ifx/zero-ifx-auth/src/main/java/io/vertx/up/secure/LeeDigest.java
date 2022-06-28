@@ -16,7 +16,17 @@ import io.vertx.up.util.Ut;
 class LeeDigest extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        // htfile
+        // provider processing
+        final HtdigestAuth standard = this.authenticateProvider(vertx, config);
+        // handler building
+        final AuthenticationHandler handler = this.buildHandler(standard, config,
+            HTTPAuthorizationHandler.Type.DIGEST);
+        return this.wrapHandler(handler, config);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HtdigestAuth authenticateProvider(final Vertx vertx, final Aegis config) {
         final String filename = this.option(config, "filename");
         final HtdigestAuth standard;
         if (Ut.isNil(filename)) {
@@ -24,10 +34,7 @@ class LeeDigest extends AbstractLee {
         } else {
             standard = HtdigestAuth.create(vertx, filename);
         }
-        // handler building
-        final AuthenticationHandler handler = this.buildHandler(standard, config,
-            HTTPAuthorizationHandler.Type.DIGEST);
-        return this.wrapHandler(handler, config);
+        return standard;
     }
 
     @Override

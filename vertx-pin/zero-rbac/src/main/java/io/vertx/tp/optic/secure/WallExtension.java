@@ -4,6 +4,7 @@ import cn.vertxup.rbac.wall.authorization.ProfileProvider;
 import cn.vertxup.rbac.wall.authorization.ProfileResource;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.authorization.AuthorizationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
@@ -27,9 +28,15 @@ public class WallExtension implements LeeExtension {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         final LeeBuiltIn internal = Ut.service(LeeBuiltIn.class);
-        final Aegis copy = config.copy();
-        copy.setType(AuthWall.JWT);
+        final Aegis copy = config.copy().setType(AuthWall.JWT);
         return internal.authenticate(vertx, copy);
+    }
+
+    @Override
+    public <T extends AuthenticationProvider> T authenticateProvider(final Vertx vertx, final Aegis config) {
+        final LeeBuiltIn internal = Ut.service(LeeBuiltIn.class);
+        final Aegis copy = config.copy().setType(AuthWall.JWT);
+        return internal.authenticateProvider(vertx, config);
     }
 
     @Override

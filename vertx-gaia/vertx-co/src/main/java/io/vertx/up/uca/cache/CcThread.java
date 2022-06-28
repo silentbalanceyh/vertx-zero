@@ -17,6 +17,11 @@ class CcThread<V> implements Cc<String, V> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return this.store.isEmpty();
+    }
+
+    @Override
     public V pick(final Supplier<V> supplier) {
         final ConcurrentMap<String, V> pool = this.store.data();
         return Fn.poolThread(pool, supplier);

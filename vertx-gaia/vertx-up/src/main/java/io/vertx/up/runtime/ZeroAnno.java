@@ -10,6 +10,8 @@ import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.uca.web.origin.*;
 import io.vertx.up.util.Ut;
 
@@ -37,6 +39,7 @@ public class ZeroAnno {
     private final static Set<Mission> JOBS = new HashSet<>();
 
     private final static Set<Remind> SOCKS = new HashSet<>();
+    private static final Cc<String, Set<Aegis>> CC_WALL = Cc.open();
     private static Injector DI;
 
     /*
@@ -201,13 +204,24 @@ public class ZeroAnno {
         return FILTERS;
     }
 
-    /**
-     * Get all guards
-     *
-     * @return guard set
-     */
-    public static Set<Aegis> getWalls() {
-        return WALLS;
+    public static Cc<String, Set<Aegis>> getWalls() {
+        if (CC_WALL.isEmpty()) {
+            // To Avoid Filling the value more than once
+            WALLS.forEach(wall -> {
+                final Cd<String, Set<Aegis>> store = CC_WALL.store();
+                if (!store.is(wall.getPath())) {
+                    store.data(wall.getPath(), new TreeSet<>());
+                }
+                /*
+                 * 1. group by `path`, when you define more than one wall in one path, you can collect
+                 * all the wall into Set.
+                 * 2. The order will be re-calculated by each group
+                 * 3. But you could not define `path + order` duplicated wall
+                 */
+                store.data(wall.getPath()).add(wall);
+            });
+        }
+        return CC_WALL;
     }
 
     public static String recoveryUri(final String uri, final HttpMethod method) {

@@ -1,6 +1,7 @@
 package io.vertx.up.secure.bridge;
 
 import io.vertx.core.Vertx;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
@@ -23,4 +24,6 @@ public interface Bolt {
      * 2. Authorization Handler
      */
     AuthorizationHandler authorization(Vertx vertx, Aegis config);
+
+    AuthenticationProvider authenticateProvider(Vertx vertx, Aegis config);
 }

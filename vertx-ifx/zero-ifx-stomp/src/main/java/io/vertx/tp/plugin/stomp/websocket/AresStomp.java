@@ -4,30 +4,37 @@ import io.vertx.core.SockOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.stomp.Destination;
 import io.vertx.ext.stomp.StompServer;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
+import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.secure.bridge.Bolt;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AresStomp extends AbstractAres {
-
+    private static final Cc<String, Set<Aegis>> CC_WALLS = ZeroAnno.getWalls();
     private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
+    private transient final Bolt bolt;
 
 
     public AresStomp(final Vertx vertx) {
         super(vertx);
+        this.bolt = Bolt.get();
     }
 
     @Override
@@ -61,8 +68,12 @@ public class AresStomp extends AbstractAres {
         final StompServer stompServer = StompServer.create(this.vertx(), stompOptions);
         // Iterator the SOCKS
         final StompServerHandler handler = StompServerHandler.create(this.vertx());
+
+        // Security for WebSocket
+        this.mountAuthenticateProvider(handler, stompOptions);
         // Grouped Socks
         handler.destinationFactory((v, name) -> {
+            System.out.println(name);
             return Destination.topic(v, "Hi Hello");
         });
         SOCKS.forEach(sock -> {
@@ -71,5 +82,27 @@ public class AresStomp extends AbstractAres {
         // Build StompServer and bind webSocketHandler
         stompServer.handler(handler);
         this.server.webSocketHandler(stompServer.webSocketHandler());
+    }
+
+    protected void mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {
+        // Stomp Path Find
+        final String stomp = option.getWebsocketPath();
+        final AtomicReference<Aegis> reference = new AtomicReference<>();
+        CC_WALLS.store().data().forEach((path, aegisSet) -> {
+            /*
+             * Stomp:   /api/web-socket/stomp
+             * Path:    /api/
+             */
+            if (!aegisSet.isEmpty() && stomp.startsWith(path)) {
+                this.logger().info(Info.SECURE_FOUND, stomp, path, String.valueOf(aegisSet.size()));
+                reference.set(aegisSet.iterator().next());
+            }
+        });
+        final Aegis config = reference.get();
+        if (Objects.nonNull(config)) {
+            final AuthenticationProvider provider = this.bolt.authenticateProvider(this.vertx(), config);
+            this.logger().info(Info.SECURE_PROVIDER, provider.getClass());
+            handler.authProvider(provider);
+        }
     }
 }

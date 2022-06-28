@@ -26,7 +26,7 @@ class LeeJwt extends AbstractLee {
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        final JWTAuth provider = this.provider(vertx, config.item());
+        final JWTAuth provider = this.authenticateProvider(vertx, config);
         // Jwt Handler Generated
         final String realm = this.option(config, "realm");
         final JWTAuthHandler standard;
@@ -38,12 +38,18 @@ class LeeJwt extends AbstractLee {
         return this.wrapHandler(standard, config);
     }
 
-    private JWTAuth provider(final Vertx vertx, final AegisItem item) {
+    @Override
+    @SuppressWarnings("unchecked")
+    public JWTAuth authenticateProvider(final Vertx vertx, final Aegis config) {
         // Options
+        final AegisItem item = config.item();
+        return this.provider(vertx, item);
+    }
+
+    private JWTAuth provider(final Vertx vertx, final AegisItem item) {
         final JWTAuthOptions options = new JWTAuthOptions(item.options());
         final String key = item.wall().name() + options.hashCode();
         return CC_PROVIDER.pick(() -> JWTAuth.create(vertx, options), key);
-        // Fn.po?lThread(POOL_PROVIDER, () -> JWTAuth.create(vertx, options), key);
     }
 
     @Override

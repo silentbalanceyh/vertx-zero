@@ -18,12 +18,7 @@ import io.vertx.up.util.Ut;
 class LeeBasic extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
-        /*
-         * Here provider could build ChainAuth instead of handler chain
-         * The provider type is: io.vertx.ext.auth.ChainAuth
-         */
-        final AdapterProvider adapter = AdapterProvider.common();
-        final AuthenticationProvider provider = adapter.provider(config);
+        final AuthenticationProvider provider = this.authenticateProvider(vertx, config);
         // Basic Handler Generated
         final String realm = this.option(config, "realm");
         if (Ut.isNil(realm)) {
@@ -31,6 +26,17 @@ class LeeBasic extends AbstractLee {
         } else {
             return BasicAuthHandler.create(provider, realm);
         }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public AuthenticationProvider authenticateProvider(final Vertx vertx, final Aegis config) {
+        /*
+         * Here provider could build ChainAuth instead of handler chain
+         * The provider type is: io.vertx.ext.auth.ChainAuth
+         */
+        final AdapterProvider adapter = AdapterProvider.common();
+        return adapter.provider(config);
     }
 
     /*

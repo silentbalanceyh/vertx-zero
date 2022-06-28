@@ -18,6 +18,11 @@ class CcMemory<K, V> implements Cc<K, V> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return this.store.isEmpty();
+    }
+
+    @Override
     public V pick(final Supplier<V> supplier) {
         throw new _501NotSupportException(this.getClass());
     }

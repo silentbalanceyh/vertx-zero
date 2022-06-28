@@ -44,14 +44,20 @@ class AresWs extends AbstractAres {
                 final String publish = this.sockOptions.getPublish();
                 if (Ut.notNil(publish)) {
                     this.publish.configure(options);
+                    this.logger().info(Info.WS_PUBLISH, String.valueOf(options.getPort()),
+                        options.getHost(), publish);
                 }
 
                 // 1. The default component implementation class for publish only ( Non Secure )
                 final Class<?> aresCls = Objects.isNull(this.sockOptions.getComponent()) ? AresBridge.class : this.sockOptions.getComponent();
+                this.logger().info(Info.WS_COMPONENT, aresCls, this.sockOptions.getComponent());
+
                 // 2. Build reference of component of Ares
                 this.executor = Ut.instance(aresCls, this.vertx());
                 this.executor.configure(options);
             }
+        } else {
+            this.logger().info(Info.WS_DISABLED, String.valueOf(options.getPort()), options.getHost());
         }
     }
 

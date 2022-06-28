@@ -83,8 +83,9 @@ public class Aegis implements Serializable, Comparable<Aegis>, Copyable<Aegis> {
         return this.type;
     }
 
-    public void setType(final AuthWall type) {
+    public Aegis setType(final AuthWall type) {
         this.type = type;
+        return this;
     }
 
     public Object getProxy() {
