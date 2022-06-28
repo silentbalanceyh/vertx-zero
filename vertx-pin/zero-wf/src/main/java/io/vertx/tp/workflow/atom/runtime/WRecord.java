@@ -284,7 +284,7 @@ public class WRecord implements Serializable {
          * 2. instanceFinished(), history = true
          */
         final Io<JsonObject> ioFlow = Io.ioFlow();
-        if (history) {
+        if (!history) {
             // Task must not be null
             final WTodo todo = this.todo();
             Objects.requireNonNull(todo);
