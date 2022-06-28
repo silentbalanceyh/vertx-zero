@@ -53,6 +53,7 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         final Object proxy = PLUGIN.createComponent(clazz);
         remind.setProxy(proxy);
         remind.setName(Ut.invoke(annotation, KName.NAME));
+        remind.setSecure(Ut.invoke(annotation, "secure"));
         // Input Part: input / inputAddress
         final Class<?> inputCls = Ut.invoke(annotation, "input");
         if (DefaultClass.class != inputCls) {

@@ -31,6 +31,8 @@ public class Remind implements Serializable {
 
     private Method method;
 
+    private boolean secure;
+
     public String getName() {
         return this.name;
     }
@@ -79,6 +81,14 @@ public class Remind implements Serializable {
         this.method = method;
     }
 
+    public boolean isSecure() {
+        return this.secure;
+    }
+
+    public void setSecure(final boolean secure) {
+        this.secure = secure;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -103,6 +113,7 @@ public class Remind implements Serializable {
             ", address='" + this.address + '\'' +
             ", inputAddress='" + this.inputAddress + '\'' +
             ", input=" + this.input +
+            ", secure=" + this.secure + '\'' +
             '}';
     }
 }

@@ -15,8 +15,8 @@ public class JetSelector {
 
     private static final Annal LOGGER = Annal.get(JetSelector.class);
 
-    public static Invoker select(final Class<?> returnType,
-                                 final Class<?> paramCls) {
+    public static Invoker workerInvoker(final Class<?> returnType,
+                                        final Class<?> paramCls) {
         // 1. Return void
         Invoker invoker = null;
         if (void.class == returnType || Void.class == returnType) {

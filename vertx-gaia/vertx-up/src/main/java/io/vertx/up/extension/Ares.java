@@ -34,6 +34,9 @@ public interface Ares {
         return this;
     }
 
+    default void configure(final HttpServerOptions options) {
+    }
+
     /*
      * The phase for building should input following information:
      *

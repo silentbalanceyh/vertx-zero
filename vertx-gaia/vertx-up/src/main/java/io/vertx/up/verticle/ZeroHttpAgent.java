@@ -85,6 +85,15 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
         /* Get the default HttpServer Options **/
         ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
+            /*
+             * To enable extend of StompServer, there should be
+             * Some code logical to set WebSocket Sub Protocols such as
+             *
+             * v10.stomp, v11.stomp, v12.stomp etc, instead, when you create
+             * HttpServer, there should be some code logical to cross configuration
+             * */
+            ares.configure(option);
+
             /* Single server processing **/
             final HttpServer server = this.vertx.createHttpServer(option);
 

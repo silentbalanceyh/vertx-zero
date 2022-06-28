@@ -40,4 +40,6 @@ public @interface WebSocket {
     Class<?> input() default DefaultClass.class;
 
     String value();
+
+    boolean secure() default false;
 }

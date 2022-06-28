@@ -8,9 +8,9 @@ import io.vertx.up.extension.AbstractAres;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class AresSock extends AbstractAres {
+class AresWs extends AbstractAres {
 
-    AresSock(final Vertx vertx) {
+    AresWs(final Vertx vertx) {
         super(vertx);
     }
 
