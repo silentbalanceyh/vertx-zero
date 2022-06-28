@@ -1,5 +1,5 @@
 typed:
-  # SockJSHandlerOptions
-  handler: JOBJECT
-  # SockJSBridgeOptions
-  bridge: JOBJECT
+  publish: STRING
+  component: CLASS
+  config: JOBJECT
+  server: JOBJECT

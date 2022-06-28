@@ -43,6 +43,9 @@ public interface Ares {
      * 1) The configuration of Kv<Integer,HttpServerOption>
      * 2) The reference of Router / HttpServer
      * 3) The constructor should bind to Vertx Reference instead of input parameters
+     *
+     * Method ( Router, JsonObject ) won't be used in `component` of websocket
+     * because all the configuration of extension part will be calculated.
      */
     void mount(Router router, JsonObject config);
 

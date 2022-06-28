@@ -31,7 +31,7 @@ public class Remind implements Serializable {
 
     private Method method;
 
-    private boolean secure;
+    private boolean secure = Boolean.FALSE;
 
     public String getName() {
         return this.name;

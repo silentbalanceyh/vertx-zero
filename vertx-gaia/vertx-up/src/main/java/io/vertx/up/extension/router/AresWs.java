@@ -5,9 +5,9 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.KName;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.extension.Ares;
+import io.vertx.up.extension.router.websocket.AresBridge;
 import io.vertx.up.extension.router.websocket.AresSockJs;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
@@ -19,6 +19,7 @@ import java.util.Objects;
  */
 class AresWs extends AbstractAres {
 
+    private static final boolean ENABLED = !ZeroAtomic.SOCK_OPTS.isEmpty();
     private final Ares publish;
     private Ares executor;
     private SockOptions sockOptions;
@@ -30,18 +31,23 @@ class AresWs extends AbstractAres {
 
     @Override
     public void configure(final HttpServerOptions options) {
-        super.configure(options);
-        // Pre-Configuration of HttpServerOptions for specific usage
-        final SockOptions sockOptions = ZeroAtomic.SOCK_OPTS.getOrDefault(options.getPort(), null);
-        this.sockOptions = sockOptions;
+        if (ENABLED) {
+            super.configure(options);
+            // Pre-Configuration of HttpServerOptions for specific usage
+            this.sockOptions = ZeroAtomic.SOCK_OPTS.getOrDefault(options.getPort(), null);
+            if (Objects.nonNull(this.sockOptions)) {
+                final String publish = this.sockOptions.getPublish();
+                if (Ut.notNil(publish)) {
+                    this.publish.configure(options);
+                }
 
-        // 1. The default component implementation class for publish only ( Non Secure )
-        final Class<?> aresCls = Objects.isNull(sockOptions.getComponent()) ? AresSockJs.class : sockOptions.getComponent();
-        // 2. Build reference of component of Ares
-        final Ares ares = Ut.instance(aresCls, this.vertx());
-        ares.configure(options);
-
-        this.executor = ares;
+                // 1. The default component implementation class for publish only ( Non Secure )
+                final Class<?> aresCls = Objects.isNull(this.sockOptions.getComponent()) ? AresBridge.class : this.sockOptions.getComponent();
+                // 2. Build reference of component of Ares
+                this.executor = Ut.instance(aresCls, this.vertx());
+                this.executor.configure(options);
+            }
+        }
     }
 
     /*
@@ -54,23 +60,19 @@ class AresWs extends AbstractAres {
      */
     @Override
     public void mount(final Router router, final JsonObject config) {
-        /*
-         * 1. Whether the `publish` has been enabled
-         */
-        final String publish = this.sockOptions.getPublish();
-        if (Ut.notNil(publish)) {
-            final JsonObject configSockJs = this.sockOptions.configSockJs();
-            this.publish.mount(router, configSockJs);
+        if (ENABLED && Objects.nonNull(this.sockOptions)) {
+            /*
+             * 1. Whether the `publish` has been enabled
+             */
+            final String publish = this.sockOptions.getPublish();
+            if (Ut.notNil(publish)) {
+                this.publish.mount(router, this.sockOptions.configSockJs());
+            }
+            /*
+             * 2. Major executor will be triggered
+             */
+            this.executor.bind(this.server, this.options).mount(router);
         }
-
-
-        /*
-         * 2. Major executor will be triggered
-         */
-        final JsonObject configuration = new JsonObject();
-        configuration.put(KName.CONFIG, Ut.valueJObject(this.sockOptions.getConfig()));
-        configuration.put(KName.SERVER, Ut.valueJObject(this.sockOptions.getServer()));
-        this.executor.bind(this.server, this.options).mount(router, configuration);
     }
 
 }

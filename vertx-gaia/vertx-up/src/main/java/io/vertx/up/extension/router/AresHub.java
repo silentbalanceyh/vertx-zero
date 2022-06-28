@@ -55,7 +55,7 @@ public class AresHub extends AbstractAres {
          * router: io.vertx.tp.jet.JetPollux # ( zero-atom module )
          *
          */
-        this.dynamic.bind(this.server, this.options).mount(router, config);
+        this.dynamic.bind(this.server, this.options).mount(router);
 
         /*
          * This configuration is for websocket in server configuration.
@@ -75,6 +75,6 @@ public class AresHub extends AbstractAres {
          *        handler:
          *     server:         # Whether Enable Sock Server / Stomp Server
          */
-        this.wSocket.bind(this.server, this.options).mount(router, config);
+        this.wSocket.bind(this.server, this.options).mount(router);
     }
 }

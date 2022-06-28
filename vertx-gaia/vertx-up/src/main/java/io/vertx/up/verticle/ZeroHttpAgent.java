@@ -91,7 +91,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
              *
              * v10.stomp, v11.stomp, v12.stomp etc, instead, when you create
              * HttpServer, there should be some code logical to cross configuration
-             * */
+             **/
             ares.configure(option);
 
             /* Single server processing **/
