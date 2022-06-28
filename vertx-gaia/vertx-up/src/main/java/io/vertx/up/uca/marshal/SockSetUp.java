@@ -18,7 +18,7 @@ public class SockSetUp implements JTransformer<SockOptions> {
     public SockOptions transform(final JsonObject config) {
         return Fn.getSemi(null == config, LOGGER, SockOptions::new, () -> {
             final JsonObject websockJ = Ut.valueJObject(config, KName.WEB_SOCKET);
-            return new SockOptions(websockJ);
+            return Ut.deserialize(websockJ, SockOptions.class);
         });
     }
 }

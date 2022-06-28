@@ -8,7 +8,6 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
-import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSSocket;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.commune.Envelop;
@@ -58,8 +57,7 @@ public class SockAxis implements Axis<Router> {
         final String pathRoot = Constants.DEFAULT_WEBSOCKET + "/*";
         route.path(pathRoot).order(Orders.SOCK);
         // SockJSHandler / SockJSBridge ( Part )
-        final SockJSHandlerOptions optHandler = this.options.configHandler();
-        final SockJSHandler handler = SockJSHandler.create(this.vertxRef, optHandler);
+        final SockJSHandler handler = SockJSHandler.create(this.vertxRef);
         route.subRouter(handler.socketHandler(socket -> {
             final String path = remind.getAddress();
             System.out.println(socket.uri() + "," + socket.webUser() + ", " + path);
