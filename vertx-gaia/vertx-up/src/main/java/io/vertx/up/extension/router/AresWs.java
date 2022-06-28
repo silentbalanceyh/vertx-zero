@@ -5,21 +5,26 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
+import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.extension.Ares;
 import io.vertx.up.extension.router.websocket.AresBridge;
 import io.vertx.up.extension.router.websocket.AresSockJs;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AresWs extends AbstractAres {
 
-    private static final boolean ENABLED = !ZeroAtomic.SOCK_OPTS.isEmpty();
+
+    private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
+    private static final boolean ENABLED = !ZeroAtomic.SOCK_OPTS.isEmpty() && !SOCKS.isEmpty();
     private final Ares publish;
     private Ares executor;
     private SockOptions sockOptions;
