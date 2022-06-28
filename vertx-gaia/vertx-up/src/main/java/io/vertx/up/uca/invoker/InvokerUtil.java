@@ -24,6 +24,31 @@ import java.util.function.Supplier;
 public class InvokerUtil {
     private static final Annal LOGGER = Annal.get(InvokerUtil.class);
 
+    public static Object invokeCall(
+        final Object proxy,
+        final Method method,
+        final Envelop envelop
+    ) {
+        Object returnValue;
+        final Class<?>[] argTypes = method.getParameterTypes();
+        final Class<?> returnType = method.getReturnType();
+        if (Values.ONE == method.getParameterCount()) {
+            final Class<?> firstArg = argTypes[Values.IDX];
+            if (Envelop.class == firstArg) {
+                // Input type is Envelop, input directly
+                returnValue = InvokerUtil.invoke(proxy, method, envelop);
+                // Ut.invoke(proxy, method.getName(), envelop);
+            } else {
+                // One type dynamic here
+                returnValue = InvokerUtil.invokeSingle(proxy, method, envelop);
+            }
+        } else {
+            // Multi parameter dynamic here
+            returnValue = InvokerUtil.invokeMulti(proxy, method, envelop);
+        }
+        return returnValue;
+    }
+
     public static <T> T invoke(final Object proxy, final Method method, final Object... args) {
         /*
          * Be sure to trust args first calling and then normalized calling

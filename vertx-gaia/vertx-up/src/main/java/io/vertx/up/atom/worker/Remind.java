@@ -21,11 +21,11 @@ public class Remind implements Serializable {
 
     private String address;
 
-    private String incomeAddress;
+    private String inputAddress;
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
-    private Class<?> income;
+    private Class<?> input;
 
     private Object proxy;
 
@@ -47,20 +47,20 @@ public class Remind implements Serializable {
         this.address = address;
     }
 
-    public String getIncomeAddress() {
-        return this.incomeAddress;
+    public String getInputAddress() {
+        return this.inputAddress;
     }
 
-    public void setIncomeAddress(final String incomeAddress) {
-        this.incomeAddress = incomeAddress;
+    public void setInputAddress(final String inputAddress) {
+        this.inputAddress = inputAddress;
     }
 
-    public Class<?> getIncome() {
-        return this.income;
+    public Class<?> getInput() {
+        return this.input;
     }
 
-    public void setIncome(final Class<?> income) {
-        this.income = income;
+    public void setInput(final Class<?> input) {
+        this.input = input;
     }
 
     public Object getProxy() {
@@ -101,8 +101,8 @@ public class Remind implements Serializable {
         return "Remind{" +
             "name='" + this.name + '\'' +
             ", address='" + this.address + '\'' +
-            ", incomeAddress='" + this.incomeAddress + '\'' +
-            ", income=" + this.income +
+            ", inputAddress='" + this.inputAddress + '\'' +
+            ", input=" + this.input +
             '}';
     }
 }

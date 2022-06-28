@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS I_JOB
      * 3. 注解也拿不到则不处理
      * 但是，对于 Code 模式（编程模式）下这四个字段，@Job -> config 会优先
      */
-    `INCOME_COMPONENT`   VARCHAR(255) COMMENT '「incomeComponent」对应income，必须是JobIncome，@On -> income',
+    `INCOME_COMPONENT`   VARCHAR(255) COMMENT '「incomeComponent」对应income，必须是JobIncome，@On -> input',
     `INCOME_ADDRESS`     VARCHAR(255) COMMENT '「incomeAddress」对应incomeAddress，字符串，@On -> address',
     `OUTCOME_COMPONENT`  VARCHAR(255) COMMENT '「outcomeComponent」对应outcome，必须是JobOutcome，@Off -> outcome',
     `OUTCOME_ADDRESS`    VARCHAR(255) COMMENT '「outcomeAddress」对应outcomeAddress，字符串，@Off -> address',

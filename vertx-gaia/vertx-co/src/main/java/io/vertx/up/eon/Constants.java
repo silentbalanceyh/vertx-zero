@@ -31,7 +31,7 @@ public interface Constants {
 
     String ALGORITHM_RSA = "RSA";
 
-    String DEFAULT_WEBSOCKET = "/web-socket";
+    String DEFAULT_WEBSOCKET = "/api/ws";
 
     int DEFAULT_EXPIRED_DATA = 300;
     /**

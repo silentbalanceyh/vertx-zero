@@ -56,9 +56,9 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         // Input Part: input / inputAddress
         final Class<?> inputCls = Ut.invoke(annotation, "input");
         if (DefaultClass.class != inputCls) {
-            remind.setIncome(inputCls);
+            remind.setInput(inputCls);
         }
-        remind.setIncomeAddress(Ut.invoke(address, "inputAddress"));
+        remind.setInputAddress(Ut.invoke(annotation, "inputAddress"));
 
         return remind;
     }

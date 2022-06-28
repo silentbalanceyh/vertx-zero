@@ -1,4 +1,4 @@
-package io.vertx.up.extension;
+package io.vertx.up.extension.router;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;

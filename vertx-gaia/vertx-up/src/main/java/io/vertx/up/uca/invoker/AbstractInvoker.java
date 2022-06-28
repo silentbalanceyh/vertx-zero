@@ -62,24 +62,7 @@ public abstract class AbstractInvoker implements Invoker {
         // Preparing Method
         invokePre(method, envelop);
         // Return value here.
-        Object returnValue;
-        final Class<?>[] argTypes = method.getParameterTypes();
-        final Class<?> returnType = method.getReturnType();
-        if (Values.ONE == method.getParameterCount()) {
-            final Class<?> firstArg = argTypes[Values.IDX];
-            if (Envelop.class == firstArg) {
-                // Input type is Envelop, input directly
-                returnValue = InvokerUtil.invoke(proxy, method, envelop);
-                // Ut.invoke(proxy, method.getName(), envelop);
-            } else {
-                // One type dynamic here
-                returnValue = InvokerUtil.invokeSingle(proxy, method, envelop);
-            }
-        } else {
-            // Multi parameter dynamic here
-            returnValue = InvokerUtil.invokeMulti(proxy, method, envelop);
-        }
-        return returnValue;
+        return InvokerUtil.invokeCall(proxy, method, envelop);
     }
 
     /**

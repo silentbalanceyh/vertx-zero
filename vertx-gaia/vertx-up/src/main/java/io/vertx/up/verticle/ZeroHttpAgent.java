@@ -1,7 +1,6 @@
 package io.vertx.up.verticle;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.SockOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
@@ -12,6 +11,7 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
+import io.vertx.up.extension.Ares;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
@@ -47,15 +47,9 @@ public class ZeroHttpAgent extends AbstractVerticle {
             () -> new RouterAxis(this.vertx), RouterAxis.class.getName());
         // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
-
         /* 2.Call route hub to mount defined **/
         final Axis<Router> axis = Pool.CC_ROUTER.pick(
             EventAxis::new, EventAxis.class.getName());
-        // Fn.po?lThread(Pool.EVENTS, EventAxis::new);
-        final Axis<Router> dynamic = Pool.CC_ROUTER.pick(
-            DynamicAxis::new, DynamicAxis.class.getName());
-        // Fn.po?lThread(Pool.DYNAMICS, DynamicAxis::new);
-
 
         /* 3.Call route hub to mount walls **/
         final Axis<Router> wallAxis = Pool.CC_ROUTER.pick(
@@ -78,6 +72,16 @@ public class ZeroHttpAgent extends AbstractVerticle {
         final Axis<Router> sockAxis = Pool.CC_ROUTER.pick(
             SockAxis::new, SockAxis.class.getName());
 
+        /*
+         * New Extension Structure, Here I designed new interface `Ares` for router extension Part to replace
+         * previous system.
+         * Here the framework use the structure of following:
+         * 1. The instance type is `AresHub`
+         * 2. Internal Call chain is as following:
+         * -- 2.1. AresDynamic / It's for dynamic routing system.
+         * -- 2.2. AresSock    / It's for websocket system ( with STOMP or not ).
+         */
+        final Ares ares = Ares.instance(this.vertx);
 
         /* Get the default HttpServer Options **/
         ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
@@ -96,27 +100,12 @@ public class ZeroHttpAgent extends AbstractVerticle {
             // Measure
             monitorAxis.mount(router);
 
-
             /*
-             * WebSocket Extension for user-defined WebSocket server that be connected
-             * to current HTTP server by `port`. Here the WebSocket configuration should share
-             * HTTP Port instead of standalone. it means that when you configure the WebSocket
-             * in your environment, the port number must be the same as HTTP server, if the port
-             * does not exist in your HTTP server instances, the WebSocket server will be
-             * ignored.
+             * Extension Part of New, here the called API is empty `config`, second parameter is
+             * {} because all the component config data will be passed internal each component
+             * in `Hub` instead of input here.
              */
-            // Socket
-            final SockOptions optionSock = ZeroAtomic.SOCK_OPTS.getOrDefault(port, null);
-            ((SockAxis) sockAxis).bind(optionSock).mount(router);
-
-
-            /*
-             * Dynamic Extension for some user-defined router to resolve some spec
-             * requirement such as Data Driven System and Origin X etc.
-             * Call second method to inject vertx reference.
-             */
-            // This step is required for bind vertx instance
-            ((DynamicAxis) dynamic).bind(this.vertx).mount(router);
+            ares.bind(server, option).mount(router);
 
 
             // Filter
