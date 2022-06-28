@@ -121,5 +121,11 @@
             <artifactId>zero-ifx-shell</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Stomp for MQ -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-stomp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

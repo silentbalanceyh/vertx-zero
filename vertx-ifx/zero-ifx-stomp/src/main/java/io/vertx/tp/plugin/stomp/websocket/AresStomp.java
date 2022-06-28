@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.stomp.websocket;
 
 import io.vertx.core.SockOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.atom.worker.Remind;
@@ -21,6 +22,11 @@ public class AresStomp extends AbstractAres {
 
     public AresStomp(final Vertx vertx) {
         super(vertx);
+    }
+
+    @Override
+    public void configure(final HttpServerOptions options) {
+        super.configure(options);
     }
 
     @Override

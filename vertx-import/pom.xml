@@ -232,6 +232,11 @@
                 <artifactId>zero-ifx-auth</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-stomp</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Isito -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
