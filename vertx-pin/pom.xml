@@ -28,9 +28,10 @@
         <module>zero-psi</module>               <!-- Purchase, Sale, In Management -->
         <module>zero-wf</module>                <!-- Workflow -->
         <module>zero-is</module>                <!-- Integration Service -->
+        <module>zero-battery</module>           <!-- Modulat Block Extension -->
+        <module>zero-tpl</module>               <!-- Template Definition for New System -->
         <!-- Scaffold Extension Here -->
         <module>zero-vie</module>
-        <module>zero-battery</module>
     </modules>
     <dependencies>
         <dependency>

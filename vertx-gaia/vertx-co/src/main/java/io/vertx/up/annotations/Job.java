@@ -44,7 +44,7 @@ public @interface Job {
      * Threshold value of current job
      * 900 s
      */
-    long threshold() default 900;
+    int threshold() default 900;
 
     /**
      * Duration unit ( time unit ) for current job
@@ -58,9 +58,11 @@ public @interface Job {
 
     /**
      * Smart timestamp for per mode
-     * 1. D,00:00, per day
-     * 3. W,00:00,3, per week
-     * 2. M,00:00,11, per month
+     * 1. D,00:00,... per day
+     * 2. W,00:00/3,... per week
+     * 3. M,00:00/4,... per month
+     * 4. Q,00:00/33,... per qt
+     * 5. Y,00:00/2-22,.. per year
      */
-    String runAt() default Strings.EMPTY;
+    String formula() default Strings.EMPTY;
 }

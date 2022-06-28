@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: plugin/sql/tpl/TPL_MESSAGE.sql  # 消息模板
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/tpl/TPL_MODEL.sql  # 模型模板
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/tpl/TPL_TICKET.sql  # 工单模板
+      relativeToChangelogFile: false

@@ -85,21 +85,6 @@ public class IJobDao extends AbstractVertxDAO<IJobRecord, cn.vertxup.jet.domain.
         }
 
         /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByType(Collection<String> values) {
-                return findManyByCondition(IJob.I_JOB.TYPE.in(values));
-        }
-
-        /**
-     * Find records that have <code>TYPE IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByType(Collection<String> values, int limit) {
-                return findManyByCondition(IJob.I_JOB.TYPE.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>GROUP IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByGroup(Collection<String> values) {
@@ -145,36 +130,6 @@ public class IJobDao extends AbstractVertxDAO<IJobRecord, cn.vertxup.jet.domain.
         }
 
         /**
-     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunAt(Collection<LocalTime> values) {
-                return findManyByCondition(IJob.I_JOB.RUN_AT.in(values));
-        }
-
-        /**
-     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunAt(Collection<LocalTime> values, int limit) {
-                return findManyByCondition(IJob.I_JOB.RUN_AT.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>DURATION IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDuration(Collection<Long> values) {
-                return findManyByCondition(IJob.I_JOB.DURATION.in(values));
-        }
-
-        /**
-     * Find records that have <code>DURATION IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDuration(Collection<Long> values, int limit) {
-                return findManyByCondition(IJob.I_JOB.DURATION.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>PROXY IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByProxy(Collection<String> values) {
@@ -202,6 +157,99 @@ public class IJobDao extends AbstractVertxDAO<IJobRecord, cn.vertxup.jet.domain.
      */
         public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByThreshold(Collection<Integer> values, int limit) {
                 return findManyByCondition(IJob.I_JOB.THRESHOLD.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByType(Collection<String> values) {
+                return findManyByCondition(IJob.I_JOB.TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByType(Collection<String> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunAt(Collection<LocalTime> values) {
+                return findManyByCondition(IJob.I_JOB.RUN_AT.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_AT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunAt(Collection<LocalTime> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.RUN_AT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_FORMULA IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunFormula(Collection<String> values) {
+                return findManyByCondition(IJob.I_JOB.RUN_FORMULA.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_FORMULA IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByRunFormula(Collection<String> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.RUN_FORMULA.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DURATION IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDuration(Collection<Long> values) {
+                return findManyByCondition(IJob.I_JOB.DURATION.in(values));
+        }
+
+        /**
+     * Find records that have <code>DURATION IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDuration(Collection<Long> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.DURATION.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DURATION_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDurationComponent(Collection<String> values) {
+                return findManyByCondition(IJob.I_JOB.DURATION_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>DURATION_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDurationComponent(Collection<String> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.DURATION_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DURATION_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDurationConfig(Collection<String> values) {
+                return findManyByCondition(IJob.I_JOB.DURATION_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>DURATION_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.jet.domain.tables.pojos.IJob>> findManyByDurationConfig(Collection<String> values, int limit) {
+                return findManyByCondition(IJob.I_JOB.DURATION_CONFIG.in(values),limit);
         }
 
         /**

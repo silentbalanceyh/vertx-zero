@@ -64,7 +64,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
             final Class<?> paramCls = params[Values.IDX];
 
             // 6. Invoker select
-            final Invoker invoker = JetSelector.select(returnType, paramCls);
+            final Invoker invoker = JetSelector.workerInvoker(returnType, paramCls);
             invoker.ensure(returnType, paramCls);
             // 7. Record for different invokers
             INVOKER_MAP.put(receipt.hashCode(), invoker);

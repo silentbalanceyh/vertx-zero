@@ -8,7 +8,6 @@ import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroHttpAgent;
-import io.vertx.up.verticle.ZeroSockAgent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,19 +21,14 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class HttpFactor extends AbstractFactor {
 
-    private static final Set<Class<?>> AGENT_SET = new HashSet<Class<?>>() {
-        {
-            this.add(ZeroHttpAgent.class);
-            this.add(ZeroSockAgent.class);
-        }
-    };
-    private static final ConcurrentMap<ServerType, Class<?>> INTERNALS
-        = new ConcurrentHashMap<ServerType, Class<?>>() {
-        {
-            this.put(ServerType.HTTP, ZeroHttpAgent.class);
-            this.put(ServerType.SOCK, ZeroSockAgent.class);
-        }
-    };
+    private static final Set<Class<?>> AGENT_SET = new HashSet<>() {{
+        this.add(ZeroHttpAgent.class);
+        // this.add(ZeroSockAgent.class);
+    }};
+    private static final ConcurrentMap<ServerType, Class<?>> INTERNALS = new ConcurrentHashMap<>() {{
+        this.put(ServerType.HTTP, ZeroHttpAgent.class);
+        // this.put(ServerType.SOCK, ZeroSockAgent.class);
+    }};
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
 
     static {

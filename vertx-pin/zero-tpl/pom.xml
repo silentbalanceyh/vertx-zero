@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-pin</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zero-tpl</artifactId>
+    <name>Extension:「zero-tpl」Tp - Template Definition Module</name>
+    <dependencies>
+        <!-- Kern -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ke</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
+                    <!-- 配置文件路径 -->
+                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
+                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <!-- 配置参数 -->
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <outputFileEncoding>UTF-8</outputFileEncoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

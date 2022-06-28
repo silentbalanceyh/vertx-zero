@@ -36,7 +36,6 @@ class JobPool {
         }
     }
 
-
     static void bind(final Long timeId, final String code) {
         RUNNING.put(timeId, code);
     }

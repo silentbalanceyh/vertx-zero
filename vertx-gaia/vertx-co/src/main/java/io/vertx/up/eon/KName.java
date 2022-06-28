@@ -37,6 +37,12 @@ public interface KName {
     String GRANT_TYPE = "grantType";             /* OAuth grant type field */
     String RESOURCE_ID = "resourceId";           /* Security Action related resource field */
 
+    String HANDLER = "handler";                  /* Sock Handler Usage */
+
+    String BRIDGE = "bridge";                    /* Sock Bridge Usage */
+    String HOST = "host";                        /* Host */
+    String PORT = "port";                        /* Port */
+
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
@@ -88,6 +94,8 @@ public interface KName {
     String DEPLOYMENT = "deployment";            /* */
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
+
+    String SERVER = "server";                    /* Common: server */
     String DATA = "data";                        /* Common: data */
 
     String FORK = "fork";                        /* Fork/Join -> Fork */
@@ -138,6 +146,7 @@ public interface KName {
     String METHOD = "method";                    /* Web: http method */
     String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
+    String ROUTER = "router";                    /* Web: Router */
     String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
     String RESULT = "result";                    /* Web: http response */
@@ -162,6 +171,7 @@ public interface KName {
     String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 
+    String WEB_SOCKET = "websocket";             /* Web Socket */
     String CONFIG = "config";                    /* Acl Usage */
     String PHASE = "phase";                      /* Acl Phase */
     String SEEKER = "seeker";                    /* Acl Seeker */

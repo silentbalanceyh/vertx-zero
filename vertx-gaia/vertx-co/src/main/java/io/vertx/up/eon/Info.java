@@ -28,6 +28,9 @@ public interface Info {
     String SCANED_ENDPOINT = "( {0} EndPoint ) The Zero system has found " +
         "{0} components of @EndPoint.";
 
+    String SCANED_WEBSOCKET = "( {0} WebSocket ) The Zero system has found " +
+        "{0} components of @EndPoint.";
+
     String SCANED_JOB = "( {0} Job ) The Zero system has found " +
         "{0} components of @Job.";
 
@@ -50,9 +53,9 @@ public interface Info {
 
     String JOB_CONFIG = "[ Job ] Job configuration read : {0}";
 
-    String JOB_MOVED = "[ Job ] Job `{1}`（ Moved: {2} -> {3} ）, Type = {0}";
+    String JOB_MOVED = "[ Job ] [{0}]（ Moved: {2} -> {3} ）, Job = `{1}`";
 
-    String JOB_TERMINAL = "[ Job ] {0} The job will be terminal, status -> ERROR";
+    String JOB_TERMINAL = "[ Job ] [{0}] The job will be terminal, status -> ERROR, Job = `{1}`";
 
     String JOB_COMPONENT_SELECTED = "[ Job ] {0} selected: {1}";
 
@@ -62,7 +65,14 @@ public interface Info {
 
     String JOB_WORKER_END = "[ Job ] `{0}` worker executor has been closed! ";
 
-    String JOB_INTERVAL = "[ Job ] `{0}` The scheduler will start after {1} ms, then scheduled duration {2} (-1 means ONCE) ms in each, timerId = {3}";
+    // ------------- Job monitor for interval component
+    String JOB_RUN = "[ Job ] (timer = null) The job will start right now.";
+    String JOB_RUN_RE = "[ Job ] (timer = null) The job will restart right now.";
+
+    String JOB_RUN_DELAY = "[ Job ] `{0}` will start after `{1}`.";
+    String JOB_RUN_RE_DELAY = "[ Job ] `{0}` will restart after `{1}`.";
+
+    String JOB_RUN_SCHEDULED = "[ Job ] (timer = {0}) `{1}` scheduled duration {2} ms in each.";
 
     // ------------- Job monitor for ONCE
     String PHASE_1ST_JOB = "[ Job: {0} ] 1. Input new data of JsonObject";

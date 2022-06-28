@@ -1,8 +1,12 @@
 package io.vertx.tp.jet.refine;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtConfig;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
 import javax.ws.rs.core.MediaType;
@@ -15,6 +19,8 @@ import java.util.function.Supplier;
  */
 class JtRoute {
 
+    private static final Node<JsonObject> UNIFORM = Ut.singleton(ZeroUniform.class);
+
     static Set<String> toSet(final Supplier<String> supplier) {
         final String inputRequired = supplier.get();
         final Set<String> result = new HashSet<>();
@@ -23,6 +29,14 @@ class JtRoute {
             mimeArr.stream().map(item -> (String) item).forEach(result::add);
         }
         return result;
+    }
+
+    static String toPath(final Supplier<String> routeSupplier, final Supplier<String> uriSupplier,
+                         final boolean secure) {
+        final JsonObject config = UNIFORM.read();
+        final JsonObject configRouter = Ut.valueJObject(config, KName.ROUTER);
+        final JtConfig configuration = Ut.deserialize(configRouter, JtConfig.class);
+        return toPath(routeSupplier, uriSupplier, secure, configuration);
     }
 
     static String toPath(final Supplier<String> routeSupplier,

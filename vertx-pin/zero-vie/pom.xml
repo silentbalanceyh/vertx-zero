@@ -97,6 +97,12 @@
             <artifactId>zero-lbs</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Tpl -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-tpl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- History 专用包 -->
         <dependency>
             <groupId>cn.vertxup</groupId>
@@ -113,6 +119,12 @@
         <dependency>
             <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-shell</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Stomp for MQ -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-stomp</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

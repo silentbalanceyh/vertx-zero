@@ -68,6 +68,8 @@ public interface Orders {
     int EVENT = 5_000_000;
 
     int EVENT_USER = 5_100_000;
+
+    int SOCK = 5_200_000;
     /**
      * ( Default for dynamic routing )
      * 6,000,000

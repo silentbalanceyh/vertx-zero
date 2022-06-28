@@ -4,6 +4,9 @@ interface Info {
     String SCANNED_EVENTS = "( {1} Event ) The endpoint {0} scanned {1} events of Event, " +
         "will be mounted to routing system.";
 
+    String SCANNED_SOCKS = "( {1} Web-Socket ) The endpoint {0} scanned {1} websockets of Event, " +
+        "will be mounted to event bus.";
+
     String SCANNED_RECEIPTS = "( {1} Receipt ) The queue {0} scanned {1} records of Receipt, " +
         "will be mounted to event bus.";
 

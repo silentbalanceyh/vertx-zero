@@ -1,7 +1,7 @@
 package io.vertx.up.verticle;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.ServidorOptions;
+import io.vertx.core.RpcOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
@@ -20,19 +20,19 @@ public class ZeroRpcRegistry extends AbstractVerticle {
 
     private static final Annal LOGGER = Annal.get(ZeroRpcRegistry.class);
     private transient final ZeroRegistry registry
-        = ZeroRegistry.create(getClass());
+        = ZeroRegistry.create(this.getClass());
 
     @Override
     public void start() {
         final EventBus bus = this.vertx.eventBus();
         bus.<JsonObject>consumer(ID.Addr.IPC_START, result -> {
             final JsonObject data = result.body();
-            final ServidorOptions options = new ServidorOptions(data);
+            final RpcOptions options = new RpcOptions(data);
             // Write the data to registry.
             this.registry.registryRpc(options, Etat.RUNNING);
             this.registry.registryIpcs(options, Tunnel.IPCS.keySet());
 
-            LOGGER.info(Info.MICRO_REGISTRY_CONSUME, getClass().getSimpleName(),
+            LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
                 options.getName(), ID.Addr.IPC_START);
         });
     }

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class RegexPath {
 
+    @SuppressWarnings("all")
     private static final Pattern RE_OPERATORS_NO_STAR =
         Pattern.compile("([\\(\\)\\$\\+\\.])");
 
@@ -19,7 +20,7 @@ public class RegexPath {
         }
         // We need to search for any :<token name> tokens in the String and replace them with named capture groups
         final Matcher m = Pattern.compile(":([A-Za-z][A-Za-z0-9_]*)").matcher(path);
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         final List<String> groups = new ArrayList<>();
         int index = 0;
         while (m.find()) {

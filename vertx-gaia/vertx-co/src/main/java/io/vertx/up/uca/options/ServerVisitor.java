@@ -1,5 +1,11 @@
 package io.vertx.up.uca.options;
 
+import io.vertx.core.http.HttpServerOptions;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.log.Annal;
+
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -7,14 +13,24 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Lang
  */
-public interface ServerVisitor<T>
-    extends Visitor<ConcurrentMap<Integer, T>> {
+public interface ServerVisitor<T> extends Visitor<ConcurrentMap<Integer, T>> {
 
-    String YKEY_TYPE = "type";
+    default ServerType serverType() {
+        return ServerType.HTTP;
+    }
 
-    String YKEY_CONFIG = "config";
+    default int serverPort(final JsonObject config) {
+        if (null != config) {
+            return config.getInteger(KName.PORT, HttpServerOptions.DEFAULT_PORT);
+        }
+        return HttpServerOptions.DEFAULT_PORT;
+    }
 
-    String YKEY_NAME = "name";
+    default boolean isServer(final JsonObject item) {
+        return this.serverType().match(item.getString(KName.TYPE));
+    }
 
-    String KEY = "server";
+    default Annal logger() {
+        return Annal.get(this.getClass());
+    }
 }

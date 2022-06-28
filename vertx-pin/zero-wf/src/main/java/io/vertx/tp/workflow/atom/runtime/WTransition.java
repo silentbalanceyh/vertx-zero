@@ -15,6 +15,7 @@ import io.vertx.up.experiment.specification.KFlow;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -241,8 +242,18 @@ public class WTransition {
     }
 
     public boolean isEnded() {
-        Objects.requireNonNull(this.instance);
-        return this.instance.isEnded();
+        if (Objects.isNull(this.instance)) {
+            return true;
+        }
+        /*
+         * To Avoid Camunda Engine ProcessInstance state
+         * Sync here. Here are some situations for end ProcessInstance checking
+         * 1. When the instance is finished. ( There will be no ProcessInstance )
+         * 2. The history instance has been created and could be find.
+         */
+        final Io<Void> io = Io.io();
+        final HistoricProcessInstance instanceHis = io.inHistoric(this.instance.getId());
+        return Objects.nonNull(instanceHis);
     }
 
     public boolean isRunning() {

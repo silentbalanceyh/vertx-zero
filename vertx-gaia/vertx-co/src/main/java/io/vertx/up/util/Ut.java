@@ -1674,6 +1674,7 @@ public final class Ut {
         return StringUtil.prefix(data, prefix);
     }
 
+    @Deprecated
     public static Instant fromAt(final String expr) {
         return Period.parseAt(expr);
     }

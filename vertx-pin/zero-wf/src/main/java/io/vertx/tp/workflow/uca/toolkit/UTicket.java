@@ -5,6 +5,7 @@ import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
@@ -365,5 +366,35 @@ public class UTicket {
         // Task Part
         dataJ.remove(KName.Flow.TASK_KEY);
         dataJ.remove(KName.Flow.TASK_ID);
+
+        /*
+         * Fix issue: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+         * through reference chain: cn.vertxup.workflow.domain.tables.pojos.WTodo["toUser"]
+         *
+         * Because there are three data format of `toUser`
+         * 1) String
+         * 2) JsonObject
+         * 3) JsonArray
+         *
+         * Because the 2 and 3 are calculated by `MoveOn` component before updating, it means that
+         * all these kind of fields will not be updated on `WTodo` record, here provide the situations:
+         *
+         * 1) When the user click `Saving` button instead of `Submit`
+         * -- 1.1) Based on configuration these kind of situation, the `toUser` could not be JsonObject / JsonArray
+         * -- 1.2) When the `toUser` is String format, it also could be updated in code logical
+         * 2) When the user click `Submit` button
+         * -- In this kind of situation, this field is not needed to be updated here because the `toUser` stored the
+         *    previous field value here.
+         *
+         * Final:
+         *
+         *      When the `toUser` data is `String`, it could be updated ( Single ), if other situations ( JsonObject
+         * / JsonArray ), ignored this situation.
+         */
+        final Object toUser = dataJ.getValue(KName.Flow.Auditor.TO_USER);
+        if (toUser instanceof JsonArray || toUser instanceof JsonObject) {
+            // Removed for Todo Part
+            dataJ.remove(KName.Flow.Auditor.TO_USER);
+        }
     }
 }

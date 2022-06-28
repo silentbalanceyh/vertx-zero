@@ -26,8 +26,7 @@ public class EventAxis implements Axis<Router> {
     /**
      * Extract all events that will be generated route.
      */
-    private static final Set<Event> EVENTS =
-        ZeroAnno.getEvents();
+    private static final Set<Event> EVENTS = ZeroAnno.getEvents();
     private static final Cc<String, ModeSplitter> CC_SPLITTER = Cc.openThread();
     private static final Cc<String, Sentry<RoutingContext>> CC_VERIFIER = Cc.openThread();
     /**

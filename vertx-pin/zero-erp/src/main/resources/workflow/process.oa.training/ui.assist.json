@@ -11,21 +11,13 @@
             "type": "FIX:zero.workflow.cat"
         }
     },
-    "data.category": {
-        "uri": "/api/type/categories/:type",
-        "magic": {
-            "type": "FIX:ci.type"
-        }
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma"
     },
-    "tabular": {
-        "uri": "/api/types/tabulars",
-        "method": "POST",
+    "oa.training.type": {
+        "uri": "/api/type/tabulars/:type",
         "magic": {
-            "$body": [
-                "ci.status",
-                "ci.level"
-            ]
-        },
-        "group": "type"
+            "type": "FIX:zero.employee.training"
+        }
     }
 }

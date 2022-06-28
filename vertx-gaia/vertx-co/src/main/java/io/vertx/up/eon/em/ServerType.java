@@ -3,7 +3,7 @@ package io.vertx.up.eon.em;
 public enum ServerType {
     // Http Server
     HTTP("http"),
-    // Web Socket Server
+    // Sock Server
     SOCK("sock"),
     // Rx Server
     RX("rx"),
@@ -23,6 +23,6 @@ public enum ServerType {
     }
 
     public boolean match(final String literal) {
-        return null != literal && this.literal.equals(literal);
+        return this.literal.equals(literal);
     }
 }

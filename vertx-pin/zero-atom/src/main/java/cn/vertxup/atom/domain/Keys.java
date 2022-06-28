@@ -13,7 +13,6 @@ import cn.vertxup.atom.domain.tables.MJoin;
 import cn.vertxup.atom.domain.tables.MKey;
 import cn.vertxup.atom.domain.tables.MModel;
 import cn.vertxup.atom.domain.tables.MRelation;
-import cn.vertxup.atom.domain.tables.MTpl;
 import cn.vertxup.atom.domain.tables.records.MAccRecord;
 import cn.vertxup.atom.domain.tables.records.MAttributeRecord;
 import cn.vertxup.atom.domain.tables.records.MEntityRecord;
@@ -23,7 +22,6 @@ import cn.vertxup.atom.domain.tables.records.MJoinRecord;
 import cn.vertxup.atom.domain.tables.records.MKeyRecord;
 import cn.vertxup.atom.domain.tables.records.MModelRecord;
 import cn.vertxup.atom.domain.tables.records.MRelationRecord;
-import cn.vertxup.atom.domain.tables.records.MTplRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -62,6 +60,4 @@ public class Keys {
     public static final UniqueKey<MModelRecord> KEY_M_MODEL_PRIMARY = Internal.createUniqueKey(MModel.M_MODEL, DSL.name("KEY_M_MODEL_PRIMARY"), new TableField[] { MModel.M_MODEL.KEY }, true);
     public static final UniqueKey<MRelationRecord> KEY_M_RELATION_PRIMARY = Internal.createUniqueKey(MRelation.M_RELATION, DSL.name("KEY_M_RELATION_PRIMARY"), new TableField[] { MRelation.M_RELATION.KEY }, true);
     public static final UniqueKey<MRelationRecord> KEY_M_RELATION_TYPE = Internal.createUniqueKey(MRelation.M_RELATION, DSL.name("KEY_M_RELATION_TYPE"), new TableField[] { MRelation.M_RELATION.TYPE, MRelation.M_RELATION.UPSTREAM, MRelation.M_RELATION.DOWNSTREAM, MRelation.M_RELATION.SIGMA }, true);
-    public static final UniqueKey<MTplRecord> KEY_M_TPL_CODE = Internal.createUniqueKey(MTpl.M_TPL, DSL.name("KEY_M_TPL_CODE"), new TableField[] { MTpl.M_TPL.CODE, MTpl.M_TPL.SIGMA }, true);
-    public static final UniqueKey<MTplRecord> KEY_M_TPL_PRIMARY = Internal.createUniqueKey(MTpl.M_TPL, DSL.name("KEY_M_TPL_PRIMARY"), new TableField[] { MTpl.M_TPL.KEY }, true);
 }

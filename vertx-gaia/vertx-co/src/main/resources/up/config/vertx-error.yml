@@ -90,6 +90,7 @@ E40066: "(Jooq) The input `clazz` is not implemented from VertxDAO, clazz is inv
 E40067: "(Jooq) There is no `Clause` for field = \"{0}\" and type = \"{1}\", original field = \"{2}\""
 E40068: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
 E40069: "(415) - The declared type {0} is not match to MIME {1}"
+E40078: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
 
 # Console exception
 E40070: "The default launcher key mustn''t be overwrite. ( config )"

@@ -1,7 +1,8 @@
 package io.vertx.up.runtime;
 
 import io.vertx.core.ClusterOptions;
-import io.vertx.core.ServidorOptions;
+import io.vertx.core.RpcOptions;
+import io.vertx.core.SockOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.up.eon.em.ServerType;
@@ -25,11 +26,12 @@ public class ZeroGrid {
         new ConcurrentHashMap<>();
     private static final ConcurrentMap<Integer, String> SERVER_NAMES =
         new ConcurrentHashMap<>();
-    private static final ConcurrentMap<Integer, ServidorOptions> RPC_OPTS =
+    private static final ConcurrentMap<Integer, RpcOptions> RPC_OPTS =
         new ConcurrentHashMap<>();
     private static final ConcurrentMap<Integer, HttpServerOptions> RX_OPTS =
         new ConcurrentHashMap<>();
-    private static final ConcurrentMap<Integer, HttpServerOptions> SOCK_OPTS =
+
+    private static final ConcurrentMap<Integer, SockOptions> SOCK_OPTS =
         new ConcurrentHashMap<>();
     private static ClusterOptions CLUSTER;
 
@@ -64,17 +66,17 @@ public class ZeroGrid {
             }
             // Init for RpxServerOptions
             if (RPC_OPTS.isEmpty()) {
-                final ServerVisitor<ServidorOptions> visitor =
+                final ServerVisitor<RpcOptions> visitor =
                     Ut.singleton(RpcServerVisitor.class);
                 RPC_OPTS.putAll(visitor.visit());
             }
-            // Init for SockServerOptions
             if (SOCK_OPTS.isEmpty()) {
-                final ServerVisitor<HttpServerOptions> visitor =
-                    Ut.singleton(SockServerVisitor.class);
-                SOCK_OPTS.putAll(visitor.visit());
+                final ServerVisitor<SockOptions> visitor =
+                    Ut.singleton(SockVisitor.class);
+                final ConcurrentMap<Integer, SockOptions> map = visitor.visit();
+                map.keySet().stream().filter(SERVER_OPTS::containsKey)
+                    .forEach(port -> SOCK_OPTS.put(port, map.get(port)));
             }
-            // Init for all plugin options.
             ZeroAmbient.init();
         }, LOGGER);
     }
@@ -95,11 +97,11 @@ public class ZeroGrid {
         return RX_OPTS;
     }
 
-    public static ConcurrentMap<Integer, ServidorOptions> getRpcOptions() {
+    public static ConcurrentMap<Integer, RpcOptions> getRpcOptions() {
         return RPC_OPTS;
     }
 
-    public static ConcurrentMap<Integer, HttpServerOptions> getSockOptions() {
+    public static ConcurrentMap<Integer, SockOptions> getSockOptions() {
         return SOCK_OPTS;
     }
 

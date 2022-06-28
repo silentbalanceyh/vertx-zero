@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 4,
+  "components": [
+    {
+      "label": "流程编号",
+      "type": "textfield",
+      "id": "Field_1vi58tr",
+      "key": "workflow",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "e.begin.form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  }
+}
