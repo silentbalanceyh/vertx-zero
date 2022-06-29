@@ -16,19 +16,19 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractBuiltInHandler implements BuiltInHandler {
+public abstract class AbstractSicHandler implements SicFrameHandler {
     protected final transient Vertx vertx;
     /*
      * Bolt for Zero Security Injection to implement custom define for STOMP
      */
     protected transient Lee lee;
 
-    protected AbstractBuiltInHandler(final Vertx vertx) {
+    protected AbstractSicHandler(final Vertx vertx) {
         this.vertx = vertx;
     }
 
     @Override
-    public BuiltInHandler bind(final Aegis config) {
+    public SicFrameHandler bind(final Aegis config) {
         this.lee = Bolt.reference(config);
         return this;
     }

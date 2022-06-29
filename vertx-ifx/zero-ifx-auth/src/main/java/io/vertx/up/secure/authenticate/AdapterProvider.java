@@ -15,10 +15,13 @@ public interface AdapterProvider {
      * use this method, if you want to extend features, you can write your
      * own provider and put into this package for extension
      */
-    @SuppressWarnings("all")
     static AdapterProvider common() {
-        return (AdapterProvider) CC_ADAPTER.pick(AdapterCommon::new, AdapterCommon.class.getName());
-        // Fn.po?lThread(Pool.POOL_ADAPTER, AdapterCommon::new, AdapterCommon.class.getName());
+        return CC_ADAPTER.pick(AdapterCommon::new, AdapterCommon.class.getName());
+    }
+
+    static AdapterProvider extension(final AuthenticationProvider standard) {
+        return CC_ADAPTER.pick(
+            () -> new AdapterExtension(standard), AdapterExtension.class.getName());
     }
 
     AuthenticationProvider provider(Aegis aegis);

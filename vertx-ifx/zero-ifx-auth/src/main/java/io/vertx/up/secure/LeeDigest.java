@@ -9,6 +9,7 @@ import io.vertx.ext.web.handler.impl.HTTPAuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.util.Ut;
 
 /**
@@ -28,7 +29,8 @@ class LeeDigest extends AbstractLee {
     @Override
     public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final HtdigestAuth standard = this.providerInternal(vertx, config);
-        return this.wrapProvider(standard, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
     }
 
     @Override

@@ -10,7 +10,7 @@ import io.vertx.ext.stomp.StompServer;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.tp.plugin.stomp.handler.BuiltInHandler;
+import io.vertx.tp.plugin.stomp.handler.SicFrameHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
@@ -96,7 +96,7 @@ public class AresStomp extends AbstractAres {
 
     protected void mountHandler(final StompServerHandler handler, final Aegis aegis) {
         // Replace Connect Handler because of Security Needed.
-        final BuiltInHandler connectHandler = BuiltInHandler.connect(this.vertx());
+        final SicFrameHandler connectHandler = SicFrameHandler.connect(this.vertx());
         handler.connectHandler(connectHandler.bind(aegis));
     }
 

@@ -8,12 +8,12 @@ import io.vertx.up.atom.secure.Aegis;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface BuiltInHandler extends Handler<ServerFrame> {
+public interface SicFrameHandler extends Handler<ServerFrame> {
     // Build Different Handler as Factory
-    static BuiltInHandler connect(final Vertx vertx) {
-        return new BuiltInConnectHandler(vertx);
+    static SicFrameHandler connect(final Vertx vertx) {
+        return new SicConnectHandler(vertx);
     }
 
     // Api For Definition
-    BuiltInHandler bind(Aegis config);
+    SicFrameHandler bind(Aegis config);
 }

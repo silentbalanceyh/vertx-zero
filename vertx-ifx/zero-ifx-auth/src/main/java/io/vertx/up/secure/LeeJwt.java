@@ -10,6 +10,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -42,7 +43,8 @@ class LeeJwt extends AbstractLee {
     @Override
     public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final JWTAuth standard = this.providerInternal(vertx, config);
-        return this.wrapProvider(standard, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
     }
 
     @Override

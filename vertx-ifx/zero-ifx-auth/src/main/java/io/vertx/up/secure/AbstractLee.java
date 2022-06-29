@@ -4,7 +4,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.authentication.TokenCredentials;
@@ -88,25 +87,6 @@ public abstract class AbstractLee implements LeeBuiltIn {
             }
         });
         return handler;
-    }
-
-    protected AuthenticationProvider wrapProvider(final AuthenticationProvider standard, final Aegis aegis) {
-        final AuthenticateBuiltInProvider provider = AuthenticateBuiltInProvider.provider(aegis);
-        return new AuthenticationProvider() {
-            @Override
-            public void authenticate(JsonObject jsonObject, Handler<AsyncResult<User>> handler) {
-                // First Standard Trigger
-                standard.authenticate(jsonObject, res -> {
-                    if (res.succeeded()) {
-                        // BuildIn Trigger for User Validation
-                        provider.authenticate(jsonObject, handler);
-                    } else {
-                        final WebException error = new _401UnauthorizedException(getClass());
-                        handler.handle(Future.failedFuture(error));
-                    }
-                });
-            }
-        };
     }
 
     protected AuthenticationHandler buildHandler(final AuthenticationProvider standard, final Aegis aegis,
