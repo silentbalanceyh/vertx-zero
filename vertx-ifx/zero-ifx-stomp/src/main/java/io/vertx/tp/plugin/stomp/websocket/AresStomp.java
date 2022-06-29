@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.stomp.websocket;
 
 import io.vertx.core.SockOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
@@ -111,13 +112,16 @@ public class AresStomp extends AbstractAres {
             final RemindType type = topicMap.getOrDefault(name, null);
             if (Objects.isNull(type)) {
                 // No Definition of Address
+                this.logger().info(Info.SUBSCRIBE_NULL, name);
                 return null;
             }
             if (RemindType.QUEUE == type) {
                 // Queue
+                this.logger().info(Info.SUBSCRIBE_QUEUE, name);
                 return Destination.queue(v, name);
             } else {
                 // Topic
+                this.logger().info(Info.SUBSCRIBE_TOPIC, name);
                 return Destination.topic(v, name);
             }
         });
@@ -127,6 +131,11 @@ public class AresStomp extends AbstractAres {
         // Replace Connect Handler because of Security Needed.
         final SicFrameHandler connectHandler = SicFrameHandler.connect(this.vertx());
         handler.connectHandler(connectHandler.bind(aegis));
+        // Execute Handler for usage
+        handler.commitHandler(frame -> {
+            System.out.println("Hello");
+            frame.connection().write(Buffer.buffer("Hello"));
+        });
     }
 
     private Aegis mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {

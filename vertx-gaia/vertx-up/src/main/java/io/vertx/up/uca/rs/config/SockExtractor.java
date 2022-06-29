@@ -5,6 +5,7 @@ import io.vertx.up.annotations.Subscribe;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.RemindType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;
@@ -45,7 +46,18 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         final Class<?> clazz = method.getDeclaringClass();
         // 1. Scan whole Endpoints
         final Annotation annotation = method.getDeclaredAnnotation(Subscribe.class);
-        final String address = Ut.invoke(annotation, KName.VALUE);
+        String address = Ut.invoke(annotation, KName.VALUE);
+        /*
+         * If the address is not start with "/", the system convert the address value
+         * from direct address to the normalized path.
+         *
+         * For example:
+         *
+         * job/notify       -> /job/notify
+         */
+        if (!address.startsWith(Strings.SLASH)) {
+            address = Strings.SLASH + address;
+        }
         final RemindType type = Ut.invoke(annotation, KName.TYPE);
         // 2. Build Remind
         final Remind remind = new Remind();
