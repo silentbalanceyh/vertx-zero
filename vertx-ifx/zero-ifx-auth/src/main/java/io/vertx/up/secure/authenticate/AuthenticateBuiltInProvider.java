@@ -8,10 +8,8 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.atom.secure.Against;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -40,6 +38,66 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
         return new AuthenticateBuiltInProvider(aegis);
     }
 
+    @Override
+    public void authenticate(final JsonObject credentials, final Handler<AsyncResult<User>> handler) {
+        /*
+         * 1. Read User information from user cache
+         *    Zero framework provide cache pool to store user logged information to avoid
+         *    duplicated execute the code logical in @Wall to simply and speed up the
+         *    401 authenticate.
+         * 2. Here the credentials data structure is as following;
+         *    {
+         *        "access_token": "xxx",
+         *        "session": "vert.x session id",
+         *        "habitus": "the user unique key in zero session pool",
+         *        "user": "user key"
+         *    }
+         */
+        AuthenticateGateway.userCached(credentials,
+
+            /*
+             * The major code logical that has been defined
+             * @Wall class to execute your own code here.
+             */
+            () -> this.authenticateInternal(credentials, handler),
+
+            // Build `User`
+            () -> handler.handle(this.buildUser(credentials))
+        );
+    }
+
+    private void authenticateInternal(final JsonObject credentials, final Handler<AsyncResult<User>> handler) {
+        AuthenticateGateway.userVerified(credentials, this.aegis, (res) -> {
+            /*
+             * Here the result should not be null and failure
+             * 1. The internal method `userVerified` will be sure the callback logical
+             *    - 401 ( method = null )
+             *    - 401 ( the executor is failure and throw out WebException )
+             *    - XXX ( Throw out internal error )
+             * 2. The internal method `userVerified` will be system level
+             *    following code will be business level
+             *    - check = true:  Success
+             *    - check = false: 401 ( Business Validated Failure )
+             *
+             * In this kind of situation, following code is not needed.
+             *     if (res.succeeded()) {
+             *          <Current Method Code Logical>
+             *     }
+             */
+            final Boolean checked = res.result();
+            if (checked) {
+                // Success to passed validation
+                LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
+                AuthenticateGateway.userCached(credentials,
+                    // Build `User`
+                    () -> handler.handle(this.buildUser(credentials)));
+            } else {
+                // 401 Workflow
+                handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
+            }
+        });
+    }
+
     private Future<User> buildUser(final JsonObject credentials) {
         if (Objects.isNull(this.userFn)) {
             // Attribute should be empty here
@@ -47,44 +105,5 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
         } else {
             return this.userFn.apply(credentials);
         }
-    }
-
-    @Override
-    public void authenticate(final JsonObject credentials, final Handler<AsyncResult<User>> handler) {
-        AuthenticateGateway.userAuthorized(credentials, () -> {
-            final Against against = this.aegis.getAuthorizer();
-            final Method method = against.getAuthenticate();
-            if (Objects.isNull(method)) {
-                // Exception for method is null ( This situation should not happen )
-                handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-            } else {
-                // Verify the data by @Wall's method that has been annotated by @Authenticate
-                final Object proxy = this.aegis.getProxy();
-                final Future<Boolean> checkedFuture = Ut.invokeAsync(proxy, method, credentials);
-                checkedFuture.onComplete(res -> {
-                    if (res.succeeded()) {
-                        final Boolean checked = res.result();
-                        if (Objects.isNull(checked) || !checked) {
-                            // 401 Workflow
-                            handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-                        } else {
-                            // Success to passed validation
-                            LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
-                            AuthenticateGateway.userAuthorize(credentials, () -> handler.handle(this.buildUser(credentials)));
-                        }
-                    } else {
-                        // Exception Throw
-                        final Throwable ex = res.cause();
-                        if (Objects.isNull(ex)) {
-                            // 401 Without Exception
-                            handler.handle(Future.failedFuture(new _401UnauthorizedException(this.getClass())));
-                        } else {
-                            // 401 With Throwable
-                            handler.handle(Future.failedFuture(ex));
-                        }
-                    }
-                });
-            }
-        }, () -> handler.handle(this.buildUser(credentials)));
     }
 }

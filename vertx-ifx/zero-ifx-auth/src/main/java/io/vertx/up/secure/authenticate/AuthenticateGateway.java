@@ -25,8 +25,7 @@ public class AuthenticateGateway {
 
     private static final Annal LOGGER = Annal.get(AuthenticateGateway.class);
 
-    static void userAuthorized(final JsonObject credentials, final Actuator actuator,
-                               final Actuator fnCache) {
+    public static void userCached(final JsonObject credentials, final Actuator actuator, final Actuator fnCache) {
         final String habitus = credentials.getString(KName.HABITUS);
         final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
         rapid.read(RapidKey.User.AUTHENTICATE).onComplete(res -> {
@@ -44,7 +43,7 @@ public class AuthenticateGateway {
         });
     }
 
-    static void userAuthorize(final JsonObject credentials, final Actuator actuator) {
+    public static void userCached(final JsonObject credentials, final Actuator actuator) {
         final String habitus = credentials.getString(KName.HABITUS);
         final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
         rapid.write(RapidKey.User.AUTHENTICATE, credentials).onComplete(next -> actuator.execute());
@@ -55,8 +54,7 @@ public class AuthenticateGateway {
      *  1) AuthenticateBuiltInProvider code     HTTP Workflow
      *  2) SicStompServerHandler       code     WebSocket Workflow
      */
-    public static void userAuthorized(final JsonObject credentials, final Aegis aegis,
-                                      final Handler<AsyncResult<Boolean>> handler) {
+    public static void userVerified(final JsonObject credentials, final Aegis aegis, final Handler<AsyncResult<Boolean>> handler) {
         final Against against = aegis.getAuthorizer();
         final Method method = against.getAuthenticate();
         if (Objects.isNull(method)) {

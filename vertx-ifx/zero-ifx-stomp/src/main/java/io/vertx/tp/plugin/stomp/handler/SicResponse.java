@@ -35,7 +35,7 @@ class SicResponse {
 
     static Frame errorAuthenticate(final StompServerConnection connection) {
         return Frames.createErrorFrame(
-            "Authentication failed",
+            "[ Zero ] Authentication failed",
             Headers.create(
                 Frame.VERSION, getSupportedVersionsHeaderLine(connection),
                 Frame.CONTENT_TYPE, "text/plain"),

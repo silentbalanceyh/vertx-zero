@@ -79,6 +79,7 @@ public class SicConnectHandler extends AbstractSicHandler {
                 // Extension Code Flow
                 final String authorization = frame.getHeader(HttpHeaders.AUTHORIZATION.toLowerCase());
                 if (Ut.isNil(authorization)) {
+                    // 401 Error
                     connection.write(SicResponse.errorAuthenticate(connection));
                     connection.close();
                 } else {
