@@ -116,6 +116,16 @@ public class SicConnectHandler extends AbstractSicHandler {
         final JsonObject token = lee.decode(tokenString, this.config.item());
         final JsonObject request = token.copy();
         request.put(KName.ACCESS_TOKEN, tokenString);
+        {
+            /*
+             * This code is required when you want to process validated by user-defined
+             * 1) Here the `token` is required by JWTAuth provider and it's connected your defined as well.
+             * 2) Here are two providers merged
+             *    - Standard ( JWTAuthProvider )
+             *    - Extension ( @Wall annotated provider class )
+             */
+            request.put("token", tokenString);
+        }
         return request;
     }
 

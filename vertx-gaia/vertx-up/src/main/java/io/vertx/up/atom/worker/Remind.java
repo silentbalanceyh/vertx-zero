@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.up.eon.em.RemindType;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -19,9 +20,11 @@ public class Remind implements Serializable {
 
     private String name;
 
-    private String address;
+    private RemindType type;
 
-    private String inputAddress;
+    private String subscribe;
+
+    private String address;
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
@@ -41,20 +44,28 @@ public class Remind implements Serializable {
         this.name = name;
     }
 
+    public RemindType getType() {
+        return this.type;
+    }
+
+    public void setType(final RemindType type) {
+        this.type = type;
+    }
+
+    public String getSubscribe() {
+        return this.subscribe;
+    }
+
+    public void setSubscribe(final String subscribe) {
+        this.subscribe = subscribe;
+    }
+
     public String getAddress() {
         return this.address;
     }
 
     public void setAddress(final String address) {
         this.address = address;
-    }
-
-    public String getInputAddress() {
-        return this.inputAddress;
-    }
-
-    public void setInputAddress(final String inputAddress) {
-        this.inputAddress = inputAddress;
     }
 
     public Class<?> getInput() {
@@ -98,22 +109,25 @@ public class Remind implements Serializable {
             return false;
         }
         final Remind remind = (Remind) o;
-        return this.address.equals(remind.address) && this.method.equals(remind.method);
+        return this.subscribe.equals(remind.subscribe) && this.method.equals(remind.method);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.address, this.method);
+        return Objects.hash(this.subscribe, this.method);
     }
 
     @Override
     public String toString() {
         return "Remind{" +
             "name='" + this.name + '\'' +
+            ", type=" + this.type +
+            ", subscribe='" + this.subscribe + '\'' +
             ", address='" + this.address + '\'' +
-            ", inputAddress='" + this.inputAddress + '\'' +
             ", input=" + this.input +
-            ", secure=" + this.secure + '\'' +
+            ", proxy=" + this.proxy +
+            ", method=" + this.method +
+            ", secure=" + this.secure +
             '}';
     }
 }

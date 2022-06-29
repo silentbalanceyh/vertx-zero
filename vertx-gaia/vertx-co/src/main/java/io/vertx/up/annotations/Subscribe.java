@@ -2,6 +2,7 @@ package io.vertx.up.annotations;
 
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.RemindType;
 
 import java.lang.annotation.*;
 
@@ -21,7 +22,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface WebSocket {
+public @interface Subscribe {
     /*
      * The first part of `websocket`, the address means that
      * the correct address from front-end, here are the address design for
@@ -33,8 +34,6 @@ public @interface WebSocket {
      *    the `address` will be bind to EventBus
      * 2. The critical `address` is stored into `value` for Router mounting
      */
-    String inputAddress() default Strings.EMPTY;
-
     String name() default Strings.EMPTY;
 
     Class<?> input() default DefaultClass.class;
@@ -42,4 +41,6 @@ public @interface WebSocket {
     String value();
 
     boolean secure() default true;
+
+    RemindType type() default RemindType.TOPIC;
 }

@@ -14,6 +14,7 @@ import io.vertx.tp.plugin.stomp.handler.SicFrameHandler;
 import io.vertx.tp.plugin.stomp.handler.SicServerHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
+import io.vertx.up.eon.em.RemindType;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
@@ -24,6 +25,8 @@ import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
@@ -35,13 +38,14 @@ public class AresStomp extends AbstractAres {
     private static final Cc<String, Set<Aegis>> CC_WALLS = ZeroAnno.getWalls();
     private static final AtomicBoolean LOG_FOUND = new AtomicBoolean(Boolean.TRUE);
     private static final AtomicBoolean LOG_PROVIDER = new AtomicBoolean(Boolean.TRUE);
-    private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
     private transient final Bolt bolt;
+    private final Set<Remind> sockOk;
 
 
     public AresStomp(final Vertx vertx) {
         super(vertx);
         this.bolt = Bolt.get();
+        this.sockOk = this.socks(true);
     }
 
     @Override
@@ -82,26 +86,50 @@ public class AresStomp extends AbstractAres {
         // Mount user definition handler
         this.mountHandler(handler, aegis);
 
-        // Grouped Socks
-        handler.destinationFactory((v, name) -> {
-            System.out.println(name);
-            return Destination.topic(v, "Hi Hello");
-        });
-        SOCKS.forEach(sock -> {
+        // Mount destination
+        this.mountDestination(handler);
 
-        });
         // Build StompServer and bind webSocketHandler
         stompServer.handler(handler);
         this.server.webSocketHandler(stompServer.webSocketHandler());
     }
 
-    protected void mountHandler(final StompServerHandler handler, final Aegis aegis) {
+    private void mountDestination(final StompServerHandler handler) {
+        /*
+         * Build Map of address = type
+         * Here are two types
+         */
+        final ConcurrentMap<String, RemindType> topicMap = new ConcurrentHashMap<>();
+        this.sockOk.forEach(remind -> {
+            final String subscribe = remind.getSubscribe();
+            if (Ut.notNil(subscribe)) {
+                topicMap.put(subscribe, Objects.isNull(remind.getType()) ? RemindType.TOPIC : remind.getType());
+            }
+        });
+        // Destination Building
+        handler.destinationFactory((v, name) -> {
+            final RemindType type = topicMap.getOrDefault(name, null);
+            if (Objects.isNull(type)) {
+                // No Definition of Address
+                return null;
+            }
+            if (RemindType.QUEUE == type) {
+                // Queue
+                return Destination.queue(v, name);
+            } else {
+                // Topic
+                return Destination.topic(v, name);
+            }
+        });
+    }
+
+    private void mountHandler(final StompServerHandler handler, final Aegis aegis) {
         // Replace Connect Handler because of Security Needed.
         final SicFrameHandler connectHandler = SicFrameHandler.connect(this.vertx());
         handler.connectHandler(connectHandler.bind(aegis));
     }
 
-    protected Aegis mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {
+    private Aegis mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {
         // Stomp Path Find
         final String stomp = option.getWebsocketPath();
         final AtomicReference<Aegis> reference = new AtomicReference<>();
