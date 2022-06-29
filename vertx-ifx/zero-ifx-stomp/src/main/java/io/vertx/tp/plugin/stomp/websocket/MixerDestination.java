@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.stomp.Destination;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
+import io.vertx.ext.stomp.impl.RemindDestination;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.em.RemindType;
 import io.vertx.up.util.Ut;
@@ -48,16 +49,31 @@ public class MixerDestination extends AbstractMixer {
                 this.logger().info(Info.SUBSCRIBE_NULL, name);
                 return null;
             }
-            if (RemindType.QUEUE == type) {
-                // Queue
-                this.logger().info(Info.SUBSCRIBE_QUEUE, name);
-                return Destination.queue(v, name);
-            } else {
-                // Topic
-                this.logger().info(Info.SUBSCRIBE_TOPIC, name);
-                return Destination.topic(v, name);
-            }
+            // Create new Remind Destination
+            return this.destination(v, name, type);
         });
-        return null;
+        return this.finished();
+    }
+
+    private Destination destination(final Vertx vertx, final String name,
+                                    final RemindType type) {
+        if (RemindType.REMIND == type) {
+            // Remind
+            this.logger().info(Info.SUBSCRIBE_REMIND, name);
+            return new RemindDestination(vertx, this.bridge(this.sockOk));
+        }
+        if (RemindType.QUEUE == type) {
+            // Queue
+            this.logger().info(Info.SUBSCRIBE_QUEUE, name);
+            return Destination.queue(vertx, name);
+        }
+        if (RemindType.BRIDGE == type) {
+            // Modify Bridge
+            this.logger().info(Info.SUBSCRIBE_BRIDGE, name);
+            return Destination.bridge(vertx, this.bridge(this.sockOk));
+        }
+        // Topic ( Default as Vert.x )
+        this.logger().info(Info.SUBSCRIBE_TOPIC, name);
+        return Destination.topic(vertx, name);
     }
 }

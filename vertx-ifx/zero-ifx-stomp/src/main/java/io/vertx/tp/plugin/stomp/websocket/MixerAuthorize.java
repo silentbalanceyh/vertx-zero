@@ -58,6 +58,6 @@ public class MixerAuthorize extends AbstractMixer {
             }
             handler.authProvider(provider);
         }
-        return (T) config;
+        return this.finished(config);
     }
 }

@@ -22,6 +22,10 @@ public class MixerHandler extends AbstractMixer {
         // Replace Connect Handler because of Security Needed.
         final FrameWsHandler connectHandler = FrameWsHandler.connector(this.vertx);
         handler.connectHandler(connectHandler.bind(this.aegis));
-        return null;
+
+        handler.beginHandler(begin -> {
+            System.out.println("Begin");
+        });
+        return this.finished();
     }
 }

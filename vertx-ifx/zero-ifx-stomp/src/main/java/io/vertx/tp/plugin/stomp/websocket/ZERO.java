@@ -9,7 +9,9 @@ interface Info {
 
     String SECURE_PROVIDER = "( AresStomp ) Zero will use security provider: {0}";
 
+    String SUBSCRIBE_REMIND = "( AresStomp ) The Remind of `{0}` has been subscribed.";
     String SUBSCRIBE_QUEUE = "( AresStomp ) The Queue of `{0}` has been subscribed.";
+    String SUBSCRIBE_BRIDGE = "( AresStomp ) The Bridge of `{0}` has been subscribed.";
     String SUBSCRIBE_TOPIC = "( AresStomp ) The Topic of `{0}` has been subscribed.";
     String SUBSCRIBE_NULL = "( AresStomp ) The address `{0}` is invalid and could not be subscribed.";
 }

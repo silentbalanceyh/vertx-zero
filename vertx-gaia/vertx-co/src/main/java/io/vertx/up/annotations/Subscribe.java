@@ -42,5 +42,5 @@ public @interface Subscribe {
 
     boolean secure() default true;
 
-    RemindType type() default RemindType.TOPIC;
+    RemindType type() default RemindType.REMIND;
 }

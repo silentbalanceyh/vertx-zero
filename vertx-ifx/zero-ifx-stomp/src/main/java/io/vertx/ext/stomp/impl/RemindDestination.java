@@ -1,0 +1,345 @@
+package io.vertx.ext.stomp.impl;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.bridge.PermittedOptions;
+import io.vertx.ext.stomp.*;
+import io.vertx.ext.stomp.utils.Headers;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Copy from Bridge
+ *
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
+public class RemindDestination extends Topic {
+
+    private final BridgeOptions options;
+
+    private final Map<String, Pattern> expressions = new HashMap<>();
+
+    private final Map<String, MessageConsumer<?>> registry = new HashMap<>();
+
+
+    public RemindDestination(final Vertx vertx, final BridgeOptions options) {
+        super(vertx, null);
+        this.options = options;
+    }
+
+    /**
+     * @return the destination address.
+     */
+    @Override
+    public String destination() {
+        return "<<bridge>>";
+    }
+
+    /**
+     * Handles a subscription request to the current {@link Destination}. All check about the frame format and unicity
+     * of the id should have been done beforehand.
+     *
+     * @param connection the connection
+     * @param frame      the {@code SUBSCRIBE} frame
+     *
+     * @return the current instance of {@link Destination}
+     */
+    @Override
+    public synchronized Destination subscribe(final StompServerConnection connection, final Frame frame) {
+        final String address = frame.getDestination();
+        // Need to check whether the client can receive message from the event bus (outbound).
+        if (this.checkMatches(false, address, null)) {
+            // We need the subscription object to transform messages.
+            final Subscription subscription = new Subscription(connection, frame);
+            this.subscriptions.add(subscription);
+            if (!this.registry.containsKey(address)) {
+                this.registry.put(address, this.vertx.eventBus().consumer(address, msg -> {
+                    if (!this.checkMatches(false, address, msg.body())) {
+                        return;
+                    }
+                    if (this.options.isPointToPoint()) {
+                        final Optional<Subscription> chosen = this.subscriptions.stream().filter(s -> s.destination.equals(address)).findAny();
+                        if (chosen.isPresent()) {
+                            final Frame stompFrame = this.transform(msg, chosen.get());
+                            chosen.get().connection.write(stompFrame);
+                        }
+                    } else {
+                        this.subscriptions.stream().filter(s -> s.destination.equals(address)).forEach(s -> {
+                            final Frame stompFrame = this.transform(msg, s);
+                            s.connection.write(stompFrame);
+                        });
+                    }
+                }));
+            }
+            return this;
+        }
+        return null;
+    }
+
+    /**
+     * Handles a un-subscription request to the current {@link Destination}.
+     *
+     * @param connection the connection
+     * @param frame      the {@code UNSUBSCRIBE} frame
+     *
+     * @return {@code true} if the un-subscription has been handled, {@code false} otherwise.
+     */
+    @Override
+    public synchronized boolean unsubscribe(final StompServerConnection connection, final Frame frame) {
+        for (final Subscription subscription : new ArrayList<>(this.subscriptions)) {
+            if (subscription.connection.equals(connection)
+                && subscription.id.equals(frame.getId())) {
+
+                final boolean r = this.subscriptions.remove(subscription);
+                this.unsubscribe(subscription);
+                return r;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Removes all subscriptions of the given connection
+     *
+     * @param connection the connection
+     *
+     * @return the current instance of {@link Destination}
+     */
+    @Override
+    public synchronized Destination unsubscribeConnection(final StompServerConnection connection) {
+        new ArrayList<>(this.subscriptions)
+            .stream()
+            .filter(subscription -> subscription.connection.equals(connection))
+            .forEach(s -> {
+                this.subscriptions.remove(s);
+                this.unsubscribe(s);
+            });
+        return this;
+    }
+
+    private void unsubscribe(final Subscription s) {
+        final Optional<Subscription> any = this.subscriptions.stream().filter(s2 -> s2.destination.equals(s.destination))
+            .findAny();
+        // We unregister the event bus consumer if there are no subscription on this address anymore.
+        if (any.isEmpty()) {
+            final MessageConsumer<?> consumer = this.registry.remove(s.destination);
+            if (consumer != null) {
+                consumer.unregister();
+            }
+        }
+    }
+
+    private Frame transform(final Message<Object> msg, final Subscription subscription) {
+        final String messageId = UUID.randomUUID().toString();
+
+        final Frame frame = new Frame();
+        frame.setCommand(Command.MESSAGE);
+
+        final Headers headers = Headers.create(frame.getHeaders())
+            // Destination already set in the input headers.
+            .add(Frame.SUBSCRIPTION, subscription.id)
+            .add(Frame.MESSAGE_ID, messageId)
+            .add(Frame.DESTINATION, msg.address());
+        if (!"auto".equals(subscription.ackMode)) {
+            // We reuse the message Id as ack Id
+            headers.add(Frame.ACK, messageId);
+        }
+
+        // Specific headers.
+        if (msg.replyAddress() != null) {
+            headers.put("reply-address", msg.replyAddress());
+        }
+
+        // Copy headers.
+        for (final Map.Entry<String, String> entry : msg.headers()) {
+            headers.putIfAbsent(entry.getKey(), entry.getValue());
+        }
+
+        frame.setHeaders(headers);
+        final Object body = msg.body();
+        if (body != null) {
+            if (body instanceof String) {
+                frame.setBody(Buffer.buffer((String) body));
+            } else if (body instanceof Buffer) {
+                frame.setBody((Buffer) body);
+            } else if (body instanceof JsonObject) {
+                frame.setBody(Buffer.buffer(((JsonObject) body).encode()));
+            } else {
+                throw new IllegalStateException("Illegal body - unsupported body type: " + body.getClass().getName());
+            }
+        }
+
+        if (body != null && frame.getHeader(Frame.CONTENT_LENGTH) == null) {
+            frame.addHeader(Frame.CONTENT_LENGTH, Integer.toString(frame.getBody().length()));
+        }
+
+        return frame;
+    }
+
+    /**
+     * Dispatches the given frame.
+     *
+     * @param connection the connection
+     * @param frame      the frame
+     *
+     * @return the current instance of {@link Destination}
+     */
+    @Override
+    public Destination dispatch(final StompServerConnection connection, final Frame frame) {
+        final String address = frame.getDestination();
+        // Send a frame to the event bus, check if this inbound traffic is allowed.
+        if (this.checkMatches(true, address, frame.getBody())) {
+            final String replyAddress = frame.getHeader("reply-address");
+            if (replyAddress != null) {
+                this.send(address, frame, (AsyncResult<Message<Object>> res) -> {
+                    if (res.failed()) {
+                        final Throwable cause = res.cause();
+                        connection.write(Frames.createErrorFrame("Message dispatch error", Headers.create(Frame.DESTINATION,
+                            address, "reply-address", replyAddress), cause.getMessage())).close();
+                    } else {
+                        // We are in a request-response interaction, only one STOMP client must receive the message (the one
+                        // having sent the given frame).
+                        // We look for the subscription with registered to the 'reply-to' destination. It must be unique.
+                        final Optional<Subscription> subscription = this.subscriptions.stream()
+                            .filter(s -> s.connection.equals(connection) && s.destination.equals(replyAddress))
+                            .findFirst();
+                        if (subscription.isPresent()) {
+                            final Frame stompFrame = this.transform(res.result(), subscription.get());
+                            subscription.get().connection.write(stompFrame);
+                        }
+                    }
+                });
+            } else {
+                this.send(address, frame, null);
+            }
+        } else {
+            connection.write(Frames.createErrorFrame("Access denied", Headers.create(Frame.DESTINATION,
+                address), "Access denied to " + address)).close();
+            return null;
+        }
+        return this;
+    }
+
+    private void send(final String address, final Frame frame, final Handler<AsyncResult<Message<Object>>> replyHandler) {
+        if (this.options.isPointToPoint()) {
+            this.vertx.eventBus().request(address, frame.getBody(),
+                new DeliveryOptions().setHeaders(this.toMultimap(frame.getHeaders())), replyHandler);
+        } else {
+            // the reply handler is ignored in non point to point interaction.
+            this.vertx.eventBus().publish(address, frame.getBody(),
+                new DeliveryOptions().setHeaders(this.toMultimap(frame.getHeaders())));
+        }
+    }
+
+    private MultiMap toMultimap(final Map<String, String> headers) {
+        return MultiMap.caseInsensitiveMultiMap().addAll(headers);
+    }
+
+    /**
+     * Checks whether or not the given address matches with the current destination.
+     *
+     * @param address the address
+     *
+     * @return {@code true} if it matches, {@code false} otherwise.
+     */
+    @Override
+    public boolean matches(final String address) {
+        return this.checkMatches(false, address, null) || this.checkMatches(true, address, null);
+    }
+
+    private boolean regexMatches(final String matchRegex, final String address) {
+        Pattern pattern = this.expressions.get(matchRegex);
+        if (pattern == null) {
+            pattern = Pattern.compile(matchRegex);
+            this.expressions.put(matchRegex, pattern);
+        }
+        final Matcher m = pattern.matcher(address);
+        return m.matches();
+    }
+
+    private boolean checkMatches(final boolean inbound, final String address, final Object body) {
+
+        final List<PermittedOptions> matches = inbound ? this.options.getInboundPermitteds() : this.options.getOutboundPermitteds();
+
+        for (final PermittedOptions matchHolder : matches) {
+            final String matchAddress = matchHolder.getAddress();
+            final String matchRegex;
+            if (matchAddress == null) {
+                matchRegex = matchHolder.getAddressRegex();
+            } else {
+                matchRegex = null;
+            }
+
+            final boolean addressOK;
+            if (matchAddress == null) {
+                addressOK = matchRegex == null || this.regexMatches(matchRegex, address);
+            } else {
+                addressOK = matchAddress.equals(address);
+            }
+
+            if (addressOK) {
+                return this.structureMatches(matchHolder.getMatch(), body);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether or not the given message payload matches the permitted option required structure (match).
+     * It only supports JSON payload. If the payload is not JSOn and the `match` is not {@link null}, the structure
+     * does not matches (it returns {@link false}).
+     *
+     * @param match the required structure, may be {@code null}
+     * @param body  the body, may be {@code null}. It is either a {@link JsonObject} or a {@link Buffer}.
+     *
+     * @return whether or not the payload matches the structure. {@link true} is returned if `match` is {@code null},
+     * or `body` is {@code null}.
+     */
+    private boolean structureMatches(final JsonObject match, final Object body) {
+        if (match == null || body == null) {
+            return true;
+        }
+
+        // Can send message other than JSON too - in which case we can't do deep matching on structure of message
+
+        try {
+            final JsonObject object;
+            if (body instanceof JsonObject) {
+                object = (JsonObject) body;
+            } else if (body instanceof Buffer) {
+                object = new JsonObject(((Buffer) body).toString("UTF-8"));
+            } else if (body instanceof String) {
+                object = new JsonObject((String) body);
+            } else {
+                return false;
+            }
+
+            for (final String fieldName : match.fieldNames()) {
+                final Object mv = match.getValue(fieldName);
+                final Object bv = object.getValue(fieldName);
+                // Support deep matching
+                if (mv instanceof JsonObject) {
+                    if (!this.structureMatches((JsonObject) mv, bv)) {
+                        return false;
+                    }
+                } else if (!match.getValue(fieldName).equals(object.getValue(fieldName))) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (final Exception e) {
+            // Was not a valid json object refuse the message
+            return false;
+        }
+    }
+}

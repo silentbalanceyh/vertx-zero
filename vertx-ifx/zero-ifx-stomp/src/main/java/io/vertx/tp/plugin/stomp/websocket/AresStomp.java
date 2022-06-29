@@ -61,17 +61,23 @@ public class AresStomp extends AbstractAres {
         // Iterator the SOCKS
         final ServerWsHandler handler = ServerWsHandler.create(this.vertx());
 
-        // Security for WebSocket
-        final Mixer mAuthorize = Mixer.instance(MixerAuthorize.class, this.vertx());
-        final Aegis aegis = mAuthorize.mount(handler, stompOptions);
+        {
+            // Security for WebSocket
+            final Mixer mAuthorize = Mixer.instance(MixerAuthorize.class, this.vertx());
+            final Aegis aegis = mAuthorize.mount(handler, stompOptions);
 
-        // Mount user definition handler
-        final Mixer mHandler = Mixer.instance(MixerHandler.class, this.vertx(), aegis);
-        mHandler.mount(handler);
+            // Mount user definition handler
+            final Mixer mHandler = Mixer.instance(MixerHandler.class, this.vertx(), aegis);
+            mHandler.mount(handler);
 
-        // Mount destination
-        final Mixer mDestination = Mixer.instance(MixerDestination.class, this.vertx(), this.sockOk);
-        mDestination.mount(handler);
+            // Mount destination
+            final Mixer mDestination = Mixer.instance(MixerDestination.class, this.vertx(), this.sockOk);
+            mDestination.mount(handler);
+
+            // Mount event bus
+            final Mixer mBridge = Mixer.instance(MixerBridge.class, this.vertx(), this.sockOk);
+            mBridge.mount(handler, stompOptions);
+        }
 
         // Build StompServer and bind webSocketHandler
         stompServer.handler(handler);
