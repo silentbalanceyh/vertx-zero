@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractAres implements Ares {
 
-
     private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
     private final Vertx vertxRef;
     protected HttpServer server;

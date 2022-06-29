@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractFrameHandler implements FrameWsHandler {
+abstract class AbstractFrameHandler implements FrameWsHandler {
     protected final transient Vertx vertx;
     /*
      * Bolt for Zero Security Injection to implement custom define for STOMP
      */
     protected transient Aegis config;
 
-    protected AbstractFrameHandler(final Vertx vertx) {
+    AbstractFrameHandler(final Vertx vertx) {
         this.vertx = vertx;
     }
 
@@ -53,6 +53,4 @@ public abstract class AbstractFrameHandler implements FrameWsHandler {
         }
         return null;
     }
-    // Token Extract
-
 }

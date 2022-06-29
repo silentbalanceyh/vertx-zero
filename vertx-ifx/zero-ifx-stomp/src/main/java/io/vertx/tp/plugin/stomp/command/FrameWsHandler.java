@@ -15,14 +15,6 @@ public interface FrameWsHandler extends Handler<ServerFrame> {
         return new FrameConnector(vertx);
     }
 
-    static FrameWsHandler receiver(final Vertx vertx) {
-        return new FrameReceiver(vertx);
-    }
-
-    static FrameWsHandler writer(final Vertx vertx) {
-        return new FrameWriter(vertx);
-    }
-
     // Api For Definition
     FrameWsHandler bind(Aegis config);
 }
