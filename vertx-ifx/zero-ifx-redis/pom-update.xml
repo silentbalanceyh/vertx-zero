@@ -31,7 +31,7 @@
         <!-- hibernate: 6.x -->
         <rule groupId="org.hibernate.validator" comparisonMethod="maven">
             <ignoreVersions>
-                <ignoreVersion type="regex">7.*</ignoreVersion>
+                <ignoreVersion type="regex">(7.*|8.*)</ignoreVersion>
             </ignoreVersions>
         </rule>
 
