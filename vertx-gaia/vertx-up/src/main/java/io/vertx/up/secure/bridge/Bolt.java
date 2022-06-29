@@ -19,8 +19,8 @@ public interface Bolt {
         return BoltWhich.CC_BOLT.pick(BoltWhich::new);
     }
 
-    static Lee reference(final Aegis config) {
-        final AuthWall wall = config.getType();
+    static Lee reference(final AuthWall wall) {
+        //final AuthWall wall = config.getType();
         if (AuthWall.EXTENSION == wall) {
             return BoltWhich.CC_LEE.pick(() -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
         } else {

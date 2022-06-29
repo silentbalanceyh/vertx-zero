@@ -44,7 +44,7 @@ class BoltWhich implements Bolt {
             return null;
         }
         final Aegis verified = this.verifyAuthenticate(config);
-        final Lee lee = Bolt.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             // Log
             if (LOG_LEE[1].getAndSet(Boolean.FALSE)) {
@@ -68,7 +68,7 @@ class BoltWhich implements Bolt {
         if (config.noAuthorization()) {
             return null;
         }
-        final Lee lee = Bolt.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             return null;
         }
@@ -81,7 +81,7 @@ class BoltWhich implements Bolt {
         if (config.noAuthentication()) {
             return null;
         }
-        final Lee lee = Bolt.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             return null;
         }

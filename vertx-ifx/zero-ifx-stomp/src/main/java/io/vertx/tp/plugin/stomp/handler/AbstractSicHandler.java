@@ -6,8 +6,6 @@ import io.vertx.ext.stomp.ServerFrame;
 import io.vertx.ext.stomp.StompServerConnection;
 import io.vertx.ext.stomp.impl.FrameParser;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.secure.Lee;
-import io.vertx.up.secure.bridge.Bolt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +19,7 @@ public abstract class AbstractSicHandler implements SicFrameHandler {
     /*
      * Bolt for Zero Security Injection to implement custom define for STOMP
      */
-    protected transient Lee lee;
+    protected transient Aegis config;
 
     protected AbstractSicHandler(final Vertx vertx) {
         this.vertx = vertx;
@@ -29,7 +27,7 @@ public abstract class AbstractSicHandler implements SicFrameHandler {
 
     @Override
     public SicFrameHandler bind(final Aegis config) {
-        this.lee = Bolt.reference(config);
+        this.config = config;
         return this;
     }
 
@@ -55,4 +53,6 @@ public abstract class AbstractSicHandler implements SicFrameHandler {
         }
         return null;
     }
+    // Token Extract
+
 }

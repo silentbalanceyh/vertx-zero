@@ -16,14 +16,11 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class LeeJwt extends AbstractLee {
-    private static final ConcurrentMap<String, JWTAuth> POOL_PROVIDER = new ConcurrentHashMap<>();
     private static final Cc<String, JWTAuth> CC_PROVIDER = Cc.openThread();
 
     @Override

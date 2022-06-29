@@ -4,11 +4,17 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.stomp.Frame;
 import io.vertx.ext.stomp.ServerFrame;
 import io.vertx.ext.stomp.StompServerConnection;
 import io.vertx.ext.stomp.StompServerHandler;
+import io.vertx.up.eon.KName;
+import io.vertx.up.secure.Lee;
+import io.vertx.up.secure.bridge.Bolt;
+import io.vertx.up.util.Ut;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.util.Objects;
 
 /**
@@ -68,17 +74,61 @@ public class SicConnectHandler extends AbstractSicHandler {
              *     "session": "xxxx"
              * }
              */
-
             final StompServerHandler handler = connection.handler();
             if (handler instanceof SicServerHandler) {
                 // Extension Code Flow
-                
+                final String authorization = frame.getHeader(HttpHeaders.AUTHORIZATION.toLowerCase());
+                if (Ut.isNil(authorization)) {
+                    connection.write(SicResponse.errorAuthenticate(connection));
+                    connection.close();
+                } else {
+                    // Extract authorization to token
+                    final JsonObject token = this.authenticateToken(authorization);
+                    ((SicServerHandler) handler).onAuthenticationRequest(connection, token, ar -> {
+                        if (ar.result()) {
+                            remainingActions.handle(Future.succeededFuture());
+                        } else {
+                            connection.write(SicResponse.errorAuthenticate(connection));
+                            connection.close();
+                        }
+                    });
+                }
             } else {
-                // Default workflow
+                // Original `DefaultConnectHandler`
+                this.authenticateOriginal(frame, connection, remainingActions);
             }
         } else {
             // Other action happen
             remainingActions.handle(Future.succeededFuture());
         }
+    }
+
+    private JsonObject authenticateToken(final String authorization) {
+        // Extract authorization to token
+        final Lee lee = Bolt.reference(this.config.getType());
+        /*
+         * Token String -> Json Token Object
+         * 1. Token String must be split with ' ' and get the 1
+         * 2. Aegis must be switched to valid value except extension
+         */
+        final String tokenString = authorization.split(" ")[1];
+        final JsonObject token = lee.decode(tokenString, this.config.item());
+        final JsonObject request = token.copy();
+        request.put(KName.ACCESS_TOKEN, tokenString);
+        return request;
+    }
+
+    private void authenticateOriginal(final Frame frame, final StompServerConnection connection,
+                                      final Handler<AsyncResult<Void>> remainingActions) {
+        final String login = frame.getHeader(Frame.LOGIN);
+        final String passcode = frame.getHeader(Frame.PASSCODE);
+        connection.handler().onAuthenticationRequest(connection, login, passcode, ar -> {
+            if (ar.result()) {
+                remainingActions.handle(Future.succeededFuture());
+            } else {
+                connection.write(SicResponse.errorAuthenticate(connection));
+                connection.close();
+            }
+        });
     }
 }

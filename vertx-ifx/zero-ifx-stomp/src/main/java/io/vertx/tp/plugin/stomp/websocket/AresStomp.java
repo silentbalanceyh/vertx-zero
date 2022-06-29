@@ -11,6 +11,7 @@ import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.tp.plugin.stomp.handler.SicFrameHandler;
+import io.vertx.tp.plugin.stomp.handler.SicServerHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
@@ -73,7 +74,7 @@ public class AresStomp extends AbstractAres {
         final StompServerOptions stompOptions = new StompServerOptions(stompJ);
         final StompServer stompServer = StompServer.create(this.vertx(), stompOptions);
         // Iterator the SOCKS
-        final StompServerHandler handler = StompServerHandler.create(this.vertx());
+        final SicServerHandler handler = SicServerHandler.create(this.vertx());
 
         // Security for WebSocket
         final Aegis aegis = this.mountAuthenticateProvider(handler, stompOptions);

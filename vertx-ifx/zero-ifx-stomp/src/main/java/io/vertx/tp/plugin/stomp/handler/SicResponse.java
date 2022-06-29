@@ -33,6 +33,15 @@ class SicResponse {
                 "Supported protocol versions are " + getSupportedVersionsHeaderLine(connection));
     }
 
+    static Frame errorAuthenticate(final StompServerConnection connection) {
+        return Frames.createErrorFrame(
+            "Authentication failed",
+            Headers.create(
+                Frame.VERSION, getSupportedVersionsHeaderLine(connection),
+                Frame.CONTENT_TYPE, "text/plain"),
+            "The connection frame does not contain valid credentials.");
+    }
+
     // ---------------------- Private Method ----------------------
     private static String getSupportedVersionsHeaderLine(final StompServerConnection connection) {
         final StringBuilder builder = new StringBuilder();

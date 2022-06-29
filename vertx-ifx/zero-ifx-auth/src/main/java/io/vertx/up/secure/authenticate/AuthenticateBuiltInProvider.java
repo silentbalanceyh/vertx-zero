@@ -51,8 +51,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
 
     @Override
     public void authenticate(final JsonObject credentials, final Handler<AsyncResult<User>> handler) {
-        AuthenticateCache.userAuthorized(credentials, () -> {
-
+        AuthenticateGateway.userAuthorized(credentials, () -> {
             final Against against = this.aegis.getAuthorizer();
             final Method method = against.getAuthenticate();
             if (Objects.isNull(method)) {
@@ -71,8 +70,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
                         } else {
                             // Success to passed validation
                             LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated successfully!\u001b[m");
-                            AuthenticateCache.userAuthorize(credentials,
-                                () -> handler.handle(this.buildUser(credentials)));
+                            AuthenticateGateway.userAuthorize(credentials, () -> handler.handle(this.buildUser(credentials)));
                         }
                     } else {
                         // Exception Throw
