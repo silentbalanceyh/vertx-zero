@@ -2,7 +2,6 @@ package io.vertx.tp.plugin.stomp.websocket;
 
 import io.vertx.core.SockOptions;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
@@ -11,8 +10,8 @@ import io.vertx.ext.stomp.StompServer;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.tp.plugin.stomp.handler.SicFrameHandler;
-import io.vertx.tp.plugin.stomp.handler.SicServerHandler;
+import io.vertx.tp.plugin.stomp.command.FrameWsHandler;
+import io.vertx.tp.plugin.stomp.socket.ServerWsHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.em.RemindType;
@@ -79,7 +78,7 @@ public class AresStomp extends AbstractAres {
         final StompServerOptions stompOptions = new StompServerOptions(stompJ);
         final StompServer stompServer = StompServer.create(this.vertx(), stompOptions);
         // Iterator the SOCKS
-        final SicServerHandler handler = SicServerHandler.create(this.vertx());
+        final ServerWsHandler handler = ServerWsHandler.create(this.vertx());
 
         // Security for WebSocket
         final Aegis aegis = this.mountAuthenticateProvider(handler, stompOptions);
@@ -129,13 +128,8 @@ public class AresStomp extends AbstractAres {
 
     private void mountHandler(final StompServerHandler handler, final Aegis aegis) {
         // Replace Connect Handler because of Security Needed.
-        final SicFrameHandler connectHandler = SicFrameHandler.connect(this.vertx());
+        final FrameWsHandler connectHandler = FrameWsHandler.connector(this.vertx());
         handler.connectHandler(connectHandler.bind(aegis));
-        // Execute Handler for usage
-        handler.commitHandler(frame -> {
-            System.out.println("Hello");
-            frame.connection().write(Buffer.buffer("Hello"));
-        });
     }
 
     private Aegis mountAuthenticateProvider(final StompServerHandler handler, final StompServerOptions option) {

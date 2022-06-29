@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.stomp.handler;
+package io.vertx.tp.plugin.stomp.command;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -9,6 +9,7 @@ import io.vertx.ext.stomp.Frame;
 import io.vertx.ext.stomp.ServerFrame;
 import io.vertx.ext.stomp.StompServerConnection;
 import io.vertx.ext.stomp.StompServerHandler;
+import io.vertx.tp.plugin.stomp.socket.ServerWsHandler;
 import io.vertx.up.eon.KName;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.bridge.Bolt;
@@ -23,9 +24,9 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class SicConnectHandler extends AbstractSicHandler {
+class FrameConnector extends AbstractFrameHandler {
 
-    SicConnectHandler(final Vertx vertx) {
+    FrameConnector(final Vertx vertx) {
         super(vertx);
     }
 
@@ -37,7 +38,7 @@ public class SicConnectHandler extends AbstractSicHandler {
         if (Objects.isNull(version)) {
             // Spec says: if the server and the client do not share any common protocol versions, then the server MUST
             // respond with an error.
-            connection.write(SicResponse.errorVersion(connection));
+            connection.write(FrameOutput.errorVersion(connection));
             connection.close();
             return;
         }
@@ -49,7 +50,7 @@ public class SicConnectHandler extends AbstractSicHandler {
          */
         this.authenticate(sf.frame(), sf.connection(), ar -> {
             // Spec says: The server will respond back with the highest version of the protocol -> version
-            connection.write(SicResponse.successConnected(connection, version));
+            connection.write(FrameOutput.successConnected(connection, version));
         });
     }
 
@@ -75,21 +76,21 @@ public class SicConnectHandler extends AbstractSicHandler {
              * }
              */
             final StompServerHandler handler = connection.handler();
-            if (handler instanceof SicServerHandler) {
+            if (handler instanceof ServerWsHandler) {
                 // Extension Code Flow
                 final String authorization = frame.getHeader(HttpHeaders.AUTHORIZATION.toLowerCase());
                 if (Ut.isNil(authorization)) {
                     // 401 Error
-                    connection.write(SicResponse.errorAuthenticate(connection));
+                    connection.write(FrameOutput.errorAuthenticate(connection));
                     connection.close();
                 } else {
                     // Extract authorization to token
                     final JsonObject token = this.authenticateToken(authorization);
-                    ((SicServerHandler) handler).onAuthenticationRequest(connection, token, ar -> {
+                    ((ServerWsHandler) handler).onAuthenticationRequest(connection, token, ar -> {
                         if (ar.result()) {
                             remainingActions.handle(Future.succeededFuture());
                         } else {
-                            connection.write(SicResponse.errorAuthenticate(connection));
+                            connection.write(FrameOutput.errorAuthenticate(connection));
                             connection.close();
                         }
                     });
@@ -137,7 +138,7 @@ public class SicConnectHandler extends AbstractSicHandler {
             if (ar.result()) {
                 remainingActions.handle(Future.succeededFuture());
             } else {
-                connection.write(SicResponse.errorAuthenticate(connection));
+                connection.write(FrameOutput.errorAuthenticate(connection));
                 connection.close();
             }
         });

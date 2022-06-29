@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.stomp.handler;
+package io.vertx.tp.plugin.stomp.socket;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
@@ -12,10 +12,10 @@ import io.vertx.ext.stomp.StompServerHandler;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("all")
-public interface SicServerHandler extends StompServerHandler {
+public interface ServerWsHandler extends StompServerHandler {
 
-    static SicServerHandler create(final Vertx vertx) {
-        return new SicStompServerHandler(vertx);
+    static ServerWsHandler create(final Vertx vertx) {
+        return new ServerStompHandler(vertx);
     }
 
     /*

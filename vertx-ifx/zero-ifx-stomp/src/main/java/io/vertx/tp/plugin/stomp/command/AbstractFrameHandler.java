@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.stomp.handler;
+package io.vertx.tp.plugin.stomp.command;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.stomp.Frame;
@@ -14,19 +14,19 @@ import java.util.List;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractSicHandler implements SicFrameHandler {
+public abstract class AbstractFrameHandler implements FrameWsHandler {
     protected final transient Vertx vertx;
     /*
      * Bolt for Zero Security Injection to implement custom define for STOMP
      */
     protected transient Aegis config;
 
-    protected AbstractSicHandler(final Vertx vertx) {
+    protected AbstractFrameHandler(final Vertx vertx) {
         this.vertx = vertx;
     }
 
     @Override
-    public SicFrameHandler bind(final Aegis config) {
+    public FrameWsHandler bind(final Aegis config) {
         this.config = config;
         return this;
     }

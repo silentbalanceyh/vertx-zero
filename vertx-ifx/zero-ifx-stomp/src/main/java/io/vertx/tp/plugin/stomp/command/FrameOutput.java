@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.stomp.handler;
+package io.vertx.tp.plugin.stomp.command;
 
 import io.vertx.ext.stomp.Command;
 import io.vertx.ext.stomp.Frame;
@@ -11,7 +11,7 @@ import io.vertx.ext.stomp.utils.Server;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class SicResponse {
+class FrameOutput {
 
     static Frame successConnected(final StompServerConnection connection, final String version) {
         return new Frame(Command.CONNECTED, Headers.create(

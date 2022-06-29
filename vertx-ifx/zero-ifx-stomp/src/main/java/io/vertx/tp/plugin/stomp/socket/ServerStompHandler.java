@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.stomp.handler;
+package io.vertx.tp.plugin.stomp.socket;
 
 import io.vertx.core.*;
 import io.vertx.core.impl.ContextInternal;
@@ -22,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class SicStompServerHandler implements SicServerHandler {
+public class ServerStompHandler implements ServerWsHandler {
 
-    private static final Annal LOGGER = Annal.get(SicStompServerHandler.class);
+    private static final Annal LOGGER = Annal.get(ServerStompHandler.class);
     private final Vertx vertx;
     private final Context context;
     private final LocalMap<Destination, String> destinations;
@@ -62,7 +62,7 @@ public class SicStompServerHandler implements SicServerHandler {
      *
      * @param vertx the vert.x instance
      */
-    public SicStompServerHandler(final Vertx vertx) {
+    public ServerStompHandler(final Vertx vertx) {
         this.vertx = vertx;
         this.context = Vertx.currentContext();
         this.destinations = vertx.sharedData().getLocalMap("stomp.destinations");
