@@ -9,6 +9,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +36,8 @@ class LeeOAuth2 extends AbstractLee {
     @Override
     public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final OAuth2Auth standard = this.providerInternal(vertx, config);
-        return this.wrapProvider(standard, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
     }
 
     @Override

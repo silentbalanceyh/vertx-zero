@@ -10,19 +10,17 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class LeeJwt extends AbstractLee {
-    private static final ConcurrentMap<String, JWTAuth> POOL_PROVIDER = new ConcurrentHashMap<>();
     private static final Cc<String, JWTAuth> CC_PROVIDER = Cc.openThread();
 
     @Override
@@ -42,7 +40,8 @@ class LeeJwt extends AbstractLee {
     @Override
     public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final JWTAuth standard = this.providerInternal(vertx, config);
-        return this.wrapProvider(standard, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
     }
 
     @Override

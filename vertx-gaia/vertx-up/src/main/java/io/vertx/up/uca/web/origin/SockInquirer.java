@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
-import io.vertx.up.annotations.WebSocket;
+import io.vertx.up.annotations.Subscribe;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.Info;
 import io.vertx.up.fn.Fn;
@@ -50,7 +50,7 @@ public class SockInquirer implements Inquirer<Set<Remind>> {
     private boolean isSocked(final Class<?> clazz) {
         final Method[] methods = clazz.getDeclaredMethods();
         final long counter = Arrays.stream(methods)
-            .filter(method -> method.isAnnotationPresent(WebSocket.class))
+            .filter(method -> method.isAnnotationPresent(Subscribe.class))
             .count();
         return 0 < counter;
     }

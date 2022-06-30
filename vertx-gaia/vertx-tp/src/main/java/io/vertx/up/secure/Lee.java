@@ -40,8 +40,7 @@ import io.vertx.up.atom.secure.AegisItem;
  */
 public interface Lee {
 
-    AuthenticationProvider provider(final Vertx vertx, final Aegis config);
-
+    // ------------------ RBAC Framework Needed ----------------------
     /*
      * 1. Authenticate Handler
      *    Authenticate Provider For Usage etc such as WebSocket
@@ -53,10 +52,17 @@ public interface Lee {
      */
     AuthorizationHandler authorization(Vertx vertx, Aegis config);
 
+    // ------------------ Token Encode/Decode Processing ----------------------
     /*
      * 3. Token operation
      */
     String encode(JsonObject data, AegisItem config);
 
     JsonObject decode(String token, AegisItem config);
+
+    // ------------------ New Interface for Extension ----------------------
+    /*
+     * 4.  AuthenticationProvider wrapped by ( Default + Extension )
+     */
+    AuthenticationProvider provider(Vertx vertx, Aegis config);
 }

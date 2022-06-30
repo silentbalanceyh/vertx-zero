@@ -31,7 +31,8 @@ class LeeBasic extends AbstractLee {
     @Override
     public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
         final AuthenticationProvider standard = this.providerInternal(vertx, config);
-        return this.wrapProvider(standard, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
     }
 
     @Override
