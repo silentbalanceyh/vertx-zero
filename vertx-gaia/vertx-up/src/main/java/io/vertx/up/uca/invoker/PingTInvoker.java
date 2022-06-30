@@ -1,8 +1,11 @@
 package io.vertx.up.uca.invoker;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.exception.web._501RpcRejectException;
 
 import java.lang.reflect.Method;
@@ -36,5 +39,12 @@ public class PingTInvoker extends AbstractInvoker {
                      final Vertx vertx) {
         // Return void is reject by Rpc continue
         throw new _501RpcRejectException(this.getClass());
+    }
+
+    @Override
+    public <I, O> void handle(final Object proxy, final Method method,
+                              final I input, final Handler<AsyncResult<O>> handler) {
+        // Return void is reject by Standard Invoke
+        throw new _501NotSupportException(this.getClass());
     }
 }

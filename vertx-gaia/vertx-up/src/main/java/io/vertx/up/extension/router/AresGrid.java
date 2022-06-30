@@ -53,13 +53,13 @@ public class AresGrid {
     // Web Socket -> Event Bus
     public synchronized static String configSubscribe(final String address) {
         initializeAddress();
-        return W2E.get(address);
+        return E2W.get(address);
     }
 
     // Event Bus -> Web Socket
     public synchronized static String configAddress(final String subscribe) {
         initializeAddress();
-        return E2W.get(subscribe);
+        return W2E.get(subscribe);
     }
 
     private synchronized static void initializeAddress() {

@@ -1,5 +1,7 @@
 package io.vertx.up.uca.invoker;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
@@ -16,8 +18,7 @@ public interface Invoker {
      * @param returnType Method return type
      * @param paramCls   Method parameters
      */
-    void ensure(final Class<?> returnType,
-                final Class<?> paramCls);
+    void ensure(final Class<?> returnType, final Class<?> paramCls);
 
     /**
      * Invoke method and replying
@@ -26,8 +27,7 @@ public interface Invoker {
      * @param method  Method reference for reflection
      * @param message Message handler
      */
-    void invoke(Object proxy, Method method,
-                Message<Envelop> message);
+    void invoke(Object proxy, Method method, Message<Envelop> message);
 
     /**
      * Invoke method and ( Ipc ) then replying
@@ -37,6 +37,17 @@ public interface Invoker {
      * @param message Message handler
      * @param vertx   Vertx reference
      */
-    void next(Object proxy, Method method,
-              Message<Envelop> message, Vertx vertx);
+    void next(Object proxy, Method method, Message<Envelop> message, Vertx vertx);
+
+    /**
+     * Invoke method normalized, this api may be more useful
+     *
+     * @param proxy   Proxy object reference
+     * @param method  Method reference for reflection
+     * @param input   Envelop as input part
+     * @param handler Async Handler to handle returned T
+     * @param <I>     Input Type
+     * @param <O>     Output Type
+     */
+    <I, O> void handle(Object proxy, Method method, I input, Handler<AsyncResult<O>> handler);
 }

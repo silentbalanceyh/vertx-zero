@@ -51,6 +51,16 @@ public abstract class AbstractInvoker implements Invoker {
         }
     }
 
+    protected <I> Envelop invokeWrap(final I input) {
+        if (input instanceof Envelop) {
+            // Return Envelop directly
+            return (Envelop) input;
+        } else {
+            // Return Envelop building
+            return Envelop.success(input);
+        }
+    }
+
     /**
      * R method(T..)
      */

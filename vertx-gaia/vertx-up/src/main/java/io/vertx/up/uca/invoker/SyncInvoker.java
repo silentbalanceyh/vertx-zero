@@ -1,5 +1,8 @@
 package io.vertx.up.uca.invoker;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
@@ -25,10 +28,17 @@ public class SyncInvoker extends AbstractInvoker {
     public void invoke(final Object proxy,
                        final Method method,
                        final Message<Envelop> message) {
+        // LOG
+        this.getLogger().info(
+            Info.MSG_DIRECT,
+            this.getClass(),
+            method.getReturnType(),
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
         // Invoke directly
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), method.getReturnType(),
-            method.getName(), method.getDeclaringClass());
         message.reply(InvokerUtil.invoke(proxy, method, envelop));
     }
 
@@ -37,11 +47,36 @@ public class SyncInvoker extends AbstractInvoker {
                      final Method method,
                      final Message<Envelop> message,
                      final Vertx vertx) {
+        // LOG
+        this.getLogger().info(
+            Info.MSG_RPC,
+            this.getClass(),
+            method.getReturnType(),
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
         final Envelop envelop = message.body();
-        this.getLogger().info(Info.MSG_RPC, this.getClass(), method.getReturnType(),
-            method.getName(), method.getDeclaringClass());
         final Envelop result = InvokerUtil.invoke(proxy, method, envelop);
         this.nextEnvelop(vertx, method, result)
             .onComplete(Ux.handler(message));
+    }
+
+    @Override
+    public <I, O> void handle(final Object proxy, final Method method,
+                              final I input, final Handler<AsyncResult<O>> handler) {
+        // LOG
+        this.getLogger().info(
+            Info.MSG_HANDLE,
+            this.getClass(),
+            method.getReturnType(),
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
+        final Envelop envelop = this.invokeWrap(input);
+        final Envelop result = InvokerUtil.invoke(proxy, method, envelop);
+        final O extracted = result.data();
+        handler.handle(Future.succeededFuture(extracted));
     }
 }
