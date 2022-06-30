@@ -1,10 +1,17 @@
 package io.vertx.up.extension.router;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.up.atom.worker.Remind;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.RemindType;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.uca.invoker.Invoker;
+import io.vertx.up.uca.invoker.JetSelector;
 import io.vertx.up.util.Ut;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,6 +43,25 @@ public class AresGrid {
         return wsAll().stream()
             .filter(sock -> !sock.isSecure())
             .collect(Collectors.toSet());
+    }
+
+    @SuppressWarnings("all")
+    public static <O> void wsInvoke(final String subscribe,
+                                    final Object body,
+                                    final Handler<AsyncResult<O>> handler) {
+        final Remind remind = SOCKS.stream()
+            .filter(item -> subscribe.equals(item.getSubscribe()))
+            .findFirst().orElse(null);
+        if (Objects.isNull(remind)) {
+            handler.handle(Future.succeededFuture((O) body));
+        } else {
+            final Method method = remind.getMethod();
+            final Class<?> returnType = method.getReturnType();
+            final Class<?>[] params = method.getParameterTypes();
+            final Class<?> param = 0 == params.length ? null : params[Values.IDX];
+            final Invoker invoker = JetSelector.invoker(returnType, param);
+            invoker.handle(remind.getProxy(), method, body, handler);
+        }
     }
 
     public synchronized static ConcurrentMap<String, RemindType> configTopic() {

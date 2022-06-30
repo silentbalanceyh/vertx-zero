@@ -9,25 +9,20 @@ import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.tp.plugin.stomp.socket.ServerWsHandler;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
-import io.vertx.up.extension.router.AresGrid;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AresStomp extends AbstractAres {
-    private final Set<Remind> sockOk;
 
 
     public AresStomp(final Vertx vertx) {
         super(vertx);
-        this.sockOk = AresGrid.wsSecure();
     }
 
     @Override
@@ -73,15 +68,15 @@ public class AresStomp extends AbstractAres {
                 Mixer.instance(MixerHandler.class, this.vertx(), aegis);
             mHandler.mount(handler);
 
-            // Mount destination
-            final Mixer mDestination =
-                Mixer.instance(MixerDestination.class, this.vertx());
-            mDestination.mount(handler);
-
             // Mount event bus
             final Mixer mBridge =
                 Mixer.instance(MixerBridge.class, this.vertx());
             mBridge.mount(handler, stompOptions);
+
+            // Mount destination
+            final Mixer mDestination =
+                Mixer.instance(MixerDestination.class, this.vertx());
+            mDestination.mount(handler);
         }
 
         // Build StompServer and bind webSocketHandler

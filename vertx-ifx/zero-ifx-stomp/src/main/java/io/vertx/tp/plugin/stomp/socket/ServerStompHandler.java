@@ -8,10 +8,7 @@ import io.vertx.core.shareddata.LocalMap;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.stomp.*;
-import io.vertx.ext.stomp.impl.AcknowledgementImpl;
-import io.vertx.ext.stomp.impl.DefaultStompHandler;
-import io.vertx.ext.stomp.impl.ServerFrameImpl;
-import io.vertx.ext.stomp.impl.Transactions;
+import io.vertx.ext.stomp.impl.*;
 import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
@@ -461,7 +458,11 @@ public class ServerStompHandler implements ServerWsHandler {
      */
     @Override
     public synchronized StompServerHandler bridge(final BridgeOptions options) {
-        this.destinations.put(Destination.bridge(this.vertx, options), "");
+
+        final Destination remindDestination = new RemindDestination(this.vertx);
+        this.destinations.put(remindDestination, "");
+        // Old Code Removed
+        // this.destinations.put(Destination.bridge(this.vertx, options), "");
         return this;
     }
 

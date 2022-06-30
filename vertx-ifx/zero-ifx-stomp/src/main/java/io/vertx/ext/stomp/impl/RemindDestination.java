@@ -75,18 +75,24 @@ public class RemindDestination extends Topic {
                     if (!this.checkMatches(false, address, msg.body())) {
                         return;
                     }
-                    if (this.options.isPointToPoint()) {
-                        final Optional<Subscription> chosen = this.subscriptions.stream().filter(s -> s.destination.equals(address)).findAny();
-                        if (chosen.isPresent()) {
-                            final Frame stompFrame = this.transform(msg, chosen.get());
-                            chosen.get().connection.write(stompFrame);
+
+                    /*
+                     * Code modified here for inject method calling
+                     */
+                    AresGrid.wsInvoke(address, msg.body(), (returned) -> {
+                        if (this.options.isPointToPoint()) {
+                            final Optional<Subscription> chosen = this.subscriptions.stream().filter(s -> s.destination.equals(address)).findAny();
+                            if (chosen.isPresent()) {
+                                final Frame stompFrame = this.transform(msg, chosen.get(), returned.result());
+                                chosen.get().connection.write(stompFrame);
+                            }
+                        } else {
+                            this.subscriptions.stream().filter(s -> s.destination.equals(address)).forEach(s -> {
+                                final Frame stompFrame = this.transform(msg, s, returned.result());
+                                s.connection.write(stompFrame);
+                            });
                         }
-                    } else {
-                        this.subscriptions.stream().filter(s -> s.destination.equals(address)).forEach(s -> {
-                            final Frame stompFrame = this.transform(msg, s);
-                            s.connection.write(stompFrame);
-                        });
-                    }
+                    });
                 }));
             }
             return this;
@@ -132,7 +138,7 @@ public class RemindDestination extends Topic {
         }
     }
 
-    private Frame transform(final Message<Object> msg, final Subscription subscription) {
+    private Frame transform(final Message<Object> msg, final Subscription subscription, final Object bodyData) {
         final String messageId = UUID.randomUUID().toString();
 
         final Frame frame = new Frame();
@@ -159,7 +165,8 @@ public class RemindDestination extends Topic {
         }
 
         frame.setHeaders(headers);
-        final Object body = msg.body();
+
+        final Object body = Objects.nonNull(bodyData) ? bodyData : msg.body();
         if (body != null) {
             if (body instanceof String) {
                 frame.setBody(Buffer.buffer((String) body));
@@ -198,10 +205,10 @@ public class RemindDestination extends Topic {
                         final Optional<Subscription> subscription = this.subscriptions.stream()
                             .filter(s -> s.connection.equals(connection) && s.destination.equals(replyAddress))
                             .findFirst();
-                        if (subscription.isPresent()) {
-                            final Frame stompFrame = this.transform(res.result(), subscription.get());
-                            subscription.get().connection.write(stompFrame);
-                        }
+                        subscription.ifPresent(value -> AresGrid.wsInvoke(address, res.result(), (returned) -> {
+                            final Frame stompFrame = this.transform(res.result(), value, returned.result());
+                            value.connection.write(stompFrame);
+                        }));
                     }
                 });
             } else {
@@ -216,12 +223,18 @@ public class RemindDestination extends Topic {
     }
 
     private void send(final String address, final Frame frame, final Handler<AsyncResult<Message<Object>>> replyHandler) {
+        // Event Bus Address seeking
+        String addressEvent = AresGrid.configAddress(address);
+        if (Ut.isNil(addressEvent)) {
+            // The Map dose not store the address
+            addressEvent = address;
+        }
         if (this.options.isPointToPoint()) {
-            this.vertx.eventBus().request(address, frame.getBody(),
+            this.vertx.eventBus().request(addressEvent, frame.getBody(),
                 new DeliveryOptions().setHeaders(this.toMultimap(frame.getHeaders())), replyHandler);
         } else {
             // the reply handler is ignored in non point to point interaction.
-            this.vertx.eventBus().publish(address, frame.getBody(),
+            this.vertx.eventBus().publish(addressEvent, frame.getBody(),
                 new DeliveryOptions().setHeaders(this.toMultimap(frame.getHeaders())));
         }
     }
