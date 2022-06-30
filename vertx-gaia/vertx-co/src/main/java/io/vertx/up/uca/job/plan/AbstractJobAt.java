@@ -107,7 +107,7 @@ public abstract class AbstractJobAt implements JobAt {
             return find.plusDays(dayAdjust - 1);
         } else {
             return find.plusMonths(md.getKey() - 1)
-                    .plusDays(md.getValue() - 1);
+                .plusDays(md.getValue() - 1);
         }
     }
 }
