@@ -178,7 +178,9 @@
         <!-- AspectJ -->
         <aspectj.version>1.9.9.1</aspectj.version>
         <javassist.version>3.29.0-GA</javassist.version>
+        <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
+        <asciidoctor.version>2.2.2</asciidoctor.version>
 
         <!-- Logging -->
         <log4j2.version>2.17.2</log4j2.version>
@@ -214,6 +216,7 @@
         <maven.plugin.aspectj>1.14.0</maven.plugin.aspectj>
         <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
+        <maven.plugin.project.info>3.3.0</maven.plugin.project.info>
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
@@ -1938,6 +1941,13 @@
                         </excludes>
                     </configuration>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven.plugin.project.info}</version>
+                </plugin>
+
                 <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
@@ -1981,7 +1991,24 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <doclint>none</doclint>
+                    <doclint>none,-missing</doclint>
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    <additionalJOptions>
+                        <additionalJOption>
+                            -J--add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
+                        </additionalJOption> <!--(1)-->
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                        <additionalJOption>-Xdoclint:-missing</additionalJOption>
+                        <additionalJOption>--base-dir</additionalJOption>
+                        <additionalJOption>${project.basedir}</additionalJOption>
+                    </additionalJOptions>
+                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
+                    <docletArtifact>
+                        <groupId>org.uniknow</groupId>
+                        <artifactId>asciidoclet</artifactId>
+                        <version>2.2.1</version>
+                    </docletArtifact>
+                    <detectJavaApiLink>true</detectJavaApiLink>
                 </configuration>
                 <executions>
                     <execution>
@@ -1989,6 +2016,30 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Ascii Doctor Plugin -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.version}</version>
+                <executions>
+                    <execution>
+                        <id>convert-to-html</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/html</outputDirectory>
+                            <attributes>
+                                <source-highlighter>coderay</source-highlighter>
+                                <imagesdir>./images</imagesdir>
+                                <toc>left</toc>
+                                <icons>font</icons>
+                            </attributes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

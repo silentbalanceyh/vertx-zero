@@ -1,7 +1,7 @@
 package io.vertx.up.uca.rs.config;
 
 import io.vertx.up.annotations.Address;
-import io.vertx.up.annotations.Subscribe;
+import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
@@ -35,7 +35,7 @@ public class SockExtractor implements Extractor<Set<Remind>> {
             final Method[] methods = clazz.getDeclaredMethods();
             Arrays.stream(methods)
                 .filter(MethodResolver::isValid)
-                .filter(method -> method.isAnnotationPresent(Subscribe.class))
+                .filter(method -> method.isAnnotationPresent(Broker.class))
                 .map(this::extract)
                 .forEach(websockets::add);
             return websockets;
@@ -45,7 +45,7 @@ public class SockExtractor implements Extractor<Set<Remind>> {
     private Remind extract(final Method method) {
         final Class<?> clazz = method.getDeclaringClass();
         // 1. Scan whole Endpoints
-        final Annotation annotation = method.getDeclaredAnnotation(Subscribe.class);
+        final Annotation annotation = method.getDeclaredAnnotation(Broker.class);
         String address = Ut.invoke(annotation, KName.VALUE);
         /*
          * If the address is not start with "/", the system convert the address value
