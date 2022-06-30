@@ -10,6 +10,7 @@ import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.extension.AbstractAres;
+import io.vertx.up.extension.router.AresGrid;
 
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class AresSockJs extends AbstractAres {
 
     public AresSockJs(final Vertx vertx) {
         super(vertx);
-        this.sockOk = this.socks(false);
+        this.sockOk = AresGrid.wsPublish();
     }
 
     @Override

@@ -11,6 +11,7 @@ import io.vertx.tp.plugin.stomp.socket.ServerWsHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.extension.AbstractAres;
+import io.vertx.up.extension.router.AresGrid;
 import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroAtomic;
 
@@ -26,7 +27,7 @@ public class AresStomp extends AbstractAres {
 
     public AresStomp(final Vertx vertx) {
         super(vertx);
-        this.sockOk = this.socks(true);
+        this.sockOk = AresGrid.wsSecure();
     }
 
     @Override
@@ -63,19 +64,23 @@ public class AresStomp extends AbstractAres {
 
         {
             // Security for WebSocket
-            final Mixer mAuthorize = Mixer.instance(MixerAuthorize.class, this.vertx());
+            final Mixer mAuthorize =
+                Mixer.instance(MixerAuthorize.class, this.vertx());
             final Aegis aegis = mAuthorize.mount(handler, stompOptions);
 
             // Mount user definition handler
-            final Mixer mHandler = Mixer.instance(MixerHandler.class, this.vertx(), aegis);
+            final Mixer mHandler =
+                Mixer.instance(MixerHandler.class, this.vertx(), aegis);
             mHandler.mount(handler);
 
             // Mount destination
-            final Mixer mDestination = Mixer.instance(MixerDestination.class, this.vertx(), this.sockOk);
+            final Mixer mDestination =
+                Mixer.instance(MixerDestination.class, this.vertx());
             mDestination.mount(handler);
 
             // Mount event bus
-            final Mixer mBridge = Mixer.instance(MixerBridge.class, this.vertx(), this.sockOk);
+            final Mixer mBridge =
+                Mixer.instance(MixerBridge.class, this.vertx());
             mBridge.mount(handler, stompOptions);
         }
 

@@ -12,13 +12,21 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.stomp.*;
 import io.vertx.ext.stomp.utils.Headers;
+import io.vertx.tp.plugin.stomp.websocket.BridgeStomp;
+import io.vertx.up.extension.router.AresGrid;
+import io.vertx.up.util.Ut;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Copy from Bridge
+ * Copy from EventBusBridge, here we'll modify some code logical and involve
+ * the @Subscribe proxy method instead, in this kind of situation the default
+ * operation will be modified
+ *
+ * I'm not sure whether the default implementation is a bug because the
+ * InBound, OutBound configure have issues.
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -31,38 +39,39 @@ public class RemindDestination extends Topic {
     private final Map<String, MessageConsumer<?>> registry = new HashMap<>();
 
 
-    public RemindDestination(final Vertx vertx, final BridgeOptions options) {
+    public RemindDestination(final Vertx vertx) {
         super(vertx, null);
-        this.options = options;
+        this.options = BridgeStomp.wsOptionBridge();
     }
 
-    /**
-     * @return the destination address.
-     */
     @Override
     public String destination() {
         return "<<bridge>>";
     }
 
-    /**
-     * Handles a subscription request to the current {@link Destination}. All check about the frame format and unicity
-     * of the id should have been done beforehand.
-     *
-     * @param connection the connection
-     * @param frame      the {@code SUBSCRIBE} frame
-     *
-     * @return the current instance of {@link Destination}
-     */
     @Override
     public synchronized Destination subscribe(final StompServerConnection connection, final Frame frame) {
         final String address = frame.getDestination();
-        // Need to check whether the client can receive message from the event bus (outbound).
+        /*
+         * Need to check whether the client can receive message from the event bus (outbound).
+         * Here the destination address is subscribe address
+         * 1) InBound = @Address to EventBus
+         * 2) OutBound = @Subscribe to WebSocket
+         *
+         * Here we'll split the address of Subscribe & EventBus to implement user-defined
+         * @Subscribe("xxxx") @Address("yyyy")
+         */
+        String addressEvent = AresGrid.configAddress(address);
+        if (Ut.isNil(addressEvent)) {
+            // The Map dose not store the address
+            addressEvent = address;
+        }
         if (this.checkMatches(false, address, null)) {
             // We need the subscription object to transform messages.
             final Subscription subscription = new Subscription(connection, frame);
             this.subscriptions.add(subscription);
             if (!this.registry.containsKey(address)) {
-                this.registry.put(address, this.vertx.eventBus().consumer(address, msg -> {
+                this.registry.put(address, this.vertx.eventBus().consumer(addressEvent, msg -> {
                     if (!this.checkMatches(false, address, msg.body())) {
                         return;
                     }
@@ -85,14 +94,6 @@ public class RemindDestination extends Topic {
         return null;
     }
 
-    /**
-     * Handles a un-subscription request to the current {@link Destination}.
-     *
-     * @param connection the connection
-     * @param frame      the {@code UNSUBSCRIBE} frame
-     *
-     * @return {@code true} if the un-subscription has been handled, {@code false} otherwise.
-     */
     @Override
     public synchronized boolean unsubscribe(final StompServerConnection connection, final Frame frame) {
         for (final Subscription subscription : new ArrayList<>(this.subscriptions)) {
@@ -107,13 +108,6 @@ public class RemindDestination extends Topic {
         return false;
     }
 
-    /**
-     * Removes all subscriptions of the given connection
-     *
-     * @param connection the connection
-     *
-     * @return the current instance of {@link Destination}
-     */
     @Override
     public synchronized Destination unsubscribeConnection(final StompServerConnection connection) {
         new ArrayList<>(this.subscriptions)
@@ -185,14 +179,6 @@ public class RemindDestination extends Topic {
         return frame;
     }
 
-    /**
-     * Dispatches the given frame.
-     *
-     * @param connection the connection
-     * @param frame      the frame
-     *
-     * @return the current instance of {@link Destination}
-     */
     @Override
     public Destination dispatch(final StompServerConnection connection, final Frame frame) {
         final String address = frame.getDestination();
@@ -244,13 +230,6 @@ public class RemindDestination extends Topic {
         return MultiMap.caseInsensitiveMultiMap().addAll(headers);
     }
 
-    /**
-     * Checks whether or not the given address matches with the current destination.
-     *
-     * @param address the address
-     *
-     * @return {@code true} if it matches, {@code false} otherwise.
-     */
     @Override
     public boolean matches(final String address) {
         return this.checkMatches(false, address, null) || this.checkMatches(true, address, null);
@@ -294,17 +273,6 @@ public class RemindDestination extends Topic {
         return false;
     }
 
-    /**
-     * Checks whether or not the given message payload matches the permitted option required structure (match).
-     * It only supports JSON payload. If the payload is not JSOn and the `match` is not {@link null}, the structure
-     * does not matches (it returns {@link false}).
-     *
-     * @param match the required structure, may be {@code null}
-     * @param body  the body, may be {@code null}. It is either a {@link JsonObject} or a {@link Buffer}.
-     *
-     * @return whether or not the payload matches the structure. {@link true} is returned if `match` is {@code null},
-     * or `body` is {@code null}.
-     */
     private boolean structureMatches(final JsonObject match, final Object body) {
         if (match == null || body == null) {
             return true;

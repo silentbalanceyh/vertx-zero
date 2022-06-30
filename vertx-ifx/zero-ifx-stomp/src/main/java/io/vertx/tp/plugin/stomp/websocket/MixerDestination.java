@@ -5,27 +5,19 @@ import io.vertx.ext.stomp.Destination;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.stomp.impl.RemindDestination;
-import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.em.RemindType;
-import io.vertx.up.util.Ut;
+import io.vertx.up.extension.router.AresGrid;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class MixerDestination extends AbstractMixer {
-    private final transient Set<Remind> sockOk = new HashSet<>();
 
-    public MixerDestination(final Vertx vertx, final Set<Remind> sockOk) {
+    public MixerDestination(final Vertx vertx) {
         super(vertx);
-        if (Objects.nonNull(sockOk)) {
-            this.sockOk.addAll(sockOk);
-        }
     }
 
     @Override
@@ -34,13 +26,7 @@ public class MixerDestination extends AbstractMixer {
          * Build Map of address = type
          * Here are two types
          */
-        final ConcurrentMap<String, RemindType> topicMap = new ConcurrentHashMap<>();
-        this.sockOk.forEach(remind -> {
-            final String subscribe = remind.getSubscribe();
-            if (Ut.notNil(subscribe)) {
-                topicMap.put(subscribe, Objects.isNull(remind.getType()) ? RemindType.TOPIC : remind.getType());
-            }
-        });
+        final ConcurrentMap<String, RemindType> topicMap = AresGrid.configTopic();
         // Destination Building
         handler.destinationFactory((v, name) -> {
             final RemindType type = topicMap.getOrDefault(name, null);
@@ -60,7 +46,7 @@ public class MixerDestination extends AbstractMixer {
         if (RemindType.REMIND == type) {
             // Remind
             this.logger().info(Info.SUBSCRIBE_REMIND, name);
-            return new RemindDestination(vertx, this.bridge(this.sockOk));
+            return new RemindDestination(vertx);
         }
         if (RemindType.QUEUE == type) {
             // Queue
@@ -70,7 +56,7 @@ public class MixerDestination extends AbstractMixer {
         if (RemindType.BRIDGE == type) {
             // Modify Bridge
             this.logger().info(Info.SUBSCRIBE_BRIDGE, name);
-            return Destination.bridge(vertx, this.bridge(this.sockOk));
+            return Destination.bridge(vertx, BridgeStomp.wsOptionBridge());
         }
         // Topic ( Default as Vert.x )
         this.logger().info(Info.SUBSCRIBE_TOPIC, name);

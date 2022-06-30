@@ -32,7 +32,6 @@ public class MixerAuthorize extends AbstractMixer {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T mount(final StompServerHandler handler, final StompServerOptions option) {
         // Stomp Path Find
         final String stomp = option.getWebsocketPath();

@@ -8,12 +8,33 @@ public enum RemindType {
     TOPIC,
 
     BRIDGE,
+
     /*
-     * New Type of Destination for Remind invoke here. the workflow is as following:
-     * 1. The Notify Sender is RESTful Api/Job of zero framework.
-     * 2. Finally the Api/Job will send the result to `outcomeAddress` as event bus address
-     * 3. Then the event bus of subscribers will consume the address data
-     * 4. Remind Part will be called in async mode and then send the `MESSAGE` command to client
+     * This method is configuration for `Remind` ( Related to @Subscribe ), as inner zero framework:
+     *
+     * - @Address means event bus address and you can publish / subscribe on this address.
+     *   「FORMAT」: TOPIC://XXX/XXX
+     * - @Subscribe is a new annotation for websocket, it means that you can subscribe the topic in
+     *   this address instead.
+     *   「FORMAT」: /job/notify or /xxx/xxxx,
+     *
+     *   this value will be converted to `ws://host:port/api/web-socket/stomp` with the topic = /job/notify
+     *   instead of others. Here the structure should be following:
+     *
+     *   -- WebSocket ( /api/web-socket/stomp )
+     *        Input                Topic             Message
+     *     -- @Address    -->   @Subscribe   -->    <<Client>>
+     *
+     * Input Data Came from following Source
+     *
+     * 1) JavaScript Client: StompJs ( Front-End ) Directly
+     *    -- SockJs         ( Non Security )
+     *    -- SockBridge     ( Non Rbac )
+     *    -- StompJs        ( Rbac Supported with zero-ifx-stomp )
+     *    -- EventBus       ( Bridge Only )
+     * 2) Back-End of RESTful Api
+     *    -- EventBus       ( Bridge Only )
+     *    -- Job EventBus   ( Bridge Only )
      */
     REMIND,
 }
