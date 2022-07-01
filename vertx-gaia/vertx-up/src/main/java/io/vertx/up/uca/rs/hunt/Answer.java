@@ -176,7 +176,7 @@ public final class Answer {
 
         final Vertx vertx = context.vertx();
         final EventBus publish = vertx.eventBus();
-        LOGGER.info("[ Answer ] The response will be published to {0}", address);
+        LOGGER.info("[ Publish ] The response will be published to {0}", address);
         publish.publish(address, envelop);
     }
 
