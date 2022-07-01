@@ -181,6 +181,7 @@
         <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
         <asciidoctor.version>2.2.2</asciidoctor.version>
+        <asciidoctor.doc.version>2.2.1</asciidoctor.doc.version>
 
         <!-- Logging -->
         <log4j2.version>2.17.2</log4j2.version>
@@ -1991,22 +1992,27 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <!-- 输出设置：路径/风格 -->
+                    <reportOutputDirectory>${basedir}</reportOutputDirectory>
+                    <destDir>document</destDir>
+                    <!-- 连接配置 -->
                     <doclint>none,-missing</doclint>
+                    <stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
                     <additionalJOptions>
                         <additionalJOption>
                             -J--add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
                         </additionalJOption> <!--(1)-->
-                        <additionalJOption>-Xdoclint:none</additionalJOption>
-                        <additionalJOption>-Xdoclint:-missing</additionalJOption>
+                        <additionalJOption>-Xdoclint:none,-html,-accessibility,-missing</additionalJOption>
                         <additionalJOption>--base-dir</additionalJOption>
                         <additionalJOption>${project.basedir}</additionalJOption>
+                        <additionalJOption>--frames</additionalJOption>
                     </additionalJOptions>
                     <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
                     <docletArtifact>
                         <groupId>org.uniknow</groupId>
                         <artifactId>asciidoclet</artifactId>
-                        <version>2.2.1</version>
+                        <version>${asciidoctor.doc.version}</version>
                     </docletArtifact>
                     <detectJavaApiLink>true</detectJavaApiLink>
                 </configuration>
@@ -2032,12 +2038,14 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/html</outputDirectory>
+                            <sourceDirectory>${basedir}/document</sourceDirectory>
+                            <outputDirectory>${basedir}/ascii</outputDirectory>
                             <attributes>
                                 <source-highlighter>coderay</source-highlighter>
                                 <imagesdir>./images</imagesdir>
                                 <toc>left</toc>
                                 <icons>font</icons>
+                                <stylesheet>${basedir}/script/zero.css</stylesheet>
                             </attributes>
                         </configuration>
                     </execution>
