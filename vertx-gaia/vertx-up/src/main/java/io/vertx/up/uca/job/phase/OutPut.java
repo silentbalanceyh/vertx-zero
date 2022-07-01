@@ -1,7 +1,6 @@
 package io.vertx.up.uca.job.phase;
 
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.atom.Refer;
@@ -86,7 +85,6 @@ class OutPut {
                  * Event bus provide output and then it will execute
                  */
                 LOGGER.info(Info.JOB_ADDRESS_EVENT_BUS, "Outcome", address);
-                final Promise<Envelop> output = Promise.promise();
                 final EventBus eventBus = this.vertx.eventBus();
                 Element.onceLog(mission,
                     () -> LOGGER.info(Info.PHASE_5TH_JOB_ASYNC, mission.getCode(), address));
