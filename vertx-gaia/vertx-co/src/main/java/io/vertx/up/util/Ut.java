@@ -437,15 +437,31 @@ public final class Ut {
     }
 
     public static void itDay(final String from, final String to, final Consumer<Date> consumer) {
-        Period.itDay(from, to, consumer);
+        final LocalDateTime begin = Period.toDateTime(Period.parseFull(from));
+        final LocalDateTime end = Period.toDateTime(Period.parseFull(to));
+        Period.itDay(begin.toLocalDate(), end.toLocalDate(), consumer);
     }
 
     public static void itDay(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itDay(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itDay(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itDay(from, to, consumer);
     }
 
-    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+    public static void itWeek(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itWeek(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itWeek(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itWeek(from, to, consumer);
+    }
+
+    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+        final LocalDate begin = Period.toDate(Period.parseFull(from));
+        final LocalDate end = Period.toDate(Period.parseFull(to));
+        Period.itWeek(begin, end, consumer);
     }
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
@@ -1731,6 +1747,10 @@ public final class Ut {
     // Single Processing
     public static String valueString(final JsonArray array, final String field) {
         return Epsilon.vString(array, field);
+    }
+
+    public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
+        return list.stream().map(stringFn).findFirst().orElse(null);
     }
 
     public static JsonArray valueJArray(final JsonArray array, final String field) {

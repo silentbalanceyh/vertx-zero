@@ -328,27 +328,18 @@ final class Period {
         }, literal);
     }
 
-    static void itDay(final String from, final String to,
+    static void itDay(final LocalDate from, final LocalDate end,
                       final Consumer<Date> consumer) {
-        final LocalDateTime begin = toDateTime(parseFull(from));
-        final LocalDateTime end = toDateTime(parseFull(to));
-        itDay(begin, end, consumer);
-    }
-
-    static void itDay(final LocalDateTime from, final LocalDateTime end,
-                      final Consumer<Date> consumer) {
-        LocalDate beginDay = from.toLocalDate();
-        final LocalDate endDay = end.toLocalDate();
+        LocalDate beginDay = from;
         do {
             consumer.accept(parse(beginDay));
             beginDay = beginDay.plusDays(1);
-        } while (endDay.isAfter(beginDay));
+        } while (end.isAfter(beginDay));
     }
 
-    static void itWeek(final String from, final String to,
+    static void itWeek(final LocalDate from, final LocalDate end,
                        final Consumer<Date> consumer) {
-        LocalDate begin = toDate(parseFull(from));
-        final LocalDate end = toDate(parseFull(to));
+        LocalDate begin = from;
         do {
             consumer.accept(parse(begin));
             begin = begin.plusWeeks(1);
