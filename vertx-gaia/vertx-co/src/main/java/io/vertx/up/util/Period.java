@@ -13,25 +13,34 @@ import java.util.function.Consumer;
  * Period for datetime processing based on Java8
  */
 final class Period {
-    private static final List<DateTimeFormatter> DATES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> DATES = new ArrayList<>() {
         {
             this.add(Iso.DATE);
             this.add(Iso.BASIC_DATE);
             this.add(Iso.ORDINAL_DATE);
+            this.add(Iso.OFFSET_DATE);
+            this.add(Iso.LOCAL_DATE);
+            this.add(Iso.WEEK_DATE);
         }
     };
-    private static final List<DateTimeFormatter> DATETIMES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> DATETIMES = new ArrayList<>() {
         {
             this.add(Iso.DATE_TIME);
             this.add(Iso.INSTANT);
             this.add(Iso.RFC1123_DATE_TIME);
             this.add(Iso.COMMON);
             this.add(Iso.READBALE);
+            this.add(Iso.OFFSET_DATE_TIME);
+            this.add(Iso.LOCAL_DATE_TIME);
+            this.add(Iso.ZONED_DATE_TIME);
         }
     };
-    private static final List<DateTimeFormatter> TIMES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> TIMES = new ArrayList<>() {
         {
             this.add(Iso.TIME);
+            this.add(Iso.LOCAL_TIME);
+            this.add(Iso.OFFSET_TIME);
+            this.add(Iso.TIME_FIX);
         }
     };
 
