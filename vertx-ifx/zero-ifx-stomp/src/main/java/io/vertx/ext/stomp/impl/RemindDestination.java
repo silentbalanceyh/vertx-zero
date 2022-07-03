@@ -76,9 +76,7 @@ public class RemindDestination extends Topic {
                         return;
                     }
 
-                    /*
-                     * Code modified here for inject method calling
-                     */
+                    /* Code modified here for inject method calling */
                     AresGrid.wsInvoke(address, msg.body(), (returned) -> {
                         if (this.options.isPointToPoint()) {
                             final Optional<Subscription> chosen = this.subscriptions.stream().filter(s -> s.destination.equals(address)).findAny();

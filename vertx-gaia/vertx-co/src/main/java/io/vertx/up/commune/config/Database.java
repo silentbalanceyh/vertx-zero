@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
@@ -220,9 +221,9 @@ public class Database implements Serializable, Json, Copyable<Database> {
             /*
              * options
              */
-            final Object value = data.getValue("options");
-            if (Objects.nonNull(value) && value instanceof JsonObject) {
-                this.options.mergeIn((JsonObject) value);
+            final JsonObject options = Ut.valueJObject(data, KName.OPTIONS);
+            if (Ut.notNil(options)) {
+                this.options.mergeIn(options);
                 LOGGER.info("Database Options: {0}", this.options.encode());
             }
         }

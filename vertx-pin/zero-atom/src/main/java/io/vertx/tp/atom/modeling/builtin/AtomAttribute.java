@@ -177,11 +177,6 @@ class AtomAttribute implements HAttribute, Serializable {
         return new KTag(literal.toString());
     }
 
-    /**
-     * Return to current type field
-     *
-     * @return {@link HTField}
-     */
     @Override
     public HTField field() {
         return this.attribute.field();
