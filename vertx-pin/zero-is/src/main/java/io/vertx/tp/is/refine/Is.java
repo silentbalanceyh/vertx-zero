@@ -93,6 +93,10 @@ public class Is {
         return IsDir.updateLeaf(storePath, params);
     }
 
+    public static Future<IDirectory> directoryRoot(final String storePath, final JsonObject params) {
+        return IsDir.updateRoot(storePath, params);
+    }
+
     /*
      * X_DIRECTORY `runComponent` execution
      */

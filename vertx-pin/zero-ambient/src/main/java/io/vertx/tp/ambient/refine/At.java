@@ -103,6 +103,10 @@ public class At {
         return AtFs.fileDir(attachment, params);
     }
 
+    public static Future<JsonObject> fileMeta(final JsonObject appJ) {
+        return AtFs.fileMeta(appJ);
+    }
+
     public static List<XActivityChange> diffChange(final JsonObject recordO, final JsonObject recordN, final HAtom atom) {
         return AtDiffer.diff(recordO, recordN, atom);
     }

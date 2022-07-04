@@ -227,6 +227,10 @@ class IsDir {
         });
     }
 
+    static Future<IDirectory> updateRoot(final String storePath, final JsonObject params) {
+        return null;
+    }
+
     static Future<IDirectory> updateLeaf(final List<String> storePath, final JsonObject params) {
         // Query all directory here;
         final JsonObject condition = Ux.whereAnd();
@@ -283,11 +287,10 @@ class IsDir {
                 inputParams.put(KName.STORE_PATH, keyPath);
                 if (Objects.isNull(dirNow)) {
                     // Add
-                    future = createChild(future, dirNow, inputParams)
-                        .compose(created -> {
-                            dirMap.put(created.getStorePath(), created);
-                            return Ux.future(created);
-                        });
+                    future = createChild(future, dirNow, inputParams).compose(created -> {
+                        dirMap.put(created.getStorePath(), created);
+                        return Ux.future(created);
+                    });
                 } else {
                     // Update
                     future = createChild(future, dirNow, inputParams);
