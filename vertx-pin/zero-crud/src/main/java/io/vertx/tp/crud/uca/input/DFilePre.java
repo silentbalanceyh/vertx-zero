@@ -19,9 +19,9 @@ class DFilePre implements Pre {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         return Ix.fileFn(in, (criteria, dataArray) -> Ux.channel(
-            Attachment.class,                                       // Component
+            Attachment.class,                                   // Component
             JsonArray::new,                                     // JsonArray Data
-            file -> file.saveAsync(criteria, new JsonArray())   // Execution Logical
+            file -> file.removeAsync(criteria)                  // Execution Logical
         )).apply(data);
     }
 

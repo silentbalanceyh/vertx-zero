@@ -145,7 +145,7 @@ class AtFs {
         /*
          * appId from params
          */
-        return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(storePath, sigma)
+        return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(sigma, storePath)
             .compose(directories -> {
                 if (directories.isEmpty()) {
                     At.infoFile(LOGGER, "Zero will re-initialize directory try to find {0}", storePath);
@@ -153,7 +153,7 @@ class AtFs {
                     final String appId = params.getString(KName.APP_ID);
                     // Default value of Zero
                     return reader.treeDir(appId, BizInternal.TypeEntity.Directory.value())
-                        .compose(nil -> io.dirTree(storePath, sigma));
+                        .compose(nil -> io.dirTree(sigma, storePath));
                 } else {
                     return Ux.future(directories);
                 }
