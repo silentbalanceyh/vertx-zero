@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
+import io.vertx.tp.ke.cv.em.BizInternal;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -147,9 +148,11 @@ class AtFs {
         return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(storePath, sigma)
             .compose(directories -> {
                 if (directories.isEmpty()) {
+                    At.infoFile(LOGGER, "Zero will re-initialize directory try to find {0}", storePath);
                     final DocRStub reader = PLUGIN.createComponent(DocReader.class);
                     final String appId = params.getString(KName.APP_ID);
-                    return reader.treeDir(appId, "zero.directory")
+                    // Default value of Zero
+                    return reader.treeDir(appId, BizInternal.TypeEntity.Directory.value())
                         .compose(nil -> io.dirTree(storePath, sigma));
                 } else {
                     return Ux.future(directories);
