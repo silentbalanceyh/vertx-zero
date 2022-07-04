@@ -4,16 +4,15 @@ import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.atom.AtConfig;
+import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -31,6 +30,14 @@ import java.util.function.Function;
  */
 class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
+
+    static Future<JsonObject> fileMeta(final JsonObject appJ) {
+        final AtConfig config = AtPin.getConfig();
+        if (Objects.nonNull(config)) {
+            appJ.put(KName.STORE_PATH, config.getStorePath());
+        }
+        return Ux.futureJ(appJ).compose(Ut.ifJObject(KName.App.LOGO));
+    }
 
     static Future<Buffer> fileDownload(final JsonArray attachment) {
         if (Ut.isNil(attachment)) {

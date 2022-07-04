@@ -247,12 +247,18 @@ final class IO {
     }
 
     static boolean isExist(final String filename) {
-        final File file = new File(filename);
-        if (file.exists()) {
-            return true;
+        try {
+            final File file = new File(filename);
+            if (file.exists()) {
+                return true;
+            }
+            final URL url = getURL(filename);
+            return Objects.nonNull(url);
+        } catch (final Throwable ex) {
+            // Fix: java.lang.NullPointerException
+            // File does not exist
+            return false;
         }
-        final URL url = getURL(filename);
-        return Objects.nonNull(url);
     }
 
     /**
