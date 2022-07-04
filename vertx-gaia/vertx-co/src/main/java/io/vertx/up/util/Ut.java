@@ -1679,7 +1679,7 @@ public final class Ut {
     }
 
     public static String fromExpression(final String expr, final JsonObject params) {
-        return StringUtil.expression(expr, params);
+        return (String) StringUtil.expressionWith(expr, params);
     }
 
     public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {

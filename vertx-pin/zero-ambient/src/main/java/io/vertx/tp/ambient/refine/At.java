@@ -100,7 +100,7 @@ public class At {
     }
 
     public static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
-        return AtFs.fileDir(attachment, params);
+        return AtFsDir.fileDir(attachment, params);
     }
 
     public static Future<JsonObject> fileMeta(final JsonObject appJ) {

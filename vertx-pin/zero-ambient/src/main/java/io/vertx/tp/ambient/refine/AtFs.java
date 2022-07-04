@@ -1,18 +1,14 @@
 package io.vertx.tp.ambient.refine;
 
-import cn.vertxup.ambient.service.file.DocRStub;
-import cn.vertxup.ambient.service.file.DocReader;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.tp.ke.cv.em.BizInternal;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -34,7 +30,6 @@ import java.util.function.Function;
  */
 class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
-    private static final DiPlugin PLUGIN = DiPlugin.create(AtFs.class);
 
     static Future<JsonObject> fileMeta(final JsonObject appJ) {
         final AtConfig config = AtPin.getConfig();
@@ -112,68 +107,6 @@ class AtFs {
                 io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
             )));
         }
-    }
-
-    /*
-     * Here are file upload for directory calculation
-     * 1) directory processing first
-     * 2) directory generation with ExIo class
-     * 3) Add the new information ( directoryId ) into each attachment.
-     */
-    static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
-        final String directory = Ut.valueString(attachment, KName.DIRECTORY);
-        /*
-         *  String parsing on `directory` for final processing
-         */
-        final String storePath;
-        if (directory.contains("`")) {
-            storePath = Ut.fromExpression(directory, params);
-        } else {
-            storePath = directory;
-        }
-        final JsonObject input = new JsonObject();
-        /*
-         * Configured directory for storing, for example:
-         * 1. /apps/xc/document             ( Root Folder )
-         * 2. /apps/xc/document/xxxx        ( store Path of current attachment )
-         */
-        final String sigma = params.getString(KName.SIGMA);
-        input.put(KName.STORE_PATH, Ut.toJArray(Ut.ioPathLadder(storePath)));
-        input.put(KName.SIGMA, sigma);
-        input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
-
-        /*
-         * appId from params
-         */
-        return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(sigma, storePath)
-            .compose(directories -> {
-                if (directories.isEmpty()) {
-                    At.infoFile(LOGGER, "Zero will re-initialize directory try to find {0}", storePath);
-                    final DocRStub reader = PLUGIN.createComponent(DocReader.class);
-                    final String appId = params.getString(KName.APP_ID);
-                    // Default value of Zero
-                    return reader.treeDir(appId, BizInternal.TypeEntity.Directory.value())
-                        .compose(nil -> io.dirTree(sigma, storePath));
-                } else {
-                    return Ux.future(directories);
-                }
-            })
-            .compose(directories -> io.verifyIn(directories, input))
-        ).compose(directoryJ -> {
-            final JsonObject verified = Ut.valueJObject(directoryJ);
-            Ut.itJArray(attachment).forEach(content -> {
-                /*
-                 * Replaced the field
-                 * - directoryId, refer to I_DIRECTORY record,                      key field
-                 * - storeWay, refer to I_DIRECTORY record,                         type field
-                 * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
-                 */
-                content.put(KName.DIRECTORY_ID, verified.getString(KName.KEY));
-                content.put(KName.STORE_PATH, Ut.ioPath(storePath, content.getString(KName.NAME)));
-                content.put(KName.Attachment.STORE_WAY, verified.getString(KName.TYPE));
-            });
-            return Ux.future(attachment);
-        });
     }
 
     private static <T> Future<T> splitRun(

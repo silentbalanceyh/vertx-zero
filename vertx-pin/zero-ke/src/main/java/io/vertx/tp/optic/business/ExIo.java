@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -49,7 +50,7 @@ public interface ExIo {
 
     Future<JsonArray> dirTrash(String sigma);
 
-    Future<JsonArray> dirTree(String sigma, String storePath);
+    Future<JsonArray> dirTree(String sigma, List<String> paths);
 
     /*
      * Fetch dir by `code` ( MD5 )

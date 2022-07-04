@@ -185,10 +185,9 @@ public class ExPath implements ExIo {
     }
 
     @Override
-    public Future<JsonArray> dirTree(final String sigma, final String storePath) {
+    public Future<JsonArray> dirTree(final String sigma, final List<String> paths) {
         final JsonObject condition = Ux.whereAnd();
-        final List<String> pathList = Ut.ioPathLadder(storePath);
-        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(pathList));
+        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(paths));
         condition.put(KName.SIGMA, sigma);
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
         return jq.fetchJAsync(condition);
