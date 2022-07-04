@@ -683,6 +683,10 @@ public final class Ut {
         return StringUtil.path(folder, file);
     }
 
+    public static List<String> ioPathLadder(final String storePath) {
+        return Folder.pathLadder(storePath);
+    }
+
     public static List<String> ioFiles(final String folder) {
         return Folder.listFiles(folder, null);
     }

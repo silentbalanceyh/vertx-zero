@@ -227,79 +227,73 @@ class IsDir {
         });
     }
 
-    static Future<IDirectory> updateRoot(final String storePath, final JsonObject params) {
-        return null;
-    }
-
-    static Future<IDirectory> updateLeaf(final List<String> storePath, final JsonObject params) {
+    @SuppressWarnings("all")
+    static Future<IDirectory> updateLeaf(final JsonArray directoryA, final JsonObject params) {
         // Query all directory here;
-        final JsonObject condition = Ux.whereAnd();
-        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(storePath));
-        condition.put(KName.SIGMA, params.getValue(KName.SIGMA));
-        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
-        return jq.<IDirectory>fetchAsync(condition).compose(directories -> {
-            /*
-             * The storePath data structure is as following:
-             * /xc
-             * /xc/catalog/
-             * /xc/catalog/name
-             *
-             * Find the first non-existing directory, Here should be some situations such as:
-             * When the directories is empty, it means that non directory related, we could
-             * not create any directory because of critical information missing
-             */
-            if (directories.isEmpty()) {
-                return Ux.future();
+        final List<IDirectory> directories = Ux.fromJson(directoryA, IDirectory.class);
+        final List<String> storePath = Ut.toList(params.getJsonArray(KName.STORE_PATH));
+        /*
+         * The storePath data structure is as following:
+         * /xc
+         * /xc/catalog/
+         * /xc/catalog/name
+         *
+         * Find the first non-existing directory, Here should be some situations such as:
+         * When the directories is empty, it means that non directory related, we could
+         * not create any directory because of critical information missing
+         */
+        if (directories.isEmpty()) {
+            return Ux.future();
+        }
+
+        /*
+         * Map zip the directory list by storePath, the final map should be
+         *
+         * - storePath = IDirectory
+         */
+        final ConcurrentMap<String, IDirectory> dirMap = Ut.elementMap(directories, IDirectory::getStorePath);
+
+        /*
+         * Get and build root future for parent directory fetch, the first
+         * root directory should be root directory and this directory must be
+         * existing in your environment.
+         * Because of checking on queried list in before step, here the root
+         * directory must not be null.
+         */
+        IDirectory root = null;
+        int idxStart = 1;
+        for (int idx = 0; idx < storePath.size(); idx++) {
+            final String keyRoot = storePath.get(idx);
+            root = dirMap.getOrDefault(keyRoot, null);
+            if (Objects.nonNull(root)) {
+                idxStart = idx + 1;
+                break;
             }
+        }
+        Objects.requireNonNull(root);
 
-            /*
-             * Map zip the directory list by storePath, the final map should be
-             *
-             * - storePath = IDirectory
-             */
-            final ConcurrentMap<String, IDirectory> dirMap = Ut.elementMap(directories, IDirectory::getStorePath);
-
-            /*
-             * Get and build root future for parent directory fetch, the first
-             * root directory should be root directory and this directory must be
-             * existing in your environment.
-             * Because of checking on queried list in before step, here the root
-             * directory must not be null.
-             */
-            IDirectory root = null;
-            int idxStart = 1;
-            for (int idx = 0; idx < storePath.size(); idx++) {
-                final String keyRoot = storePath.get(idx);
-                root = dirMap.getOrDefault(keyRoot, null);
-                if (Objects.nonNull(root)) {
-                    idxStart = idx + 1;
-                    break;
-                }
-            }
-            Objects.requireNonNull(root);
-
-            Future<IDirectory> future = Ux.future(root);
-            for (int idx = idxStart; idx < storePath.size(); idx++) {
-                final String keyPath = storePath.get(idx);
-                final IDirectory dirNow = dirMap.getOrDefault(keyPath, null);
-                // Parent should not be null
-                final JsonObject inputParams = params.copy();
-                inputParams.put(KName.STORE_PATH, keyPath);
-                if (Objects.isNull(dirNow)) {
-                    // Add
-                    future = createChild(future, dirNow, inputParams).compose(created -> {
+        Future<IDirectory> future = Ux.future(root);
+        for (int idx = idxStart; idx < storePath.size(); idx++) {
+            final String keyPath = storePath.get(idx);
+            final IDirectory dirNow = dirMap.getOrDefault(keyPath, null);
+            // Parent should not be null
+            final JsonObject inputParams = params.copy();
+            inputParams.put(KName.STORE_PATH, keyPath);
+            if (Objects.isNull(dirNow)) {
+                // Add
+                future = createChild(future, dirNow, inputParams)
+                    .compose(created -> {
                         dirMap.put(created.getStorePath(), created);
                         return Ux.future(created);
                     });
-                } else {
-                    // Update
-                    future = createChild(future, dirNow, inputParams);
-                }
+            } else {
+                // Update
+                future = createChild(future, dirNow, inputParams);
             }
-            return future.compose(finished -> {
-                final String path = storePath.get(storePath.size() - 1);        // The Last One
-                return Ux.future(dirMap.getOrDefault(path, null));
-            });
+        }
+        return future.compose(finished -> {
+            final String path = storePath.get(storePath.size() - 1);        // The Last One
+            return Ux.future(dirMap.getOrDefault(path, null));
         });
     }
 

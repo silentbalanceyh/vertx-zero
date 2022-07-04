@@ -1,5 +1,7 @@
 package io.vertx.tp.ambient.refine;
 
+import cn.vertxup.ambient.service.file.DocRStub;
+import cn.vertxup.ambient.service.file.DocReader;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -9,6 +11,7 @@ import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,6 +33,7 @@ import java.util.function.Function;
  */
 class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
+    private static final DiPlugin PLUGIN = DiPlugin.create(AtFs.class);
 
     static Future<JsonObject> fileMeta(final JsonObject appJ) {
         final AtConfig config = AtPin.getConfig();
@@ -127,10 +131,32 @@ class AtFs {
             storePath = directory;
         }
         final JsonObject input = new JsonObject();
-        input.put(KName.STORE_PATH, storePath);
-        input.put(KName.SIGMA, params.getValue(KName.SIGMA));
+        /*
+         * Configured directory for storing, for example:
+         * 1. /apps/xc/document             ( Root Folder )
+         * 2. /apps/xc/document/xxxx        ( store Path of current attachment )
+         */
+        final String sigma = params.getString(KName.SIGMA);
+        input.put(KName.STORE_PATH, Ut.toJArray(Ut.ioPathLadder(storePath)));
+        input.put(KName.SIGMA, sigma);
         input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
-        return Ux.channel(ExIo.class, () -> null, io -> io.verifyIn(input)).compose(directoryJ -> {
+
+        /*
+         * appId from params
+         */
+        return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(storePath, sigma)
+            .compose(directories -> {
+                if (directories.isEmpty()) {
+                    final DocRStub reader = PLUGIN.createComponent(DocReader.class);
+                    final String appId = params.getString(KName.APP_ID);
+                    return reader.treeDir(appId, "zero.directory")
+                        .compose(nil -> io.dirTree(storePath, sigma));
+                } else {
+                    return Ux.future(directories);
+                }
+            })
+            .compose(directories -> io.verifyIn(directories, input))
+        ).compose(directoryJ -> {
             final JsonObject verified = Ut.valueJObject(directoryJ);
             Ut.itJArray(attachment).forEach(content -> {
                 /*

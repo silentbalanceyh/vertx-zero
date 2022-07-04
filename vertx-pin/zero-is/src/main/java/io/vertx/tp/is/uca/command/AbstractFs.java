@@ -110,26 +110,21 @@ public abstract class AbstractFs implements Fs {
     }
 
     protected IDirectory initialize(final JsonObject directoryJ, final IDirectory parentD, final JsonObject parentJ) {
-        {
-            // Calculated by Parent
-            if (Objects.nonNull(parentD)) {
-                directoryJ.put(KName.TYPE, parentD.getType());
-                directoryJ.put(KName.OWNER, parentD.getOwner());
-                directoryJ.put(KName.INTEGRATION_ID, parentD.getIntegrationId());
-                directoryJ.put(KName.Component.RUN_COMPONENT, parentD.getRunComponent());
-                directoryJ.put(KName.PARENT_ID, parentD.getKey());
-            } else if (Ut.notNil(parentJ)) {
-                directoryJ.put(KName.PARENT_ID, parentJ.getValue(KName.KEY));
-                if (!directoryJ.containsKey(KName.Component.RUN_COMPONENT)) {
-                    directoryJ.put(KName.Component.RUN_COMPONENT, parentJ.getString(KName.Component.RUN_COMPONENT));
-                }
-            }
-        }
-        {
-            if (Objects.nonNull(parentD)) {
-                directoryJ.put(KName.VISIT_ROLE, parentD.getVisitRole());
-                directoryJ.put(KName.VISIT_GROUP, parentD.getVisitGroup());
-                directoryJ.put(KName.VISIT_COMPONENT, parentD.getVisitComponent());
+        // Calculated by Parent
+        if (Objects.nonNull(parentD)) {
+            directoryJ.put(KName.TYPE, parentD.getType());
+            directoryJ.put(KName.OWNER, parentD.getOwner());
+            directoryJ.put(KName.INTEGRATION_ID, parentD.getIntegrationId());
+            directoryJ.put(KName.Component.RUN_COMPONENT, parentD.getRunComponent());
+            directoryJ.put(KName.PARENT_ID, parentD.getKey());
+
+            directoryJ.put(KName.VISIT_ROLE, parentD.getVisitRole());
+            directoryJ.put(KName.VISIT_GROUP, parentD.getVisitGroup());
+            directoryJ.put(KName.VISIT_COMPONENT, parentD.getVisitComponent());
+        } else if (Ut.notNil(parentJ)) {
+            directoryJ.put(KName.PARENT_ID, parentJ.getValue(KName.KEY));
+            if (!directoryJ.containsKey(KName.Component.RUN_COMPONENT)) {
+                directoryJ.put(KName.Component.RUN_COMPONENT, parentJ.getString(KName.Component.RUN_COMPONENT));
             }
         }
         return this.initTree(directoryJ);

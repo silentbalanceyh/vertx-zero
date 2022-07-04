@@ -49,6 +49,8 @@ public interface ExIo {
 
     Future<JsonArray> dirTrash(String sigma);
 
+    Future<JsonArray> dirTree(String sigma, String storePath);
+
     /*
      * Fetch dir by `code` ( MD5 )
      */
@@ -89,7 +91,7 @@ public interface ExIo {
      * - 2) Iterator for each level directory making
      * - 3) Returned the last directory ( the storePath is the longest )
      */
-    Future<JsonObject> verifyIn(JsonObject directoryJ);
+    Future<JsonObject> verifyIn(JsonArray directoryA, JsonObject params);
 
     /*
      * Update the tree from `directoryId` for impacting

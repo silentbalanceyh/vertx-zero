@@ -21,6 +21,26 @@ final class Folder {
     private Folder() {
     }
 
+    static List<String> pathLadder(final String storePath) {
+        if (Ut.isNil(storePath)) {
+            return new ArrayList<>();
+        }
+        final String[] splitArr = storePath.split(Strings.SLASH);
+        final List<String> itemList = new ArrayList<>();
+        for (int idx = 0; idx < splitArr.length; idx++) {
+            final StringBuilder item = new StringBuilder();
+            for (int jdx = 0; jdx < idx; jdx++) {
+                item.append(splitArr[jdx]).append(Strings.SLASH);
+            }
+            item.append(splitArr[idx]);
+            final String itemStr = item.toString();
+            if (Ut.notNil(itemStr)) {
+                itemList.add(itemStr);
+            }
+        }
+        return itemList;
+    }
+
     static List<String> listFiles(final String folder, final String extension) {
         return Fn.getNull(new ArrayList<>(), () -> list(folder, extension, false), folder);
     }
