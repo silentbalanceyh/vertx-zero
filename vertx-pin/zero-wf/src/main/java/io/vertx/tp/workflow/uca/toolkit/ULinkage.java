@@ -57,7 +57,7 @@ public class ULinkage {
             final Respect respect = this.metadata.linkRespect(field);
             futures.put(field, respect.fetchAsync(record));
         });
-        return Fn.arrangeM(futures).compose(dataMap -> {
+        return Fn.combineM(futures).compose(dataMap -> {
             dataMap.forEach(record::linkage);
             return Ux.future(record);
         });
@@ -84,7 +84,7 @@ public class ULinkage {
                 futures.put(field, respect.syncAsync(linkageData, params, record));
             }
         });
-        return Fn.arrangeM(futures).compose(dataMap -> {
+        return Fn.combineM(futures).compose(dataMap -> {
             dataMap.forEach(record::linkage);
             return Ux.future(record);
         });

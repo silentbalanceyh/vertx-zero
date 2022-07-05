@@ -118,7 +118,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     public abstract Future<T> execAsync(T input);
 
     protected Future<ConcurrentMap<String, JsonArray>> thenCombine(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return Fn.arrangeT(futures).compose(listMap -> {
+        return Fn.combineT(futures).compose(listMap -> {
             final ConcurrentMap<String, JsonArray> response = new ConcurrentHashMap<>();
             listMap.forEach(response::putAll);
             return Ux.future(response);

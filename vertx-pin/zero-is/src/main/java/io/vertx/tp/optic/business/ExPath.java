@@ -164,7 +164,7 @@ public class ExPath implements ExIo {
                     final ConcurrentMap<String, String> renameMap = Is.trashIn(storeSet);
                     futures.add(fs.rm(renameMap.values()));
                 });
-                return Fn.arrangeT(futures);
+                return Fn.combineT(futures);
             }))
             .compose(nil -> Ux.future(directoryJ));
     }
@@ -228,7 +228,7 @@ public class ExPath implements ExIo {
             }
             futures.add(fs.rename(renameMap));
         });
-        return Fn.arrangeT(futures).compose(nil -> Ux.futureT());
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {

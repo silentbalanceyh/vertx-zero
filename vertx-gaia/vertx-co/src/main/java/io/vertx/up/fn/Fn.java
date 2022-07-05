@@ -275,12 +275,35 @@ public final class Fn {
     }
 
 
-    public static <T> Future<List<T>> arrangeML(
+    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
+        return War.thenError(clazz, args);
+    }
+
+    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+        return War.thenError(clazz, sigma, supplier);
+    }
+
+    // ---------------- Arrange Async Future ----------------------
+    /*
+     * This arrange part will replace `thenCombine?` method. Here are detail readme information:
+     *
+     * 1. Flag
+     *    Here the flag identified the return value of internal ( Generic T )
+     * -  A:        JsonArray
+     * -  J:        JsonObject
+     * -  T:        Generice <T>
+     * -  M:        Map
+     * -  L:        List
+     *
+     * 2. Prefix
+     *
+     */
+    public static <T> Future<List<T>> compressL(
         final List<Future<List<T>>> futures) {
         return War.thenCombineArrayT(futures);
     }
 
-    public static Future<JsonArray> arrangeA(
+    public static Future<JsonArray> combineA(
         final Future<JsonArray> source,
         final Function<JsonObject, Future<JsonObject>> generateFun,
         final BinaryOperator<JsonObject> operatorFun
@@ -288,37 +311,37 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> arrangeJ(
+    public static Future<JsonObject> combineJ(
         final Future<JsonObject>... futures) {
         return War.thenCombine(futures);
     }
 
-    public static <K, T> Future<ConcurrentMap<K, T>> arrangeM(
+    public static <K, T> Future<ConcurrentMap<K, T>> combineM(
         final ConcurrentMap<K, Future<T>> futureMap) {
         return War.thenCombine(futureMap);
     }
 
-    public static Future<JsonArray> arrangeA(
+    public static Future<JsonArray> combineA(
         final JsonArray input,
         final Function<JsonObject, Future<JsonObject>> function) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(input).map(function).forEach(futures::add);
-        return Fn.arrangeA(futures);
+        return Fn.combineA(futures);
     }
 
-    public static Future<JsonArray> arrangeA(
+    public static Future<JsonArray> combineA(
         final List<Future<JsonObject>> futures) {
         return War.thenCombine(futures);
     }
 
-    public static <F, S, T> Future<T> arrangeT(
+    public static <F, S, T> Future<T> combineT(
         final Supplier<Future<F>> futureF,
         final Supplier<Future<S>> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
         return War.thenCombine(futureF, futureS, consumer);
     }
 
-    public static <F, S, T> Future<T> arrangeT(
+    public static <F, S, T> Future<T> combineT(
         final Future<F> futureF,
         final Future<S> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
@@ -326,14 +349,14 @@ public final class Fn {
     }
 
     // ----- thenCombine
-    public static Future<JsonObject> arrangeJ(
+    public static Future<JsonObject> combineJ(
         final JsonObject source,
         final Function<JsonObject, List<Future>> generateFun,
         final BiConsumer<JsonObject, JsonObject>... operatorFun) {
         return War.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> arrangeJ(
+    public static Future<JsonObject> combineJ(
         final Future<JsonObject> source,
         final Function<JsonObject, List<Future>> generateFun,
         final BiConsumer<JsonObject, JsonObject>... operatorFun
@@ -343,12 +366,12 @@ public final class Fn {
 
     // ----- thenCombineT
 
-    public static <T> Future<List<T>> arrangeT(
+    public static <T> Future<List<T>> combineT(
         final List<Future<T>> futures) {
         return War.thenCombineT(futures);
     }
 
-    public static <I, T> Future<List<T>> arrangeT(
+    public static <I, T> Future<List<T>> combineT(
         final List<I> source, final Function<I, Future<T>> consumer) {
         final List<Future<T>> futures = new ArrayList<>();
         Ut.itList(source).map(consumer).forEach(futures::add);
@@ -356,12 +379,12 @@ public final class Fn {
     }
 
     // ----- thenCombineArray
-    public static Future<JsonArray> arrangeMA(
+    public static Future<JsonArray> compressA(
         final List<Future<JsonArray>> futures) {
         return War.thenCombineArray(futures);
     }
 
-    public static <T> Future<JsonArray> arrangeA(
+    public static <T> Future<JsonArray> combineA(
         final JsonArray source,
         final Class<T> clazz,
         final Function<T, Future<JsonArray>> consumer) {
@@ -370,36 +393,28 @@ public final class Fn {
         return War.thenCombineArray(futures);
     }
 
-    public static Future<JsonArray> arrangeMS(
+    public static Future<JsonArray> comicA(
         final JsonArray source,
         final Function<JsonObject, Future<JsonArray>> consumer) {
-        return arrangeA(source, JsonObject.class, consumer);
+        return combineA(source, JsonObject.class, consumer);
     }
 
-    // ----- thenCompress
+    // ----- compress
     /*
+     *
      * List<Future<Map<String,T>>> futures ->
      *      Future<Map<String,T>>
      * Exchange data by key here.
      *      The binary operator should ( T, T ) -> T
      */
-    public static <T> Future<ConcurrentMap<String, T>> compress(
+    public static <T> Future<ConcurrentMap<String, T>> compressM(
         final List<Future<ConcurrentMap<String, T>>> futures,
         final BinaryOperator<T> binaryOperator) {
         return War.thenCompress(futures, binaryOperator);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> compress(
+    public static Future<ConcurrentMap<String, JsonArray>> compressM(
         final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
         return War.thenCompress(futures, (original, latest) -> original.addAll(latest));
     }
-
-    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
-        return War.thenError(clazz, args);
-    }
-
-    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return War.thenError(clazz, sigma, supplier);
-    }
-
 }

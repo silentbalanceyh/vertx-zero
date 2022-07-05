@@ -56,6 +56,6 @@ class PlotterHelper {
             futures.add(consumer.apply(pushNodes.copy()));
             pushNodes.clear();
         }
-        return Fn.arrangeMA(futures);
+        return Fn.compressA(futures);
     }
 }

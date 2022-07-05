@@ -70,7 +70,7 @@ public class UxPool {
     public <K, V> Future<ConcurrentMap<K, V>> get(final Set<K> keys) {
         final ConcurrentMap<K, Future<V>> futureMap = new ConcurrentHashMap<>();
         keys.forEach(key -> futureMap.put(key, this.get(key)));
-        return Fn.arrangeM(futureMap);
+        return Fn.combineM(futureMap);
     }
 
     public <K, V> Future<V> get(final K key, final boolean once) {

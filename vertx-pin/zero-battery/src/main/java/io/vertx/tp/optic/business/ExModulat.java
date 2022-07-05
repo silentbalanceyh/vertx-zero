@@ -63,7 +63,7 @@ public class ExModulat implements Modulat {
                     futures.put(field, this.fetchData(bag));
                 }
             });
-            return Fn.arrangeM(futures);
+            return Fn.combineM(futures);
         });
     }
 

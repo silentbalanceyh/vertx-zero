@@ -67,7 +67,7 @@ public class LinkService implements LinkStub {
         final List<Future<List<XLinkage>>> futures = new ArrayList<>();
         futures.add(jooq.insertAsync(queueA));
         futures.add(jooq.updateAsync(queueU));
-        return Fn.arrangeML(futures)
+        return Fn.compressL(futures)
             .compose(Ux::futureA)
             .compose(Ut.ifJArray(KName.SOURCE_DATA, KName.TARGET_DATA));
     }

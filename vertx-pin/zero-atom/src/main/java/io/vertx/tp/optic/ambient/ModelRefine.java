@@ -41,7 +41,7 @@ class ModelRefine implements AoRefine {
             // 1. 更新某一个模型
             final List<Future<JsonObject>> futures = new ArrayList<>();
             models.stream().map(this::saveModelAsync).forEach(futures::add);
-            return Fn.arrangeA(futures)
+            return Fn.combineA(futures)
                 .compose(nil -> Ux.future(appJson));
         };
     }
@@ -63,7 +63,7 @@ class ModelRefine implements AoRefine {
             criteria.put(KName.IDENTIFIER, entity.getIdentifier());
             Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
                 entity.getIdentifier(), criteria.encode());
-            final Future<JsonObject> execute = Fn.arrangeMA(futures)
+            final Future<JsonObject> execute = Fn.compressA(futures)
                 .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))
                 .compose(Ux::futureJ);
             execute.onSuccess(pre::complete);

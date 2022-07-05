@@ -53,14 +53,14 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     public Future<T> writeMulti(final Set<K> keySet, final T value) {
         final List<Future<T>> futures = new ArrayList<>();
         keySet.forEach(key -> futures.add(this.write(key, value)));
-        return Fn.arrangeT(futures).compose(nil -> Ux.future(value));
+        return Fn.combineT(futures).compose(nil -> Ux.future(value));
     }
 
     @Override
     public Future<Boolean> writeMulti(final Set<K> keySet) {
         final List<Future<T>> futures = new ArrayList<>();
         keySet.forEach(key -> futures.add(this.clear(key)));
-        return Fn.arrangeT(futures).compose(nil -> Ux.futureT());
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     @Override

@@ -33,7 +33,7 @@ class ScatterModeler implements AoModeler {
                     // Index
                     .compose(AoModeler.index().apply())
             ));
-            return Fn.arrangeA(futures)
+            return Fn.combineA(futures)
                 .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
         };
     }

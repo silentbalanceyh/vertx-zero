@@ -56,7 +56,7 @@ public class DatumInit implements Init {
             .map(file -> dataFolder + file)
             .map(this::doLoading)
             .collect(Collectors.toList());
-        return Fn.arrangeA(futures)
+        return Fn.combineA(futures)
             /* Stored each result */
             .compose(results -> UObject.create().append(KName.RESULT, results)
                 .toFuture())

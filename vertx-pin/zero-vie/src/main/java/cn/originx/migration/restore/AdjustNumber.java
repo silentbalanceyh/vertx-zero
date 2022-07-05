@@ -44,7 +44,7 @@ public class AdjustNumber extends AbstractStep {
             .filter(item -> Objects.nonNull(item.getValue(ADJUST)))
             .filter(item -> Values.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
-        return Fn.arrangeA(futures).compose(processed -> {
+        return Fn.combineA(futures).compose(processed -> {
             Ox.Log.infoShell(this.getClass(), "修正序号完成！");
             return Ux.future(config);
         });

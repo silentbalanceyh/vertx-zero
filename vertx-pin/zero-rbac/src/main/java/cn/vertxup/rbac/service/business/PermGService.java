@@ -75,7 +75,7 @@ public class PermGService implements PermGStub {
              */
             combined.add(jooq.insertAsync(compared.get(ChangeFlag.ADD)));
             combined.add(jooq.updateAsync(compared.get(ChangeFlag.UPDATE)));
-            return Fn.arrangeML(combined).compose(processed ->
+            return Fn.compressL(combined).compose(processed ->
                 /*
                  * Codes here for future usage
                  */
@@ -113,7 +113,7 @@ public class PermGService implements PermGStub {
             final List<SPermission> deleted = map.get(ChangeFlag.DELETE);
             futures.add(this.deletePerm(permSet, deleted));
 
-            return Fn.arrangeML(futures);
+            return Fn.compressL(futures);
         }).compose(Ux::futureA);
     }
 

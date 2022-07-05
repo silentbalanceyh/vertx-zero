@@ -40,7 +40,7 @@ class BtBoot {
         // IData interface capture from the system
         final List<Future<String>> futures = new ArrayList<>();
         ioFiles(folder, prefix, oob).map(BtKit::complete).forEach(futures::add);
-        return Fn.arrangeT(futures).compose(nil -> Ux.futureT());
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     private static Stream<String> ioFiles(final String folder, final String prefix, final boolean oob) {

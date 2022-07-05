@@ -36,7 +36,7 @@ class VerticleQuota extends AbstractQuota {
                     keys.forEach(key -> mapped.put(key, this.readAsync(key, map)));
                 }
             });
-            final Future<ConcurrentMap<String, JsonObject>> future = Fn.arrangeM(mapped);
+            final Future<ConcurrentMap<String, JsonObject>> future = Fn.combineM(mapped);
             future.onComplete(handler -> {
                 if (handler.succeeded()) {
                     final JsonObject meansure = new JsonObject();

@@ -137,7 +137,7 @@ public class UserExtension {
             final KQr qr = CONFIG.category(modelId);
             futureMap.put(modelId, runExtension(groupList, qr));
         });
-        return Fn.arrangeM(futureMap);
+        return Fn.combineM(futureMap);
     }
 
     private static Future<JsonArray> runExtension(final List<SUser> users, final KQr qr) {

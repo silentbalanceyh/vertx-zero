@@ -33,6 +33,6 @@ class DFilePre implements Pre {
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(data).forEach(json -> futures.add(this.inJAsync(json, in)));
-        return Fn.arrangeA(futures);
+        return Fn.combineA(futures);
     }
 }

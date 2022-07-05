@@ -78,7 +78,7 @@ class DevMenu {
             final JsonArray required = buildRequired(role);
             menuFuture.put(role, fetchMenuTree(MenuType.valueDefault(), required));
         });
-        return Fn.arrangeM(menuFuture).compose(menuData -> {
+        return Fn.combineM(menuFuture).compose(menuData -> {
             final ConcurrentMap<String, JsonArray> menuMap = new ConcurrentHashMap<>();
             menuData.forEach((role, menuEach) -> {
                 final JsonArray menuJArray = new JsonArray();

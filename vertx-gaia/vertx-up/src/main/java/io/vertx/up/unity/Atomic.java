@@ -76,11 +76,11 @@ class Atomic {
             }
         });
         // Async First
-        return Fn.arrangeT(async).compose(ret -> {
+        return Fn.combineT(async).compose(ret -> {
             // Sync: void init(Vertx vertx) | init()
             final List<Future<Boolean>> futures = new ArrayList<>();
             sync.stream().map(each -> invokeSync(each, vertx)).forEach(futures::add);
-            return Fn.arrangeT(futures);
+            return Fn.combineT(futures);
         }).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 

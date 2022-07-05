@@ -156,7 +156,7 @@ final class OxPlugin {
                                       final BiFunction<JsonArray, DataAtom, Future<JsonArray>> consumer) {
         final List<Future<JsonArray>> futures = new ArrayList<>();
         groupSet.forEach(group -> futures.add(consumer.apply(group.data(), group.atom())));
-        return Fn.arrangeMA(futures);
+        return Fn.compressA(futures);
     }
 
     /**

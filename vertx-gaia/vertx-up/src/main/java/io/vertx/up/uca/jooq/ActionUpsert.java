@@ -87,7 +87,7 @@ class ActionUpsert extends AbstractAction {
             final List<Future<List<T>>> futures = new ArrayList<>();
             futures.add(this.insert.insertAsync(compared.get(ChangeFlag.ADD)));
             futures.add(this.update.updateAsync(compared.get(ChangeFlag.UPDATE)));
-            return Fn.arrangeML(futures);
+            return Fn.compressL(futures);
         });
     }
 

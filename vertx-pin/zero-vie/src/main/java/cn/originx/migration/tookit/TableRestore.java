@@ -36,7 +36,7 @@ public class TableRestore extends AbstractStatic {
             final List<Future<JsonArray>> inserted = new ArrayList<>();
             files.stream().map(file -> targetFolder + "/" + file)
                 .map(this::ioAsync).forEach(inserted::add);
-            return Fn.arrangeMA(inserted).compose(nil -> {
+            return Fn.compressA(inserted).compose(nil -> {
                 Ox.Log.infoShell(this.getClass(), "表名：{0} 数据还原完成！记录数：{1}",
                     this.jooq.table(), String.valueOf(nil.size()));
                 /*
@@ -44,7 +44,7 @@ public class TableRestore extends AbstractStatic {
                  */
                 final List<Future<JsonObject>> upgrade = new ArrayList<>();
                 Ut.itJArray(original).map(this::upsertAsync).forEach(upgrade::add);
-                return Fn.arrangeA(upgrade).compose(up -> {
+                return Fn.combineA(upgrade).compose(up -> {
                     Ox.Log.infoShell(this.getClass(), "表名：{0} 数据还原完成！升级记录：{1}",
                         this.jooq.table(), String.valueOf(up.size()));
                     return Ux.future(config);

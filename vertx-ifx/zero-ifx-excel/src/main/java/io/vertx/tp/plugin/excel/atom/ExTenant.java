@@ -89,7 +89,7 @@ public class ExTenant implements Serializable {
             Ut.itJArray(this.tenant.getSource(), String.class, (expr, index) ->
                 futures.add(this.dictionary(expr)));
         }
-        return Fn.arrangeT(futures).compose(result -> {
+        return Fn.combineT(futures).compose(result -> {
             final ConcurrentMap<String, JsonObject> dataResult = new ConcurrentHashMap<>();
             if (Objects.nonNull(result)) {
                 result.stream().filter(Objects::nonNull)
@@ -140,7 +140,7 @@ public class ExTenant implements Serializable {
                         return Ux.future(data);
                     }))
                     .forEach(futures::add);
-                return Fn.arrangeMA(futures);
+                return Fn.compressA(futures);
             }).compose(dataArray -> {
                 // Result
                 final String key = segments[4];

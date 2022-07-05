@@ -35,7 +35,7 @@ class RiseRapid implements Rise {
 
     @Override
     public Future<Apt> fetchBatch(final JsonObject criteria, final DataAtom atom) {
-        return Fn.arrangeT(
+        return Fn.combineT(
             this.inputData(criteria, atom),
             this.inputAcc(criteria, atom),
             (data, acc) -> this.combineAcc(data, acc, atom)

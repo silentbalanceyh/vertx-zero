@@ -37,13 +37,13 @@ class BtLoader {
     static Future<Boolean> loadAsync(final String folder) {
         final List<Future<String>> futures = new ArrayList<>();
         stream(folder, null).map(BtKit::complete).forEach(futures::add);
-        return Fn.arrangeT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.combineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     static Future<Boolean> loadAsync(final String folder, final String prefix) {
         final List<Future<String>> futures = new ArrayList<>();
         stream(folder, prefix).map(BtKit::complete).forEach(futures::add);
-        return Fn.arrangeT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.combineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     private static Stream<String> stream(final String folder, final String prefix) {

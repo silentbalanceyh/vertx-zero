@@ -74,7 +74,7 @@ class Web {
                 index++;
             }
         }
-        return Fn.arrangeJ(futures.toArray(new Future[]{})).compose(response -> {
+        return Fn.combineJ(futures.toArray(new Future[]{})).compose(response -> {
             final JsonObject finalJson = new JsonObject();
             final JsonObject reference = (JsonObject) response;
             indexMap.forEach((field, indexKey) -> {
