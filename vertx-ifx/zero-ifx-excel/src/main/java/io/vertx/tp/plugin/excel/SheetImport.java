@@ -8,6 +8,7 @@ import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.web._500InternalServerException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -166,7 +167,7 @@ class SheetImport {
                 .compose(data -> Ux.future(this.saveEntity(data, table)))
             ));
         /* Set<T> handler */
-        return Ux.thenCombineT(futures).compose(result -> {
+        return Fn.thenCombineT(futures).compose(result -> {
             final Set<T> entitySet = new HashSet<>();
             result.forEach(entitySet::addAll);
             return Ux.future(entitySet);

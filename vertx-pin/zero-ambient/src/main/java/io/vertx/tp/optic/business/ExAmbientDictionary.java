@@ -10,6 +10,7 @@ import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.em.GlossaryType;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
@@ -54,7 +55,7 @@ public class ExAmbientDictionary implements Dictionary {
              * 2) Category ( type -> JsonArray )     size > 0
              * 3) Assist ( type -> JsonArray )       size > 0
              */
-            return Ux.thenCompress(futures).compose(dict -> {
+            return Fn.thenCompress(futures).compose(dict -> {
                 final StringBuilder report = new StringBuilder();
                 report.append("[ PT ] Dictionary Total：").append(dict.size());
                 dict.forEach((key, array) -> report

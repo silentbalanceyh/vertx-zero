@@ -22,6 +22,7 @@ import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -170,7 +171,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiList(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
-            .compose(lists -> Ux.thenCombineT(lists, this::uiListField))
+            .compose(lists -> Fn.thenCombineT(lists, this::uiListField))
             .compose(Ux::futureA);
     }
 
@@ -190,7 +191,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiForm(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
-            .compose(forms -> Ux.thenCombineT(forms, this::uiFormField))
+            .compose(forms -> Fn.thenCombineT(forms, this::uiFormField))
             .compose(Ux::futureA);
     }
 

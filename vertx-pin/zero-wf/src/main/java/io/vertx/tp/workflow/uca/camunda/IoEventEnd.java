@@ -7,6 +7,7 @@ import io.vertx.tp.error._501EventEndMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
@@ -32,7 +33,7 @@ class IoEventEnd extends AbstractIo<EndEvent> {
         final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
         final Collection<EndEvent> ends = instance.getModelElementsByType(EndEvent.class);
         if (ends.isEmpty()) {
-            return Ux.thenError(_501EventEndMissingException.class, this.getClass(), definitionId);
+            return Fn.thenError(_501EventEndMissingException.class, this.getClass(), definitionId);
         }
         return Ux.future(new ArrayList<>(ends));
     }
@@ -46,7 +47,7 @@ class IoEventEnd extends AbstractIo<EndEvent> {
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));
             } else {
-                return Ux.thenError(_409EventEndUniqueException.class, this.getClass(), size, definitionId);
+                return Fn.thenError(_409EventEndUniqueException.class, this.getClass(), size, definitionId);
             }
         });
     }

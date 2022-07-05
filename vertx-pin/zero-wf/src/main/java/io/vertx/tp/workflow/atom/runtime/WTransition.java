@@ -12,6 +12,7 @@ import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KFlow;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -223,7 +224,7 @@ public class WTransition {
             final Io<Task> ioTask = Io.ioTask();
             return ioTask.run(flow.taskId()).compose(task -> {
                 if (Objects.isNull(task)) {
-                    return Ux.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
+                    return Fn.thenError(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
                 } else {
                     this.from = task;
                     // Task Definition Key ( e.xxx )

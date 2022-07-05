@@ -8,6 +8,7 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -149,6 +150,6 @@ class AtFs {
         if (Ut.notNil(dataR)) {
             futures.add(fnRemote.apply(dataR));
         }
-        return Ux.thenCombineArray(futures);
+        return Fn.thenCombineArray(futures);
     }
 }

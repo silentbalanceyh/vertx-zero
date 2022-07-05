@@ -11,6 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -43,7 +44,7 @@ public class AdjustNumber extends AbstractStep {
             .filter(item -> Objects.nonNull(item.getValue(ADJUST)))
             .filter(item -> Values.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
-        return Ux.thenCombine(futures).compose(processed -> {
+        return Fn.thenCombine(futures).compose(processed -> {
             Ox.Log.infoShell(this.getClass(), "修正序号完成！");
             return Ux.future(config);
         });

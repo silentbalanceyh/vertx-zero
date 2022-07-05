@@ -11,7 +11,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
@@ -88,6 +88,6 @@ public class TokenService implements TokenStub {
             .forEach(item -> futures.add(this.groupStub.fetchRoleIdsAsync(item.getString(AuthKey.F_GROUP_ID))
                 .compose(roles -> UObject.create(item).append("role", roles).toFuture())
             ));
-        return Ux.thenCombine(futures);
+        return Fn.thenCombine(futures);
     }
 }

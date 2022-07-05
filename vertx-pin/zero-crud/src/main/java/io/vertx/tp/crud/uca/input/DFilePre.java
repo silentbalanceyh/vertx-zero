@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.optic.feature.Attachment;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -32,6 +33,6 @@ class DFilePre implements Pre {
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(data).forEach(json -> futures.add(this.inJAsync(json, in)));
-        return Ux.thenCombine(futures);
+        return Fn.thenCombine(futures);
     }
 }

@@ -11,6 +11,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -36,7 +37,7 @@ public class AuthService implements AuthStub {
         return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> {
             if (Objects.isNull(item)) {
                 // Could not identify OUser record, error throw.
-                return Ux.thenError(_401CodeGenerationException.class, this.getClass(),
+                return Fn.thenError(_401CodeGenerationException.class, this.getClass(),
                     filters.getString(AuthKey.F_CLIENT_ID), filters.getString(AuthKey.F_CLIENT_SECRET));
             } else {
                 // Provide correct parameters, OUser record existing.

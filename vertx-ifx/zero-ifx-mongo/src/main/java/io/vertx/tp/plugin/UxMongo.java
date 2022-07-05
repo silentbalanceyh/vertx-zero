@@ -9,7 +9,6 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.tp.plugin.mongo.MongoInfix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
@@ -125,7 +124,7 @@ public class UxMongo {
                                              // Secondary JqTool
                                              final String joinedCollection, final String joinedKey, final JsonObject additional,
                                              final BinaryOperator<JsonObject> operatorFun) {
-        return Ux.thenCombine(this.findWithOptions(collection, filter, options),
+        return Fn.thenCombine(this.findWithOptions(collection, filter, options),
             item -> {
                 final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
                 // MongoDB only

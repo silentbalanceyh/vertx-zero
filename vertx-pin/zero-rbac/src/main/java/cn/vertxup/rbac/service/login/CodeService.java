@@ -7,6 +7,7 @@ import io.vertx.tp.error._401CodeWrongException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.UObject;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -34,11 +35,11 @@ public class CodeService implements CodeStub {
         return Sc.cacheCode(clientId).compose(item -> {
             if (Objects.isNull(item)) {
                 // 401: Authorization Code Expired, The item is null, it means that code is expired
-                return Ux.thenError(_401CodeExpiredException.class, this.getClass(), clientId, code);
+                return Fn.thenError(_401CodeExpiredException.class, this.getClass(), clientId, code);
             }
             if (!code.equals(item)) {
                 // 401: Wrong code provided ( Api Client )
-                return Ux.thenError(_401CodeWrongException.class, this.getClass(), code);
+                return Fn.thenError(_401CodeWrongException.class, this.getClass(), code);
             }
             // Successfully
             return Ux.future(clientId);

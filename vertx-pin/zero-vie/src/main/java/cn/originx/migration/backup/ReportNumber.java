@@ -10,6 +10,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +49,7 @@ public class ReportNumber extends AbstractStep {
                 .compose(normalized -> {
                     final List<Future<JsonObject>> futures = new ArrayList<>();
                     normalized.stream().map(this::procAsync).forEach(futures::add);
-                    return Ux.thenCombine(futures);
+                    return Fn.thenCombine(futures);
                 })
                 .compose(combined -> {
                     /* 元素结构：JsonArray

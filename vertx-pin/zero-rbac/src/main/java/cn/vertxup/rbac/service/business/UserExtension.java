@@ -13,6 +13,7 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KQr;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -136,7 +137,7 @@ public class UserExtension {
             final KQr qr = CONFIG.category(modelId);
             futureMap.put(modelId, runExtension(groupList, qr));
         });
-        return Ux.thenCombine(futureMap);
+        return Fn.thenCombine(futureMap);
     }
 
     private static Future<JsonArray> runExtension(final List<SUser> users, final KQr qr) {

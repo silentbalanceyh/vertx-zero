@@ -63,7 +63,7 @@ public class PermService implements PermStub {
             })
             .compose(jooq::updateAsync)
         ).forEach(entities::add);
-        return Ux.thenCombineT(entities).compose(actions -> {
+        return Fn.thenCombineT(entities).compose(actions -> {
 
             /*
              * Build relation between actionId -> permissionId
@@ -82,7 +82,7 @@ public class PermService implements PermStub {
                     return Ux.future(action);
                 }).compose(jooq::updateAsync)
             ));
-            return Ux.thenCombineT(actionList);
+            return Fn.thenCombineT(actionList);
         }).compose(nil -> Ux.future(relation));
     }
 

@@ -13,6 +13,7 @@ import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -134,7 +135,7 @@ public class Arms {
                 if (this.types.contains(ChangeFlag.DELETE)) {
                     futures.add(this.deleteRecord(map.get(ChangeFlag.DELETE), hex.batch(ChangeFlag.DELETE)));
                 }
-                return Ux.thenCombineArray(futures);
+                return Fn.thenCombineArray(futures);
             });
     }
 

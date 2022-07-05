@@ -11,6 +11,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -74,7 +75,7 @@ public class PermGService implements PermGStub {
              */
             combined.add(jooq.insertAsync(compared.get(ChangeFlag.ADD)));
             combined.add(jooq.updateAsync(compared.get(ChangeFlag.UPDATE)));
-            return Ux.thenCombineArrayT(combined).compose(processed ->
+            return Fn.thenCombineArrayT(combined).compose(processed ->
                 /*
                  * Codes here for future usage
                  */
@@ -112,7 +113,7 @@ public class PermGService implements PermGStub {
             final List<SPermission> deleted = map.get(ChangeFlag.DELETE);
             futures.add(this.deletePerm(permSet, deleted));
 
-            return Ux.thenCombineArrayT(futures);
+            return Fn.thenCombineArrayT(futures);
         }).compose(Ux::futureA);
     }
 

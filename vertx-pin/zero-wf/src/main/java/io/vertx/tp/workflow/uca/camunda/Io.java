@@ -4,6 +4,7 @@ import cn.zeroup.macrocosm.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -84,25 +85,25 @@ interface IoRuntime<I> {
      */
     // Definition Level
     default Future<I> run(final ProcessInstance instance) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     // Process / Task Level
     default Future<I> run(final Task task) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     // Task Level
     default Future<I> run(final String iKey) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> start(final ProcessDefinition definition) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> end(final HistoricProcessInstance instance) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     // --------------------- Output Method ------------------
@@ -116,11 +117,11 @@ interface IoRuntime<I> {
 
     // ---------------- Child Fetching -----------------
     default Future<List<I>> children(final String oKey) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> child(final String oKey) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 }
 

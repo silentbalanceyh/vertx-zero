@@ -7,7 +7,7 @@ import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 /**
@@ -20,7 +20,7 @@ public class MoveOnStart extends AbstractMoveOn {
 
         if (wTransition.isStarted()) {
             // Error-80604: The wTransition has been started, could not call current divert
-            return Ux.thenError(_409InValidStartException.class, this.getClass(), definition.getKey());
+            return Fn.thenError(_409InValidStartException.class, this.getClass(), definition.getKey());
         }
         return wTransition.start().compose(started -> {
             /*

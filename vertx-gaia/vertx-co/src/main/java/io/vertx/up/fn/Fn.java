@@ -11,10 +11,7 @@ import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
@@ -268,7 +265,8 @@ public final class Fn {
     // ------- War ( New Version )
 
 
-    public static <T> Future<T> thenUnbox(final Consumer<Promise<T>> consumer) {
+    public static <T> Future<T> thenUnbox(
+        final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }
 
@@ -276,11 +274,9 @@ public final class Fn {
         return Wait.then(result, future, ex);
     }
 
-    public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
-        return War.thenCombineT(futures);
-    }
 
-    public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
+    public static <T> Future<List<T>> thenCombineArrayT(
+        final List<Future<List<T>>> futures) {
         return War.thenCombineArrayT(futures);
     }
 
@@ -292,16 +288,49 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> thenCombine(final Future<JsonObject>... futures) {
+    public static Future<JsonObject> thenCombine(
+        final Future<JsonObject>... futures) {
         return War.thenCombine(futures);
     }
 
-    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(
+        final ConcurrentMap<K, Future<T>> futureMap) {
         return War.thenCombine(futureMap);
     }
 
-    public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
-        return War.thenCombineArray(futures);
+    public static Future<JsonArray> thenCombine(
+        final JsonArray input,
+        final Function<JsonObject, Future<JsonObject>> function) {
+        final List<Future<JsonObject>> futures = new ArrayList<>();
+        Ut.itJArray(input).map(function).forEach(futures::add);
+        return Fn.thenCombine(futures);
+    }
+
+    public static Future<JsonArray> thenCombine(
+        final List<Future<JsonObject>> futures) {
+        return War.thenCombine(futures);
+    }
+
+    public static <F, S, T> Future<T> thenCombine(
+        final Supplier<Future<F>> futureF,
+        final Supplier<Future<S>> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(futureF, futureS, consumer);
+    }
+
+    public static <F, S, T> Future<T> thenCombine(
+        final Future<F> futureF,
+        final Future<S> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(() -> futureF, () -> futureS, consumer);
+    }
+
+    // ----- thenCombine
+    public static Future<JsonObject> thenCombine(
+        final JsonObject source,
+        final Function<JsonObject, List<Future>> generateFun,
+        final BiConsumer<JsonObject, JsonObject>... operatorFun) {
+        return War.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
     }
 
     public static Future<JsonObject> thenCombine(
@@ -312,16 +341,42 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
-        return War.thenCombine(futures);
+    // ----- thenCombineT
+
+    public static <T> Future<List<T>> thenCombineT(
+        final List<Future<T>> futures) {
+        return War.thenCombineT(futures);
     }
 
-    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
-                                                  final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(futureF, futureS, consumer);
+    public static <I, O> Future<List<O>> thenCombineT(
+        final List<I> source, final Function<I, Future<O>> consumer) {
+        final List<Future<O>> futures = new ArrayList<>();
+        Ut.itList(source).map(consumer).forEach(futures::add);
+        return War.thenCombineT(futures);
     }
 
+    // ----- thenCombineArray
+    public static Future<JsonArray> thenCombineArray(
+        final List<Future<JsonArray>> futures) {
+        return War.thenCombineArray(futures);
+    }
 
+    public static <T> Future<JsonArray> thenCombineArray(
+        final JsonArray source,
+        final Class<T> clazz,
+        final Function<T, Future<JsonArray>> consumer) {
+        final List<Future<JsonArray>> futures = new ArrayList<>();
+        Ut.itJArray(source, clazz, (item, index) -> futures.add(consumer.apply(item)));
+        return War.thenCombineArray(futures);
+    }
+
+    public static Future<JsonArray> thenCombineArray(
+        final JsonArray source,
+        final Function<JsonObject, Future<JsonArray>> consumer) {
+        return thenCombineArray(source, JsonObject.class, consumer);
+    }
+
+    // ----- thenCompress
     /*
      * List<Future<Map<String,T>>> futures ->
      *      Future<Map<String,T>>
@@ -330,9 +385,13 @@ public final class Fn {
      */
     public static <T> Future<ConcurrentMap<String, T>> thenCompress(
         final List<Future<ConcurrentMap<String, T>>> futures,
-        final BinaryOperator<T> binaryOperator
-    ) {
+        final BinaryOperator<T> binaryOperator) {
         return War.thenCompress(futures, binaryOperator);
+    }
+
+    public static Future<ConcurrentMap<String, JsonArray>> thenCompress(
+        final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
+        return thenCompress(futures, (original, latest) -> original.addAll(latest));
     }
 
     public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {

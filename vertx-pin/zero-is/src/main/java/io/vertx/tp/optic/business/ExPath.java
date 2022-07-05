@@ -10,6 +10,7 @@ import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -163,7 +164,7 @@ public class ExPath implements ExIo {
                     final ConcurrentMap<String, String> renameMap = Is.trashIn(storeSet);
                     futures.add(fs.rm(renameMap.values()));
                 });
-                return Ux.thenCombineT(futures);
+                return Fn.thenCombineT(futures);
             }))
             .compose(nil -> Ux.future(directoryJ));
     }
@@ -227,7 +228,7 @@ public class ExPath implements ExIo {
             }
             futures.add(fs.rename(renameMap));
         });
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Fn.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
     private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {

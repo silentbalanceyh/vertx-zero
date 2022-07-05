@@ -13,6 +13,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -51,7 +52,7 @@ public class FanService implements FanStub {
             }
             final List<FBillItem> itemList = new ArrayList<>();
             itemList.add(billItem);
-            return Ux.thenCombine(futures)
+            return Fn.thenCombine(futures)
                 .compose(nil -> this.accountStub.inBook(bill, itemList))
                 .compose(nil -> this.billAsync(bill, itemList));
         });

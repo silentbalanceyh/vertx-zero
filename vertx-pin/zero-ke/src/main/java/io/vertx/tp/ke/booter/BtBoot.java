@@ -5,6 +5,7 @@ import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.redis.RedisInfix;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -39,7 +40,7 @@ class BtBoot {
         // IData interface capture from the system
         final List<Future<String>> futures = new ArrayList<>();
         ioFiles(folder, prefix, oob).map(BtKit::complete).forEach(futures::add);
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Fn.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
     private static Stream<String> ioFiles(final String folder, final String prefix, final boolean oob) {

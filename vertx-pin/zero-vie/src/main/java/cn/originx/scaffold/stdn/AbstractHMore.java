@@ -11,6 +11,7 @@ import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -182,7 +183,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
         return set -> {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             set.forEach(item -> futures.add(consumer.apply(item)));
-            return Ux.thenCombineArray(futures);
+            return Fn.thenCombineArray(futures);
         };
     }
 }

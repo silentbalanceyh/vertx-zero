@@ -9,6 +9,7 @@ import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -43,7 +44,7 @@ public class DocBuilder implements DocBStub {
             .compose(categories -> {
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 Ut.itJArray(categories).map(this::seekAsync).forEach(futures::add);
-                return Ux.thenCombineArray(futures);
+                return Fn.thenCombineArray(futures);
             });
     }
 

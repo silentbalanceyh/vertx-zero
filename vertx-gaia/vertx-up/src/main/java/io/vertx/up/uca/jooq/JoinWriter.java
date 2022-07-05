@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -77,7 +78,7 @@ class JoinWriter {
                 futures.add(childJq.insertJAsync(compared.get(ChangeFlag.ADD)));
                 futures.add(childJq.updateAsync(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
                 futures.add(childJq.deleteJAsync(compared.get(ChangeFlag.DELETE)));
-                return Ux.thenCombineArray(futures);
+                return Fn.thenCombineArray(futures);
             });
         } else {
             return Ux.futureA();

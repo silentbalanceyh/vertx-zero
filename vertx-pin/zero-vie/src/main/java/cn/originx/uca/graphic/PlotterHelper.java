@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -55,6 +56,6 @@ class PlotterHelper {
             futures.add(consumer.apply(pushNodes.copy()));
             pushNodes.clear();
         }
-        return Ux.thenCombineArray(futures);
+        return Fn.thenCombineArray(futures);
     }
 }

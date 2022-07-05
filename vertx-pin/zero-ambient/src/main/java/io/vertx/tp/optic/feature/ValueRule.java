@@ -13,6 +13,7 @@ import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.wffs.Formula;
 import io.vertx.up.uca.wffs.Regulation;
 import io.vertx.up.unity.Ux;
@@ -123,7 +124,7 @@ public class ValueRule implements Valve {
         final XActivityRule rule = ruleList.iterator().next();
         serialC.forEach((code, size) ->
             serialQ.put(code, Ux.channel(Indent.class, ConcurrentLinkedQueue::new, stub -> stub.indent(code, rule.getSigma(), size))));
-        return Ux.thenCombine(serialQ).compose(Ux::future);
+        return Fn.thenCombine(serialQ).compose(Ux::future);
     }
 
     private String ruleIndent(final XActivityRule rule) {

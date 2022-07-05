@@ -9,6 +9,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.redis.RedisInfix;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
@@ -36,13 +37,13 @@ class BtLoader {
     static Future<Boolean> loadAsync(final String folder) {
         final List<Future<String>> futures = new ArrayList<>();
         stream(folder, null).map(BtKit::complete).forEach(futures::add);
-        return Ux.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     static Future<Boolean> loadAsync(final String folder, final String prefix) {
         final List<Future<String>> futures = new ArrayList<>();
         stream(folder, prefix).map(BtKit::complete).forEach(futures::add);
-        return Ux.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.thenCombineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     private static Stream<String> stream(final String folder, final String prefix) {

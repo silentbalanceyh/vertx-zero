@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
@@ -52,14 +53,14 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     public Future<T> writeMulti(final Set<K> keySet, final T value) {
         final List<Future<T>> futures = new ArrayList<>();
         keySet.forEach(key -> futures.add(this.write(key, value)));
-        return Ux.thenCombineT(futures).compose(nil -> Ux.future(value));
+        return Fn.thenCombineT(futures).compose(nil -> Ux.future(value));
     }
 
     @Override
     public Future<Boolean> writeMulti(final Set<K> keySet) {
         final List<Future<T>> futures = new ArrayList<>();
         keySet.forEach(key -> futures.add(this.clear(key)));
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Fn.thenCombineT(futures).compose(nil -> Ux.futureT());
     }
 
     @Override

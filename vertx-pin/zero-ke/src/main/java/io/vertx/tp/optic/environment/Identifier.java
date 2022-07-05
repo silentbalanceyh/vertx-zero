@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -32,6 +32,6 @@ public interface Identifier {
      * The default implementation is Not Support Exception throw out
      */
     default Future<ConcurrentMap<String, JsonArray>> resolve(final JsonObject data, final String identifier, final JsonObject config) {
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.thenError(_501NotSupportException.class, this.getClass());
     }
 }

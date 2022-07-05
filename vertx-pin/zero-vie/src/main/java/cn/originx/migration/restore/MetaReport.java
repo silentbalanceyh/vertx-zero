@@ -9,6 +9,7 @@ import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class MetaReport extends AbstractStep {
                     .filter(category -> Objects.nonNull(category.getIdentifier()))
                     .map(this::procAsync)
                     .forEach(futures::add);
-                return Ux.thenCombine(futures);
+                return Fn.thenCombine(futures);
             })
             .compose(combined -> {
                 final String folder = this.ioRoot(config);

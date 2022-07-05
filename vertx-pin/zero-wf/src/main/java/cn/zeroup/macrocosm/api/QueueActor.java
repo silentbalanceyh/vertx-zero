@@ -16,6 +16,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -144,7 +145,7 @@ public class QueueActor {
         final Io<Task> ioTask = Io.ioTask();
         final ProcessDefinition definition = ioTask.inProcess(definitionId);
         if (Objects.isNull(definition)) {
-            return Ux.thenError(_404ProcessMissingException.class, this.getClass(), definitionId);
+            return Fn.thenError(_404ProcessMissingException.class, this.getClass(), definitionId);
         }
 
 

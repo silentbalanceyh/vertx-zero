@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -79,7 +80,7 @@ class AuditorHistory extends AbstractAuditor {
                 }
             });
         }
-        return Ux.thenCombine(futures);
+        return Fn.thenCombine(futures);
     }
 
     /**
