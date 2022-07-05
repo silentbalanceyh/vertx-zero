@@ -159,6 +159,11 @@ class War {
         return futureF.get().compose(f -> futureS.get().compose(s -> consumer.apply(f, s)));
     }
 
+    static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Function<F, Future<S>> futureS,
+                                           final BiFunction<F, S, Future<T>> consumer) {
+        return futureF.get().compose(f -> futureS.apply(f).compose(s -> consumer.apply(f, s)));
+    }
+
     static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
         final WebException error = Ut.toError(clazz, args);
         return Future.failedFuture(error);

@@ -470,13 +470,27 @@ public final class Fn {
     /*
      * Workflow:
      *
-     *                        t1 + t2 => (t3)
-     *      fx,(t1)     -->         fx          -->     (t3)
-     *      fx,(t2)     -->
+     *                                  t1 + t2 => (t3)
+     *      fx,(t1)             -->         fx          -->     (t3)
+     *              fx,(t2)     -->
      */
     public static <F, S, T> Future<T> combineT(
         final Supplier<Future<F>> futureF,
         final Supplier<Future<S>> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(futureF, futureS, consumer);
+    }
+
+    /*
+     * Workflow:
+     *
+     *                                  t1 + t2 => (t3)
+     *      fx,(t1)             -->         fx          -->     (t3)
+     *        t1 -->  fx,(t2)   -->
+     */
+    public static <F, S, T> Future<T> thenCombine(
+        final Supplier<Future<F>> futureF,
+        final Function<F, Future<S>> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
         return War.thenCombine(futureF, futureS, consumer);
     }
