@@ -24,7 +24,7 @@ class RpcHelper {
 
     static Record getRecord(final JsonObject config) {
         /* Config Verify **/
-        Fn.outUp(() -> Fn.onZero(() -> Ruler.verify(Key.RULE_KEY, config), config),
+        Fn.outUp(() -> Fn.safeZero(() -> Ruler.verify(Key.RULE_KEY, config), config),
             LOGGER);
         // Connect remote etcd to check service
         final ConcurrentMap<String, Record> registryData = ORIGIN.getRegistryData();

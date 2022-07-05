@@ -14,7 +14,7 @@ public class JArrayOpts implements Visitor<JsonArray> {
 
     @Override
     public JsonArray visit(final String... nodes) {
-        Fn.inLenMin(this.getClass(), 0, nodes);
+        Fn.verifyLenMin(this.getClass(), 0, nodes);
         final JsonObject tree = NODE.read();
         return Ut.visitJArray(tree, nodes);
     }

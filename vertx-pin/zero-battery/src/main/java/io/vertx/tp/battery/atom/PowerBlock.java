@@ -72,12 +72,17 @@ public class PowerBlock implements Serializable {
 
     @SuppressWarnings("all")
     public <T> T value(final String field) {
+        return value(field, null);
+    }
+
+    @SuppressWarnings("all")
+    public <T> T value(final String field, final T defaultValue) {
         final Object value = this.storedData.getOrDefault(field, null);
         if (Objects.nonNull(value)) {
             final Class<?> type = this.storedType.getOrDefault(field, String.class);
             return (T) Ut.aiValue(value.toString(), type);
         } else {
-            return null;
+            return defaultValue;
         }
     }
 

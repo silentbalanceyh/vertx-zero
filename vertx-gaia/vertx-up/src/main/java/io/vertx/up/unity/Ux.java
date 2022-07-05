@@ -28,7 +28,6 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.rule.RuleTerm;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.fn.wait.Log;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
@@ -67,15 +66,11 @@ public final class Ux {
      * Create new log instance for store `Annal` mapping
      *
      * Debug method for help us to do development
-     * 1) log:  for branch log creation
-     * 2) debug:
-     * 3) otherwise:
-     * 4) dataN/dataO -> New / Old Json
+     * 1) debug:
+     * 2) otherwise:
+     * 3) dataN/dataO -> New / Old Json
      * ( Business Part: Debugging )
      */
-    public static Log log(final Class<?> clazz) {
-        return Log.create(null == clazz ? Ux.class : clazz);
-    }
 
     public static void debug(final Object... objects) {
         Debug.monitor(objects);

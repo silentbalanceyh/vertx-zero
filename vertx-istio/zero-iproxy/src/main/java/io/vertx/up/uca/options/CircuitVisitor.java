@@ -22,7 +22,7 @@ public class CircuitVisitor implements Visitor<CircuitBreakerOptions> {
     public CircuitBreakerOptions visit(final String... key)
         throws ZeroException {
         // 1. Must be the first line, fixed position.
-        Fn.inLenEq(this.getClass(), 0, key);
+        Fn.verifyLenEq(this.getClass(), 0, key);
         // 2. Read data
         final JsonObject data = this.node.read();
         // 3. CircuitBreakerOptions building.

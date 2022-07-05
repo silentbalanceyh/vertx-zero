@@ -16,8 +16,8 @@ import java.util.function.Supplier;
  * 3. java.lang.Throwable ( Runtime )
  * 4. io.vertx.up.exception.ZeroRunException ( Runtime )
  */
-final class Announce {
-    private Announce() {
+final class Warning {
+    private Warning() {
     }
 
     /**
@@ -116,25 +116,13 @@ final class Announce {
         }
     }
 
-    static void toRun(final Annal logger, final ZeroActuator actuator) {
-        try {
-            actuator.execute();
-        } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
-            throw new ZeroRunException(ex.getMessage()) {
-            };
-        } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
-        }
-    }
-
     /**
      * Execut actuator and throw ZeroRunException out
      *
      * @param actuator Executor of zero defined interface
      * @param logger   Zero logger
      */
-    static void shuntRun(final Actuator actuator, final Annal logger) {
+    static void outRun(final Actuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {
@@ -144,5 +132,27 @@ final class Announce {
             ex.printStackTrace();
             Annal.sure(logger, () -> logger.jvm(ex));
         }
+    }
+
+
+    /**
+     * @param supplier T supplier function
+     * @param runCls   ZeroRunException definition
+     * @param <T>      T type of object
+     *
+     * @return Final T or throw our exception
+     */
+    static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {
+        T ret = null;
+        try {
+            ret = supplier.get();
+        } catch (final Throwable ex) {
+            final Object[] argument = Ut.elementAdd(args, ex);
+            final ZeroRunException error = Ut.instance(runCls, argument);
+            if (null != error) {
+                throw error;
+            }
+        }
+        return ret;
     }
 }

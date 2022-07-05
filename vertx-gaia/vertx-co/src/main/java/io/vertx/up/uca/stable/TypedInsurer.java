@@ -41,11 +41,11 @@ public class TypedInsurer extends AbstractInsurer {
     public void flumen(final JsonObject data, final JsonObject rule)
         throws ZeroException {
         // 1. If rule is null, skip
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 2. extract rule from rule, only required accept
             if (rule.containsKey(Rules.TYPED)) {
                 final JsonObject fields = rule.getJsonObject(Rules.TYPED);
-                Fn.etJObject(fields, (item, name) -> {
+                Fn.verifyJObject(fields, (item, name) -> {
                     // 3. extract key for field definition
                     final JsonType key = Ut.toEnum(JsonType.class,
                         item.toString());

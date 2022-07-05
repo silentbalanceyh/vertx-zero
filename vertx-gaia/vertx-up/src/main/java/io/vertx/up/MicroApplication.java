@@ -49,7 +49,7 @@ public class MicroApplication {
     }
 
     public static void run(final Class<?> clazz, final Object... args) {
-        Fn.onRun(() -> {
+        Fn.safeRun(() -> {
             // Run vertx application.
             new MicroApplication(clazz).run(args);
         }, LOGGER);

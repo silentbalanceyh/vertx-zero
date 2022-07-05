@@ -4,12 +4,15 @@ package io.vertx.up.fn;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.up.fn.wait.Case;
+import io.vertx.up.exception.ZeroException;
+import io.vertx.up.exception.ZeroRunException;
+import io.vertx.up.log.Annal;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 final class Wait {
+    private static final Annal LOGGER = Annal.get(Wait.class);
+
     private Wait() {
     }
 
@@ -30,37 +33,40 @@ final class Wait {
         return promise.future();
     }
 
-    static <T> Case<T> branch(final Supplier<Future<T>> caseLine) {
-        return Case.item(caseLine);
-    }
-
-    static <T> Case<T> branch(final Actuator executor, final Supplier<Future<T>> caseLine) {
-        if (null != executor) {
-            executor.execute();
+    /*
+     * JvmSupplier -> Supplier
+     */
+    static <T> T wrapper(final RunSupplier<T> supplier, final T defaultValue) {
+        try {
+            return supplier.get();
+        } catch (final Throwable ex) {
+            // TODO: For Debug
+            LOGGER.jvm(ex);
+            ex.printStackTrace();
+            return defaultValue;
         }
-        return Case.item(caseLine);
     }
 
-    static <T> Case<T> branch(final boolean condition, final Supplier<Future<T>> caseLine) {
-        return Case.item(() -> condition, caseLine);
-    }
-
-    static <T> Case<T> branch(final boolean condition, final Actuator executor, final Supplier<Future<T>> caseLine) {
-        if (condition) {
-            if (null != executor) {
-                executor.execute();
-            }
+    static <T> Future<T> wrapperAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+        try {
+            return supplier.get();
+        } catch (final Throwable ex) {
+            // TODO: For Debug
+            LOGGER.jvm(ex);
+            ex.printStackTrace();
+            return Future.succeededFuture(defaultValue);
         }
-        return branch(condition, caseLine);
     }
 
-    @SuppressWarnings("unchecked")
-    static <T> Case<T> match(final Supplier<Case.DefaultCase<T>> defaultSupplier, final Case<T>... matchers) {
-        for (final Case<T> each : matchers) {
-            if (each.first.get()) {
-                return each;
-            }
+    static void wrapper(final Annal logger, final ZeroActuator actuator) {
+        try {
+            actuator.execute();
+        } catch (final ZeroException ex) {
+            Annal.sure(logger, () -> logger.zero(ex));
+            throw new ZeroRunException(ex.getMessage()) {
+            };
+        } catch (final Throwable ex) {
+            Annal.sure(logger, () -> logger.jvm(ex));
         }
-        return defaultSupplier.get();
     }
 }

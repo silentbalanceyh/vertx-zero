@@ -20,11 +20,11 @@ public class RequiredInsurer extends AbstractInsurer {
     @Override
     public void flumen(final JsonObject data, final JsonObject rule) throws ZeroException {
         // 1. If rule is null, skip
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 2. extract rule from rule, only required accept
             if (rule.containsKey(Rules.REQUIRED)) {
                 final JsonArray fields = Ut.toJArray(rule.getValue(Rules.REQUIRED));
-                Fn.etJArray(fields, String.class, (field, index) -> {
+                Fn.verifyJArray(fields, String.class, (field, index) -> {
                     // 3.Check if data contains field.
                     // Fast throw out
                     Fn.outZero(!data.containsKey(field), this.getLogger(),
