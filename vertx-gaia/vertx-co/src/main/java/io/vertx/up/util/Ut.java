@@ -14,6 +14,7 @@ import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
@@ -1523,6 +1524,14 @@ public final class Ut {
         return To.toMapExpr(data);
     }
 
+    public static WebException toError(final Class<?> clazz, final Throwable error) {
+        return To.toError(clazz, error);
+    }
+
+    public static WebException toError(final Class<? extends WebException> clazz, final Object... args) {
+        return To.toError(clazz, args);
+    }
+
     /*
      * JsonObject tree visiting
      * 1) visitJObject
@@ -1611,7 +1620,7 @@ public final class Ut {
         return Period.parse(date);
     }
 
-    public static Date now() {
+    public static Date valueNow() {
         return Period.parse(LocalDateTime.now());
     }
 

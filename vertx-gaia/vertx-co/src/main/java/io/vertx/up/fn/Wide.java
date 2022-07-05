@@ -55,12 +55,4 @@ final class Wide {
             return Future.succeededFuture(result);
         }).compose(item -> Future.succeededFuture(input));
     }
-
-    /*
-     * Workflow:
-     * -> Input:        I
-     * -> I -> Future<M>
-     * -> M -> Future<E>
-     * ->
-     */
 }

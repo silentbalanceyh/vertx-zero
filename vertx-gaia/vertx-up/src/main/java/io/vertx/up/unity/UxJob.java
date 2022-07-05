@@ -17,7 +17,7 @@ public class UxJob {
 
     // Start job
     public Future<Boolean> startAsync(final String code) {
-        return Fn.future(future -> this.client.startAsync(code, res -> {
+        return Fn.thenUnbox(future -> this.client.startAsync(code, res -> {
             LOGGER.info(Info.JOB_START, code, res.result());
             future.complete(Boolean.TRUE);
         }));
@@ -25,7 +25,7 @@ public class UxJob {
 
     // Stop job
     public Future<Boolean> stopAsync(final String code) {
-        return Fn.future(future -> this.client.stopAsync(code,
+        return Fn.thenUnbox(future -> this.client.stopAsync(code,
             res -> {
                 LOGGER.info(Info.JOB_STOP, code);
                 future.complete(Boolean.TRUE);
@@ -34,7 +34,7 @@ public class UxJob {
 
     // Resume job
     public Future<Boolean> resumeAsync(final String code) {
-        return Fn.future(future -> this.client.resumeAsync(code,
+        return Fn.thenUnbox(future -> this.client.resumeAsync(code,
             res -> {
                 LOGGER.info(Info.JOB_RESUME, code);
                 future.complete(Boolean.TRUE);

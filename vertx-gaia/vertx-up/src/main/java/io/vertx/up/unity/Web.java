@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ class Web {
                 if (null != handler.cause()) {
                     handler.cause().printStackTrace();
                 }
-                message.reply(Envelop.failure(To.toError(Web.class, handler.cause())));
+                message.reply(Envelop.failure(Ut.toError(Web.class, handler.cause())));
             }
         };
     }
@@ -73,18 +74,17 @@ class Web {
                 index++;
             }
         }
-        return Combine.thenCombine(futures.toArray(new Future[]{}))
-            .compose(response -> {
-                final JsonObject finalJson = new JsonObject();
-                final JsonObject reference = (JsonObject) response;
-                indexMap.forEach((field, indexKey) -> {
-                    final JsonObject data = reference.getJsonObject(indexKey);
-                    if (Ut.notNil(data)) {
-                        finalJson.put(field, data.copy());
-                    }
-                });
-                return To.future(finalJson);
+        return Fn.thenCombine(futures.toArray(new Future[]{})).compose(response -> {
+            final JsonObject finalJson = new JsonObject();
+            final JsonObject reference = (JsonObject) response;
+            indexMap.forEach((field, indexKey) -> {
+                final JsonObject data = reference.getJsonObject(indexKey);
+                if (Ut.notNil(data)) {
+                    finalJson.put(field, data.copy());
+                }
             });
+            return To.future(finalJson);
+        });
     }
 
     static <T> Function<JsonObject, Future<JsonObject>> toAttachJ(

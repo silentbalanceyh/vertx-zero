@@ -1,4 +1,4 @@
-package io.vertx.up.unity;
+package io.vertx.up.fn;
 
 import io.reactivex.Observable;
 import io.vertx.core.CompositeFuture;
@@ -18,8 +18,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
+/**
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
 @SuppressWarnings("all")
-class Combine {
+class War {
+
+    private static <T> Function<Throwable, T> otherwise(final Supplier<T> supplier) {
+        return error -> {
+            if (Objects.nonNull(error)) {
+                error.printStackTrace();
+            }
+            return supplier.get();
+        };
+    }
 
     static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
         final List<Future> futureList = new ArrayList<>(futures);
@@ -28,7 +40,7 @@ class Combine {
             Ut.itList(finished.list(),
                 (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
-        }).otherwise(Ux.otherwise(ArrayList::new));
+        }).otherwise(otherwise(ArrayList::new));
     }
 
     static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
@@ -46,7 +58,7 @@ class Combine {
                 });
             }
             return Future.succeededFuture(result);
-        }).otherwise(Ux.otherwise(ArrayList::new));
+        }).otherwise(otherwise(ArrayList::new));
     }
 
     static Future<JsonArray> thenCombine(
@@ -65,9 +77,9 @@ class Combine {
                 final List<JsonObject> secondary = finished.list();
                 // Zipper Operation, the base list is first
                 final List<JsonObject> completed = Ut.elementZip(first.getList(), secondary, operatorFun);
-                return Ux.future(new JsonArray(completed));
-            }).otherwise(Ux.otherwise(JsonArray::new));
-        }).otherwise(Ux.otherwise(JsonArray::new));
+                return Future.succeededFuture(new JsonArray(completed));
+            }).otherwise(otherwise(JsonArray::new));
+        }).otherwise(otherwise(JsonArray::new));
     }
 
     static Future<JsonObject> thenCombine(final Future<JsonObject>... futures) {
@@ -77,7 +89,7 @@ class Combine {
                 Ut.itList(finished.list(), (item, index) -> resultMap.put(index.toString(), item));
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Ux.otherwise(JsonObject::new));
+        }).otherwise(otherwise(JsonObject::new));
     }
 
     static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
@@ -102,7 +114,7 @@ class Combine {
                 }
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Ux.otherwise(ConcurrentHashMap::new));
+        }).otherwise(otherwise(ConcurrentHashMap::new));
     }
 
     static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
@@ -117,7 +129,7 @@ class Combine {
                 });
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Ux.otherwise(JsonArray::new));
+        }).otherwise(otherwise(JsonArray::new));
     }
 
     static Future<JsonObject> thenCombine(
@@ -131,15 +143,15 @@ class Combine {
                 // Zipper Operation, the base list is first
                 Ut.itList(secondary, (item, index) -> operatorFun[index].accept(first, item));
             }
-            return Future.succeededFuture(first).otherwise(Ux.otherwise(JsonObject::new));
-        })).otherwise(Ux.otherwise(JsonObject::new));
+            return Future.succeededFuture(first).otherwise(otherwise(JsonObject::new));
+        })).otherwise(otherwise(JsonObject::new));
     }
 
     static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
         return CompositeFuture.join(new ArrayList<>(futures)).compose(finished -> {
             final JsonArray result = null == finished ? new JsonArray() : new JsonArray(finished.list());
             return Future.succeededFuture(result);
-        }).otherwise(Ux.otherwise(JsonArray::new));
+        }).otherwise(otherwise(JsonArray::new));
     }
 
     static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
@@ -148,7 +160,7 @@ class Combine {
     }
 
     static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
-        final WebException error = To.toError(clazz, args);
+        final WebException error = Ut.toError(clazz, args);
         return Future.failedFuture(error);
     }
 
@@ -213,6 +225,6 @@ class Combine {
                     }));
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Ux.otherwise(ConcurrentHashMap::new));
+        }).otherwise(otherwise(ConcurrentHashMap::new));
     }
 }

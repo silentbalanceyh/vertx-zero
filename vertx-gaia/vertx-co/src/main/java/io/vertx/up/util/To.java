@@ -7,6 +7,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
@@ -219,5 +221,28 @@ final class To {
 
     static Class<?> toPrimary(final Class<?> source) {
         return Types.UNBOXES.getOrDefault(source, source);
+    }
+
+
+    static WebException toError(
+        final Class<? extends WebException> clazz,
+        final Object... args
+    ) {
+        if (null == clazz || null == args) {
+            // Fix Cast WebException error.
+            return new _500InternalServerException(To.class, "clazz arg is null");
+        } else {
+            return Ut.instance(clazz, args);
+        }
+    }
+
+    @SuppressWarnings("all")
+    static WebException toError(
+        final Class<?> clazz,
+        final Throwable error
+    ) {
+        return Fn.getSemi(error instanceof WebException, null,
+            () -> (WebException) error,
+            () -> new _500InternalServerException(clazz, error.getMessage()));
     }
 }

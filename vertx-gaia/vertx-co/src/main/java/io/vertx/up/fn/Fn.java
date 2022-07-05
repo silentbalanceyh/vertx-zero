@@ -16,9 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * Unique interface to call function
@@ -26,14 +24,6 @@ import java.util.function.Supplier;
 @SuppressWarnings("all")
 public final class Fn {
     private Fn() {
-    }
-
-    public static <T> Future<T> future(final Consumer<Promise<T>> consumer) {
-        return Wait.then(consumer);
-    }
-
-    public static <T> Future<T> future(final Object result, final Promise<T> future, final Throwable ex) {
-        return Wait.then(result, future, ex);
     }
 
     // ------ ZeroException out
@@ -274,4 +264,83 @@ public final class Fn {
             return Wall.execPool(pool, root + "/" + threadName, poolFn);
         }
     }
+
+    // ------- War ( New Version )
+
+
+    public static <T> Future<T> thenUnbox(final Consumer<Promise<T>> consumer) {
+        return Wait.then(consumer);
+    }
+
+    public static <T> Future<T> thenUnbox(final Object result, final Promise<T> future, final Throwable ex) {
+        return Wait.then(result, future, ex);
+    }
+
+    public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
+        return War.thenCombineT(futures);
+    }
+
+    public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
+        return War.thenCombineArrayT(futures);
+    }
+
+    public static Future<JsonArray> thenCombine(
+        final Future<JsonArray> source,
+        final Function<JsonObject, Future<JsonObject>> generateFun,
+        final BinaryOperator<JsonObject> operatorFun
+    ) {
+        return War.thenCombine(source, generateFun, operatorFun);
+    }
+
+    public static Future<JsonObject> thenCombine(final Future<JsonObject>... futures) {
+        return War.thenCombine(futures);
+    }
+
+    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+        return War.thenCombine(futureMap);
+    }
+
+    public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
+        return War.thenCombineArray(futures);
+    }
+
+    public static Future<JsonObject> thenCombine(
+        final Future<JsonObject> source,
+        final Function<JsonObject, List<Future>> generateFun,
+        final BiConsumer<JsonObject, JsonObject>... operatorFun
+    ) {
+        return War.thenCombine(source, generateFun, operatorFun);
+    }
+
+    public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
+        return War.thenCombine(futures);
+    }
+
+    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                                  final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(futureF, futureS, consumer);
+    }
+
+
+    /*
+     * List<Future<Map<String,T>>> futures ->
+     *      Future<Map<String,T>>
+     * Exchange data by key here.
+     *      The binary operator should ( T, T ) -> T
+     */
+    public static <T> Future<ConcurrentMap<String, T>> thenCompress(
+        final List<Future<ConcurrentMap<String, T>>> futures,
+        final BinaryOperator<T> binaryOperator
+    ) {
+        return War.thenCompress(futures, binaryOperator);
+    }
+
+    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
+        return War.thenError(clazz, args);
+    }
+
+    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+        return War.thenError(clazz, sigma, supplier);
+    }
+
 }

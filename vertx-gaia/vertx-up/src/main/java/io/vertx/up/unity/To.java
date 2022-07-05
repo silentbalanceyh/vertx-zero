@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -102,16 +101,6 @@ class To {
             entity);
     }
 
-    static <T> Function<T, List<Future<T>>> toFutureList(final Function<T, Future<T>>... functions) {
-        final List<Future<T>> futures = new ArrayList<>();
-        return (entity) -> {
-            Observable.fromArray(functions)
-                .map(function -> function.apply(entity))
-                .subscribe(futures::add).dispose();
-            return futures;
-        };
-    }
-
     static <T> Envelop toEnvelop(
         final T entity,
         final WebException error
@@ -120,33 +109,11 @@ class To {
             () -> Envelop.success(entity), entity);
     }
 
-    static WebException toError(
-        final Class<? extends WebException> clazz,
-        final Object... args
-    ) {
-        if (null == clazz || null == args) {
-            // Fix Cast WebException error.
-            return new _500InternalServerException(To.class, "clazz arg is null");
-        } else {
-            return Ut.instance(clazz, args);
-        }
-    }
-
-    @SuppressWarnings("all")
-    static WebException toError(
-        final Class<?> clazz,
-        final Throwable error
-    ) {
-        return Fn.getSemi(error instanceof WebException, null,
-            () -> (WebException) error,
-            () -> new _500InternalServerException(clazz, error.getMessage()));
-    }
-
     static Envelop toEnvelop(
         final Class<? extends WebException> clazz,
         final Object... args
     ) {
-        return Envelop.failure(toError(clazz, args));
+        return Envelop.failure(Ut.toError(clazz, args));
     }
 
     static JsonObject toUnique(
