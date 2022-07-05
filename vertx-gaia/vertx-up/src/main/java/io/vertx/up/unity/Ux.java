@@ -1077,8 +1077,8 @@ public final class Ux {
      */
     @Deprecated
     public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
-        // return Fn.thenCombine(source, generateFun, operatorFun);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(source, generateFun, operatorFun) instead!!");
+        // return Fn.arrange(source, generateFun, operatorFun);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(source, generateFun, operatorFun) instead!!");
 
     }
 
@@ -1097,8 +1097,8 @@ public final class Ux {
      */
     @Deprecated
     public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
-        // return Fn.thenCombine(source, generateFun, operatorFun);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(source, generateFun, operatorFun) instead!!");
+        // return Fn.arrange(source, generateFun, operatorFun);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(source, generateFun, operatorFun) instead!!");
     }
 
     /**
@@ -1117,28 +1117,28 @@ public final class Ux {
      */
     @Deprecated
     public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
-        // return Fn.thenCombine(futures);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(futures) instead!!");
+        // return Fn.arrange(futures);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(futures) instead!!");
     }
 
     @Deprecated
     public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
                                                   final BiFunction<F, S, Future<T>> consumer) {
-        // return Fn.thenCombine(futureF, futureS, consumer);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(futureF, futureS, consumer) instead!!");
+        // return Fn.arrange(futureF, futureS, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(futureF, futureS, consumer) instead!!");
     }
 
     @Deprecated
     public static <F, S, T> Future<T> thenCombine(final Future<F> futureF, final Future<S> futureS,
                                                   final BiFunction<F, S, Future<T>> consumer) {
-        // return Fn.thenCombine(futureF, futureS, consumer);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(futureF, futureS, consumer) instead!!");
+        // return Fn.arrange(futureF, futureS, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(futureF, futureS, consumer) instead!!");
     }
 
     @Deprecated
     public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
-        // return Fn.thenCombine(input, function);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(input, function) instead!!");
+        // return Fn.arrange(input, function);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(input, function) instead!!");
     }
 
     /*
@@ -1156,19 +1156,19 @@ public final class Ux {
 
     @Deprecated
     public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {
-        // return Fn.thenCombineT(source, consumer);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineT(source, consumer) instead!!");
+        // return Fn.arrangeT(source, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeT(source, consumer) instead!!");
     }
 
     @Deprecated
     public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
-        // return Fn.thenCombineT(futures);
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineT(futures) instead!!");
+        // return Fn.arrangeT(futures);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeT(futures) instead!!");
     }
 
     @Deprecated
     public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombine(futureMap) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrange(futureMap) instead!!");
     }
 
     @Deprecated
@@ -1176,27 +1176,27 @@ public final class Ux {
      * Specific combine method here.
      */
     public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineArray(futures) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeA(futures) instead!!");
     }
 
     @Deprecated
     public static Future<JsonArray> thenCombineArray(final JsonArray source, final Function<JsonObject, Future<JsonArray>> consumer) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineArray(source, consumer) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeA(source, consumer) instead!!");
     }
 
     @Deprecated
     public static <T> Future<JsonArray> thenCombineArray(final JsonArray source, final Class<T> clazz, final Function<T, Future<JsonArray>> consumer) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineArray(source, clazz, consumer) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeA(source, clazz, consumer) instead!!");
     }
 
     @Deprecated
     public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCombineArrayT(...) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.arrangeL(...) instead!!");
     }
 
     @Deprecated
     public static Future<ConcurrentMap<String, JsonArray>> thenCompress(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenCompress(...) instead!!");
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.compress(...) instead!!");
     }
 
     /**

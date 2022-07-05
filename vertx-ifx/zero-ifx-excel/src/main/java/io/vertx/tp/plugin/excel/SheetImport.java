@@ -167,7 +167,7 @@ class SheetImport {
                 .compose(data -> Ux.future(this.saveEntity(data, table)))
             ));
         /* Set<T> handler */
-        return Fn.thenCombineT(futures).compose(result -> {
+        return Fn.arrangeT(futures).compose(result -> {
             final Set<T> entitySet = new HashSet<>();
             result.forEach(entitySet::addAll);
             return Ux.future(entitySet);

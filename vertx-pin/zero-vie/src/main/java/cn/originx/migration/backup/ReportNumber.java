@@ -49,7 +49,7 @@ public class ReportNumber extends AbstractStep {
                 .compose(normalized -> {
                     final List<Future<JsonObject>> futures = new ArrayList<>();
                     normalized.stream().map(this::procAsync).forEach(futures::add);
-                    return Fn.thenCombine(futures);
+                    return Fn.arrange(futures);
                 })
                 .compose(combined -> {
                     /* 元素结构：JsonArray

@@ -32,7 +32,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        return Fn.thenCombineT(filtered, RuleRobin::procRule).compose(Ux::futureA);
+        return Fn.arrangeT(filtered, RuleRobin::procRule).compose(Ux::futureA);
     }
 
     @Override
@@ -164,6 +164,6 @@ public class RuleService implements RuleStub {
                 }
             }
         });
-        return Fn.thenCombine(futures).compose(nil -> Ux.future(views));
+        return Fn.arrange(futures).compose(nil -> Ux.future(views));
     }
 }

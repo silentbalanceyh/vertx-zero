@@ -275,12 +275,12 @@ public final class Fn {
     }
 
 
-    public static <T> Future<List<T>> thenCombineArrayT(
+    public static <T> Future<List<T>> arrangeL(
         final List<Future<List<T>>> futures) {
         return War.thenCombineArrayT(futures);
     }
 
-    public static Future<JsonArray> thenCombine(
+    public static Future<JsonArray> arrange(
         final Future<JsonArray> source,
         final Function<JsonObject, Future<JsonObject>> generateFun,
         final BinaryOperator<JsonObject> operatorFun
@@ -288,37 +288,37 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> thenCombine(
+    public static Future<JsonObject> arrange(
         final Future<JsonObject>... futures) {
         return War.thenCombine(futures);
     }
 
-    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(
+    public static <K, T> Future<ConcurrentMap<K, T>> arrange(
         final ConcurrentMap<K, Future<T>> futureMap) {
         return War.thenCombine(futureMap);
     }
 
-    public static Future<JsonArray> thenCombine(
+    public static Future<JsonArray> arrange(
         final JsonArray input,
         final Function<JsonObject, Future<JsonObject>> function) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(input).map(function).forEach(futures::add);
-        return Fn.thenCombine(futures);
+        return Fn.arrange(futures);
     }
 
-    public static Future<JsonArray> thenCombine(
+    public static Future<JsonArray> arrange(
         final List<Future<JsonObject>> futures) {
         return War.thenCombine(futures);
     }
 
-    public static <F, S, T> Future<T> thenCombine(
+    public static <F, S, T> Future<T> arrange(
         final Supplier<Future<F>> futureF,
         final Supplier<Future<S>> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
         return War.thenCombine(futureF, futureS, consumer);
     }
 
-    public static <F, S, T> Future<T> thenCombine(
+    public static <F, S, T> Future<T> arrange(
         final Future<F> futureF,
         final Future<S> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
@@ -326,14 +326,14 @@ public final class Fn {
     }
 
     // ----- thenCombine
-    public static Future<JsonObject> thenCombine(
+    public static Future<JsonObject> arrange(
         final JsonObject source,
         final Function<JsonObject, List<Future>> generateFun,
         final BiConsumer<JsonObject, JsonObject>... operatorFun) {
         return War.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> thenCombine(
+    public static Future<JsonObject> arrange(
         final Future<JsonObject> source,
         final Function<JsonObject, List<Future>> generateFun,
         final BiConsumer<JsonObject, JsonObject>... operatorFun
@@ -343,12 +343,12 @@ public final class Fn {
 
     // ----- thenCombineT
 
-    public static <T> Future<List<T>> thenCombineT(
+    public static <T> Future<List<T>> arrangeT(
         final List<Future<T>> futures) {
         return War.thenCombineT(futures);
     }
 
-    public static <I, O> Future<List<O>> thenCombineT(
+    public static <I, O> Future<List<O>> arrangeT(
         final List<I> source, final Function<I, Future<O>> consumer) {
         final List<Future<O>> futures = new ArrayList<>();
         Ut.itList(source).map(consumer).forEach(futures::add);
@@ -356,12 +356,12 @@ public final class Fn {
     }
 
     // ----- thenCombineArray
-    public static Future<JsonArray> thenCombineArray(
+    public static Future<JsonArray> arrangeA(
         final List<Future<JsonArray>> futures) {
         return War.thenCombineArray(futures);
     }
 
-    public static <T> Future<JsonArray> thenCombineArray(
+    public static <T> Future<JsonArray> arrangeA(
         final JsonArray source,
         final Class<T> clazz,
         final Function<T, Future<JsonArray>> consumer) {
@@ -370,10 +370,10 @@ public final class Fn {
         return War.thenCombineArray(futures);
     }
 
-    public static Future<JsonArray> thenCombineArray(
+    public static Future<JsonArray> arrangeA(
         final JsonArray source,
         final Function<JsonObject, Future<JsonArray>> consumer) {
-        return thenCombineArray(source, JsonObject.class, consumer);
+        return arrangeA(source, JsonObject.class, consumer);
     }
 
     // ----- thenCompress
@@ -383,15 +383,15 @@ public final class Fn {
      * Exchange data by key here.
      *      The binary operator should ( T, T ) -> T
      */
-    public static <T> Future<ConcurrentMap<String, T>> thenCompress(
+    public static <T> Future<ConcurrentMap<String, T>> compress(
         final List<Future<ConcurrentMap<String, T>>> futures,
         final BinaryOperator<T> binaryOperator) {
         return War.thenCompress(futures, binaryOperator);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> thenCompress(
+    public static Future<ConcurrentMap<String, JsonArray>> compress(
         final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return thenCompress(futures, (original, latest) -> original.addAll(latest));
+        return War.thenCompress(futures, (original, latest) -> original.addAll(latest));
     }
 
     public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {

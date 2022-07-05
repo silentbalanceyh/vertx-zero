@@ -42,7 +42,7 @@ public class BeforePk extends AbstractBefore {
                 futures.put(field, Ox.viGet(this.atom, identifier, viField, viValue));
             }
         });
-        return Fn.thenCombine(futures).compose(map -> {
+        return Fn.arrange(futures).compose(map -> {
             config.keySet().forEach(field -> {
                 final Record ref = map.getOrDefault(field, null);
                 final Object value = this.extractValue(ref, config.getOrDefault(field, new JsonObject()));
@@ -66,7 +66,7 @@ public class BeforePk extends AbstractBefore {
                 futures.put(field, Ox.viGetMap(this.atom, identifier, viField, Ut.toJArray(values)));
             }
         });
-        return Fn.thenCombine(futures).compose(map -> {
+        return Fn.arrange(futures).compose(map -> {
             // 单字段读取
             Ut.itJArray(records).forEach(record -> map.forEach((field, valueMap) -> {
                 /*

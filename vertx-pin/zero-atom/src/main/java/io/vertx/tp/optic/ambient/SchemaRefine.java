@@ -46,7 +46,7 @@ class SchemaRefine implements AoRefine {
             // 2. 更新 MEntity 相关内容
             final List<Future<JsonObject>> futures = new ArrayList<>();
             schemata.stream().map(this::saveSchema).forEach(futures::add);
-            return Fn.thenCombine(futures)
+            return Fn.arrange(futures)
                 .compose(nil -> Ux.future(appJson))
                 .otherwise(Ux.otherwise(() -> null));
         };
@@ -108,7 +108,7 @@ class SchemaRefine implements AoRefine {
                 combine.add(this.saveField(schema, entity));
                 // Schema -> Key
                 combine.add(this.saveKey(schema, entity));
-                return Fn.thenCombineArray(combine)
+                return Fn.arrangeA(combine)
                     .compose(nil -> Ux.future(entity))
                     .compose(Ux::futureJ)
                     .otherwise(Ux.otherwise(() -> null));

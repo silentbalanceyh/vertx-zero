@@ -79,7 +79,7 @@ public class AmbientEnvironment {
              * IJob + IService
              */
             futures.add(this.initJobs(vertx));
-            return Fn.thenCombineT(futures).compose(res -> Ux.future(this));
+            return Fn.arrangeT(futures).compose(res -> Ux.future(this));
         });
     }
 

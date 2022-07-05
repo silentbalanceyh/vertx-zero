@@ -113,7 +113,7 @@ public abstract class AbstractInstruction extends AbstractCommander {
             condition.mergeIn(attachedJson, true);
             return this.identifiers(condition)
                 /* identifiers 中处理每一个 */
-                .compose(identifiers -> Fn.thenCombineT(new ArrayList<>(identifiers), consumer));
+                .compose(identifiers -> Fn.arrangeT(new ArrayList<>(identifiers), consumer));
         });
     }
 

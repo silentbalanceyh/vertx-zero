@@ -60,7 +60,7 @@ class ExcelHelper {
     Future<JsonArray> extract(final Set<ExTable> tables) {
         final List<Future<JsonArray>> futures = new ArrayList<>();
         tables.forEach(table -> futures.add(this.extract(table)));
-        return Fn.thenCombineArray(futures);
+        return Fn.arrangeA(futures);
     }
 
     /*

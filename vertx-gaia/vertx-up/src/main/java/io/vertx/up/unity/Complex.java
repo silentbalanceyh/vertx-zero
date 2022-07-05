@@ -101,7 +101,7 @@ class Complex {
                     pageSet.stream()
                         .map(each -> pageConsumer.apply(each).compose(responseBuilder))
                         .forEach(futures::add);
-                    return Fn.thenCombineT(futures).compose(list -> {
+                    return Fn.arrangeT(futures).compose(list -> {
                         final R result = list.stream().reduce(fnReduce).orElse(null);
                         final R firstRef = firstResult.get();
                         return Ux.future(fnReduce.apply(firstRef, result));

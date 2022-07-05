@@ -183,7 +183,7 @@ public abstract class AbstractHMore extends AbstractHub implements HWay<JsonArra
         return set -> {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             set.forEach(item -> futures.add(consumer.apply(item)));
-            return Fn.thenCombineArray(futures);
+            return Fn.arrangeA(futures);
         };
     }
 }

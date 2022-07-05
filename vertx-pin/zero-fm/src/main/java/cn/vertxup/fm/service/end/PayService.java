@@ -83,7 +83,7 @@ public class PayService implements PayStub {
             final List<Future<Boolean>> futures = new ArrayList<>();
             futures.add(this.revertDebt(items));
             futures.add(this.deleteCascade(items));
-            return Fn.thenCombineT(futures)
+            return Fn.arrangeT(futures)
                 .compose(nil -> Ux.futureT());
         });
     }

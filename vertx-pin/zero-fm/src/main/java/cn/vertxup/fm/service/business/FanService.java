@@ -52,7 +52,7 @@ public class FanService implements FanStub {
             }
             final List<FBillItem> itemList = new ArrayList<>();
             itemList.add(billItem);
-            return Fn.thenCombine(futures)
+            return Fn.arrange(futures)
                 .compose(nil -> this.accountStub.inBook(bill, itemList))
                 .compose(nil -> this.billAsync(bill, itemList));
         });

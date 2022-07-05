@@ -34,7 +34,7 @@ public class WfPin {
         final List<Future<Boolean>> futures = new ArrayList<>();
         // Deployment for .bpmn files
         resources.forEach(resource -> DeployOn.get(resource).initialize());
-        return Fn.thenCombineT(futures)
+        return Fn.arrangeT(futures)
             // Flow initialized
             .compose(nil -> WfConfiguration.init(vertx));
     }

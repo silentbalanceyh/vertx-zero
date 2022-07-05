@@ -88,6 +88,6 @@ public class TokenService implements TokenStub {
             .forEach(item -> futures.add(this.groupStub.fetchRoleIdsAsync(item.getString(AuthKey.F_GROUP_ID))
                 .compose(roles -> UObject.create(item).append("role", roles).toFuture())
             ));
-        return Fn.thenCombine(futures);
+        return Fn.arrange(futures);
     }
 }

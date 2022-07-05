@@ -41,7 +41,7 @@ class Async {
     static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
         final List<Future<T>> futures = new ArrayList<>();
         set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
-        Fn.thenCombineT(futures).compose(nil -> {
+        Fn.arrangeT(futures).compose(nil -> {
             LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
             return To.future(nil);
         });

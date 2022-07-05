@@ -51,7 +51,7 @@ class SerialPre implements Pre {
                     numberMap.put(numberField, stub.indent(code, sigma));
                 });
             /* Combine number map here for generation */
-            return Fn.thenCombine(numberMap).compose(generated -> {
+            return Fn.arrange(numberMap).compose(generated -> {
                 generated.forEach(data::put);
                 return Ux.future(data);
             });
@@ -77,7 +77,7 @@ class SerialPre implements Pre {
                     return stub.indent(code, sigma, size);
                 })));
             /* Combine */
-            return Fn.thenCombine(numberMap).compose(generated -> {
+            return Fn.arrange(numberMap).compose(generated -> {
                 generated.forEach((numberField, numberQueue) -> this.runFill(data, numberField, numberQueue));
                 return Ux.future(data);
             });

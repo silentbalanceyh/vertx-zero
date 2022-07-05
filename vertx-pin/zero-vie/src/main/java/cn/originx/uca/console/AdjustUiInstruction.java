@@ -171,7 +171,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiList(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
-            .compose(lists -> Fn.thenCombineT(lists, this::uiListField))
+            .compose(lists -> Fn.arrangeT(lists, this::uiListField))
             .compose(Ux::futureA);
     }
 
@@ -191,7 +191,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiForm(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
-            .compose(forms -> Fn.thenCombineT(forms, this::uiFormField))
+            .compose(forms -> Fn.arrangeT(forms, this::uiFormField))
             .compose(Ux::futureA);
     }
 

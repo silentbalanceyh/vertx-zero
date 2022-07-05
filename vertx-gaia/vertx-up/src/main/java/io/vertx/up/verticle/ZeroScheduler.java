@@ -52,7 +52,7 @@ public class ZeroScheduler extends AbstractVerticle {
                 /* Start each job here by different types */
                 final List<Future<Void>> futures = new ArrayList<>();
                 missions.forEach(mission -> futures.add(this.start(mission)));
-                Fn.thenCombineT(futures).onSuccess(nil -> LOGGER.info(Info.JOB_STARTED));
+                Fn.arrangeT(futures).onSuccess(nil -> LOGGER.info(Info.JOB_STARTED));
             }
         } else {
             LOGGER.info(Info.JOB_CONFIG_NULL);

@@ -55,7 +55,7 @@ public class ExAmbientDictionary implements Dictionary {
              * 2) Category ( type -> JsonArray )     size > 0
              * 3) Assist ( type -> JsonArray )       size > 0
              */
-            return Fn.thenCompress(futures).compose(dict -> {
+            return Fn.compress(futures).compose(dict -> {
                 final StringBuilder report = new StringBuilder();
                 report.append("[ PT ] Dictionary Total：").append(dict.size());
                 dict.forEach((key, array) -> report

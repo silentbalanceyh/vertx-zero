@@ -70,7 +70,7 @@ class KeTool {
                 KeLog.warnChannel(KeTool.class, "Criteria must be not empty");
             }
         });
-        return Fn.thenCombine(futures).compose(mapData -> {
+        return Fn.arrange(futures).compose(mapData -> {
             mapData.forEach(data::put);
             return Ux.future(data);
         });

@@ -150,6 +150,6 @@ class AtFs {
         if (Ut.notNil(dataR)) {
             futures.add(fnRemote.apply(dataR));
         }
-        return Fn.thenCombineArray(futures);
+        return Fn.arrangeA(futures);
     }
 }

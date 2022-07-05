@@ -44,7 +44,7 @@ class IsFs {
         final ConcurrentMap<Fs, JsonArray> componentMap = fsGroup(data);
         final List<Future<JsonArray>> futures = new ArrayList<>();
         componentMap.forEach((fs, dataEach) -> futures.add(fsRunner.apply(fs, dataEach.copy())));
-        return Fn.thenCombineArray(futures);
+        return Fn.arrangeA(futures);
     }
 
     /*
@@ -195,7 +195,7 @@ class IsFs {
             futures.add(mkdir(compared.getOrDefault(ChangeFlag.ADD, new JsonArray()), config));
             futures.add(mkdir(compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray()), queried));
             futures.add(Ux.future(compared.getOrDefault(ChangeFlag.NONE, new JsonArray())));
-            return Fn.thenCombineArray(futures);
+            return Fn.arrangeA(futures);
         });
     }
 
