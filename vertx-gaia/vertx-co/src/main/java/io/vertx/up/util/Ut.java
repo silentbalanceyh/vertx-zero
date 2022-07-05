@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
@@ -108,14 +109,6 @@ public final class Ut {
 
     public static <T, V> List<T> diff(final List<T> subtrahend, final List<T> minuend, final Function<T, V> fnGet) {
         return new ArrayList<>(diff(new HashSet<>(subtrahend), new HashSet<>(minuend), fnGet));
-    }
-
-    public static <T> Set<T> each(final Set<T> source, final Consumer<T>... consumers) {
-        return (Set<T>) Arithmetic.each(source, consumers);
-    }
-
-    public static <T> List<T> each(final List<T> source, final Consumer<T>... consumers) {
-        return (List<T>) Arithmetic.each(source, consumers);
     }
 
     /*
@@ -683,36 +676,52 @@ public final class Ut {
         return StringUtil.path(folder, file);
     }
 
-    public static List<String> ioPathLadder(final String storePath) {
-        return Folder.pathLadder(storePath);
+    public static List<String> ioPathSet(final String storePath) {
+        return IOPath.ladder(storePath);
+    }
+
+    public static String ioPathRoot(final String path) {
+        return IOPath.first(path, Strings.SLASH);
+    }
+
+    public static String ioPathRoot(final String path, final String separator) {
+        return IOPath.first(path, separator);
+    }
+
+    public static String ioPathLeaf(final String path) {
+        return IOPath.last(path, Strings.SLASH);
+    }
+
+    public static String ioPathLeaf(final String path, final String separator) {
+        return IOPath.last(path, separator);
     }
 
     public static List<String> ioFiles(final String folder) {
-        return Folder.listFiles(folder, null);
+        return IODirectory.listFiles(folder, null);
     }
 
     public static List<String> ioFiles(final String folder, final String extension) {
-        return Folder.listFiles(folder, extension);
+        return IODirectory.listFiles(folder, extension);
     }
 
     public static List<String> ioFilesN(final String folder) {
-        return Folder.listFilesN(folder, null, null);
+        return IODirectory.listFilesN(folder, null, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension) {
-        return Folder.listFilesN(folder, extension, null);
+        return IODirectory.listFilesN(folder, extension, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
-        return Folder.listFilesN(folder, extension, prefix);
+        return IODirectory.listFilesN(folder, extension, prefix);
     }
 
     public static List<String> ioDirectories(final String folder) {
-        return Folder.listDirectories(folder);
+        return IODirectory.listDirectories(folder);
     }
 
     public static List<String> ioDirectoriesN(final String folder) {
-        return Folder.listDirectoriesN(folder);
+        return IODirectory.listDirectoriesN(folder);
     }
 
     public static <T> T ioYaml(final String filename) {
@@ -1692,11 +1701,6 @@ public final class Ut {
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
         return StringUtil.prefix(data, prefix);
-    }
-
-    @Deprecated
-    public static Instant fromAt(final String expr) {
-        return Period.parseAt(expr);
     }
 
     /*

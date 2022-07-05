@@ -56,7 +56,7 @@ class AtFsDir {
          * -- sigma:      The uniform sigma field of current process.
          */
         final String sigma = params.getString(KName.SIGMA);
-        final List<String> paths = Ut.ioPathLadder(storePath);
+        final List<String> paths = Ut.ioPathSet(storePath);
 
         return Ux.channel(ExIo.class, () -> null, io -> io.dirTree(sigma, paths).compose(directories -> {
 
@@ -80,9 +80,9 @@ class AtFsDir {
              * 2) dirTree           ( Re-fetch the left directories )
              */
             if (directories.isEmpty()) {
-                return seekDirectory(storePath, params)
-                    // Double Checking for Path Resolution
-                    .compose(nil -> io.dirTree(sigma, paths));
+                return seekDirectory(storePath, params);
+                // Double Checking for Path Resolution
+                // .compose(nil -> io.dirTree(sigma, paths));
             } else {
                 return Ux.future(directories);
             }
@@ -133,9 +133,7 @@ class AtFsDir {
         final String rootPath = config.getStorePath();
 
         String name = storePath.replace(rootPath, Strings.EMPTY);
-        if (name.contains(Strings.SLASH)) {
-            name = name.substring(0, name.indexOf(Strings.SLASH));
-        }
+        name = Ut.ioPathRoot(name);
         At.infoFile(LOGGER, "Zero will re-initialize directory try to process {0}", storePath);
         At.infoFile(LOGGER, "The builder parameters: name = {0}, type = {1}, appId = {2}",
             name, type, appId);
