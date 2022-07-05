@@ -195,6 +195,7 @@ public class ExPath implements ExIo {
 
     @Override
     public Future<JsonObject> verifyIn(final JsonArray directoryA, final JsonObject params) {
+        Ut.ifStrings(directoryA, KName.VISIT_MODE);
         return Is.directoryLeaf(directoryA, params).compose(Ux::futureJ);
     }
 
