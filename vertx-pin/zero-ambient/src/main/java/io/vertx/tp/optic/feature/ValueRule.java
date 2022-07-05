@@ -124,7 +124,7 @@ public class ValueRule implements Valve {
         final XActivityRule rule = ruleList.iterator().next();
         serialC.forEach((code, size) ->
             serialQ.put(code, Ux.channel(Indent.class, ConcurrentLinkedQueue::new, stub -> stub.indent(code, rule.getSigma(), size))));
-        return Fn.arrange(serialQ).compose(Ux::future);
+        return Fn.arrangeM(serialQ).compose(Ux::future);
     }
 
     private String ruleIndent(final XActivityRule rule) {

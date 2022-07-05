@@ -78,7 +78,7 @@ class JoinWriter {
                 futures.add(childJq.insertJAsync(compared.get(ChangeFlag.ADD)));
                 futures.add(childJq.updateAsync(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
                 futures.add(childJq.deleteJAsync(compared.get(ChangeFlag.DELETE)));
-                return Fn.arrangeA(futures);
+                return Fn.arrangeMA(futures);
             });
         } else {
             return Ux.futureA();

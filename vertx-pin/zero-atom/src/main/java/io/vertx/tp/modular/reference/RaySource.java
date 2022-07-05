@@ -75,7 +75,7 @@ class RaySource {
                             return dao.fetchByAsync(condition);
                         }));
             });
-            return Fn.arrange(futureMap).compose(queriedMap -> {
+            return Fn.arrangeM(futureMap).compose(queriedMap -> {
                 final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
                 queriedMap.forEach((hashCode, dataArray) -> {
                     fieldCodes.forEach((field, codeKey) -> {

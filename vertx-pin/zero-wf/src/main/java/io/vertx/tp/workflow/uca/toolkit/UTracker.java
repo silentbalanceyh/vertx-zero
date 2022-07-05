@@ -117,7 +117,7 @@ public class UTracker {
                     .apply(json);
                 runner.add(future);
             });
-            return Fn.arrange(runner).compose(nil -> Ux.future(record));
+            return Fn.arrangeA(runner).compose(nil -> Ux.future(record));
         }
     }
 

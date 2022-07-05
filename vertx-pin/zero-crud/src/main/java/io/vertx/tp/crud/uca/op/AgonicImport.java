@@ -53,7 +53,7 @@ class AgonicImport implements Agonic {
             // 「AOP」Internal Call to Trigger
             combine.add(Agonic.write(ChangeFlag.UPDATE).runAAsync(updated, in));
         }
-        return Fn.arrangeA(combine);
+        return Fn.arrangeMA(combine);
     }
 
     private Future<JsonArray> runCompress(final JsonArray source, final IxMod in) {

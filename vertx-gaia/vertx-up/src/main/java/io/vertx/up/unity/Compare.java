@@ -257,6 +257,6 @@ class Compare {
         if (!qUpdate.isEmpty()) {
             futures.add(updateAsyncFn.apply(qUpdate).compose(Ux::futureA));
         }
-        return Fn.arrangeA(futures);
+        return Fn.arrangeMA(futures);
     }
 }

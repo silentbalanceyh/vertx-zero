@@ -140,7 +140,7 @@ public class ExTenant implements Serializable {
                         return Ux.future(data);
                     }))
                     .forEach(futures::add);
-                return Fn.arrangeA(futures);
+                return Fn.arrangeMA(futures);
             }).compose(dataArray -> {
                 // Result
                 final String key = segments[4];

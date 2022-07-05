@@ -64,7 +64,7 @@ public class Ambient {
                 }
                 final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
                 APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
-                return Fn.arrange(futures).compose(processed -> {
+                return Fn.arrangeM(futures).compose(processed -> {
                     ENVIRONMENTS.putAll(processed);
                     Jt.infoInit(LOGGER, "AmbientEnvironment initialized !!!");
                     return Ux.future(Boolean.TRUE);

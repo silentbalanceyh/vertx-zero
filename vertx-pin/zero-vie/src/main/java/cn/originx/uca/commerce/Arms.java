@@ -135,7 +135,7 @@ public class Arms {
                 if (this.types.contains(ChangeFlag.DELETE)) {
                     futures.add(this.deleteRecord(map.get(ChangeFlag.DELETE), hex.batch(ChangeFlag.DELETE)));
                 }
-                return Fn.arrangeA(futures);
+                return Fn.arrangeMA(futures);
             });
     }
 

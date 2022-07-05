@@ -124,7 +124,7 @@ public class UxMongo {
                                              // Secondary JqTool
                                              final String joinedCollection, final String joinedKey, final JsonObject additional,
                                              final BinaryOperator<JsonObject> operatorFun) {
-        return Fn.arrange(this.findWithOptions(collection, filter, options),
+        return Fn.arrangeA(this.findWithOptions(collection, filter, options),
             item -> {
                 final JsonObject joinedFilter = (null == additional) ? new JsonObject() : additional.copy();
                 // MongoDB only

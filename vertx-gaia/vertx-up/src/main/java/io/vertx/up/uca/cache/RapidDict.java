@@ -36,7 +36,7 @@ class RapidDict extends AbstractRapid<Set<String>, ConcurrentMap<String, JsonArr
                     final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
                     queried.forEach((key, data) ->
                         futureMap.put(key, this.pool.put(key, data, this.expired).compose(Kv::value)));
-                    return Fn.arrange(futureMap);
+                    return Fn.arrangeM(futureMap);
                 }).compose(newMap -> {
                     cached.putAll(newMap);
                     return Ux.future(cached);

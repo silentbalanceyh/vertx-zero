@@ -80,7 +80,7 @@ class AuditorHistory extends AbstractAuditor {
                 }
             });
         }
-        return Fn.arrange(futures);
+        return Fn.arrangeA(futures);
     }
 
     /**

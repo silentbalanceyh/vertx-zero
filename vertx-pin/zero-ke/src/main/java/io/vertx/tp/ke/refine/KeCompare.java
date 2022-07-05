@@ -82,7 +82,7 @@ class KeCompare {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             futures.add(Ut.ifJEmpty(iFun).apply(inserted));
             futures.add(Ut.ifJEmpty(uFun).apply(updated));
-            return Fn.arrangeA(futures);
+            return Fn.arrangeMA(futures);
         };
     }
 

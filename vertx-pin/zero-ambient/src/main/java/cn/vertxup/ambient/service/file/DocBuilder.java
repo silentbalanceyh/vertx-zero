@@ -44,7 +44,7 @@ public class DocBuilder implements DocBStub {
             .compose(categories -> {
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 Ut.itJArray(categories).map(this::seekAsync).forEach(futures::add);
-                return Fn.arrangeA(futures);
+                return Fn.arrangeMA(futures);
             });
     }
 

@@ -56,7 +56,7 @@ public class MetaReport extends AbstractStep {
                     .filter(category -> Objects.nonNull(category.getIdentifier()))
                     .map(this::procAsync)
                     .forEach(futures::add);
-                return Fn.arrange(futures);
+                return Fn.arrangeA(futures);
             })
             .compose(combined -> {
                 final String folder = this.ioRoot(config);

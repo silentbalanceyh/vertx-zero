@@ -164,6 +164,6 @@ public class RuleService implements RuleStub {
                 }
             }
         });
-        return Fn.arrange(futures).compose(nil -> Ux.future(views));
+        return Fn.arrangeA(futures).compose(nil -> Ux.future(views));
     }
 }
