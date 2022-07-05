@@ -40,13 +40,13 @@ public interface MoveOn extends Behaviour {
         final String eventType = Wf.nameEvent(task);
         if (Objects.isNull(eventType)) {
             // Error-80606: event type could not be parsed and extracted from task
-            return Fn.thenError(_500EventTypeNullException.class, MoveOn.class, task.getTaskDefinitionKey());
+            return Fn.error(_500EventTypeNullException.class, MoveOn.class, task.getTaskDefinitionKey());
         }
 
         final Supplier<MoveOn> supplier = Pool.SUPPLIER.getOrDefault(eventType, null);
         if (Objects.isNull(supplier)) {
             // Error-80607: The supplier of event type could not be found.
-            return Fn.thenError(_404RunOnSupplierException.class, MoveOn.class, eventType);
+            return Fn.error(_404RunOnSupplierException.class, MoveOn.class, eventType);
         }
         final MoveOn moveOn = supplier.get();
         Wf.Log.infoWeb(MoveOn.class, "MoveOn {0} has been selected, type = {0}",
@@ -64,10 +64,10 @@ public interface MoveOn extends Behaviour {
      *  Event Fire by Programming
      */
     default Future<WRecord> transferAsync(final WRequest request, final WTransition process) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     default Future<WTransition> moveAsync(final WRequest request, final WTransition process) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 }

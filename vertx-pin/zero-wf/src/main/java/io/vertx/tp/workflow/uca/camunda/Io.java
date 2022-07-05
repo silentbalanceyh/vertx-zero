@@ -85,25 +85,25 @@ interface IoRuntime<I> {
      */
     // Definition Level
     default Future<I> run(final ProcessInstance instance) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     // Process / Task Level
     default Future<I> run(final Task task) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     // Task Level
     default Future<I> run(final String iKey) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> start(final ProcessDefinition definition) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> end(final HistoricProcessInstance instance) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     // --------------------- Output Method ------------------
@@ -117,11 +117,11 @@ interface IoRuntime<I> {
 
     // ---------------- Child Fetching -----------------
     default Future<List<I>> children(final String oKey) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
     default Future<I> child(final String oKey) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 }
 

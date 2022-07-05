@@ -265,21 +265,21 @@ public final class Fn {
     // ------- War ( New Version )
 
 
-    public static <T> Future<T> thenUnbox(
+    public static <T> Future<T> unbox(
         final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }
 
-    public static <T> Future<T> thenUnbox(final Object result, final Promise<T> future, final Throwable ex) {
+    public static <T> Future<T> unbox(final Object result, final Promise<T> future, final Throwable ex) {
         return Wait.then(result, future, ex);
     }
 
 
-    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
+    public static <T> Future<T> error(final Class<? extends WebException> clazz, final Object... args) {
         return War.thenError(clazz, args);
     }
 
-    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+    public static <T> Future<T> error(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
         return War.thenError(clazz, sigma, supplier);
     }
 

@@ -145,7 +145,7 @@ public class QueueActor {
         final Io<Task> ioTask = Io.ioTask();
         final ProcessDefinition definition = ioTask.inProcess(definitionId);
         if (Objects.isNull(definition)) {
-            return Fn.thenError(_404ProcessMissingException.class, this.getClass(), definitionId);
+            return Fn.error(_404ProcessMissingException.class, this.getClass(), definitionId);
         }
 
 

@@ -37,13 +37,13 @@ public class LoginService implements LoginStub {
             /* Not Found */
             if (Objects.isNull(fetched)) {
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_USER, username);
-                return Fn.thenError(_449UserNotFoundException.class, this.getClass(), username);
+                return Fn.error(_449UserNotFoundException.class, this.getClass(), username);
             }
             /* Locked User */
             final Boolean isLock = Objects.isNull(fetched.getActive()) ? Boolean.FALSE : fetched.getActive();
             if (!isLock) {
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_LOCKED, username);
-                return Fn.thenError(_423UserDisabledException.class, this.getClass(), username);
+                return Fn.error(_423UserDisabledException.class, this.getClass(), username);
             }
             /* Password Wrong */
             if (Objects.isNull(password) || !password.equals(fetched.getPassword())) {
@@ -52,7 +52,7 @@ public class LoginService implements LoginStub {
                 // Lock On when password invalid
                 Sc.warnAuth(LOGGER, AuthMsg.LOGIN_PWD, username);
                 return Sc.lockOn(username)
-                    .compose(nil -> Fn.thenError(_401PasswordWrongException.class, this.getClass(), username));
+                    .compose(nil -> Fn.error(_401PasswordWrongException.class, this.getClass(), username));
             }
 
 

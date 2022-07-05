@@ -38,32 +38,32 @@ public class UxPool {
 
     // Put Operation
     public <K, V> Future<Kv<K, V>> put(final K key, final V value) {
-        return Fn.<Kv<K, V>>thenUnbox(future -> this.client.put(key, value, res -> {
+        return Fn.<Kv<K, V>>unbox(future -> this.client.put(key, value, res -> {
             LOGGER.debug(Info.POOL_PUT, key, value, this.name);
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
 
     public <K, V> Future<Kv<K, V>> put(final K key, final V value, int expiredSecs) {
-        return Fn.<Kv<K, V>>thenUnbox(future -> this.client.<K, V>put(key, value, expiredSecs, res -> {
+        return Fn.<Kv<K, V>>unbox(future -> this.client.<K, V>put(key, value, expiredSecs, res -> {
             LOGGER.debug(Info.POOL_PUT_TIMER, key, value, this.name, String.valueOf(expiredSecs));
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
 
     // Remove
     public <K, V> Future<Kv<K, V>> remove(final K key) {
-        return Fn.<Kv<K, V>>thenUnbox(future -> this.client.<K, V>remove(key, res -> {
+        return Fn.<Kv<K, V>>unbox(future -> this.client.<K, V>remove(key, res -> {
             LOGGER.debug(Info.POOL_REMOVE, key, this.name);
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "remove"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "remove"));
         }));
     }
 
     // Get
     public <K, V> Future<V> get(final K key) {
-        return Fn.<V>thenUnbox(future -> this.client.get(key, res -> {
+        return Fn.<V>unbox(future -> this.client.get(key, res -> {
             LOGGER.debug(Info.POOL_GET, key, this.name, false);
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
 
@@ -74,29 +74,29 @@ public class UxPool {
     }
 
     public <K, V> Future<V> get(final K key, final boolean once) {
-        return Fn.<V>thenUnbox(future -> this.client.get(key, once, res -> {
+        return Fn.<V>unbox(future -> this.client.get(key, once, res -> {
             LOGGER.debug(Info.POOL_GET, key, this.name, once);
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
 
     public Future<Boolean> clear() {
-        return Fn.<Boolean>thenUnbox(future -> this.client.clear(res -> {
+        return Fn.<Boolean>unbox(future -> this.client.clear(res -> {
             LOGGER.debug(Info.POOL_CLEAR, this.name);
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
         }));
     }
 
     // Count
     public Future<Integer> size() {
-        return Fn.<Integer>thenUnbox(future -> this.client.size(res -> {
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "size"));
+        return Fn.<Integer>unbox(future -> this.client.size(res -> {
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "size"));
         }));
     }
 
     public Future<Set<String>> keys() {
-        return Fn.<Set<String>>thenUnbox(future -> this.client.keys(res -> {
-            Fn.thenUnbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
+        return Fn.<Set<String>>unbox(future -> this.client.keys(res -> {
+            Fn.unbox(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
         }));
     }
 }

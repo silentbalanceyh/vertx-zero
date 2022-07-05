@@ -32,6 +32,6 @@ public interface Identifier {
      * The default implementation is Not Support Exception throw out
      */
     default Future<ConcurrentMap<String, JsonArray>> resolve(final JsonObject data, final String identifier, final JsonObject config) {
-        return Fn.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 }

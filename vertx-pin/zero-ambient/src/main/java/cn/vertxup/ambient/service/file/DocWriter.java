@@ -51,7 +51,7 @@ public class DocWriter implements DocWStub {
         // isFileName Checking
         final String name = documentJ.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Fn.thenError(_400FileNameInValidException.class, this.getClass());
+            return Fn.error(_400FileNameInValidException.class, this.getClass());
         }
         final String key = documentJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);

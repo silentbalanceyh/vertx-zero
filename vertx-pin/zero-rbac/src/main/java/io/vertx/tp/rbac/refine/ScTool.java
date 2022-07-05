@@ -124,14 +124,14 @@ class ScTool {
             final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
             if (Objects.isNull(imageCode)) {
                 // Not Match
-                return Fn.thenError(_401ImageCodeWrongException.class, ScTool.class, null);
+                return Fn.error(_401ImageCodeWrongException.class, ScTool.class, null);
             }
             final String imagePool = CONFIG.getPoolVerify();
             final Rapid<String, String> rapid = Rapid.t(imagePool);
             return rapid.read(sessionId).compose(stored -> {
                 if (Objects.isNull(stored)) {
                     // Not Match
-                    return Fn.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                    return Fn.error(_401ImageCodeWrongException.class, ScTool.class, imageCode);
                 } else {
                     // Case Ignored
                     if (stored.equalsIgnoreCase(imageCode)) {
@@ -140,7 +140,7 @@ class ScTool {
                         return rapid.clear(sessionId).compose(nil -> executor.apply(processed));
                     } else {
                         // Not Match
-                        return Fn.thenError(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                        return Fn.error(_401ImageCodeWrongException.class, ScTool.class, imageCode);
                     }
                 }
             });
@@ -161,7 +161,7 @@ class ScTool {
                 .compose(codeImage -> ScImage.imageGenerate(codeImage, width, height));
         } else {
             // Skip because image Verify off
-            return Fn.thenError(_501NotSupportException.class, ScTool.class);
+            return Fn.error(_501NotSupportException.class, ScTool.class);
         }
     }
 
@@ -174,7 +174,7 @@ class ScTool {
                 .compose(nil -> Ux.futureT());
         } else {
             // Skip because image Verify off
-            return Fn.thenError(_501NotSupportException.class, ScTool.class);
+            return Fn.error(_501NotSupportException.class, ScTool.class);
         }
     }
 
@@ -204,7 +204,7 @@ class ScTool {
                     } else {
                         // Failure
                         final Integer verifyDuration = CONFIG.getVerifyDuration();
-                        return Fn.thenError(_401MaximumTimesException.class, ScTool.class, limitation, verifyDuration);
+                        return Fn.error(_401MaximumTimesException.class, ScTool.class, limitation, verifyDuration);
                     }
                 }
             });
