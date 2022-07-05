@@ -296,6 +296,36 @@ public final class Fn {
      * -  L:        List
      *
      * 2. Prefix
+     * - combine,   From element to container, this situation often happens as following
+     *              1) The element of collection contains async operation.
+     *              2) The result should be collection and major thread must wait for each element async operation finished.
+     * - comic,     Expand element to multi, this situation often happens as following
+     *              1) The element of collection is single type.
+     *              2) The single type will generate multi elements into collection formed
+     * - compress,  Compress collection to single, this situation often happens as following
+     *              1) The collection has 2 layers and each element is also another collection.
+     *              2) This kind of API will compress the collection into 1 layer ( single collection ).
+     *
+     * 3. The mark of data structure
+     *
+     *      o  -  Pure element type without any attached information.
+     *            If there are more types, I'll use o1, o2, o3.
+     *     [o] - 「Container」Collection type and the element type is o.
+     *     (o) - 「Container」Async type and the element type is o.
+     *     fx  -  Consumer Function
+     */
+
+
+    // -------------------------- compress -----------------------
+
+    /*
+     * Workflow:
+     *
+     * [
+     *      ( [t,t] )           -->    ...
+     *      ( [t,t,t,t] )       -->    ...   -->  ( [t,t,   t,t,t,t,   t] )
+     *      ( [t] )             -->    ...
+     * ]
      *
      */
     public static <T> Future<List<T>> compressL(
@@ -303,6 +333,47 @@ public final class Fn {
         return War.thenCombineArrayT(futures);
     }
 
+    /*
+     * This method is the same as `compressL` except the container type is JsonArray.
+     */
+    public static Future<JsonArray> compressA(
+        final List<Future<JsonArray>> futures) {
+        return War.thenCombineArray(futures);
+    }
+
+    /*
+     * Workflow:
+     * [
+     *      ( [k=t,k=t,k=t] )   -->     ...
+     *      ( [k=t] )           -->     ...     --> ( [k=t,k=t,k=t,   k=t,   k=t,k=t] )
+     *      ( [k=t,k=t] )       -->     ...
+     * ]
+     */
+    public static <T> Future<ConcurrentMap<String, T>> compressM(
+        final List<Future<ConcurrentMap<String, T>>> futures,
+        final BinaryOperator<T> binaryOperator) {
+        return War.thenCompress(futures, binaryOperator);
+    }
+
+    /*
+     * This method is the same as `compressM` except the container type is JsonArray.
+     */
+    public static Future<ConcurrentMap<String, JsonArray>> compressM(
+        final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
+        return War.thenCompress(futures, (original, latest) -> original.addAll(latest));
+    }
+
+
+    // -------------------------- combine -----------------------
+
+    /*
+     * Workflow:
+     * [                                                   t + t  =>  tn         [
+     *      t       -->     fx      -->    (t)     -->          fx      -->         tn
+     *      t       -->     fx      -->    (t)     -->          fx      -->         tn
+     *      t       -->     fx      -->    (t)     -->          fx      -->         tn
+     * ]                                                                         ]
+     */
     public static Future<JsonArray> combineA(
         final Future<JsonArray> source,
         final Function<JsonObject, Future<JsonObject>> generateFun,
@@ -311,44 +382,68 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    public static Future<JsonObject> combineJ(
-        final Future<JsonObject>... futures) {
-        return War.thenCombine(futures);
-    }
-
-    public static <K, T> Future<ConcurrentMap<K, T>> combineM(
-        final ConcurrentMap<K, Future<T>> futureMap) {
-        return War.thenCombine(futureMap);
-    }
-
+    /*
+     * Workflow:
+     * [
+     *      t       -->     fx      -->    (t)
+     *      t       -->     fx      -->    (t)     -->     ( [t,t,t] )
+     *      t       -->     fx      -->    (t)
+     * ]
+     */
     public static Future<JsonArray> combineA(
         final JsonArray input,
         final Function<JsonObject, Future<JsonObject>> function) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(input).map(function).forEach(futures::add);
-        return Fn.combineA(futures);
+        return War.thenCombine(futures);
     }
 
+    /*
+     * Workflow:
+     * [
+     *      (t)
+     *      (t)         -->      ( [t,t,t] )
+     *      (t)
+     * ]
+     */
     public static Future<JsonArray> combineA(
         final List<Future<JsonObject>> futures) {
         return War.thenCombine(futures);
     }
 
-    public static <F, S, T> Future<T> combineT(
-        final Supplier<Future<F>> futureF,
-        final Supplier<Future<S>> futureS,
-        final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(futureF, futureS, consumer);
+    /*
+     * Workflow:
+     * [                                             (
+     *      (t)                                          0 = t
+     *      (t)         -->      (t)           =         1 = t
+     *      (t)                                          2 = t
+     * ]                                             )
+     */
+    public static <K, T> Future<ConcurrentMap<K, T>> combineM(
+        final ConcurrentMap<K, Future<T>> futureMap) {
+        return War.thenCombine(futureMap);
     }
 
-    public static <F, S, T> Future<T> combineT(
-        final Future<F> futureF,
-        final Future<S> futureS,
-        final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(() -> futureF, () -> futureS, consumer);
+    /*
+     * Workflow:
+     * [                                             (
+     *      (t)                                          0 = t
+     *      (t)         -->      (t)           =         1 = t
+     *      (t)                                          2 = t
+     * ]                                             )
+     */
+    public static Future<JsonObject> combineJ(
+        final Future<JsonObject>... futures) {
+        return War.thenCombine(futures);
     }
 
-    // ----- thenCombine
+    /*
+     * Workflow:
+     *
+     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
+     *      t         -->         fx          -->      ( [t,t,t] )          -->         fx          -->     (tn)
+     *
+     */
     public static Future<JsonObject> combineJ(
         final JsonObject source,
         final Function<JsonObject, List<Future>> generateFun,
@@ -356,6 +451,13 @@ public final class Fn {
         return War.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
     }
 
+    /*
+     * Workflow:
+     *
+     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
+     *      (t)         -->         fx          -->      ( [t,t,t] )        -->         fx          -->     (tn)
+     *
+     */
     public static Future<JsonObject> combineJ(
         final Future<JsonObject> source,
         final Function<JsonObject, List<Future>> generateFun,
@@ -364,13 +466,58 @@ public final class Fn {
         return War.thenCombine(source, generateFun, operatorFun);
     }
 
-    // ----- thenCombineT
 
+    /*
+     * Workflow:
+     *
+     *                        t1 + t2 => (t3)
+     *      fx,(t1)     -->         fx          -->     (t3)
+     *      fx,(t2)     -->
+     */
+    public static <F, S, T> Future<T> combineT(
+        final Supplier<Future<F>> futureF,
+        final Supplier<Future<S>> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(futureF, futureS, consumer);
+    }
+
+    /*
+     * Workflow:
+     *
+     *                         t1 + t2 => (t3)
+     *      (t1)        -->         fx          -->     (t3)
+     *      (t2)        -->
+     */
+    public static <F, S, T> Future<T> combineT(
+        final Future<F> futureF,
+        final Future<S> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.thenCombine(() -> futureF, () -> futureS, consumer);
+    }
+
+    /*
+     * Workflow:
+     *
+     * [
+     *      (t)
+     *      (t)     -->     ( [t,t,t,t,t] )
+     *      (t)
+     * ]
+     */
     public static <T> Future<List<T>> combineT(
         final List<Future<T>> futures) {
         return War.thenCombineT(futures);
     }
 
+    /*
+     * Workflow:
+     *
+     * [
+     *      t1  -->     fx      (t2)
+     *      t1  -->     fx      (t2)            --> ( [t2,t2,t2,t2,t2] )
+     *      t1  -->     fx      (t2)
+     * ]
+     */
     public static <I, T> Future<List<T>> combineT(
         final List<I> source, final Function<I, Future<T>> consumer) {
         final List<Future<T>> futures = new ArrayList<>();
@@ -378,13 +525,20 @@ public final class Fn {
         return War.thenCombineT(futures);
     }
 
-    // ----- thenCombineArray
-    public static Future<JsonArray> compressA(
-        final List<Future<JsonArray>> futures) {
-        return War.thenCombineArray(futures);
-    }
+    // -------------------------- comic -----------------------
 
-    public static <T> Future<JsonArray> combineA(
+    /*
+     * Workflow:
+     *
+     * [
+     *      t   -->     fx    --> ( [...] )
+     *      t   -->     fx    --> ( [...] )       --> ( [... ... ... ... ...] )
+     *      t   -->     fx    --> ( [...] )
+     * ]
+     *
+     * The o = Class<T>
+     */
+    public static <T> Future<JsonArray> comicA(
         final JsonArray source,
         final Class<T> clazz,
         final Function<T, Future<JsonArray>> consumer) {
@@ -393,28 +547,14 @@ public final class Fn {
         return War.thenCombineArray(futures);
     }
 
+    /*
+     * The method is the same as `comicA` except the element type is JsonObject
+     *
+     * The o = JsonObject
+     */
     public static Future<JsonArray> comicA(
         final JsonArray source,
         final Function<JsonObject, Future<JsonArray>> consumer) {
-        return combineA(source, JsonObject.class, consumer);
-    }
-
-    // ----- compress
-    /*
-     *
-     * List<Future<Map<String,T>>> futures ->
-     *      Future<Map<String,T>>
-     * Exchange data by key here.
-     *      The binary operator should ( T, T ) -> T
-     */
-    public static <T> Future<ConcurrentMap<String, T>> compressM(
-        final List<Future<ConcurrentMap<String, T>>> futures,
-        final BinaryOperator<T> binaryOperator) {
-        return War.thenCompress(futures, binaryOperator);
-    }
-
-    public static Future<ConcurrentMap<String, JsonArray>> compressM(
-        final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return War.thenCompress(futures, (original, latest) -> original.addAll(latest));
+        return comicA(source, JsonObject.class, consumer);
     }
 }
