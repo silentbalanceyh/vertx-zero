@@ -1638,7 +1638,7 @@ public final class Ut {
      * 6) fromExpression
      * 7) fromExpressionT
      * 8) fromPrefix
-     * 9) fromAt
+     * 9) fromDate
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return Stream.from(pos, buffer);
@@ -1710,6 +1710,26 @@ public final class Ut {
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
         return StringUtil.prefix(data, prefix);
+    }
+
+    public static String fromDate(final LocalDate date, final String pattern) {
+        return Period.fromPattern(date, pattern);
+    }
+
+    public static String fromDate(final LocalDateTime datetime, final String pattern) {
+        return Period.fromPattern(datetime, pattern);
+    }
+
+    public static String fromDate(final LocalTime time, final String pattern) {
+        return Period.fromPattern(time, pattern);
+    }
+
+    public static String fromDate(final Date date, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(date), pattern);
+    }
+
+    public static String fromDate(final Instant instant, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(instant), pattern);
     }
 
     /*

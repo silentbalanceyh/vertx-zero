@@ -4,6 +4,7 @@ import io.vertx.up.fn.Fn;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -438,5 +439,10 @@ final class Period {
         final Instant instant = Instant.ofEpochMilli(millSeconds);
         final OffsetDateTime offsetTime = instant.atOffset(ZoneOffset.UTC);
         return offsetTime.toLocalDateTime();
+    }
+
+    static String fromPattern(final TemporalAccessor date, final String pattern) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return formatter.format(date);
     }
 }
