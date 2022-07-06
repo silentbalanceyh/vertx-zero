@@ -1039,26 +1039,6 @@ public final class Ux {
 
     // region Deprecated Code ( Removed in future, plan in release 1.0 version. )
 
-    /**
-     * Future async specific workflow for combine future here.
-     *
-     * For example:
-     *
-     * ```shell
-     * // <pre><code>
-     * --------> generateFun ( Supplier )     operatorFun ( BiConsumer )
-     * --------> json1 -> ? future<out1>  ->  operatorFun[0] -> (json1, out1) -> merged1
-     * jarray -> json2 -> ? future<out2>  ->  operatorFun[1] -> (json2, out2) -> merged2  -> merged ( Future<JsonArray> )
-     * --------> json3 -> ? future<out3>  ->  operatorFun[2] -> (json3, out3) -> merged3
-     * // </code></pre>
-     * ```
-     *
-     * @param source      The first query result of list
-     * @param generateFun (json) -> future(out) ( each record )
-     * @param operatorFun (json, out) -> merged
-     *
-     * @return It often used in secondary select in database here
-     */
     @Deprecated
     public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
         // return Fn.combine(source, generateFun, operatorFun);
@@ -1066,34 +1046,12 @@ public final class Ux {
 
     }
 
-    /**
-     * The workflow
-     * ------>  generateFun ( Supplier )                operatorFun ( BiConsumer )
-     * ------>  future1 ( json -> ? future<out1> )  ->  operatorFun[0] -> (json, out1) -> merged1  ->
-     * json ->  future2 ( json -> ? future<out2> )  ->  operatorFun[1] -> (json, out2) -> merged2  -> merged
-     * ------>  future3 ( json -> ? future<out3> )  ->  operatorFun[2] -> (json, out3) -> merged3  ->
-     *
-     * @param source      The input json object
-     * @param generateFun The json object should generate list<future>, each future should be json object
-     * @param operatorFun merged the result to json object instead of other
-     *
-     * @return The final result of future
-     */
     @Deprecated
     public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
         // return Fn.combine(source, generateFun, operatorFun);
         throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(source, generateFun, operatorFun) instead!!");
     }
 
-
-    /**
-     * Common usage: To error directly
-     *
-     * @param clazz The type of WebException, class type, it will be created by reflection.
-     * @param args  The rule
-     *              - arg0: this.getClass(), Because all the first arg of WebException must be clazz here.
-     *              - argX: the arguments of WebException constructor here, instead of fixed arguments.
-     */
     @Deprecated
     public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
         // return Fn.thenError(clazz, args);
@@ -1106,20 +1064,6 @@ public final class Ux {
         throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenError(clazz, sigma, supplier) instead!!");
     }
 
-    /**
-     * input:
-     * - List: [future1, future2, future3]
-     * output:
-     * - Future: JsonArray ( future1 -> json, future2 -> json, future3 -> json )
-     * The workflow
-     * future1 -> (in1 -> out1)
-     * future2 -> (in2 -> out2) --> future ( [out1, out2, out3] )
-     * future3 -> (in3 -> out3)
-     *
-     * @param futures The list of futures
-     *
-     * @return The final result of futures
-     */
     @Deprecated
     public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
         // return Fn.combine(futures);
@@ -1145,19 +1089,6 @@ public final class Ux {
         // return Fn.combine(input, function);
         throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(input, function) instead!!");
     }
-
-    /*
-     * Complex calculation
-     * 1) thenCombine
-     * 2) thenCombineArray
-     * 3) thenCompress
-     * 4) thenError
-     * 5) thenErrorSigma
-     *
-     * Additional methods for generic T here
-     * 1) thenCombineT
-     * 2) thenCombineArrayT
-     */
 
     @Deprecated
     public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {

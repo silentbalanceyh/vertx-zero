@@ -33,7 +33,7 @@ class War {
         };
     }
 
-    static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
+    static <T> Future<List<T>> combineT(final List<Future<T>> futures) {
         final List<Future> futureList = new ArrayList<>(futures);
         return CompositeFuture.join(futureList).compose(finished -> {
             final List<T> result = new ArrayList<>();
@@ -43,7 +43,7 @@ class War {
         }).otherwise(otherwise(ArrayList::new));
     }
 
-    static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
+    static <T> Future<List<T>> compressL(final List<Future<List<T>>> futures) {
         final List<Future> futureList = new ArrayList<>(futures);
         return CompositeFuture.join(futureList).compose(finished -> {
             final List<T> result = new ArrayList<>();
@@ -61,7 +61,7 @@ class War {
         }).otherwise(otherwise(ArrayList::new));
     }
 
-    static Future<JsonArray> thenCombine(
+    static Future<JsonArray> combineA(
         final Future<JsonArray> source,
         final Function<JsonObject, Future<JsonObject>> generateFun,
         final BinaryOperator<JsonObject> operatorFun
@@ -82,7 +82,7 @@ class War {
         }).otherwise(otherwise(JsonArray::new));
     }
 
-    static Future<JsonObject> thenCombine(final Future<JsonObject>... futures) {
+    static Future<JsonObject> combineJ(final Future<JsonObject>... futures) {
         return CompositeFuture.join(Arrays.asList(futures)).compose(finished -> {
             final JsonObject resultMap = new JsonObject();
             if (null != finished) {
@@ -92,7 +92,7 @@ class War {
         }).otherwise(otherwise(JsonObject::new));
     }
 
-    static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+    static <K, T> Future<ConcurrentMap<K, T>> combineM(final ConcurrentMap<K, Future<T>> futureMap) {
         final List<K> keys = new ArrayList<>();
         final List<Future> futures = new ArrayList<>();
         futureMap.forEach((key, future) -> {
@@ -117,7 +117,7 @@ class War {
         }).otherwise(otherwise(ConcurrentHashMap::new));
     }
 
-    static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
+    static Future<JsonArray> comicA(final List<Future<JsonArray>> futures) {
         final List<Future> futureList = new ArrayList<>(futures);
         return CompositeFuture.join(futureList).compose(finished -> {
             final JsonArray resultMap = new JsonArray();
@@ -132,7 +132,7 @@ class War {
         }).otherwise(otherwise(JsonArray::new));
     }
 
-    static Future<JsonObject> thenCombine(
+    static Future<JsonObject> combineJ(
         final Future<JsonObject> source,
         final Function<JsonObject, List<Future>> generateFun,
         final BiConsumer<JsonObject, JsonObject>... operatorFun
@@ -147,20 +147,20 @@ class War {
         })).otherwise(otherwise(JsonObject::new));
     }
 
-    static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
+    static Future<JsonArray> combineA(final List<Future<JsonObject>> futures) {
         return CompositeFuture.join(new ArrayList<>(futures)).compose(finished -> {
             final JsonArray result = null == finished ? new JsonArray() : new JsonArray(finished.list());
             return Future.succeededFuture(result);
         }).otherwise(otherwise(JsonArray::new));
     }
 
-    static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
-                                           final BiFunction<F, S, Future<T>> consumer) {
+    static <F, S, T> Future<T> combineT(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                        final BiFunction<F, S, Future<T>> consumer) {
         return futureF.get().compose(f -> futureS.get().compose(s -> consumer.apply(f, s)));
     }
 
-    static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Function<F, Future<S>> futureS,
-                                           final BiFunction<F, S, Future<T>> consumer) {
+    static <F, S, T> Future<T> combineT(final Supplier<Future<F>> futureF, final Function<F, Future<S>> futureS,
+                                        final BiFunction<F, S, Future<T>> consumer) {
         return futureF.get().compose(f -> futureS.apply(f).compose(s -> consumer.apply(f, s)));
     }
 
@@ -184,7 +184,7 @@ class War {
      * Exchange data by key here.
      *      The binary operator should ( T, T ) -> T
      */
-    static <T> Future<ConcurrentMap<String, T>> thenCompress(
+    static <T> Future<ConcurrentMap<String, T>> compressM(
         final List<Future<ConcurrentMap<String, T>>> futures,
         final BinaryOperator<T> binaryOperator
     ) {

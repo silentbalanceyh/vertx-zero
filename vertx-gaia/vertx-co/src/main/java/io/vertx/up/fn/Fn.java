@@ -327,18 +327,25 @@ public final class Fn {
      *      ( [t] )             -->    ...
      * ]
      *
+     * 「2 Dim」
+     * The input is matrix, this method will compress the 2 dim matrix to 1 dim, the code logical is:
+     *
+     * 1. Process each element ( Future<List<T>> ) async operation to get the result ( List<T> ).
+     * 2. Combine the result   ( List<List<T>> )  =>  ( List<T> ) only.
+     * 3. The final data structure is:  [[]] => []
      */
     public static <T> Future<List<T>> compressL(
         final List<Future<List<T>>> futures) {
-        return War.thenCombineArrayT(futures);
+        return War.compressL(futures);
     }
 
     /*
+     * 「2 Dim」
      * This method is the same as `compressL` except the container type is JsonArray.
      */
     public static Future<JsonArray> compressA(
         final List<Future<JsonArray>> futures) {
-        return War.thenCombineArray(futures);
+        return War.comicA(futures);
     }
 
     /*
@@ -348,19 +355,29 @@ public final class Fn {
      *      ( [k=t] )           -->     ...     --> ( [k=t,k=t,k=t,   k=t,   k=t,k=t] )
      *      ( [k=t,k=t] )       -->     ...
      * ]
+     *
+     * 「2 Dim」
+     * This input is matrix, the method will comrpess the 2 dim matrix to 1 dim, but the input source
+     * 1st dim and 2dim data structure are different. 1st dim is hash map and 2nd dim is list, the code
+     * logical is:
+     *
+     * 1. Process each element ( Future<Map<String,T>> ) async aoperation to get the result ( Map<String, T> ).
+     * 2. Combine the result   ( List<Map<String,T>> ) => ( Map<String, T> ) only.
+     * 3. The final data structure is: [[k=t]] => [k=t]
      */
     public static <T> Future<ConcurrentMap<String, T>> compressM(
         final List<Future<ConcurrentMap<String, T>>> futures,
         final BinaryOperator<T> binaryOperator) {
-        return War.thenCompress(futures, binaryOperator);
+        return War.compressM(futures, binaryOperator);
     }
 
     /*
+     * 「2 Dim」
      * This method is the same as `compressM` except the container type is JsonArray.
      */
     public static Future<ConcurrentMap<String, JsonArray>> compressM(
         final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return War.thenCompress(futures, (original, latest) -> original.addAll(latest));
+        return War.compressM(futures, (original, latest) -> original.addAll(latest));
     }
 
 
@@ -372,14 +389,26 @@ public final class Fn {
      *      t       -->     fx      -->    (t)     -->          fx      -->         tn
      *      t       -->     fx      -->    (t)     -->          fx      -->         tn
      *      t       -->     fx      -->    (t)     -->          fx      -->         tn
-     * ]                                                                         ]
+     * ]
+     *
+     * 「1 Dim」
+     * This input is collection ( JsonArray ) and this is common combine operation as:
+     *
+     * 1. Process the single async operation to get the result ( JsonArray ).
+     * 2. ( t = JsonObject ) iterate the collection to get each JsonObject element.
+     * 3. 「F」Execute the `generateFun` ( t => (t) ) to process each JsonObject element to get another one.
+     * 4. 「F」Combine the element result with input element ( t + t => tn ).
+     *     operatorFun = (t,t)
+     *        - 1st t is the element of input collection ( JsonArray )
+     *        - 2nd t is the processed result based on the 1st t with `generateFun`
+     * 5. Finally, combine all the element result from `operatorFun` into new collection ( JsonArray )
      */
     public static Future<JsonArray> combineA(
         final Future<JsonArray> source,
         final Function<JsonObject, Future<JsonObject>> generateFun,
         final BinaryOperator<JsonObject> operatorFun
     ) {
-        return War.thenCombine(source, generateFun, operatorFun);
+        return War.combineA(source, generateFun, operatorFun);
     }
 
     /*
@@ -389,13 +418,20 @@ public final class Fn {
      *      t       -->     fx      -->    (t)     -->     ( [t,t,t] )
      *      t       -->     fx      -->    (t)
      * ]
+     *
+     * 「1 Dim」
+     * The input is collection ( JsonArray ) and this is common combine operation as:
+     *
+     * 1. ( t = JsonObject ) iterate the collection ( JsonArray ) to get each JsonObject element.
+     * 2. 「F」Execute the `generateFun` ( t => (t) ) to process each JsonObject element to get another one.
+     * 3. Combine all the element result from `generateFun` into new collection ( JsonArray )
      */
     public static Future<JsonArray> combineA(
         final JsonArray input,
-        final Function<JsonObject, Future<JsonObject>> function) {
+        final Function<JsonObject, Future<JsonObject>> generateFun) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
-        Ut.itJArray(input).map(function).forEach(futures::add);
-        return War.thenCombine(futures);
+        Ut.itJArray(input).map(generateFun).forEach(futures::add);
+        return War.combineA(futures);
     }
 
     /*
@@ -405,23 +441,35 @@ public final class Fn {
      *      (t)         -->      ( [t,t,t] )
      *      (t)
      * ]
+     *
+     * 「1 Dim」
+     * The input is collection ( JsonArray ) and this is common combine operation as:
+     *
+     * **: Combine all the element result into new collection ( JsonArray )
      */
     public static Future<JsonArray> combineA(
         final List<Future<JsonObject>> futures) {
-        return War.thenCombine(futures);
+        return War.combineA(futures);
     }
 
     /*
      * Workflow:
-     * [                                             (
-     *      (t)                                          0 = t
-     *      (t)         -->      (t)           =         1 = t
-     *      (t)                                          2 = t
-     * ]                                             )
+     * [                                               (
+     *      k=(t)                                          k=t,
+     *      k=(t)         -->      (t)           =         k=t,
+     *      k=(t)                                          k=t,
+     * ]                                               )
+     *
+     * 「1 Dim」
+     * The input source is map collection and this is common combine operation as:
+     *
+     * 1. Iterate the has map to extract each entry ( key = async operation ).
+     * 2. Process each k = async operation to get each element result t.
+     * 3. Finally, combine all `k = t` into single hash map.
      */
     public static <K, T> Future<ConcurrentMap<K, T>> combineM(
         final ConcurrentMap<K, Future<T>> futureMap) {
-        return War.thenCombine(futureMap);
+        return War.combineM(futureMap);
     }
 
     /*
@@ -431,39 +479,17 @@ public final class Fn {
      *      (t)         -->      (t)           =         1 = t
      *      (t)                                          2 = t
      * ]                                             )
+     *
+     * 「1 Dim」
+     * The input source is dynamic array collection, it's common combine operation as:
+     *
+     * 1. Process each element (t), execute async operation to get element result t.
+     * 2. Combine result t based on index of array.
+     * 3. The final data structure is `i = t` into single hash map, here the i is input index of array.
      */
     public static Future<JsonObject> combineJ(
         final Future<JsonObject>... futures) {
-        return War.thenCombine(futures);
-    }
-
-    /*
-     * Workflow:
-     *
-     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
-     *      t         -->         fx          -->      ( [t,t,t] )          -->         fx          -->     (tn)
-     *
-     */
-    public static Future<JsonObject> combineJ(
-        final JsonObject source,
-        final Function<JsonObject, List<Future>> generateFun,
-        final BiConsumer<JsonObject, JsonObject>... operatorFun) {
-        return War.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
-    }
-
-    /*
-     * Workflow:
-     *
-     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
-     *      (t)         -->         fx          -->      ( [t,t,t] )        -->         fx          -->     (tn)
-     *
-     */
-    public static Future<JsonObject> combineJ(
-        final Future<JsonObject> source,
-        final Function<JsonObject, List<Future>> generateFun,
-        final BiConsumer<JsonObject, JsonObject>... operatorFun
-    ) {
-        return War.thenCombine(source, generateFun, operatorFun);
+        return War.combineJ(futures);
     }
 
 
@@ -473,26 +499,20 @@ public final class Fn {
      *                                  t1 + t2 => (t3)
      *      fx,(t1)             -->         fx          -->     (t3)
      *              fx,(t2)     -->
+     *
+     * 「1 Dim」
+     * Here are two critical inputs, it's common combine operation as:
+     *
+     * 1. Process first async operation `futureF` to get the first result t1.
+     * 2. After the first async operation, process second async operation `futureS` to get the second result t2.
+     * 3. Combine the results :  t1 + t2 => (t3)
+     * 4. Finally return async operation result: t3.
      */
     public static <F, S, T> Future<T> combineT(
         final Supplier<Future<F>> futureF,
         final Supplier<Future<S>> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(futureF, futureS, consumer);
-    }
-
-    /*
-     * Workflow:
-     *
-     *                                  t1 + t2 => (t3)
-     *      fx,(t1)             -->         fx          -->     (t3)
-     *        t1 -->  fx,(t2)   -->
-     */
-    public static <F, S, T> Future<T> thenCombine(
-        final Supplier<Future<F>> futureF,
-        final Function<F, Future<S>> futureS,
-        final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(futureF, futureS, consumer);
+        return War.combineT(futureF, futureS, consumer);
     }
 
     /*
@@ -501,12 +521,39 @@ public final class Fn {
      *                         t1 + t2 => (t3)
      *      (t1)        -->         fx          -->     (t3)
      *      (t2)        -->
+     *
+     * 「1 Dim」
+     * This method is the same as above except the input data structure.
      */
     public static <F, S, T> Future<T> combineT(
         final Future<F> futureF,
         final Future<S> futureS,
         final BiFunction<F, S, Future<T>> consumer) {
-        return War.thenCombine(() -> futureF, () -> futureS, consumer);
+        return War.combineT(() -> futureF, () -> futureS, consumer);
+    }
+
+    /*
+     * Workflow:
+     *
+     *                                  t1 + t2 => (t3)
+     *      fx,(t1)             -->         fx          -->     (t3)
+     *        t1 -->  fx,(t2)   -->
+     *
+     * 「1 Dim」
+     * Here are two critical inputs, it's common combine operation as:
+     *
+     * 1. Process first async operation `futureF` to get the first result t1.
+     * 2. After the first async operation, process second async operation `futureS` to get the second result t2,
+     *    this step is different from above api, when you process `futureS`, the t1 is input and it means that
+     *    the t2 operation depend on `futureF` result.
+     * 3. Combine the results :  t1 + t2 => (t3)
+     * 4. Finally return async operation result: t3.
+     */
+    public static <F, S, T> Future<T> combineT(
+        final Supplier<Future<F>> futureF,
+        final Function<F, Future<S>> futureS,
+        final BiFunction<F, S, Future<T>> consumer) {
+        return War.combineT(futureF, futureS, consumer);
     }
 
     /*
@@ -517,10 +564,15 @@ public final class Fn {
      *      (t)     -->     ( [t,t,t,t,t] )
      *      (t)
      * ]
+     *
+     * 「1 Dim」
+     * Here are common combine operation as:
+     *
+     * **: Combine all the element result into new collection ( List<T> )
      */
     public static <T> Future<List<T>> combineT(
         final List<Future<T>> futures) {
-        return War.thenCombineT(futures);
+        return War.combineT(futures);
     }
 
     /*
@@ -531,15 +583,90 @@ public final class Fn {
      *      t1  -->     fx      (t2)            --> ( [t2,t2,t2,t2,t2] )
      *      t1  -->     fx      (t2)
      * ]
+     *
+     * 「1 Dim」
+     * Here are common combine operation as:
+     *
+     * 1. Iterate the collection ( List<T> ) to get each element t1
+     * 2. 「F」Execute `generateFun` on each element: t1 -> (t2)
+     * 3. Combine all the async result to List<T>
      */
     public static <I, T> Future<List<T>> combineT(
-        final List<I> source, final Function<I, Future<T>> consumer) {
+        final List<I> source, final Function<I, Future<T>> generateFun) {
         final List<Future<T>> futures = new ArrayList<>();
-        Ut.itList(source).map(consumer).forEach(futures::add);
-        return War.thenCombineT(futures);
+        Ut.itList(source).map(generateFun).forEach(futures::add);
+        return War.combineT(futures);
+    }
+
+    /*
+     * Workflow:
+     *
+     * ( [
+     *      t1  -->     fx      (t2)
+     *      t1  -->     fx      (t2)            --> ( [t2,t2,t2,t2,t2] )
+     *      t1  -->     fx      (t2)
+     * ] )
+     *
+     * 「1 Dim」
+     *
+     * The method is the same as above except the input data structure.
+     */
+    public static <I, T> Future<List<T>> combineT(
+        final Future<List<I>> futureS, final Function<I, Future<T>> generateFun) {
+        return futureS.compose(source -> combineT(source, generateFun));
     }
 
     // -------------------------- comic -----------------------
+
+
+    /*
+     * Workflow:
+     *
+     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
+     *      t         -->         fx          -->      ( [t,t,t] )          -->         fx          -->     (tn)
+     *
+     * 「1 Dim」
+     * The input data is element ( JsonObject ), it's changed version of common combine as:
+     *
+     * 1. 「F」Execute the `generateFun` based on input JsonObject to get collection, here each element of
+     *    collection is async wrapped
+     * 2. Process async operation on each element of generated collection get the result of each
+     * 3. Here are zip combining the result such as following:
+     *      t          -->       t1 ( index = 0 )     -->       operatorFun ( index = 0 )  -->  t1
+     *                           t2 ( index = 1 )     -->       operatorFun ( index = 1 )  -->  t2
+     *                           ...                  -->       ...                        -->  ...
+     * 4. Finally, return the `input` data ( Just like fluent style )
+     *
+     * This api is different from other api, the operatorFun has two version:
+     *
+     * 1) If `source` modified, you can execute operatorFun to impact the input data ( Modify reference )
+     * 2) If `source` unchanged, you can do other operation inner each operatorFun and do not impact
+     *    the input data ( Keep reference unchange )
+     */
+    public static Future<JsonObject> comicJ(
+        final JsonObject source,
+        final Function<JsonObject, List<Future>> generateFun,
+        final BiConsumer<JsonObject, JsonObject>... operatorFun) {
+        return War.combineJ(Future.succeededFuture(source), generateFun, operatorFun);
+    }
+
+    /*
+     * Workflow:
+     *
+     *                       t  =>  ([t,t,t])                                       t + t  =>  tn
+     *      (t)         -->         fx          -->      ( [t,t,t] )        -->         fx          -->     (tn)
+     *
+     *
+     * 「1 Dim」
+     * This method is the same as `comicJ`, the input data structure is different.
+     */
+    public static Future<JsonObject> comicJ(
+        final Future<JsonObject> source,
+        final Function<JsonObject, List<Future>> generateFun,
+        final BiConsumer<JsonObject, JsonObject>... operatorFun
+    ) {
+        return War.combineJ(source, generateFun, operatorFun);
+    }
 
     /*
      * Workflow:
@@ -551,14 +678,21 @@ public final class Fn {
      * ]
      *
      * The o = Class<T>
+     * 「1 Dim」
+     * This method is common comic, the input data structure is collection ( JsonArray ) as:
+     *
+     * 1. Filter the `source` based on `clazz` type, other type will be ignored.
+     * 2. 「F」Process each element t1 ( selected Class<T> ) to generate the new collection.
+     * 3. Until this step the final result set is matrix: [[]]
+     * 4. Combine the matrix from 2 dim to 1 dim: [[]] => []
      */
     public static <T> Future<JsonArray> comicA(
         final JsonArray source,
         final Class<T> clazz,
-        final Function<T, Future<JsonArray>> consumer) {
+        final Function<T, Future<JsonArray>> generateFun) {
         final List<Future<JsonArray>> futures = new ArrayList<>();
-        Ut.itJArray(source, clazz, (item, index) -> futures.add(consumer.apply(item)));
-        return War.thenCombineArray(futures);
+        Ut.itJArray(source, clazz, (item, index) -> futures.add(generateFun.apply(item)));
+        return War.comicA(futures);
     }
 
     /*
@@ -568,7 +702,7 @@ public final class Fn {
      */
     public static Future<JsonArray> comicA(
         final JsonArray source,
-        final Function<JsonObject, Future<JsonArray>> consumer) {
-        return comicA(source, JsonObject.class, consumer);
+        final Function<JsonObject, Future<JsonArray>> generateFun) {
+        return comicA(source, JsonObject.class, generateFun);
     }
 }
