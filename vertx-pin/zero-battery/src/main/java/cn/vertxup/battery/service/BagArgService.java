@@ -80,9 +80,9 @@ public class BagArgService implements BagArgStub {
     }
 
     @Override
-    public Future<JsonObject> saveBagBy(String name, JsonObject data) {
-        Objects.requireNonNull(name);
-        return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync(KName.NAME, name)
+    public Future<JsonObject> saveBagBy(String nameAbbr, JsonObject data) {
+        Objects.requireNonNull(nameAbbr);
+        return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync("nameAbbr", nameAbbr)
             // Cache Processing
             .compose(Ut.ifNil(JsonObject::new, bag -> this.saveConfigure(bag, data)));
     }

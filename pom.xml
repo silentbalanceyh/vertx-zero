@@ -67,8 +67,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.3.1</vertx.version>
-        <stack.version>4.3.1</stack.version>
+        <vertx.version>4.3.2</vertx.version>
+        <stack.version>4.3.2</stack.version>
 
         <jcabi.version>0.23.2</jcabi.version>
         <jersey.version>2.36</jersey.version>
@@ -77,7 +77,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.7</jooq.version>
+        <jooq.version>3.16.8</jooq.version>
         <vertx.jooq.version>6.5.4</vertx.jooq.version>
         <mysql.version>8.0.29</mysql.version>
 
@@ -116,7 +116,7 @@
         <elasticsearch.version>7.17.5</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.6</neo4j.version>
+        <neo4j.version>4.4.7</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -221,10 +221,10 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.16.0</camunda.spin.version>
+        <camunda.spin.version>1.17.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
-        <camunda.connect.version>1.5.4</camunda.connect.version>
-        <camunda.util.version>1.10.1</camunda.util.version>
+        <camunda.connect.version>1.5.5</camunda.connect.version>
+        <camunda.util.version>1.11.0</camunda.util.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.10</mybatis.version>
     </properties>
