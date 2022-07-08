@@ -211,6 +211,12 @@ final class To {
         return params;
     }
 
+    static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
+        final JsonObject params = new JsonObject();
+        Fn.safeNull(() -> map.forEach(params::put), map);
+        return params;
+    }
+
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
         Fn.safeNull(() -> multiMap.forEach(

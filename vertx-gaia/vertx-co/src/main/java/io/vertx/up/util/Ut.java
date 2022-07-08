@@ -1412,6 +1412,10 @@ public final class Ut {
         return Jackson.toJObject(value);
     }
 
+    public static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
+        return To.toJObject(map);
+    }
+
     public static JsonObject toJObject(final Map<String, Object> map) {
         return To.toJObject(map);
     }

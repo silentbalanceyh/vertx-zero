@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
 import org.jooq.Field;
@@ -111,7 +112,19 @@ class JoinStore {
         final String tableName = this.daoTable.getOrDefault(daoCls, null);
         if (Objects.nonNull(tableName)) {
             final JqAnalyzer analyzer = this.daoAnalyzer.get(daoCls);
-            this.alias.addAlias(analyzer, tableName, field, alias);
+            String fieldFound;
+            final Mojo mojo = analyzer.pojo();
+            if (Objects.isNull(mojo)) {
+                // Keep
+                fieldFound = field;
+            } else {
+                fieldFound = mojo.getIn(field);
+                if (Objects.isNull(fieldFound)) {
+                    // Keep
+                    fieldFound = field;
+                }
+            }
+            this.alias.addAlias(analyzer, tableName, fieldFound, alias);
         }
     }
 

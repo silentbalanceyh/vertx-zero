@@ -96,6 +96,7 @@ public final class UxJoin {
             this.merged = new Mojo();
         }
         this.merged.bind(created).bindColumn(created.getInColumn());
+        this.pojoMap.forEach(this.joinder::pojo);
         return this;
     }
 
@@ -127,7 +128,6 @@ public final class UxJoin {
     }
 
     public Future<JsonObject> searchAsync(final Qr qr) {
-        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.searchAsync(qr, this.merged);
     }
 
@@ -140,7 +140,6 @@ public final class UxJoin {
     }
 
     public Future<Long> countAsync(final Qr qr) {
-        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.countAsync(qr);
     }
 
@@ -154,7 +153,6 @@ public final class UxJoin {
      * fetchAsync(JsonObject)
      */
     public JsonArray fetch(final Qr qr) {
-        this.pojoMap.forEach(this.joinder::pojo);
         return this.joinder.searchArray(qr, this.merged);
     }
 
