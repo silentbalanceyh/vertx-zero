@@ -116,7 +116,7 @@
         <elasticsearch.version>7.17.5</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.7</neo4j.version>
+        <neo4j.version>4.4.8</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
