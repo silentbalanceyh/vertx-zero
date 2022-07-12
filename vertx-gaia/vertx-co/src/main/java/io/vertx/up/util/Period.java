@@ -343,16 +343,16 @@ final class Period {
         do {
             consumer.accept(parse(beginDay));
             beginDay = beginDay.plusDays(1);
-        } while (end.isAfter(beginDay));
+        } while (end.isAfter(beginDay) || end.isEqual(beginDay));
     }
 
     static void itWeek(final LocalDate from, final LocalDate end,
                        final Consumer<Date> consumer) {
-        LocalDate begin = from;
+        LocalDate beginDay = from;
         do {
-            consumer.accept(parse(begin));
-            begin = begin.plusWeeks(1);
-        } while (end.isAfter(begin));
+            consumer.accept(parse(beginDay));
+            beginDay = beginDay.plusWeeks(1);
+        } while (end.isAfter(beginDay) || end.isEqual(beginDay));
     }
 
     static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
