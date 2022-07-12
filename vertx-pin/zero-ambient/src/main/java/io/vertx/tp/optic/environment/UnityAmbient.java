@@ -32,8 +32,8 @@ public class UnityAmbient implements UnityApp {
             final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
             final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
             apps.keySet().stream()
-                .filter(appId -> Objects.nonNull(apps.get(appId)))
-                .filter(appId -> Objects.nonNull(sources.get(appId)))
+                // .filter(appId -> Objects.nonNull(apps.get(appId)))
+                // .filter(appId -> Objects.nonNull(sources.get(appId)))
                 /* JsonObject converted here for app & source data */
                 .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
                 .forEach(item -> UNITY_POOL.put(item.getString(KName.APP_ID), item));
@@ -136,7 +136,7 @@ public class UnityAmbient implements UnityApp {
             normalized.put("auditor", auditor);
         }
         /* Database information */
-        {
+        if (Objects.nonNull(source)) {
             /*
              * Database information for JDBC
              * hostname - database server host

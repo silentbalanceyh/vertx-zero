@@ -232,6 +232,7 @@ public interface KName {
     String COMMENT = "comment";                  /* Text Part: comment */
     String DESCRIPTION = "description";          /* Text Part: description */
     String REMARK = "remark";                    /* Text Part: remark */
+    String REMARKS = "remarks";                  /* Text Part: remarks */
 
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";
@@ -244,6 +245,8 @@ public interface KName {
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
 
+
+    // 「Specification Definition」
     interface __ {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
         String DATA = "__" + KName.DATA;             /* __data for previous data */
@@ -255,6 +258,8 @@ public interface KName {
         String ACL = "__" + Flow.ACL;                /* __acl */
     }
 
+
+    // 「Attachment Definition」
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
@@ -266,15 +271,17 @@ public interface KName {
         String R = "r";
     }
 
+
+    // 「Micro Service」
     interface Micro {
         String ETCD = "etcd";
     }
 
-    /*
-     * X_APP
-     */
+
+    // 「Application Definition」
     interface App {
 
+        // Application
         String COPY_RIGHT = "copyRight";
         String ICP = "icp";
         String TITLE = "title";
@@ -295,9 +302,8 @@ public interface KName {
         String BLOCK = "block";
     }
 
-    /*
-     * I_API / I_SERVICE
-     */
+
+    // 「Dynamic Api/Job Definition」, I_API / I_SERVICE
     interface Api {
         String CONFIG_DATABASE = "configDatabase";
 
@@ -314,9 +320,8 @@ public interface KName {
         String DICT_EPSILON = "dictEpsilon";                 /* Origin X to store definition of Epsilon */
     }
 
-    /*
-     * UI_* table definition
-     */
+
+    // 「Dynamic UI Definition」
     interface Ui {
         String CONFIG = "config";
 
@@ -345,6 +350,8 @@ public interface KName {
         String WINDOW = "window";
     }
 
+
+    // 「Dynamic Modeling Definition」
     interface Modeling {
 
         String KEYS = "keys";
@@ -362,7 +369,7 @@ public interface KName {
         String VALUE_BEFORE = "BEFORE";
         String VALUE_AFTER = "AFTER";
 
-        Set<String> VALUE_SET = new HashSet<String>() {
+        Set<String> VALUE_SET = new HashSet<>() {
             {
                 this.add(VALUE_BEFORE);
                 this.add(VALUE_AFTER);
@@ -370,6 +377,8 @@ public interface KName {
         };
     }
 
+
+    // 「Graphic Definition」 Neo4j Part
     interface Graphic {
 
         String GRAPHIC = "graphic";               /* Graphic Engine needed */
@@ -379,6 +388,8 @@ public interface KName {
         String EDGES = "edges";                   /* Graphic edges */
     }
 
+
+    // 「RBAC Module Usage」
     interface Rbac {
         String ROLE_ID = "roleId";
         String PERM_ID = "permId";
@@ -390,12 +401,16 @@ public interface KName {
         String POSITION = "position";
     }
 
+
+    // 「Tenant Field Definition」, When you enable multi tenants environment, it will be used
     interface Tenant {
         String STELLAR = "stellar";                  /* Business */
         String TENANT = "tenant";
         String VENDORS = "vendors";
     }
 
+
+    // 「Workflow Engine Definition」
     interface Flow {
         String DEFINITION_ID = "definitionId";
         String DEFINITION_KEY = "definitionKey";
@@ -447,72 +462,15 @@ public interface KName {
         String UI_ASSIST = "uiAssist";
         String UI_LINKAGE = "uiLinkage";
 
-        // Auditor
-        Set<String> FIELD_AUDITOR = new HashSet<>() {
-            {
-                this.add(CREATED_BY);    // Created By
-                this.add(UPDATED_BY);    // Updated By
-                this.add(OWNER);         // Owner
-                this.add(Auditor.TO_USER);       // Approved / Processed By
-                this.add(Auditor.SUPERVISOR);    // Supervisor
-                this.add(Auditor.CANCEL_BY);     // Cancel By
-                this.add(Auditor.CLOSE_BY);      // Close By
-                this.add(Auditor.OPEN_BY);       // Open By
-                this.add(Auditor.FINISHED_BY);   // Finished By
-                this.add(Auditor.ASSIGNED_BY);   // Assigned By
-                this.add(Auditor.ACCEPTED_BY);   // accepted By
-            }
-        };
-
-        interface Auditor {
-            String FINISHED_BY = "finishedBy";
-            String FINISHED_AT = "finishedAt";
-
-            String OPEN_BY = "openBy";
-            String CLOSE_BY = "closeBy";
-            String CLOSE_AT = "closeAt";
-            String CANCEL_BY = "cancelBy";
-            String CANCEL_AT = "cancelAt";
-
-            String OWNER = "owner";
-            String SUPERVISOR = "supervisor";
-
-            String TO_USER = "toUser";
-
-            String TO_TEAM = "toTeam";
-            String TO_DEPT = "toDept";
-            String TO_ROLE = "toRole";
-            String TO_GROUP = "toGroup";
-
-            String ASSIGNED_BY = "assignedBy";
-            String ASSIGNED_AT = "assignedAt";
-            String ACCEPTED_BY = "acceptedBy";
-            String ACCEPTED_AT = "acceptedAt";
-
-            Set<String> USER_FIELDS = new HashSet<>() {
-                {
-                    this.add(TO_USER);       // Approved / Processed By
-                    this.add(CREATED_BY);    // Created By
-                    this.add(UPDATED_BY);    // Updated By
-                    this.add(OWNER);         // Owner
-                    this.add(SUPERVISOR);    // Supervisor
-                    this.add(CANCEL_BY);     // Cancel By
-                    this.add(CLOSE_BY);      // Close By
-                    this.add(OPEN_BY);       // Open By
-                    this.add(FINISHED_BY);   // Finished By
-                    this.add(ASSIGNED_BY);   // Assigned By
-                    this.add(ACCEPTED_BY);   // Accdpted By
-                }
-            };
-        }
-
-        // Bpmn
+        // Bpmn ( Belong to Workflow Engine )
         interface Bpmn {
             String CLASS = "class";
             String EVENT = "event";
         }
     }
 
+
+    // 「Component Specification Definition」
     interface Component {
         // Run Component
         String RUN_COMPONENT = "runComponent";
@@ -522,6 +480,8 @@ public interface KName {
         String TREE_CONFIG = "treeConfig";
     }
 
+
+    // 「Zero Internal Usage」
     interface Internal {
         String ERROR = "error";
         String INJECT = "inject";
@@ -538,6 +498,52 @@ public interface KName {
         String LIME = "lime";
     }
 
+
+    // 「Auditor Specification Definition」
+    interface Auditor {
+        String FINISHED_BY = "finishedBy";
+        String FINISHED_AT = "finishedAt";
+
+        String OPEN_BY = "openBy";
+        String CLOSE_BY = "closeBy";
+        String CLOSE_AT = "closeAt";
+        String CANCEL_BY = "cancelBy";
+        String CANCEL_AT = "cancelAt";
+
+        String OWNER = "owner";
+        String SUPERVISOR = "supervisor";
+
+        String TO_USER = "toUser";
+
+        String TO_TEAM = "toTeam";
+        String TO_DEPT = "toDept";
+        String TO_ROLE = "toRole";
+        String TO_GROUP = "toGroup";
+
+        String ASSIGNED_BY = "assignedBy";
+        String ASSIGNED_AT = "assignedAt";
+        String ACCEPTED_BY = "acceptedBy";
+        String ACCEPTED_AT = "acceptedAt";
+
+        Set<String> USER_FIELDS = new HashSet<>() {
+            {
+                this.add(TO_USER);       // Approved / Processed By
+                this.add(CREATED_BY);    // Created By
+                this.add(UPDATED_BY);    // Updated By
+                this.add(OWNER);         // Owner
+                this.add(SUPERVISOR);    // Supervisor
+                this.add(CANCEL_BY);     // Cancel By
+                this.add(CLOSE_BY);      // Close By
+                this.add(OPEN_BY);       // Open By
+                this.add(FINISHED_BY);   // Finished By
+                this.add(ASSIGNED_BY);   // Assigned By
+                this.add(ACCEPTED_BY);   // Accdpted By
+            }
+        };
+    }
+
+
+    // 「AOP Specification Definition」
     interface Aop {
         String COMPONENT_TYPE = "configuration.operation";
         String COMPONENT = "plugin.component";
@@ -545,5 +551,38 @@ public interface KName {
         String COMPONENT_AFTER = "plugin.component.after";
         String COMPONENT_JOB = "plugin.component.job";
         String COMPONENT_CONFIG = "plugin.config";
+    }
+
+
+    // 「Date Specification Definition」
+    interface Moment {
+        String DATE = "date";
+        String DATETIME = "datetime";
+        String TIME = "time";
+        String CALENDAR = "calendar";
+
+        String SECOND = "second";
+        String SECONDS = "seconds";
+
+        String MINUTE = "minute";
+        String MINUTES = "minutes";
+
+        String HOUR = "hour";
+        String HOURS = "hours";
+
+        String DAY = "day";
+        String DAYS = "days";
+
+        String WEEK = "week";
+        String WEEKS = "weeks";
+
+        String MONTH = "month";
+        String MONTHS = "months";
+
+        String QUARTER = "quarter";
+        String QUARTERS = "quarters";
+
+        String YEAR = "year";
+        String YEARS = "years";
     }
 }

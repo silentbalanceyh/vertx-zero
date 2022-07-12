@@ -11,6 +11,7 @@ import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -50,7 +51,7 @@ public class DocWriter implements DocWStub {
         // isFileName Checking
         final String name = documentJ.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Ux.thenError(_400FileNameInValidException.class, this.getClass());
+            return Fn.error(_400FileNameInValidException.class, this.getClass());
         }
         final String key = documentJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);

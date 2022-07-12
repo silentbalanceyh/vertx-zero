@@ -91,8 +91,8 @@ public class UData {
         final JsonObject updatedData = params.copy();
         updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
         final String user = params.getString(KName.UPDATED_BY);
-        updatedData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
-        updatedData.put(KName.Flow.Auditor.FINISHED_BY, user);
+        updatedData.put(KName.Auditor.FINISHED_AT, Instant.now());
+        updatedData.put(KName.Auditor.FINISHED_BY, user);
         // updatedAt / updatedBy contain values
         updatedData.put(KName.ACTIVE, Boolean.TRUE);
 
@@ -107,8 +107,8 @@ public class UData {
              * Because there is only one close by information
              */
             updatedData.put(KName.Flow.FLOW_END, Boolean.TRUE);
-            updatedData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
-            updatedData.put(KName.Flow.Auditor.CLOSE_BY, user);
+            updatedData.put(KName.Auditor.CLOSE_AT, Instant.now());
+            updatedData.put(KName.Auditor.CLOSE_BY, user);
         }
         return updatedData;
     }
@@ -143,8 +143,8 @@ public class UData {
             history.put(KName.HISTORY, Ut.toJArray(traceSet));
             // todoData.put(KName.Flow.TRACE_EXTRA, history.encode());
             todoData.put(KName.STATUS, status.name());
-            todoData.put(KName.Flow.Auditor.FINISHED_AT, Instant.now());
-            todoData.put(KName.Flow.Auditor.FINISHED_BY, user);
+            todoData.put(KName.Auditor.FINISHED_AT, Instant.now());
+            todoData.put(KName.Auditor.FINISHED_BY, user);
             todoData.put(KName.Flow.FLOW_END, Boolean.TRUE);
         }
         /*
@@ -153,13 +153,13 @@ public class UData {
         {
             // Cancel ticket will ignore closeBy
             if (TodoStatus.CANCELED == status) {
-                todoData.put(KName.Flow.Auditor.CANCEL_AT, Instant.now());
-                todoData.put(KName.Flow.Auditor.CANCEL_BY, user);
+                todoData.put(KName.Auditor.CANCEL_AT, Instant.now());
+                todoData.put(KName.Auditor.CANCEL_BY, user);
             }
             // Close ticket will ignore cancelBy
             if (TodoStatus.FINISHED == status) {
-                todoData.put(KName.Flow.Auditor.CLOSE_AT, Instant.now());
-                todoData.put(KName.Flow.Auditor.CLOSE_BY, user);
+                todoData.put(KName.Auditor.CLOSE_AT, Instant.now());
+                todoData.put(KName.Auditor.CLOSE_BY, user);
             }
         }
         return todoData;

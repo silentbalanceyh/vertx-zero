@@ -27,7 +27,6 @@ target
 *.versionsBackup
 *.iml
 archive
-!vertx-zeus/up-thea/tool/jooq/*.jar
 file-uploads
 !vertx-zero-example
 .Archive
@@ -35,3 +34,6 @@ file-uploads
 configs
 zero-tree.txt
 ~$*.xlsx
+.DS_Store
+# API文档专用目录
+document

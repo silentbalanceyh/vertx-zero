@@ -10,17 +10,14 @@ import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.extension.AbstractAres;
-import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.extension.router.AresGrid;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AresSockJs extends AbstractAres {
-
-    private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
 
     /*
      * This configuration is for `SockJs` only, it means that there is no secure channel
@@ -32,7 +29,7 @@ public class AresSockJs extends AbstractAres {
 
     public AresSockJs(final Vertx vertx) {
         super(vertx);
-        this.sockOk = SOCKS.stream().filter(sock -> !sock.isSecure()).collect(Collectors.toSet());
+        this.sockOk = AresGrid.wsPublish();
     }
 
     @Override

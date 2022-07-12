@@ -2,12 +2,14 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2Options;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -20,7 +22,7 @@ class LeeOAuth2 extends AbstractLee {
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
         // Options
-        final OAuth2Auth provider = this.provider(vertx, config.item());
+        final OAuth2Auth provider = this.providerInternal(vertx, config);
         final String callback = this.option(config, "callback");
         final OAuth2AuthHandler standard;
         if (Ut.isNil(callback)) {
@@ -31,8 +33,18 @@ class LeeOAuth2 extends AbstractLee {
         return this.wrapHandler(standard, config);
     }
 
-    private OAuth2Auth provider(final Vertx vertx, final AegisItem item) {
+    @Override
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
+        final OAuth2Auth standard = this.providerInternal(vertx, config);
+        final AdapterProvider extension = AdapterProvider.extension(standard);
+        return extension.provider(config);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public OAuth2Auth providerInternal(final Vertx vertx, final Aegis config) {
         // Options
+        final AegisItem item = config.item();
         final OAuth2Options options = new OAuth2Options(item.options());
         final String key = item.wall().name() + options.hashCode();
         return CC_PROVIDER.pick(() -> OAuth2Auth.create(vertx, options), key);

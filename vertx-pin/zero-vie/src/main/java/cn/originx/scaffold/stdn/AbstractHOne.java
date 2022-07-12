@@ -11,6 +11,7 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -179,7 +180,7 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
                 /*
                  * 找不到记录的异常信息
                  */
-                return Ux.thenError(_404RecordMissingException.class, this.getClass(), key);
+                return Fn.error(_404RecordMissingException.class, this.getClass(), key);
             } else {
                 /*
                  * 构造 Apt作为主流程中的参数

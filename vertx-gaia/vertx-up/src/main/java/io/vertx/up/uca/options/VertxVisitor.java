@@ -37,13 +37,13 @@ public class VertxVisitor implements NodeVisitor {
     public ConcurrentMap<String, VertxOptions> visit(final String... keys)
         throws ZeroException {
         // 1. Must be the first line, fixed position.
-        Fn.inLenEq(this.getClass(), 0, (Object[]) keys);
+        Fn.verifyLenEq(this.getClass(), 0, (Object[]) keys);
         // 2. Visit the node for vertx
         final JsonObject data = this.NODE.read();
         // 3. Vertx node validation.
         final JsonObject vertxData = data.getJsonObject(KEY);
         LOGGER.info(Info.INF_B_VERIFY, KEY, this.getClass().getSimpleName(), vertxData);
-        Fn.onZero(() -> Ruler.verify(KEY, vertxData), vertxData);
+        Fn.safeZero(() -> Ruler.verify(KEY, vertxData), vertxData);
         // 4. Set cluster options
         this.clusterOptions = this.clusterTransformer.transform(vertxData.getJsonObject(YKEY_CLUSTERED));
         // 5. Transfer Data
@@ -61,7 +61,7 @@ public class VertxVisitor implements NodeVisitor {
         final ConcurrentMap<String, VertxOptions> map =
             new ConcurrentHashMap<>();
         final boolean clustered = this.clusterOptions.isEnabled();
-        Fn.etJArray(vertxData, JsonObject.class, (item, index) -> {
+        Fn.verifyJArray(vertxData, JsonObject.class, (item, index) -> {
             // 1. Extract single
             final String name = item.getString(YKEY_NAME);
             // 2. Extract VertxOptions

@@ -101,19 +101,19 @@ public class ActivityTabb implements After {
          */
         final JsonObject user = new JsonObject();
         final JsonArray auditorJ = Ut.valueJArray(config, KName.AUDITOR);
-        auditorJ.addAll(Ut.toJArray(KName.Flow.FIELD_AUDITOR));
+        auditorJ.addAll(Ut.toJArray(KName.Auditor.USER_FIELDS));
         user.put(KName.USER, auditorJ);
         user.put(KName.ROLE, new JsonArray()
-            .add(KName.Flow.Auditor.TO_ROLE)
+            .add(KName.Auditor.TO_ROLE)
         );
         user.put(KName.GROUP, new JsonArray()
-            .add(KName.Flow.Auditor.TO_GROUP)
+            .add(KName.Auditor.TO_GROUP)
         );
         user.put(KName.DEPT, new JsonArray()
-            .add(KName.Flow.Auditor.TO_DEPT)
+            .add(KName.Auditor.TO_DEPT)
         );
         user.put(KName.TEAM, new JsonArray()
-            .add(KName.Flow.Auditor.TO_TEAM)
+            .add(KName.Auditor.TO_TEAM)
         );
         normalized.put(KName.__.USER, user);
         return Ux.future(normalized);

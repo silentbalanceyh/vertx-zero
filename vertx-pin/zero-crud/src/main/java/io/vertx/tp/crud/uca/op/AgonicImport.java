@@ -9,6 +9,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -52,7 +53,7 @@ class AgonicImport implements Agonic {
             // 「AOP」Internal Call to Trigger
             combine.add(Agonic.write(ChangeFlag.UPDATE).runAAsync(updated, in));
         }
-        return Ux.thenCombineArray(combine);
+        return Fn.compressA(combine);
     }
 
     private Future<JsonArray> runCompress(final JsonArray source, final IxMod in) {

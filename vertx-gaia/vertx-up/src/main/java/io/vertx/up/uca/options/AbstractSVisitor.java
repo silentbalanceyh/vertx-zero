@@ -20,7 +20,7 @@ public abstract class AbstractSVisitor {
     protected JsonArray serverPre(final int expected, final String... key)
         throws ZeroException {
         // 1. Must be the first line, fixed position.
-        Fn.inLenEq(this.getClass(), expected, (Object[]) key);
+        Fn.verifyLenEq(this.getClass(), expected, (Object[]) key);
         // 2. Visit the node for server, http
         final JsonObject data = this.NODE.read();
 

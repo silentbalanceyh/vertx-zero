@@ -25,7 +25,11 @@ public abstract class AbstractJobAt implements JobAt {
         formulas.forEach(formula -> {
             final String[] segments = formula.split(Strings.SLASH);
             if (1 <= segments.length) {
-                final LocalTime time = Ut.toTime(segments[0]);
+                String tmpTime = segments[0];
+                if (4 == tmpTime.length()) { // like 3:00, 9:00
+                    tmpTime = "0" + tmpTime;
+                }
+                final LocalTime time = Ut.toTime(tmpTime);
                 // Extract Segment of Part 2
                 final String segment;
                 if (1 == segments.length) {

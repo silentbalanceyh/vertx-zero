@@ -17,11 +17,11 @@ public class ForbiddenInsurer extends AbstractInsurer {
     @Override
     public void flumen(final JsonObject data, final JsonObject rule) throws ZeroException {
         // 1. If rule is null, skip
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 2. Extract rule from config.
             if (rule.containsKey(Rules.FORBIDDEN)) {
                 final JsonArray fields = Ut.toJArray(rule.getValue(Rules.FORBIDDEN));
-                Fn.etJArray(fields, String.class, (field, index) -> {
+                Fn.verifyJArray(fields, String.class, (field, index) -> {
                     // 3. Check if data contains field.
                     Fn.outZero(data.containsKey(field), this.getLogger(),
                         ForbiddenFieldException.class,

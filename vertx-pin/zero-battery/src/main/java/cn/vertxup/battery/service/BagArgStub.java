@@ -18,5 +18,7 @@ public interface BagArgStub {
 
     Future<JsonObject> saveBag(String bagId, JsonObject data);
 
+    Future<JsonObject> saveBagBy(String nameAbbr, JsonObject data);
+
     Future<List<BBlock>> seekBlocks(BBag bag);
 }

@@ -96,7 +96,7 @@ final class Congregation {
     static <T> void exec(final JsonObject data,
                          final BiConsumer<T, String> consumer) {
         try {
-            Fn.etJObject(data, consumer::accept);
+            Fn.verifyJObject(data, consumer::accept);
         } catch (final ZeroException ex) {
             LOGGER.jvm(ex);
         }
@@ -110,7 +110,7 @@ final class Congregation {
      */
     static <T> void exec(final JsonArray dataArray, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
         try {
-            Fn.etJArray(dataArray, clazz, consumer::accept);
+            Fn.verifyJArray(dataArray, clazz, consumer::accept);
         } catch (final ZeroException ex) {
             LOGGER.jvm(ex);
         }

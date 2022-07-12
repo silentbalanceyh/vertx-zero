@@ -68,7 +68,7 @@ public interface HAttribute {
      * - JsonArray
      * - JsonObject
      *
-     * @return {@link List<HTField>}
+     * @return {@link List}
      */
     List<HTField> fields();
 }

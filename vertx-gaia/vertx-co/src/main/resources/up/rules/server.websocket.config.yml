@@ -1,4 +1,4 @@
 typed:
-  stomp: JOBJECT
   bridge: JOBJECT
   handler: JOBJECT
+  stomp: JOBJECT

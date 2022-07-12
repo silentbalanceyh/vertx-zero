@@ -127,16 +127,16 @@ public class GearForkJoin extends AbstractGear {
             final JsonObject value = new JsonObject();
             final String toUser = Ut.visitTSmart(parameters, path);
             if (generation) {
-                value.putNull(KName.Flow.Auditor.TO_USER);
+                value.putNull(KName.Auditor.TO_USER);
             } else {
-                value.put(KName.Flow.Auditor.TO_USER, toUser);
+                value.put(KName.Auditor.TO_USER, toUser);
             }
-            value.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
+            value.put(KName.Auditor.ACCEPTED_BY, toUser);
             response.put(taskKey, value);
         });
 
-        parameters.remove(KName.Flow.Auditor.TO_USER);
-        parameters.remove(KName.Flow.Auditor.ACCEPTED_BY);
+        parameters.remove(KName.Auditor.TO_USER);
+        parameters.remove(KName.Auditor.ACCEPTED_BY);
         return response;
     }
 }

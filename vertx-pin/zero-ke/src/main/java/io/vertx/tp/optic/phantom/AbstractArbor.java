@@ -39,17 +39,17 @@ public abstract class AbstractArbor implements Arbor {
         normalized.add(this.storePathOn(category, null, childMap, store));
         Ut.itJArray(children).map(json -> this.storePathOn(json, category, childMap, store)).forEach(normalized::add);
 
-        /*
-         * Store Map For normalized for children sort
-         * The children node should be sort field `sort`
-         */
-        final ConcurrentMap<String, Integer> sortMap = Ut.elementMap(normalized, KName.STORE_PATH, KName.SORT);
         return Ux.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
             /*
              * Filtered by `category` storePath field to exclude the invalid children
              */
             // final String storePath = category.getString(KName.STORE_PATH);
             final JsonArray valid = new JsonArray();
+            /*
+             * Store Map For normalized for children sort
+             * The children node should be sort field `sort`
+             */
+            final ConcurrentMap<String, Integer> sortMap = Ut.elementMap(normalized, KName.STORE_PATH, KName.SORT);
             Ut.itJArray(processed).forEach(json -> {
                 // Copy JsonObject
                 json = json.copy();
@@ -71,11 +71,10 @@ public abstract class AbstractArbor implements Arbor {
         return this.combineArbor(category, null, configuration);
     }
 
+
+    // ----------------------- Private Method for store path analyzing / building
     /*
-     * {
-     *      "storeRoot": "",
-     *      "storePath": ""
-     * }
+     * Complex Method for `storePath` and `storeParent` processing.
      */
     private JsonObject storePathOn(final JsonObject record,
                                    // Root

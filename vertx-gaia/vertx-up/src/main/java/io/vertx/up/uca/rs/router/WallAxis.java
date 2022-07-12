@@ -25,27 +25,7 @@ import java.util.TreeSet;
  * 401 for authorization only
  */
 public class WallAxis implements Axis<Router> {
-    /**
-     * Extract all walls that will be generated route.
-     */
-    private static final Set<Aegis> WALLS = ZeroAnno.getWalls();
-    private static final Cc<String, Set<Aegis>> CC_WALLS = Cc.open();
-
-    static {
-        WALLS.forEach(wall -> {
-            final Cd<String, Set<Aegis>> store = CC_WALLS.store();
-            if (!store.is(wall.getPath())) {
-                store.data(wall.getPath(), new TreeSet<>());
-            }
-            /*
-             * 1. group by `path`, when you define more than one wall in one path, you can collect
-             * all the wall into Set.
-             * 2. The order will be re-calculated by each group
-             * 3. But you could not define `path + order` duplicated wall
-             */
-            store.data(wall.getPath()).add(wall);
-        });
-    }
+    private static final Cc<String, Set<Aegis>> CC_WALLS = ZeroAnno.getWalls();
 
     private transient final Vertx vertx;
     private transient final Bolt bolt;

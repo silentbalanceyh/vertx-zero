@@ -59,7 +59,7 @@ final class Jackson {
         final String... keys
     ) {
 
-        Fn.inLenMin(Jackson.class, 0, keys);
+        Fn.verifyLenMin(Jackson.class, 0, keys);
         final JsonObject visited = Jackson.searchData(item, JsonObject.class, keys);
         if (Objects.isNull(visited)) {
             return new JsonObject();
@@ -72,7 +72,7 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.inLenMin(Jackson.class, 0, keys);
+        Fn.verifyLenMin(Jackson.class, 0, keys);
         return (T) Jackson.searchData(item, null, keys);
     }
 
@@ -80,7 +80,7 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.inLenMin(Jackson.class, 0, keys);
+        Fn.verifyLenMin(Jackson.class, 0, keys);
         final JsonArray visited = Jackson.searchData(item, JsonArray.class, keys);
         if (Objects.isNull(visited)) {
             return new JsonArray();
@@ -93,7 +93,7 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.inLenMin(Jackson.class, 0, keys);
+        Fn.verifyLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, Integer.class, keys);
     }
 
@@ -101,7 +101,7 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.inLenMin(Jackson.class, 0, keys);
+        Fn.verifyLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, String.class, keys);
     }
 

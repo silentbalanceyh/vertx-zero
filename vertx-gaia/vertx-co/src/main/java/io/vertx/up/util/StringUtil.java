@@ -217,7 +217,7 @@ final class StringUtil {
         return normalized;
     }
 
-    private static Object expressionWith(final String valueExpr, final JsonObject params) {
+    static Object expressionWith(final String valueExpr, final JsonObject params) {
         if (Ut.notNil(valueExpr)) {
             final Object valueResult;
             if (valueExpr.contains("`")) {
@@ -290,9 +290,6 @@ final class StringUtil {
      * This api is for message parsing only, this expression must start/end with "`" so that
      * it could be parsed, other situations will be ignored.
      */
-    static String expression(final String expr, final JsonObject params) {
-        return expressionT(expr, params);
-    }
 
     static boolean isNil(final String input) {
         return null == input || 0 == input.trim().length();

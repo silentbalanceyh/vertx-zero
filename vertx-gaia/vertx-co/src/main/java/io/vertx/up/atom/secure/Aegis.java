@@ -1,6 +1,7 @@
 package io.vertx.up.atom.secure;
 
 import io.vertx.up.commune.Copyable;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -83,8 +84,9 @@ public class Aegis implements Serializable, Comparable<Aegis>, Copyable<Aegis> {
         return this.type;
     }
 
-    public void setType(final AuthWall type) {
+    public Aegis setType(final AuthWall type) {
         this.type = type;
+        return this;
     }
 
     public Object getProxy() {
@@ -156,8 +158,14 @@ public class Aegis implements Serializable, Comparable<Aegis>, Copyable<Aegis> {
         if (AuthWall.EXTENSION != wall) {
             return this.items.getOrDefault(wall.key(), null);
         } else {
-            LOGGER.warn("[ Auth ] Please input correct native key, now = {0}", wall.key());
-            return null;
+            // Smart Analyzing
+            if (Values.ONE == this.items.size()) {
+                // Size = 1, Return the unique one here
+                return this.items.values().iterator().next();
+            } else {
+                LOGGER.warn("[ Auth ] Please input correct native key, now = {0}", wall.key());
+                return null;
+            }
         }
     }
 

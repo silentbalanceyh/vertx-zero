@@ -41,7 +41,7 @@ class Async {
     static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
         final List<Future<T>> futures = new ArrayList<>();
         set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
-        Combine.thenCombineT(futures).compose(nil -> {
+        Fn.combineT(futures).compose(nil -> {
             LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
             return To.future(nil);
         });
@@ -151,14 +151,19 @@ class Async {
     static <T> Future<JsonObject> toUpsertFuture(final T entity, final String pojo,
                                                  final Supplier<Future<JsonObject>> supplier,
                                                  final Function<JsonObject, JsonObject> updateFun) {
-        return Fn.match(
-            Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
-                .compose(item -> null == updateFun ?
-                    Future.succeededFuture(item) :
-                    Future.succeededFuture(updateFun.apply(item))
-                )
-            ),
-            Fn.branch(null == entity, supplier));
+        // Default Case
+        if (Objects.isNull(entity)) {
+            return supplier.get();
+        }
+        final JsonObject params = To.toJObject(entity, pojo);
+
+        // Update Function == null
+        if (Objects.isNull(updateFun)) {
+            return Future.succeededFuture(params);
+        }
+
+        // Update Executor
+        return Future.succeededFuture(updateFun.apply(params));
     }
 
     static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {

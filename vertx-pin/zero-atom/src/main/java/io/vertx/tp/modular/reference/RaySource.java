@@ -10,6 +10,7 @@ import io.vertx.up.eon.Constants;
 import io.vertx.up.experiment.mixture.HRule;
 import io.vertx.up.experiment.reference.RDao;
 import io.vertx.up.experiment.reference.RQuote;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -74,7 +75,7 @@ class RaySource {
                             return dao.fetchByAsync(condition);
                         }));
             });
-            return Ux.thenCombine(futureMap).compose(queriedMap -> {
+            return Fn.combineM(futureMap).compose(queriedMap -> {
                 final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
                 queriedMap.forEach((hashCode, dataArray) -> {
                     fieldCodes.forEach((field, codeKey) -> {

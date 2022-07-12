@@ -49,6 +49,7 @@ public interface BizInternal {
 
         // Integration Part
         Integration("zero.integration"),
+        Directory("zero.directory"),
 
 
         // Workflow Flow Type

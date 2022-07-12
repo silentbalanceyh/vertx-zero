@@ -2,4 +2,3 @@ typed:
   publish: STRING
   component: CLASS
   config: JOBJECT
-  server: JOBJECT

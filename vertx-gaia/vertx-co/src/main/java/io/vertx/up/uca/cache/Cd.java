@@ -23,5 +23,7 @@ public interface Cd<K, V> {
 
     boolean is(K key);
 
+    boolean isEmpty();
+
     Collection<V> values();
 }

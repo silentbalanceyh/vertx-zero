@@ -9,6 +9,7 @@ import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KField;
 import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -50,7 +51,7 @@ class SerialPre implements Pre {
                     numberMap.put(numberField, stub.indent(code, sigma));
                 });
             /* Combine number map here for generation */
-            return Ux.thenCombine(numberMap).compose(generated -> {
+            return Fn.combineM(numberMap).compose(generated -> {
                 generated.forEach(data::put);
                 return Ux.future(data);
             });
@@ -76,7 +77,7 @@ class SerialPre implements Pre {
                     return stub.indent(code, sigma, size);
                 })));
             /* Combine */
-            return Ux.thenCombine(numberMap).compose(generated -> {
+            return Fn.combineM(numberMap).compose(generated -> {
                 generated.forEach((numberField, numberQueue) -> this.runFill(data, numberField, numberQueue));
                 return Ux.future(data);
             });

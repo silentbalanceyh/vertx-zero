@@ -59,7 +59,7 @@ public class VertxApplication {
     }
 
     public static void run(final Class<?> clazz, final Object... args) {
-        Fn.onRun(() -> {
+        Fn.safeRun(() -> {
             /*
              * Class definition predicate
              */

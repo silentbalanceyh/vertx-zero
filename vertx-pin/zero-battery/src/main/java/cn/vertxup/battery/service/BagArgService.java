@@ -74,19 +74,28 @@ public class BagArgService implements BagArgStub {
     @Override
     public Future<JsonObject> saveBag(final String bagId, final JsonObject data) {
         Objects.requireNonNull(bagId);
-        return Ux.Jooq.on(BBagDao.class).<BBag>fetchByIdAsync(bagId).compose(bag -> {
-            if (Objects.isNull(bag)) {
-                return Ux.futureJ();
-            }
-            // Cache flush
-            final BlockStub blockStub = Ut.singleton(BlockService.class);
-            return this.seekBlocks(bag)
-                // Parameters Store Code Logical
-                .compose(blocks -> blockStub.saveParameters(blocks, data))
-                // Refresh Cache of appId
-                .compose(config -> PowerApp.flush(bag.getAppId())
-                    .compose(nil -> Ux.future(config)));
-        });
+        return Ux.Jooq.on(BBagDao.class).<BBag>fetchByIdAsync(bagId)
+            // Cache Processing
+            .compose(Ut.ifNil(JsonObject::new, bag -> this.saveConfigure(bag, data)));
+    }
+
+    @Override
+    public Future<JsonObject> saveBagBy(String nameAbbr, JsonObject data) {
+        Objects.requireNonNull(nameAbbr);
+        return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync("nameAbbr", nameAbbr)
+            // Cache Processing
+            .compose(Ut.ifNil(JsonObject::new, bag -> this.saveConfigure(bag, data)));
+    }
+
+    private Future<JsonObject> saveConfigure(final BBag bag, final JsonObject data) {
+        // Cache flush
+        final BlockStub blockStub = Ut.singleton(BlockService.class);
+        return this.seekBlocks(bag)
+            // Parameters Store Code Logical
+            .compose(blocks -> blockStub.saveParameters(blocks, data))
+            // Refresh Cache of appId
+            .compose(config -> PowerApp.flush(bag.getAppId())
+                .compose(nil -> Ux.future(config)));
     }
 
     @Override

@@ -8,7 +8,7 @@ import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.camunda.RunOn;
 import io.vertx.tp.workflow.uca.central.AbstractMoveOn;
 import io.vertx.up.experiment.specification.KFlow;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class MoveOnNext extends AbstractMoveOn {
         final KFlow key = request.workflow();
         final String instanceId = key.instanceId();
         if (Objects.isNull(instance)) {
-            return Ux.thenError(_409InValidInstanceException.class, this.getClass(), instanceId);
+            return Fn.error(_409InValidInstanceException.class, this.getClass(), instanceId);
         }
         return wTransition.start().compose(started -> {
             final JsonObject parameters = wTransition.moveParameter(request.request());

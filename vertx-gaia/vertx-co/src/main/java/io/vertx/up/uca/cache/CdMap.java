@@ -49,4 +49,9 @@ public class CdMap<K, V> implements Cd<K, V> {
     public Collection<V> values() {
         return this.dataMap.values();
     }
+
+    @Override
+    public boolean isEmpty() {
+        return this.dataMap.isEmpty();
+    }
 }

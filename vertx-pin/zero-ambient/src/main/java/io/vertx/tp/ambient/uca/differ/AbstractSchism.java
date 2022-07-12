@@ -11,6 +11,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mu.KMarker;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public abstract class AbstractSchism implements Schism {
     @Override
     public Future<JsonObject> diffAsync(final JsonObject recordO, final JsonObject recordN, final Supplier<Future<XActivity>> activityFn) {
         // Default should be 501
-        return Ux.thenError(_501NotSupportException.class, this.getClass());
+        return Fn.error(_501NotSupportException.class, this.getClass());
     }
 
 }

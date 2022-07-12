@@ -100,7 +100,11 @@ public class At {
     }
 
     public static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
-        return AtFs.fileDir(attachment, params);
+        return AtFsDir.fileDir(attachment, params);
+    }
+
+    public static Future<JsonObject> fileMeta(final JsonObject appJ) {
+        return AtFs.fileMeta(appJ);
     }
 
     public static List<XActivityChange> diffChange(final JsonObject recordO, final JsonObject recordN, final HAtom atom) {

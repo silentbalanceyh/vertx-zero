@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -31,7 +32,7 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        return Ux.thenCombineT(filtered, RuleRobin::procRule).compose(Ux::futureA);
+        return Fn.combineT(filtered, RuleRobin::procRule).compose(Ux::futureA);
     }
 
     @Override
@@ -163,6 +164,6 @@ public class RuleService implements RuleStub {
                 }
             }
         });
-        return Ux.thenCombine(futures).compose(nil -> Ux.future(views));
+        return Fn.combineA(futures).compose(nil -> Ux.future(views));
     }
 }

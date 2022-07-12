@@ -10,6 +10,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -55,7 +56,7 @@ public class DatumInit implements Init {
             .map(file -> dataFolder + file)
             .map(this::doLoading)
             .collect(Collectors.toList());
-        return Ux.thenCombine(futures)
+        return Fn.combineA(futures)
             /* Stored each result */
             .compose(results -> UObject.create().append(KName.RESULT, results)
                 .toFuture())

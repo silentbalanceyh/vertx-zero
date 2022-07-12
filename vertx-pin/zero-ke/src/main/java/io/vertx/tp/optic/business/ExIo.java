@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -49,6 +50,8 @@ public interface ExIo {
 
     Future<JsonArray> dirTrash(String sigma);
 
+    Future<JsonArray> dirTree(String sigma, List<String> paths);
+
     /*
      * Fetch dir by `code` ( MD5 )
      */
@@ -89,7 +92,7 @@ public interface ExIo {
      * - 2) Iterator for each level directory making
      * - 3) Returned the last directory ( the storePath is the longest )
      */
-    Future<JsonObject> verifyIn(JsonObject directoryJ);
+    Future<JsonObject> verifyIn(JsonArray directoryA, JsonObject params);
 
     /*
      * Update the tree from `directoryId` for impacting

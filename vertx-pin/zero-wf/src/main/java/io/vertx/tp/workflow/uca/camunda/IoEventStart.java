@@ -7,6 +7,7 @@ import io.vertx.tp.error._501EventStartMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
@@ -33,7 +34,7 @@ class IoEventStart extends AbstractIo<StartEvent> {
         final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
         final Collection<StartEvent> starts = instance.getModelElementsByType(StartEvent.class);
         if (starts.isEmpty()) {
-            return Ux.thenError(_501EventStartMissingException.class, this.getClass(), definitionId);
+            return Fn.error(_501EventStartMissingException.class, this.getClass(), definitionId);
         }
         return Ux.future(new ArrayList<>(starts));
     }
@@ -47,7 +48,7 @@ class IoEventStart extends AbstractIo<StartEvent> {
             if (Values.ONE == size) {
                 return Ux.future(list.get(Values.IDX));
             } else {
-                return Ux.thenError(_409EventStartUniqueException.class, this.getClass(), size, definitionId);
+                return Fn.error(_409EventStartUniqueException.class, this.getClass(), size, definitionId);
             }
         });
     }

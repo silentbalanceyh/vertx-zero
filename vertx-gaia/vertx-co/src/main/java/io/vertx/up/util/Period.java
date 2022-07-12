@@ -1,10 +1,10 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -13,25 +13,34 @@ import java.util.function.Consumer;
  * Period for datetime processing based on Java8
  */
 final class Period {
-    private static final List<DateTimeFormatter> DATES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> DATES = new ArrayList<>() {
         {
             this.add(Iso.DATE);
             this.add(Iso.BASIC_DATE);
             this.add(Iso.ORDINAL_DATE);
+            this.add(Iso.OFFSET_DATE);
+            this.add(Iso.LOCAL_DATE);
+            this.add(Iso.WEEK_DATE);
         }
     };
-    private static final List<DateTimeFormatter> DATETIMES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> DATETIMES = new ArrayList<>() {
         {
             this.add(Iso.DATE_TIME);
             this.add(Iso.INSTANT);
             this.add(Iso.RFC1123_DATE_TIME);
             this.add(Iso.COMMON);
             this.add(Iso.READBALE);
+            this.add(Iso.OFFSET_DATE_TIME);
+            this.add(Iso.LOCAL_DATE_TIME);
+            this.add(Iso.ZONED_DATE_TIME);
         }
     };
-    private static final List<DateTimeFormatter> TIMES = new ArrayList<DateTimeFormatter>() {
+    private static final List<DateTimeFormatter> TIMES = new ArrayList<>() {
         {
             this.add(Iso.TIME);
+            this.add(Iso.LOCAL_TIME);
+            this.add(Iso.OFFSET_TIME);
+            this.add(Iso.TIME_FIX);
         }
     };
 
@@ -328,27 +337,18 @@ final class Period {
         }, literal);
     }
 
-    static void itDay(final String from, final String to,
+    static void itDay(final LocalDate from, final LocalDate end,
                       final Consumer<Date> consumer) {
-        final LocalDateTime begin = toDateTime(parseFull(from));
-        final LocalDateTime end = toDateTime(parseFull(to));
-        itDay(begin, end, consumer);
-    }
-
-    static void itDay(final LocalDateTime from, final LocalDateTime end,
-                      final Consumer<Date> consumer) {
-        LocalDate beginDay = from.toLocalDate();
-        final LocalDate endDay = end.toLocalDate();
+        LocalDate beginDay = from;
         do {
             consumer.accept(parse(beginDay));
             beginDay = beginDay.plusDays(1);
-        } while (endDay.isAfter(beginDay));
+        } while (end.isAfter(beginDay));
     }
 
-    static void itWeek(final String from, final String to,
+    static void itWeek(final LocalDate from, final LocalDate end,
                        final Consumer<Date> consumer) {
-        LocalDate begin = toDate(parseFull(from));
-        final LocalDate end = toDate(parseFull(to));
+        LocalDate begin = from;
         do {
             consumer.accept(parse(begin));
             begin = begin.plusWeeks(1);
@@ -441,46 +441,8 @@ final class Period {
         return offsetTime.toLocalDateTime();
     }
 
-    /**
-     * 1. D,00:00, per day
-     * 3. W,00:00,3, per week
-     * 2. M,00:00,11, per month
-     */
-    static Instant parseAt(final String expr) {
-        final String[] splitted = expr.split(Strings.COMMA);
-        final LocalDate nowDate = LocalDate.now();
-        final LocalDateTime nowDateTime = LocalDateTime.now();
-        if (2 == splitted.length) {
-            // D,00:00
-            final LocalTime time = LocalTime.parse(splitted[1]);
-            LocalDateTime datetime = LocalDateTime.of(nowDate, time);
-            if (datetime.isBefore(nowDateTime)) {
-                datetime = datetime.plusDays(1);
-            }
-            return parse(datetime).toInstant();
-        } else if (3 == splitted.length) {
-            final String flag = splitted[0].trim();
-            final LocalTime time = LocalTime.parse(splitted[1]);
-            final int day = Integer.parseInt(splitted[2]);
-            if ("W".equals(flag)) {
-                // W,00:00,3
-                final LocalDate date = nowDate.with(DayOfWeek.of(day));
-                LocalDateTime datetime = LocalDateTime.of(date, time);
-                if (datetime.isBefore(nowDateTime)) {
-                    datetime = datetime.plusWeeks(1);
-                }
-                return parse(datetime).toInstant();
-            } else {
-                // M,00:00,11, per month
-                final LocalDate date = nowDate.withDayOfMonth(day);
-                LocalDateTime datetime = LocalDateTime.of(date, time);
-                if (datetime.isBefore(nowDateTime)) {
-                    datetime = datetime.plusMonths(1);
-                }
-                return parse(datetime).toInstant();
-            }
-        } else {
-            return null;
-        }
+    static String fromPattern(final TemporalAccessor date, final String pattern) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return formatter.format(date);
     }
 }

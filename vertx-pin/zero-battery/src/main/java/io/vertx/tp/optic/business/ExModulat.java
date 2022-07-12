@@ -11,6 +11,7 @@ import io.vertx.tp.battery.refine.Bk;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.tp.optic.feature.Modulat;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -62,7 +63,7 @@ public class ExModulat implements Modulat {
                     futures.put(field, this.fetchData(bag));
                 }
             });
-            return Ux.thenCombine(futures);
+            return Fn.combineM(futures);
         });
     }
 

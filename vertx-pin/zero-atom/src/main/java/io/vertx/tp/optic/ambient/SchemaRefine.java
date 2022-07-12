@@ -18,6 +18,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -45,7 +46,7 @@ class SchemaRefine implements AoRefine {
             // 2. 更新 MEntity 相关内容
             final List<Future<JsonObject>> futures = new ArrayList<>();
             schemata.stream().map(this::saveSchema).forEach(futures::add);
-            return Ux.thenCombine(futures)
+            return Fn.combineA(futures)
                 .compose(nil -> Ux.future(appJson))
                 .otherwise(Ux.otherwise(() -> null));
         };
@@ -107,7 +108,7 @@ class SchemaRefine implements AoRefine {
                 combine.add(this.saveField(schema, entity));
                 // Schema -> Key
                 combine.add(this.saveKey(schema, entity));
-                return Ux.thenCombineArray(combine)
+                return Fn.compressA(combine)
                     .compose(nil -> Ux.future(entity))
                     .compose(Ux::futureJ)
                     .otherwise(Ux.otherwise(() -> null));

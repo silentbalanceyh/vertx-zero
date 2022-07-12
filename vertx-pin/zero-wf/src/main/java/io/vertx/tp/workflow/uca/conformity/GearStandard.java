@@ -61,8 +61,8 @@ public class GearStandard extends AbstractGear {
 
     private void todoAssign(final JsonObject parameters) {
         // toUser -> acceptedBy
-        final String toUser = parameters.getString(KName.Flow.Auditor.TO_USER);
-        parameters.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
-        parameters.remove(KName.Flow.Auditor.TO_USER);
+        final String toUser = parameters.getString(KName.Auditor.TO_USER);
+        parameters.put(KName.Auditor.ACCEPTED_BY, toUser);
+        parameters.remove(KName.Auditor.TO_USER);
     }
 }

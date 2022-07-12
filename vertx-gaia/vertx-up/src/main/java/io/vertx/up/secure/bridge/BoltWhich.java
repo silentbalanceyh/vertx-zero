@@ -12,10 +12,7 @@ import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
-import io.vertx.up.secure.LeeBuiltIn;
-import io.vertx.up.secure.LeeExtension;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -47,7 +44,7 @@ class BoltWhich implements Bolt {
             return null;
         }
         final Aegis verified = this.verifyAuthenticate(config);
-        final Lee lee = this.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             // Log
             if (LOG_LEE[1].getAndSet(Boolean.FALSE)) {
@@ -71,11 +68,24 @@ class BoltWhich implements Bolt {
         if (config.noAuthorization()) {
             return null;
         }
-        final Lee lee = this.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             return null;
         }
         return lee.authorization(vertx, config);
+    }
+
+    @Override
+    public AuthenticationProvider authenticateProvider(final Vertx vertx, final Aegis config) {
+        Objects.requireNonNull(config);
+        if (config.noAuthentication()) {
+            return null;
+        }
+        final Lee lee = Bolt.reference(config.getType());
+        if (Objects.isNull(lee)) {
+            return null;
+        }
+        return lee.provider(vertx, config);
     }
 
     /*
@@ -104,16 +114,5 @@ class BoltWhich implements Bolt {
             WallProviderConflictException.class,
             this.getClass(), item));
         return config;
-    }
-
-    private Lee reference(final Aegis config) {
-        final AuthWall wall = config.getType();
-        if (AuthWall.EXTENSION == wall) {
-            return CC_LEE.pick(() -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
-            // return Fn.po?lThread(POOL_LEE, () -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
-        } else {
-            return CC_LEE.pick(() -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
-            // return Fn.po?lThread(POOL_LEE, () -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
-        }
     }
 }

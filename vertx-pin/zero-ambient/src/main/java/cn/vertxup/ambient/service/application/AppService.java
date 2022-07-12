@@ -6,6 +6,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.tp.optic.feature.Modulat;
@@ -26,8 +27,12 @@ public class AppService implements AppStub {
             .compose(Ux::futureJ)
             /* Before App Initialized ( Public Api ) */
             .compose(appData -> UObject.create(appData).remove(KName.APP_KEY).toFuture())
-            /* Image field: logo */
-            .compose(Ut.ifJObject(KName.App.LOGO));
+            /*
+             * Storage of file definition, here are two parts:
+             * 1) - Logo            to Object
+             * 2) - storePath       extract from `configuration.json`
+             * */
+            .compose(At::fileMeta);
     }
 
     @Override
@@ -37,8 +42,12 @@ public class AppService implements AppStub {
             .<XApp>fetchByIdAsync(appId)
             /* Convert to Json */
             .compose(Ux::futureJ)
-            /* Image field: logo */
-            .compose(Ut.ifJObject(KName.App.LOGO))
+            /*
+             * Storage of file definition, here are two parts:
+             * 1) - Logo            to Object
+             * 2) - storePath       extract from `configuration.json`
+             * */
+            .compose(At::fileMeta)
             /* ExApp Processing, options for application */
             .compose(appJ -> Ux.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
             /* Modulat Processing */

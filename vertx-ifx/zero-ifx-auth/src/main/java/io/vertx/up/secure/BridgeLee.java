@@ -2,6 +2,7 @@ package io.vertx.up.secure;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
@@ -39,6 +40,12 @@ public class BridgeLee implements LeeBuiltIn {
     public AuthorizationHandler authorization(final Vertx vertx, final Aegis config) {
         final Lee reference = this.component(config.getType());
         return reference.authorization(vertx, config);
+    }
+
+    @Override
+    public AuthenticationProvider provider(final Vertx vertx, final Aegis config) {
+        final Lee reference = this.component(config.getType());
+        return reference.provider(vertx, config);
     }
 
     @Override

@@ -102,7 +102,7 @@ public class GearMulti extends AbstractGear {
     private ConcurrentMap<String, JsonObject> todoAssign(final JsonObject parameters, final List<Task> tasks, final boolean generation) {
         // 1. Iterator to build the response
         final ConcurrentMap<String, JsonObject> response = new ConcurrentHashMap<>();
-        final JsonArray toUser = Ut.valueJArray(parameters, KName.Flow.Auditor.TO_USER);
+        final JsonArray toUser = Ut.valueJArray(parameters, KName.Auditor.TO_USER);
         // 2. Iterate the data structure by List / Index
         final int size = tasks.size();
         Ut.itJArray(toUser, String.class, (userKey, index) -> {
@@ -113,17 +113,17 @@ public class GearMulti extends AbstractGear {
                 value.put(KName.Flow.TASK_ID, task.getId());
                 value.put(KName.Flow.TASK_KEY, task.getTaskDefinitionKey());
                 if (generation) {
-                    value.putNull(KName.Flow.Auditor.TO_USER);
+                    value.putNull(KName.Auditor.TO_USER);
                 } else {
-                    value.put(KName.Flow.Auditor.TO_USER, toUser);
+                    value.put(KName.Auditor.TO_USER, toUser);
                 }
-                value.put(KName.Flow.Auditor.ACCEPTED_BY, toUser);
+                value.put(KName.Auditor.ACCEPTED_BY, toUser);
                 response.put(task.getTaskDefinitionKey(), value);
             }
         });
 
-        parameters.remove(KName.Flow.Auditor.TO_USER);
-        parameters.remove(KName.Flow.Auditor.ACCEPTED_BY);
+        parameters.remove(KName.Auditor.TO_USER);
+        parameters.remove(KName.Auditor.ACCEPTED_BY);
         return response;
     }
 }

@@ -4,16 +4,16 @@ import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.ambient.atom.AtConfig;
+import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -31,6 +31,14 @@ import java.util.function.Function;
  */
 class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
+
+    static Future<JsonObject> fileMeta(final JsonObject appJ) {
+        final AtConfig config = AtPin.getConfig();
+        if (Objects.nonNull(config)) {
+            appJ.put(KName.STORE_PATH, config.getStorePath());
+        }
+        return Ux.futureJ(appJ).compose(Ut.ifJObject(KName.App.LOGO));
+    }
 
     static Future<Buffer> fileDownload(final JsonArray attachment) {
         if (Ut.isNil(attachment)) {
@@ -102,44 +110,6 @@ class AtFs {
         }
     }
 
-    /*
-     * Here are file upload for directory calculation
-     * 1) directory processing first
-     * 2) directory generation with ExIo class
-     * 3) Add the new information ( directoryId ) into each attachment.
-     */
-    static Future<JsonArray> fileDir(final JsonArray attachment, final JsonObject params) {
-        final String directory = Ut.valueString(attachment, KName.DIRECTORY);
-        /*
-         *  String parsing on `directory` for final processing
-         */
-        final String storePath;
-        if (directory.contains("`")) {
-            storePath = Ut.fromExpression(directory, params);
-        } else {
-            storePath = directory;
-        }
-        final JsonObject input = new JsonObject();
-        input.put(KName.STORE_PATH, storePath);
-        input.put(KName.SIGMA, params.getValue(KName.SIGMA));
-        input.put(KName.UPDATED_BY, params.getValue(KName.UPDATED_BY));
-        return Ux.channel(ExIo.class, () -> null, io -> io.verifyIn(input)).compose(directoryJ -> {
-            final JsonObject verified = Ut.valueJObject(directoryJ);
-            Ut.itJArray(attachment).forEach(content -> {
-                /*
-                 * Replaced the field
-                 * - directoryId, refer to I_DIRECTORY record,                      key field
-                 * - storeWay, refer to I_DIRECTORY record,                         type field
-                 * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
-                 */
-                content.put(KName.DIRECTORY_ID, verified.getString(KName.KEY));
-                content.put(KName.STORE_PATH, Ut.ioPath(storePath, content.getString(KName.NAME)));
-                content.put(KName.Attachment.STORE_WAY, verified.getString(KName.TYPE));
-            });
-            return Ux.future(attachment);
-        });
-    }
-
     private static <T> Future<T> splitRun(
         final JsonArray source,
         final BiFunction<String, ConcurrentMap<String, String>, Future<T>> executor) {
@@ -180,6 +150,6 @@ class AtFs {
         if (Ut.notNil(dataR)) {
             futures.add(fnRemote.apply(dataR));
         }
-        return Ux.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 }

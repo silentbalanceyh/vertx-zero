@@ -12,7 +12,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
@@ -108,14 +110,6 @@ public final class Ut {
 
     public static <T, V> List<T> diff(final List<T> subtrahend, final List<T> minuend, final Function<T, V> fnGet) {
         return new ArrayList<>(diff(new HashSet<>(subtrahend), new HashSet<>(minuend), fnGet));
-    }
-
-    public static <T> Set<T> each(final Set<T> source, final Consumer<T>... consumers) {
-        return (Set<T>) Arithmetic.each(source, consumers);
-    }
-
-    public static <T> List<T> each(final List<T> source, final Consumer<T>... consumers) {
-        return (List<T>) Arithmetic.each(source, consumers);
     }
 
     /*
@@ -437,15 +431,31 @@ public final class Ut {
     }
 
     public static void itDay(final String from, final String to, final Consumer<Date> consumer) {
-        Period.itDay(from, to, consumer);
+        final LocalDateTime begin = Period.toDateTime(Period.parseFull(from));
+        final LocalDateTime end = Period.toDateTime(Period.parseFull(to));
+        Period.itDay(begin.toLocalDate(), end.toLocalDate(), consumer);
     }
 
     public static void itDay(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itDay(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itDay(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itDay(from, to, consumer);
     }
 
-    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+    public static void itWeek(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itWeek(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itWeek(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itWeek(from, to, consumer);
+    }
+
+    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+        final LocalDate begin = Period.toDate(Period.parseFull(from));
+        final LocalDate end = Period.toDate(Period.parseFull(to));
+        Period.itWeek(begin, end, consumer);
     }
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
@@ -667,32 +677,52 @@ public final class Ut {
         return StringUtil.path(folder, file);
     }
 
+    public static List<String> ioPathSet(final String storePath) {
+        return IOPath.ladder(storePath);
+    }
+
+    public static String ioPathRoot(final String path) {
+        return IOPath.first(path, Strings.SLASH);
+    }
+
+    public static String ioPathRoot(final String path, final String separator) {
+        return IOPath.first(path, separator);
+    }
+
+    public static String ioPathLeaf(final String path) {
+        return IOPath.last(path, Strings.SLASH);
+    }
+
+    public static String ioPathLeaf(final String path, final String separator) {
+        return IOPath.last(path, separator);
+    }
+
     public static List<String> ioFiles(final String folder) {
-        return Folder.listFiles(folder, null);
+        return IODirectory.listFiles(folder, null);
     }
 
     public static List<String> ioFiles(final String folder, final String extension) {
-        return Folder.listFiles(folder, extension);
+        return IODirectory.listFiles(folder, extension);
     }
 
     public static List<String> ioFilesN(final String folder) {
-        return Folder.listFilesN(folder, null, null);
+        return IODirectory.listFilesN(folder, null, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension) {
-        return Folder.listFilesN(folder, extension, null);
+        return IODirectory.listFilesN(folder, extension, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
-        return Folder.listFilesN(folder, extension, prefix);
+        return IODirectory.listFilesN(folder, extension, prefix);
     }
 
     public static List<String> ioDirectories(final String folder) {
-        return Folder.listDirectories(folder);
+        return IODirectory.listDirectories(folder);
     }
 
     public static List<String> ioDirectoriesN(final String folder) {
-        return Folder.listDirectoriesN(folder);
+        return IODirectory.listDirectoriesN(folder);
     }
 
     public static <T> T ioYaml(final String filename) {
@@ -1382,6 +1412,10 @@ public final class Ut {
         return Jackson.toJObject(value);
     }
 
+    public static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
+        return To.toJObject(map);
+    }
+
     public static JsonObject toJObject(final Map<String, Object> map) {
         return To.toJObject(map);
     }
@@ -1494,6 +1528,14 @@ public final class Ut {
         return To.toMapExpr(data);
     }
 
+    public static WebException toError(final Class<?> clazz, final Throwable error) {
+        return To.toError(clazz, error);
+    }
+
+    public static WebException toError(final Class<? extends WebException> clazz, final Object... args) {
+        return To.toError(clazz, args);
+    }
+
     /*
      * JsonObject tree visiting
      * 1) visitJObject
@@ -1582,7 +1624,7 @@ public final class Ut {
         return Period.parse(date);
     }
 
-    public static Date now() {
+    public static Date valueNow() {
         return Period.parse(LocalDateTime.now());
     }
 
@@ -1600,7 +1642,7 @@ public final class Ut {
      * 6) fromExpression
      * 7) fromExpressionT
      * 8) fromPrefix
-     * 9) fromAt
+     * 9) fromDate
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return Stream.from(pos, buffer);
@@ -1659,7 +1701,7 @@ public final class Ut {
     }
 
     public static String fromExpression(final String expr, final JsonObject params) {
-        return StringUtil.expression(expr, params);
+        return (String) StringUtil.expressionWith(expr, params);
     }
 
     public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
@@ -1674,9 +1716,24 @@ public final class Ut {
         return StringUtil.prefix(data, prefix);
     }
 
-    @Deprecated
-    public static Instant fromAt(final String expr) {
-        return Period.parseAt(expr);
+    public static String fromDate(final LocalDate date, final String pattern) {
+        return Period.fromPattern(date, pattern);
+    }
+
+    public static String fromDate(final LocalDateTime datetime, final String pattern) {
+        return Period.fromPattern(datetime, pattern);
+    }
+
+    public static String fromDate(final LocalTime time, final String pattern) {
+        return Period.fromPattern(time, pattern);
+    }
+
+    public static String fromDate(final Date date, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(date), pattern);
+    }
+
+    public static String fromDate(final Instant instant, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(instant), pattern);
     }
 
     /*
@@ -1731,6 +1788,10 @@ public final class Ut {
     // Single Processing
     public static String valueString(final JsonArray array, final String field) {
         return Epsilon.vString(array, field);
+    }
+
+    public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
+        return list.stream().map(stringFn).findFirst().orElse(null);
     }
 
     public static JsonArray valueJArray(final JsonArray array, final String field) {

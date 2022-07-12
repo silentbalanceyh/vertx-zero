@@ -37,14 +37,14 @@ public class Ruler {
      * @throws ZeroException Error when verified failure.
      */
     public static void verify(final String file, final JsonObject data) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 1. Rule for json object
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
             for (final String field : data.fieldNames()) {
                 final Object value = data.getValue(field);
-                Fn.onZero(() -> {
+                Fn.safeZero(() -> {
                     if (Ut.isJObject(value) || Ut.isJArray(value)) {
                         final String filename = file + Strings.DOT + field;
                         if (Ut.isJObject(value)) {
@@ -69,12 +69,12 @@ public class Ruler {
      * @throws ZeroException Whether here throw validated exception
      */
     public static void verify(final String file, final JsonArray data) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 1. Rule for json array
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
-            Fn.etJArray(data, (value, field) -> {
+            Fn.verifyJArray(data, (value, field) -> {
                 // 3. Value = JsonObject, identify if extension.
                 final String filename = file + Strings.DOT + field;
                 if (Ut.isJObject(value)) {
@@ -89,7 +89,7 @@ public class Ruler {
     }
 
     private static <T> void verifyItem(final T input, final JsonObject rule) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
 
             if (Ut.isJArray(input)) {
                 final JsonArray data = (JsonArray) input;

@@ -2,8 +2,9 @@ package io.vertx.up.util;
 
 import io.vertx.up.uca.compare.Vs;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -120,14 +121,6 @@ final class Arithmetic {
             }
         });
         return result;
-    }
-
-    @SafeVarargs
-    static <T> Collection<T> each(final Collection<T> source, final Consumer<T>... consumers) {
-        if (0 < consumers.length) {
-            source.forEach(item -> Arrays.stream(consumers).forEach(consumer -> consumer.accept(item)));
-        }
-        return source;
     }
 
     private static <T, V> T findBy(final Set<T> source, final T original, final Function<T, V> fnGet) {

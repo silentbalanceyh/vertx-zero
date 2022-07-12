@@ -28,7 +28,6 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.rule.RuleTerm;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.fn.wait.Log;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
@@ -67,15 +66,11 @@ public final class Ux {
      * Create new log instance for store `Annal` mapping
      *
      * Debug method for help us to do development
-     * 1) log:  for branch log creation
-     * 2) debug:
-     * 3) otherwise:
-     * 4) dataN/dataO -> New / Old Json
+     * 1) debug:
+     * 2) otherwise:
+     * 3) dataN/dataO -> New / Old Json
      * ( Business Part: Debugging )
      */
-    public static Log log(final Class<?> clazz) {
-        return Log.create(null == clazz ? Ux.class : clazz);
-    }
 
     public static void debug(final Object... objects) {
         Debug.monitor(objects);
@@ -719,151 +714,8 @@ public final class Ux {
         return Web.pageData(pageData, function);
     }
 
-    /*
-     * Complex calculation
-     * 1) thenCombine
-     * 2) thenCombineArray
-     * 3) thenCompress
-     * 4) thenError
-     * 5) thenErrorSigma
-     *
-     * Additional methods for generic T here
-     * 1) thenCombineT
-     * 2) thenCombineArrayT
-     */
-
-    /**
-     * Future async specific workflow for combine future here.
-     *
-     * For example:
-     *
-     * ```shell
-     * // <pre><code>
-     * --------> generateFun ( Supplier )     operatorFun ( BiConsumer )
-     * --------> json1 -> ? future<out1>  ->  operatorFun[0] -> (json1, out1) -> merged1
-     * jarray -> json2 -> ? future<out2>  ->  operatorFun[1] -> (json2, out2) -> merged2  -> merged ( Future<JsonArray> )
-     * --------> json3 -> ? future<out3>  ->  operatorFun[2] -> (json3, out3) -> merged3
-     * // </code></pre>
-     * ```
-     *
-     * @param source      The first query result of list
-     * @param generateFun (json) -> future(out) ( each record )
-     * @param operatorFun (json, out) -> merged
-     *
-     * @return It often used in secondary select in database here
-     */
-    public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
-        return Combine.thenCombine(source, generateFun, operatorFun);
-    }
-
-    /**
-     * The workflow
-     * ------>  generateFun ( Supplier )                operatorFun ( BiConsumer )
-     * ------>  future1 ( json -> ? future<out1> )  ->  operatorFun[0] -> (json, out1) -> merged1  ->
-     * json ->  future2 ( json -> ? future<out2> )  ->  operatorFun[1] -> (json, out2) -> merged2  -> merged
-     * ------>  future3 ( json -> ? future<out3> )  ->  operatorFun[2] -> (json, out3) -> merged3  ->
-     *
-     * @param source      The input json object
-     * @param generateFun The json object should generate list<future>, each future should be json object
-     * @param operatorFun merged the result to json object instead of other
-     *
-     * @return The final result of future
-     */
-    public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
-        return Combine.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
-    }
-
-    /**
-     * input:
-     * - List: [future1, future2, future3]
-     * output:
-     * - Future: JsonArray ( future1 -> json, future2 -> json, future3 -> json )
-     * The workflow
-     * future1 -> (in1 -> out1)
-     * future2 -> (in2 -> out2) --> future ( [out1, out2, out3] )
-     * future3 -> (in3 -> out3)
-     *
-     * @param futures The list of futures
-     *
-     * @return The final result of futures
-     */
-    public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
-        return Combine.thenCombine(futures);
-    }
-
-    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
-                                                  final BiFunction<F, S, Future<T>> consumer) {
-        return Combine.thenCombine(futureF, futureS, consumer);
-    }
-
-    public static <F, S, T> Future<T> thenCombine(final Future<F> futureF, final Future<S> futureS,
-                                                  final BiFunction<F, S, Future<T>> consumer) {
-        return Combine.thenCombine(() -> futureF, () -> futureS, consumer);
-    }
-
-    public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
-        final List<Future<JsonObject>> futures = new ArrayList<>();
-        Ut.itJArray(input).map(function).forEach(futures::add);
-        return Combine.thenCombine(futures);
-    }
-
-    public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
-        return Combine.thenCombineT(futures);
-    }
-
-    public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {
-        final List<Future<O>> futures = new ArrayList<>();
-        Ut.itList(source).map(consumer).forEach(futures::add);
-        return Combine.thenCombineT(futures);
-    }
-
-    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
-        return Combine.thenCombine(futureMap);
-    }
-
-    /*
-     * Specific combine method here.
-     */
-    public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
-        return Combine.thenCombineArray(futures);
-    }
-
-    public static Future<JsonArray> thenCombineArray(final JsonArray source, final Function<JsonObject, Future<JsonArray>> consumer) {
-        return thenCombineArray(source, JsonObject.class, consumer);
-    }
-
-    public static <T> Future<JsonArray> thenCombineArray(final JsonArray source, final Class<T> clazz, final Function<T, Future<JsonArray>> consumer) {
-        final List<Future<JsonArray>> futures = new ArrayList<>();
-        Ut.itJArray(source, clazz, (item, index) -> futures.add(consumer.apply(item)));
-        return Combine.thenCombineArray(futures);
-    }
-
-    public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
-        return Combine.thenCombineArrayT(futures);
-    }
-
-    public static Future<ConcurrentMap<String, JsonArray>> thenCompress(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return Combine.thenCompress(futures, (original, latest) -> original.addAll(latest));
-    }
-
     public static Future<JsonObject> thenEffect(final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
         return Norm.effectTabb(input, executor);
-    }
-
-    /**
-     * Common usage: To error directly
-     *
-     * @param clazz The type of WebException, class type, it will be created by reflection.
-     * @param args  The rule
-     *              - arg0: this.getClass(), Because all the first arg of WebException must be clazz here.
-     *              - argX: the arguments of WebException constructor here, instead of fixed arguments.
-     */
-    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
-        return Combine.thenError(clazz, args);
-    }
-
-    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return Combine.thenError(clazz, sigma, supplier);
     }
 
     /*
@@ -1185,6 +1037,105 @@ public final class Ux {
         }
     }
 
+    // region Deprecated Code ( Removed in future, plan in release 1.0 version. )
+
+    @Deprecated
+    public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
+        // return Fn.combine(source, generateFun, operatorFun);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(source, generateFun, operatorFun) instead!!");
+
+    }
+
+    @Deprecated
+    public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
+        // return Fn.combine(source, generateFun, operatorFun);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(source, generateFun, operatorFun) instead!!");
+    }
+
+    @Deprecated
+    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
+        // return Fn.thenError(clazz, args);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenError(clazz, args) instead!!");
+    }
+
+    @Deprecated
+    public static <T> Future<T> thenError(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
+        // return Fn.thenError(clazz, sigma, supplier);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.thenError(clazz, sigma, supplier) instead!!");
+    }
+
+    @Deprecated
+    public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
+        // return Fn.combine(futures);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(futures) instead!!");
+    }
+
+    @Deprecated
+    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
+                                                  final BiFunction<F, S, Future<T>> consumer) {
+        // return Fn.combine(futureF, futureS, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(futureF, futureS, consumer) instead!!");
+    }
+
+    @Deprecated
+    public static <F, S, T> Future<T> thenCombine(final Future<F> futureF, final Future<S> futureS,
+                                                  final BiFunction<F, S, Future<T>> consumer) {
+        // return Fn.combine(futureF, futureS, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(futureF, futureS, consumer) instead!!");
+    }
+
+    @Deprecated
+    public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
+        // return Fn.combine(input, function);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(input, function) instead!!");
+    }
+
+    @Deprecated
+    public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {
+        // return Fn.combineT(source, consumer);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineT(source, consumer) instead!!");
+    }
+
+    @Deprecated
+    public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
+        // return Fn.combineT(futures);
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineT(futures) instead!!");
+    }
+
+    @Deprecated
+    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combine(futureMap) instead!!");
+    }
+
+    @Deprecated
+    /*
+     * Specific combine method here.
+     */
+    public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineA(futures) instead!!");
+    }
+
+    @Deprecated
+    public static Future<JsonArray> thenCombineArray(final JsonArray source, final Function<JsonObject, Future<JsonArray>> consumer) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineA(source, consumer) instead!!");
+    }
+
+    @Deprecated
+    public static <T> Future<JsonArray> thenCombineArray(final JsonArray source, final Class<T> clazz, final Function<T, Future<JsonArray>> consumer) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineA(source, clazz, consumer) instead!!");
+    }
+
+    @Deprecated
+    public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.combineL(...) instead!!");
+    }
+
+    @Deprecated
+    public static Future<ConcurrentMap<String, JsonArray>> thenCompress(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
+        throw new RuntimeException("「Version 0.9+ Removed」 Fn.compress(...) instead!!");
+    }
+    // endregion
+
     /**
      * Inner class of `Jooq` tool of Jooq Engine operations based on pojo here.
      * When developers want to access database and select zero default implementation.
@@ -1377,4 +1328,5 @@ public final class Ux {
             return extract(jwtToken.getString(KName.ACCESS_TOKEN));
         }
     }
+
 }

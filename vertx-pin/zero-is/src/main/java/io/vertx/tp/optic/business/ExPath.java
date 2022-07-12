@@ -10,7 +10,7 @@ import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -164,7 +164,7 @@ public class ExPath implements ExIo {
                     final ConcurrentMap<String, String> renameMap = Is.trashIn(storeSet);
                     futures.add(fs.rm(renameMap.values()));
                 });
-                return Ux.thenCombineT(futures);
+                return Fn.combineT(futures);
             }))
             .compose(nil -> Ux.future(directoryJ));
     }
@@ -185,29 +185,19 @@ public class ExPath implements ExIo {
             .compose(fs -> fs.rename(renameKv));
     }
 
+    @Override
+    public Future<JsonArray> dirTree(final String sigma, final List<String> paths) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(paths));
+        condition.put(KName.SIGMA, sigma);
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.fetchJAsync(condition);
+    }
 
     @Override
-    public Future<JsonObject> verifyIn(final JsonObject directoryJ) {
-        final JsonObject dirData = Ut.valueJObject(directoryJ);
-        final String storePath = dirData.getString(KName.STORE_PATH);
-        if (Ut.isNil(storePath)) {
-            return Ux.future();
-        }
-        // Split storePath by `/` to Set<String>
-        final String[] splitArr = storePath.split(Strings.SLASH);
-        final List<String> itemList = new ArrayList<>();
-        for (int idx = 0; idx < splitArr.length; idx++) {
-            final StringBuilder item = new StringBuilder();
-            for (int jdx = 0; jdx < idx; jdx++) {
-                item.append(splitArr[jdx]).append(Strings.SLASH);
-            }
-            item.append(splitArr[idx]);
-            final String itemStr = item.toString();
-            if (Ut.notNil(itemStr)) {
-                itemList.add(itemStr);
-            }
-        }
-        return Is.directoryLeaf(itemList, directoryJ).compose(Ux::futureJ);
+    public Future<JsonObject> verifyIn(final JsonArray directoryA, final JsonObject params) {
+        Ut.ifStrings(directoryA, KName.VISIT_MODE);
+        return Is.directoryLeaf(directoryA, params).compose(Ux::futureJ);
     }
 
     // ----------------- Private Interface ----------------------
@@ -238,7 +228,7 @@ public class ExPath implements ExIo {
             }
             futures.add(fs.rename(renameMap));
         });
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {

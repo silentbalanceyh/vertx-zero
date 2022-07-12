@@ -248,4 +248,8 @@ interface Iso {
      */
     DateTimeFormatter READBALE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         .withLocale(Locale.getDefault());
+    /*
+     * 1:00:00
+     */
+    DateTimeFormatter TIME_FIX = DateTimeFormatter.ofPattern("H:mm:ss");
 }

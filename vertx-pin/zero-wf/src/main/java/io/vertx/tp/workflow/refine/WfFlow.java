@@ -123,7 +123,7 @@ class WfFlow {
     static PassWay inGateway(final JsonObject requestJ) {
         // toUser field extraction
         final JsonObject requestData = Ut.valueJObject(requestJ);
-        final Object toUser = requestData.getValue(KName.Flow.Auditor.TO_USER);
+        final Object toUser = requestData.getValue(KName.Auditor.TO_USER);
         if (toUser instanceof String) {
             // String
             return PassWay.Standard;

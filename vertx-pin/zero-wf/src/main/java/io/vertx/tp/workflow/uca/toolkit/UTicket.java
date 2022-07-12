@@ -391,10 +391,10 @@ public class UTicket {
          *      When the `toUser` data is `String`, it could be updated ( Single ), if other situations ( JsonObject
          * / JsonArray ), ignored this situation.
          */
-        final Object toUser = dataJ.getValue(KName.Flow.Auditor.TO_USER);
+        final Object toUser = dataJ.getValue(KName.Auditor.TO_USER);
         if (toUser instanceof JsonArray || toUser instanceof JsonObject) {
             // Removed for Todo Part
-            dataJ.remove(KName.Flow.Auditor.TO_USER);
+            dataJ.remove(KName.Auditor.TO_USER);
         }
     }
 }

@@ -127,16 +127,4 @@ public class ChainHandlerImpl extends AuthenticationHandlerImpl<AuthenticationPr
             }
         });
     }
-
-    public String authenticateHeader(final RoutingContext ctx) {
-        /*
-        After 4.3.0, Old Code Here
-        for (final AuthenticationHandlerInternal authHandler : this.handlers) {
-            final String header = authHandler.authenticateHeader(ctx);
-            if (header != null) {
-                return header;
-            }
-        }*/
-        return null;
-    }
 }

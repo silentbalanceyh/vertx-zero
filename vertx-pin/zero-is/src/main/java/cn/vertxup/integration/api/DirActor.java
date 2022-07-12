@@ -9,7 +9,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
@@ -29,7 +29,7 @@ public class DirActor {
         // isFileName Checking
         final String name = data.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Ux.thenError(_400FileNameInValidException.class, this.getClass());
+            return Fn.error(_400FileNameInValidException.class, this.getClass());
         }
         return this.stub.create(data);
     }
@@ -40,7 +40,7 @@ public class DirActor {
         // isFileName Checking
         final String name = data.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Ux.thenError(_400FileNameInValidException.class, this.getClass());
+            return Fn.error(_400FileNameInValidException.class, this.getClass());
         }
         return this.stub.update(key, data);
     }

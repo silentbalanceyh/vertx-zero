@@ -12,6 +12,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -34,7 +35,7 @@ class RiseRapid implements Rise {
 
     @Override
     public Future<Apt> fetchBatch(final JsonObject criteria, final DataAtom atom) {
-        return Ux.thenCombine(
+        return Fn.combineT(
             this.inputData(criteria, atom),
             this.inputAcc(criteria, atom),
             (data, acc) -> this.combineAcc(data, acc, atom)

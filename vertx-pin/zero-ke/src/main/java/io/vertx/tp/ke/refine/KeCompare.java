@@ -9,6 +9,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -81,7 +82,7 @@ class KeCompare {
             final List<Future<JsonArray>> futures = new ArrayList<>();
             futures.add(Ut.ifJEmpty(iFun).apply(inserted));
             futures.add(Ut.ifJEmpty(uFun).apply(updated));
-            return Ux.thenCombineArray(futures);
+            return Fn.compressA(futures);
         };
     }
 

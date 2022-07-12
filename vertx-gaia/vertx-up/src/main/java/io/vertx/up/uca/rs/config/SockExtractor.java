@@ -1,9 +1,12 @@
 package io.vertx.up.uca.rs.config;
 
-import io.vertx.up.annotations.WebSocket;
+import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.RemindType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
@@ -32,7 +35,7 @@ public class SockExtractor implements Extractor<Set<Remind>> {
             final Method[] methods = clazz.getDeclaredMethods();
             Arrays.stream(methods)
                 .filter(MethodResolver::isValid)
-                .filter(method -> method.isAnnotationPresent(WebSocket.class))
+                .filter(method -> method.isAnnotationPresent(Broker.class))
                 .map(this::extract)
                 .forEach(websockets::add);
             return websockets;
@@ -42,12 +45,25 @@ public class SockExtractor implements Extractor<Set<Remind>> {
     private Remind extract(final Method method) {
         final Class<?> clazz = method.getDeclaringClass();
         // 1. Scan whole Endpoints
-        final Annotation annotation = method.getDeclaredAnnotation(WebSocket.class);
-        final String address = Ut.invoke(annotation, KName.VALUE);
+        final Annotation annotation = method.getDeclaredAnnotation(Broker.class);
+        String address = Ut.invoke(annotation, KName.VALUE);
+        /*
+         * If the address is not start with "/", the system convert the address value
+         * from direct address to the normalized path.
+         *
+         * For example:
+         *
+         * job/notify       -> /job/notify
+         */
+        if (!address.startsWith(Strings.SLASH)) {
+            address = Strings.SLASH + address;
+        }
+        final RemindType type = Ut.invoke(annotation, KName.TYPE);
         // 2. Build Remind
         final Remind remind = new Remind();
         remind.setMethod(method);
-        remind.setAddress(address);
+        remind.setSubscribe(address);
+        remind.setType(type);
 
         // Fix: Instance class for proxy
         final Object proxy = PLUGIN.createComponent(clazz);
@@ -55,12 +71,15 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         remind.setName(Ut.invoke(annotation, KName.NAME));
         remind.setSecure(Ut.invoke(annotation, "secure"));
         // Input Part: input / inputAddress
-        final Class<?> inputCls = Ut.invoke(annotation, "input");
-        if (DefaultClass.class != inputCls) {
-            remind.setInput(inputCls);
+        final Annotation annoAddr = method.getDeclaredAnnotation(Address.class);
+        final String inputAddress = Ut.invoke(annoAddr, KName.VALUE);
+        if (Ut.notNil(inputAddress)) {
+            remind.setAddress(inputAddress);
+            final Class<?> inputCls = Ut.invoke(annotation, "input");
+            if (DefaultClass.class != inputCls) {
+                remind.setInput(inputCls);
+            }
         }
-        remind.setInputAddress(Ut.invoke(annotation, "inputAddress"));
-
         return remind;
     }
 }

@@ -116,4 +116,6 @@ public interface Cc<K, V> {
     V pick(Supplier<V> supplier);
 
     V pick(Supplier<V> supplier, K key);
+
+    boolean isEmpty();
 }

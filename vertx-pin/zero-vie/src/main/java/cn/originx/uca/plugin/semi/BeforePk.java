@@ -9,6 +9,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.optic.plugin.BeforePlugin;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -41,7 +42,7 @@ public class BeforePk extends AbstractBefore {
                 futures.put(field, Ox.viGet(this.atom, identifier, viField, viValue));
             }
         });
-        return Ux.thenCombine(futures).compose(map -> {
+        return Fn.combineM(futures).compose(map -> {
             config.keySet().forEach(field -> {
                 final Record ref = map.getOrDefault(field, null);
                 final Object value = this.extractValue(ref, config.getOrDefault(field, new JsonObject()));
@@ -65,7 +66,7 @@ public class BeforePk extends AbstractBefore {
                 futures.put(field, Ox.viGetMap(this.atom, identifier, viField, Ut.toJArray(values)));
             }
         });
-        return Ux.thenCombine(futures).compose(map -> {
+        return Fn.combineM(futures).compose(map -> {
             // 单字段读取
             Ut.itJArray(records).forEach(record -> map.forEach((field, valueMap) -> {
                 /*

@@ -7,6 +7,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
@@ -69,7 +70,7 @@ class KeTool {
                 KeLog.warnChannel(KeTool.class, "Criteria must be not empty");
             }
         });
-        return Ux.thenCombine(futures).compose(mapData -> {
+        return Fn.combineM(futures).compose(mapData -> {
             mapData.forEach(data::put);
             return Ux.future(data);
         });

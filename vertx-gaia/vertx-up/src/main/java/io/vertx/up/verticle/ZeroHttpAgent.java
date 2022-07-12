@@ -19,7 +19,10 @@ import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.uca.rs.Axis;
-import io.vertx.up.uca.rs.router.*;
+import io.vertx.up.uca.rs.router.EventAxis;
+import io.vertx.up.uca.rs.router.FilterAxis;
+import io.vertx.up.uca.rs.router.RouterAxis;
+import io.vertx.up.uca.rs.router.WallAxis;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -67,10 +70,6 @@ public class ZeroHttpAgent extends AbstractVerticle {
         final Axis<Router> monitorAxis = Pool.CC_ROUTER.pick(
             () -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + false);
         // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, false));
-
-        /* 6.SockJs route to mount WebSocket Part **/
-        final Axis<Router> sockAxis = Pool.CC_ROUTER.pick(
-            SockAxis::new, SockAxis.class.getName());
 
         /*
          * New Extension Structure, Here I designed new interface `Ares` for router extension Part to replace

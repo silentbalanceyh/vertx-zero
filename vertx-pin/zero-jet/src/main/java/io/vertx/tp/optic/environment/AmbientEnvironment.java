@@ -21,10 +21,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -46,15 +43,13 @@ public class AmbientEnvironment {
     /* XApp application, class JtApp */
     private final transient JtApp app;
     private final transient Set<String> condition = new HashSet<>();
-
-    /* Data source, DSLContext, DataSource */
-    private final transient DataPool pool;
     private final transient DataPool poolMeta;
-
     /*
      * Service Map
      */
     private final ConcurrentMap<String, IService> serviceMap = new ConcurrentHashMap<>();
+    /* Data source, DSLContext, DataSource */
+    private transient DataPool pool;
 
     /*
      * Could not initialized outside package
@@ -63,13 +58,16 @@ public class AmbientEnvironment {
         /* Reference of application */
         this.app = app;
         this.condition.add(app.getSigma());
-        /* ZPool created by Database */
-        this.pool = DataPool.create(app.getSource());
+        /* Source may be null */
+        if (Objects.nonNull(app.getSource())) {
+            this.pool = DataPool.create(app.getSource());
+        }
         this.poolMeta = DataPool.create(Database.getCurrent());
     }
 
     @Fluent
     public Future<AmbientEnvironment> init(final Vertx vertx) {
+
         return this.initService(vertx).compose(nil -> {
 
             final List<Future<Boolean>> futures = new ArrayList<>();
@@ -81,7 +79,7 @@ public class AmbientEnvironment {
              * IJob + IService
              */
             futures.add(this.initJobs(vertx));
-            return Ux.thenCombineT(futures).compose(res -> Ux.future(this));
+            return Fn.combineT(futures).compose(res -> Ux.future(this));
         });
     }
 

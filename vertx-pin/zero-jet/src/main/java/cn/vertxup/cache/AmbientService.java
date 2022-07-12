@@ -16,6 +16,7 @@ import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobStatus;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Ux.thenError(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.error(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtJob combining
@@ -74,7 +75,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Ux.thenError(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.error(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtUri combining

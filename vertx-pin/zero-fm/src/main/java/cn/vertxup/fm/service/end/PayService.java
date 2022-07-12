@@ -13,6 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -82,7 +83,7 @@ public class PayService implements PayStub {
             final List<Future<Boolean>> futures = new ArrayList<>();
             futures.add(this.revertDebt(items));
             futures.add(this.deleteCascade(items));
-            return Ux.thenCombineT(futures)
+            return Fn.combineT(futures)
                 .compose(nil -> Ux.futureT());
         });
     }

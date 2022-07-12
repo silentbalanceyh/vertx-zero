@@ -93,7 +93,7 @@ public class ModelPerformer implements AoPerformer {
         private Future<JsonArray> startList(final List<MModel> modelList) {
             final List<Future<JsonObject>> futures = new ArrayList<>();
             modelList.stream().map(this::execute).forEach(futures::add);
-            return Ux.thenCombine(futures);
+            return Fn.combineA(futures);
         }
 
         private Future<JsonObject> execute(final MModel model) {

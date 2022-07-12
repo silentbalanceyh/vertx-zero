@@ -9,6 +9,7 @@ import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -56,7 +57,7 @@ public class ULinkage {
             final Respect respect = this.metadata.linkRespect(field);
             futures.put(field, respect.fetchAsync(record));
         });
-        return Ux.thenCombine(futures).compose(dataMap -> {
+        return Fn.combineM(futures).compose(dataMap -> {
             dataMap.forEach(record::linkage);
             return Ux.future(record);
         });
@@ -83,7 +84,7 @@ public class ULinkage {
                 futures.put(field, respect.syncAsync(linkageData, params, record));
             }
         });
-        return Ux.thenCombine(futures).compose(dataMap -> {
+        return Fn.combineM(futures).compose(dataMap -> {
             dataMap.forEach(record::linkage);
             return Ux.future(record);
         });

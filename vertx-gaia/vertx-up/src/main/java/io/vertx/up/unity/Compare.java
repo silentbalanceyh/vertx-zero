@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -256,6 +257,6 @@ class Compare {
         if (!qUpdate.isEmpty()) {
             futures.add(updateAsyncFn.apply(qUpdate).compose(Ux::futureA));
         }
-        return Combine.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 }
