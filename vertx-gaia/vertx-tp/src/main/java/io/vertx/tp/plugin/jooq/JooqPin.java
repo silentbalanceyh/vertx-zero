@@ -4,75 +4,25 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
-import org.jooq.ConnectionProvider;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DataSourceConnectionProvider;
-import org.jooq.impl.DefaultConfiguration;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-class JooqPin {
+public class JooqPin {
 
     private static final Annal LOGGER = Annal.get(JooqPin.class);
-    private static final ConcurrentMap<DatabaseType, SQLDialect> DIALECT =
-        new ConcurrentHashMap<DatabaseType, SQLDialect>() {
-            {
-                this.put(DatabaseType.MYSQL, SQLDialect.MYSQL);
-                this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL);
-                this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL);
-            }
-        };
 
     private static DataPool initPool(final JsonObject databaseJson) {
         final Database database = new Database();
         database.fromJson(databaseJson);
         return DataPool.create(database);
-    }
-
-    static Configuration initConfig(final DataPool pool) {
-        // Initialized client
-        final Database database = pool.getDatabase();
-        final Configuration configuration = new DefaultConfiguration();
-        SQLDialect dialect = DIALECT.get(database.getCategory());
-        if (Objects.isNull(dialect)) {
-            dialect = SQLDialect.DEFAULT;
-        }
-        configuration.set(dialect);
-        /*
-         * jOOQ uses a ConnectionProvider behind the scenes and always calls acquire() before running a statement and
-         * release() after running it. Depending on how you have configured your ConnectionProvider, this may or may
-         * not close your JDBC connection. For example, when you pass jOOQ a standalone Connection, then it is never
-         * closed (DefaultConnectionProvider). When you pass it a DataSource, then the Connection is always closed
-         * (DataSourceConnectionProvider).
-         *
-         * The old code is as:
-         * final Connection connection = Fn.getJvm(() -> pool.getDataSource().getConnection());
-         * final ConnectionProvider provider = new DefaultConnectionProvider(connection);
-         *
-         * Here the new version is as following:
-         * final ConnectionProvider provider = new DataSourceConnectionProvider(pool.getDataSource());
-         *
-         * It means that use `DataSourceConnectionProvider` instead and the background thread will call
-         * `acquire()` to close the connection directly.
-         */
-        final ConnectionProvider provider = new DataSourceConnectionProvider(pool.getDataSource());
-        // Initialized default configuration
-        configuration.set(provider);
-        return configuration;
-    }
-
-    private static Configuration initConfig(final JsonObject options) {
-        final DataPool pool = initPool(options);
-        return initConfig(pool);
     }
 
     static ConcurrentMap<String, Configuration> initConfiguration(final JsonObject config) {
@@ -96,7 +46,8 @@ class JooqPin {
                 .filter(key -> config.getValue(key) instanceof JsonObject)
                 .forEach(key -> {
                     final JsonObject options = config.getJsonObject(key);
-                    final Configuration configuration = initConfig(options);
+                    final DataPool pool = initPool(options);
+                    final Configuration configuration = pool.configuration();
                     configurationMap.put(key, configuration);
                     /*
                      * Process Jooq password by `debug` mode turn on

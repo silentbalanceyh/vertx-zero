@@ -50,7 +50,7 @@ public class JooqInfix implements Infix {
         if (CONFIGURATION.containsKey(configurationKey)) {
             return configSafe(configurationKey);
         } else {
-            final Configuration configuration = JooqPin.initConfig(pool);
+            final Configuration configuration = pool.configuration();
             CONFIGURATION.put(configurationKey, configuration);
             return configuration;
         }
