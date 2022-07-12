@@ -13,10 +13,9 @@ import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.ConnectionProvider;
 import org.jooq.SQLDialect;
+import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultConnectionProvider;
 
-import java.sql.Connection;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -48,9 +47,24 @@ class JooqPin {
             dialect = SQLDialect.DEFAULT;
         }
         configuration.set(dialect);
-        final Connection connection = Fn.getJvm(() -> pool.getDataSource().getConnection());
-        // Database object it bind to jooq configuration
-        final ConnectionProvider provider = new DefaultConnectionProvider(connection);
+        /*
+         * jOOQ uses a ConnectionProvider behind the scenes and always calls acquire() before running a statement and
+         * release() after running it. Depending on how you have configured your ConnectionProvider, this may or may
+         * not close your JDBC connection. For example, when you pass jOOQ a standalone Connection, then it is never
+         * closed (DefaultConnectionProvider). When you pass it a DataSource, then the Connection is always closed
+         * (DataSourceConnectionProvider).
+         *
+         * The old code is as:
+         * final Connection connection = Fn.getJvm(() -> pool.getDataSource().getConnection());
+         * final ConnectionProvider provider = new DefaultConnectionProvider(connection);
+         *
+         * Here the new version is as following:
+         * final ConnectionProvider provider = new DataSourceConnectionProvider(pool.getDataSource());
+         *
+         * It means that use `DataSourceConnectionProvider` instead and the background thread will call
+         * `acquire()` to close the connection directly.
+         */
+        final ConnectionProvider provider = new DataSourceConnectionProvider(pool.getDataSource());
         // Initialized default configuration
         configuration.set(provider);
         return configuration;
