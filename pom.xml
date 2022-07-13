@@ -70,7 +70,7 @@
         <vertx.version>4.3.2</vertx.version>
         <stack.version>4.3.2</stack.version>
 
-        <jcabi.version>0.23.2</jcabi.version>
+        <jcabi.version>0.24.1</jcabi.version>
         <jersey.version>2.36</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
