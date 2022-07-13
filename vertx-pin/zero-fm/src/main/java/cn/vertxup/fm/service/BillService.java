@@ -1,9 +1,6 @@
 package cn.vertxup.fm.service;
 
-import cn.vertxup.fm.domain.tables.daos.FBillDao;
-import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
-import cn.vertxup.fm.domain.tables.daos.FPaymentItemDao;
-import cn.vertxup.fm.domain.tables.daos.FSettlementDao;
+import cn.vertxup.fm.domain.tables.daos.*;
 import cn.vertxup.fm.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -76,6 +73,6 @@ public class BillService implements BillStub {
         final Set<String> settlementIds = Ut.valueSetString(settlements, FSettlement::getKey);
         final JsonObject condition = Ux.whereAnd();
         condition.put("settlementId,i", Ut.toJArray(settlementIds));
-        return Ux.Jooq.on(FSettlementItem.class).<FSettlementItem>fetchAsync(condition);
+        return Ux.Jooq.on(FSettlementItemDao.class).fetchAsync(condition);
     }
 }
