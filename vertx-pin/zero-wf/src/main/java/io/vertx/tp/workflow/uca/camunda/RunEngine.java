@@ -50,10 +50,19 @@ class RunEngine implements RunOn {
         final TaskService service = WfPin.camundaTask();
         return transition.start().compose(started -> {
             final Task task = started.from();
-            service.deleteTask(task.getId(), status.name());
+            // Fix issue of: The task cannot be deleted because is part of a running process
+            // OLD Code: service.deleteTask(task.getId(), status.name());
+            /*
+             * Here are template solution for task processing
+             * 1. When the process:task = 1:1
+             *    The ProcessInstance will be deleted after the task has been marked DELETED
+             * 2. When the process:task = 1:n
+             *    Here will be many tasks that have been marked DELETED
+             */
+            service.setAssignee(task.getId(), IoTaskKo.DELEGATE_DELETE);
             // Read all task information based on instance after deleted.
             final ProcessInstance instance = transition.instance();
-            final Io<Task> keeps = Io.ioTask();
+            final Io<Task> keeps = Io.ioTask(false);
             return keeps.children(instance.getId()).compose(tasks -> {
                 if (tasks.isEmpty()) {
                     // There is no active tasks lefts
