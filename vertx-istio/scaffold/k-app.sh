@@ -26,15 +26,15 @@ cp -rf development/vertx-zero-cloud/development/*.sh development/
 chmod +x development/*
 echo "2.2. 开发环境配置完成！！"
 # 根据环境拷贝环境脚本（全套）
-cp -rf development/vertx-zero-cloud/environment/$ZC_MODE/* deployment/
+cp -rf development/vertx-zero-cloud/environment/$ZA_ENV/* deployment/
 chmod +x deployment/*/*
 echo "2.3. 部署环境配置完成！！"
 # 根据语言全拷贝
-cp -rf development/vertx-zero-cloud/platform/$ZC_LANG/kidd/* kidd/
+cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kidd/* kidd/
 chmod +x kidd/*
-cp -rf development/vertx-zero-cloud/platform/$ZC_LANG/kinect/* kinect/
+cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kinect/* kinect/
 chmod +x kinect/*
-cp -rf development/vertx-zero-cloud/platform/$ZC_LANG/kzero/* kzero/
+cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kzero/* kzero/
 chmod +x kzero/*
 echo "2.4. 运行环境配置完成！！"
 # 删除

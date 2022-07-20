@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+# 存储物理文件专用（合并模式）
+mkdir -p storage/database/tidb/
+mkdir -p storage/database/mysql/
+
 mkdir -p kzero
-mkdir -p database/tidb/
-mkdir -p database/mysql/
 declare -A assets
 assets=(
   ["admin"]="系统：平台管理"
@@ -72,9 +74,13 @@ mkdir -p kidd
 echo "生产环境" > kidd/README.txt
 mkdir -p kinect
 echo "开发环境" > kidd/README.txt
-# 发布专用
+
+# 发布专用（删除原始内容，重建）
 mkdir -p deployment
 mkdir -p development
+rm -rf development/*
+rm -rf deployment/*
+
 declare -A plugins
 plugins=(
   ["istio"]="Kernel Mesh: Istio K8s"
