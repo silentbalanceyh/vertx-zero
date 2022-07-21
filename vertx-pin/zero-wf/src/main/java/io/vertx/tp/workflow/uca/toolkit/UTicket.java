@@ -210,10 +210,30 @@ public class UTicket {
          * Here recordRef contains:
          * 1) Current record data
          * 2) Prev record reference
+         *
+         * 「Record」Bind Original
+         *  Prev Record Binding need copy of previous version
+         *  include WTicket / WTodo / Child ( JsonObject )
+         *
+         * Old Code:
+         * Objects.requireNonNull(recordRef.prev());
+         * final WRecord prev = recordRef.prev();
+         * prev.ticket(new WTicket(ticket));
          */
         Objects.requireNonNull(recordRef.prev());
         final WRecord prev = recordRef.prev();
-        prev.ticket(ticket);
+        if (Objects.isNull(prev.ticket())) {
+            /*
+             * Here add the checking on recordRef ( previous )
+             * Any way, when the previous recordRef has been bind to existing ticket ( not null ),
+             * it means that some binding code logical happened before current position, in this kind of
+             * situation, you can consider the previous record keep original ticket data.
+             *
+             * 1) Finished -> Generate ( Here are two tickets related )
+             * 2) Common situation ( The prev record ticket must be null )
+             */
+            prev.ticket(new WTicket(ticket));
+        }
 
         final UxJooq tJq = Ux.Jooq.on(WTicketDao.class);
         final JsonObject ticketJ = params.copy();
@@ -242,9 +262,13 @@ public class UTicket {
         return tJq.<WTodo>fetchByIdAsync(key).compose(query -> {
             Objects.requireNonNull(query);
             final WRecord prev = recordRef.prev();
-            if (Objects.nonNull(prev)) {
-                // 「Record」Bind Original
-                prev.task(query);
+            if (Objects.nonNull(prev) && Objects.isNull(prev.todo())) {
+                /*
+                 * 「Record」Bind Original
+                 *  Prev Record Binding need copy of previous version
+                 *  include WTicket / WTodo / Child ( JsonObject )
+                 */
+                prev.task(new WTodo(query));
             }
 
             final JsonObject todoJ = params.copy();
@@ -311,9 +335,13 @@ public class UTicket {
                  */
                 Objects.requireNonNull(queryJ);
                 final WRecord prev = recordRef.prev();
-                if (Objects.nonNull(prev)) {
-                    // 「Record」Bind Original
-                    prev.ticket(queryJ);
+                if (Objects.nonNull(prev) && Ut.isNil(prev.child())) {
+                    /*
+                     * 「Record」Bind Original
+                     *  Prev Record Binding need copy of previous version
+                     *  include WTicket / WTodo / Child ( JsonObject )
+                     */
+                    prev.ticket(queryJ.copy());
                 }
 
 

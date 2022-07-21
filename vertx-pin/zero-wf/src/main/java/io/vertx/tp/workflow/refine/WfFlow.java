@@ -14,6 +14,7 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.impl.instance.Outgoing;
 import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
+import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
 import java.util.*;
@@ -177,16 +178,29 @@ class WfFlow {
             .collect(Collectors.toList());
     }
 
+    /*
+     * The method is recursion calling on BPMN, here are some situations
+     * 1. The objective will be: Find the next all UserTask
+     * 2. When the system met gateway node, continue to find the task here
+     */
     private static Set<String> taskSearch(final ModelElementInstance nodeTask, final BpmnModelInstance instance) {
         // Find all `outgoing` that belong to `nodeTask`
-        final Collection<Outgoing> children = nodeTask.getChildElementsByType(Outgoing.class);
+        final Collection<Outgoing> outgoing = nodeTask.getChildElementsByType(Outgoing.class);
         final Set<String> keys = new HashSet<>();
-        children.forEach(child -> {
-            // SequenceFlow
+        outgoing.forEach(child -> {
             final ModelElementInstance sequence = instance.getModelElementById(child.getTextContent());
+            // SequenceFlow
             if (sequence instanceof SequenceFlow) {
                 final FlowNode target = ((SequenceFlow) sequence).getTarget();
-                keys.add(target.getId());
+                final ModelElementInstance found = instance.getModelElementById(target.getId());
+                if (found instanceof UserTask) {
+                    // Task -> Task
+                    keys.add(target.getId());
+                } else {
+                    // Task -> Gateway -> Task
+                    final Set<String> continueSearch = taskSearch(found, instance);
+                    keys.addAll(continueSearch);
+                }
             }
         });
         return keys;

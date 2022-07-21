@@ -1,19 +1,14 @@
 package io.vertx.tp.plugin.database;
 
 import com.zaxxer.hikari.HikariDataSource;
-import io.vertx.tp.error.DataSourceException;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import org.jooq.Configuration;
-import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultConnectionProvider;
 
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class HikariDataPool implements DataPool {
@@ -147,20 +142,11 @@ public class HikariDataPool implements DataPool {
 
     private void initJooq() {
         if (null == this.context) {
-            try {
-                /* Init Jooq configuration */
-                final Configuration configuration = new DefaultConfiguration();
-                final ConnectionProvider provider = new DefaultConnectionProvider(this.dataSource.getConnection());
-                configuration.set(provider);
-                /* Dialect selected */
-                final SQLDialect dialect = Pool.DIALECT.get(this.database.getCategory());
-                LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
-                configuration.set(dialect);
-                this.context = DSL.using(configuration);
-            } catch (final SQLException ex) {
-                // LOGGER.jvm(ex);
-                throw new DataSourceException(this.getClass(), ex, this.database.getJdbcUrl());
-            }
+            /* Init Jooq configuration */
+            final Configuration configuration = this.configuration();
+            final SQLDialect dialect = Pool.DIALECT.get(this.database.getCategory());
+            LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
+            this.context = DSL.using(configuration);
         }
     }
 

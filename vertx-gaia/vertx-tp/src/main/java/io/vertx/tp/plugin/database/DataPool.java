@@ -3,9 +3,15 @@ package io.vertx.tp.plugin.database;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
+import org.jooq.Configuration;
+import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DataSourceConnectionProvider;
+import org.jooq.impl.DefaultConfiguration;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 /*
  * Connection Pool of third pool, the default implementation is HikariCP, in current version the connection pool
@@ -34,6 +40,38 @@ public interface DataPool {
     static DataPool createAuto(final Database database) {
         final DataPool ds = create(database);
         return ds.switchTo();
+    }
+
+    default Configuration configuration() {
+        // Initialized client
+        final Database database = this.getDatabase();
+        final Configuration configuration = new DefaultConfiguration();
+        SQLDialect dialect = Pool.DIALECT.get(database.getCategory());
+        if (Objects.isNull(dialect)) {
+            dialect = SQLDialect.DEFAULT;
+        }
+        configuration.set(dialect);
+        /*
+         * jOOQ uses a ConnectionProvider behind the scenes and always calls acquire() before running a statement and
+         * release() after running it. Depending on how you have configured your ConnectionProvider, this may or may
+         * not close your JDBC connection. For example, when you pass jOOQ a standalone Connection, then it is never
+         * closed (DefaultConnectionProvider). When you pass it a DataSource, then the Connection is always closed
+         * (DataSourceConnectionProvider).
+         *
+         * The old code is as:
+         * final Connection connection = Fn.getJvm(() -> pool.getDataSource().getConnection());
+         * final ConnectionProvider provider = new DefaultConnectionProvider(connection);
+         *
+         * Here the new version is as following:
+         * final ConnectionProvider provider = new DataSourceConnectionProvider(pool.getDataSource());
+         *
+         * It means that use `DataSourceConnectionProvider` instead and the background thread will call
+         * `acquire()` to close the connection directly.
+         */
+        final ConnectionProvider provider = new DataSourceConnectionProvider(this.getDataSource());
+        // Initialized default configuration
+        configuration.set(provider);
+        return configuration;
     }
 
     DataPool switchTo();

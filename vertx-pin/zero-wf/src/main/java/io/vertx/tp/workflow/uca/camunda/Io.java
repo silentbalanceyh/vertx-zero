@@ -61,7 +61,15 @@ public interface Io<I> extends IoDefine, IoRuntime<I> {
     }
 
     static Io<Task> ioTask() {
-        return WfPool.CC_IO.pick(IoTask::new, IoTask.class.getName());
+        return ioTask(true);
+    }
+
+    static Io<Task> ioTask(final boolean active) {
+        if (active) {
+            return WfPool.CC_IO.pick(IoTask::new, IoTask.class.getName());
+        } else {
+            return WfPool.CC_IO.pick(IoTaskKo::new, IoTaskKo.class.getName());
+        }
     }
 }
 
