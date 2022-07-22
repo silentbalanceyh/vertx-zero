@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-istio</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>zero-eternal</artifactId>
+    <name>Cloud:「zero-eternal」Zero Eternal Environment</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>zero-g</module>     <!-- gRpc Environment -->
+        <module>zero-i</module>     <!-- Istio Environment -->
+        <module>zero-k</module>     <!-- K8s Environment -->
+        <module>zero-c</module>     <!-- Configuration Development -->
+    </modules>
+</project>

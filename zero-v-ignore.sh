@@ -27,9 +27,15 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-stomp/pom-update.xml
 # 根项目
 cp pom-update.xml ./vertx-import/pom-update.xml
 
-# 微服务
+# 微服务 / 原生云
 cp pom-update.xml ./vertx-istio/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-iproxy/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-ecology/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/zero-c/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/zero-i/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/zero-k/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/zero-g/pom-update.xml
 
 # 扩展框架
 cp pom-update.xml ./vertx-pin/pom-update.xml

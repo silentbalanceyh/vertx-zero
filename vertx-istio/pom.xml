@@ -13,7 +13,9 @@
     <packaging>pom</packaging>
     <name>「vertx-istio」Zero Micro</name>
     <modules>
-        <module>zero-iproxy</module>
+        <module>zero-eternal</module>     <!-- Zero Eternal Environment -->
+        <module>zero-edge</module>        <!-- Zero Edge Development    -->
+        <module>zero-ecology</module>     <!-- Zero Ecology Environment -->
     </modules>
     <build>
         <plugins>

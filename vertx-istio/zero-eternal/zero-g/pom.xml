@@ -3,13 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>vertx-istio</artifactId>
+        <artifactId>zero-eternal</artifactId>
         <groupId>cn.vertxup</groupId>
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>zero-iproxy</artifactId>
-    <name>Micro:「zero-iproxy」gRPC Module</name>
+    <artifactId>zero-g</artifactId>
+    <name>Cloud:「zero-g」gRPC Module</name>
     <dependencies>
         <dependency>
             <groupId>cn.vertxup</groupId>
