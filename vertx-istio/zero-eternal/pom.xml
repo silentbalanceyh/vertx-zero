@@ -12,9 +12,9 @@
     <name>Cloud:「zero-eternal」Zero Eternal Environment</name>
     <packaging>pom</packaging>
     <modules>
-        <module>zero-g</module>     <!-- gRpc Environment -->
-        <module>zero-i</module>     <!-- Istio Environment -->
-        <module>zero-k</module>     <!-- K8s Environment -->
-        <module>zero-c</module>     <!-- Configuration Development -->
+        <module>aeon-inlet</module>     <!-- gRpc Environment -->
+        <module>aeon-istio</module>     <!-- Istio Environment -->
+        <module>aeon-k8s</module>       <!-- K8s Environment -->
+        <module>aeon-cosmos</module>    <!-- Configuration Development -->
     </modules>
 </project>

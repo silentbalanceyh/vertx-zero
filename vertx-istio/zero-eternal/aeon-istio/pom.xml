@@ -8,6 +8,6 @@
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>zero-k</artifactId>
-    <name>Cloud:「zero-k」K8S Module</name>
+    <artifactId>aeon-istio</artifactId>
+    <name>Cloud:「aeon-istio」Istio Environment</name>
 </project>

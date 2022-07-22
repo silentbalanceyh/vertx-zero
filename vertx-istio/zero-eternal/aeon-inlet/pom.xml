@@ -8,8 +8,8 @@
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>zero-g</artifactId>
-    <name>Cloud:「zero-g」gRPC Module</name>
+    <artifactId>aeon-inlet</artifactId>
+    <name>Cloud:「aeon-inlet」gRPC Module</name>
     <dependencies>
         <dependency>
             <groupId>cn.vertxup</groupId>
