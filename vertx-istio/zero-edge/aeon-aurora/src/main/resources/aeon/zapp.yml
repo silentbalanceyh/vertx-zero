@@ -1,0 +1,13 @@
+# ---------------- 打开Aeon系统 ----------------
+aeon:
+  # 基础云的搭建模式：MIX, MIN, MIRROR
+  # 1. MIX - 混合模式：公有 + 私有
+  # 2. MIN - 托管模式：公有
+  # 3. MIRROR - 独占模式：私有
+  mode: MIN
+  # ----------------- 低代码开发专用库配置 ---------------------
+  repo:
+    # 当前运行库，HKinect 实例
+    kinect:
+      account:      silentbalanceyh@126.com
+      path:         ZERO_CLOUD

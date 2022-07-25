@@ -1,6 +1,7 @@
 package io.vertx.aeon;
 
 import io.vertx.aeon.atom.HSwitcher;
+import io.vertx.aeon.uca.HLog;
 import io.vertx.up.VertxApplication;
 
 /**
@@ -20,6 +21,7 @@ public class AeonApplication {
             VertxApplication.run(clazz, args);
         } else {
             // Zero 原始流程
+            HLog.warnAeon(AeonApplication.class, "Zero Cloud Environment Failed Passed, to Standard!");
             VertxApplication.run(clazz, args);
         }
     }

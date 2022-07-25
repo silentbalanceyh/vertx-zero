@@ -1,0 +1,21 @@
+aeon:
+  # ----------------- 低代码开发专用库配置 ---------------------
+  repo:
+    # 公共库，链接, HKinect 实例（ReadOnly）
+    kzero:
+      # 命名分两部分
+      # GIT-：Git仓库
+      #   GIT-HUB, GIT-EE, GIT-LAB
+      # SVN-: Svn仓库
+      #   SVN-XX
+      # mirror:     GIT_HUB
+      # secret:     AccessToken, HED Module
+      uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
+      account:      silentbalanceyh@126.com
+    kidd:
+      uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
+      account:      silentbalanceyh@126.com
+      path:         ZERO_CLOUD
+
+
+

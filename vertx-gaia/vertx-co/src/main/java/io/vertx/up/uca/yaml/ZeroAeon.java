@@ -1,21 +1,28 @@
 package io.vertx.up.uca.yaml;
 
-import io.vertx.aeon.eon.HName;
+import io.vertx.aeon.atom.configuration.HAeon;
+import io.vertx.aeon.eon.HPath;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class ZeroAeon implements Node<JsonObject> {
+public class ZeroAeon implements Node<HAeon> {
 
     @Override
-    public JsonObject read() {
+    public HAeon read() {
         /*
-         * aeon:
-         *   kinect:
+         * 检查配置文件 aeon/zapp.yml
+         * 1. 如果配置文件存在则启用 Cloud 环境。
          */
-        final JsonObject config = ZeroTool.read(null, true);
-        return Ut.valueJObject(config, HName.AEON);
+        if (!Ut.ioExist(HPath.P_ZAPP)) {
+            return null;
+        }
+        final JsonObject configuration = ZeroTool.readCloud("zapp", true);
+        /*
+         * 双分流读取数据
+         */
+        return null;
     }
 }

@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class ZeroVertx implements Node<JsonObject> {
 
-
     @Override
     public JsonObject read() {
         // Not null because execNil

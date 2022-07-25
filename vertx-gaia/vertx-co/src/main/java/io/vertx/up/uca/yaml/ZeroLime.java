@@ -24,10 +24,10 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
 
     static {
         final Cd<String, String> dataRef = CC_INTERNAL.store();
-        dataRef.data(KName.Internal.ERROR, ZeroTool.produce(KName.Internal.ERROR));
-        dataRef.data(KName.Internal.INJECT, ZeroTool.produce(KName.Internal.INJECT));
-        dataRef.data(KName.Internal.SERVER, ZeroTool.produce(KName.Internal.SERVER));
-        dataRef.data(KName.Internal.RESOLVER, ZeroTool.produce(KName.Internal.RESOLVER));
+        dataRef.data(KName.Internal.ERROR, ZeroTool.nameZero(KName.Internal.ERROR));
+        dataRef.data(KName.Internal.INJECT, ZeroTool.nameZero(KName.Internal.INJECT));
+        dataRef.data(KName.Internal.SERVER, ZeroTool.nameZero(KName.Internal.SERVER));
+        dataRef.data(KName.Internal.RESOLVER, ZeroTool.nameZero(KName.Internal.RESOLVER));
     }
 
     private transient final Node<JsonObject> node
@@ -45,7 +45,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
         final Set<String> sets = Ut.toSet(literal, Strings.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
         Fn.safeNull(() -> Observable.fromIterable(sets)
-            .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.produce(item), item)
+            .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.nameZero(item), item)
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);
         return CC_INTERNAL.store().data();

@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HKinect implements Serializable {
+public class HAeon implements Serializable {
     /*
      * 默认使用公有模式
      */

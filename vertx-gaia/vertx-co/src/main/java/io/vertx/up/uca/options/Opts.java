@@ -68,7 +68,7 @@ class YamlOpts implements Opts<JsonObject> {
             data.mergeIn(node.read());
         } catch (final EmptyStreamException ex) {
             if (data.isEmpty()) {
-                throw new LimeFileException(ZeroTool.produce(key));
+                throw new LimeFileException(ZeroTool.nameZero(key));
             }
         }
         return data;
