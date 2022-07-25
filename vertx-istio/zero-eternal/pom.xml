@@ -16,5 +16,6 @@
         <module>aeon-istio</module>     <!-- Istio Environment -->
         <module>aeon-k8s</module>       <!-- K8s Environment -->
         <module>aeon-cosmos</module>    <!-- Configuration Development -->
+        <module>aeon-up</module>        <!-- Aeon System Container -->
     </modules>
 </project>

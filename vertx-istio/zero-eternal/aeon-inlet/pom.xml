@@ -11,10 +11,6 @@
     <artifactId>aeon-inlet</artifactId>
     <name>Cloud:「aeon-inlet」gRPC Module</name>
     <dependencies>
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>vertx-up</artifactId>
-        </dependency>
         <!-- Micro Service -->
         <dependency>
             <groupId>io.vertx</groupId>

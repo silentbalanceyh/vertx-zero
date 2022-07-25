@@ -1,0 +1,18 @@
+zero:
+  vertx:
+    instance:
+      - name: zero-hotel
+        options:
+          maxEventLoopExecuteTime: 1200_000_000_000 # Event loop default executing: 120s
+          maxWorkerExecuteTime: 1200_000_000_000 # Worker executing: 1200s -> 20 min
+          eventLoopPoolSize: 128
+          workerPoolSize: 256
+          internalBlockingPoolSize: 64
+# ---------------- 打开Aeon系统 ----------------
+aeon:
+  # 基础云的搭建模式：MIX, MIN, MIRROR
+  # 1. MIX - 混合模式：公有 + 私有
+  # 2. MIN - 托管模式：公有
+  # 3. MIRROR - 独占模式：私有
+  kinect:
+    mode: MIN

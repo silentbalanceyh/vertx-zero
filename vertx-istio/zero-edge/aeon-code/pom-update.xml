@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         comparisonMethod="maven"
+         xmlns="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0"
+         xsi:schemaLocation="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0
+                             http://mojo.codehaus.org/versions-maven-plugin/xsd/rule-2.0.0.xsd">
+    <ignoreVersions>
+        <ignoreVersion type="regex">.*\.Beta\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-beta\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-b\d+</ignoreVersion>
+        <ignoreVersion type="regex">.*\.Alpha\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-alpha\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-ALPHA\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-rc\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-rc-\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-RC\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*.RC\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*-RC-\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*.RC-\d*</ignoreVersion>
+        <ignoreVersion type="regex">.*\.M\d+</ignoreVersion>
+        <ignoreVersion type="regex">.*-BETA-\d*</ignoreVersion>
+    </ignoreVersions>
+    <rules>
+        <!-- jersey version: 2.x -->
+        <rule groupId="org.glassfish.jersey" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">3.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
+        <!-- hibernate: 6.x -->
+        <rule groupId="org.hibernate.validator" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">(7.*|8.*)</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
+        <!-- liquibase 3.x -->
+        <rule groupId="org.liquibase" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">4.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
+        <!-- es 7.x -->
+        <rule groupId="org.elasticsearch" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">8.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
+        <rule groupId="*.maven" comparisonMethod="mercury"/>
+        <rule groupId="org.scala-lang" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">2.13.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+        <!-- jwt -->
+        <rule groupId="com.auth0" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">4.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+        <!-- jooq: 3.17.0 require JDK Upgrade First -->
+        <rule groupId="org.jooq" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">3.17.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+    </rules>
+</ruleset>

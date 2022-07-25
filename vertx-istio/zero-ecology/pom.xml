@@ -12,5 +12,6 @@
     <name>Cloud:「zero-ecology」Zero Ecology Service</name>
     <packaging>pom</packaging>
     <modules>
+        <module>aeon-ambient</module>     <!-- 基础环境/配置服务 -->
     </modules>
 </project>

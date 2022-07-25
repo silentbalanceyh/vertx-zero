@@ -30,12 +30,16 @@ cp pom-update.xml ./vertx-import/pom-update.xml
 # 微服务 / 原生云
 cp pom-update.xml ./vertx-istio/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-ecology/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-ecology/aeon-ambient/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-edge/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/aeon-aurora/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/aeon-code/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-eternal/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/zero-c/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/zero-i/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/zero-k/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/zero-g/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-cosmos/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-inlet/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-istio/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-k8s/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-up/pom-update.xml
 
 # 扩展框架
 cp pom-update.xml ./vertx-pin/pom-update.xml

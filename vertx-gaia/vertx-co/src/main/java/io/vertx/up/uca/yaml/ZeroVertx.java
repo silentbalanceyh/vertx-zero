@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class ZeroVertx implements Node<JsonObject> {
 
+
     @Override
     public JsonObject read() {
         // Not null because execNil
@@ -27,16 +28,6 @@ public class ZeroVertx implements Node<JsonObject> {
         }
         // Return to zero configuration part
         return zero;
-    }
-
-    private JsonObject process(final JsonObject data) {
-        return Fn.getNull(() -> {
-            // 1. Append lime
-            if (data.containsKey(KName.Internal.LIME)) {
-                this.processLime(data);
-            }
-            return data;
-        }, data);
     }
 
     private void processLime(final JsonObject data) {
