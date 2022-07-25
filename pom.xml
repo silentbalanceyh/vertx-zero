@@ -207,10 +207,8 @@
         <maven.plugin.javadoc>3.2.0</maven.plugin.javadoc>
         <maven.plugin.staging>1.6.8</maven.plugin.staging>
         <maven.plugin.pgp>1.6</maven.plugin.pgp>
-        <maven.plugin.fabric8>4.4.1</maven.plugin.fabric8>
         <maven.plugin.coveralls>4.3.0</maven.plugin.coveralls>
         <maven.plugin.cobertura>2.7</maven.plugin.cobertura>
-        <maven.plugin.spotify>1.2.2</maven.plugin.spotify>
         <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
         <maven.plugin.os>1.5.0.Final</maven.plugin.os>
         <maven.plugin.antrun>3.0.0</maven.plugin.antrun>
@@ -218,6 +216,10 @@
         <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
         <maven.plugin.project.info>3.3.0</maven.plugin.project.info>
+
+        <!-- Container -->
+        <maven.plugin.fabric8>4.4.1</maven.plugin.fabric8>
+        <maven.plugin.docker>0.40.1</maven.plugin.docker>
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
@@ -1843,18 +1845,6 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven.plugin.assembly}</version>
                 </plugin>
-                <!-- https://mvnrepository.com/artifact/com.spotify/docker-maven-plugin -->
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${maven.plugin.spotify}</version>
-                </plugin>
-                <!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>${maven.plugin.fabric8}</version>
-                </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin/ -->
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -1972,6 +1962,19 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>${maven.plugin.cobertura}</version>
+                </plugin>
+                <!-- Container / K8S -->
+                <!-- https://mvnrepository.com/artifact/io.fabric8/docker-maven-plugin -->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.plugin.docker}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>fabric8-maven-plugin</artifactId>
+                    <version>${maven.plugin.fabric8}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
