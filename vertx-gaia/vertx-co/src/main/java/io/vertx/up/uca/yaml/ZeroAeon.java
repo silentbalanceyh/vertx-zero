@@ -19,7 +19,7 @@ public class ZeroAeon implements Node<HAeon> {
         if (!Ut.ioExist(HPath.P_ZAPP)) {
             return null;
         }
-        final JsonObject configuration = ZeroTool.readCloud("zapp", true);
+        final JsonObject configuration = ZeroTool.readCloud(null, true);
         /*
          * 双分流读取数据
          */

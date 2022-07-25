@@ -24,12 +24,14 @@ public class ZeroTool {
     public static String nameAeon(final String key, final boolean galaxy) {
         if (galaxy) {
             return Objects.isNull(key) ?
-                "aeon/zapp" + Strings.DOT + FileSuffix.YML :
-                "aeon/zapp" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
+                // Fix Issue: aeon/xxx -> aeon/contained/xxx
+                "zapp" + Strings.DOT + FileSuffix.YML :
+                "zapp" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
         } else {
             return Objects.isNull(key) ?
-                "aeon/zcloud" + Strings.DOT + FileSuffix.YML :
-                "aeon/zcloud" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
+                // Fix Issue: aeon/xxx -> aeon/contained/xxx
+                "zcloud" + Strings.DOT + FileSuffix.YML :
+                "zcloud" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
         }
     }
 
@@ -40,9 +42,12 @@ public class ZeroTool {
      */
     @SuppressWarnings("all")
     static JsonObject read(final String key, final boolean extension) {
-        // Read the original configuration
-        return read(key, Values.CONFIG_INTERNAL_FILE, extension,
-            ZeroTool::nameZero);
+        return read(key,
+            // resources/vertx-xxx
+            ZeroTool::nameZero,
+            // vertx-co
+            // resources/up/config/vertx-xxx
+            extension ? name -> Values.CONFIG_INTERNAL_FILE + ZeroTool.nameZero(name) : null);
     }
 
     /*
@@ -51,18 +56,22 @@ public class ZeroTool {
      * 2. 优先检查是否开启aeon系统：
      */
     static JsonObject readCloud(final String key, final boolean galaxy) {
-        return read(key, Values.CONFIG_INTERNAL_CLOUD, true,
-            name -> nameAeon(name, galaxy));
+        return read(key,
+            // resources/aeon/zapp-xxx, zcloud-xxx
+            name -> "aeon/" + nameAeon(name, galaxy),
+            // resources/aeon/contained/zapp-xxx, zcloud-xxx
+            name -> Values.CONFIG_INTERNAL_CLOUD + nameAeon(name, galaxy));
     }
 
-    private static JsonObject read(final String key, final String prefix, final boolean extension,
-                                   final Function<String, String> nameFn) {
+    private static JsonObject read(final String fileSuffix,
+                                   final Function<String, String> nameFn,
+                                   final Function<String, String> nameInternalFn) {
         // Read the original configuration
-        final JsonObject original = readDirect(nameFn.apply(key));
+        final JsonObject original = readDirect(nameFn.apply(fileSuffix));
         final JsonObject merged = new JsonObject();
-        if (extension) {
+        if (Objects.nonNull(nameInternalFn)) {
             // Read the internal configuration instead
-            final JsonObject internal = readDirect(prefix + nameFn.apply(key));
+            final JsonObject internal = readDirect(nameInternalFn.apply(fileSuffix));
             if (null != internal) {
                 merged.mergeIn(internal, true);
             }
