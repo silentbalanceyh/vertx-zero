@@ -148,16 +148,23 @@
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
-            <!-- docker plugin -->
+            <!--
+               1. Docker Container Build Part
+               2. Docker SSH Connect
+             -->
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <images>
                         <image>
-                            <name>aeon-platform</name>
+                            <name>silentbalanceyh/aeon-cloud</name>
+                            <registry>docker.io</registry>
                             <build>
                                 <dockerFile>${project.basedir}/docker</dockerFile>
+                                <tags>
+                                    <tag>1.0</tag>
+                                </tags>
                             </build>
                         </image>
                     </images>
@@ -165,9 +172,17 @@
                 <executions>
                     <execution>
                         <id>docker:build</id>
-                        <phase>package</phase>
+                        <phase>none</phase>
                         <goals>
                             <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>docker:push</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
