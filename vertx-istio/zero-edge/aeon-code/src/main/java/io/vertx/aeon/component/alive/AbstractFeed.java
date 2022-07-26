@@ -1,6 +1,7 @@
 package io.vertx.aeon.component.alive;
 
 import io.vertx.aeon.specification.program.HAlive;
+import io.vertx.core.Vertx;
 
 /**
  * 「持续在线」
@@ -14,4 +15,12 @@ import io.vertx.aeon.specification.program.HAlive;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractFeed implements HAlive {
+    protected Vertx vertx;
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HAlive bind(final Vertx vertx) {
+        this.vertx = vertx;
+        return this;
+    }
 }
