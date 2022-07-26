@@ -141,7 +141,7 @@ public class JtJob extends JtCommercial {
          */
         final KTimer timer = new KTimer(mission.getCode());
         final String runFormula = this.job.getRunFormula();
-        // Error-40078 Detect
+        // Error-60054 Detect
         mission.detectPre(runFormula);
         final JobType type = mission.getType();
         if (JobType.ONCE != type) {

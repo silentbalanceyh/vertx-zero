@@ -1,4 +1,4 @@
-package io.vertx.aeon.specification.element;
+package io.vertx.aeon.specification.boot;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

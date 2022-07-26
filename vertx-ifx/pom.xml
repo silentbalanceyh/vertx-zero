@@ -22,6 +22,7 @@
         <module>zero-ifx-mongo</module>     <!-- MongoDb       Client -->
         <module>zero-ifx-neo4j</module>     <!-- Neo4j         Client -->
         <module>zero-ifx-redis</module>     <!-- Redis         Client -->
+        <module>zero-ifx-git</module>       <!-- Github        Client -->
         <module>zero-ifx-stomp</module>     <!-- Enhance:      Extension for WebSocket ( stomp include )-->
         <module>zero-ifx-auth</module>      <!-- Enhance:      Extension for Authorization ( Rbac Module ) -->
         <module>zero-ifx-sms</module>       <!-- CN:           Ali Sms Client -->

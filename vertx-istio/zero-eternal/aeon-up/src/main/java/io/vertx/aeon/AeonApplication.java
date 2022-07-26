@@ -21,6 +21,8 @@ public class AeonApplication {
     public static void run(final Class<?> clazz, final Object... args) {
         final HAeon aeon = HSwitcher.aeon();
         if (Objects.nonNull(aeon)) {
+            // Zero 开启分布式
+
             // Aeon 启动流程（准备工作）
             VertxApplication.run(clazz, args);
         } else {
