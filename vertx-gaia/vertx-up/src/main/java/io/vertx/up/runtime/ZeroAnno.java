@@ -46,7 +46,7 @@ public class ZeroAnno {
      * Move to main thread to do init instead of static block initialization
      * Here all the class must be prepared
      */
-    public static void booting() {
+    public static void meditate() {
         /* 1.Scan the packages **/
         final Set<Class<?>> clazzes = ZeroPack.getClasses();
         /*
