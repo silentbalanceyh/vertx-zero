@@ -1,5 +1,10 @@
 zero:
   vertx:
+    clustered:
+        # 打开集群，设置 manager, options 可以是空
+        enabled: true
+        manager: io.vertx.spi.cluster.ignite.IgniteClusterManager
+        # options:
     instance:
       - name: aeon-cloud
         options:

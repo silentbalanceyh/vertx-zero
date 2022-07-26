@@ -79,7 +79,7 @@
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.16.8</jooq.version>
         <vertx.jooq.version>6.5.4</vertx.jooq.version>
-        <mysql.version>8.0.29</mysql.version>
+        <mysql.version>8.0.30</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
@@ -149,7 +149,7 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.53.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
         <netty.version>4.1.79.Final</netty.version>
 
         <!-- Upload Issue -->

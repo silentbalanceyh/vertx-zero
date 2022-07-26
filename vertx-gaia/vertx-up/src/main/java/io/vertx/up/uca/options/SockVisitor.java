@@ -26,12 +26,16 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
     public ConcurrentMap<Integer, SockOptions> visit(final String... key)
         throws ZeroException {
         final JsonArray serverData = this.serverPre(0, key);
-        this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
+        if (Ut.notNil(serverData)) {
+            this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
+        }
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, SockOptions> map =
             new ConcurrentHashMap<>();
         this.extract(serverData, map);
-        this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        }
         return map;
     }
 
