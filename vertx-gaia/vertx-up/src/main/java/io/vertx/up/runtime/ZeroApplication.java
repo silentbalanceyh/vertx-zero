@@ -4,10 +4,10 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shared.MapInfix;
 import io.vertx.up.Launcher;
 import io.vertx.up.annotations.Up;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.ZeroLauncher;
+import io.vertx.up.uca.web.anima.*;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.UpClassArgsException;
 import io.vertx.zero.exception.UpClassInvalidException;
@@ -43,7 +43,7 @@ public abstract class ZeroApplication {
          * 2. annotation extraction from Annotation[] -> Annotation Map
          */
         this.upClazz = clazz;
-        this.annotationMap = Anno.get(clazz);
+        this.annotationMap.putAll(Anno.get(clazz));
         /*
          * Zero specification definition for @Up here.
          * The input class must annotated with @Up instead of other description
@@ -57,7 +57,7 @@ public abstract class ZeroApplication {
     }
 
     protected void ready() {
-        throw new _501NotSupportException(this.getClass());
+        // throw new _501NotSupportException(this.getClass());
     }
 
     public void run(final Object... args) {
@@ -85,5 +85,42 @@ public abstract class ZeroApplication {
         });
     }
 
-    protected abstract void runInternal(final Vertx vertx, final Object... args);
+    protected void runInternal(final Vertx vertx, final Object... args) {
+        /*
+         * Async initializing to replace the original extension
+         * Data initializing
+         */
+        ZeroHeart.initExtension(vertx).onSuccess(res -> {
+            if (res) {
+                /* 1.Find Agent for deploy **/
+                Runner.run(() -> {
+                    final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
+                    scatter.connect(vertx);
+                }, "agent-runner");
+
+                /* 2.Find Worker for deploy **/
+                Runner.run(() -> {
+                    final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
+                    scatter.connect(vertx);
+                }, "worker-runner");
+
+                /* 3.Initialize Infix **/
+                Runner.run(() -> {
+                    // Infix
+                    final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
+                    scatter.connect(vertx);
+                }, "infix-afflux-runner");
+
+                /* 4.Rule started **/
+                Runner.run(() -> {
+                    final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
+                    scatter.connect(vertx);
+                }, "codex-engine-runner");
+            }
+        }).onFailure(error -> {
+            // Error Happened
+            error.printStackTrace();
+            this.logger().jvm(error);
+        });
+    }
 }

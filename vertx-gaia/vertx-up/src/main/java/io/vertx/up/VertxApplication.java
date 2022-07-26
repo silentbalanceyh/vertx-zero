@@ -1,12 +1,8 @@
 package io.vertx.up;
 
-import io.vertx.core.Vertx;
-import io.vertx.up.runtime.Runner;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.runtime.ZeroHeart;
-import io.vertx.up.uca.web.anima.*;
-import io.vertx.up.util.Ut;
 
 /**
  * Vertx Application entry
@@ -54,49 +50,5 @@ public class VertxApplication extends ZeroApplication {
              */
             new VertxApplication(clazz).run(args);
         }
-    }
-
-    @Override
-    protected void ready() {
-    }
-
-    @Override
-    protected void runInternal(final Vertx vertx, final Object... args) {
-        /*
-         * Async initializing to replace the original extension
-         * Data initializing
-         */
-        ZeroHeart.initExtension(vertx).onSuccess(res -> {
-            if (res) {
-                /* 1.Find Agent for deploy **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
-                    scatter.connect(vertx);
-                }, "agent-runner");
-
-                /* 2.Find Worker for deploy **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
-                    scatter.connect(vertx);
-                }, "worker-runner");
-
-                /* 3.Initialize Infix **/
-                Runner.run(() -> {
-                    // Infix
-                    final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                    scatter.connect(vertx);
-                }, "infix-afflux-runner");
-
-                /* 4.Rule started **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
-                    scatter.connect(vertx);
-                }, "codex-engine-runner");
-            }
-        }).onFailure(error -> {
-            // Error Happened
-            error.printStackTrace();
-            this.logger().jvm(error);
-        });
     }
 }

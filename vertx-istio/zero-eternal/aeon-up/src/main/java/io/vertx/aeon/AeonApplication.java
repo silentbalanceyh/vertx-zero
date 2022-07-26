@@ -9,8 +9,8 @@ import io.vertx.aeon.exception.heart.ClusterRequiredException;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.up.VertxApplication;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.runtime.ZeroHeart;
 
@@ -47,6 +47,8 @@ public class AeonApplication extends ZeroApplication {
          * of VertxApplication/MicroApplication.
          */
         // Zero Environment Initialize
+        ZeroAnno.meditate();
+        // Start Container
         new AeonApplication(clazz).run(args);
     }
 
@@ -68,7 +70,7 @@ public class AeonApplication extends ZeroApplication {
         this.configure(aeon, vertx).onComplete(res -> {
             if (res.succeeded()) {
                 // Aeon 启动流程（准备工作）
-                VertxApplication.run(this.upClazz, args);
+                super.runInternal(vertx, args);
             } else {
                 // Aeon 启动失败
                 final Throwable error = res.cause();
