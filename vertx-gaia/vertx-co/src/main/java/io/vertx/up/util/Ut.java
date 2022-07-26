@@ -1790,6 +1790,10 @@ public final class Ut {
         return Epsilon.vString(array, field);
     }
 
+    public static String valueString(final JsonObject json, final String field) {
+        return Epsilon.vString(json, field);
+    }
+
     public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
         return list.stream().map(stringFn).findFirst().orElse(null);
     }

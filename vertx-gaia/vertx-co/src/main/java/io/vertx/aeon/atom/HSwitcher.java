@@ -20,11 +20,13 @@ public class HSwitcher {
     private static final Node<HAeon> VISITOR = Ut.singleton(ZeroAeon.class);
 
     // Kinect
-    private static final HAeon H_AEON = VISITOR.read();
+    private static HAeon H_AEON;
 
     /* 检查当前系统是否开启了 Aeon 功能 */
-    public static boolean isAeon() {
-        return Objects.nonNull(H_AEON);
+    public static HAeon aeon() {
+        if (Objects.isNull(H_AEON)) {
+            H_AEON = VISITOR.read();
+        }
+        return H_AEON;
     }
-
 }

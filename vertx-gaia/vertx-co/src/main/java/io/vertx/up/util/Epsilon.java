@@ -65,6 +65,12 @@ class Epsilon {
         return set;
     }
 
+    static String vString(final JsonObject json, final String field) {
+        final JsonObject inputJ = Jackson.sureJObject(json);
+        final Object valueS = inputJ.getValue(field, null);
+        return (String) valueS;
+    }
+
     @SuppressWarnings("unchecked")
     static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
         if (Ut.isNil(item)) {

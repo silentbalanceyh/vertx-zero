@@ -1,8 +1,11 @@
 package io.vertx.aeon;
 
 import io.vertx.aeon.atom.HSwitcher;
+import io.vertx.aeon.atom.configuration.HAeon;
 import io.vertx.aeon.uca.HLog;
 import io.vertx.up.VertxApplication;
+
+import java.util.Objects;
 
 /**
  * 启动器
@@ -16,7 +19,8 @@ import io.vertx.up.VertxApplication;
 public class AeonApplication {
 
     public static void run(final Class<?> clazz, final Object... args) {
-        if (HSwitcher.isAeon()) {
+        final HAeon aeon = HSwitcher.aeon();
+        if (Objects.nonNull(aeon)) {
             // Aeon 启动流程（准备工作）
             VertxApplication.run(clazz, args);
         } else {
