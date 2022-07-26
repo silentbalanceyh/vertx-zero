@@ -1,6 +1,6 @@
 package io.vertx.aeon.atom;
 
-import io.vertx.aeon.atom.configuration.HAeon;
+import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroAeon;
 import io.vertx.up.util.Ut;

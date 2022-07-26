@@ -1,16 +1,21 @@
 package io.vertx.aeon;
 
 import io.vertx.aeon.atom.HSwitcher;
-import io.vertx.aeon.atom.configuration.HAeon;
+import io.vertx.aeon.atom.iras.HAeon;
+import io.vertx.aeon.atom.iras.HBoot;
 import io.vertx.aeon.component.boot.AeonOn;
 import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.ClusterRequiredException;
 import io.vertx.aeon.specification.boot.HOn;
-import io.vertx.up.VertxApplication;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.runtime.ZeroHeart;
-import io.vertx.up.uca.cache.Cc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,24 +27,38 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AeonApplication {
+public class AeonApplication extends ZeroApplication {
 
-    private static final Cc<String, HOn> CC_UP = Cc.openThread();
+    private AeonApplication(final Class<?> clazz) {
+        super(clazz);
+    }
 
     public static void run(final Class<?> clazz, final Object... args) {
+        // Zero Environment Initialize
+        ZeroAnno.meditate();
+        // Start Container
+        new AeonApplication(clazz).run(args);
+    }
+
+    private Future<Boolean> configure(final HAeon aeon, final Vertx vertx) {
+        final List<Future<Boolean>> futures = new ArrayList<>();
+
+        // HOn Processing
+        final HBoot boot = aeon.boot();
+        final HOn up = boot.pickOn(AeonOn.class).bind(vertx);
+        futures.add(up.configure(aeon));
+
+        return Fn.combineB(futures);
+    }
+
+    @Override
+    protected void runInternal(final Vertx vertx, final Object... args) {
         final HAeon aeon = HSwitcher.aeon();
-
-        // Error-50001
-        Fn.out(Objects.isNull(aeon), AeonConfigureException.class, clazz);
-        // Error-50002
-        Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, clazz);
-
         // HUp 接口（启动检查）
-        final HOn up = CC_UP.pick(AeonOn::new);
-        up.configure(aeon).onComplete(res -> {
+        this.configure(aeon, vertx).onComplete(res -> {
             if (res.succeeded()) {
                 // Aeon 启动流程（准备工作）
-                VertxApplication.run(clazz, args);
+                super.runInternal(vertx, args);
             } else {
                 // Aeon 启动失败
                 final Throwable error = res.cause();
@@ -48,5 +67,15 @@ public class AeonApplication {
                 }
             }
         });
+    }
+
+    @Override
+    protected void ready() {
+        final HAeon aeon = HSwitcher.aeon();
+
+        // Error-50001
+        Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
+        // Error-50002
+        Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
     }
 }

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ifx-ftp</artifactId>
-    <name>Infix:「zero-ifx-ftp」File Store of FTP</name>
+    <name>Infix:「zero-ifx-ftp」File Transfer Service</name>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

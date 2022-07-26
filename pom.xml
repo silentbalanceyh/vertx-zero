@@ -189,6 +189,9 @@
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>1.7.36</slf4j.version>
 
+        <!-- Cloud -->
+        <eclipse.git.version>6.2.0.202206071550-r</eclipse.git.version>
+
         <!-- Plugin -->
         <maven.plugin.assembly>3.3.0</maven.plugin.assembly>
         <maven.plugin.compiler>3.8.1</maven.plugin.compiler>
@@ -1802,6 +1805,12 @@
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
                 <version>${checker.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit</artifactId>
+                <version>${eclipse.git.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

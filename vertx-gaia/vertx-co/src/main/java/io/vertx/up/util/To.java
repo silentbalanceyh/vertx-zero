@@ -92,11 +92,14 @@ final class To {
         return Fn.getNull(null, () -> Integer.parseInt(value.toString()), value);
     }
 
-    static Set<String> toSet(final JsonArray keys) {
-        final JsonArray keysData = Jackson.sureJArray(keys);
-        final Set<String> keySet = new HashSet<>();
-        It.itJString(keysData).forEach(keySet::add);
-        return keySet;
+    static List<Class<?>> toClass(final JsonArray names) {
+        final JsonArray keysData = Jackson.sureJArray(names);
+        final List<Class<?>> classList = new ArrayList<>();
+        It.itJString(keysData)
+            .map(name -> Instance.clazz(name, null))
+            .filter(Objects::nonNull)
+            .forEach(classList::add);
+        return classList;
     }
 
     static List<String> toList(final JsonArray keys) {

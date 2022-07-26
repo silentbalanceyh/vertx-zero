@@ -1,9 +1,8 @@
-start:
-  # 准入执行链 HUp
-  up:
-    alive:
-    - io.vertx.aeon.component.alive.CodeAlive         # 源代码管理平台对接
-  # 准出执行链 HDown
-  down:
-  # 运行执行链 HRun
-  run:
+boot:
+  component:
+  #   on:     可配置扩展的 HOn  插件，默认为：io.vertx.aeon.component.boot.AeonOn
+    on: io.vertx.aeon.component.boot.AeonOn
+  #   off:    可配置扩展的 HOff 插件
+  #   run:    可配置扩展的 HRun 插件
+  alive:
+  - io.vertx.aeon.component.alive.FeedGitHub                     # 源代码管理平台对接（多库协同，所以数组）

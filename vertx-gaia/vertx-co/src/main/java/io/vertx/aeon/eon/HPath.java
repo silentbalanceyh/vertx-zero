@@ -6,4 +6,6 @@ package io.vertx.aeon.eon;
 public interface HPath {
     // aeon/zapp.yml
     String P_ZAPP = "aeon/zapp.yml";
+
+    String AXIS = "axis";
 }
