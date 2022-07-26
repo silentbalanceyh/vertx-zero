@@ -3,6 +3,7 @@ package io.vertx.aeon.component.alive;
 import io.vertx.aeon.atom.iras.HRepo;
 import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.core.Future;
+import io.vertx.up.unity.Ux;
 
 /**
  * 代码库的链接过程
@@ -17,6 +18,6 @@ public class FeedGitHub extends AbstractFeed {
 
     @Override
     public Future<Boolean> configure(final HRepo input) {
-        return null;
+        return Ux.futureT();
     }
 }

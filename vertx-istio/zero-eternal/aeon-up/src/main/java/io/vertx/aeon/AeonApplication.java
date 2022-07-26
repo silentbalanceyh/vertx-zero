@@ -8,8 +8,10 @@ import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.ClusterRequiredException;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
-import io.vertx.up.VertxApplication;
+import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.runtime.ZeroHeart;
 
 import java.util.ArrayList;
@@ -25,21 +27,50 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AeonApplication {
+public class AeonApplication extends ZeroApplication {
+
+    private AeonApplication(final Class<?> clazz) {
+        super(clazz);
+    }
 
     public static void run(final Class<?> clazz, final Object... args) {
+        /*
+         * Before launcher, start package scanning for preparing metadata
+         * This step is critical because it's environment core preparing steps.
+         * 1) Before vert.x started, the system must be scanned all to capture some metadata classes instead.
+         * 2) PackScan will scan all classes to capture Annotation information
+         * 3) For zero extension module, although it's not in ClassLoader, we also need to scan dependency library
+         *    to capture zero extension module annotation
+         *
+         * Because static {} initializing will be triggered when `ZeroAnno` is called first time, to avoid
+         * some preparing failure, here we replaced `static {}` with `prepare()` calling before any instance
+         * of VertxApplication/MicroApplication.
+         */
+        // Zero Environment Initialize
+        ZeroAnno.meditate();
+        // Start Container
+        new AeonApplication(clazz).run(args);
+    }
+
+    private Future<Boolean> configure(final HAeon aeon, final Vertx vertx) {
+        final List<Future<Boolean>> futures = new ArrayList<>();
+
+        // HOn Processing
+        final HBoot boot = aeon.boot();
+        final HOn up = boot.pickOn(AeonOn.class).bind(vertx);
+        futures.add(up.configure(aeon));
+
+        return Fn.combineB(futures);
+    }
+
+    @Override
+    protected void runInternal(final Vertx vertx, final Object... args) {
         final HAeon aeon = HSwitcher.aeon();
-
-        // Error-50001
-        Fn.out(Objects.isNull(aeon), AeonConfigureException.class, clazz);
-        // Error-50002
-        Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, clazz);
-
         // HUp 接口（启动检查）
-        configure(aeon).onComplete(res -> {
+        this.configure(aeon, vertx).onComplete(res -> {
             if (res.succeeded()) {
                 // Aeon 启动流程（准备工作）
-                VertxApplication.run(clazz, args);
+                super.runInternal(vertx, args);
             } else {
                 // Aeon 启动失败
                 final Throwable error = res.cause();
@@ -50,14 +81,13 @@ public class AeonApplication {
         });
     }
 
-    private static Future<Boolean> configure(final HAeon aeon) {
-        final List<Future<Boolean>> futures = new ArrayList<>();
+    @Override
+    protected void ready() {
+        final HAeon aeon = HSwitcher.aeon();
 
-        // HOn Processing
-        final HBoot boot = aeon.boot();
-        final HOn up = boot.pickOn(AeonOn.class);
-        futures.add(up.configure(aeon));
-
-        return Fn.combineB(futures);
+        // Error-50001
+        Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
+        // Error-50002
+        Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
     }
 }
