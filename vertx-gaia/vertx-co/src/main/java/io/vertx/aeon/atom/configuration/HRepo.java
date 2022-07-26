@@ -1,6 +1,7 @@
 package io.vertx.aeon.atom.configuration;
 
 import io.vertx.aeon.eon.em.TypeRepo;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -41,7 +42,9 @@ public class HRepo implements Serializable {
     }
 
     public String getPath() {
-        return this.path;
+        // 内部逻辑
+        final String path = System.getenv(this.path);
+        return Ut.isNil(path) ? this.path : path;
     }
 
     public void setPath(final String path) {
@@ -73,7 +76,11 @@ public class HRepo implements Serializable {
     }
 
     public boolean isSecure() {
-        return this.secure;
+        // 内部逻辑
+        if (this.secure) {
+            return true;
+        }
+        return Objects.nonNull(this.secret);
     }
 
     public void setSecure(final boolean secure) {
