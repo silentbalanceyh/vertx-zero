@@ -1,4 +1,4 @@
-package io.vertx.aeon.atom.configuration;
+package io.vertx.aeon.atom.iras;
 
 import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.up.util.Ut;

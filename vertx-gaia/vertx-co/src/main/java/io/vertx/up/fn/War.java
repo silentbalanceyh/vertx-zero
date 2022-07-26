@@ -10,10 +10,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
@@ -42,6 +39,17 @@ class War {
             return Future.succeededFuture(result);
         }).otherwise(otherwise(ArrayList::new));
     }
+
+    static <T> Future<Set<T>> combineT(final Set<Future<T>> futures) {
+        final List<Future> futureList = new ArrayList<>(futures);
+        return CompositeFuture.join(futureList).compose(finished -> {
+            final Set<T> result = new HashSet<>();
+            Ut.itList(finished.list(),
+                (item, index) -> result.add((T) item));
+            return Future.succeededFuture(result);
+        }).otherwise(otherwise(HashSet::new));
+    }
+
 
     static <T> Future<List<T>> compressL(final List<Future<List<T>>> futures) {
         final List<Future> futureList = new ArrayList<>(futures);

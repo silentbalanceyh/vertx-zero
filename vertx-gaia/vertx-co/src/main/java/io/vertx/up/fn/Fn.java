@@ -575,6 +575,23 @@ public final class Fn {
         return War.combineT(futures);
     }
 
+    public static <T> Future<Set<T>> combineT(
+        final Set<Future<T>> futures) {
+        return War.combineT(futures);
+    }
+
+    public static <T> Future<Boolean> combineB(
+        final List<Future<T>> futures) {
+        return War.combineT(futures)
+            .compose(nil -> Future.succeededFuture(Boolean.TRUE));
+    }
+
+    public static <T> Future<Boolean> combineB(
+        final Set<Future<T>> futures) {
+        return War.combineT(futures)
+            .compose(nil -> Future.succeededFuture(Boolean.TRUE));
+    }
+
     /*
      * Workflow:
      *
@@ -596,6 +613,27 @@ public final class Fn {
         final List<Future<T>> futures = new ArrayList<>();
         Ut.itList(source).map(generateFun).forEach(futures::add);
         return War.combineT(futures);
+    }
+
+    public static <I, T> Future<Boolean> combineB(
+        final List<I> source, final Function<I, Future<T>> generateFun) {
+        final List<Future<T>> futures = new ArrayList<>();
+        Ut.itList(source).map(generateFun).forEach(futures::add);
+        return War.combineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+    }
+
+    public static <I, T> Future<Set<T>> combineT(
+        final Set<I> source, final Function<I, Future<T>> generateFun) {
+        final Set<Future<T>> futures = new HashSet<>();
+        Ut.itSet(source).map(generateFun).forEach(futures::add);
+        return War.combineT(futures);
+    }
+
+    public static <I, T> Future<Boolean> combineB(
+        final Set<I> source, final Function<I, Future<T>> generateFun) {
+        final Set<Future<T>> futures = new HashSet<>();
+        Ut.itSet(source).map(generateFun).forEach(futures::add);
+        return War.combineT(futures).compose(nil -> Future.succeededFuture(Boolean.TRUE));
     }
 
     /*

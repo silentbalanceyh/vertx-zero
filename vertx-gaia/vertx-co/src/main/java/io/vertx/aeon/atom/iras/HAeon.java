@@ -1,27 +1,32 @@
-package io.vertx.aeon.atom.configuration;
+package io.vertx.aeon.atom.iras;
 
+import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.HName;
 import io.vertx.aeon.eon.em.ModeAeon;
 import io.vertx.aeon.eon.em.RTEAeon;
+import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.aeon.uca.HLog;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HAeon implements Serializable {
-    private static final Cc<Integer, HAeon> CC_AEON = Cc.open();
+    // 代码仓库
     private final ConcurrentMap<RTEAeon, HRepo> repos = new ConcurrentHashMap<>();
-    /* 三种模式核心支持 */
-    private ModeAeon mode;
+    // 三种模式核心支持
+    private final ModeAeon mode;
+    // 启动配置
+    private HBoot boot;
 
     /* 三种库 */
     private HAeon(final JsonObject configuration) {
@@ -49,26 +54,27 @@ public class HAeon implements Serializable {
             return null;
         }
         // 初始化
-        return CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
+        return HCache.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
     }
 
-    public ModeAeon getMode() {
+    // ------------------------- 提取配置专用
+    public HBoot boot() {
+        return this.boot;
+    }
+
+    public ModeAeon mode() {
         return this.mode;
     }
 
-    public void setMode(final ModeAeon mode) {
-        this.mode = mode;
+    public Set<HRepo> repos(final TypeRepo type) {
+        return this.repos.values().stream()
+            .filter(repo -> type == repo.getType())
+            .collect(Collectors.toSet());
     }
 
-    public HRepo rteKidd() {
-        return this.repos.getOrDefault(RTEAeon.kidd, null);
-    }
-
-    public HRepo rteKinect() {
-        return this.repos.getOrDefault(RTEAeon.kinect, null);
-    }
-
-    public HRepo rteKzero() {
-        return this.repos.getOrDefault(RTEAeon.kzero, null);
+    // ------------------------- 软连接方法
+    // 装配专用
+    public void assemble(final HBoot boot) {
+        this.boot = boot;
     }
 }

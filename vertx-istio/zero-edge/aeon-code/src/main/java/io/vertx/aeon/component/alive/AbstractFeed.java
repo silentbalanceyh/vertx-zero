@@ -13,5 +13,5 @@ import io.vertx.aeon.specification.program.HAlive;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractAlive implements HAlive {
+public abstract class AbstractFeed implements HAlive {
 }

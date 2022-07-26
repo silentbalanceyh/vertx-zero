@@ -1369,11 +1369,16 @@ public final class Ut {
     }
 
     public static Set<String> toSet(final JsonArray keys) {
-        return To.toSet(keys);
+        return new HashSet<>(To.toList(keys));
     }
 
     public static List<String> toList(final JsonArray keys) {
         return To.toList(keys);
+    }
+
+
+    public static List<Class<?>> toClass(final JsonArray names) {
+        return To.toClass(names);
     }
 
     public static JsonArray toJArray(final Object value) {
@@ -1791,7 +1796,19 @@ public final class Ut {
     }
 
     public static String valueString(final JsonObject json, final String field) {
-        return Epsilon.vString(json, field);
+        return Epsilon.vString(json, field, null);
+    }
+
+    public static String valueString(final JsonObject json, final String field, final String defaultValue) {
+        return Epsilon.vString(json, field, defaultValue);
+    }
+
+    public static Class<?> valueClass(final JsonObject json, final String field) {
+        return Epsilon.vClass(json, field, null);
+    }
+
+    public static Class<?> valueClass(final JsonObject json, final String field, final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, defaultClass);
     }
 
     public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
