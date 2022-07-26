@@ -18,6 +18,7 @@ public class FeedGitHub extends AbstractFeed {
 
     @Override
     public Future<Boolean> configure(final HRepo input) {
+
         return Ux.futureT();
     }
 }

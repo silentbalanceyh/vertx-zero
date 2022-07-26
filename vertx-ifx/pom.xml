@@ -18,6 +18,7 @@
         <module>zero-ifx-shell</module>     <!-- Zero Shell Framework for DevOps -->
         <module>zero-ifx-es</module>        <!-- ElasticSearch Client -->
         <module>zero-ifx-ftp</module>       <!-- FTP Service   Client  -->
+        <module>zero-ifx-git</module>       <!-- Git Service   Client  -->
         <module>zero-ifx-feign</module>     <!-- Feign         Client  -->
         <module>zero-ifx-mongo</module>     <!-- MongoDb       Client -->
         <module>zero-ifx-neo4j</module>     <!-- Neo4j         Client -->
