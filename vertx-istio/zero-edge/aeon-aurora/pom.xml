@@ -24,12 +24,6 @@
             <artifactId>aeon-up</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- Edge Dependency -->
-        <dependency>
-            <groupId>cn.vertxup</groupId>
-            <artifactId>aeon-code</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

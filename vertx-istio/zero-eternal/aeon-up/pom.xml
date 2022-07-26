@@ -32,5 +32,11 @@
             <artifactId>aeon-inlet</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Edge Dependency -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>aeon-code</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
