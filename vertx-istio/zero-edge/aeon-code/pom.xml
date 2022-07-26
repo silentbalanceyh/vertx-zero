@@ -10,4 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aeon-code</artifactId>
     <name>Cloud Dev:「aeon-code」Program Code Management</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+        </dependency>
+        <!-- Eternal Dependency -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>aeon-cosmos</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
