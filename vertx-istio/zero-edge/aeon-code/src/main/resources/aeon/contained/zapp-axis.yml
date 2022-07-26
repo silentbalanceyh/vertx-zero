@@ -1,6 +1,8 @@
-boot:
+start:
   # 准入执行链 HUp
   up:
+    alive:
+    - io.vertx.aeon.component.alive.CodeAlive         # 源代码管理平台对接
   # 准出执行链 HDown
   down:
   # 运行执行链 HRun

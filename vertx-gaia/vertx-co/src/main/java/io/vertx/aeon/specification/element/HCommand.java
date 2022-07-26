@@ -5,8 +5,8 @@ package io.vertx.aeon.specification.element;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HCommand<R> {
+public interface HCommand<I, R> {
 
     // 合法性检查（检查输入）
-    R configure();
+    R configure(I input);
 }

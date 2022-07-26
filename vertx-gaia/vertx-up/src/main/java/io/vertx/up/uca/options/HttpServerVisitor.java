@@ -31,9 +31,7 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
         throws ZeroException {
         final JsonArray serverData = this.serverPre(0, key);
-        if (Ut.notNil(serverData)) {
-            this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
-        }
+        this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, HttpServerOptions> map =
             new ConcurrentHashMap<>();

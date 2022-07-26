@@ -46,9 +46,7 @@ public class RpcServerVisitor implements ServerVisitor<RpcOptions> {
 
     private ConcurrentMap<Integer, RpcOptions> visit(final JsonArray serverData)
         throws ZeroException {
-        if (Ut.notNil(serverData)) {
-            this.logger().info(Info.INF_B_VERIFY, KName.SERVER, ServerType.IPC, serverData.encode());
-        }
+        this.logger().info(Info.INF_B_VERIFY, KName.SERVER, ServerType.IPC, serverData.encode());
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, RpcOptions> map =
             new ConcurrentHashMap<>();

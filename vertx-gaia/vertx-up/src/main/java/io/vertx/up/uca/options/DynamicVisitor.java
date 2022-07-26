@@ -31,7 +31,9 @@ public class DynamicVisitor extends HttpServerVisitor {
         final ConcurrentMap<Integer, HttpServerOptions> map =
             new ConcurrentHashMap<>();
         this.extract(serverData, map);
-        this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.type, map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.type, map.keySet());
+        }
         return map;
     }
 
