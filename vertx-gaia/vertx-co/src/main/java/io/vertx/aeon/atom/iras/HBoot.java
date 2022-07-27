@@ -91,7 +91,7 @@ public class HBoot implements Serializable {
             instance.bind(vertx);
             return instance;
         }, instanceCls.getName());
-        HLog.warnAeon(getClass(), "Pick instance class {0} of {1} from component cached/pool.",
+        HLog.infoAeon(getClass(), "Pick instance class {0} of {1} from component cached/pool.",
             instanceCls, interfaceCls);
         return (C) event;
     }

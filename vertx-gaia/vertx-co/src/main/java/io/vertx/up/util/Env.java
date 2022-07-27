@@ -14,12 +14,12 @@ class Env {
     }
 
     static void execSingle(final String command, final TypeOs os) {
-        if (TypeOs.WINDOWS == os) {
-            // Windows Pending
-            Fn.safeJvm(() -> Runtime.getRuntime().exec(command));
-        } else {
-            // Linux Unix
-            Fn.safeJvm(() -> Runtime.getRuntime().exec(command));
-        }
+        Fn.safeJvm(() -> {
+            if (TypeOs.MAC_OS == os) {
+                final Runtime runtime = Runtime.getRuntime();
+                runtime.exec(command);
+            }
+        });
+
     }
 }

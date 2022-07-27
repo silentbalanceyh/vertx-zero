@@ -7,7 +7,8 @@ import io.vertx.up.util.Ut;
  */
 public enum TypeOs {
     NA,             // NA
-    UNIX,           // UNIX:  Mac Os
+    MAC_OS,         // Mac Os
+    UNIX,           // UNIX
     LINUX,          // LINUX
     WINDOWS;        // WINDOWS
 
@@ -19,6 +20,8 @@ public enum TypeOs {
             return TypeOs.WINDOWS;
         } else if (os.startsWith("Linux")) {
             return TypeOs.LINUX;
+        } else if (os.startsWith("Mac")) {
+            return TypeOs.MAC_OS;
         } else {
             return TypeOs.UNIX;
         }

@@ -5,9 +5,14 @@ import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.eon.HPath;
 import io.vertx.aeon.eon.em.TypeOs;
 import io.vertx.aeon.refine.HLog;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 「环境变量选择器」
@@ -24,19 +29,36 @@ public class AeonEnvironment {
      */
     public static void initialize(final HAeon aeon) {
         final TypeOs osType = TypeOs.from(System.getProperty("os.name"));
-        if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
-            HLog.warnAeon(AeonEnvironment.class, HPath.ENV_DEVELOPMENT + " file has been found! DEVELOPMENT connected.");
-            if (TypeOs.WINDOWS == osType) {
-                // Windows Pending
-                System.out.println("需补充");
-            } else {
-                // Unix / Linux
-                Ut.execLine("source " + HPath.ENV_DEVELOPMENT, osType);
-            }
-        }
+        // 开发才会出现的环境变量
+        initialize(osType);
+
+        // 最终环境变量报表
         Arrays.stream(HEnv.REQUIRED).forEach(name -> {
             final String value = System.getenv(name);
             HLog.infoAeon(AeonEnvironment.class, "\t{0} = {1}", name, value);
+        });
+    }
+
+    @SuppressWarnings("all")
+    private static void initialize(final TypeOs osType) {
+        Fn.safeJvm(() -> {
+            if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
+                HLog.warnAeon(AeonEnvironment.class, " OS = {0}: `{1}` file has been found! DEVELOPMENT connected.",
+                    osType.name(), HPath.ENV_DEVELOPMENT);
+                if (TypeOs.MAC_OS == osType) {
+                    final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
+                    final Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
+                    while (it.hasMoreElements()) {
+                        final String key = it.nextElement();
+                        final String value = properties.getProperty(key);
+                        // .env.development （环境变量黑科技）
+                        final Map<String, String> env = System.getenv();
+                        final Field field = env.getClass().getDeclaredField("m");
+                        field.setAccessible(true);
+                        ((Map<String, String>) field.get(env)).put(key, value);
+                    }
+                }
+            }
         });
     }
 }
