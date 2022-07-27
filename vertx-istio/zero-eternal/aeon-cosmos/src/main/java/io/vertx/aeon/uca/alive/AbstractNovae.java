@@ -1,6 +1,6 @@
-package io.vertx.aeon.component.alive;
+package io.vertx.aeon.uca.alive;
 
-import io.vertx.aeon.specification.program.HAlive;
+import io.vertx.aeon.specification.program.HNovae;
 import io.vertx.core.Vertx;
 
 /**
@@ -14,12 +14,12 @@ import io.vertx.core.Vertx;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractFeed implements HAlive {
+public abstract class AbstractNovae implements HNovae {
     protected Vertx vertx;
 
     @Override
     @SuppressWarnings("unchecked")
-    public HAlive bind(final Vertx vertx) {
+    public HNovae bind(final Vertx vertx) {
         this.vertx = vertx;
         return this;
     }

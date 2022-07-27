@@ -11,9 +11,11 @@
     <artifactId>aeon-code</artifactId>
     <name>Cloud Dev:「aeon-code」Program Code Management</name>
     <dependencies>
+        <!-- Git Infix -->
         <dependency>
-            <groupId>org.eclipse.jgit</groupId>
-            <artifactId>org.eclipse.jgit</artifactId>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-git</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- Eternal Dependency -->
         <dependency>

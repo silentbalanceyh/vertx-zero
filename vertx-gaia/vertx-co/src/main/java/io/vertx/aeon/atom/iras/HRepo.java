@@ -1,5 +1,6 @@
 package io.vertx.aeon.atom.iras;
 
+import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.up.util.Ut;
 
@@ -43,7 +44,13 @@ public class HRepo implements Serializable {
 
     public String getPath() {
         // 内部逻辑
-        final String path = System.getenv(this.path);
+        /*
+         * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
+         * 2. 如果 path 不存在则使用标准环境变量：ZERO_AEON
+         * 3. 如果环境变量无法提取，则直接使用 this.path 作为目录
+         */
+        final String pathKey = Ut.isNil(this.path) ? HEnv.ZERO_AEON : this.path;
+        final String path = System.getenv(pathKey);
         return Ut.isNil(path) ? this.path : path;
     }
 

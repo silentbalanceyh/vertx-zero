@@ -111,9 +111,9 @@ E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique eleme
 
 # ----------- Zero Aeon Cloud Runtime Exception --------------------
 # 50001 - 59999
-E50001: "( Cloud ) Aeon System has be enabled, but configuration missing, please check `aeon/` folder"
-E50002: "( Cloud ) Aeon System require your `vertx` running in cluster mode instead, but now the cluster has been Disabled"
-
+E50001: "( Aeon ) Aeon System has be enabled, but configuration missing, please check `aeon/` folder"
+E50002: "( Aeon ) Aeon System require your `vertx` running in cluster mode instead, but now the cluster has been Disabled"
+E50003: "( Aeon ) Aeon System require the environment variable `ZERO_AEON`, but now it's not configured"
 # ----------- Zero Web Runtime Exception --------------------
 # 60000 - 60001
 # (Web) Exception for web
