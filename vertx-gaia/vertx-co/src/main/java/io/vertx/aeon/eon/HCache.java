@@ -2,8 +2,7 @@ package io.vertx.aeon.eon;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
-import io.vertx.aeon.specification.boot.HOn;
-import io.vertx.aeon.specification.program.HAlive;
+import io.vertx.aeon.specification.element.HEvent;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -16,6 +15,6 @@ public interface HCache {
 
     Cc<Integer, HBoot> CC_BOOT = Cc.open();
     // -- thread
-    Cc<String, HOn> CCT_ON = Cc.openThread();
-    Cc<String, HAlive> CCT_ALIVE = Cc.openThread();
+    @SuppressWarnings("all")
+    Cc<String, HEvent> CCT_EVENT = Cc.openThread();
 }

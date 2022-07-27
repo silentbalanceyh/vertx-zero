@@ -15,7 +15,6 @@ aeon:
     kidd:
       uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
       account:      silentbalanceyh@126.com
-      path:         ZERO_CLOUD
 
 
 

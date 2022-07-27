@@ -34,5 +34,10 @@ public interface HName {
     String BOOT = "boot";                   // boot:                         启动连接器
     String COMPONENT = "component";         //   component:
     String ON = "on";                       //     on:
+    String OFF = "off";                     //     off:
+    String RUN = "run";                     //     run:
     String ALIVE = "alive";                 //   alive:                      源代码管理平台核心组件
+    String ALIVE_NOVAE = "novae";           //     novae:
+    String ALIVE_NOVA = "nova";             //     nova:
+    String ALIVE_NEBULA = "nebula";         //     nebula:
 }

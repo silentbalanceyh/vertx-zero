@@ -1803,12 +1803,23 @@ public final class Ut {
         return Epsilon.vString(json, field, defaultValue);
     }
 
-    public static Class<?> valueClass(final JsonObject json, final String field) {
+    public static Class<?> valueC(final JsonObject json, final String field) {
         return Epsilon.vClass(json, field, null);
     }
 
-    public static Class<?> valueClass(final JsonObject json, final String field, final Class<?> defaultClass) {
+    public static Class<?> valueC(final JsonObject json, final String field,
+                                  final Class<?> defaultClass) {
         return Epsilon.vClass(json, field, defaultClass);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls) {
+        return Epsilon.vClass(json, field, interfaceCls, null);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls, final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, interfaceCls, defaultClass);
     }
 
     public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {

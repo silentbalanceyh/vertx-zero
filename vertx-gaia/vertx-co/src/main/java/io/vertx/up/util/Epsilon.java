@@ -79,6 +79,23 @@ class Epsilon {
         return Instance.clazz(clsStr, defaultValue);
     }
 
+    static Class<?> vClass(final JsonObject json, final String field,
+                           final Class<?> interfaceCls,
+                           final Class<?> defaultValue) {
+        final String clsStr = vString(json, field, null);
+        final Class<?> implCls;
+        if (Ut.isNil(clsStr)) {
+            implCls = defaultValue;
+        } else {
+            implCls = Instance.clazz(clsStr, defaultValue);
+        }
+        if (Instance.isMatch(implCls, interfaceCls)) {
+            return implCls;
+        } else {
+            return null;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
         if (Ut.isNil(item)) {

@@ -4,7 +4,6 @@ import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.HName;
 import io.vertx.aeon.eon.em.ModeAeon;
 import io.vertx.aeon.eon.em.RTEAeon;
-import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.aeon.refine.HLog;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -12,10 +11,8 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -38,8 +35,8 @@ public class HAeon implements Serializable {
         final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
         Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
             final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
-            final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
             if (Objects.nonNull(repoType)) {
+                final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
                 this.repos.put(repoType, repo);
             }
         });
@@ -66,10 +63,8 @@ public class HAeon implements Serializable {
         return this.mode;
     }
 
-    public Set<HRepo> repos(final TypeRepo type) {
-        return this.repos.values().stream()
-            .filter(repo -> type == repo.getType())
-            .collect(Collectors.toSet());
+    public ConcurrentMap<RTEAeon, HRepo> repos() {
+        return this.repos;
     }
 
     // ------------------------- 软连接方法
