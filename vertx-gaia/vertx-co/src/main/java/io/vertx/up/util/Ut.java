@@ -2,7 +2,6 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vertx.aeon.eon.em.TypeOs;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -851,9 +850,6 @@ public final class Ut {
         return IOCmd.rename(filename, to);
     }
 
-    public static void execLine(final String command, final TypeOs os) {
-        Env.execSingle(command, os);
-    }
 
     /*
      * Serialization method operation method here.
