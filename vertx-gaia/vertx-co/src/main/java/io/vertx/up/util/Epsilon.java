@@ -89,6 +89,9 @@ class Epsilon {
         } else {
             implCls = Instance.clazz(clsStr, defaultValue);
         }
+        if (Objects.isNull(implCls)) {
+            return null;
+        }
         if (Instance.isMatch(implCls, interfaceCls)) {
             return implCls;
         } else {

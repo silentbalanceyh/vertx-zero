@@ -8,4 +8,6 @@ public interface HPath {
     String P_ZAPP = "aeon/zapp.yml";
 
     String AXIS = "axis";
+
+    String ENV_DEVELOPMENT = ".env.development";
 }

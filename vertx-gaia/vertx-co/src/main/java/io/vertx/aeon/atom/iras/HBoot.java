@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * 「启动组件」
@@ -62,6 +63,10 @@ public class HBoot implements Serializable {
                 this.store.put(interfaceCls, instanceCls);
             }
         });
+        HLog.infoAeon(this.getClass(),
+            "Aeon system detect ( size = {0} with keys = {1} ) components defined.",
+            String.valueOf(this.store.size()),
+            Ut.fromJoin(this.store.keySet().stream().map(Class::getName).collect(Collectors.toSet())));
     }
 
     public static HBoot configure(final JsonObject configJ) {

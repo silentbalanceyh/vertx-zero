@@ -63,10 +63,6 @@ public class HAeon implements Serializable {
         return this.mode;
     }
 
-    public ConcurrentMap<RTEAeon, HRepo> repos() {
-        return this.repos;
-    }
-
     // ------------------------- 软连接方法
     // 装配专用
     public void assemble(final HBoot boot) {
