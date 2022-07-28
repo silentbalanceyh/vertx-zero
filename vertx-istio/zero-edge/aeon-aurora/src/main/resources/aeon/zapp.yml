@@ -10,3 +10,4 @@ aeon:
     # 当前运行库，HKinect 实例
     kinect:
       account:      silentbalanceyh@126.com
+      path:         ZK_APP

@@ -35,6 +35,11 @@ public class HRepo implements Serializable {
     private String secret;
     private boolean secure;
 
+    /*
+     * workspace 和 path 的区别
+     * 1. workspace 为当前库的直接对接目录，用于 clone, open 专用（为工作区间）
+     * 2. path 为当前库应该转移配置的目标目录，一般为另外一个库，不一定是当前库的镜像
+     */
     @JsonIgnore
     private String workspace;
 
@@ -104,7 +109,7 @@ public class HRepo implements Serializable {
     }
 
     // ------------------------- 软连接方法
-    public HRepo assembleWS(final String workspace) {
+    public HRepo assemble(final String workspace) {
         this.workspace = workspace;
         return this;
     }

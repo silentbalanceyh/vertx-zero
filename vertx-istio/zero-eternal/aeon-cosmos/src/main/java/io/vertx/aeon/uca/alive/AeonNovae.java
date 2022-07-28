@@ -2,8 +2,13 @@ package io.vertx.aeon.uca.alive;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
+import io.vertx.aeon.atom.iras.HRepo;
+import io.vertx.aeon.eon.em.RTEAeon;
+import io.vertx.aeon.specification.app.HFS;
 import io.vertx.aeon.specification.program.HNova;
 import io.vertx.core.Future;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 代码库的链接过程
@@ -13,6 +18,7 @@ import io.vertx.core.Future;
 public class AeonNovae extends AbstractNovae {
 
     @Override
+    @SuppressWarnings("all")
     public Future<Boolean> configure(final HAeon aeon) {
         /*
          * 三个环境的相互交互
@@ -35,12 +41,23 @@ public class AeonNovae extends AbstractNovae {
          * 4）将合并结果拷贝到    kidd  （生产环境）
          * 5）验证 .git 仓库是合法的，并且已经是"最新的"
          */
-        final HBoot boot = aeon.inBoot();
-        final HNova nova = boot.pick(HNova.class, this.vertx);
+
+
+        HFS.common().mkdir(aeon.inWS());
         /*
          * 注：此处的执行操作是配置，不做初始化动作，以检查为主，初始化会有另外的接口来执行
-         * 1.
+         * 1. 初始化工作目录，并保证工作目录中的内容是最新
+         * 2. 拷贝配置并执行
+         * 3. 检查最终配置
+         * 4. 执行配置封存（Git提交）
+         *
+         *          kzero                kidd                kinect
+         * 第一步      o                   o                    x
+         * 第二步
          */
-        return null;
+        final ConcurrentMap<RTEAeon, HRepo> repo = aeon.inRepo();
+        final HBoot boot = aeon.inBoot();
+        final HNova nova = boot.pick(HNova.class, this.vertx);
+        return nova.configure(repo);
     }
 }

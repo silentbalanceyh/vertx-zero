@@ -162,9 +162,9 @@ E60034: "(500) - (Shared) SharedMap Error happened when do operation：{0}"
 E60035: "(500) - (Shared) Your map {0} processing met issue when execute method {1}"
 
 # Excel exception
-E60037: "(404) - (EXCEL) The file that you provided ( filename = `{0}` ) is missing or null"
-E60038: "(404) - (EXCEL) The configuration of ( table = `{0}` ) is missing, please check your excel config"
-E60039: "(500) - (EXCEL) The exporting met error, detail = {0}"
+E60037: "(404) - (Excel) The file that you provided ( filename = `{0}` ) is missing or null"
+E60038: "(404) - (Excel) The configuration of ( table = `{0}` ) is missing, please check your excel config"
+E60039: "(500) - (Excel) The exporting met error, detail = {0}"
 E60040: "(412) - The field of type `{0}` must be declared only once in target `{1}` with annotation @Contract, now it occurs {2} times"
 E60041: "(417) - The job `{0}` method parameter definitions are wrong"
 E60042: "(501) - The class `{0}` does not define any method annotated with @On"
@@ -180,6 +180,8 @@ E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`
 E60052: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
 E60053: "(415) - The declared type {0} is not match to MIME {1}"
 E60054: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
+E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message = {1}"
+E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
 
 
 # ----------- Zero Extension Module Exception --------------------
