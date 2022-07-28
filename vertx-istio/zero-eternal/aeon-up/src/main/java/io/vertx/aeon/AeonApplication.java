@@ -47,7 +47,7 @@ public class AeonApplication extends ZeroApplication {
         final List<Future<Boolean>> futures = new ArrayList<>();
 
         // HOn Processing
-        final HBoot boot = aeon.boot();
+        final HBoot boot = aeon.inBoot();
 
         // HBoot -> HOn
         final HOn up = boot.pick(HOn.class, vertx);

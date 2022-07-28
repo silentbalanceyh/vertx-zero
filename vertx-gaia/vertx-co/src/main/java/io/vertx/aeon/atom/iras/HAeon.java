@@ -2,6 +2,7 @@ package io.vertx.aeon.atom.iras;
 
 import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.HName;
+import io.vertx.aeon.eon.HPath;
 import io.vertx.aeon.eon.em.ModeAeon;
 import io.vertx.aeon.eon.em.RTEAeon;
 import io.vertx.aeon.refine.HLog;
@@ -22,6 +23,8 @@ public class HAeon implements Serializable {
     private final ConcurrentMap<RTEAeon, HRepo> repos = new ConcurrentHashMap<>();
     // 三种模式核心支持
     private final ModeAeon mode;
+    // 工作目录
+    private final String workspace;
     // 启动配置
     private HBoot boot;
 
@@ -31,13 +34,15 @@ public class HAeon implements Serializable {
             () -> Ut.valueString(configuration, KName.MODE),
             ModeAeon.class, ModeAeon.MIN
         );
+        this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
         // 遍历读取 Repo, kinect, kidd, kzero
         final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
         Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
             final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
             if (Objects.nonNull(repoType)) {
                 final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
-                this.repos.put(repoType, repo);
+                // 绑定工作空间
+                this.repos.put(repoType, repo.assembleWS(this.workspace));
             }
         });
     }
@@ -55,12 +60,20 @@ public class HAeon implements Serializable {
     }
 
     // ------------------------- 提取配置专用
-    public HBoot boot() {
+    public HBoot inBoot() {
         return this.boot;
     }
 
-    public ModeAeon mode() {
+    public ModeAeon inMode() {
         return this.mode;
+    }
+
+    public String inWS() {
+        return this.workspace;
+    }
+
+    public HRepo inRepo(final RTEAeon runtime) {
+        return this.repos.getOrDefault(runtime, null);
     }
 
     // ------------------------- 软连接方法

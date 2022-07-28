@@ -1,6 +1,7 @@
 package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
+import io.vertx.aeon.specification.app.HFS;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -40,12 +41,12 @@ public class FsDefault extends AbstractFs {
     public void initTrash() {
         final String root = this.configRoot();
         final String rootTrash = Ut.ioPath(root, IsFolder.TRASH_FOLDER);
-        Ut.cmdMkdir(rootTrash);
+        HFS.common().mkdir(rootTrash);
     }
 
     @Override
     public Future<JsonArray> mkdir(final JsonArray data) {
-        this.runRoot(data, dirSet -> dirSet.forEach(Ut::cmdMkdir));
+        this.runRoot(data, HFS.common()::mkdir);
         return Ux.future(data);
     }
 
@@ -53,7 +54,7 @@ public class FsDefault extends AbstractFs {
     public Future<JsonObject> mkdir(final JsonObject data) {
         final String root = this.configRoot();
         final String path = data.getString(KName.STORE_PATH);
-        Ut.cmdMkdir(Ut.ioPath(root, path));
+        HFS.common().mkdir(Ut.ioPath(root, path));
         return Ux.future(data);
     }
 
@@ -66,14 +67,14 @@ public class FsDefault extends AbstractFs {
 
     @Override
     public Future<JsonArray> rm(final JsonArray data) {
-        this.runRoot(data, dirSet -> dirSet.forEach(Ut::cmdRm));
+        this.runRoot(data, HFS.common()::rm);
         return Ux.future(data);
     }
 
     @Override
     public Future<Boolean> rm(final Collection<String> storeSet) {
         final String root = this.configRoot();
-        storeSet.forEach(path -> Ut.cmdRm(Ut.ioPath(root, path)));
+        storeSet.forEach(path -> HFS.common().rm(Ut.ioPath(root, path)));
         return Ux.futureT();
     }
 
@@ -81,7 +82,7 @@ public class FsDefault extends AbstractFs {
     public Future<JsonObject> rm(final JsonObject data) {
         final String root = this.configRoot();
         final String path = data.getString(KName.STORE_PATH);
-        Ut.cmdRm(Ut.ioPath(root, path));
+        HFS.common().rm(Ut.ioPath(root, path));
         return Ux.future(data);
     }
 
@@ -110,7 +111,7 @@ public class FsDefault extends AbstractFs {
             final String root = this.configRoot();
             transfer.forEach((from, to) -> {
                 final String toPath = Ut.ioPath(root, to);
-                Ut.cmdRename(from, toPath);
+                HFS.common().rename(from, toPath);
             });
         }
         return Ux.futureT();
@@ -141,7 +142,7 @@ public class FsDefault extends AbstractFs {
         final String root = this.configRoot();
         final String fromPath = Ut.ioPath(root, from);
         final String toPath = Ut.ioPath(root, to);
-        Ut.cmdRename(fromPath, toPath);
+        HFS.common().rename(fromPath, toPath);
     }
 
     private String configRoot() {

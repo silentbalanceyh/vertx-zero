@@ -1,6 +1,8 @@
 package io.vertx.aeon.uca.alive;
 
 import io.vertx.aeon.atom.iras.HAeon;
+import io.vertx.aeon.atom.iras.HBoot;
+import io.vertx.aeon.specification.program.HNova;
 import io.vertx.core.Future;
 
 /**
@@ -32,6 +34,12 @@ public class AeonNovae extends AbstractNovae {
          * 3）使用同样的方式初始化 kinect（合并模式），只是环境变量切换成 ZK_APP -> ZERO_AEON，ZK_APP 默认是 ZERO_AEON
          * 4）将合并结果拷贝到    kidd  （生产环境）
          * 5）验证 .git 仓库是合法的，并且已经是"最新的"
+         */
+        final HBoot boot = aeon.inBoot();
+        final HNova nova = boot.pick(HNova.class, this.vertx);
+        /*
+         * 注：此处的执行操作是配置，不做初始化动作，以检查为主，初始化会有另外的接口来执行
+         * 1.
          */
         return null;
     }

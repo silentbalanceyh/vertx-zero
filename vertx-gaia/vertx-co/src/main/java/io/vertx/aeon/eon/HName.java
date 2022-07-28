@@ -11,16 +11,18 @@ public interface HName {
      * aeon/zapp.yml
      *
      * aeon:
+     *   workspace:
      *   repo:
      *     kidd:
      *     kinect:
      *     kzero:
      */
-    String AEON = "aeon";      // aeon:                         永世核心框架
-    String REPO = "repo";      //   repo:                       代码库
-    String KINECT = "kinect";  //     kinect:                   低代码连接
-    String KIDD = "kidd";      //     kidd:                     标准出厂环境
-    String KZERO = "kzero";    //     kzero:                    远程云环境
+    String AEON = "aeon";               // aeon:                         永世核心框架
+    String WORKSPACE = "workspace";     //   workspace:                  工作区，默认 /var/tmp/zero-aeon
+    String REPO = "repo";               //   repo:                       代码库
+    String KINECT = "kinect";           //     kinect:                   低代码连接
+    String KIDD = "kidd";               //     kidd:                     标准出厂环境
+    String KZERO = "kzero";             //     kzero:                    远程云环境
     /*
      * aeon/zapp-axis.yml
      *

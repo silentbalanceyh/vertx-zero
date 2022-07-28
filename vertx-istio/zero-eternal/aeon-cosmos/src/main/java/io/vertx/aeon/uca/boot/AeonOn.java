@@ -25,7 +25,7 @@ public class AeonOn implements HOn {
 
     @Override
     public Future<Boolean> configure(final HAeon aeon) {
-        final HBoot boot = aeon.boot();
+        final HBoot boot = aeon.inBoot();
         /*
          * 三个环境的相互交互
          * kidd     -> 生产环境

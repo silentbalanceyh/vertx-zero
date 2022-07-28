@@ -770,7 +770,7 @@ public final class Ut {
     }
 
     public static Buffer ioZip(final Set<String> fileSet) {
-        return IOCmd.zip(fileSet);
+        return IO.zip(fileSet);
     }
 
     public static InputStream ioStream(final File file) {
@@ -826,30 +826,6 @@ public final class Ut {
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
     }
-
-    /*
-     * Command
-     * 1. cmdRm / cmdRmFile
-     * 2. cmdMkdir
-     * 3. cmdRename
-     */
-    public static boolean cmdRm(final Set<String> filename) {
-        filename.forEach(Ut::cmdRm);
-        return true;
-    }
-
-    public static boolean cmdRm(final String filename) {
-        return IOCmd.rm(filename);
-    }
-
-    public static boolean cmdMkdir(final String filename) {
-        return IOCmd.mkdir(filename);
-    }
-
-    public static boolean cmdRename(final String filename, final String to) {
-        return IOCmd.rename(filename, to);
-    }
-
 
     /*
      * Serialization method operation method here.

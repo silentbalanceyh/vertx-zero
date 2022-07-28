@@ -33,17 +33,19 @@ public class AeonEnvironment {
         initialize(osType);
 
         // 最终环境变量报表
+        final StringBuilder builder = new StringBuilder();
         Arrays.stream(HEnv.REQUIRED).forEach(name -> {
             final String value = System.getenv(name);
-            HLog.infoAeon(AeonEnvironment.class, "\t{0} = {1}", name, value);
+            builder.append("\n\t").append(name).append(" = ").append(value);
         });
+        HLog.infoAeon(AeonEnvironment.class, "Environment Variables: {0}\n", builder.toString());
     }
 
     @SuppressWarnings("all")
     private static void initialize(final TypeOs osType) {
         Fn.safeJvm(() -> {
             if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
-                HLog.warnAeon(AeonEnvironment.class, " OS = {0}: `{1}` file has been found! DEVELOPMENT connected.",
+                HLog.warnAeon(AeonEnvironment.class, "OS = {0},  `{1}` file has been found! DEVELOPMENT connected.",
                     osType.name(), HPath.ENV_DEVELOPMENT);
                 if (TypeOs.MAC_OS == osType) {
                     final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);

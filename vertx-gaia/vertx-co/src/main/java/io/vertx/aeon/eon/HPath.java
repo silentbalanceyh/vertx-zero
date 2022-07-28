@@ -10,4 +10,6 @@ public interface HPath {
     String AXIS = "axis";
 
     String ENV_DEVELOPMENT = ".env.development";
+
+    String WORKSPACE = "/var/tmp/zero-aeon/";
 }
