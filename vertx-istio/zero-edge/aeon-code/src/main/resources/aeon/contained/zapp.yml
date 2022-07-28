@@ -14,8 +14,10 @@ aeon:
       uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
       account:      silentbalanceyh@126.com
     kidd:
-      uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
+      uri:          https://github.com/silentbalanceyh/aeon-cloud.git
       account:      silentbalanceyh@126.com
+      secret:       ZK_PASS
+      path:         ZK_APP
 
 
 

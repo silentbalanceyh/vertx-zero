@@ -17,9 +17,13 @@ public class NovaGit extends AbstractNova {
     @Override
     public Future<Boolean> configure(final ConcurrentMap<RTEAeon, HRepo> repoMap) {
         /*
-         * 1. （公库）下载代码到 /var/tmp/zero-aeon/kzero中
-         *    （私库）下载代码到 /var/tmp/zero-aeon/kidd中
+         * 1. （公库）下载代码到 /var/tmp/zero-aeon/kzero 中
+         *    （私库）下载代码到 /var/tmp/zero-aeon/kidd 中
          *    逆向检查 kinect 库的原始 uri
+         * 2. （公库）更新
+         *    （私库）更新
+         *    （运行库）更新
+         * 3. 拷贝（公库）platform/$ZA_LANG/kzero ->
          */
         final HRepo zeroP = repoMap.get(RTEAeon.kzero);
         final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
