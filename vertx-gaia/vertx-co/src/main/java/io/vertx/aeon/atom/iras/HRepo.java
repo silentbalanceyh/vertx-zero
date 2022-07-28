@@ -1,5 +1,6 @@
 package io.vertx.aeon.atom.iras;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.eon.em.TypeRepo;
 import io.vertx.up.util.Ut;
@@ -33,6 +34,9 @@ public class HRepo implements Serializable {
     private String account;
     private String secret;
     private boolean secure;
+
+    @JsonIgnore
+    private String workspace;
 
     public String getUri() {
         return this.uri;
@@ -92,6 +96,17 @@ public class HRepo implements Serializable {
 
     public void setSecure(final boolean secure) {
         this.secure = secure;
+    }
+
+    // ------------------------- 提取配置专用
+    public String inWS() {
+        return this.workspace;
+    }
+
+    // ------------------------- 软连接方法
+    public HRepo assembleWS(final String workspace) {
+        this.workspace = workspace;
+        return this;
     }
 
     @Override

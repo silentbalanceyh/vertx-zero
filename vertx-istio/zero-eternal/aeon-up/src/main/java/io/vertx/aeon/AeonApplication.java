@@ -7,6 +7,7 @@ import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.AeonEnvironmentException;
 import io.vertx.aeon.exception.heart.ClusterRequiredException;
+import io.vertx.aeon.runtime.AeonEnvironment;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -46,8 +47,7 @@ public class AeonApplication extends ZeroApplication {
         final List<Future<Boolean>> futures = new ArrayList<>();
 
         // HOn Processing
-        final HBoot boot = aeon.boot();
-
+        final HBoot boot = aeon.inBoot();
 
         // HBoot -> HOn
         final HOn up = boot.pick(HOn.class, vertx);
@@ -82,6 +82,8 @@ public class AeonApplication extends ZeroApplication {
         Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
         // Error-50002
         Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
+
+        AeonEnvironment.initialize(aeon);
         // Error-50003
         final String workspace = System.getenv(HEnv.ZERO_AEON);
         Fn.out(Ut.isNil(workspace), AeonEnvironmentException.class, this.upClazz);

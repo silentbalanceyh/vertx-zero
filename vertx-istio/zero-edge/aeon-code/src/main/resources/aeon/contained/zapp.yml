@@ -1,5 +1,6 @@
 aeon:
   # ----------------- 低代码开发专用库配置 ---------------------
+  # workspace: /var/tmp/zero-aeon/ （默认，若Windows需更改）
   repo:
     # 公共库，链接, HKinect 实例（ReadOnly）
     kzero:
