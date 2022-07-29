@@ -82,11 +82,11 @@ public class HRepo implements Serializable {
     }
 
     public String getSecret() {
-        return this.secret;
+        return Ut.valueEnv(this.secret);
     }
 
     public void setSecret(final String secret) {
-        this.secret = Ut.valueEnv(secret);
+        this.secret = secret;
     }
 
     // ------------------------- 提取配置专用

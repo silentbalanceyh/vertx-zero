@@ -69,10 +69,18 @@ public class GitClientImpl implements GitClient {
     }
 
     @Override
-    public Git connect() {
+    public Git connect(final boolean pull) {
         final File file = new File(this.repo.inWS());
         if (file.exists()) {
-            return this.open();
+            final Git git = this.open();
+            if (pull) {
+                try {
+                    git.pull().call();
+                } catch (final Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return git;
         } else {
             return this.clon();
         }

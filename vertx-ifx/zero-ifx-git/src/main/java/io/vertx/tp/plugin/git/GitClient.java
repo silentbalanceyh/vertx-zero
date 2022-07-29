@@ -45,10 +45,18 @@ public interface GitClient extends TpClient<GitClient> {
         return this.exec(this::clon);
     }
 
-    Git connect();
+    default Git connect() {
+        return this.connect(false);
+    }
+
+    Git connect(boolean pull);
 
     default Future<Git> connectAsync() {
         return this.exec(this::connect); // Future.succeededFuture(this.connect());
+    }
+
+    default Future<Git> connectAsync(final boolean pull) {
+        return this.exec(() -> this.connect(pull)); // Future.succeededFuture(this.connect());
     }
 
     private Future<Git> exec(final Supplier<Git> supplier) {

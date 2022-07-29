@@ -5,9 +5,13 @@ import io.vertx.aeon.eon.em.RTEAeon;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.git.GitClient;
 import io.vertx.tp.plugin.git.GitInfix;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -27,8 +31,32 @@ public class NovaGit extends AbstractNova {
          *    - 公库 /platform/<ZA_LANG>/kzero --> 运行库 /kzero（框架更新）
          *    - 模块化检查
          */
-        final HRepo zeroP = repoMap.get(RTEAeon.kzero);
-        final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
-        return zeroC.connectAsync().compose(nil -> Ux.futureT());
+        return this.connect(repoMap);
+    }
+
+    /*
+     * 代码下载
+     * 1. 公库
+     * 2. 私库
+     * 全部下载到 /var/tmp/zero-aeon/ 工作空间中
+     *
+     * /kzero
+     * /kidd
+     * /kinect（私库）
+     *
+     * 如果不存在该库则     git clone
+     * 如果已存在该库则     git pull
+     */
+    private Future<Boolean> connect(final ConcurrentMap<RTEAeon, HRepo> repoMap) {
+        // kidd / kzero 下载
+        final Function<RTEAeon, Future<Boolean>> connectFn = (runtime) -> {
+            final HRepo zeroP = repoMap.get(runtime);
+            final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
+            return zeroC.connectAsync(true).compose(nil -> Ux.futureT());
+        };
+        final List<Future<Boolean>> futures = new ArrayList<>();
+        futures.add(connectFn.apply(RTEAeon.kzero));
+        futures.add(connectFn.apply(RTEAeon.kidd));
+        return Fn.combineB(futures);
     }
 }
