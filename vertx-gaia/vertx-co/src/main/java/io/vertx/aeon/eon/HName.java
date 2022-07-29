@@ -1,5 +1,7 @@
 package io.vertx.aeon.eon;
 
+import io.vertx.up.eon.KName;
+
 /**
  * 新的常量文件，区别于Zero中的KName
  *
@@ -11,6 +13,7 @@ public interface HName {
      * aeon/zapp.yml
      *
      * aeon:
+     *   name:
      *   workspace:
      *   repo:
      *     kidd:
@@ -18,6 +21,8 @@ public interface HName {
      *     kzero:
      */
     String AEON = "aeon";               // aeon:                         永世核心框架
+    String NAME = KName.NAME;           //   name:
+
     String WORKSPACE = "workspace";     //   workspace:                  工作区，默认 /var/tmp/zero-aeon
     String REPO = "repo";               //   repo:                       代码库
     String KINECT = "kinect";           //     kinect:                   低代码连接

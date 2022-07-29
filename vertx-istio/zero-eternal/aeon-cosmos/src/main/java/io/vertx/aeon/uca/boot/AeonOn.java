@@ -7,6 +7,7 @@ import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.aeon.specification.program.HNovae;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 
@@ -44,7 +45,9 @@ public class AeonOn implements HOn {
         if (Objects.isNull(novae)) {
             HLog.warnAeon(this.getClass(), "Alive components have not been defined, " +
                 "Kidd/Kinect/KZero architecture has been Disabled.");
+            return Ux.futureF();
+        } else {
+            return novae.configure(aeon);
         }
-        return novae.configure(aeon);
     }
 }

@@ -25,6 +25,7 @@ public class HAeon implements Serializable {
     private final ModeAeon mode;
     // 工作目录
     private final String workspace;
+    private final String name;
     // 启动配置
     private HBoot boot;
 
@@ -35,6 +36,7 @@ public class HAeon implements Serializable {
             ModeAeon.class, ModeAeon.MIN
         );
         // 上层工作区
+        this.name = Ut.valueString(configuration, HName.NAME);
         final String ws = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
         this.workspace = ws;
         // 遍历读取 Repo, kinect, kidd, kzero
@@ -73,6 +75,10 @@ public class HAeon implements Serializable {
 
     public String inWS() {
         return this.workspace;
+    }
+
+    public String inName() {
+        return this.name;
     }
 
     public HRepo inRepo(final RTEAeon runtime) {

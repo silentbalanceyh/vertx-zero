@@ -1,5 +1,5 @@
 server:
-  - name: aeon-admin
+  - name: aeon-aurora
     type: http
     config:
       port: 20000

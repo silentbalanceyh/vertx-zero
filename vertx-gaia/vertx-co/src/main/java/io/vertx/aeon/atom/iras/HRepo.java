@@ -51,18 +51,18 @@ public class HRepo implements Serializable {
     }
 
     public String getPath() {
-        return this.path;
-    }
-
-    public void setPath(final String path) {
         // 内部逻辑
         /*
          * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
          * 2. 如果 path 不存在则使用标准环境变量：ZK_APP
          * 3. 如果环境变量无法提取，则直接使用 path 作为目录
          */
-        final String pathKey = Ut.isNil(path) ? HEnv.ZK_APP : path;
-        this.path = Ut.valueEnv(pathKey, path);
+        final String pathKey = Ut.isNil(this.path) ? HEnv.ZK_APP : this.path;
+        return Ut.valueEnv(pathKey, this.path);
+    }
+
+    public void setPath(final String path) {
+        this.path = path;
     }
 
     public TypeRepo getType() {

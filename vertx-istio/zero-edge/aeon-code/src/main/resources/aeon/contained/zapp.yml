@@ -18,8 +18,10 @@ aeon:
       path:         ZERO_AEON
     kinect:
       secret:       ZK_PASS
+      path:         ZK_APP
     kidd:
       secret:       ZK_PASS
+      path:         ZK_APP
 
 
 
