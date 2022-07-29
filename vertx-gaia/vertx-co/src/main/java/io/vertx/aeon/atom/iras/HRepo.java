@@ -33,7 +33,6 @@ public class HRepo implements Serializable {
      */
     private String account;
     private String secret;
-    private boolean secure;
 
     /*
      * workspace 和 path 的区别
@@ -52,19 +51,18 @@ public class HRepo implements Serializable {
     }
 
     public String getPath() {
-        // 内部逻辑
-        /*
-         * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
-         * 2. 如果 path 不存在则使用标准环境变量：ZERO_AEON
-         * 3. 如果环境变量无法提取，则直接使用 this.path 作为目录
-         */
-        final String pathKey = Ut.isNil(this.path) ? HEnv.ZERO_AEON : this.path;
-        final String path = System.getenv(pathKey);
-        return Ut.isNil(path) ? this.path : path;
+        return this.path;
     }
 
     public void setPath(final String path) {
-        this.path = path;
+        // 内部逻辑
+        /*
+         * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
+         * 2. 如果 path 不存在则使用标准环境变量：ZK_APP
+         * 3. 如果环境变量无法提取，则直接使用 path 作为目录
+         */
+        final String pathKey = Ut.isNil(path) ? HEnv.ZK_APP : path;
+        this.path = Ut.valueEnv(pathKey, path);
     }
 
     public TypeRepo getType() {
@@ -88,24 +86,16 @@ public class HRepo implements Serializable {
     }
 
     public void setSecret(final String secret) {
-        this.secret = secret;
-    }
-
-    public boolean isSecure() {
-        // 内部逻辑
-        if (this.secure) {
-            return true;
-        }
-        return Objects.nonNull(this.secret);
-    }
-
-    public void setSecure(final boolean secure) {
-        this.secure = secure;
+        this.secret = Ut.valueEnv(secret);
     }
 
     // ------------------------- 提取配置专用
     public String inWS() {
         return this.workspace;
+    }
+
+    public boolean inSecure() {
+        return Objects.nonNull(this.secret);
     }
 
     // ------------------------- 软连接方法

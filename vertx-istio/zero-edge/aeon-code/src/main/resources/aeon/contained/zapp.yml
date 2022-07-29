@@ -9,15 +9,18 @@ aeon:
       #   GIT-HUB, GIT-EE, GIT-LAB
       # SVN-: Svn仓库
       #   SVN-XX
-      # mirror:     GIT_HUB
-      # secret:     AccessToken, HED Module
+      # type:       GIT_HUB
+      # secret:     AccessToken, HED Module, This will be stored in ZK_PASS environment
+      # secure:     Calculated by ( secret set )
+      # path:       Default path is ZK_APP, but for `kzero` it's ZERO_AEON
       uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
       account:      silentbalanceyh@126.com
-    kidd:
-      uri:          https://github.com/silentbalanceyh/aeon-cloud.git
-      account:      silentbalanceyh@126.com
+      path:         ZERO_AEON
+    kinect:
       secret:       ZK_PASS
-      path:         ZK_APP
+    kidd:
+      secret:       ZK_PASS
+
 
 
 

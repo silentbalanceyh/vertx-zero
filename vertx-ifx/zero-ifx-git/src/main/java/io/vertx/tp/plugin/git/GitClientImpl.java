@@ -26,7 +26,7 @@ public class GitClientImpl implements GitClient {
     GitClientImpl(final Vertx vertx, final HRepo repo) {
         this.vertx = vertx;
         this.repo = repo;
-        if (repo.isSecure()) {
+        if (repo.inSecure()) {
             this.provider = new UsernamePasswordCredentialsProvider(repo.getAccount(), repo.getSecret());
         }
     }
