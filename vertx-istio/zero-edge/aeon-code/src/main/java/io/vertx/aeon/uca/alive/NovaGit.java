@@ -8,6 +8,8 @@ import io.vertx.tp.plugin.git.GitInfix;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,22 @@ public class NovaGit extends AbstractNova {
             .compose(zeroC::pullAsync)
 
             // Normalize Building on different directories
-            .compose(nil -> this.normalize(repoMap));
+            .compose(nil -> this.normalize(repoMap))
+            // Commit & Push
+            .compose(nil -> this.finish(zeroC, refKinect.get()));
+    }
+
+    private Future<Boolean> finish(final GitClient client, final Git git) {
+        final Status status = client.status(git);
+        if (status.isClean()) {
+            // No Changes
+            return Ux.futureT();
+        } else {
+            // Commit / Push
+            client.commit(git, "Git commit in configure");
+
+            return client.pushAsync(git, true);
+        }
     }
 
     /*

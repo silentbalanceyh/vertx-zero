@@ -65,7 +65,8 @@ public class AeonNovae extends AbstractNovae {
 
     private void configureRuntime(final HAeon aeon) {
         // 工作目录：/var/tmp/zero-aeon/
-        HFS.common().mkdir(aeon.inWS());
+        final HFS fs = HFS.common();
+        fs.mkdir(aeon.inWS());
 
 
         // 提取 Kinect 运行库
@@ -77,6 +78,6 @@ public class AeonNovae extends AbstractNovae {
         final String modPath = Ut.ioPath(mod, name);
 
         // （保留）模块配置目录：ZK_APP/kind/<aeon/name>/
-        HFS.common().mkdir(modPath);
+        fs.mkdir(modPath);
     }
 }

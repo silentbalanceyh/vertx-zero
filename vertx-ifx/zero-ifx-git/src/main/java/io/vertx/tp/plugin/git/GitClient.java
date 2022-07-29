@@ -10,6 +10,8 @@ import io.vertx.up.plugin.TpClient;
 import io.vertx.up.util.Ut;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.function.Supplier;
 
@@ -73,7 +75,29 @@ public interface GitClient extends TpClient<GitClient> {
         return this.exec(() -> this.pull(git));
     }
 
-    // -------------------- Git Command for History -------------------
+    RevCommit commit(Git git, String message);
+
+    default Future<RevCommit> commitAsync(final Git git, final String message) {
+        return this.exec(() -> this.commit(git, message));
+    }
+
+    boolean push(Git git, boolean force);
+
+    default Future<Boolean> pushAsync(final Git git, final boolean force) {
+        return this.exec(() -> this.push(git, force));
+    }
+
+    default boolean push(final Git git) {
+        return this.push(git, false);
+    }
+
+    default Future<Boolean> pushAsync(final Git git) {
+        return this.exec(() -> this.push(git));
+    }
+
+
+    // -------------------- Git Command for Status/History -------------------
+    Status status(final Git git);
 
     // -------------------- Private Method -------------------
     private <T> Future<T> exec(final Supplier<T> supplier) {

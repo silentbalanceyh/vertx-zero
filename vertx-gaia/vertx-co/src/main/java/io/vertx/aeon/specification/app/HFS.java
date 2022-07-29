@@ -65,4 +65,11 @@ public interface HFS {
     default Future<Boolean> renameAsync(final ConcurrentMap<String, String> renameMap) {
         return Future.succeededFuture(this.rename(renameMap));
     }
+
+    /* 拷贝： cp */
+    boolean cp(String nameFrom, String nameTo);
+
+    default Future<Boolean> cpAsync(final String nameFrom, final String nameTo) {
+        return Future.succeededFuture(this.cp(nameFrom, nameTo));
+    }
 }

@@ -6,12 +6,12 @@ import io.vertx.up.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _400RepoPullException extends WebException {
+public class _400RepoCommandException extends WebException {
 
-    public _400RepoPullException(final Class<?> clazz,
-                                 final String uri,
-                                 final String message) {
-        super(clazz, uri, message);
+    public _400RepoCommandException(final Class<?> clazz,
+                                    final String command,
+                                    final String message) {
+        super(clazz, command, message);
     }
 
 

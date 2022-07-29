@@ -3,15 +3,14 @@ package io.vertx.tp.plugin.git;
 import io.vertx.aeon.atom.iras.HRepo;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._400RepoPullException;
+import io.vertx.tp.error._400RepoCommandException;
 import io.vertx.tp.error._404RepoMissingException;
 import io.vertx.tp.error._409RepoExistingException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
-import org.eclipse.jgit.api.CloneCommand;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullCommand;
-import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -103,12 +102,13 @@ public class GitClientImpl implements GitClient {
                 command.setCredentialsProvider(this.provider);
             }
             final PullResult result = command.call();
-            GLog.infoCommand(this.getClass(), "Pull result: success = {1}, info = \n{0}",
-                result.toString(),
+            final MergeResult merged = result.getMergeResult();
+            GLog.infoCommand(this.getClass(), "Pull result: success = {1}, Merge Status = {0}",
+                merged.getMergeStatus(),
                 result.isSuccessful());
             return result;
         } catch (final Exception ex) {
-            throw new _400RepoPullException(this.getClass(), this.repo.getUri(), ex.getMessage());
+            throw new _400RepoCommandException(this.getClass(), "pull", ex.getMessage());
         }
     }
 
@@ -121,6 +121,42 @@ public class GitClientImpl implements GitClient {
             return new Git(repository);
         } catch (final Exception ex) {
             throw new _404RepoMissingException(this.getClass(), this.repo.getPath(), ex.getMessage());
+        }
+    }
+
+    @Override
+    public Status status(final Git git) {
+        return Fn.getJvm(() -> git.status().call());
+    }
+
+    @Override
+    public RevCommit commit(final Git git, final String message) {
+        try {
+            git.add().addFilepattern(".").call();
+            final String comment;
+            if (Ut.isNil(message)) {
+                comment = "[ πηγή ] No Message";
+            } else {
+                comment = "[ πηγή ] " + message;
+            }
+            return git.commit().setMessage(comment).call();
+        } catch (final Exception ex) {
+            throw new _400RepoCommandException(this.getClass(), "add/commit", ex.getMessage());
+        }
+    }
+
+    @Override
+    public boolean push(final Git git, final boolean force) {
+        try {
+            final PushCommand command = git.push();
+            if (Objects.nonNull(this.provider)) {
+                command.setCredentialsProvider(this.provider);
+            }
+            command.setForce(force);
+            command.call();
+            return true;
+        } catch (final Exception ex) {
+            throw new _400RepoCommandException(this.getClass(), "push", ex.getMessage());
         }
     }
 }

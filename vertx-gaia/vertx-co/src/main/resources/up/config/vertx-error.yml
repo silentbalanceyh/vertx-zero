@@ -186,7 +186,7 @@ E60054: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
 # Git Exception
 E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message = {1}"
 E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
-E60057: "(400) - (Git) You are executing the `pull` command on {0} but met error, message = {1}"
+E60057: "(400) - (Git) You are executing command `{0}` but met error, message = {1}"
 
 # ----------- Zero Extension Module Exception --------------------
 # 80001 - 89999

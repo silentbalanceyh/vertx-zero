@@ -31,6 +31,10 @@ public class HLog {
         info(clazz, "Fs", pattern, args);
     }
 
+    public static void warnFs(final Class<?> clazz, final String pattern, final Object... args) {
+        warn(clazz, "Fs", pattern, args);
+    }
+
     public static void warnAeon(final Class<?> clazz, final String pattern, final Object... args) {
         warn(clazz, "Aeon", pattern, args);
     }
