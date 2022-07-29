@@ -4,6 +4,7 @@ import io.vertx.aeon.atom.iras.HRepo;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.plugin.TpClient;
@@ -11,6 +12,7 @@ import io.vertx.up.util.Ut;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.function.Supplier;
@@ -73,6 +75,20 @@ public interface GitClient extends TpClient<GitClient> {
 
     default Future<PullResult> pullAsync(final Git git) {
         return this.exec(() -> this.pull(git));
+    }
+
+    default DirCache add(final Git git) {
+        return this.add(git, Strings.DOT);
+    }
+
+    DirCache add(Git git, String pattern);
+
+    default Future<DirCache> addAsync(final Git git) {
+        return this.exec(() -> this.add(git));
+    }
+
+    default Future<DirCache> addAsync(final Git git, final String pattern) {
+        return this.exec(() -> this.add(git, pattern));
     }
 
     RevCommit commit(Git git, String message);

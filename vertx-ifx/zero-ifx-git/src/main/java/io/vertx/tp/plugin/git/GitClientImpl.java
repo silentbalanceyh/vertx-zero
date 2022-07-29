@@ -9,6 +9,7 @@ import io.vertx.tp.error._409RepoExistingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -132,7 +133,6 @@ public class GitClientImpl implements GitClient {
     @Override
     public RevCommit commit(final Git git, final String message) {
         try {
-            git.add().addFilepattern(".").call();
             final String comment;
             if (Ut.isNil(message)) {
                 comment = "[ πηγή ] No Message";
@@ -141,7 +141,16 @@ public class GitClientImpl implements GitClient {
             }
             return git.commit().setMessage(comment).call();
         } catch (final Exception ex) {
-            throw new _400RepoCommandException(this.getClass(), "add/commit", ex.getMessage());
+            throw new _400RepoCommandException(this.getClass(), "commit", ex.getMessage());
+        }
+    }
+
+    @Override
+    public DirCache add(final Git git, final String pattern) {
+        try {
+            return git.add().addFilepattern(".").call();
+        } catch (final Exception ex) {
+            throw new _400RepoCommandException(this.getClass(), "add", ex.getMessage());
         }
     }
 

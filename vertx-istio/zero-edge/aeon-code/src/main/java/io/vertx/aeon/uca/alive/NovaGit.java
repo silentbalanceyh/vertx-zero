@@ -58,9 +58,11 @@ public class NovaGit extends AbstractNova {
             // No Changes
             return Ux.futureT();
         } else {
-            // Commit / Push
+            // Add
+            client.add(git);
+            // Commit
             client.commit(git, "Git commit in configure");
-
+            // Push
             return client.pushAsync(git, true);
         }
     }
