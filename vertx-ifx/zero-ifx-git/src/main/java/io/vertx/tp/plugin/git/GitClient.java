@@ -9,6 +9,7 @@ import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.plugin.TpClient;
 import io.vertx.up.util.Ut;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullResult;
 
 import java.util.function.Supplier;
 
@@ -59,7 +60,23 @@ public interface GitClient extends TpClient<GitClient> {
         return this.exec(() -> this.connect(pull)); // Future.succeededFuture(this.connect());
     }
 
-    private Future<Git> exec(final Supplier<Git> supplier) {
+    Git search();
+
+    default Future<Git> searchAsync() {
+        return this.exec(this::search);
+    }
+
+    // -------------------- Git Command for Action  -------------------
+    PullResult pull(Git git);
+
+    default Future<PullResult> pullAsync(final Git git) {
+        return this.exec(() -> this.pull(git));
+    }
+
+    // -------------------- Git Command for History -------------------
+
+    // -------------------- Private Method -------------------
+    private <T> Future<T> exec(final Supplier<T> supplier) {
         try {
             return Future.succeededFuture(supplier.get());
         } catch (final WebException ex) {
@@ -68,7 +85,4 @@ public interface GitClient extends TpClient<GitClient> {
             return Future.failedFuture(new _500InternalServerException(this.getClass(), ex.getMessage()));
         }
     }
-    // -------------------- Git Command for Commit  -------------------
-
-    // -------------------- Git Command for History -------------------
 }

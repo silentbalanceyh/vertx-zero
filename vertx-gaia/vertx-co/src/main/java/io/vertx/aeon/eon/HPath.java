@@ -14,4 +14,6 @@ public interface HPath {
     String ENV_DEVELOPMENT = ".env.development";
 
     String WORKSPACE = "/var/tmp/zero-aeon/";
+
+    String SOURCE_ZERO = "platform/{0}/kzero";
 }

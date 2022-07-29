@@ -177,12 +177,16 @@ E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, 
 E60049: "({0}) HttpException: {1}"
 E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
 E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`"
+
+# File attachment
 E60052: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
 E60053: "(415) - The declared type {0} is not match to MIME {1}"
 E60054: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
+
+# Git Exception
 E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message = {1}"
 E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
-
+E60057: "(400) - (Git) You are executing the `pull` command on {0} but met error, message = {1}"
 
 # ----------- Zero Extension Module Exception --------------------
 # 80001 - 89999

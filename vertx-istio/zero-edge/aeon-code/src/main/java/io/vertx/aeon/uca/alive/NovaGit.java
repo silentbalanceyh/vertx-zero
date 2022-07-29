@@ -5,6 +5,7 @@ import io.vertx.aeon.eon.em.RTEAeon;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.git.GitClient;
 import io.vertx.tp.plugin.git.GitInfix;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -31,7 +32,20 @@ public class NovaGit extends AbstractNova {
          *    - 公库 /platform/<ZA_LANG>/kzero --> 运行库 /kzero（框架更新）
          *    - 模块化检查
          */
-        return this.connect(repoMap);
+        final Refer refKinect = new Refer();
+        // kinect 客户端
+        final HRepo zeroP = repoMap.get(RTEAeon.kinect);
+        final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
+        // 连接 kzero / kidd
+        return this.connect(repoMap)
+
+            // Search Current Git And Call Pull
+            .compose(nil -> zeroC.searchAsync())
+            .compose(refKinect::future)
+            .compose(zeroC::pullAsync)
+
+            // Normalize Building on different directories
+            .compose(nil -> this.normalize(repoMap));
     }
 
     /*
