@@ -14,6 +14,7 @@ import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 
 import java.util.function.Supplier;
 
@@ -97,17 +98,17 @@ public interface GitClient extends TpClient<GitClient> {
         return this.exec(() -> this.commit(git, message));
     }
 
-    boolean push(Git git, boolean force);
+    Iterable<PushResult> push(Git git, boolean force);
 
-    default Future<Boolean> pushAsync(final Git git, final boolean force) {
+    default Future<Iterable<PushResult>> pushAsync(final Git git, final boolean force) {
         return this.exec(() -> this.push(git, force));
     }
 
-    default boolean push(final Git git) {
+    default Iterable<PushResult> push(final Git git) {
         return this.push(git, false);
     }
 
-    default Future<Boolean> pushAsync(final Git git) {
+    default Future<Iterable<PushResult>> pushAsync(final Git git) {
         return this.exec(() -> this.push(git));
     }
 

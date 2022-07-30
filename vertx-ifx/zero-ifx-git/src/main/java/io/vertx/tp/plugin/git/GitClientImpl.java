@@ -14,10 +14,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -155,15 +158,22 @@ public class GitClientImpl implements GitClient {
     }
 
     @Override
-    public boolean push(final Git git, final boolean force) {
+    public Iterable<PushResult> push(final Git git, final boolean force) {
         try {
-            final PushCommand command = git.push();
-            if (Objects.nonNull(this.provider)) {
-                command.setCredentialsProvider(this.provider);
+            final Repository repository = git.getRepository();
+            final Set<String> remotes = repository.getRemoteNames();
+            if (remotes.isEmpty()) {
+                // Empty and Ignore
+                GLog.infoCommand(this.getClass(), "Ignore remote push because of Non Remote related.");
+                return new ArrayList<>();
+            } else {
+                final PushCommand command = git.push();
+                if (Objects.nonNull(this.provider)) {
+                    command.setCredentialsProvider(this.provider);
+                }
+                command.setForce(force);
+                return command.call();
             }
-            command.setForce(force);
-            command.call();
-            return true;
         } catch (final Exception ex) {
             throw new _400RepoCommandException(this.getClass(), "push", ex.getMessage());
         }

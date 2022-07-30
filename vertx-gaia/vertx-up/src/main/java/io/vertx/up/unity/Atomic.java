@@ -56,9 +56,8 @@ class Atomic {
 
     @SuppressWarnings("all")
     static Future<Boolean> nativeInit(final JsonArray components, final Vertx vertx) {
-        /* Extract Component Class and calculate async and sync */
+        /* Extract Component Class and consider running at the same time */
         final List<Future<Boolean>> async = new ArrayList<>();
-        final List<Class<?>> sync = new ArrayList<>();
         Ut.itJArray(components).forEach(json -> {
             final String className = json.getString("component");
             final Class<?> clazz = Ut.clazz(className, null);
@@ -71,17 +70,13 @@ class Atomic {
                         async.add(ret);
                     }
                 } else {
-                    sync.add(clazz);
+                    // Sync:   void init(Vertx vertx) | init()
+                    async.add(invokeSync(clazz, vertx));
+                    // sync.add(clazz);
                 }
             }
         });
-        // Async First
-        return Fn.combineT(async).compose(ret -> {
-            // Sync: void init(Vertx vertx) | init()
-            final List<Future<Boolean>> futures = new ArrayList<>();
-            sync.stream().map(each -> invokeSync(each, vertx)).forEach(futures::add);
-            return Fn.combineT(futures);
-        }).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.combineB(async);
     }
 
     private static Future<Boolean> invokeSync(final Class<?> clazz, final Vertx vertx) {
