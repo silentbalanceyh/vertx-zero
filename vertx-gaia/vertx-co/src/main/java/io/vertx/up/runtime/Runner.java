@@ -4,8 +4,11 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 /**
  * Multi thread helper tool to do some multi-thread works.
@@ -32,6 +35,20 @@ public final class Runner {
             final Runnable hooker = hookers[idx];
             threads.add(run(hooker, threadName));
         }
+        Fn.safeJvm(() -> {
+            for (final Thread thread : threads) {
+                thread.join();
+            }
+        });
+    }
+
+    public static <T> void run(final Set<T> inputSet, final Consumer<T> consumer) {
+        final Set<Thread> threads = new HashSet<>();
+        inputSet.forEach(item -> {
+            final Thread thread = new Thread(() -> consumer.accept(item));
+            thread.start();
+            threads.add(thread);
+        });
         Fn.safeJvm(() -> {
             for (final Thread thread : threads) {
                 thread.join();

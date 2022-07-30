@@ -3,17 +3,24 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>zero-ecology</artifactId>
+        <artifactId>zero-edge</artifactId>
         <groupId>cn.vertxup</groupId>
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aeon-ambient</artifactId>
-    <name>Cloud Service:「aeon-ambient」At - Ambient</name>
+    <artifactId>aeon-vie</artifactId>
+    <name>Cloud Service:「aeon-vie」Scaffold Platform</name>
     <dependencies>
+        <!-- Eternal Container -->
         <dependency>
             <groupId>cn.vertxup</groupId>
-            <artifactId>zero-ambient</artifactId>
+            <artifactId>aeon-up</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Ambient系统专用模块 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>aeon-ambient</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

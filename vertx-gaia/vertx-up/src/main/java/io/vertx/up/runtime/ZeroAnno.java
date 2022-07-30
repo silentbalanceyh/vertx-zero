@@ -3,6 +3,7 @@ package io.vertx.up.runtime;
 import com.google.inject.Injector;
 import io.vertx.aeon.atom.HSwitcher;
 import io.vertx.aeon.atom.iras.HAeon;
+import io.vertx.aeon.uca.web.origin.HQaSInquirer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.secure.Aegis;
@@ -35,8 +36,8 @@ public class ZeroAnno {
     private final static Set<Class<?>> ENDPOINTS = new HashSet<>();
     private final static Set<Class<?>> QUEUES = new HashSet<>();
     private final static Set<Class<?>> WORKERS = new HashSet<>();
-    private final static Set<Class<?>> QAS = new HashSet<>();
     private final static Set<Class<?>> TPS = new HashSet<>();
+    private final static ConcurrentMap<String, Method> QAS = new ConcurrentHashMap<>();
 
     /*
      * Component Scanner
@@ -90,6 +91,8 @@ public class ZeroAnno {
                 final HAeon aeon = HSwitcher.aeon();
                 if (Objects.nonNull(aeon)) {
                     /* Aeon System Enabled */
+                    final Inquirer<ConcurrentMap<String, Method>> inquirer = Ut.singleton(HQaSInquirer.class);
+                    QAS.putAll(inquirer.scan(clazzes));
                 }
             },
             // TpClients Plugins
@@ -166,6 +169,10 @@ public class ZeroAnno {
             }
         );
         LOGGER.info("Zero Timer: Meditate = {0} ms", String.valueOf(System.currentTimeMillis() - end));
+    }
+
+    public static Method getQaS(final String address) {
+        return QAS.getOrDefault(address, null);
     }
 
     public static Injector getDi() {
