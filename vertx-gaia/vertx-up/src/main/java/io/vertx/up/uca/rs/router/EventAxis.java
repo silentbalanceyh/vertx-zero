@@ -91,7 +91,7 @@ public class EventAxis implements Axis<Router> {
                  */
                 route.blockingHandler(this.verifier.signal(depot))
                     .failureHandler(CommonEndurer.create())
-                    .blockingHandler(aim.attack(event))
+                    .handler(aim.attack(event))
                     .failureHandler(CommonEndurer.create());
             }));
     }

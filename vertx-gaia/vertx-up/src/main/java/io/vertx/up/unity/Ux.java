@@ -370,6 +370,14 @@ public final class Ux {
         return To.future(null);
     }
 
+    /*
+     * Fix bug of `sync` -> `async` transfer ( Actually Execution )
+     * Safe future to delay building.
+     */
+    public static <T> Future<T> future(Supplier<Future<T>> supplier) {
+        return Future.succeededFuture().compose(nil -> supplier.get());
+    }
+
     public static Future<JsonObject> complex(final JsonObject input, final Predicate<JsonObject> predicate, final Supplier<Future<JsonObject>> executor) {
         return Complex.complex(input, predicate, executor);
     }

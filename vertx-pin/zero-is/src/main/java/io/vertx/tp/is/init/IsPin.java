@@ -10,7 +10,7 @@ import io.vertx.tp.ke.refine.Ke;
 public class IsPin {
 
     public static void init() {
-        Ke.banner("「Ολοκλήρωση」- Integration Service ( Is )");
+        Ke.banner("「Ολοκλήρωση」- Integration ( Is )");
         Is.Log.infoInit(IsPin.class, "IsConfiguration...");
         IsConfiguration.init();
     }
