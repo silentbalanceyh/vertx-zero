@@ -89,7 +89,7 @@ public class EventAxis implements Axis<Router> {
                  * 3) Execute handler ( Code Logical )
                  * 4) Uniform failure handler
                  */
-                route.blockingHandler(this.verifier.signal(depot))
+                route.handler(this.verifier.signal(depot))
                     .failureHandler(CommonEndurer.create())
                     .handler(aim.attack(event))
                     .failureHandler(CommonEndurer.create());
