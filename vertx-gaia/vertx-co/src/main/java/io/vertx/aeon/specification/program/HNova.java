@@ -2,7 +2,7 @@ package io.vertx.aeon.specification.program;
 
 import io.vertx.aeon.atom.iras.HRepo;
 import io.vertx.aeon.eon.em.RTEAeon;
-import io.vertx.aeon.specification.element.HEvent;
+import io.vertx.aeon.specification.action.HEvent;
 
 import java.util.concurrent.ConcurrentMap;
 

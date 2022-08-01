@@ -1,4 +1,4 @@
-package io.vertx.aeon.specification.element;
+package io.vertx.aeon.specification.action;
 
 import io.vertx.core.Vertx;
 

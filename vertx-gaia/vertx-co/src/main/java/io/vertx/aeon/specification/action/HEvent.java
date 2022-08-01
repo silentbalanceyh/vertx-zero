@@ -1,9 +1,11 @@
-package io.vertx.aeon.specification.element;
+package io.vertx.aeon.specification.action;
 
 import io.vertx.core.Future;
 import io.vertx.up.exception.web._501NotSupportException;
 
 /**
+ * 「异步指令」
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HEvent<I, R> extends HCommand<I, Future<R>> {

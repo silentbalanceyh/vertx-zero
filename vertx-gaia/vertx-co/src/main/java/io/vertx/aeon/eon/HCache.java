@@ -2,8 +2,8 @@ package io.vertx.aeon.eon;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
+import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.aeon.specification.app.HFS;
-import io.vertx.aeon.specification.element.HEvent;
 import io.vertx.up.uca.cache.Cc;
 
 /**
