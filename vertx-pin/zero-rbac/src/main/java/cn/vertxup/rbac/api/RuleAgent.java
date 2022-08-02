@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam;
  */
 @EndPoint
 @Path("/api")
-public interface CriterionAgent {
+public interface RuleAgent {
 
     @GET
     @Path("/rules")
@@ -26,4 +26,10 @@ public interface CriterionAgent {
     @Path("/rule-items/rule/:ruleId")
     @Address(Addr.Rule.FETCH_RULE_ITEMS)
     Future<JsonArray> fetchPocket(@PathParam("ruleId") String ruleId);
+
+    /* Admin Region */
+    @GET
+    @Path("/rule/region")
+    @Address(Addr.Rule.FETCH_REGION)
+    Future<JsonArray> fetchRegion();
 }

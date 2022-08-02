@@ -21,10 +21,11 @@ import javax.inject.Inject;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @Queue
-public class CriterionActor {
+public class RuleActor {
 
     @Inject
     private transient RuleStub stub;
+
 
     @Address(Addr.Rule.FETCH_BY_SIGMA)
     public Future<JsonArray> fetchAsync(final XHeader header) {
