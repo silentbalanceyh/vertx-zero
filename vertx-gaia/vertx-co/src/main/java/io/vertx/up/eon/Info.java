@@ -2,6 +2,9 @@ package io.vertx.up.eon;
 
 public interface Info {
 
+    String H_SCANED_QAS = "( {0} QaS ) The Zero system has found " +
+        "{1} points of @QaS.";
+
     String SCANED_RULE = "( {0} Rules ) Zero system scanned the folder /codex/ " +
         "to pickup {0} rule definition files.";
     String INFIX_NULL = "The system scanned null infix for key = {0} " +

@@ -25,6 +25,7 @@ public class HAeon implements Serializable {
     private final ModeAeon mode;
     // 工作目录
     private final String workspace;
+    private final String name;
     // 启动配置
     private HBoot boot;
 
@@ -34,15 +35,19 @@ public class HAeon implements Serializable {
             () -> Ut.valueString(configuration, KName.MODE),
             ModeAeon.class, ModeAeon.MIN
         );
-        this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
+        // 上层工作区
+        this.name = Ut.valueString(configuration, HName.NAME);
+        final String ws = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
+        this.workspace = ws;
         // 遍历读取 Repo, kinect, kidd, kzero
         final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
         Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
             final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
             if (Objects.nonNull(repoType)) {
                 final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
-                // 绑定工作空间
-                this.repos.put(repoType, repo.assembleWS(this.workspace));
+                // 绑定仓库工作区：workspace + runtime
+                final String wsRepo = Ut.ioPath(ws, repoType.name());
+                this.repos.put(repoType, repo.assemble(wsRepo));
             }
         });
     }
@@ -72,8 +77,16 @@ public class HAeon implements Serializable {
         return this.workspace;
     }
 
+    public String inName() {
+        return this.name;
+    }
+
     public HRepo inRepo(final RTEAeon runtime) {
         return this.repos.getOrDefault(runtime, null);
+    }
+
+    public ConcurrentMap<RTEAeon, HRepo> inRepo() {
+        return this.repos;
     }
 
     // ------------------------- 软连接方法

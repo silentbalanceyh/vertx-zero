@@ -1752,6 +1752,8 @@ public final class Ut {
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
      * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
+     * - valueC
+     * - valueCI
      *
      * - valueTime(LocalTime, LocalDateTime)
      */
@@ -1778,6 +1780,14 @@ public final class Ut {
 
     public static String valueString(final JsonObject json, final String field, final String defaultValue) {
         return Epsilon.vString(json, field, defaultValue);
+    }
+
+    public static String valueEnv(final String name, final String defaultValue) {
+        return Epsilon.vEnv(name, defaultValue);
+    }
+
+    public static String valueEnv(final String name) {
+        return Epsilon.vEnv(name, name);
     }
 
     public static Class<?> valueC(final JsonObject json, final String field) {

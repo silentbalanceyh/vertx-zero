@@ -6,7 +6,6 @@ import io.vertx.aeon.atom.iras.HBoot;
 import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.AeonEnvironmentException;
-import io.vertx.aeon.exception.heart.ClusterRequiredException;
 import io.vertx.aeon.runtime.AeonEnvironment;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
@@ -14,7 +13,6 @@ import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
-import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class AeonApplication extends ZeroApplication {
         // Error-50001
         Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
         // Error-50002
-        Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
+        // Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
 
         AeonEnvironment.initialize(aeon);
         // Error-50003

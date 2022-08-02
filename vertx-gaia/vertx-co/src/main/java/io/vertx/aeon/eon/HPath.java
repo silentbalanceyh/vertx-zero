@@ -9,7 +9,11 @@ public interface HPath {
 
     String AXIS = "axis";
 
+    String KIND = "kind";
+
     String ENV_DEVELOPMENT = ".env.development";
 
     String WORKSPACE = "/var/tmp/zero-aeon/";
+
+    String SOURCE_ZERO = "platform/{0}/kzero";
 }

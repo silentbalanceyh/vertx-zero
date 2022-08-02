@@ -33,8 +33,12 @@ public class HRepo implements Serializable {
      */
     private String account;
     private String secret;
-    private boolean secure;
 
+    /*
+     * workspace 和 path 的区别
+     * 1. workspace 为当前库的直接对接目录，用于 clone, open 专用（为工作区间）
+     * 2. path 为当前库应该转移配置的目标目录，一般为另外一个库，不一定是当前库的镜像
+     */
     @JsonIgnore
     private String workspace;
 
@@ -50,12 +54,11 @@ public class HRepo implements Serializable {
         // 内部逻辑
         /*
          * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
-         * 2. 如果 path 不存在则使用标准环境变量：ZERO_AEON
-         * 3. 如果环境变量无法提取，则直接使用 this.path 作为目录
+         * 2. 如果 path 不存在则使用标准环境变量：ZK_APP
+         * 3. 如果环境变量无法提取，则直接使用 path 作为目录
          */
-        final String pathKey = Ut.isNil(this.path) ? HEnv.ZERO_AEON : this.path;
-        final String path = System.getenv(pathKey);
-        return Ut.isNil(path) ? this.path : path;
+        final String pathKey = Ut.isNil(this.path) ? HEnv.ZK_APP : this.path;
+        return Ut.valueEnv(pathKey, this.path);
     }
 
     public void setPath(final String path) {
@@ -79,23 +82,11 @@ public class HRepo implements Serializable {
     }
 
     public String getSecret() {
-        return this.secret;
+        return Ut.valueEnv(this.secret);
     }
 
     public void setSecret(final String secret) {
         this.secret = secret;
-    }
-
-    public boolean isSecure() {
-        // 内部逻辑
-        if (this.secure) {
-            return true;
-        }
-        return Objects.nonNull(this.secret);
-    }
-
-    public void setSecure(final boolean secure) {
-        this.secure = secure;
     }
 
     // ------------------------- 提取配置专用
@@ -103,8 +94,12 @@ public class HRepo implements Serializable {
         return this.workspace;
     }
 
+    public boolean inSecure() {
+        return Objects.nonNull(this.secret);
+    }
+
     // ------------------------- 软连接方法
-    public HRepo assembleWS(final String workspace) {
+    public HRepo assemble(final String workspace) {
         this.workspace = workspace;
         return this;
     }

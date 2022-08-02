@@ -34,6 +34,42 @@ public class LocalFs implements HFS {
         return true;
     }
 
+
+    @Override
+    public boolean cp(final String nameFrom, final String nameTo) {
+        final File fileSrc = new File(nameFrom);
+        final File fileDst = new File(nameTo);
+        if (fileSrc.exists() && fileDst.exists()) {
+            if (fileDst.isDirectory()) {
+                // The target must be directory
+                if (fileSrc.isFile()) {
+                    // File -> Directory
+                    HLog.infoFs(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFileToDirectory");
+                    Fn.safeJvm(() -> FileUtils.copyFileToDirectory(fileSrc, fileDst, true));
+                } else {
+                    if (fileSrc.getName().equals(fileDst.getName())) {
+                        // Directory -> Directory ( Overwrite )
+                        HLog.infoFs(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectory");
+                        Fn.safeJvm(() -> FileUtils.copyDirectory(fileSrc, fileDst, true));
+                    } else {
+                        // Directory -> Directory / ( Children )
+                        HLog.infoFs(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectoryToDirectory");
+                        Fn.safeJvm(() -> FileUtils.copyDirectoryToDirectory(fileSrc, fileDst));
+                    }
+                }
+            } else {
+                // File -> File
+                if (fileSrc.isFile()) {
+                    HLog.infoFs(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFile");
+                    Fn.safeJvm(() -> FileUtils.copyFile(fileSrc, fileDst, true));
+                }
+            }
+        } else {
+            HLog.warnFs(this.getClass(), Info.ERR_CMD_CP, nameFrom, nameTo);
+        }
+        return true;
+    }
+
     @Override
     public boolean rename(final String nameFrom, final String nameTo) {
         final File fileSrc = new File(nameFrom);

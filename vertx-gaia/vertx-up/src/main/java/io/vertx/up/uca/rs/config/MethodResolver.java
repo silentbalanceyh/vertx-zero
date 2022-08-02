@@ -20,7 +20,7 @@ class MethodResolver {
     private static final Annal LOGGER = Annal.get(MethodResolver.class);
 
     private static final ConcurrentMap<Class<?>, HttpMethod> METHODS =
-        new ConcurrentHashMap<Class<?>, HttpMethod>() {
+        new ConcurrentHashMap<>() {
             {
                 this.put(GET.class, HttpMethod.GET);
                 this.put(POST.class, HttpMethod.POST);

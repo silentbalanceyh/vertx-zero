@@ -75,15 +75,17 @@ public final class ZeroPack {
             final Set<Class<?>> scanned = getClassesInternal();
             // multiClasses(packageDirs.toArray(new String[]{}));
             CLASSES.addAll(scanned.stream()
-                .filter(type -> !type.isAnonymousClass())                   // Ko Anonymous
-                .filter(type -> !type.isAnnotation())                       // Ko Annotation
-                .filter(type -> !type.isEnum())                             // Ko Enum
-                .filter(type -> Modifier.isPublic(type.getModifiers()))     // Ko non-public
-                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))  // Because interface is abstract
-                .filter(type -> !Modifier.isStatic(type.getModifiers()))    // Ko Static
-                .filter(type -> !Throwable.class.isAssignableFrom(type))    // Ko Exception
-                .filter(type -> !type.isAnnotationPresent(RunWith.class))   // Ko Test Class
-                .filter(ZeroPack::validMember)                          // Ko `Method/Field`
+                .filter(type -> !type.isAnonymousClass())                      // Ko Anonymous
+                .filter(type -> !type.isAnnotation())                          // Ko Annotation
+                .filter(type -> !type.isEnum())                                // Ko Enum
+                .filter(type -> Modifier.isPublic(type.getModifiers()))        // Ko non-public
+                // Ko abstract class, because interface is abstract, single condition is invalid
+                .filter(type -> !(Modifier.isAbstract(type.getModifiers()) && !type.isInterface()))
+                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))     // Because interface is abstract
+                .filter(type -> !Modifier.isStatic(type.getModifiers()))       // Ko Static
+                .filter(type -> !Throwable.class.isAssignableFrom(type))       // Ko Exception
+                .filter(type -> !type.isAnnotationPresent(RunWith.class))      // Ko Test Class
+                .filter(ZeroPack::validMember)                                 // Ko `Method/Field`
                 .collect(Collectors.toSet()));
             LOGGER.info(Info.CLASSES, String.valueOf(CLASSES.size()));
             /*
@@ -102,6 +104,8 @@ public final class ZeroPack {
 
     private static boolean validMember(final Class<?> type) {
         try {
+            // Fix issue of Guice
+            // java.lang.NoClassDefFoundError: camundajar/impl/scala/reflect/macros/blackbox/Context
             type.getDeclaredMethods();
             type.getDeclaredFields();
             return true;

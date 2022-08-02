@@ -1,12 +1,17 @@
 # ---------------- 打开Aeon系统 ----------------
 aeon:
+  # 当前模块名称（只能是类型维度，有可能水平多实例）
+  name: aeon-aurora
   # 基础云的搭建模式：MIX, MIN, MIRROR
   # 1. MIX - 混合模式：公有 + 私有
   # 2. MIN - 托管模式：公有
   # 3. MIRROR - 独占模式：私有
-  mode: MIN
+  mode: MIX
   # ----------------- 低代码开发专用库配置 ---------------------
   repo:
     # 当前运行库，HKinect 实例
     kinect:
+      account:      silentbalanceyh@126.com
+    kidd:
+      uri:          https://github.com/silentbalanceyh/aeon-cloud.git
       account:      silentbalanceyh@126.com

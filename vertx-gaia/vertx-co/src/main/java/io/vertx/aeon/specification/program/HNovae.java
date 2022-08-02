@@ -1,7 +1,7 @@
 package io.vertx.aeon.specification.program;
 
 import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.specification.element.HEvent;
+import io.vertx.aeon.specification.action.HEvent;
 
 /**
  * 「持续在线」

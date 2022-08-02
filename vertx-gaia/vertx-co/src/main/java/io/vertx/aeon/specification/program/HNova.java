@@ -1,7 +1,10 @@
 package io.vertx.aeon.specification.program;
 
 import io.vertx.aeon.atom.iras.HRepo;
-import io.vertx.aeon.specification.element.HEvent;
+import io.vertx.aeon.eon.em.RTEAeon;
+import io.vertx.aeon.specification.action.HEvent;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 「持续在线」
@@ -9,5 +12,6 @@ import io.vertx.aeon.specification.element.HEvent;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HNova extends HEvent<HRepo, Boolean> {
+public interface HNova extends HEvent<ConcurrentMap<RTEAeon, HRepo>, Boolean> {
+
 }

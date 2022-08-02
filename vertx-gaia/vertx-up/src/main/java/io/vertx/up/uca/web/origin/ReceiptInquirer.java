@@ -39,6 +39,7 @@ public class ReceiptInquirer implements Inquirer<Set<Receipt>> {
         Fn.safeJvm(() -> threadReference.stream()
             .map(QueueThread::getReceipts)
             .forEach(receipts::addAll), LOGGER);
+        /* 3.4. New Receipts replaced with Aeon System ( Enabled ) */
         return receipts;
     }
 }

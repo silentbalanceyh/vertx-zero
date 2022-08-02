@@ -1,7 +1,7 @@
 package io.vertx.aeon.specification.boot;
 
 import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.specification.element.HEvent;
+import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.core.Future;
 
 /**
