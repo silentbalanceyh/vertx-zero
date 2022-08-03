@@ -15,15 +15,16 @@ import javax.ws.rs.PathParam;
  */
 @EndPoint
 @Path("/api")
-public interface CriterionAgent {
-
-    @GET
-    @Path("/rules")
-    @Address(Addr.Rule.FETCH_BY_SIGMA)
-    Future<JsonArray> fetchAsync();
+public interface RuleAgent {
 
     @GET
     @Path("/rule-items/rule/:ruleId")
     @Address(Addr.Rule.FETCH_RULE_ITEMS)
     Future<JsonArray> fetchPocket(@PathParam("ruleId") String ruleId);
+
+    /* Admin Region */
+    @GET
+    @Path("/rule/region")
+    @Address(Addr.Rule.FETCH_REGION)
+    Future<JsonArray> fetchRegion();
 }

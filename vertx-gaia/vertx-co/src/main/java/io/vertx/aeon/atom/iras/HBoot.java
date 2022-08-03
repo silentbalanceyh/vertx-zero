@@ -29,11 +29,13 @@ import java.util.stream.Collectors;
 public class HBoot implements Serializable {
     private static final ConcurrentMap<String, Class<?>> STORE_DEFINE = new ConcurrentHashMap<>() {
         {
+            // 生命周期管理：启动、运行、停止专用组件
             // component
             this.put(HName.ON, HOn.class);                      // on
             this.put(HName.OFF, HOff.class);                    // off
             this.put(HName.RUN, HRun.class);                    // run
 
+            // 和GitHub集成专用结构
             // alive
             this.put(HName.ALIVE_NOVAE, HNovae.class);          // novae
             this.put(HName.ALIVE_NOVA, HNova.class);            // nova

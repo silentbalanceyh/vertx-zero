@@ -241,9 +241,16 @@ public interface KName {
     String VISIT_COMPONENT = "visitComponent";
 
     String UI_CONFIG = "uiConfig";
+    String UI_CONDITION = "uiCondition";
+    String UI_SURFACE = "uiSurface";
     String UI_STYLE = "uiStyle";
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
+    String UI_TYPE = "uiType";
+
+    String DM_TYPE = "dmType";
+    String DM_CONFIG = "dmConfig";
+    String DM_CONDITION = "dmCondition";
 
 
     // 「Specification Definition」
@@ -406,6 +413,7 @@ public interface KName {
     interface Tenant {
         String STELLAR = "stellar";                  /* Business */
         String TENANT = "tenant";
+        String ID = "tenantId";
         String VENDORS = "vendors";
     }
 
@@ -478,6 +486,12 @@ public interface KName {
         // Tree Component
         String TREE_COMPONENT = "treeComponent";
         String TREE_CONFIG = "treeConfig";
+        // Ui Component
+        String UI_COMPONENT = "uiComponent";
+        String UI_CONFIG = KName.UI_CONFIG;
+        // Dm Component
+        String DM_COMPONENT = "dmComponent";
+        String DM_CONFIG = KName.DM_CONFIG;
     }
 
 

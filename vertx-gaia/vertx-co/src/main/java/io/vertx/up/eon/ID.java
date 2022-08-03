@@ -79,25 +79,27 @@ public interface ID {
         String PREFIX = "X-";
 
         String X_SESSION_ID = "X-Session-Id";
-
-        /* appId */
+        /*
+         * appId
+         * appKey
+         * tenantId
+         * sigma
+         * language
+         */
         String X_APP_ID = "X-App-Id";
-
-        /* appKey */
         String X_APP_KEY = "X-App-Key";
-
-        /* sigma */
+        String X_TENANT_ID = "X-Tenant-Id";
         String X_SIGMA = "X-Sigma";
-
-        /* language */
         String X_LANG = "X-Lang";
 
-        ConcurrentMap<String, String> PARAM_MAP = new ConcurrentHashMap<String, String>() {
+
+        ConcurrentMap<String, String> PARAM_MAP = new ConcurrentHashMap<>() {
             {
-                this.put(Header.X_APP_ID, "appId");
-                this.put(Header.X_APP_KEY, "appKey");
-                this.put(Header.X_SIGMA, "sigma");
-                this.put(Header.X_LANG, "language");
+                this.put(Header.X_APP_ID, KName.APP_ID);
+                this.put(Header.X_APP_KEY, KName.APP_KEY);
+                this.put(Header.X_SIGMA, KName.SIGMA);
+                this.put(Header.X_LANG, KName.LANGUAGE);
+                this.put(Header.X_TENANT_ID, KName.Tenant.ID);
             }
         };
     }

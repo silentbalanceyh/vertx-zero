@@ -23,15 +23,18 @@ public class SPath implements VertxPojo, ISPath {
     private String        key;
     private String        name;
     private String        code;
-    private String        groupMapping;
-    private String        groupType;
-    private String        groupComponent;
-    private String        groupCondition;
-    private String        groupConfig;
+    private String        mapping;
+    private String        runComponent;
+    private String        dmType;
+    private String        dmComponent;
+    private String        dmCondition;
+    private String        dmConfig;
     private String        uiType;
     private String        uiConfig;
     private String        uiCondition;
     private String        uiComponent;
+    private String        uiSurface;
+    private Integer       uiSort;
     private String        sigma;
     private String        language;
     private Boolean       active;
@@ -47,15 +50,18 @@ public class SPath implements VertxPojo, ISPath {
         this.key = value.getKey();
         this.name = value.getName();
         this.code = value.getCode();
-        this.groupMapping = value.getGroupMapping();
-        this.groupType = value.getGroupType();
-        this.groupComponent = value.getGroupComponent();
-        this.groupCondition = value.getGroupCondition();
-        this.groupConfig = value.getGroupConfig();
+        this.mapping = value.getMapping();
+        this.runComponent = value.getRunComponent();
+        this.dmType = value.getDmType();
+        this.dmComponent = value.getDmComponent();
+        this.dmCondition = value.getDmCondition();
+        this.dmConfig = value.getDmConfig();
         this.uiType = value.getUiType();
         this.uiConfig = value.getUiConfig();
         this.uiCondition = value.getUiCondition();
         this.uiComponent = value.getUiComponent();
+        this.uiSurface = value.getUiSurface();
+        this.uiSort = value.getUiSort();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -70,15 +76,18 @@ public class SPath implements VertxPojo, ISPath {
         String        key,
         String        name,
         String        code,
-        String        groupMapping,
-        String        groupType,
-        String        groupComponent,
-        String        groupCondition,
-        String        groupConfig,
+        String        mapping,
+        String        runComponent,
+        String        dmType,
+        String        dmComponent,
+        String        dmCondition,
+        String        dmConfig,
         String        uiType,
         String        uiConfig,
         String        uiCondition,
         String        uiComponent,
+        String        uiSurface,
+        Integer       uiSort,
         String        sigma,
         String        language,
         Boolean       active,
@@ -91,15 +100,18 @@ public class SPath implements VertxPojo, ISPath {
         this.key = key;
         this.name = name;
         this.code = code;
-        this.groupMapping = groupMapping;
-        this.groupType = groupType;
-        this.groupComponent = groupComponent;
-        this.groupCondition = groupCondition;
-        this.groupConfig = groupConfig;
+        this.mapping = mapping;
+        this.runComponent = runComponent;
+        this.dmType = dmType;
+        this.dmComponent = dmComponent;
+        this.dmCondition = dmCondition;
+        this.dmConfig = dmConfig;
         this.uiType = uiType;
         this.uiConfig = uiConfig;
         this.uiCondition = uiCondition;
         this.uiComponent = uiComponent;
+        this.uiSurface = uiSurface;
+        this.uiSort = uiSort;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -167,95 +179,114 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_MAPPING</code>. 「mapping」- 从
-     * group -&gt; ui 转换
+     * Getter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
+     * ui 转换
      */
     @Override
-    public String getGroupMapping() {
-        return this.groupMapping;
+    public String getMapping() {
+        return this.mapping;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_MAPPING</code>. 「mapping」- 从
-     * group -&gt; ui 转换
+     * Setter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
+     * ui 转换
      */
     @Override
-    public SPath setGroupMapping(String groupMapping) {
-        this.groupMapping = groupMapping;
+    public SPath setMapping(String mapping) {
+        this.mapping = mapping;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_TYPE</code>. 「groupType」- 分组类型
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
+     * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
     @Override
-    public String getGroupType() {
-        return this.groupType;
+    public String getRunComponent() {
+        return this.runComponent;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_TYPE</code>. 「groupType」- 分组类型
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
+     * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
     @Override
-    public SPath setGroupType(String groupType) {
-        this.groupType = groupType;
+    public SPath setRunComponent(String runComponent) {
+        this.runComponent = runComponent;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>.
-     * 「groupComponent」- 必须绑定组专用Dao组件
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
     @Override
-    public String getGroupComponent() {
-        return this.groupComponent;
+    public String getDmType() {
+        return this.dmType;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>.
-     * 「groupComponent」- 必须绑定组专用Dao组件
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
     @Override
-    public SPath setGroupComponent(String groupComponent) {
-        this.groupComponent = groupComponent;
+    public SPath setDmType(String dmType) {
+        this.dmType = dmType;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>.
-     * 「groupCondition」- 分组条件
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_COMPONENT</code>. 「dmComponent」-
+     * 必须绑定组专用Dao组件
      */
     @Override
-    public String getGroupCondition() {
-        return this.groupCondition;
+    public String getDmComponent() {
+        return this.dmComponent;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>.
-     * 「groupCondition」- 分组条件
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_COMPONENT</code>. 「dmComponent」-
+     * 必须绑定组专用Dao组件
      */
     @Override
-    public SPath setGroupCondition(String groupCondition) {
-        this.groupCondition = groupCondition;
+    public SPath setDmComponent(String dmComponent) {
+        this.dmComponent = dmComponent;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_CONFIG</code>. 「groupConfig」-
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_CONDITION</code>. 「dmCondition」-
+     * 分组条件
+     */
+    @Override
+    public String getDmCondition() {
+        return this.dmCondition;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_CONDITION</code>. 「dmCondition」-
+     * 分组条件
+     */
+    @Override
+    public SPath setDmCondition(String dmCondition) {
+        this.dmCondition = dmCondition;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_CONFIG</code>. 「dmConfig」-
      * 组配置信息，配置呈现部分
      */
     @Override
-    public String getGroupConfig() {
-        return this.groupConfig;
+    public String getDmConfig() {
+        return this.dmConfig;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_CONFIG</code>. 「groupConfig」-
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_CONFIG</code>. 「dmConfig」-
      * 组配置信息，配置呈现部分
      */
     @Override
-    public SPath setGroupConfig(String groupConfig) {
-        this.groupConfig = groupConfig;
+    public SPath setDmConfig(String dmConfig) {
+        this.dmConfig = dmConfig;
         return this;
     }
 
@@ -313,8 +344,8 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」- 在
-     * DAO/OX/DEF 时的特殊组件
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」-
+     * 特殊组件
      */
     @Override
     public String getUiComponent() {
@@ -322,12 +353,48 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」- 在
-     * DAO/OX/DEF 时的特殊组件
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」-
+     * 特殊组件
      */
     @Override
     public SPath setUiComponent(String uiComponent) {
         this.uiComponent = uiComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_SURFACE</code>. 「uiSurface」-
+     * 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）
+     */
+    @Override
+    public String getUiSurface() {
+        return this.uiSurface;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_SURFACE</code>. 「uiSurface」-
+     * 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）
+     */
+    @Override
+    public SPath setUiSurface(String uiSurface) {
+        this.uiSurface = uiSurface;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_SORT</code>. 「sort」- 该板块的排序（前端）
+     */
+    @Override
+    public Integer getUiSort() {
+        return this.uiSort;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_SORT</code>. 「sort」- 该板块的排序（前端）
+     */
+    @Override
+    public SPath setUiSort(Integer uiSort) {
+        this.uiSort = uiSort;
         return this;
     }
 
@@ -474,15 +541,18 @@ public class SPath implements VertxPojo, ISPath {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
-        sb.append(", ").append(groupMapping);
-        sb.append(", ").append(groupType);
-        sb.append(", ").append(groupComponent);
-        sb.append(", ").append(groupCondition);
-        sb.append(", ").append(groupConfig);
+        sb.append(", ").append(mapping);
+        sb.append(", ").append(runComponent);
+        sb.append(", ").append(dmType);
+        sb.append(", ").append(dmComponent);
+        sb.append(", ").append(dmCondition);
+        sb.append(", ").append(dmConfig);
         sb.append(", ").append(uiType);
         sb.append(", ").append(uiConfig);
         sb.append(", ").append(uiCondition);
         sb.append(", ").append(uiComponent);
+        sb.append(", ").append(uiSurface);
+        sb.append(", ").append(uiSort);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -505,15 +575,18 @@ public class SPath implements VertxPojo, ISPath {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
-        setGroupMapping(from.getGroupMapping());
-        setGroupType(from.getGroupType());
-        setGroupComponent(from.getGroupComponent());
-        setGroupCondition(from.getGroupCondition());
-        setGroupConfig(from.getGroupConfig());
+        setMapping(from.getMapping());
+        setRunComponent(from.getRunComponent());
+        setDmType(from.getDmType());
+        setDmComponent(from.getDmComponent());
+        setDmCondition(from.getDmCondition());
+        setDmConfig(from.getDmConfig());
         setUiType(from.getUiType());
         setUiConfig(from.getUiConfig());
         setUiCondition(from.getUiCondition());
         setUiComponent(from.getUiComponent());
+        setUiSurface(from.getUiSurface());
+        setUiSort(from.getUiSort());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());
