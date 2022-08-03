@@ -1251,6 +1251,10 @@ public final class Ut {
         return !isNil(jsonArray);
     }
 
+    public static void notNull(final Object... objects) {
+        Arrays.stream(objects).forEach(Objects::requireNonNull);
+    }
+
     /*
      * Complex compare method for two record
      * - oldRecord: Old data record that stored in our system

@@ -41,33 +41,38 @@ public class SPath extends TableImpl<SPathRecord> {
      */
     public final TableField<SPathRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 系统界面标识");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_MAPPING</code>. 「mapping」- 从
-     * group -&gt; ui 转换
+     * The column <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
+     * ui 转换
      */
-    public final TableField<SPathRecord, String> GROUP_MAPPING = createField(DSL.name("GROUP_MAPPING"), SQLDataType.CLOB, this, "「mapping」- 从 group -> ui 转换");
+    public final TableField<SPathRecord, String> MAPPING = createField(DSL.name("MAPPING"), SQLDataType.CLOB, this, "「mapping」- 从 dm -> ui 转换");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_TYPE</code>. 「groupType」- 分组类型
+     * The column <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
+     * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
-    public final TableField<SPathRecord, String> GROUP_TYPE = createField(DSL.name("GROUP_TYPE"), SQLDataType.VARCHAR(128), this, "「groupType」- 分组类型");
+    public final TableField<SPathRecord, String> RUN_COMPONENT = createField(DSL.name("RUN_COMPONENT"), SQLDataType.VARCHAR(255), this, "「runComponent」- HValve执行组件，组件内置处理 dm / ui 两部分内容");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>.
-     * 「groupComponent」- 必须绑定组专用Dao组件
+     * The column <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
-    public final TableField<SPathRecord, String> GROUP_COMPONENT = createField(DSL.name("GROUP_COMPONENT"), SQLDataType.VARCHAR(255), this, "「groupComponent」- 必须绑定组专用Dao组件");
+    public final TableField<SPathRecord, String> DM_TYPE = createField(DSL.name("DM_TYPE"), SQLDataType.VARCHAR(128), this, "「dmType」- 分组类型");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>.
-     * 「groupCondition」- 分组条件
+     * The column <code>DB_ETERNAL.S_PATH.DM_COMPONENT</code>. 「dmComponent」-
+     * 必须绑定组专用Dao组件
      */
-    public final TableField<SPathRecord, String> GROUP_CONDITION = createField(DSL.name("GROUP_CONDITION"), SQLDataType.CLOB, this, "「groupCondition」- 分组条件");
+    public final TableField<SPathRecord, String> DM_COMPONENT = createField(DSL.name("DM_COMPONENT"), SQLDataType.VARCHAR(255), this, "「dmComponent」- 必须绑定组专用Dao组件");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.GROUP_CONFIG</code>. 「groupConfig」-
+     * The column <code>DB_ETERNAL.S_PATH.DM_CONDITION</code>. 「dmCondition」-
+     * 分组条件
+     */
+    public final TableField<SPathRecord, String> DM_CONDITION = createField(DSL.name("DM_CONDITION"), SQLDataType.CLOB, this, "「dmCondition」- 分组条件");
+    /**
+     * The column <code>DB_ETERNAL.S_PATH.DM_CONFIG</code>. 「dmConfig」-
      * 组配置信息，配置呈现部分
      */
-    public final TableField<SPathRecord, String> GROUP_CONFIG = createField(DSL.name("GROUP_CONFIG"), SQLDataType.CLOB, this, "「groupConfig」- 组配置信息，配置呈现部分");
+    public final TableField<SPathRecord, String> DM_CONFIG = createField(DSL.name("DM_CONFIG"), SQLDataType.CLOB, this, "「dmConfig」- 组配置信息，配置呈现部分");
     /**
      * The column <code>DB_ETERNAL.S_PATH.UI_TYPE</code>. 「uiType」- 目标数据源类型
      */
-    public final TableField<SPathRecord, String> UI_TYPE = createField(DSL.name("UI_TYPE"), SQLDataType.CLOB, this, "「uiType」- 目标数据源类型");
+    public final TableField<SPathRecord, String> UI_TYPE = createField(DSL.name("UI_TYPE"), SQLDataType.VARCHAR(255), this, "「uiType」- 目标数据源类型");
     /**
      * The column <code>DB_ETERNAL.S_PATH.UI_CONFIG</code>. 「uiConfig」- 界面配置
      */
@@ -78,10 +83,19 @@ public class SPath extends TableImpl<SPathRecord> {
      */
     public final TableField<SPathRecord, String> UI_CONDITION = createField(DSL.name("UI_CONDITION"), SQLDataType.CLOB, this, "「uiCondition」- 查询模板");
     /**
-     * The column <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」- 在
-     * DAO/OX/DEF 时的特殊组件
+     * The column <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」-
+     * 特殊组件
      */
-    public final TableField<SPathRecord, String> UI_COMPONENT = createField(DSL.name("UI_COMPONENT"), SQLDataType.VARCHAR(255), this, "「uiComponent」- 在 DAO/OX/DEF 时的特殊组件");
+    public final TableField<SPathRecord, String> UI_COMPONENT = createField(DSL.name("UI_COMPONENT"), SQLDataType.VARCHAR(255), this, "「uiComponent」- 特殊组件");
+    /**
+     * The column <code>DB_ETERNAL.S_PATH.UI_SURFACE</code>. 「uiSurface」-
+     * 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）
+     */
+    public final TableField<SPathRecord, String> UI_SURFACE = createField(DSL.name("UI_SURFACE"), SQLDataType.CLOB, this, "「uiSurface」- 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）");
+    /**
+     * The column <code>DB_ETERNAL.S_PATH.UI_SORT</code>. 「sort」- 该板块的排序（前端）
+     */
+    public final TableField<SPathRecord, Integer> UI_SORT = createField(DSL.name("UI_SORT"), SQLDataType.INTEGER, this, "「sort」- 该板块的排序（前端）");
     /**
      * The column <code>DB_ETERNAL.S_PATH.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -195,14 +209,5 @@ public class SPath extends TableImpl<SPathRecord> {
     @Override
     public SPath rename(Name name) {
         return new SPath(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row20 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row20<String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
     }
 }

@@ -37,6 +37,8 @@ public class HPermit implements Serializable {
     private final JsonObject uiQr = new JsonObject();
 
     private final JsonObject uiConfig = new JsonObject();
+
+    private final JsonObject uiSurface = new JsonObject();
     private ScDim shape = ScDim.NONE;
     private ScIn source = ScIn.NONE;
 
@@ -75,11 +77,30 @@ public class HPermit implements Serializable {
         return this;
     }
 
+    public HPermit ui(final JsonObject surface) {
+        final JsonObject surfaceJ = Ut.valueJObject(surface);
+        this.uiSurface.mergeIn(surfaceJ, true);
+        return this;
+    }
+
     public HPermit ui(final JsonObject qr, final JsonObject config) {
         final JsonObject qrJ = Ut.valueJObject(qr);
         final JsonObject configJ = Ut.valueJObject(config);
         this.uiQr.mergeIn(qrJ, true);
         this.uiConfig.mergeIn(configJ, true);
         return this;
+    }
+
+    // ===================== 数据提取
+    public ScDim shape() {
+        return this.shape;
+    }
+
+    public ScIn source() {
+        return this.source;
+    }
+
+    public String code() {
+        return this.code;
     }
 }

@@ -3,22 +3,22 @@ package cn.vertxup.rbac.service.view;
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
+import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -26,13 +26,48 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class RuleService implements RuleStub {
+    private static final Cc<String, HValve> CC_VALVE = Cc.openThread();
     @Inject
     private transient VisitStub visitStub;
 
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
-        final List<SPath> filtered = paths.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        return Fn.combineT(filtered, RuleRobin::procRule).compose(Ux::futureA);
+        final List<SPath> filtered = paths.stream()
+            // Not null and `runComponent` is not null
+            .filter(Objects::nonNull)
+            .filter(path -> Objects.nonNull(path.getRunComponent()))
+            // Sort By `uiSort`
+            .sorted(Comparator.comparing(SPath::getUiSort))
+            .collect(Collectors.toList());
+        return Fn.combineT(filtered, path -> {
+            /*
+             * Extract `runComponent` to build `HValve` and then run it based on configured
+             * Information here.
+             */
+            final Class<?> clazz = Ut.clazz(path.getRunComponent(), null);
+            if (Objects.isNull(clazz)) {
+                return Ux.future();
+            }
+            final String cacheKey = path.getSigma() + Strings.SLASH + path.getCode();
+            final HValve value = CC_VALVE.pick(() -> Ut.instance(clazz), cacheKey);
+            final JsonObject pathJ = Ux.toJson(path);
+            /*
+             * JsonObject Configuration for SPath here
+             */
+            Ut.ifJObject(pathJ,
+                // UI Configuration
+                KName.UI_CONFIG,
+                KName.UI_CONDITION,
+                KName.UI_SURFACE,
+                // DM Configuration
+                KName.DM_CONDITION,
+                KName.DM_CONFIG,
+                // metadata / mapping
+                KName.METADATA,
+                KName.MAPPING
+            );
+            return value.configure(pathJ);
+        }).compose(Ux::futureA);
     }
 
     @Override

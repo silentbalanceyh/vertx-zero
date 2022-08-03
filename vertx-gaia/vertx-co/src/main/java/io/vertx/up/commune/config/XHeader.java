@@ -15,6 +15,8 @@ public class XHeader implements Serializable, Json {
     private String appId;
     private String appKey;
     private String language;
+    // New for Cloud
+    private String tenantId;
     private String session;
 
     public String getLanguage() {
@@ -53,6 +55,14 @@ public class XHeader implements Serializable, Json {
         return this.session;
     }
 
+    public String getTenantId() {
+        return this.tenantId;
+    }
+
+    public void setTenantId(final String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public void fromJson(final JsonObject json) {
         final XHeader header = Ut.deserialize(json, XHeader.class);
@@ -62,6 +72,7 @@ public class XHeader implements Serializable, Json {
             this.sigma = header.sigma;
             this.language = header.language;
             this.session = header.session;
+            this.tenantId = header.tenantId;
         }
     }
 
@@ -72,6 +83,7 @@ public class XHeader implements Serializable, Json {
             this.sigma = headers.get(ID.Header.X_SIGMA);
             this.language = headers.get(ID.Header.X_LANG);
             this.session = headers.get(ID.Header.X_SESSION_ID);
+            this.tenantId = headers.get(ID.Header.X_TENANT_ID);
         }
     }
 

@@ -1,10 +1,8 @@
 package io.vertx.aeon.specification.secure;
 
-import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 
 /**
  * 「阀」
@@ -15,19 +13,29 @@ import io.vertx.up.exception.web._501NotSupportException;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HValve extends HEvent<JsonObject, HPermit> {
+public interface HValve extends HEvent<JsonObject, JsonObject> {
     /*
      * 根据输入的 JsonObject 提取 HPermit 辅助管理
+     * 输入数据格式：
+     * {
+     *     "name": "xxx",
+     *     "code": "xxx",
+     *     "mapping": {},
+     *
+     *     "dmType": "Dm Type",
+     *     "dmComponent": "HDm Interface"
+     *     "dmCondition": {},
+     *     "dmConfig": {},
+     *
+     *     "uiType": "Ui Type",
+     *     "uiComponent": "HUi Interface",
+     *     "uiCondition": {},
+     *     "uiConfig": {},
+     *     "uiSurface": {}
+     * }
      */
     @Override
-    default Future<HPermit> configure(final JsonObject input) {
+    default Future<JsonObject> configure(final JsonObject input) {
         return HEvent.super.configure(input);
-    }
-
-    /*
-     * 数据区域二次提取规则，配合静态和动态
-     */
-    default Future<JsonObject> configure(final JsonObject input, final HPermit permit) {
-        return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

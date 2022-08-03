@@ -18,11 +18,6 @@ import javax.ws.rs.PathParam;
 public interface RuleAgent {
 
     @GET
-    @Path("/rules")
-    @Address(Addr.Rule.FETCH_BY_SIGMA)
-    Future<JsonArray> fetchAsync();
-
-    @GET
     @Path("/rule-items/rule/:ruleId")
     @Address(Addr.Rule.FETCH_RULE_ITEMS)
     Future<JsonArray> fetchPocket(@PathParam("ruleId") String ruleId);

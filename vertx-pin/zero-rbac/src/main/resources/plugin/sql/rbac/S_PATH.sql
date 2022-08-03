@@ -65,11 +65,12 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * - ATOM:        动态的Dao，使用类似 /api/ox/ 下的底层逻辑实现
      * - DEFINE:      自定义，可使用组件模式（此时才开启uiComponent的使用）
      **/
-    `UI_TYPE`       TEXT COMMENT '「uiType」- 目标数据源类型',
+    `UI_TYPE`       VARCHAR(255) COMMENT '「uiType」- 目标数据源类型',
     `UI_CONFIG`     TEXT COMMENT '「uiConfig」- 界面配置',
     `UI_CONDITION`  TEXT COMMENT '「uiCondition」- 查询模板',
     `UI_COMPONENT`  VARCHAR(255) COMMENT '「uiComponent」- 特殊组件',
     `UI_SURFACE`    TEXT COMMENT '「uiSurface」- 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）',
+    `UI_SORT`       INT COMMENT '「sort」- 该板块的排序（前端）',
 
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',
     `LANGUAGE`      VARCHAR(10) COMMENT '「language」- 使用的语言',

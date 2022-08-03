@@ -27,8 +27,8 @@ public class RuleActor {
     private transient RuleStub stub;
 
 
-    @Address(Addr.Rule.FETCH_BY_SIGMA)
-    public Future<JsonArray> fetchAsync(final XHeader header) {
+    @Address(Addr.Rule.FETCH_REGION)
+    public Future<JsonArray> fetchRegion(final XHeader header) {
         return Ux.Jooq.on(SPathDao.class)
             .<SPath>fetchAsync(KName.SIGMA, header.getSigma())
             .compose(this.stub::procAsync);
