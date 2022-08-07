@@ -19,7 +19,8 @@
         </dependency>
         <dependency>
             <groupId>cn.vertxup</groupId>
-            <artifactId>zero-iproxy</artifactId>
+            <artifactId>aeon-inlet</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

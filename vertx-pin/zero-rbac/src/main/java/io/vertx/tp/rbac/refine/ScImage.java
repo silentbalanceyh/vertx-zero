@@ -18,7 +18,7 @@ import java.util.Random;
 class ScImage {
 
     private static final Random RANDOM = new Random();
-    // BG / FG
+    // BG /
     private static final Font FONT_DEFAULT = new Font("Times New Roman", Font.PLAIN, 18);
     private static final Font FONT_TEXT = new Font("Times New Roman", Font.BOLD, 28);
 
