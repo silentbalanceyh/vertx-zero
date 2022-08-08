@@ -19,6 +19,7 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-neo4j/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-redis/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-shell/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-sms/pom-update.xml
+cp pom-update.xml ./vertx-ifx/zero-ifx-git/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-auth/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-ftp/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-stomp/pom-update.xml
@@ -27,9 +28,20 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-stomp/pom-update.xml
 # 根项目
 cp pom-update.xml ./vertx-import/pom-update.xml
 
-# 微服务
+# 微服务 / 原生云
 cp pom-update.xml ./vertx-istio/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-iproxy/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-ecology/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-ecology/aeon-ambient/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/aeon-aurora/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/aeon-code/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-edge/aeon-vie/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-cosmos/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-inlet/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-istio/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-k8s/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-eternal/aeon-up/pom-update.xml
 
 # 扩展框架
 cp pom-update.xml ./vertx-pin/pom-update.xml

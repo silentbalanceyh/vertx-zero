@@ -12,6 +12,10 @@ import java.util.List;
 public interface RuleStub {
     /*
      * Process SPath
+     *
+     * 1) Read `runComponent` to build `HValve`
+     * 2) Based on `HValue` to extract `HPermit` object
+     * 3) Configure based on `HPermit`
      */
     Future<JsonArray> procAsync(final List<SPath> paths);
 

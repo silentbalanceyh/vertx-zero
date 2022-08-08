@@ -1,5 +1,6 @@
 package io.vertx.up.runtime;
 
+import io.vertx.core.ClusterOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
@@ -103,5 +104,10 @@ public class ZeroHeart {
             apiScanned.addAll(visitor.visit(ServerType.API.toString()).keySet());
         }, LOGGER);
         return !apiScanned.isEmpty();
+    }
+
+    public static boolean isCluster() {
+        final ClusterOptions cluster = ZeroGrid.getClusterOption();
+        return cluster.isEnabled();
     }
 }

@@ -10,6 +10,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+/*
+ * 「星云」改造点
+ * 将原始配置读取分成核心几个部分，检查核心配置执行分流，yaml文件格式如：
+ * aeon: 是否启用永世系统（一旦启用则走永世系统流程）
+ */
 public class ZeroUniform implements Node<JsonObject> {
 
     private static final Node<ConcurrentMap<String, String>> node

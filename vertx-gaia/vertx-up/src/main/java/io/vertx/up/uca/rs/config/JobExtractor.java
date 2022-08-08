@@ -98,7 +98,7 @@ public class JobExtractor implements Extractor<Mission> {
         }
         /* formula calculate */
         final String runFormula = Ut.invoke(annotation, "formula");
-        // Error-40078 Detect
+        // Error-60054 Detect
         mission.detectPre(runFormula);
         timer.scheduler(runFormula, null);
         mission.timer(timer);

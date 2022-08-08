@@ -36,7 +36,9 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
         final ConcurrentMap<Integer, HttpServerOptions> map =
             new ConcurrentHashMap<>();
         this.extract(serverData, map);
-        this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        }
         return map;
     }
 

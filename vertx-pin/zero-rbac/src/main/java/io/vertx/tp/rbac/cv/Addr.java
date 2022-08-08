@@ -16,6 +16,12 @@ public interface Addr {
          */
         String FETCH_BY_SIGMA = Prefix._EVENT + "X-RULE/FETCH/ALL";
         String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
+
+        /*
+         * New Fetch for HPermit of new structure
+         */
+        String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
+
         /*
          * Fetch all resource definition
          */

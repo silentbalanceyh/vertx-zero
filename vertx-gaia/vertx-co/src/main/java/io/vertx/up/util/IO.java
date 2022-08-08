@@ -16,13 +16,13 @@ import io.vertx.up.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * The library for IO resource reading.
@@ -282,5 +282,33 @@ final class IO {
         final byte[] bytes = Stream.readBytes(file);
         final byte[] compressed = Compressor.decompress(bytes);
         return new String(compressed, Values.DEFAULT_CHARSET);
+    }
+
+    static Buffer zip(final Set<String> fileSet) {
+        // Create Tpl zip file path
+        return Fn.getJvm(() -> {
+            final ByteArrayOutputStream fos = new ByteArrayOutputStream();
+            final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+
+            // Buffer Size
+            final byte[] buffers = new byte[Values.CACHE_SIZE];
+            fileSet.forEach(filename -> Fn.safeJvm(() -> {
+                // create .zip and put file here
+                final File file = new File(filename);
+                final ZipEntry zipEntry = new ZipEntry(file.getName());
+                zos.putNextEntry(zipEntry);
+
+                // Read File content and put them in the zip
+                final FileInputStream fis = new FileInputStream(file);
+                final BufferedInputStream bis = new BufferedInputStream(fis, Values.CACHE_SIZE);
+                int read;
+                while ((read = bis.read(buffers, 0, Values.CACHE_SIZE)) != -1) {
+                    zos.write(buffers, 0, read);
+                }
+                bis.close();
+            }));
+            zos.close();
+            return Buffer.buffer(fos.toByteArray());
+        });
     }
 }

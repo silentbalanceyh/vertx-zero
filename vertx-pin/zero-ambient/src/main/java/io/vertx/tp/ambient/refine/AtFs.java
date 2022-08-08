@@ -1,5 +1,6 @@
 package io.vertx.tp.ambient.refine;
 
+import io.vertx.aeon.specification.app.HFS;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -85,7 +86,7 @@ class AtFs {
 
                     // Call ExIo `fsUpload`
                     io -> io.fsUpload(directoryId, fileMap)
-                        .compose(removed -> Ux.future(Ut.cmdRm(fileMap.keySet())))
+                        .compose(removed -> HFS.common().rmAsync(fileMap.keySet()))
                         .compose(removed -> Ux.future(remote))
                 )));
         }
@@ -99,7 +100,7 @@ class AtFs {
             return splitInternal(attachment, local -> {
                 final Set<String> files = new HashSet<>();
                 Ut.itJArray(local).forEach(each -> files.add(each.getString(KName.Attachment.FILE_PATH)));
-                Ut.cmdRm(files);
+                HFS.common().rm(files);
                 At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
                 return Ux.future(local);
             }, remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,

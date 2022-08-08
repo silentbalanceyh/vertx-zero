@@ -36,6 +36,7 @@ public class ZeroGrid {
     private static ClusterOptions CLUSTER;
 
     static {
+
         Fn.outUp(() -> {
             // Init for VertxOptions, ClusterOptions
             // Visit Vertx

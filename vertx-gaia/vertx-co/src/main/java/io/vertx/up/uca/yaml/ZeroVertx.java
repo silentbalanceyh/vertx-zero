@@ -29,16 +29,6 @@ public class ZeroVertx implements Node<JsonObject> {
         return zero;
     }
 
-    private JsonObject process(final JsonObject data) {
-        return Fn.getNull(() -> {
-            // 1. Append lime
-            if (data.containsKey(KName.Internal.LIME)) {
-                this.processLime(data);
-            }
-            return data;
-        }, data);
-    }
-
     private void processLime(final JsonObject data) {
         Fn.safeNull(() -> {
             final String limeStr = data.getString(KName.Internal.LIME);

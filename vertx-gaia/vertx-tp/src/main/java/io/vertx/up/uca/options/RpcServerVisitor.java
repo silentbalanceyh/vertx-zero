@@ -62,7 +62,9 @@ public class RpcServerVisitor implements ServerVisitor<RpcOptions> {
                 }, port, options);
             }
         });
-        this.logger().info(Info.INF_A_VERIFY, KName.SERVER, ServerType.IPC, map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, ServerType.IPC, map.keySet());
+        }
         return map;
     }
 

@@ -2,6 +2,7 @@ package io.vertx.up.atom.worker;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * Scanned address ( Metadata ) for Queue.
@@ -44,6 +45,17 @@ public class Receipt implements Serializable {
         this.method = method;
     }
 
+    /*
+     * For new design to involve `Aeon System`, the `Receipt` object could be identified by `address` only, in this
+     * kind of situation, the system could support following:
+     *
+     * 1. Aeon Receipt with high priority working.
+     * 2. Zero Receipt with low priority working.
+     *
+     * It means that the system could use `Aeon System` ( Native Cloud Api ) first and then select zero
+     * api, in this kind of situation the original Worker Component could be replaced by second scanning.
+     *
+     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -52,20 +64,13 @@ public class Receipt implements Serializable {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-
         final Receipt receipt = (Receipt) o;
-
-        if (!this.address.equals(receipt.address)) {
-            return false;
-        }
-        return this.method.equals(receipt.method);
+        return this.address.equals(receipt.address);
     }
 
     @Override
     public int hashCode() {
-        int result = this.address.hashCode();
-        result = 31 * result + this.method.hashCode();
-        return result;
+        return Objects.hash(this.address);
     }
 
     @Override

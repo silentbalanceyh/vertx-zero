@@ -770,7 +770,7 @@ public final class Ut {
     }
 
     public static Buffer ioZip(final Set<String> fileSet) {
-        return IOCmd.zip(fileSet);
+        return IO.zip(fileSet);
     }
 
     public static InputStream ioStream(final File file) {
@@ -825,29 +825,6 @@ public final class Ut {
 
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
-    }
-
-    /*
-     * Command
-     * 1. cmdRm / cmdRmFile
-     * 2. cmdMkdir
-     * 3. cmdRename
-     */
-    public static boolean cmdRm(final Set<String> filename) {
-        filename.forEach(Ut::cmdRm);
-        return true;
-    }
-
-    public static boolean cmdRm(final String filename) {
-        return IOCmd.rm(filename);
-    }
-
-    public static boolean cmdMkdir(final String filename) {
-        return IOCmd.mkdir(filename);
-    }
-
-    public static boolean cmdRename(final String filename, final String to) {
-        return IOCmd.rename(filename, to);
     }
 
     /*
@@ -1274,6 +1251,10 @@ public final class Ut {
         return !isNil(jsonArray);
     }
 
+    public static void notNull(final Object... objects) {
+        Arrays.stream(objects).forEach(Objects::requireNonNull);
+    }
+
     /*
      * Complex compare method for two record
      * - oldRecord: Old data record that stored in our system
@@ -1369,11 +1350,16 @@ public final class Ut {
     }
 
     public static Set<String> toSet(final JsonArray keys) {
-        return To.toSet(keys);
+        return new HashSet<>(To.toList(keys));
     }
 
     public static List<String> toList(final JsonArray keys) {
         return To.toList(keys);
+    }
+
+
+    public static List<Class<?>> toClass(final JsonArray names) {
+        return To.toClass(names);
     }
 
     public static JsonArray toJArray(final Object value) {
@@ -1770,6 +1756,8 @@ public final class Ut {
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
      * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
+     * - valueC
+     * - valueCI
      *
      * - valueTime(LocalTime, LocalDateTime)
      */
@@ -1788,6 +1776,41 @@ public final class Ut {
     // Single Processing
     public static String valueString(final JsonArray array, final String field) {
         return Epsilon.vString(array, field);
+    }
+
+    public static String valueString(final JsonObject json, final String field) {
+        return Epsilon.vString(json, field, null);
+    }
+
+    public static String valueString(final JsonObject json, final String field, final String defaultValue) {
+        return Epsilon.vString(json, field, defaultValue);
+    }
+
+    public static String valueEnv(final String name, final String defaultValue) {
+        return Epsilon.vEnv(name, defaultValue);
+    }
+
+    public static String valueEnv(final String name) {
+        return Epsilon.vEnv(name, name);
+    }
+
+    public static Class<?> valueC(final JsonObject json, final String field) {
+        return Epsilon.vClass(json, field, null);
+    }
+
+    public static Class<?> valueC(final JsonObject json, final String field,
+                                  final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, defaultClass);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls) {
+        return Epsilon.vClass(json, field, interfaceCls, null);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls, final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, interfaceCls, defaultClass);
     }
 
     public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {

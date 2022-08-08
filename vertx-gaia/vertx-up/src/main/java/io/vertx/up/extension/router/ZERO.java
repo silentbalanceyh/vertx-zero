@@ -10,7 +10,7 @@ interface Info {
 
     String DYNAMIC_FOUND = "( {0} ) Zero system detect class {1} ( io.vertx.up.extension.router.PlugRouter ) with config {2}.";
 
-    String WS_DISABLED = "[ Sock ] The WebSocket has been disabled on server: //{1}:{0}";
+    String WS_DISABLED = "[ Sock ] The WebSocket has been disabled on server: {1}:{0}";
 
     String WS_PUBLISH = "[ Sock ] The WebSocket publish channel has been opened: http://{1}:{0}{2}";
 

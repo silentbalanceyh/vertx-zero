@@ -11,10 +11,30 @@
 
     <artifactId>vertx-istio</artifactId>
     <packaging>pom</packaging>
-    <name>「vertx-istio」Zero Micro</name>
+    <name>「vertx-istio」Zero Native Cloud Environment</name>
     <modules>
-        <module>zero-iproxy</module>
+        <module>zero-eternal</module>     <!-- Zero Eternal Environment -->
+        <module>zero-edge</module>        <!-- Zero Edge Development    -->
+        <module>zero-ecology</module>     <!-- Zero Ecology Environment -->
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-up</artifactId>
+        </dependency>
+        <!-- Cluster Manager -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-ignite</artifactId>
+            <version>${vertx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <!-- Mojo -->

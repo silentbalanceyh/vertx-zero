@@ -40,6 +40,7 @@ public final class ZeroMotor {
         // 1. Check if clustered mode
         final ClusterOptions cluster = ZeroGrid.getClusterOption();
         if (cluster.isEnabled()) {
+
             // 2.1. Clustered
             final ClusterManager manager = cluster.getManager();
             logger.info(Info.APP_CLUSTERD, manager.getClass().getName(),

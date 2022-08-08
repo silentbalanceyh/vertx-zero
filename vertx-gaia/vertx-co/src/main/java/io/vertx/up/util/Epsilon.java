@@ -65,6 +65,45 @@ class Epsilon {
         return set;
     }
 
+    static String vString(final JsonObject json, final String field, final String defaultValue) {
+        final JsonObject inputJ = Jackson.sureJObject(json);
+        final Object valueS = inputJ.getValue(field, defaultValue);
+        return (String) valueS;
+    }
+
+    static String vEnv(final String name, final String defaultValue) {
+        final String parsed = System.getenv(name);
+        return Ut.isNil(parsed) ? defaultValue : parsed;
+    }
+
+    static Class<?> vClass(final JsonObject json, final String field, final Class<?> defaultValue) {
+        final String clsStr = vString(json, field, null);
+        if (Ut.isNil(clsStr)) {
+            return defaultValue;
+        }
+        return Instance.clazz(clsStr, defaultValue);
+    }
+
+    static Class<?> vClass(final JsonObject json, final String field,
+                           final Class<?> interfaceCls,
+                           final Class<?> defaultValue) {
+        final String clsStr = vString(json, field, null);
+        final Class<?> implCls;
+        if (Ut.isNil(clsStr)) {
+            implCls = defaultValue;
+        } else {
+            implCls = Instance.clazz(clsStr, defaultValue);
+        }
+        if (Objects.isNull(implCls)) {
+            return null;
+        }
+        if (Instance.isMatch(implCls, interfaceCls)) {
+            return implCls;
+        } else {
+            return null;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
         if (Ut.isNil(item)) {

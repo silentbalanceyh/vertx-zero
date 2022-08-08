@@ -1,0 +1,15 @@
+zero:
+  vertx:
+    clustered:
+        # 打开集群，设置 manager, options 可以是空
+        enabled: true
+        manager: io.vertx.spi.cluster.ignite.IgniteClusterManager
+        # options:
+    instance:
+      - name: aeon-cloud
+        options:
+          maxEventLoopExecuteTime: 1200_000_000_000 # Event loop default executing: 120s
+          maxWorkerExecuteTime: 1200_000_000_000 # Worker executing: 1200s -> 20 min
+          eventLoopPoolSize: 128
+          workerPoolSize: 256
+          internalBlockingPoolSize: 64

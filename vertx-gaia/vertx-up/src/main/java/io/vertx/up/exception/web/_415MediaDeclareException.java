@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
  * # 「Error」Zero Exception
  *
  * * Category: WebException
- * * Code: -40069
+ * * Code: -60053
  * * Status: 415
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -22,7 +22,7 @@ public class _415MediaDeclareException extends WebException {
 
     @Override
     public int getCode() {
-        return -40069;
+        return -60053;
     }
 
     @Override

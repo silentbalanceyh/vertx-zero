@@ -2,6 +2,9 @@ package io.vertx.up.eon;
 
 public interface Info {
 
+    String H_SCANED_QAS = "( {0} QaS ) The Zero system has found " +
+        "{1} points of @QaS.";
+
     String SCANED_RULE = "( {0} Rules ) Zero system scanned the folder /codex/ " +
         "to pickup {0} rule definition files.";
     String INFIX_NULL = "The system scanned null infix for key = {0} " +
@@ -18,7 +21,7 @@ public interface Info {
     String VTC_STOPPED = "( {2} ) The verticle {0} has been undeployed " +
         " successfully, id = {1}.";
 
-    String INF_B_VERIFY = "The raw data ( node = {0}, type = {1} ) before validation is {2}.";
+    String INF_B_VERIFY = "( node = {0}, type = {1} ) before validation is {2}.";
 
     String INF_A_VERIFY = "( node = {0}, type = {1} ) filtered configuration port set = {2}.";
 

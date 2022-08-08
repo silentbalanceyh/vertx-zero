@@ -38,8 +38,9 @@ public class RespectFile extends AbstractRespect {
         final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
         condition.put("key,!i", keys);
         return Ux.channelAsync(Attachment.class, Ux::futureA, file ->
-            // Attachment Removing / Create
-            file.removeAsync(condition).compose(deleted -> file.uploadAsync(dataArray, params)));
+            file.saveAsync(condition, dataArray, params));
+        // Attachment Removing / Create
+        // file.removeAsync(condition).compose(deleted -> file.uploadAsync(dataArray, params))
     }
 
     @Override

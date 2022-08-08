@@ -524,6 +524,10 @@ public final class Ux {
         return To.future(Boolean.TRUE);
     }
 
+    public static <T> Future<Boolean> futureT(final T input) {
+        return To.future(Boolean.TRUE);
+    }
+
     public static Future<Boolean> futureF() {
         return To.future(Boolean.FALSE);
     }

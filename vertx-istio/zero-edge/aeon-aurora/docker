@@ -1,0 +1,26 @@
+# 基础镜像名称，作者
+FROM azul/zulu-openjdk:11
+MAINTAINER Lang silentbalanceyh@126.com
+
+# =============================== 基础环境构造
+# --- 主目录
+RUN mkdir -p /zero-server/
+# --- 依赖库目录
+RUN mkdir -p /zero-server/lib
+# --- 配置目录
+RUN mkdir -p /zero-server/conf
+# --- 日志专用目录
+RUN mkdir -p /zero-server/logs
+# 设置主工作目录
+WORKDIR /zero-server/
+
+# =============================== 资源拷贝
+# --- 主程序
+ADD target/aeon-aurora-web.jar /zero-server/aeon-web.jar
+# --- 依赖
+ADD target/conf /zero-server/conf
+ADD target/lib /zero-server/lib
+RUN chmod +x /zero-server/*
+# =============================== 端口和执行
+ENTRYPOINT ["java", "-jar", "/zero-server/aeon-web.jar"]
+CMD ["java", "-version"]

@@ -32,7 +32,7 @@ class RuleRobin {
              * 1) It means that if here contains group definition, the source will be used in future
              * 2) Otherwise when there is source definition only, the group may be discard.
              */
-            final SourceGroup group = Ut.toEnum(path::getGroupType, SourceGroup.class, SourceGroup.NONE);
+            final SourceGroup group = Ut.toEnum(path::getDmType, SourceGroup.class, SourceGroup.NONE);
             if (SourceGroup.NONE == group) {
                 /*
                  * There is no group defined, you can fetch data from ui condition directly instead of

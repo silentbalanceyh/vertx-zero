@@ -91,6 +91,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
             .map(item -> this.extract(item, root))
             .filter(Objects::nonNull)
             .collect(Collectors.toSet()));
+        // 3.Break the Event `priority` draw down.
         return events;
     }
 

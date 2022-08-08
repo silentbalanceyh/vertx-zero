@@ -1,0 +1,12 @@
+boot:
+  component:
+    #   on:     可配置扩展的 HOn  插件，默认为：io.vertx.aeon.uca.boot.AeonOn
+    on: io.vertx.aeon.uca.boot.AeonOn
+    #   off:    可配置扩展的 HOff 插件
+    #   run:    可配置扩展的 HRun 插件
+  alive:
+    #   novae:   管理者，实现标准的 HNovae 接口，传入 HAeon
+    novae:       io.vertx.aeon.uca.alive.AeonNovae
+    #   nova:    执行者，实现标准的 HNova 接口，传入  HRepo
+    nova:        io.vertx.aeon.uca.alive.NovaGit
+    #   nebula:  观察者，实现标准的 HNebula

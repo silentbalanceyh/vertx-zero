@@ -1,0 +1,16 @@
+# 配置位置：kidd（标准化）
+alive:
+  # 标准公有环境（只读）
+  standard:
+    type:     GIT                                                     # SVN, GIT
+    vendor:   GITHUB                                                  # GITHUB, GITEE
+    uri:      https://github.com/silentbalanceyh/vertx-zero-cloud     # Public（不需要密码）
+    secure:   false                                                   # 默认 true
+    account:  silentbalanceyh@126.com                                 # 账号需要
+  # 私有环境（运行）
+  runtime:
+    # type
+    # vendor
+    # uri
+    # account
+    # secret   - 必须是 Access_Token 且存储于 K8 中

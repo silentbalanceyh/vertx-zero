@@ -31,7 +31,9 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
         final ConcurrentMap<Integer, SockOptions> map =
             new ConcurrentHashMap<>();
         this.extract(serverData, map);
-        this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        }
         return map;
     }
 
