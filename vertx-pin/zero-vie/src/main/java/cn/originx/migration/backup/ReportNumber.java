@@ -87,7 +87,7 @@ public class ReportNumber extends AbstractStep {
             return Ux.future(codeSet);
         }).compose(sorted -> {
             if (sorted.isEmpty()) {
-                return Ux.future();
+                return Ux.future(null);
             } else {
                 final String code = sorted.last();
                 /*

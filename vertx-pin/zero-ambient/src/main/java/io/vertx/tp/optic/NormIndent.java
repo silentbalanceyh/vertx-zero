@@ -27,7 +27,7 @@ public class NormIndent implements Indent {
         }
         return stub.numberSigma(sigma, code, 1).compose(item -> {
             if (item.isEmpty()) {
-                return Ux.future();
+                return Ux.future(null);
             } else {
                 return Ux.future(item.getString(Values.IDX));
             }

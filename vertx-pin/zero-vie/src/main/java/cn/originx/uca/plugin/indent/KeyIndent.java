@@ -29,7 +29,7 @@ public class KeyIndent implements Identifier {
         if (Ut.isNil(data) || Ut.isNil(hitKey)) {
             Ox.Log.warnPlugin(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",
                 data.encode(), config.encode());
-            return Ux.future();
+            return Ux.future(null);
         } else {
             return Ux.Jooq.on(XCategoryDao.class).<XCategory>fetchByIdAsync(hitKey).compose(category -> {
                 final String identifier = this.identifier(category);
