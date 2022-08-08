@@ -71,7 +71,7 @@ public class LiquibaseMySQL8Pre implements CustomPrecondition {
             counter = rs.getInt("RET");
         }
         final boolean result = counter == 0;
-        LOGGER.info("[Zero] Liquibase table Existed ? {} SQL: {}", result, sql);
+        LOGGER.info("[Zero] Liquibase table Missing = {}, SQL: {}", result, sql);
         return result;
     }
 
@@ -82,17 +82,18 @@ public class LiquibaseMySQL8Pre implements CustomPrecondition {
                 " WHERE col.CONSTRAINT_NAME = tab.CONSTRAINT_NAME" +
                 " AND col.TABLE_NAME = tab.TABLE_NAME" +
                 " AND tab.CONSTRAINT_TYPE = ''PRIMARY KEY''" +
-                " AND col.TABLE_NAME = ''{0}''";
+                " AND col.TABLE_NAME = ''{0}''" +
+                " AND tab.CONSTRAINT_SCHEMA = ''{1}''";
         final Connection conn = getConnection(database);
         final Statement stmt = conn.createStatement();
-        final String sql = MessageFormat.format(sqlTpl, tableName);
+        final String sql = MessageFormat.format(sqlTpl, tableName, database.getLiquibaseCatalogName());
         final ResultSet rs = stmt.executeQuery(sql);
         String name = null;
         while(rs.next()){
             name = rs.getString("COLUMN_NAME");
         }
         final boolean result = Objects.nonNull(name);
-        LOGGER.info("[Zero] Liquibase primary key Existed ? {} {}", result, sql);
+        LOGGER.info("[Zero] Liquibase primary key Existed = {}, SQL: {}", result, sql);
         return result;
     }
 
