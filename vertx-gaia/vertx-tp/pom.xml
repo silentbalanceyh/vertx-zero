@@ -15,11 +15,6 @@
             <groupId>cn.vertxup</groupId>
             <artifactId>vertx-co</artifactId>
         </dependency>
-        <!-- Fix MySQL 8 Issue -->
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
         <!-- Hikari Cp -->
         <dependency>
             <groupId>com.zaxxer</groupId>
