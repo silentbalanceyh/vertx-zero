@@ -56,7 +56,6 @@ public abstract class AbstractValve implements HValve {
             final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HSUi.class);
             final HSUi ui = (HSUi) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
 
-
             return ui.configure(permit)
                 .compose(uiJ -> this.response(input, new JsonObject(), uiJ));
         } else {

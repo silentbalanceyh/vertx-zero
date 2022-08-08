@@ -31,7 +31,7 @@ CREATE TABLE `L_YARD`
     PRIMARY KEY (`KEY`)
 );
 
--- changeset Lang:l-city-2
+-- changeset Lang:l-yard-2
 ALTER TABLE L_YARD
     ADD UNIQUE (`CODE`, `SIGMA`);
 
