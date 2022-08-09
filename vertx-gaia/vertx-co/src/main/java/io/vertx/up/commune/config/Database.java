@@ -29,7 +29,7 @@ import java.util.Objects;
  *      "port": 3306,
  *      "category": "MYSQL5",
  *      "driverClassName": "Fix driver issue here",
- *      "jdbcUrl": "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false",
+ *      "jdbcUrl": "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true",
  * }
  * I_SERVICE -> configDatabase
  */

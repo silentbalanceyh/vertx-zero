@@ -27,7 +27,7 @@
                 <jdbc>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
                     <url>
-                        <![CDATA[ jdbc:mysql://127.0.0.1:3306/DB_HTL?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false ]]>
+                        <![CDATA[ jdbc:mysql://127.0.0.1:3306/DB_HTL?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true ]]>
                     </url>
                     <username>htl</username>
                     <password>pl,okmijn123</password>
