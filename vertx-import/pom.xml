@@ -224,6 +224,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-liquibase</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-shell</artifactId>
                 <version>${zero.version}</version>
             </dependency>

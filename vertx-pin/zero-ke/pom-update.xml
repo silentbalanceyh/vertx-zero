@@ -35,13 +35,6 @@
             </ignoreVersions>
         </rule>
 
-        <!-- liquibase 3.x -->
-        <rule groupId="org.liquibase" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">4.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
         <!-- es 7.x -->
         <rule groupId="org.elasticsearch" comparisonMethod="maven">
             <ignoreVersions>
