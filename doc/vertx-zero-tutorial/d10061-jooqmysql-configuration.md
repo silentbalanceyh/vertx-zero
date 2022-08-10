@@ -91,7 +91,7 @@ configuration:
     <jdbc>
         <driver>com.mysql.cj.jdbc.Driver</driver>
         <url>
-            <![CDATA[ jdbc:mysql://127.0.0.1:3306/DB_ZERO?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false ]]>
+            <![CDATA[ jdbc:mysql://127.0.0.1:3306/DB_ZERO?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true ]]>
         </url>
         <username>htl</username>
         <password>pl,okmijn123</password>
@@ -249,7 +249,7 @@ jooq:
     username: htl
     password: "pl,okmijn123"
     catalog: DB_ZERO
-    jdbcUrl: "jdbc:mysql://127.0.0.1:3306/DB_ZERO?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false"
+    jdbcUrl: "jdbc:mysql://127.0.0.1:3306/DB_ZERO?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true"
 ```
 
 > Be sure the configuration of your jooq is the same as jooq xml configuration up.god.file.
