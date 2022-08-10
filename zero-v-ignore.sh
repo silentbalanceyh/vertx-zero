@@ -23,6 +23,7 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-git/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-auth/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-ftp/pom-update.xml
 cp pom-update.xml ./vertx-ifx/zero-ifx-stomp/pom-update.xml
+cp pom-update.xml ./vertx-ifx/zero-ifx-liquibase/pom-update.xml
 # cp pom-update.xml ./vertx-ifx/zero-ifx-store/pom-update.xml
 
 # 根项目
