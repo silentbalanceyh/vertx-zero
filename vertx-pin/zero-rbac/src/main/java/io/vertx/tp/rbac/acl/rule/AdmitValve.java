@@ -23,7 +23,9 @@ public class AdmitValve extends AbstractValve {
      * Output Data
      *
      * {
-     *
+     *     "dm": {},
+     *     "ui": {},
+     *     "in": {}
      * }
      */
     @Override

@@ -103,4 +103,6 @@ public class HPermit implements Serializable {
     public String code() {
         return this.code;
     }
+
+    public String name() { return this.name; }
 }
