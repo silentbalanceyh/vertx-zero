@@ -39,7 +39,7 @@ public class RespectLink extends AbstractRespect {
          */
         final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
         condition.put("key,!i", keys);
-        return Ux.channelAsync(Linkage.class, Ux::futureA, (link) ->
+        return Ux.channelA(Linkage.class, Ux::futureA, (link) ->
             // Linkage Removing / Create
             link.unlink(condition).compose(deleted -> link.link(dataArray, false))
         );
@@ -82,6 +82,6 @@ public class RespectLink extends AbstractRespect {
         final WTicket ticket = record.ticket();
         final JsonObject condition = this.queryTpl();
         condition.put(KName.SOURCE_KEY, ticket.getKey());
-        return Ux.channelAsync(Linkage.class, Ux::futureA, link -> link.fetch(condition));
+        return Ux.channelA(Linkage.class, Ux::futureA, link -> link.fetch(condition));
     }
 }

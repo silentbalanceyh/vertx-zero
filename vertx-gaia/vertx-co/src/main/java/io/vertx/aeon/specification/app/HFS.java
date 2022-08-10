@@ -1,6 +1,6 @@
 package io.vertx.aeon.specification.app;
 
-import io.vertx.aeon.eon.HCache;
+import io.vertx.aeon.runtime.HCache;
 import io.vertx.core.Future;
 import io.vertx.up.uca.fs.LocalFs;
 

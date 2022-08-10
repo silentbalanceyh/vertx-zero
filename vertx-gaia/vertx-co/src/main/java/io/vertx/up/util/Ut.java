@@ -537,7 +537,11 @@ public final class Ut {
      */
 
     public static <T> T service(final Class<T> interfaceCls) {
-        return Instance.service(interfaceCls);
+        return Instance.service(interfaceCls, true);
+    }
+
+    public static <T> T service(final Class<T> interfaceCls, final boolean one2one) {
+        return Instance.service(interfaceCls, one2one);
     }
 
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {

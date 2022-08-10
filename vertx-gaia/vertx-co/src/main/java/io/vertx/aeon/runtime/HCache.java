@@ -1,4 +1,4 @@
-package io.vertx.aeon.eon;
+package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
@@ -7,6 +7,8 @@ import io.vertx.aeon.specification.app.HFS;
 import io.vertx.up.uca.cache.Cc;
 
 /**
+ * 「运行时组件缓存」
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HCache {

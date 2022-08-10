@@ -218,6 +218,19 @@ class Async {
         }
     }
 
+    static <T, O> O channelDirect(final Class<T> clazz, final Supplier<O> supplier,
+                                  final Function<T, O> executor) {
+        final T channel = Ut.service(clazz, false);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel Direct {0} null", clazz.getName());
+            return supplier.get();
+        } else {
+            LOGGER.debug("「SL Channel」Channel Direct selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
+    }
+
     static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
                                          final Function<T, Future<O>> executor) {
         final T channel = Pocket.lookup(clazz);

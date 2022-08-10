@@ -1,5 +1,6 @@
 package io.vertx.tp.optic.mixture;
 
+import io.vertx.aeon.runtime.H3H;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -7,7 +8,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.request.KApp;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -25,7 +26,7 @@ public class HLoadAtom implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = CC_APP.pick(() -> new KApp(appName).ns(Ao.toNS(appName)), appName);
+            final KApp app = H3H.CC_APP.pick(() -> new KApp(appName).ns(Ao.toNS(appName)), appName);
 
             // Fetch HModel
             final String unique = app.keyUnique(identifier); // Model.namespace(appName) + "-" + identifier;

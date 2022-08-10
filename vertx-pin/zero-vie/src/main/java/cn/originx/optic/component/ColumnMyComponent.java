@@ -77,7 +77,7 @@ public class ColumnMyComponent extends AbstractAdaptor {
         /* 最终Uri */
         final DataAtom atom = this.atom();
         /* 前置一致 */
-        return Ox.viewMy(envelop, atom.identifier()).compose(params -> Ux.channelAsync(ApeakMy.class,
+        return Ox.viewMy(envelop, atom.identifier()).compose(params -> Ux.channelA(ApeakMy.class,
             () -> ActOut.future(new JsonArray()),
             stub -> stub.fetchMy(params).compose(ActOut::future)
         ));

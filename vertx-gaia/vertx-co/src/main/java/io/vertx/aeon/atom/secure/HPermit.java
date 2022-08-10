@@ -31,9 +31,13 @@ public class HPermit implements Serializable {
      * -- 3. 查询模板
      * -- 4. 组件设置
      */
+    // ------------------- DIM 配置 --------------------
     private final JsonObject shapeQr = new JsonObject();
     private final JsonObject shapeConfig = new JsonObject();
 
+    private final JsonObject shapeMapping = new JsonObject();
+
+    // ------------------- UI 配置 --------------------
     private final JsonObject uiQr = new JsonObject();
 
     private final JsonObject uiConfig = new JsonObject();
@@ -71,6 +75,17 @@ public class HPermit implements Serializable {
         return this;
     }
 
+    public HPermit shape(final JsonObject mapping) {
+        final JsonObject mappingJ = Ut.valueJObject(mapping);
+        this.shapeMapping.mergeIn(mappingJ, true);
+        return this;
+    }
+
+    // ===================== 配置提取
+    public JsonObject dmJ() {
+        return this.shapeConfig.copy();
+    }
+
     // ===================== 界面配置
     public HPermit ui(final ScIn scIn) {
         this.source = scIn;
@@ -104,5 +119,7 @@ public class HPermit implements Serializable {
         return this.code;
     }
 
-    public String name() { return this.name; }
+    public String name() {
+        return this.name;
+    }
 }

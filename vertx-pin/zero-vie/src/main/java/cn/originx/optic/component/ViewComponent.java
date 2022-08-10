@@ -82,7 +82,7 @@ public class ViewComponent extends AbstractAdaptor {
             final String sessionKey = Ke.keyView(params.getString(KName.METHOD),
                 params.getString(KName.URI), Vis.create(literal));
             params.put(KName.DATA_KEY, sessionKey);
-            return Ux.channelAsync(ApeakMy.class,
+            return Ux.channelA(ApeakMy.class,
                 () -> ActOut.future(new JsonObject()),
                 stub -> {
                     /*

@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.refine;
 
+import io.vertx.aeon.runtime.H3H;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
@@ -18,8 +19,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.mixture.HLoad;
-import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.experiment.specification.KEnv;
+import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.request.KAppEnv;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -66,7 +67,7 @@ class AoImpl {
     }
 
     static Model toModel(final String appName) {
-        final KApp app = HLoad.CC_APP.pick(() -> new KApp(appName).ns(AoStore.namespace(appName)), appName);
+        final KApp app = H3H.CC_APP.pick(() -> new KApp(appName).ns(AoStore.namespace(appName)), appName);
         final Class<?> implModel = AoStore.clazzModel();
         return Ut.instance(implModel, app);
     }
@@ -107,7 +108,7 @@ class AoImpl {
     }
 
     static HDao toDao(final HAtom atom) {
-        return Ux.channelSync(DS.class, () -> null, ds -> {
+        return Ux.channelS(DS.class, ds -> {
             /* 连接池绑定数据库 */
             final DataPool pool = ds.switchDs(atom.sigma());
             if (Objects.nonNull(pool)) {
@@ -137,8 +138,8 @@ class AoImpl {
 
     // ----------------- To Current ------------------
     static DataAtom toAtom(final String identifier) {
-        return Ux.channelSync(ES.class, () -> null, es -> {
-            final KEnv env = es.connect();
+        return Ux.channelS(ES.class, es -> {
+            final KAppEnv env = es.connect();
             if (Objects.nonNull(env)) {
                 return toAtom(env.name(), identifier);
             } else {
@@ -158,8 +159,8 @@ class AoImpl {
     }
 
     static HDao toDao(final String identifier) {
-        return Ux.channelSync(ES.class, () -> null, es -> {
-            final KEnv env = es.connect();
+        return Ux.channelS(ES.class, es -> {
+            final KAppEnv env = es.connect();
             final DataAtom atom;
             if (Objects.nonNull(env)) {
                 atom = toAtom(env.name(), identifier);

@@ -21,7 +21,7 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> createAsync(final JsonObject data) {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         if (Ut.isNil(employee.getWorkNumber())) {
-            return Ux.channelAsync(Indent.class, () -> this.insertAsync(employee, data),
+            return Ux.channelA(Indent.class, () -> this.insertAsync(employee, data),
                 serial -> serial.indent("NUM.EMPLOYEE", data.getString(KName.SIGMA)).compose(workNum -> {
                     employee.setWorkNumber(workNum);
                     return this.insertAsync(employee, data);
@@ -137,7 +137,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<Boolean> deleteAsync(final String key) {
         return this.fetchAsync(key)
-            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelAsync(Trash.class,
+            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelA(Trash.class,
                 () -> this.deleteAsync(key, item),
                 tunnel -> tunnel.backupAsync("res.employee", item)
                     .compose(backup -> this.deleteAsync(key, item)))));

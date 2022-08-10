@@ -1,9 +1,9 @@
 package io.vertx.aeon.specification.secure;
 
 import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
+import io.vertx.aeon.runtime.HCache;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -86,11 +86,12 @@ public abstract class AbstractValve implements HValve {
         final String sigma = Ut.valueString(input, KName.SIGMA);
         final String code = Ut.valueString(input, KName.CODE);
         Ut.notNull(sigma, code);
+        // Store KApp information
         return CC_PERMIT.pick(() -> {
             final HPermit permit = HPermit.create(code, Ut.valueString(input, KName.NAME));
             // Dim Processing
             final ScDim dmType = Ut.toEnum(() -> Ut.valueString(input, KName.DM_TYPE), ScDim.class, ScDim.NONE);
-            permit.shape(dmType).shape(
+            permit.shape(dmType).shape(Ut.valueJObject(input, KName.MAPPING)).shape(
                 Ut.valueJObject(input, KName.DM_CONDITION),
                 Ut.valueJObject(input, KName.DM_CONFIG)
             );

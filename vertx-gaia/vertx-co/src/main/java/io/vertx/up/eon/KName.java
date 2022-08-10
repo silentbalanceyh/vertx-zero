@@ -88,6 +88,8 @@ public interface KName {
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
+
+    String LABEL = "label";                      /* Common: label */
     String TYPE = "type";                        /* Common: type for different model */
     String DEPLOY_ID = "deployID";               /* */
     String ASPECT = "aspect";                    /* Aspect Component Usage */

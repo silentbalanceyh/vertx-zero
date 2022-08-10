@@ -743,4 +743,20 @@ public final class Fn {
         final Function<JsonObject, Future<JsonArray>> generateFun) {
         return comicA(source, JsonObject.class, generateFun);
     }
+
+    /*
+     * The workflow processing here.
+     *
+     * 1. Extract object reference from JsonObject 'input' by `field`
+     * 2. Check the code flow by the object reference type 'JsonArray' or 'JsonObject'
+     * 3. Execute different function that input
+     * -- JsonObject: itemFnJ
+     * -- JsonArray:  itemFnA
+     * 4. Put the result of each function back into input
+     */
+    public static <J, A> Future<JsonObject> choiceJ(final JsonObject input, final String field,
+                                                    final Function<JsonObject, Future<J>> itemFnJ,
+                                                    final Function<JsonArray, Future<A>> itemFnA) {
+        return War.choiceJ(input, field, itemFnJ, itemFnA);
+    }
 }

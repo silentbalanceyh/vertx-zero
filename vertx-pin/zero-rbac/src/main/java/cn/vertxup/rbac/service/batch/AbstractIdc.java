@@ -28,7 +28,7 @@ public abstract class AbstractIdc implements IdcStub {
      */
     protected <T> Future<T> credential(final Supplier<Future<T>> supplier,
                                        final Function<KCredential, Future<T>> executor) {
-        return Ux.channelAsync(Credential.class, supplier,
+        return Ux.channelA(Credential.class, supplier,
             stub -> stub.fetchAsync(this.sigma)
                 .compose(executor));
     }
@@ -37,7 +37,7 @@ public abstract class AbstractIdc implements IdcStub {
      * Put modelKey from `username` = `employee key`
      */
     protected Future<JsonArray> model(final JsonArray userJson) {
-        return Ux.channelAsync(Modeling.class,
+        return Ux.channelA(Modeling.class,
             () -> Ux.future(userJson),
             stub -> stub.keyAsync(this.sigma, userJson).compose(keyMap -> {
                 /*

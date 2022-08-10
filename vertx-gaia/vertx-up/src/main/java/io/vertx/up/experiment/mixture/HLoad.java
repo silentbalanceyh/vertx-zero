@@ -1,15 +1,11 @@
 package io.vertx.up.experiment.mixture;
 
-import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.uca.cache.Cc;
-
 /**
  * Mix Atom Load for different HAtom Loading
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HLoad {
-    Cc<String, KApp> CC_APP = Cc.open();
 
     /*
      * 「统一模型」HAtom

@@ -22,7 +22,7 @@ public class UnityAmbient implements UnityApp {
     @Override
     public Future<Boolean> initialize(final Vertx vertx) {
         /*
-         * Initialize Unity Pool
+         * Initialize Unity Pool, Checking for Environment
          */
         return UnityAsker.init(vertx).compose(nil -> {
             /*
