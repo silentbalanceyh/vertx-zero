@@ -1,5 +1,5 @@
 {
-    "fetch": "LAZY",
+    "fetch": "EAGER",
     "items": [
         "SC-MENU,服务目录菜单",
         "TOP-MENU,顶部菜单",

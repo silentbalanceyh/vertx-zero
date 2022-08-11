@@ -25,6 +25,7 @@ public class SPath implements VertxPojo, ISPath {
     private String        code;
     private String        mapping;
     private String        runComponent;
+    private String        runType;
     private String        dmType;
     private String        dmComponent;
     private String        dmCondition;
@@ -52,6 +53,7 @@ public class SPath implements VertxPojo, ISPath {
         this.code = value.getCode();
         this.mapping = value.getMapping();
         this.runComponent = value.getRunComponent();
+        this.runType = value.getRunType();
         this.dmType = value.getDmType();
         this.dmComponent = value.getDmComponent();
         this.dmCondition = value.getDmCondition();
@@ -78,6 +80,7 @@ public class SPath implements VertxPojo, ISPath {
         String        code,
         String        mapping,
         String        runComponent,
+        String        runType,
         String        dmType,
         String        dmComponent,
         String        dmCondition,
@@ -102,6 +105,7 @@ public class SPath implements VertxPojo, ISPath {
         this.code = code;
         this.mapping = mapping;
         this.runComponent = runComponent;
+        this.runType = runType;
         this.dmType = dmType;
         this.dmComponent = dmComponent;
         this.dmCondition = dmCondition;
@@ -213,6 +217,23 @@ public class SPath implements VertxPojo, ISPath {
     @Override
     public SPath setRunComponent(String runComponent) {
         this.runComponent = runComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    @Override
+    public String getRunType() {
+        return this.runType;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    @Override
+    public SPath setRunType(String runType) {
+        this.runType = runType;
         return this;
     }
 
@@ -543,6 +564,7 @@ public class SPath implements VertxPojo, ISPath {
         sb.append(", ").append(code);
         sb.append(", ").append(mapping);
         sb.append(", ").append(runComponent);
+        sb.append(", ").append(runType);
         sb.append(", ").append(dmType);
         sb.append(", ").append(dmComponent);
         sb.append(", ").append(dmCondition);
@@ -577,6 +599,7 @@ public class SPath implements VertxPojo, ISPath {
         setCode(from.getCode());
         setMapping(from.getMapping());
         setRunComponent(from.getRunComponent());
+        setRunType(from.getRunType());
         setDmType(from.getDmType());
         setDmComponent(from.getDmComponent());
         setDmCondition(from.getDmCondition());

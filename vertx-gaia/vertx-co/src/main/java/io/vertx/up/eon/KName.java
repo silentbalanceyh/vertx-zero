@@ -255,6 +255,9 @@ public interface KName {
     String DM_CONDITION = "dmCondition";
 
 
+    String OWNER_TYPE = "ownerType";
+    String RUN_TYPE = "runType";
+
     // 「Specification Definition」
     interface __ {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */

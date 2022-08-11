@@ -24,7 +24,7 @@ public interface RuleAgent {
 
     /* Admin Region */
     @GET
-    @Path("/rule/region")
+    @Path("/authority/region/:type")
     @Address(Addr.Rule.FETCH_REGION)
-    Future<JsonArray> fetchRegion();
+    Future<JsonArray> fetchRegion(@PathParam("type") String type);
 }

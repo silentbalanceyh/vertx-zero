@@ -65,16 +65,25 @@ public class HService {
             return Ut.instance(implCls);
         }
         // Load: /META-INF/services
-        return this.service((Class<T>) this.serviceCls);
+        T reference = this.service((Class<T>) this.serviceCls, this.loader);
+        if (Objects.isNull(reference)) {
+            // Fix Liquibase Issue:
+            /*
+             * [ HED ] Missed `HED` component in service loader: META-INF/services/io.vertx.up.experiment.mixture.HED
+             * This issue happened only when run `mvn liquibase:update`, because the class runtime is standalone
+             */
+            reference = this.service((Class<T>) this.serviceCls, this.serviceCls.getClassLoader());
+        }
+        return reference;
     }
 
-    private <T> T service(final Class<T> serviceCls) {
+    private <T> T service(final Class<T> serviceCls, final ClassLoader classLoader) {
         /*
          * Service Loader for lookup input interface implementation
          * This configuration must be configured in
          * META-INF/services/<interfaceCls Name> file
          */
-        final ServiceLoader<T> loader = ServiceLoader.load(serviceCls, this.loader);
+        final ServiceLoader<T> loader = ServiceLoader.load(serviceCls, classLoader);
         /*
          * New data structure to put interface class into LEXEME_MAP
          * In current version, it support one to one only

@@ -6,6 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -28,9 +29,12 @@ public class RuleActor {
 
 
     @Address(Addr.Rule.FETCH_REGION)
-    public Future<JsonArray> fetchRegion(final XHeader header) {
+    public Future<JsonArray> fetchRegion(final String type, final XHeader header) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.RUN_TYPE, type);
+        condition.put(KName.SIGMA, header.getSigma());
         return Ux.Jooq.on(SPathDao.class)
-            .<SPath>fetchAsync(KName.SIGMA, header.getSigma())
+            .<SPath>fetchAsync(condition)
             .compose(this.stub::procAsync);
     }
 
