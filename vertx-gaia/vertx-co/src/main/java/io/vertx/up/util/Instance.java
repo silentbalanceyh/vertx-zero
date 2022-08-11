@@ -63,8 +63,8 @@ final class Instance {
          * This configuration must be configured in
          * META-INF/services/<interfaceCls Name> file
          */
-        final ServiceLoader<T> loader =
-            ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final ServiceLoader<T> loader = ServiceLoader.load(interfaceCls, classLoader);
         /*
          * New data structure to put interface class into LEXEME_MAP
          * In current version, it support one to one only

@@ -24,6 +24,17 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-shell</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.termd</groupId>
+                    <artifactId>termd-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.termd/termd-core -->
+        <dependency>
+            <groupId>io.termd</groupId>
+            <artifactId>termd-core</artifactId>
         </dependency>
     </dependencies>
 </project>
