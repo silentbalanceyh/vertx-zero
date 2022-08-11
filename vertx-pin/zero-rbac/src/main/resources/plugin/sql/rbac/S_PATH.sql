@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * 2）读取这种角色的 S_VIEW 中的核心配置信息
      */
     `RUN_COMPONENT` VARCHAR(255) COMMENT '「runComponent」- HValve执行组件，组件内置处理 dm / ui 两部分内容',
+    `RUN_TYPE`      VARCHAR(5) COMMENT '「runType」- 视图管理类型',
 
     /*
      * 分组类型主要牵涉四种

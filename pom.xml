@@ -818,7 +818,7 @@
             <dependency>
                 <groupId>io.termd</groupId>
                 <artifactId>termd-core</artifactId>
-                <version>${termd.version}</version>
+                <version>${io.termd.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>

@@ -72,6 +72,16 @@ public interface ISPath extends VertxPojo, Serializable {
     public String getRunComponent();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    public ISPath setRunType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    public String getRunType();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
     public ISPath setDmType(String value);
@@ -286,6 +296,7 @@ public interface ISPath extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setMapping,json::getString,"MAPPING","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunType,json::getString,"RUN_TYPE","java.lang.String");
                 setOrThrow(this::setDmType,json::getString,"DM_TYPE","java.lang.String");
                 setOrThrow(this::setDmComponent,json::getString,"DM_COMPONENT","java.lang.String");
                 setOrThrow(this::setDmCondition,json::getString,"DM_CONDITION","java.lang.String");
@@ -316,6 +327,7 @@ public interface ISPath extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("MAPPING",getMapping());
                 json.put("RUN_COMPONENT",getRunComponent());
+                json.put("RUN_TYPE",getRunType());
                 json.put("DM_TYPE",getDmType());
                 json.put("DM_COMPONENT",getDmComponent());
                 json.put("DM_CONDITION",getDmCondition());

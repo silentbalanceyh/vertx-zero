@@ -51,6 +51,10 @@ public class SPath extends TableImpl<SPathRecord> {
      */
     public final TableField<SPathRecord, String> RUN_COMPONENT = createField(DSL.name("RUN_COMPONENT"), SQLDataType.VARCHAR(255), this, "「runComponent」- HValve执行组件，组件内置处理 dm / ui 两部分内容");
     /**
+     * The column <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    public final TableField<SPathRecord, String> RUN_TYPE = createField(DSL.name("RUN_TYPE"), SQLDataType.VARCHAR(5), this, "「runType」- 视图管理类型");
+    /**
      * The column <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
     public final TableField<SPathRecord, String> DM_TYPE = createField(DSL.name("DM_TYPE"), SQLDataType.VARCHAR(128), this, "「dmType」- 分组类型");

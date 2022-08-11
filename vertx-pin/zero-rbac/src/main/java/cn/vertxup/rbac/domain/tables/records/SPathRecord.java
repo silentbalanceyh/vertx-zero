@@ -114,11 +114,28 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    @Override
+    public SPathRecord setRunType(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     */
+    @Override
+    public String getRunType() {
+        return (String) get(5);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
      */
     @Override
     public SPathRecord setDmType(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -127,7 +144,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getDmType() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -136,7 +153,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setDmComponent(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -146,7 +163,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getDmComponent() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -155,7 +172,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setDmCondition(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -165,7 +182,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getDmCondition() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
@@ -174,7 +191,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setDmConfig(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -184,7 +201,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getDmConfig() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -192,7 +209,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiType(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -201,7 +218,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUiType() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -209,7 +226,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiConfig(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -218,7 +235,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUiConfig() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
@@ -227,7 +244,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiCondition(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -237,7 +254,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUiCondition() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -246,7 +263,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiComponent(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -256,7 +273,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUiComponent() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
@@ -265,7 +282,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiSurface(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -275,7 +292,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUiSurface() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -283,7 +300,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUiSort(Integer value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -292,7 +309,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public Integer getUiSort() {
-        return (Integer) get(14);
+        return (Integer) get(15);
     }
 
     /**
@@ -300,7 +317,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setSigma(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -309,7 +326,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getSigma() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
@@ -317,7 +334,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setLanguage(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -326,7 +343,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getLanguage() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
@@ -334,7 +351,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setActive(Boolean value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -343,7 +360,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(17);
+        return (Boolean) get(18);
     }
 
     /**
@@ -351,7 +368,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setMetadata(String value) {
-        set(18, value);
+        set(19, value);
         return this;
     }
 
@@ -360,7 +377,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getMetadata() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
@@ -368,7 +385,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setCreatedAt(LocalDateTime value) {
-        set(19, value);
+        set(20, value);
         return this;
     }
 
@@ -377,7 +394,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(20);
     }
 
     /**
@@ -385,7 +402,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setCreatedBy(String value) {
-        set(20, value);
+        set(21, value);
         return this;
     }
 
@@ -394,7 +411,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
@@ -402,7 +419,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUpdatedAt(LocalDateTime value) {
-        set(21, value);
+        set(22, value);
         return this;
     }
 
@@ -411,7 +428,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(21);
+        return (LocalDateTime) get(22);
     }
 
     /**
@@ -419,7 +436,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public SPathRecord setUpdatedBy(String value) {
-        set(22, value);
+        set(23, value);
         return this;
     }
 
@@ -428,7 +445,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(22);
+        return (String) get(23);
     }
 
     // -------------------------------------------------------------------------
@@ -451,6 +468,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
         setCode(from.getCode());
         setMapping(from.getMapping());
         setRunComponent(from.getRunComponent());
+        setRunType(from.getRunType());
         setDmType(from.getDmType());
         setDmComponent(from.getDmComponent());
         setDmCondition(from.getDmCondition());
@@ -491,7 +509,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
     /**
      * Create a detached, initialised SPathRecord
      */
-    public SPathRecord(String key, String name, String code, String mapping, String runComponent, String dmType, String dmComponent, String dmCondition, String dmConfig, String uiType, String uiConfig, String uiCondition, String uiComponent, String uiSurface, Integer uiSort, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public SPathRecord(String key, String name, String code, String mapping, String runComponent, String runType, String dmType, String dmComponent, String dmCondition, String dmConfig, String uiType, String uiConfig, String uiCondition, String uiComponent, String uiSurface, Integer uiSort, String sigma, String language, Boolean active, String metadata, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(SPath.S_PATH);
 
         setKey(key);
@@ -499,6 +517,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
         setCode(code);
         setMapping(mapping);
         setRunComponent(runComponent);
+        setRunType(runType);
         setDmType(dmType);
         setDmComponent(dmComponent);
         setDmCondition(dmCondition);
@@ -531,6 +550,7 @@ public class SPathRecord extends UpdatableRecordImpl<SPathRecord> implements Ver
             setCode(value.getCode());
             setMapping(value.getMapping());
             setRunComponent(value.getRunComponent());
+            setRunType(value.getRunType());
             setDmType(value.getDmType());
             setDmComponent(value.getDmComponent());
             setDmCondition(value.getDmCondition());
