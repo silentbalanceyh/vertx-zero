@@ -1,12 +1,12 @@
 package io.vertx.tp.atom.refine;
 
+import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataRecord;
 import io.vertx.tp.modular.jdbc.Pin;
-import io.vertx.tp.optic.environment.ES;
 import io.vertx.tp.optic.mixture.HLoadAtom;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.database.DS;
@@ -65,7 +65,7 @@ class AoImpl {
     }
 
     static Model toModel(final String appName) {
-        final KApp app = KApp.context(appName).bind(AoStore.namespace(appName));
+        final KApp app = HES.context(appName).bind(AoStore.namespace(appName));
         // H3H.CC_APP.pick(() -> new KApp(appName).bind(AoStore.namespace(appName)), appName);
         final Class<?> implModel = AoStore.clazzModel();
         return Ut.instance(implModel, app);
@@ -137,14 +137,12 @@ class AoImpl {
 
     // ----------------- To Current ------------------
     static DataAtom toAtom(final String identifier) {
-        return Ux.channelS(ES.class, es -> {
-            final KApp env = es.connect();
-            if (Objects.nonNull(env)) {
-                return toAtom(env.name(), identifier);
-            } else {
-                return null;
-            }
-        });
+        final KApp env = HES.connect();
+        if (Objects.nonNull(env)) {
+            return toAtom(env.name(), identifier);
+        } else {
+            return null;
+        }
     }
 
     static Record toRecord(final String identifier, final JsonObject data) {
@@ -158,19 +156,17 @@ class AoImpl {
     }
 
     static HDao toDao(final String identifier) {
-        return Ux.channelS(ES.class, es -> {
-            final KApp env = es.connect();
-            final DataAtom atom;
-            if (Objects.nonNull(env)) {
-                atom = toAtom(env.name(), identifier);
-            } else {
-                atom = null;
-            }
-            if (Objects.nonNull(atom)) {
-                return toDao(() -> atom, env.database());
-            } else {
-                return null;
-            }
-        });
+        final KApp env = HES.connect();
+        final DataAtom atom;
+        if (Objects.nonNull(env)) {
+            atom = toAtom(env.name(), identifier);
+        } else {
+            atom = null;
+        }
+        if (Objects.nonNull(atom)) {
+            return toDao(() -> atom, env.database());
+        } else {
+            return null;
+        }
     }
 }
