@@ -1,7 +1,6 @@
 package io.vertx.aeon.atom.secure;
 
 import io.vertx.aeon.eon.em.ModeApp;
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.power.KTenant;
 
@@ -24,7 +23,7 @@ public class Hoi implements Serializable {
     // 多层租户
     private final ConcurrentMap<String, Hoi> children = new ConcurrentHashMap<>();
     // 应用模式
-    private final ModeApp mode = ModeApp.CUBE;
+    private ModeApp mode = ModeApp.CUBE;
     /*
      * 此处区别一下 KApp 对象的内容
      * > 业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
@@ -52,7 +51,25 @@ public class Hoi implements Serializable {
     // 应用引用
     private KApp app;
 
-    public static void initialize(final JsonObject appJ) {
+    private Hoi(final ModeApp mode) {
+        this.mode = mode;
+    }
 
+    public static Hoi create(final ModeApp mode) {
+        return new Hoi(mode);
+    }
+
+    public Hoi bind(final KApp app) {
+        this.app = app;
+        return this;
+    }
+
+    public Hoi bind(final KTenant tenant) {
+        this.tenant = tenant;
+        return this;
+    }
+
+    public Hoi child(final String tenantId) {
+        return this.children.getOrDefault(tenantId, null);
     }
 }

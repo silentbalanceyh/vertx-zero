@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -373,6 +374,8 @@ public class Envelop implements Serializable {
         this.assist.user(context.user());
         this.assist.context(context.data());
 
+        /* Owner Environment */
+        HES.configure(request.headers());
         return this;
     }
 
