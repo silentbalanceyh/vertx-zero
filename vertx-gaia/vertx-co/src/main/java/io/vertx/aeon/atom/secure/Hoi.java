@@ -26,15 +26,14 @@ public class Hoi implements Serializable {
     // 应用模式
     private final ModeApp mode = ModeApp.CUBE;
     /*
-     * 此处区别一下 KApp / KCube两个对象
-     * > KApp 是业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
+     * 此处区别一下 KApp 对象的内容
+     * > 业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
      *   - name:                应用名称
      *   - ns:                  应用名空间
      *   - language:            应用程序所使用的语言
      *   - sigma:               统一标识符
      *
-     * > KCube 是中层环境信息，开放更多系统级的字段
-     *   - app:                 KApp的引用（业务信息引用）
+     * > 中层环境信息，开放更多系统级的字段
      *   - appId, appKey, code  应用层系统信息
      *   - database:            当前应用所需访问的数据库信息
      *

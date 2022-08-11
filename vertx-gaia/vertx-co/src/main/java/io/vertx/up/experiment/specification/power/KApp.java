@@ -51,17 +51,7 @@ public class KApp implements Serializable {
         return new KApp(name);
     }
 
-    // 从上下文环境中提取 KApp 方法
-    public static KApp context(final String name) {
-        return H3H.CC_APP.pick(() -> new KApp(name), name);
-    }
-
-    public static KApp context(final JsonObject unityApp) {
-        final String name = Ut.valueString(unityApp, KName.NAME);
-        return H3H.CC_APP.pick(() -> new KApp(name), name).bind(unityApp);
-    }
-
-    private KApp bind(final JsonObject unityApp) {
+    public KApp bind(final JsonObject unityApp) {
         /* appId, appKey, code */
         final JsonObject appJ = Ut.valueJObject(unityApp);
         this.appId = Ut.valueString(appJ, KName.APP_ID);
@@ -81,6 +71,8 @@ public class KApp implements Serializable {
             this.database = new Database();
             this.database.fromJson(sourceJ);
         }
+
+        /* Sync with Cache here */
         return this;
     }
 
@@ -92,6 +84,16 @@ public class KApp implements Serializable {
     public KApp bind(final String sigma, final String language) {
         this.sigma = sigma;
         this.language = language;
+        return this;
+    }
+
+    /* 必须是完整同步才执行填充 */
+    public KApp synchro() {
+        H3H.CC_APP.pick(() -> this, this.name);
+        H3H.CC_APP.pick(() -> this, this.appKey);
+        H3H.CC_APP.pick(() -> this, this.appId);
+        H3H.CC_APP.pick(() -> this, this.code);
+        H3H.CC_APP.pick(() -> this, this.sigma);
         return this;
     }
 
@@ -117,6 +119,7 @@ public class KApp implements Serializable {
     public JsonObject dimJ() {
         return this.dimJ.copy();
     }
+
 
     // -------------- 应用相关的统一标识符 --------------
     /*

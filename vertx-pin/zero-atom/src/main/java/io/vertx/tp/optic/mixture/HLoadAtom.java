@@ -1,5 +1,6 @@
 package io.vertx.tp.optic.mixture;
 
+import io.vertx.aeon.specification.app.HES;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -25,7 +26,7 @@ public class HLoadAtom implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = KApp.context(appName).bind(Ao.toNS(appName));
+            final KApp app = HES.context(appName).bind(Ao.toNS(appName));
             // H3H.CC_APP.pick(() -> new KApp(appName).bind(Ao.toNS(appName)), appName);
 
             // Fetch HModel

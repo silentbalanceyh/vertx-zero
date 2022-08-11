@@ -12,4 +12,5 @@ public class AeonHighway implements HET {
     public Hoi configure(final JsonObject input) {
         return null;
     }
+
 }
