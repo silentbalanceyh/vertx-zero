@@ -6,7 +6,7 @@ import io.vertx.tp.optic.environment.ES;
 import io.vertx.tp.optic.environment.UnityAmbient;
 import io.vertx.tp.optic.environment.UnityApp;
 import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.specification.KEnv;
+import io.vertx.up.experiment.specification.request.KAppEnv;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,13 +16,13 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AtomHighway implements ES {
-    private static final ConcurrentMap<String, KEnv> CACHE_BY_KEY = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, KEnv> CACHE_BY_SIGMA = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, KAppEnv> CACHE_BY_KEY = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, KAppEnv> CACHE_BY_SIGMA = new ConcurrentHashMap<>();
 
     @Override
-    public KEnv connect(final String id) {
+    public KAppEnv connect(final String id) {
         this.initialize();
-        KEnv env = CACHE_BY_SIGMA.getOrDefault(id, null);
+        KAppEnv env = CACHE_BY_SIGMA.getOrDefault(id, null);
         if (Objects.isNull(env)) {
             env = CACHE_BY_KEY.getOrDefault(id, null);
         }
@@ -30,9 +30,9 @@ public class AtomHighway implements ES {
     }
 
     @Override
-    public KEnv connect() {
+    public KAppEnv connect() {
         this.initialize();
-        KEnv env = null;
+        KAppEnv env = null;
         if (Values.ONE == CACHE_BY_KEY.size()) {
             env = CACHE_BY_KEY.values().iterator().next();
         }
@@ -48,7 +48,7 @@ public class AtomHighway implements ES {
             final ConcurrentMap<String, JsonObject> appMap = app.connect();
             At.infoApp(this.getClass(), "[KEnv] Environment connecting..., size = {0}", String.valueOf(appMap.size()));
             appMap.forEach((appId, json) -> {
-                final KEnv env = KEnv.instance(json);
+                final KAppEnv env = KAppEnv.instance(json);
                 // Double `key` reference one KEnv reference
                 CACHE_BY_KEY.put(appId, env);
                 CACHE_BY_SIGMA.put(env.sigma(), env);

@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-up</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
             <artifactId>zero-ifx-excel</artifactId>
             <version>${project.version}</version>
         </dependency>

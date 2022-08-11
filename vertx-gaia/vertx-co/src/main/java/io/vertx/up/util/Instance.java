@@ -35,39 +35,49 @@ final class Instance {
     private Instance() {
     }
 
-    static <T> T service(final Class<T> interfaceCls) {
+    static <T> T service(final Class<T> interfaceCls, final boolean one2one) {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         } else {
+            if (one2one) {
+                // 1 - 1 channel
+                return service(interfaceCls);
+            }
             final Cd<String, Object> cData = CC_SERVICE_LOADER.store();
             return (T) CC_SERVICE_LOADER.pick(() -> {
                 Object reference = cData.data(interfaceCls.getName());
                 if (Objects.isNull(reference)) {
-                    /*
-                     * Service Loader for lookup input interface implementation
-                     * This configuration must be configured in
-                     * META-INF/services/<interfaceCls Name> file
-                     */
-                    final ServiceLoader<T> loader =
-                        ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
-                    /*
-                     * New data structure to put interface class into LEXEME_MAP
-                     * In current version, it support one to one only
-                     *
-                     * 1) The key is interface class name
-                     * 2) The found class is implementation name
-                     */
-                    for (final T t : loader) {
-                        reference = t;
-                        if (Objects.nonNull(reference)) {
-                            cData.data(interfaceCls.getName(), reference);
-                            break;
-                        }
+                    reference = service(interfaceCls);
+                    if (Objects.nonNull(reference)) {
+                        cData.data(interfaceCls.getName(), reference);
                     }
                 }
                 return reference;
             }, interfaceCls.getName());
         }
+    }
+
+    static <T> T service(final Class<T> interfaceCls) {
+        /*
+         * Service Loader for lookup input interface implementation
+         * This configuration must be configured in
+         * META-INF/services/<interfaceCls Name> file
+         */
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final ServiceLoader<T> loader = ServiceLoader.load(interfaceCls, classLoader);
+        /*
+         * New data structure to put interface class into LEXEME_MAP
+         * In current version, it support one to one only
+         *
+         * 1) The key is interface class name
+         * 2) The found class is implementation name
+         */
+        T reference = null;
+        for (final T t : loader) {
+            reference = t;
+            break;
+        }
+        return reference;
     }
 
     /**

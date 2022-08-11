@@ -7,7 +7,7 @@ import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.mu.KTag;
 import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.request.KApp;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

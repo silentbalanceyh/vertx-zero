@@ -240,4 +240,23 @@ class War {
             return Future.succeededFuture(resultMap);
         }).otherwise(otherwise(ConcurrentHashMap::new));
     }
+
+    static <J, A> Future<JsonObject> choiceJ(final JsonObject input, final String field,
+                                             final Function<JsonObject, Future<J>> itemFnJ,
+                                             final Function<JsonArray, Future<A>> itemFnA) {
+        final Object value = input.getValue(field);
+        if (value instanceof JsonArray) {
+            return itemFnA.apply((JsonArray) value).compose(processed -> {
+                input.put(field, (J) processed);
+                return Future.succeededFuture(input);
+            });
+        } else if (value instanceof JsonObject) {
+            return itemFnJ.apply((JsonObject) value).compose(processed -> {
+                input.put(field, (A) processed);
+                return Future.succeededFuture(input);
+            });
+        } else {
+            return Future.succeededFuture(input);
+        }
+    }
 }

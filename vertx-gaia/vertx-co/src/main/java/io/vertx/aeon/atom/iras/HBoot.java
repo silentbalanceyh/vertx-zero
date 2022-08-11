@@ -1,8 +1,8 @@
 package io.vertx.aeon.atom.iras;
 
-import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.HName;
 import io.vertx.aeon.refine.HLog;
+import io.vertx.aeon.runtime.HCache;
 import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.aeon.specification.boot.HOff;
 import io.vertx.aeon.specification.boot.HOn;

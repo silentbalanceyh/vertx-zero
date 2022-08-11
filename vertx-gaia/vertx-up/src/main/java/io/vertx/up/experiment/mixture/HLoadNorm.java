@@ -1,18 +1,17 @@
 package io.vertx.up.experiment.mixture;
 
+import io.vertx.aeon.runtime.H3H;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.shape.internal.NormAtom;
 import io.vertx.up.experiment.shape.internal.NormModel;
-import io.vertx.up.experiment.specification.KApp;
-import io.vertx.up.log.Annal;
+import io.vertx.up.experiment.specification.request.KApp;
 import io.vertx.up.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class HLoadNorm implements HLoad {
-    private static final Annal LOGGER = Annal.get(HLoadNorm.class);
     private static final Cc<String, HModel> CC_MODEL = Cc.open();
 
     @Override
@@ -26,7 +25,7 @@ public class HLoadNorm implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = CC_APP.pick(() -> new KApp(appName), appName);
+            final KApp app = H3H.CC_APP.pick(() -> new KApp(appName), appName);
 
             // Fetch HModel
             final String unique = app.keyUnique(identifier);

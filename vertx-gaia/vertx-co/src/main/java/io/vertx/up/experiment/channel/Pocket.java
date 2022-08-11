@@ -18,6 +18,7 @@ public class Pocket {
         if (Objects.isNull(interfaceCls)) {
             return null;
         } else {
+            /* Provide Overwrite Structure for channel processing */
             final String cacheKey = interfaceCls.getName();
             Object found = REF.getOrDefault(cacheKey, null);
             if (Objects.isNull(found)) {

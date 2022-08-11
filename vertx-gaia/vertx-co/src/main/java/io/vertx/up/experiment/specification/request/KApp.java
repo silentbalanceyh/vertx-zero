@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.specification.request;
 
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HApp;

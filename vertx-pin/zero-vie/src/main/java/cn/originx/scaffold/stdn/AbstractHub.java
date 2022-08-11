@@ -240,12 +240,12 @@ public class AbstractHub extends AbstractActor {
         return this.transferAsync(input,
 
             /* JsonObject */
-            data -> Ux.channelAsync(Trash.class,
+            data -> Ux.channelA(Trash.class,
                 () -> Ux.future(data),
                 stub -> stub.backupAsync(atom.identifier(), data)),
 
             /* JsonArray */
-            data -> Ux.channelAsync(Trash.class,
+            data -> Ux.channelA(Trash.class,
                 () -> Ux.future(data),
                 stub -> stub.backupAsync(atom.identifier(), data))
         );

@@ -1,9 +1,9 @@
-package io.vertx.up.experiment.specification;
+package io.vertx.up.experiment.specification.request;
 
+import io.vertx.aeon.runtime.H3H;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -20,14 +20,14 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KEnv implements Serializable {
+public class KAppEnv implements Serializable {
     private final transient KApp app;
     private final transient String appId;   // X-App-Id
     private final transient String appKey;  // X-App-Key
     private final transient String code;
     private final transient Database database;
 
-    private KEnv(final JsonObject data) {
+    private KAppEnv(final JsonObject data) {
         final JsonObject dataJ = Ut.valueJObject(data);
         /*
          * appId
@@ -41,7 +41,7 @@ public class KEnv implements Serializable {
         /*
          * name / ns / language / sigma combined
          */
-        this.app = HLoad.CC_APP.pick(() -> new KApp(name), name);
+        this.app = H3H.CC_APP.pick(() -> new KApp(name), name);
         this.app.sigma(dataJ.getString(KName.SIGMA));
         this.app.language(dataJ.getString(KName.LANGUAGE));
 
@@ -49,8 +49,8 @@ public class KEnv implements Serializable {
         this.database.fromJson(dataJ.getJsonObject(KName.SOURCE, new JsonObject()));
     }
 
-    public static KEnv instance(final JsonObject unityApp) {
-        return new KEnv(unityApp);
+    public static KAppEnv instance(final JsonObject unityApp) {
+        return new KAppEnv(unityApp);
     }
 
     public String sigma() {

@@ -8,7 +8,7 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobType;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.request.KApp;
 import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.util.Ut;
 

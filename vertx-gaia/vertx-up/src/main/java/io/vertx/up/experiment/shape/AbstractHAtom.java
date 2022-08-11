@@ -5,7 +5,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.request.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;

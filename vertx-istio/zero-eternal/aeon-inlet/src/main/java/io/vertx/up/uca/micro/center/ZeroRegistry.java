@@ -20,7 +20,6 @@ import io.vertx.zero.exception.MicroModeUpException;
 
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 
@@ -48,9 +47,6 @@ public class ZeroRegistry implements UddiRegistry {
             this.add("/api/");
         }
     };
-
-    private static final ConcurrentMap<String, ZeroRegistry>
-        REGISTRY_MAP = new ConcurrentHashMap<>();
     private static final Cc<String, ZeroRegistry> CC_REGISTRY = Cc.openThread();
 
     private final transient Annal logger;
