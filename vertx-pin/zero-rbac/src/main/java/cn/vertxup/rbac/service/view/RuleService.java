@@ -7,6 +7,7 @@ import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.rule.AdmitValve;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
@@ -35,7 +36,6 @@ public class RuleService implements RuleStub {
         final List<SPath> filtered = paths.stream()
             // Not null and `runComponent` is not null
             .filter(Objects::nonNull)
-            .filter(path -> Objects.nonNull(path.getRunComponent()))
             // Sort By `uiSort`
             .sorted(Comparator.comparing(SPath::getUiSort))
             .collect(Collectors.toList());
@@ -44,7 +44,7 @@ public class RuleService implements RuleStub {
              * Extract `runComponent` to build `HValve` and then run it based on configured
              * Information here.
              */
-            final Class<?> clazz = Ut.clazz(path.getRunComponent(), null);
+            final Class<?> clazz = Ut.clazz(path.getRunComponent(), AdmitValve.class);
             if (Objects.isNull(clazz)) {
                 return Ux.future();
             }
