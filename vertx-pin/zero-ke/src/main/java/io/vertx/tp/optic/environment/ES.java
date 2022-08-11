@@ -1,6 +1,6 @@
 package io.vertx.tp.optic.environment;
 
-import io.vertx.up.experiment.specification.power.KCube;
+import io.vertx.up.experiment.specification.power.KApp;
 
 /**
  * Environment Service for Application to extract KApp
@@ -17,12 +17,12 @@ public interface ES {
      * - appId field
      * - appKey field
      */
-    KCube connect(String id);
+    KApp connect(String id);
 
     /*
      * Single ES searching without sigma
      * 1. Checking the cache size
      * 2. Fetch the only one `KEnv`
      */
-    KCube connect();
+    KApp connect();
 }

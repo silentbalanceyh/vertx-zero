@@ -19,7 +19,6 @@ import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.experiment.specification.power.KApp;
-import io.vertx.up.experiment.specification.power.KCube;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -139,7 +138,7 @@ class AoImpl {
     // ----------------- To Current ------------------
     static DataAtom toAtom(final String identifier) {
         return Ux.channelS(ES.class, es -> {
-            final KCube env = es.connect();
+            final KApp env = es.connect();
             if (Objects.nonNull(env)) {
                 return toAtom(env.name(), identifier);
             } else {
@@ -160,7 +159,7 @@ class AoImpl {
 
     static HDao toDao(final String identifier) {
         return Ux.channelS(ES.class, es -> {
-            final KCube env = es.connect();
+            final KApp env = es.connect();
             final DataAtom atom;
             if (Objects.nonNull(env)) {
                 atom = toAtom(env.name(), identifier);

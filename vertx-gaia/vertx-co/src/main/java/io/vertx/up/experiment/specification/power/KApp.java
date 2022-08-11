@@ -110,6 +110,9 @@ public class KApp implements Serializable {
         return this.ns;
     }
 
+    public Database database() {
+        return this.database;
+    }
 
     public JsonObject dimJ() {
         return this.dimJ.copy();

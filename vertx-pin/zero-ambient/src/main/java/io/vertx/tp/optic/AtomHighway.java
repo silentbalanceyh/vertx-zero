@@ -5,8 +5,10 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.environment.ES;
 import io.vertx.tp.optic.environment.UnityAmbient;
 import io.vertx.tp.optic.environment.UnityApp;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.specification.power.KCube;
+import io.vertx.up.experiment.specification.power.KApp;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,13 +18,13 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AtomHighway implements ES {
-    private static final ConcurrentMap<String, KCube> CACHE_BY_KEY = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, KCube> CACHE_BY_SIGMA = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, KApp> CACHE_BY_KEY = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, KApp> CACHE_BY_SIGMA = new ConcurrentHashMap<>();
 
     @Override
-    public KCube connect(final String id) {
+    public KApp connect(final String id) {
         this.initialize();
-        KCube env = CACHE_BY_SIGMA.getOrDefault(id, null);
+        KApp env = CACHE_BY_SIGMA.getOrDefault(id, null);
         if (Objects.isNull(env)) {
             env = CACHE_BY_KEY.getOrDefault(id, null);
         }
@@ -30,9 +32,9 @@ public class AtomHighway implements ES {
     }
 
     @Override
-    public KCube connect() {
+    public KApp connect() {
         this.initialize();
-        KCube env = null;
+        KApp env = null;
         if (Values.ONE == CACHE_BY_KEY.size()) {
             env = CACHE_BY_KEY.values().iterator().next();
         }
@@ -48,10 +50,13 @@ public class AtomHighway implements ES {
             final ConcurrentMap<String, JsonObject> appMap = app.connect();
             At.infoApp(this.getClass(), "[KEnv] Environment connecting..., size = {0}", String.valueOf(appMap.size()));
             appMap.forEach((appId, json) -> {
-                final KCube env = KCube.instance(json);
+                final KApp env = KApp.context(json); // KCube.instance(json);
                 // Double `key` reference one KEnv reference
                 CACHE_BY_KEY.put(appId, env);
-                CACHE_BY_SIGMA.put(env.sigma(), env);
+                final JsonObject dimJ = env.dimJ();
+                final String sigma = Ut.valueString(dimJ, KName.SIGMA);
+                Objects.requireNonNull(sigma);
+                CACHE_BY_SIGMA.put(sigma, env);
             });
         }
     }
