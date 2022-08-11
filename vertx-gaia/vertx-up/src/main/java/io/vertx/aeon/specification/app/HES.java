@@ -70,9 +70,10 @@ public class HES {
              */
             final JsonObject inputJ = header.toJson().copy();
             inputJ.remove(KName.SESSION);
-            LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}",
-                sigma, inputJ.encode());
-            return Ux.channelS(HET.class, het -> het.configure(inputJ));
+            final Hoi hoi = Ux.channelS(HET.class, het -> het.configure(inputJ));
+            LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}",
+                sigma, inputJ.encode(), hoi.mode());
+            return hoi;
         }, sigma);
     }
 

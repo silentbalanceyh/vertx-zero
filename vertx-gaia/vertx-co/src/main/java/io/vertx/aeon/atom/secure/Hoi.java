@@ -23,7 +23,7 @@ public class Hoi implements Serializable {
     // 多层租户
     private final ConcurrentMap<String, Hoi> children = new ConcurrentHashMap<>();
     // 应用模式
-    private ModeApp mode = ModeApp.CUBE;
+    private final ModeApp mode;
     /*
      * 此处区别一下 KApp 对象的内容
      * > 业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
@@ -67,6 +67,10 @@ public class Hoi implements Serializable {
     public Hoi bind(final KTenant tenant) {
         this.tenant = tenant;
         return this;
+    }
+
+    public ModeApp mode() {
+        return this.mode;
     }
 
     public Hoi child(final String tenantId) {
