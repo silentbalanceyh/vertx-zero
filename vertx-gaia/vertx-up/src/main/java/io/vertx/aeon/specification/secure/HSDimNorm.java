@@ -1,6 +1,8 @@
 package io.vertx.aeon.specification.secure;
 
 import io.vertx.aeon.atom.secure.HPermit;
+import io.vertx.aeon.atom.secure.Hoi;
+import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -14,12 +16,14 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
-public abstract class AbstractSDim implements HSDim {
+public class HSDimNorm implements HSDim {
     protected transient HAtom atom;
+    protected transient Hoi owner;
 
     @Override
     public HSDim bind(final HAtom atom) {
         this.atom = atom;
+        this.owner = HES.caller(atom.sigma());
         return this;
     }
 
@@ -65,8 +69,7 @@ public abstract class AbstractSDim implements HSDim {
     }
 
     private Future<ClusterSerializable> configure(final HPermit input, final JsonObject inputJ) {
-        final String dao = Ut.valueString(inputJ, KName.DAO, null);
-        final Class<?> daoCls = Ut.clazz(dao, null);
+        final Class<?> daoCls = Ut.valueCI(inputJ, KName.DAO, null);
         if (Objects.isNull(daoCls)) {
             // 前端模式，返回JsonObject
             return Future.succeededFuture(inputJ);

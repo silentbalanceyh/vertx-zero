@@ -24,8 +24,7 @@ public class AdmitValve extends AbstractValve {
      *
      * {
      *     "dm": {},
-     *     "ui": {},
-     *     "in": {}
+     *     "ui": {}
      * }
      */
     @Override
