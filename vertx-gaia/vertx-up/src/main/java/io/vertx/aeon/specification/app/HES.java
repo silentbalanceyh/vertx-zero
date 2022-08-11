@@ -1,7 +1,10 @@
 package io.vertx.aeon.specification.app;
 
+import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.runtime.H3H;
+import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.specification.power.KApp;
@@ -10,6 +13,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -22,6 +26,75 @@ import java.util.concurrent.ConcurrentMap;
 public class HES {
     private static final Annal LOGGER = Annal.get(HES.class);
 
+
+    // ------------------ Owner Environment --------------------
+    /*
+     * 拥有者环境配置，内置于 Envelop 在绑定环境时执行，Hoi和KApp的支持维度如
+     *               Hoi             KApp
+     * name           x               o
+     * code           x               o
+     * appId          x               o
+     * appKey         x               o
+     * sigma          o               o ( 反向引用 )
+     * tenant         o               x
+     *
+     * 输入数据只有三个：tenant / appId ( appKey ) / sigma，其中 appKey 不用于租户鉴别
+     * 当前容器环境中有两个固定维度：
+     * 1. tenant / language 是已经固定好的，都只有一个
+     * 2. 上层维度：tenant
+     *    下层维度：appId
+     * 3. 最终计算看 sigma 是表示上层还是下层
+     */
+    public static void configure(final MultiMap headers) {
+        final XHeader header = new XHeader();
+        header.fromHeader(headers);
+        /*
+         * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
+         * 1. 「单机环境」下 sigma 只有一个，Hoi也只有一个（tenant可null）
+         * 2. 「多租户环境」 sigma = tenant 维度，Hoi也只有一个（tenant不为空，且children为空）
+         * 3. 「多层租户环境」无等价维度，Hoi会存在多个，且某些Hoi会出现子租户映射表
+         *
+         * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
+         */
+        final String sigma = header.getSigma();
+        H3H.CC_OI.pick(() -> {
+            /*
+             * 参数：
+             * {
+             *     "appId": "xx",
+             *     "appKey": "xx",
+             *     "sigma": "xx",
+             *     "tenantId": "xx",
+             *     "language": "xx"
+             * }
+             */
+            final JsonObject inputJ = header.toJson().copy();
+            inputJ.remove(KName.SESSION);
+            final Hoi hoi = Ux.channelS(HET.class, het -> het.configure(inputJ));
+            LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}",
+                sigma, inputJ.encode(), hoi.mode());
+            return hoi;
+        }, sigma);
+    }
+
+    public static Hoi caller(final String sigma) {
+        return H3H.CC_OI.store(sigma);
+    }
+
+    public static Hoi callee(final String sigma, final String tenant) {
+        if (Objects.isNull(tenant) || Objects.isNull(sigma)) {
+            return null;
+        }
+        // 提取租户，此时 sigma 必定和 tenant 同维度，而
+        // 传入的 tenant 可能是「空间租户」
+        final Hoi hoi = caller(sigma);
+        if (Objects.isNull(hoi)) {
+            return null;
+        }
+        return hoi.child(tenant);
+    }
+
+    // ------------------ 提取和初始化处理上下文应用 --------------------
     /*
      * HAtom 建模上下文专用
      * 1. 内置调用 H3H 核心数据结构
@@ -51,8 +124,17 @@ public class HES {
         );
     }
 
+    // ------------------ 直接连接应用 --------------------
     public static KApp connect(final String id) {
         return H3H.CC_APP.store(id);
+    }
+
+    public static KApp connect(final String sigma, final String id) {
+        KApp app = connect(sigma);
+        if (Objects.isNull(app)) {
+            app = connect(id);
+        }
+        return app;
     }
 
     /*
@@ -72,15 +154,16 @@ public class HES {
         return env;
     }
 
+    // ------------------ 内置调用 HET 初始化应用 --------------------
     private static Set<KApp> initialize() {
         return Ux.channelS(HET.class, het -> {
             // 执行初始化配置信息
             final ConcurrentMap<String, JsonObject> appMap = het.initialize();
-            LOGGER.info("[KApp] Environment connecting..., size = {0}", String.valueOf(appMap.size()));
+            LOGGER.info("[HES] Environment connecting..., size = {0}", String.valueOf(appMap.size()));
             final Set<KApp> appSet = new HashSet<>();
             appMap.forEach((appId, json) -> {
                 final KApp env = context(json);
-                LOGGER.info("[KApp] \tnamespace = {0}, name = {1}", env.ns(), env.name());
+                LOGGER.info("[HES] \tnamespace = {0}, name = {1}", env.ns(), env.name());
                 appSet.add(env);
             });
             return appSet;
