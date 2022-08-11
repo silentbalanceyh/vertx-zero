@@ -53,7 +53,7 @@ public class KCube implements Serializable {
     }
 
     public String sigma() {
-        return this.app.sigma();
+        return null; // this.app.sigma();
     }
 
     public String appId() {
@@ -65,7 +65,7 @@ public class KCube implements Serializable {
     }
 
     public String language() {
-        return this.app.language();
+        return null; // this.app.language();
     }
 
     public String name() {

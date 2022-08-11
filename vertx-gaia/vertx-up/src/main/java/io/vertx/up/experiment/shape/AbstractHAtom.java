@@ -1,6 +1,7 @@
 package io.vertx.up.experiment.shape;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.*;
 import io.vertx.up.experiment.mu.KMarker;
@@ -52,12 +53,14 @@ public abstract class AbstractHAtom implements HAtom {
     // ------------ 基础模型部分 ------------
     @Override
     public String language() {
-        return Objects.isNull(this.app) ? null : this.app.language();
+        return Objects.isNull(this.app) ? null :
+            Ut.valueString(this.app.dimJ(), KName.LANGUAGE);
     }
 
     @Override
     public String sigma() {
-        return Objects.isNull(this.app) ? null : this.app.sigma();
+        return Objects.isNull(this.app) ? null :
+            Ut.valueString(this.app.dimJ(), KName.SIGMA);
     }
 
     @Override

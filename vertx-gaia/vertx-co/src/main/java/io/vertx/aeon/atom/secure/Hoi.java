@@ -2,7 +2,7 @@ package io.vertx.aeon.atom.secure;
 
 import io.vertx.aeon.eon.em.ModeApp;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.experiment.specification.power.KCube;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.power.KTenant;
 
 import java.io.Serializable;
@@ -23,6 +23,8 @@ import java.util.concurrent.ConcurrentMap;
 public class Hoi implements Serializable {
     // 多层租户
     private final ConcurrentMap<String, Hoi> children = new ConcurrentHashMap<>();
+    // 应用模式
+    private final ModeApp mode = ModeApp.CUBE;
     /*
      * 此处区别一下 KApp / KCube两个对象
      * > KApp 是业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
@@ -49,9 +51,7 @@ public class Hoi implements Serializable {
     // 租户基础
     private KTenant tenant;
     // 应用引用
-    private KCube cube;
-    // 应用模式
-    private final ModeApp app = ModeApp.CUBE;
+    private KApp app;
 
     public static void initialize(final JsonObject appJ) {
 

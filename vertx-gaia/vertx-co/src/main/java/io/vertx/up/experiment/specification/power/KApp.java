@@ -18,14 +18,17 @@ public class KApp implements Serializable {
 
     // -------------- 业务级数据 -----------------
     private final String name;      // vie.app.xxxx
+    /*
+     * {
+     *     "language": "xxx",
+     *     "sigma": "xxx"
+     * }
+     */
+    private final JsonObject dimJ = new JsonObject();
     private String ns;              // ( namespace )
-
-
     // -------------- 标识 / 语言维度 -----------------
     private String language;        // X-Lang
     private String sigma;           // X-Sigma
-
-
     // -------------- 系统级数据 ---------------------
     private String appId;          // X-App-Id
     private String appKey;         // X-App-Key
@@ -68,6 +71,9 @@ public class KApp implements Serializable {
         /* sigma / language */
         this.sigma = Ut.valueString(appJ, KName.SIGMA);
         this.language = Ut.valueString(appJ, KName.LANGUAGE);
+        this.dimJ.mergeIn(Ut.elementSubset(appJ,
+            KName.SIGMA, KName.LANGUAGE
+        ), true);
 
         /* database */
         final JsonObject sourceJ = Ut.valueJObject(appJ, KName.SOURCE);
@@ -104,12 +110,9 @@ public class KApp implements Serializable {
         return this.ns;
     }
 
-    public String language() {
-        return this.language;
-    }
 
-    public String sigma() {
-        return this.sigma;
+    public JsonObject dimJ() {
+        return this.dimJ.copy();
     }
 
     // -------------- 应用相关的统一标识符 --------------

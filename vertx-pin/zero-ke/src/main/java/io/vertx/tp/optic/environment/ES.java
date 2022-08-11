@@ -3,6 +3,8 @@ package io.vertx.tp.optic.environment;
 import io.vertx.up.experiment.specification.power.KCube;
 
 /**
+ * Environment Service for Application to extract KApp
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface ES {
