@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -537,11 +538,8 @@ public final class Ut {
      */
 
     public static <T> T service(final Class<T> interfaceCls) {
-        return Instance.service(interfaceCls, true);
-    }
-
-    public static <T> T service(final Class<T> interfaceCls, final boolean one2one) {
-        return Instance.service(interfaceCls, one2one);
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        return HService.load(interfaceCls, classLoader);
     }
 
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {

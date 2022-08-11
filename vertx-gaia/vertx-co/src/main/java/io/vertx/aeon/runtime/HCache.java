@@ -2,6 +2,7 @@ package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
+import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.aeon.specification.app.HFS;
 import io.vertx.up.uca.cache.Cc;
@@ -22,4 +23,9 @@ public interface HCache {
     Cc<String, HEvent> CCT_EVENT = Cc.openThread();
 
     Cc<String, HFS> CCT_FS = Cc.openThread();
+
+    // -- ServiceHooker
+    Cc<Class<?>, HService> CC_HOOKER = Cc.open();
+
+    Cc<Class<?>, Object> CC_SPI = Cc.open();
 }

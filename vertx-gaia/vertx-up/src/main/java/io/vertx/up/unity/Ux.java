@@ -658,8 +658,6 @@ public final class Ux {
      * 1. channel
      * 2. channelS
      * 3. channelA
-     * 4. channelD ( Sync )
-     * 5. channelP ( Async )
      */
     public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
                                            final Function<T, Future<O>> executor) {
@@ -679,15 +677,6 @@ public final class Ux {
     public static <T, O> Future<O> channelA(final Class<T> clazz, final Supplier<Future<O>> supplier,
                                             final Function<T, Future<O>> executor) {
         return Async.channelAsync(clazz, supplier, executor);
-    }
-
-    public static <T, O> O channelD(final Class<T> clazz, final Supplier<O> supplier,
-                                    final Function<T, O> executor) {
-        return Async.channelDirect(clazz, supplier, executor);
-    }
-
-    public static <T, O> O channelD(final Class<T> clazz, final Function<T, O> executor) {
-        return Async.channelDirect(clazz, () -> null, executor);
     }
 
     /*
