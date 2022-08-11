@@ -1,8 +1,10 @@
 package io.vertx.tp.optic.environment;
 
-import io.vertx.up.experiment.specification.request.KAppEnv;
+import io.vertx.up.experiment.specification.power.KApp;
 
 /**
+ * Environment Service for Application to extract KApp
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface ES {
@@ -15,12 +17,12 @@ public interface ES {
      * - appId field
      * - appKey field
      */
-    KAppEnv connect(String id);
+    KApp connect(String id);
 
     /*
      * Single ES searching without sigma
      * 1. Checking the cache size
      * 2. Fetch the only one `KEnv`
      */
-    KAppEnv connect();
+    KApp connect();
 }

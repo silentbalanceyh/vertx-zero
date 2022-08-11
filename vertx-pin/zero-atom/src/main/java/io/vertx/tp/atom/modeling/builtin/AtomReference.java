@@ -9,7 +9,7 @@ import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.experiment.mu.KReference;
 import io.vertx.up.experiment.shape.HAtomReference;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

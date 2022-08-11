@@ -1,11 +1,10 @@
 package io.vertx.up.experiment.mixture;
 
-import io.vertx.aeon.runtime.H3H;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.shape.internal.NormAtom;
 import io.vertx.up.experiment.shape.internal.NormModel;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -25,7 +24,7 @@ public class HLoadNorm implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = H3H.CC_APP.pick(() -> new KApp(appName), appName);
+            final KApp app = KApp.context(appName);
 
             // Fetch HModel
             final String unique = app.keyUnique(identifier);

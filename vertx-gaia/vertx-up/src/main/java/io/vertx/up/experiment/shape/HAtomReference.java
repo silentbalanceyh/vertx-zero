@@ -17,7 +17,7 @@ import io.vertx.up.experiment.reference.RQuote;
 import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KPoint;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;

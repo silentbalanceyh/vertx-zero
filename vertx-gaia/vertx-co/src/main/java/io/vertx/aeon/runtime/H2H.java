@@ -7,4 +7,5 @@ package io.vertx.aeon.runtime;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface H2H {
+
 }

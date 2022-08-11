@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.experiment.shape.AbstractHAtom;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 
 /**
  * 内部使用的元数据分析工具，提供
@@ -17,8 +17,7 @@ public class DataAtom extends AbstractHAtom {
         {
             // sigma / language / namespace re-bind
             final MModel modelRef = model.dbModel();
-            this.app.sigma(modelRef.getSigma());
-            this.app.language(modelRef.getLanguage());
+            this.app.bind(modelRef.getSigma(), modelRef.getLanguage());
         }
     }
 

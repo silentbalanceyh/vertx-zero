@@ -1,4 +1,4 @@
-package io.vertx.up.experiment.specification.request;
+package io.vertx.up.experiment.specification.power;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

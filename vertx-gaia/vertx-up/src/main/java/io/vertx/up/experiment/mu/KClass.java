@@ -7,7 +7,7 @@ import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.mixture.HOne;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.experiment.specification.KPoint;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

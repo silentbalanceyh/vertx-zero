@@ -1,6 +1,7 @@
 package io.vertx.aeon.runtime;
 
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.aeon.atom.secure.Hoi;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -10,6 +11,14 @@ import io.vertx.up.uca.cache.Cc;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface H3H {
-
+    /*
+     * 「环境级别处理」
+     * - CC_APP : 建模专用
+     * - CC_OI  : 云环境专用
+     *
+     * 新对象 Hoi 作为云环境的核心兼容型接口，CC_OI 中存储了当前系统中运行的所有租户结构数据，
+     * 在启用了 Aeon 之后 Hoi 作为了拥有者的核心数据结构，对应不同的环境级别
+     */
     Cc<String, KApp> CC_APP = Cc.open();
+    Cc<String, Hoi> CC_OI = Cc.open();
 }
