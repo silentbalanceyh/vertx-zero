@@ -2,6 +2,7 @@ package io.vertx.aeon.specification.app;
 
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.specification.action.HCommand;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 「以太」上下文专用接口
@@ -13,7 +14,7 @@ import io.vertx.aeon.specification.action.HCommand;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HET extends HCommand<String, Hoi> {
+public interface HET extends HCommand<JsonObject, Hoi> {
     /*
      * 最终形成的结构如：
      *
@@ -25,5 +26,5 @@ public interface HET extends HCommand<String, Hoi> {
      * 执行全局化调用，且请求过来的时候初始化 Hoi，它的初始化依靠 XHeader 中的核心数据
      */
     @Override
-    Hoi configure(String input);
+    Hoi configure(JsonObject input);
 }

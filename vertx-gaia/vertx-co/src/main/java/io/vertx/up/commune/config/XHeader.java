@@ -94,5 +94,6 @@ public class XHeader implements Serializable, Json {
 
     /*
      * 请求过来则直接定位 Hoi，此时必须保证应用本身已经完成了初始化
+     * sigma, tenantId, appId ( All input )
      */
 }

@@ -11,7 +11,7 @@ import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.Gear;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.request.KFlow;
+import io.vertx.up.experiment.specification.power.KFlow;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;

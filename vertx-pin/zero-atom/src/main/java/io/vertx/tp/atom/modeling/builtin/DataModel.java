@@ -16,7 +16,7 @@ import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mixture.HReference;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.vertx.up.experiment.specification.request.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
