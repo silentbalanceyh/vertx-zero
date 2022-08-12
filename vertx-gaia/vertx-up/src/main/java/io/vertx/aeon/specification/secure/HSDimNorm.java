@@ -1,8 +1,6 @@
 package io.vertx.aeon.specification.secure;
 
 import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.atom.secure.Hoi;
-import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,22 +8,12 @@ import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
-public class HSDimNorm implements HSDim {
-    protected transient HAtom atom;
-    protected transient Hoi owner;
-
-    @Override
-    public HSDim bind(final HAtom atom) {
-        this.atom = atom;
-        this.owner = HES.caller(atom.sigma());
-        return this;
-    }
+public class HSDimNorm extends AbstractAdmit {
 
     @Override
     public Future<JsonObject> configure(final HPermit input) {

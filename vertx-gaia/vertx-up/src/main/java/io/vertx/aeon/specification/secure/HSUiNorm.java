@@ -7,7 +7,8 @@ import io.vertx.core.json.JsonObject;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HSUiNorm implements HSUi {
+public class HSUiNorm extends AbstractAdmit {
+
     @Override
     public Future<JsonObject> configure(final HPermit input) {
 

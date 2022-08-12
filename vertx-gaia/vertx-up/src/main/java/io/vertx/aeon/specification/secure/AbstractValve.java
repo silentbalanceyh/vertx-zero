@@ -8,7 +8,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.exception.web._409SecureAdminException;
+import io.vertx.up.eon.em.run.ActPhase;
+import io.vertx.up.exception.web._409UiPhaseEagerException;
+import io.vertx.up.exception.web._409UiSourceNoneException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
@@ -42,40 +44,45 @@ public abstract class AbstractValve implements HValve {
     public Future<JsonObject> configure(final JsonObject input) {
         // HPermit Build
         final HPermit permit = this.build(input);
+
+        // Error-80223: uiType不能定义为NONE
+        Fn.out(ScIn.NONE == permit.source(), _409UiSourceNoneException.class, this.getClass(), permit.code());
         /*
-         * Here are two workflow for different part
-         * 1) Dim = None / Ui must not be None
-         * 2) Dim <> None /
+         * 管理界面分为两个区域：
+         * DM - 维度管理区域，UI - 数据管理区域
+         * - permit.shape():    指定维度管理区域的数据源
+         * - permit.source():   指定数据管理区域的数据源（该数据源必须定义，不能为 NONE，否则无法管理）
+         * 另外的规范
+         *
+         * 1）如果维度区域为 NONE, 数据区域的触发阶段必须是 EAGER，否则无数据输出
+         * 2）如果维度区域存在，则分为
+         *   - 前端计算：phase = EAGER，在配置时调用执行方法，数据读取到前端计算
+         *   - 延迟计算：phase = DELAY，等维度区域读取过后，根据维度区域的选择执行计算
          */
+        final ActPhase phase = permit.phase();
         // HSDim Processing
         if (ScDim.NONE == permit.shape()) {
-            // Ui must not be none
-            Fn.out(ScIn.NONE == permit.source(), _409SecureAdminException.class, this.getClass(), permit.code());
 
             // Ui Processing Only
-            final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HSUi.class);
-            final HSUi ui = (HSUi) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
+            final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HAdmit.class);
+            final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
+
+            // Error-80224，这种模式下，uiType只能定义成 EAGER
+            Fn.out(ActPhase.EAGER != phase, _409UiPhaseEagerException.class, this.getClass(), phase);
 
             return ui.configure(permit)
                 .compose(uiJ -> this.response(input, new JsonObject(), uiJ));
         } else {
             // When Ui is None
-            final Class<?> dmCls = Ut.valueCI(input, KName.Component.DM_COMPONENT, HSDim.class);
-            final HSDim dm = (HSDim) HCache.CCT_EVENT.pick(() -> Ut.instance(dmCls), dmCls.getName());
-            if (ScIn.NONE == permit.source()) {
+            final Class<?> dmCls = Ut.valueCI(input, KName.Component.DM_COMPONENT, HAdmit.class);
+            final HAdmit dm = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(dmCls), dmCls.getName());
+            final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HAdmit.class);
+            final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
+            return dm.configure(permit).compose(dmJ -> ui.configure(permit)
 
 
-                return dm.configure(permit)
-                    .compose(dmJ -> this.response(input, dmJ, new JsonObject()));
-            } else {
-                final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HSUi.class);
-                final HSUi ui = (HSUi) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
-                return dm.configure(permit).compose(dmJ -> ui.configure(permit)
-
-
-                    .compose(uiJ -> this.response(input, dmJ, uiJ))
-                );
-            }
+                .compose(uiJ -> this.response(input, dmJ, uiJ))
+            );
         }
     }
 
@@ -88,20 +95,32 @@ public abstract class AbstractValve implements HValve {
         Ut.notNull(sigma, code);
         // Store KApp information
         return CC_PERMIT.pick(() -> {
-            final HPermit permit = HPermit.create(code, Ut.valueString(input, KName.NAME));
-            // Dim Processing
+
+            // 绑定基础信息：code, sigma, name
+            final HPermit permit = HPermit.create(code, sigma, Ut.valueString(input, KName.NAME));
+
+
+            // 维度信息绑定
             final ScDim dmType = Ut.toEnum(() -> Ut.valueString(input, KName.DM_TYPE), ScDim.class, ScDim.NONE);
             permit.shape(dmType).shape(Ut.valueJObject(input, KName.MAPPING)).shape(
                 Ut.valueJObject(input, KName.DM_CONDITION),
                 Ut.valueJObject(input, KName.DM_CONFIG)
             );
-            // Ui Processing
-            final ScIn uiType = Ut.toEnum(() -> Ut.valueString(input, KName.UI_TYPE), ScIn.class, ScIn.NONE);
-            permit.ui(uiType).ui(Ut.valueJObject(input, KName.UI_SURFACE)).ui(
+
+
+            // 呈现信息绑定
+            final ScIn uiType = Ut.toEnum(
+                () -> Ut.valueString(input, KName.UI_TYPE), ScIn.class, ScIn.NONE);
+            final ActPhase uiPhase = Ut.toEnum(
+                () -> Ut.valueString(input, KName.PHASE), ActPhase.class, ActPhase.ERROR);
+
+            permit.ui(uiType, uiPhase).ui(Ut.valueJObject(input, KName.UI_SURFACE)).ui(
                 Ut.valueJObject(input, KName.UI_CONDITION),
                 Ut.valueJObject(input, KName.UI_CONFIG)
             );
             return permit;
+
+            // 缓存键值：<sigma> / <code>, code 是唯一的
         }, sigma + Strings.SLASH + code);
     }
 }
