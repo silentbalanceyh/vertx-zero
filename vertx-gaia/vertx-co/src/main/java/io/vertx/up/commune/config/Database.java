@@ -114,7 +114,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
              */
             final String port = Ut.valueString(jooq, KName.PORT);
             final String portEnv = Ut.valueEnv(HEnv.Z_PORT_DB, port);
-            jooq.put(KName.PORT, portEnv);
+            jooq.put(KName.PORT, Integer.valueOf(portEnv));
 
             final String jdbcUrl = Ut.valueString(jooq, "jdbcUrl");
             final String replaced;
