@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.AclType;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.commune.secure.AclView;
-import io.vertx.up.eon.em.AclPhase;
+import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -49,7 +49,7 @@ public class AclData implements Acl {
     private final ConcurrentMap<String, AclType> complexType =
         new ConcurrentHashMap<>();
 
-    private final AclPhase phase;
+    private final ActPhase phase;
     private final JsonObject config = new JsonObject();
 
     public AclData(final SVisitant visitant) {
@@ -80,9 +80,9 @@ public class AclData implements Acl {
             /*
              * Convert to `EAGER` as default
              */
-            this.phase = Ut.toEnum(visitant::getPhase, AclPhase.class, AclPhase.EAGER);
+            this.phase = Ut.toEnum(visitant::getPhase, ActPhase.class, ActPhase.EAGER);
         } else {
-            this.phase = AclPhase.ERROR;
+            this.phase = ActPhase.ERROR;
         }
     }
 
@@ -102,7 +102,7 @@ public class AclData implements Acl {
     }
 
     @Override
-    public AclPhase phase() {
+    public ActPhase phase() {
         return this.phase;
     }
 

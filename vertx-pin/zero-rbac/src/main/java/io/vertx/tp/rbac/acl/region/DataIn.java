@@ -6,7 +6,7 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
-import io.vertx.up.eon.em.AclPhase;
+import io.vertx.up.eon.em.run.ActPhase;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ class DataIn {
          * Execute when phase = EAGER
          */
         final Acl acl = envelop.acl();
-        if (Objects.nonNull(acl) && AclPhase.EAGER == acl.phase()) {
+        if (Objects.nonNull(acl) && ActPhase.EAGER == acl.phase()) {
             /*
              * original + acl projection
              */

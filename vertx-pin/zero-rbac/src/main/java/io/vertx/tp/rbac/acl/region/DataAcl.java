@@ -5,12 +5,12 @@ import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.acl.AclData;
-import io.vertx.tp.rbac.cv.em.AclTime;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.run.ActTime;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,7 +28,7 @@ class DataAcl {
      * Then the system should pick up unique visitant object here
      */
     static Future<Acl> visitAcl(final Envelop envelop, final JsonObject matrix,
-                                final AclTime expected) {
+                                final ActTime expected) {
         /*
          * Read configuration of `seeker` here
          * 1) Read syntax `BEFORE/AFTER` to match
@@ -37,7 +37,7 @@ class DataAcl {
          ***/
         final JsonObject seeker = matrix.getJsonObject(KName.SEEKER);
         final JsonObject syntax = seeker.getJsonObject(KName.SYNTAX);
-        final AclTime actual = Ut.toEnum(() -> syntax.getString(KName.PHASE), AclTime.class, AclTime.BEFORE);
+        final ActTime actual = Ut.toEnum(() -> syntax.getString(KName.PHASE), ActTime.class, ActTime.BEFORE);
         if (expected == actual) {
             final JsonObject input = new JsonObject();
             {

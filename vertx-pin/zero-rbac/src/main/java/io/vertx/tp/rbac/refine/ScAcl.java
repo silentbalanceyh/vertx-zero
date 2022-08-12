@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.refine;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.secure.Acl;
-import io.vertx.up.eon.em.AclPhase;
+import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -23,7 +23,7 @@ class ScAcl {
     }
 
     static JsonArray aclOn(final JsonArray original, final Acl acl) {
-        return aclProjection(original, acl, out -> AclPhase.EAGER == out.phase());
+        return aclProjection(original, acl, out -> ActPhase.EAGER == out.phase());
     }
 
     private static JsonArray aclProjection(final JsonArray original, final Acl acl,
