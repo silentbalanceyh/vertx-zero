@@ -177,7 +177,7 @@
 
         <!-- AspectJ -->
         <aspectj.version>1.9.9.1</aspectj.version>
-        <javassist.version>3.29.0-GA</javassist.version>
+        <javassist.version>3.29.1-GA</javassist.version>
         <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
         <asciidoctor.version>2.2.2</asciidoctor.version>
