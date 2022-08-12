@@ -1,5 +1,6 @@
 package io.vertx.aeon.runtime;
 
+import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
@@ -24,4 +25,9 @@ public interface H3H {
      */
     Cc<String, KApp> CC_APP = Cc.open();
     Cc<String, Hoi> CC_OI = Cc.open();
+
+    /*
+     * 「环境级别处理」安全管理专用
+     */
+    Cc<String, HPermit> CC_PERMIT = Cc.open();
 }

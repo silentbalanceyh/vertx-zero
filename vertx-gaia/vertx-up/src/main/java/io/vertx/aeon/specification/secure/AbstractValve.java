@@ -7,12 +7,10 @@ import io.vertx.aeon.runtime.HCache;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /**
@@ -38,12 +36,11 @@ public abstract class AbstractValve implements HValve {
      *     "uiSurface": {}
      * }
      */
-    private static final Cc<String, HPermit> CC_PERMIT = Cc.open();
 
     @Override
-    public Future<JsonObject> configure(final JsonObject input) {
+    public Future<JsonObject> configure(final JsonObject request) {
         // HPermit Build
-        final HPermit permit = this.build(input);
+        final HPermit permit = HAdmit.build(request);
 
         // Error-80223: uiType不能定义为NONE
         Fn.out(ScIn.NONE == permit.source(), _409UiSourceNoneException.class, this.getClass(), permit.code());
@@ -64,63 +61,77 @@ public abstract class AbstractValve implements HValve {
         if (ScDim.NONE == permit.shape()) {
 
             // Ui Processing Only
-            final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HAdmit.class);
+            final Class<?> uiCls = Ut.valueCI(request, KName.Component.UI_COMPONENT, HAdmit.class);
             final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
 
             // Error-80224，这种模式下，uiType只能定义成 EAGER
             Fn.out(ActPhase.EAGER != phase, _409UiPhaseEagerException.class, this.getClass(), phase);
 
             return ui.configure(permit)
-                .compose(uiJ -> this.response(input, new JsonObject(), uiJ));
+                .compose(uiJ -> this.response(request, new JsonObject(), uiJ));
         } else {
             // When Ui is None
-            final Class<?> dmCls = Ut.valueCI(input, KName.Component.DM_COMPONENT, HAdmit.class);
+            final Class<?> dmCls = Ut.valueCI(request, KName.Component.DM_COMPONENT, HAdmit.class);
             final HAdmit dm = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(dmCls), dmCls.getName());
-            final Class<?> uiCls = Ut.valueCI(input, KName.Component.UI_COMPONENT, HAdmit.class);
-            final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
-            return dm.configure(permit).compose(dmJ -> ui.configure(permit)
+
+            return dm.configure(permit)
+                .compose(dmJ -> this.configureUi(permit, dmJ, request)
 
 
-                .compose(uiJ -> this.response(input, dmJ, uiJ))
-            );
+                    .compose(uiJ -> this.response(request, dmJ, uiJ))
+                );
         }
     }
 
-    protected abstract Future<JsonObject> response(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ);
-
-    private HPermit build(final JsonObject input) {
-        // Build Cache Key Based on `sigma / code`
-        final String sigma = Ut.valueString(input, KName.SIGMA);
-        final String code = Ut.valueString(input, KName.CODE);
-        Ut.notNull(sigma, code);
-        // Store KApp information
-        return CC_PERMIT.pick(() -> {
-
-            // 绑定基础信息：code, sigma, name
-            final HPermit permit = HPermit.create(code, sigma, Ut.valueString(input, KName.NAME));
-
-
-            // 维度信息绑定
-            final ScDim dmType = Ut.toEnum(() -> Ut.valueString(input, KName.DM_TYPE), ScDim.class, ScDim.NONE);
-            permit.shape(dmType).shape(Ut.valueJObject(input, KName.MAPPING)).shape(
-                Ut.valueJObject(input, KName.DM_CONDITION),
-                Ut.valueJObject(input, KName.DM_CONFIG)
-            );
-
-
-            // 呈现信息绑定
-            final ScIn uiType = Ut.toEnum(
-                () -> Ut.valueString(input, KName.UI_TYPE), ScIn.class, ScIn.NONE);
-            final ActPhase uiPhase = Ut.toEnum(
-                () -> Ut.valueString(input, KName.PHASE), ActPhase.class, ActPhase.ERROR);
-
-            permit.ui(uiType, uiPhase).ui(Ut.valueJObject(input, KName.UI_SURFACE)).ui(
-                Ut.valueJObject(input, KName.UI_CONDITION),
-                Ut.valueJObject(input, KName.UI_CONFIG)
-            );
-            return permit;
-
-            // 缓存键值：<sigma> / <code>, code 是唯一的
-        }, sigma + Strings.SLASH + code);
+    /*
+     * 根据定义的 Phase 决定调用 HAdmit 的哪个方法，根据新规范定义，整个生命周期方法如下：
+     *
+     * 1. configure(I i)
+     * - 该方法无前端传入的输入信息，直接操作接口中实现的实体，如此处为 HPermit
+     *
+     * 2. synchro(I input, JsonObject request)
+     * - 该方法为专用写入方法，该写入方法会在保存或更新配置时执行同步专用，其中主实体为 HPermit
+     *   而输入数据为 request，输入格式根据需要而有所区别
+     *
+     * 3. compile(I input, JsonObject request)
+     * - 该方法为专用读取方法，一般用于二次读取，在维度数据提取之后根据维度数据执行 UI 层数据的提取
+     *   相关操作
+     */
+    private Future<JsonObject> configureUi(final HPermit permit, final JsonObject dmJ, final JsonObject requestJ) {
+        final Class<?> uiCls = Ut.valueCI(requestJ, KName.Component.UI_COMPONENT, HAdmit.class);
+        final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
+        // phase 提取，如果是 EAGER，则执行 compile 方法，如果是 DELAY 则执行 configure 方法
+        final ActPhase phase = permit.phase();
+        if (ActPhase.EAGER == phase) {
+            // 只处理配置，等待前端合并执行数据读取，执行方法：
+            // configure
+            return ui.configure(permit);
+        } else {
+            // 执行数据读取操作，调用：
+            // compile
+            /*
+             * 参数配置
+             * {
+             *    "in": requestJ,
+             *    "dm": dmJ
+             * }
+             */
+            final JsonObject parameters = new JsonObject();
+            parameters.put(KName.Rbac.IN, requestJ);
+            parameters.put(KName.Rbac.DM, dmJ);
+            return ui.compile(permit, parameters);
+        }
     }
+
+    /*
+     * 最终返回的数据格式：
+     *
+     * {
+     *    "in": "输入",
+     *    "out": "输出",
+     *    "dm": "维度配置",
+     *    "ui": "数据配置"
+     * }
+     */
+    protected abstract Future<JsonObject> response(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ);
 }

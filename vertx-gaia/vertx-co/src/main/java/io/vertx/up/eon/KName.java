@@ -411,6 +411,11 @@ public interface KName {
         String CRITERIA = Qr.KEY_CRITERIA;
         String ROWS = "rows";
         String POSITION = "position";
+
+
+        String DM = "dm";                            /* Definition: DM Process */
+        String UI = "ui";                            /* Definition: UI Process */
+        String IN = KName.IN;                        /* Definition: In Process */
     }
 
 
