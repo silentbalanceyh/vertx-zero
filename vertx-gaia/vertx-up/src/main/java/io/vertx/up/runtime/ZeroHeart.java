@@ -40,6 +40,7 @@ public class ZeroHeart {
                 if (TypeOs.MAC_OS == osType) {
                     final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
                     final Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
+                    final StringBuilder builder = new StringBuilder();
                     while (it.hasMoreElements()) {
                         final String key = it.nextElement();
                         final String value = properties.getProperty(key);
@@ -47,8 +48,10 @@ public class ZeroHeart {
                         final Map<String, String> env = System.getenv();
                         final Field field = env.getClass().getDeclaredField("m");
                         field.setAccessible(true);
+                        builder.append("\n\t").append(key).append(" = ").append(value);
                         ((Map<String, String>) field.get(env)).put(key, value);
                     }
+                    HLog.infoAeon(ZeroHeart.class, "Zero Environment Variables: {0}\n", builder.toString());
                 }
             }
         });

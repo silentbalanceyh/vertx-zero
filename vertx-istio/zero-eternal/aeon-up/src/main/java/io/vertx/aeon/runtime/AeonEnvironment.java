@@ -30,6 +30,6 @@ public class AeonEnvironment {
             final String value = System.getenv(name);
             builder.append("\n\t").append(name).append(" = ").append(value);
         });
-        HLog.infoAeon(AeonEnvironment.class, "Environment Variables: {0}\n", builder.toString());
+        HLog.infoAeon(AeonEnvironment.class, "Aeon Environment Variables: {0}\n", builder.toString());
     }
 }

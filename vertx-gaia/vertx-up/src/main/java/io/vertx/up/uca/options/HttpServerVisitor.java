@@ -47,13 +47,13 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, HttpServerOptions> map) {
         Ut.itJArray(serverData).filter(this::isServer).forEach(item -> {
             /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
-            final JsonObject configJ = item.getJsonObject(KName.CONFIG);
+            final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
             final String portCfg = Ut.valueString(configJ, KName.PORT);
             final String portEnv = Ut.valueEnv(HEnv.Z_PORT_WEB, portCfg);
             configJ.put(KName.PORT, Integer.valueOf(portEnv));
 
             // 1. Extract port
-            final int port = this.serverPort(item.getJsonObject(KName.CONFIG));
+            final int port = this.serverPort(configJ);
             // 2. Convert JsonObject to HttpServerOptions
             final HttpServerOptions options = this.transformer.transform(item);
             Fn.safeNull(() -> {
