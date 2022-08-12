@@ -23,6 +23,7 @@ public class SPath implements VertxPojo, ISPath {
     private String        key;
     private String        name;
     private String        code;
+    private String        phase;
     private String        mapping;
     private String        runComponent;
     private String        runType;
@@ -51,6 +52,7 @@ public class SPath implements VertxPojo, ISPath {
         this.key = value.getKey();
         this.name = value.getName();
         this.code = value.getCode();
+        this.phase = value.getPhase();
         this.mapping = value.getMapping();
         this.runComponent = value.getRunComponent();
         this.runType = value.getRunType();
@@ -78,6 +80,7 @@ public class SPath implements VertxPojo, ISPath {
         String        key,
         String        name,
         String        code,
+        String        phase,
         String        mapping,
         String        runComponent,
         String        runType,
@@ -103,6 +106,7 @@ public class SPath implements VertxPojo, ISPath {
         this.key = key;
         this.name = name;
         this.code = code;
+        this.phase = phase;
         this.mapping = mapping;
         this.runComponent = runComponent;
         this.runType = runType;
@@ -183,6 +187,23 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
+     */
+    @Override
+    public String getPhase() {
+        return this.phase;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
+     */
+    @Override
+    public SPath setPhase(String phase) {
+        this.phase = phase;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
      * ui 转换
      */
@@ -221,7 +242,8 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
      */
     @Override
     public String getRunType() {
@@ -229,7 +251,8 @@ public class SPath implements VertxPojo, ISPath {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」- 视图管理类型
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
      */
     @Override
     public SPath setRunType(String runType) {
@@ -562,6 +585,7 @@ public class SPath implements VertxPojo, ISPath {
         sb.append(key);
         sb.append(", ").append(name);
         sb.append(", ").append(code);
+        sb.append(", ").append(phase);
         sb.append(", ").append(mapping);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(runType);
@@ -597,6 +621,7 @@ public class SPath implements VertxPojo, ISPath {
         setKey(from.getKey());
         setName(from.getName());
         setCode(from.getCode());
+        setPhase(from.getPhase());
         setMapping(from.getMapping());
         setRunComponent(from.getRunComponent());
         setRunType(from.getRunType());

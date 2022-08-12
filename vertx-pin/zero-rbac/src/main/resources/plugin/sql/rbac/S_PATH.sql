@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS S_PATH
 
     `NAME`          VARCHAR(255) COMMENT '「name」- 规则名称',
     `CODE`          VARCHAR(255) COMMENT '「code」- 系统界面标识',
+    `PHASE`         VARCHAR(64) COMMENT '「phase」- UI读取数据的操作周期',
     `MAPPING`       TEXT COMMENT '「mapping」- 从 dm -> ui 转换',
     /*
      * 核心流程
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS S_PATH
      * 2）读取这种角色的 S_VIEW 中的核心配置信息
      */
     `RUN_COMPONENT` VARCHAR(255) COMMENT '「runComponent」- HValve执行组件，组件内置处理 dm / ui 两部分内容',
-    `RUN_TYPE`      VARCHAR(5) COMMENT '「runType」- 视图管理类型',
+    `RUN_TYPE`      VARCHAR(5) COMMENT '「runType」- 视图管理类型（查询用）',
 
     /*
      * 分组类型主要牵涉四种
