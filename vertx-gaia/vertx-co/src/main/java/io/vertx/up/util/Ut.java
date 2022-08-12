@@ -1832,12 +1832,20 @@ public final class Ut {
         return Jackson.sureJArray(array);
     }
 
+    public static JsonArray valueJArray(final JsonArray array, final boolean copied) {
+        return Jackson.sureJArray(array, copied);
+    }
+
     public static JsonArray valueJArray(final JsonObject input, final String field) {
         return Jackson.sureJArray(input, field);
     }
 
     public static JsonObject valueJObject(final JsonObject object) {
         return Jackson.sureJObject(object);
+    }
+
+    public static JsonObject valueJObject(final JsonObject object, final boolean copied) {
+        return Jackson.sureJObject(object, copied);
     }
 
     public static JsonObject valueJObject(final JsonObject input, final String field) {

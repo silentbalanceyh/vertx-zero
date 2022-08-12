@@ -415,6 +415,8 @@ public interface KName {
 
         String DM = "dm";                            /* Definition: DM Process */
         String UI = "ui";                            /* Definition: UI Process */
+        String QR = "qr";                            /* Definition: */
+        String SURFACE = "surface";                  /* Definition: UI Show */
         String IN = KName.IN;                        /* Definition: In Process */
     }
 

@@ -1,10 +1,13 @@
 package io.vertx.aeon.atom.secure;
 
 import io.vertx.aeon.eon.em.ModeApp;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.power.KTenant;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -71,6 +74,36 @@ public class Hoi implements Serializable {
 
     public ModeApp mode() {
         return this.mode;
+    }
+
+    /*
+     * 查询条件统一参数追加
+     * - forBusiness = false
+     *   常用容器模式，根据 ModeApp 计算最终结果
+     * - forBusiness = true
+     *   带名空间的模式，主要用于应用数据
+     */
+    public JsonObject inputQr(final JsonObject qr, final boolean forBusiness) {
+        if (Objects.isNull(this.app)) {
+            return qr;
+        }
+        if (forBusiness) {
+            // 名空间模式
+            // namespace / name
+            qr.mergeIn(this.app.dimB(), true);
+        } else {
+            // 非名空间模式
+            // appId / appKey
+            qr.mergeIn(this.app.dimA(), true);
+        }
+        // sigma / language
+        qr.mergeIn(this.app.dimJ(), true);
+
+        if (ModeApp.CUBE != this.mode && Objects.nonNull(this.tenant)) {
+            // tenantId
+            qr.put(KName.Tenant.ID, this.tenant.id());
+        }
+        return qr;
     }
 
     public Hoi child(final String tenantId) {

@@ -21,6 +21,12 @@ public class HSDimNorm extends AbstractAdmit {
          * 提取 dmConfig 字段的数据，解析 items 内容，执行维度数据源的提取
          * - items 为 JsonArray
          * - items 为 JsonObject（三种模式）
+         *
+         * {
+         *     "items":   JOBJECT | JARRAY,
+         *     "mapping": shapeMapping,
+         *     "qr":      shapeQr
+         * }
          */
         final JsonObject inputJ = input.dmJ();
         return Fn.choiceJ(inputJ, KName.ITEMS,

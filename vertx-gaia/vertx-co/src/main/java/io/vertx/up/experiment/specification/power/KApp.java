@@ -18,13 +18,12 @@ public class KApp implements Serializable {
 
     // -------------- 业务级数据 -----------------
     private final String name;      // vie.app.xxxx
-    /*
-     * {
-     *     "language": "xxx",
-     *     "sigma": "xxx"
-     * }
-     */
+    // language / sigma     通用条件
     private final JsonObject dimJ = new JsonObject();
+    // name / namespace     业务专用条件
+    private final JsonObject dimB = new JsonObject();
+    // appId / appKey       系统专用条件
+    private final JsonObject dimA = new JsonObject();
     private String ns;              // ( namespace )
     // -------------- 标识 / 语言维度 -----------------
     private String language;        // X-Lang
@@ -61,9 +60,17 @@ public class KApp implements Serializable {
         /* sigma / language */
         this.sigma = Ut.valueString(appJ, KName.SIGMA);
         this.language = Ut.valueString(appJ, KName.LANGUAGE);
-        this.dimJ.mergeIn(Ut.elementSubset(appJ,
-            KName.SIGMA, KName.LANGUAGE
-        ), true);
+
+        {
+            this.dimJ.put(KName.SIGMA, this.sigma);
+            this.dimJ.put(KName.LANGUAGE, this.language);
+
+            this.dimA.put(KName.APP_ID, this.appId);
+            this.dimA.put(KName.APP_KEY, this.appKey);
+
+            this.dimB.put(KName.NAME, this.name);
+            this.dimB.put(KName.NAMESPACE, this.ns);
+        }
 
         /* database */
         final JsonObject sourceJ = Ut.valueJObject(appJ, KName.SOURCE);
@@ -117,9 +124,16 @@ public class KApp implements Serializable {
     }
 
     public JsonObject dimJ() {
-        return this.dimJ.copy();
+        return this.dimJ;
     }
 
+    public JsonObject dimA() {
+        return this.dimA;
+    }
+
+    public JsonObject dimB() {
+        return this.dimB;
+    }
 
     // -------------- 应用相关的统一标识符 --------------
     /*

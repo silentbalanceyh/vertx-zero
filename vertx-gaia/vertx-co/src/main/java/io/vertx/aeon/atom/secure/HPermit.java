@@ -3,6 +3,7 @@ package io.vertx.aeon.atom.secure;
 import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
@@ -87,12 +88,44 @@ public class HPermit implements Serializable {
     }
 
     // ===================== 配置提取
+    /*
+     * Shape处理的规范配置结构
+     * {
+     *     ...shapeConfig,
+     *     "mapping": shapeMapping,
+     *     "qr":      shapeQr
+     * }
+     *
+     * DM_MAPPING       -> mapping
+     * DM_CONDITION     -> qr
+     */
     public JsonObject dmJ() {
-        return this.shapeConfig.copy();
+        final JsonObject shapeJ = this.shapeConfig.copy();
+        final JsonObject mappingJ = Ut.valueJObject(this.shapeMapping);
+        shapeJ.put(KName.MAPPING, mappingJ);
+        final JsonObject qrJ = Ut.valueJObject(this.shapeQr);
+        shapeJ.put(KName.Rbac.QR, qrJ);
+        return shapeJ;
     }
 
-    public String dmS() {
-        return this.sigma;
+    /*
+     * UI处理的规范配置结构
+     * {
+     *     ...uiConfig,
+     *     "surface": uiSurface,
+     *     "qr":      uiQr
+     * }
+     *
+     * DM_SURFACE       -> surface
+     * DM_CONDITION     -> qr
+     */
+    public JsonObject uiJ() {
+        final JsonObject uiJ = this.uiConfig.copy();
+        final JsonObject qrJ = Ut.valueJObject(this.uiQr);
+        uiJ.put(KName.Rbac.QR, qrJ);
+        final JsonObject surfaceJ = Ut.valueJObject(this.uiSurface);
+        uiJ.put(KName.Rbac.SURFACE, surfaceJ);
+        return uiJ;
     }
 
     // ===================== 界面配置
@@ -136,5 +169,9 @@ public class HPermit implements Serializable {
 
     public String name() {
         return this.name;
+    }
+
+    public String sigma() {
+        return this.sigma;
     }
 }

@@ -263,12 +263,20 @@ final class Jackson {
         }, target, source, field));
     }
 
-    static JsonArray sureJArray(final JsonArray array) {
+    static JsonArray sureJArray(final JsonArray array, final boolean copied) {
         if (Ut.isNil(array)) {
             return new JsonArray();
         } else {
-            return array;
+            if (copied) {
+                return array.copy();
+            } else {
+                return array;
+            }
         }
+    }
+
+    static JsonArray sureJArray(final JsonArray array) {
+        return sureJArray(array, false);
     }
 
     static JsonArray sureJArray(JsonObject input, final String field) {
@@ -299,12 +307,20 @@ final class Jackson {
         }
     }
 
-    static JsonObject sureJObject(final JsonObject object) {
+    static JsonObject sureJObject(final JsonObject object, final boolean copied) {
         if (Ut.isNil(object)) {
             return new JsonObject();
         } else {
-            return object;
+            if (copied) {
+                return object.copy();
+            } else {
+                return object;
+            }
         }
+    }
+
+    static JsonObject sureJObject(final JsonObject object) {
+        return sureJObject(object, false);
     }
 
     static String aiJArray(final String literal) {
