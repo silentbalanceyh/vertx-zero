@@ -14,6 +14,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KPair;
@@ -1782,6 +1783,10 @@ public final class Ut {
 
     public static String valueString(final JsonObject json, final String field) {
         return Epsilon.vString(json, field, null);
+    }
+
+    public static Integer valueInt(final JsonObject json, final String field) {
+        return Epsilon.vInt(json, field, Values.RANGE);
     }
 
     public static String valueString(final JsonObject json, final String field, final String defaultValue) {

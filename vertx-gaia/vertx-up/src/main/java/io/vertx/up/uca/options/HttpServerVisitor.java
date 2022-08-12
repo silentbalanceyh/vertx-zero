@@ -1,7 +1,9 @@
 package io.vertx.up.uca.options;
 
+import io.vertx.aeon.eon.HEnv;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
@@ -44,6 +46,12 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
 
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, HttpServerOptions> map) {
         Ut.itJArray(serverData).filter(this::isServer).forEach(item -> {
+            /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
+            final JsonObject configJ = item.getJsonObject(KName.CONFIG);
+            final String portCfg = Ut.valueString(configJ, KName.PORT);
+            final String portEnv = Ut.valueEnv(HEnv.Z_PORT_WEB, portCfg);
+            configJ.put(KName.PORT, portEnv);
+
             // 1. Extract port
             final int port = this.serverPort(item.getJsonObject(KName.CONFIG));
             // 2. Convert JsonObject to HttpServerOptions

@@ -38,7 +38,13 @@ public abstract class AbstractHET implements HET {
             app = HES.connect();
         }
         final String language = Ut.valueString(input, KName.LANGUAGE);
-        app.bind(sigma, language);
+        if (Objects.nonNull(app)) {
+            /*
+             * Fix issue: java.lang.NullPointerException
+             * io.vertx.aeon.specification.app.AbstractHET.configure(AbstractHET.java:41)
+             */
+            app.bind(sigma, language);
+        }
         return hoi.bind(app);
     }
 }

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.aeon.eon.HEnv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
@@ -93,10 +95,41 @@ public class Database implements Serializable, Json, Copyable<Database> {
     private static Database getDatabase(final String... keys) {
         final JsonObject raw = Database.VISITOR.read();
         final JsonObject jooq = Ut.visitJObject(raw, keys);
+        return configure(jooq);
+    }
+
+    public static Database configure(final JsonObject databaseJ) {
+        final JsonObject jooq = Ut.valueJObject(databaseJ);
         final Database database = new Database();
+        {
+            /*
+             * 该方法只针对静态数据库生效
+             * jooq:
+             *    provider:
+             *    orbit:
+             *
+             * 1. 读取环境变量 Z_PORT_DB 计算端口
+             * 2. 执行jdbcUrl的处理（表达式）
+             * 「Z_PORT_DB」
+             */
+            final String port = Ut.valueString(jooq, KName.PORT);
+            final String portEnv = Ut.valueEnv(HEnv.Z_PORT_DB, port);
+            jooq.put(KName.PORT, portEnv);
+
+            final String jdbcUrl = Ut.valueString(jooq, "jdbcUrl");
+            final String replaced;
+            if (jdbcUrl.contains(Strings.DOLLAR)) {
+                final JsonObject parameters = jooq.copy();
+                replaced = Ut.fromExpression("`" + jdbcUrl + "`", parameters);
+            } else {
+                replaced = jdbcUrl;
+            }
+            jooq.put("jdbcUrl", replaced);
+        }
         database.fromJson(jooq);
         return database;
     }
+
 
     /* Database Connection Testing */
     public boolean test() {

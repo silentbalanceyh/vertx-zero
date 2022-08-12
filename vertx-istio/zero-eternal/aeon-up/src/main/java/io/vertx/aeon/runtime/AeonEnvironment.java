@@ -2,17 +2,10 @@ package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.eon.HEnv;
-import io.vertx.aeon.eon.HPath;
-import io.vertx.aeon.eon.em.TypeOs;
 import io.vertx.aeon.refine.HLog;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
+import io.vertx.up.runtime.ZeroHeart;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * 「环境变量选择器」
@@ -28,9 +21,8 @@ public class AeonEnvironment {
      * 3. 上述三者都不存在则直接以 zapp.yml 中指定 `environment` 部分提取环境变量文件
      */
     public static void initialize(final HAeon aeon) {
-        final TypeOs osType = TypeOs.from(System.getProperty("os.name"));
         // 开发才会出现的环境变量
-        initialize(osType);
+        ZeroHeart.initEnvironment();
 
         // 最终环境变量报表
         final StringBuilder builder = new StringBuilder();
@@ -39,28 +31,5 @@ public class AeonEnvironment {
             builder.append("\n\t").append(name).append(" = ").append(value);
         });
         HLog.infoAeon(AeonEnvironment.class, "Environment Variables: {0}\n", builder.toString());
-    }
-
-    @SuppressWarnings("all")
-    private static void initialize(final TypeOs osType) {
-        Fn.safeJvm(() -> {
-            if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
-                HLog.warnAeon(AeonEnvironment.class, "OS = {0},  `{1}` file has been found! DEVELOPMENT connected.",
-                    osType.name(), HPath.ENV_DEVELOPMENT);
-                if (TypeOs.MAC_OS == osType) {
-                    final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
-                    final Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
-                    while (it.hasMoreElements()) {
-                        final String key = it.nextElement();
-                        final String value = properties.getProperty(key);
-                        // .env.development （环境变量黑科技）
-                        final Map<String, String> env = System.getenv();
-                        final Field field = env.getClass().getDeclaredField("m");
-                        field.setAccessible(true);
-                        ((Map<String, String>) field.get(env)).put(key, value);
-                    }
-                }
-            }
-        });
     }
 }

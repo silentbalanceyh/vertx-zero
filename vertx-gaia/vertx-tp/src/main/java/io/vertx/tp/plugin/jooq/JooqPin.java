@@ -19,12 +19,6 @@ public class JooqPin {
 
     private static final Annal LOGGER = Annal.get(JooqPin.class);
 
-    private static DataPool initPool(final JsonObject databaseJson) {
-        final Database database = new Database();
-        database.fromJson(databaseJson);
-        return DataPool.create(database);
-    }
-
     static ConcurrentMap<String, Configuration> initConfiguration(final JsonObject config) {
         /*
          * config should be configured in vertx-jooq.yml
@@ -46,7 +40,7 @@ public class JooqPin {
                 .filter(key -> config.getValue(key) instanceof JsonObject)
                 .forEach(key -> {
                     final JsonObject options = config.getJsonObject(key);
-                    final DataPool pool = initPool(options);
+                    final DataPool pool = DataPool.create(Database.configure(options));
                     final Configuration configuration = pool.configuration();
                     configurationMap.put(key, configuration);
                     /*

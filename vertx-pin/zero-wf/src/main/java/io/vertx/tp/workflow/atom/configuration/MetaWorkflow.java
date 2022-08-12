@@ -80,8 +80,7 @@ public class MetaWorkflow {
 
     public Database camundaDatabase() {
         if (Ut.notNil(this.database) && Objects.isNull(this.camundaDatabase)) {
-            this.camundaDatabase = new Database();
-            this.camundaDatabase.fromJson(this.database);
+            this.camundaDatabase = Database.configure(this.database);
         }
         return this.camundaDatabase;
     }
