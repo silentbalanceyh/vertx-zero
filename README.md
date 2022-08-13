@@ -185,19 +185,20 @@ From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need th
 * **In Progress**: In Development or Upgraded Development
 * **Running**: Running on Production Environment
 
-| System Information                |Zero Version| System Status |
-|-----------------------------------|---|---------------|
-| TLK Video Mobile System           |0.4.6| Deprecated    |
-| CMDB Platform of Bank             |Latest| Running       |
-| ITSM/ITIL Platform of Bank        |Latest| Running |
-| Integration of XBank              |Latest| Running       |
-| Zero Training Demo                |Latest| Running       |
-| Data Analyzing Exam               |Latest| Running       |
-| Commercial Opportunity Management |Latest| Running |
-| Hotel Management Platform         |Latest| In Progress   |
-| ISO27000 Management Platform      |Latest| In Progress |
-| IoT Control System                |Latest| In Progress |
-| Medical Workflow Management       |Latest | In Progress |
+| System Information                |Zero Version| Type |System Status |
+|-----------------------------------|---|---|---------------|
+| TLK Video Mobile System           |0.4.6| Commercial | Deprecated    |
+| CMDB Platform of Bank             |Latest| Commercial | Running       |
+| ITSM/ITIL Platform of Bank        |Latest| Commercial | Running |
+| Integration of Bank               |Latest| Commercial | Running       |
+| Zero Training Demo                |Latest| Internal | Running       |
+| Data Analyzing Exam               |Latest| Internal | Running       |
+| Commercial Opportunity Management |Latest| Internal | Running |
+| Hotel Management Platform         |Latest| Commercial | In Progress   |
+| ISO27000 Management Platform      |Latest| Commercial | In Progress |
+| IoT Control System                |Latest| Commercial | In Progress |
+| Medical Workflow Management       |Latest| Commercial | In Progress |
+| Aeon Development Platform         |Latest| Internal | In Progress |
 
 ### 5.2. WeChat Group
 
