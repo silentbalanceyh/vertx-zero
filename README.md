@@ -40,7 +40,7 @@ Zero Framework ( Latest Version ) contains five major projects as following:
 
 ## 2. Overlook
 
-Here I provide a nother view to let you know Zero Framework. 
+Here I provide a nother view to let you know Zero Framework, the whole progress is about **80%**, please wait for version `1.0` released.
 
 ### 2.1. Modulat
 
@@ -206,7 +206,7 @@ You can send request to me: `445191171` to contact with the author team of zero.
 
 ![](/doc/_image/chat.png)
 
-## DESIGNED IN CHINA（中国工艺）
+## DESIGNED IN CHINA（中国设计）
 
 
 
