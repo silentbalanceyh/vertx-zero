@@ -29,6 +29,7 @@ public class HSDimNorm extends AbstractAdmit {
          * }
          */
         final JsonObject inputJ = input.dmJ();
+        
         return Fn.choiceJ(inputJ, KName.ITEMS,
             /*
              * 1. 前端模式（直接返回，无子类逻辑）

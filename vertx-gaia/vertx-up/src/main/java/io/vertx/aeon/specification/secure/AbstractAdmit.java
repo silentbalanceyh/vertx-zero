@@ -29,12 +29,12 @@ public class AbstractAdmit implements HAdmit {
         if (Ut.isNil(qrJ)) {
             return new JsonObject();
         }
-        final JsonObject parameters = this.valueQr(request);
+        final JsonObject parameters = this.valueParameter(request);
         // 维度模型使用统一的Qr构造器，这部分变数比较大，从 Hoi 直接绑定执行器来处理
         return Ut.fromExpression(qrJ, parameters);
     }
 
-    private JsonObject valueQr(final JsonObject request) {
+    private JsonObject valueParameter(final JsonObject request) {
         final JsonObject parameters = Ut.valueJObject(request, true);
         /*
          * {
