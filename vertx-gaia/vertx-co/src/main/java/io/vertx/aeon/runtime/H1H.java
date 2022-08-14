@@ -8,10 +8,11 @@ import io.vertx.up.uca.cache.Cc;
 
 /**
  * 「运行时组件缓存」
+ * 氕(piē) - 1H（普通能源元素）
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HCache {
+public interface H1H {
     /*
      * CC_AEON:  Aeon系统启动后的核心配置缓存
      * CC_BOOT:  Aeon系统启动过后的所有使用类清单（组件接口集）

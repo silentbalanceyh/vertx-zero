@@ -1,6 +1,6 @@
 package io.vertx.aeon.specification.app;
 
-import io.vertx.aeon.runtime.HCache;
+import io.vertx.aeon.runtime.H1H;
 import io.vertx.core.Future;
 import io.vertx.up.uca.fs.LocalFs;
 
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 public interface HFS {
     // 创建默认的本地文件系统接口
     static HFS common() {
-        return HCache.CCT_FS.pick(LocalFs::new);
+        return H1H.CCT_FS.pick(LocalFs::new);
     }
 
     /* 创建目录：    mkdir -p            */

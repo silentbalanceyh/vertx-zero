@@ -1,0 +1,8 @@
+{
+    "webComponent": "HxMenu",
+    "dataParser": "aclInputRows",
+    "dataInput": {
+        "source": "name",
+        "target": "name"
+    }
+}

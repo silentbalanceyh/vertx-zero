@@ -1,6 +1,6 @@
 package io.vertx.aeon.runtime.internal;
 
-import io.vertx.aeon.runtime.HCache;
+import io.vertx.aeon.runtime.H1H;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +48,7 @@ public class HService {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         }
-        return (T) HCache.CC_SPI.pick(() -> {
+        return (T) H1H.CC_SPI.pick(() -> {
             // HService instance
             final HService service = new HService(interfaceCls, loader);
             return service.service();

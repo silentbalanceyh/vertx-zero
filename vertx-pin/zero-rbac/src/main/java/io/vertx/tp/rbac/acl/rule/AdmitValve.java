@@ -28,7 +28,7 @@ public class AdmitValve extends AbstractValve {
      * }
      */
     @Override
-    protected Future<JsonObject> response(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ) {
+    protected Future<JsonObject> output(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ) {
 
         return Ux.futureJ();
     }

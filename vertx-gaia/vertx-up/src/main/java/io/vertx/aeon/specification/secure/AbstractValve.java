@@ -6,6 +6,7 @@ import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
@@ -76,14 +77,14 @@ public abstract class AbstractValve implements HValve {
             // ui ( configure -> compile )
             return ui.configure(permit)
                 .compose(uiJ -> ui.compile(permit, uiJ))
-                .compose(uiJ -> this.response(request, new JsonObject(), uiJ));
+                .compose(uiJ -> this.output(request, new JsonObject(), uiJ));
         } else {
             // When Ui is None
             final Refer dmRef = new Refer();
             return this.configureDm(permit, request)
                 .compose(dmRef::future)
                 .compose(dmJ -> this.configureUi(permit, dmJ, request))
-                .compose(uiJ -> this.response(request, dmRef.get(), uiJ));
+                .compose(uiJ -> this.output(request, dmRef.get(), uiJ));
         }
     }
 
@@ -114,7 +115,18 @@ public abstract class AbstractValve implements HValve {
         final ActPhase phase = permit.phase();
         if (ActPhase.EAGER == phase) {
             // ui ( configure -> compile )
-            return ui.configure(permit).compose(uiJ -> ui.compile(permit, uiJ));
+            return ui.configure(permit).compose(uiJ -> {
+                /*
+                 * {
+                 *     "dm": "xx",
+                 *     "ui": "xx"
+                 * }
+                 */
+                final JsonObject parameters = new JsonObject();
+                parameters.put(KName.Rbac.DM, dmJ);
+                parameters.put(KName.Rbac.UI, uiJ);
+                return ui.compile(permit, parameters);
+            });
         } else {
             // ui ( configure )
             return ui.configure(permit);
@@ -131,5 +143,5 @@ public abstract class AbstractValve implements HValve {
      *    "ui": "数据配置"
      * }
      */
-    protected abstract Future<JsonObject> response(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ);
+    protected abstract Future<JsonObject> output(final JsonObject input, final JsonObject dimJ, final JsonObject uiJ);
 }

@@ -1,6 +1,6 @@
 package io.vertx.aeon.specification.secure;
 
-import io.vertx.aeon.runtime.HCache;
+import io.vertx.aeon.runtime.H1H;
 import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -27,7 +27,7 @@ public interface HValve extends HEvent<JsonObject, JsonObject> {
     static HAdmit instanceDm(final JsonObject request) {
         final String sigma = Ut.valueString(request, KName.SIGMA);
         final Class<?> dmCls = Ut.valueCI(request, KName.Component.DM_COMPONENT, HAdmit.class);
-        final HAdmit dm = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(dmCls),
+        final HAdmit dm = (HAdmit) H1H.CCT_EVENT.pick(() -> Ut.instance(dmCls),
             // <sigma> / <name>
             sigma + Strings.SLASH + dmCls.getName());
         return dm.bind(sigma);
@@ -42,7 +42,7 @@ public interface HValve extends HEvent<JsonObject, JsonObject> {
     static HAdmit instanceUi(final JsonObject request) {
         final String sigma = Ut.valueString(request, KName.SIGMA);
         final Class<?> uiCls = Ut.valueCI(request, KName.Component.UI_COMPONENT, HAdmit.class);
-        final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls),
+        final HAdmit ui = (HAdmit) H1H.CCT_EVENT.pick(() -> Ut.instance(uiCls),
             // <sigma> / <name>
             sigma + Strings.SLASH + uiCls.getName());
         return ui.bind(sigma);
