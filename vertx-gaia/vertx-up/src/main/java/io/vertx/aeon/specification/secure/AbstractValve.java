@@ -6,7 +6,6 @@ import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
@@ -35,7 +34,6 @@ public abstract class AbstractValve implements HValve {
      *     "uiSurface": {}
      * }
      */
-
     @Override
     public Future<JsonObject> configure(final JsonObject request) {
         // HPermit Build
@@ -56,22 +54,44 @@ public abstract class AbstractValve implements HValve {
          *   - 延迟计算：phase = DELAY，等维度区域读取过后，根据维度区域的选择执行计算
          */
         final ActPhase phase = permit.phase();
-        // HSDim Processing
+        /*
+         * 维度调用组件和数据调用组件都会构造 HAdmit 接口，其生命周期都是一致的：
+         * configure / compile
+         * - configure 方法内置会调用 compile
+         * - compile 则是纯粹的读取数据的方法
+         * 在管理界面常见的三种数据流
+         * 1）无维度：直接构造 HAdmit
+         *    dm ( None )                       ->  ui ( configure -> compile )
+         * 2）有维度：EAGER 提取
+         *    dm ( configure -> compile )       ->  ui ( configure -> compile )
+         * 3）有维度：DELAY 提取
+         *    dm ( configure -> compile )       ->  ui ( configure )
+         */
         if (ScDim.NONE == permit.shape()) {
 
             // Error-80224，这种模式下，uiType只能定义成 EAGER
             Fn.out(ActPhase.EAGER != phase, _409UiPhaseEagerException.class, this.getClass(), phase);
 
-            return HValve.instanceUi(request).configure(permit)
+            final HAdmit ui = HValve.instanceUi(request);
+            // ui ( configure -> compile )
+            return ui.configure(permit)
+                .compose(uiJ -> ui.compile(permit, uiJ))
                 .compose(uiJ -> this.response(request, new JsonObject(), uiJ));
         } else {
             // When Ui is None
             final Refer dmRef = new Refer();
-            return HValve.instanceDm(request).configure(permit)
+            return this.configureDm(permit, request)
                 .compose(dmRef::future)
                 .compose(dmJ -> this.configureUi(permit, dmJ, request))
                 .compose(uiJ -> this.response(request, dmRef.get(), uiJ));
         }
+    }
+
+    // dm ( configure -> compile )
+    private Future<JsonObject> configureDm(final HPermit permit, final JsonObject request) {
+        final HAdmit dm = HValve.instanceDm(request);
+        return dm.configure(permit)
+            .compose(dmJ -> dm.compile(permit, dmJ));
     }
 
     /*
@@ -93,23 +113,11 @@ public abstract class AbstractValve implements HValve {
         // phase 提取，如果是 EAGER，则执行 compile 方法，如果是 DELAY 则执行 configure 方法
         final ActPhase phase = permit.phase();
         if (ActPhase.EAGER == phase) {
-            // 只处理配置，等待前端合并执行数据读取，执行方法：
-            // configure
-            return ui.configure(permit);
+            // ui ( configure -> compile )
+            return ui.configure(permit).compose(uiJ -> ui.compile(permit, uiJ));
         } else {
-            // 执行数据读取操作，调用：
-            // compile
-            /*
-             * 参数配置
-             * {
-             *    "in": requestJ,
-             *    "dm": dmJ
-             * }
-             */
-            final JsonObject parameters = new JsonObject();
-            parameters.put(KName.Rbac.IN, requestJ);
-            parameters.put(KName.Rbac.DM, dmJ);
-            return ui.compile(permit, parameters);
+            // ui ( configure )
+            return ui.configure(permit);
         }
     }
 

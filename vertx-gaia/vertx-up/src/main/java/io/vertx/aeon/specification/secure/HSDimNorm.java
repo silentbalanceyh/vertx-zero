@@ -27,12 +27,11 @@ public class HSDimNorm extends AbstractAdmit {
          *     "qr":      shapeQr
          * }
          */
-        final JsonObject inputJ = permit.dmJ();
-        final JsonObject qrJ = Ut.valueJObject(inputJ, KName.Rbac.QR);
-        inputJ.put(KName.Rbac.QR, qrJ);
-
+        final JsonObject request = permit.dmJ();
+        final JsonObject qrJ = Ut.valueJObject(request, KName.Rbac.QR);
+        request.put(KName.Rbac.QR, this.valueQr(qrJ, null));
         // 维度计算一旦存在直接调用 compile
-        return this.compile(permit, inputJ);
+        return Future.succeededFuture(request);
     }
 
     @Override
@@ -63,7 +62,8 @@ public class HSDimNorm extends AbstractAdmit {
                      *     }
                      * }
                      */
-                    return this.compile(permit, daoCls).compose(Future::succeededFuture);
+                    final JsonObject config = Ut.valueJObject(itemJ, KName.CONFIG);
+                    return this.compile(permit, daoCls, config).compose(Future::succeededFuture);
                 }
             },
             /*
@@ -97,7 +97,7 @@ public class HSDimNorm extends AbstractAdmit {
         );
     }
 
-    protected Future<JsonArray> compile(final HPermit input, final Class<?> daoCls) {
+    protected Future<JsonArray> compile(final HPermit input, final Class<?> daoCls, final JsonObject config) {
         return Future.succeededFuture(new JsonArray());
     }
 }
