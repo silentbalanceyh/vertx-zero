@@ -29,12 +29,6 @@ public class AbstractAdmit implements HAdmit {
         if (Ut.isNil(qrJ)) {
             return new JsonObject();
         }
-        final JsonObject parameters = this.valueParameter(request);
-        // 维度模型使用统一的Qr构造器，这部分变数比较大，从 Hoi 直接绑定执行器来处理
-        return Ut.fromExpression(qrJ, parameters);
-    }
-
-    private JsonObject valueParameter(final JsonObject request) {
         final JsonObject parameters = Ut.valueJObject(request, true);
         /*
          * {
@@ -47,6 +41,7 @@ public class AbstractAdmit implements HAdmit {
         if (Objects.nonNull(this.owner)) {
             this.owner.inputQr(parameters, false);
         }
-        return parameters;
+        // 维度模型使用统一的Qr构造器，这部分变数比较大，从 Hoi 直接绑定执行器来处理
+        return Ut.fromExpression(qrJ, parameters);
     }
 }

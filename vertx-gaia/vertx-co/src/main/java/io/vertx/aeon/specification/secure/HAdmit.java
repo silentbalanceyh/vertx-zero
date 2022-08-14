@@ -59,4 +59,8 @@ public interface HAdmit extends HEvent<HPermit, JsonObject> {
     default HAdmit bind(final HAtom atom) {
         return this;
     }
+
+    default HAdmit bind(final String sigma) {
+        return this;
+    }
 }

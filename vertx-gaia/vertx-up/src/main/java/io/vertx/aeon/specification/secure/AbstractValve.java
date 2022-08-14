@@ -3,15 +3,14 @@ package io.vertx.aeon.specification.secure;
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
-import io.vertx.aeon.runtime.HCache;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -60,26 +59,18 @@ public abstract class AbstractValve implements HValve {
         // HSDim Processing
         if (ScDim.NONE == permit.shape()) {
 
-            // Ui Processing Only
-            final Class<?> uiCls = Ut.valueCI(request, KName.Component.UI_COMPONENT, HAdmit.class);
-            final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
-
             // Error-80224，这种模式下，uiType只能定义成 EAGER
             Fn.out(ActPhase.EAGER != phase, _409UiPhaseEagerException.class, this.getClass(), phase);
 
-            return ui.configure(permit)
+            return HValve.instanceUi(request).configure(permit)
                 .compose(uiJ -> this.response(request, new JsonObject(), uiJ));
         } else {
             // When Ui is None
-            final Class<?> dmCls = Ut.valueCI(request, KName.Component.DM_COMPONENT, HAdmit.class);
-            final HAdmit dm = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(dmCls), dmCls.getName());
-
-            return dm.configure(permit)
-                .compose(dmJ -> this.configureUi(permit, dmJ, request)
-
-
-                    .compose(uiJ -> this.response(request, dmJ, uiJ))
-                );
+            final Refer dmRef = new Refer();
+            return HValve.instanceDm(request).configure(permit)
+                .compose(dmRef::future)
+                .compose(dmJ -> this.configureUi(permit, dmJ, request))
+                .compose(uiJ -> this.response(request, dmRef.get(), uiJ));
         }
     }
 
@@ -98,8 +89,7 @@ public abstract class AbstractValve implements HValve {
      *   相关操作
      */
     private Future<JsonObject> configureUi(final HPermit permit, final JsonObject dmJ, final JsonObject requestJ) {
-        final Class<?> uiCls = Ut.valueCI(requestJ, KName.Component.UI_COMPONENT, HAdmit.class);
-        final HAdmit ui = (HAdmit) HCache.CCT_EVENT.pick(() -> Ut.instance(uiCls), uiCls.getName());
+        final HAdmit ui = HValve.instanceUi(requestJ);
         // phase 提取，如果是 EAGER，则执行 compile 方法，如果是 DELAY 则执行 configure 方法
         final ActPhase phase = permit.phase();
         if (ActPhase.EAGER == phase) {
