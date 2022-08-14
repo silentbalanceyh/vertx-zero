@@ -34,11 +34,11 @@ public class RuleService implements RuleStub {
     @Override
     public Future<JsonArray> procAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream()
-            // Not null and `runComponent` is not null
-            .filter(Objects::nonNull)
-            // Sort By `uiSort`
-            .sorted(Comparator.comparing(SPath::getUiSort))
-            .collect(Collectors.toList());
+                // Not null and `runComponent` is not null
+                .filter(Objects::nonNull)
+                // Sort By `uiSort`
+                .sorted(Comparator.comparing(SPath::getUiSort))
+                .collect(Collectors.toList());
         return Fn.combineT(filtered, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured
@@ -55,16 +55,16 @@ public class RuleService implements RuleStub {
              * JsonObject Configuration for SPath here
              */
             Ut.ifJObject(pathJ,
-                // UI Configuration
-                KName.UI_CONFIG,
-                KName.UI_CONDITION,
-                KName.UI_SURFACE,
-                // DM Configuration
-                KName.DM_CONDITION,
-                KName.DM_CONFIG,
-                // metadata / mapping
-                KName.METADATA,
-                KName.MAPPING
+                    // UI Configuration
+                    KName.UI_CONFIG,
+                    KName.UI_CONDITION,
+                    KName.UI_SURFACE,
+                    // DM Configuration
+                    KName.DM_CONDITION,
+                    KName.DM_CONFIG,
+                    // metadata / mapping
+                    KName.METADATA,
+                    KName.MAPPING
             );
             return value.configure(pathJ);
         }).compose(Ux::futureA);
@@ -74,12 +74,12 @@ public class RuleService implements RuleStub {
     public Future<JsonArray> fetchViews(final String ownerType, final String ownerId,
                                         final JsonArray keys, final String view) {
         final JsonObject condition = new JsonObject();
-        condition.put("owner", ownerId);
-        condition.put("ownerType", ownerType);
+        condition.put(KName.OWNER, ownerId);
+        condition.put(KName.OWNER_TYPE, ownerType);
         condition.put("resourceId,i", keys);
         condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
-            .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
+                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
     }
 
     @Override
@@ -140,29 +140,29 @@ public class RuleService implements RuleStub {
             final UxJooq jooq = Ux.Jooq.on(SViewDao.class);
             final JsonArray response = new JsonArray();
             return jooq.updateAsync(upQueue)
-                .compose(Ux::futureA)
-                .compose(updated -> {
-                    /*
-                     * Stored data into updated queue
-                     */
-                    response.addAll(updated);
-                    return Ux.future();
-                })
-                .compose(nil -> jooq.insertAsync(addQueue))
-                .compose(Ux::futureA)
-                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
-                //                .compose(Ke.mounts("rows", "criteria"))
-                //                .compose(result -> {
-                //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
-                //                    return Ux.future(result);
-                //                })
-                .compose(inserted -> {
-                    /*
-                     * Stored data into inserted queue here
-                     */
-                    response.addAll(inserted);
-                    return Ux.future(response);
-                });
+                    .compose(Ux::futureA)
+                    .compose(updated -> {
+                        /*
+                         * Stored data into updated queue
+                         */
+                        response.addAll(updated);
+                        return Ux.future();
+                    })
+                    .compose(nil -> jooq.insertAsync(addQueue))
+                    .compose(Ux::futureA)
+                    .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
+                    //                .compose(Ke.mounts("rows", "criteria"))
+                    //                .compose(result -> {
+                    //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));
+                    //                    return Ux.future(result);
+                    //                })
+                    .compose(inserted -> {
+                        /*
+                         * Stored data into inserted queue here
+                         */
+                        response.addAll(inserted);
+                        return Ux.future(response);
+                    });
         }).compose(viewData -> {
             /*
              * viewData -> JsonArray to store all views
@@ -190,10 +190,10 @@ public class RuleService implements RuleStub {
                     final JsonObject visitantData = requestData.getJsonObject("visitantData");
                     if (Ut.notNil(visitantData)) {
                         futures.add(this.visitStub.saveAsync(visitantData.copy(), view)
-                            /*
-                             * Processed for views
-                             */
-                            .compose(processed -> Ux.future(view.put("visitantData", processed)))
+                                /*
+                                 * Processed for views
+                                 */
+                                .compose(processed -> Ux.future(view.put("visitantData", processed)))
                         );
                     }
                 }

@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.eon.KName;
 
 import javax.ws.rs.*;
 
@@ -18,22 +19,22 @@ public interface ViewAgent {
     @Path("/view/:ownerType/:ownerId")
     @PUT
     @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
-    JsonObject saveViews(@PathParam("ownerType") String ownerType,
-                         @PathParam("ownerId") String key,
+    JsonObject saveViews(@PathParam(KName.OWNER_TYPE) String ownerType,
+                         @PathParam(KName.OWNER_ID) String key,
                          @BodyParam JsonArray data);
 
     @Path("/view/:ownerType/:ownerId")
     @POST
     @Address(Addr.Rule.FETCH_VIEWS)
-    JsonObject fetchByKeys(@PathParam("ownerType") String ownerType,
-                           @PathParam("ownerId") String ownerId,
+    JsonObject fetchByKeys(@PathParam(KName.OWNER_TYPE) String ownerType,
+                           @PathParam(KName.OWNER_ID) String ownerId,
                            @BodyParam JsonArray ids);
 
     @POST
     @Path("/visitant/:ownerType/:ownerId")
     @Address(Addr.Rule.FETCH_VISITANT)
-    JsonObject fetchVisitant(@PathParam("ownerType") String ownerType,
-                             @PathParam("ownerId") String ownerId,
+    JsonObject fetchVisitant(@PathParam(KName.OWNER_TYPE) String ownerType,
+                             @PathParam(KName.OWNER_ID) String ownerId,
                              @BodyParam JsonObject params);
 
     /*
@@ -55,18 +56,18 @@ public interface ViewAgent {
     @DELETE
     @Path("/view-p/:key")
     @Address(Addr.View.VIEW_P_DELETE)
-    Boolean pViewDelete(@PathParam("key") String key);
+    Boolean pViewDelete(@PathParam(KName.KEY) String key);
 
     @PUT
     @Path("/view-p/:key")
     @Address(Addr.View.VIEW_P_UPDATE)
-    Boolean pViewById(@PathParam("key") String key,
+    Boolean pViewById(@PathParam(KName.KEY) String key,
                       @BodyParam JsonObject params);
 
     @GET
     @Path("/view-p/:key")
     @Address(Addr.View.VIEW_P_BY_ID)
-    Boolean pViewUpdate(@PathParam("key") String key);
+    Boolean pViewUpdate(@PathParam(KName.KEY) String key);
 
 
     @DELETE

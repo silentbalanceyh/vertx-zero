@@ -256,6 +256,7 @@ public interface KName {
 
 
     String OWNER_TYPE = "ownerType";
+    String OWNER_ID = "ownerId";
     String RUN_TYPE = "runType";
 
     // 「Specification Definition」

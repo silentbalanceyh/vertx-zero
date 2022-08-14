@@ -17,7 +17,7 @@ public interface RuleStub {
      * 2) Based on `HValue` to extract `HPermit` object
      * 3) Configure based on `HPermit`
      */
-    Future<JsonArray> procAsync(final List<SPath> paths);
+    Future<JsonArray> procAsync(List<SPath> paths);
 
     /*
      * Fetch all views that belong to

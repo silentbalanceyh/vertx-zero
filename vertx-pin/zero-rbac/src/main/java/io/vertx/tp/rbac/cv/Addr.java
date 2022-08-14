@@ -21,6 +21,7 @@ public interface Addr {
          * New Fetch for HPermit of new structure
          */
         String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
+        String FETCH_REGION_VALUES = Prefix._EVENT + "X-RULE/FETCH/REGION-VALUES";
 
         /*
          * Fetch all resource definition
