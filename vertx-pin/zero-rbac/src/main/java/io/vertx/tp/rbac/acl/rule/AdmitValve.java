@@ -47,7 +47,14 @@ public class AdmitValve extends AbstractValve {
      * {
      *     "group":  "dm -> items",
      *     "config": "ui -> surface",
-     *     "data":   "ui -> data"
+     *     "data":   "ui -> data",
+     *     "...page":  {
+     *          "ui":  "ui -> webComponent",
+     *          "key":   "input -> key",
+     *          "label": "input -> name",
+     *          "value": "input -> code",
+     *          "datum":  "input"
+     *     }
      * }
      *
      * - dm 的 "mapping" 节点争取在后端直接计算得到相关结果
@@ -66,6 +73,15 @@ public class AdmitValve extends AbstractValve {
         response.put(KName.CONFIG, uiSurface);
         final Object uiData = uiJ.getValue(KName.DATA);
         response.put(KName.DATA, uiData);
+
+        // page
+        final JsonObject pageData = new JsonObject();
+        pageData.put(KName.Rbac.UI, Ut.valueString(uiSurface, "webComponent"));
+        pageData.put(KName.KEY, input.getValue(KName.KEY));
+        pageData.put(KName.LABEL, input.getValue(KName.NAME));
+        pageData.put(KName.VALUE, input.getValue(KName.CODE));
+        pageData.put(KName.DATUM, input.copy());
+        response.mergeIn(pageData, true);
         return Ux.futureJ(response);
     }
 }
