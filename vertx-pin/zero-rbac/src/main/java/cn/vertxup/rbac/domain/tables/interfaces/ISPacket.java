@@ -28,124 +28,150 @@ public interface ISPacket extends VertxPojo, Serializable {
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.PATH_ID</code>. 「pathId」- 关联的 path
-     * id，包含关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.CODE</code>. 「code」- 关联的 PATH 表对应的
+     * code
      */
-    public ISPacket setPathId(String value);
+    public ISPacket setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.PATH_ID</code>. 「pathId」- 关联的 path
-     * id，包含关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.CODE</code>. 「code」- 关联的 PATH 表对应的
+     * code
      */
-    public String getPathId();
+    public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.RESOURCE_ID</code>. 「resourceId」-
-     * 关联的资源 id
+     * Setter for <code>DB_ETERNAL.S_PACKET.RESOURCE</code>. 「resource」-
+     * 关联的资源表对应的 code
      */
-    public ISPacket setResourceId(String value);
+    public ISPacket setResource(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.RESOURCE_ID</code>. 「resourceId」-
-     * 关联的资源 id
+     * Getter for <code>DB_ETERNAL.S_PACKET.RESOURCE</code>. 「resource」-
+     * 关联的资源表对应的 code
      */
-    public String getResourceId();
+    public String getResource();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TYPE</code>. 「rowType」- 行过滤类型
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_TYPE</code>. 「hType」- 行过滤类型
      */
-    public ISPacket setRowType(String value);
+    public ISPacket setHType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TYPE</code>. 「rowType」- 行过滤类型
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_TYPE</code>. 「hType」- 行过滤类型
      */
-    public String getRowType();
+    public String getHType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_FIELD</code>. 「rowField」- 行输入
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_MAPPING</code>. 「hMapping」-
+     * 字段映射关系，存在转换时必须
      */
-    public ISPacket setRowField(String value);
+    public ISPacket setHMapping(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_FIELD</code>. 「rowField」- 行输入
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_MAPPING</code>. 「hMapping」-
+     * 字段映射关系，存在转换时必须
      */
-    public String getRowField();
+    public String getHMapping();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TPL</code>. 「rowTpl」- 多字段的模板
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_CONFIG</code>. 「hConfig」- 字段附加配置
      */
-    public ISPacket setRowTpl(String value);
+    public ISPacket setHConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TPL</code>. 「rowTpl」- 多字段的模板
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_CONFIG</code>. 「hConfig」- 字段附加配置
      */
-    public String getRowTpl();
+    public String getHConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TPL_MAPPING</code>.
-     * 「rowTplMapping」- 多字段的映射关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_TYPE</code>. 「vType」- 列过滤类型
      */
-    public ISPacket setRowTplMapping(String value);
+    public ISPacket setVType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TPL_MAPPING</code>.
-     * 「rowTplMapping」- 多字段的映射关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_TYPE</code>. 「vType」- 列过滤类型
      */
-    public String getRowTplMapping();
+    public String getVType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COL_TYPE</code>. 「colType」- 列过滤类型
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_MAPPING</code>. 「vMapping」-
+     * 列字段映射关系，存在转换时必须
      */
-    public ISPacket setColType(String value);
+    public ISPacket setVMapping(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COL_TYPE</code>. 「colType」- 列过滤类型
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_MAPPING</code>. 「vMapping」-
+     * 列字段映射关系，存在转换时必须
      */
-    public String getColType();
+    public String getVMapping();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COL_CONFIG</code>. 「colConfig」- 列配置
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_CONFIG</code>. 「vConfig」- 列配置
      */
-    public ISPacket setColConfig(String value);
+    public ISPacket setVConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COL_CONFIG</code>. 「colConfig」- 列配置
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_CONFIG</code>. 「vConfig」- 列配置
      */
-    public String getColConfig();
+    public String getVConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_TPL</code>. 「condTpl」- 条件模板
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_TYPE</code>. 「qType」- 条件模板
      */
-    public ISPacket setCondTpl(String value);
+    public ISPacket setQType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_TPL</code>. 「condTpl」- 条件模板
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_TYPE</code>. 「qType」- 条件模板
      */
-    public String getCondTpl();
+    public String getQType();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>.
-     * 「condTplMapping」- 查询条件映射关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_MAPPING</code>. 「qMapping」-
+     * 查询条件映射关系
      */
-    public ISPacket setCondTplMapping(String value);
+    public ISPacket setQMapping(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>.
-     * 「condTplMapping」- 查询条件映射关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_MAPPING</code>. 「qMapping」-
+     * 查询条件映射关系
      */
-    public String getCondTplMapping();
+    public String getQMapping();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」-
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_CONFIG</code>. 「qConfig」-
      * 条件配置（界面配置相关）
      */
-    public ISPacket setCondConfig(String value);
+    public ISPacket setQConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」-
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_CONFIG</code>. 「qConfig」-
      * 条件配置（界面配置相关）
      */
-    public String getCondConfig();
+    public String getQConfig();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.RUN_COMPONENT</code>.
+     * 「runComponent」- 自定义模式下的组件
+     */
+    public ISPacket setRunComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.RUN_COMPONENT</code>.
+     * 「runComponent」- 自定义模式下的组件
+     */
+    public String getRunComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.RUN_CONFIG</code>. 「runConfig」-
+     * 运行专用配置
+     */
+    public ISPacket setRunConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.RUN_CONFIG</code>. 「runConfig」-
+     * 运行专用配置
+     */
+    public String getRunConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
@@ -246,17 +272,19 @@ public interface ISPacket extends VertxPojo, Serializable {
         @Override
         public default ISPacket fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
-                setOrThrow(this::setPathId,json::getString,"PATH_ID","java.lang.String");
-                setOrThrow(this::setResourceId,json::getString,"RESOURCE_ID","java.lang.String");
-                setOrThrow(this::setRowType,json::getString,"ROW_TYPE","java.lang.String");
-                setOrThrow(this::setRowField,json::getString,"ROW_FIELD","java.lang.String");
-                setOrThrow(this::setRowTpl,json::getString,"ROW_TPL","java.lang.String");
-                setOrThrow(this::setRowTplMapping,json::getString,"ROW_TPL_MAPPING","java.lang.String");
-                setOrThrow(this::setColType,json::getString,"COL_TYPE","java.lang.String");
-                setOrThrow(this::setColConfig,json::getString,"COL_CONFIG","java.lang.String");
-                setOrThrow(this::setCondTpl,json::getString,"COND_TPL","java.lang.String");
-                setOrThrow(this::setCondTplMapping,json::getString,"COND_TPL_MAPPING","java.lang.String");
-                setOrThrow(this::setCondConfig,json::getString,"COND_CONFIG","java.lang.String");
+                setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
+                setOrThrow(this::setResource,json::getString,"RESOURCE","java.lang.String");
+                setOrThrow(this::setHType,json::getString,"H_TYPE","java.lang.String");
+                setOrThrow(this::setHMapping,json::getString,"H_MAPPING","java.lang.String");
+                setOrThrow(this::setHConfig,json::getString,"H_CONFIG","java.lang.String");
+                setOrThrow(this::setVType,json::getString,"V_TYPE","java.lang.String");
+                setOrThrow(this::setVMapping,json::getString,"V_MAPPING","java.lang.String");
+                setOrThrow(this::setVConfig,json::getString,"V_CONFIG","java.lang.String");
+                setOrThrow(this::setQType,json::getString,"Q_TYPE","java.lang.String");
+                setOrThrow(this::setQMapping,json::getString,"Q_MAPPING","java.lang.String");
+                setOrThrow(this::setQConfig,json::getString,"Q_CONFIG","java.lang.String");
+                setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunConfig,json::getString,"RUN_CONFIG","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -273,17 +301,19 @@ public interface ISPacket extends VertxPojo, Serializable {
         public default io.vertx.core.json.JsonObject toJson() {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
-                json.put("PATH_ID",getPathId());
-                json.put("RESOURCE_ID",getResourceId());
-                json.put("ROW_TYPE",getRowType());
-                json.put("ROW_FIELD",getRowField());
-                json.put("ROW_TPL",getRowTpl());
-                json.put("ROW_TPL_MAPPING",getRowTplMapping());
-                json.put("COL_TYPE",getColType());
-                json.put("COL_CONFIG",getColConfig());
-                json.put("COND_TPL",getCondTpl());
-                json.put("COND_TPL_MAPPING",getCondTplMapping());
-                json.put("COND_CONFIG",getCondConfig());
+                json.put("CODE",getCode());
+                json.put("RESOURCE",getResource());
+                json.put("H_TYPE",getHType());
+                json.put("H_MAPPING",getHMapping());
+                json.put("H_CONFIG",getHConfig());
+                json.put("V_TYPE",getVType());
+                json.put("V_MAPPING",getVMapping());
+                json.put("V_CONFIG",getVConfig());
+                json.put("Q_TYPE",getQType());
+                json.put("Q_MAPPING",getQMapping());
+                json.put("Q_CONFIG",getQConfig());
+                json.put("RUN_COMPONENT",getRunComponent());
+                json.put("RUN_CONFIG",getRunConfig());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

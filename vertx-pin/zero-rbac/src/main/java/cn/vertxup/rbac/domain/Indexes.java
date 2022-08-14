@@ -31,7 +31,7 @@ public class Indexes {
     public static final Index R_USER_GROUP_IDX_R_USER_GROUP_USER_ID = Internal.createIndex(DSL.name("IDX_R_USER_GROUP_USER_ID"), RUserGroup.R_USER_GROUP, new OrderField[] { RUserGroup.R_USER_GROUP.USER_ID }, false);
     public static final Index R_USER_ROLE_IDX_R_USER_ROLE_USER_ID = Internal.createIndex(DSL.name("IDX_R_USER_ROLE_USER_ID"), RUserRole.R_USER_ROLE, new OrderField[] { RUserRole.R_USER_ROLE.USER_ID }, false);
     public static final Index S_ACTION_IDX_S_ACTION_PERMISSION_ID = Internal.createIndex(DSL.name("IDX_S_ACTION_PERMISSION_ID"), SAction.S_ACTION, new OrderField[] { SAction.S_ACTION.PERMISSION_ID }, false);
-    public static final Index S_PACKET_IDX_S_PACKET_PATH_ID = Internal.createIndex(DSL.name("IDX_S_PACKET_PATH_ID"), SPacket.S_PACKET, new OrderField[] { SPacket.S_PACKET.PATH_ID }, false);
+    public static final Index S_PACKET_IDX_S_PACKET_PATH_ID = Internal.createIndex(DSL.name("IDX_S_PACKET_PATH_ID"), SPacket.S_PACKET, new OrderField[] { SPacket.S_PACKET.CODE }, false);
     public static final Index S_USER_IDX_S_USER_USERNAME = Internal.createIndex(DSL.name("IDX_S_USER_USERNAME"), SUser.S_USER, new OrderField[] { SUser.S_USER.USERNAME }, false);
     public static final Index O_USER_IDXM_O_USER_OAUTH_AUTHORIZE_APP = Internal.createIndex(DSL.name("IDXM_O_USER_OAUTH_AUTHORIZE_APP"), OUser.O_USER, new OrderField[] { OUser.O_USER.SCOPE, OUser.O_USER.CLIENT_ID, OUser.O_USER.CLIENT_SECRET }, false);
     public static final Index O_USER_IDXM_O_USER_OAUTH_AUTHORIZE_FULL = Internal.createIndex(DSL.name("IDXM_O_USER_OAUTH_AUTHORIZE_FULL"), OUser.O_USER, new OrderField[] { OUser.O_USER.SCOPE, OUser.O_USER.CLIENT_ID, OUser.O_USER.CLIENT_SECRET, OUser.O_USER.LANGUAGE }, false);

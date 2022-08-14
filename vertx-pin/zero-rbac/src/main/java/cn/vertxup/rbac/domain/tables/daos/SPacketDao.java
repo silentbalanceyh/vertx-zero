@@ -39,172 +39,199 @@ public class SPacketDao extends AbstractVertxDAO<SPacketRecord, cn.vertxup.rbac.
         }
 
         /**
-     * Find records that have <code>PATH_ID IN (values)</code> asynchronously
+     * Find records that have <code>CODE IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByPathId(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.PATH_ID.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCode(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.CODE.in(values));
         }
 
         /**
-     * Find records that have <code>PATH_ID IN (values)</code> asynchronously
+     * Find records that have <code>CODE IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByPathId(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.PATH_ID.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCode(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.CODE.in(values),limit);
         }
 
         /**
-     * Find records that have <code>RESOURCE_ID IN (values)</code>
+     * Find records that have <code>RESOURCE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByResource(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.RESOURCE.in(values));
+        }
+
+        /**
+     * Find records that have <code>RESOURCE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByResource(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.RESOURCE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>H_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHType(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.H_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>H_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHType(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.H_TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>H_MAPPING IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHMapping(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.H_MAPPING.in(values));
+        }
+
+        /**
+     * Find records that have <code>H_MAPPING IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHMapping(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.H_MAPPING.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>H_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHConfig(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.H_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>H_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByHConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.H_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>V_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVType(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.V_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>V_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVType(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.V_TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>V_MAPPING IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVMapping(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.V_MAPPING.in(values));
+        }
+
+        /**
+     * Find records that have <code>V_MAPPING IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVMapping(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.V_MAPPING.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>V_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVConfig(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.V_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>V_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByVConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.V_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>Q_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQType(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.Q_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>Q_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQType(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.Q_TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>Q_MAPPING IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQMapping(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.Q_MAPPING.in(values));
+        }
+
+        /**
+     * Find records that have <code>Q_MAPPING IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQMapping(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.Q_MAPPING.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>Q_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQConfig(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.Q_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>Q_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByQConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.Q_CONFIG.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByResourceId(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.RESOURCE_ID.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRunComponent(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.RUN_COMPONENT.in(values));
         }
 
         /**
-     * Find records that have <code>RESOURCE_ID IN (values)</code>
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByResourceId(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.RESOURCE_ID.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRunComponent(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.RUN_COMPONENT.in(values),limit);
         }
 
         /**
-     * Find records that have <code>ROW_TYPE IN (values)</code> asynchronously
+     * Find records that have <code>RUN_CONFIG IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowType(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TYPE.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRunConfig(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.RUN_CONFIG.in(values));
         }
 
         /**
-     * Find records that have <code>ROW_TYPE IN (values)</code> asynchronously
+     * Find records that have <code>RUN_CONFIG IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowType(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TYPE.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ROW_FIELD IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowField(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_FIELD.in(values));
-        }
-
-        /**
-     * Find records that have <code>ROW_FIELD IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowField(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_FIELD.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ROW_TPL IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowTpl(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TPL.in(values));
-        }
-
-        /**
-     * Find records that have <code>ROW_TPL IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowTpl(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TPL.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ROW_TPL_MAPPING IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowTplMapping(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TPL_MAPPING.in(values));
-        }
-
-        /**
-     * Find records that have <code>ROW_TPL_MAPPING IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRowTplMapping(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.ROW_TPL_MAPPING.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>COL_TYPE IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByColType(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.COL_TYPE.in(values));
-        }
-
-        /**
-     * Find records that have <code>COL_TYPE IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByColType(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.COL_TYPE.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>COL_CONFIG IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByColConfig(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.COL_CONFIG.in(values));
-        }
-
-        /**
-     * Find records that have <code>COL_CONFIG IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByColConfig(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.COL_CONFIG.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>COND_TPL IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondTpl(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.COND_TPL.in(values));
-        }
-
-        /**
-     * Find records that have <code>COND_TPL IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondTpl(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.COND_TPL.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>COND_TPL_MAPPING IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondTplMapping(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.COND_TPL_MAPPING.in(values));
-        }
-
-        /**
-     * Find records that have <code>COND_TPL_MAPPING IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondTplMapping(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.COND_TPL_MAPPING.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>COND_CONFIG IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondConfig(Collection<String> values) {
-                return findManyByCondition(SPacket.S_PACKET.COND_CONFIG.in(values));
-        }
-
-        /**
-     * Find records that have <code>COND_CONFIG IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByCondConfig(Collection<String> values, int limit) {
-                return findManyByCondition(SPacket.S_PACKET.COND_CONFIG.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyByRunConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.RUN_CONFIG.in(values),limit);
         }
 
         /**

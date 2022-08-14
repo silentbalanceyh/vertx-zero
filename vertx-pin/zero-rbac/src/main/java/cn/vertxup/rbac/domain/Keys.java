@@ -70,7 +70,7 @@ public class Keys {
     public static final UniqueKey<SActionRecord> KEY_S_ACTION_URI = Internal.createUniqueKey(SAction.S_ACTION, DSL.name("KEY_S_ACTION_URI"), new TableField[] { SAction.S_ACTION.URI, SAction.S_ACTION.METHOD, SAction.S_ACTION.SIGMA }, true);
     public static final UniqueKey<SGroupRecord> KEY_S_GROUP_CODE = Internal.createUniqueKey(SGroup.S_GROUP, DSL.name("KEY_S_GROUP_CODE"), new TableField[] { SGroup.S_GROUP.CODE, SGroup.S_GROUP.SIGMA }, true);
     public static final UniqueKey<SGroupRecord> KEY_S_GROUP_PRIMARY = Internal.createUniqueKey(SGroup.S_GROUP, DSL.name("KEY_S_GROUP_PRIMARY"), new TableField[] { SGroup.S_GROUP.KEY }, true);
-    public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PATH_ID = Internal.createUniqueKey(SPacket.S_PACKET, DSL.name("KEY_S_PACKET_PATH_ID"), new TableField[] { SPacket.S_PACKET.PATH_ID, SPacket.S_PACKET.RESOURCE_ID, SPacket.S_PACKET.SIGMA }, true);
+    public static final UniqueKey<SPacketRecord> KEY_S_PACKET_CODE = Internal.createUniqueKey(SPacket.S_PACKET, DSL.name("KEY_S_PACKET_CODE"), new TableField[] { SPacket.S_PACKET.CODE, SPacket.S_PACKET.RESOURCE, SPacket.S_PACKET.SIGMA }, true);
     public static final UniqueKey<SPacketRecord> KEY_S_PACKET_PRIMARY = Internal.createUniqueKey(SPacket.S_PACKET, DSL.name("KEY_S_PACKET_PRIMARY"), new TableField[] { SPacket.S_PACKET.KEY }, true);
     public static final UniqueKey<SPathRecord> KEY_S_PATH_CODE = Internal.createUniqueKey(SPath.S_PATH, DSL.name("KEY_S_PATH_CODE"), new TableField[] { SPath.S_PATH.CODE, SPath.S_PATH.SIGMA }, true);
     public static final UniqueKey<SPathRecord> KEY_S_PATH_PRIMARY = Internal.createUniqueKey(SPath.S_PATH, DSL.name("KEY_S_PATH_PRIMARY"), new TableField[] { SPath.S_PATH.KEY }, true);
