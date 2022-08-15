@@ -9,5 +9,14 @@
     "webAdmit": [
         "DEV-MENU",
         "SYS-MENU"
-    ]
+    ],
+    "webAction": {
+        "icon": "upload",
+        "text": "保存",
+        "type": "primary"
+    },
+    "webView": {
+        "name": "DEFAULT",
+        "position": "DEFAULT"
+    }
 }

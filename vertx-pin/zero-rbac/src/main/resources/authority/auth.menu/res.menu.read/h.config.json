@@ -1,7 +1,2 @@
 {
-    "webConfig": {
-        "empty": true,
-        "initializer": "aclInHS",
-        "requester": "aclOutHS"
-    }
 }
