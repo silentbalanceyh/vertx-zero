@@ -45,12 +45,12 @@ public interface RuleAgent {
      * }
      * - 根据传入的 region 完整Json提取初始化数据
      **/
-    @GET
+    @POST
     @Path("/authority/region-v/:owner")
     @Address(Addr.Rule.FETCH_REGION_VALUES)
     Future<JsonObject> fetchInitials(
-        @PathParam(KName.OWNER) String owner,
-        @BodyParam SPath region,
-        // ?view=[] Matrix Param for View Located
-        @PointParam(KName.VIEW) Vis view);
+            @PathParam(KName.OWNER) String owner,
+            @BodyParam SPath region,
+            // ?view=[] Matrix Param for View Located
+            @PointParam(KName.VIEW) Vis view);
 }
