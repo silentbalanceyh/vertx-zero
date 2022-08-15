@@ -15,10 +15,8 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Lookup the json tree data
@@ -202,14 +200,6 @@ final class Jackson {
         return result;
     }
 
-    static <T, R extends Iterable> R serializeJson(final T t) {
-        final String content = Jackson.serialize(t);
-        return Fn.getJvm(null,
-            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
-                () -> (R) new JsonObject(content),
-                () -> (R) new JsonArray(content)), content);
-    }
-
     static <T> String serialize(final T t) {
         return Fn.getNull(null, () -> Fn.getJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
     }
@@ -230,13 +220,86 @@ final class Jackson {
     }
 
     static <T> T deserialize(final String value, final Class<T> type) {
+        final String smart = deserializeSmart(value, type);
         return Fn.getNull(null,
-            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
+        final String smart = deserializeSmart(value, (Class<T>) type.getType());
         return Fn.getNull(null,
-            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
+    }
+
+    static <T, R extends Iterable> R serializeJson(final T t) {
+        final String content = Jackson.serialize(t);
+        return Fn.getJvm(null,
+            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
+                /*
+                 * Switch to smart serialization on the object to avoid
+                 * issue when met {} or []
+                 * 递归调用
+                 */
+                () -> serializeSmart(new JsonObject(content)),
+                () -> serializeSmart(new JsonArray(content))), content);
+    }
+
+    // ---------------------- Jackson Advanced for Smart Serilization / DeSerialization
+    private static <T> String deserializeSmart(final String literal, final Class<T> type) {
+        if (Types.isJObject(literal) || Types.isJArray(literal)) {
+            if (Types.isJArray(literal)) {
+                return deserializeSmart(new JsonArray(literal), type);
+            } else {
+                return deserializeSmart(new JsonObject(literal), type);
+            }
+        } else {
+            return literal;
+        }
+    }
+
+    private static <T> String deserializeSmart(final JsonObject item, final Class<T> type) {
+        new HashSet<>(item.fieldNames()).forEach(field -> {
+            try {
+                final Field fieldT = type.getDeclaredField(field);
+                final Class<?> fieldC = fieldT.getClass();
+                final Object value = item.getValue(field);
+                /*
+                 * Field type is `java.lang.String`
+                 * Value is `JsonObject / JsonArray`
+                 */
+                if (value instanceof JsonObject && String.class == fieldC) {
+                    item.put(field, ((JsonObject) value).encode());
+                } else if (value instanceof JsonArray && String.class == fieldC) {
+                    item.put(field, ((JsonArray) value).encode());
+                }
+            } catch (NoSuchFieldException ex) {
+                // Remove / Ignore the field
+                item.remove(field);
+            }
+        });
+        return item.encode();
+    }
+
+    private static <T> String deserializeSmart(final JsonArray item, final Class<T> type) {
+        It.itJArray(item).forEach(json -> deserializeSmart(json, type));
+        return item.encode();
+    }
+
+    private static <T, R extends Iterable> R serializeSmart(final JsonObject item) {
+        new HashSet<>(item.fieldNames()).forEach(field -> {
+            final Object value = item.getValue(field);
+            if (value instanceof JsonObject) {
+                item.put(field, serializeSmart((JsonObject) value));
+            } else if (value instanceof JsonArray) {
+                item.put(field, serializeSmart((JsonArray) value));
+            }
+        });
+        return (R) item;
+    }
+
+    private static <T, R extends Iterable> R serializeSmart(final JsonArray item) {
+        It.itJArray(item).forEach(json -> serializeSmart(json));
+        return (R) item;
     }
 
     // ---------------------- Json Tool ----------------------------
