@@ -27,15 +27,44 @@ public class RuleActor {
     @Inject
     private transient RuleStub stub;
 
-
     @Address(Addr.Rule.FETCH_REGION)
     public Future<JsonArray> fetchRegion(final String type, final XHeader header) {
-        final JsonObject condition = Ux.whereAnd();
-        condition.put(KName.RUN_TYPE, type);
-        condition.put(KName.SIGMA, header.getSigma());
+
+        // RUN_TYPE = ? AND SIGMA = ?
+        final JsonObject condition = Ux.whereAnd()
+            .put(KName.RUN_TYPE, type)
+            .put(KName.SIGMA, header.getSigma());
+
+
         return Ux.Jooq.on(SPathDao.class)
             .<SPath>fetchAsync(condition)
-            .compose(this.stub::procAsync);
+            .compose(this.stub::regionAsync);
+    }
+
+    /*
+     * 输入的 regions:
+     * {
+     *     "region": [
+     *         "code1", "code2"
+     *     ],
+     *     "uiConfig": {
+     *     }
+     * }
+     * 最终响应的数据格式
+     * {
+     *     "region":
+     * }
+     */
+    @Address(Addr.Rule.FETCH_REGION_VALUES)
+    public Future<JsonObject> fetchValues(final String owner, final JsonObject regions,
+                                          final XHeader header) {
+        /*
+         * 查找合法的被影响资源，此处会有很多种变化
+         * - 每个Region影响的资源可能是多个值，也可能是一个值
+         * - 由于Region在前端读取的时候已经是执行过 type 维度的条件，所以此处不再考虑 type 参数
+         * - 此处提取时直接按照 region codes + sigma 二者的值来提取 Pocket 定义
+         * */
+        return Ux.futureJ();
     }
 
     @Address(Addr.Rule.FETCH_RULE_ITEMS)

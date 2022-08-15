@@ -5,8 +5,5 @@
         "source": "name",
         "target": "name"
     },
-    "dataInit": {
-        "value": "name",
-        "emptyForAll": true
-    }
+    "dataEmpty": true
 }

@@ -8,6 +8,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
 
+import javax.ws.rs.BodyParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,21 +25,33 @@ public interface RuleAgent {
     @Address(Addr.Rule.FETCH_RULE_ITEMS)
     Future<JsonArray> fetchPocket(@PathParam("ruleId") String ruleId);
 
-    /* Admin Region */
+    // ---------------- 权限管理面板 -------------------
+    /*
+     * 读取权限管理区域，区域分为两种类型：
+     * - ROLE: 角色权限
+     * - USER：用户权限（一般是特权）
+     */
     @GET
     @Path("/authority/region/:type")
     @Address(Addr.Rule.FETCH_REGION)
     Future<JsonArray> fetchRegion(@PathParam(KName.TYPE) String type);
 
     /*
-     * Here provide two inputs
-     * - type: ROLE | USER
-     * - owner: key of owner entity
+     * 读取权限管理区域所有的值
+     * - 由于类型已经在 regions 中有所说明，所以此处读取不分类型
+     * - 必须指定 owner 以确定读取哪个用户、哪个角色
+     * - regions 数据结构
+     * {
+     *     "regions": [
+     *         "code1",
+     *         "code2"
+     *     ]
+     * }
      **/
     @GET
-    @Path("/authority/region-value/:type/:owner")
+    @Path("/authority/region-v/:owner")
     @Address(Addr.Rule.FETCH_REGION_VALUES)
     Future<JsonObject> fetchInitials(
-            @PathParam(KName.TYPE) String type,
-            @PathParam(KName.OWNER) String owner);
+        @PathParam(KName.OWNER) String owner,
+        @BodyParam JsonObject regions);
 }
