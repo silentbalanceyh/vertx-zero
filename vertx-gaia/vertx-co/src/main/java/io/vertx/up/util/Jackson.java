@@ -226,9 +226,10 @@ final class Jackson {
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
-        final String smart = deserializeSmart(value, (Class<T>) type.getType());
+        // Turn Off Smart Json when TypeReference<T>
+        // final String smart = deserializeSmart(value, (Class<T>) type.getType());
         return Fn.getNull(null,
-                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
+                () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     static <T, R extends Iterable> R serializeJson(final T t) {
