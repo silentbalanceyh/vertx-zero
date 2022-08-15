@@ -838,7 +838,11 @@ public final class Ut {
      * Object converting here of serialization
      */
     public static <T, R extends Iterable> R serializeJson(final T t) {
-        return Jackson.serializeJson(t);
+        return Jackson.serializeJson(t, false);
+    }
+
+    public static <T, R extends Iterable> R serializeJson(final T t, final boolean smart) {
+        return Jackson.serializeJson(t, smart);
     }
 
     public static <T> String serialize(final T t) {
@@ -846,11 +850,19 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final JsonObject value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, false);
+    }
+
+    public static <T> T deserialize(final JsonObject value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> T deserialize(final JsonArray value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, false);
+    }
+
+    public static <T> T deserialize(final JsonArray value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
@@ -858,7 +870,11 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final String value, final Class<T> clazz) {
-        return Jackson.deserialize(value, clazz);
+        return Jackson.deserialize(value, clazz, false);
+    }
+
+    public static <T> T deserialize(final String value, final Class<T> clazz, boolean isSmart) {
+        return Jackson.deserialize(value, clazz, isSmart);
     }
 
     public static <T> T deserialize(final String value, final TypeReference<T> type) {
