@@ -6,7 +6,7 @@ import io.vertx.aeon.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404AdmitCompilerNullException;
-import io.vertx.tp.rbac.acl.rule.internal.HAdmitCompiler;
+import io.vertx.tp.rbac.acl.rule.element.HAdmitCompiler;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

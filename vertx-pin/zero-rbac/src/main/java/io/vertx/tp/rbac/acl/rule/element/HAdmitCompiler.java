@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule.internal;
+package io.vertx.tp.rbac.acl.rule.element;
 
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.Future;
@@ -7,8 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
@@ -32,12 +30,4 @@ public interface HAdmitCompiler {
     }
 
     Future<JsonArray> ingest(JsonObject qr, JsonObject config);
-}
-
-interface __H1H {
-    ConcurrentMap<ScIn, Supplier<HAdmitCompiler>> ADMIN_COMPILER = new ConcurrentHashMap<>() {
-        {
-            this.put(ScIn.DAO, UiDaoCompiler::new);
-        }
-    };
 }

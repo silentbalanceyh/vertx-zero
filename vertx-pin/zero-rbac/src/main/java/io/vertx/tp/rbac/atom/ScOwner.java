@@ -5,6 +5,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KValue;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ScOwner implements Serializable {
     private final String owner;
@@ -22,8 +23,10 @@ public class ScOwner implements Serializable {
     }
 
     public ScOwner bind(final Vis vis) {
-        this.view = vis.view();
-        this.position = vis.position();
+        if (Objects.nonNull(vis)) {
+            this.view = vis.view();
+            this.position = vis.position();
+        }
         return this;
     }
 

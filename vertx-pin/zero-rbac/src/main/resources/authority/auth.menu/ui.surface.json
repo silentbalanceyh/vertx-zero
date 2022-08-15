@@ -1,9 +1,4 @@
 {
     "webComponent": "HxMenu",
-    "dataParser": "aclInputRows",
-    "dataInput": {
-        "source": "name",
-        "target": "name"
-    },
-    "dataEmpty": true
+    "webBind": "res.menu.read"
 }
