@@ -5,5 +5,9 @@
         "SIDE-MENU,主菜单",
         "DEV-MENU,开发者菜单",
         "SYS-MENU,实施者菜单"
+    ],
+    "webAdmit": [
+        "DEV-MENU",
+        "SYS-MENU"
     ]
 }

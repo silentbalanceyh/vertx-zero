@@ -8,6 +8,8 @@ import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * 处理 h 节点，S_VIEW -> rows
  *
@@ -23,6 +25,9 @@ public class EyeletRow implements HEyelet {
     @Override
     public Future<ClusterSerializable> ingest(final SPacket packet,
                                               final SView view) {
+        if (Objects.isNull(view)) {
+            return Ux.future(new JsonObject());
+        }
         final JsonObject rowJ = Ut.toJObject(view.getRows());
         return Ux.future(rowJ);
     }

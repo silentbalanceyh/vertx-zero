@@ -69,7 +69,18 @@ public class AdmitValve extends AbstractValve {
         response.put(KName.GROUP, dmGroup);
 
         // ui -> surface, data
-        final JsonObject uiSurface = Ut.valueJObject(uiJ, KName.Rbac.SURFACE);
+        final JsonObject uiSurface = Ut.valueJObject(uiJ, KName.Rbac.SURFACE).copy();
+
+        /*
+         * All the properties that start with `web` will be copied into `uiSurface`
+         * The front-end will be combined into `config` all.
+         * Here are the first rule of configuration specification:
+         * 1. The uiSurface contains `webX` attributes;
+         * 2. The `webX` attribute of `dimJ` will be copied into uiSurface
+         */
+        dimJ.fieldNames().stream().filter(field -> field.startsWith("web"))
+                .forEach(field -> uiSurface.put(field, dimJ.getValue(field)));
+
         response.put(KName.CONFIG, uiSurface);
         final Object uiData = uiJ.getValue(KName.DATA);
         response.put(KName.DATA, uiData);
