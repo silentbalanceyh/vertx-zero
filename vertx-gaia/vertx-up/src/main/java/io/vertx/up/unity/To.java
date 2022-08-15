@@ -31,8 +31,9 @@ class To {
         final String pojo) {
         return Fn.getNull(new JsonObject(),
             () -> Fn.getSemi(Ut.isNil(pojo), null,
-                () -> Ut.serializeJson(entity),
-                () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity)).to().result()),
+                // Turn On Smart
+                () -> Ut.serializeJson(entity, true),
+                () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
             entity);
     }
 

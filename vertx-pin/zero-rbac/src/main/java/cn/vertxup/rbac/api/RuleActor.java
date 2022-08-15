@@ -49,7 +49,7 @@ public class RuleActor {
      * 最终响应的数据格式根据 iConfig 中的定义执行
      */
     @Address(Addr.Rule.FETCH_REGION_VALUES)
-    public Future<JsonObject> fetchValues(final String ownerId, final SPath path,
+    public Future<JsonObject> fetchValues(final String ownerId, final JsonObject pathJ,
                                           final Vis view) {
         /*
          * 查找合法的被影响资源，此处会有很多种变化
@@ -58,6 +58,7 @@ public class RuleActor {
          *   type 直接从 region 的 runType 中提取
          * - 此处提取时直接按照 region codes + sigma 二者的值来提取 Pocket 定义
          */
+        final SPath path = Ux.fromJson(pathJ, SPath.class);
         final JsonObject condition = Ux.whereAnd()
             .put(KName.CODE, path.getCode())
             .put(KName.SIGMA, path.getSigma());

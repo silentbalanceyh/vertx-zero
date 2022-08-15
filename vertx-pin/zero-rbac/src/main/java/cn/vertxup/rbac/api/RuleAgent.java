@@ -1,6 +1,5 @@
 package cn.vertxup.rbac.api;
 
-import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -49,8 +48,8 @@ public interface RuleAgent {
     @Path("/authority/region-v/:owner")
     @Address(Addr.Rule.FETCH_REGION_VALUES)
     Future<JsonObject> fetchInitials(
-            @PathParam(KName.OWNER) String owner,
-            @BodyParam SPath region,
-            // ?view=[] Matrix Param for View Located
-            @PointParam(KName.VIEW) Vis view);
+        @PathParam(KName.OWNER) String owner,
+        @BodyParam JsonObject region,
+        // ?view=[] Matrix Param for View Located
+        @PointParam(KName.VIEW) Vis view);
 }

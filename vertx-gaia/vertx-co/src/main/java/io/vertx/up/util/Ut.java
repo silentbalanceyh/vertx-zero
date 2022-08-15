@@ -841,8 +841,8 @@ public final class Ut {
         return Jackson.serializeJson(t, false);
     }
 
-    public static <T, R extends Iterable> R serializeJson(final T t, final boolean smart) {
-        return Jackson.serializeJson(t, smart);
+    public static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
+        return Jackson.serializeJson(t, isSmart);
     }
 
     public static <T> String serialize(final T t) {
