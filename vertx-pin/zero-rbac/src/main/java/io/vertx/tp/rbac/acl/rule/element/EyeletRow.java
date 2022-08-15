@@ -3,7 +3,10 @@ package io.vertx.tp.rbac.acl.rule.element;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 /**
  * 处理 h 节点，S_VIEW -> rows
@@ -20,7 +23,7 @@ public class EyeletRow implements HEyelet {
     @Override
     public Future<ClusterSerializable> ingest(final SPacket packet,
                                               final SView view) {
-
-        return null;
+        final JsonObject rowJ = Ut.toJObject(view.getRows());
+        return Ux.future(rowJ);
     }
 }

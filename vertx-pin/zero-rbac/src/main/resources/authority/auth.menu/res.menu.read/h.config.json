@@ -1,10 +1,6 @@
 {
     "field": "name",
     "webConfig": {
-        "name": {
-            "empty": true,
-            "parser": "aclRows",
-            "source": "name"
-        }
+        "empty": true
     }
 }
