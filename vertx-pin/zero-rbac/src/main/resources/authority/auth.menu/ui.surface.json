@@ -5,6 +5,7 @@
         "parent": "parentId",
         "title": "text",
         "text": "text",
-        "value": "key"
+        "value": "key",
+        "sort": "order"
     }
 }
