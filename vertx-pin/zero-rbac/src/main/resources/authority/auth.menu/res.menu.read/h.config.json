@@ -1,6 +1,7 @@
 {
-    "field": "name",
     "webConfig": {
-        "empty": true
+        "empty": true,
+        "initializer": "aclInHS",
+        "requester": "aclOutHS"
     }
 }
