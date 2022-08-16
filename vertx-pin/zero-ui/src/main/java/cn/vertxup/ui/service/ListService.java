@@ -31,19 +31,19 @@ public class ListService implements ListStub {
          * Read list configuration for configuration
          */
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchByIdAsync(listId)
-            .compose(list -> {
-                if (Objects.isNull(list)) {
-                    Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
-                    return Ux.future(new JsonObject());
-                } else {
-                    /*
-                     * It means here are some additional configuration that should be
-                     * fetch then
-                     */
-                    final JsonObject listJson = Ut.serializeJson(list);
-                    return this.attachConfig(listJson);
-                }
-            });
+                .compose(list -> {
+                    if (Objects.isNull(list)) {
+                        Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
+                        return Ux.future(new JsonObject());
+                    } else {
+                        /*
+                         * It means here are some additional configuration that should be
+                         * fetch then
+                         */
+                        final JsonObject listJson = Ut.serializeJson(list);
+                        return this.attachConfig(listJson);
+                    }
+                });
     }
 
     @Override
@@ -52,18 +52,18 @@ public class ListService implements ListStub {
         condition.put(KName.IDENTIFIER, identifier);
         condition.put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
-            /* List<UiList> */
-            .compose(Ux::futureA);
+                /* List<UiList> */
+                .compose(Ux::futureA);
     }
 
     @Override
     public Future<JsonArray> fetchQr(final String code, final String sigma) {
         final JsonObject condition = Ux.whereAnd()
-            .put(KName.CODE, code)
-            .put(KName.SIGMA, sigma);
+                .put(KName.CODE, code)
+                .put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiListQrDao.class).<UiListQr>fetchAsync(condition)
-            /* List<UiListQr> */
-            .compose(Ux::futureA);
+                /* List<UiListQr> */
+                .compose(Ux::futureA);
     }
 
     private Future<JsonObject> attachConfig(final JsonObject listJson) {
@@ -71,30 +71,30 @@ public class ListService implements ListStub {
          * Capture important configuration here
          */
         Ut.ifJObject(listJson,
-            ListStub.FIELD_OPTIONS,
-            ListStub.FIELD_OPTIONS_AJAX,
-            ListStub.FIELD_OPTIONS_SUBMIT,
-            ListStub.FIELD_V_SEGMENT
+                ListStub.FIELD_OPTIONS,
+                ListStub.FIELD_OPTIONS_AJAX,
+                ListStub.FIELD_OPTIONS_SUBMIT,
+                ListStub.FIELD_V_SEGMENT
         );
         return Ux.future(listJson)
-            /* vQuery */
-            .compose(Ux.attach(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
-            /* vSearch */
-            .compose(Ux.attach(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
-            /* vTable */
-            .compose(Ux.attach(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
-            /* vSegment */
-            .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
-            /* Combiner for final processing */
-            .compose(Ke.fabricFn("classCombiner"));
+                /* vQuery */
+                .compose(Ux.attach(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
+                /* vSearch */
+                .compose(Ux.attach(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
+                /* vTable */
+                .compose(Ux.attach(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
+                /* vSegment */
+                .compose(Ux.attachJ(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
+                /* Combiner for final processing */
+                .compose(Ke.fabricFn("classCombiner"));
     }
 
     @Override
     public Future<JsonArray> fetchOpDynamic(final String control) {
         return Ux.Jooq.on(UiOpDao.class)
-            .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
-            .compose(Ux::futureA)
-            .compose(Ut.ifJArray(KName.Ui.CONFIG));
+                .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
+                .compose(Ux::futureA)
+                .compose(Ut.ifJArray(KName.Ui.CONFIG));
     }
 
     @Override

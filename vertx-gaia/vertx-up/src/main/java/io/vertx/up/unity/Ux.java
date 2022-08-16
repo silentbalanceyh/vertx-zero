@@ -44,7 +44,7 @@ import java.util.function.*;
 
 /**
  * #「Kt」Utility X Component in zero
- *
+ * <p>
  * Here Ux is a util interface of uniform to call different tools.
  * It just like helper for business usage.
  */
@@ -64,7 +64,7 @@ public final class Ux {
 
     /**
      * Create new log instance for store `Annal` mapping
-     *
+     * <p>
      * Debug method for help us to do development
      * 1) debug:
      * 2) otherwise:
@@ -296,7 +296,6 @@ public final class Ux {
      * @param expected    The method declared type
      * @param consumer    File consumer to read `filename` to Buffer
      * @param <T>         Returned type for declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final Set<FileUpload> fileUploads, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -310,7 +309,6 @@ public final class Ux {
      * @param expected   The method declared type
      * @param consumer   File consumer to read `filename` to Buffer
      * @param <T>        Returned type of declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final FileUpload fileUpload, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -321,7 +319,6 @@ public final class Ux {
      * Split `Set<FileUpload>` by fieldname
      *
      * @param fileUploads FileUpload Set
-     *
      * @return Map of `field = Set<FileUpload>`
      */
     public static ConcurrentMap<String, Set<FileUpload>> toFile(final Set<FileUpload> fileUploads) {
@@ -416,32 +413,32 @@ public final class Ux {
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
+            final JsonArray original, final JsonArray current, final Set<String> fields) {
         return CompareJ.compareJ(original, current, fields);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final String field) {
+            final JsonArray original, final JsonArray current, final String field) {
         return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+            final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
+            final JsonArray original, final JsonArray current, final Set<String> fields) {
         return To.future(CompareJ.compareJ(original, current, fields));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final String field) {
+            final JsonArray original, final JsonArray current, final String field) {
         return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+            final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return To.future(CompareJ.compareJ(original, current, matrix));
     }
 
@@ -503,7 +500,18 @@ public final class Ux {
      *
      * Combine JsonObject and JsonArray by index
      * 8) futureC
+     *
+     * Filter JsonObject and JsonArray
+     * 9) futureF
+     * -- futureF(String...)
+     * -- futureF(Set<String>)
+     * -- futureF(ClustSerializble, String...)
+     * -- futureF(JsonArray, String...)
+     * -- futureF(JsonObject, Set<String>)
+     * -- futureF(JsonArray, Set<String>)
      */
+
+    // ----------------------- futureN ----------------------
     public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
         return Norm.effect(input, previous, current);
     }
@@ -968,7 +976,7 @@ public final class Ux {
     /**
      * This method will be configured in `vertx-extension.yml` file in common situation,
      * The file content should be as following:
-     *
+     * <p>
      * ```yml
      * // <pre><code>
      * init:
@@ -976,9 +984,9 @@ public final class Ux {
      *   - component: "[ComponentName2]"
      * // </code></pre>
      * ```
-     *
+     * <p>
      * All components here will be called when container starting, the component must declare the init method as
-     *
+     * <p>
      * ```java
      * // <pre><code>
      * public static void init(){
@@ -989,7 +997,7 @@ public final class Ux {
      * }
      * // </code></pre>
      * ```
-     *
+     * <p>
      * This method should be used when you want to develop zero extension module for business requirement.
      *
      * @param init The configuration data came from `init` node in file
@@ -1188,7 +1196,6 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
@@ -1210,7 +1217,6 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
@@ -1224,7 +1230,6 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param pool  Input data pool reference, it provide developers to access other database in one application.
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
@@ -1238,7 +1243,6 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param key   the key configuration in vertx-jooq.yml such as above "orbit", "provider"
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
