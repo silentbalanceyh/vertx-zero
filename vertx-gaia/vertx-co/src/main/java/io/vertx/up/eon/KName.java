@@ -510,6 +510,9 @@ public interface KName {
         // Dm Component
         String DM_COMPONENT = "dmComponent";
         String DM_CONFIG = KName.DM_CONFIG;
+        // Qr Component
+        String QR_COMPONENT = "qrComponent";
+        String QR_CONFIG = "qrConfig";
     }
 
 

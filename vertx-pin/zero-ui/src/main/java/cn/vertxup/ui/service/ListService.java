@@ -1,8 +1,10 @@
 package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiListDao;
+import cn.vertxup.ui.domain.tables.daos.UiListQrDao;
 import cn.vertxup.ui.domain.tables.daos.UiOpDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
+import cn.vertxup.ui.domain.tables.pojos.UiListQr;
 import cn.vertxup.ui.domain.tables.pojos.UiOp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -51,6 +53,16 @@ public class ListService implements ListStub {
         condition.put(KName.SIGMA, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
             /* List<UiList> */
+            .compose(Ux::futureA);
+    }
+
+    @Override
+    public Future<JsonArray> fetchQr(final String code, final String sigma) {
+        final JsonObject condition = Ux.whereAnd()
+            .put(KName.CODE, code)
+            .put(KName.SIGMA, sigma);
+        return Ux.Jooq.on(UiListQrDao.class).<UiListQr>fetchAsync(condition)
+            /* List<UiListQr> */
             .compose(Ux::futureA);
     }
 

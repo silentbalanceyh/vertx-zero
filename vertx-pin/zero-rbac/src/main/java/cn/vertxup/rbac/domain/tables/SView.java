@@ -36,7 +36,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.NAME</code>. 「name」- 视图名称，每个 MATRIX
      * 对应一个视图
      */
-    public final TableField<SViewRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 视图名称，每个 MATRIX 对应一个视图");
+    public final TableField<SViewRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(96), this, "「name」- 视图名称，每个 MATRIX 对应一个视图");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.TITLE</code>. 「title」- 视图标题，用户输入，可选择
      */
@@ -73,7 +73,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」-
      * 当前视图的模块位置，比页面低一个维度
      */
-    public final TableField<SViewRecord, String> POSITION = createField(DSL.name("POSITION"), SQLDataType.VARCHAR(255), this, "「position」- 当前视图的模块位置，比页面低一个维度");
+    public final TableField<SViewRecord, String> POSITION = createField(DSL.name("POSITION"), SQLDataType.VARCHAR(96), this, "「position」- 当前视图的模块位置，比页面低一个维度");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.VISITANT</code>. 「visitant」-
      * 是否包含了视图访问者

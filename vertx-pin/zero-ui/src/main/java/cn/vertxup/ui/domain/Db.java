@@ -56,6 +56,11 @@ public class Db extends SchemaImpl {
     public final UiList UI_LIST = UiList.UI_LIST;
 
     /**
+     * The table <code>DB_ETERNAL.UI_LIST_QR</code>.
+     */
+    public final UiListQr UI_LIST_QR = UiListQr.UI_LIST_QR;
+
+    /**
      * The table <code>DB_ETERNAL.UI_OP</code>.
      */
     public final UiOp UI_OP = UiOp.UI_OP;
@@ -112,6 +117,7 @@ public class Db extends SchemaImpl {
             UiForm.UI_FORM,
             UiLayout.UI_LAYOUT,
             UiList.UI_LIST,
+            UiListQr.UI_LIST_QR,
             UiOp.UI_OP,
             UiPage.UI_PAGE,
             UiVisitor.UI_VISITOR,

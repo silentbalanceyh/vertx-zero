@@ -53,15 +53,19 @@ public interface RuleAgent {
      * 更新 code = ? 的 SPath 关联的所有资源记录，此处
      * viewData 的结构如下：
      * {
+     *     "owner":         ??,
+     *     "ownerType":     ??,
+     *     "name":          ??,
+     *     "position":      ??,
+     *     "active":        true,
+     *     "language":      cn,
+     *     "sigma":         xxx,
      *     "resource": {
-     *         "owner":         ??,
-     *         "ownerType":     ??,
-     *         "name":          ??,
-     *         "position":      ??,
-     *
-     *         "rows":          ??,
-     *         "projection":    ??,
-     *         "criteria":      ??
+     *         "code1": {
+     *              "rows":          ??,
+     *              "projection":    ??,
+     *              "criteria":      ??
+     *         }
      *     }
      * }
      *

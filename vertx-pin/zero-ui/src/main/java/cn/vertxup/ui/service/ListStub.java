@@ -24,6 +24,8 @@ public interface ListStub {
      */
     Future<JsonArray> fetchByIdentifier(String identifier, String sigma);
 
+    Future<JsonArray> fetchQr(String code, String sigma);
+
 
     /*
      * Fetch ops by control, dynamic part for usage

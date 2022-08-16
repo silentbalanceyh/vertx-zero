@@ -73,9 +73,8 @@ public class RuleActor {
             .compose(packets -> this.stub.regionAsync(packets, owner));
     }
 
-
-    @Address(Addr.Rule.SAVE_REGION)
     @Me
+    @Address(Addr.Rule.SAVE_REGION)
     public Future<JsonObject> saveRegion(final String path, final JsonObject viewData) {
         return Ux.futureJ();
     }
