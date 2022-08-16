@@ -18,11 +18,6 @@ import javax.ws.rs.*;
 @Path("/api")
 public interface RuleAgent {
 
-    @GET
-    @Path("/rule-items/rule/:ruleId")
-    @Address(Addr.Rule.FETCH_RULE_ITEMS)
-    Future<JsonArray> fetchPocket(@PathParam("ruleId") String ruleId);
-
     // ---------------- 权限管理面板 -------------------
     /*
      * 读取权限管理区域，区域分为两种类型：
@@ -53,4 +48,35 @@ public interface RuleAgent {
         // ?view=[] Matrix Param for View Located
         @PointParam(KName.VIEW) Vis view);
 
+    // ---------------- 权限保存 -------------------
+    /*
+     * 更新 code = ? 的 SPath 关联的所有资源记录，此处
+     * viewData 的结构如下：
+     * {
+     *     "resource": {
+     *         "owner":         ??,
+     *         "ownerType":     ??,
+     *         "name":          ??,
+     *         "position":      ??,
+     *
+     *         "rows":          ??,
+     *         "projection":    ??,
+     *         "criteria":      ??
+     *     }
+     * }
+     *
+     * view的逻辑执行：
+     * 1) 检查是否存在
+     *    -- 视图存在（直接更新视图内容）
+     *    -- 视图不存在（插入新视图）
+     * 2）更新资源相对应的权限信息
+     * 3）更新权限缓存
+     */
+    @POST
+    @Path("/authority/region/:path")
+    @Address(Addr.Rule.SAVE_REGION)
+    Future<JsonObject> saveRegion(
+        @PathParam(KName.PATH) String path,
+        @BodyParam JsonObject viewData
+    );
 }

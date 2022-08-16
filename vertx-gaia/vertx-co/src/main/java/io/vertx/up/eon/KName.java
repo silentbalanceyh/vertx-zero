@@ -258,6 +258,7 @@ public interface KName {
     String OWNER_TYPE = "ownerType";
     String OWNER_ID = "ownerId";
     String RUN_TYPE = "runType";
+    String PATH = "path";
 
     // 「Specification Definition」
     interface __ {
@@ -305,7 +306,7 @@ public interface KName {
         String APP_PORT = "appPort";
         String ROUTE = "route";
 
-        String PATH = "path";
+        String PATH = KName.PATH;
         String URL_ENTRY = "urlEntry";
         String URL_MAIN = "urlMain";
 

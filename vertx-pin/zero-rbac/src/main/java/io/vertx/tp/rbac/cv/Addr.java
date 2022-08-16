@@ -24,10 +24,14 @@ public interface Addr {
         String FETCH_VISITANT = Prefix._EVENT + "X-VISITANT/FETCH/OWNER";
 
         /*
-         * 「New Version」Fetch for HPermit of new structure
+         * 「New Version」
+         * 1. Fetch for HPermit of new structure
+         * 2. Save View based on Configuration
          */
         String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
         String FETCH_REGION_VALUES = Prefix._EVENT + "X-RULE/FETCH/REGION-VALUES";
+
+        String SAVE_REGION = Prefix._EVENT + "X-RULE/SAVING/SINGLE";
     }
 
     interface Auth {
