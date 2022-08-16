@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.api;
+package cn.vertxup.rbac.api.view;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

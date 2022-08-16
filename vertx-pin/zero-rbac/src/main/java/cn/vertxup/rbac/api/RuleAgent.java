@@ -52,4 +52,5 @@ public interface RuleAgent {
         @BodyParam JsonObject region,
         // ?view=[] Matrix Param for View Located
         @PointParam(KName.VIEW) Vis view);
+
 }

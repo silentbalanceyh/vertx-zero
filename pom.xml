@@ -102,7 +102,7 @@
         <feign.version>8.18.0</feign.version>
         <joda.version>2.11.0</joda.version>
         <codehaus.janino.version>3.1.7</codehaus.janino.version>
-        <codehaus.mojo.version>1.21</codehaus.mojo.version>
+        <codehaus.mojo.version>1.22</codehaus.mojo.version>
         <ignite.version>2.13.0</ignite.version>
         <mongodb.async.version>3.12.11</mongodb.async.version>
         <poi.version>5.2.2</poi.version>

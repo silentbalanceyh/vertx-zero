@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.api;
+package cn.vertxup.rbac.api.view;
 
 import cn.vertxup.rbac.service.view.RuleStub;
 import cn.vertxup.rbac.service.view.VisitStub;

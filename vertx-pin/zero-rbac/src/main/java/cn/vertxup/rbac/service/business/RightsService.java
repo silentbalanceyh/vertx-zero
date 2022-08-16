@@ -1,7 +1,9 @@
 package cn.vertxup.rbac.service.business;
 
+import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
 import cn.vertxup.rbac.domain.tables.daos.SPermSetDao;
 import cn.vertxup.rbac.domain.tables.daos.SPermissionDao;
+import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import io.vertx.core.Future;
@@ -27,7 +29,29 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class PermGService implements PermGStub {
+public class RightsService implements RightsStub {
+    @Override
+    public Future<JsonArray> saveRoles(final String roleId, final JsonArray data) {
+        // 1. make up role-perm entity
+        final List<RRolePerm> rolePerms = Ut.itJString(data)
+            .filter(Ut::notNil)
+            .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
+            .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
+            .collect(Collectors.toList());
+        // 2. delete old ones and insert new ones
+        return this.removeRoles(roleId)
+            .compose(result -> Ux.Jooq.on(RRolePermDao.class)
+                .insertAsync(rolePerms)
+                .compose(Ux::futureA)
+            );
+    }
+
+    @Override
+    public Future<Boolean> removeRoles(final String roleId) {
+        return Ux.Jooq.on(RRolePermDao.class)
+            .deleteByAsync(new JsonObject().put(KName.Rbac.ROLE_ID, roleId));
+    }
+
     @Override
     public Future<JsonArray> fetchAsync(final String sigma) {
         /*

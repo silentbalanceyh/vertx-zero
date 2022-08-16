@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.api;
+package cn.vertxup.rbac.api.view;
 
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Queue
-public class ViewPersonalActor {
+public class ViewMyActor {
 
     @Inject
     private transient PersonalStub personalStub;

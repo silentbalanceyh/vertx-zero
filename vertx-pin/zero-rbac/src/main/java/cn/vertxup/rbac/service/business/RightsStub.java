@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonArray;
  * 1) The code logical for permission fetching
  * 2) The code logical of major definition
  */
-public interface PermGStub {
+public interface RightsStub {
     /*
      * Get permission groups service
      * There are two fields that stored data
@@ -28,4 +28,14 @@ public interface PermGStub {
      * }
      */
     Future<JsonArray> saveDefinition(JsonArray permission, SPermSet permSet);
+
+    /**
+     * Update role perm relation information
+     */
+    Future<JsonArray> saveRoles(String roleId, JsonArray data);
+
+    /*
+     * delete by role id
+     */
+    Future<Boolean> removeRoles(String roleId);
 }
