@@ -12,6 +12,7 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.annotations.Address;
+import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
@@ -74,6 +75,7 @@ public class RuleActor {
 
 
     @Address(Addr.Rule.SAVE_REGION)
+    @Me
     public Future<JsonObject> saveRegion(final String path, final JsonObject viewData) {
         return Ux.futureJ();
     }
