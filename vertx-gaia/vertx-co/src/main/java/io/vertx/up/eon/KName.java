@@ -7,6 +7,7 @@ import java.util.Set;
 
 public interface KName {
     String TRACKABLE = "trackable";              /* trackable */
+    String QBE = "QBE";                          /* QBE = ? */
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 
