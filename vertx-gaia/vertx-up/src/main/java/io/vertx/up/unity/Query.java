@@ -22,6 +22,22 @@ final class Query {
      * 1. irV / irH:  3 arguments -> Qr Full
      * 2. irV / irH:  2 arguments -> Qr Node ( criteria, projection )
      */
+    // ------------------- H ----------------------
+    static JsonObject irH(final JsonObject original, final JsonObject criteria) {
+        final JsonObject originalJ = Ut.valueJObject(original);
+        final JsonObject criteriaJ = Ut.valueJObject(criteria);
+        // Combine Result
+        final JsonObject result = new JsonObject();
+        if (Ut.isNil(originalJ)) {
+            // Original Criteria is NULL, The major is criteria
+            result.mergeIn(criteriaJ, true);
+        } else {
+            // Build new Tree of criteria, join 2 criteria
+        }
+        return result;
+    }
+
+    // ------------------- V ----------------------
     static JsonObject irV(final JsonObject query, final JsonArray projection, final boolean clear) {
         if (clear) {
             /* Overwrite Mode */
