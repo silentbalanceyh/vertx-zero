@@ -50,10 +50,13 @@ class RibData {
     }
 
     static JsonObject getBody(final JsonObject data) {
+        final Object reference = getData(data, null);
         // Fix Bug: Caused by: java.lang.ClassCastException:
-        return get(data, JsonObject.class);
-        // final Object dataBody = getData(data, null);
-        // return (JsonObject) getData(data, null);
+        if (reference instanceof JsonObject) {
+            return (JsonObject) reference;
+        } else {
+            return get(data, JsonObject.class);
+        }
     }
 
     /*
@@ -199,14 +202,14 @@ class RibData {
          * 2. The first value of JsonArray
          */
         final Object body = itPart.fieldNames().stream()
-            .filter(Objects::nonNull)
-            .map(itPart::getValue)
-            /*
-             * Predicate to test whether value is JsonObject
-             * If JsonObject, then find the first JsonObject as body
-             */
-            .filter(value -> value instanceof JsonObject || value instanceof JsonArray)
-            .findFirst().orElse(null);
+                .filter(Objects::nonNull)
+                .map(itPart::getValue)
+                /*
+                 * Predicate to test whether value is JsonObject
+                 * If JsonObject, then find the first JsonObject as body
+                 */
+                .filter(value -> value instanceof JsonObject || value instanceof JsonArray)
+                .findFirst().orElse(null);
         if (Objects.nonNull(body)) {
             if (body instanceof JsonObject && Ut.isNil((JsonObject) body)) {
                 return null;
