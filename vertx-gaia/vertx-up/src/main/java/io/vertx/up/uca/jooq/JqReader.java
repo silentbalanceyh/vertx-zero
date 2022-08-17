@@ -2,6 +2,7 @@ package io.vertx.up.uca.jooq;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.uca.jooq.util.JqFlow;
 
 import java.util.List;
@@ -62,8 +63,16 @@ class JqReader {
         return this.fetch.fetchAsync(criteria);
     }
 
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetch.fetchAsync(criteria, sorter);
+    }
+
     <T> List<T> fetch(final JsonObject criteria) {
         return this.fetch.fetch(criteria);
+    }
+
+    <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
+        return this.fetch.fetch(criteria, sorter);
     }
 
     <T, ID> Future<T> fetchByIdAsync(final ID id) {

@@ -270,8 +270,6 @@ public interface KName {
         String USER = "__" + KName.USER;             /* __user for user extraction */
         String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
         String ACL = "__" + Flow.ACL;                /* __acl */
-
-        String SORT = "__" + KName.SORT;
     }
 
 

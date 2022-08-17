@@ -2,6 +2,7 @@ package io.vertx.up.uca.jooq.cache;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.*;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.ActionQr;
 import io.vertx.up.uca.jooq.JqAnalyzer;
@@ -255,7 +256,15 @@ abstract class AbstractAside {
                  * Get primaryValues
                  */
                 final JsonObject condition = ((JsonObject) input);
-                return actionQr(point).searchPrimary(condition);
+
+                /* Sorter Building  */
+                final Sorter sorter;
+                if (1 < args.length && args[1] instanceof Sorter) {
+                    sorter = (Sorter) args[1];
+                } else {
+                    sorter = null;
+                }
+                return actionQr(point).searchPrimary(condition, sorter);
             } else {
                 return null;
             }
@@ -272,7 +281,14 @@ abstract class AbstractAside {
                 final JsonObject condition = (JsonObject) input;
                 final String pojo = (String) args[args.length - 1];
                 final JsonObject criteria = JqTool.criteria(condition, pojo);
-                return actionQr(point).searchPrimary(criteria);
+                /* Sorter Building  */
+                final Sorter sorter;
+                if (2 < args.length && args[2] instanceof Sorter) {
+                    sorter = (Sorter) args[2];
+                } else {
+                    sorter = null;
+                }
+                return actionQr(point).searchPrimary(criteria, sorter);
             } else {
                 return null;
             }

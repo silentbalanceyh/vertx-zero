@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Format;
@@ -415,7 +416,10 @@ public final class UxJooq {
         return this.workflow.output(this.fetch(field, collection));
     }
 
-    /* fetchAsync(JsonObject) */
+    /*
+     * fetchAsync(JsonObject)
+     * fetchAsync(JsonObject, Sorter)
+     **/
     public <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
         return this.workflow.inputQrJAsync(criteria).compose(this.reader::fetchAsync);
     }
@@ -440,7 +444,34 @@ public final class UxJooq {
         return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE)).compose(this.workflow::outputAsync);
     }
 
-    /* fetch(JsonObject) */
+    public <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.workflow.inputQrJAsync(criteria).compose(qr -> this.reader.fetchAsync(qr, sorter));
+    }
+
+
+    public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter);
+    }
+
+    public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter);
+    }
+
+    public Future<JsonArray> fetchJAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetchAsync(criteria, sorter).compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJAndAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter).compose(this.workflow::outputAsync);
+    }
+
+    public Future<JsonArray> fetchJOrAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter).compose(this.workflow::outputAsync);
+    }
+
+    /* fetch(JsonObject)
+     * fetch(JsonObject, Sorter)
+     **/
     public <T> List<T> fetch(final JsonObject criteria) {
         return this.reader.fetch(this.workflow.inputQrJ(criteria));
     }
@@ -463,6 +494,30 @@ public final class UxJooq {
 
     public JsonArray fetchJOr(final JsonObject criteria) {
         return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE)));
+    }
+
+    public <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
+        return this.reader.fetch(this.workflow.inputQrJ(criteria), sorter);
+    }
+
+    public <T> List<T> fetchAnd(final JsonObject criteria, final Sorter sorter) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter);
+    }
+
+    public <T> List<T> fetchOr(final JsonObject criteria, final Sorter sorter) {
+        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter);
+    }
+
+    public JsonArray fetchJ(final JsonObject criteria, final Sorter sorter) {
+        return this.workflow.output(this.fetch(criteria, sorter));
+    }
+
+    public JsonArray fetchJAnd(final JsonObject criteria, final Sorter sorter) {
+        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter));
+    }
+
+    public JsonArray fetchJOr(final JsonObject criteria, final Sorter sorter) {
+        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter));
     }
 
     /* fetchAsync(JsonObject, pojo) */
