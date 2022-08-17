@@ -59,7 +59,7 @@ public class Sorter implements Serializable {
         }
         final Sorter sorter = create();
         Ut.<Boolean>itJObject(sorterJ, (mode, field) ->
-            sorter.add(field, mode));
+                sorter.add(field, mode));
         return sorter;
     }
 
@@ -99,5 +99,15 @@ public class Sorter implements Serializable {
 
     public boolean valid() {
         return !this.field.isEmpty() && !this.asc.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        final List<String> kv = new ArrayList<>();
+        for (int idx = 0; idx < this.field.size(); idx++) {
+            kv.add(Strings.LEFT_BRACKET + this.field.get(idx) +
+                    Strings.COMMA + this.asc.get(idx) + Strings.RIGHT_BRACKET);
+        }
+        return Strings.LEFT_SQUARE + Ut.fromJoin(kv) + Strings.RIGHT_SQUARE;
     }
 }
