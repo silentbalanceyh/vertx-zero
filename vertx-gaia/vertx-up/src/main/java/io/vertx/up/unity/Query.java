@@ -3,9 +3,12 @@ package io.vertx.up.unity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.ID;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,17 +31,78 @@ final class Query {
         final JsonObject criteriaJ = Ut.valueJObject(criteria);
         // Combine Result
         final JsonObject result = new JsonObject();
-        if (Ut.isNil(originalJ)) {
-            // Original Criteria is NULL, The major is criteria
-            result.mergeIn(criteriaJ, true);
-        } else {
-            // Build new Tree of criteria, join 2 criteria
+        if (irNil(original) && irNil(criteria)) {
+            // 左右都不包含条件
+            return result;
         }
-        return result;
+        if (irNil(originalJ)) {
+            // 直接取新条件
+            return result.mergeIn(criteriaJ, true);
+        }
+        if (irNil(criteriaJ)) {
+            // 直接取旧条件
+            return result.mergeIn(originalJ, true);
+        }
+        // 新旧都不为空
+        return irAnd(originalJ, criteriaJ);
+    }
+
+    static JsonObject irH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+        Objects.requireNonNull(query);
+        if (clear) {
+            /* Overwrite Mode */
+            query.put(Qr.KEY_CRITERIA, criteria);
+        } else {
+            /* Combine Mode */
+            final JsonObject originalJ = Ut.valueJObject(query, Qr.KEY_CRITERIA);
+            query.put(Qr.KEY_CRITERIA, irH(originalJ, criteria));
+        }
+        LOGGER.info("[Qr] Criteria: \n{0}", query.encodePrettily());
+        return query;
+    }
+
+    private static JsonObject irAnd(final JsonObject originalJ, final JsonObject criteriaJ) {
+        return ir(originalJ, criteriaJ, Qr.Connector.AND);
+    }
+
+    private static JsonObject irOr(final JsonObject originalJ, final JsonObject criteriaJ) {
+        return ir(originalJ, criteriaJ, Qr.Connector.OR);
+    }
+
+    private static JsonObject ir(final JsonObject originalJ, final JsonObject criteriaJ,
+                                 final Qr.Connector connectorL) {
+        // 在 originalJ 中追加条件：AND
+        originalJ.put(Strings.EMPTY, Qr.Connector.AND == connectorL);
+        if (irOne(criteriaJ)) {
+            // 单条件，直接将条件追加（此时不论符号）
+            criteriaJ.fieldNames()
+                .forEach(field -> originalJ.put(field, criteriaJ.getValue(field)));
+            return criteriaJ;
+        } else {
+            // 多条件，需检查对端符号
+            final Boolean isAnd = criteriaJ.getBoolean(Strings.EMPTY, Boolean.FALSE);
+            final Qr.Connector connectorR = isAnd ? Qr.Connector.AND : Qr.Connector.OR;
+            if (connectorL == connectorR) {
+                // 两边符号相同，Linear合并
+                // L AND R ( r1 = v1, r2 = v2 )
+                criteriaJ.fieldNames()
+                    .forEach(field -> originalJ.put(field, criteriaJ.getValue(field)));
+                return criteriaJ;
+            } else {
+                // 符号不同，Tree合并
+                // L AND R
+                final JsonObject result = new JsonObject();
+                result.put(Strings.EMPTY, Boolean.TRUE);
+                result.put(ID.TREE_L, originalJ);
+                result.put(ID.TREE_R, criteriaJ);
+                return result;
+            }
+        }
     }
 
     // ------------------- V ----------------------
     static JsonObject irV(final JsonObject query, final JsonArray projection, final boolean clear) {
+        Objects.requireNonNull(query);
         if (clear) {
             /* Overwrite Mode */
             query.put(Qr.KEY_PROJECTION, projection.copy());
@@ -60,16 +124,42 @@ final class Query {
 
         // Original Set Conversation
         final Set<String> originalSet = originalA.stream()
-                .filter(item -> item instanceof String)
-                .map(item -> (String) item)
-                .collect(Collectors.toSet());
+            .filter(item -> item instanceof String)
+            .map(item -> (String) item)
+            .collect(Collectors.toSet());
 
         // Add New from
         projectionA.stream()
-                .filter(item -> item instanceof String)
-                .map(item -> (String) item)
-                .forEach(originalSet::add);
+            .filter(item -> item instanceof String)
+            .map(item -> (String) item)
+            .forEach(originalSet::add);
         // Returned to Combined
         return Ut.toJArray(originalSet);
+    }
+
+    static boolean irOne(final JsonObject condition) {
+        final JsonObject normalized = condition.copy();
+        normalized.remove(Strings.EMPTY);
+        return 1 == normalized.fieldNames().size();
+    }
+
+    static boolean irNil(final JsonObject condition) {
+        if (Ut.isNil(condition)) {
+            return true;
+        } else {
+            final JsonObject normalized = condition.copy();
+            normalized.remove(Strings.EMPTY);
+            return Ut.isNil(normalized);
+        }
+    }
+
+    static boolean irAnd(final JsonObject condition) {
+        if (!condition.containsKey(Strings.EMPTY)) {
+            // Default: OR
+            return false;
+        }
+        // true for AND
+        // false for OR
+        return condition.getBoolean(Strings.EMPTY, Boolean.FALSE);
     }
 }

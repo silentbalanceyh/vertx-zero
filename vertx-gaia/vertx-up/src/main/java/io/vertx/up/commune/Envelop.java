@@ -251,11 +251,11 @@ public class Envelop implements Serializable {
 
     /* JqTool Part for criteria */
     public void onH(final JsonObject criteria) {
-        this.reference(reference -> Rib.criteria(reference, criteria, false));
+        this.reference(reference -> Ux.whereH(reference, criteria, false));
     }
 
     public void inH(final JsonObject criteria) {
-        this.reference(reference -> Rib.criteria(reference, criteria, true));
+        this.reference(reference -> Ux.whereH(reference, criteria, true));
     }
 
     public void onMe(final boolean active, final boolean app) {
@@ -296,27 +296,27 @@ public class Envelop implements Serializable {
     public JsonObject headersX() {
         final JsonObject headerData = new JsonObject();
         this.assist.headers().names().stream()
-                /* Up case is OK */
-                .filter(field -> field.startsWith(ID.Header.PREFIX)
-                        /* Lower case is also Ok */
-                        || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+            /* Up case is OK */
+            .filter(field -> field.startsWith(ID.Header.PREFIX)
+                /* Lower case is also Ok */
+                || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+            /*
+             * Data for header
+             * X-App-Id -> appId
+             * X-App-Key -> appKey
+             * X-Sigma -> sigma
+             */
+            .forEach(field -> {
                 /*
-                 * Data for header
-                 * X-App-Id -> appId
-                 * X-App-Key -> appKey
-                 * X-Sigma -> sigma
+                 * Lower / Upper are both Ok
                  */
-                .forEach(field -> {
-                    /*
-                     * Lower / Upper are both Ok
-                     */
-                    final String found = ID.Header.PARAM_MAP.keySet()
-                            .stream().filter(field::equalsIgnoreCase)
-                            .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
-                    if (Ut.notNil(found)) {
-                        headerData.put(found, this.assist.headers().get(field));
-                    }
-                });
+                final String found = ID.Header.PARAM_MAP.keySet()
+                    .stream().filter(field::equalsIgnoreCase)
+                    .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
+                if (Ut.notNil(found)) {
+                    headerData.put(found, this.assist.headers().get(field));
+                }
+            });
         return headerData;
     }
 
@@ -458,11 +458,11 @@ public class Envelop implements Serializable {
     @Override
     public String toString() {
         return "Envelop{" +
-                "status=" + this.status +
-                ", error=" + this.error +
-                ", data=" + this.data +
-                ", assist=" + this.assist.toString() +
-                ", key='" + this.key + '\'' +
-                '}';
+            "status=" + this.status +
+            ", error=" + this.error +
+            ", data=" + this.data +
+            ", assist=" + this.assist.toString() +
+            ", key='" + this.key + '\'' +
+            '}';
     }
 }

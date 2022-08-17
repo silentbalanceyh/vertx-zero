@@ -298,6 +298,7 @@ public final class Ux {
      * @param expected    The method declared type
      * @param consumer    File consumer to read `filename` to Buffer
      * @param <T>         Returned type for declared
+     *
      * @return T reference that converted
      */
     public static <T> T toFile(final Set<FileUpload> fileUploads, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -311,6 +312,7 @@ public final class Ux {
      * @param expected   The method declared type
      * @param consumer   File consumer to read `filename` to Buffer
      * @param <T>        Returned type of declared
+     *
      * @return T reference that converted
      */
     public static <T> T toFile(final FileUpload fileUpload, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -321,6 +323,7 @@ public final class Ux {
      * Split `Set<FileUpload>` by fieldname
      *
      * @param fileUploads FileUpload Set
+     *
      * @return Map of `field = Set<FileUpload>`
      */
     public static ConcurrentMap<String, Set<FileUpload>> toFile(final Set<FileUpload> fileUploads) {
@@ -415,32 +418,32 @@ public final class Ux {
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-            final JsonArray original, final JsonArray current, final Set<String> fields) {
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
         return CompareJ.compareJ(original, current, fields);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-            final JsonArray original, final JsonArray current, final String field) {
+        final JsonArray original, final JsonArray current, final String field) {
         return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-            final JsonArray original, final JsonArray current, final JsonArray matrix) {
+        final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-            final JsonArray original, final JsonArray current, final Set<String> fields) {
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
         return To.future(CompareJ.compareJ(original, current, fields));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-            final JsonArray original, final JsonArray current, final String field) {
+        final JsonArray original, final JsonArray current, final String field) {
         return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-            final JsonArray original, final JsonArray current, final JsonArray matrix) {
+        final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return To.future(CompareJ.compareJ(original, current, matrix));
     }
 
@@ -516,8 +519,8 @@ public final class Ux {
 
     public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final Set<String> removed) {
         return input -> (input instanceof JsonObject) ?
-                futureF((JsonObject) input, removed).compose(json -> To.future((T) json)) :
-                futureF((JsonArray) input, removed).compose(array -> To.future((T) array));
+            futureF((JsonObject) input, removed).compose(json -> To.future((T) json)) :
+            futureF((JsonArray) input, removed).compose(array -> To.future((T) array));
     }
 
     public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final String... removed) {
@@ -768,6 +771,9 @@ public final class Ux {
      * 2) whereAnd
      * 3) whereOr
      * 4) whereKeys
+     * 5) whereIs / whereKv
+     * 6) whereV
+     * 7) whereH
      */
     public static JsonObject whereDay(final JsonObject filters, final String field, final Instant instant) {
         return Where.whereDay(filters, field, instant);
@@ -801,6 +807,28 @@ public final class Ux {
         return Where.whereOr().put(field, value);
     }
 
+    // Where current condition is null
+    /*
+     * 1) Empty
+     * {
+     *     "": true | false
+     * }
+     * 2) Empty Full
+     * {
+     * }
+     */
+    public static boolean isQrEmpty(final JsonObject condition) {
+        return Query.irNil(condition);
+    }
+
+    public static boolean isQrAnd(final JsonObject condition) {
+        return Query.irAnd(condition);
+    }
+
+    public static boolean isQrOne(final JsonObject condition) {
+        return Query.irOne(condition);
+    }
+
     // ---------------------- Qr Modification --------------------------
     // Qr Add
     public static JsonObject whereQrA(final JsonObject qr, final Kv<String, Object> kv) {
@@ -819,6 +847,14 @@ public final class Ux {
 
     public static JsonArray whereV(final JsonArray original, final JsonArray projection) {
         return Query.irV(original, projection);
+    }
+
+    public static JsonObject whereH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+        return Query.irH(query, criteria, clear);
+    }
+
+    public static JsonObject whereH(final JsonObject original, final JsonObject criteria) {
+        return Query.irH(original, criteria);
     }
 
     // ---------------------- Request Data Extract --------------------------
@@ -1235,6 +1271,7 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
+         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
@@ -1256,6 +1293,7 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
+         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
@@ -1269,6 +1307,7 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param pool  Input data pool reference, it provide developers to access other database in one application.
+         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
@@ -1282,22 +1321,13 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param key   the key configuration in vertx-jooq.yml such as above "orbit", "provider"
+         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
             return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
-        }
-
-        public static boolean isEmpty(final JsonObject condition) {
-            if (Ut.isNil(condition)) {
-                return true;
-            } else {
-                final JsonObject normalized = condition.copy();
-                normalized.remove(Strings.EMPTY);
-                return Ut.isNil(normalized);
-            }
         }
     }
 

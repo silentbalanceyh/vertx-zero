@@ -47,6 +47,9 @@ public interface ID {
      */
     String TREE_ORIGINAL = "$ORIGINAL$";
     String TREE_MATRIX = "$MATRIX$";
+
+    String TREE_L = "$L$";
+    String TREE_R = "$R$";
     /*
      * For reflection
      */

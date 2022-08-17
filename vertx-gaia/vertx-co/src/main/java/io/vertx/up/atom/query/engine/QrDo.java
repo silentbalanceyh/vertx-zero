@@ -25,7 +25,6 @@ public interface QrDo {
 
     /**
      * Check whether json object is complex
-     *
      * 1. When any one value is `JsonObject`, it's true.
      * 2. otherwise the result is false.
      *
@@ -52,9 +51,7 @@ public interface QrDo {
 
     /**
      * Save new condition to LINEAR component.
-     *
      * The parameters are following format:
-     *
      * 1. fieldExpr is format of `field,op`, it contains two parts.
      * 2. fieldExpr is format of `field`, the default op is =.
      *
