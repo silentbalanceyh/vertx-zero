@@ -2,6 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Strings;
@@ -26,6 +27,31 @@ final class Query {
      * 2. irV / irH:  2 arguments -> Qr Node ( criteria, projection )
      */
     // ------------------- H ----------------------
+
+    static JsonObject irQH(final JsonObject query, final String field, final Object value) {
+        Objects.requireNonNull(query);
+        final JsonObject original = Ut.valueJObject(query, Qr.KEY_CRITERIA);
+        query.put(Qr.KEY_CRITERIA, irH(original, field, value));
+        return query;
+    }
+
+    static JsonObject irH(final JsonObject original, final String field, final Object value) {
+        final JsonObject originalJ = Ut.valueJObject(original);
+        // 如果 value 本身是 JsonObject
+        if (value instanceof JsonObject) {
+            // 左右合并
+            final Kv<String, String> kv = Kv.create(ID.TREE_L, field);
+            return ir(originalJ, (JsonObject) value, Qr.Connector.AND, kv);
+        } else {
+            // 直接合并（加 And）
+            if (!originalJ.containsKey(Strings.EMPTY)) {
+                originalJ.put(Strings.EMPTY, Boolean.TRUE);
+            }
+            originalJ.put(field, value);
+            return originalJ;
+        }
+    }
+
     static JsonObject irH(final JsonObject original, final JsonObject criteria) {
         final JsonObject originalJ = Ut.valueJObject(original);
         final JsonObject criteriaJ = Ut.valueJObject(criteria);
@@ -44,10 +70,11 @@ final class Query {
             return result.mergeIn(originalJ, true);
         }
         // 新旧都不为空
-        return irAnd(originalJ, criteriaJ);
+        final Kv<String, String> kv = Kv.create(ID.TREE_L, ID.TREE_R);
+        return irAnd(originalJ, criteriaJ, kv);
     }
 
-    static JsonObject irH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+    static JsonObject irQH(final JsonObject query, final JsonObject criteria, final boolean clear) {
         Objects.requireNonNull(query);
         if (clear) {
             /* Overwrite Mode */
@@ -61,16 +88,18 @@ final class Query {
         return query;
     }
 
-    private static JsonObject irAnd(final JsonObject originalJ, final JsonObject criteriaJ) {
-        return ir(originalJ, criteriaJ, Qr.Connector.AND);
+    private static JsonObject irAnd(final JsonObject originalJ, final JsonObject criteriaJ,
+                                    final Kv<String, String> nodes) {
+        return ir(originalJ, criteriaJ, Qr.Connector.AND, nodes);
     }
 
-    private static JsonObject irOr(final JsonObject originalJ, final JsonObject criteriaJ) {
-        return ir(originalJ, criteriaJ, Qr.Connector.OR);
+    private static JsonObject irOr(final JsonObject originalJ, final JsonObject criteriaJ,
+                                   final Kv<String, String> nodes) {
+        return ir(originalJ, criteriaJ, Qr.Connector.OR, nodes);
     }
 
     private static JsonObject ir(final JsonObject originalJ, final JsonObject criteriaJ,
-                                 final Qr.Connector connectorL) {
+                                 final Qr.Connector connectorL, final Kv<String, String> kv) {
         // 在 originalJ 中追加条件：AND
         originalJ.put(Strings.EMPTY, Qr.Connector.AND == connectorL);
         if (irOne(criteriaJ)) {
@@ -93,15 +122,15 @@ final class Query {
                 // L AND R
                 final JsonObject result = new JsonObject();
                 result.put(Strings.EMPTY, Boolean.TRUE);
-                result.put(ID.TREE_L, originalJ);
-                result.put(ID.TREE_R, criteriaJ);
+                result.put(kv.getKey(), originalJ);
+                result.put(kv.getValue(), criteriaJ);
                 return result;
             }
         }
     }
 
     // ------------------- V ----------------------
-    static JsonObject irV(final JsonObject query, final JsonArray projection, final boolean clear) {
+    static JsonObject irQV(final JsonObject query, final JsonArray projection, final boolean clear) {
         Objects.requireNonNull(query);
         if (clear) {
             /* Overwrite Mode */

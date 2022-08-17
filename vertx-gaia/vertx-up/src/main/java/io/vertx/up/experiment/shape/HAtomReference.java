@@ -218,7 +218,7 @@ public class HAtomReference implements HReference {
 
     private Function<JsonObject, Future<JsonArray>> actionA(final HAtom atom, final KJoin join) {
         return condition -> {
-            if (Ux.isQrEmpty(condition)) {
+            if (Ux.irNil(condition)) {
                 return Ux.futureA();
             }
             if (Objects.isNull(atom)) {
@@ -246,7 +246,7 @@ public class HAtomReference implements HReference {
 
     private Function<JsonObject, JsonArray> actionS(final HAtom atom, final KJoin join) {
         return condition -> {
-            if (Ux.isQrEmpty(condition)) {
+            if (Ux.irNil(condition)) {
                 return new JsonArray();
             }
             if (Objects.isNull(atom)) {

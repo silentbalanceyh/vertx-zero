@@ -771,9 +771,6 @@ public final class Ux {
      * 2) whereAnd
      * 3) whereOr
      * 4) whereKeys
-     * 5) whereIs / whereKv
-     * 6) whereV
-     * 7) whereH
      */
     public static JsonObject whereDay(final JsonObject filters, final String field, final Instant instant) {
         return Where.whereDay(filters, field, instant);
@@ -809,52 +806,77 @@ public final class Ux {
 
     // Where current condition is null
     /*
-     * 1) Empty
-     * {
-     *     "": true | false
-     * }
-     * 2) Empty Full
-     * {
-     * }
+     * Query Engine API
+     *
+     * QH -> Query with Criteria   （全格式）
+     * H  -> Criteria              （查询条件）
+     * V  -> Projection            （列过滤）
+     *
+     * 1) irNil / irAnd / irOne
+     *    - irNil:          判断查询条件是否为空，"": true | false 单节点也为空
+     *    - irOp:           判断查询条件是 AND 还是 OR，AND返回true，OR返回false
+     *    - irOne:          判断查询条件是否单条件（只有一个条件）
+     * 2) irAndQH / irAndH
+     *    - irAndQH:        参数本身为全格式:
+     *      {
+     *           "criteria": {}
+     *      }
+     *    - irAndH:         参数本身为全格式中的 criteria 纯格式
+     * 3) irQV / irV
+     *    - irQV:           参数本身为全格式:
+     *      {
+     *           "projection": []
+     *      }
+     *    - irV:            参数本身为全格式中的 projection 纯格式
+     *
+     * 全格式返回全格式，纯格式返回纯格式
      */
-    public static boolean isQrEmpty(final JsonObject condition) {
+    public static boolean irNil(final JsonObject condition) {
         return Query.irNil(condition);
     }
 
-    public static boolean isQrAnd(final JsonObject condition) {
+    public static boolean irOp(final JsonObject condition) {
         return Query.irAnd(condition);
     }
 
-    public static boolean isQrOne(final JsonObject condition) {
+    public static boolean irOne(final JsonObject condition) {
         return Query.irOne(condition);
     }
 
     // ---------------------- Qr Modification --------------------------
-    // Qr Add
-    public static JsonObject whereQrA(final JsonObject qr, final Kv<String, Object> kv) {
+    public static JsonObject irAndQH(final JsonObject qr, final Kv<String, Object> kv) {
         Objects.requireNonNull(kv);
-        return Where.whereQrA(qr, kv.getKey(), kv.getValue());
+        return Query.irQH(qr, kv.getKey(), kv.getValue());
     }
 
-    public static JsonObject whereQrA(final JsonObject qr, final String field, final Object value) {
-        return Where.whereQrA(qr, field, value);
+    public static JsonObject irAndQH(final JsonObject qr, final String field, final Object value) {
+        return Query.irQH(qr, field, value);
+    }
+
+    public static JsonObject irAndQH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+        return Query.irQH(query, criteria, clear);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final JsonObject criteria) {
+        return Query.irH(original, criteria);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final String field, final Object value) {
+        return Query.irH(original, field, value);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final Kv<String, Object> kv) {
+        Objects.requireNonNull(kv);
+        return Query.irH(original, kv.getKey(), kv.getValue());
     }
 
     // Qr Combine ( projection + projection )
-    public static JsonObject whereV(final JsonObject query, final JsonArray projection, final boolean clear) {
-        return Query.irV(query, projection, clear);
+    public static JsonObject irQV(final JsonObject query, final JsonArray projection, final boolean clear) {
+        return Query.irQV(query, projection, clear);
     }
 
-    public static JsonArray whereV(final JsonArray original, final JsonArray projection) {
+    public static JsonArray irV(final JsonArray original, final JsonArray projection) {
         return Query.irV(original, projection);
-    }
-
-    public static JsonObject whereH(final JsonObject query, final JsonObject criteria, final boolean clear) {
-        return Query.irH(query, criteria, clear);
-    }
-
-    public static JsonObject whereH(final JsonObject original, final JsonObject criteria) {
-        return Query.irH(original, criteria);
     }
 
     // ---------------------- Request Data Extract --------------------------

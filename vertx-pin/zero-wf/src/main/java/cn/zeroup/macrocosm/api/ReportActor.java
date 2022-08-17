@@ -84,7 +84,7 @@ public class ReportActor {
             .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
             .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
         );
-        final JsonObject qrCombine = Ux.whereQrA(qr, "$Q$", qrStatus);
+        final JsonObject qrCombine = Ux.irAndQH(qr, "$Q$", qrStatus);
         Wf.Log.initQueue(this.getClass(), "Qr Report Combined: {0}", qrCombine.encode());
         return this.taskStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)
     }

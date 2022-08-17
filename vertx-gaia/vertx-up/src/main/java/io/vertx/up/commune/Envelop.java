@@ -242,20 +242,20 @@ public class Envelop implements Serializable {
 
     /* JqTool Part for projection */
     public void onV(final JsonArray projection) {
-        this.reference(reference -> Ux.whereV(reference, projection, false));
+        this.reference(reference -> Ux.irQV(reference, projection, false));
     }
 
     public void inV(final JsonArray projection) {
-        this.reference(reference -> Ux.whereV(reference, projection, true));
+        this.reference(reference -> Ux.irQV(reference, projection, true));
     }
 
     /* JqTool Part for criteria */
     public void onH(final JsonObject criteria) {
-        this.reference(reference -> Ux.whereH(reference, criteria, false));
+        this.reference(reference -> Ux.irAndQH(reference, criteria, false));
     }
 
     public void inH(final JsonObject criteria) {
-        this.reference(reference -> Ux.whereH(reference, criteria, true));
+        this.reference(reference -> Ux.irAndQH(reference, criteria, true));
     }
 
     public void onMe(final boolean active, final boolean app) {
