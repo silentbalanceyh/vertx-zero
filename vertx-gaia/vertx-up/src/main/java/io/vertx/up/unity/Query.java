@@ -53,7 +53,8 @@ final class Query {
     }
 
     static JsonObject irH(final JsonObject original, final JsonObject criteria) {
-        final JsonObject originalJ = Ut.valueJObject(original);
+        // 此处必须使用副本
+        final JsonObject originalJ = Ut.valueJObject(original, true);
         final JsonObject criteriaJ = Ut.valueJObject(criteria);
         // Combine Result
         final JsonObject result = new JsonObject();
@@ -106,7 +107,7 @@ final class Query {
             // 单条件，直接将条件追加（此时不论符号）
             criteriaJ.fieldNames()
                 .forEach(field -> originalJ.put(field, criteriaJ.getValue(field)));
-            return criteriaJ;
+            return originalJ;
         } else {
             // 多条件，需检查对端符号
             final Boolean isAnd = criteriaJ.getBoolean(Strings.EMPTY, Boolean.FALSE);
@@ -116,7 +117,7 @@ final class Query {
                 // L AND R ( r1 = v1, r2 = v2 )
                 criteriaJ.fieldNames()
                     .forEach(field -> originalJ.put(field, criteriaJ.getValue(field)));
-                return criteriaJ;
+                return originalJ;
             } else {
                 // 符号不同，Tree合并
                 // L AND R
