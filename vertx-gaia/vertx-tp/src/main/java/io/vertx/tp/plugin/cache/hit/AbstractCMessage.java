@@ -13,7 +13,6 @@ import java.util.TreeSet;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-@SuppressWarnings("all")
 public abstract class AbstractCMessage implements CMessage {
     /*
      * Entity type of current message
@@ -33,6 +32,7 @@ public abstract class AbstractCMessage implements CMessage {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Class<T> dataType() {
         return Objects.nonNull(this.type) ? (Class<T>) this.type : null;
     }
@@ -49,18 +49,19 @@ public abstract class AbstractCMessage implements CMessage {
     }
 
     @Override
-    public <T> CMessage data(T data) {
+    public <T> CMessage data(final T data) {
         this.data = data;
         return this;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T data() {
         return (T) this.data;
     }
 
     @Override
-    public Buffer dataDelivery(ChangeFlag flag) {
+    public Buffer dataDelivery(final ChangeFlag flag) {
         final JsonObject delivery = new JsonObject();
         /*
          * Check entity to see whether they are collection

@@ -163,7 +163,7 @@ public class ServiceJet implements UddiJet {
                 /*
                  * Pure request with buffer directly
                  */
-                Buffer body = context.getBody();
+                Buffer body = context.body().buffer();
                 if (null == body) {
                     body = Buffer.buffer();
                 }

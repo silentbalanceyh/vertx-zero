@@ -22,7 +22,7 @@ public class SolveResolver<T> implements Resolver<T> {
             throw new _500InternalServerException(this.getClass(), "Solve instance is null");
         } else {
             // Default content from `context`
-            final String content = context.getBodyAsString();
+            final String content = context.body().asString();
             LOGGER.info("( Resolver ) Solve Type: {0}, Content = {1}",
                 this.internalResolver.getClass(), content);
             final T processed = this.internalResolver.resolve(content);
