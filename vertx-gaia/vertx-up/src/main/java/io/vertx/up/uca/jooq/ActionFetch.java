@@ -103,8 +103,8 @@ class ActionFetch extends AbstractAction {
 
     <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
         return this.qr.<T>searchAsync(criteria, sorter).compose(list -> {
-            this.logging("[ Jq ] fetchAsync(JsonObject, Sorter) condition json: \"{1}\", queried rows: {0}",
-                String.valueOf(list.size()), criteria);
+            this.logging("[ Jq ] fetchAsync(JsonObject, Sorter) condition json: \"{1}\" and sorter: \"{2}\", queried rows: {0}",
+                String.valueOf(list.size()), criteria, sorter);
             return Future.succeededFuture(list);
         });
     }
@@ -119,8 +119,8 @@ class ActionFetch extends AbstractAction {
 
     <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
         final List<T> list = this.qr.search(criteria, sorter);
-        this.logging("[ Jq ] fetch(JsonObject, Sorter) condition json: \"{1}\", queried rows: {0}",
-            String.valueOf(list.size()), criteria);
+        this.logging("[ Jq ] fetch(JsonObject, Sorter) condition json: \"{1}\"  and sorter: \"{2}\", queried rows: {0}",
+            String.valueOf(list.size()), criteria, sorter);
         return list;
     }
 
