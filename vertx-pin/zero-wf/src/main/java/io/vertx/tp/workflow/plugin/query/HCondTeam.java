@@ -3,6 +3,7 @@ package io.vertx.tp.workflow.plugin.query;
 import io.vertx.aeon.specification.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.unity.Ux;
 
 /**
  * 本组专用查询组件
@@ -11,7 +12,7 @@ import io.vertx.core.json.JsonObject;
  */
 public class HCondTeam implements HCond {
     @Override
-    public Future<JsonObject> compile(final JsonObject qr, final JsonObject data) {
-        return null;
+    public Future<JsonObject> compile(final JsonObject data, final JsonObject qr) {
+        return Ux.futureJ();
     }
 }

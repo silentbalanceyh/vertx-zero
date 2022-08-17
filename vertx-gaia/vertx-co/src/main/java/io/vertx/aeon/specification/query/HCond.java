@@ -10,9 +10,9 @@ import io.vertx.core.json.JsonObject;
  */
 public interface HCond {
     /*
-     * qr - 传入的原始查询条件
+     * qr - 传入的配置信息
      * data - 输入专用参数（可执行表达式解析的核心参数）
      * 最终返回处理过后的查询条件
      */
-    Future<JsonObject> compile(JsonObject qr, JsonObject data);
+    Future<JsonObject> compile(JsonObject data, JsonObject qr);
 }
