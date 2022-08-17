@@ -35,7 +35,7 @@ class DataIn {
             /*
              * apply projection based on view
              */
-            envelop.onProjection(projection);
+            envelop.onV(projection);
         }
     }
 
@@ -48,7 +48,7 @@ class DataIn {
         final JsonObject criteria = matrix.getJsonObject(Qr.KEY_CRITERIA);
         /* ACL do not control criteria */
         if (Objects.nonNull(criteria) && !criteria.isEmpty()) {
-            envelop.onCriteria(criteria);
+            envelop.onH(criteria);
         }
     }
 

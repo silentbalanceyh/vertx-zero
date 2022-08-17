@@ -44,7 +44,7 @@ public class UiViewHQBE implements HQBE {
             future = this.beforeInternal(listQr, request, qrComponent);
         }
         return future.compose(criteria -> {
-            envelop.onCriteria(criteria);
+            envelop.onH(criteria);
             return Ux.future(envelop);
         });
     }

@@ -14,7 +14,8 @@ import java.util.function.BiFunction;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class Norm {
+final class Norm {
+
     /*
      * Split `input` data structure
      *
@@ -38,7 +39,7 @@ class Norm {
      *    }
      */
     static Future<JsonObject> effectTabb(
-        final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
+            final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
         Objects.requireNonNull(input);
         final JsonObject previous = Ut.aiDataO(input);
         final JsonObject normalized = Ut.aiDataN(input);
@@ -95,22 +96,22 @@ class Norm {
 
                 // DELETE ( Whole ), All element is DELETE
                 Ut.itJArray(previous)
-                    .map(item -> effectInternal(item, null)).forEach(response::add);
+                        .map(item -> effectInternal(item, null)).forEach(response::add);
             } else {
                 if (Ut.isNil(previous)) {
 
                     // ADD ( Whole ), All element is ADD
                     Ut.itJArray(current)
-                        .map(item -> effectInternal(null, item)).forEach(response::add);
+                            .map(item -> effectInternal(null, item)).forEach(response::add);
                 } else {
 
                     // UPDATE ( Json May be UPDATE, ADD, DELETE )
                     final ConcurrentMap<ChangeFlag, JsonArray> comparedMap
-                        = CompareJ.compareJ(previous, current, field);
+                            = CompareJ.compareJ(previous, current, field);
                     Ut.itJArray(comparedMap.get(ChangeFlag.ADD))
-                        .map(item -> effectInternal(null, item)).forEach(response::add);
+                            .map(item -> effectInternal(null, item)).forEach(response::add);
                     Ut.itJArray(comparedMap.get(ChangeFlag.DELETE))
-                        .map(item -> effectInternal(item, null)).forEach(response::add);
+                            .map(item -> effectInternal(item, null)).forEach(response::add);
 
                     // UPDATE ( prev / now )
                     Ut.itJArray(current).forEach(record -> {
@@ -186,12 +187,12 @@ class Norm {
             final JsonObject inputJ = (JsonObject) input;
             final JsonObject processedJ = (JsonObject) processed;
             return combine(inputJ, processedJ)
-                .compose(json -> To.future((T) json));
+                    .compose(json -> To.future((T) json));
         } else if (input instanceof JsonArray) {
             final JsonArray inputA = (JsonArray) input;
             final JsonArray processedA = (JsonArray) processed;
             return combine(inputA, processedA)
-                .compose(json -> To.future((T) json));
+                    .compose(json -> To.future((T) json));
         } else {
             return Ux.future(processed);
         }
