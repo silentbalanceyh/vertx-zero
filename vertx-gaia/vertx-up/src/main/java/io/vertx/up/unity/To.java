@@ -13,70 +13,81 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 @SuppressWarnings("all")
 class To {
 
+    static JsonObject subset(final JsonObject input, final Set<String> removed) {
+        removed.forEach(input::remove);
+        return input;
+    }
+
+    static JsonArray subset(final JsonArray input, final Set<String> removed) {
+        Ut.itJArray(input).forEach(json -> subset(json, removed));
+        return input;
+    }
+
     static <T> Future<T> future(final T entity) {
         return Fn.getNull(Future.succeededFuture(),
-                () -> Fn.getSemi(entity instanceof Throwable, null,
-                        () -> Future.failedFuture((Throwable) entity),
-                        () -> Future.succeededFuture(entity)),
-                entity);
+            () -> Fn.getSemi(entity instanceof Throwable, null,
+                () -> Future.failedFuture((Throwable) entity),
+                () -> Future.succeededFuture(entity)),
+            entity);
     }
 
     static <T> JsonObject toJObject(
-            final T entity,
-            final String pojo) {
+        final T entity,
+        final String pojo) {
         return Fn.getNull(new JsonObject(),
-                () -> Fn.getSemi(Ut.isNil(pojo), null,
-                        // Turn On Smart
-                        () -> Ut.serializeJson(entity, true),
-                        () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
-                entity);
+            () -> Fn.getSemi(Ut.isNil(pojo), null,
+                // Turn On Smart
+                () -> Ut.serializeJson(entity, true),
+                () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
+            entity);
     }
 
     static <T> JsonObject toJObject(
-            final T entity,
-            final Function<JsonObject, JsonObject> convert
+        final T entity,
+        final Function<JsonObject, JsonObject> convert
     ) {
         return Fn.getSemi(null == convert, null,
-                () -> toJObject(entity, ""),
-                () -> convert.apply(toJObject(entity, "")));
+            () -> toJObject(entity, ""),
+            () -> convert.apply(toJObject(entity, "")));
     }
 
     static <T> JsonArray toJArray(
-            final List<T> list,
-            final Function<JsonObject, JsonObject> convert
+        final List<T> list,
+        final Function<JsonObject, JsonObject> convert
     ) {
         return Fn.getNull(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
-                    .filter(Objects::nonNull)
-                    .map(item -> toJObject(item, convert))
-                    .subscribe(array::add);
+                .filter(Objects::nonNull)
+                .map(item -> toJObject(item, convert))
+                .subscribe(array::add);
             return array;
         }, list);
     }
 
     static <T> JsonArray toJArray(
-            final List<T> list,
-            final String pojo
+        final List<T> list,
+        final String pojo
     ) {
         return Fn.getNull(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
-                    .filter(Objects::nonNull)
-                    .map(item -> toJObject(item, pojo))
-                    .subscribe(array::add);
+                .filter(Objects::nonNull)
+                .map(item -> toJObject(item, pojo))
+                .subscribe(array::add);
             return array;
         }, list);
     }
 
     static <T> List<JsonObject> toJList(
-            final List<T> list,
-            final String pojo
+        final List<T> list,
+        final String pojo
     ) {
         return Fn.getNull(new ArrayList<>(), () -> {
             final List<JsonObject> jlist = new ArrayList<>();
@@ -87,43 +98,42 @@ class To {
 
     @SuppressWarnings("all")
     static <T> Envelop toEnvelop(
-            final T entity
+        final T entity
     ) {
-        return Fn.getNull(Envelop.ok(),
-                () -> Fn.getSemi(entity instanceof WebException, null,
-                        () -> Envelop.failure((WebException) entity),
-                        () -> {
-                            if (Envelop.class == entity.getClass()) {
-                                return (Envelop) entity;
-                            } else {
-                                return Envelop.success(entity);
-                            }
-                        }),
-                entity);
+        return Fn.getNull(Envelop.ok(), () -> Fn.getSemi(entity instanceof WebException, null,
+                () -> Envelop.failure((WebException) entity),
+                () -> {
+                    if (Envelop.class == entity.getClass()) {
+                        return (Envelop) entity;
+                    } else {
+                        return Envelop.success(entity);
+                    }
+                }),
+            entity);
     }
 
     static <T> Envelop toEnvelop(
-            final T entity,
-            final WebException error
+        final T entity,
+        final WebException error
     ) {
         return Fn.getNull(Envelop.failure(error),
-                () -> Envelop.success(entity), entity);
+            () -> Envelop.success(entity), entity);
     }
 
     static Envelop toEnvelop(
-            final Class<? extends WebException> clazz,
-            final Object... args
+        final Class<? extends WebException> clazz,
+        final Object... args
     ) {
         return Envelop.failure(Ut.toError(clazz, args));
     }
 
     static JsonObject toUnique(
-            final JsonArray array,
-            final String pojo
+        final JsonArray array,
+        final String pojo
     ) {
         return Fn.getSemi(null == array || array.isEmpty(), null,
-                () -> toJObject(null, pojo),
-                () -> toJObject(array.getValue(0), pojo));
+            () -> toJObject(null, pojo),
+            () -> toJObject(array.getValue(0), pojo));
     }
 
     static JsonObject toToggle(final Object... args) {
