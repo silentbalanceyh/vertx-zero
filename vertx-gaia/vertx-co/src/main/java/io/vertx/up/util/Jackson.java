@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
@@ -21,10 +22,10 @@ import java.util.*;
 /**
  * Lookup the json tree data
  */
-@SuppressWarnings({"all"})
+@SuppressWarnings("all")
 final class Jackson {
     private static final Annal LOGGER = Annal.get(Jackson.class);
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final JsonMapper MAPPER = new JsonMapper();
 
     static {
         // Ignore null value
@@ -37,8 +38,10 @@ final class Jackson {
         // Big Decimal
         Jackson.MAPPER.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
         // Case Sensitive
-        Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+        JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+        JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+        // Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+        // Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 
         final ZeroModule module = new ZeroModule();
         Jackson.MAPPER.registerModule(module);
@@ -273,7 +276,7 @@ final class Jackson {
                 } else if (value instanceof JsonArray && String.class == fieldC) {
                     item.put(field, ((JsonArray) value).encode());
                 }
-            } catch (NoSuchFieldException ex) {
+            } catch (final NoSuchFieldException ex) {
                 // Remove / Ignore the field
                 item.remove(field);
             }
@@ -312,13 +315,13 @@ final class Jackson {
     }
 
     // ---------------------- Json Tool ----------------------------
-    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, boolean isRef) {
+    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
         final JsonObject reference = isRef ? target : target.copy();
         reference.mergeIn(source, true);
         return reference;
     }
 
-    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, boolean isRef) {
+    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
         final JsonObject reference = isRef ? target : target.copy();
         source.fieldNames().stream()
             .filter(field -> !reference.containsKey(field))
