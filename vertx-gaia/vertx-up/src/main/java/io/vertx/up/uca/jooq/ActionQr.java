@@ -5,7 +5,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -68,7 +70,9 @@ public class ActionQr extends AbstractAction {
      * 「Sync method」
      * Simple query
      */
-    private <T> List<T> searchInternal(final DSLContext context, final JsonObject criteria) {
+    private <T> List<T> searchInternal(final DSLContext context, final JsonObject qr) {
+        final JsonObject criteria = qr.copy();
+        criteria.remove(KName.__.SORT);
         // Started steps
         final SelectWhereStep started = context.selectFrom(this.analyzer.table());
         // Condition injection
@@ -77,8 +81,22 @@ public class ActionQr extends AbstractAction {
             final Condition condition = JooqCond.transform(criteria, this.analyzer::column);
             conditionStep = started.where(condition);
         }
-        // Projection
-        return started.fetchInto(this.analyzer.type());
+
+        final Sorter sorter = Sorter.create(criteria.getJsonObject(KName.__.SORT));
+        if (Objects.isNull(sorter)) {
+            // Projection
+            return started.fetchInto(this.analyzer.type());
+        } else {
+            // Sorted Enabled
+            SelectSeekStepN selectStep = null;
+            final List<OrderField> orders = JooqCond.orderBy(sorter, this.analyzer::column, null);
+            if (null == conditionStep) {
+                selectStep = started.orderBy(orders);
+            } else {
+                selectStep = conditionStep.orderBy(orders);
+            }
+            return selectStep.fetchInto(this.analyzer.type());
+        }
     }
 
     /*

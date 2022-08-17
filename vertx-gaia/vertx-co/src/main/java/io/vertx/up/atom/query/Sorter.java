@@ -53,6 +53,16 @@ public class Sorter implements Serializable {
         return target;
     }
 
+    public static Sorter create(final JsonObject sorterJ) {
+        if (Ut.isNil(sorterJ)) {
+            return null;
+        }
+        final Sorter sorter = create();
+        Ut.<Boolean>itJObject(sorterJ, (mode, field) ->
+            sorter.add(field, mode));
+        return sorter;
+    }
+
     public <T> JsonObject toJson(final Function<Boolean, T> function) {
         final JsonObject sort = new JsonObject();
         Ut.itList(this.field, (item, index) -> {
@@ -85,5 +95,9 @@ public class Sorter implements Serializable {
         this.field.clear();
         this.asc.clear();
         return this;
+    }
+
+    public boolean valid() {
+        return !this.field.isEmpty() && !this.asc.isEmpty();
     }
 }

@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.init.UiPin;
 import io.vertx.tp.ui.refine.Ui;
+import io.vertx.up.atom.query.QSyntax;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -57,10 +58,13 @@ public class ListService implements ListStub {
 
     @Override
     public Future<JsonArray> fetchQr(final String code, final String sigma) {
-        final JsonObject condition = Ux.whereAnd()
-            .put(KName.CODE, code)
-            .put(KName.SIGMA, sigma);
-        return Ux.Jooq.on(UiListQrDao.class).fetchJAsync(condition)
+        // CODE = ? AND SIGMA = ? ORDER BY SORT ASC
+        final QSyntax syntax = QSyntax.and()
+            .eq(KName.CODE, code)
+            .eq(KName.SIGMA, sigma)
+            .asc(KName.SORT);
+
+        return Ux.Jooq.on(UiListQrDao.class).fetchJAsync(syntax.to())
             /* List<UiListQr> */
             .compose(Ux.futureF(
                 /*
