@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -44,7 +44,7 @@ public final class Ut {
     private Ut() {
     }
 
-    public static ObjectMapper mapper() {
+    public static JsonMapper mapper() {
         return Jackson.getMapper();
     }
     /*

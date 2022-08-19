@@ -27,5 +27,6 @@
     "permissionPool": "POOL_PERMISSIONS",
     "supportGroup": true,
     "supportSecondary": true,
-    "supportMultiApp": true
+    "supportMultiApp": true,
+    "supportIntegration": false
 }

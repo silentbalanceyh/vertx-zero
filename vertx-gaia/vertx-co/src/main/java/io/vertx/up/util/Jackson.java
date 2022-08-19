@@ -3,7 +3,10 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.OriginalNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.reactivex.Observable;
@@ -22,10 +25,22 @@ import java.util.*;
 /**
  * Lookup the json tree data
  */
-@SuppressWarnings("all")
 final class Jackson {
     private static final Annal LOGGER = Annal.get(Jackson.class);
-    private static final JsonMapper MAPPER = new JsonMapper();
+    private static final JsonMapper MAPPER = JsonMapper.builder()
+        /*
+         * Previous code
+         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+         *
+         * Case Sensitive
+         * Below new code logical
+         */
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+        .build();
 
     static {
         // Ignore null value
@@ -38,10 +53,6 @@ final class Jackson {
         // Big Decimal
         Jackson.MAPPER.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
         // Case Sensitive
-        JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
-        // Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        // Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 
         final ZeroModule module = new ZeroModule();
         Jackson.MAPPER.registerModule(module);
@@ -51,7 +62,7 @@ final class Jackson {
     private Jackson() {
     }
 
-    static ObjectMapper getMapper() {
+    static JsonMapper getMapper() {
         return MAPPER.copy();
     }
 
