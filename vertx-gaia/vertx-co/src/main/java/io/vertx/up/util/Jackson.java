@@ -25,6 +25,7 @@ import java.util.*;
 /**
  * Lookup the json tree data
  */
+@SuppressWarnings("all")
 final class Jackson {
     private static final Annal LOGGER = Annal.get(Jackson.class);
     private static final JsonMapper MAPPER = JsonMapper.builder()
