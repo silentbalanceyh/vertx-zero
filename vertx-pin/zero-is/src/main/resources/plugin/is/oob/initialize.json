@@ -1,4 +1,5 @@
 [
+    "plugin/is/oob/data/is.dict.xlsx",
     "plugin/is/oob/data/is.menu.xlsx",
     "plugin/is/oob/data/is.number.xlsx",
     "plugin/is/oob/cab/i.directory.xlsx",

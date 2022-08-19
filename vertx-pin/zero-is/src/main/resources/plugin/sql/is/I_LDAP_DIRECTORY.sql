@@ -14,26 +14,12 @@ CREATE TABLE IF NOT EXISTS I_LDAP_DIRECTORY
      * OWNER_TYPE + OWNER 和用户 / 用户组执行关联
      * 如果拥有集成ID，则消费集成配置，否则不消费集成配置执行关联
      */
-    `OWNER_TYPE`     VARCHAR(64) COMMENT '「ownerType」- 关联主体类型',
+    `OWNER_TYPE`     VARCHAR(20) COMMENT '「ownerType」- 关联主体类型',
     `OWNER`          VARCHAR(36) COMMENT '「owner」- 关联主体主键',
 
     `INTEGRATION_ID` VARCHAR(36) COMMENT '「integrationId」- 是否关联集成配置，管理时直接同步',
     `RUN_COMPONENT`  TEXT COMMENT '「runComponent」- 执行组件，LDAP执行专用',
     `RUN_CONFIG`     LONGTEXT COMMENT '「runConfig」- 执行组件额外配置',
-    /*
-     * secure = true，直接走集成配置
-     * Integration
-     *      - endpoint -> ldapUrl
-     *      - path     -> ldapBase
-     *      - username -> ldapUser
-     *      - password -> ldapSecret
-     * secure = false（简易处理）
-     *      - ldapUrl
-     *      - ldapBase
-     *      - ldapUser
-     *      - ldapSecret
-     */
-    `SECURE`         BIT COMMENT '「secure」- 是否启用安全协议，启用安全协议必走集成',
     /*
      * 配置结构字段值
      * [
@@ -43,6 +29,7 @@ CREATE TABLE IF NOT EXISTS I_LDAP_DIRECTORY
      *      "ldapSecret"
      * ]
      */
+    `LDAP_KEY`       NVARCHAR(512) COMMENT '「ldapKey」- LDAP专用Base路径',
     `LDAP_CONFIG`    TEXT COMMENT '「ldapConfig」- 如果不和集成相关，则直接存储配置信息',
     `LDAP_SOURCE`    LONGTEXT COMMENT '「ldapSource」- 绑定好过后，导入数据专用',
 
