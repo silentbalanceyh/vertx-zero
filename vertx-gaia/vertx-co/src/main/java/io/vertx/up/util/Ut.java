@@ -850,7 +850,7 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final JsonObject value, final Class<T> type) {
-        return Jackson.deserialize(value, type, false);
+        return Jackson.deserialize(value, type, true);
     }
 
     public static <T> T deserialize(final JsonObject value, final Class<T> type, boolean isSmart) {
