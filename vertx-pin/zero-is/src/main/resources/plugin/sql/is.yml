@@ -8,3 +8,6 @@ databaseChangeLog:
   - include:
       file: plugin/sql/is/I_MESSAGE.sql
       relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/is/I_PORTFOLIO.sql
+      relativeToChangelogFile: false
