@@ -12,10 +12,10 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
-import io.vertx.up.verticle.ZeroAtomic;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ZeroRxAgent extends AbstractVerticle {
         // Fn.po?lThread(Pool.EVENTS, () -> Ut.instance(EventAxis.class));
 
         /* 3.Get the default HttpServer Options **/
-        ZeroAtomic.RX_OPTS.forEach((port, option) -> {
+        ZeroGrid.getRxOptions().forEach((port, option) -> {
             /* 3.1.Single server processing **/
             final HttpServer server = this.vertx.createHttpServer(option);
             /* 3.2. Build router with current option **/
@@ -66,7 +66,7 @@ public class ZeroRxAgent extends AbstractVerticle {
     private void recordServer(final HttpServerOptions options,
                               final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);

@@ -12,6 +12,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
 import io.vertx.up.uca.micro.ipc.server.UnityTunnel;
@@ -35,7 +36,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
     @Override
     public void start() {
         /* 1. Iterate all the configuration **/
-        Ut.itMap(ZeroAtomic.RPC_OPTS, (port, config) -> {
+        Ut.itMap(ZeroGrid.getRpcOptions(), (port, config) -> {
             /* 2.Rcp server builder initialized **/
             final VertxServerBuilder builder = VertxServerBuilder
                 .forAddress(this.vertx, config.getHost(), config.getPort());
@@ -57,7 +58,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
 
     @Override
     public void stop() {
-        Ut.itMap(ZeroAtomic.RPC_OPTS, (port, config) -> {
+        Ut.itMap(ZeroGrid.getRpcOptions(), (port, config) -> {
             // Status registry
             this.registry.registryRpc(config, Etat.STOPPED);
         });
@@ -72,7 +73,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
     private void registryServer(final AsyncResult<Void> handler,
                                 final RpcOptions options) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ONE == out.getAndIncrement()) {
             if (handler.succeeded()) {
                 LOGGER.info(Info.RPC_LISTEN, Ut.netIPv4(), String.valueOf(options.getPort()));

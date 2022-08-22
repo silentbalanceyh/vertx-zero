@@ -10,6 +10,7 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.unity.Ux;
 
@@ -51,7 +52,7 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
                      * - In Sync, not need to pass Envelop on event bus
                      */
                     final Envelop request = dataRes.result();
-                    bus.<Envelop>request(address, request, Ux.Opt.on().delivery(), handler -> {
+                    bus.<Envelop>request(address, request, ZeroGrid.getDeliveryOption(), handler -> {
                         final Envelop response;
                         if (handler.succeeded()) {
                             // Request - Response message

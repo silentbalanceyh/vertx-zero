@@ -9,9 +9,8 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.monitor.MeasureAxis;
-import io.vertx.up.uca.options.DynamicVisitor;
-import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.rs.router.PointAxis;
 import io.vertx.up.uca.rs.router.RouterAxis;
@@ -19,8 +18,6 @@ import io.vertx.up.uca.rs.router.WallAxis;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -32,22 +29,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ZeroApiAgent extends AbstractVerticle {
 
     private static final Annal LOGGER = Annal.get(ZeroApiAgent.class);
-
-    private static final ServerVisitor<HttpServerOptions> VISITOR =
-        Ut.singleton(DynamicVisitor.class);
-    private static final ConcurrentMap<Integer, AtomicInteger>
-        API_START_LOGS = new ConcurrentHashMap<>();
-
-    static {
-        Fn.outUp(() -> {
-            if (ZeroAtomic.API_OPTS.isEmpty()) {
-                ZeroAtomic.API_OPTS.putAll(VISITOR.visit(ServerType.API.toString()));
-                ZeroAtomic.API_OPTS.forEach((port, option) -> {
-                    API_START_LOGS.put(port, new AtomicInteger(0));
-                });
-            }
-        }, LOGGER);
-    }
 
     @Override
     public void start() {
@@ -64,39 +45,34 @@ public class ZeroApiAgent extends AbstractVerticle {
         final Axis<Router> montiorAxiser =
             Pool.CC_ROUTER.pick(() -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + true);
 
-        // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, true));
-        Fn.outUp(() -> {
+        Fn.outUp(() -> ZeroGrid.getGatewayOptions().forEach((port, option) -> {
+            /* Mount to api hub **/
+            final Axis<Router> axiser = Pool.CC_ROUTER.pick(
+                () -> Ut.instance(PointAxis.class, option, this.vertx), PointAxis.class.getName());
+            // Fn.po?lThread(Pool.APIS, () -> Ut.instance(PointAxis.class, option, this.vertx));
+            /* Single server processing **/
+            final HttpServer server = this.vertx.createHttpServer(option);
+            /* Router **/
+            final Router router = Router.router(this.vertx);
+            routerAxiser.mount(router);
+            // Wall
+            wallAxiser.mount(router);
+            // Meansure
+            montiorAxiser.mount(router);
+            /* Api Logical **/
+            axiser.mount(router);
 
-            // Set breaker for each server
-            ZeroAtomic.API_OPTS.forEach((port, option) -> {
-                /* Mount to api hub **/
-                final Axis<Router> axiser = Pool.CC_ROUTER.pick(
-                    () -> Ut.instance(PointAxis.class, option, this.vertx), PointAxis.class.getName());
-                // Fn.po?lThread(Pool.APIS, () -> Ut.instance(PointAxis.class, option, this.vertx));
-                /* Single server processing **/
-                final HttpServer server = this.vertx.createHttpServer(option);
-                /* Router **/
-                final Router router = Router.router(this.vertx);
-                routerAxiser.mount(router);
-                // Wall
-                wallAxiser.mount(router);
-                // Meansure
-                montiorAxiser.mount(router);
-                /* Api Logical **/
-                axiser.mount(router);
-
-                /* Listening **/
-                server.requestHandler(router).listen();
-                {
-                    this.registryServer(option);
-                }
-            });
-        }, LOGGER);
+            /* Listening **/
+            server.requestHandler(router).listen();
+            {
+                this.registryServer(option);
+            }
+        }), LOGGER);
     }
 
     private void registryServer(final HttpServerOptions options) {
         final Integer port = options.getPort();
-        final AtomicInteger out = API_START_LOGS.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             final String portLiteral = String.valueOf(port);
             LOGGER.info(Info.API_GATEWAY, this.getClass().getSimpleName(), this.deploymentID(),
