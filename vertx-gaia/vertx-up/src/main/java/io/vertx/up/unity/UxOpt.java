@@ -11,11 +11,10 @@ import io.vertx.up.uca.cache.Cc;
  * uniform calling
  */
 public class UxOpt {
+    // By Thread configuration
     private final Cc<String, Rotate> CC_ROTATE = Cc.openThread();
 
-    /*
-     * Default DeliveryOptions
-     */
+    /* Default DeliveryOptions for Event Bus */
     public DeliveryOptions delivery() {
         final Rotate rotate = this.CC_ROTATE.pick(DeployRotate::new); // Fn.po?lThread(this.ROTATE, DeployRotate::new);
         return rotate.spinDelivery();
