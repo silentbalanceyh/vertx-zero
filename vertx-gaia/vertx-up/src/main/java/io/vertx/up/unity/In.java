@@ -4,8 +4,12 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
+import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.secure.Lee;
+import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.util.Ut;
 
 import java.time.Instant;
@@ -41,13 +45,14 @@ class In {
 
     static String requestUser(final Envelop envelop, final String field) {
         return Fn.getSemi(null == envelop, null, () -> null,
-            () -> envelop.identifier(field));
+                () -> envelop.identifier(field));
     }
 
     static String requestTokenData(final String tokenString, final String field) {
         String result = null;
         if (Ut.notNil(tokenString)) {
-            final JsonObject token = UxJwt.extract(tokenString);
+            final Lee lee = Ut.service(LeeBuiltIn.class);
+            final JsonObject token = lee.decode(tokenString, AegisItem.configMap(AuthWall.JWT));
             if (Objects.nonNull(token)) {
                 result = token.getString(field);
             }
@@ -56,28 +61,28 @@ class In {
     }
 
     static Object requestSession(
-        final Message<Envelop> message,
-        final String field
+            final Message<Envelop> message,
+            final String field
     ) {
         return requestSession(message.body(), field);
     }
 
     static Object requestSession(
-        final Envelop envelop,
-        final String field
+            final Envelop envelop,
+            final String field
     ) {
         return Fn.getSemi(null == envelop, null, () -> null,
-            () -> {
-                final Session session = envelop.session();
-                return null == session ? null : session.get(field);
-            });
+                () -> {
+                    final Session session = envelop.session();
+                    return null == session ? null : session.get(field);
+                });
     }
 
     static JsonArray assignValue(
-        final JsonArray source,
-        final JsonArray target,
-        final String field,
-        final boolean override
+            final JsonArray source,
+            final JsonArray target,
+            final String field,
+            final boolean override
     ) {
         Ut.itJArray(source, JsonObject.class, (item, index) -> {
             if (override) {

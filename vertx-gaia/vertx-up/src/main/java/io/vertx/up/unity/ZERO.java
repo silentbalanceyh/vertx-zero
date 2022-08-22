@@ -22,6 +22,6 @@ interface Info {
 interface Cache {
 
     Cc<String, UxJooq> CC_JOOQ = Cc.openThread();
-    Cc<String, UxJooq> CC_JOOQ_HIS = Cc.openThread();
     Cc<String, UxPool> CC_UX_POOL = Cc.open();
+    Cc<String, UxLdap> CC_LDAP = Cc.openThread();
 }
