@@ -12,11 +12,11 @@ import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
-import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.job.plugin.JobClient;
+import io.vertx.up.uca.job.plugin.JobInfix;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;

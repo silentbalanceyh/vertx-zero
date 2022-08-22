@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.job;
+package io.vertx.up.uca.job.plugin;
 
 interface Info {
 

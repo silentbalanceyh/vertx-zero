@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.job;
+package io.vertx.up.uca.job.plugin;
 
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.session.SessionInfix;

@@ -2,8 +2,8 @@ package io.vertx.up.uca.job.center;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.tp.plugin.job.JobClient;
 import io.vertx.up.atom.worker.Mission;
+import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.timer.Interval;
 import io.vertx.up.util.Ut;
 

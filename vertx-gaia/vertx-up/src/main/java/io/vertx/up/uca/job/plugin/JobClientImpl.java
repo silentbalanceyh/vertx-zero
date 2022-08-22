@@ -1,4 +1,4 @@
-package io.vertx.tp.plugin.job;
+package io.vertx.up.uca.job.plugin;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
