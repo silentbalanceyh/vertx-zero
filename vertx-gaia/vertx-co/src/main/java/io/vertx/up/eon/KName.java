@@ -25,6 +25,8 @@ public interface KName {
     String RULE = "rule";                        /* Model definition, rule for source reference */
     String TABLE_NAME = "tableName";             /* Model definition, tableName field */
 
+    String TABLE = "table";                      /* Model Connect: table */
+
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
     String MODEL_KEY = "modelKey";               /* Model Consumer ( key ) field */
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */

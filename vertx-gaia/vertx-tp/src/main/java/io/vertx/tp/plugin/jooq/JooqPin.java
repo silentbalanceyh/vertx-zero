@@ -4,12 +4,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
+import org.jooq.Table;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,17 @@ import java.util.concurrent.ConcurrentMap;
 public class JooqPin {
 
     private static final Annal LOGGER = Annal.get(JooqPin.class);
+
+    public static String initTable(final Class<?> clazz) {
+        final JooqDsl dsl = JooqInfix.getDao(clazz);
+        final Table<?> table = Ut.field(dsl.dao(), KName.TABLE);
+        return table.getName();
+    }
+
+    public static Class<?> initPojo(final Class<?> clazz) {
+        final JooqDsl dsl = JooqInfix.getDao(clazz);
+        return Ut.field(dsl.dao(), KName.TYPE);
+    }
 
     static ConcurrentMap<String, Configuration> initConfiguration(final JsonObject config) {
         /*

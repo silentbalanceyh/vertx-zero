@@ -34,7 +34,6 @@ import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
-import org.jooq.Table;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -1266,16 +1265,6 @@ public final class Ux {
      * Here you can do database access smartly and do nothing then.
      */
     public static class Jooq {
-        public static String table(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            final Table<?> table = Ut.field(dsl.dao(), "table");
-            return table.getName();
-        }
-
-        public static Class<?> pojo(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Ut.field(dsl.dao(), "type");
-        }
 
         /**
          * Get reference of UxJooq that bind to Dao class, this method won't access standard database,

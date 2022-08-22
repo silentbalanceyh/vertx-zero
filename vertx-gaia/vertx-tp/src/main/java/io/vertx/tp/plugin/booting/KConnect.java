@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonArraySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
+import io.vertx.tp.plugin.jooq.JooqPin;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -31,12 +31,12 @@ public class KConnect implements Serializable {
 
     public String getTable() {
         Objects.requireNonNull(this.dao);
-        return Ux.Jooq.table(this.dao);
+        return JooqPin.initTable(this.dao);
     }
 
     public Class<?> getPojo() {
         Objects.requireNonNull(this.dao);
-        return Ux.Jooq.pojo(this.dao);
+        return JooqPin.initPojo(this.dao);
     }
 
     public Class<?> getDao() {
