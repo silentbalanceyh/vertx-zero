@@ -392,6 +392,21 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
         }
 
         /**
+     * Find records that have <code>OPEN_GROUP IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenGroup(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.OPEN_GROUP.in(values));
+        }
+
+        /**
+     * Find records that have <code>OPEN_GROUP IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenGroup(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.OPEN_GROUP.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>OPEN_AT IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenAt(Collection<LocalDateTime> values) {

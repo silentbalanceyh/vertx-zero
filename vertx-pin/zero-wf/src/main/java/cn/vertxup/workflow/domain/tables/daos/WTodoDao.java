@@ -514,6 +514,22 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>ACCEPTED_GROUP IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByAcceptedGroup(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.ACCEPTED_GROUP.in(values));
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_GROUP IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByAcceptedGroup(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.ACCEPTED_GROUP.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACCEPTED_AT IN (values)</code>
      * asynchronously
      */

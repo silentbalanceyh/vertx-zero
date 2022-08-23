@@ -372,6 +372,18 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getAcceptedBy();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public IWTodo setAcceptedGroup(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public String getAcceptedGroup();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
      */
     public IWTodo setAcceptedAt(LocalDateTime value);
@@ -533,6 +545,7 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setAssignedBy,json::getString,"ASSIGNED_BY","java.lang.String");
                 setOrThrow(this::setAssignedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ASSIGNED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setAcceptedBy,json::getString,"ACCEPTED_BY","java.lang.String");
+                setOrThrow(this::setAcceptedGroup,json::getString,"ACCEPTED_GROUP","java.lang.String");
                 setOrThrow(this::setAcceptedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ACCEPTED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setFinishedBy,json::getString,"FINISHED_BY","java.lang.String");
                 setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
@@ -583,6 +596,7 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("ASSIGNED_BY",getAssignedBy());
                 json.put("ASSIGNED_AT",getAssignedAt()==null?null:getAssignedAt().toString());
                 json.put("ACCEPTED_BY",getAcceptedBy());
+                json.put("ACCEPTED_GROUP",getAcceptedGroup());
                 json.put("ACCEPTED_AT",getAcceptedAt()==null?null:getAcceptedAt().toString());
                 json.put("FINISHED_BY",getFinishedBy());
                 json.put("FINISHED_AT",getFinishedAt()==null?null:getFinishedAt().toString());

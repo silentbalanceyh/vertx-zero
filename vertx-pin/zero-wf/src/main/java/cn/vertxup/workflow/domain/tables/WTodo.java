@@ -175,6 +175,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> ACCEPTED_BY = createField(DSL.name("ACCEPTED_BY"), SQLDataType.VARCHAR(36), this, "「acceptedBy」- 待办接收人");
     /**
+     * The column <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public final TableField<WTodoRecord, String> ACCEPTED_GROUP = createField(DSL.name("ACCEPTED_GROUP"), SQLDataType.CLOB, this, "「acceptedGroup」- 当前处理组");
+    /**
      * The column <code>DB_ETERNAL.W_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
      */
     public final TableField<WTodoRecord, LocalDateTime> ACCEPTED_AT = createField(DSL.name("ACCEPTED_AT"), SQLDataType.LOCALDATETIME(0), this, "「acceptedAt」- 接收时间");

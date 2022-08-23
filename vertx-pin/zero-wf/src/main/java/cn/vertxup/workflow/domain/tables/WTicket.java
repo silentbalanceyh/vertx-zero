@@ -139,6 +139,10 @@ public class WTicket extends TableImpl<WTicketRecord> {
      */
     public final TableField<WTicketRecord, String> OPEN_BY = createField(DSL.name("OPEN_BY"), SQLDataType.VARCHAR(36), this, "「openBy」- 开单人");
     /**
+     * The column <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    public final TableField<WTicketRecord, String> OPEN_GROUP = createField(DSL.name("OPEN_GROUP"), SQLDataType.VARCHAR(36), this, "「openGroup」- 开单组");
+    /**
      * The column <code>DB_ETERNAL.W_TICKET.OPEN_AT</code>. 「openAt」- 开单时间
      */
     public final TableField<WTicketRecord, LocalDateTime> OPEN_AT = createField(DSL.name("OPEN_AT"), SQLDataType.LOCALDATETIME(0), this, "「openAt」- 开单时间");

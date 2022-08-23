@@ -44,6 +44,7 @@ public class WTicket implements VertxPojo, IWTicket {
     private String        owner;
     private String        supervisor;
     private String        openBy;
+    private String        openGroup;
     private LocalDateTime openAt;
     private String        cancelBy;
     private LocalDateTime cancelAt;
@@ -88,6 +89,7 @@ public class WTicket implements VertxPojo, IWTicket {
         this.owner = value.getOwner();
         this.supervisor = value.getSupervisor();
         this.openBy = value.getOpenBy();
+        this.openGroup = value.getOpenGroup();
         this.openAt = value.getOpenAt();
         this.cancelBy = value.getCancelBy();
         this.cancelAt = value.getCancelAt();
@@ -131,6 +133,7 @@ public class WTicket implements VertxPojo, IWTicket {
         String        owner,
         String        supervisor,
         String        openBy,
+        String        openGroup,
         LocalDateTime openAt,
         String        cancelBy,
         LocalDateTime cancelAt,
@@ -172,6 +175,7 @@ public class WTicket implements VertxPojo, IWTicket {
         this.owner = owner;
         this.supervisor = supervisor;
         this.openBy = openBy;
+        this.openGroup = openGroup;
         this.openAt = openAt;
         this.cancelBy = cancelBy;
         this.cancelAt = cancelAt;
@@ -630,6 +634,23 @@ public class WTicket implements VertxPojo, IWTicket {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    @Override
+    public String getOpenGroup() {
+        return this.openGroup;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    @Override
+    public WTicket setOpenGroup(String openGroup) {
+        this.openGroup = openGroup;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TICKET.OPEN_AT</code>. 「openAt」- 开单时间
      */
     @Override
@@ -933,6 +954,7 @@ public class WTicket implements VertxPojo, IWTicket {
         sb.append(", ").append(owner);
         sb.append(", ").append(supervisor);
         sb.append(", ").append(openBy);
+        sb.append(", ").append(openGroup);
         sb.append(", ").append(openAt);
         sb.append(", ").append(cancelBy);
         sb.append(", ").append(cancelAt);
@@ -984,6 +1006,7 @@ public class WTicket implements VertxPojo, IWTicket {
         setOwner(from.getOwner());
         setSupervisor(from.getSupervisor());
         setOpenBy(from.getOpenBy());
+        setOpenGroup(from.getOpenGroup());
         setOpenAt(from.getOpenAt());
         setCancelBy(from.getCancelBy());
         setCancelAt(from.getCancelAt());

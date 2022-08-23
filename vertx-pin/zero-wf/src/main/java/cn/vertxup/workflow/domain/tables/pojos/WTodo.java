@@ -52,6 +52,7 @@ public class WTodo implements VertxPojo, IWTodo {
     private String        assignedBy;
     private LocalDateTime assignedAt;
     private String        acceptedBy;
+    private String        acceptedGroup;
     private LocalDateTime acceptedAt;
     private String        finishedBy;
     private LocalDateTime finishedAt;
@@ -99,6 +100,7 @@ public class WTodo implements VertxPojo, IWTodo {
         this.assignedBy = value.getAssignedBy();
         this.assignedAt = value.getAssignedAt();
         this.acceptedBy = value.getAcceptedBy();
+        this.acceptedGroup = value.getAcceptedGroup();
         this.acceptedAt = value.getAcceptedAt();
         this.finishedBy = value.getFinishedBy();
         this.finishedAt = value.getFinishedAt();
@@ -145,6 +147,7 @@ public class WTodo implements VertxPojo, IWTodo {
         String        assignedBy,
         LocalDateTime assignedAt,
         String        acceptedBy,
+        String        acceptedGroup,
         LocalDateTime acceptedAt,
         String        finishedBy,
         LocalDateTime finishedAt,
@@ -189,6 +192,7 @@ public class WTodo implements VertxPojo, IWTodo {
         this.assignedBy = assignedBy;
         this.assignedAt = assignedAt;
         this.acceptedBy = acceptedBy;
+        this.acceptedGroup = acceptedGroup;
         this.acceptedAt = acceptedAt;
         this.finishedBy = finishedBy;
         this.finishedAt = finishedAt;
@@ -786,6 +790,25 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public String getAcceptedGroup() {
+        return this.acceptedGroup;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public WTodo setAcceptedGroup(String acceptedGroup) {
+        this.acceptedGroup = acceptedGroup;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
      */
     @Override
@@ -1010,6 +1033,7 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(assignedBy);
         sb.append(", ").append(assignedAt);
         sb.append(", ").append(acceptedBy);
+        sb.append(", ").append(acceptedGroup);
         sb.append(", ").append(acceptedAt);
         sb.append(", ").append(finishedBy);
         sb.append(", ").append(finishedAt);
@@ -1064,6 +1088,7 @@ public class WTodo implements VertxPojo, IWTodo {
         setAssignedBy(from.getAssignedBy());
         setAssignedAt(from.getAssignedAt());
         setAcceptedBy(from.getAcceptedBy());
+        setAcceptedGroup(from.getAcceptedGroup());
         setAcceptedAt(from.getAcceptedAt());
         setFinishedBy(from.getFinishedBy());
         setFinishedAt(from.getFinishedAt());
