@@ -11,7 +11,6 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.KQr;
@@ -76,21 +75,21 @@ class TwineExtension implements Twine<SUser> {
         if (Objects.isNull(qr) || !qr.valid()) {
             return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
         }
-
-        final JsonObject queryJ = this.combine(qr, criteria);
-
-        final UxJoin searcher = Ux.Join.on();
-        /*
-         * S_USER ( modelKey )
-         *    JOIN
-         * XXX ( key )
-         * */
-        searcher.add(SUserDao.class, KName.MODEL_KEY);
-        final Class<?> clazz = qr.getClassDao();
-        searcher.join(clazz);
-        return searcher.searchAsync(queryJ)
-                // Connect to `groups`
-                .compose(this::connect);
+        return TwineQr.normalize(qr, criteria).compose(queryJ -> {
+            final UxJoin searcher = Ux.Join.on();
+            /*
+             * S_USER ( modelKey )
+             *    JOIN
+             * XXX ( key )
+             * 额外步骤
+             * */
+            searcher.add(SUserDao.class, KName.MODEL_KEY);
+            final Class<?> clazz = qr.getClassDao();
+            searcher.join(clazz);
+            return searcher.searchAsync(queryJ)
+                    // Connect to `groups`
+                    .compose(this::connect);
+        });
     }
 
     @Override
@@ -261,22 +260,5 @@ class TwineExtension implements Twine<SUser> {
         final JsonObject mapping = qr.getMapping();
         Ut.<String>itJObject(mapping, (to, from) -> combine.convert(from, to));
         return combine.to();
-    }
-
-    private JsonObject combine(final KQr qr, final JsonObject query) {
-        // The original `criteria` from query part, fix Null Pointer Issue
-        final JsonObject queryJ = query.copy();
-        final JsonObject criteria = Ut.valueJObject(queryJ, Qr.KEY_CRITERIA);
-        // Qr Json
-        final JsonObject condition;
-        condition = Ux.whereAnd();
-        condition.mergeIn(qr.getCondition());
-        if (Ut.notNil(criteria)) {
-            // java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
-            // Sub Query Tree Must not be EMPTY
-            condition.put("$KQR$", criteria);
-        }
-        queryJ.put(Qr.KEY_CRITERIA, condition);
-        return queryJ;
     }
 }
