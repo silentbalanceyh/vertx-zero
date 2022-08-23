@@ -18,12 +18,20 @@ import java.util.Collection;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class ConnexModel implements Connex<String> {
+    /*
+     * 参数转换成查询条件
+     * {
+     *     "identifier": "modelId",
+     *     "key":        "modelKey",
+     *     "sigma":      "sigma"
+     * }
+     */
     @Override
     public Future<JsonObject> identAsync(final JsonObject condition) {
         final JsonObject conditionJ = this.mappedJ(condition);
         // sigma 在查询过程中需追加
         Ut.elementCopy(conditionJ, condition,
-            KName.SIGMA
+                KName.SIGMA
         );
         return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(conditionJ);
     }
@@ -45,7 +53,7 @@ class ConnexModel implements Connex<String> {
                 original.mergeIn(updatedJ);
                 final SUser user = Ux.fromJson(original, SUser.class);
                 return Ux.Jooq.on(SUserDao.class).updateAsync(user)
-                    .compose(Ux::futureJ);
+                        .compose(Ux::futureJ);
             } else {
                 return Ux.futureJ();
             }

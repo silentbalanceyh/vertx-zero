@@ -18,14 +18,6 @@ import java.util.Collection;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Connex<ID> {
-    /*
-     * 参数转换成查询条件
-     * {
-     *     "identifier": "modelId",
-     *     "key":        "modelKey",
-     *     "sigma":      "sigma"
-     * }
-     */
     default Future<JsonObject> identAsync(final JsonObject condition) {
         return Fn.error(_501NotSupportException.class, this.getClass());
     }
@@ -34,7 +26,9 @@ public interface Connex<ID> {
 
     Future<JsonObject> identAsync(ID key, JsonObject updatedData);
 
-    Future<JsonArray> identAsync(Collection<ID> keys);
+    default Future<JsonArray> identAsync(final Collection<ID> keys) {
+        return Fn.error(_501NotSupportException.class, this.getClass());
+    }
 
     default Future<JsonObject> searchAsync(final String identifier, final JsonObject criteria) {
         return Fn.error(_501NotSupportException.class, this.getClass());

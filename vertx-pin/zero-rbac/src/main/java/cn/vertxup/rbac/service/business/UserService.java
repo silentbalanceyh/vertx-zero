@@ -55,12 +55,12 @@ public class UserService implements UserStub {
     @Override
     public Future<JsonObject> fetchInformation(final String userId) {
         return Ux.Jooq.on(SUserDao.class)
-            /* User Information */
-            .<SUser>fetchByIdAsync(userId)
-            /* Employee Information */
-            .compose(Junc.extension()::identAsync)
-            /* Relation for roles / groups */
-            .compose(this::fetchRelation);
+                /* User Information */
+                .<SUser>fetchByIdAsync(userId)
+                /* Employee Information */
+                .compose(Junc.extension()::identAsync)
+                /* Relation for roles / groups */
+                .compose(this::fetchRelation);
     }
 
     // ================== Basic Part of S_User ================
@@ -68,8 +68,8 @@ public class UserService implements UserStub {
     @Override
     public Future<JsonObject> fetchOUser(final String userKey) {
         return Ux.Jooq.on(OUserDao.class)
-            .fetchOneAsync(AuthKey.F_CLIENT_ID, userKey)
-            .compose(Ux::futureJ);
+                .fetchOneAsync(AuthKey.F_CLIENT_ID, userKey)
+                .compose(Ux::futureJ);
     }
 
     @Override
@@ -107,25 +107,30 @@ public class UserService implements UserStub {
             final SUser user = Ux.fromJson(dataJson, SUser.class);
             /* User Saving here */
             return jooq.updateAsync(userId, user)
-                .compose(entity -> this.updateRoles(userId, Ux.toJson(entity), roles))
-                .compose(entity -> this.updateGroups(userId, Ux.toJson(entity), groups));
+                    .compose(entity -> this.updateRoles(userId, Ux.toJson(entity), roles))
+                    .compose(entity -> this.updateGroups(userId, Ux.toJson(entity), groups));
         });
     }
 
+    /*
+     * 只附加更新关联对象，该API不更新和账号本身相关的内容如
+     * -- Role
+     * -- Group
+     * -- OUser
+     */
     @Override
     public Future<JsonObject> updateInformation(final String userId, final JsonObject params) {
         final SUser user = Ux.fromJson(params, SUser.class);
         user.setKey(userId);
-        return Ux.Jooq.on(SUserDao.class)
-            .updateAsync(userId, user)
-            .compose(userInfo -> Junc.extension().identAsync(userInfo, params));
+        return Ux.Jooq.on(SUserDao.class).updateAsync(userId, user)
+                .compose(userInfo -> Junc.extension().identAsync(userInfo, params));
     }
 
     @Override
     public Future<JsonObject> fetchUser(final String userKey) {
         return Ux.Jooq.on(SUserDao.class)
-            .fetchByIdAsync(userKey)
-            .compose(userInfo -> this.fulfillUserWithRolesAndGroups(userKey, Ux.toJson(userInfo)));
+                .fetchByIdAsync(userKey)
+                .compose(userInfo -> this.fulfillUserWithRolesAndGroups(userKey, Ux.toJson(userInfo)));
     }
 
     @Override
@@ -139,8 +144,8 @@ public class UserService implements UserStub {
             user.setPassword(Sc.valuePassword());
         }
         return Ux.Jooq.on(SUserDao.class).insertAsync(user)
-            // 创建认证信息
-            .compose(inserted -> this.createOUser(inserted, params));
+                // 创建认证信息
+                .compose(inserted -> this.createOUser(inserted, params));
     }
 
     @Override
@@ -151,21 +156,20 @@ public class UserService implements UserStub {
         final UxJooq rUserGroupDao = Ux.Jooq.on(RUserGroupDao.class);
 
         return oUserDao.fetchOneAsync(new JsonObject().put(KName.CLIENT_ID, userKey))
-            /* delete OUser record */
-            .compose(item -> oUserDao.deleteByIdAsync(Ux.toJson(item).getString(KName.KEY)))
-            /* delete related role records */
-            .compose(oUserFlag -> rUserRoleDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
-            /* delete related group records */
-            .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
-            /* delete SUser record */
-            .compose(rUserGroupFlag -> sUserDao.deleteByIdAsync(userKey));
+                /* delete OUser record */
+                .compose(item -> oUserDao.deleteByIdAsync(Ux.toJson(item).getString(KName.KEY)))
+                /* delete related role records */
+                .compose(oUserFlag -> rUserRoleDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
+                /* delete related group records */
+                .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
+                /* delete SUser record */
+                .compose(rUserGroupFlag -> sUserDao.deleteByIdAsync(userKey));
     }
 
     /**
      * create OUser record
      *
      * @param user SUser entity
-     *
      * @return SUser entity
      */
     private Future<JsonObject> createOUser(final SUser user, final JsonObject input) {
@@ -173,16 +177,16 @@ public class UserService implements UserStub {
         final JsonObject initializeJ = CONFIG.getInitialize();
         final OUser oUser = Ux.fromJson(initializeJ, OUser.class);
         oUser.setClientId(user.getKey())
-            .setClientSecret(Ut.randomString(64))
-            .setLanguage(language)
-            .setActive(Boolean.TRUE)
-            .setKey(UUID.randomUUID().toString());
+                .setClientSecret(Ut.randomString(64))
+                .setLanguage(language)
+                .setActive(Boolean.TRUE)
+                .setKey(UUID.randomUUID().toString());
 
         return Ux.Jooq.on(OUserDao.class)
-            .insertAsync(oUser)
-            // delete attribute: password from user information
-            // To avoid update to EMPTY string
-            .compose(entity -> Ux.futureJ(user.setPassword(null)));
+                .insertAsync(oUser)
+                // delete attribute: password from user information
+                // To avoid update to EMPTY string
+                .compose(entity -> Ux.futureJ(user.setPassword(null)));
     }
 
     /**
@@ -190,7 +194,6 @@ public class UserService implements UserStub {
      *
      * @param userKey user key
      * @param user    user entity
-     *
      * @return user entity
      */
     private Future<JsonObject> fulfillUserWithRolesAndGroups(final String userKey, final JsonObject user) {
@@ -198,20 +201,20 @@ public class UserService implements UserStub {
         // user.put("password", "")
         user.remove(KName.PASSWORD);
         user.put("roles",
-                Ux.Jooq.on(RUserRoleDao.class)
-                    .fetch(AuthKey.F_USER_ID, userKey)
-                    .stream()
-                    .sorted(Comparator.comparing(item -> ((RUserRole) item).getPriority()))
-                    .map(item -> Ux.toJson(item).getString("roleId"))
-                    .collect(Collectors.toList())
-            )
-            .put("groups", Ux.Jooq.on(RUserGroupDao.class)
-                .fetch(AuthKey.F_USER_ID, userKey)
-                .stream()
-                .sorted(Comparator.comparing(item -> ((RUserGroup) item).getPriority()))
-                .map(item -> Ux.toJson(item).getString("groupId"))
-                .collect(Collectors.toList())
-            );
+                        Ux.Jooq.on(RUserRoleDao.class)
+                                .fetch(AuthKey.F_USER_ID, userKey)
+                                .stream()
+                                .sorted(Comparator.comparing(item -> ((RUserRole) item).getPriority()))
+                                .map(item -> Ux.toJson(item).getString("roleId"))
+                                .collect(Collectors.toList())
+                )
+                .put("groups", Ux.Jooq.on(RUserGroupDao.class)
+                        .fetch(AuthKey.F_USER_ID, userKey)
+                        .stream()
+                        .sorted(Comparator.comparing(item -> ((RUserGroup) item).getPriority()))
+                        .map(item -> Ux.toJson(item).getString("groupId"))
+                        .collect(Collectors.toList())
+                );
         return Ux.future(user);
     }
 
@@ -224,16 +227,16 @@ public class UserService implements UserStub {
             /* execute this branch when update user and related information */
             final List<String> roleIds = roles.getList();
             return Ux.Jooq.on(RUserRoleDao.class)
-                /* delete related roles */
-                .deleteByAsync(new JsonObject().put("userId", userKey))
-                /* insert related roles */
-                .compose(roleFlag -> Ux.future(roleIds.stream().map((roleId -> {
-                    RUserRole rUserRole = new RUserRole()
-                        .setUserId(userKey)
-                        .setRoleId(roleId)
-                        .setPriority(roleIds.indexOf(roleId));
-                    return Ux.Jooq.on(RUserRoleDao.class).insert(rUserRole);
-                })).collect(Collectors.toList())).compose(inserted -> Ux.future(user.put("roles", roles))));
+                    /* delete related roles */
+                    .deleteByAsync(new JsonObject().put("userId", userKey))
+                    /* insert related roles */
+                    .compose(roleFlag -> Ux.future(roleIds.stream().map((roleId -> {
+                        RUserRole rUserRole = new RUserRole()
+                                .setUserId(userKey)
+                                .setRoleId(roleId)
+                                .setPriority(roleIds.indexOf(roleId));
+                        return Ux.Jooq.on(RUserRoleDao.class).insert(rUserRole);
+                    })).collect(Collectors.toList())).compose(inserted -> Ux.future(user.put("roles", roles))));
         }
     }
 
@@ -244,15 +247,15 @@ public class UserService implements UserStub {
         } else {
             final List<String> groupIds = groups.getList();
             return Ux.Jooq.on(RUserGroupDao.class)
-                .deleteByAsync(new JsonObject().put("userId", userKey))
-                /* insert related roles */
-                .compose(groupFlag -> Ux.future(groupIds.stream().map(groupId -> {
-                    RUserGroup rUserGroup = new RUserGroup()
-                        .setUserId(userKey)
-                        .setGroupId(groupId)
-                        .setPriority(groupIds.indexOf(groupId));
-                    return Ux.Jooq.on(RUserGroupDao.class).insert(rUserGroup);
-                }).collect(Collectors.toList()))).compose(inserted -> Ux.future(user.put("groups", groups)));
+                    .deleteByAsync(new JsonObject().put("userId", userKey))
+                    /* insert related roles */
+                    .compose(groupFlag -> Ux.future(groupIds.stream().map(groupId -> {
+                        RUserGroup rUserGroup = new RUserGroup()
+                                .setUserId(userKey)
+                                .setGroupId(groupId)
+                                .setPriority(groupIds.indexOf(groupId));
+                        return Ux.Jooq.on(RUserGroupDao.class).insert(rUserGroup);
+                    }).collect(Collectors.toList()))).compose(inserted -> Ux.future(user.put("groups", groups)));
         }
     }
 }

@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
  *   3.2）modelKey -> employeeId 为前端提供语义级消费
  *   3.3）initialize 为导入时的模板数据
  */
-public class ConnexUser implements Connex<SUser> {
+class ConnexUser implements Connex<SUser> {
 
     private static final ScConfig CONFIG = ScPin.getConfig();
 
@@ -146,8 +146,8 @@ public class ConnexUser implements Connex<SUser> {
 
     private Future<JsonArray> runBatch(final List<SUser> users, final KQr qr) {
         final Set<String> keys = users.stream()
-            .map(SUser::getModelKey)
-            .collect(Collectors.toSet());
+                .map(SUser::getModelKey)
+                .collect(Collectors.toSet());
         if (keys.isEmpty()) {
             return Ux.futureA();
         } else {
@@ -226,14 +226,14 @@ public class ConnexUser implements Connex<SUser> {
          * 3. KQr is valid configured in ScConfig
          */
         return users.stream()
-            .filter(Objects::nonNull)
-            .filter(user -> Objects.nonNull(user.getModelId()))
-            .filter(user -> Objects.nonNull(user.getModelKey()))
-            .filter(user -> {
-                final KQr qr = CONFIG.category(user.getModelId());
-                return Objects.nonNull(qr) && qr.valid();
-            })
-            .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .filter(user -> Objects.nonNull(user.getModelId()))
+                .filter(user -> Objects.nonNull(user.getModelKey()))
+                .filter(user -> {
+                    final KQr qr = CONFIG.category(user.getModelId());
+                    return Objects.nonNull(qr) && qr.valid();
+                })
+                .collect(Collectors.toList());
     }
 
     private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {
