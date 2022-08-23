@@ -160,6 +160,14 @@ class KeEnv {
                 .remove(field).toFuture());
     }
 
+    static <T> Future<List<T>> daoR(final String field, final String key, final Class<?> daoCls, final Function<T, Integer> priorityFn) {
+        return Ux.Jooq.on(daoCls).<T>fetchAsync(field, key)
+            .compose(result -> {
+                result.sort(Comparator.comparing(priorityFn));
+                return Ux.future(result);
+            });
+    }
+
     /*
      * config data structure
      * {

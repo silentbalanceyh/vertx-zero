@@ -26,8 +26,8 @@ public class Junc {
         return (Twine<SUser>) CC_TWINE.pick(TwineExtension::new, TwineExtension.class.getName());
     }
 
-    public static Twine<String> refLink() {
-        return (Twine<String>) CC_TWINE.pick(TwineLink::new, TwineLink.class.getName());
+    public static Twine<String> refRights() {
+        return (Twine<String>) CC_TWINE.pick(TwineRights::new, TwineRights.class.getName());
     }
 
     public static Tie<String, JsonArray> role() {
