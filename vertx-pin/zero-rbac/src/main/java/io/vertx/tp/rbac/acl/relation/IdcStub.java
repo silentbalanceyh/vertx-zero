@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.service.batch;
+package io.vertx.tp.rbac.acl.relation;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -23,7 +23,6 @@ public interface IdcStub {
          * Each sigma has one reference of `IdcStub`
          */
         return CC_STUB.pick(() -> new IdcService(sigma), sigma);
-        // return Fn.po?l(Pool.STUBS, sigma, () -> new IdcService(sigma));
     }
 
     /*

@@ -1,7 +1,9 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
+import cn.vertxup.rbac.domain.tables.pojos.OUser;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
+import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -96,6 +98,18 @@ public class Sc {
 
     public static String valueProfile(final SResource resource) {
         return ScTool.valueProfile(resource);
+    }
+
+    public static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
+        return ScTool.valueAuth(user, inputJ);
+    }
+
+    public static Future<List<OUser>> valueAuth(final List<SUser> users) {
+        return ScTool.valueAuth(users);
+    }
+
+    public static Future<List<SUser>> valueAuth(final JsonArray userA, final String sigma) {
+        return ScTool.valueAuth(userA, sigma);
     }
 
     /*

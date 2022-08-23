@@ -4,7 +4,6 @@ import cn.vertxup.rbac.domain.tables.daos.OUserDao;
 import cn.vertxup.rbac.domain.tables.daos.RUserGroupDao;
 import cn.vertxup.rbac.domain.tables.daos.RUserRoleDao;
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
-import cn.vertxup.rbac.domain.tables.pojos.OUser;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -13,14 +12,12 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class UserService implements UserStub {
     private static final ScConfig CONFIG = ScPin.getConfig();
@@ -83,9 +80,15 @@ public class UserService implements UserStub {
         if (Objects.isNull(user.getPassword())) {
             user.setPassword(Sc.valuePassword());
         }
+        final Refer refer = new Refer();
         return Ux.Jooq.on(SUserDao.class).insertAsync(user)
+            .compose(refer::future)
             // 创建认证信息
-            .compose(inserted -> this.createOUser(inserted, params));
+            .compose(inserted -> Sc.valueAuth(inserted, params))
+            // Insert new OUser Record
+            .compose(oUser -> Ux.Jooq.on(OUserDao.class).insertAsync(oUser))
+            // delete attribute: password from user information To avoid update to EMPTY string
+            .compose(entity -> Ux.futureJ(refer.<SUser>get().setPassword(null)));
     }
 
     @Override
@@ -104,29 +107,5 @@ public class UserService implements UserStub {
             .compose(rUserRoleFlag -> rUserGroupDao.deleteByAsync(new JsonObject().put(KName.USER_ID, userKey)))
             /* delete SUser record */
             .compose(rUserGroupFlag -> sUserDao.deleteByIdAsync(userKey));
-    }
-
-    /**
-     * create OUser record
-     *
-     * @param user SUser entity
-     *
-     * @return SUser entity
-     */
-    private Future<JsonObject> createOUser(final SUser user, final JsonObject input) {
-        final String language = input.getString(KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);
-        final JsonObject initializeJ = CONFIG.getInitialize();
-        final OUser oUser = Ux.fromJson(initializeJ, OUser.class);
-        oUser.setClientId(user.getKey())
-            .setClientSecret(Ut.randomString(64))
-            .setLanguage(language)
-            .setActive(Boolean.TRUE)
-            .setKey(UUID.randomUUID().toString());
-
-        return Ux.Jooq.on(OUserDao.class)
-            .insertAsync(oUser)
-            // delete attribute: password from user information
-            // To avoid update to EMPTY string
-            .compose(entity -> Ux.futureJ(user.setPassword(null)));
     }
 }
