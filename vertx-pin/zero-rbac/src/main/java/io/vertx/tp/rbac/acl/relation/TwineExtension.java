@@ -87,7 +87,10 @@ class TwineExtension implements Twine<SUser> {
         searcher.add(SUserDao.class, KName.MODEL_KEY);
         final Class<?> clazz = qr.getClassDao();
         searcher.join(clazz);
-        return searcher.searchAsync(queryJ);
+        return searcher.searchAsync(queryJ).compose(pagination -> {
+            final JsonArray users = Ut.valueJArray(pagination, KName.LIST);
+            return Ux.future(pagination);
+        });
     }
 
     @Override
@@ -146,8 +149,8 @@ class TwineExtension implements Twine<SUser> {
 
     private Future<JsonArray> runBatch(final List<SUser> users, final KQr qr) {
         final Set<String> keys = users.stream()
-            .map(SUser::getModelKey)
-            .collect(Collectors.toSet());
+                .map(SUser::getModelKey)
+                .collect(Collectors.toSet());
         if (keys.isEmpty()) {
             return Ux.futureA();
         } else {
@@ -226,14 +229,14 @@ class TwineExtension implements Twine<SUser> {
          * 3. KQr is valid configured in ScConfig
          */
         return users.stream()
-            .filter(Objects::nonNull)
-            .filter(user -> Objects.nonNull(user.getModelId()))
-            .filter(user -> Objects.nonNull(user.getModelKey()))
-            .filter(user -> {
-                final KQr qr = CONFIG.category(user.getModelId());
-                return Objects.nonNull(qr) && qr.valid();
-            })
-            .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .filter(user -> Objects.nonNull(user.getModelId()))
+                .filter(user -> Objects.nonNull(user.getModelKey()))
+                .filter(user -> {
+                    final KQr qr = CONFIG.category(user.getModelId());
+                    return Objects.nonNull(qr) && qr.valid();
+                })
+                .collect(Collectors.toList());
     }
 
     private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {
