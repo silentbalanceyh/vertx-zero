@@ -63,7 +63,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -211,8 +210,14 @@ public final class Ut {
     }
 
     public static JsonArray elementZip(final JsonArray array, final String fieldKey,
-                                       final ConcurrentMap<String, JsonArray> grouped, final String fieldOn) {
-        return ArrayL.zipper(array, fieldKey, grouped, fieldOn);
+                                       final String fieldOn, final ConcurrentMap<String, JsonArray> grouped) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, null);
+    }
+
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final String fieldOn,
+                                       final ConcurrentMap<String, JsonArray> grouped, final String fieldTo) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, fieldTo);
     }
 
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
@@ -1582,7 +1587,6 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
-     *
      * @return a string of captcha with certain length.
      */
     /*
