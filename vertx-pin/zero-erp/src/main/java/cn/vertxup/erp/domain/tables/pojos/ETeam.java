@@ -28,6 +28,9 @@ public class ETeam implements VertxPojo, IETeam {
     private String        deptId;
     private String        teamId;
     private String        comment;
+    private String        bindId;
+    private String        bindComponent;
+    private String        bindConfig;
     private String        metadata;
     private Boolean       active;
     private String        sigma;
@@ -48,6 +51,9 @@ public class ETeam implements VertxPojo, IETeam {
         this.deptId = value.getDeptId();
         this.teamId = value.getTeamId();
         this.comment = value.getComment();
+        this.bindId = value.getBindId();
+        this.bindComponent = value.getBindComponent();
+        this.bindConfig = value.getBindConfig();
         this.metadata = value.getMetadata();
         this.active = value.getActive();
         this.sigma = value.getSigma();
@@ -67,6 +73,9 @@ public class ETeam implements VertxPojo, IETeam {
         String        deptId,
         String        teamId,
         String        comment,
+        String        bindId,
+        String        bindComponent,
+        String        bindConfig,
         String        metadata,
         Boolean       active,
         String        sigma,
@@ -84,6 +93,9 @@ public class ETeam implements VertxPojo, IETeam {
         this.deptId = deptId;
         this.teamId = teamId;
         this.comment = comment;
+        this.bindId = bindId;
+        this.bindComponent = bindComponent;
+        this.bindConfig = bindConfig;
         this.metadata = metadata;
         this.active = active;
         this.sigma = sigma;
@@ -236,6 +248,63 @@ public class ETeam implements VertxPojo, IETeam {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
+     * 绑定用户组ID,安全专用处理
+     */
+    @Override
+    public String getBindId() {
+        return this.bindId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
+     * 绑定用户组ID,安全专用处理
+     */
+    @Override
+    public ETeam setBindId(String bindId) {
+        this.bindId = bindId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
+     * 「bindComponent」- 绑定扩展组件
+     */
+    @Override
+    public String getBindComponent() {
+        return this.bindComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
+     * 「bindComponent」- 绑定扩展组件
+     */
+    @Override
+    public ETeam setBindComponent(String bindComponent) {
+        this.bindComponent = bindComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * 绑定JSON详细配置
+     */
+    @Override
+    public String getBindConfig() {
+        return this.bindConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * 绑定JSON详细配置
+     */
+    @Override
+    public ETeam setBindConfig(String bindConfig) {
+        this.bindConfig = bindConfig;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
@@ -383,6 +452,9 @@ public class ETeam implements VertxPojo, IETeam {
         sb.append(", ").append(deptId);
         sb.append(", ").append(teamId);
         sb.append(", ").append(comment);
+        sb.append(", ").append(bindId);
+        sb.append(", ").append(bindComponent);
+        sb.append(", ").append(bindConfig);
         sb.append(", ").append(metadata);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
@@ -410,6 +482,9 @@ public class ETeam implements VertxPojo, IETeam {
         setDeptId(from.getDeptId());
         setTeamId(from.getTeamId());
         setComment(from.getComment());
+        setBindId(from.getBindId());
+        setBindComponent(from.getBindComponent());
+        setBindConfig(from.getBindConfig());
         setMetadata(from.getMetadata());
         setActive(from.getActive());
         setSigma(from.getSigma());
