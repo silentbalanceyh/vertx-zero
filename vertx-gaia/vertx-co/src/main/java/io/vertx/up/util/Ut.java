@@ -210,6 +210,11 @@ public final class Ut {
         return ArrayL.zipper(array, field);
     }
 
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final ConcurrentMap<String, JsonArray> grouped, final String fieldOn) {
+        return ArrayL.zipper(array, fieldKey, grouped, fieldOn);
+    }
+
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
         return ArrayL.subset(input, fields);
     }

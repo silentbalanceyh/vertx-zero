@@ -130,6 +130,22 @@ final class ArrayL {
         return grouped;
     }
 
+    @SuppressWarnings("unchecked")
+    static <T> JsonArray zipper(final JsonArray array, final String fieldKey,
+                                final ConcurrentMap<T, JsonArray> grouped, final String fieldOn) {
+        Ut.itJArray(array).forEach(json -> {
+            final T fieldV = (T) json.getValue(fieldKey, null);
+            final JsonArray data;
+            if (Objects.nonNull(fieldV)) {
+                data = grouped.getOrDefault(fieldV, new JsonArray());
+            } else {
+                data = new JsonArray();
+            }
+            json.put(fieldOn, data);
+        });
+        return array;
+    }
+
     static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
         final Set<V> valueSet = new HashSet<>();
         listT.stream()

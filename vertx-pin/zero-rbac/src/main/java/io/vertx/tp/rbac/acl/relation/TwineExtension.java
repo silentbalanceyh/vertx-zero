@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.secure.Twine;
 import io.vertx.tp.rbac.atom.ScConfig;
+import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
@@ -87,10 +88,9 @@ class TwineExtension implements Twine<SUser> {
         searcher.add(SUserDao.class, KName.MODEL_KEY);
         final Class<?> clazz = qr.getClassDao();
         searcher.join(clazz);
-        return searcher.searchAsync(queryJ).compose(pagination -> {
-            final JsonArray users = Ut.valueJArray(pagination, KName.LIST);
-            return Ux.future(pagination);
-        });
+        return searcher.searchAsync(queryJ)
+            // Connect to `groups`
+            .compose(this::connect);
     }
 
     @Override
@@ -149,8 +149,8 @@ class TwineExtension implements Twine<SUser> {
 
     private Future<JsonArray> runBatch(final List<SUser> users, final KQr qr) {
         final Set<String> keys = users.stream()
-                .map(SUser::getModelKey)
-                .collect(Collectors.toSet());
+            .map(SUser::getModelKey)
+            .collect(Collectors.toSet());
         if (keys.isEmpty()) {
             return Ux.futureA();
         } else {
@@ -221,6 +221,19 @@ class TwineExtension implements Twine<SUser> {
         });
     }
 
+    private Future<JsonObject> connect(final JsonObject pagination) {
+        final JsonArray users = Ut.valueJArray(pagination, KName.LIST);
+        final Set<String> userKeys = Ut.valueSetString(users, KName.KEY);
+        return Junc.refRights().identAsync(userKeys).compose(relations -> {
+            // 分组
+            final ConcurrentMap<String, JsonArray> grouped =
+                Ut.elementGroup(relations, AuthKey.F_USER_ID);
+            final JsonArray replaced = Ut.elementZip(users, KName.KEY, grouped, KName.GROUPS);
+            pagination.put(KName.LIST, replaced);
+            return Ux.future(pagination);
+        });
+    }
+
     private List<SUser> compress(final Collection<SUser> users) {
         /*
          * Filtered:
@@ -229,14 +242,14 @@ class TwineExtension implements Twine<SUser> {
          * 3. KQr is valid configured in ScConfig
          */
         return users.stream()
-                .filter(Objects::nonNull)
-                .filter(user -> Objects.nonNull(user.getModelId()))
-                .filter(user -> Objects.nonNull(user.getModelKey()))
-                .filter(user -> {
-                    final KQr qr = CONFIG.category(user.getModelId());
-                    return Objects.nonNull(qr) && qr.valid();
-                })
-                .collect(Collectors.toList());
+            .filter(Objects::nonNull)
+            .filter(user -> Objects.nonNull(user.getModelId()))
+            .filter(user -> Objects.nonNull(user.getModelKey()))
+            .filter(user -> {
+                final KQr qr = CONFIG.category(user.getModelId());
+                return Objects.nonNull(qr) && qr.valid();
+            })
+            .collect(Collectors.toList());
     }
 
     private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {
