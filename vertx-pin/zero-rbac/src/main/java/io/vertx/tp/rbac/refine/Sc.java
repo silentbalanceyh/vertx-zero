@@ -46,6 +46,11 @@ public class Sc {
         ScLog.debugCredit(logger, pattern, args);
     }
 
+    public static void infoAuth(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoAuth(LOGGER, pattern, args);
+    }
+
     public static void infoWeb(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal LOGGER = Annal.get(clazz);
         ScLog.infoWeb(LOGGER, pattern, args);

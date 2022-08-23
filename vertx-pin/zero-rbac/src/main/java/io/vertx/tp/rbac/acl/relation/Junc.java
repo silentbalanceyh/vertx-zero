@@ -1,7 +1,9 @@
 package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
-import io.vertx.tp.optic.environment.Connex;
+import io.vertx.core.json.JsonArray;
+import io.vertx.tp.ke.secure.Tie;
+import io.vertx.tp.ke.secure.Twine;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -10,19 +12,29 @@ import io.vertx.up.uca.cache.Cc;
 @SuppressWarnings("all")
 public class Junc {
 
-    private static final Cc<String, Connex> CC_CONNEX = Cc.openThread();
+    private static final Cc<String, Twine> CC_TWINE = Cc.openThread();
 
-    /*
-     * ExUser 内置调用，处理 modelId / modelKey 专用
-     */
-    public static Connex<String> reference() {
-        return (Connex<String>) CC_CONNEX.pick(ConnexModel::new, ConnexModel.class.getName());
+    private static final Cc<String, Tie> CC_TIE = Cc.openThread();
+
+    /* ExUser 内置调用，处理 modelId / modelKey 专用 */
+    public static Twine<String> refModel() {
+        return (Twine<String>) CC_TWINE.pick(TwineModel::new, TwineModel.class.getName());
     }
 
-    /*
-     * 原 UserExtension，根据配置文件处理专用操作用户和其他账号的链接
-     */
-    public static Connex<SUser> extension() {
-        return (Connex<SUser>) CC_CONNEX.pick(ConnexUser::new, ConnexUser.class.getName());
+    /* 原 UserExtension，根据配置文件处理专用操作用户和其他账号的链接 */
+    public static Twine<SUser> refExtension() {
+        return (Twine<SUser>) CC_TWINE.pick(TwineExtension::new, TwineExtension.class.getName());
+    }
+
+    public static Twine<String> refLink() {
+        return (Twine<String>) CC_TWINE.pick(TwineLink::new, TwineLink.class.getName());
+    }
+
+    public static Tie<String, JsonArray> role() {
+        return (Tie<String, JsonArray>) CC_TIE.pick(TieRole::new, TieRole.class.getName());
+    }
+
+    public static Tie<String, JsonArray> group() {
+        return (Tie<String, JsonArray>) CC_TIE.pick(TieGroup::new, TieGroup.class.getName());
     }
 }

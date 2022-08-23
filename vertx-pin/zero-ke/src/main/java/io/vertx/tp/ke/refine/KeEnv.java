@@ -7,6 +7,7 @@ import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -152,6 +153,12 @@ class KeEnv {
         });
     }
 
+    static <T> Future<JsonArray> daoR(final String field, final String key, final Class<?> daoCls) {
+        return Ux.Jooq.on(daoCls).<T>fetchAsync(field, key)
+            .compose(Ux::futureA)
+            .compose(relation -> UArray.create(relation)
+                .remove(field).toFuture());
+    }
 
     /*
      * config data structure

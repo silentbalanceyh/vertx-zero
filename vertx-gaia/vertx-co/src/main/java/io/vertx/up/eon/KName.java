@@ -54,6 +54,7 @@ public interface KName {
     String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */
+    String ROLES = "roles";                      /* Security Object: roles field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
     String USER = "user";                        /* Security Object: user field */
     String AUDITOR = "auditor";                  /* Security Object: auditor field */
@@ -61,6 +62,7 @@ public interface KName {
     String USERNAME = "username";                /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";               /* Security Object: user real name field */
     String GROUP = "group";                      /* Security Object: group */
+    String GROUPS = "groups";                    /* Security Object: groups */
     String ALIAS = "alias";                      /* Security Object: another name for current */
     String PASSWORD = "password";                /* Security Object: Password belong to field of security framework, ( X_USER password ) field */
     String EMAIL = "email";                      /* Security Object: user email ( X_USER email ) field */

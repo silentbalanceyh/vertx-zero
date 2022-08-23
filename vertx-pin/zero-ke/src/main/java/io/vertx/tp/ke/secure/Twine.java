@@ -1,4 +1,4 @@
-package io.vertx.tp.optic.environment;
+package io.vertx.tp.ke.secure;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -17,14 +17,7 @@ import java.util.Collection;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface Connex<ID> {
-    default Future<JsonObject> identAsync(final JsonObject condition) {
-        return Fn.error(_501NotSupportException.class, this.getClass());
-    }
-
-    Future<JsonObject> identAsync(ID key);
-
-    Future<JsonObject> identAsync(ID key, JsonObject updatedData);
+public interface Twine<ID> extends Tie<ID, JsonObject> {
 
     default Future<JsonArray> identAsync(final Collection<ID> keys) {
         return Fn.error(_501NotSupportException.class, this.getClass());

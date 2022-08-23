@@ -23,17 +23,17 @@ public class ExUserEpic implements ExUser {
     // ------------------ Model Id / Model Key --------------------
     @Override
     public Future<JsonObject> rapport(final JsonObject condition) {
-        return Junc.reference().identAsync(condition);
+        return Junc.refModel().identAsync(condition);
     }
 
     @Override
     public Future<JsonObject> rapport(final String key, final JsonObject params) {
-        return Junc.reference().identAsync(key, params);
+        return Junc.refModel().identAsync(key, params);
     }
 
     @Override
     public Future<JsonArray> rapport(final Set<String> keys) {
-        return Junc.reference().identAsync(keys);
+        return Junc.refModel().identAsync(keys);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ExUserEpic implements ExUser {
             .compose(userRef::future)
             .compose(queried -> {
                 if (extension) {
-                    return Junc.extension().identAsync(queried);
+                    return Junc.refExtension().identAsync(queried);
                 } else {
                     return Ux.futureA();
                 }

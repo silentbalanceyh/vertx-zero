@@ -5,7 +5,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.environment.Connex;
+import io.vertx.tp.ke.secure.Twine;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -17,7 +17,7 @@ import java.util.Collection;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class ConnexModel implements Connex<String> {
+class TwineModel implements Twine<String> {
     /*
      * 参数转换成查询条件
      * {
@@ -31,7 +31,7 @@ class ConnexModel implements Connex<String> {
         final JsonObject conditionJ = this.mappedJ(condition);
         // sigma 在查询过程中需追加
         Ut.elementCopy(conditionJ, condition,
-                KName.SIGMA
+            KName.SIGMA
         );
         return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(conditionJ);
     }
@@ -53,7 +53,7 @@ class ConnexModel implements Connex<String> {
                 original.mergeIn(updatedJ);
                 final SUser user = Ux.fromJson(original, SUser.class);
                 return Ux.Jooq.on(SUserDao.class).updateAsync(user)
-                        .compose(Ux::futureJ);
+                    .compose(Ux::futureJ);
             } else {
                 return Ux.futureJ();
             }
