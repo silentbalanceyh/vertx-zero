@@ -11,6 +11,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.relation.Junc;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
@@ -18,7 +19,6 @@ import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KQr;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -36,12 +36,8 @@ public class UserService implements UserStub {
 
     // ================== Type Part for S_USER usage ================
     @Override
-    public Future<JsonObject> searchUser(final String identifier, final JsonObject criteria, final boolean isQr) {
-        final KQr qr = CONFIG.category(identifier);
-        if (Objects.isNull(qr) || !qr.valid()) {
-            return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
-        }
-        return UserExtension.searchAsync(qr, criteria, isQr);
+    public Future<JsonObject> searchUser(final String identifier, final JsonObject criteria) {
+        return Junc.extension().searchAsync(identifier, criteria);
     }
 
     /*
@@ -62,7 +58,7 @@ public class UserService implements UserStub {
             /* User Information */
             .<SUser>fetchByIdAsync(userId)
             /* Employee Information */
-            .compose(UserExtension::fetchAsync)
+            .compose(Junc.extension()::identAsync)
             /* Relation for roles / groups */
             .compose(this::fetchRelation);
     }
@@ -122,7 +118,7 @@ public class UserService implements UserStub {
         user.setKey(userId);
         return Ux.Jooq.on(SUserDao.class)
             .updateAsync(userId, user)
-            .compose(userInfo -> UserExtension.updateExtension(userInfo, params));
+            .compose(userInfo -> Junc.extension().identAsync(userInfo, params));
     }
 
     @Override

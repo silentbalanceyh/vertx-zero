@@ -2,14 +2,12 @@ package io.vertx.tp.optic.business;
 
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
-import cn.vertxup.rbac.service.business.UserExtension;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.relation.Junc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,29 +19,21 @@ import java.util.stream.Collectors;
 
 public class ExUserEpic implements ExUser {
 
+
+    // ------------------ Model Id / Model Key --------------------
     @Override
-    public Future<JsonObject> fetchByReference(final JsonObject filters) {
-        final JsonObject condition = this.dataReference(filters);
-        condition.put(Strings.EMPTY, Boolean.TRUE);
-        condition.put(KName.SIGMA, filters.getString(KName.SIGMA));
-        return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(condition);
+    public Future<JsonObject> rapport(final JsonObject condition) {
+        return Junc.reference().identAsync(condition);
     }
 
     @Override
-    public Future<JsonObject> updateReference(final String key, final JsonObject params) {
-        final JsonObject updatedData = this.dataReference(params);
-        final UxJooq jq = Ux.Jooq.on(SUserDao.class);
-        return jq.fetchJByIdAsync(key).compose(original -> {
-            original.mergeIn(updatedData);
-            final SUser user = Ut.deserialize(original, SUser.class);
-            return jq.updateAsync(user).compose(Ux::futureJ);
-        });
+    public Future<JsonObject> rapport(final String key, final JsonObject params) {
+        return Junc.reference().identAsync(key, params);
     }
 
     @Override
-    public Future<JsonArray> fetchByReference(final Set<String> keys) {
-        final JsonArray keyArray = Ut.toJArray(keys);
-        return Ux.Jooq.on(SUserDao.class).fetchJInAsync(KName.MODEL_KEY, keyArray);
+    public Future<JsonArray> rapport(final Set<String> keys) {
+        return Junc.reference().identAsync(keys);
     }
 
     @Override
@@ -61,7 +51,7 @@ public class ExUserEpic implements ExUser {
             .compose(userRef::future)
             .compose(queried -> {
                 if (extension) {
-                    return UserExtension.fetchAsync(queried);
+                    return Junc.extension().identAsync(queried);
                 } else {
                     return Ux.futureA();
                 }
@@ -85,18 +75,6 @@ public class ExUserEpic implements ExUser {
     }
 
     // ====================== User Map ===========================
-    /*
-     * {
-     *      "identifier": "modelId",
-     *      "key": "modelKey"
-     * }
-     */
-    private JsonObject dataReference(final JsonObject json) {
-        final JsonObject conditionJ = new JsonObject();
-        conditionJ.put(KName.MODEL_ID, json.getString(KName.IDENTIFIER));
-        conditionJ.put(KName.MODEL_KEY, json.getString(KName.KEY));
-        return conditionJ;
-    }
 
     private ConcurrentMap<String, JsonObject> userMap(final ConcurrentMap<String, JsonObject> mapUser,
                                                       final JsonArray data) {

@@ -1,10 +1,11 @@
-package cn.vertxup.rbac.service.business;
+package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.environment.Connex;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
@@ -19,6 +20,7 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -27,46 +29,54 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class UserExtension {
+/*
+ * 关联关系：用户扩展组件
+ * 1）当用户和额外的表执行链接时，会启用用户扩展组件，根据类型执行相连
+ * 2）目前的分组和规划
+ *    用户 + 员工 = 员工账号
+ *    用户 + 客户 = 三方账号
+ *    用户 + 会员 = 会员账号
+ * 3）其配置扩展区间的核心配置如下（以员工为例）
+ * src/plugin/rbac/configuration.json 文件
+ * {
+ *     "....",
+ *     "category": {
+ *          "employee": {
+ *               "classDao": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+ *               "condition": {
+ *                   "workNumber,!n": ""
+ *               },
+ *               "mapping": {
+ *                   "modelKey": "employeeId"
+ *               }
+ *          }
+ *     },
+ *     "initializePassword": "xxxx",
+ *     "initialize": {
+ *         "scope": "vie.app.xx",
+ *         "grantType": "authorization_code"
+ *     }
+ * }
+ *   3.1）此处 employee 代表类型，即 S_USER 中 MODEL_ID 存储的值
+ *   3.2）modelKey -> employeeId 为前端提供语义级消费
+ *   3.3）initialize 为导入时的模板数据
+ */
+public class ConnexUser implements Connex<SUser> {
 
     private static final ScConfig CONFIG = ScPin.getConfig();
-
-    public static Future<JsonObject> updateExtension(final SUser user, final JsonObject params) {
-        /* User model key */
-        return runExtension(user, qr -> {
-            /* Read Extension information */
-            final UxJooq jq = Ux.Jooq.on(qr.getClassDao());
-            Objects.requireNonNull(jq);
-            return jq.updateJAsync(user.getModelKey(), params);
-        });
-    }
-
-    // ======================= Fetching =======================
 
     /*
      * Fix Issue: https://github.com/silentbalanceyh/ox-engine/issues/1207
      */
-    public static Future<JsonObject> searchAsync(final KQr qr, final JsonObject query, final boolean isQr) {
-        // The original `criteria` from query part, fix Null Pointer Issue
-        final JsonObject queryJ = query.copy();
-        final JsonObject criteria = Ut.valueJObject(queryJ, Qr.KEY_CRITERIA);
-        // Qr Json
-        final JsonObject condition;
-        if (isQr) {
-            condition = Ux.whereAnd();
-            condition.mergeIn(qr.getCondition());
-            if (Ut.notNil(criteria)) {
-                // java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
-                // Sub Query Tree Must not be EMPTY
-                condition.put("$IN$", criteria);
-            }
-        } else {
-            condition = new JsonObject();
-            if (Ut.notNil(criteria)) {
-                condition.mergeIn(criteria.copy());
-            }
+    @Override
+    public Future<JsonObject> searchAsync(final String identifier, final JsonObject criteria) {
+        // KQr 为空，不执行关联查询
+        final KQr qr = CONFIG.category(identifier);
+        if (Objects.isNull(qr) || !qr.valid()) {
+            return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
         }
-        queryJ.put(Qr.KEY_CRITERIA, condition);
+
+        final JsonObject queryJ = this.combine(qr, criteria);
 
         final UxJoin searcher = Ux.Join.on();
         /*
@@ -80,34 +90,29 @@ public class UserExtension {
         return searcher.searchAsync(queryJ);
     }
 
-    public static Future<JsonObject> fetchAsync(final SUser user) {
-        /* User model key */
-        return runExtension(user, qr -> {
-            /* Read Extension information */
+    @Override
+    public Future<JsonObject> identAsync(final SUser key) {
+        return this.runSingle(key, qr -> {
             final UxJooq jq = Ux.Jooq.on(qr.getClassDao());
             Objects.requireNonNull(jq);
-            return jq.fetchJByIdAsync(user.getModelKey());
+            return jq.fetchJByIdAsync(key.getModelKey());
         });
     }
 
-    public static Future<JsonArray> fetchAsync(final List<SUser> users) {
-        /*
-         * Filtered:
-         * 1. SUser is not null
-         * 2. modelId / modelKey is Ok
-         * 3. KQr is valid configured in ScConfig
-         */
-        final List<SUser> compress = users.stream()
-            .filter(Objects::nonNull)
-            .filter(user -> Objects.nonNull(user.getModelId()))
-            .filter(user -> Objects.nonNull(user.getModelKey()))
-            .filter(user -> {
-                final KQr qr = CONFIG.category(user.getModelId());
-                return Objects.nonNull(qr) && qr.valid();
-            })
-            .collect(Collectors.toList());
+    @Override
+    public Future<JsonObject> identAsync(final SUser key, final JsonObject updatedData) {
+        /* User model key */
+        return this.runSingle(key, qr -> {
+            /* Read Extension information */
+            final UxJooq jq = Ux.Jooq.on(qr.getClassDao());
+            Objects.requireNonNull(jq);
+            return jq.updateJAsync(key.getModelKey(), updatedData);
+        });
+    }
 
-        return runExtension(compress).compose(map -> {
+    @Override
+    public Future<JsonArray> identAsync(final Collection<SUser> users) {
+        return this.runBatch(this.compress(users)).compose(map -> {
             final JsonArray combineA = new JsonArray();
             final JsonArray extensionA = new JsonArray();
             map.values().forEach(extensionA::addAll);
@@ -119,7 +124,7 @@ public class UserExtension {
                 if (mapped.containsKey(modelKey)) {
                     final JsonObject extensionJ = mapped.getOrDefault(modelKey, new JsonObject());
                     final KQr qr = CONFIG.category(user.getModelId());
-                    combineA.add(combine(userJ, extensionJ, qr));
+                    combineA.add(this.combine(userJ, extensionJ, qr));
                 } else {
                     combineA.add(userJ);
                 }
@@ -128,19 +133,18 @@ public class UserExtension {
         });
     }
 
-
-    // ======================= Private Extension =======================
-    private static Future<ConcurrentMap<String, JsonArray>> runExtension(final List<SUser> users) {
+    // ------------------ Private Method Processing --------------------
+    private Future<ConcurrentMap<String, JsonArray>> runBatch(final List<SUser> users) {
         final ConcurrentMap<String, List<SUser>> grouped = Ut.elementGroup(users, SUser::getModelId, item -> item);
         final ConcurrentMap<String, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
         grouped.forEach((modelId, groupList) -> {
             final KQr qr = CONFIG.category(modelId);
-            futureMap.put(modelId, runExtension(groupList, qr));
+            futureMap.put(modelId, this.runBatch(groupList, qr));
         });
         return Fn.combineM(futureMap);
     }
 
-    private static Future<JsonArray> runExtension(final List<SUser> users, final KQr qr) {
+    private Future<JsonArray> runBatch(final List<SUser> users, final KQr qr) {
         final Set<String> keys = users.stream()
             .map(SUser::getModelKey)
             .collect(Collectors.toSet());
@@ -168,10 +172,10 @@ public class UserExtension {
      *
      * The joined part should be came from HAtom in the layer system of EMF framework instead.
      */
-    private static Future<JsonObject> runExtension(final SUser user, final Function<KQr, Future<JsonObject>> executor) {
+    private Future<JsonObject> runSingle(final SUser user, final Function<KQr, Future<JsonObject>> executor) {
         if (Objects.isNull(user)) {
             /* Input SUser object is null, could not find S_USER record in your database */
-            Sc.infoWeb(UserExtension.class, AuthMsg.EXTENSION_EMPTY + " Null SUser");
+            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null SUser");
             return Ux.futureJ();
         }
 
@@ -181,7 +185,7 @@ public class UserExtension {
              * This branch means that MODEL_KEY is null, you could not do any Extension part.
              * Returned SUser json data format only.
              */
-            Sc.infoWeb(UserExtension.class, AuthMsg.EXTENSION_EMPTY + " Null modelKey");
+            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null modelKey");
             return Ux.futureJ(user);
         }
 
@@ -192,9 +196,10 @@ public class UserExtension {
          */
         final KQr qr = CONFIG.category(user.getModelId());
         if (Objects.isNull(qr) || !qr.valid()) {
-            Sc.infoWeb(UserExtension.class, AuthMsg.EXTENSION_EMPTY + " Extension {0} Null", user.getModelId());
+            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Extension {0} Null", user.getModelId());
             return Ux.futureJ(user);
         }
+
 
         /*
          * Simple situation for extension information processing
@@ -202,18 +207,36 @@ public class UserExtension {
          * 2. Zero extension provide the configuration part and do executor
          * 3. Returned data format is Json of Extension
          */
-        Sc.infoWeb(UserExtension.class, AuthMsg.EXTENSION_BY_USER, user.getModelKey());
+        Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_BY_USER, user.getModelKey());
         return executor.apply(qr).compose(extensionJ -> {
             final JsonObject userJ = Ux.toJson(user);
             if (Ut.isNil(extensionJ)) {
                 return Ux.future(userJ);
             } else {
-                return Ux.future(combine(userJ, extensionJ, qr));
+                return Ux.future(this.combine(userJ, extensionJ, qr));
             }
         });
     }
 
-    private static JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {
+    private List<SUser> compress(final Collection<SUser> users) {
+        /*
+         * Filtered:
+         * 1. SUser is not null
+         * 2. modelId / modelKey is Ok
+         * 3. KQr is valid configured in ScConfig
+         */
+        return users.stream()
+            .filter(Objects::nonNull)
+            .filter(user -> Objects.nonNull(user.getModelId()))
+            .filter(user -> Objects.nonNull(user.getModelKey()))
+            .filter(user -> {
+                final KQr qr = CONFIG.category(user.getModelId());
+                return Objects.nonNull(qr) && qr.valid();
+            })
+            .collect(Collectors.toList());
+    }
+
+    private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {
         final UObject combine = UObject.create(userJ.copy()).append(extensionJ);
         /*
          * mapping
@@ -222,5 +245,22 @@ public class UserExtension {
         final JsonObject mapping = qr.getMapping();
         Ut.<String>itJObject(mapping, (to, from) -> combine.convert(from, to));
         return combine.to();
+    }
+
+    private JsonObject combine(final KQr qr, final JsonObject query) {
+        // The original `criteria` from query part, fix Null Pointer Issue
+        final JsonObject queryJ = query.copy();
+        final JsonObject criteria = Ut.valueJObject(queryJ, Qr.KEY_CRITERIA);
+        // Qr Json
+        final JsonObject condition;
+        condition = Ux.whereAnd();
+        condition.mergeIn(qr.getCondition());
+        if (Ut.notNil(criteria)) {
+            // java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+            // Sub Query Tree Must not be EMPTY
+            condition.put("$KQR$", criteria);
+        }
+        queryJ.put(Qr.KEY_CRITERIA, condition);
+        return queryJ;
     }
 }

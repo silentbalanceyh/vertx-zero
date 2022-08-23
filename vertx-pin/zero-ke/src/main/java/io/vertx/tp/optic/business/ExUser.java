@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface ExUser {
 
-    // ======================= Processing =====================
+
+    // ------------------ Common Processing --------------------
     /*
      * Nexus implementation by specific definition here.
      * You must set UxJooq instead of other Dao here.
@@ -33,9 +34,8 @@ public interface ExUser {
      *     "key": "record id"
      * }
      */
-    Future<JsonObject> updateReference(String key, JsonObject params);
+    Future<JsonObject> rapport(String key, JsonObject params);
 
-    // ------------------ Information --------------------
     /*
      * Fetch by `modelKey` & `modelId`
      *
@@ -47,14 +47,14 @@ public interface ExUser {
      *     "sigma": "related nexus that bind to app sigma"
      * }
      */
-    Future<JsonObject> fetchByReference(JsonObject filters);
+    Future<JsonObject> rapport(JsonObject condition);
 
     /*
      * Fetch all user information by `modelKey` set
      * 1) Get records by ke set
      * 2) You can ignore other condition
      */
-    Future<JsonArray> fetchByReference(Set<String> keys);
+    Future<JsonArray> rapport(Set<String> keys);
 
     // ------------------ Auditor --------------------
     /*

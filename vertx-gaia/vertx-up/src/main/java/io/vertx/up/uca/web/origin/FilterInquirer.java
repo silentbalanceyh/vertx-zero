@@ -58,16 +58,14 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
         // Multi pathes supported
         for (final String path : pathes) {
             final Event event = this.extract(path, clazz);
-            if (null != event) {
-                // Set<Event> initialized.
-                Set<Event> events = map.get(path);
-                if (null == events) {
-                    events = new HashSet<>();
-                }
-                // Add new event to set
-                events.add(event);
-                map.put(path, events);
+            // Set<Event> initialized.
+            Set<Event> events = map.get(path);
+            if (null == events) {
+                events = new HashSet<>();
             }
+            // Add new event to set
+            events.add(event);
+            map.put(path, events);
         }
     }
 

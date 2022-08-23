@@ -100,6 +100,6 @@ public class UserActor {
 
     @Address(Addr.User.QR_USER_SEARCH)
     public Future<JsonObject> searchByType(final String identifier, final JsonObject criteria) {
-        return this.stub.searchUser(identifier, criteria, true);
+        return this.stub.searchUser(identifier, criteria);
     }
 }
