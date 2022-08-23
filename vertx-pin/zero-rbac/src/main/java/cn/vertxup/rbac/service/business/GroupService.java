@@ -6,6 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.RGroupRole;
 import cn.vertxup.rbac.domain.tables.pojos.SGroup;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
@@ -25,7 +26,7 @@ public class GroupService implements GroupStub {
     @Override
     public Future<JsonArray> fetchRoleIdsAsync(final String groupKey) {
         Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Async");
-        return Sc.relation(AuthKey.F_GROUP_ID, groupKey, RGroupRoleDao.class);
+        return Ke.umALink(AuthKey.F_GROUP_ID, groupKey, RGroupRoleDao.class);
     }
 
     @Override

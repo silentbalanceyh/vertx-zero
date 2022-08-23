@@ -1,5 +1,6 @@
 package io.vertx.up.fn;
 
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
@@ -573,6 +574,11 @@ public final class Fn {
     public static <T> Future<List<T>> combineT(
         final List<Future<T>> futures) {
         return War.combineT(futures);
+    }
+
+    public static <T> Future<List<T>> combineT(
+        final CompositeFuture res) {
+        return War.combineT(res);
     }
 
     public static <T> Future<Set<T>> combineT(

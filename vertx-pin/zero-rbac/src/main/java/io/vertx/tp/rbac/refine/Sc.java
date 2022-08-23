@@ -2,7 +2,6 @@ package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -154,22 +153,6 @@ public class Sc {
 
     public static OAccessToken jwtToken(final JsonObject jwt, final String userKey) {
         return ScToken.jwtToken(jwt, userKey);
-    }
-
-    /*
-     * Relation query based on input parameters
-     * JqTool `R_X_Y` Where `field = key` ( field belong to X )
-     *
-     * 1) R_USER_ROLE: JqTool roles based on user's key
-     * 2) R_GROUP_ROLE: JqTool roles based on group's key
-     * 3) R_USER_GROUP: JqTool groups based on user's key
-     */
-    public static <T> Future<JsonArray> relation(final String field, final String key, final Class<?> daoCls) {
-        return ScFn.<T>relation(field, key, daoCls);
-    }
-
-    public static <T> Future<List<T>> composite(final CompositeFuture res) {
-        return ScFn.composite(res);
     }
 
     /*
