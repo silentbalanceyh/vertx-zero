@@ -10,7 +10,11 @@ import io.vertx.up.unity.Ux;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HCondTeam implements HCond {
+public class HQrStandard implements HCond {
+    /*
+     * openGroup 包含本组
+     * acceptedGroup 中可匹配本组
+     */
     @Override
     public Future<JsonObject> compile(final JsonObject data, final JsonObject qr) {
         return Ux.futureJ();
