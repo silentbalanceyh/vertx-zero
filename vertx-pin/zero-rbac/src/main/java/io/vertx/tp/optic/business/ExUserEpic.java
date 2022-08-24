@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.acl.relation.Junc;
+import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -45,23 +46,32 @@ public class ExUserEpic implements ExUser {
     }
 
     @Override
+    public Future<JsonArray> userGroup(final String key) {
+        return Junc.group().identAsync(key).compose(relations -> {
+            final JsonArray groupKeys = new JsonArray();
+            Ut.itJArray(relations).forEach(item -> groupKeys.add(item.getValue(AuthKey.F_GROUP_ID)));
+            return Ux.future(groupKeys);
+        });
+    }
+
+    @Override
     public Future<ConcurrentMap<String, JsonObject>> mapUser(final Set<String> keys, final boolean extension) {
         final Refer userRef = new Refer();
         return this.fetchList(keys)
-            .compose(userRef::future)
-            .compose(queried -> {
-                if (extension) {
-                    return Junc.refExtension().identAsync(queried);
-                } else {
-                    return Ux.futureA();
-                }
-            })
-            .compose(employeeA -> {
-                final List<SUser> users = userRef.get();
-                final JsonArray userA = Ux.toJson(users);
-                final ConcurrentMap<String, JsonObject> mapUser = Ut.elementMap(userA, KName.KEY);
-                return Ux.future(this.userMap(mapUser, employeeA));
-            });
+                .compose(userRef::future)
+                .compose(queried -> {
+                    if (extension) {
+                        return Junc.refExtension().identAsync(queried);
+                    } else {
+                        return Ux.futureA();
+                    }
+                })
+                .compose(employeeA -> {
+                    final List<SUser> users = userRef.get();
+                    final JsonArray userA = Ux.toJson(users);
+                    final ConcurrentMap<String, JsonObject> mapUser = Ut.elementMap(userA, KName.KEY);
+                    return Ux.future(this.userMap(mapUser, employeeA));
+                });
     }
 
     @Override

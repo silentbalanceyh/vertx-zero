@@ -78,5 +78,7 @@ public interface ExUser {
 
     Future<ConcurrentMap<String, JsonObject>> mapUser(Set<String> keys, boolean extension);
 
+    Future<JsonArray> userGroup(String key);
+
     Future<JsonArray> searchUser(String keyword);
 }
