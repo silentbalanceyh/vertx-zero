@@ -57,6 +57,10 @@ public class HES {
          * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
          */
         final String sigma = header.getSigma();
+        if (Objects.isNull(sigma)) {
+            // 如果 sigma 为空则跳过
+            return;
+        }
         H3H.CC_OI.pick(() -> {
             /*
              * 参数：
@@ -72,7 +76,7 @@ public class HES {
             inputJ.remove(KName.SESSION);
             final Hoi hoi = Ux.channelS(HET.class, het -> het.configure(inputJ));
             LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}",
-                sigma, inputJ.encode(), hoi.mode());
+                    sigma, inputJ.encode(), hoi.mode());
             return hoi;
         }, sigma);
     }
@@ -119,8 +123,8 @@ public class HES {
          */
         final String name = Ut.valueString(unityApp, KName.NAME);
         return H3H.CC_APP.pick(
-            () -> KApp.instance(name).bind(unityApp).synchro(),
-            name
+                () -> KApp.instance(name).bind(unityApp).synchro(),
+                name
         );
     }
 
