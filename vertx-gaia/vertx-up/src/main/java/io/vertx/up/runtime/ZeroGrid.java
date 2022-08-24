@@ -46,84 +46,67 @@ public class ZeroGrid {
     private static ClusterOptions CLUSTER;
 
     static {
-        Runner.run("meditate-options",
+
+        Fn.outUp(() -> {
             // Init for VertxOptions, ClusterOptions
             // Visit Vertx
-            () -> Fn.outUp(() -> {
-                if (VX_OPTS.isEmpty() || null == CLUSTER) {
-                    final NodeVisitor visitor =
-                        Ut.singleton(VertxVisitor.class);
-                    VX_OPTS.putAll(visitor.visit());
-                    // Must after visit
-                    CLUSTER = visitor.getCluster();
-                }
-            }, LOGGER),
-
+            if (VX_OPTS.isEmpty() || null == CLUSTER) {
+                final NodeVisitor visitor =
+                    Ut.singleton(VertxVisitor.class);
+                VX_OPTS.putAll(visitor.visit());
+                // Must after visit
+                CLUSTER = visitor.getCluster();
+            }
             // Init for HttpServerOptions
-            () -> Fn.outUp(() -> {
-                if (SERVER_OPTS.isEmpty()) {
-                    final ServerVisitor<HttpServerOptions> visitor =
-                        Ut.singleton(HttpServerVisitor.class);
-                    SERVER_OPTS.putAll(visitor.visit());
-                    // Secondary
-                    if (SERVER_NAMES.isEmpty()) {
-                        final ServerVisitor<String> VISITOR =
-                            Ut.singleton(NamesVisitor.class);
-                        SERVER_NAMES.putAll(VISITOR.visit(ServerType.HTTP.toString()));
-                    }
+            if (SERVER_OPTS.isEmpty()) {
+                final ServerVisitor<HttpServerOptions> visitor =
+                    Ut.singleton(HttpServerVisitor.class);
+                SERVER_OPTS.putAll(visitor.visit());
+                // Secondary
+                if (SERVER_NAMES.isEmpty()) {
+                    final ServerVisitor<String> VISITOR =
+                        Ut.singleton(NamesVisitor.class);
+                    SERVER_NAMES.putAll(VISITOR.visit(ServerType.HTTP.toString()));
                 }
-            }, LOGGER),
-
+            }
             // Init for GatewayOptions
-            () -> Fn.outUp(() -> {
-                if (GATEWAY_OPTS.isEmpty()) {
-                    final ServerVisitor<HttpServerOptions> visitor =
-                        Ut.singleton(DynamicVisitor.class);
-                    GATEWAY_OPTS.putAll(visitor.visit(ServerType.API.toString()));
-                }
-            }, LOGGER),
-
+            if (GATEWAY_OPTS.isEmpty()) {
+                final ServerVisitor<HttpServerOptions> visitor =
+                    Ut.singleton(DynamicVisitor.class);
+                GATEWAY_OPTS.putAll(visitor.visit(ServerType.API.toString()));
+            }
             // Init for RxServerOptions
-            () -> Fn.outUp(() -> {
-                if (RX_OPTS.isEmpty()) {
-                    final ServerVisitor<HttpServerOptions> visitor =
-                        Ut.singleton(RxServerVisitor.class);
-                    RX_OPTS.putAll(visitor.visit());
-                }
-            }, LOGGER),
-
-            // Init for RpcServerOptions
-            () -> Fn.outUp(() -> {
-                if (RPC_OPTS.isEmpty()) {
-                    final ServerVisitor<RpcOptions> visitor =
-                        Ut.singleton(RpcServerVisitor.class);
-                    RPC_OPTS.putAll(visitor.visit());
-                }
-            }, LOGGER),
-
-            // Init for SockOptions
-            () -> Fn.outUp(() -> {
-                if (SOCK_OPTS.isEmpty()) {
-                    final ServerVisitor<SockOptions> visitor =
-                        Ut.singleton(SockVisitor.class);
-                    final ConcurrentMap<Integer, SockOptions> map = visitor.visit();
-                    map.keySet().stream().filter(SERVER_OPTS::containsKey)
-                        .forEach(port -> SOCK_OPTS.put(port, map.get(port)));
-                }
-            }, LOGGER)
-        );
-        // Init for ATOMIC_LOG
-        {
-            // RPC Put
-            RPC_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
-            // HTTP Put
-            SERVER_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
-            // Rx Put
-            RX_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
-            // Api Put
-            GATEWAY_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
-        }
-        ZeroAmbient.init();
+            if (RX_OPTS.isEmpty()) {
+                final ServerVisitor<HttpServerOptions> visitor =
+                    Ut.singleton(RxServerVisitor.class);
+                RX_OPTS.putAll(visitor.visit());
+            }
+            // Init for RpxServerOptions
+            if (RPC_OPTS.isEmpty()) {
+                final ServerVisitor<RpcOptions> visitor =
+                    Ut.singleton(RpcServerVisitor.class);
+                RPC_OPTS.putAll(visitor.visit());
+            }
+            if (SOCK_OPTS.isEmpty()) {
+                final ServerVisitor<SockOptions> visitor =
+                    Ut.singleton(SockVisitor.class);
+                final ConcurrentMap<Integer, SockOptions> map = visitor.visit();
+                map.keySet().stream().filter(SERVER_OPTS::containsKey)
+                    .forEach(port -> SOCK_OPTS.put(port, map.get(port)));
+            }
+            // Init for ATOMIC_LOG
+            {
+                // RPC Put
+                RPC_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
+                // HTTP Put
+                SERVER_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
+                // Rx Put
+                RX_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
+                // Api Put
+                GATEWAY_OPTS.forEach((port, option) -> ATOMIC_LOG.put(port, new AtomicInteger(0)));
+            }
+            ZeroAmbient.init();
+        }, LOGGER);
     }
 
     public static ConcurrentMap<String, VertxOptions> getVertxOptions() {
