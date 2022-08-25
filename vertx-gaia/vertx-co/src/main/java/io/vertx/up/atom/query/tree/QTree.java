@@ -12,7 +12,7 @@ public class QTree {
     private final QNode current;
 
     private QTree(final JsonObject content) {
-        this.current = this.init(content, 0);
+        this.current = this.initTier(content, 0);
     }
 
     public static QTree create(final Criteria criteria) {
