@@ -19,12 +19,14 @@ class It {
     }
 
     private static <T> java.util.stream.Stream<T> itCollection(final Collection<T> source) {
-        return source.stream().filter(Objects::nonNull);
+        // 并行
+        return source.stream().parallel().filter(Objects::nonNull);
     }
 
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
         final JsonArray source = Jackson.sureJArray(array);
-        return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
+        // 并行
+        return source.stream().parallel().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
 
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array, final Predicate<JsonObject> predicate) {
@@ -33,7 +35,8 @@ class It {
 
     static java.util.stream.Stream<String> itJString(final JsonArray array) {
         final JsonArray source = Jackson.sureJArray(array);
-        return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
+        // 并行
+        return source.stream().parallel().filter(item -> item instanceof String).map(item -> (String) item);
     }
 
     static java.util.stream.Stream<String> itJString(final JsonArray array, final Predicate<String> predicate) {
