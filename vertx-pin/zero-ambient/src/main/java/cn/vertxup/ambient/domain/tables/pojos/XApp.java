@@ -20,29 +20,29 @@ public class XApp implements VertxPojo, IXApp {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        title;
-    private String        logo;
-    private String        icp;
-    private String        copyRight;
-    private String        email;
-    private String        domain;
-    private Integer       appPort;
-    private String        urlEntry;
-    private String        urlMain;
-    private String        path;
-    private String        route;
-    private String        appKey;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String title;
+    private String logo;
+    private String icp;
+    private String copyRight;
+    private String email;
+    private String domain;
+    private Integer appPort;
+    private String urlEntry;
+    private String urlMain;
+    private String path;
+    private String route;
+    private String appKey;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XApp() {}
 
@@ -73,29 +73,29 @@ public class XApp implements VertxPojo, IXApp {
     }
 
     public XApp(
-        String        key,
-        String        name,
-        String        code,
-        String        title,
-        String        logo,
-        String        icp,
-        String        copyRight,
-        String        email,
-        String        domain,
-        Integer       appPort,
-        String        urlEntry,
-        String        urlMain,
-        String        path,
-        String        route,
-        String        appKey,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String title,
+        String logo,
+        String icp,
+        String copyRight,
+        String email,
+        String domain,
+        Integer appPort,
+        String urlEntry,
+        String urlMain,
+        String path,
+        String route,
+        String appKey,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -526,6 +526,186 @@ public class XApp implements VertxPojo, IXApp {
     public XApp setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XApp other = (XApp) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!this.title.equals(other.title))
+            return false;
+        if (this.logo == null) {
+            if (other.logo != null)
+                return false;
+        }
+        else if (!this.logo.equals(other.logo))
+            return false;
+        if (this.icp == null) {
+            if (other.icp != null)
+                return false;
+        }
+        else if (!this.icp.equals(other.icp))
+            return false;
+        if (this.copyRight == null) {
+            if (other.copyRight != null)
+                return false;
+        }
+        else if (!this.copyRight.equals(other.copyRight))
+            return false;
+        if (this.email == null) {
+            if (other.email != null)
+                return false;
+        }
+        else if (!this.email.equals(other.email))
+            return false;
+        if (this.domain == null) {
+            if (other.domain != null)
+                return false;
+        }
+        else if (!this.domain.equals(other.domain))
+            return false;
+        if (this.appPort == null) {
+            if (other.appPort != null)
+                return false;
+        }
+        else if (!this.appPort.equals(other.appPort))
+            return false;
+        if (this.urlEntry == null) {
+            if (other.urlEntry != null)
+                return false;
+        }
+        else if (!this.urlEntry.equals(other.urlEntry))
+            return false;
+        if (this.urlMain == null) {
+            if (other.urlMain != null)
+                return false;
+        }
+        else if (!this.urlMain.equals(other.urlMain))
+            return false;
+        if (this.path == null) {
+            if (other.path != null)
+                return false;
+        }
+        else if (!this.path.equals(other.path))
+            return false;
+        if (this.route == null) {
+            if (other.route != null)
+                return false;
+        }
+        else if (!this.route.equals(other.route))
+            return false;
+        if (this.appKey == null) {
+            if (other.appKey != null)
+                return false;
+        }
+        else if (!this.appKey.equals(other.appKey))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.logo == null) ? 0 : this.logo.hashCode());
+        result = prime * result + ((this.icp == null) ? 0 : this.icp.hashCode());
+        result = prime * result + ((this.copyRight == null) ? 0 : this.copyRight.hashCode());
+        result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+        result = prime * result + ((this.domain == null) ? 0 : this.domain.hashCode());
+        result = prime * result + ((this.appPort == null) ? 0 : this.appPort.hashCode());
+        result = prime * result + ((this.urlEntry == null) ? 0 : this.urlEntry.hashCode());
+        result = prime * result + ((this.urlMain == null) ? 0 : this.urlMain.hashCode());
+        result = prime * result + ((this.path == null) ? 0 : this.path.hashCode());
+        result = prime * result + ((this.route == null) ? 0 : this.route.hashCode());
+        result = prime * result + ((this.appKey == null) ? 0 : this.appKey.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

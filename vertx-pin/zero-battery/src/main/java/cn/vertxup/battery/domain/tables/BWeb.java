@@ -7,6 +7,7 @@ package cn.vertxup.battery.domain.tables;
 import cn.vertxup.battery.domain.Db;
 import cn.vertxup.battery.domain.Keys;
 import cn.vertxup.battery.domain.tables.records.BWebRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -14,6 +15,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -144,6 +146,11 @@ public class BWeb extends TableImpl<BWebRecord> {
         return new BWeb(alias, this);
     }
 
+    @Override
+    public BWeb as(Table<?> alias) {
+        return new BWeb(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -160,6 +167,14 @@ public class BWeb extends TableImpl<BWebRecord> {
         return new BWeb(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public BWeb rename(Table<?> name) {
+        return new BWeb(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row12 type methods
     // -------------------------------------------------------------------------
@@ -167,5 +182,20 @@ public class BWeb extends TableImpl<BWebRecord> {
     @Override
     public Row12<String, String, String, String, String, String, String, String, Boolean, String, String, String> fieldsRow() {
         return (Row12) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function12<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function12<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -20,16 +20,16 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        commentExtension;
-    private String        classification;
+    private String key;
+    private String commentExtension;
+    private String classification;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private Integer       days;
-    private String        requestType;
-    private String        fromType;
+    private Integer days;
+    private String requestType;
+    private String fromType;
     private LocalDateTime fromAt;
-    private String        toType;
+    private String toType;
     private LocalDateTime toAt;
 
     public TVendorHour() {}
@@ -49,16 +49,16 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     public TVendorHour(
-        String        key,
-        String        commentExtension,
-        String        classification,
+        String key,
+        String commentExtension,
+        String classification,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        Integer       days,
-        String        requestType,
-        String        fromType,
+        Integer days,
+        String requestType,
+        String fromType,
         LocalDateTime fromAt,
-        String        toType,
+        String toType,
         LocalDateTime toAt
     ) {
         this.key = key;
@@ -274,6 +274,102 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     public TVendorHour setToAt(LocalDateTime toAt) {
         this.toAt = toAt;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final TVendorHour other = (TVendorHour) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.commentExtension == null) {
+            if (other.commentExtension != null)
+                return false;
+        }
+        else if (!this.commentExtension.equals(other.commentExtension))
+            return false;
+        if (this.classification == null) {
+            if (other.classification != null)
+                return false;
+        }
+        else if (!this.classification.equals(other.classification))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.days == null) {
+            if (other.days != null)
+                return false;
+        }
+        else if (!this.days.equals(other.days))
+            return false;
+        if (this.requestType == null) {
+            if (other.requestType != null)
+                return false;
+        }
+        else if (!this.requestType.equals(other.requestType))
+            return false;
+        if (this.fromType == null) {
+            if (other.fromType != null)
+                return false;
+        }
+        else if (!this.fromType.equals(other.fromType))
+            return false;
+        if (this.fromAt == null) {
+            if (other.fromAt != null)
+                return false;
+        }
+        else if (!this.fromAt.equals(other.fromAt))
+            return false;
+        if (this.toType == null) {
+            if (other.toType != null)
+                return false;
+        }
+        else if (!this.toType.equals(other.toType))
+            return false;
+        if (this.toAt == null) {
+            if (other.toAt != null)
+                return false;
+        }
+        else if (!this.toAt.equals(other.toAt))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.commentExtension == null) ? 0 : this.commentExtension.hashCode());
+        result = prime * result + ((this.classification == null) ? 0 : this.classification.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.days == null) ? 0 : this.days.hashCode());
+        result = prime * result + ((this.requestType == null) ? 0 : this.requestType.hashCode());
+        result = prime * result + ((this.fromType == null) ? 0 : this.fromType.hashCode());
+        result = prime * result + ((this.fromAt == null) ? 0 : this.fromAt.hashCode());
+        result = prime * result + ((this.toType == null) ? 0 : this.toType.hashCode());
+        result = prime * result + ((this.toAt == null) ? 0 : this.toAt.hashCode());
+        return result;
     }
 
     @Override

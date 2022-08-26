@@ -20,25 +20,25 @@ public class XActivity implements VertxPojo, IXActivity {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        type;
-    private String        serial;
-    private String        description;
-    private String        modelId;
-    private String        modelKey;
-    private String        modelCategory;
-    private String        taskName;
-    private String        taskSerial;
-    private String        recordOld;
-    private String        recordNew;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String type;
+    private String serial;
+    private String description;
+    private String modelId;
+    private String modelKey;
+    private String modelCategory;
+    private String taskName;
+    private String taskSerial;
+    private String recordOld;
+    private String recordNew;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XActivity() {}
 
@@ -65,25 +65,25 @@ public class XActivity implements VertxPojo, IXActivity {
     }
 
     public XActivity(
-        String        key,
-        String        type,
-        String        serial,
-        String        description,
-        String        modelId,
-        String        modelKey,
-        String        modelCategory,
-        String        taskName,
-        String        taskSerial,
-        String        recordOld,
-        String        recordNew,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String type,
+        String serial,
+        String description,
+        String modelId,
+        String modelKey,
+        String modelCategory,
+        String taskName,
+        String taskSerial,
+        String recordOld,
+        String recordNew,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.type = type;
@@ -456,6 +456,158 @@ public class XActivity implements VertxPojo, IXActivity {
     public XActivity setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XActivity other = (XActivity) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.modelKey == null) {
+            if (other.modelKey != null)
+                return false;
+        }
+        else if (!this.modelKey.equals(other.modelKey))
+            return false;
+        if (this.modelCategory == null) {
+            if (other.modelCategory != null)
+                return false;
+        }
+        else if (!this.modelCategory.equals(other.modelCategory))
+            return false;
+        if (this.taskName == null) {
+            if (other.taskName != null)
+                return false;
+        }
+        else if (!this.taskName.equals(other.taskName))
+            return false;
+        if (this.taskSerial == null) {
+            if (other.taskSerial != null)
+                return false;
+        }
+        else if (!this.taskSerial.equals(other.taskSerial))
+            return false;
+        if (this.recordOld == null) {
+            if (other.recordOld != null)
+                return false;
+        }
+        else if (!this.recordOld.equals(other.recordOld))
+            return false;
+        if (this.recordNew == null) {
+            if (other.recordNew != null)
+                return false;
+        }
+        else if (!this.recordNew.equals(other.recordNew))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.modelKey == null) ? 0 : this.modelKey.hashCode());
+        result = prime * result + ((this.modelCategory == null) ? 0 : this.modelCategory.hashCode());
+        result = prime * result + ((this.taskName == null) ? 0 : this.taskName.hashCode());
+        result = prime * result + ((this.taskSerial == null) ? 0 : this.taskSerial.hashCode());
+        result = prime * result + ((this.recordOld == null) ? 0 : this.recordOld.hashCode());
+        result = prime * result + ((this.recordNew == null) ? 0 : this.recordNew.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

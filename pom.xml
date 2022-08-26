@@ -63,7 +63,7 @@
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
@@ -77,8 +77,8 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.9</jooq.version>
-        <vertx.jooq.version>6.5.4</vertx.jooq.version>
+        <jooq.version>3.17.3</jooq.version>
+        <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.30</mysql.version>
 
         <!-- Java Reflection -->
@@ -2009,23 +2009,21 @@
                     <destDir>document</destDir>
                     <!-- 连接配置 -->
                     <doclint>none,-missing</doclint>
-                    <stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
+                    <!--<stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
                     <additionalJOptions>
                         <additionalJOption>
-                            -J--add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
-                        </additionalJOption> <!--(1)-->
+                            -J&#45;&#45;add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
+                        </additionalJOption> &lt;!&ndash;(1)&ndash;&gt;
                         <additionalJOption>-Xdoclint:none,-html,-accessibility,-missing</additionalJOption>
-                        <additionalJOption>--base-dir</additionalJOption>
                         <additionalJOption>${project.basedir}</additionalJOption>
-                        <additionalJOption>--frames</additionalJOption>
-                    </additionalJOptions>
-                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
-                    <docletArtifact>
-                        <groupId>org.uniknow</groupId>
-                        <artifactId>asciidoclet</artifactId>
-                        <version>${asciidoctor.doc.version}</version>
-                    </docletArtifact>
+                    </additionalJOptions>-->
+                    <!--                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
+                                        <docletArtifact>
+                                            <groupId>org.uniknow</groupId>
+                                            <artifactId>asciidoclet</artifactId>
+                                            <version>${asciidoctor.doc.version}</version>
+                                        </docletArtifact>-->
                     <detectJavaApiLink>true</detectJavaApiLink>
                 </configuration>
                 <executions>
@@ -2034,6 +2032,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <release>11</release>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -20,30 +20,30 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        definitionKey;
-    private String        taskKey;
-    private String        type;
-    private String        ruleName;
-    private Long          ruleOrder;
-    private String        ruleNs;
-    private String        ruleIdentifier;
-    private String        ruleField;
-    private String        ruleExpression;
-    private String        ruleTpl;
-    private String        ruleConfig;
-    private String        ruleMessage;
-    private String        hookComponent;
-    private String        hookConfig;
-    private Boolean       logging;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String definitionKey;
+    private String taskKey;
+    private String type;
+    private String ruleName;
+    private Long ruleOrder;
+    private String ruleNs;
+    private String ruleIdentifier;
+    private String ruleField;
+    private String ruleExpression;
+    private String ruleTpl;
+    private String ruleConfig;
+    private String ruleMessage;
+    private String hookComponent;
+    private String hookConfig;
+    private Boolean logging;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XActivityRule() {}
 
@@ -75,30 +75,30 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     }
 
     public XActivityRule(
-        String        key,
-        String        definitionKey,
-        String        taskKey,
-        String        type,
-        String        ruleName,
-        Long          ruleOrder,
-        String        ruleNs,
-        String        ruleIdentifier,
-        String        ruleField,
-        String        ruleExpression,
-        String        ruleTpl,
-        String        ruleConfig,
-        String        ruleMessage,
-        String        hookComponent,
-        String        hookConfig,
-        Boolean       logging,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String definitionKey,
+        String taskKey,
+        String type,
+        String ruleName,
+        Long ruleOrder,
+        String ruleNs,
+        String ruleIdentifier,
+        String ruleField,
+        String ruleExpression,
+        String ruleTpl,
+        String ruleConfig,
+        String ruleMessage,
+        String hookComponent,
+        String hookConfig,
+        Boolean logging,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.definitionKey = definitionKey;
@@ -577,6 +577,193 @@ public class XActivityRule implements VertxPojo, IXActivityRule {
     public XActivityRule setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XActivityRule other = (XActivityRule) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.definitionKey == null) {
+            if (other.definitionKey != null)
+                return false;
+        }
+        else if (!this.definitionKey.equals(other.definitionKey))
+            return false;
+        if (this.taskKey == null) {
+            if (other.taskKey != null)
+                return false;
+        }
+        else if (!this.taskKey.equals(other.taskKey))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.ruleName == null) {
+            if (other.ruleName != null)
+                return false;
+        }
+        else if (!this.ruleName.equals(other.ruleName))
+            return false;
+        if (this.ruleOrder == null) {
+            if (other.ruleOrder != null)
+                return false;
+        }
+        else if (!this.ruleOrder.equals(other.ruleOrder))
+            return false;
+        if (this.ruleNs == null) {
+            if (other.ruleNs != null)
+                return false;
+        }
+        else if (!this.ruleNs.equals(other.ruleNs))
+            return false;
+        if (this.ruleIdentifier == null) {
+            if (other.ruleIdentifier != null)
+                return false;
+        }
+        else if (!this.ruleIdentifier.equals(other.ruleIdentifier))
+            return false;
+        if (this.ruleField == null) {
+            if (other.ruleField != null)
+                return false;
+        }
+        else if (!this.ruleField.equals(other.ruleField))
+            return false;
+        if (this.ruleExpression == null) {
+            if (other.ruleExpression != null)
+                return false;
+        }
+        else if (!this.ruleExpression.equals(other.ruleExpression))
+            return false;
+        if (this.ruleTpl == null) {
+            if (other.ruleTpl != null)
+                return false;
+        }
+        else if (!this.ruleTpl.equals(other.ruleTpl))
+            return false;
+        if (this.ruleConfig == null) {
+            if (other.ruleConfig != null)
+                return false;
+        }
+        else if (!this.ruleConfig.equals(other.ruleConfig))
+            return false;
+        if (this.ruleMessage == null) {
+            if (other.ruleMessage != null)
+                return false;
+        }
+        else if (!this.ruleMessage.equals(other.ruleMessage))
+            return false;
+        if (this.hookComponent == null) {
+            if (other.hookComponent != null)
+                return false;
+        }
+        else if (!this.hookComponent.equals(other.hookComponent))
+            return false;
+        if (this.hookConfig == null) {
+            if (other.hookConfig != null)
+                return false;
+        }
+        else if (!this.hookConfig.equals(other.hookConfig))
+            return false;
+        if (this.logging == null) {
+            if (other.logging != null)
+                return false;
+        }
+        else if (!this.logging.equals(other.logging))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.definitionKey == null) ? 0 : this.definitionKey.hashCode());
+        result = prime * result + ((this.taskKey == null) ? 0 : this.taskKey.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.ruleName == null) ? 0 : this.ruleName.hashCode());
+        result = prime * result + ((this.ruleOrder == null) ? 0 : this.ruleOrder.hashCode());
+        result = prime * result + ((this.ruleNs == null) ? 0 : this.ruleNs.hashCode());
+        result = prime * result + ((this.ruleIdentifier == null) ? 0 : this.ruleIdentifier.hashCode());
+        result = prime * result + ((this.ruleField == null) ? 0 : this.ruleField.hashCode());
+        result = prime * result + ((this.ruleExpression == null) ? 0 : this.ruleExpression.hashCode());
+        result = prime * result + ((this.ruleTpl == null) ? 0 : this.ruleTpl.hashCode());
+        result = prime * result + ((this.ruleConfig == null) ? 0 : this.ruleConfig.hashCode());
+        result = prime * result + ((this.ruleMessage == null) ? 0 : this.ruleMessage.hashCode());
+        result = prime * result + ((this.hookComponent == null) ? 0 : this.hookComponent.hashCode());
+        result = prime * result + ((this.hookConfig == null) ? 0 : this.hookConfig.hashCode());
+        result = prime * result + ((this.logging == null) ? 0 : this.logging.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

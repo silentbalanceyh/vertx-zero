@@ -18,17 +18,17 @@ public class OUser implements VertxPojo, IOUser {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
-    private String  redirectUri;
-    private String  code;
-    private String  clientSecret;
-    private String  clientId;
-    private String  grantType;
-    private String  scope;
-    private String  state;
-    private String  language;
+    private String key;
+    private String redirectUri;
+    private String code;
+    private String clientSecret;
+    private String clientId;
+    private String grantType;
+    private String scope;
+    private String state;
+    private String language;
     private Boolean active;
-    private String  metadata;
+    private String metadata;
 
     public OUser() {}
 
@@ -47,17 +47,17 @@ public class OUser implements VertxPojo, IOUser {
     }
 
     public OUser(
-        String  key,
-        String  redirectUri,
-        String  code,
-        String  clientSecret,
-        String  clientId,
-        String  grantType,
-        String  scope,
-        String  state,
-        String  language,
+        String key,
+        String redirectUri,
+        String code,
+        String clientSecret,
+        String clientId,
+        String grantType,
+        String scope,
+        String state,
+        String language,
         Boolean active,
-        String  metadata
+        String metadata
     ) {
         this.key = key;
         this.redirectUri = redirectUri;
@@ -266,6 +266,102 @@ public class OUser implements VertxPojo, IOUser {
     public OUser setMetadata(String metadata) {
         this.metadata = metadata;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final OUser other = (OUser) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.redirectUri == null) {
+            if (other.redirectUri != null)
+                return false;
+        }
+        else if (!this.redirectUri.equals(other.redirectUri))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.clientSecret == null) {
+            if (other.clientSecret != null)
+                return false;
+        }
+        else if (!this.clientSecret.equals(other.clientSecret))
+            return false;
+        if (this.clientId == null) {
+            if (other.clientId != null)
+                return false;
+        }
+        else if (!this.clientId.equals(other.clientId))
+            return false;
+        if (this.grantType == null) {
+            if (other.grantType != null)
+                return false;
+        }
+        else if (!this.grantType.equals(other.grantType))
+            return false;
+        if (this.scope == null) {
+            if (other.scope != null)
+                return false;
+        }
+        else if (!this.scope.equals(other.scope))
+            return false;
+        if (this.state == null) {
+            if (other.state != null)
+                return false;
+        }
+        else if (!this.state.equals(other.state))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.redirectUri == null) ? 0 : this.redirectUri.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.clientSecret == null) ? 0 : this.clientSecret.hashCode());
+        result = prime * result + ((this.clientId == null) ? 0 : this.clientId.hashCode());
+        result = prime * result + ((this.grantType == null) ? 0 : this.grantType.hashCode());
+        result = prime * result + ((this.scope == null) ? 0 : this.scope.hashCode());
+        result = prime * result + ((this.state == null) ? 0 : this.state.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        return result;
     }
 
     @Override

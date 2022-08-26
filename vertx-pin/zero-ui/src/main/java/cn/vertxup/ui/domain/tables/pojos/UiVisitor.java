@@ -237,6 +237,88 @@ public class UiVisitor implements VertxPojo, IUiVisitor {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiVisitor other = (UiVisitor) obj;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.page == null) {
+            if (other.page != null)
+                return false;
+        }
+        else if (!this.page.equals(other.page))
+            return false;
+        if (this.path == null) {
+            if (other.path != null)
+                return false;
+        }
+        else if (!this.path.equals(other.path))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.controlId == null) {
+            if (other.controlId != null)
+                return false;
+        }
+        else if (!this.controlId.equals(other.controlId))
+            return false;
+        if (this.resourceId == null) {
+            if (other.resourceId != null)
+                return false;
+        }
+        else if (!this.resourceId.equals(other.resourceId))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.runComponent == null) {
+            if (other.runComponent != null)
+                return false;
+        }
+        else if (!this.runComponent.equals(other.runComponent))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.page == null) ? 0 : this.page.hashCode());
+        result = prime * result + ((this.path == null) ? 0 : this.path.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.controlId == null) ? 0 : this.controlId.hashCode());
+        result = prime * result + ((this.resourceId == null) ? 0 : this.resourceId.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("UiVisitor (");
 

@@ -18,11 +18,11 @@ public class MJoin implements VertxPojo, IMJoin {
 
     private static final long serialVersionUID = 1L;
 
-    private String  model;
-    private String  entity;
-    private String  entityKey;
+    private String model;
+    private String entity;
+    private String entityKey;
     private Integer priority;
-    private String  namespace;
+    private String namespace;
 
     public MJoin() {}
 
@@ -35,11 +35,11 @@ public class MJoin implements VertxPojo, IMJoin {
     }
 
     public MJoin(
-        String  model,
-        String  entity,
-        String  entityKey,
+        String model,
+        String entity,
+        String entityKey,
         Integer priority,
-        String  namespace
+        String namespace
     ) {
         this.model = model;
         this.entity = entity;
@@ -140,6 +140,60 @@ public class MJoin implements VertxPojo, IMJoin {
     public MJoin setNamespace(String namespace) {
         this.namespace = namespace;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final MJoin other = (MJoin) obj;
+        if (this.model == null) {
+            if (other.model != null)
+                return false;
+        }
+        else if (!this.model.equals(other.model))
+            return false;
+        if (this.entity == null) {
+            if (other.entity != null)
+                return false;
+        }
+        else if (!this.entity.equals(other.entity))
+            return false;
+        if (this.entityKey == null) {
+            if (other.entityKey != null)
+                return false;
+        }
+        else if (!this.entityKey.equals(other.entityKey))
+            return false;
+        if (this.priority == null) {
+            if (other.priority != null)
+                return false;
+        }
+        else if (!this.priority.equals(other.priority))
+            return false;
+        if (this.namespace == null) {
+            if (other.namespace != null)
+                return false;
+        }
+        else if (!this.namespace.equals(other.namespace))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.model == null) ? 0 : this.model.hashCode());
+        result = prime * result + ((this.entity == null) ? 0 : this.entity.hashCode());
+        result = prime * result + ((this.entityKey == null) ? 0 : this.entityKey.hashCode());
+        result = prime * result + ((this.priority == null) ? 0 : this.priority.hashCode());
+        result = prime * result + ((this.namespace == null) ? 0 : this.namespace.hashCode());
+        return result;
     }
 
     @Override

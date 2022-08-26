@@ -20,35 +20,35 @@ public class BBlock implements VertxPojo, IBBlock {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        code;
-    private String        name;
-    private String        version;
-    private Boolean       authorized;
-    private String        uiIcon;
-    private String        uiStyle;
-    private Long          uiSort;
-    private String        uiConfig;
-    private String        uiContent;
-    private String        signIssuer;
-    private String        signName;
+    private String key;
+    private String code;
+    private String name;
+    private String version;
+    private Boolean authorized;
+    private String uiIcon;
+    private String uiStyle;
+    private Long uiSort;
+    private String uiConfig;
+    private String uiContent;
+    private String signIssuer;
+    private String signName;
     private LocalDateTime signAt;
-    private String        signSecret;
-    private String        signLic;
+    private String signSecret;
+    private String signLic;
     private LocalDateTime signEnd;
     private LocalDateTime signStart;
-    private String        licIdentifier;
-    private String        licMenu;
-    private String        appId;
-    private String        bagId;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String licIdentifier;
+    private String licMenu;
+    private String appId;
+    private String bagId;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public BBlock() {}
 
@@ -85,35 +85,35 @@ public class BBlock implements VertxPojo, IBBlock {
     }
 
     public BBlock(
-        String        key,
-        String        code,
-        String        name,
-        String        version,
-        Boolean       authorized,
-        String        uiIcon,
-        String        uiStyle,
-        Long          uiSort,
-        String        uiConfig,
-        String        uiContent,
-        String        signIssuer,
-        String        signName,
+        String key,
+        String code,
+        String name,
+        String version,
+        Boolean authorized,
+        String uiIcon,
+        String uiStyle,
+        Long uiSort,
+        String uiConfig,
+        String uiContent,
+        String signIssuer,
+        String signName,
         LocalDateTime signAt,
-        String        signSecret,
-        String        signLic,
+        String signSecret,
+        String signLic,
         LocalDateTime signEnd,
         LocalDateTime signStart,
-        String        licIdentifier,
-        String        licMenu,
-        String        appId,
-        String        bagId,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String licIdentifier,
+        String licMenu,
+        String appId,
+        String bagId,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.code = code;
@@ -652,6 +652,228 @@ public class BBlock implements VertxPojo, IBBlock {
     public BBlock setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final BBlock other = (BBlock) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.version == null) {
+            if (other.version != null)
+                return false;
+        }
+        else if (!this.version.equals(other.version))
+            return false;
+        if (this.authorized == null) {
+            if (other.authorized != null)
+                return false;
+        }
+        else if (!this.authorized.equals(other.authorized))
+            return false;
+        if (this.uiIcon == null) {
+            if (other.uiIcon != null)
+                return false;
+        }
+        else if (!this.uiIcon.equals(other.uiIcon))
+            return false;
+        if (this.uiStyle == null) {
+            if (other.uiStyle != null)
+                return false;
+        }
+        else if (!this.uiStyle.equals(other.uiStyle))
+            return false;
+        if (this.uiSort == null) {
+            if (other.uiSort != null)
+                return false;
+        }
+        else if (!this.uiSort.equals(other.uiSort))
+            return false;
+        if (this.uiConfig == null) {
+            if (other.uiConfig != null)
+                return false;
+        }
+        else if (!this.uiConfig.equals(other.uiConfig))
+            return false;
+        if (this.uiContent == null) {
+            if (other.uiContent != null)
+                return false;
+        }
+        else if (!this.uiContent.equals(other.uiContent))
+            return false;
+        if (this.signIssuer == null) {
+            if (other.signIssuer != null)
+                return false;
+        }
+        else if (!this.signIssuer.equals(other.signIssuer))
+            return false;
+        if (this.signName == null) {
+            if (other.signName != null)
+                return false;
+        }
+        else if (!this.signName.equals(other.signName))
+            return false;
+        if (this.signAt == null) {
+            if (other.signAt != null)
+                return false;
+        }
+        else if (!this.signAt.equals(other.signAt))
+            return false;
+        if (this.signSecret == null) {
+            if (other.signSecret != null)
+                return false;
+        }
+        else if (!this.signSecret.equals(other.signSecret))
+            return false;
+        if (this.signLic == null) {
+            if (other.signLic != null)
+                return false;
+        }
+        else if (!this.signLic.equals(other.signLic))
+            return false;
+        if (this.signEnd == null) {
+            if (other.signEnd != null)
+                return false;
+        }
+        else if (!this.signEnd.equals(other.signEnd))
+            return false;
+        if (this.signStart == null) {
+            if (other.signStart != null)
+                return false;
+        }
+        else if (!this.signStart.equals(other.signStart))
+            return false;
+        if (this.licIdentifier == null) {
+            if (other.licIdentifier != null)
+                return false;
+        }
+        else if (!this.licIdentifier.equals(other.licIdentifier))
+            return false;
+        if (this.licMenu == null) {
+            if (other.licMenu != null)
+                return false;
+        }
+        else if (!this.licMenu.equals(other.licMenu))
+            return false;
+        if (this.appId == null) {
+            if (other.appId != null)
+                return false;
+        }
+        else if (!this.appId.equals(other.appId))
+            return false;
+        if (this.bagId == null) {
+            if (other.bagId != null)
+                return false;
+        }
+        else if (!this.bagId.equals(other.bagId))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
+        result = prime * result + ((this.authorized == null) ? 0 : this.authorized.hashCode());
+        result = prime * result + ((this.uiIcon == null) ? 0 : this.uiIcon.hashCode());
+        result = prime * result + ((this.uiStyle == null) ? 0 : this.uiStyle.hashCode());
+        result = prime * result + ((this.uiSort == null) ? 0 : this.uiSort.hashCode());
+        result = prime * result + ((this.uiConfig == null) ? 0 : this.uiConfig.hashCode());
+        result = prime * result + ((this.uiContent == null) ? 0 : this.uiContent.hashCode());
+        result = prime * result + ((this.signIssuer == null) ? 0 : this.signIssuer.hashCode());
+        result = prime * result + ((this.signName == null) ? 0 : this.signName.hashCode());
+        result = prime * result + ((this.signAt == null) ? 0 : this.signAt.hashCode());
+        result = prime * result + ((this.signSecret == null) ? 0 : this.signSecret.hashCode());
+        result = prime * result + ((this.signLic == null) ? 0 : this.signLic.hashCode());
+        result = prime * result + ((this.signEnd == null) ? 0 : this.signEnd.hashCode());
+        result = prime * result + ((this.signStart == null) ? 0 : this.signStart.hashCode());
+        result = prime * result + ((this.licIdentifier == null) ? 0 : this.licIdentifier.hashCode());
+        result = prime * result + ((this.licMenu == null) ? 0 : this.licMenu.hashCode());
+        result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
+        result = prime * result + ((this.bagId == null) ? 0 : this.bagId.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

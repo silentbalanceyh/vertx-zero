@@ -20,25 +20,25 @@ public class ETeam implements VertxPojo, IETeam {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        leaderId;
-    private String        leaderName;
-    private String        deptId;
-    private String        teamId;
-    private String        comment;
-    private String        bindId;
-    private String        bindComponent;
-    private String        bindConfig;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String leaderId;
+    private String leaderName;
+    private String deptId;
+    private String teamId;
+    private String comment;
+    private String bindId;
+    private String bindComponent;
+    private String bindConfig;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public ETeam() {}
 
@@ -65,25 +65,25 @@ public class ETeam implements VertxPojo, IETeam {
     }
 
     public ETeam(
-        String        key,
-        String        name,
-        String        code,
-        String        leaderId,
-        String        leaderName,
-        String        deptId,
-        String        teamId,
-        String        comment,
-        String        bindId,
-        String        bindComponent,
-        String        bindConfig,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String leaderId,
+        String leaderName,
+        String deptId,
+        String teamId,
+        String comment,
+        String bindId,
+        String bindComponent,
+        String bindConfig,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -438,6 +438,158 @@ public class ETeam implements VertxPojo, IETeam {
     public ETeam setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ETeam other = (ETeam) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.leaderId == null) {
+            if (other.leaderId != null)
+                return false;
+        }
+        else if (!this.leaderId.equals(other.leaderId))
+            return false;
+        if (this.leaderName == null) {
+            if (other.leaderName != null)
+                return false;
+        }
+        else if (!this.leaderName.equals(other.leaderName))
+            return false;
+        if (this.deptId == null) {
+            if (other.deptId != null)
+                return false;
+        }
+        else if (!this.deptId.equals(other.deptId))
+            return false;
+        if (this.teamId == null) {
+            if (other.teamId != null)
+                return false;
+        }
+        else if (!this.teamId.equals(other.teamId))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.bindId == null) {
+            if (other.bindId != null)
+                return false;
+        }
+        else if (!this.bindId.equals(other.bindId))
+            return false;
+        if (this.bindComponent == null) {
+            if (other.bindComponent != null)
+                return false;
+        }
+        else if (!this.bindComponent.equals(other.bindComponent))
+            return false;
+        if (this.bindConfig == null) {
+            if (other.bindConfig != null)
+                return false;
+        }
+        else if (!this.bindConfig.equals(other.bindConfig))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.leaderId == null) ? 0 : this.leaderId.hashCode());
+        result = prime * result + ((this.leaderName == null) ? 0 : this.leaderName.hashCode());
+        result = prime * result + ((this.deptId == null) ? 0 : this.deptId.hashCode());
+        result = prime * result + ((this.teamId == null) ? 0 : this.teamId.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.bindId == null) ? 0 : this.bindId.hashCode());
+        result = prime * result + ((this.bindComponent == null) ? 0 : this.bindComponent.hashCode());
+        result = prime * result + ((this.bindConfig == null) ? 0 : this.bindConfig.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -18,18 +18,18 @@ public class BWeb implements VertxPojo, IBWeb {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
-    private String  code;
-    private String  blockId;
-    private String  type;
-    private String  licContent;
-    private String  licOp;
-    private String  licModule;
-    private String  licTpl;
+    private String key;
+    private String code;
+    private String blockId;
+    private String type;
+    private String licContent;
+    private String licOp;
+    private String licModule;
+    private String licTpl;
     private Boolean active;
-    private String  sigma;
-    private String  metadata;
-    private String  language;
+    private String sigma;
+    private String metadata;
+    private String language;
 
     public BWeb() {}
 
@@ -49,18 +49,18 @@ public class BWeb implements VertxPojo, IBWeb {
     }
 
     public BWeb(
-        String  key,
-        String  code,
-        String  blockId,
-        String  type,
-        String  licContent,
-        String  licOp,
-        String  licModule,
-        String  licTpl,
+        String key,
+        String code,
+        String blockId,
+        String type,
+        String licContent,
+        String licOp,
+        String licModule,
+        String licTpl,
         Boolean active,
-        String  sigma,
-        String  metadata,
-        String  language
+        String sigma,
+        String metadata,
+        String language
     ) {
         this.key = key;
         this.code = code;
@@ -287,6 +287,109 @@ public class BWeb implements VertxPojo, IBWeb {
     public BWeb setLanguage(String language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final BWeb other = (BWeb) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.blockId == null) {
+            if (other.blockId != null)
+                return false;
+        }
+        else if (!this.blockId.equals(other.blockId))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.licContent == null) {
+            if (other.licContent != null)
+                return false;
+        }
+        else if (!this.licContent.equals(other.licContent))
+            return false;
+        if (this.licOp == null) {
+            if (other.licOp != null)
+                return false;
+        }
+        else if (!this.licOp.equals(other.licOp))
+            return false;
+        if (this.licModule == null) {
+            if (other.licModule != null)
+                return false;
+        }
+        else if (!this.licModule.equals(other.licModule))
+            return false;
+        if (this.licTpl == null) {
+            if (other.licTpl != null)
+                return false;
+        }
+        else if (!this.licTpl.equals(other.licTpl))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.blockId == null) ? 0 : this.blockId.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.licContent == null) ? 0 : this.licContent.hashCode());
+        result = prime * result + ((this.licOp == null) ? 0 : this.licOp.hashCode());
+        result = prime * result + ((this.licModule == null) ? 0 : this.licModule.hashCode());
+        result = prime * result + ((this.licTpl == null) ? 0 : this.licTpl.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        return result;
     }
 
     @Override

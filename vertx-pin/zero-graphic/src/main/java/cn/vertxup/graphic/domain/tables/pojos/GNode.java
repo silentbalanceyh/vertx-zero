@@ -21,24 +21,24 @@ public class GNode implements VertxPojo, IGNode {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private BigDecimal    x;
-    private BigDecimal    y;
-    private String        ui;
-    private String        graphicId;
-    private String        recordData;
-    private String        recordKey;
-    private String        recordComponent;
-    private String        recordClass;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private BigDecimal x;
+    private BigDecimal y;
+    private String ui;
+    private String graphicId;
+    private String recordData;
+    private String recordKey;
+    private String recordComponent;
+    private String recordClass;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public GNode() {}
 
@@ -64,24 +64,24 @@ public class GNode implements VertxPojo, IGNode {
     }
 
     public GNode(
-        String        key,
-        String        name,
-        BigDecimal    x,
-        BigDecimal    y,
-        String        ui,
-        String        graphicId,
-        String        recordData,
-        String        recordKey,
-        String        recordComponent,
-        String        recordClass,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        BigDecimal x,
+        BigDecimal y,
+        String ui,
+        String graphicId,
+        String recordData,
+        String recordKey,
+        String recordComponent,
+        String recordClass,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -420,6 +420,151 @@ public class GNode implements VertxPojo, IGNode {
     public GNode setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final GNode other = (GNode) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.x == null) {
+            if (other.x != null)
+                return false;
+        }
+        else if (!this.x.equals(other.x))
+            return false;
+        if (this.y == null) {
+            if (other.y != null)
+                return false;
+        }
+        else if (!this.y.equals(other.y))
+            return false;
+        if (this.ui == null) {
+            if (other.ui != null)
+                return false;
+        }
+        else if (!this.ui.equals(other.ui))
+            return false;
+        if (this.graphicId == null) {
+            if (other.graphicId != null)
+                return false;
+        }
+        else if (!this.graphicId.equals(other.graphicId))
+            return false;
+        if (this.recordData == null) {
+            if (other.recordData != null)
+                return false;
+        }
+        else if (!this.recordData.equals(other.recordData))
+            return false;
+        if (this.recordKey == null) {
+            if (other.recordKey != null)
+                return false;
+        }
+        else if (!this.recordKey.equals(other.recordKey))
+            return false;
+        if (this.recordComponent == null) {
+            if (other.recordComponent != null)
+                return false;
+        }
+        else if (!this.recordComponent.equals(other.recordComponent))
+            return false;
+        if (this.recordClass == null) {
+            if (other.recordClass != null)
+                return false;
+        }
+        else if (!this.recordClass.equals(other.recordClass))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.x == null) ? 0 : this.x.hashCode());
+        result = prime * result + ((this.y == null) ? 0 : this.y.hashCode());
+        result = prime * result + ((this.ui == null) ? 0 : this.ui.hashCode());
+        result = prime * result + ((this.graphicId == null) ? 0 : this.graphicId.hashCode());
+        result = prime * result + ((this.recordData == null) ? 0 : this.recordData.hashCode());
+        result = prime * result + ((this.recordKey == null) ? 0 : this.recordKey.hashCode());
+        result = prime * result + ((this.recordComponent == null) ? 0 : this.recordComponent.hashCode());
+        result = prime * result + ((this.recordClass == null) ? 0 : this.recordClass.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -7,6 +7,7 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.util.ArrayList;
 import java.util.List;

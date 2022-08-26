@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.POutTicketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -223,6 +224,11 @@ public class POutTicket extends TableImpl<POutTicketRecord> {
         return new POutTicket(alias, this);
     }
 
+    @Override
+    public POutTicket as(Table<?> alias) {
+        return new POutTicket(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -237,5 +243,13 @@ public class POutTicket extends TableImpl<POutTicketRecord> {
     @Override
     public POutTicket rename(Name name) {
         return new POutTicket(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public POutTicket rename(Table<?> name) {
+        return new POutTicket(name.getQualifiedName(), null);
     }
 }

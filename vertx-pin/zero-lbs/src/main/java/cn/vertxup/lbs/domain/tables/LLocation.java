@@ -7,6 +7,7 @@ package cn.vertxup.lbs.domain.tables;
 import cn.vertxup.lbs.domain.Db;
 import cn.vertxup.lbs.domain.Keys;
 import cn.vertxup.lbs.domain.tables.records.LLocationRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;

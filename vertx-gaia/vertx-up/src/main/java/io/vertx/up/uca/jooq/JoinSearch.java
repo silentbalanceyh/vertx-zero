@@ -9,6 +9,7 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.List;
@@ -93,7 +94,7 @@ class JoinSearch {
             final Pager pager = qr.getPager();
             started.offset(pager.getStart()).limit(pager.getSize());
         }
-        final List<Record> records = started.fetch();
+        final List<org.jooq.Record> records = started.fetch();
         final Result result = started.fetch();
         /*
          * Result Only
@@ -103,7 +104,7 @@ class JoinSearch {
         return JqOut.toJoin(records, projection, this.store.mapColumn(), mojo);
     }
 
-    private Table<Record> getTable() {
+    private Table<org.jooq.Record> getTable() {
         if (this.store.noPrefix()) {
             return null;
         }
@@ -111,7 +112,7 @@ class JoinSearch {
          * The first table
          */
         final List<String> tables = this.store.tables();
-        final Table<Record> first = this.store.tableRecord();
+        final Table<org.jooq.Record> first = this.store.tableRecord();
         if (this.store.hasTable()) {
             return first;
         } else {
@@ -119,20 +120,20 @@ class JoinSearch {
              * First and Second
              */
             final int size = tables.size();
-            TableOnConditionStep<Record> conditionStep;
-            final Table<Record> record = this.store.tableRecord(0);
+            TableOnConditionStep<org.jooq.Record> conditionStep;
+            final Table<org.jooq.Record> record = this.store.tableRecord(0);
             conditionStep = this.buildCondition(first, record, this.store.edge(0));
             for (int idx = 1; idx < size; idx++) {
-                final Table<Record> next = this.store.tableRecord(idx);
+                final Table<org.jooq.Record> next = this.store.tableRecord(idx);
                 conditionStep = this.buildCondition(conditionStep, next, this.store.edge(idx));
             }
             return conditionStep;
         }
     }
 
-    private TableOnConditionStep<Record> buildCondition(
-        final Table<Record> from,
-        final Table<Record> to,
+    private TableOnConditionStep<org.jooq.Record> buildCondition(
+        final Table<org.jooq.Record> from,
+        final Table<org.jooq.Record> to,
         final JqEdge edge) {
         /*
          * T1 join T2 on T1.Field1 = T2.Field2

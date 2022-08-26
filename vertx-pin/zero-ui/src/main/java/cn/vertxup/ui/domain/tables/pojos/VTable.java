@@ -18,21 +18,21 @@ public class VTable implements VertxPojo, IVTable {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
+    private String key;
     private Boolean bordered;
-    private String  size;
-    private String  className;
-    private String  totalReport;
-    private String  totalSelected;
-    private String  rowDoubleClick;
-    private String  rowClick;
-    private String  rowContextMenu;
-    private String  rowMouseEnter;
-    private String  rowMouseLeave;
-    private String  opTitle;
-    private String  opDataIndex;
+    private String size;
+    private String className;
+    private String totalReport;
+    private String totalSelected;
+    private String rowDoubleClick;
+    private String rowClick;
+    private String rowContextMenu;
+    private String rowMouseEnter;
+    private String rowMouseLeave;
+    private String opTitle;
+    private String opDataIndex;
     private Boolean opFixed;
-    private String  opConfig;
+    private String opConfig;
 
     public VTable() {}
 
@@ -55,21 +55,21 @@ public class VTable implements VertxPojo, IVTable {
     }
 
     public VTable(
-        String  key,
+        String key,
         Boolean bordered,
-        String  size,
-        String  className,
-        String  totalReport,
-        String  totalSelected,
-        String  rowDoubleClick,
-        String  rowClick,
-        String  rowContextMenu,
-        String  rowMouseEnter,
-        String  rowMouseLeave,
-        String  opTitle,
-        String  opDataIndex,
+        String size,
+        String className,
+        String totalReport,
+        String totalSelected,
+        String rowDoubleClick,
+        String rowClick,
+        String rowContextMenu,
+        String rowMouseEnter,
+        String rowMouseLeave,
+        String opTitle,
+        String opDataIndex,
         Boolean opFixed,
-        String  opConfig
+        String opConfig
     ) {
         this.key = key;
         this.bordered = bordered;
@@ -368,6 +368,130 @@ public class VTable implements VertxPojo, IVTable {
     public VTable setOpConfig(String opConfig) {
         this.opConfig = opConfig;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final VTable other = (VTable) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.bordered == null) {
+            if (other.bordered != null)
+                return false;
+        }
+        else if (!this.bordered.equals(other.bordered))
+            return false;
+        if (this.size == null) {
+            if (other.size != null)
+                return false;
+        }
+        else if (!this.size.equals(other.size))
+            return false;
+        if (this.className == null) {
+            if (other.className != null)
+                return false;
+        }
+        else if (!this.className.equals(other.className))
+            return false;
+        if (this.totalReport == null) {
+            if (other.totalReport != null)
+                return false;
+        }
+        else if (!this.totalReport.equals(other.totalReport))
+            return false;
+        if (this.totalSelected == null) {
+            if (other.totalSelected != null)
+                return false;
+        }
+        else if (!this.totalSelected.equals(other.totalSelected))
+            return false;
+        if (this.rowDoubleClick == null) {
+            if (other.rowDoubleClick != null)
+                return false;
+        }
+        else if (!this.rowDoubleClick.equals(other.rowDoubleClick))
+            return false;
+        if (this.rowClick == null) {
+            if (other.rowClick != null)
+                return false;
+        }
+        else if (!this.rowClick.equals(other.rowClick))
+            return false;
+        if (this.rowContextMenu == null) {
+            if (other.rowContextMenu != null)
+                return false;
+        }
+        else if (!this.rowContextMenu.equals(other.rowContextMenu))
+            return false;
+        if (this.rowMouseEnter == null) {
+            if (other.rowMouseEnter != null)
+                return false;
+        }
+        else if (!this.rowMouseEnter.equals(other.rowMouseEnter))
+            return false;
+        if (this.rowMouseLeave == null) {
+            if (other.rowMouseLeave != null)
+                return false;
+        }
+        else if (!this.rowMouseLeave.equals(other.rowMouseLeave))
+            return false;
+        if (this.opTitle == null) {
+            if (other.opTitle != null)
+                return false;
+        }
+        else if (!this.opTitle.equals(other.opTitle))
+            return false;
+        if (this.opDataIndex == null) {
+            if (other.opDataIndex != null)
+                return false;
+        }
+        else if (!this.opDataIndex.equals(other.opDataIndex))
+            return false;
+        if (this.opFixed == null) {
+            if (other.opFixed != null)
+                return false;
+        }
+        else if (!this.opFixed.equals(other.opFixed))
+            return false;
+        if (this.opConfig == null) {
+            if (other.opConfig != null)
+                return false;
+        }
+        else if (!this.opConfig.equals(other.opConfig))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.bordered == null) ? 0 : this.bordered.hashCode());
+        result = prime * result + ((this.size == null) ? 0 : this.size.hashCode());
+        result = prime * result + ((this.className == null) ? 0 : this.className.hashCode());
+        result = prime * result + ((this.totalReport == null) ? 0 : this.totalReport.hashCode());
+        result = prime * result + ((this.totalSelected == null) ? 0 : this.totalSelected.hashCode());
+        result = prime * result + ((this.rowDoubleClick == null) ? 0 : this.rowDoubleClick.hashCode());
+        result = prime * result + ((this.rowClick == null) ? 0 : this.rowClick.hashCode());
+        result = prime * result + ((this.rowContextMenu == null) ? 0 : this.rowContextMenu.hashCode());
+        result = prime * result + ((this.rowMouseEnter == null) ? 0 : this.rowMouseEnter.hashCode());
+        result = prime * result + ((this.rowMouseLeave == null) ? 0 : this.rowMouseLeave.hashCode());
+        result = prime * result + ((this.opTitle == null) ? 0 : this.opTitle.hashCode());
+        result = prime * result + ((this.opDataIndex == null) ? 0 : this.opDataIndex.hashCode());
+        result = prime * result + ((this.opFixed == null) ? 0 : this.opFixed.hashCode());
+        result = prime * result + ((this.opConfig == null) ? 0 : this.opConfig.hashCode());
+        return result;
     }
 
     @Override

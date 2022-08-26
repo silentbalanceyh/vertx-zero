@@ -20,47 +20,47 @@ public class WTicket implements VertxPojo, IWTicket {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        name;
-    private String        code;
-    private String        type;
-    private String        phase;
-    private String        modelId;
-    private String        modelKey;
-    private String        modelCategory;
-    private String        modelComponent;
-    private String        modelChild;
-    private Integer       quantity;
-    private String        flowDefinitionKey;
-    private String        flowDefinitionId;
-    private String        flowInstanceId;
-    private Boolean       flowEnd;
-    private String        title;
-    private String        description;
-    private String        catalog;
-    private String        category;
-    private String        categorySub;
-    private String        owner;
-    private String        supervisor;
-    private String        openBy;
-    private String        openGroup;
+    private String key;
+    private String serial;
+    private String name;
+    private String code;
+    private String type;
+    private String phase;
+    private String modelId;
+    private String modelKey;
+    private String modelCategory;
+    private String modelComponent;
+    private String modelChild;
+    private Integer quantity;
+    private String flowDefinitionKey;
+    private String flowDefinitionId;
+    private String flowInstanceId;
+    private Boolean flowEnd;
+    private String title;
+    private String description;
+    private String catalog;
+    private String category;
+    private String categorySub;
+    private String owner;
+    private String supervisor;
+    private String openBy;
+    private String openGroup;
     private LocalDateTime openAt;
-    private String        cancelBy;
+    private String cancelBy;
     private LocalDateTime cancelAt;
-    private String        closeBy;
+    private String closeBy;
     private LocalDateTime closeAt;
-    private String        closeSolution;
-    private String        closeCode;
-    private String        closeKb;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String closeSolution;
+    private String closeCode;
+    private String closeKb;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public WTicket() {}
 
@@ -109,47 +109,47 @@ public class WTicket implements VertxPojo, IWTicket {
     }
 
     public WTicket(
-        String        key,
-        String        serial,
-        String        name,
-        String        code,
-        String        type,
-        String        phase,
-        String        modelId,
-        String        modelKey,
-        String        modelCategory,
-        String        modelComponent,
-        String        modelChild,
-        Integer       quantity,
-        String        flowDefinitionKey,
-        String        flowDefinitionId,
-        String        flowInstanceId,
-        Boolean       flowEnd,
-        String        title,
-        String        description,
-        String        catalog,
-        String        category,
-        String        categorySub,
-        String        owner,
-        String        supervisor,
-        String        openBy,
-        String        openGroup,
+        String key,
+        String serial,
+        String name,
+        String code,
+        String type,
+        String phase,
+        String modelId,
+        String modelKey,
+        String modelCategory,
+        String modelComponent,
+        String modelChild,
+        Integer quantity,
+        String flowDefinitionKey,
+        String flowDefinitionId,
+        String flowInstanceId,
+        Boolean flowEnd,
+        String title,
+        String description,
+        String catalog,
+        String category,
+        String categorySub,
+        String owner,
+        String supervisor,
+        String openBy,
+        String openGroup,
         LocalDateTime openAt,
-        String        cancelBy,
+        String cancelBy,
         LocalDateTime cancelAt,
-        String        closeBy,
+        String closeBy,
         LocalDateTime closeAt,
-        String        closeSolution,
-        String        closeCode,
-        String        closeKb,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String closeSolution,
+        String closeCode,
+        String closeKb,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -924,6 +924,312 @@ public class WTicket implements VertxPojo, IWTicket {
     public WTicket setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final WTicket other = (WTicket) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.phase == null) {
+            if (other.phase != null)
+                return false;
+        }
+        else if (!this.phase.equals(other.phase))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.modelKey == null) {
+            if (other.modelKey != null)
+                return false;
+        }
+        else if (!this.modelKey.equals(other.modelKey))
+            return false;
+        if (this.modelCategory == null) {
+            if (other.modelCategory != null)
+                return false;
+        }
+        else if (!this.modelCategory.equals(other.modelCategory))
+            return false;
+        if (this.modelComponent == null) {
+            if (other.modelComponent != null)
+                return false;
+        }
+        else if (!this.modelComponent.equals(other.modelComponent))
+            return false;
+        if (this.modelChild == null) {
+            if (other.modelChild != null)
+                return false;
+        }
+        else if (!this.modelChild.equals(other.modelChild))
+            return false;
+        if (this.quantity == null) {
+            if (other.quantity != null)
+                return false;
+        }
+        else if (!this.quantity.equals(other.quantity))
+            return false;
+        if (this.flowDefinitionKey == null) {
+            if (other.flowDefinitionKey != null)
+                return false;
+        }
+        else if (!this.flowDefinitionKey.equals(other.flowDefinitionKey))
+            return false;
+        if (this.flowDefinitionId == null) {
+            if (other.flowDefinitionId != null)
+                return false;
+        }
+        else if (!this.flowDefinitionId.equals(other.flowDefinitionId))
+            return false;
+        if (this.flowInstanceId == null) {
+            if (other.flowInstanceId != null)
+                return false;
+        }
+        else if (!this.flowInstanceId.equals(other.flowInstanceId))
+            return false;
+        if (this.flowEnd == null) {
+            if (other.flowEnd != null)
+                return false;
+        }
+        else if (!this.flowEnd.equals(other.flowEnd))
+            return false;
+        if (this.title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!this.title.equals(other.title))
+            return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
+        if (this.catalog == null) {
+            if (other.catalog != null)
+                return false;
+        }
+        else if (!this.catalog.equals(other.catalog))
+            return false;
+        if (this.category == null) {
+            if (other.category != null)
+                return false;
+        }
+        else if (!this.category.equals(other.category))
+            return false;
+        if (this.categorySub == null) {
+            if (other.categorySub != null)
+                return false;
+        }
+        else if (!this.categorySub.equals(other.categorySub))
+            return false;
+        if (this.owner == null) {
+            if (other.owner != null)
+                return false;
+        }
+        else if (!this.owner.equals(other.owner))
+            return false;
+        if (this.supervisor == null) {
+            if (other.supervisor != null)
+                return false;
+        }
+        else if (!this.supervisor.equals(other.supervisor))
+            return false;
+        if (this.openBy == null) {
+            if (other.openBy != null)
+                return false;
+        }
+        else if (!this.openBy.equals(other.openBy))
+            return false;
+        if (this.openGroup == null) {
+            if (other.openGroup != null)
+                return false;
+        }
+        else if (!this.openGroup.equals(other.openGroup))
+            return false;
+        if (this.openAt == null) {
+            if (other.openAt != null)
+                return false;
+        }
+        else if (!this.openAt.equals(other.openAt))
+            return false;
+        if (this.cancelBy == null) {
+            if (other.cancelBy != null)
+                return false;
+        }
+        else if (!this.cancelBy.equals(other.cancelBy))
+            return false;
+        if (this.cancelAt == null) {
+            if (other.cancelAt != null)
+                return false;
+        }
+        else if (!this.cancelAt.equals(other.cancelAt))
+            return false;
+        if (this.closeBy == null) {
+            if (other.closeBy != null)
+                return false;
+        }
+        else if (!this.closeBy.equals(other.closeBy))
+            return false;
+        if (this.closeAt == null) {
+            if (other.closeAt != null)
+                return false;
+        }
+        else if (!this.closeAt.equals(other.closeAt))
+            return false;
+        if (this.closeSolution == null) {
+            if (other.closeSolution != null)
+                return false;
+        }
+        else if (!this.closeSolution.equals(other.closeSolution))
+            return false;
+        if (this.closeCode == null) {
+            if (other.closeCode != null)
+                return false;
+        }
+        else if (!this.closeCode.equals(other.closeCode))
+            return false;
+        if (this.closeKb == null) {
+            if (other.closeKb != null)
+                return false;
+        }
+        else if (!this.closeKb.equals(other.closeKb))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.phase == null) ? 0 : this.phase.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.modelKey == null) ? 0 : this.modelKey.hashCode());
+        result = prime * result + ((this.modelCategory == null) ? 0 : this.modelCategory.hashCode());
+        result = prime * result + ((this.modelComponent == null) ? 0 : this.modelComponent.hashCode());
+        result = prime * result + ((this.modelChild == null) ? 0 : this.modelChild.hashCode());
+        result = prime * result + ((this.quantity == null) ? 0 : this.quantity.hashCode());
+        result = prime * result + ((this.flowDefinitionKey == null) ? 0 : this.flowDefinitionKey.hashCode());
+        result = prime * result + ((this.flowDefinitionId == null) ? 0 : this.flowDefinitionId.hashCode());
+        result = prime * result + ((this.flowInstanceId == null) ? 0 : this.flowInstanceId.hashCode());
+        result = prime * result + ((this.flowEnd == null) ? 0 : this.flowEnd.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.catalog == null) ? 0 : this.catalog.hashCode());
+        result = prime * result + ((this.category == null) ? 0 : this.category.hashCode());
+        result = prime * result + ((this.categorySub == null) ? 0 : this.categorySub.hashCode());
+        result = prime * result + ((this.owner == null) ? 0 : this.owner.hashCode());
+        result = prime * result + ((this.supervisor == null) ? 0 : this.supervisor.hashCode());
+        result = prime * result + ((this.openBy == null) ? 0 : this.openBy.hashCode());
+        result = prime * result + ((this.openGroup == null) ? 0 : this.openGroup.hashCode());
+        result = prime * result + ((this.openAt == null) ? 0 : this.openAt.hashCode());
+        result = prime * result + ((this.cancelBy == null) ? 0 : this.cancelBy.hashCode());
+        result = prime * result + ((this.cancelAt == null) ? 0 : this.cancelAt.hashCode());
+        result = prime * result + ((this.closeBy == null) ? 0 : this.closeBy.hashCode());
+        result = prime * result + ((this.closeAt == null) ? 0 : this.closeAt.hashCode());
+        result = prime * result + ((this.closeSolution == null) ? 0 : this.closeSolution.hashCode());
+        result = prime * result + ((this.closeCode == null) ? 0 : this.closeCode.hashCode());
+        result = prime * result + ((this.closeKb == null) ? 0 : this.closeKb.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

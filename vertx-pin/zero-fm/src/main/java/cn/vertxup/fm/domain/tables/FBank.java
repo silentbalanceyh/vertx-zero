@@ -7,6 +7,7 @@ package cn.vertxup.fm.domain.tables;
 import cn.vertxup.fm.domain.Db;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FBankRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -176,6 +178,11 @@ public class FBank extends TableImpl<FBankRecord> {
         return new FBank(alias, this);
     }
 
+    @Override
+    public FBank as(Table<?> alias) {
+        return new FBank(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -192,6 +199,14 @@ public class FBank extends TableImpl<FBankRecord> {
         return new FBank(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public FBank rename(Table<?> name) {
+        return new FBank(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row20 type methods
     // -------------------------------------------------------------------------
@@ -199,5 +214,20 @@ public class FBank extends TableImpl<FBankRecord> {
     @Override
     public Row20<String, String, String, String, String, String, String, String, String, Boolean, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
         return (Row20) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function20<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function20<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

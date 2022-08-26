@@ -7,6 +7,7 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.SPathRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -204,6 +205,11 @@ public class SPath extends TableImpl<SPathRecord> {
         return new SPath(alias, this);
     }
 
+    @Override
+    public SPath as(Table<?> alias) {
+        return new SPath(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -218,5 +224,13 @@ public class SPath extends TableImpl<SPathRecord> {
     @Override
     public SPath rename(Name name) {
         return new SPath(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public SPath rename(Table<?> name) {
+        return new SPath(name.getQualifiedName(), null);
     }
 }

@@ -20,29 +20,29 @@ public class UiField implements VertxPojo, IUiField {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private Integer       xPoint;
-    private Integer       yPoint;
-    private String        label;
-    private String        name;
-    private Integer       span;
-    private Boolean       hidden;
-    private String        render;
-    private String        container;
-    private String        optionJsx;
-    private String        optionConfig;
-    private String        optionItem;
-    private String        rules;
-    private String        controlId;
-    private String        rowType;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private Integer xPoint;
+    private Integer yPoint;
+    private String label;
+    private String name;
+    private Integer span;
+    private Boolean hidden;
+    private String render;
+    private String container;
+    private String optionJsx;
+    private String optionConfig;
+    private String optionItem;
+    private String rules;
+    private String controlId;
+    private String rowType;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public UiField() {}
 
@@ -73,29 +73,29 @@ public class UiField implements VertxPojo, IUiField {
     }
 
     public UiField(
-        String        key,
-        Integer       xPoint,
-        Integer       yPoint,
-        String        label,
-        String        name,
-        Integer       span,
-        Boolean       hidden,
-        String        render,
-        String        container,
-        String        optionJsx,
-        String        optionConfig,
-        String        optionItem,
-        String        rules,
-        String        controlId,
-        String        rowType,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        Integer xPoint,
+        Integer yPoint,
+        String label,
+        String name,
+        Integer span,
+        Boolean hidden,
+        String render,
+        String container,
+        String optionJsx,
+        String optionConfig,
+        String optionItem,
+        String rules,
+        String controlId,
+        String rowType,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.xPoint = xPoint;
@@ -528,6 +528,186 @@ public class UiField implements VertxPojo, IUiField {
     public UiField setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiField other = (UiField) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.xPoint == null) {
+            if (other.xPoint != null)
+                return false;
+        }
+        else if (!this.xPoint.equals(other.xPoint))
+            return false;
+        if (this.yPoint == null) {
+            if (other.yPoint != null)
+                return false;
+        }
+        else if (!this.yPoint.equals(other.yPoint))
+            return false;
+        if (this.label == null) {
+            if (other.label != null)
+                return false;
+        }
+        else if (!this.label.equals(other.label))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.span == null) {
+            if (other.span != null)
+                return false;
+        }
+        else if (!this.span.equals(other.span))
+            return false;
+        if (this.hidden == null) {
+            if (other.hidden != null)
+                return false;
+        }
+        else if (!this.hidden.equals(other.hidden))
+            return false;
+        if (this.render == null) {
+            if (other.render != null)
+                return false;
+        }
+        else if (!this.render.equals(other.render))
+            return false;
+        if (this.container == null) {
+            if (other.container != null)
+                return false;
+        }
+        else if (!this.container.equals(other.container))
+            return false;
+        if (this.optionJsx == null) {
+            if (other.optionJsx != null)
+                return false;
+        }
+        else if (!this.optionJsx.equals(other.optionJsx))
+            return false;
+        if (this.optionConfig == null) {
+            if (other.optionConfig != null)
+                return false;
+        }
+        else if (!this.optionConfig.equals(other.optionConfig))
+            return false;
+        if (this.optionItem == null) {
+            if (other.optionItem != null)
+                return false;
+        }
+        else if (!this.optionItem.equals(other.optionItem))
+            return false;
+        if (this.rules == null) {
+            if (other.rules != null)
+                return false;
+        }
+        else if (!this.rules.equals(other.rules))
+            return false;
+        if (this.controlId == null) {
+            if (other.controlId != null)
+                return false;
+        }
+        else if (!this.controlId.equals(other.controlId))
+            return false;
+        if (this.rowType == null) {
+            if (other.rowType != null)
+                return false;
+        }
+        else if (!this.rowType.equals(other.rowType))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.xPoint == null) ? 0 : this.xPoint.hashCode());
+        result = prime * result + ((this.yPoint == null) ? 0 : this.yPoint.hashCode());
+        result = prime * result + ((this.label == null) ? 0 : this.label.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.span == null) ? 0 : this.span.hashCode());
+        result = prime * result + ((this.hidden == null) ? 0 : this.hidden.hashCode());
+        result = prime * result + ((this.render == null) ? 0 : this.render.hashCode());
+        result = prime * result + ((this.container == null) ? 0 : this.container.hashCode());
+        result = prime * result + ((this.optionJsx == null) ? 0 : this.optionJsx.hashCode());
+        result = prime * result + ((this.optionConfig == null) ? 0 : this.optionConfig.hashCode());
+        result = prime * result + ((this.optionItem == null) ? 0 : this.optionItem.hashCode());
+        result = prime * result + ((this.rules == null) ? 0 : this.rules.hashCode());
+        result = prime * result + ((this.controlId == null) ? 0 : this.controlId.hashCode());
+        result = prime * result + ((this.rowType == null) ? 0 : this.rowType.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

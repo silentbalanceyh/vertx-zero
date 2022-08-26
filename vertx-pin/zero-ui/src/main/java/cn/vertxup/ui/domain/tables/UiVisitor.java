@@ -7,10 +7,13 @@ package cn.vertxup.ui.domain.tables;
 import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.UiVisitorRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -129,6 +132,11 @@ public class UiVisitor extends TableImpl<UiVisitorRecord> {
         return new UiVisitor(alias, this);
     }
 
+    @Override
+    public UiVisitor as(Table<?> alias) {
+        return new UiVisitor(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -145,6 +153,14 @@ public class UiVisitor extends TableImpl<UiVisitorRecord> {
         return new UiVisitor(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public UiVisitor rename(Table<?> name) {
+        return new UiVisitor(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row9 type methods
     // -------------------------------------------------------------------------
@@ -152,5 +168,20 @@ public class UiVisitor extends TableImpl<UiVisitorRecord> {
     @Override
     public Row9<String, String, String, String, String, String, String, String, String> fieldsRow() {
         return (Row9) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function9<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

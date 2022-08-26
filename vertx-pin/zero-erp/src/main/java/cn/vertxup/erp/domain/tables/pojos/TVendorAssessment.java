@@ -20,17 +20,17 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        commentExtension;
-    private String        classification;
+    private String key;
+    private String commentExtension;
+    private String classification;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private Integer       days;
-    private String        assessOn;
-    private Integer       assessScore;
-    private String        commentDept;
-    private String        commentAssess;
-    private String        commentLeader;
+    private Integer days;
+    private String assessOn;
+    private Integer assessScore;
+    private String commentDept;
+    private String commentAssess;
+    private String commentLeader;
 
     public TVendorAssessment() {}
 
@@ -49,17 +49,17 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     public TVendorAssessment(
-        String        key,
-        String        commentExtension,
-        String        classification,
+        String key,
+        String commentExtension,
+        String classification,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        Integer       days,
-        String        assessOn,
-        Integer       assessScore,
-        String        commentDept,
-        String        commentAssess,
-        String        commentLeader
+        Integer days,
+        String assessOn,
+        Integer assessScore,
+        String commentDept,
+        String commentAssess,
+        String commentLeader
     ) {
         this.key = key;
         this.commentExtension = commentExtension;
@@ -286,6 +286,102 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     public TVendorAssessment setCommentLeader(String commentLeader) {
         this.commentLeader = commentLeader;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final TVendorAssessment other = (TVendorAssessment) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.commentExtension == null) {
+            if (other.commentExtension != null)
+                return false;
+        }
+        else if (!this.commentExtension.equals(other.commentExtension))
+            return false;
+        if (this.classification == null) {
+            if (other.classification != null)
+                return false;
+        }
+        else if (!this.classification.equals(other.classification))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.days == null) {
+            if (other.days != null)
+                return false;
+        }
+        else if (!this.days.equals(other.days))
+            return false;
+        if (this.assessOn == null) {
+            if (other.assessOn != null)
+                return false;
+        }
+        else if (!this.assessOn.equals(other.assessOn))
+            return false;
+        if (this.assessScore == null) {
+            if (other.assessScore != null)
+                return false;
+        }
+        else if (!this.assessScore.equals(other.assessScore))
+            return false;
+        if (this.commentDept == null) {
+            if (other.commentDept != null)
+                return false;
+        }
+        else if (!this.commentDept.equals(other.commentDept))
+            return false;
+        if (this.commentAssess == null) {
+            if (other.commentAssess != null)
+                return false;
+        }
+        else if (!this.commentAssess.equals(other.commentAssess))
+            return false;
+        if (this.commentLeader == null) {
+            if (other.commentLeader != null)
+                return false;
+        }
+        else if (!this.commentLeader.equals(other.commentLeader))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.commentExtension == null) ? 0 : this.commentExtension.hashCode());
+        result = prime * result + ((this.classification == null) ? 0 : this.classification.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.days == null) ? 0 : this.days.hashCode());
+        result = prime * result + ((this.assessOn == null) ? 0 : this.assessOn.hashCode());
+        result = prime * result + ((this.assessScore == null) ? 0 : this.assessScore.hashCode());
+        result = prime * result + ((this.commentDept == null) ? 0 : this.commentDept.hashCode());
+        result = prime * result + ((this.commentAssess == null) ? 0 : this.commentAssess.hashCode());
+        result = prime * result + ((this.commentLeader == null) ? 0 : this.commentLeader.hashCode());
+        return result;
     }
 
     @Override

@@ -56,20 +56,8 @@
         </rule>
         <!--
             JDK 17 Limitation
-            jooq: 3.17.x
-            vertx-jooq: 6.5.5
             slf4j: 2.0.0
         -->
-        <rule groupId="org.jooq" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">3.17.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-        <rule groupId="io.github.jklingsporn" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">6.5.5</ignoreVersion>
-            </ignoreVersions>
-        </rule>
         <rule groupId="org.slf4j" comparisonMethod="maven">
             <ignoreVersions>
                 <ignoreVersion type="regex">2.*</ignoreVersion>

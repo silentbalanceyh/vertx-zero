@@ -76,6 +76,39 @@ public class RRolePerm implements VertxPojo, IRRolePerm {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RRolePerm other = (RRolePerm) obj;
+        if (this.permId == null) {
+            if (other.permId != null)
+                return false;
+        }
+        else if (!this.permId.equals(other.permId))
+            return false;
+        if (this.roleId == null) {
+            if (other.roleId != null)
+                return false;
+        }
+        else if (!this.roleId.equals(other.roleId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.permId == null) ? 0 : this.permId.hashCode());
+        result = prime * result + ((this.roleId == null) ? 0 : this.roleId.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("RRolePerm (");
 

@@ -8,6 +8,7 @@ import cn.vertxup.workflow.domain.Db;
 import cn.vertxup.workflow.domain.Indexes;
 import cn.vertxup.workflow.domain.Keys;
 import cn.vertxup.workflow.domain.tables.records.WTicketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -280,6 +281,11 @@ public class WTicket extends TableImpl<WTicketRecord> {
         return new WTicket(alias, this);
     }
 
+    @Override
+    public WTicket as(Table<?> alias) {
+        return new WTicket(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -294,5 +300,13 @@ public class WTicket extends TableImpl<WTicketRecord> {
     @Override
     public WTicket rename(Name name) {
         return new WTicket(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public WTicket rename(Table<?> name) {
+        return new WTicket(name.getQualifiedName(), null);
     }
 }

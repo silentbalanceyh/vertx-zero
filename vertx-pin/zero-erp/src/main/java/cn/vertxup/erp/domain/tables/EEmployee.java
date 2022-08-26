@@ -8,6 +8,7 @@ import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Indexes;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EEmployeeRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -220,6 +221,11 @@ public class EEmployee extends TableImpl<EEmployeeRecord> {
         return new EEmployee(alias, this);
     }
 
+    @Override
+    public EEmployee as(Table<?> alias) {
+        return new EEmployee(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -234,5 +240,13 @@ public class EEmployee extends TableImpl<EEmployeeRecord> {
     @Override
     public EEmployee rename(Name name) {
         return new EEmployee(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public EEmployee rename(Table<?> name) {
+        return new EEmployee(name.getQualifiedName(), null);
     }
 }

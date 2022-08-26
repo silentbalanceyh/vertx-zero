@@ -124,6 +124,53 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RAssetShare other = (RAssetShare) obj;
+        if (this.assetId == null) {
+            if (other.assetId != null)
+                return false;
+        }
+        else if (!this.assetId.equals(other.assetId))
+            return false;
+        if (this.entityType == null) {
+            if (other.entityType != null)
+                return false;
+        }
+        else if (!this.entityType.equals(other.entityType))
+            return false;
+        if (this.entityId == null) {
+            if (other.entityId != null)
+                return false;
+        }
+        else if (!this.entityId.equals(other.entityId))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.assetId == null) ? 0 : this.assetId.hashCode());
+        result = prime * result + ((this.entityType == null) ? 0 : this.entityType.hashCode());
+        result = prime * result + ((this.entityId == null) ? 0 : this.entityId.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("RAssetShare (");
 

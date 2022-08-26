@@ -7,6 +7,7 @@ package cn.vertxup.jet.domain.tables;
 import cn.vertxup.jet.domain.Db;
 import cn.vertxup.jet.domain.Keys;
 import cn.vertxup.jet.domain.tables.records.IServiceRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -251,6 +252,11 @@ public class IService extends TableImpl<IServiceRecord> {
         return new IService(alias, this);
     }
 
+    @Override
+    public IService as(Table<?> alias) {
+        return new IService(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -265,5 +271,13 @@ public class IService extends TableImpl<IServiceRecord> {
     @Override
     public IService rename(Name name) {
         return new IService(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IService rename(Table<?> name) {
+        return new IService(name.getQualifiedName(), null);
     }
 }

@@ -8,6 +8,7 @@ import cn.vertxup.ambient.domain.Db;
 import cn.vertxup.ambient.domain.Indexes;
 import cn.vertxup.ambient.domain.Keys;
 import cn.vertxup.ambient.domain.tables.records.XActivityRuleRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -212,6 +213,11 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
         return new XActivityRule(alias, this);
     }
 
+    @Override
+    public XActivityRule as(Table<?> alias) {
+        return new XActivityRule(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -226,5 +232,13 @@ public class XActivityRule extends TableImpl<XActivityRuleRecord> {
     @Override
     public XActivityRule rename(Name name) {
         return new XActivityRule(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public XActivityRule rename(Table<?> name) {
+        return new XActivityRule(name.getQualifiedName(), null);
     }
 }

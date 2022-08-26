@@ -20,27 +20,27 @@ public class MModel implements VertxPojo, IMModel {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        identifier;
-    private String        namespace;
-    private String        name;
-    private String        alias;
-    private String        type;
-    private String        comments;
-    private String        categoryTree;
-    private String        categoryId;
-    private String        ruleUnique;
-    private Boolean       isTrack;
-    private String        spider;
-    private String        spiderComponent;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String identifier;
+    private String namespace;
+    private String name;
+    private String alias;
+    private String type;
+    private String comments;
+    private String categoryTree;
+    private String categoryId;
+    private String ruleUnique;
+    private Boolean isTrack;
+    private String spider;
+    private String spiderComponent;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public MModel() {}
 
@@ -69,27 +69,27 @@ public class MModel implements VertxPojo, IMModel {
     }
 
     public MModel(
-        String        key,
-        String        identifier,
-        String        namespace,
-        String        name,
-        String        alias,
-        String        type,
-        String        comments,
-        String        categoryTree,
-        String        categoryId,
-        String        ruleUnique,
-        Boolean       isTrack,
-        String        spider,
-        String        spiderComponent,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String identifier,
+        String namespace,
+        String name,
+        String alias,
+        String type,
+        String comments,
+        String categoryTree,
+        String categoryId,
+        String ruleUnique,
+        Boolean isTrack,
+        String spider,
+        String spiderComponent,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.identifier = identifier;
@@ -492,6 +492,172 @@ public class MModel implements VertxPojo, IMModel {
     public MModel setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final MModel other = (MModel) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.namespace == null) {
+            if (other.namespace != null)
+                return false;
+        }
+        else if (!this.namespace.equals(other.namespace))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.alias == null) {
+            if (other.alias != null)
+                return false;
+        }
+        else if (!this.alias.equals(other.alias))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!this.comments.equals(other.comments))
+            return false;
+        if (this.categoryTree == null) {
+            if (other.categoryTree != null)
+                return false;
+        }
+        else if (!this.categoryTree.equals(other.categoryTree))
+            return false;
+        if (this.categoryId == null) {
+            if (other.categoryId != null)
+                return false;
+        }
+        else if (!this.categoryId.equals(other.categoryId))
+            return false;
+        if (this.ruleUnique == null) {
+            if (other.ruleUnique != null)
+                return false;
+        }
+        else if (!this.ruleUnique.equals(other.ruleUnique))
+            return false;
+        if (this.isTrack == null) {
+            if (other.isTrack != null)
+                return false;
+        }
+        else if (!this.isTrack.equals(other.isTrack))
+            return false;
+        if (this.spider == null) {
+            if (other.spider != null)
+                return false;
+        }
+        else if (!this.spider.equals(other.spider))
+            return false;
+        if (this.spiderComponent == null) {
+            if (other.spiderComponent != null)
+                return false;
+        }
+        else if (!this.spiderComponent.equals(other.spiderComponent))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.namespace == null) ? 0 : this.namespace.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.alias == null) ? 0 : this.alias.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.comments == null) ? 0 : this.comments.hashCode());
+        result = prime * result + ((this.categoryTree == null) ? 0 : this.categoryTree.hashCode());
+        result = prime * result + ((this.categoryId == null) ? 0 : this.categoryId.hashCode());
+        result = prime * result + ((this.ruleUnique == null) ? 0 : this.ruleUnique.hashCode());
+        result = prime * result + ((this.isTrack == null) ? 0 : this.isTrack.hashCode());
+        result = prime * result + ((this.spider == null) ? 0 : this.spider.hashCode());
+        result = prime * result + ((this.spiderComponent == null) ? 0 : this.spiderComponent.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

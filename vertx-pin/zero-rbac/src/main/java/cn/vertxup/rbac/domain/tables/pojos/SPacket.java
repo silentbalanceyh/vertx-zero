@@ -20,28 +20,28 @@ public class SPacket implements VertxPojo, ISPacket {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        code;
-    private String        resource;
-    private String        hType;
-    private String        hMapping;
-    private String        hConfig;
-    private String        vType;
-    private String        vMapping;
-    private String        vConfig;
-    private String        qType;
-    private String        qMapping;
-    private String        qConfig;
-    private String        runComponent;
-    private String        runConfig;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String code;
+    private String resource;
+    private String hType;
+    private String hMapping;
+    private String hConfig;
+    private String vType;
+    private String vMapping;
+    private String vConfig;
+    private String qType;
+    private String qMapping;
+    private String qConfig;
+    private String runComponent;
+    private String runConfig;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public SPacket() {}
 
@@ -71,28 +71,28 @@ public class SPacket implements VertxPojo, ISPacket {
     }
 
     public SPacket(
-        String        key,
-        String        code,
-        String        resource,
-        String        hType,
-        String        hMapping,
-        String        hConfig,
-        String        vType,
-        String        vMapping,
-        String        vConfig,
-        String        qType,
-        String        qMapping,
-        String        qConfig,
-        String        runComponent,
-        String        runConfig,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String code,
+        String resource,
+        String hType,
+        String hMapping,
+        String hConfig,
+        String vType,
+        String vMapping,
+        String vConfig,
+        String qType,
+        String qMapping,
+        String qConfig,
+        String runComponent,
+        String runConfig,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.code = code;
@@ -511,6 +511,179 @@ public class SPacket implements VertxPojo, ISPacket {
     public SPacket setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SPacket other = (SPacket) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.resource == null) {
+            if (other.resource != null)
+                return false;
+        }
+        else if (!this.resource.equals(other.resource))
+            return false;
+        if (this.hType == null) {
+            if (other.hType != null)
+                return false;
+        }
+        else if (!this.hType.equals(other.hType))
+            return false;
+        if (this.hMapping == null) {
+            if (other.hMapping != null)
+                return false;
+        }
+        else if (!this.hMapping.equals(other.hMapping))
+            return false;
+        if (this.hConfig == null) {
+            if (other.hConfig != null)
+                return false;
+        }
+        else if (!this.hConfig.equals(other.hConfig))
+            return false;
+        if (this.vType == null) {
+            if (other.vType != null)
+                return false;
+        }
+        else if (!this.vType.equals(other.vType))
+            return false;
+        if (this.vMapping == null) {
+            if (other.vMapping != null)
+                return false;
+        }
+        else if (!this.vMapping.equals(other.vMapping))
+            return false;
+        if (this.vConfig == null) {
+            if (other.vConfig != null)
+                return false;
+        }
+        else if (!this.vConfig.equals(other.vConfig))
+            return false;
+        if (this.qType == null) {
+            if (other.qType != null)
+                return false;
+        }
+        else if (!this.qType.equals(other.qType))
+            return false;
+        if (this.qMapping == null) {
+            if (other.qMapping != null)
+                return false;
+        }
+        else if (!this.qMapping.equals(other.qMapping))
+            return false;
+        if (this.qConfig == null) {
+            if (other.qConfig != null)
+                return false;
+        }
+        else if (!this.qConfig.equals(other.qConfig))
+            return false;
+        if (this.runComponent == null) {
+            if (other.runComponent != null)
+                return false;
+        }
+        else if (!this.runComponent.equals(other.runComponent))
+            return false;
+        if (this.runConfig == null) {
+            if (other.runConfig != null)
+                return false;
+        }
+        else if (!this.runConfig.equals(other.runConfig))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.resource == null) ? 0 : this.resource.hashCode());
+        result = prime * result + ((this.hType == null) ? 0 : this.hType.hashCode());
+        result = prime * result + ((this.hMapping == null) ? 0 : this.hMapping.hashCode());
+        result = prime * result + ((this.hConfig == null) ? 0 : this.hConfig.hashCode());
+        result = prime * result + ((this.vType == null) ? 0 : this.vType.hashCode());
+        result = prime * result + ((this.vMapping == null) ? 0 : this.vMapping.hashCode());
+        result = prime * result + ((this.vConfig == null) ? 0 : this.vConfig.hashCode());
+        result = prime * result + ((this.qType == null) ? 0 : this.qType.hashCode());
+        result = prime * result + ((this.qMapping == null) ? 0 : this.qMapping.hashCode());
+        result = prime * result + ((this.qConfig == null) ? 0 : this.qConfig.hashCode());
+        result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
+        result = prime * result + ((this.runConfig == null) ? 0 : this.runConfig.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

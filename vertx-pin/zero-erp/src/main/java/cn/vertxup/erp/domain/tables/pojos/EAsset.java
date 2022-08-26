@@ -21,61 +21,61 @@ public class EAsset implements VertxPojo, IEAsset {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        type;
-    private String        status;
-    private String        modelNumber;
-    private String        unit;
-    private Long          num;
-    private Long          numDeprecating;
-    private Long          numDeprecated;
-    private Long          numUsing;
-    private Long          numUsed;
-    private String        wayChange;
-    private String        wayDeprecate;
-    private String        wayAccording;
+    private String key;
+    private String name;
+    private String code;
+    private String type;
+    private String status;
+    private String modelNumber;
+    private String unit;
+    private Long num;
+    private Long numDeprecating;
+    private Long numDeprecated;
+    private Long numUsing;
+    private Long numUsed;
+    private String wayChange;
+    private String wayDeprecate;
+    private String wayAccording;
     private LocalDateTime usedAt;
-    private String        usedBy;
-    private String        usedStatus;
-    private BigDecimal    vOriginal;
-    private BigDecimal    vTax;
-    private BigDecimal    vDeReady;
-    private BigDecimal    vNetJunk;
-    private BigDecimal    vNet;
-    private BigDecimal    vNetAmount;
-    private BigDecimal    vDeprecatedM;
-    private BigDecimal    vDeprecatedA;
-    private String        kFixed;
-    private String        kDeprecated;
-    private String        kAssignment;
-    private String        kTax;
-    private String        kDevalue;
-    private String        kChange;
-    private String        customerId;
+    private String usedBy;
+    private String usedStatus;
+    private BigDecimal vOriginal;
+    private BigDecimal vTax;
+    private BigDecimal vDeReady;
+    private BigDecimal vNetJunk;
+    private BigDecimal vNet;
+    private BigDecimal vNetAmount;
+    private BigDecimal vDeprecatedM;
+    private BigDecimal vDeprecatedA;
+    private String kFixed;
+    private String kDeprecated;
+    private String kAssignment;
+    private String kTax;
+    private String kDevalue;
+    private String kChange;
+    private String customerId;
     private LocalDateTime expiredAt;
-    private String        expiredComment;
-    private String        userId;
-    private String        storeId;
-    private String        deptId;
-    private String        companyId;
-    private String        parentId;
-    private String        comment;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String expiredComment;
+    private String userId;
+    private String storeId;
+    private String deptId;
+    private String companyId;
+    private String parentId;
+    private String comment;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime enterAt;
-    private String        enterBy;
+    private String enterBy;
     private LocalDateTime accountAt;
-    private String        accountBy;
+    private String accountBy;
     private LocalDateTime scrapAt;
-    private String        scrapBy;
+    private String scrapBy;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EAsset() {}
 
@@ -138,61 +138,61 @@ public class EAsset implements VertxPojo, IEAsset {
     }
 
     public EAsset(
-        String        key,
-        String        name,
-        String        code,
-        String        type,
-        String        status,
-        String        modelNumber,
-        String        unit,
-        Long          num,
-        Long          numDeprecating,
-        Long          numDeprecated,
-        Long          numUsing,
-        Long          numUsed,
-        String        wayChange,
-        String        wayDeprecate,
-        String        wayAccording,
+        String key,
+        String name,
+        String code,
+        String type,
+        String status,
+        String modelNumber,
+        String unit,
+        Long num,
+        Long numDeprecating,
+        Long numDeprecated,
+        Long numUsing,
+        Long numUsed,
+        String wayChange,
+        String wayDeprecate,
+        String wayAccording,
         LocalDateTime usedAt,
-        String        usedBy,
-        String        usedStatus,
-        BigDecimal    vOriginal,
-        BigDecimal    vTax,
-        BigDecimal    vDeReady,
-        BigDecimal    vNetJunk,
-        BigDecimal    vNet,
-        BigDecimal    vNetAmount,
-        BigDecimal    vDeprecatedM,
-        BigDecimal    vDeprecatedA,
-        String        kFixed,
-        String        kDeprecated,
-        String        kAssignment,
-        String        kTax,
-        String        kDevalue,
-        String        kChange,
-        String        customerId,
+        String usedBy,
+        String usedStatus,
+        BigDecimal vOriginal,
+        BigDecimal vTax,
+        BigDecimal vDeReady,
+        BigDecimal vNetJunk,
+        BigDecimal vNet,
+        BigDecimal vNetAmount,
+        BigDecimal vDeprecatedM,
+        BigDecimal vDeprecatedA,
+        String kFixed,
+        String kDeprecated,
+        String kAssignment,
+        String kTax,
+        String kDevalue,
+        String kChange,
+        String customerId,
         LocalDateTime expiredAt,
-        String        expiredComment,
-        String        userId,
-        String        storeId,
-        String        deptId,
-        String        companyId,
-        String        parentId,
-        String        comment,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String expiredComment,
+        String userId,
+        String storeId,
+        String deptId,
+        String companyId,
+        String parentId,
+        String comment,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime enterAt,
-        String        enterBy,
+        String enterBy,
         LocalDateTime accountAt,
-        String        accountBy,
+        String accountBy,
         LocalDateTime scrapAt,
-        String        scrapBy,
+        String scrapBy,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -1213,6 +1213,410 @@ public class EAsset implements VertxPojo, IEAsset {
     public EAsset setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EAsset other = (EAsset) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.modelNumber == null) {
+            if (other.modelNumber != null)
+                return false;
+        }
+        else if (!this.modelNumber.equals(other.modelNumber))
+            return false;
+        if (this.unit == null) {
+            if (other.unit != null)
+                return false;
+        }
+        else if (!this.unit.equals(other.unit))
+            return false;
+        if (this.num == null) {
+            if (other.num != null)
+                return false;
+        }
+        else if (!this.num.equals(other.num))
+            return false;
+        if (this.numDeprecating == null) {
+            if (other.numDeprecating != null)
+                return false;
+        }
+        else if (!this.numDeprecating.equals(other.numDeprecating))
+            return false;
+        if (this.numDeprecated == null) {
+            if (other.numDeprecated != null)
+                return false;
+        }
+        else if (!this.numDeprecated.equals(other.numDeprecated))
+            return false;
+        if (this.numUsing == null) {
+            if (other.numUsing != null)
+                return false;
+        }
+        else if (!this.numUsing.equals(other.numUsing))
+            return false;
+        if (this.numUsed == null) {
+            if (other.numUsed != null)
+                return false;
+        }
+        else if (!this.numUsed.equals(other.numUsed))
+            return false;
+        if (this.wayChange == null) {
+            if (other.wayChange != null)
+                return false;
+        }
+        else if (!this.wayChange.equals(other.wayChange))
+            return false;
+        if (this.wayDeprecate == null) {
+            if (other.wayDeprecate != null)
+                return false;
+        }
+        else if (!this.wayDeprecate.equals(other.wayDeprecate))
+            return false;
+        if (this.wayAccording == null) {
+            if (other.wayAccording != null)
+                return false;
+        }
+        else if (!this.wayAccording.equals(other.wayAccording))
+            return false;
+        if (this.usedAt == null) {
+            if (other.usedAt != null)
+                return false;
+        }
+        else if (!this.usedAt.equals(other.usedAt))
+            return false;
+        if (this.usedBy == null) {
+            if (other.usedBy != null)
+                return false;
+        }
+        else if (!this.usedBy.equals(other.usedBy))
+            return false;
+        if (this.usedStatus == null) {
+            if (other.usedStatus != null)
+                return false;
+        }
+        else if (!this.usedStatus.equals(other.usedStatus))
+            return false;
+        if (this.vOriginal == null) {
+            if (other.vOriginal != null)
+                return false;
+        }
+        else if (!this.vOriginal.equals(other.vOriginal))
+            return false;
+        if (this.vTax == null) {
+            if (other.vTax != null)
+                return false;
+        }
+        else if (!this.vTax.equals(other.vTax))
+            return false;
+        if (this.vDeReady == null) {
+            if (other.vDeReady != null)
+                return false;
+        }
+        else if (!this.vDeReady.equals(other.vDeReady))
+            return false;
+        if (this.vNetJunk == null) {
+            if (other.vNetJunk != null)
+                return false;
+        }
+        else if (!this.vNetJunk.equals(other.vNetJunk))
+            return false;
+        if (this.vNet == null) {
+            if (other.vNet != null)
+                return false;
+        }
+        else if (!this.vNet.equals(other.vNet))
+            return false;
+        if (this.vNetAmount == null) {
+            if (other.vNetAmount != null)
+                return false;
+        }
+        else if (!this.vNetAmount.equals(other.vNetAmount))
+            return false;
+        if (this.vDeprecatedM == null) {
+            if (other.vDeprecatedM != null)
+                return false;
+        }
+        else if (!this.vDeprecatedM.equals(other.vDeprecatedM))
+            return false;
+        if (this.vDeprecatedA == null) {
+            if (other.vDeprecatedA != null)
+                return false;
+        }
+        else if (!this.vDeprecatedA.equals(other.vDeprecatedA))
+            return false;
+        if (this.kFixed == null) {
+            if (other.kFixed != null)
+                return false;
+        }
+        else if (!this.kFixed.equals(other.kFixed))
+            return false;
+        if (this.kDeprecated == null) {
+            if (other.kDeprecated != null)
+                return false;
+        }
+        else if (!this.kDeprecated.equals(other.kDeprecated))
+            return false;
+        if (this.kAssignment == null) {
+            if (other.kAssignment != null)
+                return false;
+        }
+        else if (!this.kAssignment.equals(other.kAssignment))
+            return false;
+        if (this.kTax == null) {
+            if (other.kTax != null)
+                return false;
+        }
+        else if (!this.kTax.equals(other.kTax))
+            return false;
+        if (this.kDevalue == null) {
+            if (other.kDevalue != null)
+                return false;
+        }
+        else if (!this.kDevalue.equals(other.kDevalue))
+            return false;
+        if (this.kChange == null) {
+            if (other.kChange != null)
+                return false;
+        }
+        else if (!this.kChange.equals(other.kChange))
+            return false;
+        if (this.customerId == null) {
+            if (other.customerId != null)
+                return false;
+        }
+        else if (!this.customerId.equals(other.customerId))
+            return false;
+        if (this.expiredAt == null) {
+            if (other.expiredAt != null)
+                return false;
+        }
+        else if (!this.expiredAt.equals(other.expiredAt))
+            return false;
+        if (this.expiredComment == null) {
+            if (other.expiredComment != null)
+                return false;
+        }
+        else if (!this.expiredComment.equals(other.expiredComment))
+            return false;
+        if (this.userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!this.userId.equals(other.userId))
+            return false;
+        if (this.storeId == null) {
+            if (other.storeId != null)
+                return false;
+        }
+        else if (!this.storeId.equals(other.storeId))
+            return false;
+        if (this.deptId == null) {
+            if (other.deptId != null)
+                return false;
+        }
+        else if (!this.deptId.equals(other.deptId))
+            return false;
+        if (this.companyId == null) {
+            if (other.companyId != null)
+                return false;
+        }
+        else if (!this.companyId.equals(other.companyId))
+            return false;
+        if (this.parentId == null) {
+            if (other.parentId != null)
+                return false;
+        }
+        else if (!this.parentId.equals(other.parentId))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.enterAt == null) {
+            if (other.enterAt != null)
+                return false;
+        }
+        else if (!this.enterAt.equals(other.enterAt))
+            return false;
+        if (this.enterBy == null) {
+            if (other.enterBy != null)
+                return false;
+        }
+        else if (!this.enterBy.equals(other.enterBy))
+            return false;
+        if (this.accountAt == null) {
+            if (other.accountAt != null)
+                return false;
+        }
+        else if (!this.accountAt.equals(other.accountAt))
+            return false;
+        if (this.accountBy == null) {
+            if (other.accountBy != null)
+                return false;
+        }
+        else if (!this.accountBy.equals(other.accountBy))
+            return false;
+        if (this.scrapAt == null) {
+            if (other.scrapAt != null)
+                return false;
+        }
+        else if (!this.scrapAt.equals(other.scrapAt))
+            return false;
+        if (this.scrapBy == null) {
+            if (other.scrapBy != null)
+                return false;
+        }
+        else if (!this.scrapBy.equals(other.scrapBy))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.modelNumber == null) ? 0 : this.modelNumber.hashCode());
+        result = prime * result + ((this.unit == null) ? 0 : this.unit.hashCode());
+        result = prime * result + ((this.num == null) ? 0 : this.num.hashCode());
+        result = prime * result + ((this.numDeprecating == null) ? 0 : this.numDeprecating.hashCode());
+        result = prime * result + ((this.numDeprecated == null) ? 0 : this.numDeprecated.hashCode());
+        result = prime * result + ((this.numUsing == null) ? 0 : this.numUsing.hashCode());
+        result = prime * result + ((this.numUsed == null) ? 0 : this.numUsed.hashCode());
+        result = prime * result + ((this.wayChange == null) ? 0 : this.wayChange.hashCode());
+        result = prime * result + ((this.wayDeprecate == null) ? 0 : this.wayDeprecate.hashCode());
+        result = prime * result + ((this.wayAccording == null) ? 0 : this.wayAccording.hashCode());
+        result = prime * result + ((this.usedAt == null) ? 0 : this.usedAt.hashCode());
+        result = prime * result + ((this.usedBy == null) ? 0 : this.usedBy.hashCode());
+        result = prime * result + ((this.usedStatus == null) ? 0 : this.usedStatus.hashCode());
+        result = prime * result + ((this.vOriginal == null) ? 0 : this.vOriginal.hashCode());
+        result = prime * result + ((this.vTax == null) ? 0 : this.vTax.hashCode());
+        result = prime * result + ((this.vDeReady == null) ? 0 : this.vDeReady.hashCode());
+        result = prime * result + ((this.vNetJunk == null) ? 0 : this.vNetJunk.hashCode());
+        result = prime * result + ((this.vNet == null) ? 0 : this.vNet.hashCode());
+        result = prime * result + ((this.vNetAmount == null) ? 0 : this.vNetAmount.hashCode());
+        result = prime * result + ((this.vDeprecatedM == null) ? 0 : this.vDeprecatedM.hashCode());
+        result = prime * result + ((this.vDeprecatedA == null) ? 0 : this.vDeprecatedA.hashCode());
+        result = prime * result + ((this.kFixed == null) ? 0 : this.kFixed.hashCode());
+        result = prime * result + ((this.kDeprecated == null) ? 0 : this.kDeprecated.hashCode());
+        result = prime * result + ((this.kAssignment == null) ? 0 : this.kAssignment.hashCode());
+        result = prime * result + ((this.kTax == null) ? 0 : this.kTax.hashCode());
+        result = prime * result + ((this.kDevalue == null) ? 0 : this.kDevalue.hashCode());
+        result = prime * result + ((this.kChange == null) ? 0 : this.kChange.hashCode());
+        result = prime * result + ((this.customerId == null) ? 0 : this.customerId.hashCode());
+        result = prime * result + ((this.expiredAt == null) ? 0 : this.expiredAt.hashCode());
+        result = prime * result + ((this.expiredComment == null) ? 0 : this.expiredComment.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.storeId == null) ? 0 : this.storeId.hashCode());
+        result = prime * result + ((this.deptId == null) ? 0 : this.deptId.hashCode());
+        result = prime * result + ((this.companyId == null) ? 0 : this.companyId.hashCode());
+        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.enterAt == null) ? 0 : this.enterAt.hashCode());
+        result = prime * result + ((this.enterBy == null) ? 0 : this.enterBy.hashCode());
+        result = prime * result + ((this.accountAt == null) ? 0 : this.accountAt.hashCode());
+        result = prime * result + ((this.accountBy == null) ? 0 : this.accountBy.hashCode());
+        result = prime * result + ((this.scrapAt == null) ? 0 : this.scrapAt.hashCode());
+        result = prime * result + ((this.scrapBy == null) ? 0 : this.scrapBy.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

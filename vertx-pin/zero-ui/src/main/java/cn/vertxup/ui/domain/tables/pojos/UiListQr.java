@@ -20,27 +20,27 @@ public class UiListQr implements VertxPojo, IUiListQr {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private Integer       sort;
-    private String        view;
-    private String        position;
-    private String        title;
-    private String        projection;
-    private String        criteria;
-    private String        rows;
-    private String        uiConfig;
-    private String        qrComponent;
-    private String        qrConfig;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String code;
+    private Integer sort;
+    private String view;
+    private String position;
+    private String title;
+    private String projection;
+    private String criteria;
+    private String rows;
+    private String uiConfig;
+    private String qrComponent;
+    private String qrConfig;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public UiListQr() {}
 
@@ -69,27 +69,27 @@ public class UiListQr implements VertxPojo, IUiListQr {
     }
 
     public UiListQr(
-        String        key,
-        String        name,
-        String        code,
-        Integer       sort,
-        String        view,
-        String        position,
-        String        title,
-        String        projection,
-        String        criteria,
-        String        rows,
-        String        uiConfig,
-        String        qrComponent,
-        String        qrConfig,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String code,
+        Integer sort,
+        String view,
+        String position,
+        String title,
+        String projection,
+        String criteria,
+        String rows,
+        String uiConfig,
+        String qrComponent,
+        String qrConfig,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -498,6 +498,172 @@ public class UiListQr implements VertxPojo, IUiListQr {
     public UiListQr setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiListQr other = (UiListQr) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.sort == null) {
+            if (other.sort != null)
+                return false;
+        }
+        else if (!this.sort.equals(other.sort))
+            return false;
+        if (this.view == null) {
+            if (other.view != null)
+                return false;
+        }
+        else if (!this.view.equals(other.view))
+            return false;
+        if (this.position == null) {
+            if (other.position != null)
+                return false;
+        }
+        else if (!this.position.equals(other.position))
+            return false;
+        if (this.title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!this.title.equals(other.title))
+            return false;
+        if (this.projection == null) {
+            if (other.projection != null)
+                return false;
+        }
+        else if (!this.projection.equals(other.projection))
+            return false;
+        if (this.criteria == null) {
+            if (other.criteria != null)
+                return false;
+        }
+        else if (!this.criteria.equals(other.criteria))
+            return false;
+        if (this.rows == null) {
+            if (other.rows != null)
+                return false;
+        }
+        else if (!this.rows.equals(other.rows))
+            return false;
+        if (this.uiConfig == null) {
+            if (other.uiConfig != null)
+                return false;
+        }
+        else if (!this.uiConfig.equals(other.uiConfig))
+            return false;
+        if (this.qrComponent == null) {
+            if (other.qrComponent != null)
+                return false;
+        }
+        else if (!this.qrComponent.equals(other.qrComponent))
+            return false;
+        if (this.qrConfig == null) {
+            if (other.qrConfig != null)
+                return false;
+        }
+        else if (!this.qrConfig.equals(other.qrConfig))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
+        result = prime * result + ((this.view == null) ? 0 : this.view.hashCode());
+        result = prime * result + ((this.position == null) ? 0 : this.position.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.projection == null) ? 0 : this.projection.hashCode());
+        result = prime * result + ((this.criteria == null) ? 0 : this.criteria.hashCode());
+        result = prime * result + ((this.rows == null) ? 0 : this.rows.hashCode());
+        result = prime * result + ((this.uiConfig == null) ? 0 : this.uiConfig.hashCode());
+        result = prime * result + ((this.qrComponent == null) ? 0 : this.qrComponent.hashCode());
+        result = prime * result + ((this.qrConfig == null) ? 0 : this.qrConfig.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -7,6 +7,7 @@ package cn.vertxup.integration.domain.tables;
 import cn.vertxup.integration.domain.Db;
 import cn.vertxup.integration.domain.Keys;
 import cn.vertxup.integration.domain.tables.records.IPortfolioRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -200,6 +201,11 @@ public class IPortfolio extends TableImpl<IPortfolioRecord> {
         return new IPortfolio(alias, this);
     }
 
+    @Override
+    public IPortfolio as(Table<?> alias) {
+        return new IPortfolio(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -214,5 +220,13 @@ public class IPortfolio extends TableImpl<IPortfolioRecord> {
     @Override
     public IPortfolio rename(Name name) {
         return new IPortfolio(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IPortfolio rename(Table<?> name) {
+        return new IPortfolio(name.getQualifiedName(), null);
     }
 }

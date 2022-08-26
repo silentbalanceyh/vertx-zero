@@ -7,6 +7,7 @@ package cn.vertxup.integration.domain.tables;
 import cn.vertxup.integration.domain.Db;
 import cn.vertxup.integration.domain.Keys;
 import cn.vertxup.integration.domain.tables.records.IDirectoryRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -208,6 +209,11 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
         return new IDirectory(alias, this);
     }
 
+    @Override
+    public IDirectory as(Table<?> alias) {
+        return new IDirectory(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -222,5 +228,13 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     @Override
     public IDirectory rename(Name name) {
         return new IDirectory(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IDirectory rename(Table<?> name) {
+        return new IDirectory(name.getQualifiedName(), null);
     }
 }

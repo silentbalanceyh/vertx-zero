@@ -21,37 +21,37 @@ public class FBillItem implements VertxPojo, IFBillItem {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        serial;
-    private Boolean       income;
-    private String        type;
-    private String        status;
-    private BigDecimal    amount;
-    private String        comment;
-    private String        manualNo;
-    private String        unit;
-    private BigDecimal    price;
-    private Integer       quantity;
-    private BigDecimal    amountTotal;
-    private String        opBy;
-    private String        opNumber;
-    private String        opShift;
+    private String key;
+    private String name;
+    private String code;
+    private String serial;
+    private Boolean income;
+    private String type;
+    private String status;
+    private BigDecimal amount;
+    private String comment;
+    private String manualNo;
+    private String unit;
+    private BigDecimal price;
+    private Integer quantity;
+    private BigDecimal amountTotal;
+    private String opBy;
+    private String opNumber;
+    private String opShift;
     private LocalDateTime opAt;
-    private String        relatedId;
-    private String        settlementId;
-    private String        billId;
-    private String        subjectId;
-    private String        payTermId;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String relatedId;
+    private String settlementId;
+    private String billId;
+    private String subjectId;
+    private String payTermId;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public FBillItem() {}
 
@@ -90,37 +90,37 @@ public class FBillItem implements VertxPojo, IFBillItem {
     }
 
     public FBillItem(
-        String        key,
-        String        name,
-        String        code,
-        String        serial,
-        Boolean       income,
-        String        type,
-        String        status,
-        BigDecimal    amount,
-        String        comment,
-        String        manualNo,
-        String        unit,
-        BigDecimal    price,
-        Integer       quantity,
-        BigDecimal    amountTotal,
-        String        opBy,
-        String        opNumber,
-        String        opShift,
+        String key,
+        String name,
+        String code,
+        String serial,
+        Boolean income,
+        String type,
+        String status,
+        BigDecimal amount,
+        String comment,
+        String manualNo,
+        String unit,
+        BigDecimal price,
+        Integer quantity,
+        BigDecimal amountTotal,
+        String opBy,
+        String opNumber,
+        String opShift,
         LocalDateTime opAt,
-        String        relatedId,
-        String        settlementId,
-        String        billId,
-        String        subjectId,
-        String        payTermId,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String relatedId,
+        String settlementId,
+        String billId,
+        String subjectId,
+        String payTermId,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -717,6 +717,242 @@ public class FBillItem implements VertxPojo, IFBillItem {
     public FBillItem setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final FBillItem other = (FBillItem) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.income == null) {
+            if (other.income != null)
+                return false;
+        }
+        else if (!this.income.equals(other.income))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.manualNo == null) {
+            if (other.manualNo != null)
+                return false;
+        }
+        else if (!this.manualNo.equals(other.manualNo))
+            return false;
+        if (this.unit == null) {
+            if (other.unit != null)
+                return false;
+        }
+        else if (!this.unit.equals(other.unit))
+            return false;
+        if (this.price == null) {
+            if (other.price != null)
+                return false;
+        }
+        else if (!this.price.equals(other.price))
+            return false;
+        if (this.quantity == null) {
+            if (other.quantity != null)
+                return false;
+        }
+        else if (!this.quantity.equals(other.quantity))
+            return false;
+        if (this.amountTotal == null) {
+            if (other.amountTotal != null)
+                return false;
+        }
+        else if (!this.amountTotal.equals(other.amountTotal))
+            return false;
+        if (this.opBy == null) {
+            if (other.opBy != null)
+                return false;
+        }
+        else if (!this.opBy.equals(other.opBy))
+            return false;
+        if (this.opNumber == null) {
+            if (other.opNumber != null)
+                return false;
+        }
+        else if (!this.opNumber.equals(other.opNumber))
+            return false;
+        if (this.opShift == null) {
+            if (other.opShift != null)
+                return false;
+        }
+        else if (!this.opShift.equals(other.opShift))
+            return false;
+        if (this.opAt == null) {
+            if (other.opAt != null)
+                return false;
+        }
+        else if (!this.opAt.equals(other.opAt))
+            return false;
+        if (this.relatedId == null) {
+            if (other.relatedId != null)
+                return false;
+        }
+        else if (!this.relatedId.equals(other.relatedId))
+            return false;
+        if (this.settlementId == null) {
+            if (other.settlementId != null)
+                return false;
+        }
+        else if (!this.settlementId.equals(other.settlementId))
+            return false;
+        if (this.billId == null) {
+            if (other.billId != null)
+                return false;
+        }
+        else if (!this.billId.equals(other.billId))
+            return false;
+        if (this.subjectId == null) {
+            if (other.subjectId != null)
+                return false;
+        }
+        else if (!this.subjectId.equals(other.subjectId))
+            return false;
+        if (this.payTermId == null) {
+            if (other.payTermId != null)
+                return false;
+        }
+        else if (!this.payTermId.equals(other.payTermId))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.income == null) ? 0 : this.income.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.manualNo == null) ? 0 : this.manualNo.hashCode());
+        result = prime * result + ((this.unit == null) ? 0 : this.unit.hashCode());
+        result = prime * result + ((this.price == null) ? 0 : this.price.hashCode());
+        result = prime * result + ((this.quantity == null) ? 0 : this.quantity.hashCode());
+        result = prime * result + ((this.amountTotal == null) ? 0 : this.amountTotal.hashCode());
+        result = prime * result + ((this.opBy == null) ? 0 : this.opBy.hashCode());
+        result = prime * result + ((this.opNumber == null) ? 0 : this.opNumber.hashCode());
+        result = prime * result + ((this.opShift == null) ? 0 : this.opShift.hashCode());
+        result = prime * result + ((this.opAt == null) ? 0 : this.opAt.hashCode());
+        result = prime * result + ((this.relatedId == null) ? 0 : this.relatedId.hashCode());
+        result = prime * result + ((this.settlementId == null) ? 0 : this.settlementId.hashCode());
+        result = prime * result + ((this.billId == null) ? 0 : this.billId.hashCode());
+        result = prime * result + ((this.subjectId == null) ? 0 : this.subjectId.hashCode());
+        result = prime * result + ((this.payTermId == null) ? 0 : this.payTermId.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

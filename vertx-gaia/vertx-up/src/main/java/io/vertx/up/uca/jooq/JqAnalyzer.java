@@ -14,6 +14,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
@@ -408,24 +409,24 @@ public class JqAnalyzer {
         /**
          * Copied from jOOQs DAOImpl#equal-method
          */
-        TableField<? extends Record, ?>[] pk = uk.getFieldsArray();
+        TableField<? extends org.jooq.Record, ?>[] pk = uk.getFieldsArray();
         Condition condition;
         if (pk.length == 1) {
             condition = ((Field<Object>) pk[0]).equal(pk[0].getDataType().convert(id));
         } else {
-            condition = row(pk).equal((Record) id);
+            condition = row(pk).equal((org.jooq.Record) id);
         }
         return condition;
     }
 
     public <T> Condition conditionUk(T pojo) {
         Objects.requireNonNull(pojo);
-        Record record = this.dsl.context().newRecord(this.table, pojo);
+        org.jooq.Record record = this.dsl.context().newRecord(this.table, pojo);
         Condition where = DSL.trueCondition();
         UniqueKey<?> pk = this.table.getPrimaryKey();
         for (TableField<?, ?> tableField : pk.getFields()) {
             //exclude primary keys from update
-            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+            where = where.and(((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField)));
         }
         return where;
     }

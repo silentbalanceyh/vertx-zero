@@ -20,23 +20,23 @@ public class UiOp implements VertxPojo, IUiOp {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        action;
-    private String        text;
-    private String        event;
-    private String        clientKey;
-    private String        clientId;
-    private String        config;
-    private String        plugin;
-    private String        controlId;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String action;
+    private String text;
+    private String event;
+    private String clientKey;
+    private String clientId;
+    private String config;
+    private String plugin;
+    private String controlId;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public UiOp() {}
 
@@ -61,23 +61,23 @@ public class UiOp implements VertxPojo, IUiOp {
     }
 
     public UiOp(
-        String        key,
-        String        action,
-        String        text,
-        String        event,
-        String        clientKey,
-        String        clientId,
-        String        config,
-        String        plugin,
-        String        controlId,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String action,
+        String text,
+        String event,
+        String clientKey,
+        String clientId,
+        String config,
+        String plugin,
+        String controlId,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.action = action;
@@ -400,6 +400,144 @@ public class UiOp implements VertxPojo, IUiOp {
     public UiOp setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiOp other = (UiOp) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.action == null) {
+            if (other.action != null)
+                return false;
+        }
+        else if (!this.action.equals(other.action))
+            return false;
+        if (this.text == null) {
+            if (other.text != null)
+                return false;
+        }
+        else if (!this.text.equals(other.text))
+            return false;
+        if (this.event == null) {
+            if (other.event != null)
+                return false;
+        }
+        else if (!this.event.equals(other.event))
+            return false;
+        if (this.clientKey == null) {
+            if (other.clientKey != null)
+                return false;
+        }
+        else if (!this.clientKey.equals(other.clientKey))
+            return false;
+        if (this.clientId == null) {
+            if (other.clientId != null)
+                return false;
+        }
+        else if (!this.clientId.equals(other.clientId))
+            return false;
+        if (this.config == null) {
+            if (other.config != null)
+                return false;
+        }
+        else if (!this.config.equals(other.config))
+            return false;
+        if (this.plugin == null) {
+            if (other.plugin != null)
+                return false;
+        }
+        else if (!this.plugin.equals(other.plugin))
+            return false;
+        if (this.controlId == null) {
+            if (other.controlId != null)
+                return false;
+        }
+        else if (!this.controlId.equals(other.controlId))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.action == null) ? 0 : this.action.hashCode());
+        result = prime * result + ((this.text == null) ? 0 : this.text.hashCode());
+        result = prime * result + ((this.event == null) ? 0 : this.event.hashCode());
+        result = prime * result + ((this.clientKey == null) ? 0 : this.clientKey.hashCode());
+        result = prime * result + ((this.clientId == null) ? 0 : this.clientId.hashCode());
+        result = prime * result + ((this.config == null) ? 0 : this.config.hashCode());
+        result = prime * result + ((this.plugin == null) ? 0 : this.plugin.hashCode());
+        result = prime * result + ((this.controlId == null) ? 0 : this.controlId.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

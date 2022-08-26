@@ -21,22 +21,22 @@ public class PAmountSpec implements VertxPojo, IPAmountSpec {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        commodityId;
-    private String        commodityCode;
-    private String        commodityName;
-    private String        whId;
-    private BigDecimal    amountMin;
-    private BigDecimal    amountMax;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String serial;
+    private String commodityId;
+    private String commodityCode;
+    private String commodityName;
+    private String whId;
+    private BigDecimal amountMin;
+    private BigDecimal amountMax;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public PAmountSpec() {}
 
@@ -60,22 +60,22 @@ public class PAmountSpec implements VertxPojo, IPAmountSpec {
     }
 
     public PAmountSpec(
-        String        key,
-        String        serial,
-        String        commodityId,
-        String        commodityCode,
-        String        commodityName,
-        String        whId,
-        BigDecimal    amountMin,
-        BigDecimal    amountMax,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String serial,
+        String commodityId,
+        String commodityCode,
+        String commodityName,
+        String whId,
+        BigDecimal amountMin,
+        BigDecimal amountMax,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -394,6 +394,137 @@ public class PAmountSpec implements VertxPojo, IPAmountSpec {
     public PAmountSpec setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PAmountSpec other = (PAmountSpec) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.commodityId == null) {
+            if (other.commodityId != null)
+                return false;
+        }
+        else if (!this.commodityId.equals(other.commodityId))
+            return false;
+        if (this.commodityCode == null) {
+            if (other.commodityCode != null)
+                return false;
+        }
+        else if (!this.commodityCode.equals(other.commodityCode))
+            return false;
+        if (this.commodityName == null) {
+            if (other.commodityName != null)
+                return false;
+        }
+        else if (!this.commodityName.equals(other.commodityName))
+            return false;
+        if (this.whId == null) {
+            if (other.whId != null)
+                return false;
+        }
+        else if (!this.whId.equals(other.whId))
+            return false;
+        if (this.amountMin == null) {
+            if (other.amountMin != null)
+                return false;
+        }
+        else if (!this.amountMin.equals(other.amountMin))
+            return false;
+        if (this.amountMax == null) {
+            if (other.amountMax != null)
+                return false;
+        }
+        else if (!this.amountMax.equals(other.amountMax))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.commodityId == null) ? 0 : this.commodityId.hashCode());
+        result = prime * result + ((this.commodityCode == null) ? 0 : this.commodityCode.hashCode());
+        result = prime * result + ((this.commodityName == null) ? 0 : this.commodityName.hashCode());
+        result = prime * result + ((this.whId == null) ? 0 : this.whId.hashCode());
+        result = prime * result + ((this.amountMin == null) ? 0 : this.amountMin.hashCode());
+        result = prime * result + ((this.amountMax == null) ? 0 : this.amountMax.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

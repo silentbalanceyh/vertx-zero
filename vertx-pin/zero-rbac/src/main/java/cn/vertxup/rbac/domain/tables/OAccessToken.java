@@ -7,12 +7,14 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.OAccessTokenRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -136,6 +138,11 @@ public class OAccessToken extends TableImpl<OAccessTokenRecord> {
         return new OAccessToken(alias, this);
     }
 
+    @Override
+    public OAccessToken as(Table<?> alias) {
+        return new OAccessToken(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -152,6 +159,14 @@ public class OAccessToken extends TableImpl<OAccessTokenRecord> {
         return new OAccessToken(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public OAccessToken rename(Table<?> name) {
+        return new OAccessToken(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row10 type methods
     // -------------------------------------------------------------------------
@@ -159,5 +174,20 @@ public class OAccessToken extends TableImpl<OAccessTokenRecord> {
     @Override
     public Row10<String, byte[], byte[], Long, byte[], String, Boolean, String, LocalDateTime, String> fieldsRow() {
         return (Row10) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function10<? super String, ? super byte[], ? super byte[], ? super Long, ? super byte[], ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super String, ? super byte[], ? super byte[], ? super Long, ? super byte[], ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

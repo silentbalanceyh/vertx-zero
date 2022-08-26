@@ -18,18 +18,18 @@ public class BAuthority implements VertxPojo, IBAuthority {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
-    private String  code;
-    private String  blockId;
-    private String  type;
-    private String  licResource;
-    private String  licAction;
-    private String  licPermission;
-    private String  licView;
+    private String key;
+    private String code;
+    private String blockId;
+    private String type;
+    private String licResource;
+    private String licAction;
+    private String licPermission;
+    private String licView;
     private Boolean active;
-    private String  sigma;
-    private String  metadata;
-    private String  language;
+    private String sigma;
+    private String metadata;
+    private String language;
 
     public BAuthority() {}
 
@@ -49,18 +49,18 @@ public class BAuthority implements VertxPojo, IBAuthority {
     }
 
     public BAuthority(
-        String  key,
-        String  code,
-        String  blockId,
-        String  type,
-        String  licResource,
-        String  licAction,
-        String  licPermission,
-        String  licView,
+        String key,
+        String code,
+        String blockId,
+        String type,
+        String licResource,
+        String licAction,
+        String licPermission,
+        String licView,
         Boolean active,
-        String  sigma,
-        String  metadata,
-        String  language
+        String sigma,
+        String metadata,
+        String language
     ) {
         this.key = key;
         this.code = code;
@@ -293,6 +293,109 @@ public class BAuthority implements VertxPojo, IBAuthority {
     public BAuthority setLanguage(String language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final BAuthority other = (BAuthority) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.blockId == null) {
+            if (other.blockId != null)
+                return false;
+        }
+        else if (!this.blockId.equals(other.blockId))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.licResource == null) {
+            if (other.licResource != null)
+                return false;
+        }
+        else if (!this.licResource.equals(other.licResource))
+            return false;
+        if (this.licAction == null) {
+            if (other.licAction != null)
+                return false;
+        }
+        else if (!this.licAction.equals(other.licAction))
+            return false;
+        if (this.licPermission == null) {
+            if (other.licPermission != null)
+                return false;
+        }
+        else if (!this.licPermission.equals(other.licPermission))
+            return false;
+        if (this.licView == null) {
+            if (other.licView != null)
+                return false;
+        }
+        else if (!this.licView.equals(other.licView))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.blockId == null) ? 0 : this.blockId.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.licResource == null) ? 0 : this.licResource.hashCode());
+        result = prime * result + ((this.licAction == null) ? 0 : this.licAction.hashCode());
+        result = prime * result + ((this.licPermission == null) ? 0 : this.licPermission.hashCode());
+        result = prime * result + ((this.licView == null) ? 0 : this.licView.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        return result;
     }
 
     @Override

@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EProjectRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -229,6 +230,11 @@ public class EProject extends TableImpl<EProjectRecord> {
         return new EProject(alias, this);
     }
 
+    @Override
+    public EProject as(Table<?> alias) {
+        return new EProject(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -243,5 +249,13 @@ public class EProject extends TableImpl<EProjectRecord> {
     @Override
     public EProject rename(Name name) {
         return new EProject(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public EProject rename(Table<?> name) {
+        return new EProject(name.getQualifiedName(), null);
     }
 }

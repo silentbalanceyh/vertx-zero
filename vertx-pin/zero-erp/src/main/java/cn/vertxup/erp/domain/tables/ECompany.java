@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.ECompanyRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -230,6 +231,11 @@ public class ECompany extends TableImpl<ECompanyRecord> {
         return new ECompany(alias, this);
     }
 
+    @Override
+    public ECompany as(Table<?> alias) {
+        return new ECompany(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -244,5 +250,13 @@ public class ECompany extends TableImpl<ECompanyRecord> {
     @Override
     public ECompany rename(Name name) {
         return new ECompany(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public ECompany rename(Table<?> name) {
+        return new ECompany(name.getQualifiedName(), null);
     }
 }

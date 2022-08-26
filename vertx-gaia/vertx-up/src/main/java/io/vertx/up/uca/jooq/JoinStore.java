@@ -8,7 +8,6 @@ import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
 import org.jooq.Field;
-import org.jooq.Record;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 
@@ -229,16 +228,16 @@ class JoinStore {
         return this.tableList;
     }
 
-    Table<Record> tableRecord() {
+    Table<org.jooq.Record> tableRecord() {
         return this.tableRecord(this.first.getKey());
     }
 
-    Table<Record> tableRecord(final int index) {
+    Table<org.jooq.Record> tableRecord(final int index) {
         final String table = this.tableList.get(index);
         return this.tableRecord(table);
     }
 
-    Table<Record> tableRecord(final String tableName) {
+    Table<org.jooq.Record> tableRecord(final String tableName) {
         final String alias = this.tablePrefix.get(tableName);
         return DSL.table(DSL.name(tableName)).as(DSL.name(alias));
     }

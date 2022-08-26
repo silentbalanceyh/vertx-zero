@@ -8,6 +8,7 @@ import cn.vertxup.workflow.domain.Db;
 import cn.vertxup.workflow.domain.Indexes;
 import cn.vertxup.workflow.domain.Keys;
 import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -296,6 +297,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
         return new WTodo(alias, this);
     }
 
+    @Override
+    public WTodo as(Table<?> alias) {
+        return new WTodo(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -310,5 +316,13 @@ public class WTodo extends TableImpl<WTodoRecord> {
     @Override
     public WTodo rename(Name name) {
         return new WTodo(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public WTodo rename(Table<?> name) {
+        return new WTodo(name.getQualifiedName(), null);
     }
 }

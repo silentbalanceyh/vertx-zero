@@ -7,10 +7,13 @@ package cn.vertxup.ui.domain.tables;
 import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.VQueryRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -110,6 +113,11 @@ public class VQuery extends TableImpl<VQueryRecord> {
         return new VQuery(alias, this);
     }
 
+    @Override
+    public VQuery as(Table<?> alias) {
+        return new VQuery(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -126,6 +134,14 @@ public class VQuery extends TableImpl<VQueryRecord> {
         return new VQuery(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public VQuery rename(Table<?> name) {
+        return new VQuery(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row5 type methods
     // -------------------------------------------------------------------------
@@ -133,5 +149,20 @@ public class VQuery extends TableImpl<VQueryRecord> {
     @Override
     public Row5<String, String, String, String, String> fieldsRow() {
         return (Row5) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function5<? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

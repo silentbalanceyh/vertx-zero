@@ -7,6 +7,7 @@ package cn.vertxup.integration.domain.tables;
 import cn.vertxup.integration.domain.Db;
 import cn.vertxup.integration.domain.Keys;
 import cn.vertxup.integration.domain.tables.records.IIntegrationRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -228,6 +229,11 @@ public class IIntegration extends TableImpl<IIntegrationRecord> {
         return new IIntegration(alias, this);
     }
 
+    @Override
+    public IIntegration as(Table<?> alias) {
+        return new IIntegration(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -242,5 +248,13 @@ public class IIntegration extends TableImpl<IIntegrationRecord> {
     @Override
     public IIntegration rename(Name name) {
         return new IIntegration(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IIntegration rename(Table<?> name) {
+        return new IIntegration(name.getQualifiedName(), null);
     }
 }

@@ -8,6 +8,7 @@ import cn.vertxup.fm.domain.Db;
 import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FBillItemRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -242,6 +243,11 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
         return new FBillItem(alias, this);
     }
 
+    @Override
+    public FBillItem as(Table<?> alias) {
+        return new FBillItem(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -256,5 +262,13 @@ public class FBillItem extends TableImpl<FBillItemRecord> {
     @Override
     public FBillItem rename(Name name) {
         return new FBillItem(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public FBillItem rename(Table<?> name) {
+        return new FBillItem(name.getQualifiedName(), null);
     }
 }

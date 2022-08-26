@@ -18,19 +18,19 @@ public class VSearch implements VertxPojo, IVSearch {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
+    private String key;
     private Boolean enabled;
     private Boolean advanced;
-    private String  opRedo;
-    private String  opAdvanced;
-    private String  opView;
-    private String  confirmClear;
-    private String  placeholder;
-    private String  cond;
-    private String  advancedWidth;
-    private String  advancedTitle;
-    private String  advancedNotice;
-    private String  advancedView;
+    private String opRedo;
+    private String opAdvanced;
+    private String opView;
+    private String confirmClear;
+    private String placeholder;
+    private String cond;
+    private String advancedWidth;
+    private String advancedTitle;
+    private String advancedNotice;
+    private String advancedView;
 
     public VSearch() {}
 
@@ -51,19 +51,19 @@ public class VSearch implements VertxPojo, IVSearch {
     }
 
     public VSearch(
-        String  key,
+        String key,
         Boolean enabled,
         Boolean advanced,
-        String  opRedo,
-        String  opAdvanced,
-        String  opView,
-        String  confirmClear,
-        String  placeholder,
-        String  cond,
-        String  advancedWidth,
-        String  advancedTitle,
-        String  advancedNotice,
-        String  advancedView
+        String opRedo,
+        String opAdvanced,
+        String opView,
+        String confirmClear,
+        String placeholder,
+        String cond,
+        String advancedWidth,
+        String advancedTitle,
+        String advancedNotice,
+        String advancedView
     ) {
         this.key = key;
         this.enabled = enabled;
@@ -328,6 +328,116 @@ public class VSearch implements VertxPojo, IVSearch {
     public VSearch setAdvancedView(String advancedView) {
         this.advancedView = advancedView;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final VSearch other = (VSearch) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.enabled == null) {
+            if (other.enabled != null)
+                return false;
+        }
+        else if (!this.enabled.equals(other.enabled))
+            return false;
+        if (this.advanced == null) {
+            if (other.advanced != null)
+                return false;
+        }
+        else if (!this.advanced.equals(other.advanced))
+            return false;
+        if (this.opRedo == null) {
+            if (other.opRedo != null)
+                return false;
+        }
+        else if (!this.opRedo.equals(other.opRedo))
+            return false;
+        if (this.opAdvanced == null) {
+            if (other.opAdvanced != null)
+                return false;
+        }
+        else if (!this.opAdvanced.equals(other.opAdvanced))
+            return false;
+        if (this.opView == null) {
+            if (other.opView != null)
+                return false;
+        }
+        else if (!this.opView.equals(other.opView))
+            return false;
+        if (this.confirmClear == null) {
+            if (other.confirmClear != null)
+                return false;
+        }
+        else if (!this.confirmClear.equals(other.confirmClear))
+            return false;
+        if (this.placeholder == null) {
+            if (other.placeholder != null)
+                return false;
+        }
+        else if (!this.placeholder.equals(other.placeholder))
+            return false;
+        if (this.cond == null) {
+            if (other.cond != null)
+                return false;
+        }
+        else if (!this.cond.equals(other.cond))
+            return false;
+        if (this.advancedWidth == null) {
+            if (other.advancedWidth != null)
+                return false;
+        }
+        else if (!this.advancedWidth.equals(other.advancedWidth))
+            return false;
+        if (this.advancedTitle == null) {
+            if (other.advancedTitle != null)
+                return false;
+        }
+        else if (!this.advancedTitle.equals(other.advancedTitle))
+            return false;
+        if (this.advancedNotice == null) {
+            if (other.advancedNotice != null)
+                return false;
+        }
+        else if (!this.advancedNotice.equals(other.advancedNotice))
+            return false;
+        if (this.advancedView == null) {
+            if (other.advancedView != null)
+                return false;
+        }
+        else if (!this.advancedView.equals(other.advancedView))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
+        result = prime * result + ((this.advanced == null) ? 0 : this.advanced.hashCode());
+        result = prime * result + ((this.opRedo == null) ? 0 : this.opRedo.hashCode());
+        result = prime * result + ((this.opAdvanced == null) ? 0 : this.opAdvanced.hashCode());
+        result = prime * result + ((this.opView == null) ? 0 : this.opView.hashCode());
+        result = prime * result + ((this.confirmClear == null) ? 0 : this.confirmClear.hashCode());
+        result = prime * result + ((this.placeholder == null) ? 0 : this.placeholder.hashCode());
+        result = prime * result + ((this.cond == null) ? 0 : this.cond.hashCode());
+        result = prime * result + ((this.advancedWidth == null) ? 0 : this.advancedWidth.hashCode());
+        result = prime * result + ((this.advancedTitle == null) ? 0 : this.advancedTitle.hashCode());
+        result = prime * result + ((this.advancedNotice == null) ? 0 : this.advancedNotice.hashCode());
+        result = prime * result + ((this.advancedView == null) ? 0 : this.advancedView.hashCode());
+        return result;
     }
 
     @Override

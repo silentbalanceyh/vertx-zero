@@ -8,6 +8,7 @@ import cn.vertxup.fm.domain.Db;
 import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FInvoiceRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -231,6 +232,11 @@ public class FInvoice extends TableImpl<FInvoiceRecord> {
         return new FInvoice(alias, this);
     }
 
+    @Override
+    public FInvoice as(Table<?> alias) {
+        return new FInvoice(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -245,5 +251,13 @@ public class FInvoice extends TableImpl<FInvoiceRecord> {
     @Override
     public FInvoice rename(Name name) {
         return new FInvoice(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public FInvoice rename(Table<?> name) {
+        return new FInvoice(name.getQualifiedName(), null);
     }
 }

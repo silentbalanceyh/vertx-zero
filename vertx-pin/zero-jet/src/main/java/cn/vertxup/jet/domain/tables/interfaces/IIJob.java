@@ -180,13 +180,13 @@ public interface IIJob extends VertxPojo, Serializable {
 
     /**
      * Setter for <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
-     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
+     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; input
      */
     public IIJob setIncomeComponent(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
-     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
+     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; input
      */
     public String getIncomeComponent();
 
