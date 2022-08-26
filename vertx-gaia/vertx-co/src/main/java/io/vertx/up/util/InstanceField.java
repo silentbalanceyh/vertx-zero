@@ -36,8 +36,8 @@ final class InstanceField {
     static <T> void set(final Object instance, final Field field, final T value) {
         Fn.safeNull(() -> Fn.safeJvm(() -> {
             if (!field.isAccessible()) {
-                field.trySetAccessible();
-                // field.setAccessible(true);
+                // field.trySetAccessible();
+                field.setAccessible(true);
             }
             field.set(instance, value);
         }, LOGGER), instance, field);
