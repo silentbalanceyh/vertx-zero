@@ -25,7 +25,7 @@
         <!-- Cluster Manager -->
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-ignite</artifactId>
+            <artifactId>vertx-infinispan</artifactId>
             <version>${vertx.version}</version>
             <exclusions>
                 <exclusion>
