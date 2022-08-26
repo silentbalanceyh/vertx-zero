@@ -48,7 +48,7 @@ class BtBoot {
         final List<String> files = Ut.ioFilesN(folder, null, prefix);
         final Set<KBoot> boots = KBoot.initialize();
         if (!boots.isEmpty() && oob) {
-            boots.parallelStream().forEach(boot -> files.addAll(boot.oob(prefix)));
+            boots.forEach(boot -> files.addAll(boot.oob(prefix)));
             // boots.forEach(boot -> files.addAll(boot.oob(prefix)));
         }
         // 并行
