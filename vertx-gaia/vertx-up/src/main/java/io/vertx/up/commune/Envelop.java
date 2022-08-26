@@ -1,6 +1,5 @@
 package io.vertx.up.commune;
 
-import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -296,27 +295,27 @@ public class Envelop implements Serializable {
     public JsonObject headersX() {
         final JsonObject headerData = new JsonObject();
         this.assist.headers().names().stream()
-            /* Up case is OK */
-            .filter(field -> field.startsWith(ID.Header.PREFIX)
-                /* Lower case is also Ok */
-                || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
-            /*
-             * Data for header
-             * X-App-Id -> appId
-             * X-App-Key -> appKey
-             * X-Sigma -> sigma
-             */
-            .forEach(field -> {
+                /* Up case is OK */
+                .filter(field -> field.startsWith(ID.Header.PREFIX)
+                        /* Lower case is also Ok */
+                        || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
                 /*
-                 * Lower / Upper are both Ok
+                 * Data for header
+                 * X-App-Id -> appId
+                 * X-App-Key -> appKey
+                 * X-Sigma -> sigma
                  */
-                final String found = ID.Header.PARAM_MAP.keySet()
-                    .stream().filter(field::equalsIgnoreCase)
-                    .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
-                if (Ut.notNil(found)) {
-                    headerData.put(found, this.assist.headers().get(field));
-                }
-            });
+                .forEach(field -> {
+                    /*
+                     * Lower / Upper are both Ok
+                     */
+                    final String found = ID.Header.PARAM_MAP.keySet()
+                            .stream().filter(field::equalsIgnoreCase)
+                            .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
+                    if (Ut.notNil(found)) {
+                        headerData.put(found, this.assist.headers().get(field));
+                    }
+                });
         return headerData;
     }
 
@@ -374,8 +373,6 @@ public class Envelop implements Serializable {
         this.assist.user(context.user());
         this.assist.context(context.data());
 
-        /* Owner Environment */
-        HES.configure(request.headers());
         return this;
     }
 
@@ -458,11 +455,11 @@ public class Envelop implements Serializable {
     @Override
     public String toString() {
         return "Envelop{" +
-            "status=" + this.status +
-            ", error=" + this.error +
-            ", data=" + this.data +
-            ", assist=" + this.assist.toString() +
-            ", key='" + this.key + '\'' +
-            '}';
+                "status=" + this.status +
+                ", error=" + this.error +
+                ", data=" + this.data +
+                ", assist=" + this.assist.toString() +
+                ", key='" + this.key + '\'' +
+                '}';
     }
 }

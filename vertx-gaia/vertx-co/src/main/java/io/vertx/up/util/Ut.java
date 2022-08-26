@@ -240,6 +240,10 @@ public final class Ut {
         return ArrayL.group(object, keyFn, valueFn);
     }
 
+    public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn) {
+        return ArrayL.group(object, keyFn, item -> (V) item);
+    }
+
     public static <K, V> ConcurrentMap<K, V> elementMap(final List<V> dataList, final Function<V, K> keyFn) {
         return ArrayL.map(dataList, keyFn, item -> item);
     }

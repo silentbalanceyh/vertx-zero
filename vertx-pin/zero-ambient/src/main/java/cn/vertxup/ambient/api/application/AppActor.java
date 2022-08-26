@@ -11,6 +11,7 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -34,7 +35,7 @@ public class AppActor {
     }
 
     @Address(Addr.App.BY_ID)
-    public Future<JsonObject> byId(final String appId) {
+    public Future<JsonObject> byId(final String appId, final XHeader header) {
         return this.appStub.fetchById(appId);
     }
 

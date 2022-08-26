@@ -78,7 +78,7 @@
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.16.9</jooq.version>
-        <vertx.jooq.version>6.5.4</vertx.jooq.version>
+        <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.30</mysql.version>
 
         <!-- Java Reflection -->
@@ -100,7 +100,7 @@
         <guava.version>31.1-jre</guava.version>
         <scala.version>2.12.16</scala.version>
         <feign.version>8.18.0</feign.version>
-        <joda.version>2.11.0</joda.version>
+        <joda.version>2.11.1</joda.version>
         <codehaus.janino.version>3.1.7</codehaus.janino.version>
         <codehaus.mojo.version>1.22</codehaus.mojo.version>
         <ignite.version>2.13.0</ignite.version>
@@ -112,7 +112,7 @@
         <checker.version>3.24.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.17.5</elasticsearch.version>
+        <elasticsearch.version>7.17.6</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.4.9</neo4j.version>
@@ -136,7 +136,7 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.48.1</grpc.version>
+        <grpc.version>1.49.0</grpc.version>
         <protobuf.version>3.21.5</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.9.1</gson.version>

@@ -20,31 +20,29 @@ import org.jooq.OrderField;
 import org.jooq.impl.DSL;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 @SuppressWarnings("rawtypes")
 public class JooqCond {
 
     // Condition ---------------------------------------------------------
-    public static final ConcurrentMap<String, Condition> QUERY_STORED = new ConcurrentHashMap<>();
+    private static final Set<String> KEYWORD_SET = new HashSet<>() {
+        {
+            // MySQL keyword reserved for usage instead of directly
+            this.add("KEY");
+            this.add("GROUP");
+            this.add("NAME");
+        }
+    };
     private static final Annal LOGGER = Annal.get(JooqCond.class);
 
     private static String applyField(final String field,
                                      final Function<String, String> fnTable) {
-        final Set<String> keywords = new HashSet<String>() {
-            {
-                this.add("KEY");    // MYSQL, KEY is keyword
-                this.add("GROUP");  // GROUP is keyword
-                this.add("NAME");   // NAME is keyword
-            }
-        };
         final StringBuilder normalized = new StringBuilder();
         if (Objects.nonNull(fnTable)) {
             normalized.append(fnTable.apply(field)).append(".");
         }
-        normalized.append(keywords.contains(field) ? "`" + field + "`" : field);
+        normalized.append(KEYWORD_SET.contains(field) ? "`" + field + "`" : field);
         return normalized.toString();
     }
 
@@ -93,7 +91,7 @@ public class JooqCond {
          */
         if (!Ut.isNil(filters)) {
             LOGGER.debug("( JqTool ) Mode selected {0}, filters raw = {1}",
-                criteria.mode(), filters);
+                    criteria.mode(), filters);
         }
         if (Qr.Mode.LINEAR == criteria.mode()) {
             JsonObject inputFilters = filters;
@@ -192,9 +190,9 @@ public class JooqCond {
     }
 
     private static List<Condition> transformTreeSet(
-        final JsonObject filters,
-        final Function<String, Field> fnAnalyze,
-        final Function<String, String> fnTable) {
+            final JsonObject filters,
+            final Function<String, Field> fnAnalyze,
+            final Function<String, String> fnTable) {
         final List<Condition> conditions = new ArrayList<>();
         final JsonObject tree = filters.copy();
         if (!tree.isEmpty()) {
@@ -230,10 +228,10 @@ public class JooqCond {
     }
 
     private static Condition transformLinear(
-        final JsonObject filters,
-        final Operator operator,
-        final Function<String, Field> fnAnalyze,
-        final Function<String, String> fnTable) {
+            final JsonObject filters,
+            final Operator operator,
+            final Function<String, Field> fnAnalyze,
+            final Function<String, String> fnTable) {
         Condition condition = null;
         for (final String field : filters.fieldNames()) {
             /*
@@ -320,7 +318,7 @@ public class JooqCond {
                  */
                 final Clause clause = Clause.get(type);
                 Fn.outUp(Objects.isNull(clause), LOGGER, JooqCondClauseException.class,
-                    JooqCond.class, metaField.getName(), type, targetField);
+                        JooqCond.class, metaField.getName(), type, targetField);
 
                 /*
                  * Get condition of this term
