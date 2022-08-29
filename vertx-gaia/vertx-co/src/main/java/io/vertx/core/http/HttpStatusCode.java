@@ -217,9 +217,14 @@ public enum HttpStatusCode {
     EXPECTATION_FAILED(417, "Expectation Failed"),
 
     /**
-     * 418 Too Many Connections
+     * 418 Unused
+     */
+    UNUSED(418, "Unused"),
+
+    /**
+     * 421 Misdirected Request
      **/
-    TOO_MANY_CONNECTIONS(421, "Too Many Connections"),
+    MISDIRECTED_REQUEST(421, "Misdirected Request"),
 
     /**
      * 422 Unprocessable Entity
@@ -227,17 +232,17 @@ public enum HttpStatusCode {
     UNPROCESSABLE_ENTITY(422, "Unprocessable Entity"),
 
     /**
-     * 423 Locked
+     * 「WebDAV」423 Locked
      **/
     LOCKED(423, "Locked"),
 
     /**
-     * 424 Failed Dependency
+     * 「WebDAV」424 Failed Dependency
      **/
     FAILED_DEPENDENCY(424, "Failed Dependency"),
 
     /**
-     * 425 Unordered Collection
+     * 「WebDAV」425 Unordered Collection
      **/
     UNORDERED_COLLECTION(425, "Unordered Collection"),
 
@@ -247,9 +252,34 @@ public enum HttpStatusCode {
     UPGRADE_REQUIRED(426, "Upgrade Required"),
 
     /**
-     * 449 Retry With
+     * 「WebDAV」428 Precondition Required
+     */
+    PRECONDITION_REQUIRED(428, "Precondition Required"),
+
+    /**
+     * 「WebDAV」429 Too Many Request
+     */
+    TOO_MANY_REQUEST(429, "Too Many Requests"),
+
+    /**
+     * 「WebDAV」431 Request Header Fields Too Large
+     */
+    REQUEST_HEADER_FIELDS_TOO_LARGE(431, "Request Header Fields Too Large"),
+
+    /**
+     * 「微软」449 Retry With
      **/
     RETRY_WITH(449, "Retry With"),
+
+    /**
+     * 「IETF」451 Unavailable For Legal Reasons
+     */
+    UNAVAILABLE_FOR_LEGAL_REASONS(451, "Unavailable For Legal Reasons"),
+
+    /**
+     * 「Nginx」499 Client Closed Request
+     */
+    CLIENT_CLOSED_REQUEST(499, "Client Closed Request"),
     // ~ 5xx =================================================
 
     /**
@@ -283,25 +313,38 @@ public enum HttpStatusCode {
     HTTP_VERSION_NOT_SUPPORTED(505, "HTTP Version Not Supported"),
 
     /**
-     * 506 Variant Also Negotiates
+     * 506 「扩展」Variant Also Negotiates
      **/
     VARIANT_ALSO_NEGOTIATES(506, "Variant Also Negotiates"),
 
     /**
-     * 507 Insufficient Storage
+     * 507 「WebDAV」Insufficient Storage
      **/
     INSUFFICIENT_STORAGE(507, "Insufficient Storage"),
 
     /**
-     * 508 Badwidth Limit Exceeded
+     * 508 「WebDAV」Loop Detected
      **/
-    BANDWIDTH_LIMIT_EXCEEDED(508, "Bandwidth Limit Exceeded"),
+    LOOP_DETECTED(508, "Loop Detected"),
+    /**
+     * 509 「扩展」Badwidth Limit Exceeded
+     **/
+    BANDWIDTH_LIMIT_EXCEEDED(509, "Bandwidth Limit Exceeded"),
 
     /**
-     * 510 Not Extended
+     * 510 「扩展」Not Extended
      **/
     NOT_EXTENDED(510, "Not Extended"),
 
+    /**
+     * 511 「扩展」Network Authentication Required
+     */
+    NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required"),
+
+    /**
+     * 599 Network Connect Timeout Error
+     */
+    NETWORK_CONNECT_TIMEOUT_ERROR(599, "Network Connect Timeout Error"),
     /**
      * 600 Unparseable Response Headers
      **/
