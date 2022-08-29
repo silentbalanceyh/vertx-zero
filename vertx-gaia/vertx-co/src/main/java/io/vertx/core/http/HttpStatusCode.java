@@ -31,7 +31,7 @@ public enum HttpStatusCode {
     SWITCHING_PROTOCOLS(101, "Switching Protocols"),
 
     /**
-     * 102 Processing
+     * 「WebDAV」102 Processing
      **/
     PROCESSING(102, "Processing"),
     // ~ 2xx =================================================
@@ -71,9 +71,15 @@ public enum HttpStatusCode {
     PARTIAL_CONTENT(206, "Partial Content"),
 
     /**
-     * 207 Multi-Status
+     * 「WebDAV」207 Multi-Status
      **/
     MULTI_STATUS(207, "Multi-Status"),
+
+    /**
+     * 「WebDAV」208 Already Reported
+     */
+    ALREADY_REPORTED(208, "Already Reported"),
+
     // ~ 3xx =================================================
     /**
      * 300 Multiple Choices
@@ -86,9 +92,9 @@ public enum HttpStatusCode {
     MOVED_PERMANENTLY(301, "Moved Permanently"),
 
     /**
-     * 302 Move Temporarily
+     * 302 Found
      **/
-    MOVE_TEMPORARILY(302, "Move Temporarily"),
+    FOUND(302, "Found"),
 
     /**
      * 303 See Other
@@ -114,6 +120,11 @@ public enum HttpStatusCode {
      * 307 Temporary Redirect
      **/
     TEMPORARY_REDIRECT(307, "Temporary Redirect"),
+
+    /**
+     * 308 Permanent Redirect
+     **/
+    PERMANENT_REDIRECT(308, "Permanent Redirect"),
     // ~ 4xx =================================================
     /**
      * 400 Bad Request
