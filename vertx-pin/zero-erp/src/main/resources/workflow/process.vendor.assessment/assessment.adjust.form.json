@@ -110,6 +110,7 @@
                 "commentLeader,项目经理意见,24,,aiTextArea,rows=2,placeholder=项目经理整改意见以及相关说明。"
             ]
         ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
         "RUN_TICKET": "RUN_PROCESS",
         "RUN_USER": "RUN_USER",
         "END_CLOSE": "END_STANDARD"

@@ -8,6 +8,7 @@ import cn.vertxup.lbs.domain.Db;
 import cn.vertxup.lbs.domain.Keys;
 import cn.vertxup.lbs.domain.tables.records.LFloorRecord;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;

@@ -1,0 +1,22 @@
+{
+    "items": [
+        "SC-MENU,服务目录菜单",
+        "TOP-MENU,顶部菜单",
+        "SIDE-MENU,主菜单",
+        "DEV-MENU,开发者菜单",
+        "SYS-MENU,实施者菜单"
+    ],
+    "webAdmit": [
+        "DEV-MENU",
+        "SYS-MENU"
+    ],
+    "webAction": {
+        "icon": "upload",
+        "text": "保存",
+        "type": "primary"
+    },
+    "webView": {
+        "name": "DEFAULT",
+        "position": "DEFAULT"
+    }
+}

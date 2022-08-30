@@ -20,26 +20,26 @@ public class FBank implements VertxPojo, IFBank {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        alias;
-    private String        logo;
-    private String        website;
-    private String        comment;
-    private String        branchName;
-    private String        branchCode;
-    private Boolean       branch;
-    private String        bankId;
-    private String        locationId;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String code;
+    private String alias;
+    private String logo;
+    private String website;
+    private String comment;
+    private String branchName;
+    private String branchCode;
+    private Boolean branch;
+    private String bankId;
+    private String locationId;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public FBank() {}
 
@@ -67,26 +67,26 @@ public class FBank implements VertxPojo, IFBank {
     }
 
     public FBank(
-        String        key,
-        String        name,
-        String        code,
-        String        alias,
-        String        logo,
-        String        website,
-        String        comment,
-        String        branchName,
-        String        branchCode,
-        Boolean       branch,
-        String        bankId,
-        String        locationId,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String code,
+        String alias,
+        String logo,
+        String website,
+        String comment,
+        String branchName,
+        String branchCode,
+        Boolean branch,
+        String bankId,
+        String locationId,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -455,6 +455,165 @@ public class FBank implements VertxPojo, IFBank {
     public FBank setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final FBank other = (FBank) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.alias == null) {
+            if (other.alias != null)
+                return false;
+        }
+        else if (!this.alias.equals(other.alias))
+            return false;
+        if (this.logo == null) {
+            if (other.logo != null)
+                return false;
+        }
+        else if (!this.logo.equals(other.logo))
+            return false;
+        if (this.website == null) {
+            if (other.website != null)
+                return false;
+        }
+        else if (!this.website.equals(other.website))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.branchName == null) {
+            if (other.branchName != null)
+                return false;
+        }
+        else if (!this.branchName.equals(other.branchName))
+            return false;
+        if (this.branchCode == null) {
+            if (other.branchCode != null)
+                return false;
+        }
+        else if (!this.branchCode.equals(other.branchCode))
+            return false;
+        if (this.branch == null) {
+            if (other.branch != null)
+                return false;
+        }
+        else if (!this.branch.equals(other.branch))
+            return false;
+        if (this.bankId == null) {
+            if (other.bankId != null)
+                return false;
+        }
+        else if (!this.bankId.equals(other.bankId))
+            return false;
+        if (this.locationId == null) {
+            if (other.locationId != null)
+                return false;
+        }
+        else if (!this.locationId.equals(other.locationId))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.alias == null) ? 0 : this.alias.hashCode());
+        result = prime * result + ((this.logo == null) ? 0 : this.logo.hashCode());
+        result = prime * result + ((this.website == null) ? 0 : this.website.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.branchName == null) ? 0 : this.branchName.hashCode());
+        result = prime * result + ((this.branchCode == null) ? 0 : this.branchCode.hashCode());
+        result = prime * result + ((this.branch == null) ? 0 : this.branch.hashCode());
+        result = prime * result + ((this.bankId == null) ? 0 : this.bankId.hashCode());
+        result = prime * result + ((this.locationId == null) ? 0 : this.locationId.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

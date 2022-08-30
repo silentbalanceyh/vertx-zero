@@ -3,6 +3,8 @@ package io.vertx.aeon.atom.secure;
 import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -31,16 +33,19 @@ public class HPermit implements Serializable {
      * -- 3. 查询模板
      * -- 4. 组件设置
      */
+    // ------------------- DIM 配置 --------------------
     private final JsonObject shapeQr = new JsonObject();
     private final JsonObject shapeConfig = new JsonObject();
-
+    private final JsonObject shapeMapping = new JsonObject();
+    // ------------------- UI 配置 --------------------
     private final JsonObject uiQr = new JsonObject();
-
     private final JsonObject uiConfig = new JsonObject();
-
     private final JsonObject uiSurface = new JsonObject();
+    private final String sigma;
     private ScDim shape = ScDim.NONE;
     private ScIn source = ScIn.NONE;
+
+    private ActPhase phase = ActPhase.EAGER;
 
     /*
      * 权限所需执行表
@@ -48,13 +53,18 @@ public class HPermit implements Serializable {
      * -- 2. 关联权限
      * -- 3. 关联接口
      */
-    private HPermit(final String code, final String name) {
+    private HPermit(final String code, final String sigma, final String name) {
         this.code = code;
+        this.sigma = sigma;
         this.name = name;
     }
 
-    public static HPermit create(final String code, final String name) {
-        return new HPermit(code, name);
+    public static HPermit create(final String code, final String sigma) {
+        return new HPermit(code, sigma, null);
+    }
+
+    public static HPermit create(final String code, final String sigma, final String name) {
+        return new HPermit(code, sigma, name);
     }
 
     // ===================== 维度配置
@@ -71,9 +81,57 @@ public class HPermit implements Serializable {
         return this;
     }
 
+    public HPermit shape(final JsonObject mapping) {
+        final JsonObject mappingJ = Ut.valueJObject(mapping);
+        this.shapeMapping.mergeIn(mappingJ, true);
+        return this;
+    }
+
+    // ===================== 配置提取
+    /*
+     * Shape处理的规范配置结构
+     * {
+     *     ...shapeConfig,
+     *     "mapping": shapeMapping,
+     *     "qr":      shapeQr
+     * }
+     *
+     * DM_MAPPING       -> mapping
+     * DM_CONDITION     -> qr
+     */
+    public JsonObject dmJ() {
+        final JsonObject shapeJ = this.shapeConfig.copy();
+        final JsonObject mappingJ = Ut.valueJObject(this.shapeMapping);
+        shapeJ.put(KName.MAPPING, mappingJ);
+        final JsonObject qrJ = Ut.valueJObject(this.shapeQr);
+        shapeJ.put(KName.Rbac.QR, qrJ);
+        return shapeJ;
+    }
+
+    /*
+     * UI处理的规范配置结构
+     * {
+     *     ...uiConfig,
+     *     "surface": uiSurface,
+     *     "qr":      uiQr
+     * }
+     *
+     * DM_SURFACE       -> surface
+     * DM_CONDITION     -> qr
+     */
+    public JsonObject uiJ() {
+        final JsonObject uiJ = this.uiConfig.copy();
+        final JsonObject qrJ = Ut.valueJObject(this.uiQr);
+        uiJ.put(KName.Rbac.QR, qrJ);
+        final JsonObject surfaceJ = Ut.valueJObject(this.uiSurface);
+        uiJ.put(KName.Rbac.SURFACE, surfaceJ);
+        return uiJ;
+    }
+
     // ===================== 界面配置
-    public HPermit ui(final ScIn scIn) {
-        this.source = scIn;
+    public HPermit ui(final ScIn source, final ActPhase phase) {
+        this.source = source;
+        this.phase = phase;
         return this;
     }
 
@@ -91,7 +149,7 @@ public class HPermit implements Serializable {
         return this;
     }
 
-    // ===================== 数据提取
+    // ===================== 枚举数据提取，表定义中拿
     public ScDim shape() {
         return this.shape;
     }
@@ -100,7 +158,20 @@ public class HPermit implements Serializable {
         return this.source;
     }
 
+    public ActPhase phase() {
+        return this.phase;
+    }
+
+    // ===================== 基础数据
     public String code() {
         return this.code;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String sigma() {
+        return this.sigma;
     }
 }

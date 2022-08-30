@@ -21,43 +21,43 @@ public class EContract implements VertxPojo, IEContract {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        deptId;
-    private String        type;
-    private String        status;
-    private String        budget;
-    private String        level;
-    private String        title;
-    private String        subject;
-    private String        description;
-    private BigDecimal    amount;
-    private String        remark;
+    private String key;
+    private String name;
+    private String code;
+    private String deptId;
+    private String type;
+    private String status;
+    private String budget;
+    private String level;
+    private String title;
+    private String subject;
+    private String description;
+    private BigDecimal amount;
+    private String remark;
     private LocalDateTime planStartAt;
     private LocalDateTime planEndAt;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private String        signedBy;
+    private String signedBy;
     private LocalDateTime signedAt;
-    private String        partyA;
-    private String        partyB;
-    private String        aName;
-    private String        aPhone;
-    private String        aLegal;
-    private String        aAddress;
-    private String        bName;
-    private String        bPhone;
-    private String        bLegal;
-    private String        bAddress;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private String partyA;
+    private String partyB;
+    private String aName;
+    private String aPhone;
+    private String aLegal;
+    private String aAddress;
+    private String bName;
+    private String bPhone;
+    private String bLegal;
+    private String bAddress;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EContract() {}
 
@@ -102,43 +102,43 @@ public class EContract implements VertxPojo, IEContract {
     }
 
     public EContract(
-        String        key,
-        String        name,
-        String        code,
-        String        deptId,
-        String        type,
-        String        status,
-        String        budget,
-        String        level,
-        String        title,
-        String        subject,
-        String        description,
-        BigDecimal    amount,
-        String        remark,
+        String key,
+        String name,
+        String code,
+        String deptId,
+        String type,
+        String status,
+        String budget,
+        String level,
+        String title,
+        String subject,
+        String description,
+        BigDecimal amount,
+        String remark,
         LocalDateTime planStartAt,
         LocalDateTime planEndAt,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        String        signedBy,
+        String signedBy,
         LocalDateTime signedAt,
-        String        partyA,
-        String        partyB,
-        String        aName,
-        String        aPhone,
-        String        aLegal,
-        String        aAddress,
-        String        bName,
-        String        bPhone,
-        String        bLegal,
-        String        bAddress,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        String partyA,
+        String partyB,
+        String aName,
+        String aPhone,
+        String aLegal,
+        String aAddress,
+        String bName,
+        String bPhone,
+        String bLegal,
+        String bAddress,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -849,6 +849,284 @@ public class EContract implements VertxPojo, IEContract {
     public EContract setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EContract other = (EContract) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.deptId == null) {
+            if (other.deptId != null)
+                return false;
+        }
+        else if (!this.deptId.equals(other.deptId))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.budget == null) {
+            if (other.budget != null)
+                return false;
+        }
+        else if (!this.budget.equals(other.budget))
+            return false;
+        if (this.level == null) {
+            if (other.level != null)
+                return false;
+        }
+        else if (!this.level.equals(other.level))
+            return false;
+        if (this.title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!this.title.equals(other.title))
+            return false;
+        if (this.subject == null) {
+            if (other.subject != null)
+                return false;
+        }
+        else if (!this.subject.equals(other.subject))
+            return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.remark == null) {
+            if (other.remark != null)
+                return false;
+        }
+        else if (!this.remark.equals(other.remark))
+            return false;
+        if (this.planStartAt == null) {
+            if (other.planStartAt != null)
+                return false;
+        }
+        else if (!this.planStartAt.equals(other.planStartAt))
+            return false;
+        if (this.planEndAt == null) {
+            if (other.planEndAt != null)
+                return false;
+        }
+        else if (!this.planEndAt.equals(other.planEndAt))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.signedBy == null) {
+            if (other.signedBy != null)
+                return false;
+        }
+        else if (!this.signedBy.equals(other.signedBy))
+            return false;
+        if (this.signedAt == null) {
+            if (other.signedAt != null)
+                return false;
+        }
+        else if (!this.signedAt.equals(other.signedAt))
+            return false;
+        if (this.partyA == null) {
+            if (other.partyA != null)
+                return false;
+        }
+        else if (!this.partyA.equals(other.partyA))
+            return false;
+        if (this.partyB == null) {
+            if (other.partyB != null)
+                return false;
+        }
+        else if (!this.partyB.equals(other.partyB))
+            return false;
+        if (this.aName == null) {
+            if (other.aName != null)
+                return false;
+        }
+        else if (!this.aName.equals(other.aName))
+            return false;
+        if (this.aPhone == null) {
+            if (other.aPhone != null)
+                return false;
+        }
+        else if (!this.aPhone.equals(other.aPhone))
+            return false;
+        if (this.aLegal == null) {
+            if (other.aLegal != null)
+                return false;
+        }
+        else if (!this.aLegal.equals(other.aLegal))
+            return false;
+        if (this.aAddress == null) {
+            if (other.aAddress != null)
+                return false;
+        }
+        else if (!this.aAddress.equals(other.aAddress))
+            return false;
+        if (this.bName == null) {
+            if (other.bName != null)
+                return false;
+        }
+        else if (!this.bName.equals(other.bName))
+            return false;
+        if (this.bPhone == null) {
+            if (other.bPhone != null)
+                return false;
+        }
+        else if (!this.bPhone.equals(other.bPhone))
+            return false;
+        if (this.bLegal == null) {
+            if (other.bLegal != null)
+                return false;
+        }
+        else if (!this.bLegal.equals(other.bLegal))
+            return false;
+        if (this.bAddress == null) {
+            if (other.bAddress != null)
+                return false;
+        }
+        else if (!this.bAddress.equals(other.bAddress))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.deptId == null) ? 0 : this.deptId.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.budget == null) ? 0 : this.budget.hashCode());
+        result = prime * result + ((this.level == null) ? 0 : this.level.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.subject == null) ? 0 : this.subject.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.remark == null) ? 0 : this.remark.hashCode());
+        result = prime * result + ((this.planStartAt == null) ? 0 : this.planStartAt.hashCode());
+        result = prime * result + ((this.planEndAt == null) ? 0 : this.planEndAt.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.signedBy == null) ? 0 : this.signedBy.hashCode());
+        result = prime * result + ((this.signedAt == null) ? 0 : this.signedAt.hashCode());
+        result = prime * result + ((this.partyA == null) ? 0 : this.partyA.hashCode());
+        result = prime * result + ((this.partyB == null) ? 0 : this.partyB.hashCode());
+        result = prime * result + ((this.aName == null) ? 0 : this.aName.hashCode());
+        result = prime * result + ((this.aPhone == null) ? 0 : this.aPhone.hashCode());
+        result = prime * result + ((this.aLegal == null) ? 0 : this.aLegal.hashCode());
+        result = prime * result + ((this.aAddress == null) ? 0 : this.aAddress.hashCode());
+        result = prime * result + ((this.bName == null) ? 0 : this.bName.hashCode());
+        result = prime * result + ((this.bPhone == null) ? 0 : this.bPhone.hashCode());
+        result = prime * result + ((this.bLegal == null) ? 0 : this.bLegal.hashCode());
+        result = prime * result + ((this.bAddress == null) ? 0 : this.bAddress.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -1,12 +1,12 @@
 package cn.vertxup.rbac.api;
 
-import cn.vertxup.rbac.service.batch.IdcStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
+import io.vertx.tp.rbac.acl.relation.IdcStub;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;

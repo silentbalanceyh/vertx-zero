@@ -21,35 +21,35 @@ public class POutItem implements VertxPojo, IPOutItem {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        status;
-    private String        commodityId;
-    private String        commodityCode;
-    private String        commodityName;
-    private String        commodityLogo;
-    private String        customerId;
-    private String        fromName;
-    private String        fromCode;
-    private String        ticketId;
-    private String        whId;
-    private Integer       num;
-    private BigDecimal    amount;
-    private BigDecimal    price;
-    private String        comment;
-    private BigDecimal    costPerBasis;
-    private BigDecimal    costPer;
-    private BigDecimal    costAmount;
-    private BigDecimal    discountAmount;
-    private BigDecimal    discountRate;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String serial;
+    private String status;
+    private String commodityId;
+    private String commodityCode;
+    private String commodityName;
+    private String commodityLogo;
+    private String customerId;
+    private String fromName;
+    private String fromCode;
+    private String ticketId;
+    private String whId;
+    private Integer num;
+    private BigDecimal amount;
+    private BigDecimal price;
+    private String comment;
+    private BigDecimal costPerBasis;
+    private BigDecimal costPer;
+    private BigDecimal costAmount;
+    private BigDecimal discountAmount;
+    private BigDecimal discountRate;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public POutItem() {}
 
@@ -86,35 +86,35 @@ public class POutItem implements VertxPojo, IPOutItem {
     }
 
     public POutItem(
-        String        key,
-        String        serial,
-        String        status,
-        String        commodityId,
-        String        commodityCode,
-        String        commodityName,
-        String        commodityLogo,
-        String        customerId,
-        String        fromName,
-        String        fromCode,
-        String        ticketId,
-        String        whId,
-        Integer       num,
-        BigDecimal    amount,
-        BigDecimal    price,
-        String        comment,
-        BigDecimal    costPerBasis,
-        BigDecimal    costPer,
-        BigDecimal    costAmount,
-        BigDecimal    discountAmount,
-        BigDecimal    discountRate,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String serial,
+        String status,
+        String commodityId,
+        String commodityCode,
+        String commodityName,
+        String commodityLogo,
+        String customerId,
+        String fromName,
+        String fromCode,
+        String ticketId,
+        String whId,
+        Integer num,
+        BigDecimal amount,
+        BigDecimal price,
+        String comment,
+        BigDecimal costPerBasis,
+        BigDecimal costPer,
+        BigDecimal costAmount,
+        BigDecimal discountAmount,
+        BigDecimal discountRate,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -679,6 +679,228 @@ public class POutItem implements VertxPojo, IPOutItem {
     public POutItem setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final POutItem other = (POutItem) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.commodityId == null) {
+            if (other.commodityId != null)
+                return false;
+        }
+        else if (!this.commodityId.equals(other.commodityId))
+            return false;
+        if (this.commodityCode == null) {
+            if (other.commodityCode != null)
+                return false;
+        }
+        else if (!this.commodityCode.equals(other.commodityCode))
+            return false;
+        if (this.commodityName == null) {
+            if (other.commodityName != null)
+                return false;
+        }
+        else if (!this.commodityName.equals(other.commodityName))
+            return false;
+        if (this.commodityLogo == null) {
+            if (other.commodityLogo != null)
+                return false;
+        }
+        else if (!this.commodityLogo.equals(other.commodityLogo))
+            return false;
+        if (this.customerId == null) {
+            if (other.customerId != null)
+                return false;
+        }
+        else if (!this.customerId.equals(other.customerId))
+            return false;
+        if (this.fromName == null) {
+            if (other.fromName != null)
+                return false;
+        }
+        else if (!this.fromName.equals(other.fromName))
+            return false;
+        if (this.fromCode == null) {
+            if (other.fromCode != null)
+                return false;
+        }
+        else if (!this.fromCode.equals(other.fromCode))
+            return false;
+        if (this.ticketId == null) {
+            if (other.ticketId != null)
+                return false;
+        }
+        else if (!this.ticketId.equals(other.ticketId))
+            return false;
+        if (this.whId == null) {
+            if (other.whId != null)
+                return false;
+        }
+        else if (!this.whId.equals(other.whId))
+            return false;
+        if (this.num == null) {
+            if (other.num != null)
+                return false;
+        }
+        else if (!this.num.equals(other.num))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.price == null) {
+            if (other.price != null)
+                return false;
+        }
+        else if (!this.price.equals(other.price))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.costPerBasis == null) {
+            if (other.costPerBasis != null)
+                return false;
+        }
+        else if (!this.costPerBasis.equals(other.costPerBasis))
+            return false;
+        if (this.costPer == null) {
+            if (other.costPer != null)
+                return false;
+        }
+        else if (!this.costPer.equals(other.costPer))
+            return false;
+        if (this.costAmount == null) {
+            if (other.costAmount != null)
+                return false;
+        }
+        else if (!this.costAmount.equals(other.costAmount))
+            return false;
+        if (this.discountAmount == null) {
+            if (other.discountAmount != null)
+                return false;
+        }
+        else if (!this.discountAmount.equals(other.discountAmount))
+            return false;
+        if (this.discountRate == null) {
+            if (other.discountRate != null)
+                return false;
+        }
+        else if (!this.discountRate.equals(other.discountRate))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.commodityId == null) ? 0 : this.commodityId.hashCode());
+        result = prime * result + ((this.commodityCode == null) ? 0 : this.commodityCode.hashCode());
+        result = prime * result + ((this.commodityName == null) ? 0 : this.commodityName.hashCode());
+        result = prime * result + ((this.commodityLogo == null) ? 0 : this.commodityLogo.hashCode());
+        result = prime * result + ((this.customerId == null) ? 0 : this.customerId.hashCode());
+        result = prime * result + ((this.fromName == null) ? 0 : this.fromName.hashCode());
+        result = prime * result + ((this.fromCode == null) ? 0 : this.fromCode.hashCode());
+        result = prime * result + ((this.ticketId == null) ? 0 : this.ticketId.hashCode());
+        result = prime * result + ((this.whId == null) ? 0 : this.whId.hashCode());
+        result = prime * result + ((this.num == null) ? 0 : this.num.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.price == null) ? 0 : this.price.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.costPerBasis == null) ? 0 : this.costPerBasis.hashCode());
+        result = prime * result + ((this.costPer == null) ? 0 : this.costPer.hashCode());
+        result = prime * result + ((this.costAmount == null) ? 0 : this.costAmount.hashCode());
+        result = prime * result + ((this.discountAmount == null) ? 0 : this.discountAmount.hashCode());
+        result = prime * result + ((this.discountRate == null) ? 0 : this.discountRate.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

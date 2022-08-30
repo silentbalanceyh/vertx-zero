@@ -10,8 +10,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.tp.plugin.stomp.socket.ServerWsHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.extension.AbstractAres;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.util.Ut;
-import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 
@@ -28,7 +28,7 @@ public class AresStomp extends AbstractAres {
     @Override
     public void configure(final HttpServerOptions options) {
         super.configure(options);
-        final SockOptions sockOptions = ZeroAtomic.SOCK_OPTS.get(options.getPort());
+        final SockOptions sockOptions = ZeroGrid.getSockOptions().get(options.getPort());
         Objects.requireNonNull(sockOptions);
         final HttpServerOptions configured = sockOptions.options();
         if (Objects.nonNull(configured)) {
@@ -49,7 +49,7 @@ public class AresStomp extends AbstractAres {
 
     @Override
     public void mount(final Router router, final JsonObject config) {
-        final SockOptions sockOptions = ZeroAtomic.SOCK_OPTS.get(this.options.getPort());
+        final SockOptions sockOptions = ZeroGrid.getSockOptions().get(this.options.getPort());
         Objects.requireNonNull(sockOptions);
         final JsonObject stompJ = Ut.valueJObject(sockOptions.getConfig(), "stomp");
         final StompServerOptions stompOptions = new StompServerOptions(stompJ);

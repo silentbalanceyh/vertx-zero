@@ -7,10 +7,13 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.RRolePermRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -94,6 +97,11 @@ public class RRolePerm extends TableImpl<RRolePermRecord> {
         return new RRolePerm(alias, this);
     }
 
+    @Override
+    public RRolePerm as(Table<?> alias) {
+        return new RRolePerm(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -110,6 +118,14 @@ public class RRolePerm extends TableImpl<RRolePermRecord> {
         return new RRolePerm(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RRolePerm rename(Table<?> name) {
+        return new RRolePerm(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row2 type methods
     // -------------------------------------------------------------------------
@@ -117,5 +133,20 @@ public class RRolePerm extends TableImpl<RRolePermRecord> {
     @Override
     public Row2<String, String> fieldsRow() {
         return (Row2) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function2<? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function2<? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

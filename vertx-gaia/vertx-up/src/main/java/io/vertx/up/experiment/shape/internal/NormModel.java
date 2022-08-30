@@ -8,7 +8,7 @@ import io.vertx.up.experiment.mu.KClass;
 import io.vertx.up.experiment.mu.KHybrid;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;

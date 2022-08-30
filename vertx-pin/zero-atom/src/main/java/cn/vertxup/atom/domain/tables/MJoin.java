@@ -8,6 +8,7 @@ import cn.vertxup.atom.domain.Db;
 import cn.vertxup.atom.domain.Indexes;
 import cn.vertxup.atom.domain.Keys;
 import cn.vertxup.atom.domain.tables.records.MJoinRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -117,6 +119,11 @@ public class MJoin extends TableImpl<MJoinRecord> {
         return new MJoin(alias, this);
     }
 
+    @Override
+    public MJoin as(Table<?> alias) {
+        return new MJoin(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -133,6 +140,14 @@ public class MJoin extends TableImpl<MJoinRecord> {
         return new MJoin(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public MJoin rename(Table<?> name) {
+        return new MJoin(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row5 type methods
     // -------------------------------------------------------------------------
@@ -140,5 +155,20 @@ public class MJoin extends TableImpl<MJoinRecord> {
     @Override
     public Row5<String, String, String, Integer, String> fieldsRow() {
         return (Row5) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function5<? super String, ? super String, ? super String, ? super Integer, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super String, ? super String, ? super String, ? super Integer, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

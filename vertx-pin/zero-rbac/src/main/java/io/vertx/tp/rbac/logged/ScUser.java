@@ -11,6 +11,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Cc;
@@ -60,7 +61,7 @@ public class ScUser {
             .forEach(futures::add);
         return CompositeFuture.join(futures)
             /* Composite Result */
-            .compose(Sc::<ProfileRole>composite)
+            .compose(Fn::<ProfileRole>combineT)
             /* User Process */
             .compose(ScDetent.user(profile)::procAsync);
     }
@@ -76,7 +77,7 @@ public class ScUser {
             .forEach(futures::add);
         final Refer parentHod = new Refer();
         final Refer childHod = new Refer();
-        return CompositeFuture.join(futures).compose(Sc::<ProfileGroup>composite).compose(profiles -> Ux.future(profiles)
+        return CompositeFuture.join(futures).compose(Fn::<ProfileGroup>combineT).compose(profiles -> Ux.future(profiles)
             /* Group Direct Mode */
             .compose(Align::flat)
             .compose(ScDetent.group(profile)::procAsync)

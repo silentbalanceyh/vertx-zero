@@ -48,6 +48,16 @@ public interface ISPath extends VertxPojo, Serializable {
     public String getCode();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
+     */
+    public ISPath setPhase(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
+     */
+    public String getPhase();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
      * ui 转换
      */
@@ -70,6 +80,18 @@ public interface ISPath extends VertxPojo, Serializable {
      * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
     public String getRunComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
+     */
+    public ISPath setRunType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
+     */
+    public String getRunType();
 
     /**
      * Setter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
@@ -284,8 +306,10 @@ public interface ISPath extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
+                setOrThrow(this::setPhase,json::getString,"PHASE","java.lang.String");
                 setOrThrow(this::setMapping,json::getString,"MAPPING","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunType,json::getString,"RUN_TYPE","java.lang.String");
                 setOrThrow(this::setDmType,json::getString,"DM_TYPE","java.lang.String");
                 setOrThrow(this::setDmComponent,json::getString,"DM_COMPONENT","java.lang.String");
                 setOrThrow(this::setDmCondition,json::getString,"DM_CONDITION","java.lang.String");
@@ -314,8 +338,10 @@ public interface ISPath extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
+                json.put("PHASE",getPhase());
                 json.put("MAPPING",getMapping());
                 json.put("RUN_COMPONENT",getRunComponent());
+                json.put("RUN_TYPE",getRunType());
                 json.put("DM_TYPE",getDmType());
                 json.put("DM_COMPONENT",getDmComponent());
                 json.put("DM_CONDITION",getDmCondition());

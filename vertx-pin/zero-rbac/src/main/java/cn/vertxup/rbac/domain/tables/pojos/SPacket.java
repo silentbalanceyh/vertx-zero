@@ -20,42 +20,46 @@ public class SPacket implements VertxPojo, ISPacket {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        pathId;
-    private String        resourceId;
-    private String        rowType;
-    private String        rowField;
-    private String        rowTpl;
-    private String        rowTplMapping;
-    private String        colType;
-    private String        colConfig;
-    private String        condTpl;
-    private String        condTplMapping;
-    private String        condConfig;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String code;
+    private String resource;
+    private String hType;
+    private String hMapping;
+    private String hConfig;
+    private String vType;
+    private String vMapping;
+    private String vConfig;
+    private String qType;
+    private String qMapping;
+    private String qConfig;
+    private String runComponent;
+    private String runConfig;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public SPacket() {}
 
     public SPacket(ISPacket value) {
         this.key = value.getKey();
-        this.pathId = value.getPathId();
-        this.resourceId = value.getResourceId();
-        this.rowType = value.getRowType();
-        this.rowField = value.getRowField();
-        this.rowTpl = value.getRowTpl();
-        this.rowTplMapping = value.getRowTplMapping();
-        this.colType = value.getColType();
-        this.colConfig = value.getColConfig();
-        this.condTpl = value.getCondTpl();
-        this.condTplMapping = value.getCondTplMapping();
-        this.condConfig = value.getCondConfig();
+        this.code = value.getCode();
+        this.resource = value.getResource();
+        this.hType = value.getHType();
+        this.hMapping = value.getHMapping();
+        this.hConfig = value.getHConfig();
+        this.vType = value.getVType();
+        this.vMapping = value.getVMapping();
+        this.vConfig = value.getVConfig();
+        this.qType = value.getQType();
+        this.qMapping = value.getQMapping();
+        this.qConfig = value.getQConfig();
+        this.runComponent = value.getRunComponent();
+        this.runConfig = value.getRunConfig();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -67,39 +71,43 @@ public class SPacket implements VertxPojo, ISPacket {
     }
 
     public SPacket(
-        String        key,
-        String        pathId,
-        String        resourceId,
-        String        rowType,
-        String        rowField,
-        String        rowTpl,
-        String        rowTplMapping,
-        String        colType,
-        String        colConfig,
-        String        condTpl,
-        String        condTplMapping,
-        String        condConfig,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String code,
+        String resource,
+        String hType,
+        String hMapping,
+        String hConfig,
+        String vType,
+        String vMapping,
+        String vConfig,
+        String qType,
+        String qMapping,
+        String qConfig,
+        String runComponent,
+        String runConfig,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
-        this.pathId = pathId;
-        this.resourceId = resourceId;
-        this.rowType = rowType;
-        this.rowField = rowField;
-        this.rowTpl = rowTpl;
-        this.rowTplMapping = rowTplMapping;
-        this.colType = colType;
-        this.colConfig = colConfig;
-        this.condTpl = condTpl;
-        this.condTplMapping = condTplMapping;
-        this.condConfig = condConfig;
+        this.code = code;
+        this.resource = resource;
+        this.hType = hType;
+        this.hMapping = hMapping;
+        this.hConfig = hConfig;
+        this.vType = vType;
+        this.vMapping = vMapping;
+        this.vConfig = vConfig;
+        this.qType = qType;
+        this.qMapping = qMapping;
+        this.qConfig = qConfig;
+        this.runComponent = runComponent;
+        this.runConfig = runConfig;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -133,199 +141,239 @@ public class SPacket implements VertxPojo, ISPacket {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.PATH_ID</code>. 「pathId」- 关联的 path
-     * id，包含关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.CODE</code>. 「code」- 关联的 PATH 表对应的
+     * code
      */
     @Override
-    public String getPathId() {
-        return this.pathId;
+    public String getCode() {
+        return this.code;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.PATH_ID</code>. 「pathId」- 关联的 path
-     * id，包含关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.CODE</code>. 「code」- 关联的 PATH 表对应的
+     * code
      */
     @Override
-    public SPacket setPathId(String pathId) {
-        this.pathId = pathId;
+    public SPacket setCode(String code) {
+        this.code = code;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.RESOURCE_ID</code>. 「resourceId」-
-     * 关联的资源 id
+     * Getter for <code>DB_ETERNAL.S_PACKET.RESOURCE</code>. 「resource」-
+     * 关联的资源表对应的 code
      */
     @Override
-    public String getResourceId() {
-        return this.resourceId;
+    public String getResource() {
+        return this.resource;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.RESOURCE_ID</code>. 「resourceId」-
-     * 关联的资源 id
+     * Setter for <code>DB_ETERNAL.S_PACKET.RESOURCE</code>. 「resource」-
+     * 关联的资源表对应的 code
      */
     @Override
-    public SPacket setResourceId(String resourceId) {
-        this.resourceId = resourceId;
+    public SPacket setResource(String resource) {
+        this.resource = resource;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TYPE</code>. 「rowType」- 行过滤类型
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_TYPE</code>. 「hType」- 行过滤类型
      */
     @Override
-    public String getRowType() {
-        return this.rowType;
+    public String getHType() {
+        return this.hType;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TYPE</code>. 「rowType」- 行过滤类型
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_TYPE</code>. 「hType」- 行过滤类型
      */
     @Override
-    public SPacket setRowType(String rowType) {
-        this.rowType = rowType;
+    public SPacket setHType(String hType) {
+        this.hType = hType;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_FIELD</code>. 「rowField」- 行输入
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_MAPPING</code>. 「hMapping」-
+     * 字段映射关系，存在转换时必须
      */
     @Override
-    public String getRowField() {
-        return this.rowField;
+    public String getHMapping() {
+        return this.hMapping;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_FIELD</code>. 「rowField」- 行输入
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_MAPPING</code>. 「hMapping」-
+     * 字段映射关系，存在转换时必须
      */
     @Override
-    public SPacket setRowField(String rowField) {
-        this.rowField = rowField;
+    public SPacket setHMapping(String hMapping) {
+        this.hMapping = hMapping;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TPL</code>. 「rowTpl」- 多字段的模板
+     * Getter for <code>DB_ETERNAL.S_PACKET.H_CONFIG</code>. 「hConfig」- 字段附加配置
      */
     @Override
-    public String getRowTpl() {
-        return this.rowTpl;
+    public String getHConfig() {
+        return this.hConfig;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TPL</code>. 「rowTpl」- 多字段的模板
+     * Setter for <code>DB_ETERNAL.S_PACKET.H_CONFIG</code>. 「hConfig」- 字段附加配置
      */
     @Override
-    public SPacket setRowTpl(String rowTpl) {
-        this.rowTpl = rowTpl;
+    public SPacket setHConfig(String hConfig) {
+        this.hConfig = hConfig;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.ROW_TPL_MAPPING</code>.
-     * 「rowTplMapping」- 多字段的映射关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_TYPE</code>. 「vType」- 列过滤类型
      */
     @Override
-    public String getRowTplMapping() {
-        return this.rowTplMapping;
+    public String getVType() {
+        return this.vType;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.ROW_TPL_MAPPING</code>.
-     * 「rowTplMapping」- 多字段的映射关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_TYPE</code>. 「vType」- 列过滤类型
      */
     @Override
-    public SPacket setRowTplMapping(String rowTplMapping) {
-        this.rowTplMapping = rowTplMapping;
+    public SPacket setVType(String vType) {
+        this.vType = vType;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COL_TYPE</code>. 「colType」- 列过滤类型
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_MAPPING</code>. 「vMapping」-
+     * 列字段映射关系，存在转换时必须
      */
     @Override
-    public String getColType() {
-        return this.colType;
+    public String getVMapping() {
+        return this.vMapping;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COL_TYPE</code>. 「colType」- 列过滤类型
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_MAPPING</code>. 「vMapping」-
+     * 列字段映射关系，存在转换时必须
      */
     @Override
-    public SPacket setColType(String colType) {
-        this.colType = colType;
+    public SPacket setVMapping(String vMapping) {
+        this.vMapping = vMapping;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COL_CONFIG</code>. 「colConfig」- 列配置
+     * Getter for <code>DB_ETERNAL.S_PACKET.V_CONFIG</code>. 「vConfig」- 列配置
      */
     @Override
-    public String getColConfig() {
-        return this.colConfig;
+    public String getVConfig() {
+        return this.vConfig;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COL_CONFIG</code>. 「colConfig」- 列配置
+     * Setter for <code>DB_ETERNAL.S_PACKET.V_CONFIG</code>. 「vConfig」- 列配置
      */
     @Override
-    public SPacket setColConfig(String colConfig) {
-        this.colConfig = colConfig;
+    public SPacket setVConfig(String vConfig) {
+        this.vConfig = vConfig;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_TPL</code>. 「condTpl」- 条件模板
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_TYPE</code>. 「qType」- 条件模板
      */
     @Override
-    public String getCondTpl() {
-        return this.condTpl;
+    public String getQType() {
+        return this.qType;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_TPL</code>. 「condTpl」- 条件模板
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_TYPE</code>. 「qType」- 条件模板
      */
     @Override
-    public SPacket setCondTpl(String condTpl) {
-        this.condTpl = condTpl;
+    public SPacket setQType(String qType) {
+        this.qType = qType;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>.
-     * 「condTplMapping」- 查询条件映射关系
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_MAPPING</code>. 「qMapping」-
+     * 查询条件映射关系
      */
     @Override
-    public String getCondTplMapping() {
-        return this.condTplMapping;
+    public String getQMapping() {
+        return this.qMapping;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>.
-     * 「condTplMapping」- 查询条件映射关系
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_MAPPING</code>. 「qMapping」-
+     * 查询条件映射关系
      */
     @Override
-    public SPacket setCondTplMapping(String condTplMapping) {
-        this.condTplMapping = condTplMapping;
+    public SPacket setQMapping(String qMapping) {
+        this.qMapping = qMapping;
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」-
+     * Getter for <code>DB_ETERNAL.S_PACKET.Q_CONFIG</code>. 「qConfig」-
      * 条件配置（界面配置相关）
      */
     @Override
-    public String getCondConfig() {
-        return this.condConfig;
+    public String getQConfig() {
+        return this.qConfig;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」-
+     * Setter for <code>DB_ETERNAL.S_PACKET.Q_CONFIG</code>. 「qConfig」-
      * 条件配置（界面配置相关）
      */
     @Override
-    public SPacket setCondConfig(String condConfig) {
-        this.condConfig = condConfig;
+    public SPacket setQConfig(String qConfig) {
+        this.qConfig = qConfig;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.RUN_COMPONENT</code>.
+     * 「runComponent」- 自定义模式下的组件
+     */
+    @Override
+    public String getRunComponent() {
+        return this.runComponent;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.RUN_COMPONENT</code>.
+     * 「runComponent」- 自定义模式下的组件
+     */
+    @Override
+    public SPacket setRunComponent(String runComponent) {
+        this.runComponent = runComponent;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.RUN_CONFIG</code>. 「runConfig」-
+     * 运行专用配置
+     */
+    @Override
+    public String getRunConfig() {
+        return this.runConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.RUN_CONFIG</code>. 「runConfig」-
+     * 运行专用配置
+     */
+    @Override
+    public SPacket setRunConfig(String runConfig) {
+        this.runConfig = runConfig;
         return this;
     }
 
@@ -466,21 +514,196 @@ public class SPacket implements VertxPojo, ISPacket {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SPacket other = (SPacket) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.resource == null) {
+            if (other.resource != null)
+                return false;
+        }
+        else if (!this.resource.equals(other.resource))
+            return false;
+        if (this.hType == null) {
+            if (other.hType != null)
+                return false;
+        }
+        else if (!this.hType.equals(other.hType))
+            return false;
+        if (this.hMapping == null) {
+            if (other.hMapping != null)
+                return false;
+        }
+        else if (!this.hMapping.equals(other.hMapping))
+            return false;
+        if (this.hConfig == null) {
+            if (other.hConfig != null)
+                return false;
+        }
+        else if (!this.hConfig.equals(other.hConfig))
+            return false;
+        if (this.vType == null) {
+            if (other.vType != null)
+                return false;
+        }
+        else if (!this.vType.equals(other.vType))
+            return false;
+        if (this.vMapping == null) {
+            if (other.vMapping != null)
+                return false;
+        }
+        else if (!this.vMapping.equals(other.vMapping))
+            return false;
+        if (this.vConfig == null) {
+            if (other.vConfig != null)
+                return false;
+        }
+        else if (!this.vConfig.equals(other.vConfig))
+            return false;
+        if (this.qType == null) {
+            if (other.qType != null)
+                return false;
+        }
+        else if (!this.qType.equals(other.qType))
+            return false;
+        if (this.qMapping == null) {
+            if (other.qMapping != null)
+                return false;
+        }
+        else if (!this.qMapping.equals(other.qMapping))
+            return false;
+        if (this.qConfig == null) {
+            if (other.qConfig != null)
+                return false;
+        }
+        else if (!this.qConfig.equals(other.qConfig))
+            return false;
+        if (this.runComponent == null) {
+            if (other.runComponent != null)
+                return false;
+        }
+        else if (!this.runComponent.equals(other.runComponent))
+            return false;
+        if (this.runConfig == null) {
+            if (other.runConfig != null)
+                return false;
+        }
+        else if (!this.runConfig.equals(other.runConfig))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.resource == null) ? 0 : this.resource.hashCode());
+        result = prime * result + ((this.hType == null) ? 0 : this.hType.hashCode());
+        result = prime * result + ((this.hMapping == null) ? 0 : this.hMapping.hashCode());
+        result = prime * result + ((this.hConfig == null) ? 0 : this.hConfig.hashCode());
+        result = prime * result + ((this.vType == null) ? 0 : this.vType.hashCode());
+        result = prime * result + ((this.vMapping == null) ? 0 : this.vMapping.hashCode());
+        result = prime * result + ((this.vConfig == null) ? 0 : this.vConfig.hashCode());
+        result = prime * result + ((this.qType == null) ? 0 : this.qType.hashCode());
+        result = prime * result + ((this.qMapping == null) ? 0 : this.qMapping.hashCode());
+        result = prime * result + ((this.qConfig == null) ? 0 : this.qConfig.hashCode());
+        result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
+        result = prime * result + ((this.runConfig == null) ? 0 : this.runConfig.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("SPacket (");
 
         sb.append(key);
-        sb.append(", ").append(pathId);
-        sb.append(", ").append(resourceId);
-        sb.append(", ").append(rowType);
-        sb.append(", ").append(rowField);
-        sb.append(", ").append(rowTpl);
-        sb.append(", ").append(rowTplMapping);
-        sb.append(", ").append(colType);
-        sb.append(", ").append(colConfig);
-        sb.append(", ").append(condTpl);
-        sb.append(", ").append(condTplMapping);
-        sb.append(", ").append(condConfig);
+        sb.append(", ").append(code);
+        sb.append(", ").append(resource);
+        sb.append(", ").append(hType);
+        sb.append(", ").append(hMapping);
+        sb.append(", ").append(hConfig);
+        sb.append(", ").append(vType);
+        sb.append(", ").append(vMapping);
+        sb.append(", ").append(vConfig);
+        sb.append(", ").append(qType);
+        sb.append(", ").append(qMapping);
+        sb.append(", ").append(qConfig);
+        sb.append(", ").append(runComponent);
+        sb.append(", ").append(runConfig);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -501,17 +724,19 @@ public class SPacket implements VertxPojo, ISPacket {
     @Override
     public void from(ISPacket from) {
         setKey(from.getKey());
-        setPathId(from.getPathId());
-        setResourceId(from.getResourceId());
-        setRowType(from.getRowType());
-        setRowField(from.getRowField());
-        setRowTpl(from.getRowTpl());
-        setRowTplMapping(from.getRowTplMapping());
-        setColType(from.getColType());
-        setColConfig(from.getColConfig());
-        setCondTpl(from.getCondTpl());
-        setCondTplMapping(from.getCondTplMapping());
-        setCondConfig(from.getCondConfig());
+        setCode(from.getCode());
+        setResource(from.getResource());
+        setHType(from.getHType());
+        setHMapping(from.getHMapping());
+        setHConfig(from.getHConfig());
+        setVType(from.getVType());
+        setVMapping(from.getVMapping());
+        setVConfig(from.getVConfig());
+        setQType(from.getQType());
+        setQMapping(from.getQMapping());
+        setQConfig(from.getQConfig());
+        setRunComponent(from.getRunComponent());
+        setRunConfig(from.getRunConfig());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

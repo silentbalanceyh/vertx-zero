@@ -1,5 +1,6 @@
 package io.vertx.up.fn;
 
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
@@ -575,6 +576,11 @@ public final class Fn {
         return War.combineT(futures);
     }
 
+    public static <T> Future<List<T>> combineT(
+        final CompositeFuture res) {
+        return War.combineT(res);
+    }
+
     public static <T> Future<Set<T>> combineT(
         final Set<Future<T>> futures) {
         return War.combineT(futures);
@@ -742,5 +748,21 @@ public final class Fn {
         final JsonArray source,
         final Function<JsonObject, Future<JsonArray>> generateFun) {
         return comicA(source, JsonObject.class, generateFun);
+    }
+
+    /*
+     * The workflow processing here.
+     *
+     * 1. Extract object reference from JsonObject 'input' by `field`
+     * 2. Check the code flow by the object reference type 'JsonArray' or 'JsonObject'
+     * 3. Execute different function that input
+     * -- JsonObject: itemFnJ
+     * -- JsonArray:  itemFnA
+     * 4. Put the result of each function back into input
+     */
+    public static <J, A> Future<JsonObject> choiceJ(final JsonObject input, final String field,
+                                                    final Function<JsonObject, Future<J>> itemFnJ,
+                                                    final Function<JsonArray, Future<A>> itemFnA) {
+        return War.choiceJ(input, field, itemFnJ, itemFnA);
     }
 }

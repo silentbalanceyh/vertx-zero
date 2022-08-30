@@ -21,36 +21,36 @@ public class EProject implements VertxPojo, IEProject {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        shortName;
-    private String        deptId;
-    private String        type;
-    private String        status;
-    private String        budget;
-    private String        level;
-    private String        priority;
-    private String        risk;
-    private String        title;
-    private String        icon;
-    private BigDecimal    amount;
-    private String        subject;
-    private String        description;
-    private String        remark;
-    private String        leadBy;
+    private String key;
+    private String name;
+    private String code;
+    private String shortName;
+    private String deptId;
+    private String type;
+    private String status;
+    private String budget;
+    private String level;
+    private String priority;
+    private String risk;
+    private String title;
+    private String icon;
+    private BigDecimal amount;
+    private String subject;
+    private String description;
+    private String remark;
+    private String leadBy;
     private LocalDateTime planStartAt;
     private LocalDateTime planEndAt;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EProject() {}
 
@@ -88,36 +88,36 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     public EProject(
-        String        key,
-        String        name,
-        String        code,
-        String        shortName,
-        String        deptId,
-        String        type,
-        String        status,
-        String        budget,
-        String        level,
-        String        priority,
-        String        risk,
-        String        title,
-        String        icon,
-        BigDecimal    amount,
-        String        subject,
-        String        description,
-        String        remark,
-        String        leadBy,
+        String key,
+        String name,
+        String code,
+        String shortName,
+        String deptId,
+        String type,
+        String status,
+        String budget,
+        String level,
+        String priority,
+        String risk,
+        String title,
+        String icon,
+        BigDecimal amount,
+        String subject,
+        String description,
+        String remark,
+        String leadBy,
         LocalDateTime planStartAt,
         LocalDateTime planEndAt,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -690,6 +690,235 @@ public class EProject implements VertxPojo, IEProject {
     public EProject setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EProject other = (EProject) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.shortName == null) {
+            if (other.shortName != null)
+                return false;
+        }
+        else if (!this.shortName.equals(other.shortName))
+            return false;
+        if (this.deptId == null) {
+            if (other.deptId != null)
+                return false;
+        }
+        else if (!this.deptId.equals(other.deptId))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.budget == null) {
+            if (other.budget != null)
+                return false;
+        }
+        else if (!this.budget.equals(other.budget))
+            return false;
+        if (this.level == null) {
+            if (other.level != null)
+                return false;
+        }
+        else if (!this.level.equals(other.level))
+            return false;
+        if (this.priority == null) {
+            if (other.priority != null)
+                return false;
+        }
+        else if (!this.priority.equals(other.priority))
+            return false;
+        if (this.risk == null) {
+            if (other.risk != null)
+                return false;
+        }
+        else if (!this.risk.equals(other.risk))
+            return false;
+        if (this.title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!this.title.equals(other.title))
+            return false;
+        if (this.icon == null) {
+            if (other.icon != null)
+                return false;
+        }
+        else if (!this.icon.equals(other.icon))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.subject == null) {
+            if (other.subject != null)
+                return false;
+        }
+        else if (!this.subject.equals(other.subject))
+            return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
+        if (this.remark == null) {
+            if (other.remark != null)
+                return false;
+        }
+        else if (!this.remark.equals(other.remark))
+            return false;
+        if (this.leadBy == null) {
+            if (other.leadBy != null)
+                return false;
+        }
+        else if (!this.leadBy.equals(other.leadBy))
+            return false;
+        if (this.planStartAt == null) {
+            if (other.planStartAt != null)
+                return false;
+        }
+        else if (!this.planStartAt.equals(other.planStartAt))
+            return false;
+        if (this.planEndAt == null) {
+            if (other.planEndAt != null)
+                return false;
+        }
+        else if (!this.planEndAt.equals(other.planEndAt))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.shortName == null) ? 0 : this.shortName.hashCode());
+        result = prime * result + ((this.deptId == null) ? 0 : this.deptId.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.budget == null) ? 0 : this.budget.hashCode());
+        result = prime * result + ((this.level == null) ? 0 : this.level.hashCode());
+        result = prime * result + ((this.priority == null) ? 0 : this.priority.hashCode());
+        result = prime * result + ((this.risk == null) ? 0 : this.risk.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.icon == null) ? 0 : this.icon.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.subject == null) ? 0 : this.subject.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.remark == null) ? 0 : this.remark.hashCode());
+        result = prime * result + ((this.leadBy == null) ? 0 : this.leadBy.hashCode());
+        result = prime * result + ((this.planStartAt == null) ? 0 : this.planStartAt.hashCode());
+        result = prime * result + ((this.planEndAt == null) ? 0 : this.planEndAt.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

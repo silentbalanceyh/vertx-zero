@@ -37,7 +37,7 @@ public class ValueRule implements Valve {
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
         /* If criteria is empty, return the input data directly */
         final JsonObject criteria = Ut.valueJObject(data, Qr.KEY_CRITERIA);
-        if (Ux.Jooq.isEmpty(criteria)) {
+        if (Ux.irNil(criteria)) {
             return Ux.future(data);
         }
         At.infoTabb(this.getClass(), "Qr condition for ActivityRule: {0}", criteria.encode());

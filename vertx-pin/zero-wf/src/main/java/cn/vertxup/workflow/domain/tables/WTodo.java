@@ -8,6 +8,7 @@ import cn.vertxup.workflow.domain.Db;
 import cn.vertxup.workflow.domain.Indexes;
 import cn.vertxup.workflow.domain.Keys;
 import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -175,6 +176,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
      */
     public final TableField<WTodoRecord, String> ACCEPTED_BY = createField(DSL.name("ACCEPTED_BY"), SQLDataType.VARCHAR(36), this, "「acceptedBy」- 待办接收人");
     /**
+     * The column <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public final TableField<WTodoRecord, String> ACCEPTED_GROUP = createField(DSL.name("ACCEPTED_GROUP"), SQLDataType.CLOB, this, "「acceptedGroup」- 当前处理组");
+    /**
      * The column <code>DB_ETERNAL.W_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
      */
     public final TableField<WTodoRecord, LocalDateTime> ACCEPTED_AT = createField(DSL.name("ACCEPTED_AT"), SQLDataType.LOCALDATETIME(0), this, "「acceptedAt」- 接收时间");
@@ -291,6 +297,11 @@ public class WTodo extends TableImpl<WTodoRecord> {
         return new WTodo(alias, this);
     }
 
+    @Override
+    public WTodo as(Table<?> alias) {
+        return new WTodo(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -305,5 +316,13 @@ public class WTodo extends TableImpl<WTodoRecord> {
     @Override
     public WTodo rename(Name name) {
         return new WTodo(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public WTodo rename(Table<?> name) {
+        return new WTodo(name.getQualifiedName(), null);
     }
 }

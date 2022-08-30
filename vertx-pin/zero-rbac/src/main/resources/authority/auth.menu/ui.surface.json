@@ -1,0 +1,16 @@
+{
+    "webComponent": "HxMenu",
+    "webBind": "res.menu.read",
+    "webTree": {
+        "parent": "parentId",
+        "title": "text",
+        "text": "text",
+        "value": "name",
+        "sort": "order"
+    },
+    "webData": {
+        "empty": true,
+        "initializer": "aclInHS",
+        "requester": "aclOutHS"
+    }
+}

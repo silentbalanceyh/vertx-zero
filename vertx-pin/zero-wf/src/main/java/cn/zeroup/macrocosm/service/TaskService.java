@@ -28,7 +28,7 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> fetchQueue(final JsonObject condition) {
-        final JsonObject combine = Ux.whereQrA(condition, KName.Flow.FLOW_END, Boolean.FALSE);
+        final JsonObject combine = Ux.irAndQH(condition, KName.Flow.FLOW_END, Boolean.FALSE);
         return Ux.Join.on()
 
             // Join WTodo Here
@@ -46,7 +46,7 @@ public class TaskService implements TaskStub {
 
     @Override
     public Future<JsonObject> fetchHistory(final JsonObject condition) {
-        final JsonObject combine = Ux.whereQrA(condition, KName.Flow.FLOW_END, Boolean.TRUE);
+        final JsonObject combine = Ux.irAndQH(condition, KName.Flow.FLOW_END, Boolean.TRUE);
         return Ux.Jooq.on(WTicketDao.class).searchAsync(combine);
     }
 

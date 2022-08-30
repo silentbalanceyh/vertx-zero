@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS W_TODO
     `ASSIGNED_BY`      VARCHAR(36) COMMENT '「assignedBy」- 待办指派人', -- 指派人
     `ASSIGNED_AT`      DATETIME COMMENT '「assignedAt」- 指派时间',
     `ACCEPTED_BY`      VARCHAR(36) COMMENT '「acceptedBy」- 待办接收人', -- 接收人
+    `ACCEPTED_GROUP`   LONGTEXT COMMENT '「acceptedGroup」- 当前处理组',
     `ACCEPTED_AT`      DATETIME COMMENT '「acceptedAt」- 接收时间',
     `FINISHED_BY`      VARCHAR(36) COMMENT '「finishedBy」- 待办完成人', -- 完成人
     `FINISHED_AT`      DATETIME COMMENT '「finishedAt」- 完成时间',
@@ -123,9 +124,9 @@ CREATE TABLE IF NOT EXISTS W_TODO
 
     -- Auditor字段
     `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',    -- 创建人
+    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',      -- 创建人
     `UPDATED_AT`       DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',    -- 更新人
+    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',      -- 更新人
     PRIMARY KEY (`KEY`) USING BTREE
 );
 

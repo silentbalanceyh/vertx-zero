@@ -1,8 +1,11 @@
 package cn.vertxup.rbac.service.view;
 
+import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.atom.ScOwner;
 
 import java.util.List;
 
@@ -17,7 +20,35 @@ public interface RuleStub {
      * 2) Based on `HValue` to extract `HPermit` object
      * 3) Configure based on `HPermit`
      */
-    Future<JsonArray> procAsync(final List<SPath> paths);
+    Future<JsonArray> regionAsync(List<SPath> paths);
+
+    /*
+     * Process SPath
+     *
+     * 1) Read all the related `SPocket` based on path
+     * 2) The returned data structure
+     * {
+     *     "resource": {
+     *         "v": {
+     *             "mapping": {},
+     *             "config": {},
+     *             "value": ...
+     *         },
+     *         "h": {
+     *             "mapping": {},
+     *             "config": {},
+     *             "value": ...
+     *         },
+     *         "q": {
+     *             "mapping": {},
+     *             "config": {},
+     *             "value": ...
+     *         }
+     *     }
+     * }
+     * 3) The value of each node must be calculated based on `owner` and stored `resource`
+     */
+    Future<JsonObject> regionAsync(List<SPacket> packets, ScOwner owner);
 
     /*
      * Fetch all views that belong to

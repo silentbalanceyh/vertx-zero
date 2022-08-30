@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EContractRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -263,6 +264,11 @@ public class EContract extends TableImpl<EContractRecord> {
         return new EContract(alias, this);
     }
 
+    @Override
+    public EContract as(Table<?> alias) {
+        return new EContract(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -277,5 +283,13 @@ public class EContract extends TableImpl<EContractRecord> {
     @Override
     public EContract rename(Name name) {
         return new EContract(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public EContract rename(Table<?> name) {
+        return new EContract(name.getQualifiedName(), null);
     }
 }

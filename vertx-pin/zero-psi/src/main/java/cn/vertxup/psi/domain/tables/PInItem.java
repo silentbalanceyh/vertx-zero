@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PInItemRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -262,6 +263,11 @@ public class PInItem extends TableImpl<PInItemRecord> {
         return new PInItem(alias, this);
     }
 
+    @Override
+    public PInItem as(Table<?> alias) {
+        return new PInItem(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -276,5 +282,13 @@ public class PInItem extends TableImpl<PInItemRecord> {
     @Override
     public PInItem rename(Name name) {
         return new PInItem(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PInItem rename(Table<?> name) {
+        return new PInItem(name.getQualifiedName(), null);
     }
 }

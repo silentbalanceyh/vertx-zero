@@ -8,6 +8,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
@@ -83,9 +84,9 @@ abstract class AbstractAction {
     }
 
     // ---------------------------------- Sync Operation
-    protected <T> Record newRecord(T pojo) {
+    protected <T> org.jooq.Record newRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        final Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        final org.jooq.Record record = this.context().newRecord(this.analyzer.table(), pojo);
         int size = record.size();
         for (int i = 0; i < size; i++)
             if (record.get(i) == null) {
@@ -99,13 +100,13 @@ abstract class AbstractAction {
 
     protected <T> UpdateConditionStep editRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        org.jooq.Record record = this.context().newRecord(this.analyzer.table(), pojo);
         Condition where = DSL.trueCondition();
         UniqueKey<?> pk = this.analyzer.table().getPrimaryKey();
         for (TableField<?, ?> tableField : pk.getFields()) {
             //exclude primary keys from update
             record.changed(tableField, false);
-            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+            where = where.and(((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField)));
         }
         Map<String, Object> valuesToUpdate =
             Arrays.stream(record.fields())

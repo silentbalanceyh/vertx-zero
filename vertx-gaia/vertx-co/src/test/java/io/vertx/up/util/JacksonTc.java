@@ -61,7 +61,7 @@ public class JacksonTc extends ZeroBase {
     @Test
     public void testJsonObject(final TestContext context) {
         final JsonObject data = this.ioJObject("jackson-json.json");
-        final JsonObject content = Jackson.deserialize(data.toString(), JsonObject.class);
+        final JsonObject content = Jackson.deserialize(data.toString(), JsonObject.class, false);
         System.out.println(content.encodePrettily());
     }
 

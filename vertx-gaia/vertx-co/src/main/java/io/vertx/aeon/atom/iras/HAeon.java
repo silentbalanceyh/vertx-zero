@@ -1,11 +1,11 @@
 package io.vertx.aeon.atom.iras;
 
-import io.vertx.aeon.eon.HCache;
 import io.vertx.aeon.eon.HName;
 import io.vertx.aeon.eon.HPath;
 import io.vertx.aeon.eon.em.ModeAeon;
 import io.vertx.aeon.eon.em.RTEAeon;
 import io.vertx.aeon.refine.HLog;
+import io.vertx.aeon.runtime.H1H;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
@@ -61,7 +61,7 @@ public class HAeon implements Serializable {
             return null;
         }
         // 初始化
-        return HCache.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
+        return H1H.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
     }
 
     // ------------------------- 提取配置专用

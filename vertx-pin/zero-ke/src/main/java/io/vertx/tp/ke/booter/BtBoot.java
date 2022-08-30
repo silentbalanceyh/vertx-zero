@@ -49,7 +49,9 @@ class BtBoot {
         final Set<KBoot> boots = KBoot.initialize();
         if (!boots.isEmpty() && oob) {
             boots.forEach(boot -> files.addAll(boot.oob(prefix)));
+            // boots.forEach(boot -> files.addAll(boot.oob(prefix)));
         }
-        return files.stream().filter(BtKit::ensure);
+        // 并行
+        return files.parallelStream().filter(BtKit::ensure);
     }
 }

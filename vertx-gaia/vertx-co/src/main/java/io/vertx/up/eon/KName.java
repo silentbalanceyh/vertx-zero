@@ -7,6 +7,7 @@ import java.util.Set;
 
 public interface KName {
     String TRACKABLE = "trackable";              /* trackable */
+    String QBE = "QBE";                          /* QBE = ? */
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 
@@ -23,6 +24,8 @@ public interface KName {
     String RULE_UNIQUE = "ruleUnique";           /* Model definition, ruleUnique field */
     String RULE = "rule";                        /* Model definition, rule for source reference */
     String TABLE_NAME = "tableName";             /* Model definition, tableName field */
+
+    String TABLE = "table";                      /* Model Connect: table */
 
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
     String MODEL_KEY = "modelKey";               /* Model Consumer ( key ) field */
@@ -51,6 +54,7 @@ public interface KName {
     String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */
+    String ROLES = "roles";                      /* Security Object: roles field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
     String USER = "user";                        /* Security Object: user field */
     String AUDITOR = "auditor";                  /* Security Object: auditor field */
@@ -58,6 +62,7 @@ public interface KName {
     String USERNAME = "username";                /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";               /* Security Object: user real name field */
     String GROUP = "group";                      /* Security Object: group */
+    String GROUPS = "groups";                    /* Security Object: groups */
     String ALIAS = "alias";                      /* Security Object: another name for current */
     String PASSWORD = "password";                /* Security Object: Password belong to field of security framework, ( X_USER password ) field */
     String EMAIL = "email";                      /* Security Object: user email ( X_USER email ) field */
@@ -88,6 +93,8 @@ public interface KName {
     String NAME = "name";                        /* Common: name */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
+
+    String LABEL = "label";                      /* Common: label */
     String TYPE = "type";                        /* Common: type for different model */
     String DEPLOY_ID = "deployID";               /* */
     String ASPECT = "aspect";                    /* Aspect Component Usage */
@@ -253,6 +260,11 @@ public interface KName {
     String DM_CONDITION = "dmCondition";
 
 
+    String OWNER_TYPE = "ownerType";
+    String OWNER_ID = "ownerId";
+    String RUN_TYPE = "runType";
+    String PATH = "path";
+
     // 「Specification Definition」
     interface __ {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
@@ -299,7 +311,7 @@ public interface KName {
         String APP_PORT = "appPort";
         String ROUTE = "route";
 
-        String PATH = "path";
+        String PATH = KName.PATH;
         String URL_ENTRY = "urlEntry";
         String URL_MAIN = "urlMain";
 
@@ -406,6 +418,17 @@ public interface KName {
         String CRITERIA = Qr.KEY_CRITERIA;
         String ROWS = "rows";
         String POSITION = "position";
+
+
+        String DM = "dm";                            /* Definition: DM Process */
+        String UI = "ui";                            /* Definition: UI Process */
+        String QR = "qr";                            /* Definition: */
+        String SURFACE = "surface";                  /* Definition: UI Show */
+        String IN = KName.IN;                        /* Definition: In Process */
+
+        String PACK_V = "v";
+        String PACK_H = "h";
+        String PACK_Q = "q";
     }
 
 
@@ -492,6 +515,9 @@ public interface KName {
         // Dm Component
         String DM_COMPONENT = "dmComponent";
         String DM_CONFIG = KName.DM_CONFIG;
+        // Qr Component
+        String QR_COMPONENT = "qrComponent";
+        String QR_CONFIG = "qrConfig";
     }
 
 

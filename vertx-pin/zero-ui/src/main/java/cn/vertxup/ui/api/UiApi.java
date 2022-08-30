@@ -109,4 +109,9 @@ public interface UiApi {
     JsonArray fetchLists(@HeaderParam(ID.Header.X_SIGMA) String sigma,
                          @PathParam(KName.IDENTIFIER) String identifier);
 
+    @Path("/ui/list-qr/:code")
+    @GET
+    @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
+    JsonArray fetchListQr(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+                          @PathParam(KName.CODE) String code);
 }

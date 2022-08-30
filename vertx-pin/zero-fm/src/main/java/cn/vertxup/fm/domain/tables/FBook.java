@@ -8,6 +8,7 @@ import cn.vertxup.fm.domain.Db;
 import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FBookRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -208,6 +209,11 @@ public class FBook extends TableImpl<FBookRecord> {
         return new FBook(alias, this);
     }
 
+    @Override
+    public FBook as(Table<?> alias) {
+        return new FBook(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -222,5 +228,13 @@ public class FBook extends TableImpl<FBookRecord> {
     @Override
     public FBook rename(Name name) {
         return new FBook(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public FBook rename(Table<?> name) {
+        return new FBook(name.getQualifiedName(), null);
     }
 }

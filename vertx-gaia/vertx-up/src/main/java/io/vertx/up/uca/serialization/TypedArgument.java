@@ -206,7 +206,7 @@ public class TypedArgument {
             /*
              * JsonArray, Could get from Serialization
              */
-            returnValue = context.getBodyAsJsonArray();
+            returnValue = context.body().asJsonArray();
             if (Objects.isNull(returnValue)) {
                 returnValue = new JsonArray();
             }
@@ -214,7 +214,7 @@ public class TypedArgument {
             /*
              * JsonObject, Could get from Serialization
              */
-            returnValue = context.getBodyAsJson();
+            returnValue = context.body().asJsonObject();
             if (Objects.isNull(returnValue)) {
                 returnValue = new JsonObject();
             }
@@ -222,7 +222,7 @@ public class TypedArgument {
             /*
              * Buffer, Could get from Serialization
              */
-            returnValue = context.getBody();
+            returnValue = context.body().buffer();
             if (Objects.isNull(returnValue)) {
                 returnValue = Buffer.buffer();
             }

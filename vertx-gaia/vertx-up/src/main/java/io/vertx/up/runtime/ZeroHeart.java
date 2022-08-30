@@ -1,5 +1,8 @@
 package io.vertx.up.runtime;
 
+import io.vertx.aeon.eon.HPath;
+import io.vertx.aeon.eon.em.TypeOs;
+import io.vertx.aeon.refine.HLog;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -17,8 +20,8 @@ import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 public class ZeroHeart {
@@ -26,6 +29,33 @@ public class ZeroHeart {
     private static final Annal LOGGER = Annal.get(ZeroHeart.class);
     private static final String INIT = "init";
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
+
+    @SuppressWarnings("all")
+    public static void initEnvironment() {
+        final TypeOs osType = TypeOs.from(System.getProperty("os.name"));
+        Fn.safeJvm(() -> {
+            if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
+                HLog.warnAeon(ZeroHeart.class, "OS = {0},  `{1}` file has been found! DEVELOPMENT connected.",
+                    osType.name(), HPath.ENV_DEVELOPMENT);
+                if (TypeOs.MAC_OS == osType) {
+                    final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
+                    final Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
+                    final StringBuilder builder = new StringBuilder();
+                    while (it.hasMoreElements()) {
+                        final String key = it.nextElement();
+                        final String value = properties.getProperty(key);
+                        // .env.development （环境变量黑科技）
+                        final Map<String, String> env = System.getenv();
+                        final Field field = env.getClass().getDeclaredField("m");
+                        field.setAccessible(true);
+                        builder.append("\n\t").append(key).append(" = ").append(value);
+                        ((Map<String, String>) field.get(env)).put(key, value);
+                    }
+                    HLog.infoAeon(ZeroHeart.class, "Zero Environment Variables: {0}\n", builder.toString());
+                }
+            }
+        });
+    }
 
     public static void initExtension() {
         initExtension(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));

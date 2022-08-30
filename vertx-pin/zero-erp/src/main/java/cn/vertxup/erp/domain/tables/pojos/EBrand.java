@@ -20,24 +20,24 @@ public class EBrand implements VertxPojo, IEBrand {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        code;
-    private String        name;
-    private String        alias;
-    private String        companyName;
-    private String        categoryCode;
-    private String        categoryName;
-    private Integer       area;
-    private String        areaName;
-    private String        areaCategory;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private String key;
+    private String code;
+    private String name;
+    private String alias;
+    private String companyName;
+    private String categoryCode;
+    private String categoryName;
+    private Integer area;
+    private String areaName;
+    private String areaCategory;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EBrand() {}
 
@@ -63,24 +63,24 @@ public class EBrand implements VertxPojo, IEBrand {
     }
 
     public EBrand(
-        String        key,
-        String        code,
-        String        name,
-        String        alias,
-        String        companyName,
-        String        categoryCode,
-        String        categoryName,
-        Integer       area,
-        String        areaName,
-        String        areaCategory,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        String key,
+        String code,
+        String name,
+        String alias,
+        String companyName,
+        String categoryCode,
+        String categoryName,
+        Integer area,
+        String areaName,
+        String areaCategory,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.code = code;
@@ -421,6 +421,151 @@ public class EBrand implements VertxPojo, IEBrand {
     public EBrand setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EBrand other = (EBrand) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.alias == null) {
+            if (other.alias != null)
+                return false;
+        }
+        else if (!this.alias.equals(other.alias))
+            return false;
+        if (this.companyName == null) {
+            if (other.companyName != null)
+                return false;
+        }
+        else if (!this.companyName.equals(other.companyName))
+            return false;
+        if (this.categoryCode == null) {
+            if (other.categoryCode != null)
+                return false;
+        }
+        else if (!this.categoryCode.equals(other.categoryCode))
+            return false;
+        if (this.categoryName == null) {
+            if (other.categoryName != null)
+                return false;
+        }
+        else if (!this.categoryName.equals(other.categoryName))
+            return false;
+        if (this.area == null) {
+            if (other.area != null)
+                return false;
+        }
+        else if (!this.area.equals(other.area))
+            return false;
+        if (this.areaName == null) {
+            if (other.areaName != null)
+                return false;
+        }
+        else if (!this.areaName.equals(other.areaName))
+            return false;
+        if (this.areaCategory == null) {
+            if (other.areaCategory != null)
+                return false;
+        }
+        else if (!this.areaCategory.equals(other.areaCategory))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.alias == null) ? 0 : this.alias.hashCode());
+        result = prime * result + ((this.companyName == null) ? 0 : this.companyName.hashCode());
+        result = prime * result + ((this.categoryCode == null) ? 0 : this.categoryCode.hashCode());
+        result = prime * result + ((this.categoryName == null) ? 0 : this.categoryName.hashCode());
+        result = prime * result + ((this.area == null) ? 0 : this.area.hashCode());
+        result = prime * result + ((this.areaName == null) ? 0 : this.areaName.hashCode());
+        result = prime * result + ((this.areaCategory == null) ? 0 : this.areaCategory.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

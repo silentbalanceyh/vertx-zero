@@ -16,7 +16,7 @@ import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

@@ -1,12 +1,17 @@
 package cn.vertxup.rbac.service.view;
 
+import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
+import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
+import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.rule.AdmitValve;
+import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
@@ -19,6 +24,7 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -31,11 +37,10 @@ public class RuleService implements RuleStub {
     private transient VisitStub visitStub;
 
     @Override
-    public Future<JsonArray> procAsync(final List<SPath> paths) {
+    public Future<JsonArray> regionAsync(final List<SPath> paths) {
         final List<SPath> filtered = paths.stream()
             // Not null and `runComponent` is not null
             .filter(Objects::nonNull)
-            .filter(path -> Objects.nonNull(path.getRunComponent()))
             // Sort By `uiSort`
             .sorted(Comparator.comparing(SPath::getUiSort))
             .collect(Collectors.toList());
@@ -44,7 +49,7 @@ public class RuleService implements RuleStub {
              * Extract `runComponent` to build `HValve` and then run it based on configured
              * Information here.
              */
-            final Class<?> clazz = Ut.clazz(path.getRunComponent(), null);
+            final Class<?> clazz = Ut.clazz(path.getRunComponent(), AdmitValve.class);
             if (Objects.isNull(clazz)) {
                 return Ux.future();
             }
@@ -70,12 +75,49 @@ public class RuleService implements RuleStub {
         }).compose(Ux::futureA);
     }
 
+    /*
+     * 此处已经在上层提取了相关规则集 SPacket，最终构造数据格式
+     */
+    @Override
+    public Future<JsonObject> regionAsync(final List<SPacket> packets, final ScOwner owner) {
+        // 根据 resource codes 读取所有要操作的资源记录
+        final Set<String> restCodes = packets.stream()
+            .filter(Objects::nonNull)
+            .map(SPacket::getResource)
+            .collect(Collectors.toSet());
+
+        final String sigma = Ut.valueString(packets, SPacket::getSigma);
+
+        // 提取资源
+        final JsonObject condition = Ux.whereAnd()
+            .put(KName.SIGMA, sigma)
+            .put(KName.CODE + ",i", Ut.toJArray(restCodes));
+        return Ux.Jooq.on(SResourceDao.class).<SResource>fetchAsync(condition)
+            .compose(resources -> {
+                // 根据资源记录读取所需视图集
+                final ConcurrentMap<String, SResource> resourceMap =
+                    Ut.elementMap(resources, SResource::getCode);
+
+                // resource -> json
+                final ConcurrentMap<String, Future<JsonObject>> futures =
+                    new ConcurrentHashMap<>();
+                packets.forEach(packet -> {
+                    // HEyelet Capture
+                    final SResource resource = resourceMap.getOrDefault(packet.getResource(), null);
+                    if (Objects.nonNull(resource)) {
+                        futures.put(resource.getCode(), RuleKit.regionJ(packet, resource, owner));
+                    }
+                });
+                return Fn.combineM(futures).compose(map -> Ux.future(Ut.toJObject(map)));
+            });
+    }
+
     @Override
     public Future<JsonArray> fetchViews(final String ownerType, final String ownerId,
                                         final JsonArray keys, final String view) {
         final JsonObject condition = new JsonObject();
-        condition.put("owner", ownerId);
-        condition.put("ownerType", ownerType);
+        condition.put(KName.OWNER, ownerId);
+        condition.put(KName.OWNER_TYPE, ownerType);
         condition.put("resourceId,i", keys);
         condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)

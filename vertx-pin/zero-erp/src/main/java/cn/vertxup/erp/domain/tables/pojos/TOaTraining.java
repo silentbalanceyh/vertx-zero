@@ -20,16 +20,16 @@ public class TOaTraining implements VertxPojo, ITOaTraining {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        commentExtension;
+    private String key;
+    private String commentExtension;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private String        trainLocation;
-    private String        trainMode;
-    private String        leader;
-    private String        leaderComment;
-    private String        reviewer;
-    private String        reviewerComment;
+    private String trainLocation;
+    private String trainMode;
+    private String leader;
+    private String leaderComment;
+    private String reviewer;
+    private String reviewerComment;
 
     public TOaTraining() {}
 
@@ -47,16 +47,16 @@ public class TOaTraining implements VertxPojo, ITOaTraining {
     }
 
     public TOaTraining(
-        String        key,
-        String        commentExtension,
+        String key,
+        String commentExtension,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        String        trainLocation,
-        String        trainMode,
-        String        leader,
-        String        leaderComment,
-        String        reviewer,
-        String        reviewerComment
+        String trainLocation,
+        String trainMode,
+        String leader,
+        String leaderComment,
+        String reviewer,
+        String reviewerComment
     ) {
         this.key = key;
         this.commentExtension = commentExtension;
@@ -261,6 +261,95 @@ public class TOaTraining implements VertxPojo, ITOaTraining {
     public TOaTraining setReviewerComment(String reviewerComment) {
         this.reviewerComment = reviewerComment;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final TOaTraining other = (TOaTraining) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.commentExtension == null) {
+            if (other.commentExtension != null)
+                return false;
+        }
+        else if (!this.commentExtension.equals(other.commentExtension))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.trainLocation == null) {
+            if (other.trainLocation != null)
+                return false;
+        }
+        else if (!this.trainLocation.equals(other.trainLocation))
+            return false;
+        if (this.trainMode == null) {
+            if (other.trainMode != null)
+                return false;
+        }
+        else if (!this.trainMode.equals(other.trainMode))
+            return false;
+        if (this.leader == null) {
+            if (other.leader != null)
+                return false;
+        }
+        else if (!this.leader.equals(other.leader))
+            return false;
+        if (this.leaderComment == null) {
+            if (other.leaderComment != null)
+                return false;
+        }
+        else if (!this.leaderComment.equals(other.leaderComment))
+            return false;
+        if (this.reviewer == null) {
+            if (other.reviewer != null)
+                return false;
+        }
+        else if (!this.reviewer.equals(other.reviewer))
+            return false;
+        if (this.reviewerComment == null) {
+            if (other.reviewerComment != null)
+                return false;
+        }
+        else if (!this.reviewerComment.equals(other.reviewerComment))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.commentExtension == null) ? 0 : this.commentExtension.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.trainLocation == null) ? 0 : this.trainLocation.hashCode());
+        result = prime * result + ((this.trainMode == null) ? 0 : this.trainMode.hashCode());
+        result = prime * result + ((this.leader == null) ? 0 : this.leader.hashCode());
+        result = prime * result + ((this.leaderComment == null) ? 0 : this.leaderComment.hashCode());
+        result = prime * result + ((this.reviewer == null) ? 0 : this.reviewer.hashCode());
+        result = prime * result + ((this.reviewerComment == null) ? 0 : this.reviewerComment.hashCode());
+        return result;
     }
 
     @Override

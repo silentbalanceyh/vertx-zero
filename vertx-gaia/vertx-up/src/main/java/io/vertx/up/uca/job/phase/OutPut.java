@@ -9,6 +9,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -88,7 +89,7 @@ class OutPut {
                 final EventBus eventBus = this.vertx.eventBus();
                 Element.onceLog(mission,
                     () -> LOGGER.info(Info.PHASE_5TH_JOB_ASYNC, mission.getCode(), address));
-                eventBus.publish(address, envelop, Ux.Opt.on().delivery());
+                eventBus.publish(address, envelop, ZeroGrid.getDeliveryOption());
                 return Future.succeededFuture(envelop);
             }
         } else {

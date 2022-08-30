@@ -21,7 +21,7 @@ public class EmployeeService implements EmployeeStub {
     public Future<JsonObject> createAsync(final JsonObject data) {
         final EEmployee employee = Ut.deserialize(data, EEmployee.class);
         if (Ut.isNil(employee.getWorkNumber())) {
-            return Ux.channelAsync(Indent.class, () -> this.insertAsync(employee, data),
+            return Ux.channelA(Indent.class, () -> this.insertAsync(employee, data),
                 serial -> serial.indent("NUM.EMPLOYEE", data.getString(KName.SIGMA)).compose(workNum -> {
                     employee.setWorkNumber(workNum);
                     return this.insertAsync(employee, data);
@@ -137,7 +137,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<Boolean> deleteAsync(final String key) {
         return this.fetchAsync(key)
-            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelAsync(Trash.class,
+            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelA(Trash.class,
                 () -> this.deleteAsync(key, item),
                 tunnel -> tunnel.backupAsync("res.employee", item)
                     .compose(backup -> this.deleteAsync(key, item)))));
@@ -151,13 +151,13 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<JsonObject> updateReference(final String key, final JsonObject data) {
-        return this.switchJ(data, (user, filters) -> user.updateReference(key, filters)
+        return this.switchJ(data, (user, filters) -> user.rapport(key, filters)
             .compose(Ut.ifJNil(response ->
                 Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::fetchByReference).compose(Ut.ifJNil(response -> {
+        return this.switchJ(input, ExUser::rapport).compose(Ut.ifJNil(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));
@@ -168,9 +168,9 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<JsonArray> fetchRef(final JsonArray input) {
-        return this.switchA(input, (user, data) -> {
-            final Set<String> keys = Ut.valueSetString(data, KName.KEY);
-            return user.fetchByReference(keys);
+        return Ux.channel(ExUser.class, JsonArray::new, user -> {
+            final Set<String> keys = Ut.valueSetString(input, KName.KEY);
+            return user.rapport(keys);
         }).compose(employee -> {
             final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);
             return Ux.future(merged);
@@ -190,11 +190,5 @@ public class EmployeeService implements EmployeeStub {
                 return executor.apply(user, filters);
             }
         });
-    }
-
-    private Future<JsonArray> switchA(final JsonArray input,
-                                      final BiFunction<ExUser, JsonArray, Future<JsonArray>> executor) {
-        return Ux.channel(ExUser.class, JsonArray::new,
-            user -> executor.apply(user, input));
     }
 }

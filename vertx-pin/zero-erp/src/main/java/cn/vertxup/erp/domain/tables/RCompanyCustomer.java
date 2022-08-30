@@ -7,10 +7,13 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.RCompanyCustomerRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -103,6 +106,11 @@ public class RCompanyCustomer extends TableImpl<RCompanyCustomerRecord> {
         return new RCompanyCustomer(alias, this);
     }
 
+    @Override
+    public RCompanyCustomer as(Table<?> alias) {
+        return new RCompanyCustomer(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -119,6 +127,14 @@ public class RCompanyCustomer extends TableImpl<RCompanyCustomerRecord> {
         return new RCompanyCustomer(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RCompanyCustomer rename(Table<?> name) {
+        return new RCompanyCustomer(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
@@ -126,5 +142,20 @@ public class RCompanyCustomer extends TableImpl<RCompanyCustomerRecord> {
     @Override
     public Row3<String, String, String> fieldsRow() {
         return (Row3) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function3<? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

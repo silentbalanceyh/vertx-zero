@@ -5,6 +5,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.plugin.database.DataPool;
@@ -17,6 +18,7 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
+import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
@@ -33,7 +35,6 @@ import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
-import org.jooq.Table;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -41,10 +42,11 @@ import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * #「Kt」Utility X Component in zero
- *
+ * <p>
  * Here Ux is a util interface of uniform to call different tools.
  * It just like helper for business usage.
  */
@@ -64,7 +66,7 @@ public final class Ux {
 
     /**
      * Create new log instance for store `Annal` mapping
-     *
+     * <p>
      * Debug method for help us to do development
      * 1) debug:
      * 2) otherwise:
@@ -296,7 +298,6 @@ public final class Ux {
      * @param expected    The method declared type
      * @param consumer    File consumer to read `filename` to Buffer
      * @param <T>         Returned type for declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final Set<FileUpload> fileUploads, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -310,7 +311,6 @@ public final class Ux {
      * @param expected   The method declared type
      * @param consumer   File consumer to read `filename` to Buffer
      * @param <T>        Returned type of declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final FileUpload fileUpload, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -321,7 +321,6 @@ public final class Ux {
      * Split `Set<FileUpload>` by fieldname
      *
      * @param fileUploads FileUpload Set
-     *
      * @return Map of `field = Set<FileUpload>`
      */
     public static ConcurrentMap<String, Set<FileUpload>> toFile(final Set<FileUpload> fileUploads) {
@@ -416,32 +415,32 @@ public final class Ux {
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
+            final JsonArray original, final JsonArray current, final Set<String> fields) {
         return CompareJ.compareJ(original, current, fields);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final String field) {
+            final JsonArray original, final JsonArray current, final String field) {
         return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
-        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+            final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
+            final JsonArray original, final JsonArray current, final Set<String> fields) {
         return To.future(CompareJ.compareJ(original, current, fields));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final String field) {
+            final JsonArray original, final JsonArray current, final String field) {
         return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final JsonArray matrix) {
+            final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return To.future(CompareJ.compareJ(original, current, matrix));
     }
 
@@ -503,7 +502,45 @@ public final class Ux {
      *
      * Combine JsonObject and JsonArray by index
      * 8) futureC
+     *
+     * Filter JsonObject and JsonArray
+     * 9) futureF
+     * -- futureF(String...)
+     * -- futureF(Set<String>)
+     * -- futureF(ClustSerializble, String...)
+     * -- futureF(JsonArray, String...)
+     * -- futureF(JsonObject, Set<String>)
+     * -- futureF(JsonArray, Set<String>)
      */
+    // ----------------------- futureF ----------------------
+
+    public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final Set<String> removed) {
+        return input -> (input instanceof JsonObject) ?
+                futureF((JsonObject) input, removed).compose(json -> To.future((T) json)) :
+                futureF((JsonArray) input, removed).compose(array -> To.future((T) array));
+    }
+
+    public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final String... removed) {
+        return futureF(Arrays.stream(removed).collect(Collectors.toSet()));
+    }
+
+    public static Future<JsonObject> futureF(final JsonObject input, final String... removed) {
+        return To.future(To.subset(input, Arrays.stream(removed).collect(Collectors.toSet())));
+    }
+
+    public static Future<JsonObject> futureF(final JsonObject input, final Set<String> removed) {
+        return To.future(To.subset(input, removed));
+    }
+
+    public static Future<JsonArray> futureF(final JsonArray input, final String... removed) {
+        return To.future(To.subset(input, Arrays.stream(removed).collect(Collectors.toSet())));
+    }
+
+    public static Future<JsonArray> futureF(final JsonArray input, final Set<String> removed) {
+        return To.future(To.subset(input, removed));
+    }
+
+    // ----------------------- futureN ----------------------
     public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
         return Norm.effect(input, previous, current);
     }
@@ -656,9 +693,8 @@ public final class Ux {
      * Channel Execution
      *
      * 1. channel
-     * 2. channelSync
-     * 3. channelAsync
-     * 4. channelFile
+     * 2. channelS
+     * 3. channelA
      */
     public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
                                            final Function<T, Future<O>> executor) {
@@ -666,13 +702,17 @@ public final class Ux {
     }
 
 
-    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
-                                       final Function<T, O> executor) {
+    public static <T, O> O channelS(final Class<T> clazz, final Supplier<O> supplier,
+                                    final Function<T, O> executor) {
         return Async.channelSync(clazz, supplier, executor);
     }
 
-    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
-                                                final Function<T, Future<O>> executor) {
+    public static <T, O> O channelS(final Class<T> clazz, final Function<T, O> executor) {
+        return Async.channelSync(clazz, () -> null, executor);
+    }
+
+    public static <T, O> Future<O> channelA(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                            final Function<T, Future<O>> executor) {
         return Async.channelAsync(clazz, supplier, executor);
     }
 
@@ -761,14 +801,79 @@ public final class Ux {
         return Where.whereOr().put(field, value);
     }
 
-    // Qr Add
-    public static JsonObject whereQrA(final JsonObject qr, final Kv<String, Object> kv) {
-        Objects.requireNonNull(kv);
-        return Where.whereQrA(qr, kv.getKey(), kv.getValue());
+    // Where current condition is null
+    /*
+     * Query Engine API
+     *
+     * QH -> Query with Criteria   （全格式）
+     * H  -> Criteria              （查询条件）
+     * V  -> Projection            （列过滤）
+     *
+     * 1) irNil / irAnd / irOne
+     *    - irNil:          判断查询条件是否为空，"": true | false 单节点也为空
+     *    - irOp:           判断查询条件是 AND 还是 OR，AND返回true，OR返回false
+     *    - irOne:          判断查询条件是否单条件（只有一个条件）
+     * 2) irAndQH / irAndH
+     *    - irAndQH:        参数本身为全格式:
+     *      {
+     *           "criteria": {}
+     *      }
+     *    - irAndH:         参数本身为全格式中的 criteria 纯格式
+     * 3) irQV / irV
+     *    - irQV:           参数本身为全格式:
+     *      {
+     *           "projection": []
+     *      }
+     *    - irV:            参数本身为全格式中的 projection 纯格式
+     *
+     * 全格式返回全格式，纯格式返回纯格式
+     */
+    public static boolean irNil(final JsonObject condition) {
+        return Query.irNil(condition);
     }
 
-    public static JsonObject whereQrA(final JsonObject qr, final String field, final Object value) {
-        return Where.whereQrA(qr, field, value);
+    public static boolean irOp(final JsonObject condition) {
+        return Query.irAnd(condition);
+    }
+
+    public static boolean irOne(final JsonObject condition) {
+        return Query.irOne(condition);
+    }
+
+    // ---------------------- Qr Modification --------------------------
+    public static JsonObject irAndQH(final JsonObject qr, final Kv<String, Object> kv) {
+        Objects.requireNonNull(kv);
+        return Query.irQH(qr, kv.getKey(), kv.getValue());
+    }
+
+    public static JsonObject irAndQH(final JsonObject qr, final String field, final Object value) {
+        return Query.irQH(qr, field, value);
+    }
+
+    public static JsonObject irAndQH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+        return Query.irQH(query, criteria, clear);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final JsonObject criteria) {
+        return Query.irH(original, criteria);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final String field, final Object value) {
+        return Query.irH(original, field, value);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final Kv<String, Object> kv) {
+        Objects.requireNonNull(kv);
+        return Query.irH(original, kv.getKey(), kv.getValue());
+    }
+
+    // Qr Combine ( projection + projection )
+    public static JsonObject irQV(final JsonObject query, final JsonArray projection, final boolean clear) {
+        return Query.irQV(query, projection, clear);
+    }
+
+    public static JsonArray irV(final JsonArray original, final JsonArray projection) {
+        return Query.irV(original, projection);
     }
 
     // ---------------------- Request Data Extract --------------------------
@@ -965,7 +1070,7 @@ public final class Ux {
     /**
      * This method will be configured in `vertx-extension.yml` file in common situation,
      * The file content should be as following:
-     *
+     * <p>
      * ```yml
      * // <pre><code>
      * init:
@@ -973,9 +1078,9 @@ public final class Ux {
      *   - component: "[ComponentName2]"
      * // </code></pre>
      * ```
-     *
+     * <p>
      * All components here will be called when container starting, the component must declare the init method as
-     *
+     * <p>
      * ```java
      * // <pre><code>
      * public static void init(){
@@ -986,7 +1091,7 @@ public final class Ux {
      * }
      * // </code></pre>
      * ```
-     *
+     * <p>
      * This method should be used when you want to develop zero extension module for business requirement.
      *
      * @param init The configuration data came from `init` node in file
@@ -1140,6 +1245,8 @@ public final class Ux {
     }
     // endregion
 
+    // ---------------------------------- Children Utility
+
     /**
      * Inner class of `Jooq` tool of Jooq Engine operations based on pojo here.
      * When developers want to access database and select zero default implementation.
@@ -1158,16 +1265,6 @@ public final class Ux {
      * Here you can do database access smartly and do nothing then.
      */
     public static class Jooq {
-        public static String table(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            final Table<?> table = Ut.field(dsl.dao(), "table");
-            return table.getName();
-        }
-
-        public static Class<?> pojo(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Ut.field(dsl.dao(), "type");
-        }
 
         /**
          * Get reference of UxJooq that bind to Dao class, this method won't access standard database,
@@ -1185,12 +1282,11 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Cache.CC_JOOQ_HIS.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), "HIS-" + dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
@@ -1207,7 +1303,6 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
@@ -1221,7 +1316,6 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param pool  Input data pool reference, it provide developers to access other database in one application.
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
@@ -1235,23 +1329,12 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param key   the key configuration in vertx-jooq.yml such as above "orbit", "provider"
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
             return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
-        }
-
-        public static boolean isEmpty(final JsonObject condition) {
-            if (Ut.isNil(condition)) {
-                return true;
-            } else {
-                final JsonObject normalized = condition.copy();
-                normalized.remove(Strings.EMPTY);
-                return Ut.isNil(normalized);
-            }
         }
     }
 
@@ -1289,12 +1372,9 @@ public final class Ux {
         }
     }
 
-    /*
-     * The only one uniform configuration of tp here
-     */
-    public static class Opt {
-        public static UxOpt on() {
-            return new UxOpt();
+    public static class Ldap {
+        public static UxLdap on(final Integration integration) {
+            return Cache.CC_LDAP.pick(() -> new UxLdap(integration), String.valueOf(integration.hashCode()));
         }
     }
 

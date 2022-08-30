@@ -3,7 +3,11 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.OriginalNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
@@ -15,18 +19,29 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Lookup the json tree data
  */
-@SuppressWarnings({"all"})
+@SuppressWarnings("all")
 final class Jackson {
     private static final Annal LOGGER = Annal.get(Jackson.class);
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final JsonMapper MAPPER = JsonMapper.builder()
+        /*
+         * Previous code
+         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+         *
+         * Case Sensitive
+         * Below new code logical
+         */
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+        .build();
 
     static {
         // Ignore null value
@@ -39,8 +54,6 @@ final class Jackson {
         // Big Decimal
         Jackson.MAPPER.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
         // Case Sensitive
-        Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 
         final ZeroModule module = new ZeroModule();
         Jackson.MAPPER.registerModule(module);
@@ -50,7 +63,7 @@ final class Jackson {
     private Jackson() {
     }
 
-    static ObjectMapper getMapper() {
+    static JsonMapper getMapper() {
         return MAPPER.copy();
     }
 
@@ -202,26 +215,18 @@ final class Jackson {
         return result;
     }
 
-    static <T, R extends Iterable> R serializeJson(final T t) {
-        final String content = Jackson.serialize(t);
-        return Fn.getJvm(null,
-            () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
-                () -> (R) new JsonObject(content),
-                () -> (R) new JsonArray(content)), content);
-    }
-
     static <T> String serialize(final T t) {
         return Fn.getNull(null, () -> Fn.getJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
     }
 
-    static <T> T deserialize(final JsonObject value, final Class<T> type) {
+    static <T> T deserialize(final JsonObject value, final Class<T> type, final boolean isSmart) {
         return Fn.getNull(null,
-            () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
-    static <T> T deserialize(final JsonArray value, final Class<T> type) {
+    static <T> T deserialize(final JsonArray value, final Class<T> type, final boolean isSmart) {
         return Fn.getNull(null,
-            () -> Jackson.deserialize(value.encode(), type), value);
+            () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
     static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
@@ -229,24 +234,106 @@ final class Jackson {
             () -> Jackson.deserialize(value.encode(), type), value);
     }
 
-    static <T> T deserialize(final String value, final Class<T> type) {
+    static <T> T deserialize(final String value, final Class<T> type, final boolean isSmart) {
+        final String smart = isSmart ? deserializeSmart(value, type) : value;
         return Fn.getNull(null,
-            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
+        // Turn Off Smart Json when TypeReference<T>
+        // final String smart = deserializeSmart(value, (Class<T>) type.getType());
         return Fn.getNull(null,
             () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
+    static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
+        final String content = Jackson.serialize(t);
+        return Fn.getJvm(null, () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
+            /*
+             * Switch to smart serialization on the object to avoid
+             * issue when met {} or []
+             * 递归调用
+             */
+            () -> isSmart ? serializeSmart(new JsonObject(content)) : ((R) new JsonObject(content)),
+            () -> isSmart ? serializeSmart(new JsonArray(content)) : ((R) new JsonArray(content))
+        ), content);
+    }
+
+    // ---------------------- Jackson Advanced for Smart Serilization / DeSerialization
+    private static <T> String deserializeSmart(final String literal, final Class<T> type) {
+        if (Types.isJObject(literal) || Types.isJArray(literal)) {
+            if (Types.isJArray(literal)) {
+                return deserializeSmart(new JsonArray(literal), type);
+            } else {
+                return deserializeSmart(new JsonObject(literal), type);
+            }
+        } else {
+            return literal;
+        }
+    }
+
+    private static <T> String deserializeSmart(final JsonObject item, final Class<T> type) {
+        new HashSet<>(item.fieldNames()).forEach(field -> {
+            try {
+                final Field fieldT = type.getDeclaredField(field);
+                final Class<?> fieldC = fieldT.getType();           // getType
+                final Object value = item.getValue(field);
+                /*
+                 * Field type is `java.lang.String`
+                 * Value is `JsonObject / JsonArray`
+                 */
+                if (value instanceof JsonObject && String.class == fieldC) {
+                    item.put(field, ((JsonObject) value).encode());
+                } else if (value instanceof JsonArray && String.class == fieldC) {
+                    item.put(field, ((JsonArray) value).encode());
+                }
+            } catch (final NoSuchFieldException ex) {
+                // Remove / Ignore the field
+                item.remove(field);
+            }
+        });
+        return item.encode();
+    }
+
+    private static <T> String deserializeSmart(final JsonArray item, final Class<T> type) {
+        It.itJArray(item).forEach(json -> deserializeSmart(json, type));
+        return item.encode();
+    }
+
+    private static <T, R extends Iterable> R serializeSmart(final JsonObject item) {
+        new HashSet<>(item.fieldNames()).forEach(field -> {
+            final Object value = item.getValue(field);
+            if (value instanceof JsonObject) {
+                item.put(field, serializeSmart((JsonObject) value));
+            } else if (value instanceof JsonArray) {
+                item.put(field, serializeSmart((JsonArray) value));
+            } else if (value instanceof String) {
+                // T -> JsonObject / JsonArray
+                final String literal = (String) value;
+                if (Types.isJArray(literal)) {
+                    item.put(field, serializeSmart(new JsonArray(literal)));
+                } else if (Types.isJObject(literal)) {
+                    item.put(field, serializeSmart(new JsonObject(literal)));
+                }
+            }
+        });
+        return (R) item;
+    }
+
+    private static <T, R extends Iterable> R serializeSmart(final JsonArray item) {
+        It.itJArray(item).forEach(json -> serializeSmart(json));
+        return (R) item;
+    }
+
     // ---------------------- Json Tool ----------------------------
-    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, boolean isRef) {
+    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
         final JsonObject reference = isRef ? target : target.copy();
         reference.mergeIn(source, true);
         return reference;
     }
 
-    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, boolean isRef) {
+    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
         final JsonObject reference = isRef ? target : target.copy();
         source.fieldNames().stream()
             .filter(field -> !reference.containsKey(field))
@@ -263,12 +350,20 @@ final class Jackson {
         }, target, source, field));
     }
 
-    static JsonArray sureJArray(final JsonArray array) {
+    static JsonArray sureJArray(final JsonArray array, final boolean copied) {
         if (Ut.isNil(array)) {
             return new JsonArray();
         } else {
-            return array;
+            if (copied) {
+                return array.copy();
+            } else {
+                return array;
+            }
         }
+    }
+
+    static JsonArray sureJArray(final JsonArray array) {
+        return sureJArray(array, false);
     }
 
     static JsonArray sureJArray(JsonObject input, final String field) {
@@ -299,12 +394,20 @@ final class Jackson {
         }
     }
 
-    static JsonObject sureJObject(final JsonObject object) {
+    static JsonObject sureJObject(final JsonObject object, final boolean copied) {
         if (Ut.isNil(object)) {
             return new JsonObject();
         } else {
-            return object;
+            if (copied) {
+                return object.copy();
+            } else {
+                return object;
+            }
         }
+    }
+
+    static JsonObject sureJObject(final JsonObject object) {
+        return sureJObject(object, false);
     }
 
     static String aiJArray(final String literal) {

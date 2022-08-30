@@ -103,6 +103,46 @@ public class RTeamEmployee implements VertxPojo, IRTeamEmployee {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RTeamEmployee other = (RTeamEmployee) obj;
+        if (this.teamId == null) {
+            if (other.teamId != null)
+                return false;
+        }
+        else if (!this.teamId.equals(other.teamId))
+            return false;
+        if (this.employeeId == null) {
+            if (other.employeeId != null)
+                return false;
+        }
+        else if (!this.employeeId.equals(other.employeeId))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.teamId == null) ? 0 : this.teamId.hashCode());
+        result = prime * result + ((this.employeeId == null) ? 0 : this.employeeId.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("RTeamEmployee (");
 

@@ -7,12 +7,14 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.TVendorAssessmentRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -145,6 +147,11 @@ public class TVendorAssessment extends TableImpl<TVendorAssessmentRecord> {
         return new TVendorAssessment(alias, this);
     }
 
+    @Override
+    public TVendorAssessment as(Table<?> alias) {
+        return new TVendorAssessment(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -161,6 +168,14 @@ public class TVendorAssessment extends TableImpl<TVendorAssessmentRecord> {
         return new TVendorAssessment(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public TVendorAssessment rename(Table<?> name) {
+        return new TVendorAssessment(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row11 type methods
     // -------------------------------------------------------------------------
@@ -168,5 +183,20 @@ public class TVendorAssessment extends TableImpl<TVendorAssessmentRecord> {
     @Override
     public Row11<String, String, String, LocalDateTime, LocalDateTime, Integer, String, Integer, String, String, String> fieldsRow() {
         return (Row11) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function11<? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super Integer, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super Integer, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

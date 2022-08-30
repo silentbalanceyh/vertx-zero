@@ -22,12 +22,12 @@ public class CookieFiller implements Filler {
             /*
              * Declared `Cookie` directly
              */
-            return context.getCookie(name);
+            return context.request().getCookie(name);
         } else {
             /*
              * Declared other type
              */
-            final Cookie cookie = context.getCookie(name);
+            final Cookie cookie = context.request().getCookie(name);
             return Objects.isNull(cookie) ? null : cookie.getValue();
         }
     }

@@ -81,7 +81,7 @@ public final class ZeroPack {
                 .filter(type -> Modifier.isPublic(type.getModifiers()))        // Ko non-public
                 // Ko abstract class, because interface is abstract, single condition is invalid
                 .filter(type -> !(Modifier.isAbstract(type.getModifiers()) && !type.isInterface()))
-                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))     // Because interface is abstract
+                // .filter(type -> !Modifier.isAbstract(type.getModifiers()))  // Because interface is abstract
                 .filter(type -> !Modifier.isStatic(type.getModifiers()))       // Ko Static
                 .filter(type -> !Throwable.class.isAssignableFrom(type))       // Ko Exception
                 .filter(type -> !type.isAnnotationPresent(RunWith.class))      // Ko Test Class
@@ -121,7 +121,22 @@ public final class ZeroPack {
             final ClassPath cp = ClassPath.from(Thread.currentThread().getContextClassLoader());
             final ImmutableSet<ClassPath.ClassInfo> set = cp.getTopLevelClasses();
             final ConcurrentMap<String, Set<String>> packageMap = new ConcurrentHashMap<>();
-            for (final ClassPath.ClassInfo cls : set) {
+            /*
+             Old Version:
+                for (final ClassPath.ClassInfo cls : set) {
+                    final String packageName = cls.getPackageName();
+                    final boolean skip = FILTERS.stream().anyMatch(packageName::startsWith);
+                    if (!skip) {
+                        try {
+                            classSet.add(Thread.currentThread().getContextClassLoader().loadClass(cls.getName()));
+                        } catch (Throwable ex) {
+
+                        }
+                    }
+                }
+             */
+            // 性能提高一倍，并行流处理更合理，暂时没发现明显问题
+            set.parallelStream().forEach(cls -> {
                 final String packageName = cls.getPackageName();
                 final boolean skip = FILTERS.stream().anyMatch(packageName::startsWith);
                 if (!skip) {
@@ -131,7 +146,7 @@ public final class ZeroPack {
 
                     }
                 }
-            }
+            });
         });
         return classSet;
     }

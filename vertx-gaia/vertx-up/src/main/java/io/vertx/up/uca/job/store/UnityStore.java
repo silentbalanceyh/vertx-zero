@@ -1,12 +1,12 @@
 package io.vertx.up.uca.job.store;
 
-import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.job.plugin.JobClient;
+import io.vertx.up.uca.job.plugin.JobInfix;
 
 import java.util.HashSet;
 import java.util.Objects;

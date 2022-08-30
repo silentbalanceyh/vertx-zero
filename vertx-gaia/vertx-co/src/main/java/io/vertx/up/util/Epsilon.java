@@ -68,7 +68,15 @@ class Epsilon {
     static String vString(final JsonObject json, final String field, final String defaultValue) {
         final JsonObject inputJ = Jackson.sureJObject(json);
         final Object valueS = inputJ.getValue(field, defaultValue);
-        return (String) valueS;
+        return Objects.isNull(valueS) ? null : valueS.toString();
+    }
+
+    static Integer vInt(final JsonObject json, final String field, final Integer defaultInt) {
+        final String literal = vString(json, field, String.valueOf(defaultInt));
+        if (Objects.isNull(literal) || !Numeric.isInteger(literal)) {
+            return defaultInt;
+        }
+        return Integer.valueOf(literal);
     }
 
     static String vEnv(final String name, final String defaultValue) {

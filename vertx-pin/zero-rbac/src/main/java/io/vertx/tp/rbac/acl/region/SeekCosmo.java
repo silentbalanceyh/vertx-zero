@@ -2,8 +2,8 @@ package io.vertx.tp.rbac.acl.region;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.cv.em.AclTime;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.em.run.ActTime;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -26,7 +26,7 @@ public class SeekCosmo implements Cosmo {
      *        database and the acl could be picked up from database if it's ok
      *        When the parameters are often `key` only, after database that you could get all record here
      *
-     * 2) AclPhase: How to use acl
+     * 2) RunPhase: How to use acl
      *      EAGER: The acl information should be used in current request
      *      DELAY: The acl information should be returned only for future usage in front and it does not
      *        impact current request
@@ -50,7 +50,7 @@ public class SeekCosmo implements Cosmo {
                 return Ux.future(request);
             } else {
                 /* Before calling and will capture `BEFORE` syntax */
-                return DataAcl.visitAcl(request, matrix, AclTime.BEFORE).compose(acl -> {
+                return DataAcl.visitAcl(request, matrix, ActTime.BEFORE).compose(acl -> {
                     request.acl(acl);
 
                     /* Projection Modification */
@@ -74,7 +74,7 @@ public class SeekCosmo implements Cosmo {
             return external.after(response, matrix);
         } else {
             /* After calling and will capture `AFTER` syntax */
-            return DataAcl.visitAcl(response, matrix, AclTime.AFTER).compose(acl -> {
+            return DataAcl.visitAcl(response, matrix, ActTime.AFTER).compose(acl -> {
                 response.acl(acl);
 
                 /* Projection */
@@ -88,7 +88,7 @@ public class SeekCosmo implements Cosmo {
 
                 /*
                  * Append data of `acl` into description for future usage
-                 * This feature is ok when AclPhase = DELAY because the EAGER
+                 * This feature is ok when RunPhase = DELAY because the EAGER
                  * will impact our current request response directly.
                  *
                  * But this node should returned all critical data
@@ -96,7 +96,9 @@ public class SeekCosmo implements Cosmo {
                  * 2) edition, The fields that you could edit
                  * 3) record, The fields of all current record
                  */
-                if (Objects.nonNull(acl)) response.valueOn("acl", acl.acl());
+                if (Objects.nonNull(acl)) {
+                    response.valueOn("acl", acl.acl());
+                }
                 return Ux.future(response);
             }).otherwise(Ux.otherwise());
         }

@@ -7,10 +7,13 @@ package cn.vertxup.ui.domain.tables;
 import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.VSearchRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -150,6 +153,11 @@ public class VSearch extends TableImpl<VSearchRecord> {
         return new VSearch(alias, this);
     }
 
+    @Override
+    public VSearch as(Table<?> alias) {
+        return new VSearch(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -166,6 +174,14 @@ public class VSearch extends TableImpl<VSearchRecord> {
         return new VSearch(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public VSearch rename(Table<?> name) {
+        return new VSearch(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row13 type methods
     // -------------------------------------------------------------------------
@@ -173,5 +189,20 @@ public class VSearch extends TableImpl<VSearchRecord> {
     @Override
     public Row13<String, Boolean, Boolean, String, String, String, String, String, String, String, String, String, String> fieldsRow() {
         return (Row13) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function13<? super String, ? super Boolean, ? super Boolean, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function13<? super String, ? super Boolean, ? super Boolean, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

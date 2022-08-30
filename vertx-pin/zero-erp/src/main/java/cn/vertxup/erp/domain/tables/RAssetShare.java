@@ -7,10 +7,13 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.RAssetShareRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -105,6 +108,11 @@ public class RAssetShare extends TableImpl<RAssetShareRecord> {
         return new RAssetShare(alias, this);
     }
 
+    @Override
+    public RAssetShare as(Table<?> alias) {
+        return new RAssetShare(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -121,6 +129,14 @@ public class RAssetShare extends TableImpl<RAssetShareRecord> {
         return new RAssetShare(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RAssetShare rename(Table<?> name) {
+        return new RAssetShare(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row4 type methods
     // -------------------------------------------------------------------------
@@ -128,5 +144,20 @@ public class RAssetShare extends TableImpl<RAssetShareRecord> {
     @Override
     public Row4<String, String, String, String> fieldsRow() {
         return (Row4) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function4<? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

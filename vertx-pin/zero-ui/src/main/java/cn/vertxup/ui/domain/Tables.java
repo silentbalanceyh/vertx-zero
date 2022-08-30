@@ -10,6 +10,7 @@ import cn.vertxup.ui.domain.tables.UiField;
 import cn.vertxup.ui.domain.tables.UiForm;
 import cn.vertxup.ui.domain.tables.UiLayout;
 import cn.vertxup.ui.domain.tables.UiList;
+import cn.vertxup.ui.domain.tables.UiListQr;
 import cn.vertxup.ui.domain.tables.UiOp;
 import cn.vertxup.ui.domain.tables.UiPage;
 import cn.vertxup.ui.domain.tables.UiVisitor;
@@ -54,6 +55,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.UI_LIST</code>.
      */
     public static final UiList UI_LIST = UiList.UI_LIST;
+
+    /**
+     * The table <code>DB_ETERNAL.UI_LIST_QR</code>.
+     */
+    public static final UiListQr UI_LIST_QR = UiListQr.UI_LIST_QR;
 
     /**
      * The table <code>DB_ETERNAL.UI_OP</code>.

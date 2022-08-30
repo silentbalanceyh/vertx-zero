@@ -34,7 +34,7 @@ class AgonicDelete implements Agonic {
                 /* File: Remove Attachment Part */
                 return Pre.fileOut().inJAsync(json, in)
                     /* BackUp future */
-                    .compose(removed -> Ux.channelAsync(Trash.class, () -> Ux.future(removed),
+                    .compose(removed -> Ux.channelA(Trash.class, () -> Ux.future(removed),
                         (stub) -> stub.backupAsync(module.identifier(), removed)))
 
 
@@ -64,7 +64,7 @@ class AgonicDelete implements Agonic {
                 /* File: Remove Attachment Part */
                 return Pre.fileOut().inAAsync(array, in)
                     /* BackUp future */
-                    .compose(removed -> Ux.channelAsync(Trash.class, () -> Ux.future(array),
+                    .compose(removed -> Ux.channelA(Trash.class, () -> Ux.future(array),
                         stub -> stub.backupAsync(module.identifier(), array)))
 
 

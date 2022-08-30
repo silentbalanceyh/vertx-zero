@@ -7,6 +7,7 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.SResourceRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -199,6 +200,11 @@ public class SResource extends TableImpl<SResourceRecord> {
         return new SResource(alias, this);
     }
 
+    @Override
+    public SResource as(Table<?> alias) {
+        return new SResource(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -213,5 +219,13 @@ public class SResource extends TableImpl<SResourceRecord> {
     @Override
     public SResource rename(Name name) {
         return new SResource(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public SResource rename(Table<?> name) {
+        return new SResource(name.getQualifiedName(), null);
     }
 }

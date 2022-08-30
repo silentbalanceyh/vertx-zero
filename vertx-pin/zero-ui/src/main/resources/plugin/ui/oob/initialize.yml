@@ -42,6 +42,13 @@
     unique:
     - code
     - sigma
+# 列表视图
+-   dao: cn.vertxup.ui.domain.tables.daos.UiListQrDao
+    key: key
+    unique:
+    - code
+    - name
+    - sigma
 # 操作
 -   dao: cn.vertxup.ui.domain.tables.daos.UiOpDao
     key: key

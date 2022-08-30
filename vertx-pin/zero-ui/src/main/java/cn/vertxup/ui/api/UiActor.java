@@ -96,6 +96,11 @@ public class UiActor {
         return this.listStub.fetchByIdentifier(identifier, sigma);
     }
 
+    @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
+    public Future<JsonArray> fetchListQr(final String sigma, final String code) {
+        return this.listStub.fetchQr(code, sigma);
+    }
+
     @Address(Addr.Control.FETCH_BY_VISITOR)
     @Me
     public Future<JsonObject> fetchByVisitor(final String page, final String identifier, final JsonObject params) {

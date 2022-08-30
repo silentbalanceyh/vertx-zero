@@ -20,30 +20,30 @@ public class PWh implements VertxPojo, IPWh {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        type;
-    private String        status;
-    private String        managerId;
-    private String        managerName;
-    private String        managerPhone;
-    private String        managerMobile;
-    private Boolean       negative;
-    private Boolean       space;
-    private String        areaName;
-    private String        comment;
-    private String        distinctId;
-    private String        locationId;
-    private String        locationAddress;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String type;
+    private String status;
+    private String managerId;
+    private String managerName;
+    private String managerPhone;
+    private String managerMobile;
+    private Boolean negative;
+    private Boolean space;
+    private String areaName;
+    private String comment;
+    private String distinctId;
+    private String locationId;
+    private String locationAddress;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public PWh() {}
 
@@ -75,30 +75,30 @@ public class PWh implements VertxPojo, IPWh {
     }
 
     public PWh(
-        String        key,
-        String        name,
-        String        code,
-        String        type,
-        String        status,
-        String        managerId,
-        String        managerName,
-        String        managerPhone,
-        String        managerMobile,
-        Boolean       negative,
-        Boolean       space,
-        String        areaName,
-        String        comment,
-        String        distinctId,
-        String        locationId,
-        String        locationAddress,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String type,
+        String status,
+        String managerId,
+        String managerName,
+        String managerPhone,
+        String managerMobile,
+        Boolean negative,
+        Boolean space,
+        String areaName,
+        String comment,
+        String distinctId,
+        String locationId,
+        String locationAddress,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -547,6 +547,193 @@ public class PWh implements VertxPojo, IPWh {
     public PWh setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PWh other = (PWh) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.managerId == null) {
+            if (other.managerId != null)
+                return false;
+        }
+        else if (!this.managerId.equals(other.managerId))
+            return false;
+        if (this.managerName == null) {
+            if (other.managerName != null)
+                return false;
+        }
+        else if (!this.managerName.equals(other.managerName))
+            return false;
+        if (this.managerPhone == null) {
+            if (other.managerPhone != null)
+                return false;
+        }
+        else if (!this.managerPhone.equals(other.managerPhone))
+            return false;
+        if (this.managerMobile == null) {
+            if (other.managerMobile != null)
+                return false;
+        }
+        else if (!this.managerMobile.equals(other.managerMobile))
+            return false;
+        if (this.negative == null) {
+            if (other.negative != null)
+                return false;
+        }
+        else if (!this.negative.equals(other.negative))
+            return false;
+        if (this.space == null) {
+            if (other.space != null)
+                return false;
+        }
+        else if (!this.space.equals(other.space))
+            return false;
+        if (this.areaName == null) {
+            if (other.areaName != null)
+                return false;
+        }
+        else if (!this.areaName.equals(other.areaName))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.distinctId == null) {
+            if (other.distinctId != null)
+                return false;
+        }
+        else if (!this.distinctId.equals(other.distinctId))
+            return false;
+        if (this.locationId == null) {
+            if (other.locationId != null)
+                return false;
+        }
+        else if (!this.locationId.equals(other.locationId))
+            return false;
+        if (this.locationAddress == null) {
+            if (other.locationAddress != null)
+                return false;
+        }
+        else if (!this.locationAddress.equals(other.locationAddress))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.managerId == null) ? 0 : this.managerId.hashCode());
+        result = prime * result + ((this.managerName == null) ? 0 : this.managerName.hashCode());
+        result = prime * result + ((this.managerPhone == null) ? 0 : this.managerPhone.hashCode());
+        result = prime * result + ((this.managerMobile == null) ? 0 : this.managerMobile.hashCode());
+        result = prime * result + ((this.negative == null) ? 0 : this.negative.hashCode());
+        result = prime * result + ((this.space == null) ? 0 : this.space.hashCode());
+        result = prime * result + ((this.areaName == null) ? 0 : this.areaName.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.distinctId == null) ? 0 : this.distinctId.hashCode());
+        result = prime * result + ((this.locationId == null) ? 0 : this.locationId.hashCode());
+        result = prime * result + ((this.locationAddress == null) ? 0 : this.locationAddress.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

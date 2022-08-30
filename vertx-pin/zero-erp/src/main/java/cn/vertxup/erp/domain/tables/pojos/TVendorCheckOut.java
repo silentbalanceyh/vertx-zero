@@ -20,14 +20,14 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        commentExtension;
-    private String        classification;
+    private String key;
+    private String commentExtension;
+    private String classification;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private Integer       days;
+    private Integer days;
     private LocalDateTime leaveAt;
-    private String        reason;
+    private String reason;
 
     public TVendorCheckOut() {}
 
@@ -43,14 +43,14 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     public TVendorCheckOut(
-        String        key,
-        String        commentExtension,
-        String        classification,
+        String key,
+        String commentExtension,
+        String classification,
         LocalDateTime startAt,
         LocalDateTime endAt,
-        Integer       days,
+        Integer days,
         LocalDateTime leaveAt,
-        String        reason
+        String reason
     ) {
         this.key = key;
         this.commentExtension = commentExtension;
@@ -215,6 +215,81 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     public TVendorCheckOut setReason(String reason) {
         this.reason = reason;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final TVendorCheckOut other = (TVendorCheckOut) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.commentExtension == null) {
+            if (other.commentExtension != null)
+                return false;
+        }
+        else if (!this.commentExtension.equals(other.commentExtension))
+            return false;
+        if (this.classification == null) {
+            if (other.classification != null)
+                return false;
+        }
+        else if (!this.classification.equals(other.classification))
+            return false;
+        if (this.startAt == null) {
+            if (other.startAt != null)
+                return false;
+        }
+        else if (!this.startAt.equals(other.startAt))
+            return false;
+        if (this.endAt == null) {
+            if (other.endAt != null)
+                return false;
+        }
+        else if (!this.endAt.equals(other.endAt))
+            return false;
+        if (this.days == null) {
+            if (other.days != null)
+                return false;
+        }
+        else if (!this.days.equals(other.days))
+            return false;
+        if (this.leaveAt == null) {
+            if (other.leaveAt != null)
+                return false;
+        }
+        else if (!this.leaveAt.equals(other.leaveAt))
+            return false;
+        if (this.reason == null) {
+            if (other.reason != null)
+                return false;
+        }
+        else if (!this.reason.equals(other.reason))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.commentExtension == null) ? 0 : this.commentExtension.hashCode());
+        result = prime * result + ((this.classification == null) ? 0 : this.classification.hashCode());
+        result = prime * result + ((this.startAt == null) ? 0 : this.startAt.hashCode());
+        result = prime * result + ((this.endAt == null) ? 0 : this.endAt.hashCode());
+        result = prime * result + ((this.days == null) ? 0 : this.days.hashCode());
+        result = prime * result + ((this.leaveAt == null) ? 0 : this.leaveAt.hashCode());
+        result = prime * result + ((this.reason == null) ? 0 : this.reason.hashCode());
+        return result;
     }
 
     @Override

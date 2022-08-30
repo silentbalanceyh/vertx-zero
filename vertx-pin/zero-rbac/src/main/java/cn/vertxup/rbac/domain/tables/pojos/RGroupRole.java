@@ -18,8 +18,8 @@ public class RGroupRole implements VertxPojo, IRGroupRole {
 
     private static final long serialVersionUID = 1L;
 
-    private String  groupId;
-    private String  roleId;
+    private String groupId;
+    private String roleId;
     private Integer priority;
 
     public RGroupRole() {}
@@ -31,8 +31,8 @@ public class RGroupRole implements VertxPojo, IRGroupRole {
     }
 
     public RGroupRole(
-        String  groupId,
-        String  roleId,
+        String groupId,
+        String roleId,
         Integer priority
     ) {
         this.groupId = groupId;
@@ -98,6 +98,46 @@ public class RGroupRole implements VertxPojo, IRGroupRole {
     public RGroupRole setPriority(Integer priority) {
         this.priority = priority;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RGroupRole other = (RGroupRole) obj;
+        if (this.groupId == null) {
+            if (other.groupId != null)
+                return false;
+        }
+        else if (!this.groupId.equals(other.groupId))
+            return false;
+        if (this.roleId == null) {
+            if (other.roleId != null)
+                return false;
+        }
+        else if (!this.roleId.equals(other.roleId))
+            return false;
+        if (this.priority == null) {
+            if (other.priority != null)
+                return false;
+        }
+        else if (!this.priority.equals(other.priority))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.groupId == null) ? 0 : this.groupId.hashCode());
+        result = prime * result + ((this.roleId == null) ? 0 : this.roleId.hashCode());
+        result = prime * result + ((this.priority == null) ? 0 : this.priority.hashCode());
+        return result;
     }
 
     @Override

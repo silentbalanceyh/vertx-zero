@@ -24,6 +24,8 @@ public interface Values {
     int ZERO = 0;
 
     int IDX = 0;
+    int IDX_1 = 1;
+    int IDX_2 = 2;
 
     int RANGE = -1;
 

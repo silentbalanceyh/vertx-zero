@@ -58,6 +58,7 @@ public abstract class ZeroApplication {
 
     protected void ready() {
         // throw new _501NotSupportException(this.getClass());
+        ZeroHeart.initEnvironment();
     }
 
     public void run(final Object... args) {

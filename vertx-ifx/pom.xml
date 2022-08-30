@@ -27,6 +27,7 @@
         <module>zero-ifx-auth</module>      <!-- Enhance:      Extension for Authorization ( Rbac Module ) -->
         <module>zero-ifx-sms</module>       <!-- CN:           Ali Sms Client -->
         <module>zero-ifx-iqiy</module>      <!-- CN:           iqiy Client -->
+        <module>zero-ifx-liquibase</module> <!-- Liquibase Fix        -->
     </modules>
     <dependencies>
         <dependency>

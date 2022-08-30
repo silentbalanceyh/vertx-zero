@@ -20,36 +20,36 @@ public class MAttribute implements VertxPojo, IMAttribute {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        alias;
-    private String        type;
-    private String        expression;
-    private String        normalize;
-    private String        inComponent;
-    private String        outComponent;
-    private String        modelId;
-    private String        comments;
-    private String        source;
-    private String        sourceField;
-    private String        sourceConfig;
-    private String        sourceReference;
-    private String        sourceExternal;
-    private Boolean       isArray;
-    private Boolean       isRefer;
-    private Boolean       isSyncIn;
-    private Boolean       isSyncOut;
-    private Boolean       isLock;
-    private Boolean       isTrack;
-    private Boolean       isConfirm;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String alias;
+    private String type;
+    private String expression;
+    private String normalize;
+    private String inComponent;
+    private String outComponent;
+    private String modelId;
+    private String comments;
+    private String source;
+    private String sourceField;
+    private String sourceConfig;
+    private String sourceReference;
+    private String sourceExternal;
+    private Boolean isArray;
+    private Boolean isRefer;
+    private Boolean isSyncIn;
+    private Boolean isSyncOut;
+    private Boolean isLock;
+    private Boolean isTrack;
+    private Boolean isConfirm;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public MAttribute() {}
 
@@ -87,36 +87,36 @@ public class MAttribute implements VertxPojo, IMAttribute {
     }
 
     public MAttribute(
-        String        key,
-        String        name,
-        String        alias,
-        String        type,
-        String        expression,
-        String        normalize,
-        String        inComponent,
-        String        outComponent,
-        String        modelId,
-        String        comments,
-        String        source,
-        String        sourceField,
-        String        sourceConfig,
-        String        sourceReference,
-        String        sourceExternal,
-        Boolean       isArray,
-        Boolean       isRefer,
-        Boolean       isSyncIn,
-        Boolean       isSyncOut,
-        Boolean       isLock,
-        Boolean       isTrack,
-        Boolean       isConfirm,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String alias,
+        String type,
+        String expression,
+        String normalize,
+        String inComponent,
+        String outComponent,
+        String modelId,
+        String comments,
+        String source,
+        String sourceField,
+        String sourceConfig,
+        String sourceReference,
+        String sourceExternal,
+        Boolean isArray,
+        Boolean isRefer,
+        Boolean isSyncIn,
+        Boolean isSyncOut,
+        Boolean isLock,
+        Boolean isTrack,
+        Boolean isConfirm,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -711,6 +711,235 @@ public class MAttribute implements VertxPojo, IMAttribute {
     public MAttribute setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final MAttribute other = (MAttribute) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.alias == null) {
+            if (other.alias != null)
+                return false;
+        }
+        else if (!this.alias.equals(other.alias))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.expression == null) {
+            if (other.expression != null)
+                return false;
+        }
+        else if (!this.expression.equals(other.expression))
+            return false;
+        if (this.normalize == null) {
+            if (other.normalize != null)
+                return false;
+        }
+        else if (!this.normalize.equals(other.normalize))
+            return false;
+        if (this.inComponent == null) {
+            if (other.inComponent != null)
+                return false;
+        }
+        else if (!this.inComponent.equals(other.inComponent))
+            return false;
+        if (this.outComponent == null) {
+            if (other.outComponent != null)
+                return false;
+        }
+        else if (!this.outComponent.equals(other.outComponent))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!this.comments.equals(other.comments))
+            return false;
+        if (this.source == null) {
+            if (other.source != null)
+                return false;
+        }
+        else if (!this.source.equals(other.source))
+            return false;
+        if (this.sourceField == null) {
+            if (other.sourceField != null)
+                return false;
+        }
+        else if (!this.sourceField.equals(other.sourceField))
+            return false;
+        if (this.sourceConfig == null) {
+            if (other.sourceConfig != null)
+                return false;
+        }
+        else if (!this.sourceConfig.equals(other.sourceConfig))
+            return false;
+        if (this.sourceReference == null) {
+            if (other.sourceReference != null)
+                return false;
+        }
+        else if (!this.sourceReference.equals(other.sourceReference))
+            return false;
+        if (this.sourceExternal == null) {
+            if (other.sourceExternal != null)
+                return false;
+        }
+        else if (!this.sourceExternal.equals(other.sourceExternal))
+            return false;
+        if (this.isArray == null) {
+            if (other.isArray != null)
+                return false;
+        }
+        else if (!this.isArray.equals(other.isArray))
+            return false;
+        if (this.isRefer == null) {
+            if (other.isRefer != null)
+                return false;
+        }
+        else if (!this.isRefer.equals(other.isRefer))
+            return false;
+        if (this.isSyncIn == null) {
+            if (other.isSyncIn != null)
+                return false;
+        }
+        else if (!this.isSyncIn.equals(other.isSyncIn))
+            return false;
+        if (this.isSyncOut == null) {
+            if (other.isSyncOut != null)
+                return false;
+        }
+        else if (!this.isSyncOut.equals(other.isSyncOut))
+            return false;
+        if (this.isLock == null) {
+            if (other.isLock != null)
+                return false;
+        }
+        else if (!this.isLock.equals(other.isLock))
+            return false;
+        if (this.isTrack == null) {
+            if (other.isTrack != null)
+                return false;
+        }
+        else if (!this.isTrack.equals(other.isTrack))
+            return false;
+        if (this.isConfirm == null) {
+            if (other.isConfirm != null)
+                return false;
+        }
+        else if (!this.isConfirm.equals(other.isConfirm))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.alias == null) ? 0 : this.alias.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.expression == null) ? 0 : this.expression.hashCode());
+        result = prime * result + ((this.normalize == null) ? 0 : this.normalize.hashCode());
+        result = prime * result + ((this.inComponent == null) ? 0 : this.inComponent.hashCode());
+        result = prime * result + ((this.outComponent == null) ? 0 : this.outComponent.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.comments == null) ? 0 : this.comments.hashCode());
+        result = prime * result + ((this.source == null) ? 0 : this.source.hashCode());
+        result = prime * result + ((this.sourceField == null) ? 0 : this.sourceField.hashCode());
+        result = prime * result + ((this.sourceConfig == null) ? 0 : this.sourceConfig.hashCode());
+        result = prime * result + ((this.sourceReference == null) ? 0 : this.sourceReference.hashCode());
+        result = prime * result + ((this.sourceExternal == null) ? 0 : this.sourceExternal.hashCode());
+        result = prime * result + ((this.isArray == null) ? 0 : this.isArray.hashCode());
+        result = prime * result + ((this.isRefer == null) ? 0 : this.isRefer.hashCode());
+        result = prime * result + ((this.isSyncIn == null) ? 0 : this.isSyncIn.hashCode());
+        result = prime * result + ((this.isSyncOut == null) ? 0 : this.isSyncOut.hashCode());
+        result = prime * result + ((this.isLock == null) ? 0 : this.isLock.hashCode());
+        result = prime * result + ((this.isTrack == null) ? 0 : this.isTrack.hashCode());
+        result = prime * result + ((this.isConfirm == null) ? 0 : this.isConfirm.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

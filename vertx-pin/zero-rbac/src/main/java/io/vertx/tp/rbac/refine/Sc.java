@@ -1,8 +1,9 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
+import cn.vertxup.rbac.domain.tables.pojos.OUser;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
-import io.vertx.core.CompositeFuture;
+import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -44,6 +45,11 @@ public class Sc {
 
     public static void debugCredit(final Annal logger, final String pattern, final Object... args) {
         ScLog.debugCredit(logger, pattern, args);
+    }
+
+    public static void infoAuth(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoAuth(LOGGER, pattern, args);
     }
 
     public static void infoWeb(final Class<?> clazz, final String pattern, final Object... args) {
@@ -92,6 +98,18 @@ public class Sc {
 
     public static String valueProfile(final SResource resource) {
         return ScTool.valueProfile(resource);
+    }
+
+    public static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
+        return ScTool.valueAuth(user, inputJ);
+    }
+
+    public static Future<List<OUser>> valueAuth(final List<SUser> users) {
+        return ScTool.valueAuth(users);
+    }
+
+    public static Future<List<SUser>> valueAuth(final JsonArray userA, final String sigma) {
+        return ScTool.valueAuth(userA, sigma);
     }
 
     /*
@@ -149,22 +167,6 @@ public class Sc {
 
     public static OAccessToken jwtToken(final JsonObject jwt, final String userKey) {
         return ScToken.jwtToken(jwt, userKey);
-    }
-
-    /*
-     * Relation query based on input parameters
-     * JqTool `R_X_Y` Where `field = key` ( field belong to X )
-     *
-     * 1) R_USER_ROLE: JqTool roles based on user's key
-     * 2) R_GROUP_ROLE: JqTool roles based on group's key
-     * 3) R_USER_GROUP: JqTool groups based on user's key
-     */
-    public static <T> Future<JsonArray> relation(final String field, final String key, final Class<?> daoCls) {
-        return ScFn.<T>relation(field, key, daoCls);
-    }
-
-    public static <T> Future<List<T>> composite(final CompositeFuture res) {
-        return ScFn.composite(res);
     }
 
     /*

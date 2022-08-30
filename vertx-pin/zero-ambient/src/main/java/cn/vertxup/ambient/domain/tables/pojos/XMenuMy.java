@@ -20,27 +20,27 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        icon;
-    private String        text;
-    private String        uri;
-    private Long          uiSort;
-    private String        uiParent;
-    private String        uiColorFg;
-    private String        uiColorBg;
-    private String        type;
-    private String        page;
-    private String        position;
-    private String        owner;
-    private String        parameter;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String icon;
+    private String text;
+    private String uri;
+    private Long uiSort;
+    private String uiParent;
+    private String uiColorFg;
+    private String uiColorBg;
+    private String type;
+    private String page;
+    private String position;
+    private String owner;
+    private String parameter;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XMenuMy() {}
 
@@ -69,27 +69,27 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     }
 
     public XMenuMy(
-        String        key,
-        String        icon,
-        String        text,
-        String        uri,
-        Long          uiSort,
-        String        uiParent,
-        String        uiColorFg,
-        String        uiColorBg,
-        String        type,
-        String        page,
-        String        position,
-        String        owner,
-        String        parameter,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String icon,
+        String text,
+        String uri,
+        Long uiSort,
+        String uiParent,
+        String uiColorFg,
+        String uiColorBg,
+        String type,
+        String page,
+        String position,
+        String owner,
+        String parameter,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.icon = icon;
@@ -484,6 +484,172 @@ public class XMenuMy implements VertxPojo, IXMenuMy {
     public XMenuMy setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XMenuMy other = (XMenuMy) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.icon == null) {
+            if (other.icon != null)
+                return false;
+        }
+        else if (!this.icon.equals(other.icon))
+            return false;
+        if (this.text == null) {
+            if (other.text != null)
+                return false;
+        }
+        else if (!this.text.equals(other.text))
+            return false;
+        if (this.uri == null) {
+            if (other.uri != null)
+                return false;
+        }
+        else if (!this.uri.equals(other.uri))
+            return false;
+        if (this.uiSort == null) {
+            if (other.uiSort != null)
+                return false;
+        }
+        else if (!this.uiSort.equals(other.uiSort))
+            return false;
+        if (this.uiParent == null) {
+            if (other.uiParent != null)
+                return false;
+        }
+        else if (!this.uiParent.equals(other.uiParent))
+            return false;
+        if (this.uiColorFg == null) {
+            if (other.uiColorFg != null)
+                return false;
+        }
+        else if (!this.uiColorFg.equals(other.uiColorFg))
+            return false;
+        if (this.uiColorBg == null) {
+            if (other.uiColorBg != null)
+                return false;
+        }
+        else if (!this.uiColorBg.equals(other.uiColorBg))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.page == null) {
+            if (other.page != null)
+                return false;
+        }
+        else if (!this.page.equals(other.page))
+            return false;
+        if (this.position == null) {
+            if (other.position != null)
+                return false;
+        }
+        else if (!this.position.equals(other.position))
+            return false;
+        if (this.owner == null) {
+            if (other.owner != null)
+                return false;
+        }
+        else if (!this.owner.equals(other.owner))
+            return false;
+        if (this.parameter == null) {
+            if (other.parameter != null)
+                return false;
+        }
+        else if (!this.parameter.equals(other.parameter))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.icon == null) ? 0 : this.icon.hashCode());
+        result = prime * result + ((this.text == null) ? 0 : this.text.hashCode());
+        result = prime * result + ((this.uri == null) ? 0 : this.uri.hashCode());
+        result = prime * result + ((this.uiSort == null) ? 0 : this.uiSort.hashCode());
+        result = prime * result + ((this.uiParent == null) ? 0 : this.uiParent.hashCode());
+        result = prime * result + ((this.uiColorFg == null) ? 0 : this.uiColorFg.hashCode());
+        result = prime * result + ((this.uiColorBg == null) ? 0 : this.uiColorBg.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.page == null) ? 0 : this.page.hashCode());
+        result = prime * result + ((this.position == null) ? 0 : this.position.hashCode());
+        result = prime * result + ((this.owner == null) ? 0 : this.owner.hashCode());
+        result = prime * result + ((this.parameter == null) ? 0 : this.parameter.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

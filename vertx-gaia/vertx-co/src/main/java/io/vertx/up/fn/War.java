@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
+import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
@@ -20,6 +21,8 @@ import java.util.function.*;
  */
 @SuppressWarnings("all")
 class War {
+
+    private static final WebException ERROR = new _500InternalServerException(War.class, null);
 
     private static <T> Function<Throwable, T> otherwise(final Supplier<T> supplier) {
         return error -> {
@@ -38,6 +41,23 @@ class War {
                 (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
         }).otherwise(otherwise(ArrayList::new));
+    }
+
+    static <T> Future<List<T>> combineT(final CompositeFuture res) {
+        if (res.succeeded()) {
+            final List<T> result = res.list();
+            return Future.succeededFuture(result);
+        } else {
+            final Throwable error = res.cause();
+            final WebException failure;
+            if (Objects.nonNull(error)) {
+                error.printStackTrace();
+                failure = new _500InternalServerException(War.class, error.getMessage());
+            } else {
+                failure = ERROR;
+            }
+            return Future.failedFuture(failure);
+        }
     }
 
     static <T> Future<Set<T>> combineT(final Set<Future<T>> futures) {
@@ -239,5 +259,24 @@ class War {
             }
             return Future.succeededFuture(resultMap);
         }).otherwise(otherwise(ConcurrentHashMap::new));
+    }
+
+    static <J, A> Future<JsonObject> choiceJ(final JsonObject input, final String field,
+                                             final Function<JsonObject, Future<J>> itemFnJ,
+                                             final Function<JsonArray, Future<A>> itemFnA) {
+        final Object value = input.getValue(field);
+        if (value instanceof JsonArray) {
+            return itemFnA.apply((JsonArray) value).compose(processed -> {
+                input.put(field, (J) processed);
+                return Future.succeededFuture(input);
+            });
+        } else if (value instanceof JsonObject) {
+            return itemFnJ.apply((JsonObject) value).compose(processed -> {
+                input.put(field, (A) processed);
+                return Future.succeededFuture(input);
+            });
+        } else {
+            return Future.succeededFuture(input);
+        }
     }
 }

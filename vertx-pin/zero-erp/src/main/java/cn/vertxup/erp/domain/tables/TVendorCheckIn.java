@@ -7,12 +7,14 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.TVendorCheckInRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -124,6 +126,11 @@ public class TVendorCheckIn extends TableImpl<TVendorCheckInRecord> {
         return new TVendorCheckIn(alias, this);
     }
 
+    @Override
+    public TVendorCheckIn as(Table<?> alias) {
+        return new TVendorCheckIn(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -140,6 +147,14 @@ public class TVendorCheckIn extends TableImpl<TVendorCheckInRecord> {
         return new TVendorCheckIn(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public TVendorCheckIn rename(Table<?> name) {
+        return new TVendorCheckIn(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row7 type methods
     // -------------------------------------------------------------------------
@@ -147,5 +162,20 @@ public class TVendorCheckIn extends TableImpl<TVendorCheckInRecord> {
     @Override
     public Row7<String, String, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime> fieldsRow() {
         return (Row7) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function7<? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super Integer, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super Integer, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

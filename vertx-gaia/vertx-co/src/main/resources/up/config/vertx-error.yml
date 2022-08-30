@@ -215,7 +215,12 @@ E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
 E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
 E80221: "(401) - (RBAC) Your wrong password typing exceed `{0}` times, please wait around `{1}` mins and try again"
 E80222: "(401) - (RBAC) Image code ( {0} ) that you provided is wrong"
-E80223: "(409) - (RBAC) The `scUi` definied should not be NONE, please check your configuration of code = `{0}` in Admin Panel"
+
+# RBAC Module - New for Management Platform
+E80223: "(409) - (RBAC) The `uiType` defined should not be NONE, please check your configuration of code = `{0}` in Admin Panel"
+E80224: "(409) - (RBAC) The `phase` of ui part must be EAGER, but not it''s {0}"
+E80225: "(404) - (RBAC) The `uiType` defined {0} could not detect correct HAdminCompiler component"
+E80226: "(404) - (RBAC) You have defined type to \"DAO\", but the `dao` attribute is not valid class: {0}"
 
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"

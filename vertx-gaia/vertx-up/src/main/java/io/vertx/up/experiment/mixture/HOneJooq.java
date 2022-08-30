@@ -34,7 +34,7 @@ class HOneJooq implements HOne<UxJooq> {
         // 1. Extract Mode from 'IxModule' for data source switching
         final DSMode mode = module.getMode();
         if (DSMode.DYNAMIC == mode) {
-            dao = Ux.channelSync(DS.class,
+            dao = Ux.channelS(DS.class,
                 /* `provider` configured */
                 () -> Ux.Jooq.on(daoCls),
                 /* Dynamic Data Source Here */

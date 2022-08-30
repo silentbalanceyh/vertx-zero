@@ -1,6 +1,7 @@
 package io.vertx.aeon.specification.action;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 「指令」指令抽象到底层某个单独行为中（底层封装）
@@ -19,8 +20,12 @@ public interface HCommand<I, R> {
     R configure(I input);
 
     // 步骤2：一致性保持最新，同步
-    R synchro(I input);
+    default R synchro(final I input, final JsonObject request) {
+        return null;
+    }
 
     // 步骤3：验证后期处理环节
-    R compile(I input);
+    default R compile(final I input, final JsonObject request) {
+        return null;
+    }
 }

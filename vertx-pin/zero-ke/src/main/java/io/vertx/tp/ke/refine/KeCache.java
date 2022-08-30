@@ -36,7 +36,7 @@ class KeCache {
     }
 
     static String uri(final String uri, final String requestUri) {
-        return Ux.channelSync(Orbit.class, () -> uri, orbit -> {
+        return Ux.channelS(Orbit.class, () -> uri, orbit -> {
             /* Pocket processing */
             final Income income = Pocket.income(Orbit.class, uri, requestUri);
             return orbit.analyze(income.arguments());

@@ -7,6 +7,7 @@ package cn.vertxup.workflow.domain.tables;
 import cn.vertxup.workflow.domain.Db;
 import cn.vertxup.workflow.domain.Keys;
 import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -220,6 +221,11 @@ public class WFlow extends TableImpl<WFlowRecord> {
         return new WFlow(alias, this);
     }
 
+    @Override
+    public WFlow as(Table<?> alias) {
+        return new WFlow(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -234,5 +240,13 @@ public class WFlow extends TableImpl<WFlowRecord> {
     @Override
     public WFlow rename(Name name) {
         return new WFlow(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public WFlow rename(Table<?> name) {
+        return new WFlow(name.getQualifiedName(), null);
     }
 }

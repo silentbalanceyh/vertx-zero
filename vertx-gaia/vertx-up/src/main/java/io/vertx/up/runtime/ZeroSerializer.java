@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ZeroSerializer {
 
     private static final ConcurrentMap<Class<?>, Saber> SABERS =
-        new ConcurrentHashMap<Class<?>, Saber>() {
+        new ConcurrentHashMap<>() {
             {
                 this.put(int.class, Ut.singleton(IntegerSaber.class));
                 this.put(Integer.class, Ut.singleton(IntegerSaber.class));

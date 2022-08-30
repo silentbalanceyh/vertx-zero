@@ -1,7 +1,8 @@
 package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -13,6 +14,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KPair;
@@ -42,7 +44,7 @@ public final class Ut {
     private Ut() {
     }
 
-    public static ObjectMapper mapper() {
+    public static JsonMapper mapper() {
         return Jackson.getMapper();
     }
     /*
@@ -61,7 +63,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -208,6 +209,17 @@ public final class Ut {
         return ArrayL.zipper(array, field);
     }
 
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final String fieldOn, final ConcurrentMap<String, JsonArray> grouped) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, null);
+    }
+
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final String fieldOn,
+                                       final ConcurrentMap<String, JsonArray> grouped, final String fieldTo) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, fieldTo);
+    }
+
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
         return ArrayL.subset(input, fields);
     }
@@ -226,6 +238,10 @@ public final class Ut {
 
     public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
         return ArrayL.group(object, keyFn, valueFn);
+    }
+
+    public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn) {
+        return ArrayL.group(object, keyFn, item -> (V) item);
     }
 
     public static <K, V> ConcurrentMap<K, V> elementMap(final List<V> dataList, final Function<V, K> keyFn) {
@@ -537,7 +553,8 @@ public final class Ut {
      */
 
     public static <T> T service(final Class<T> interfaceCls) {
-        return Instance.service(interfaceCls);
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        return HService.load(interfaceCls, classLoader);
     }
 
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
@@ -835,7 +852,11 @@ public final class Ut {
      * Object converting here of serialization
      */
     public static <T, R extends Iterable> R serializeJson(final T t) {
-        return Jackson.serializeJson(t);
+        return Jackson.serializeJson(t, false);
+    }
+
+    public static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
+        return Jackson.serializeJson(t, isSmart);
     }
 
     public static <T> String serialize(final T t) {
@@ -843,11 +864,19 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final JsonObject value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, true);
+    }
+
+    public static <T> T deserialize(final JsonObject value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> T deserialize(final JsonArray value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, false);
+    }
+
+    public static <T> T deserialize(final JsonArray value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
@@ -855,7 +884,11 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final String value, final Class<T> clazz) {
-        return Jackson.deserialize(value, clazz);
+        return Jackson.deserialize(value, clazz, false);
+    }
+
+    public static <T> T deserialize(final String value, final Class<T> clazz, boolean isSmart) {
+        return Jackson.deserialize(value, clazz, isSmart);
     }
 
     public static <T> T deserialize(final String value, final TypeReference<T> type) {
@@ -1558,7 +1591,6 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
-     *
      * @return a string of captcha with certain length.
      */
     /*
@@ -1782,6 +1814,10 @@ public final class Ut {
         return Epsilon.vString(json, field, null);
     }
 
+    public static Integer valueInt(final JsonObject json, final String field) {
+        return Epsilon.vInt(json, field, Values.RANGE);
+    }
+
     public static String valueString(final JsonObject json, final String field, final String defaultValue) {
         return Epsilon.vString(json, field, defaultValue);
     }
@@ -1825,12 +1861,20 @@ public final class Ut {
         return Jackson.sureJArray(array);
     }
 
+    public static JsonArray valueJArray(final JsonArray array, final boolean copied) {
+        return Jackson.sureJArray(array, copied);
+    }
+
     public static JsonArray valueJArray(final JsonObject input, final String field) {
         return Jackson.sureJArray(input, field);
     }
 
     public static JsonObject valueJObject(final JsonObject object) {
         return Jackson.sureJObject(object);
+    }
+
+    public static JsonObject valueJObject(final JsonObject object, final boolean copied) {
+        return Jackson.sureJObject(object, copied);
     }
 
     public static JsonObject valueJObject(final JsonObject input, final String field) {

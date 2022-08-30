@@ -7,6 +7,7 @@ package cn.vertxup.integration.domain;
 import cn.vertxup.integration.domain.tables.IDirectory;
 import cn.vertxup.integration.domain.tables.IIntegration;
 import cn.vertxup.integration.domain.tables.IMessage;
+import cn.vertxup.integration.domain.tables.IPortfolio;
 import io.vertx.tp.ke.refine.Ke;
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -43,6 +44,11 @@ public class Db extends SchemaImpl {
     public final IMessage I_MESSAGE = IMessage.I_MESSAGE;
 
     /**
+     * The table <code>DB_ETERNAL.I_PORTFOLIO</code>.
+     */
+    public final IPortfolio I_PORTFOLIO = IPortfolio.I_PORTFOLIO;
+
+    /**
      * No further instances allowed
      */
     private Db() {
@@ -60,7 +66,8 @@ public class Db extends SchemaImpl {
         return Arrays.asList(
             IDirectory.I_DIRECTORY,
             IIntegration.I_INTEGRATION,
-            IMessage.I_MESSAGE
+            IMessage.I_MESSAGE,
+            IPortfolio.I_PORTFOLIO
         );
     }
 }

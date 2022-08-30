@@ -83,7 +83,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
         final Ares ares = Ares.instance(this.vertx);
 
         /* Get the default HttpServer Options **/
-        ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
+        ZeroGrid.getServerOptions().forEach((port, option) -> {
             /*
              * To enable extend of StompServer, there should be
              * Some code logical to set WebSocket Sub Protocols such as
@@ -129,7 +129,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
     @Override
     public void stop() {
-        Ut.itMap(ZeroAtomic.HTTP_OPTS, (port, config) -> {
+        Ut.itMap(ZeroGrid.getServerOptions(), (port, config) -> {
             // Enabled micro mode.
             if (ZeroHeart.isEtcd()) {
                 // Template call registry to modify the status of current service.
@@ -142,7 +142,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
     private void registryServer(final HttpServerOptions options,
                                 final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.ATOMIC_FLAG.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);

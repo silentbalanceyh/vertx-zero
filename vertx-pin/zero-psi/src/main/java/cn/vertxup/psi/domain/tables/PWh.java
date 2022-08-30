@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PWhRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -196,6 +197,11 @@ public class PWh extends TableImpl<PWhRecord> {
         return new PWh(alias, this);
     }
 
+    @Override
+    public PWh as(Table<?> alias) {
+        return new PWh(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -210,5 +216,13 @@ public class PWh extends TableImpl<PWhRecord> {
     @Override
     public PWh rename(Name name) {
         return new PWh(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PWh rename(Table<?> name) {
+        return new PWh(name.getQualifiedName(), null);
     }
 }

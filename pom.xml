@@ -63,12 +63,12 @@
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.3.2</vertx.version>
-        <stack.version>4.3.2</stack.version>
+        <vertx.version>4.3.3</vertx.version>
+        <stack.version>4.3.3</stack.version>
 
         <jcabi.version>0.24.1</jcabi.version>
         <jersey.version>2.36</jersey.version>
@@ -77,8 +77,8 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.8</jooq.version>
-        <vertx.jooq.version>6.5.4</vertx.jooq.version>
+        <jooq.version>3.17.3</jooq.version>
+        <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.30</mysql.version>
 
         <!-- Java Reflection -->
@@ -100,20 +100,19 @@
         <guava.version>31.1-jre</guava.version>
         <scala.version>2.12.16</scala.version>
         <feign.version>8.18.0</feign.version>
-        <joda.version>2.10.14</joda.version>
+        <joda.version>2.11.1</joda.version>
         <codehaus.janino.version>3.1.7</codehaus.janino.version>
-        <codehaus.mojo.version>1.21</codehaus.mojo.version>
+        <codehaus.mojo.version>1.22</codehaus.mojo.version>
         <ignite.version>2.13.0</ignite.version>
         <mongodb.async.version>3.12.11</mongodb.async.version>
         <poi.version>5.2.2</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
-        <jedis.version>4.2.3</jedis.version>
+        <jedis.version>4.3.0-m1</jedis.version>
         <j2objc.version>1.3</j2objc.version>
         <checker.version>3.24.0</checker.version>
-        <termd.version>1.1.9</termd.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.17.5</elasticsearch.version>
+        <elasticsearch.version>7.17.6</elasticsearch.version>
 
         <!-- neo4j search -->
         <neo4j.version>4.4.9</neo4j.version>
@@ -133,12 +132,12 @@
         <http.core.version>4.4.15</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.10.3</liquibase.version>
+        <liquibase.version>4.15.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.48.1</grpc.version>
-        <protobuf.version>3.21.4</protobuf.version>
+        <grpc.version>1.49.0</grpc.version>
+        <protobuf.version>3.21.5</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.9.1</gson.version>
         <picoli.version>4.6.3</picoli.version>
@@ -150,7 +149,8 @@
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
         <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
-        <netty.version>4.1.79.Final</netty.version>
+        <netty.version>4.1.80.Final</netty.version>
+        <io.termd.version>1.1.9</io.termd.version>
 
         <!-- Upload Issue -->
         <hazelcast.version>5.1.3</hazelcast.version>
@@ -177,7 +177,7 @@
 
         <!-- AspectJ -->
         <aspectj.version>1.9.9.1</aspectj.version>
-        <javassist.version>3.29.0-GA</javassist.version>
+        <javassist.version>3.29.1-GA</javassist.version>
         <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
         <asciidoctor.version>2.2.2</asciidoctor.version>
@@ -226,10 +226,10 @@
 
         <!-- Camunda -->
         <camunda.version>7.17.0</camunda.version>
-        <camunda.spin.version>1.17.0</camunda.spin.version>
+        <camunda.spin.version>1.18.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
-        <camunda.connect.version>1.5.5</camunda.connect.version>
-        <camunda.util.version>1.11.0</camunda.util.version>
+        <camunda.connect.version>1.5.6</camunda.connect.version>
+        <camunda.util.version>1.12.0</camunda.util.version>
         <java.uuid.generator>4.0.1</java.uuid.generator>
         <mybatis.version>3.5.10</mybatis.version>
     </properties>
@@ -811,7 +811,7 @@
             <dependency>
                 <groupId>io.termd</groupId>
                 <artifactId>termd-core</artifactId>
-                <version>${termd.version}</version>
+                <version>${io.termd.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -2009,23 +2009,21 @@
                     <destDir>document</destDir>
                     <!-- 连接配置 -->
                     <doclint>none,-missing</doclint>
-                    <stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
+                    <!--<stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
                     <additionalJOptions>
                         <additionalJOption>
-                            -J--add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
-                        </additionalJOption> <!--(1)-->
+                            -J&#45;&#45;add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
+                        </additionalJOption> &lt;!&ndash;(1)&ndash;&gt;
                         <additionalJOption>-Xdoclint:none,-html,-accessibility,-missing</additionalJOption>
-                        <additionalJOption>--base-dir</additionalJOption>
                         <additionalJOption>${project.basedir}</additionalJOption>
-                        <additionalJOption>--frames</additionalJOption>
-                    </additionalJOptions>
-                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
-                    <docletArtifact>
-                        <groupId>org.uniknow</groupId>
-                        <artifactId>asciidoclet</artifactId>
-                        <version>${asciidoctor.doc.version}</version>
-                    </docletArtifact>
+                    </additionalJOptions>-->
+                    <!--                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
+                                        <docletArtifact>
+                                            <groupId>org.uniknow</groupId>
+                                            <artifactId>asciidoclet</artifactId>
+                                            <version>${asciidoctor.doc.version}</version>
+                                        </docletArtifact>-->
                     <detectJavaApiLink>true</detectJavaApiLink>
                 </configuration>
                 <executions>
@@ -2034,6 +2032,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <release>11</release>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

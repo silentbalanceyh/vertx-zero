@@ -20,37 +20,37 @@ public class IApi implements VertxPojo, IIApi {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        uri;
-    private String        method;
-    private String        consumes;
-    private String        produces;
-    private Boolean       secure;
-    private String        comment;
-    private String        type;
-    private String        paramMode;
-    private String        paramRequired;
-    private String        paramContained;
-    private String        inRule;
-    private String        inMapping;
-    private String        inPlug;
-    private String        inScript;
-    private String        outWriter;
-    private String        workerType;
-    private String        workerAddress;
-    private String        workerConsumer;
-    private String        workerClass;
-    private String        workerJs;
-    private String        serviceId;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String uri;
+    private String method;
+    private String consumes;
+    private String produces;
+    private Boolean secure;
+    private String comment;
+    private String type;
+    private String paramMode;
+    private String paramRequired;
+    private String paramContained;
+    private String inRule;
+    private String inMapping;
+    private String inPlug;
+    private String inScript;
+    private String outWriter;
+    private String workerType;
+    private String workerAddress;
+    private String workerConsumer;
+    private String workerClass;
+    private String workerJs;
+    private String serviceId;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public IApi() {}
 
@@ -89,37 +89,37 @@ public class IApi implements VertxPojo, IIApi {
     }
 
     public IApi(
-        String        key,
-        String        name,
-        String        uri,
-        String        method,
-        String        consumes,
-        String        produces,
-        Boolean       secure,
-        String        comment,
-        String        type,
-        String        paramMode,
-        String        paramRequired,
-        String        paramContained,
-        String        inRule,
-        String        inMapping,
-        String        inPlug,
-        String        inScript,
-        String        outWriter,
-        String        workerType,
-        String        workerAddress,
-        String        workerConsumer,
-        String        workerClass,
-        String        workerJs,
-        String        serviceId,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String uri,
+        String method,
+        String consumes,
+        String produces,
+        Boolean secure,
+        String comment,
+        String type,
+        String paramMode,
+        String paramRequired,
+        String paramContained,
+        String inRule,
+        String inMapping,
+        String inPlug,
+        String inScript,
+        String outWriter,
+        String workerType,
+        String workerAddress,
+        String workerConsumer,
+        String workerClass,
+        String workerJs,
+        String serviceId,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -710,6 +710,242 @@ public class IApi implements VertxPojo, IIApi {
     public IApi setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final IApi other = (IApi) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.uri == null) {
+            if (other.uri != null)
+                return false;
+        }
+        else if (!this.uri.equals(other.uri))
+            return false;
+        if (this.method == null) {
+            if (other.method != null)
+                return false;
+        }
+        else if (!this.method.equals(other.method))
+            return false;
+        if (this.consumes == null) {
+            if (other.consumes != null)
+                return false;
+        }
+        else if (!this.consumes.equals(other.consumes))
+            return false;
+        if (this.produces == null) {
+            if (other.produces != null)
+                return false;
+        }
+        else if (!this.produces.equals(other.produces))
+            return false;
+        if (this.secure == null) {
+            if (other.secure != null)
+                return false;
+        }
+        else if (!this.secure.equals(other.secure))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.paramMode == null) {
+            if (other.paramMode != null)
+                return false;
+        }
+        else if (!this.paramMode.equals(other.paramMode))
+            return false;
+        if (this.paramRequired == null) {
+            if (other.paramRequired != null)
+                return false;
+        }
+        else if (!this.paramRequired.equals(other.paramRequired))
+            return false;
+        if (this.paramContained == null) {
+            if (other.paramContained != null)
+                return false;
+        }
+        else if (!this.paramContained.equals(other.paramContained))
+            return false;
+        if (this.inRule == null) {
+            if (other.inRule != null)
+                return false;
+        }
+        else if (!this.inRule.equals(other.inRule))
+            return false;
+        if (this.inMapping == null) {
+            if (other.inMapping != null)
+                return false;
+        }
+        else if (!this.inMapping.equals(other.inMapping))
+            return false;
+        if (this.inPlug == null) {
+            if (other.inPlug != null)
+                return false;
+        }
+        else if (!this.inPlug.equals(other.inPlug))
+            return false;
+        if (this.inScript == null) {
+            if (other.inScript != null)
+                return false;
+        }
+        else if (!this.inScript.equals(other.inScript))
+            return false;
+        if (this.outWriter == null) {
+            if (other.outWriter != null)
+                return false;
+        }
+        else if (!this.outWriter.equals(other.outWriter))
+            return false;
+        if (this.workerType == null) {
+            if (other.workerType != null)
+                return false;
+        }
+        else if (!this.workerType.equals(other.workerType))
+            return false;
+        if (this.workerAddress == null) {
+            if (other.workerAddress != null)
+                return false;
+        }
+        else if (!this.workerAddress.equals(other.workerAddress))
+            return false;
+        if (this.workerConsumer == null) {
+            if (other.workerConsumer != null)
+                return false;
+        }
+        else if (!this.workerConsumer.equals(other.workerConsumer))
+            return false;
+        if (this.workerClass == null) {
+            if (other.workerClass != null)
+                return false;
+        }
+        else if (!this.workerClass.equals(other.workerClass))
+            return false;
+        if (this.workerJs == null) {
+            if (other.workerJs != null)
+                return false;
+        }
+        else if (!this.workerJs.equals(other.workerJs))
+            return false;
+        if (this.serviceId == null) {
+            if (other.serviceId != null)
+                return false;
+        }
+        else if (!this.serviceId.equals(other.serviceId))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.uri == null) ? 0 : this.uri.hashCode());
+        result = prime * result + ((this.method == null) ? 0 : this.method.hashCode());
+        result = prime * result + ((this.consumes == null) ? 0 : this.consumes.hashCode());
+        result = prime * result + ((this.produces == null) ? 0 : this.produces.hashCode());
+        result = prime * result + ((this.secure == null) ? 0 : this.secure.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.paramMode == null) ? 0 : this.paramMode.hashCode());
+        result = prime * result + ((this.paramRequired == null) ? 0 : this.paramRequired.hashCode());
+        result = prime * result + ((this.paramContained == null) ? 0 : this.paramContained.hashCode());
+        result = prime * result + ((this.inRule == null) ? 0 : this.inRule.hashCode());
+        result = prime * result + ((this.inMapping == null) ? 0 : this.inMapping.hashCode());
+        result = prime * result + ((this.inPlug == null) ? 0 : this.inPlug.hashCode());
+        result = prime * result + ((this.inScript == null) ? 0 : this.inScript.hashCode());
+        result = prime * result + ((this.outWriter == null) ? 0 : this.outWriter.hashCode());
+        result = prime * result + ((this.workerType == null) ? 0 : this.workerType.hashCode());
+        result = prime * result + ((this.workerAddress == null) ? 0 : this.workerAddress.hashCode());
+        result = prime * result + ((this.workerConsumer == null) ? 0 : this.workerConsumer.hashCode());
+        result = prime * result + ((this.workerClass == null) ? 0 : this.workerClass.hashCode());
+        result = prime * result + ((this.workerJs == null) ? 0 : this.workerJs.hashCode());
+        result = prime * result + ((this.serviceId == null) ? 0 : this.serviceId.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -28,15 +28,14 @@ final class ArrayL {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
-     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
         return Fn.getNull(() -> {
             final List<T> filtered = list.stream().filter(fnFilter).collect(Collectors.toList());
             return Fn.getSemi(filtered.isEmpty(), LOGGER,
-                () -> null,
-                () -> filtered.get(Values.IDX));
+                    () -> null,
+                    () -> filtered.get(Values.IDX));
         }, list, fnFilter);
     }
 
@@ -91,9 +90,9 @@ final class ArrayL {
     static JsonArray subset(final JsonArray array, final Set<String> pickedKeys) {
         final JsonArray updated = new JsonArray();
         Ut.itJArray(array).filter(Objects::nonNull)
-            .map(item -> subset(item, pickedKeys))
-            .filter(Ut::notNil)
-            .forEach(updated::add);
+                .map(item -> subset(item, pickedKeys))
+                .filter(Ut::notNil)
+                .forEach(updated::add);
         return updated;
     }
 
@@ -124,19 +123,42 @@ final class ArrayL {
     static JsonObject zipper(final JsonArray array, final String field) {
         final JsonObject grouped = new JsonObject();
         array.stream().map(item -> (JsonObject) item)
-            .filter(Objects::nonNull)
-            .filter(item -> Objects.nonNull(item.getValue(field)))
-            .forEach(item -> grouped.put(item.getString(field), item.copy()));
+                .filter(Objects::nonNull)
+                .filter(item -> Objects.nonNull(item.getValue(field)))
+                .forEach(item -> grouped.put(item.getString(field), item.copy()));
         return grouped;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> JsonArray zipper(final JsonArray array, final String fieldFrom,
+                                final String fieldOn,
+                                final ConcurrentMap<T, JsonArray> grouped, final String fieldTo) {
+        Ut.itJArray(array).forEach(json -> {
+            final T fieldV = (T) json.getValue(fieldFrom, null);
+            final JsonArray data;
+            if (Objects.nonNull(fieldV)) {
+                data = grouped.getOrDefault(fieldV, new JsonArray());
+            } else {
+                data = new JsonArray();
+            }
+            if (Ut.isNil(fieldTo)) {
+                json.put(fieldOn, data);
+            } else {
+                final JsonArray replaced = new JsonArray();
+                Ut.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
+                json.put(fieldOn, replaced);
+            }
+        });
+        return array;
     }
 
     static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
         final Set<V> valueSet = new HashSet<>();
         listT.stream()
-            .filter(Objects::nonNull)
-            .map(executor)
-            .filter(Objects::nonNull)
-            .forEach(valueSet::add);
+                .filter(Objects::nonNull)
+                .map(executor)
+                .filter(Objects::nonNull)
+                .forEach(valueSet::add);
         return valueSet;
     }
 
@@ -252,26 +274,26 @@ final class ArrayL {
         final ConcurrentMap<String, JsonArray> ret = new ConcurrentHashMap<>();
         if (Objects.nonNull(source) && !source.isEmpty()) {
             source.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .filter(item -> Objects.nonNull(executor.apply(item)))
-                .forEach(item -> {
-                    /*
-                     * JsonArray get
-                     */
-                    final String key = executor.apply(item);
-                    /*
-                     * `key` calculated here for map final `key`
-                     */
-                    JsonArray reference = ret.get(key);
-                    if (Objects.isNull(reference)) {
-                        reference = new JsonArray();
-                        ret.put(key, reference);
-                    }
-                    /*
-                     * Add new Object
-                     */
-                    reference.add(item.copy());
-                });
+                    .map(item -> (JsonObject) item)
+                    .filter(item -> Objects.nonNull(executor.apply(item)))
+                    .forEach(item -> {
+                        /*
+                         * JsonArray get
+                         */
+                        final String key = executor.apply(item);
+                        /*
+                         * `key` calculated here for map final `key`
+                         */
+                        JsonArray reference = ret.get(key);
+                        if (Objects.isNull(reference)) {
+                            reference = new JsonArray();
+                            ret.put(key, reference);
+                        }
+                        /*
+                         * Add new Object
+                         */
+                        reference.add(item.copy());
+                    });
         }
         return ret;
     }

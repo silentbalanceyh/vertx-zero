@@ -21,37 +21,37 @@ public class PBuyItem implements VertxPojo, IPBuyItem {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        status;
-    private String        commodityId;
-    private String        commodityCode;
-    private String        commodityName;
-    private String        customerId;
-    private String        ticketId;
-    private String        orderId;
-    private Integer       numRequest;
-    private Integer       numApproved;
-    private Integer       num;
-    private BigDecimal    taxRate;
-    private BigDecimal    taxAmount;
-    private BigDecimal    taxPrice;
-    private BigDecimal    amountTotal;
-    private BigDecimal    amountSplit;
-    private BigDecimal    amount;
-    private BigDecimal    price;
-    private BigDecimal    discountAmount;
-    private BigDecimal    discountRate;
-    private String        comment;
+    private String key;
+    private String serial;
+    private String status;
+    private String commodityId;
+    private String commodityCode;
+    private String commodityName;
+    private String customerId;
+    private String ticketId;
+    private String orderId;
+    private Integer numRequest;
+    private Integer numApproved;
+    private Integer num;
+    private BigDecimal taxRate;
+    private BigDecimal taxAmount;
+    private BigDecimal taxPrice;
+    private BigDecimal amountTotal;
+    private BigDecimal amountSplit;
+    private BigDecimal amount;
+    private BigDecimal price;
+    private BigDecimal discountAmount;
+    private BigDecimal discountRate;
+    private String comment;
     private LocalDateTime arriveAt;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public PBuyItem() {}
 
@@ -90,37 +90,37 @@ public class PBuyItem implements VertxPojo, IPBuyItem {
     }
 
     public PBuyItem(
-        String        key,
-        String        serial,
-        String        status,
-        String        commodityId,
-        String        commodityCode,
-        String        commodityName,
-        String        customerId,
-        String        ticketId,
-        String        orderId,
-        Integer       numRequest,
-        Integer       numApproved,
-        Integer       num,
-        BigDecimal    taxRate,
-        BigDecimal    taxAmount,
-        BigDecimal    taxPrice,
-        BigDecimal    amountTotal,
-        BigDecimal    amountSplit,
-        BigDecimal    amount,
-        BigDecimal    price,
-        BigDecimal    discountAmount,
-        BigDecimal    discountRate,
-        String        comment,
+        String key,
+        String serial,
+        String status,
+        String commodityId,
+        String commodityCode,
+        String commodityName,
+        String customerId,
+        String ticketId,
+        String orderId,
+        Integer numRequest,
+        Integer numApproved,
+        Integer num,
+        BigDecimal taxRate,
+        BigDecimal taxAmount,
+        BigDecimal taxPrice,
+        BigDecimal amountTotal,
+        BigDecimal amountSplit,
+        BigDecimal amount,
+        BigDecimal price,
+        BigDecimal discountAmount,
+        BigDecimal discountRate,
+        String comment,
         LocalDateTime arriveAt,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -721,6 +721,242 @@ public class PBuyItem implements VertxPojo, IPBuyItem {
     public PBuyItem setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PBuyItem other = (PBuyItem) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.commodityId == null) {
+            if (other.commodityId != null)
+                return false;
+        }
+        else if (!this.commodityId.equals(other.commodityId))
+            return false;
+        if (this.commodityCode == null) {
+            if (other.commodityCode != null)
+                return false;
+        }
+        else if (!this.commodityCode.equals(other.commodityCode))
+            return false;
+        if (this.commodityName == null) {
+            if (other.commodityName != null)
+                return false;
+        }
+        else if (!this.commodityName.equals(other.commodityName))
+            return false;
+        if (this.customerId == null) {
+            if (other.customerId != null)
+                return false;
+        }
+        else if (!this.customerId.equals(other.customerId))
+            return false;
+        if (this.ticketId == null) {
+            if (other.ticketId != null)
+                return false;
+        }
+        else if (!this.ticketId.equals(other.ticketId))
+            return false;
+        if (this.orderId == null) {
+            if (other.orderId != null)
+                return false;
+        }
+        else if (!this.orderId.equals(other.orderId))
+            return false;
+        if (this.numRequest == null) {
+            if (other.numRequest != null)
+                return false;
+        }
+        else if (!this.numRequest.equals(other.numRequest))
+            return false;
+        if (this.numApproved == null) {
+            if (other.numApproved != null)
+                return false;
+        }
+        else if (!this.numApproved.equals(other.numApproved))
+            return false;
+        if (this.num == null) {
+            if (other.num != null)
+                return false;
+        }
+        else if (!this.num.equals(other.num))
+            return false;
+        if (this.taxRate == null) {
+            if (other.taxRate != null)
+                return false;
+        }
+        else if (!this.taxRate.equals(other.taxRate))
+            return false;
+        if (this.taxAmount == null) {
+            if (other.taxAmount != null)
+                return false;
+        }
+        else if (!this.taxAmount.equals(other.taxAmount))
+            return false;
+        if (this.taxPrice == null) {
+            if (other.taxPrice != null)
+                return false;
+        }
+        else if (!this.taxPrice.equals(other.taxPrice))
+            return false;
+        if (this.amountTotal == null) {
+            if (other.amountTotal != null)
+                return false;
+        }
+        else if (!this.amountTotal.equals(other.amountTotal))
+            return false;
+        if (this.amountSplit == null) {
+            if (other.amountSplit != null)
+                return false;
+        }
+        else if (!this.amountSplit.equals(other.amountSplit))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.price == null) {
+            if (other.price != null)
+                return false;
+        }
+        else if (!this.price.equals(other.price))
+            return false;
+        if (this.discountAmount == null) {
+            if (other.discountAmount != null)
+                return false;
+        }
+        else if (!this.discountAmount.equals(other.discountAmount))
+            return false;
+        if (this.discountRate == null) {
+            if (other.discountRate != null)
+                return false;
+        }
+        else if (!this.discountRate.equals(other.discountRate))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.arriveAt == null) {
+            if (other.arriveAt != null)
+                return false;
+        }
+        else if (!this.arriveAt.equals(other.arriveAt))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.commodityId == null) ? 0 : this.commodityId.hashCode());
+        result = prime * result + ((this.commodityCode == null) ? 0 : this.commodityCode.hashCode());
+        result = prime * result + ((this.commodityName == null) ? 0 : this.commodityName.hashCode());
+        result = prime * result + ((this.customerId == null) ? 0 : this.customerId.hashCode());
+        result = prime * result + ((this.ticketId == null) ? 0 : this.ticketId.hashCode());
+        result = prime * result + ((this.orderId == null) ? 0 : this.orderId.hashCode());
+        result = prime * result + ((this.numRequest == null) ? 0 : this.numRequest.hashCode());
+        result = prime * result + ((this.numApproved == null) ? 0 : this.numApproved.hashCode());
+        result = prime * result + ((this.num == null) ? 0 : this.num.hashCode());
+        result = prime * result + ((this.taxRate == null) ? 0 : this.taxRate.hashCode());
+        result = prime * result + ((this.taxAmount == null) ? 0 : this.taxAmount.hashCode());
+        result = prime * result + ((this.taxPrice == null) ? 0 : this.taxPrice.hashCode());
+        result = prime * result + ((this.amountTotal == null) ? 0 : this.amountTotal.hashCode());
+        result = prime * result + ((this.amountSplit == null) ? 0 : this.amountSplit.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.price == null) ? 0 : this.price.hashCode());
+        result = prime * result + ((this.discountAmount == null) ? 0 : this.discountAmount.hashCode());
+        result = prime * result + ((this.discountRate == null) ? 0 : this.discountRate.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.arriveAt == null) ? 0 : this.arriveAt.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

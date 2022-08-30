@@ -21,7 +21,7 @@ public class JsonResolver<T> implements Resolver<T> {
     public Epsilon<T> resolve(final RoutingContext context,
                               final Epsilon<T> income) {
         // Json Resolver
-        final String content = context.getBodyAsString();
+        final String content = context.body().asString();
         LOGGER.info(Ut.notNil(content), "( Resolver ) Income Type: {0}, Content = \u001b[0;37m{1}\u001b[m",
             income.getArgType().getName(), content);
         if (Ut.isNil(content)) {

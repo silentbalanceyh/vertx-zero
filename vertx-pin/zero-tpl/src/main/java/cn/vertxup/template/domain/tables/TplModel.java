@@ -7,6 +7,7 @@ package cn.vertxup.template.domain.tables;
 import cn.vertxup.template.domain.Db;
 import cn.vertxup.template.domain.Keys;
 import cn.vertxup.template.domain.tables.records.TplModelRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -195,6 +196,11 @@ public class TplModel extends TableImpl<TplModelRecord> {
         return new TplModel(alias, this);
     }
 
+    @Override
+    public TplModel as(Table<?> alias) {
+        return new TplModel(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -209,5 +215,13 @@ public class TplModel extends TableImpl<TplModelRecord> {
     @Override
     public TplModel rename(Name name) {
         return new TplModel(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public TplModel rename(Table<?> name) {
+        return new TplModel(name.getQualifiedName(), null);
     }
 }

@@ -20,32 +20,32 @@ public class EEmployee implements VertxPojo, IEEmployee {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        companyId;
-    private String        deptId;
-    private String        teamId;
-    private String        identityId;
-    private String        viceName;
-    private String        viceEmail;
-    private String        viceMobile;
-    private String        workNumber;
-    private String        workTitle;
-    private String        workLocation;
-    private String        workPhone;
-    private String        workExtension;
+    private String key;
+    private String companyId;
+    private String deptId;
+    private String teamId;
+    private String identityId;
+    private String viceName;
+    private String viceEmail;
+    private String viceMobile;
+    private String workNumber;
+    private String workTitle;
+    private String workLocation;
+    private String workPhone;
+    private String workExtension;
     private LocalDateTime workHireAt;
-    private String        bankId;
-    private String        bankCard;
-    private String        type;
-    private String        status;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private String bankId;
+    private String bankCard;
+    private String type;
+    private String status;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EEmployee() {}
 
@@ -79,32 +79,32 @@ public class EEmployee implements VertxPojo, IEEmployee {
     }
 
     public EEmployee(
-        String        key,
-        String        companyId,
-        String        deptId,
-        String        teamId,
-        String        identityId,
-        String        viceName,
-        String        viceEmail,
-        String        viceMobile,
-        String        workNumber,
-        String        workTitle,
-        String        workLocation,
-        String        workPhone,
-        String        workExtension,
+        String key,
+        String companyId,
+        String deptId,
+        String teamId,
+        String identityId,
+        String viceName,
+        String viceEmail,
+        String viceMobile,
+        String workNumber,
+        String workTitle,
+        String workLocation,
+        String workPhone,
+        String workExtension,
         LocalDateTime workHireAt,
-        String        bankId,
-        String        bankCard,
-        String        type,
-        String        status,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        String bankId,
+        String bankCard,
+        String type,
+        String status,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.companyId = companyId;
@@ -609,6 +609,207 @@ public class EEmployee implements VertxPojo, IEEmployee {
     public EEmployee setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EEmployee other = (EEmployee) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.companyId == null) {
+            if (other.companyId != null)
+                return false;
+        }
+        else if (!this.companyId.equals(other.companyId))
+            return false;
+        if (this.deptId == null) {
+            if (other.deptId != null)
+                return false;
+        }
+        else if (!this.deptId.equals(other.deptId))
+            return false;
+        if (this.teamId == null) {
+            if (other.teamId != null)
+                return false;
+        }
+        else if (!this.teamId.equals(other.teamId))
+            return false;
+        if (this.identityId == null) {
+            if (other.identityId != null)
+                return false;
+        }
+        else if (!this.identityId.equals(other.identityId))
+            return false;
+        if (this.viceName == null) {
+            if (other.viceName != null)
+                return false;
+        }
+        else if (!this.viceName.equals(other.viceName))
+            return false;
+        if (this.viceEmail == null) {
+            if (other.viceEmail != null)
+                return false;
+        }
+        else if (!this.viceEmail.equals(other.viceEmail))
+            return false;
+        if (this.viceMobile == null) {
+            if (other.viceMobile != null)
+                return false;
+        }
+        else if (!this.viceMobile.equals(other.viceMobile))
+            return false;
+        if (this.workNumber == null) {
+            if (other.workNumber != null)
+                return false;
+        }
+        else if (!this.workNumber.equals(other.workNumber))
+            return false;
+        if (this.workTitle == null) {
+            if (other.workTitle != null)
+                return false;
+        }
+        else if (!this.workTitle.equals(other.workTitle))
+            return false;
+        if (this.workLocation == null) {
+            if (other.workLocation != null)
+                return false;
+        }
+        else if (!this.workLocation.equals(other.workLocation))
+            return false;
+        if (this.workPhone == null) {
+            if (other.workPhone != null)
+                return false;
+        }
+        else if (!this.workPhone.equals(other.workPhone))
+            return false;
+        if (this.workExtension == null) {
+            if (other.workExtension != null)
+                return false;
+        }
+        else if (!this.workExtension.equals(other.workExtension))
+            return false;
+        if (this.workHireAt == null) {
+            if (other.workHireAt != null)
+                return false;
+        }
+        else if (!this.workHireAt.equals(other.workHireAt))
+            return false;
+        if (this.bankId == null) {
+            if (other.bankId != null)
+                return false;
+        }
+        else if (!this.bankId.equals(other.bankId))
+            return false;
+        if (this.bankCard == null) {
+            if (other.bankCard != null)
+                return false;
+        }
+        else if (!this.bankCard.equals(other.bankCard))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.companyId == null) ? 0 : this.companyId.hashCode());
+        result = prime * result + ((this.deptId == null) ? 0 : this.deptId.hashCode());
+        result = prime * result + ((this.teamId == null) ? 0 : this.teamId.hashCode());
+        result = prime * result + ((this.identityId == null) ? 0 : this.identityId.hashCode());
+        result = prime * result + ((this.viceName == null) ? 0 : this.viceName.hashCode());
+        result = prime * result + ((this.viceEmail == null) ? 0 : this.viceEmail.hashCode());
+        result = prime * result + ((this.viceMobile == null) ? 0 : this.viceMobile.hashCode());
+        result = prime * result + ((this.workNumber == null) ? 0 : this.workNumber.hashCode());
+        result = prime * result + ((this.workTitle == null) ? 0 : this.workTitle.hashCode());
+        result = prime * result + ((this.workLocation == null) ? 0 : this.workLocation.hashCode());
+        result = prime * result + ((this.workPhone == null) ? 0 : this.workPhone.hashCode());
+        result = prime * result + ((this.workExtension == null) ? 0 : this.workExtension.hashCode());
+        result = prime * result + ((this.workHireAt == null) ? 0 : this.workHireAt.hashCode());
+        result = prime * result + ((this.bankId == null) ? 0 : this.bankId.hashCode());
+        result = prime * result + ((this.bankCard == null) ? 0 : this.bankCard.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

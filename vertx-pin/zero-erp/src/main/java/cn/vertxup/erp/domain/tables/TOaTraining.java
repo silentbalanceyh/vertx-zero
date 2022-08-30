@@ -7,12 +7,14 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.TOaTrainingRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -137,6 +139,11 @@ public class TOaTraining extends TableImpl<TOaTrainingRecord> {
         return new TOaTraining(alias, this);
     }
 
+    @Override
+    public TOaTraining as(Table<?> alias) {
+        return new TOaTraining(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -153,6 +160,14 @@ public class TOaTraining extends TableImpl<TOaTrainingRecord> {
         return new TOaTraining(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public TOaTraining rename(Table<?> name) {
+        return new TOaTraining(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row10 type methods
     // -------------------------------------------------------------------------
@@ -160,5 +175,20 @@ public class TOaTraining extends TableImpl<TOaTrainingRecord> {
     @Override
     public Row10<String, String, LocalDateTime, LocalDateTime, String, String, String, String, String, String> fieldsRow() {
         return (Row10) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function10<? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

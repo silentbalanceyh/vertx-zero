@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqPin;
 import io.vertx.up.eon.em.DSMode;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -109,12 +109,12 @@ public class KModule implements Serializable {
 
     public String getTable() {
         Objects.requireNonNull(this.daoCls);
-        return Ux.Jooq.table(this.daoCls);
+        return JooqPin.initTable(this.daoCls);
     }
 
     public Class<?> getPojoCls() {
         Objects.requireNonNull(this.daoCls);
-        return Ux.Jooq.pojo(this.daoCls);
+        return JooqPin.initPojo(this.daoCls);
     }
 
     public KJoin getConnect() {

@@ -13,10 +13,21 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 @SuppressWarnings("all")
 class To {
+
+    static JsonObject subset(final JsonObject input, final Set<String> removed) {
+        removed.forEach(input::remove);
+        return input;
+    }
+
+    static JsonArray subset(final JsonArray input, final Set<String> removed) {
+        Ut.itJArray(input).forEach(json -> subset(json, removed));
+        return input;
+    }
 
     static <T> Future<T> future(final T entity) {
         return Fn.getNull(Future.succeededFuture(),
@@ -31,8 +42,9 @@ class To {
         final String pojo) {
         return Fn.getNull(new JsonObject(),
             () -> Fn.getSemi(Ut.isNil(pojo), null,
-                () -> Ut.serializeJson(entity),
-                () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity)).to().result()),
+                // Turn On Smart
+                () -> Ut.serializeJson(entity, true),
+                () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
             entity);
     }
 
@@ -88,8 +100,7 @@ class To {
     static <T> Envelop toEnvelop(
         final T entity
     ) {
-        return Fn.getNull(Envelop.ok(),
-            () -> Fn.getSemi(entity instanceof WebException, null,
+        return Fn.getNull(Envelop.ok(), () -> Fn.getSemi(entity instanceof WebException, null,
                 () -> Envelop.failure((WebException) entity),
                 () -> {
                     if (Envelop.class == entity.getClass()) {

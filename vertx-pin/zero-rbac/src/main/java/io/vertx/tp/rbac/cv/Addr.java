@@ -18,15 +18,20 @@ public interface Addr {
         String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
 
         /*
-         * New Fetch for HPermit of new structure
-         */
-        String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
-
-        /*
          * Fetch all resource definition
          */
         String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
         String FETCH_VISITANT = Prefix._EVENT + "X-VISITANT/FETCH/OWNER";
+
+        /*
+         * 「New Version」
+         * 1. Fetch for HPermit of new structure
+         * 2. Save View based on Configuration
+         */
+        String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
+        String FETCH_REGION_VALUES = Prefix._EVENT + "X-RULE/FETCH/REGION-VALUES";
+
+        String SAVE_REGION = Prefix._EVENT + "X-RULE/SAVING/SINGLE";
     }
 
     interface Auth {

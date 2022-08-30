@@ -15,9 +15,9 @@ import io.vertx.up.experiment.reference.RDao;
 import io.vertx.up.experiment.reference.RQuery;
 import io.vertx.up.experiment.reference.RQuote;
 import io.vertx.up.experiment.reference.RResult;
-import io.vertx.up.experiment.specification.KApp;
 import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KPoint;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;
@@ -218,7 +218,7 @@ public class HAtomReference implements HReference {
 
     private Function<JsonObject, Future<JsonArray>> actionA(final HAtom atom, final KJoin join) {
         return condition -> {
-            if (Ux.Jooq.isEmpty(condition)) {
+            if (Ux.irNil(condition)) {
                 return Ux.futureA();
             }
             if (Objects.isNull(atom)) {
@@ -246,7 +246,7 @@ public class HAtomReference implements HReference {
 
     private Function<JsonObject, JsonArray> actionS(final HAtom atom, final KJoin join) {
         return condition -> {
-            if (Ux.Jooq.isEmpty(condition)) {
+            if (Ux.irNil(condition)) {
                 return new JsonArray();
             }
             if (Objects.isNull(atom)) {

@@ -292,7 +292,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
 
     /**
      * Setter for <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
-     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
+     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; input
      */
     @Override
     public IJobRecord setIncomeComponent(String value) {
@@ -302,7 +302,7 @@ public class IJobRecord extends UpdatableRecordImpl<IJobRecord> implements Vertx
 
     /**
      * Getter for <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
-     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
+     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; input
      */
     @Override
     public String getIncomeComponent() {

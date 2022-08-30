@@ -11,8 +11,8 @@ import io.vertx.up.extension.Ares;
 import io.vertx.up.extension.router.websocket.AresBridge;
 import io.vertx.up.extension.router.websocket.AresSockJs;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.util.Ut;
-import io.vertx.up.verticle.ZeroAtomic;
 
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +25,7 @@ class AresWs extends AbstractAres {
 
 
     private static final Set<Remind> SOCKS = ZeroAnno.getSocks();
-    private static final boolean ENABLED = !ZeroAtomic.SOCK_OPTS.isEmpty() && !SOCKS.isEmpty();
+    private static final boolean ENABLED = !ZeroGrid.getSockOptions().isEmpty() && !SOCKS.isEmpty();
     // Single Log Needed
     private static final AtomicBoolean LOG_DISABLED = new AtomicBoolean(Boolean.TRUE);
     private static final AtomicBoolean LOG_PUBLISH = new AtomicBoolean(Boolean.TRUE);
@@ -44,7 +44,7 @@ class AresWs extends AbstractAres {
         if (ENABLED) {
             super.configure(options);
             // Pre-Configuration of HttpServerOptions for specific usage
-            this.sockOptions = ZeroAtomic.SOCK_OPTS.getOrDefault(options.getPort(), null);
+            this.sockOptions = ZeroGrid.getSockOptions().getOrDefault(options.getPort(), null);
             if (Objects.nonNull(this.sockOptions)) {
                 final String publish = this.sockOptions.getPublish();
                 if (Ut.notNil(publish)) {

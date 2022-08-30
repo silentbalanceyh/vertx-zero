@@ -8,7 +8,7 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobType;
-import io.vertx.up.experiment.specification.KApp;
+import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.util.Ut;
 
@@ -101,16 +101,12 @@ public class JtJob extends JtCommercial {
         final KApp app;
         if (Objects.isNull(runtimeApp)) {
             // Capture the data based on JtApp first
-            app = new KApp(null);
-            app.ns(service.getNamespace());
-            app.sigma(service.getSigma());
-            app.language(service.getLanguage());
+            app = KApp.instance()
+                .bind(service.getNamespace()).bind(service.getSigma(), service.getLanguage());
         } else {
             // Capture the data based on IService only ( The name is null )
-            app = new KApp(runtimeApp.getName());
-            app.ns(service.getNamespace());
-            app.sigma(runtimeApp.getSigma());
-            app.language(runtimeApp.getLanguage());
+            app = KApp.instance(runtimeApp.getName())
+                .bind(service.getNamespace()).bind(runtimeApp.getSigma(), runtimeApp.getLanguage());
         }
         mission.app(app);
         mission.timeout(this.job.getThreshold(), TimeUnit.MINUTES);

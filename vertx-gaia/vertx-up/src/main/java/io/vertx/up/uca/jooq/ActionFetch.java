@@ -3,9 +3,11 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,18 +95,33 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
-        return this.qr.<T>searchAsync(criteria).compose(list -> {
+        return this.qr.<T>searchAsync(criteria, null).compose(list -> {
             this.logging("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
                 String.valueOf(list.size()), criteria);
             return Future.succeededFuture(list);
         });
     }
 
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.qr.<T>searchAsync(criteria, sorter).compose(list -> {
+            this.logging("[ Jq ] fetchAsync(JsonObject, Sorter) condition json: \"{1}\" and sorter: \"{2}\", queried rows: {0}",
+                String.valueOf(list.size()), criteria, sorter);
+            return Future.succeededFuture(list);
+        });
+    }
+
     /* List<T> */
     <T> List<T> fetch(final JsonObject criteria) {
-        final List<T> list = this.qr.search(criteria);
+        final List<T> list = this.qr.search(criteria, null);
         this.logging("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), criteria);
+        return list;
+    }
+
+    <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
+        final List<T> list = this.qr.search(criteria, sorter);
+        this.logging("[ Jq ] fetch(JsonObject, Sorter) condition json: \"{1}\"  and sorter: \"{2}\", queried rows: {0}",
+            String.valueOf(list.size()), criteria, sorter);
         return list;
     }
 

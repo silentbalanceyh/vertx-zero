@@ -69,6 +69,21 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
         }
 
         /**
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByPhase(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.PHASE.in(values));
+        }
+
+        /**
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByPhase(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.PHASE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>MAPPING IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByMapping(Collection<String> values) {
@@ -97,6 +112,21 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
      */
         public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunComponent(Collection<String> values, int limit) {
                 return findManyByCondition(SPath.S_PATH.RUN_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunType(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.RUN_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunType(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.RUN_TYPE.in(values),limit);
         }
 
         /**

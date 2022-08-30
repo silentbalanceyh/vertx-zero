@@ -269,6 +269,15 @@ public class Ke {
         return KeEnv.daoJ(config, params);
     }
 
+    public static Future<JsonArray> umALink(final String field, final String key, final Class<?> daoCls) {
+        return KeEnv.daoR(field, key, daoCls);
+    }
+
+    public static <T> Future<List<T>> umALink(final String field, final String key, final Class<?> daoCls,
+                                              final Function<T, Integer> priorityFn) {
+        return KeEnv.daoR(field, key, daoCls, priorityFn);
+    }
+
     public static Future<JsonObject> umUser(final JsonObject input, final JsonObject config) {
         return KeUser.umUser(input, config);
     }

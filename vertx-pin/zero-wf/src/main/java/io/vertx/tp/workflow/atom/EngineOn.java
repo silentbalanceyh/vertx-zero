@@ -13,7 +13,7 @@ import io.vertx.tp.workflow.uca.coadjutor.StayCancel;
 import io.vertx.tp.workflow.uca.coadjutor.StayClose;
 import io.vertx.tp.workflow.uca.coadjutor.StaySave;
 import io.vertx.tp.workflow.uca.component.*;
-import io.vertx.up.experiment.specification.KFlow;
+import io.vertx.up.experiment.specification.power.KFlow;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

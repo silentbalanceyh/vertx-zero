@@ -7,10 +7,13 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.RGroupRoleRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -100,6 +103,11 @@ public class RGroupRole extends TableImpl<RGroupRoleRecord> {
         return new RGroupRole(alias, this);
     }
 
+    @Override
+    public RGroupRole as(Table<?> alias) {
+        return new RGroupRole(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -116,6 +124,14 @@ public class RGroupRole extends TableImpl<RGroupRoleRecord> {
         return new RGroupRole(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RGroupRole rename(Table<?> name) {
+        return new RGroupRole(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
@@ -123,5 +139,20 @@ public class RGroupRole extends TableImpl<RGroupRoleRecord> {
     @Override
     public Row3<String, String, Integer> fieldsRow() {
         return (Row3) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

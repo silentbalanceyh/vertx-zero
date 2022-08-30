@@ -116,6 +116,7 @@
                 }
             ]
         ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
         "RUN_USER": "RUN_USER",
         "RUN_TICKET": "RUN_APPROVE",
         "END_CLOSE": "END_STANDARD"

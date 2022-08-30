@@ -1,7 +1,9 @@
 package io.vertx.up.uca.options;
 
+import io.vertx.aeon.eon.HEnv;
 import io.vertx.core.SockOptions;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
@@ -39,8 +41,16 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
 
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, SockOptions> map) {
         Ut.itJArray(serverData).filter(this::isServer).forEach(item -> {
+            /* 「Z_PORT_SOCK」环境变量注入，HttpServer专用 */
+            final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
+            final String portCfg = Ut.valueString(configJ, KName.PORT);
+            String portEnv = Ut.valueEnv(HEnv.Z_PORT_SOCK, null);
+            if (Ut.isNil(portEnv)) {
+                portEnv = Ut.valueEnv(HEnv.Z_PORT_WEB, portCfg);
+            }
+            configJ.put(KName.PORT, Integer.valueOf(portEnv));
             // 1. Extract port
-            final int port = this.serverPort(item.getJsonObject(KName.CONFIG));
+            final int port = this.serverPort(configJ);
             // 2. Convert JsonObject to SockOptions
             final SockOptions options = this.transformer.transform(item);
             Fn.safeNull(() -> {

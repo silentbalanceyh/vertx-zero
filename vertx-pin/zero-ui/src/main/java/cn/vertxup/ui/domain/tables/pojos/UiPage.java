@@ -20,26 +20,26 @@ public class UiPage implements VertxPojo, IUiPage {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        app;
-    private String        module;
-    private String        page;
-    private String        layoutId;
-    private Boolean       secure;
-    private String        paramMap;
-    private String        containerName;
-    private String        containerConfig;
-    private String        state;
-    private String        grid;
-    private String        assist;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String app;
+    private String module;
+    private String page;
+    private String layoutId;
+    private Boolean secure;
+    private String paramMap;
+    private String containerName;
+    private String containerConfig;
+    private String state;
+    private String grid;
+    private String assist;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public UiPage() {}
 
@@ -67,26 +67,26 @@ public class UiPage implements VertxPojo, IUiPage {
     }
 
     public UiPage(
-        String        key,
-        String        app,
-        String        module,
-        String        page,
-        String        layoutId,
-        Boolean       secure,
-        String        paramMap,
-        String        containerName,
-        String        containerConfig,
-        String        state,
-        String        grid,
-        String        assist,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String app,
+        String module,
+        String page,
+        String layoutId,
+        Boolean secure,
+        String paramMap,
+        String containerName,
+        String containerConfig,
+        String state,
+        String grid,
+        String assist,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.app = app;
@@ -467,6 +467,165 @@ public class UiPage implements VertxPojo, IUiPage {
     public UiPage setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiPage other = (UiPage) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.app == null) {
+            if (other.app != null)
+                return false;
+        }
+        else if (!this.app.equals(other.app))
+            return false;
+        if (this.module == null) {
+            if (other.module != null)
+                return false;
+        }
+        else if (!this.module.equals(other.module))
+            return false;
+        if (this.page == null) {
+            if (other.page != null)
+                return false;
+        }
+        else if (!this.page.equals(other.page))
+            return false;
+        if (this.layoutId == null) {
+            if (other.layoutId != null)
+                return false;
+        }
+        else if (!this.layoutId.equals(other.layoutId))
+            return false;
+        if (this.secure == null) {
+            if (other.secure != null)
+                return false;
+        }
+        else if (!this.secure.equals(other.secure))
+            return false;
+        if (this.paramMap == null) {
+            if (other.paramMap != null)
+                return false;
+        }
+        else if (!this.paramMap.equals(other.paramMap))
+            return false;
+        if (this.containerName == null) {
+            if (other.containerName != null)
+                return false;
+        }
+        else if (!this.containerName.equals(other.containerName))
+            return false;
+        if (this.containerConfig == null) {
+            if (other.containerConfig != null)
+                return false;
+        }
+        else if (!this.containerConfig.equals(other.containerConfig))
+            return false;
+        if (this.state == null) {
+            if (other.state != null)
+                return false;
+        }
+        else if (!this.state.equals(other.state))
+            return false;
+        if (this.grid == null) {
+            if (other.grid != null)
+                return false;
+        }
+        else if (!this.grid.equals(other.grid))
+            return false;
+        if (this.assist == null) {
+            if (other.assist != null)
+                return false;
+        }
+        else if (!this.assist.equals(other.assist))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.app == null) ? 0 : this.app.hashCode());
+        result = prime * result + ((this.module == null) ? 0 : this.module.hashCode());
+        result = prime * result + ((this.page == null) ? 0 : this.page.hashCode());
+        result = prime * result + ((this.layoutId == null) ? 0 : this.layoutId.hashCode());
+        result = prime * result + ((this.secure == null) ? 0 : this.secure.hashCode());
+        result = prime * result + ((this.paramMap == null) ? 0 : this.paramMap.hashCode());
+        result = prime * result + ((this.containerName == null) ? 0 : this.containerName.hashCode());
+        result = prime * result + ((this.containerConfig == null) ? 0 : this.containerConfig.hashCode());
+        result = prime * result + ((this.state == null) ? 0 : this.state.hashCode());
+        result = prime * result + ((this.grid == null) ? 0 : this.grid.hashCode());
+        result = prime * result + ((this.assist == null) ? 0 : this.assist.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

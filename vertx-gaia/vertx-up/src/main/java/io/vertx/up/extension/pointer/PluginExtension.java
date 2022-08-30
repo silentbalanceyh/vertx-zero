@@ -1,11 +1,16 @@
 package io.vertx.up.extension.pointer;
 
+import io.vertx.aeon.specification.query.HQBE;
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpStatusCode;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Set;
 
@@ -81,16 +86,25 @@ public interface PluginExtension {
          * io.vertx.up.uca.rs.hunt
          *      Flower.next
          */
-        static Future<Envelop> next(final RoutingContext context, final Envelop envelop) {
+        static Future<Envelop> next(final RoutingContext context, final Envelop input) {
             /*
-             * Auditor injection
-             * The four fields that will be injected into Envelop
-             * 1) Create
-             *    createdAt, createdBy
-             * 2) Update
-             *    updatedAt, updatedBy
+             * Add new workflow for HQBE to parsing the QBE workflow
              */
-            return PluginAuditor.audit(context, envelop)
+            return Future.succeededFuture(input)
+                /*
+                 * QBE for new workflow based on
+                 * xxxx ? QBE = xxxxxxxx
+                 */
+                .compose(envelop -> nextQBE(context, envelop))
+                /*
+                 * Auditor injection
+                 * The four fields that will be injected into Envelop
+                 * 1) Create
+                 *    createdAt, createdBy
+                 * 2) Update
+                 *    updatedAt, updatedBy
+                 */
+                .compose(envelop -> PluginAuditor.audit(context, envelop))
                 /*
                  * DataRegion before
                  * Parameter will be modified
@@ -109,11 +123,30 @@ public interface PluginExtension {
                  * 4) Only impact on ArrayList / Collection
                  */
                 .compose(processed -> PluginRegion.before(context, processed));
-            /* Auditor */
-            // PluginAuditor.audit(context, envelop);
+        }
 
-            /* DataRegion before */
-            // PluginRegion.before(context, envelop);
+        private static Future<Envelop> nextQBE(final RoutingContext context, final Envelop envelop) {
+            /*
+             * HQBE 新流程，流程执行结果如
+             * HQBE -> ServiceLoader -> HQBEView
+             *                            -> HCond 或标准流程
+             */
+            final String qbe = context.request().getParam(KName.QBE);
+            final HttpMethod method = context.request().method();
+            if (Ut.isNil(qbe) || HttpMethod.POST != method) {
+                /*
+                 * GET / PUT 跳过
+                 */
+                return Future.succeededFuture(envelop);
+            }
+            return Ux.channel(HQBE.class, () -> envelop, hqbe -> {
+                /*
+                 * 1. 先做Base64的解码
+                 * 2. 再根据解码结果隐式替换 Envelop 中的 criteria 部分，QR 专用
+                 */
+                final JsonObject qbeJ = Ut.toJObject(Ut.decryptBase64(qbe));
+                return hqbe.before(qbeJ, envelop);
+            });
         }
     }
 }

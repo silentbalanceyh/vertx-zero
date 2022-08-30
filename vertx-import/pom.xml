@@ -13,7 +13,7 @@
     <name>「vertx-import」Zero Entrance</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <encoding>UTF-8</encoding>
         <zero.version>0.9.0-SNAPSHOT</zero.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
@@ -220,6 +220,11 @@
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-neo4j</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-liquibase</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>

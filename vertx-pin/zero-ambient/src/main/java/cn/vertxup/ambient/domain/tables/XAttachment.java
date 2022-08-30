@@ -7,6 +7,7 @@ package cn.vertxup.ambient.domain.tables;
 import cn.vertxup.ambient.domain.Db;
 import cn.vertxup.ambient.domain.Keys;
 import cn.vertxup.ambient.domain.tables.records.XAttachmentRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -219,6 +220,11 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
         return new XAttachment(alias, this);
     }
 
+    @Override
+    public XAttachment as(Table<?> alias) {
+        return new XAttachment(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -233,5 +239,13 @@ public class XAttachment extends TableImpl<XAttachmentRecord> {
     @Override
     public XAttachment rename(Name name) {
         return new XAttachment(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public XAttachment rename(Table<?> name) {
+        return new XAttachment(name.getQualifiedName(), null);
     }
 }

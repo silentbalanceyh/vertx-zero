@@ -1,14 +1,22 @@
 package io.vertx.tp.rbac.refine;
 
+import cn.vertxup.rbac.domain.tables.pojos.OUser;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
+import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401ImageCodeWrongException;
 import io.vertx.tp.error._401MaximumTimesException;
+import io.vertx.tp.error._403TokenGenerationException;
+import io.vertx.tp.optic.web.Credential;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
+import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -16,8 +24,7 @@ import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -44,6 +51,71 @@ class ScTool {
 
     static String valuePassword() {
         return CONFIG.getInitializePassword();
+    }
+
+    static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
+        final String language = inputJ.getString(KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        final JsonObject initializeJ = CONFIG.getInitialize();
+        final OUser oUser = Ux.fromJson(initializeJ, OUser.class);
+        oUser.setClientId(user.getKey())
+            .setClientSecret(Ut.randomString(64))
+            .setLanguage(language)
+            .setActive(Boolean.TRUE)
+            .setKey(UUID.randomUUID().toString());
+        return Ux.future(oUser);
+    }
+
+    static Future<List<SUser>> valueAuth(final JsonArray userA, final String sigma) {
+        final List<SUser> users = Ux.fromJson(userA, SUser.class);
+        users.forEach(user -> {
+            user.setKey(UUID.randomUUID().toString());
+            user.setActive(Boolean.TRUE);
+            /* 12345678 */
+            final String initPwd = valuePassword();
+            user.setPassword(initPwd);
+            user.setSigma(sigma);
+            if (Objects.isNull(user.getLanguage())) {
+                user.setLanguage(Constants.DEFAULT_LANGUAGE);
+            }
+        });
+        return Ux.future(users);
+    }
+
+    static Future<List<OUser>> valueAuth(final List<SUser> users) {
+        if (users.isEmpty()) {
+            /* Now inserted */
+            return Ux.futureL();
+        }
+
+        // sigma 值聚集
+        final Set<String> sigmaSet = Ut.valueSetString(users, SUser::getSigma);
+        if (Values.ONE != sigmaSet.size()) {
+            return Future.failedFuture(new _403TokenGenerationException(ScTool.class, sigmaSet.size()));
+        }
+        /*
+         * Credential 通道读取，主要读取 KCredential 对象，属性如：
+         * - appId
+         * - sigma
+         * - language
+         * - realm
+         * - grantType
+         * 此处主要信息为 realm 和 grantType 两个属性
+         */
+        final String sigma = sigmaSet.iterator().next();
+        return Ux.channelA(Credential.class, Ux::futureL, stub -> stub.fetchAsync(sigma).compose(credential -> {
+            // OUser processing ( Batch Mode )
+            final List<OUser> ousers = new ArrayList<>();
+            users.stream().map(user -> new OUser()
+                    .setActive(Boolean.TRUE)
+                    .setKey(UUID.randomUUID().toString())
+                    .setClientId(user.getKey())
+                    .setClientSecret(Ut.randomString(64))
+                    .setScope(credential.getRealm())
+                    .setLanguage(credential.getLanguage())
+                    .setGrantType(credential.getGrantType()))
+                .forEach(ousers::add);
+            return Ux.future(ousers);
+        }));
     }
 
     static String valueProfile(final SResource resource) {

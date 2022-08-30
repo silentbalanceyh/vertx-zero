@@ -11,8 +11,8 @@ import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.pointer.PluginExtension;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.rs.hunt.Answer;
-import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 
@@ -52,7 +52,7 @@ public class SendAim implements JtAim {
                     final Vertx vertx = context.vertx();
                     final EventBus event = vertx.eventBus();
 
-                    event.<Envelop>request(address, normalized, Ux.Opt.on().delivery(), handler -> {
+                    event.<Envelop>request(address, normalized, ZeroGrid.getDeliveryOption(), handler -> {
                         if (handler.succeeded()) {
                             /*
                              * 「Success」

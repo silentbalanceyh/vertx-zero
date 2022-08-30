@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EIdentityRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -278,6 +279,11 @@ public class EIdentity extends TableImpl<EIdentityRecord> {
         return new EIdentity(alias, this);
     }
 
+    @Override
+    public EIdentity as(Table<?> alias) {
+        return new EIdentity(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -292,5 +298,13 @@ public class EIdentity extends TableImpl<EIdentityRecord> {
     @Override
     public EIdentity rename(Name name) {
         return new EIdentity(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public EIdentity rename(Table<?> name) {
+        return new EIdentity(name.getQualifiedName(), null);
     }
 }

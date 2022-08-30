@@ -39,7 +39,7 @@ ALTER TABLE L_FLOOR
 -- ----------------------------
 -- Records of L_FLOOR
 -- ----------------------------
-BEGIN;
+
 INSERT INTO `L_FLOOR`
 VALUES ('49025f71-ad7f-4501-89a6-3e0356727e4f', '1栋-3楼', 'T1-F3', NULL, 3, 'd2c971a2-5c43-4baf-8692-c735419c1d13', 1,
         'ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq', 'cn', NULL, '2019-06-17 11:04:25', NULL, NULL);
@@ -64,6 +64,5 @@ VALUES ('d5773c93-a34f-4721-a949-aabf43e5138a', '2栋-1楼', 'T2-F1', NULL, 1, '
 INSERT INTO `L_FLOOR`
 VALUES ('ee44b9f5-777a-4504-8c27-f214548da11e', '2栋-3楼', 'T2-F3', NULL, 3, '6beec50f-ecca-4f9a-854e-e1db69f2d47f', 1,
         'ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq', 'cn', NULL, '2019-06-17 11:04:25', NULL, NULL);
-COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -20,39 +20,39 @@ public class IService implements VertxPojo, IIService {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        namespace;
-    private String        name;
-    private String        comment;
-    private Boolean       isWorkflow;
-    private Boolean       isGraphic;
-    private String        inScript;
-    private String        outScript;
-    private String        channelType;
-    private String        channelComponent;
-    private String        channelConfig;
-    private String        configIntegration;
-    private String        configDatabase;
-    private String        dictConfig;
-    private String        dictComponent;
-    private String        dictEpsilon;
-    private String        mappingConfig;
-    private String        mappingMode;
-    private String        mappingComponent;
-    private String        serviceRecord;
-    private String        serviceComponent;
-    private String        serviceConfig;
-    private String        identifier;
-    private String        identifierComponent;
-    private String        ruleUnique;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String namespace;
+    private String name;
+    private String comment;
+    private Boolean isWorkflow;
+    private Boolean isGraphic;
+    private String inScript;
+    private String outScript;
+    private String channelType;
+    private String channelComponent;
+    private String channelConfig;
+    private String configIntegration;
+    private String configDatabase;
+    private String dictConfig;
+    private String dictComponent;
+    private String dictEpsilon;
+    private String mappingConfig;
+    private String mappingMode;
+    private String mappingComponent;
+    private String serviceRecord;
+    private String serviceComponent;
+    private String serviceConfig;
+    private String identifier;
+    private String identifierComponent;
+    private String ruleUnique;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public IService() {}
 
@@ -93,39 +93,39 @@ public class IService implements VertxPojo, IIService {
     }
 
     public IService(
-        String        key,
-        String        namespace,
-        String        name,
-        String        comment,
-        Boolean       isWorkflow,
-        Boolean       isGraphic,
-        String        inScript,
-        String        outScript,
-        String        channelType,
-        String        channelComponent,
-        String        channelConfig,
-        String        configIntegration,
-        String        configDatabase,
-        String        dictConfig,
-        String        dictComponent,
-        String        dictEpsilon,
-        String        mappingConfig,
-        String        mappingMode,
-        String        mappingComponent,
-        String        serviceRecord,
-        String        serviceComponent,
-        String        serviceConfig,
-        String        identifier,
-        String        identifierComponent,
-        String        ruleUnique,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String namespace,
+        String name,
+        String comment,
+        Boolean isWorkflow,
+        Boolean isGraphic,
+        String inScript,
+        String outScript,
+        String channelType,
+        String channelComponent,
+        String channelConfig,
+        String configIntegration,
+        String configDatabase,
+        String dictConfig,
+        String dictComponent,
+        String dictEpsilon,
+        String mappingConfig,
+        String mappingMode,
+        String mappingComponent,
+        String serviceRecord,
+        String serviceComponent,
+        String serviceConfig,
+        String identifier,
+        String identifierComponent,
+        String ruleUnique,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.namespace = namespace;
@@ -774,6 +774,256 @@ public class IService implements VertxPojo, IIService {
     public IService setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final IService other = (IService) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.namespace == null) {
+            if (other.namespace != null)
+                return false;
+        }
+        else if (!this.namespace.equals(other.namespace))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.isWorkflow == null) {
+            if (other.isWorkflow != null)
+                return false;
+        }
+        else if (!this.isWorkflow.equals(other.isWorkflow))
+            return false;
+        if (this.isGraphic == null) {
+            if (other.isGraphic != null)
+                return false;
+        }
+        else if (!this.isGraphic.equals(other.isGraphic))
+            return false;
+        if (this.inScript == null) {
+            if (other.inScript != null)
+                return false;
+        }
+        else if (!this.inScript.equals(other.inScript))
+            return false;
+        if (this.outScript == null) {
+            if (other.outScript != null)
+                return false;
+        }
+        else if (!this.outScript.equals(other.outScript))
+            return false;
+        if (this.channelType == null) {
+            if (other.channelType != null)
+                return false;
+        }
+        else if (!this.channelType.equals(other.channelType))
+            return false;
+        if (this.channelComponent == null) {
+            if (other.channelComponent != null)
+                return false;
+        }
+        else if (!this.channelComponent.equals(other.channelComponent))
+            return false;
+        if (this.channelConfig == null) {
+            if (other.channelConfig != null)
+                return false;
+        }
+        else if (!this.channelConfig.equals(other.channelConfig))
+            return false;
+        if (this.configIntegration == null) {
+            if (other.configIntegration != null)
+                return false;
+        }
+        else if (!this.configIntegration.equals(other.configIntegration))
+            return false;
+        if (this.configDatabase == null) {
+            if (other.configDatabase != null)
+                return false;
+        }
+        else if (!this.configDatabase.equals(other.configDatabase))
+            return false;
+        if (this.dictConfig == null) {
+            if (other.dictConfig != null)
+                return false;
+        }
+        else if (!this.dictConfig.equals(other.dictConfig))
+            return false;
+        if (this.dictComponent == null) {
+            if (other.dictComponent != null)
+                return false;
+        }
+        else if (!this.dictComponent.equals(other.dictComponent))
+            return false;
+        if (this.dictEpsilon == null) {
+            if (other.dictEpsilon != null)
+                return false;
+        }
+        else if (!this.dictEpsilon.equals(other.dictEpsilon))
+            return false;
+        if (this.mappingConfig == null) {
+            if (other.mappingConfig != null)
+                return false;
+        }
+        else if (!this.mappingConfig.equals(other.mappingConfig))
+            return false;
+        if (this.mappingMode == null) {
+            if (other.mappingMode != null)
+                return false;
+        }
+        else if (!this.mappingMode.equals(other.mappingMode))
+            return false;
+        if (this.mappingComponent == null) {
+            if (other.mappingComponent != null)
+                return false;
+        }
+        else if (!this.mappingComponent.equals(other.mappingComponent))
+            return false;
+        if (this.serviceRecord == null) {
+            if (other.serviceRecord != null)
+                return false;
+        }
+        else if (!this.serviceRecord.equals(other.serviceRecord))
+            return false;
+        if (this.serviceComponent == null) {
+            if (other.serviceComponent != null)
+                return false;
+        }
+        else if (!this.serviceComponent.equals(other.serviceComponent))
+            return false;
+        if (this.serviceConfig == null) {
+            if (other.serviceConfig != null)
+                return false;
+        }
+        else if (!this.serviceConfig.equals(other.serviceConfig))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.identifierComponent == null) {
+            if (other.identifierComponent != null)
+                return false;
+        }
+        else if (!this.identifierComponent.equals(other.identifierComponent))
+            return false;
+        if (this.ruleUnique == null) {
+            if (other.ruleUnique != null)
+                return false;
+        }
+        else if (!this.ruleUnique.equals(other.ruleUnique))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.namespace == null) ? 0 : this.namespace.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.isWorkflow == null) ? 0 : this.isWorkflow.hashCode());
+        result = prime * result + ((this.isGraphic == null) ? 0 : this.isGraphic.hashCode());
+        result = prime * result + ((this.inScript == null) ? 0 : this.inScript.hashCode());
+        result = prime * result + ((this.outScript == null) ? 0 : this.outScript.hashCode());
+        result = prime * result + ((this.channelType == null) ? 0 : this.channelType.hashCode());
+        result = prime * result + ((this.channelComponent == null) ? 0 : this.channelComponent.hashCode());
+        result = prime * result + ((this.channelConfig == null) ? 0 : this.channelConfig.hashCode());
+        result = prime * result + ((this.configIntegration == null) ? 0 : this.configIntegration.hashCode());
+        result = prime * result + ((this.configDatabase == null) ? 0 : this.configDatabase.hashCode());
+        result = prime * result + ((this.dictConfig == null) ? 0 : this.dictConfig.hashCode());
+        result = prime * result + ((this.dictComponent == null) ? 0 : this.dictComponent.hashCode());
+        result = prime * result + ((this.dictEpsilon == null) ? 0 : this.dictEpsilon.hashCode());
+        result = prime * result + ((this.mappingConfig == null) ? 0 : this.mappingConfig.hashCode());
+        result = prime * result + ((this.mappingMode == null) ? 0 : this.mappingMode.hashCode());
+        result = prime * result + ((this.mappingComponent == null) ? 0 : this.mappingComponent.hashCode());
+        result = prime * result + ((this.serviceRecord == null) ? 0 : this.serviceRecord.hashCode());
+        result = prime * result + ((this.serviceComponent == null) ? 0 : this.serviceComponent.hashCode());
+        result = prime * result + ((this.serviceConfig == null) ? 0 : this.serviceConfig.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.identifierComponent == null) ? 0 : this.identifierComponent.hashCode());
+        result = prime * result + ((this.ruleUnique == null) ? 0 : this.ruleUnique.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

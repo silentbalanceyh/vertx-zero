@@ -14,7 +14,10 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -28,46 +31,10 @@ final class Instance {
     private static final Logger LOGGER = LoggerFactory.getLogger(Instance.class);
 
     private static final Cc<String, Object> CC_SINGLETON = Cc.open();
-    private static final Cc<String, Object> CC_SERVICE_LOADER = Cc.open();
 
     private static final Cc<String, Class<?>> CC_CLASSES = Cc.open();
 
     private Instance() {
-    }
-
-    static <T> T service(final Class<T> interfaceCls) {
-        if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
-            return null;
-        } else {
-            final Cd<String, Object> cData = CC_SERVICE_LOADER.store();
-            return (T) CC_SERVICE_LOADER.pick(() -> {
-                Object reference = cData.data(interfaceCls.getName());
-                if (Objects.isNull(reference)) {
-                    /*
-                     * Service Loader for lookup input interface implementation
-                     * This configuration must be configured in
-                     * META-INF/services/<interfaceCls Name> file
-                     */
-                    final ServiceLoader<T> loader =
-                        ServiceLoader.load(interfaceCls, interfaceCls.getClassLoader());
-                    /*
-                     * New data structure to put interface class into LEXEME_MAP
-                     * In current version, it support one to one only
-                     *
-                     * 1) The key is interface class name
-                     * 2) The found class is implementation name
-                     */
-                    for (final T t : loader) {
-                        reference = t;
-                        if (Objects.nonNull(reference)) {
-                            cData.data(interfaceCls.getName(), reference);
-                            break;
-                        }
-                    }
-                }
-                return reference;
-            }, interfaceCls.getName());
-        }
     }
 
     /**

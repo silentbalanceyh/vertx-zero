@@ -8,6 +8,7 @@ import cn.vertxup.jet.domain.Db;
 import cn.vertxup.jet.domain.Indexes;
 import cn.vertxup.jet.domain.Keys;
 import cn.vertxup.jet.domain.tables.records.IJobRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -97,9 +98,9 @@ public class IJob extends TableImpl<IJobRecord> {
     public final TableField<IJobRecord, String> DURATION_CONFIG = createField(DSL.name("DURATION_CONFIG"), SQLDataType.CLOB, this, "「durationConfig」复杂调度配置");
     /**
      * The column <code>DB_ETERNAL.I_JOB.INCOME_COMPONENT</code>.
-     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; income
+     * 「incomeComponent」对应income，必须是JobIncome，@On -&gt; input
      */
-    public final TableField<IJobRecord, String> INCOME_COMPONENT = createField(DSL.name("INCOME_COMPONENT"), SQLDataType.VARCHAR(255), this, "「incomeComponent」对应income，必须是JobIncome，@On -> income");
+    public final TableField<IJobRecord, String> INCOME_COMPONENT = createField(DSL.name("INCOME_COMPONENT"), SQLDataType.VARCHAR(255), this, "「incomeComponent」对应income，必须是JobIncome，@On -> input");
     /**
      * The column <code>DB_ETERNAL.I_JOB.INCOME_ADDRESS</code>.
      * 「incomeAddress」对应incomeAddress，字符串，@On -&gt; address
@@ -223,6 +224,11 @@ public class IJob extends TableImpl<IJobRecord> {
         return new IJob(alias, this);
     }
 
+    @Override
+    public IJob as(Table<?> alias) {
+        return new IJob(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -237,5 +243,13 @@ public class IJob extends TableImpl<IJobRecord> {
     @Override
     public IJob rename(Name name) {
         return new IJob(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IJob rename(Table<?> name) {
+        return new IJob(name.getQualifiedName(), null);
     }
 }

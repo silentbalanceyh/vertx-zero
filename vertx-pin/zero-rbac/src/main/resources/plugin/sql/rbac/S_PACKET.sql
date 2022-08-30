@@ -17,70 +17,95 @@
 DROP TABLE IF EXISTS S_PACKET;
 CREATE TABLE IF NOT EXISTS S_PACKET
 (
-    `KEY`              VARCHAR(36) COMMENT '「key」- 包信息',
-    /*
-     * 触发类型可能是多种，不同触发类型的配置信息一致
-     * projection
-     * rows
-     * criteria
-     **/
-    `PATH_ID`          VARCHAR(36) COMMENT '「pathId」- 关联的 path id，包含关系',
-    `RESOURCE_ID`      VARCHAR(36) COMMENT '「resourceId」- 关联的资源 id',
+    `KEY`           VARCHAR(36) COMMENT '「key」- 包信息',
+    `CODE`          VARCHAR(255) COMMENT '「code」- 关联的 PATH 表对应的 code',
+    `RESOURCE`      VARCHAR(255) COMMENT '「resource」- 关联的资源表对应的 code',
 
+    -- 当前资源记录影响的维度计算
     /*
-     * rows 的变更，它的格式如：
+     * 针对视图 rows 的变更，rows 的最终格式
      * {
-           field: [
-               value1,
-               value2,
-               value3
-           ]
+     *     field: [
+     *         value1,
+     *         value2,
+     *         value3,
+     *     ]
      * }
-     * 行类型
-     * SINGLE - 单字段过滤
-     * COMPLEX - 多字段复杂过滤（保留）
+     * 行过滤类型
+     * - IN:        单字段过滤                   ->      field in ()
+     * - AND:       多字段平行过滤（AND连接）      ->      field in () AND field in ()
+     * - OR:        多字段平行过滤（OR连接）       ->      field in () OR field in ()
+     * - TREE:      多字段复杂过滤                ->      Query Engine
+     * 字段配置设置 hConfig
+     * {
+     *     "field": "STRING | ARRAY",
+     *     "input": {
+     *     },
+     *     "qr": {
+     *         "hType = TREE"
+     *     }
+     * }
      **/
-    `ROW_TYPE`         VARCHAR(255) COMMENT '「rowType」- 行过滤类型',
-    `ROW_FIELD`        VARCHAR(255) COMMENT '「rowField」- 行输入',
-    `ROW_TPL`          TEXT COMMENT '「rowTpl」- 多字段的模板',
-    `ROW_TPL_MAPPING`  TEXT COMMENT '「rowTplMapping」- 多字段的映射关系',
+    `H_TYPE`        VARCHAR(16) COMMENT '「hType」- 行过滤类型',
+    `H_MAPPING`     LONGTEXT COMMENT '「hMapping」- 字段映射关系，存在转换时必须',
+    `H_CONFIG`      LONGTEXT COMMENT '「hConfig」- 字段附加配置',
 
     /*
      * projection 的变更，列配置
      * [
-            column1,
-            column2,
-            column3
+     *      column1,
+     *      column2,
+     *      column3
      * ]
-     * LINER - 单字段列（一维）
+     * 列过滤类型
+     * - LINEAR:       单列
+     * - MULTI:        多列
+     * 列字段配置 vConfig
+     * {
+     *     "field": "STRING | ARRAY",
+     *     "input": {
+     *     }
+     * }
      */
-    `COL_TYPE`         VARCHAR(255) COMMENT '「colType」- 列过滤类型',
-    `COL_CONFIG`       TEXT COMMENT '「colConfig」- 列配置',
+    `V_TYPE`        VARCHAR(16) COMMENT '「vType」- 列过滤类型',
+    `V_MAPPING`     LONGTEXT COMMENT '「vMapping」- 列字段映射关系，存在转换时必须',
+    `V_CONFIG`      LONGTEXT COMMENT '「vConfig」- 列配置',
 
     /*
      * criteria 的变更，核心配置
+     * Qr过滤类型
+     * - FRONT:        前端Qr解析
+     * - BACK:         后端Qr解析
+     * QR配置 qConfig
+     * {
+     *     "input": {
+     *     }
+     * }
      */
-    `COND_TPL`         TEXT COMMENT '「condTpl」- 条件模板',
-    `COND_TPL_MAPPING` TEXT COMMENT '「condTplMapping」- 查询条件映射关系',
-    `COND_CONFIG`      TEXT COMMENT '「condConfig」- 条件配置（界面配置相关）',
+    `Q_TYPE`        VARCHAR(16) COMMENT '「qType」- 条件模板',
+    `Q_MAPPING`     LONGTEXT COMMENT '「qMapping」- 查询条件映射关系',
+    `Q_CONFIG`      LONGTEXT COMMENT '「qConfig」- 条件配置（界面配置相关）',
 
-    `SIGMA`            VARCHAR(32) COMMENT '「sigma」- 统一标识',
-    `LANGUAGE`         VARCHAR(10) COMMENT '「language」- 使用的语言',
-    `ACTIVE`           BIT COMMENT '「active」- 是否启用',
-    `METADATA`         TEXT COMMENT '「metadata」- 附加配置数据',
+    -- 保留设置（扩展自定义配置）
+    `RUN_COMPONENT` VARCHAR(255) COMMENT '「runComponent」- 自定义模式下的组件',
+    `RUN_CONFIG`    LONGTEXT COMMENT '「runConfig」- 运行专用配置',
+
+    `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',
+    `LANGUAGE`      VARCHAR(10) COMMENT '「language」- 使用的语言',
+    `ACTIVE`        BIT COMMENT '「active」- 是否启用',
+    `METADATA`      TEXT COMMENT '「metadata」- 附加配置数据',
 
     -- Auditor字段
-    `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',
-    `UPDATED_AT`       DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',
-    PRIMARY KEY (`KEY`) USING BTREE
+    `CREATED_AT`    DATETIME COMMENT '「createdAt」- 创建时间',
+    `CREATED_BY`    VARCHAR(36) COMMENT '「createdBy」- 创建人',
+    `UPDATED_AT`    DATETIME COMMENT '「updatedAt」- 更新时间',
+    `UPDATED_BY`    VARCHAR(36) COMMENT '「updatedBy」- 更新人',
+    PRIMARY KEY (`KEY`)
 );
 
 -- changeset Lang:ox-packet-2
 -- Unique Key：独立唯一主键
 ALTER TABLE S_PACKET
-    ADD UNIQUE (`PATH_ID`, `RESOURCE_ID`, `SIGMA`) USING BTREE;
+    ADD UNIQUE (`CODE`, `RESOURCE`, `SIGMA`);
 ALTER TABLE S_PACKET
-    ADD
-        INDEX IDX_S_PACKET_PATH_ID (`PATH_ID`) USING BTREE;
+    ADD INDEX IDX_S_PACKET_PATH_ID (`CODE`);

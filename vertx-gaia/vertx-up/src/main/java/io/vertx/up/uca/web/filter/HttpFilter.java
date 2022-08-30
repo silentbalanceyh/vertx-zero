@@ -10,6 +10,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.FilterContextException;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class HttpFilter implements Filter {
 
@@ -45,7 +46,10 @@ public abstract class HttpFilter implements Filter {
     }
 
     protected Map<String, Cookie> getCookies() {
-        return this.context.cookieMap();
+        return this.context.request()
+            .cookies()
+            .stream()
+            .collect(Collectors.toMap(Cookie::getName, cookie -> cookie));
     }
 
     protected Annal getLogger() {

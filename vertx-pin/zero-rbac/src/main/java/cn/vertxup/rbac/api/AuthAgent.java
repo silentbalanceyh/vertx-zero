@@ -80,4 +80,6 @@ public interface AuthAgent {
     @Path("/captcha/image-verify")
     @Address(Addr.Auth.CAPTCHA_IMAGE_VERIFY)
     JsonObject verifyImage(@BodyParam JsonObject request);
+
+    // --------------------- Ldap Authorization ------------------------
 }

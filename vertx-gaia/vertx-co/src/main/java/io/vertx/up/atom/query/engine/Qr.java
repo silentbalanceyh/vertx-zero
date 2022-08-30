@@ -14,15 +14,10 @@ import java.util.function.Predicate;
 
 /**
  * ## Query Engine Interface
- *
  * ### 1. Intro
- *
  * Advanced Criteria Interface for query engine, it provide critical api interfaces.
- *
  * ### 2. Data Structure
- *
  * The full query criteria data structure is as following:
- *
  * ```json
  * // <pre><code class="json">
  *     {
@@ -49,18 +44,14 @@ import java.util.function.Predicate;
 public interface Qr {
     /**
      * <value>pager</value>, It's mapped to `pager` field in json configuration.
-     *
      * 「Pagination」This json contains following two field:
-     *
      * 1. page: The page index ( started from 1 ).
      * 2. size: The page size.
      */
     String KEY_PAGER = "pager";
     /**
      * <value>sorter</value>, It's mapped to `sorter` field in json configuration.
-     *
      * 「Sorting」It's json array to contains different field with sorting mode.
-     *
      * 1. ASC: ORDER BY ?? ASC.
      * 2. DESC: ORDER BY ?? DESC.
      */
@@ -68,28 +59,24 @@ public interface Qr {
 
     /**
      * <value>criteria</value>, It's mapped to `criteria` field in json configuration.
-     *
      * 「Criteria」
      */
     String KEY_CRITERIA = "criteria";
 
     /**
      * <value>projection</value>, It's mapped to `projection` field in json configuration.
-     *
      * 「Fields」It's feature for column picking up.
      */
     String KEY_PROJECTION = "projection";
 
     /**
      * It's specification for fields to be sure the request data.
-     *
      * The system should detect the request whether it's Qr parameters ( request ).
      */
     String[] KEY_QUERY = new String[]{KEY_CRITERIA, KEY_PAGER, KEY_PROJECTION, KEY_SORTER};
 
     /**
      * Create Qr instance ( The default implementation class is {@link IrQr} )
-     *
      * The implementation class name meaning is `IrQr` - Internal Reactive Query Engine
      *
      * @param data {@link io.vertx.core.json.JsonObject} json literal
@@ -165,7 +152,6 @@ public interface Qr {
 
     /**
      * The where condition connector of two: AND / OR.
-     *
      * - AND: `cond1 AND cond2`.
      * - OR: `cond1 OR cond2`.
      */
@@ -182,7 +168,6 @@ public interface Qr {
 
     /**
      * The query condition mode of two: LINEAR / TREE.
-     *
      * - LINEAR: The json query condition is 1 level.
      * - TREE: The complex query condition
      */
@@ -199,7 +184,6 @@ public interface Qr {
 
     /**
      * Critical condition field `flag` for date field
-     *
      * 1. DAY: Date only.
      * 2. DATE: Date + Time.
      * 3. TIME: Time only.

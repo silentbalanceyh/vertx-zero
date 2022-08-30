@@ -114,7 +114,7 @@ public class Mirror {
 
     @SuppressWarnings("unchecked")
     public <T> T get() {
-        final Object reference = Ut.deserialize(this.converted, this.mojo.getType());
+        final Object reference = Ut.deserialize(this.converted, this.mojo.getType(), true);
         return Fn.getNull(null, () -> (T) reference, reference);
     }
 

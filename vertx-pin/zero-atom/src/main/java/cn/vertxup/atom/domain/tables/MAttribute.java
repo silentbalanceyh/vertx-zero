@@ -8,6 +8,7 @@ import cn.vertxup.atom.domain.Db;
 import cn.vertxup.atom.domain.Indexes;
 import cn.vertxup.atom.domain.Keys;
 import cn.vertxup.atom.domain.tables.records.MAttributeRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -245,6 +246,11 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
         return new MAttribute(alias, this);
     }
 
+    @Override
+    public MAttribute as(Table<?> alias) {
+        return new MAttribute(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -259,5 +265,13 @@ public class MAttribute extends TableImpl<MAttributeRecord> {
     @Override
     public MAttribute rename(Name name) {
         return new MAttribute(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public MAttribute rename(Table<?> name) {
+        return new MAttribute(name.getQualifiedName(), null);
     }
 }

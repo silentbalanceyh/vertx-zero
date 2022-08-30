@@ -2,10 +2,10 @@ package io.vertx.up.unity;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.job.plugin.JobClient;
+import io.vertx.up.uca.job.plugin.JobInfix;
 
 public class UxJob {
     private static final Annal LOGGER = Annal.get(UxJob.class);

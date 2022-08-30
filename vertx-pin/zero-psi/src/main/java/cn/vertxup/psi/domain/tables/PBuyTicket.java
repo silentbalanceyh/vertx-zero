@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PBuyTicketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -208,6 +209,11 @@ public class PBuyTicket extends TableImpl<PBuyTicketRecord> {
         return new PBuyTicket(alias, this);
     }
 
+    @Override
+    public PBuyTicket as(Table<?> alias) {
+        return new PBuyTicket(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -222,5 +228,13 @@ public class PBuyTicket extends TableImpl<PBuyTicketRecord> {
     @Override
     public PBuyTicket rename(Name name) {
         return new PBuyTicket(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PBuyTicket rename(Table<?> name) {
+        return new PBuyTicket(name.getQualifiedName(), null);
     }
 }

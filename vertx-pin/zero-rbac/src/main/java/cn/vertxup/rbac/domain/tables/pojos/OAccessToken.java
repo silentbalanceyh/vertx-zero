@@ -9,6 +9,7 @@ import cn.vertxup.rbac.domain.tables.interfaces.IOAccessToken;
 import io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 
 import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
@@ -20,16 +21,16 @@ public class OAccessToken implements VertxPojo, IOAccessToken {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private byte[]        token;
-    private byte[]        auth;
-    private Long          expiredTime;
-    private byte[]        refreshToken;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private byte[] token;
+    private byte[] auth;
+    private Long expiredTime;
+    private byte[] refreshToken;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
 
     public OAccessToken() {}
 
@@ -47,16 +48,16 @@ public class OAccessToken implements VertxPojo, IOAccessToken {
     }
 
     public OAccessToken(
-        String        key,
-        byte[]        token,
-        byte[]        auth,
-        Long          expiredTime,
-        byte[]        refreshToken,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        byte[] token,
+        byte[] auth,
+        Long expiredTime,
+        byte[] refreshToken,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy
+        String createdBy
     ) {
         this.key = key;
         this.token = token;
@@ -259,6 +260,95 @@ public class OAccessToken implements VertxPojo, IOAccessToken {
     public OAccessToken setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final OAccessToken other = (OAccessToken) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.token == null) {
+            if (other.token != null)
+                return false;
+        }
+        else if (!Arrays.equals(this.token, other.token))
+            return false;
+        if (this.auth == null) {
+            if (other.auth != null)
+                return false;
+        }
+        else if (!Arrays.equals(this.auth, other.auth))
+            return false;
+        if (this.expiredTime == null) {
+            if (other.expiredTime != null)
+                return false;
+        }
+        else if (!this.expiredTime.equals(other.expiredTime))
+            return false;
+        if (this.refreshToken == null) {
+            if (other.refreshToken != null)
+                return false;
+        }
+        else if (!Arrays.equals(this.refreshToken, other.refreshToken))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.token == null) ? 0 : Arrays.hashCode(this.token));
+        result = prime * result + ((this.auth == null) ? 0 : Arrays.hashCode(this.auth));
+        result = prime * result + ((this.expiredTime == null) ? 0 : this.expiredTime.hashCode());
+        result = prime * result + ((this.refreshToken == null) ? 0 : Arrays.hashCode(this.refreshToken));
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        return result;
     }
 
     @Override

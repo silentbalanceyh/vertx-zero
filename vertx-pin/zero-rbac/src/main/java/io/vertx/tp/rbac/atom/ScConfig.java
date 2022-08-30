@@ -68,6 +68,8 @@ public class ScConfig implements Serializable {
      * Enable multi application, whether search action with X-Sigma Header
      */
     private Boolean supportMultiApp = Boolean.TRUE;
+
+    private Boolean supportIntegration = Boolean.FALSE;
     /*
      * Enable image code here, if enabled, the login component must be
      * from `ExLogin` switched to `ExEntry` instead, because here need
@@ -248,6 +250,14 @@ public class ScConfig implements Serializable {
         this.category = category;
     }
 
+    public Boolean getSupportIntegration() {
+        return this.supportIntegration;
+    }
+
+    public void setSupportIntegration(final Boolean supportIntegration) {
+        this.supportIntegration = supportIntegration;
+    }
+
     public KQr category(final String name) {
         return CC_KQR.pick(() -> {
             final JsonObject serializeJ = Ut.valueJObject(this.category, name);
@@ -271,24 +281,26 @@ public class ScConfig implements Serializable {
     @Override
     public String toString() {
         return "ScConfig{" +
+            "poolVerify='" + this.poolVerify + '\'' +
+            ", poolLimitation='" + this.poolLimitation + '\'' +
             ", condition=" + this.condition +
             ", codeExpired=" + this.codeExpired +
             ", codeLength=" + this.codeLength +
+            ", poolCode='" + this.poolCode + '\'' +
             ", tokenExpired=" + this.tokenExpired +
+            ", poolToken='" + this.poolToken + '\'' +
             ", supportGroup=" + this.supportGroup +
             ", supportSecondary=" + this.supportSecondary +
             ", supportMultiApp=" + this.supportMultiApp +
+            ", supportIntegration=" + this.supportIntegration +
             ", verifyCode=" + this.verifyCode +
             ", verifyLimitation=" + this.verifyLimitation +
             ", verifyDuration=" + this.verifyDuration +
             ", poolPermission='" + this.poolPermission + '\'' +
             ", poolResource='" + this.poolResource + '\'' +
-            ", poolCode='" + this.poolCode + '\'' +
-            ", poolVerify='" + this.poolVerify + '\'' +
-            ", poolLimitation='" + this.poolLimitation + '\'' +
-            ", poolToken='" + this.poolToken + '\'' +
             ", initializePassword='" + this.initializePassword + '\'' +
-            ", initialize='" + this.initialize + '\'' +
+            ", initialize=" + this.initialize +
+            ", category=" + this.category +
             '}';
     }
 }

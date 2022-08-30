@@ -7,6 +7,7 @@ package cn.vertxup.rbac.domain.tables;
 import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.SViewRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -36,7 +38,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.NAME</code>. 「name」- 视图名称，每个 MATRIX
      * 对应一个视图
      */
-    public final TableField<SViewRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255), this, "「name」- 视图名称，每个 MATRIX 对应一个视图");
+    public final TableField<SViewRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(96), this, "「name」- 视图名称，每个 MATRIX 对应一个视图");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.TITLE</code>. 「title」- 视图标题，用户输入，可选择
      */
@@ -73,7 +75,7 @@ public class SView extends TableImpl<SViewRecord> {
      * The column <code>DB_ETERNAL.S_VIEW.POSITION</code>. 「position」-
      * 当前视图的模块位置，比页面低一个维度
      */
-    public final TableField<SViewRecord, String> POSITION = createField(DSL.name("POSITION"), SQLDataType.VARCHAR(255), this, "「position」- 当前视图的模块位置，比页面低一个维度");
+    public final TableField<SViewRecord, String> POSITION = createField(DSL.name("POSITION"), SQLDataType.VARCHAR(96), this, "「position」- 当前视图的模块位置，比页面低一个维度");
     /**
      * The column <code>DB_ETERNAL.S_VIEW.VISITANT</code>. 「visitant」-
      * 是否包含了视图访问者
@@ -178,6 +180,11 @@ public class SView extends TableImpl<SViewRecord> {
         return new SView(alias, this);
     }
 
+    @Override
+    public SView as(Table<?> alias) {
+        return new SView(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -194,6 +201,14 @@ public class SView extends TableImpl<SViewRecord> {
         return new SView(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public SView rename(Table<?> name) {
+        return new SView(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row19 type methods
     // -------------------------------------------------------------------------
@@ -201,5 +216,20 @@ public class SView extends TableImpl<SViewRecord> {
     @Override
     public Row19<String, String, String, String, String, String, String, String, String, String, Boolean, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
         return (Row19) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

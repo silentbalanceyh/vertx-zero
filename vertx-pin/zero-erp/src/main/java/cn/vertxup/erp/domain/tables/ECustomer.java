@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.ECustomerRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -243,6 +244,11 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
         return new ECustomer(alias, this);
     }
 
+    @Override
+    public ECustomer as(Table<?> alias) {
+        return new ECustomer(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -257,5 +263,13 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
     @Override
     public ECustomer rename(Name name) {
         return new ECustomer(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public ECustomer rename(Table<?> name) {
+        return new ECustomer(name.getQualifiedName(), null);
     }
 }

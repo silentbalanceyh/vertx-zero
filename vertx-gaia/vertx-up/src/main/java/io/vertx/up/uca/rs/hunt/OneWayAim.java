@@ -8,8 +8,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.rs.Aim;
-import io.vertx.up.unity.Ux;
 
 /**
  * OneWayAim: Event Bus: One-Way
@@ -56,7 +56,7 @@ public class OneWayAim extends BaseAim implements Aim<RoutingContext> {
                  * SUCCESS
                  */
                 if (dataRes.succeeded()) {
-                    bus.<Envelop>request(address, dataRes.result(), Ux.Opt.on().delivery(), handler -> {
+                    bus.<Envelop>request(address, dataRes.result(), ZeroGrid.getDeliveryOption(), handler -> {
                         final Envelop response;
                         if (handler.succeeded()) {
                             /*

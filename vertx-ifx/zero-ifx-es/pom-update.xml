@@ -35,13 +35,6 @@
             </ignoreVersions>
         </rule>
 
-        <!-- liquibase 3.x -->
-        <rule groupId="org.liquibase" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">4.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
         <!-- es 7.x -->
         <rule groupId="org.elasticsearch" comparisonMethod="maven">
             <ignoreVersions>
@@ -61,10 +54,13 @@
                 <ignoreVersion type="regex">4.*</ignoreVersion>
             </ignoreVersions>
         </rule>
-        <!-- jooq: 3.17.0 require JDK Upgrade First -->
-        <rule groupId="org.jooq" comparisonMethod="maven">
+        <!--
+            JDK 17 Limitation
+            slf4j: 2.0.0
+        -->
+        <rule groupId="org.slf4j" comparisonMethod="maven">
             <ignoreVersions>
-                <ignoreVersion type="regex">3.17.*</ignoreVersion>
+                <ignoreVersion type="regex">2.*</ignoreVersion>
             </ignoreVersions>
         </rule>
     </rules>
