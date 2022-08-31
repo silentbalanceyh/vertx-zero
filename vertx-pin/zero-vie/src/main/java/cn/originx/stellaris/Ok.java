@@ -17,7 +17,7 @@ import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroHeart;
+import io.vertx.up.runtime.ZeroArcane;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -132,7 +132,7 @@ public class Ok implements OkA {
         if (!this.initialized) {
             OInfix.on(vertx);
             LOGGER.info("[ Ok ] Zero Infix has been initialized!! = {0}", this.tenant);
-            return ZeroHeart.initExtension(vertx).compose(nil -> {
+            return ZeroArcane.startEdge(vertx).compose(nil -> {
                 // 应用初始化
                 final JsonObject app = this.tenant.getApplication();
                 final String sigma = app.getString(KName.SIGMA);

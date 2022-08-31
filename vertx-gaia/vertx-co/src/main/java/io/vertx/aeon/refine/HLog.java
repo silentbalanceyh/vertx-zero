@@ -27,6 +27,10 @@ public class HLog {
         info(clazz, "Aeon", pattern, args);
     }
 
+    public static void infoEnv(final Class<?> clazz, final String pattern, final Object... args) {
+        info(clazz, "Env", pattern, args);
+    }
+
     public static void infoFs(final Class<?> clazz, final String pattern, final Object... args) {
         info(clazz, "Fs", pattern, args);
     }
@@ -37,6 +41,10 @@ public class HLog {
 
     public static void warnAeon(final Class<?> clazz, final String pattern, final Object... args) {
         warn(clazz, "Aeon", pattern, args);
+    }
+
+    public static void warnEnv(final Class<?> clazz, final String pattern, final Object... args) {
+        warn(clazz, "Environment", pattern, args);
     }
 
     public static void infoK8(final Class<?> clazz, final String pattern, final Object... args) {

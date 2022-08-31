@@ -25,7 +25,7 @@ public class HLoadNorm implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = HES.context(appName);
+            final KApp app = HES.connect(appName);
 
             // Fetch HModel
             final String unique = app.keyUnique(identifier);

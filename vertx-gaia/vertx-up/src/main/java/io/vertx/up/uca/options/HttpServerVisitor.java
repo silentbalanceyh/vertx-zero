@@ -49,7 +49,7 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
             /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
             final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
             final String portCfg = Ut.valueString(configJ, KName.PORT);
-            final String portEnv = Ut.valueEnv(HEnv.Z_PORT_WEB, portCfg);
+            final String portEnv = Ut.envIn(HEnv.Z_PORT_WEB, portCfg);
             configJ.put(KName.PORT, Integer.valueOf(portEnv));
 
             // 1. Extract port

@@ -51,6 +51,11 @@ public class At {
         AtLog.info(logger, "Tabb", pattern, args);
     }
 
+    public static void infoHES(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        AtLog.info(logger, "HES", pattern, args);
+    }
+
     public static Init initApp() {
         return CC_INIT.pick(AppInit::new, AppInit.class.getName());
         // return Fn.po?l(Pool.INIT_POOL, AppInit.class.getName(), AppInit::new);

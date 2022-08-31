@@ -3,7 +3,6 @@ package io.vertx.aeon.runtime;
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.refine.HLog;
-import io.vertx.up.runtime.ZeroHeart;
 
 import java.util.Arrays;
 
@@ -21,8 +20,6 @@ public class AeonEnvironment {
      * 3. 上述三者都不存在则直接以 zapp.yml 中指定 `environment` 部分提取环境变量文件
      */
     public static void initialize(final HAeon aeon) {
-        // 开发才会出现的环境变量
-        ZeroHeart.initEnvironment();
 
         // 最终环境变量报表
         final StringBuilder builder = new StringBuilder();

@@ -44,9 +44,9 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
             /* 「Z_PORT_SOCK」环境变量注入，HttpServer专用 */
             final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
             final String portCfg = Ut.valueString(configJ, KName.PORT);
-            String portEnv = Ut.valueEnv(HEnv.Z_PORT_SOCK, null);
+            String portEnv = Ut.envIn(HEnv.Z_PORT_SOCK, null);
             if (Ut.isNil(portEnv)) {
-                portEnv = Ut.valueEnv(HEnv.Z_PORT_WEB, portCfg);
+                portEnv = Ut.envIn(HEnv.Z_PORT_WEB, portCfg);
             }
             configJ.put(KName.PORT, Integer.valueOf(portEnv));
             // 1. Extract port

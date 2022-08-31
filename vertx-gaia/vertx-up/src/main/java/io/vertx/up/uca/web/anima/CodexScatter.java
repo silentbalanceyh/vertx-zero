@@ -1,5 +1,6 @@
 package io.vertx.up.uca.web.anima;
 
+import io.vertx.aeon.runtime.H2H;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.FileSuffix;
@@ -7,7 +8,7 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroCodex;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -28,7 +29,9 @@ public class CodexScatter implements Scatter<Vertx> {
                 final JsonObject ruleData = Ut.ioYaml(filename);
                 if (null != ruleData && !ruleData.isEmpty()) {
                     // File the codex map about the rule definitions.
-                    ZeroCodex.getCodex().put(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
+                    final Cd<String, JsonObject> store = H2H.CC_CODEX.store();
+                    store.data(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
+                    // ZeroCodex.getCodex().put(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
                 }
             } catch (final EmptyStreamException ex) {
                 LOGGER.vertx(ex);

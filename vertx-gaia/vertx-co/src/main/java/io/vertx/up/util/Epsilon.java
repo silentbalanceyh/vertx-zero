@@ -79,11 +79,6 @@ class Epsilon {
         return Integer.valueOf(literal);
     }
 
-    static String vEnv(final String name, final String defaultValue) {
-        final String parsed = System.getenv(name);
-        return Ut.isNil(parsed) ? defaultValue : parsed;
-    }
-
     static Class<?> vClass(final JsonObject json, final String field, final Class<?> defaultValue) {
         final String clsStr = vString(json, field, null);
         if (Ut.isNil(clsStr)) {
