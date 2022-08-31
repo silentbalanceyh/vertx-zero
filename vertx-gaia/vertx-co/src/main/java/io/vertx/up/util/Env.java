@@ -4,10 +4,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Field;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -66,7 +63,12 @@ class Env {
             final Map<String, String> env = System.getenv();
             final Field field = env.getClass().getDeclaredField("m");
             field.setAccessible(true);
-            return (Map<String, String>) field.get(env);
+            Map<String, String> mValue = (Map<String, String>) field.get(env);
+            // Fix issue: Cannot invoke "java.util.Map.put(Object,Object)" because "envMap" is null
+            if (Objects.isNull(mValue)) {
+                mValue = new HashMap<>();
+            }
+            return mValue;
         });
     }
 }
