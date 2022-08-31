@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * 启动器
- *
+ * <p>
  * 1 - 云环境自检
  * 2 - 低代码环境对接
  * 3 - VertxApplication应用启动
@@ -73,9 +73,9 @@ public class AeonApplication extends ZeroApplication {
     }
 
     @Override
-    protected void runPre() {
+    protected void runBefore() {
         // 优先调用父类启动流程一
-        super.runPre();
+        super.runBefore();
         // 开始启动 Aeon环境
         final HAeon aeon = HSwitcher.aeon();
 

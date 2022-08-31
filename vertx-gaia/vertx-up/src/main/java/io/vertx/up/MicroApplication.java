@@ -33,7 +33,7 @@ public class MicroApplication extends ZeroApplication {
     }
 
     @Override
-    protected void runPre() {
+    protected void runBefore() {
         // Check etcd server status, IPC Only
         Fn.outUp(!ZeroHeart.isEtcd(), this.logger(), RpcPreparingException.class, this.getClass());
         /*

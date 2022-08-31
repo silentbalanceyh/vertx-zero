@@ -7,7 +7,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.ZeroLauncher;
 import io.vertx.up.uca.web.anima.*;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.UpClassArgsException;
 import io.vertx.zero.exception.UpClassInvalidException;
@@ -56,55 +55,39 @@ public abstract class ZeroApplication {
         return Annal.get(this.getClass());
     }
 
-    protected void runPre() {
+    /*
+     * 「可重写」Vertx实例启动之前的流程
+     * - startEra()
+     **/
+    protected void runBefore() {
         ZeroArcane.startEra();
     }
 
     public void run(final Object... args) {
         // Check for basic preparing
-        this.runPre();
+        this.runBefore();
         // Execute the Vertx Running for initialized
         final Launcher<Vertx> launcher = Ut.singleton(ZeroLauncher.class);
-        launcher.start(vertx -> {
-            ZeroArcane.startElite(vertx);
-
-            this.runInternal(vertx, args);
-        });
+        launcher.start(vertx -> this.runAfter(vertx, args));
     }
 
-    protected void runInternal(final Vertx vertx, final Object... args) {
-        Ux.future()
-            // Extension
-            .compose(nil -> ZeroArcane.startEdge(vertx))
-            // KApp, Tenant
+    /*
+     * 「不可重写」Vertx实例启动之后的流程
+     * - startElite
+     * - startEdge
+     * - startEnroll
+     **/
+    private void runAfter(final Vertx vertx, final Object... args) {
+        // Elite
+        ZeroArcane.startElite(vertx);
+        // Extension
+        ZeroArcane.startEdge(vertx)
+            // Enroll
             .compose(nil -> ZeroArcane.startEnroll(vertx))
-            // Callback
-            .onSuccess(res -> {
-                if (res) {
-                    /* 1.Find Agent for deploy **/
-                    Runner.run(() -> {
-                        final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
-                        scatter.connect(vertx);
-                    }, "agent-runner");
-
-                    /* 2.Find Worker for deploy **/
-                    Runner.run(() -> {
-                        final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
-                        scatter.connect(vertx);
-                    }, "worker-runner");
-
-                    /* 3.Initialize Infix **/
-                    Runner.run(() -> {
-                        // Infix
-                        final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                        scatter.connect(vertx);
-                    }, "infix-afflux-runner");
-
-                    /* 4.Rule started **/
-                    Runner.run(() -> {
-                        final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
-                        scatter.connect(vertx);
-                    }, "codex-engine-runner");
+            .onSuccess(initialized -> {
+                if (initialized) {
+                    // Internal
+                    this.runInternal(vertx, args);
                 }
             })
             .onFailure(error -> {
@@ -112,5 +95,32 @@ public abstract class ZeroApplication {
                 error.printStackTrace();
                 this.logger().jvm(error);
             });
+    }
+
+    protected void runInternal(final Vertx vertx, final Object... args) {
+        /* 1.Find Agent for deploy **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
+            scatter.connect(vertx);
+        }, "agent-runner");
+
+        /* 2.Find Worker for deploy **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
+            scatter.connect(vertx);
+        }, "worker-runner");
+
+        /* 3.Initialize Infix **/
+        Runner.run(() -> {
+            // Infix
+            final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
+            scatter.connect(vertx);
+        }, "infix-afflux-runner");
+
+        /* 4.Rule started **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
+            scatter.connect(vertx);
+        }, "codex-engine-runner");
     }
 }
