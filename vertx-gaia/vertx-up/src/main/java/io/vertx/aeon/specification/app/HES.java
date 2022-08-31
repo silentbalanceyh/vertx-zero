@@ -22,6 +22,7 @@ import java.util.Set;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public final class HES {
+    private static final String MSG_HOI = "[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}";
     private static final Annal LOGGER = Annal.get(HES.class);
 
     private HES() {
@@ -48,31 +49,33 @@ public final class HES {
      */
     public static Future<Boolean> configure() {
         return Ux.channel(HET.class,
-            () -> Boolean.FALSE,
-            // 1. 初始化所有应用（H3H.CC_APP就绪）
-            het -> het.initialize().compose(initialized -> {
-                /*
-                 * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
-                 * 1. 「单机环境」下 sigma 只有一个，Hoi也只有一个（tenant可null）
-                 * 2. 「多租户环境」 sigma = tenant 维度，Hoi也只有一个（tenant不为空，且children为空）
-                 * 3. 「多层租户环境」无等价维度，Hoi会存在多个，且某些Hoi会出现子租户映射表
-                 *
-                 * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
-                 */
-                H3H.CC_APP.store().values().forEach(app -> {
-                    final JsonObject inputJ = app.dataJ();
+                () -> Boolean.FALSE,
+                // 1. 初始化所有应用（H3H.CC_APP就绪）
+                het -> het.initialize().compose(initialized -> {
                     /*
-                     * CC_APP / CC_HOI 不同点
-                     * 1）（应用级）CC_APP的键值是跨越级的，有多个，保证每个都可以提取数据
-                     * 2）（租户级）CC_HOI则不然，它包含了 sigma（开启租户时的租户标识）
+                     * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
+                     * 1. 「单机环境」下 sigma 只有一个，Hoi也只有一个（tenant可null）
+                     * 2. 「多租户环境」 sigma = tenant 维度，Hoi也只有一个（tenant不为空，且children为空）
+                     * 3. 「多层租户环境」无等价维度，Hoi会存在多个，且某些Hoi会出现子租户映射表
+                     *
+                     * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
                      */
-                    final String sigma = Ut.valueString(inputJ, KName.SIGMA);
-                    final Hoi hoi = H3H.CC_OI.pick(() -> het.configure(inputJ), sigma);
-                    LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}",
-                        sigma, inputJ.encode(), hoi.mode());
-                });
-                return Ux.futureT();
-            })
+                    H3H.CC_APP.store().values().forEach(app -> {
+                        final JsonObject inputJ = app.dataJ();
+                        /*
+                         * CC_APP / CC_HOI 不同点
+                         * 1）（应用级）CC_APP的键值是跨越级的，有多个，保证每个都可以提取数据
+                         * 2）（租户级）CC_HOI则不然，它包含了 sigma（开启租户时的租户标识）
+                         */
+                        final String sigma = Ut.valueString(inputJ, KName.SIGMA);
+                        H3H.CC_OI.pick(() -> {
+                            final Hoi hoi = het.configure(inputJ);
+                            LOGGER.info(MSG_HOI, sigma, inputJ.encode(), hoi.mode());
+                            return hoi;
+                        }, sigma);
+                    });
+                    return Ux.futureT();
+                })
         );
     }
 
