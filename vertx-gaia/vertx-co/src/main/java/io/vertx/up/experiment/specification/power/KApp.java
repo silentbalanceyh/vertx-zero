@@ -6,6 +6,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HApp;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -84,7 +85,19 @@ public class KApp implements Serializable {
     }
 
     public KApp bind(final String namespace) {
-        this.ns = namespace;
+        /*
+         * Sync with Cache when the namespace has been changed
+         * If namespace changed, here should refresh the POOL `H3H.CC_APP` cache
+         * Fix Issue: https://e.gitee.com/szzw/dashboard?issue=I5P1Y1
+         * */
+        Objects.requireNonNull(namespace);
+        if (!namespace.equals(this.ns)) {
+            final Cd<String, KApp> store = H3H.CC_APP.store();
+            store.clear(this.ns);
+            this.ns = namespace;
+            // synchro() to replace the whole cache data
+            this.synchro();
+        }
         return this;
     }
 
@@ -96,11 +109,19 @@ public class KApp implements Serializable {
 
     /* 必须是完整同步才执行填充 */
     public KApp synchro() {
-        H3H.CC_APP.pick(() -> this, this.name);
-        H3H.CC_APP.pick(() -> this, this.appKey);
-        H3H.CC_APP.pick(() -> this, this.appId);
-        H3H.CC_APP.pick(() -> this, this.code);
-        H3H.CC_APP.pick(() -> this, this.sigma);
+        final Cd<String, KApp> store = H3H.CC_APP.store();
+        store.data(this.ns, this);
+        store.data(this.appKey, this);
+        store.data(this.appId, this);
+        store.data(this.code, this);
+        store.data(this.sigma, this);
+        // Old Code is as following
+        // Fix Issue: https://e.gitee.com/szzw/dashboard?issue=I5P1Y1
+        //        H3H.CC_APP.pick(() -> this, this.ns);
+        //        H3H.CC_APP.pick(() -> this, this.appKey);
+        //        H3H.CC_APP.pick(() -> this, this.appId);
+        //        H3H.CC_APP.pick(() -> this, this.code);
+        //        H3H.CC_APP.pick(() -> this, this.sigma);
         return this;
     }
 
