@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.experiment.specification.power.KTenant;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -33,10 +34,7 @@ public abstract class AbstractHET implements HET {
         // KApp 搜索流程
         final String sigma = Ut.valueString(input, KName.SIGMA);
         final String appId = Ut.valueString(input, KName.APP_ID);
-        KApp app = HES.connect(sigma, appId);
-        if (Objects.isNull(app)) {
-            app = HES.connect();
-        }
+        final KApp app = HES.connect(sigma, appId);
         final String language = Ut.valueString(input, KName.LANGUAGE);
         if (Objects.nonNull(app)) {
             /*
@@ -46,5 +44,9 @@ public abstract class AbstractHET implements HET {
             app.bind(sigma, language);
         }
         return hoi.bind(app);
+    }
+
+    protected Annal logger() {
+        return Annal.get(this.getClass());
     }
 }

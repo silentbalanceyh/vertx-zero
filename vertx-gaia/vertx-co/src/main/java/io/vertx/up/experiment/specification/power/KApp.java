@@ -135,6 +135,28 @@ public class KApp implements Serializable {
         return this.dimB;
     }
 
+    /*
+     * 参数：
+     * {
+     *     "appId": "xx",
+     *     "appKey": "xx",
+     *     "sigma": "xx",
+     *     "language": "xx",
+     *     "name": "xx",
+     *     "ns": "xx"
+     * }
+     */
+    public JsonObject dataJ() {
+        final JsonObject parameters = new JsonObject();
+        parameters.put(KName.APP_KEY, this.appKey);
+        parameters.put(KName.APP_ID, this.appId);
+        parameters.put(KName.LANGUAGE, this.language);
+        parameters.put(KName.SIGMA, this.sigma);
+        parameters.put(KName.NAME, this.name);
+        parameters.put(KName.NAMESPACE, this.ns);
+        return parameters;
+    }
+
     // -------------- 应用相关的统一标识符 --------------
     /*
      * 主要用于模型的唯一键，最终结构如：

@@ -2,6 +2,7 @@ package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.daos.RUserGroupDao;
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
+import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -35,30 +36,30 @@ public class TwineRights implements Twine<String> {
     @Override
     public Future<JsonObject> identAsync(final String key) {
         return Ux.Jooq.on(SUserDao.class).fetchJByIdAsync(key)
-            .compose(userJ -> {
-                /* delete attribute: password from user information */
-                userJ.remove(KName.PASSWORD);
-                return Ux.future(userJ);
-            })
-            .compose(userJ -> Junc.role().identAsync(userJ)
-                // roles -> JsonArray
-                .compose(roles -> Ux.future(userJ.put(KName.ROLES, roles))))
-            .compose(userJ -> Junc.group().identAsync(userJ)
-                // groups -> JsonArray
-                .compose(groups -> Ux.future(userJ.put(KName.GROUPS, groups)))
-            );
+                .compose(userJ -> {
+                    /* delete attribute: password from user information */
+                    userJ.remove(KName.PASSWORD);
+                    return Ux.future(userJ);
+                })
+                .compose(userJ -> Junc.role().identAsync(userJ)
+                        // roles -> JsonArray
+                        .compose(roles -> Ux.future(userJ.put(KName.ROLES, roles))))
+                .compose(userJ -> Junc.group().identAsync(userJ)
+                        // groups -> JsonArray
+                        .compose(groups -> Ux.future(userJ.put(KName.GROUPS, groups)))
+                );
     }
 
     @Override
     public Future<JsonObject> identAsync(final String key, final JsonObject updatedData) {
         return this.updateAsync(key, updatedData)
-            .compose(userJ -> Junc.role().identAsync(key, userJ)
-                // roles -> JsonArray
-                .compose(roles -> Ux.future(userJ.put(KName.ROLES, roles))))
-            .compose(userJ -> Junc.group().identAsync(key, userJ)
-                // groups -> JsonArray
-                .compose(groups -> Ux.future(userJ.put(KName.GROUPS, groups)))
-            );
+                .compose(userJ -> Junc.role().identAsync(key, userJ)
+                        // roles -> JsonArray
+                        .compose(roles -> Ux.future(userJ.put(KName.ROLES, roles))))
+                .compose(userJ -> Junc.group().identAsync(key, userJ)
+                        // groups -> JsonArray
+                        .compose(groups -> Ux.future(userJ.put(KName.GROUPS, groups)))
+                );
     }
 
     // ----------------------- Extract Data -----------------------
@@ -77,13 +78,13 @@ public class TwineRights implements Twine<String> {
     private Future<JsonObject> updateAsync(final String userKey, final JsonObject params) {
         /* Merge original here */
         final UxJooq jq = Ux.Jooq.on(SUserDao.class);
-        return jq.fetchByIdAsync(userKey).compose(queried -> {
+        return jq.<SUser>fetchByIdAsync(userKey).compose(queried -> {
             if (Objects.isNull(queried)) {
                 return Ux.futureJ();
             }
-            Ux.updateT(queried, params);
+            final SUser updated = Ux.updateT(queried, params);
             /* User Saving here */
-            return jq.updateJAsync(userKey, queried).compose(userJ -> {
+            return jq.updateJAsync(userKey, updated).compose(userJ -> {
                 // Be sure the response contains `roles` and `groups`
                 userJ.put(KName.ROLES, params.getValue(KName.ROLES));
                 userJ.put(KName.GROUPS, params.getValue(KName.GROUPS));

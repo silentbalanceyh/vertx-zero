@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * 启动器
- *
+ * <p>
  * 1 - 云环境自检
  * 2 - 低代码环境对接
  * 3 - VertxApplication应用启动
@@ -73,13 +73,14 @@ public class AeonApplication extends ZeroApplication {
     }
 
     @Override
-    protected void ready() {
+    protected void runBefore() {
+        // 优先调用父类启动流程一
+        super.runBefore();
+        // 开始启动 Aeon环境
         final HAeon aeon = HSwitcher.aeon();
 
         // Error-50001
         Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
-        // Error-50002
-        // Fn.out(!ZeroHeart.isCluster(), ClusterRequiredException.class, this.upClazz);
 
         AeonEnvironment.initialize(aeon);
         // Error-50003

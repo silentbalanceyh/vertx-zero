@@ -113,7 +113,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
              * 「Z_PORT_DB」
              */
             final String port = Ut.valueString(jooq, KName.PORT);
-            final String portEnv = Ut.valueEnv(HEnv.Z_PORT_DB, port);
+            final String portEnv = Ut.envIn(HEnv.Z_PORT_DB, port);
             if (Ut.notNil(portEnv) && Ut.isInteger(portEnv)) {
                 // Fix Issue: NumberFormatException: null
                 jooq.put(KName.PORT, Integer.valueOf(portEnv));

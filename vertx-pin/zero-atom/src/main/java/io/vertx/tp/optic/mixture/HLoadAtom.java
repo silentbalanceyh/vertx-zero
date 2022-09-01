@@ -26,7 +26,7 @@ public class HLoadAtom implements HLoad {
              * - appName
              * - ns
              */
-            final KApp app = HES.context(appName).bind(Ao.toNS(appName));
+            final KApp app = HES.connect(appName).bind(Ao.toNS(appName));
             // H3H.CC_APP.pick(() -> new KApp(appName).bind(Ao.toNS(appName)), appName);
 
             // Fetch HModel

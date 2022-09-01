@@ -205,6 +205,7 @@ class Async {
         }
     }
 
+
     static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
                                 final Function<T, O> executor) {
         final T channel = Pocket.lookup(clazz);

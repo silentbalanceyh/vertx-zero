@@ -1,7 +1,6 @@
 package io.vertx.up.runtime;
 
 import io.vertx.core.Vertx;
-import io.vertx.tp.plugin.shared.MapInfix;
 import io.vertx.up.Launcher;
 import io.vertx.up.annotations.Up;
 import io.vertx.up.fn.Fn;
@@ -56,72 +55,72 @@ public abstract class ZeroApplication {
         return Annal.get(this.getClass());
     }
 
-    protected void ready() {
-        // throw new _501NotSupportException(this.getClass());
-        ZeroHeart.initEnvironment();
+    /*
+     * 「可重写」Vertx实例启动之前的流程
+     * - startEra()
+     **/
+    protected void runBefore() {
+        ZeroArcane.startEra();
     }
 
     public void run(final Object... args) {
         // Check for basic preparing
-        this.ready();
+        this.runBefore();
         // Execute the Vertx Running for initialized
         final Launcher<Vertx> launcher = Ut.singleton(ZeroLauncher.class);
-        launcher.start(vertx -> {
+        launcher.start(vertx -> this.runAfter(vertx, args));
+    }
 
-            if (ZeroHeart.isShared()) {
-                /*
-                 * Map infix initialized first to fix
-                 * Boot issue here to enable map infix ( SharedMap will be used widely )
-                 * It means that the MapInfix should started twice for safe usage in future
-                 *
-                 * In our production environment, only MapInfix plugin booting will cost some time
-                 * to be ready, it may take long time to be ready after container started
-                 * In this kind of situation, Zero container start up MapInfix internally first
-                 * to leave more time to be prepared.
-                 */
-                MapInfix.init(vertx);
-            }
-
-            this.runInternal(vertx, args);
-        });
+    /*
+     * 「不可重写」Vertx实例启动之后的流程
+     * - startElite
+     * - startEdge
+     * - startEnroll
+     **/
+    private void runAfter(final Vertx vertx, final Object... args) {
+        // Elite
+        ZeroArcane.startElite(vertx);
+        // Extension
+        ZeroArcane.startEdge(vertx)
+            // Enroll
+            .compose(nil -> ZeroArcane.startEnroll(vertx))
+            .onSuccess(initialized -> {
+                if (initialized) {
+                    // Internal
+                    this.runInternal(vertx, args);
+                }
+            })
+            .onFailure(error -> {
+                // Error Happened
+                error.printStackTrace();
+                this.logger().jvm(error);
+            });
     }
 
     protected void runInternal(final Vertx vertx, final Object... args) {
-        /*
-         * Async initializing to replace the original extension
-         * Data initializing
-         */
-        ZeroHeart.initExtension(vertx).onSuccess(res -> {
-            if (res) {
-                /* 1.Find Agent for deploy **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
-                    scatter.connect(vertx);
-                }, "agent-runner");
+        /* 1.Find Agent for deploy **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(AgentScatter.class);
+            scatter.connect(vertx);
+        }, "agent-runner");
 
-                /* 2.Find Worker for deploy **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
-                    scatter.connect(vertx);
-                }, "worker-runner");
+        /* 2.Find Worker for deploy **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(WorkerScatter.class);
+            scatter.connect(vertx);
+        }, "worker-runner");
 
-                /* 3.Initialize Infix **/
-                Runner.run(() -> {
-                    // Infix
-                    final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
-                    scatter.connect(vertx);
-                }, "infix-afflux-runner");
+        /* 3.Initialize Infix **/
+        Runner.run(() -> {
+            // Infix
+            final Scatter<Vertx> scatter = Ut.singleton(InfixScatter.class);
+            scatter.connect(vertx);
+        }, "infix-afflux-runner");
 
-                /* 4.Rule started **/
-                Runner.run(() -> {
-                    final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
-                    scatter.connect(vertx);
-                }, "codex-engine-runner");
-            }
-        }).onFailure(error -> {
-            // Error Happened
-            error.printStackTrace();
-            this.logger().jvm(error);
-        });
+        /* 4.Rule started **/
+        Runner.run(() -> {
+            final Scatter<Vertx> scatter = Ut.singleton(CodexScatter.class);
+            scatter.connect(vertx);
+        }, "codex-engine-runner");
     }
 }

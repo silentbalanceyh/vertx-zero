@@ -2,10 +2,9 @@ package io.vertx.aeon.specification.app;
 
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.specification.action.HCommand;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.exception.web._501NotSupportException;
 
 /**
  * 「以太」上下文专用接口
@@ -45,7 +44,7 @@ public interface HET extends HCommand<JsonObject, Hoi> {
      * appId = appJ ( 配置 )
      * 初始化时会使用的核心方法，连接当前应用也会执行该初始化
      */
-    default ConcurrentMap<String, JsonObject> initialize() {
-        return new ConcurrentHashMap<>();
+    default Future<Boolean> initialize() {
+        return Future.failedFuture(new _501NotSupportException(this.getClass()));
     }
 }

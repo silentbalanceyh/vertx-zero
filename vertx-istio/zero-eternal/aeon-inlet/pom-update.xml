@@ -54,14 +54,5 @@
                 <ignoreVersion type="regex">4.*</ignoreVersion>
             </ignoreVersions>
         </rule>
-        <!--
-            JDK 17 Limitation
-            slf4j: 2.0.0
-        -->
-        <rule groupId="org.slf4j" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">2.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
     </rules>
 </ruleset>

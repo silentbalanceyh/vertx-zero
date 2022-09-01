@@ -42,5 +42,7 @@ public interface KValue {
     interface NS {
         // Modular Namespace of Default
         String DEFAULT = "cn.originx.{0}";
+        // Operation System key
+        String KEY_OS = "os.name";
     }
 }

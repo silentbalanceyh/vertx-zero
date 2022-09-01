@@ -65,7 +65,7 @@ class AoImpl {
     }
 
     static Model toModel(final String appName) {
-        final KApp app = HES.context(appName).bind(AoStore.namespace(appName));
+        final KApp app = HES.connect(appName).bind(AoStore.namespace(appName));
         // H3H.CC_APP.pick(() -> new KApp(appName).bind(AoStore.namespace(appName)), appName);
         final Class<?> implModel = AoStore.clazzModel();
         return Ut.instance(implModel, app);

@@ -274,7 +274,7 @@ final class Stream {
     }
 
     private static void ioDebug(final Actuator executor) {
-        final boolean ioDebug = Env.envBool(EnvVariables.Z_IO_DEBUG);
+        final boolean ioDebug = Env.readBool(EnvVariables.Z_IO_DEBUG);
         if (ioDebug) {
             executor.execute();
         }

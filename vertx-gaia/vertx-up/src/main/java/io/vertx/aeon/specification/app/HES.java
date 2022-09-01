@@ -2,9 +2,8 @@ package io.vertx.aeon.specification.app;
 
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.runtime.H3H;
-import io.vertx.core.MultiMap;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.specification.power.KApp;
@@ -15,7 +14,6 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * 「环境工厂」
@@ -23,8 +21,12 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HES {
+public final class HES {
+    private static final String MSG_HOI = "[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}";
     private static final Annal LOGGER = Annal.get(HES.class);
+
+    private HES() {
+    }
 
 
     // ------------------ Owner Environment --------------------
@@ -45,40 +47,36 @@ public class HES {
      *    下层维度：appId
      * 3. 最终计算看 sigma 是表示上层还是下层
      */
-    public static void configure(final MultiMap headers) {
-        final XHeader header = new XHeader();
-        header.fromHeader(headers);
-        /*
-         * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
-         * 1. 「单机环境」下 sigma 只有一个，Hoi也只有一个（tenant可null）
-         * 2. 「多租户环境」 sigma = tenant 维度，Hoi也只有一个（tenant不为空，且children为空）
-         * 3. 「多层租户环境」无等价维度，Hoi会存在多个，且某些Hoi会出现子租户映射表
-         *
-         * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
-         */
-        final String sigma = header.getSigma();
-        if (Objects.isNull(sigma)) {
-            // 如果 sigma 为空则跳过
-            return;
-        }
-        H3H.CC_OI.pick(() -> {
-            /*
-             * 参数：
-             * {
-             *     "appId": "xx",
-             *     "appKey": "xx",
-             *     "sigma": "xx",
-             *     "tenantId": "xx",
-             *     "language": "xx"
-             * }
-             */
-            final JsonObject inputJ = header.toJson().copy();
-            inputJ.remove(KName.SESSION);
-            final Hoi hoi = Ux.channelS(HET.class, het -> het.configure(inputJ));
-            LOGGER.info("[HES] Environment Tenant initialized: {0} with parameters: {1}, mode = {2}",
-                    sigma, inputJ.encode(), hoi.mode());
-            return hoi;
-        }, sigma);
+    public static Future<Boolean> configure() {
+        return Ux.channel(HET.class,
+                () -> Boolean.FALSE,
+                // 1. 初始化所有应用（H3H.CC_APP就绪）
+                het -> het.initialize().compose(initialized -> {
+                    /*
+                     * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
+                     * 1. 「单机环境」下 sigma 只有一个，Hoi也只有一个（tenant可null）
+                     * 2. 「多租户环境」 sigma = tenant 维度，Hoi也只有一个（tenant不为空，且children为空）
+                     * 3. 「多层租户环境」无等价维度，Hoi会存在多个，且某些Hoi会出现子租户映射表
+                     *
+                     * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
+                     */
+                    H3H.CC_APP.store().values().forEach(app -> {
+                        final JsonObject inputJ = app.dataJ();
+                        /*
+                         * CC_APP / CC_HOI 不同点
+                         * 1）（应用级）CC_APP的键值是跨越级的，有多个，保证每个都可以提取数据
+                         * 2）（租户级）CC_HOI则不然，它包含了 sigma（开启租户时的租户标识）
+                         */
+                        final String sigma = Ut.valueString(inputJ, KName.SIGMA);
+                        H3H.CC_OI.pick(() -> {
+                            final Hoi hoi = het.configure(inputJ);
+                            LOGGER.info(MSG_HOI, sigma, inputJ.encode(), hoi.mode());
+                            return hoi;
+                        }, sigma);
+                    });
+                    return Ux.futureT();
+                })
+        );
     }
 
     public static Hoi caller(final String sigma) {
@@ -102,45 +100,40 @@ public class HES {
     /*
      * HAtom 建模上下文专用
      * 1. 内置调用 H3H 核心数据结构
-     * 2. 按 name 提取（两种模式）,     context
-     * 3. 按 sigma/appId 提取,        connect（原ES方法）
+     * 2. 按 name 提取（两种模式）,     connect
      */
-    public static KApp context(final String name) {
+    public static KApp connect(final String name) {
         /*
          * 无填充模式，key = value，此时 key 就是应用程序名称
          */
         return H3H.CC_APP.pick(() -> KApp.instance(name), name);
     }
 
-    public static KApp context(final JsonObject unityApp) {
+    /*
+     * 反向调用，此处有可能会引起不必要的死循环
+     * HET / HES 在调用过程中有可能会出现相互之间循环调用，但
+     * 1）由于HES是静态调用，HET是实例化过后调用，所以此处不会轻易出现死循环
+     * 2）HET调用HES时实际规划成反向调用，其目的就是让系统不会出现死循环，否则方法名容易引起误解
+     */
+    public static KApp connect(final String sigma, final String key) {
         /*
-         * 附加填充模式，key = value，此时 key 优先选择应用程序名称
-         * 由于此时通常为动态建模初始化，所以 key 会执行附加填充，填充键
-         * - appId
-         * - appKey
-         * - sigma
-         * - code
+         * 1. 按sigma查找
+         * 2. 按key查找
+         * 3. 都找不到时读取当前
          */
-        final String name = Ut.valueString(unityApp, KName.NAME);
-        return H3H.CC_APP.pick(
-                () -> KApp.instance(name).bind(unityApp).synchro(),
-                name
-        );
+        KApp app = null;
+        if (Ut.notNil(sigma)) {
+            // 按sigma查找
+            app = H3H.CC_APP.store(sigma);
+        }
+        if (Ut.notNil(key) && Objects.isNull(app)) {
+            // 按key查找
+            app = H3H.CC_APP.store(key);
+        }
+        return Objects.isNull(app) ? connect() : app;
     }
 
     // ------------------ 直接连接应用 --------------------
-    public static KApp connect(final String id) {
-        return H3H.CC_APP.store(id);
-    }
-
-    public static KApp connect(final String sigma, final String id) {
-        KApp app = connect(sigma);
-        if (Objects.isNull(app)) {
-            app = connect(id);
-        }
-        return app;
-    }
-
     /*
      * 连接当前应用，工作流程
      * 1. 先调用 HET 的 initialize 方法（如果CC_APP为空则执行，如果不为空不执行初始化）
@@ -148,29 +141,10 @@ public class HES {
      */
     public static KApp connect() {
         final Set<KApp> appSet = new HashSet<>(H3H.CC_APP.store().values());
-        if (appSet.isEmpty()) {
-            appSet.addAll(initialize());
-        }
         KApp env = null;
         if (Values.ONE == appSet.size()) {
             env = appSet.iterator().next();
         }
         return env;
-    }
-
-    // ------------------ 内置调用 HET 初始化应用 --------------------
-    private static Set<KApp> initialize() {
-        return Ux.channelS(HET.class, het -> {
-            // 执行初始化配置信息
-            final ConcurrentMap<String, JsonObject> appMap = het.initialize();
-            LOGGER.info("[HES] Environment connecting..., size = {0}", String.valueOf(appMap.size()));
-            final Set<KApp> appSet = new HashSet<>();
-            appMap.forEach((appId, json) -> {
-                final KApp env = context(json);
-                LOGGER.info("[HES] \tnamespace = {0}, name = {1}", env.ns(), env.name());
-                appSet.add(env);
-            });
-            return appSet;
-        });
     }
 }

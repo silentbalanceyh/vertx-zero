@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.vertx.aeon.eon.em.TypeOs;
 import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -10,6 +11,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
@@ -63,6 +65,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -1591,6 +1594,7 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
+     *
      * @return a string of captcha with certain length.
      */
     /*
@@ -1822,14 +1826,6 @@ public final class Ut {
         return Epsilon.vString(json, field, defaultValue);
     }
 
-    public static String valueEnv(final String name, final String defaultValue) {
-        return Epsilon.vEnv(name, defaultValue);
-    }
-
-    public static String valueEnv(final String name) {
-        return Epsilon.vEnv(name, name);
-    }
-
     public static Class<?> valueC(final JsonObject json, final String field) {
         return Epsilon.vClass(json, field, null);
     }
@@ -1879,5 +1875,33 @@ public final class Ut {
 
     public static JsonObject valueJObject(final JsonObject input, final String field) {
         return Jackson.sureJObject(input, field);
+    }
+
+    // --------------------- 环境相关方法 ----------------------
+
+    /**
+     * 判断当前操作系统类型
+     *
+     * @return {@link TypeOs}
+     */
+    public static TypeOs envOs() {
+        // os.name
+        return TypeOs.from(System.getProperty(KValue.NS.KEY_OS));
+    }
+
+    public static String envIn(final String name, final String defaultValue) {
+        return Env.readEnv(name, defaultValue);
+    }
+
+    public static String envIn(final String name) {
+        return Env.readEnv(name, name);
+    }
+
+    public static ConcurrentMap<String, String> envOut(final Properties properties) {
+        return Env.writeEnv(properties);
+    }
+
+    public static Kv<String, String> envOut(final String name, final String value) {
+        return Env.writeEnv(name, value);
     }
 }
