@@ -1,6 +1,6 @@
-package cn.zeroup.macrocosm.api.legacy;
+package cn.vertxup.workflow.api.legacy;
 
-import cn.zeroup.macrocosm.cv.HighWay;
+import cn.vertxup.workflow.cv.HighWay;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;

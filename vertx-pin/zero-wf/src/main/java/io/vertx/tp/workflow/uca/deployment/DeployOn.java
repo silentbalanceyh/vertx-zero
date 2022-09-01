@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.deployment;
 
-import cn.zeroup.macrocosm.cv.WfPool;
+import cn.vertxup.workflow.cv.WfPool;
 import io.vertx.core.Future;
 
 /**

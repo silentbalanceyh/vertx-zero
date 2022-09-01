@@ -1,4 +1,4 @@
-package cn.zeroup.macrocosm.cv;
+package cn.vertxup.workflow.cv;
 
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.uca.camunda.Io;

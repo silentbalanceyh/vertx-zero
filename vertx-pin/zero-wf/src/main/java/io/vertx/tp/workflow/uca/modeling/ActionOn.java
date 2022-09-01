@@ -1,7 +1,7 @@
 package io.vertx.tp.workflow.uca.modeling;
 
-import cn.zeroup.macrocosm.cv.WfPool;
-import cn.zeroup.macrocosm.cv.em.RecordMode;
+import cn.vertxup.workflow.cv.WfPool;
+import cn.vertxup.workflow.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

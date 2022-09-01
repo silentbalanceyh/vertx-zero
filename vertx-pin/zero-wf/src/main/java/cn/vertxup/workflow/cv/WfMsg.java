@@ -1,4 +1,4 @@
-package cn.zeroup.macrocosm.cv;
+package cn.vertxup.workflow.cv;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

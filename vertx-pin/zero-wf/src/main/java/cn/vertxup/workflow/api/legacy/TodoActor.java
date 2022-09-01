@@ -1,7 +1,7 @@
-package cn.zeroup.macrocosm.api.legacy;
+package cn.vertxup.workflow.api.legacy;
 
-import cn.zeroup.macrocosm.cv.HighWay;
-import cn.zeroup.macrocosm.service.TodoStub;
+import cn.vertxup.workflow.service.TodoStub;
+import cn.vertxup.workflow.cv.HighWay;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;

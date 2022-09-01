@@ -1,4 +1,4 @@
-package cn.zeroup.macrocosm.service;
+package cn.vertxup.workflow.service;
 
 import cn.vertxup.workflow.domain.tables.daos.WTicketDao;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;

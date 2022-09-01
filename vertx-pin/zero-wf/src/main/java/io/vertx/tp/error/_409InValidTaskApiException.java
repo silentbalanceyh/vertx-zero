@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
+import cn.vertxup.workflow.cv.em.PassWay;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 
