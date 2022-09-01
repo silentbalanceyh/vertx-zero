@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule.element;
+package io.vertx.tp.rbac.ruler.element;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

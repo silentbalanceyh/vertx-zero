@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule;
+package io.vertx.tp.rbac.ruler;
 
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.eon.em.ScIn;
@@ -6,7 +6,7 @@ import io.vertx.aeon.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404AdmitCompilerNullException;
-import io.vertx.tp.rbac.acl.rule.element.HAdmitCompiler;
+import io.vertx.tp.rbac.ruler.element.HAdmitCompiler;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

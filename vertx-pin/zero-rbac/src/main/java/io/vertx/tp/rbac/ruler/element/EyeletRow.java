@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule.element;
+package io.vertx.tp.rbac.ruler.element;
 
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SView;

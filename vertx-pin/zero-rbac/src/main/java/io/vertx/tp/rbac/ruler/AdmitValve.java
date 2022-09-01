@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule;
+package io.vertx.tp.rbac.ruler;
 
 import io.vertx.aeon.specification.secure.AbstractValve;
 import io.vertx.core.Future;
@@ -79,7 +79,7 @@ public class AdmitValve extends AbstractValve {
          * 2. The `webX` attribute of `dimJ` will be copied into uiSurface
          */
         dimJ.fieldNames().stream().filter(field -> field.startsWith("web"))
-                .forEach(field -> uiSurface.put(field, dimJ.getValue(field)));
+            .forEach(field -> uiSurface.put(field, dimJ.getValue(field)));
 
         response.put(KName.CONFIG, uiSurface);
         final Object uiData = uiJ.getValue(KName.DATA);

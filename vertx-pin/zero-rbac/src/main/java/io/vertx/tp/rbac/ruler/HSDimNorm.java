@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule;
+package io.vertx.tp.rbac.ruler;
 
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.specification.secure.AbstractAdmit;

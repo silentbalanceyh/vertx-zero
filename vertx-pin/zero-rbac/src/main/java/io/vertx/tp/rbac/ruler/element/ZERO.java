@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rule.element;
+package io.vertx.tp.rbac.ruler.element;
 
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.tp.rbac.cv.em.PackType;
