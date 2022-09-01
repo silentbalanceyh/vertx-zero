@@ -8,9 +8,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.run.ActPhase;
+import io.vertx.up.exception.web._409DmComponentException;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
+
+import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -84,15 +88,21 @@ public abstract class AbstractValve implements HValve {
             return this.configureDm(permit, request)
                 .compose(dmRef::future)
                 .compose(dmJ -> this.configureUi(permit, dmJ, request))
-                .compose(uiJ -> this.output(request, dmRef.get(), uiJ));
+                .compose(uiJ -> this.output(request, dmRef.get(), uiJ))
+                // Exception for null returned
+                .otherwise(Ux.otherwise(() -> null));
         }
     }
 
     // dm ( configure -> compile )
     private Future<JsonObject> configureDm(final HPermit permit, final JsonObject request) {
         final HAdmit dm = HValve.instanceDm(request);
-        return dm.configure(permit)
-            .compose(dmJ -> dm.compile(permit, dmJ));
+        if (Objects.isNull(dm)) {
+            // 60058, `runComponent` 配置错误，而规则中又配置了维度管理信息
+            return Fn.error(_409DmComponentException.class, this.getClass(), permit.shape());
+        } else {
+            return dm.configure(permit).compose(dmJ -> dm.compile(permit, dmJ));
+        }
     }
 
     /*

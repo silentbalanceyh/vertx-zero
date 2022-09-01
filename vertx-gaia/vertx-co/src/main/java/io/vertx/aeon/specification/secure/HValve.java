@@ -8,6 +8,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /**
  * 「阀」
  * 同时兼容单点系统和分布式的标准权限接口
@@ -27,6 +29,10 @@ public interface HValve extends HEvent<JsonObject, JsonObject> {
     static HAdmit instanceDm(final JsonObject request) {
         final String sigma = Ut.valueString(request, KName.SIGMA);
         final Class<?> dmCls = Ut.valueCI(request, KName.Component.DM_COMPONENT, HAdmit.class);
+        if (Objects.isNull(dmCls)) {
+            // To Avoid Null Pointer
+            return null;
+        }
         final HAdmit dm = (HAdmit) H1H.CCT_EVENT.pick(() -> Ut.instance(dmCls),
             // <sigma> / <name>
             sigma + Strings.SLASH + dmCls.getName());
