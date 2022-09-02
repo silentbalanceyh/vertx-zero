@@ -1,5 +1,4 @@
 [
-    "plugin/rbac/oob/data/admin.authority.xlsx",
     "plugin/rbac/oob/data/rbac.account.xlsx",
     "plugin/rbac/oob/data/rbac.dict.xlsx",
     "plugin/rbac/oob/data/rbac.menu.xlsx",
