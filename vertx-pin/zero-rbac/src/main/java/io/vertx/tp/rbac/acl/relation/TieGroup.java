@@ -61,7 +61,7 @@ public class TieGroup implements Tie<String, JsonArray> {
                     .setUserId(userKey)
                     .setGroupId(groupId)
                     .setPriority(groupIds.indexOf(groupId)))
-                .collect(Collectors.toList());
+                .toList();
             return jq.insertAsync(inserted);
         }).compose(nil -> Ux.future(groups));
     }

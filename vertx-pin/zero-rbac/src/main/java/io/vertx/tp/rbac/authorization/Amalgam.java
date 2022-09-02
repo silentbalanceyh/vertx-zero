@@ -27,7 +27,7 @@ public class Amalgam {
         /* Do not modify input roles */
         return new ArrayList<>(roles).stream().filter(role -> Objects.nonNull(role.getGroup()))
             .filter(role -> group.getReference().equals(role.getGroup().getKey()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static List<ProfileRole> children(final List<ProfileRole> roles,
@@ -35,7 +35,7 @@ public class Amalgam {
         /* Do not modify input roles */
         return new ArrayList<>(roles).stream().filter(role -> Objects.nonNull(role.getGroup()))
             .filter(role -> group.getKey().equals(role.getGroup().getReference()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     /*
@@ -50,7 +50,7 @@ public class Amalgam {
                 .min(Comparator.comparing(ProfileRole::getPriority))
                 .orElse(null))
             .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static List<ProfileRole> lazyEach(final List<ProfileRole> roles) {
@@ -60,21 +60,21 @@ public class Amalgam {
                 .max(Comparator.comparing(ProfileRole::getPriority))
                 .orElse(null))
             .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static List<ProfileRole> eager(final List<ProfileRole> roles) {
         final Integer groupPriority = findGroupPriority(roles, true);
         return roles.stream()
             .filter(role -> groupPriority.equals(role.getGroup().getPriority()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static List<ProfileRole> lazy(final List<ProfileRole> roles) {
         final Integer groupPriority = findGroupPriority(roles, false);
         return roles.stream()
             .filter(role -> groupPriority.equals(role.getGroup().getPriority()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     /*

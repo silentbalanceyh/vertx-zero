@@ -211,7 +211,7 @@ final class ArrayJ {
         final List<JsonObject> children = tree.stream().filter(Objects::nonNull).map(each -> (JsonObject) each)
             .filter(each -> Objects.nonNull(each.getString(parentField)))
             .filter(each -> each.getString(parentField).equals(item.getString(idField)))
-            .collect(Collectors.toList());
+            .toList();
         return new JsonArray(children);
     }
 

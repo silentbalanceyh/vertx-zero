@@ -25,7 +25,7 @@ public class UArray {
         this.arrayReference = Fn.getNull(new JsonArray(), () ->
             new JsonArray(jsonArray.stream().filter(Objects::nonNull)
                 .map(item -> (JsonObject) item)
-                .collect(Collectors.toList())), jsonArray);
+                .toList()), jsonArray);
         LOGGER.debug(StreamInfo.STREAM_START, String.valueOf(this.hashCode()), jsonArray);
     }
 

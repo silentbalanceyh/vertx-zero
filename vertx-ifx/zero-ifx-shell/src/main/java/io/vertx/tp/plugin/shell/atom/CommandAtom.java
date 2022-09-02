@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -90,7 +89,7 @@ public class CommandAtom implements Serializable {
     }
 
     public List<String> getOptionNames() {
-        return this.options.stream().map(CommandOption::getName).collect(Collectors.toList());
+        return this.options.stream().map(CommandOption::getName).toList();
     }
 
     public List<CommandAtom> getCommands() {
@@ -127,7 +126,9 @@ public class CommandAtom implements Serializable {
             } else {
                 return Ut.isImplement(this.plugin, Commander.class);
             }
-        } else return true;
+        } else {
+            return true;
+        }
     }
 
     @SuppressWarnings("unchecked")

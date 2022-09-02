@@ -80,7 +80,7 @@ class Upload {
                     /*
                      * List<T>
                      */
-                    return (T) stream.collect(Collectors.toList());
+                    return (T) stream.toList();
                 } else if (Set.class.isAssignableFrom(expected)) {
                     /*
                      * Set<T>

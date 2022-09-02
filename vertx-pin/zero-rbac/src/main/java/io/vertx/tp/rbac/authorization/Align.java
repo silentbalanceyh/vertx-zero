@@ -43,20 +43,20 @@ public class Align {
     public static Future<List<ProfileRole>> flat(final List<ProfileGroup> profiles) {
         return Ux.future(profiles.stream()
             .flatMap(group -> group.getRoles().stream())
-            .collect(Collectors.toList()));
+            .toList());
     }
 
     public static Future<List<ProfileRole>> parent(final List<ProfileGroup> profiles) {
         return flat(profiles.stream().map(Align::findParent)
             .filter(Objects::nonNull)
-            .collect(Collectors.toList()));
+            .toList());
     }
 
     public static Future<List<ProfileRole>> children(final List<ProfileGroup> profiles) {
         return flat(profiles.stream().map(Align::findChildren)
             .flatMap(List<ProfileGroup>::stream)
             .filter(Objects::nonNull)
-            .collect(Collectors.toList()));
+            .toList());
     }
 
     private static List<ProfileGroup> findChildren(final ProfileGroup current) {
@@ -71,7 +71,7 @@ public class Align {
              * Modification for result
              */
             .map(children -> children.setReference(current.getKey()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private static ProfileGroup findParent(final ProfileGroup current) {

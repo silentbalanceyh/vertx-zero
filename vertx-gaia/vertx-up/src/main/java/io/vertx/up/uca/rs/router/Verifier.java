@@ -55,7 +55,7 @@ public class Verifier {
         final Annotation[] annotations = parameter.getDeclaredAnnotations();
         final List<Annotation> annotationList = Arrays.stream(annotations)
             .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
-            .collect(Collectors.toList());
+            .toList();
 
         final int multi = annotationList.size();
         Fn.outUp(1 < multi, LOGGER, ParamAnnotationException.class,

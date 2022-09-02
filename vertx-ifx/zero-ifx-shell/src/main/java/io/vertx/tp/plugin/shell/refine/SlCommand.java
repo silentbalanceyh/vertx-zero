@@ -44,7 +44,7 @@ class SlCommand {
                 Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
             final List<CommandAtom> filtered = commandsList.stream()
                 .filter(item -> !COMMAND_PLUGINS.containsKey(item.getSimple()))
-                .collect(Collectors.toList());
+                .toList();
             commands.addAll(mountPlugin(filtered));
         }
         return commands;
@@ -59,7 +59,7 @@ class SlCommand {
             Sl.failWarn("The command will be ignored: name = {0}, description: {1}", item.getName(), item.getDescription()));
         final List<CommandAtom> normalized = source.stream()
             .filter(command -> !COMMAND_PLUGINS.containsKey(command.getSimple()))
-            .collect(Collectors.toList());
+            .toList();
         /*
          * Default Commands
          */
@@ -84,7 +84,7 @@ class SlCommand {
                 command.setArgs(false);
                 command.setType(CommandType.DEFAULT);
                 command.setPlugin(COMMAND_PLUGINS.get(command.getSimple()));
-            }).collect(Collectors.toList());
+            }).toList();
     }
 
     private static List<CommandAtom> mountPlugin(final List<CommandAtom> commands) {

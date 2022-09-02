@@ -76,7 +76,7 @@ public class OptionService implements OptionStub {
             ))
             .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
             .map(field -> Ux.fromJson(field, UiOp.class))
-            .collect(Collectors.toList());
+            .toList();
         // 2. delete old ones and insert new ones
         return this.deleteByControlId(controlId)
             .compose(result -> Ux.Jooq.on(UiOpDao.class)

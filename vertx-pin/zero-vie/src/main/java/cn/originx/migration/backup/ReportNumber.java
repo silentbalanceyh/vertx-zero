@@ -43,7 +43,7 @@ public class ReportNumber extends AbstractStep {
                     final List<XNumber> numberList = numbers.stream()
                         .filter(number -> Objects.nonNull(number.getIdentifier()))
                         .filter(number -> number.getIdentifier().startsWith("ci"))
-                        .collect(Collectors.toList());
+                        .toList();
                     return Ux.future(numberList);
                 })
                 .compose(normalized -> {

@@ -64,7 +64,7 @@ public class FileActor {
                 final List<JsonObject> records = table.get().stream()
                     .filter(Objects::nonNull)
                     .map(ExRecord::toJson)
-                    .collect(Collectors.toList());
+                    .toList();
                 Sc.infoWeb(this.getClass(), "Table: {0}, Records: {1}", table.getName(), String.valueOf(records.size()));
                 return records.stream();
             }).forEach(record -> {

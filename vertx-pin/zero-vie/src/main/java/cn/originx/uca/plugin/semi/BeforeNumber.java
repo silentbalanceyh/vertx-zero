@@ -103,6 +103,6 @@ public class BeforeNumber implements BeforePlugin {
 
     private List<String> beforeField(final JsonArray records, final JsonObject config) {
         return Ut.itJArray(records).map(record -> this.beforeField(record, config))
-            .filter(Objects::nonNull).collect(Collectors.toList());
+            .filter(Objects::nonNull).toList();
     }
 }

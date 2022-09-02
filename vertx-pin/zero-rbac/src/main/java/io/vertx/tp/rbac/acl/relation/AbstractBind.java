@@ -51,7 +51,7 @@ public abstract class AbstractBind<T> implements IdcBinder<T> {
                     grouped.put(username, tList.stream()
                         .filter(Objects::nonNull)
                         .filter(item -> validSet.contains(this.valueFn().apply(item)))
-                        .collect(Collectors.toList())
+                        .toList()
                     );
                 }
             });

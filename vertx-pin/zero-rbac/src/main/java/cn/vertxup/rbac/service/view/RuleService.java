@@ -44,7 +44,7 @@ public class RuleService implements RuleStub {
             // Sort By `uiSort`
             .sorted(Comparator.comparing(SPath::getUiSort))
             // JDK 17
-            .collect(Collectors.toList());
+            .toList();
         return Fn.combineT(filtered, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured

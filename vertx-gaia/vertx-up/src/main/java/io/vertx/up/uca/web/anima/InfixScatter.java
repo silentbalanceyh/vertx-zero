@@ -85,7 +85,7 @@ public class InfixScatter implements Scatter<Vertx> {
             final Method[] methods = clazz.getDeclaredMethods();
             final List<Method> found = Arrays.stream(methods)
                 .filter(item -> "init".equals(item.getName()) && this.validMethod(item))
-                .collect(Collectors.toList());
+                .toList();
             return Values.ONE == found.size() ? found.get(Values.IDX) : null;
         }, clazz);
     }

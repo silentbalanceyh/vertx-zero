@@ -44,7 +44,7 @@ class JobPool {
     static List<Mission> get() {
         return JOBS.values().stream()
             .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     static Mission get(final String code) {
