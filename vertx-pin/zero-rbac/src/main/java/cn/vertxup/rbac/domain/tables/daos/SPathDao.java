@@ -99,6 +99,21 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
         }
 
         /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByParentId(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.PARENT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByParentId(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.PARENT_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously
      */
