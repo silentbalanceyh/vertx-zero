@@ -152,7 +152,7 @@ public class XMenu extends TableImpl<XMenuRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.X_MENU_IDX_X_MENU_APP_ID);
+        return Arrays.asList(Indexes.X_MENU_IDX_X_MENU_APP_ID, Indexes.X_MENU_IDX_X_MENU_APP_ID_SIGMA);
     }
 
     @Override
