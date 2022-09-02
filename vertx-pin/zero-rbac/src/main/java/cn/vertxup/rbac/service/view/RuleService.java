@@ -38,13 +38,26 @@ public class RuleService implements RuleStub {
 
     @Override
     public Future<JsonArray> regionAsync(final List<SPath> paths) {
+        /*
+         * Major Path Configuration
+         * 1. Not null and `runComponent` is not null
+         * 2. `parentId` is null
+         * 3. Sort By `uiSort`
+         */
         final List<SPath> filtered = paths.stream()
-            // Not null and `runComponent` is not null
             .filter(Objects::nonNull)
-            // Sort By `uiSort`
+            .filter(item -> Ut.isNil(item.getParentId()))
             .sorted(Comparator.comparing(SPath::getUiSort))
-            // JDK 17
             .toList();
+
+        /*
+         * Children Grouped
+         */
+        final ConcurrentMap<String, List<SPath>> grouped =
+            Ut.elementGroup(paths.stream()
+                .filter(Objects::nonNull)
+                .filter(item -> Ut.notNil(item.getParentId()))
+                .toList(), SPath::getParentId);
         return Fn.combineT(filtered, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured
@@ -72,6 +85,14 @@ public class RuleService implements RuleStub {
                 KName.METADATA,
                 KName.MAPPING
             );
+            /*
+             * Build map based on `code` for Area usage
+             * `children` of pathJ
+             */
+            if (grouped.containsKey(path.getKey())) {
+                final JsonArray children = Ut.toJArray(grouped.getOrDefault(path.getKey(), new ArrayList<>()));
+                pathJ.put(KName.CHILDREN, children);
+            }
             return value.configure(pathJ);
         }).compose(Ux::futureA);
     }

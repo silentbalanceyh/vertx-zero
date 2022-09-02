@@ -1,5 +1,6 @@
 package io.vertx.aeon.specification.secure;
 
+import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
@@ -30,6 +31,16 @@ public class AbstractAdmit implements HAdmit {
     public HAdmit bind(final String sigma) {
         this.owner = HES.caller(sigma);
         return this;
+    }
+
+    @Override
+    public Future<JsonObject> configure(final HPermit permit, final JsonObject requestJ) {
+        /*
+         * 优先级
+         * 1. configure(HPermit, JsonObject)   -> 内置调用 configure(HPermit)
+         * 2. configure(HPermit)
+         */
+        return this.configure(permit);
     }
 
     /*

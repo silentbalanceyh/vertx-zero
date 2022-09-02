@@ -1,6 +1,15 @@
 package io.vertx.tp.rbac.ruler;
 
+import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.specification.secure.AbstractAdmit;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
+import io.vertx.up.util.Ut;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class HSUiArea extends AbstractAdmit {
     /*
@@ -12,4 +21,18 @@ public class HSUiArea extends AbstractAdmit {
      *                               ->  HAdmit ( UiNorm )  ->  JsonObject
      *                               ->  HAdmit ( UiNorm )  ->  JsonObject
      */
+    @Override
+    public Future<JsonObject> configure(final HPermit input, final JsonObject requestJ) {
+        final ConcurrentMap<String, Future<JsonObject>> configureJ = new ConcurrentHashMap<>();
+        final JsonArray children = Ut.valueJArray(requestJ, KName.CHILDREN);
+        Ut.itJArray(children).forEach(childJ -> {
+            // childJ 和 input 的双向检查
+        });
+        return super.configure(input);
+    }
+
+    @Override
+    public Future<JsonObject> compile(final HPermit input, final JsonObject request) {
+        return super.compile(input, request);
+    }
 }

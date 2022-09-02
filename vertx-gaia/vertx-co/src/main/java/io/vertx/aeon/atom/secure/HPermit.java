@@ -8,6 +8,10 @@ import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 「许可定义」
@@ -42,9 +46,11 @@ public class HPermit implements Serializable {
     private final JsonObject uiConfig = new JsonObject();
     private final JsonObject uiSurface = new JsonObject();
     private final String sigma;
+    // ------------------- 子节点 --------------------
+    // code = HPermit
+    private final ConcurrentMap<String, HPermit> children = new ConcurrentHashMap<>();
     private ScDim shape = ScDim.NONE;
     private ScIn source = ScIn.NONE;
-
     private ActPhase phase = ActPhase.EAGER;
 
     /*
@@ -173,5 +179,22 @@ public class HPermit implements Serializable {
 
     public String sigma() {
         return this.sigma;
+    }
+
+    // ===================== 子节点
+    public HPermit child(final HPermit child) {
+        final String code = child.code;
+        if (Ut.notNil(code)) {
+            this.children.put(code, child);
+        }
+        return this;
+    }
+
+    public HPermit child(final String code) {
+        return this.children.getOrDefault(code, null);
+    }
+
+    public Set<HPermit> children() {
+        return new HashSet<>(this.children.values());
     }
 }
