@@ -29,6 +29,17 @@ CREATE TABLE IF NOT EXISTS S_PATH
     `CODE`          VARCHAR(255) COMMENT '「code」- 系统界面标识',
     `PHASE`         VARCHAR(64) COMMENT '「phase」- UI读取数据的操作周期',
     `MAPPING`       TEXT COMMENT '「mapping」- 从 dm -> ui 转换',
+
+    /*
+     * 1. 非区域模式：1 DM - 1 UI，父代码为空           核心组件：HSUiNorm   dmCode = NULL
+     * 2. 区域模式下：1 DM - n UI，此时父代码不为空      核心组件：HSUiArea   dmCode = 父代码
+     *    区域模式下组件内部实现第二次读取，如流程管理，区域会触发
+     *    -- 视图管理
+     *    -- 操作管理
+     *    此时的管理会执行降维操作
+     */
+    `PARENT_ID`     VARCHAR(36) COMMENT '「parentId」- 区域模式下的父ID，系统内部读取',
+
     /*
      * 核心流程
      * 定义部分：
