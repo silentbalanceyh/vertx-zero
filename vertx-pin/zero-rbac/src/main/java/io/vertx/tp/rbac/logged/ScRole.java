@@ -121,7 +121,7 @@ public class ScRole {
         final List<String> permissionIds = permissions.stream()
             .filter(Objects::nonNull)
             .map(RRolePerm::getPermId)
-            .toList();
+            .collect(Collectors.toList());
         this.authorities.clear();
         this.authorities.addAll(permissionIds);
         return Ut.toJArray(permissionIds);

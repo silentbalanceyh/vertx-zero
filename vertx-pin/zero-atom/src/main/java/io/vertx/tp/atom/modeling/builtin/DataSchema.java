@@ -92,7 +92,7 @@ public class DataSchema implements Schema {
     public List<MField> getPrimaryKeys() {
         return this.fields.values().stream()
             .filter(MField::getIsPrimary)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     /**

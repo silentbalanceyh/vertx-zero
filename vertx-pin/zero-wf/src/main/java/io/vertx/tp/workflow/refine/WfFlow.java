@@ -175,7 +175,7 @@ class WfFlow {
         Wf.Log.infoMove(WfFlow.class, "[Outgoing] Keys = {0}", Ut.fromJoin(nextKeys));
         return source.stream()
             .filter(taskNext -> nextKeys.contains(taskNext.getTaskDefinitionKey()))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     /*

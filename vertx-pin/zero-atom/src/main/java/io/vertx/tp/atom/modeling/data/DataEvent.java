@@ -294,7 +294,7 @@ public class DataEvent implements Serializable {
         return rows.stream()
             .map(DataRow::getRecord)
             .filter(Objects::nonNull)
-            .toList()
+            .collect(Collectors.toList())
             .toArray(new Record[]{});
     }
 

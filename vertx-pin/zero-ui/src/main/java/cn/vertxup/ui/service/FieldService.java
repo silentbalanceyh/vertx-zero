@@ -55,7 +55,7 @@ public class FieldService implements FieldStub {
             ))
             .map(field -> field.put(KName.Ui.CONTROL_ID, Optional.ofNullable(field.getString(KName.Ui.CONTROL_ID)).orElse(controlId)))
             .map(field -> Ux.fromJson(field, UiField.class))
-            .toList();
+            .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
         return this.deleteByControlId(controlId)
             .compose(result -> Ux.Jooq.on(UiFieldDao.class)
@@ -94,7 +94,7 @@ public class FieldService implements FieldStub {
             final List<JsonObject> row = Ut.itJArray(fieldJson)
                 .filter(item -> current.equals(item.getInteger("yPoint")))
                 .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
-                .toList();
+                .collect(Collectors.toList());
             /*
              * Calculate columns
              */

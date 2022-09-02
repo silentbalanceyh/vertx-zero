@@ -33,7 +33,7 @@ final class ArrayL {
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
         return Fn.getNull(() -> {
-            final List<T> filtered = list.stream().filter(fnFilter).toList();
+            final List<T> filtered = list.stream().filter(fnFilter).collect(Collectors.toList());
             return Fn.getSemi(filtered.isEmpty(), LOGGER,
                 () -> null,
                 () -> filtered.get(Values.IDX));

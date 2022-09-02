@@ -104,7 +104,7 @@ public class ProfileGroup implements Serializable {
             .map(ProfileRole::new)
             .map(ProfileRole::init)
             .map(role -> role.setGroup(this))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @Override

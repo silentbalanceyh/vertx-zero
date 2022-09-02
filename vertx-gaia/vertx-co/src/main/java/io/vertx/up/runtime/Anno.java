@@ -49,7 +49,7 @@ public final class Anno {
             .filter(item -> item.isAnnotationPresent(methodCls))
             .map(item -> item.getAnnotation(methodCls))
             .filter(Objects::nonNull)
-            .toList().toArray(new Annotation[]{}), clazz, methodCls);
+            .collect(Collectors.toList()).toArray(new Annotation[]{}), clazz, methodCls);
     }
 
     /**

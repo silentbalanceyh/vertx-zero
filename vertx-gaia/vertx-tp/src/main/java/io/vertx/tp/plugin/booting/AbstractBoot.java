@@ -66,7 +66,7 @@ public abstract class AbstractBoot implements KBoot {
         final String prefixFile = Objects.isNull(prefix) ? Strings.EMPTY : prefix;
         return this.files.stream()
             .filter(item -> item.contains(prefixFile))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @Override

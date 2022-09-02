@@ -122,6 +122,6 @@ public class TunnelClient implements UddiClient {
         // Find service records
         return address.values().stream()
             .filter(item -> name.equals(item.getName()))
-            .toList();
+            .collect(Collectors.toList());
     }
 }

@@ -41,8 +41,8 @@ class StoreValve implements UiValve {
                  * Position Sorting
                  */
                 .sorted(Comparator.comparing(UiColumn::getPosition))
-                .toList()))
-            .compose(list -> Ux.future(list.stream().map(this::procColumn).toList()))
+                .collect(Collectors.toList())))
+            .compose(list -> Ux.future(list.stream().map(this::procColumn).collect(Collectors.toList())))
             .compose(jsonList -> Ux.future(new JsonArray(jsonList)));
     }
 

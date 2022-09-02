@@ -248,7 +248,7 @@ class TwineExtension implements Twine<SUser> {
                 final KQr qr = CONFIG.category(user.getModelId());
                 return Objects.nonNull(qr) && qr.valid();
             })
-            .toList();
+            .collect(Collectors.toList());
     }
 
     private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {

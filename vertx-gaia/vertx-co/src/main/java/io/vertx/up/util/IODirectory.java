@@ -46,7 +46,7 @@ final class IODirectory {
                 final InputStream in = Stream.in(file);
                 return Objects.nonNull(in);
             })
-            .toList();
+            .collect(Collectors.toList());
     }
 
     static List<String> listDirectoriesN(final String folder) {
@@ -233,7 +233,7 @@ final class IODirectory {
             if (null != files) {
                 retList.addAll(Arrays.stream(files)
                     .map(File::getName)
-                    .toList());
+                    .collect(Collectors.toList()));
             }
         } else {
             LOGGER.error("The file doest not exist, file = `{0}`", directory.getAbsolutePath());

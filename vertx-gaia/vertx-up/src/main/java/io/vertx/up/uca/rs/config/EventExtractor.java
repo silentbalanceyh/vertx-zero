@@ -80,7 +80,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
             .map(Method::getParameterAnnotations)
             .flatMap(Observable::fromArray)
             .map(Arrays::asList)
-            .map(item -> item.stream().map(Annotation::annotationType).toList())
+            .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
             .filter(item -> item.contains(Codex.class))
             .count().blockingGet();
         Fn.outUp(methods.length < counter, LOGGER,

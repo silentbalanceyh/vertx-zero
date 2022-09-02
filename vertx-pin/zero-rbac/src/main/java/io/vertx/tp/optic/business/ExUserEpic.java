@@ -79,7 +79,7 @@ public class ExUserEpic implements ExUser {
         final JsonObject condition = new JsonObject();
         condition.put(KName.REAL_NAME + ",c", keyword);
         return Ux.Jooq.on(SUserDao.class).<SUser>fetchAsync(condition).compose(users -> {
-            final List<String> keys = users.stream().map(SUser::getKey).toList();
+            final List<String> keys = users.stream().map(SUser::getKey).collect(Collectors.toList());
             return Ux.future(Ut.toJArray(keys));
         });
     }

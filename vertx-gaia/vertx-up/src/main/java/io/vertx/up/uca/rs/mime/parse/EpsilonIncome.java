@@ -69,7 +69,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
     private Annotation getAnnotation(final Annotation[] annotations) {
         final List<Annotation> annotationList = Arrays.stream(annotations)
             .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
-            .toList();
+            .collect(Collectors.toList());
         return annotationList.isEmpty() ? null : annotationList.get(Values.IDX);
     }
 
@@ -77,7 +77,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
                               final Class<?> paramType) {
         final List<Annotation> annotationList = Arrays.stream(annotations)
             .filter(item -> item.annotationType() == DefaultValue.class)
-            .toList();
+            .collect(Collectors.toList());
         return Fn.getSemi(annotationList.isEmpty(), LOGGER,
             () -> null,
             () -> {

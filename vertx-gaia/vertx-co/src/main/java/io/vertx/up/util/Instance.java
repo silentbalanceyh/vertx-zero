@@ -222,7 +222,7 @@ final class Instance {
             final List<Class<?>> filtered = classes.stream()
                 .filter(item -> interfaceCls.isAssignableFrom(item)
                     && item != interfaceCls)
-                .toList();
+                .collect(Collectors.toList());
             final int size = filtered.size();
             // Non-Unique throw error out.
             if (Values.ONE < size) {

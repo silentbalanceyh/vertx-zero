@@ -99,7 +99,7 @@ public class TodoService implements TodoStub {
                      * WTodo Auditor setting
                      */
                     todoList = todoList.stream().map(todo -> this.combineTodo(todo, params))
-                        .toList();
+                        .collect(Collectors.toList());
                 }
                 return Ux.Jooq.on(WTodoDao.class)
                     .updateAsync(todoList)

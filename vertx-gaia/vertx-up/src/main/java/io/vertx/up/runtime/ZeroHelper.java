@@ -50,7 +50,7 @@ public class ZeroHelper {
             final List<Class<?>> filtered =
                 item.stream()
                     .filter(each -> !excludes.contains(each))
-                    .toList();
+                    .collect(Collectors.toList());
             // > 1 means duplicated defined
             final int size = filtered.size();
             Fn.outUp(1 < size,

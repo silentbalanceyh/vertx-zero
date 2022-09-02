@@ -69,7 +69,7 @@ public class TieRole implements Tie<String, JsonArray> {
                     .setUserId(userKey)
                     .setRoleId(roleId)
                     .setPriority(roleIds.indexOf(roleId)))
-                .toList();
+                .collect(Collectors.toList());
             return jq.insertAsync(inserted);
         }).compose(nil -> Ux.future(roles));
     }

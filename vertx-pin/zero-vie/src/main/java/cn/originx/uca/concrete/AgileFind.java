@@ -33,7 +33,7 @@ public class AgileFind extends AbstractAgile {
             .filter(Objects::nonNull)
             .map(record -> (String) record.key())
             .filter(Ut::notNil)
-            .toList();
+            .collect(Collectors.toList());
         Ao.infoUca(this.getClass(), "（批）读取数据：identifier = {0}, key = {1}, data = {2}",
             this.identifier(), Ut.fromJoin(keyList), records.encode());
         return this.dao().fetchByIdAsync(keyList.toArray(new String[]{})).compose(Ux::futureA);

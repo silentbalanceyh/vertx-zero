@@ -48,7 +48,7 @@ public class RuleService implements RuleStub {
             .filter(Objects::nonNull)
             .filter(item -> Ut.isNil(item.getParentId()))
             .sorted(Comparator.comparing(SPath::getUiSort))
-            .toList();
+            .collect(Collectors.toList());
 
         /*
          * Children Grouped
@@ -57,7 +57,7 @@ public class RuleService implements RuleStub {
             Ut.elementGroup(paths.stream()
                 .filter(Objects::nonNull)
                 .filter(item -> Ut.notNil(item.getParentId()))
-                .toList(), SPath::getParentId);
+                .collect(Collectors.toList()), SPath::getParentId);
         return Fn.combineT(filtered, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured

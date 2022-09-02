@@ -37,7 +37,7 @@ public class RightsService implements RightsStub {
             .filter(Ut::notNil)
             .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
             .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
-            .toList();
+            .collect(Collectors.toList());
         // 2. delete old ones and insert new ones
         return this.removeRoles(roleId)
             .compose(result -> Ux.Jooq.on(RRolePermDao.class)
@@ -161,7 +161,7 @@ public class RightsService implements RightsStub {
         });
         return Ux.Jooq.on(SPermSetDao.class).updateAsync(permSetList.stream()
             .filter(item -> codes.contains(item.getCode()))
-            .toList()
+            .collect(Collectors.toList())
         );
     }
 

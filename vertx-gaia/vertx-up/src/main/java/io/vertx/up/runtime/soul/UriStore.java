@@ -118,7 +118,7 @@ class UriStore {
                 } else {
                     return item.getName().contains(keyword);
                 }
-            }).toList();
+            }).collect(Collectors.toList());
         }
     }
 }
