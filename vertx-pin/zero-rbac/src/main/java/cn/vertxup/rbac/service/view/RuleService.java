@@ -90,7 +90,7 @@ public class RuleService implements RuleStub {
              * `children` of pathJ
              */
             if (grouped.containsKey(path.getKey())) {
-                final JsonArray children = Ut.toJArray(grouped.getOrDefault(path.getKey(), new ArrayList<>()));
+                final JsonArray children = Ux.toJson(grouped.getOrDefault(path.getKey(), new ArrayList<>()));
                 pathJ.put(KName.CHILDREN, children);
             }
             return value.configure(pathJ);
