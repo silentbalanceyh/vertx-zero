@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,11 +29,11 @@ public class HSUiArea extends AbstractAdmit {
         Ut.itJArray(children).forEach(childJ -> {
             // childJ 和 input 的双向检查
         });
-        return super.configure(input);
+        return Ux.future();
     }
 
     @Override
     public Future<JsonObject> compile(final HPermit input, final JsonObject request) {
-        return super.compile(input, request);
+        return Ux.future();
     }
 }

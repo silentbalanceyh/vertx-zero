@@ -148,7 +148,7 @@ public abstract class AbstractValve implements HValve {
     // DM -> compile
     protected Future<HCatena> dmCompile(final HPermit permit, final HCatena catena) {
         final HAdmit dm = catena.admit(true);
-        return dm.compile(permit, catena.request())
+        return dm.compile(permit, catena.config(true))
             .compose(dmJ -> catena.data(dmJ, true));
     }
 
