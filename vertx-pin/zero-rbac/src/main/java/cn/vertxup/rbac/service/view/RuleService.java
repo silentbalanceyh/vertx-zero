@@ -43,6 +43,7 @@ public class RuleService implements RuleStub {
             .filter(Objects::nonNull)
             // Sort By `uiSort`
             .sorted(Comparator.comparing(SPath::getUiSort))
+            // JDK 17
             .collect(Collectors.toList());
         return Fn.combineT(filtered, path -> {
             /*
