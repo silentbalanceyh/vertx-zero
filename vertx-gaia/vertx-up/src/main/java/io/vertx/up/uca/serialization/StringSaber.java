@@ -11,8 +11,8 @@ public class StringSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.getNull(() ->
-                Fn.getSemi(String.class == paramType, getLogger(),
+        return Fn.orNull(() ->
+                Fn.orSemi(String.class == paramType, this.getLogger(),
                     () -> literal, () -> Strings.EMPTY),
             paramType, literal);
     }

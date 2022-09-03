@@ -46,7 +46,7 @@ final class InstanceField {
     static Field[] fieldAll(final Object instance, final Class<?> fieldType) {
         final Function<Class<?>, Set<Field>> lookupFun = clazz -> lookUp(clazz, fieldType)
                 .collect(Collectors.toSet());
-        return Fn.getJvm(() -> fieldAll(instance.getClass(), fieldType).toArray(new Field[]{}),
+        return Fn.orJvm(() -> fieldAll(instance.getClass(), fieldType).toArray(new Field[]{}),
                 instance, fieldType);
     }
 
@@ -65,7 +65,7 @@ final class InstanceField {
 
     private static Field get(final Class<?> clazz,
                              final String name) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             if (clazz == Object.class) {
                 return null;
             }
@@ -82,7 +82,7 @@ final class InstanceField {
     }
 
     static <T> T getI(final Class<?> interfaceCls, final String name) {
-        return Fn.getNull(() -> Fn.safeJvm(() -> {
+        return Fn.orNull(() -> Fn.safeJvm(() -> {
                     final Field field = interfaceCls.getField(name);
                     final Object result = field.get(null);
                     if (null != result) {
@@ -96,7 +96,7 @@ final class InstanceField {
 
     static <T> T get(final Object instance,
                      final String name) {
-        return Fn.getNull(() -> Fn.safeJvm(() -> {
+        return Fn.orNull(() -> Fn.safeJvm(() -> {
                     final Field field = get(instance.getClass(), name);
                     if (Objects.nonNull(field)) {
                         /*
@@ -125,7 +125,7 @@ final class InstanceField {
     }
 
     private static Stream<Field> lookUp(final Class<?> clazz, final Class<?> fieldType) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             /* Lookup field */
             final Field[] fields = fields(clazz);
             /* Direct match */

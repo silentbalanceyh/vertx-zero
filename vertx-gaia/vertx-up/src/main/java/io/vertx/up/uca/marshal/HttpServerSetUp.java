@@ -15,7 +15,7 @@ public class HttpServerSetUp implements JTransformer<HttpServerOptions> {
     @Override
     public HttpServerOptions transform(final JsonObject input) {
         final JsonObject config = input.getJsonObject(KName.CONFIG, null);
-        return Fn.getSemi(null == config, LOGGER,
+        return Fn.orSemi(null == config, LOGGER,
             HttpServerOptions::new,
             () -> {
                 assert Objects.nonNull(config) : "`config` is not null";

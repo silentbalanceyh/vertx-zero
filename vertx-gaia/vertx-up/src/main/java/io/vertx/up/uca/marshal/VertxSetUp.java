@@ -15,7 +15,7 @@ public class VertxSetUp implements JTransformer<VertxOptions> {
     @Override
     public VertxOptions transform(final JsonObject input) {
         final JsonObject config = input.getJsonObject(NodeVisitor.YKEY_OPTIONS, null);
-        return Fn.getSemi(null == config, LOGGER,
+        return Fn.orSemi(null == config, LOGGER,
             VertxOptions::new,
             () -> {
                 assert Objects.nonNull(config) : "`config` should not be null";

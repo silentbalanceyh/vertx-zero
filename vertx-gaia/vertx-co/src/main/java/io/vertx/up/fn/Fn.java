@@ -101,16 +101,16 @@ public final class Fn {
         return Wall.jvmReturn(supplier, null);
     }
 
-    public static <T> T getJvm(final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final JvmSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(null, supplier, input);
     }
 
-    public static <T> T getJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(defaultValue, supplier, input);
     }
 
     // ------ Zero Safe
-    public static <T> T getZero(final ZeroSupplier<T> supplier, final Annal logger) {
+    public static <T> T orZero(final ZeroSupplier<T> supplier, final Annal logger) {
         return Wall.zeroReturn(supplier, logger);
     }
 
@@ -127,23 +127,27 @@ public final class Fn {
         Zero.exec(consumer, input);
     }
 
-    public static <T> T getNull(final Supplier<T> supplier, final Object... input) {
+    /*
+     * 修改原 get 前缀为 or，代表有可能得情况，这部分API改动量巨大，且和if可能会有些许重复
+     * 重复部分暂时先维持原始信息，等之后合并
+     */
+    public static <T> T orNull(final Supplier<T> supplier, final Object... input) {
         return Zero.get(null, supplier, input);
     }
 
-    public static <T> T getNull(final T defaultValue, final Supplier<T> supplier, final Object... input) {
+    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier, final Object... input) {
         return Zero.get(defaultValue, supplier, input);
     }
 
-    public static <T> T getNull(final T defaultValue, final Supplier<T> supplier) {
+    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier) {
         return Wall.execReturn(supplier, defaultValue);
     }
 
-    public static <T> T getEmpty(final Supplier<T> supplier, final String... input) {
+    public static <T> T orEmpty(final Supplier<T> supplier, final String... input) {
         return Zero.getEmpty(null, supplier, input);
     }
 
-    public static <T> T getEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
+    public static <T> T orEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
         return Zero.getEmpty(defaultValue, supplier, input);
     }
 
@@ -169,15 +173,15 @@ public final class Fn {
         Wall.exec(condition, null, tSupplier, null);
     }
 
-    public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
+    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
 
-    public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
+    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, null), logger);
     }
 
-    public static <T> T getSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {
+    public static <T> T orSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {
         return Wall.execZero(condition, tSupplier, fSupplier);
     }
 

@@ -32,7 +32,7 @@ public final class Errors {
                                     final int code,
                                     final String tpl,
                                     final Object... args) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final String key = ("E" + Math.abs(code)).intern();
             final Node<JsonObject> node = Node.infix(Plugins.ERROR);
             final JsonObject data = node.read();

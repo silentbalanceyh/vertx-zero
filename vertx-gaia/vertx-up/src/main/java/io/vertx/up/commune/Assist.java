@@ -37,9 +37,9 @@ class Assist implements Serializable {
 
     @SuppressWarnings("all")
     String principal(final String field) {
-        return Fn.getJvm(Strings.EMPTY, () -> {
+        return Fn.orJvm(Strings.EMPTY, () -> {
             final JsonObject credential = this.user.principal();
-            return Fn.getSemi(null != credential && credential.containsKey(field),
+            return Fn.orSemi(null != credential && credential.containsKey(field),
                 () -> credential.getString(field),
                 () -> Strings.EMPTY);
         }, this.user);

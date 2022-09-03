@@ -17,7 +17,7 @@ public class JArrayEnrol implements Enrol<JsonArray> {
     public JsonObject write(final String path,
                             final JsonArray entity) {
         final JsonObject data = this.etcd.write(path, entity, 0);
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             LOGGER.info(Info.ETCD_WRITE, data, path);
             return data;
         }, data);
@@ -25,7 +25,7 @@ public class JArrayEnrol implements Enrol<JsonArray> {
 
     @Override
     public JsonArray read(final String path) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final String content = this.etcd.read(path);
             final JsonArray data = new JsonArray(content);
             LOGGER.info(Info.ETCD_READ, data, path);

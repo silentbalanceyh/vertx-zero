@@ -47,7 +47,7 @@ class PathResolver {
     public static String resolve(final Path path, final String root) {
         Fn.outUp(null == path, LOGGER,
             PathAnnoEmptyException.class, PathResolver.class);
-        return Fn.getSemi(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
+        return Fn.orSemi(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
             () -> {
                 final String api = calculate(root);
                 final String contextPath = calculate(path.value());
@@ -102,7 +102,7 @@ class PathResolver {
         }
         // Uri must begin with SLASH
         final String processed = uri;
-        final String finalUri = Fn.getNull(() -> processed.startsWith(Strings.SLASH)
+        final String finalUri = Fn.orNull(() -> processed.startsWith(Strings.SLASH)
             ? processed : Strings.SLASH + processed, uri);
         if (!path.equals(finalUri) && Debugger.onWebUriDetect()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);

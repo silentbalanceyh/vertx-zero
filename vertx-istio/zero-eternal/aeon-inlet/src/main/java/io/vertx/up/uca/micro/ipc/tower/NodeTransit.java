@@ -27,7 +27,7 @@ public class NodeTransit implements Transit {
         // 1. Extract type
         final Object proxy = Ut.singleton(this.method.getDeclaringClass());
         // 2. Return data
-        final Future<Envelop> returnValue = Fn.getJvm(
+        final Future<Envelop> returnValue = Fn.orJvm(
             () -> ReturnTransit.build(() -> this.method.invoke(proxy, envelop),
                 this.getClass(), this.method),
             this.method

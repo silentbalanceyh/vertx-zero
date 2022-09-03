@@ -120,7 +120,7 @@ public class PermActor {
 
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
-        return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
+        return Fn.orEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
             .fetchAsync(KName.Rbac.ROLE_ID, roleId)
             .compose(Ux::futureA), roleId);
     }

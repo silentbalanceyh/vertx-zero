@@ -25,7 +25,7 @@ class MediaResolver {
 
     private static final Set<MediaType> DEFAULTS = new HashSet<MediaType>() {
         {
-            add(MediaType.WILDCARD_TYPE);
+            this.add(MediaType.WILDCARD_TYPE);
         }
     };
 
@@ -54,9 +54,9 @@ class MediaResolver {
     private static Set<MediaType> resolve(final Method method,
                                           final Class<? extends Annotation>
                                               mediaCls) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final Annotation anno = method.getAnnotation(mediaCls);
-            return Fn.getSemi(null == anno, LOGGER,
+            return Fn.orSemi(null == anno, LOGGER,
                 () -> DEFAULTS,
                 () -> {
                     final String[] value = Ut.invoke(anno, "value");

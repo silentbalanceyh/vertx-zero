@@ -25,7 +25,7 @@ public class FinalTransit implements Transit {
         // 1. Extract type
         final Object proxy = Ut.singleton(this.method.getDeclaringClass());
         // 2. Async type
-        final Future<Envelop> returnValue = Fn.getJvm(
+        final Future<Envelop> returnValue = Fn.orJvm(
             () -> ReturnTransit.build(() -> this.method.invoke(proxy, data),
                 this.getClass(), this.method),
             this.method

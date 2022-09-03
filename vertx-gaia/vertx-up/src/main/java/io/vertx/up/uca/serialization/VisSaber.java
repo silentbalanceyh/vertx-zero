@@ -8,6 +8,6 @@ public class VisSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.getNull(() -> Vis.smart(literal), paramType, literal);
+        return Fn.orNull(() -> Vis.smart(literal), paramType, literal);
     }
 }

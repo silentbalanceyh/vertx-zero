@@ -115,7 +115,7 @@ public class EtcdData {
         if (enabled()) {
             LOGGER.info(Info.ETCD_ENABLE);
         }
-        return CC_ETCD_DATA.pick(() -> Fn.getNull(null, () -> new EtcdData(clazz), clazz), clazz);
+        return CC_ETCD_DATA.pick(() -> Fn.orNull(null, () -> new EtcdData(clazz), clazz), clazz);
         // return Fn.po?l(POOL, clazz, () -> Fn.getNull(null, () -> new EtcdData(clazz), clazz));
     }
 
@@ -147,9 +147,9 @@ public class EtcdData {
         /*
          * Ensure Path created when read exception
          */
-        return Fn.getJvm(new ConcurrentHashMap<>(), () -> {
+        return Fn.orJvm(new ConcurrentHashMap<>(), () -> {
             final EtcdKeysResponse.EtcdNode node = this.readNode(path, this.client::getDir);
-            return Fn.getJvm(new ConcurrentHashMap<>(), () -> {
+            return Fn.orJvm(new ConcurrentHashMap<>(), () -> {
                 final ConcurrentMap<String, String> result = new ConcurrentHashMap<>();
                 /*
                  * Read all nodes information
@@ -189,7 +189,7 @@ public class EtcdData {
     public String readData(
         final String path
     ) {
-        return Fn.getJvm(Strings.EMPTY,
+        return Fn.orJvm(Strings.EMPTY,
             () -> this.readNode(path, this.client::get).getValue(), path);
     }
 
@@ -197,7 +197,7 @@ public class EtcdData {
         final String path,
         final Function<String, EtcdKeyGetRequest> executor) {
 
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             final EtcdKeyGetRequest request = executor.apply(path);
             /*
              * Set timeout parameters
@@ -217,7 +217,7 @@ public class EtcdData {
     }
 
     public boolean delete(final String path) {
-        return Fn.getJvm(Boolean.FALSE, () -> {
+        return Fn.orJvm(Boolean.FALSE, () -> {
             final EtcdKeyDeleteRequest request = this.client.delete(path);
             final EtcdResponsePromise<EtcdKeysResponse> promise = request.send();
             final EtcdKeysResponse response = promise.get();
@@ -226,9 +226,9 @@ public class EtcdData {
     }
 
     public <T> JsonObject write(final String path, final T data, final int ttl) {
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             final EtcdKeyPutRequest request = this.client.put(path,
-                Fn.getSemi(data instanceof JsonObject || data instanceof JsonArray,
+                Fn.orSemi(data instanceof JsonObject || data instanceof JsonArray,
                     LOGGER,
                     () -> Ut.invoke(data, "encode"),
                     data::toString));

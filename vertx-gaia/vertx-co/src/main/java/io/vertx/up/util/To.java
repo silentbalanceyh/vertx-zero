@@ -67,7 +67,7 @@ final class To {
     }
 
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
-        return Fn.getJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
+        return Fn.orJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
     }
 
     static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
@@ -89,7 +89,7 @@ final class To {
     }
 
     static Integer toInteger(final Object value) {
-        return Fn.getNull(null, () -> Integer.parseInt(value.toString()), value);
+        return Fn.orNull(null, () -> Integer.parseInt(value.toString()), value);
     }
 
     static List<Class<?>> toClass(final JsonArray names) {
@@ -110,7 +110,7 @@ final class To {
     }
 
     static String toString(final Object reference) {
-        return Fn.getNull("null", () -> {
+        return Fn.orNull("null", () -> {
             final String literal;
             if (Types.isJObject(reference)) {
                 // Fix issue for serialization
@@ -189,7 +189,7 @@ final class To {
     }
 
     static Collection<?> toCollection(final Object value) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             // Collection
             if (value instanceof Collection) {
                 return ((Collection<?>) value);
@@ -250,7 +250,7 @@ final class To {
         final Class<?> clazz,
         final Throwable error
     ) {
-        return Fn.getSemi(error instanceof WebException, null,
+        return Fn.orSemi(error instanceof WebException, null,
             () -> (WebException) error,
             () -> new _500InternalServerException(clazz, error.getMessage()));
     }

@@ -19,8 +19,8 @@ public class PemTrust implements TrustPipe<JsonObject> {
     @Override
     public Handler<ClientOptionsBase> parse(
         final JsonObject options) {
-        return Fn.getNull(() -> {
-            final PemTrustOptions pem = Fn.getSemi(
+        return Fn.orNull(() -> {
+            final PemTrustOptions pem = Fn.orSemi(
                 !options.containsKey(PATH_CERT), LOGGER,
                 Trust.CLIENT_PEM,
                 () -> new PemTrustOptions().addCertPath(PATH_CERT)

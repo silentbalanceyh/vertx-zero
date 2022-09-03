@@ -10,7 +10,7 @@ public class FileSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String filename) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final File file = new File(filename);
             // Throw 400 Error
             Fn.outWeb(!file.exists() || !file.canRead(), getLogger(),

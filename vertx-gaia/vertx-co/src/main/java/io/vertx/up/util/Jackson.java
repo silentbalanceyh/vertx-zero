@@ -129,7 +129,7 @@ final class Jackson {
         /* 2. Extract current input key **/
         final String path = pathes[Values.IDX];
         /* 3. Continue searching if key existing, otherwise terminal. **/
-        return Fn.getSemi(current.containsKey(path) && null != current.getValue(path),
+        return Fn.orSemi(current.containsKey(path) && null != current.getValue(path),
             null,
             () -> {
                 final Object curVal = current.getValue(path);
@@ -174,7 +174,7 @@ final class Jackson {
     private static JsonObject findByKey(final JsonArray source,
                                         final String key,
                                         final Object value) {
-        return Fn.getJvm(() -> Observable.fromIterable(source)
+        return Fn.orJvm(() -> Observable.fromIterable(source)
             .filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
             .filter(item -> null != item.getValue(key))
@@ -216,40 +216,40 @@ final class Jackson {
     }
 
     static <T> String serialize(final T t) {
-        return Fn.getNull(null, () -> Fn.getJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
+        return Fn.orNull(null, () -> Fn.orJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
     }
 
     static <T> T deserialize(final JsonObject value, final Class<T> type, final boolean isSmart) {
-        return Fn.getNull(null,
+        return Fn.orNull(null,
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
     static <T> T deserialize(final JsonArray value, final Class<T> type, final boolean isSmart) {
-        return Fn.getNull(null,
+        return Fn.orNull(null,
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
     static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
-        return Fn.getNull(new ArrayList<>(),
+        return Fn.orNull(new ArrayList<>(),
             () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final String value, final Class<T> type, final boolean isSmart) {
         final String smart = isSmart ? deserializeSmart(value, type) : value;
-        return Fn.getNull(null,
-            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
+        return Fn.orNull(null,
+            () -> Fn.orJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
         // Turn Off Smart Json when TypeReference<T>
         // final String smart = deserializeSmart(value, (Class<T>) type.getType());
-        return Fn.getNull(null,
-            () -> Fn.getJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+        return Fn.orNull(null,
+            () -> Fn.orJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
         final String content = Jackson.serialize(t);
-        return Fn.getJvm(null, () -> Fn.getSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
+        return Fn.orJvm(null, () -> Fn.orSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
             /*
              * Switch to smart serialization on the object to avoid
              * issue when met {} or []

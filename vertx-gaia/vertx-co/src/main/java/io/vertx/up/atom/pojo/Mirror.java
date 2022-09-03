@@ -42,7 +42,7 @@ public class Mirror {
             final JsonObject data = Ut.ioYaml(MessageFormat.format(POJO, filename));
 
             /* Only one point to refer `pojoFile` */
-            return Fn.getNull(() -> Ut.deserialize(data, Mojo.class), data).on(filename);
+            return Fn.orNull(() -> Ut.deserialize(data, Mojo.class), data).on(filename);
         }, filename);
         return this;
     }
@@ -54,7 +54,7 @@ public class Mirror {
 
     public Mirror connect(final JsonObject data) {
         // Copy new data
-        this.data = Fn.getNull(new JsonObject(), data::copy, data);
+        this.data = Fn.orNull(new JsonObject(), data::copy, data);
         return this;
     }
 
@@ -115,7 +115,7 @@ public class Mirror {
     @SuppressWarnings("unchecked")
     public <T> T get() {
         final Object reference = Ut.deserialize(this.converted, this.mojo.getType(), true);
-        return Fn.getNull(null, () -> (T) reference, reference);
+        return Fn.orNull(null, () -> (T) reference, reference);
     }
 
     public JsonObject result() {

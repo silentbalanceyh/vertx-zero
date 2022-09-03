@@ -36,7 +36,7 @@ public class JqTool {
     }
 
     public static Qr qr(final JsonObject envelop, final String pojo) {
-        return Fn.getNull(Qr.create(new JsonObject()), () -> {
+        return Fn.orNull(Qr.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
                 return Qr.create(data);

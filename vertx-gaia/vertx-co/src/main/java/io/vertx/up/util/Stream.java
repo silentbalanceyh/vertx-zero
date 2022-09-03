@@ -42,7 +42,7 @@ final class Stream {
      */
     static <T> byte[] to(final T message) {
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        return Fn.getJvm(new byte[0], () -> {
+        return Fn.orJvm(new byte[0], () -> {
             final ObjectOutputStream out = new ObjectOutputStream(bytes);
             out.writeObject(message);
             out.close();
@@ -63,7 +63,7 @@ final class Stream {
     static <T> T from(final int pos, final Buffer buffer) {
         LOGGER.debug("[ Position ] {}", pos);
         final ByteArrayInputStream stream = new ByteArrayInputStream(buffer.getBytes());
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             final ObjectInputStream in = new ObjectInputStream(stream);
             return (T) in.readObject();
         }, stream);
@@ -94,7 +94,7 @@ final class Stream {
 
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
 
             final byte[] temp = new byte[Values.CACHE_SIZE];
@@ -242,7 +242,7 @@ final class Stream {
      */
     static InputStream in(final File file) {
         ioDebug(() -> Log.info(LOGGER, Info.__FILE_INPUT_STREAM, Objects.isNull(file) ? null : file.getAbsolutePath()));
-        return Fn.getJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
+        return Fn.orJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
     }
 
     /**
@@ -256,7 +256,7 @@ final class Stream {
      */
     static InputStream in(final String filename, final Class<?> clazz) {
         ioDebug(() -> Log.info(LOGGER, Info.__RESOURCE_AS_STREAM, filename));
-        return Fn.getJvm(() -> clazz.getResourceAsStream(filename), clazz, filename);
+        return Fn.orJvm(() -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
     /**
@@ -270,7 +270,7 @@ final class Stream {
     static InputStream in(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         ioDebug(() -> Log.info(LOGGER, Info.__CLASS_LOADER, filename));
-        return Fn.getJvm(() -> loader.getResourceAsStream(filename), filename);
+        return Fn.orJvm(() -> loader.getResourceAsStream(filename), filename);
     }
 
     private static void ioDebug(final Actuator executor) {

@@ -147,7 +147,7 @@ final class ArrayJ {
     }
 
     static JsonArray save(final JsonArray array, final JsonObject json, final String field) {
-        return Fn.getNull(new JsonArray(), () -> {
+        return Fn.orNull(new JsonArray(), () -> {
             final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
             It.itJArray(array).forEach(each -> {
                 final boolean isSame = isSameBy(each, json, field);

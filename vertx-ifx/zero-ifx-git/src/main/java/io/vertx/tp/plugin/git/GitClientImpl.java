@@ -130,7 +130,7 @@ public class GitClientImpl implements GitClient {
 
     @Override
     public Status status(final Git git) {
-        return Fn.getJvm(() -> git.status().call());
+        return Fn.orJvm(() -> git.status().call());
     }
 
     @Override

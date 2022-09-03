@@ -22,11 +22,11 @@ final class IODirectory {
     }
 
     static List<String> listFiles(final String folder, final String extension) {
-        return Fn.getNull(new ArrayList<>(), () -> list(folder, extension, false), folder);
+        return Fn.orNull(new ArrayList<>(), () -> list(folder, extension, false), folder);
     }
 
     static List<String> listDirectories(final String folder) {
-        return Fn.getNull(new ArrayList<>(), () -> list(folder, null, true), folder);
+        return Fn.orNull(new ArrayList<>(), () -> list(folder, null, true), folder);
     }
 
     static List<String> listFilesN(final String folder, final String extension, final String prefix) {
@@ -52,7 +52,7 @@ final class IODirectory {
     static List<String> listDirectoriesN(final String folder) {
         final String root = Stream.root();
         LOGGER.info("List directories: root = {0}, folder = {1}", root, folder);
-        return Fn.getNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
+        return Fn.orNull(new ArrayList<>(), () -> listDirectoriesN(folder, root), folder);
     }
 
     private static List<String> listDirectoriesN(final String folder, final String root) {
@@ -107,7 +107,7 @@ final class IODirectory {
                  * Fix jar path issue here.
                  */
                 if (folder.contains(FileSuffix.JAR_DIVIDER)) {
-                    url = Fn.getJvm(() -> new URL(folder), folder);
+                    url = Fn.orJvm(() -> new URL(folder), folder);
                 }
             }
             /*
@@ -139,7 +139,7 @@ final class IODirectory {
     }
 
     static List<String> getJars(final URL url, final String extension, final boolean isDirectory) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
             final JarFile jarFile = jarCon.getJarFile();
             /*

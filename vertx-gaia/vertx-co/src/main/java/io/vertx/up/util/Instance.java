@@ -49,16 +49,16 @@ final class Instance {
 
     static <T> T instance(final Class<?> clazz,
                           final Object... params) {
-        final Object created = Fn.getJvm(
+        final Object created = Fn.orJvm(
             () -> construct(clazz, params), clazz);
-        return Fn.getJvm(() -> (T) created, created);
+        return Fn.orJvm(() -> (T) created, created);
     }
 
     /**
      * Generic type
      */
     static Class<?> genericT(final Class<?> target) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Type type = target.getGenericSuperclass();
             return (Class<?>) (((ParameterizedType) type).getActualTypeArguments()[0]);
         }, target);
@@ -87,7 +87,7 @@ final class Instance {
      * @return Class<?>
      */
     static Class<?> clazz(final String name) {
-        return CC_CLASSES.pick(() -> Fn.getJvm(() -> Thread.currentThread()
+        return CC_CLASSES.pick(() -> Fn.orJvm(() -> Thread.currentThread()
             .getContextClassLoader().loadClass(name), name), name);
         //        return Fn.po?l(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
         //            .getContextClassLoader().loadClass(name), name));
@@ -200,7 +200,7 @@ final class Instance {
      * Whether the class contains no-arg constructor
      */
     static boolean noarg(final Class<?> clazz) {
-        return Fn.getNull(Boolean.FALSE, () -> {
+        return Fn.orNull(Boolean.FALSE, () -> {
             final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
             boolean noarg = false;
             for (final Constructor<?> constructor : constructors) {
@@ -217,7 +217,7 @@ final class Instance {
      * Find the unique implementation for interfaceCls
      */
     static Class<?> child(final Class<?> interfaceCls) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             final Set<Class<?>> classes = ZeroPack.getClasses();
             final List<Class<?>> filtered = classes.stream()
                 .filter(item -> interfaceCls.isAssignableFrom(item)
@@ -250,7 +250,7 @@ final class Instance {
 
     private static <T> T construct(final Class<?> clazz,
                                    final Object... params) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             T ret = null;
             final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
             // ZeroPack all constructors
@@ -265,14 +265,14 @@ final class Instance {
                 }
                 // The slowest construct
                 final Object reference = constructor.newInstance(params);
-                ret = Fn.getJvm(() -> ((T) reference), reference);
+                ret = Fn.orJvm(() -> ((T) reference), reference);
             }
             return ret;
         }, clazz, params);
     }
 
     private static <T> T construct(final Class<T> clazz) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             // Reflect Asm
             final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
             final Constructor<?> constructor = Arrays.stream(constructors)

@@ -20,7 +20,7 @@ public class ZeroVertx implements Node<JsonObject> {
         // Not null because execNil
         final JsonObject config = ZeroTool.read(null, true);
         // Injection Lime
-        final JsonObject zero = Fn.getJvm(new JsonObject(),
+        final JsonObject zero = Fn.orJvm(new JsonObject(),
             () -> config.getJsonObject(KName.Internal.ZERO), config);
         if (null != zero && zero.containsKey(KName.Internal.LIME)) {
             this.processLime(zero);

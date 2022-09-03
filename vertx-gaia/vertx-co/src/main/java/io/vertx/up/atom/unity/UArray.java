@@ -22,7 +22,7 @@ public class UArray {
     private final JsonArray arrayReference;
 
     private UArray(final JsonArray jsonArray) {
-        this.arrayReference = Fn.getNull(new JsonArray(), () ->
+        this.arrayReference = Fn.orNull(new JsonArray(), () ->
             new JsonArray(jsonArray.stream().filter(Objects::nonNull)
                 .map(item -> (JsonObject) item)
                 .collect(Collectors.toList())), jsonArray);

@@ -14,7 +14,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
@@ -349,7 +348,7 @@ public class JqAnalyzer {
     public <T> T copyEntity(final T target, final T updated) {
         Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
             UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
-        return Fn.getSemi(null == target && null == updated, LOGGER, () -> null, () -> {
+        return Fn.orSemi(null == target && null == updated, LOGGER, () -> null, () -> {
             final JsonObject targetJson = null == target ? new JsonObject() : Ut.serializeJson(target);
             /*
              * Skip Primary Key

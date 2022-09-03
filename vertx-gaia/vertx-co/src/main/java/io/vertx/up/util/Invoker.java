@@ -39,14 +39,14 @@ final class Invoker {
             return null;
         }
         final Method invoker = found;
-        return (T) Fn.getJvm(null, () -> invoker.invoke(null, args));
+        return (T) Fn.orJvm(null, () -> invoker.invoke(null, args));
     }
 
     static <T> T invokeObject(
         final Object instance,
         final String name,
         final Object... args) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             // Direct invoke, multi overwrite for unbox/box issue still existing.
             final Class<?> clazz = instance.getClass();
             final List<Class<?>> types = new ArrayList<>();

@@ -16,7 +16,7 @@ public class JObjectEnrol implements Enrol<JsonObject> {
     public JsonObject write(final String path,
                             final JsonObject entity) {
         final JsonObject data = this.etcd.write(path, entity, 0);
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             LOGGER.info(Info.ETCD_WRITE, data, path);
             return data;
         }, data);
@@ -24,7 +24,7 @@ public class JObjectEnrol implements Enrol<JsonObject> {
 
     @Override
     public JsonObject read(final String path) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final String content = this.etcd.read(path);
             final JsonObject data = new JsonObject(content);
             LOGGER.info(Info.ETCD_READ, data, path);
