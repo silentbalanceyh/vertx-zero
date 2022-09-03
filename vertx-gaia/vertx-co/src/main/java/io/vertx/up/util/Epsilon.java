@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,25 @@ class Epsilon {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
+        if (Ut.isNil(item)) {
+            return null;
+        } else {
+            final Object value = item.getValue(field);
+            if (Objects.isNull(value)) {
+                return null;
+            } else {
+                if (clazz == value.getClass()) {
+                    return (T) value;
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+    // ------------------------------ 带映射专用方法 ----------------------------
     /*
      * mapping: from = to
      * 1. bMapping.keys() -> froms
@@ -133,7 +153,55 @@ class Epsilon {
         return outputA;
     }
 
-    static JsonObject vFrom(final JsonObject input, final BMapping mapping) {
+    static JsonObject vTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final BMapping bMapping = bMapping(mapping, smart);
+        return vTo(input, bMapping);
+    }
+
+    static JsonArray vTo(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return vTo(input, mapping, smart, null);
+    }
+
+    static JsonArray vTo(final JsonArray input, final JsonObject mapping, final boolean smart,
+                         final BinaryOperator<JsonObject> itFn) {
+        final BMapping bMapping = bMapping(mapping, smart);
+        final JsonArray outputA = new JsonArray();
+        Ut.itJArray(input).forEach(json -> {
+            final JsonObject convert = vTo(json, bMapping);
+            if (Objects.isNull(itFn)) {
+                outputA.add(convert);
+            } else {
+                outputA.add(itFn.apply(convert, json));
+            }
+        });
+        return outputA;
+    }
+
+    static JsonObject vFrom(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final BMapping bMapping = bMapping(mapping, smart);
+        return vFrom(input, bMapping);
+    }
+
+    static JsonArray vFrom(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return vFrom(input, mapping, smart, null);
+    }
+
+    static JsonArray vFrom(final JsonArray input, final JsonObject mapping, final boolean smart,
+                           final BinaryOperator<JsonObject> itFn) {
+        final BMapping bMapping = bMapping(mapping, smart);
+        final JsonArray outputA = new JsonArray();
+        Ut.itJArray(input).forEach(json -> {
+            final JsonObject convert = vFrom(json, bMapping);
+            if (Objects.isNull(itFn)) {
+                outputA.add(convert);
+            } else {
+                outputA.add(itFn.apply(convert, json));
+            }
+        });
+        return outputA;
+    }
+
+    private static JsonObject vFrom(final JsonObject input, final BMapping mapping) {
         final JsonObject outputJ = new JsonObject();
         if (Objects.isNull(input)) {
             return outputJ;
@@ -146,15 +214,10 @@ class Epsilon {
         return outputJ;
     }
 
-    static JsonArray vFrom(final JsonArray input, final BMapping mapping) {
+    private static JsonArray vFrom(final JsonArray input, final BMapping mapping) {
         final JsonArray outputA = new JsonArray();
         Ut.itJArray(input).forEach(json -> outputA.add(vFrom(json, mapping)));
         return outputA;
-    }
-
-    static JsonObject vTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
-        final BMapping bMapping = bMapping(mapping, smart);
-        return vTo(input, bMapping);
     }
 
     private static BMapping bMapping(final JsonObject mapping, final boolean smart) {
@@ -170,23 +233,5 @@ class Epsilon {
             bMapping = new BMapping(mapping);
         }
         return bMapping;
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
-        if (Ut.isNil(item)) {
-            return null;
-        } else {
-            final Object value = item.getValue(field);
-            if (Objects.isNull(value)) {
-                return null;
-            } else {
-                if (clazz == value.getClass()) {
-                    return (T) value;
-                } else {
-                    return null;
-                }
-            }
-        }
     }
 }

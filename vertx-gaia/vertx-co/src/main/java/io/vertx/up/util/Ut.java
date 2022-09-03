@@ -1877,6 +1877,57 @@ public final class Ut {
         return Jackson.sureJObject(input, field);
     }
 
+    // mapping + replace/append
+    /*
+     * <Flag>Over: Replace the whole input
+     * -- reference not change
+     * <Flag>: Extract the data from input only
+     */
+    public static JsonObject valueToOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vTo(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueToOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueToOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vTo(input, mapping, true, itFn);
+    }
+
+    public static JsonObject valueFromOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vFrom(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueFromOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueFromOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueFrom(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vFrom(input, mapping, true, itFn);
+    }
     // --------------------- 环境相关方法 ----------------------
 
     /**

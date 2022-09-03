@@ -68,7 +68,9 @@ public class HSDimNorm extends AbstractAdmit {
                      */
                     final JsonObject inputJ = permit.dmJ();
                     final JsonObject qrJ = this.valueQr(Ut.valueJObject(inputJ, KName.Rbac.QR), null);
-                    return this.compile(permit, qrJ, itemJ.copy()).compose(Future::succeededFuture);
+                    return this.compile(permit, qrJ, itemJ.copy())
+                        .compose(itemA -> this.normalize(itemA, permit))
+                        .compose(Future::succeededFuture);
                 }
             },
             /*
@@ -115,9 +117,14 @@ public class HSDimNorm extends AbstractAdmit {
     }
 
     private Future<JsonArray> normalize(final JsonArray itemA, final HPermit permit) {
-        final JsonArray data = new JsonArray();
+        /*
+         * Include Mapping
+         * {
+         *     "mapping": {}
+         * }
+         */
         final JsonObject dmJ = permit.dmJ();
-
-        return null;
+        final JsonArray dataA = Ut.valueTo(itemA, dmJ, (converted, json) -> converted.put(KName.DATA, json));
+        return Future.succeededFuture(dataA);
     }
 }
