@@ -62,6 +62,9 @@ class Wag {
         }
     }
 
+    /*
+     * page data: list + count
+     */
     static JsonObject ifPage(final JsonObject pageData, final String... fields) {
         final JsonObject pageJ = Ut.valueJObject(pageData);
         if (pageJ.containsKey(KName.LIST) && pageJ.containsKey(KName.COUNT)) {
@@ -70,6 +73,60 @@ class Wag {
             pageJ.put(KName.LIST, listRef);
         }
         return pageJ;
+    }
+
+    static <T> JsonObject ifField(final JsonObject input, final String field, final T value) {
+        final JsonObject inputJ = Ut.valueJObject(input);
+        if (Ut.isNil(field)) {
+            if (value instanceof final JsonObject data) {
+                inputJ.mergeIn(data, true);
+            }
+        } else {
+            inputJ.put(field, value);
+        }
+        return inputJ;
+    }
+
+    /*
+     * ifCopy / ifCopies / ifDefault
+     */
+    static JsonObject ifCopy(final JsonObject record, final String from, final String to) {
+        if (Objects.isNull(record) || Ut.isNil(to)) {
+            return null;
+        }
+        final Object value = record.getValue(from);
+        if (Objects.nonNull(value)) {
+            record.put(to, value);
+        }
+        return record;
+    }
+
+    static JsonObject ifCopies(final JsonObject target, final JsonObject source, final String... fields) {
+        Objects.requireNonNull(target);
+        final JsonObject sourceJ = Ut.valueJObject(source);
+        if (Ut.isNil(sourceJ)) {
+            return target;
+        }
+        Arrays.stream(fields).forEach(field -> {
+            if (sourceJ.containsKey(field)) {
+                target.put(field, sourceJ.getValue(field));
+            }
+        });
+        return target;
+    }
+
+    static JsonObject ifDefault(final JsonObject record, final String field, final Object value) {
+        if (Objects.isNull(record)) {
+            return null;
+        }
+        if (Ut.isNil(field)) {
+            return record;
+        }
+        final Object valueOriginal = record.getValue(field);
+        if (Objects.isNull(valueOriginal)) {
+            record.put(field, value);
+        }
+        return record;
     }
 
     private static JsonObject ifMetadata(final JsonObject metadata) {

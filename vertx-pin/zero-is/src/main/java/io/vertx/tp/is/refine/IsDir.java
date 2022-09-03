@@ -91,7 +91,7 @@ class IsDir {
             KName.VISIT_MODE
         ).apply(response).compose(directory -> {
             directory.put(KName.DIRECTORY, Boolean.TRUE);
-            Ut.ifJCopy(directory, KName.KEY, KName.DIRECTORY_ID);
+            Fn.ifCopy(directory, KName.KEY, KName.DIRECTORY_ID);
             return Ux.future(directory);
         });
     }
@@ -105,7 +105,7 @@ class IsDir {
         ).apply(response).compose(directory -> {
             Ut.itJArray(directory).forEach(each -> {
                 each.put(KName.DIRECTORY, Boolean.TRUE);
-                Ut.ifJCopy(each, KName.KEY, KName.DIRECTORY_ID);
+                Fn.ifCopy(each, KName.KEY, KName.DIRECTORY_ID);
             });
             return Ux.future(directory);
         });

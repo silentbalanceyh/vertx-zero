@@ -99,7 +99,7 @@ class JoinWriter {
     }
 
     private JsonObject valueNorm(final JsonObject response, final JsonObject joined) {
-        Ut.ifJAssign(response,
+        return Fn.ifCopies(joined, response,
             // Normalized
             KName.CREATED_BY,
             KName.CREATED_AT,
@@ -108,7 +108,6 @@ class JoinWriter {
             KName.SIGMA,
             KName.LANGUAGE,
             KName.ACTIVE
-        ).apply(joined);
-        return joined;
+        );
     }
 }

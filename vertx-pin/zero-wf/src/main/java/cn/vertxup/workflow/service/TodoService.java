@@ -12,6 +12,7 @@ import io.vertx.tp.optic.feature.Todo;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -173,8 +174,7 @@ public class TodoService implements TodoStub {
                  */
                 final JsonObject params = Ut.elementSubset(todo,
                     KName.MODEL_ID, KName.MODEL_CATEGORY, KName.MODEL_KEY, KName.SIGMA);
-                return channel.fetchAsync(key, params)
-                    .compose(Ut.ifMerge(todo));
+                return channel.fetchAsync(key, params).compose(Fn.ifMerge(todo));
             })));
     }
 }

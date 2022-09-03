@@ -2,55 +2,12 @@ package io.vertx.up.util;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 class Apply {
-
-    @SuppressWarnings("all")
-    static <T, V> Consumer<JsonObject> applyField(final String field, final Function<V, T> function) {
-        return (json) -> {
-            json = Jackson.sureJObject(json);
-            if (json.containsKey(field)) {
-                final Object value = json.getValue(field);
-                if (Objects.nonNull(value)) {
-                    function.apply((V) value);
-                }
-            }
-        };
-    }
-
-    static Function<JsonObject, JsonObject> applyJCopy(final JsonObject input, final String... fields) {
-        return (json) -> {
-            Objects.requireNonNull(json);
-            final JsonObject source = Jackson.sureJObject(input);
-            Arrays.stream(fields).forEach(field -> {
-                if (source.containsKey(field)) {
-                    json.put(field, source.getValue(field));
-                }
-            });
-            return json;
-        };
-    }
-
-    static <T> Function<T, Future<JsonObject>> applyField(final JsonObject input, final String field) {
-        return data -> {
-            if (Ut.isNil(field)) {
-                if (data instanceof JsonObject) {
-                    final JsonObject dataR = (JsonObject) data;
-                    input.mergeIn(dataR);
-                }
-            } else {
-                input.put(field, data);
-            }
-            return Future.succeededFuture(input);
-        };
-    }
 
     static <I, T> Function<I, Future<T>> applyNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
         return input -> {
@@ -100,34 +57,5 @@ class Apply {
                 return executor.apply(input);
             }
         };
-    }
-
-    static JsonObject applyJValue(final JsonObject record, final String field, final Object value) {
-        if (Objects.isNull(record)) {
-            return null;
-        } else {
-            final Object originalValue = record.getValue(field);
-            /*
-             * Modification for
-             * 1) Not null
-             * 2) Include `key` not existing
-             */
-            if (Objects.isNull(originalValue)) {
-                record.put(field, value);
-            }
-            return record;
-        }
-    }
-
-    static JsonObject applyJCopy(final JsonObject record, final String from, final String to) {
-        if (Objects.isNull(record)) {
-            return null;
-        } else {
-            final Object value = record.getValue(from);
-            if (Objects.nonNull(value)) {
-                record.put(to, value);
-            }
-            return record;
-        }
     }
 }

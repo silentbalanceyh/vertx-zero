@@ -237,7 +237,7 @@ class IsFs {
         // Group queueAd, Re-Calculate `directoryId` here.
         return run(queueAd, (fs, dataGroup) -> fs.synchronize(dataGroup, config)).compose(inserted -> {
             /* storePath = key */
-            Ut.itJArray(inserted).forEach(json -> Ut.ifJCopy(json, KName.KEY, KName.DIRECTORY_ID));
+            Ut.itJArray(inserted).forEach(json -> Fn.ifCopy(json, KName.KEY, KName.DIRECTORY_ID));
             return Ux.future(inserted);
         });
     }

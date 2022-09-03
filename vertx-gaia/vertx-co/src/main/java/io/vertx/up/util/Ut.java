@@ -900,17 +900,10 @@ public final class Ut {
 
     /*
      * Flatting method for function executing
-     * 1) ifMerge
      * 2) ifNil / ifJNil / ifTNil
      * 3) ifEmpty / ifJEmpty
      * 4) ifJValue -> JsonObject field filling of value
-     * 5) ifJCopy -> JsonObject copy self
-     * 8) ifJAssign -> Source Json -> Target Json copy fields
      */
-
-    public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
-        return Apply.applyField(input, null);
-    }
 
     public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
         return Apply.applyNil(supplier, executor);
@@ -946,30 +939,6 @@ public final class Ut {
 
     public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
         return Apply.applyEmpty(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
-        return Apply.applyField(input, field);
-    }
-
-    public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> function) {
-        return Apply.applyField(field, function);
-    }
-
-    public static JsonObject ifJValue(final JsonObject record, final String field, final Object value) {
-        return Apply.applyJValue(record, field, value);
-    }
-
-    public static JsonObject ifJValue(final String field, final Object value) {
-        return Apply.applyJValue(null, field, value);
-    }
-
-    public static Function<JsonObject, JsonObject> ifJAssign(final JsonObject input, final String... fields) {
-        return Apply.applyJCopy(input, fields);
-    }
-
-    public static JsonObject ifJCopy(final JsonObject record, final String from, final String to) {
-        return Apply.applyJCopy(record, from, to);
     }
 
     /*

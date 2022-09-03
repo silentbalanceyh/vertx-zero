@@ -843,6 +843,12 @@ public final class Fn {
      *    ifJObject
      *    ifJArray
      * 2) ifPage - 分页专用方法规范：list / count 属性，特定场景使用
+     * 3) ifMerge - 合并双对象专用
+     * 4) ifField - 提取字段执行专用，存在一个单字段消费链接专用的API，生成 Consumer<JsonObject>
+     * 5) ifCopy / ifCopies - 复制专用，由于复制的第二参和第三参有可能会引起重载时JVM的错误判断，所以采用单复数模式
+     * 6) ifDefault - 原来的 ifJValue
+     * 7) 非空检查批量方法
+     *    ifNil / ifNilJ / ifEmpty / ifEmptyA
      */
     public static JsonObject ifString(final JsonObject json, final String... fields) {
         Arrays.stream(fields).forEach(field -> Wag.ifString(json, field));
@@ -880,11 +886,61 @@ public final class Fn {
         return array -> Future.succeededFuture(ifJArray(array, fields));
     }
 
+    public static JsonObject ifDefault(final JsonObject record, final String field, final Object value) {
+        return Wag.ifDefault(record, field, value);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifDefault(final String field, final Object value) {
+        return record -> Future.succeededFuture(ifDefault(record, field, value));
+    }
+
+    // ======================= 和业务些许相关的复杂操作（特殊类API）
+
+    public static JsonObject ifCopy(final JsonObject record, final String from, final String to) {
+        return Wag.ifCopy(record, from, to);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifCopy(final String from, final String to) {
+        return json -> Future.succeededFuture(ifCopy(json, from, to));
+    }
+
+    public static JsonObject ifCopies(final JsonObject target, final JsonObject source, final String... fields) {
+        return Wag.ifCopies(target, source, fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifCopies(final JsonObject source, final String... fields) {
+        return target -> Future.succeededFuture(ifCopies(target, source, fields));
+    }
+
+    /*
+     * 「双态型」两种形态
+     */
     public static JsonObject ifPage(final JsonObject pageData, final String... fields) {
         return Wag.ifPage(pageData, fields);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
         return pageData -> Future.succeededFuture(ifPage(pageData, fields));
+    }
+
+    // 单模式特殊方法（无第二形态）
+    public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
+        return t -> Future.succeededFuture(Wag.ifField(input, null, t));
+    }
+
+    public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
+        return t -> Future.succeededFuture(Wag.ifField(input, field, t));
+    }
+
+    public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> executor) {
+        return input -> {
+            final JsonObject inputJ = Ut.valueJObject(input);
+            if (inputJ.containsKey(field)) {
+                final Object value = inputJ.getValue(field);
+                if (Objects.nonNull(value)) {
+                    executor.apply((V) value);
+                }
+            }
+        };
     }
 }

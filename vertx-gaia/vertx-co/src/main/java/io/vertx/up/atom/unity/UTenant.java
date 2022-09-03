@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -123,9 +124,9 @@ public class UTenant implements Serializable, Copyable<UTenant> {
         if (Objects.isNull(this.global)) {
             return application;
         } else {
-            return Ut.ifJAssign(this.global,
+            return Fn.ifCopies(application, this.global,
                 KName.APP_ID, KName.SIGMA, KName.APP_KEY
-            ).apply(application);
+            );
         }
     }
 
