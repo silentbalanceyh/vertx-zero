@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.ZeroException;
@@ -149,15 +150,6 @@ public final class Fn {
 
     public static <T> T orEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
         return Zero.getEmpty(defaultValue, supplier, input);
-    }
-
-    // ------ Function Processing
-    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
-        return Wait.wrapper(supplier, defaultValue);
-    }
-
-    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
-        return Wait.wrapperAsync(supplier, defaultValue);
     }
 
     // ------ Semi Safe
@@ -768,5 +760,77 @@ public final class Fn {
                                                     final Function<JsonObject, Future<J>> itemFnJ,
                                                     final Function<JsonArray, Future<A>> itemFnA) {
         return War.choiceJ(input, field, itemFnJ, itemFnA);
+    }
+
+
+    // ------ Function Processing for Output
+    /*
+     * 1）wrap / wrapAsync：执行封装
+     * 2）wrapJ：最终返回的是 Future<JsonObject>,  JS = Json Sync，同步返回
+     * 3）wrapB: 最终返回的是 Future<Boolean>
+     * 4）wrapTo / wrapOn: 最终返回的是 Function，且返回值是 Future<JsonObject>
+     * --- 只有异步，没有同步
+     *
+     * To:  T -> mount( field = T )
+     * On:  T -> T ( field = mount )
+     */
+    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
+        return Wait.wrapper(supplier, defaultValue);
+    }
+
+    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+        return Wait.wrapperAsync(supplier, defaultValue);
+    }
+
+    // bool -> json
+    public static Future<JsonObject> wrapJ(final String field, final boolean result) {
+        return Future.succeededFuture(Wander.wrapJ(field, result));
+    }
+
+    public static JsonObject wrapJS(final String field, final boolean result) {
+        return Wander.wrapJ(field, result);
+    }
+
+    public static Future<JsonObject> wrapJ(final boolean result) {
+        return Future.succeededFuture(Wander.wrapJ(KName.RESULT, result));
+    }
+
+    // JsonArray -> json
+    public static Future<JsonObject> wrapJ(final String field, final JsonArray data) {
+        return Future.succeededFuture(Wander.wrapJ(field, data));
+    }
+
+    public static Future<JsonObject> wrapJ(final JsonArray data) {
+        return Future.succeededFuture(Wander.wrapJ(KName.DATA, data));
+    }
+
+    // json -> bool
+    public static Future<Boolean> wrapB(final String field, final JsonObject input) {
+        return Future.succeededFuture(Wander.wrapB(field, input));
+    }
+
+    public static Future<Boolean> wrapB(final JsonObject input) {
+        return Future.succeededFuture(Wander.wrapB(KName.RESULT, input));
+    }
+
+    // json -> data( field = json )
+    public static <T> Function<T, Future<JsonObject>> wrapTo(final String field, final JsonObject data) {
+        return t -> Future.succeededFuture(Wander.wrapTo(field, data).apply(t));
+    }
+
+    // json -> json ( field = data )
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapOn(
+        final String field, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapOn(field, executor);
+    }
+
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapTree(
+        final String field, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapTree(field, false, executor);
+    }
+
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapTree(
+        final String field, final boolean deeply, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapTree(field, deeply, executor);
     }
 }

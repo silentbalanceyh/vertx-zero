@@ -53,17 +53,6 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public final class Ux {
 
-    /*
-     * output part converting
-     */
-    public static JsonObject outBool(final boolean checked) {
-        return Async.bool(KName.RESULT, checked);
-    }
-
-    public static JsonObject outBool(final String key, final boolean checked) {
-        return Async.bool(key, checked);
-    }
-
     /**
      * Create new log instance for store `Annal` mapping
      * <p>
@@ -491,10 +480,8 @@ public final class Ux {
      * -- futureE(Supplier)
      *
      * Spec Data
-     * 6) futureJA, futureB
+     * 6) futureJA
      * -- futureJA(JsonArray)
-     * -- futureB(JsonObject)
-     * -- futureB(boolean)
      *
      * New Api for normalized mount
      * 7) futureN
@@ -580,18 +567,6 @@ public final class Ux {
         final List<T> list = new ArrayList<>();
         list.add(single);
         return future(list);
-    }
-
-    public static Future<JsonObject> futureB(final boolean checked) {
-        return To.future(outBool(checked));
-    }
-
-    public static Future<Boolean> futureB(final JsonObject checked) {
-        return To.future(Async.bool(checked));
-    }
-
-    public static Future<JsonObject> futureJA(final JsonArray array) {
-        return To.future(Async.array(array));
     }
 
     public static <T> Function<Throwable, Future<T>> futureE(final T input) {
@@ -717,23 +692,6 @@ public final class Ux {
     public static <T, O> Future<O> channelA(final Class<T> clazz, final Supplier<Future<O>> supplier,
                                             final Function<T, Future<O>> executor) {
         return Async.channelAsync(clazz, supplier, executor);
-    }
-
-    /*
-     * Flatting method for function executing
-     * 1) attach -> JsonObject ( field )
-     * 2) attachJ -> Advanced JsonObject ( field )
-     */
-    public static <T> Function<JsonObject, Future<JsonObject>> attach(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttach(field, function);
-    }
-
-    public static <T> Function<JsonObject, Future<JsonObject>> attachJ(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttachJ(field, function);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
-        return Web.toAttachJ(field, data);
     }
 
     /*

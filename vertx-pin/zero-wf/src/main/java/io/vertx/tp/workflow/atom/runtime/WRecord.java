@@ -1,10 +1,10 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.vertxup.workflow.domain.tables.pojos.WTicket;
-import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import cn.vertxup.workflow.cv.WfCv;
 import cn.vertxup.workflow.cv.em.PassWay;
 import cn.vertxup.workflow.cv.em.TodoStatus;
+import cn.vertxup.workflow.domain.tables.pojos.WTicket;
+import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -17,6 +17,7 @@ import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
@@ -234,7 +235,7 @@ public class WRecord implements Serializable {
             .compose(workflow -> this.dataTicket(response, workflow))
             // `history` field mount
             .compose(this::dataHistory)
-            .compose(Ux.attachJ(KName.HISTORY, response));
+            .compose(Fn.wrapTo(KName.HISTORY, response));
     }
 
     public Future<WRecord> futureAfter(final JsonObject dataAfter) {
