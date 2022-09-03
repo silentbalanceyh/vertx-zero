@@ -127,7 +127,7 @@ class Wander {
             }
             // 切换算法处理，执行 Map 操作
             final Object vSegment = mount.getValue(field);
-            if (vSegment instanceof JsonObject tree) {
+            if (vSegment instanceof final JsonObject tree) {
                 return wrapTree(tree, deeply, executor).compose(segmentData -> {
                     if (Ut.notNil(segmentData)) {
                         mount.put(field, segmentData);
@@ -153,7 +153,7 @@ class Wander {
         for (final String field : input.fieldNames()) {
             // JsonArray 跳过不执行
             final Object value = input.getValue(field);
-            if (value instanceof JsonObject json) {
+            if (value instanceof final JsonObject json) {
                 // 遇到 JsonObject 节点，执行子提取，递归
                 if (deeply) {
                     children.put(field, wrapTree(json, true, executor));

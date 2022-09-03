@@ -41,7 +41,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -274,10 +277,6 @@ public final class Ux {
 
     public static <T> List<T> fromJson(final JsonArray array, final Class<T> clazz, final String pojo) {
         return From.fromJson(array, clazz, pojo);
-    }
-
-    public static JsonObject criteria(final JsonObject data, final String pojo) {
-        return From.fromJson(data, pojo);
     }
 
     /**
@@ -717,10 +716,6 @@ public final class Ux {
 
     public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
         return Web.pageData(pageData, function);
-    }
-
-    public static Future<JsonObject> thenEffect(final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
-        return Norm.effectTabb(input, executor);
     }
 
     /*
