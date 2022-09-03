@@ -4,6 +4,7 @@ import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
@@ -179,6 +180,11 @@ public class HPermit implements Serializable {
 
     public String sigma() {
         return this.sigma;
+    }
+
+    // ===================== 缓存键值
+    public String keyCache() {
+        return this.sigma + Strings.SLASH + this.code;
     }
 
     // ===================== 子节点

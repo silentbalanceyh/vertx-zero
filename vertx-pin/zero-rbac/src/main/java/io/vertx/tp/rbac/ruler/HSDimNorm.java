@@ -39,7 +39,7 @@ public class HSDimNorm extends AbstractAdmit {
     public Future<JsonObject> compile(final HPermit permit, final JsonObject request) {
         return Fn.choiceJ(request, KName.ITEMS,
             itemJ -> {
-                final Class<?> daoCls = Ut.valueCI(request, KName.DAO, null);
+                final Class<?> daoCls = Ut.valueC(itemJ, KName.DAO, null);
                 if (Objects.isNull(daoCls)) {
                     /*
                      * 1. 前端模式（直接返回，无子类逻辑）
@@ -62,9 +62,13 @@ public class HSDimNorm extends AbstractAdmit {
                      *         "config": "附加配置处理数据源"
                      *     }
                      * }
+                     * Adapter转换，和Ui中的Compiler对齐
+                     * 1. qrJ 为转换完成的查询条件
+                     * 2. config 就为 itemJ 本身
                      */
-                    final JsonObject config = Ut.valueJObject(itemJ, KName.CONFIG);
-                    return this.compile(permit, daoCls, config).compose(Future::succeededFuture);
+                    final JsonObject inputJ = permit.dmJ();
+                    final JsonObject qrJ = this.valueQr(Ut.valueJObject(inputJ, KName.Rbac.QR), null);
+                    return this.compile(permit, qrJ, itemJ.copy()).compose(Future::succeededFuture);
                 }
             },
             /*
@@ -75,30 +79,45 @@ public class HSDimNorm extends AbstractAdmit {
              *     ]
              * }
              */
-            itemA -> {
-                final JsonArray data = new JsonArray();
-                Ut.itJArray(itemA, String.class, (itemStr, index) -> {
-                    final String[] split = itemStr.split(Strings.COMMA);
-                    if (Values.TWO <= split.length) {
-                        // 2 == length
-                        final JsonObject itemJ = new JsonObject();
-                        itemJ.put(KName.VALUE, split[Values.IDX]);
-                        itemJ.put(KName.LABEL, split[Values.IDX_1]);
-                        // 3 == length
-                        if (Values.TWO < split.length) {
-                            itemJ.put(KName.KEY, split[Values.IDX_2]);
-                        } else {
-                            itemJ.put(KName.KEY, itemJ.getValue(KName.VALUE));
-                        }
-                        data.add(itemJ);
-                    }
-                });
-                return Future.succeededFuture(data);
-            }
+            this::normalize
         );
     }
 
-    protected Future<JsonArray> compile(final HPermit input, final Class<?> daoCls, final JsonObject config) {
+
+    protected Future<JsonArray> compile(final HPermit input, final JsonObject qrJ, final JsonObject config) {
         return Future.succeededFuture(new JsonArray());
+    }
+
+    /*
+     * 解析专用函数
+     * 1）静态模式：全程父类解析
+     * 2）后端模式：子类读取数据 + 父类解析结果（mapping计算）
+     */
+    private Future<JsonArray> normalize(final JsonArray itemA) {
+        final JsonArray data = new JsonArray();
+        Ut.itJArray(itemA, String.class, (itemStr, index) -> {
+            final String[] split = itemStr.split(Strings.COMMA);
+            if (Values.TWO <= split.length) {
+                // 2 == length
+                final JsonObject itemJ = new JsonObject();
+                itemJ.put(KName.VALUE, split[Values.IDX]);
+                itemJ.put(KName.LABEL, split[Values.IDX_1]);
+                // 3 == length
+                if (Values.TWO < split.length) {
+                    itemJ.put(KName.KEY, split[Values.IDX_2]);
+                } else {
+                    itemJ.put(KName.KEY, itemJ.getValue(KName.VALUE));
+                }
+                data.add(itemJ);
+            }
+        });
+        return Future.succeededFuture(data);
+    }
+
+    private Future<JsonArray> normalize(final JsonArray itemA, final HPermit permit) {
+        final JsonArray data = new JsonArray();
+        final JsonObject dmJ = permit.dmJ();
+
+        return null;
     }
 }

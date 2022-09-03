@@ -2,17 +2,16 @@ package io.vertx.aeon.specification.secure;
 
 import io.vertx.aeon.atom.secure.HCatena;
 import io.vertx.aeon.atom.secure.HPermit;
+import io.vertx.aeon.atom.secure.HSemi;
 import io.vertx.aeon.eon.em.ScDim;
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.run.ActPhase;
-import io.vertx.up.exception.web._409DmComponentException;
 import io.vertx.up.exception.web._409UiPhaseEagerException;
 import io.vertx.up.exception.web._409UiSourceNoneException;
 import io.vertx.up.fn.Fn;
-
-import java.util.Objects;
+import io.vertx.up.unity.Ux;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -71,18 +70,22 @@ public abstract class AbstractValve implements HValve {
          * 3）有维度：DELAY 提取
          *    dm ( configure -> compile )       ->  ui ( configure )
          */
+        final HSemi semi = HSemi.create(permit);
         if (ScDim.NONE == permit.shape()) {
             final ActPhase phase = permit.phase();
             // Error-80224，这种模式下，uiPhase 只能定义成 EAGER（由于没有维度）
             Fn.out(ActPhase.EAGER != phase, _409UiPhaseEagerException.class, this.getClass(), phase);
             // 只处理 Ui 部分，不处理其他部分
-            return this.uiConfigure(permit, catena)
-                .compose(item -> this.uiCompile(permit, item))
+            return Ux.future(catena)
+                .compose(semi::uiConfigure)
+                .compose(semi::uiCompile)
                 .compose(item -> this.response(permit, item));
         } else {
             // 同时处理 Dm 不分和 Ui 部分
-            return this.dmConfigure(permit, catena)
-                .compose(item -> this.dmCompile(permit, item))
+
+            return Ux.future(catena)
+                .compose(semi::dmConfigure)
+                .compose(semi::dmCompile)
                 .compose(item -> this.uiSmart(permit, item))
                 .compose(item -> this.response(permit, item));
         }
@@ -91,65 +94,16 @@ public abstract class AbstractValve implements HValve {
     // Ui Smart ( Uniform Call )
     protected Future<HCatena> uiSmart(final HPermit permit, final HCatena catena) {
         final ActPhase phase = permit.phase();
+        final HSemi semi = HSemi.create(permit);
         if (ActPhase.EAGER == phase) {
             // configure + compile
-            return this.uiConfigure(permit, catena)
-                .compose(configured -> this.uiCompile(permit, configured));
+            return Ux.future(catena)
+                .compose(semi::uiConfigure)
+                .compose(semi::uiCompile);
         } else {
             // configure
-            return this.uiConfigure(permit, catena);
+            return semi.uiConfigure(catena);
         }
-    }
-
-    // UI -> configure, 该过程不理睬 phase
-    protected Future<HCatena> uiConfigure(final HPermit permit, final HCatena catena) {
-        final HAdmit ui = catena.admit(false);
-        // 不论 phase 为何，配置UI都会执行
-        return ui.configure(permit, catena.request())
-            .compose(uiJ -> catena.config(uiJ, false));
-    }
-
-    // UI -> compile, 计算相对复杂的流程
-    protected Future<HCatena> uiCompile(final HPermit permit, final HCatena catena) {
-        final ActPhase phase = permit.phase();
-        if (ActPhase.EAGER == phase) {
-            /*
-             * dm = catena -> dataDm    UI编译时，消费的DM维度数据为处理后的维度数据
-             *                          所以
-             *                          1）configDm 永远不会被 UI 消费
-             *                          2）「前端模式」下，configDm 会作为dm输出
-             * ui = catena -> configUi  UI编译的目的是生成UI数据，所以此处的UI数据为原生配置数据
-             *                          所以
-             *                          1）configUi 在生成 UI 时使用
-             *                          2）「前端模式」下，configUi 会作为ui输出
-             * in = catena -> request   此处的请求数据只有一份
-             */
-            final HAdmit ui = catena.admit(false);
-            return ui.compile(permit, catena.medium())
-                .compose(uiJ -> catena.data(uiJ, false));
-        } else {
-            // Nothing Processing
-            return Future.succeededFuture(catena);
-        }
-    }
-
-    // DM -> configure
-    protected Future<HCatena> dmConfigure(final HPermit permit, final HCatena catena) {
-        final HAdmit dm = catena.admit(true);
-        if (Objects.isNull(dm)) {
-            // 60058, `runComponent` 配置错误，而规则中又配置了维度管理信息
-            return Fn.error(_409DmComponentException.class, this.getClass(), permit.shape());
-        } else {
-            return dm.configure(permit)
-                .compose(dmJ -> catena.config(dmJ, true));
-        }
-    }
-
-    // DM -> compile
-    protected Future<HCatena> dmCompile(final HPermit permit, final HCatena catena) {
-        final HAdmit dm = catena.admit(true);
-        return dm.compile(permit, catena.config(true))
-            .compose(dmJ -> catena.data(dmJ, true));
     }
 
     /*

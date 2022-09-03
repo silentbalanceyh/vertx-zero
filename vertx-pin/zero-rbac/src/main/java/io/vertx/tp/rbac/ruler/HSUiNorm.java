@@ -1,17 +1,12 @@
 package io.vertx.tp.rbac.ruler;
 
 import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.aeon.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._404AdmitCompilerNullException;
 import io.vertx.tp.rbac.ruler.element.HAdmitCompiler;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -37,11 +32,7 @@ public class HSUiNorm extends AbstractAdmit {
     @SuppressWarnings("all")
     public Future<JsonObject> compile(final HPermit permit, final JsonObject request) {
         /* 提取类型和参数 */
-        final ScIn in = permit.source();
-        final HAdmitCompiler compiler = HAdmitCompiler.instance(in);
-
-        // Error-80225
-        Fn.out(Objects.isNull(compiler), _404AdmitCompilerNullException.class, this.getClass(), in);
+        final HAdmitCompiler compiler = HAdmitCompiler.create(permit, getClass());
 
         final JsonObject config = Ut.valueJObject(request, KName.Rbac.UI);
         final JsonObject qr = Ut.valueJObject(config, KName.Rbac.QR);

@@ -1,9 +1,12 @@
 package io.vertx.tp.rbac.ruler.element;
 
+import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.eon.em.ScIn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.error._404AdmitCompilerNullException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
@@ -21,12 +24,18 @@ public interface HAdmitCompiler {
     /*
      * 此处 qr 已经是做过 fromExpression 解析的值，可直接作为 qr 来处理
      */
-    static HAdmitCompiler instance(final ScIn in) {
+    static HAdmitCompiler create(final HPermit permit, final Class<?> target) {
+        final ScIn in = permit.source();
         final Supplier<HAdmitCompiler> supplier = __H1H.ADMIN_COMPILER.get(in);
         if (Objects.isNull(supplier)) {
             return null;
         }
-        return CCT_ADMIT_COMPILER.pick(supplier, in.name());
+        final HAdmitCompiler compiler = CCT_ADMIT_COMPILER.pick(supplier, in.name());
+
+        // Error-80225
+        final Class<?> targetCls = Objects.isNull(target) ? HAdmitCompiler.class : target;
+        Fn.out(Objects.isNull(compiler), _404AdmitCompilerNullException.class, targetCls, in);
+        return compiler;
     }
 
     Future<JsonArray> ingest(JsonObject qr, JsonObject config);

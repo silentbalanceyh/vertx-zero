@@ -1,5 +1,6 @@
 package io.vertx.tp.rbac.ruler;
 
+import io.vertx.aeon.atom.secure.HCatena;
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
@@ -28,6 +29,9 @@ public class HSUiArea extends AbstractAdmit {
         final JsonArray children = Ut.valueJArray(requestJ, KName.CHILDREN);
         Ut.itJArray(children).forEach(childJ -> {
             // childJ 和 input 的双向检查
+            final HCatena catena = HCatena.instance(childJ);
+            final HPermit permit = catena.permit();
+
         });
         return Ux.future();
     }

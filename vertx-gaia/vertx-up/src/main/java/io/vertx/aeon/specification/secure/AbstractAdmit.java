@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AbstractAdmit implements HAdmit {
+public abstract class AbstractAdmit implements HAdmit {
     protected transient HAtom atom;
     protected transient Hoi owner;
 

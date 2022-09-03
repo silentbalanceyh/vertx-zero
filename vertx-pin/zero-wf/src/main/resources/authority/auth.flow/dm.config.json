@@ -1,5 +1,21 @@
 {
     "items": {
-        "dao": ""
+        "dao": "cn.vertxup.workflow.domain.tables.daos.WFlowDao"
+    },
+    "webAction": [
+        {
+            "icon": "upload",
+            "text": "保存",
+            "type": "primary"
+        },
+        {
+            "icon": "cloud-upload",
+            "text": "保存所有",
+            "type": "primary"
+        }
+    ],
+    "webView": {
+        "name": "`${view}`",
+        "position": "`${position}`"
     }
 }
