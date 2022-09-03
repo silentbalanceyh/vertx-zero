@@ -73,6 +73,9 @@ public class HSemi {
              */
             final HAdmit ui = catena.admit(false);
             return ui.compile(this.permit, catena.medium())
+                /*
+                 * 标准化数据格式，无数据也执行标准格式化输出
+                 */
                 .compose(uiJ -> catena.data(uiJ, false));
         } else {
             // Nothing Processing
