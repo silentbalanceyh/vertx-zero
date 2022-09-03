@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -76,8 +77,7 @@ public class JobService implements JobStub {
              * 1) Supplier here for `JsonObject` generated
              * 2) Mission conversation here to JsonObject directly
              */
-            .compose(Ut.ifNil(JsonObject::new,
-                job -> JobKit.fetchMission(Jt.jobCode(job))));
+            .compose(Fn.ifJ(job -> JobKit.fetchMission(Jt.jobCode(job))));
     }
 
     @Override

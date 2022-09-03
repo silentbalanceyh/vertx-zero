@@ -89,7 +89,7 @@ public class TodoService implements TodoStub {
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchInAsync(KName.KEY, Ut.toJArray(keys))
             .compose(Ux::futureA)
-            .compose(Ut.ifNil(JsonArray::new, (todoArray) -> {
+            .compose(Fn.ifA((todoArray) -> {
                 /*
                  * Update status of WTodo
                  */
@@ -113,7 +113,7 @@ public class TodoService implements TodoStub {
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJNil((todoJson) -> {
+            .compose(Fn.ifJ((todoJson) -> {
                 /*
                  * Update status of WTodo
                  */
@@ -167,7 +167,7 @@ public class TodoService implements TodoStub {
         return Ux.Jooq.on(WTodoDao.class)
             .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
-            .compose(Ut.ifNil(JsonObject::new, (todo) -> Ux.channel(Todo.class, () -> todo, channel -> {
+            .compose(Fn.ifJ((todo) -> Ux.channel(Todo.class, () -> todo, channel -> {
                 Wf.Log.infoInit(this.getClass(), WfMsg.CHANNEL_TODO, channel.getClass().getName());
                 /*
                  * X_TODO channel and data merged.

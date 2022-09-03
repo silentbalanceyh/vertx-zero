@@ -899,49 +899,6 @@ public final class Ut {
     }
 
     /*
-     * Flatting method for function executing
-     * 2) ifNil / ifJNil / ifTNil
-     * 3) ifEmpty / ifJEmpty
-     * 4) ifJValue -> JsonObject field filling of value
-     */
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <T> Function<T, Future<T>> ifNil(final Function<T, Future<T>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifTNil(final Function<T, Future<JsonObject>> executor) {
-        return Apply.<T, JsonObject>applyNil(JsonObject::new, executor);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJNil(final Function<JsonObject, Future<JsonObject>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static Future<JsonObject> ifJNil(final JsonObject input) {
-        return Future.succeededFuture(isNil(input) ? new JsonObject() : input);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJEmpty(final Function<JsonArray, Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(executor);
-    }
-
-    public static Future<JsonArray> ifJEmpty(final JsonArray input, final Supplier<Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(item -> executor.get()).apply(input);
-    }
-
-    public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
-        return Apply.applyEmpty(executor);
-    }
-
-    /*
      * ConfigStoreOptions reading
      * 1) loadJson
      * 2) loadYaml

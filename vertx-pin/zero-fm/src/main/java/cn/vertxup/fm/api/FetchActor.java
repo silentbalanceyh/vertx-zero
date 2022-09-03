@@ -14,6 +14,7 @@ import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -137,19 +138,16 @@ public class FetchActor {
     @Address(Addr.BillItem.FETCH_BOOK_BY_KEY)
     public Future<JsonObject> fetchBook(final String bookId) {
         // Null Prevent
-        return Ut.ifNil(JsonObject::new, this.bookStub::fetchByKey)
-            .apply(bookId);
+        return Fn.ifJ(this.bookStub::fetchByKey).apply(bookId);
     }
 
     @Address(Addr.Settle.FETCH_BY_KEY)
     public Future<JsonObject> fetchSettlement(final String key) {
-        return Ut.ifNil(JsonObject::new, this.qrStub::fetchSettlement)
-            .apply(key);
+        return Fn.ifJ(this.qrStub::fetchSettlement).apply(key);
     }
 
     @Address(Addr.Settle.FETCH_DEBT)
     public Future<JsonObject> fetchDebt(final String key) {
-        return Ut.ifNil(JsonObject::new, this.qrStub::fetchDebt)
-            .apply(key);
+        return Fn.ifJ(this.qrStub::fetchDebt).apply(key);
     }
 }

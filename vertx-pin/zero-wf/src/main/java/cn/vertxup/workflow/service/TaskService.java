@@ -12,9 +12,9 @@ import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.toolkit.ULinkage;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -92,12 +92,12 @@ public class TaskService implements TaskStub {
 
     private Future<WRecord> readTodo(final String key, final WRecord response) {
         return Ux.Jooq.on(WTodoDao.class).<WTodo>fetchByIdAsync(key)
-            .compose(Ut.ifNil(response::bind, todo -> Ux.future(response.task(todo))));
+            .compose(Fn.ifNil(response::bind, todo -> Ux.future(response.task(todo))));
     }
 
     private Future<WRecord> readTicket(final String key, final WRecord response) {
         return Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(key)
-            .compose(Ut.ifNil(response::bind, ticket -> Ux.future(response.ticket(ticket))));
+            .compose(Fn.ifNil(response::bind, ticket -> Ux.future(response.ticket(ticket))));
     }
 
     private Future<WRecord> readChild(final WRecord response) {

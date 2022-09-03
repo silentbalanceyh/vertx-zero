@@ -10,6 +10,7 @@ import io.vertx.tp.optic.business.ExUser;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.tp.optic.feature.Trash;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -75,7 +76,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.fetchAsync(key)
-            .compose(Ut.ifNil(JsonObject::new, original -> {
+            .compose(Fn.ifJ(original -> {
                 final String userId = original.getString(KName.USER_ID);
                 final String current = data.getString(KName.USER_ID);
                 if (Ut.isNil(userId) && Ut.isNil(current)) {
@@ -137,7 +138,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<Boolean> deleteAsync(final String key) {
         return this.fetchAsync(key)
-            .compose(Ut.ifNil(() -> Boolean.TRUE, item -> Ux.channelA(Trash.class,
+            .compose(Fn.ifNil(() -> Boolean.TRUE, item -> Ux.channelA(Trash.class,
                 () -> this.deleteAsync(key, item),
                 tunnel -> tunnel.backupAsync("res.employee", item)
                     .compose(backup -> this.deleteAsync(key, item)))));
@@ -152,12 +153,12 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonObject> updateReference(final String key, final JsonObject data) {
         return this.switchJ(data, (user, filters) -> user.rapport(key, filters)
-            .compose(Ut.ifJNil(response ->
+            .compose(Fn.ifJ(response ->
                 Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::rapport).compose(Ut.ifJNil(response -> {
+        return this.switchJ(input, ExUser::rapport).compose(Fn.ifJ(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));

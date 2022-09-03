@@ -847,8 +847,10 @@ public final class Fn {
      * 4) ifField - 提取字段执行专用，存在一个单字段消费链接专用的API，生成 Consumer<JsonObject>
      * 5) ifCopy / ifCopies - 复制专用，由于复制的第二参和第三参有可能会引起重载时JVM的错误判断，所以采用单复数模式
      * 6) ifDefault - 原来的 ifJValue
-     * 7) 非空检查批量方法
-     *    ifNil / ifNilJ / ifEmpty / ifEmptyA
+     * 7) 扩展非空检查专用方法
+     *    ifNil     - 异步空检查             ofNil  默认值异步
+     *    ifNull    - 同步空检查             ofNull 默认值异步
+     *    ifEmpty   - 异步集合检查（无同步）
      */
     public static JsonObject ifString(final JsonObject json, final String... fields) {
         Arrays.stream(fields).forEach(field -> Wag.ifString(json, field));
@@ -942,5 +944,74 @@ public final class Fn {
                 }
             }
         };
+    }
+
+    // ------------------------------- 异步处理 -----------------
+    // 直接包装
+    public static <I, T> Function<I, Future<T>> ifNil(final Function<I, Future<T>> executor) {
+        return Wash.ifNil(executor);
+    }
+
+    // 默认值同步
+    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
+        return ifNil(supplier, (i) -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
+        return input -> ofNil(() -> Future.succeededFuture(supplier.get()), executor).apply(input);
+    }
+
+    // 默认值异步
+    public static <I, T> Function<I, Future<T>> ofNil(final Supplier<Future<T>> supplier, final Supplier<Future<T>> executor) {
+        return ofNil(supplier, i -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ofNil(final Supplier<Future<T>> supplier, final Function<I, Future<T>> executor) {
+        return Wash.ifNil(supplier, executor);
+    }
+
+    // 变种（全异步，默认值同步）JsonObject
+    public static <I> Function<I, Future<JsonObject>> ifJ(final Function<I, Future<JsonObject>> executor) {
+        return ofNil(() -> Future.succeededFuture(new JsonObject()), executor);
+    }
+
+    public static <I> Function<I, Future<JsonObject>> ifJ(final Supplier<Future<JsonObject>> executor) {
+        return ifJ(i -> executor.get());
+    }
+
+    // 变种（全异步，默认值同步）JsonArray
+    public static <I> Function<I, Future<JsonArray>> ifA(final Function<I, Future<JsonArray>> executor) {
+        return ofNil(() -> Future.succeededFuture(new JsonArray()), executor);
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ifA(final Supplier<Future<JsonArray>> executor) {
+        return ifA(i -> executor.get());
+    }
+
+    // ------------------------------- 同步处理 -----------------
+    public static <I, T> Function<I, Future<T>> ifNul(final Function<I, T> executor) {
+        return Wash.ifNul(executor);
+    }
+
+    // 默认值同步
+    public static <I, T> Function<I, Future<T>> ifNul(final Supplier<T> supplier, final Supplier<T> executor) {
+        return ifNul(supplier, (i) -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ifNul(final Supplier<T> supplier, final Function<I, T> executor) {
+        return input -> ofNul(() -> Future.succeededFuture(supplier.get()), executor).apply(input);
+    }
+
+    // 默认值异步
+    public static <I, T> Function<I, Future<T>> ofNul(final Supplier<Future<T>> supplier, final Supplier<T> executor) {
+        return ofNul(supplier, i -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ofNul(final Supplier<Future<T>> supplier, final Function<I, T> executor) {
+        return Wash.ifNul(supplier, executor);
+    }
+
+    public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
+        return Wash.ifEmpty(executor);
     }
 }

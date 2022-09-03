@@ -11,6 +11,7 @@ import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -85,7 +86,7 @@ public class AtomSwitcher implements Switcher {
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " Identifier 选择器：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
-            return this.indent.resolve(input, config).compose(Ut.ifNil(
+            return this.indent.resolve(input, config).compose(Fn.ifNil(
 
                 /* 默认值，配置优先 */
                 () -> defaultAtom,
@@ -114,7 +115,7 @@ public class AtomSwitcher implements Switcher {
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " Identifier 选择器（批量）：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
-            return this.indent.resolve(input, atom.identifier(), config).compose(Ut.ifNil(
+            return this.indent.resolve(input, atom.identifier(), config).compose(Fn.ifNil(
                 /* 默认值，配置优先 */
                 HashSet::new,
 

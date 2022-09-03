@@ -16,8 +16,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.channel.Pocket;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.experiment.specification.KTransform;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +37,7 @@ class FabricTran implements Tran {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         if (in.canTransform()) {
-            return this.fabric(in).compose(Ut.ifNil(() -> data, fabric ->
+            return this.fabric(in).compose(Fn.ifNil(() -> data, fabric ->
                 this.isFrom ? fabric.inFrom(data) : fabric.inTo(data)));
         } else {
             return Ux.future(data);
@@ -47,7 +47,7 @@ class FabricTran implements Tran {
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         if (in.canTransform()) {
-            return this.fabric(in).compose(Ut.ifNil(() -> data, fabric ->
+            return this.fabric(in).compose(Fn.ifNil(() -> data, fabric ->
                 this.isFrom ? fabric.inFrom(data) : fabric.inTo(data)));
         } else {
             return Ux.future(data);

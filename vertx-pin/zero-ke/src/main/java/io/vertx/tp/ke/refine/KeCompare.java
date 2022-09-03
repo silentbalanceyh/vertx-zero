@@ -80,8 +80,8 @@ class KeCompare {
                 String.valueOf(updated.size()));
 
             final List<Future<JsonArray>> futures = new ArrayList<>();
-            futures.add(Ut.ifJEmpty(iFun).apply(inserted));
-            futures.add(Ut.ifJEmpty(uFun).apply(updated));
+            futures.add(Fn.ifA(iFun).apply(inserted));
+            futures.add(Fn.ifA(uFun).apply(updated));
             return Fn.compressA(futures);
         };
     }
