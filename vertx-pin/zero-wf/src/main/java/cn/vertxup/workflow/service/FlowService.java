@@ -7,6 +7,7 @@ import io.vertx.tp.optic.ui.Form;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
@@ -35,7 +36,7 @@ public class FlowService implements FlowStub {
                 response.mergeIn(workflow);
                 response.mergeIn(definitionJ);
                 // configuration should be JsonObject type
-                Ut.ifJObject(
+                Fn.ifJObject(
                     response,
                     KName.Flow.CONFIG_START,
                     KName.Flow.CONFIG_AUTHORIZED,

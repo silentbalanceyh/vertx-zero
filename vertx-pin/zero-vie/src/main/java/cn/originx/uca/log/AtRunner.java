@@ -15,6 +15,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.experiment.mixture.HAttribute;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -156,7 +157,7 @@ class AtRunner {
                         .insertAsync(changeList)
                         .compose(nil -> Ux.future(inserted))
                         .compose(Ux::futureJ)
-                        .compose(Ut.ifJObject(KName.METADATA, KName.RECORD_NEW, KName.RECORD_OLD))
+                        .compose(Fn.ifJObject(KName.METADATA, KName.RECORD_NEW, KName.RECORD_OLD))
                         .compose(activityResult -> {
                             /*
                              * 特殊字段判断是否继续生成待确认

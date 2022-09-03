@@ -38,7 +38,7 @@ class AtFs {
         if (Objects.nonNull(config)) {
             appJ.put(KName.STORE_PATH, config.getStorePath());
         }
-        return Ux.futureJ(appJ).compose(Ut.ifJObject(KName.App.LOGO));
+        return Ux.futureJ(appJ).compose(Fn.ifJObject(KName.App.LOGO));
     }
 
     static Future<Buffer> fileDownload(final JsonArray attachment) {

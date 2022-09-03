@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.cv.BkCv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -62,7 +63,7 @@ public class BlockService implements BlockStub {
 
     private Future<JsonArray> fetchBlock(final JsonObject condition) {
         // Block Processing
-        return Ux.Jooq.on(BBlockDao.class).fetchJAsync(condition).compose(Ut.ifJArray(
+        return Ux.Jooq.on(BBlockDao.class).fetchJAsync(condition).compose(Fn.ifJArray(
             KName.Flow.UI_STYLE,
             KName.Flow.UI_CONFIG,
             BkCv.License.LIC_IDENTIFIER,

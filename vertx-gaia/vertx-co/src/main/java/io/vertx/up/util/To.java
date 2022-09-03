@@ -168,6 +168,11 @@ final class To {
         }
     }
 
+    static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonObject parsed = toJObject(literal);
+        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+    }
+
     static JsonArray toJArray(final String literal) {
         if (Ut.isNil(literal)) {
             return new JsonArray();
@@ -177,6 +182,17 @@ final class To {
             } catch (final DecodeException ex) {
                 return new JsonArray();
             }
+        }
+    }
+
+    static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonArray parsed = toJArray(literal);
+        if (Objects.isNull(itemFn)) {
+            return parsed;
+        } else {
+            final JsonArray replaced = new JsonArray();
+            Ut.itJArray(parsed).map(itemFn).forEach(replaced::add);
+            return replaced;
         }
     }
 

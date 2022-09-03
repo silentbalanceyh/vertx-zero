@@ -69,7 +69,7 @@ public class LinkService implements LinkStub {
         futures.add(jooq.updateAsync(queueU));
         return Fn.compressL(futures)
             .compose(Ux::futureA)
-            .compose(Ut.ifJArray(KName.SOURCE_DATA, KName.TARGET_DATA));
+            .compose(Fn.ifJArray(KName.SOURCE_DATA, KName.TARGET_DATA));
     }
 
     @Override

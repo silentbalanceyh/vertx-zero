@@ -92,7 +92,7 @@ public class ListService implements ListStub {
         /*
          * Capture important configuration here
          */
-        Ut.ifJObject(listJson,
+        Fn.ifJObject(listJson,
             ListStub.FIELD_OPTIONS,
             ListStub.FIELD_OPTIONS_AJAX,
             ListStub.FIELD_OPTIONS_SUBMIT,
@@ -116,7 +116,7 @@ public class ListService implements ListStub {
         return Ux.Jooq.on(UiOpDao.class)
             .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
             .compose(Ux::futureA)
-            .compose(Ut.ifJArray(KName.Ui.CONFIG));
+            .compose(Fn.ifJArray(KName.Ui.CONFIG));
     }
 
     @Override

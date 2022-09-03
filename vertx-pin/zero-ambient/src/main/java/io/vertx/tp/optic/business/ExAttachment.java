@@ -10,6 +10,7 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -106,7 +107,7 @@ public class ExAttachment implements Attachment {
             return At.fileDir(data, params).compose(normalized -> {
                 // Fix: com.fasterxml.jackson.databind.exc.MismatchedInputException:
                 // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
-                Ut.ifStrings(normalized, KName.METADATA);
+                Fn.ifStrings(normalized, KName.METADATA);
                 final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
                 return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
 
@@ -119,14 +120,14 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> updateAsync(final JsonArray attachmentJ, final boolean active) {
-        Ut.ifStrings(attachmentJ, KName.METADATA);
+        Fn.ifStrings(attachmentJ, KName.METADATA);
         Ut.itJArray(attachmentJ).forEach(attachment -> {
             attachment.put(KName.UPDATED_AT, Instant.now());
             attachment.put(KName.ACTIVE, active);
         });
         final List<XAttachment> attachments = Ux.fromJson(attachmentJ, XAttachment.class);
         return Ux.Jooq.on(XAttachmentDao.class).updateAsyncJ(attachments)
-            .compose(Ut.ifJArray(KName.METADATA));
+            .compose(Fn.ifJArray(KName.METADATA));
     }
 
     @Override
@@ -207,7 +208,7 @@ public class ExAttachment implements Attachment {
                 }
             });
             return Ux.future(files);
-        })).compose(Ut.ifJArray(KName.METADATA)).compose(attachments -> {
+        })).compose(Fn.ifJArray(KName.METADATA)).compose(attachments -> {
             Ut.itJArray(attachments).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
             return Ux.future(attachments);
         });

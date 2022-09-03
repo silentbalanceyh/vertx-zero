@@ -905,50 +905,8 @@ public final class Ut {
      * 3) ifEmpty / ifJEmpty
      * 4) ifJValue -> JsonObject field filling of value
      * 5) ifJCopy -> JsonObject copy self
-     * 6) ifJObject / ifJArray / ifPage
-     * 7) ifString / ifStrings
      * 8) ifJAssign -> Source Json -> Target Json copy fields
      */
-
-    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
-        return array;
-    }
-
-    public static JsonObject ifString(final JsonObject json, final String... fields) {
-        Apply.ifString(json, fields);
-        return json;
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
-        return Apply.ifStrings(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
-        return Apply.ifString(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
-        return Apply.ifJObject(fields);
-    }
-
-    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
-        Apply.ifJson(json, fields);
-        return json;
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
-        return Apply.ifPage(fields);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
-        return Apply.ifJArray(fields);
-    }
-
-    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
-        return array;
-    }
 
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
         return Apply.applyField(input, null);
@@ -1406,6 +1364,10 @@ public final class Ut {
         return To.toJArray(literal);
     }
 
+    public static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJArray(literal, itemFn);
+    }
+
     public static <T> JsonArray toJArray(final T value, final int repeat) {
         return To.toJArray(value, repeat);
     }
@@ -1428,6 +1390,10 @@ public final class Ut {
 
     public static JsonObject toJObject(final String literal) {
         return To.toJObject(literal);
+    }
+
+    public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJObject(literal, itemFn);
     }
 
     public static JsonObject toJObject(final Object value) {

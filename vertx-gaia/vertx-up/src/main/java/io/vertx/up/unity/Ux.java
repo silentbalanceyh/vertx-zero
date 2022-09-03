@@ -478,22 +478,18 @@ public final class Ux {
      * -- futureE(T)
      * -- futureE(Supplier)
      *
-     * Spec Data
-     * 6) futureJA
-     * -- futureJA(JsonArray)
-     *
      * New Api for normalized mount
-     * 7) futureN
+     * 6) futureN
      * -- futureN(JsonObject, JsonObject)
      * -- futureN(JsonArray, JsonArray)
      * -- futureN(JsonArray, JsonArray, String)
      * > N for normalize and add new field:  __data,  __flag instead of original data
      *
      * Combine JsonObject and JsonArray by index
-     * 8) futureC
+     * 7) futureC
      *
      * Filter JsonObject and JsonArray
-     * 9) futureF
+     * 8) futureF
      * -- futureF(String...)
      * -- futureF(Set<String>)
      * -- futureF(ClustSerializble, String...)

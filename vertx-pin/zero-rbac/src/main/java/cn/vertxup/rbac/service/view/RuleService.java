@@ -73,7 +73,7 @@ public class RuleService implements RuleStub {
             /*
              * JsonObject Configuration for SPath here
              */
-            Ut.ifJObject(pathJ,
+            Fn.ifJObject(pathJ,
                 // UI Configuration
                 KName.UI_CONFIG,
                 KName.UI_CONDITION,
@@ -143,7 +143,7 @@ public class RuleService implements RuleStub {
         condition.put("resourceId,i", keys);
         condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
-            .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
+            .compose(Fn.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
     }
 
     @Override
@@ -214,7 +214,7 @@ public class RuleService implements RuleStub {
                 })
                 .compose(nil -> jooq.insertAsync(addQueue))
                 .compose(Ux::futureA)
-                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
+                .compose(Fn.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
                 //                .compose(Ke.mounts("rows", "criteria"))
                 //                .compose(result -> {
                 //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));

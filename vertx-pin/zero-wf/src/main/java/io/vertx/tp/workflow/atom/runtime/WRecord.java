@@ -517,7 +517,7 @@ public class WRecord implements Serializable {
 
     private void onTicket(final JsonObject response) {
         final JsonObject ticketJ = Ux.toJson(this.ticket);
-        Ut.ifJObject(ticketJ, KName.MODEL_CHILD);
+        Fn.ifJObject(ticketJ, KName.MODEL_CHILD);
         // WTicket
         // traceKey <- key
         ticketJ.put(KName.Flow.TRACE_KEY, this.ticket.getKey());

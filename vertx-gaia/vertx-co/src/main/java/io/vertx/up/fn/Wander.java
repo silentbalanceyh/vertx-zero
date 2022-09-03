@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 /**
- * 原输出类专用函数，Ux.中的 attach, out, futureB 等类似输出型方法，全部转移到该类中
+ * 原输出类专用函数，Ux.中的 attach, out, futureB, futureJA 等类似输出型方法，全部转移到该类中
  * 统一使用前缀 wrap 执行处理
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -12,6 +12,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -62,7 +63,7 @@ class IsDir {
     static JsonObject input(JsonObject directoryJ) {
         // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
         directoryJ = directoryJ.copy();
-        Ut.ifString(directoryJ,
+        Fn.ifString(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -73,7 +74,7 @@ class IsDir {
 
     static JsonArray input(JsonArray directoryJ) {
         directoryJ = directoryJ.copy();
-        Ut.ifStrings(directoryJ,
+        Fn.ifStrings(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -83,7 +84,7 @@ class IsDir {
     }
 
     static Future<JsonObject> output(final JsonObject response) {
-        return Ut.ifJObject(
+        return Fn.ifJObject(
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -96,7 +97,7 @@ class IsDir {
     }
 
     static Future<JsonArray> output(final JsonArray response) {
-        return Ut.ifJArray(
+        return Fn.ifJArray(
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,

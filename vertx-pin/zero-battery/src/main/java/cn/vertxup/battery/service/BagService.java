@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -34,7 +35,7 @@ public class BagService implements BagStub {
     }
 
     private Future<JsonArray> fetchBag(final JsonObject condition) {
-        return Ux.Jooq.on(BBagDao.class).fetchJAsync(condition).compose(Ut.ifJArray(
+        return Ux.Jooq.on(BBagDao.class).fetchJAsync(condition).compose(Fn.ifJArray(
             KName.Flow.UI_STYLE,
             KName.Flow.UI_CONFIG
         ));

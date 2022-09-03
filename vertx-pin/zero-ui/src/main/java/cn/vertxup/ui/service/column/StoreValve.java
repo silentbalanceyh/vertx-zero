@@ -10,9 +10,9 @@ import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -83,7 +83,7 @@ class StoreValve implements UiValve {
         Ke.runString(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
-            Ut.ifJObject(columnJson, "$filter.config");
+            Fn.ifJObject(columnJson, "$filter.config");
         });
         /*
          * Zero Config
@@ -91,11 +91,11 @@ class StoreValve implements UiValve {
         Ke.runString(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
         Ke.runString(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
-            Ut.ifJObject(columnJson, "$mapping");
+            Fn.ifJObject(columnJson, "$mapping");
         });
         Ke.runString(column::getConfig, (config) -> {
             columnJson.put("$config", config);
-            Ut.ifJObject(columnJson, "$config");
+            Fn.ifJObject(columnJson, "$config");
         });
         return columnJson;
     }

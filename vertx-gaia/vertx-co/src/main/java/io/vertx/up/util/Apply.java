@@ -3,8 +3,6 @@ package io.vertx.up.util;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.config.Metadata;
-import io.vertx.up.eon.KName;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -131,101 +129,5 @@ class Apply {
             }
             return record;
         }
-    }
-
-    static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
-        return jarray -> {
-            It.itJArray(jarray).forEach(json ->
-                Arrays.stream(fields).forEach(field -> ifString(json, field)));
-            return Future.succeededFuture(jarray);
-        };
-    }
-
-    static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
-        return json -> {
-            Arrays.stream(fields).forEach(field -> ifString(json, field));
-            return Future.succeededFuture(json);
-        };
-    }
-
-    static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
-        return json -> {
-            Arrays.stream(fields).forEach(field -> ifJson(json, field));
-            return Future.succeededFuture(json);
-        };
-    }
-
-    static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
-        return json -> {
-            if (json.containsKey(KName.LIST)) {
-                final JsonArray listRef = json.getJsonArray(KName.LIST);
-                It.itJArray(listRef).forEach(each ->
-                    Arrays.stream(fields).forEach(field -> ifJson(each, field)));
-                json.put(KName.LIST, listRef);
-            }
-            return Future.succeededFuture(json);
-        };
-    }
-
-    static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
-        return jarray -> {
-            It.itJArray(jarray).forEach(json ->
-                Arrays.stream(fields).forEach(field -> ifJson(json, field)));
-            return Future.succeededFuture(jarray);
-        };
-    }
-
-    static void ifString(final JsonObject json, final String field) {
-        if (!Types.isEmpty(json)) {
-            final Object value = json.getValue(field);
-            if (Objects.nonNull(value)) {
-                if (value instanceof JsonObject) {
-                    final String literal = ((JsonObject) value).encode();
-                    json.put(field, literal);
-                } else if (value instanceof JsonArray) {
-                    final String literal = ((JsonArray) value).encode();
-                    json.put(field, literal);
-                }
-            }
-        }
-    }
-
-    static void ifString(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> ifString(json, field));
-    }
-
-    static void ifJson(final JsonObject json, final String field) {
-        if (!Types.isEmpty(json)) {
-            final Object value = json.getValue(field);
-            if (Objects.nonNull(value)) {
-                final String literal = value.toString();
-                if (Types.isJObject(literal)) {
-                    final JsonObject replaced = To.toJObject(literal);
-                    /*
-                     * Attached metadata workflow to replace mount
-                     */
-                    json.put(field, ifMetadata(replaced));
-                } else if (Types.isJArray(literal)) {
-                    final JsonArray replaced = To.toJArray(literal);
-                    json.put(field, replaced);
-                }
-            }
-        }
-    }
-
-
-    static void ifJson(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> ifJson(json, field));
-    }
-
-    /*
-     * Spec metadata data structure of Json normalized.
-     */
-    private static JsonObject ifMetadata(final JsonObject metadata) {
-        assert Objects.nonNull(metadata) : "Here input metadata should not be null";
-        /*
-         * Structure that will be parsed here.
-         */
-        return new Metadata(metadata).toJson();
     }
 }

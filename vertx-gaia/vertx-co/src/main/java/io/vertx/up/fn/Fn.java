@@ -833,4 +833,58 @@ public final class Fn {
         final String field, final boolean deeply, final Function<T, Future<JsonObject>> executor) {
         return Wander.wrapTree(field, deeply, executor);
     }
+
+    // ------ 防御式专用API
+    /*
+     * smart 功能未开启之前的检查必备
+     * 1) ifString - 检查JsonObject中的 JsonArray / JsonObject，转换成 String
+     *    ifStrings - 检查JsonArray中....
+     * 上述方法对应的逆方法
+     *    ifJObject
+     *    ifJArray
+     * 2) ifPage - 分页专用方法规范：list / count 属性，特定场景使用
+     */
+    public static JsonObject ifString(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Wag.ifString(json, field));
+        return json;
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
+        return json -> Future.succeededFuture(ifString(json, fields));
+    }
+
+    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
+        Ut.itJArray(array).forEach(json -> ifString(json, fields));
+        return array;
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
+        return array -> Future.succeededFuture(ifStrings(array, fields));
+    }
+
+    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Wag.ifJson(json, field));
+        return json;
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
+        return json -> Future.succeededFuture(ifJObject(json, fields));
+    }
+
+    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
+        Ut.itJArray(array).forEach(json -> ifJObject(json, fields));
+        return array;
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
+        return array -> Future.succeededFuture(ifJArray(array, fields));
+    }
+
+    public static JsonObject ifPage(final JsonObject pageData, final String... fields) {
+        return Wag.ifPage(pageData, fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
+        return pageData -> Future.succeededFuture(ifPage(pageData, fields));
+    }
 }

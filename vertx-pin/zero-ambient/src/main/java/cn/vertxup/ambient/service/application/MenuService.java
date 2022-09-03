@@ -9,9 +9,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class MenuService implements MenuStub {
         return Ux.Jooq.on(XMenuDao.class)
             .fetchJAsync(KName.APP_ID, appId)
             // metadata field extraction
-            .compose(Ut.ifJArray(KName.METADATA));
+            .compose(Fn.ifJArray(KName.METADATA));
     }
 
     @Override

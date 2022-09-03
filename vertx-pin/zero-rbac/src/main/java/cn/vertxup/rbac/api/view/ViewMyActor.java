@@ -15,6 +15,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -70,7 +71,7 @@ public class ViewMyActor {
                 return this.personalStub.byUser(action.getResourceId(), userId,
                         data.getString(KName.POSITION))
                     .compose(Ux::futureA)
-                    .compose(Ut.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
+                    .compose(Fn.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
             }
         });
     }
@@ -112,7 +113,7 @@ public class ViewMyActor {
     public Future<JsonObject> pViewById(final String key) {
         return this.personalStub.byId(key)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
     @Address(Addr.View.VIEW_P_UPDATE)
@@ -126,7 +127,7 @@ public class ViewMyActor {
         data.put(KName.USER, userId);
         return this.personalStub.update(key, data)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
 
