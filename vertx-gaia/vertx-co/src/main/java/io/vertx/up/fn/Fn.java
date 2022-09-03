@@ -165,6 +165,10 @@ public final class Fn {
         Wall.exec(condition, null, tSupplier, null);
     }
 
+    public static <T> void safeSemi(final Supplier<T> supplier, final Consumer<T> consumer) {
+        Wall.safeT(supplier, consumer);
+    }
+
     public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
@@ -834,6 +838,14 @@ public final class Fn {
         return Wander.wrapTree(field, deeply, executor);
     }
 
+    public static Future<JsonObject> wrapWeb(final JsonObject json, final String field) {
+        return Wander.wrapWeb(json, field);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> wrapWeb(final String field) {
+        return json -> wrapWeb(json, field);
+    }
+
     // ------ 防御式专用API
     /*
      * smart 功能未开启之前的检查必备
@@ -971,21 +983,21 @@ public final class Fn {
     }
 
     // 变种（全异步，默认值同步）JsonObject
-    public static <I> Function<I, Future<JsonObject>> ifJ(final Function<I, Future<JsonObject>> executor) {
+    public static <I> Function<I, Future<JsonObject>> ofJObject(final Function<I, Future<JsonObject>> executor) {
         return ofNil(() -> Future.succeededFuture(new JsonObject()), executor);
     }
 
-    public static <I> Function<I, Future<JsonObject>> ifJ(final Supplier<Future<JsonObject>> executor) {
-        return ifJ(i -> executor.get());
+    public static <I> Function<I, Future<JsonObject>> ofJObject(final Supplier<Future<JsonObject>> executor) {
+        return ofJObject(i -> executor.get());
     }
 
     // 变种（全异步，默认值同步）JsonArray
-    public static <I> Function<I, Future<JsonArray>> ifA(final Function<I, Future<JsonArray>> executor) {
+    public static <I> Function<I, Future<JsonArray>> ofJArray(final Function<I, Future<JsonArray>> executor) {
         return ofNil(() -> Future.succeededFuture(new JsonArray()), executor);
     }
 
-    public static <I> Function<I, Future<JsonArray>> ifA(final Supplier<Future<JsonArray>> executor) {
-        return ifA(i -> executor.get());
+    public static <I> Function<I, Future<JsonArray>> ofJArray(final Supplier<Future<JsonArray>> executor) {
+        return ofJArray(i -> executor.get());
     }
 
     // ------------------------------- 同步处理 -----------------

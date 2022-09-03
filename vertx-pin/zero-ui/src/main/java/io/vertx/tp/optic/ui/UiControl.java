@@ -1,5 +1,6 @@
 package io.vertx.tp.optic.ui;
 
+import io.vertx.aeon.specification.action.HCombiner;
 import io.vertx.core.json.JsonObject;
 
 /*
@@ -11,5 +12,5 @@ import io.vertx.core.json.JsonObject;
  * 3. UI_OP is standalone and it will not be combined by combiner but another api
  *    instead for frontend usage.
  */
-public interface UiControl extends Combiner<JsonObject> {
+public interface UiControl extends HCombiner<JsonObject> {
 }

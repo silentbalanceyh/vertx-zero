@@ -1,5 +1,7 @@
 package io.vertx.up.fn;
 
+import io.vertx.aeon.runtime.H3H;
+import io.vertx.aeon.specification.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -106,6 +108,23 @@ class Wander {
                 return Future.succeededFuture(mount);
             });
         };
+    }
+
+    /*
+     * HCombiner Process On Web UI
+     */
+    @SuppressWarnings("unchecked")
+    static Future<JsonObject> wrapWeb(final JsonObject json, final String field) {
+        if (Ut.isNil(json) || !json.containsKey(field) || Ut.isNil(field)) {
+            return Future.succeededFuture(json);
+        }
+        // Class<?>
+        final Class<?> clazz = Ut.valueC(json, field, null);
+        if (Objects.isNull(clazz)) {
+            return Future.succeededFuture(json);
+        }
+        final HCombiner<JsonObject> combiner = (HCombiner<JsonObject>) H3H.CC_COMBINER.pick(() -> Ut.instance(clazz), clazz.getName());
+        return combiner.combine(json);
     }
 
     /*

@@ -76,7 +76,7 @@ public class EmployeeService implements EmployeeStub {
     @Override
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.fetchAsync(key)
-            .compose(Fn.ifJ(original -> {
+            .compose(Fn.ofJObject(original -> {
                 final String userId = original.getString(KName.USER_ID);
                 final String current = data.getString(KName.USER_ID);
                 if (Ut.isNil(userId) && Ut.isNil(current)) {
@@ -153,12 +153,12 @@ public class EmployeeService implements EmployeeStub {
 
     private Future<JsonObject> updateReference(final String key, final JsonObject data) {
         return this.switchJ(data, (user, filters) -> user.rapport(key, filters)
-            .compose(Fn.ifJ(response ->
+            .compose(Fn.ofJObject(response ->
                 Ux.future(data.put(KName.USER_ID, response.getString(KName.KEY))))));
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::rapport).compose(Fn.ifJ(response -> {
+        return this.switchJ(input, ExUser::rapport).compose(Fn.ofJObject(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));

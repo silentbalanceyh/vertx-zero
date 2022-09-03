@@ -5,7 +5,6 @@ import cn.vertxup.ui.domain.tables.pojos.UiColumn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
@@ -56,20 +55,20 @@ class StoreValve implements UiValve {
          * fixed
          * width
          */
-        Ke.runBoolean(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
-        Ke.runBoolean(column::getFixed, (fixed) -> {
+        Fn.safeSemi(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
+        Fn.safeSemi(column::getFixed, (fixed) -> {
             if (fixed) {
                 columnJson.put("fixed", "left");
             } else {
                 columnJson.put("fixed", "right");
             }
         });
-        Ke.runString(column::getClassName, (className) -> columnJson.put("className", className));
-        Ke.runInteger(column::getWidth, (width) -> columnJson.put("width", width));
+        Fn.safeSemi(column::getClassName, (className) -> columnJson.put("className", className));
+        Fn.safeSemi(column::getWidth, (width) -> columnJson.put("width", width));
         /*
          * If render
          */
-        Ke.runString(column::getRender, (render) -> {
+        Fn.safeSemi(column::getRender, (render) -> {
             columnJson.put("$render", render);
             if ("DATE".equals(render)) {
                 assert null != column.getFormat() : " $format should not be null when DATE";
@@ -80,7 +79,7 @@ class StoreValve implements UiValve {
                 columnJson.put("$datum", column.getDatum());
             }
         });
-        Ke.runString(column::getFilterType, (filterType) -> {
+        Fn.safeSemi(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
             Fn.ifJObject(columnJson, "$filter.config");
@@ -88,12 +87,12 @@ class StoreValve implements UiValve {
         /*
          * Zero Config
          */
-        Ke.runString(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
-        Ke.runString(column::getMapping, (mapping) -> {
+        Fn.safeSemi(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
+        Fn.safeSemi(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
             Fn.ifJObject(columnJson, "$mapping");
         });
-        Ke.runString(column::getConfig, (config) -> {
+        Fn.safeSemi(column::getConfig, (config) -> {
             columnJson.put("$config", config);
             Fn.ifJObject(columnJson, "$config");
         });

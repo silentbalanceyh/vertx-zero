@@ -3,6 +3,7 @@ package io.vertx.aeon.runtime;
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.atom.secure.HSemi;
 import io.vertx.aeon.atom.secure.Hoi;
+import io.vertx.aeon.specification.action.HCombiner;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 
@@ -34,4 +35,10 @@ public interface H3H {
      */
     Cc<String, HPermit> CC_PERMIT = Cc.open();
     Cc<String, HSemi> CC_SEMI = Cc.open();
+
+    /*
+     * 「界面级别处理」
+     */
+    @SuppressWarnings("all")
+    Cc<String, HCombiner> CC_COMBINER = Cc.openThread();
 }

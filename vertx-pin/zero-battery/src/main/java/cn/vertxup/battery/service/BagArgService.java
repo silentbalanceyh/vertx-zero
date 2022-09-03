@@ -77,7 +77,7 @@ public class BagArgService implements BagArgStub {
         Objects.requireNonNull(bagId);
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchByIdAsync(bagId)
             // Cache Processing
-            .compose(Fn.ifJ(bag -> this.saveConfigure(bag, data)));
+            .compose(Fn.ofJObject(bag -> this.saveConfigure(bag, data)));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class BagArgService implements BagArgStub {
         Objects.requireNonNull(nameAbbr);
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync("nameAbbr", nameAbbr)
             // Cache Processing
-            .compose(Fn.ifJ(bag -> this.saveConfigure(bag, data)));
+            .compose(Fn.ofJObject(bag -> this.saveConfigure(bag, data)));
     }
 
     private Future<JsonObject> saveConfigure(final BBag bag, final JsonObject data) {

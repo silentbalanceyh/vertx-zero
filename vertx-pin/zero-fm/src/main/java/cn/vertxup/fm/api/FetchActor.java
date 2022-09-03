@@ -138,16 +138,16 @@ public class FetchActor {
     @Address(Addr.BillItem.FETCH_BOOK_BY_KEY)
     public Future<JsonObject> fetchBook(final String bookId) {
         // Null Prevent
-        return Fn.ifJ(this.bookStub::fetchByKey).apply(bookId);
+        return Fn.ofJObject(this.bookStub::fetchByKey).apply(bookId);
     }
 
     @Address(Addr.Settle.FETCH_BY_KEY)
     public Future<JsonObject> fetchSettlement(final String key) {
-        return Fn.ifJ(this.qrStub::fetchSettlement).apply(key);
+        return Fn.ofJObject(this.qrStub::fetchSettlement).apply(key);
     }
 
     @Address(Addr.Settle.FETCH_DEBT)
     public Future<JsonObject> fetchDebt(final String key) {
-        return Fn.ifJ(this.qrStub::fetchDebt).apply(key);
+        return Fn.ofJObject(this.qrStub::fetchDebt).apply(key);
     }
 }

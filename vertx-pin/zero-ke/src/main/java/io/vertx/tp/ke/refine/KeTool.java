@@ -18,8 +18,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 class KeTool {
 
@@ -74,19 +72,6 @@ class KeTool {
             mapData.forEach(data::put);
             return Ux.future(data);
         });
-    }
-
-    static <T> void consume(final Supplier<T> supplier, final Consumer<T> consumer) {
-        final T input = supplier.get();
-        if (Objects.nonNull(input)) {
-            if (input instanceof String) {
-                if (Ut.notNil((String) input)) {
-                    consumer.accept(input);
-                }
-            } else {
-                consumer.accept(input);
-            }
-        }
     }
 
     static void banner(final String module) {

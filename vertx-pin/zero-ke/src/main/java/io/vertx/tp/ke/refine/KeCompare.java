@@ -3,7 +3,6 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.ui.Combiner;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
@@ -21,18 +20,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 class KeCompare {
-
-    static Function<JsonObject, Future<JsonObject>> combineAsync(final String field) {
-        return json -> {
-            if (Ut.isNil(json) || !json.containsKey(field)) {
-                return Ux.future(json);
-            } else {
-                final Class<?> clazz = Ut.clazz(json.getString(field));
-                final Combiner<JsonObject> fabric = Ut.instance(clazz);
-                return fabric.combine(json);
-            }
-        };
-    }
 
     /*
      * ADD / UPDATE
@@ -80,8 +67,8 @@ class KeCompare {
                 String.valueOf(updated.size()));
 
             final List<Future<JsonArray>> futures = new ArrayList<>();
-            futures.add(Fn.ifA(iFun).apply(inserted));
-            futures.add(Fn.ifA(uFun).apply(updated));
+            futures.add(Fn.ofJArray(iFun).apply(inserted));
+            futures.add(Fn.ofJArray(uFun).apply(updated));
             return Fn.compressA(futures);
         };
     }

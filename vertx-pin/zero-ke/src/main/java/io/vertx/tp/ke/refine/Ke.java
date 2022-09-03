@@ -14,7 +14,9 @@ import org.jooq.Configuration;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @SuppressWarnings("all")
 public class Ke {
@@ -59,10 +61,6 @@ public class Ke {
         return KeCompare.combineAsync(data, headers, columns, HTAtom);
     }
 
-    public static Function<JsonObject, Future<JsonObject>> fabricFn(final String field) {
-        return KeCompare.combineAsync(field);
-    }
-
     /*
      * 1. mapFn(String, ConcurrentMap<String,JsonObject>, fn)
      * 2. mapFn(ConcurrentMap<String,JsonObject>, fn)
@@ -96,25 +94,6 @@ public class Ke {
 
     public static void debugKe(final Annal logger, final String pattern, final Object... args) {
         KeLog.debugKe(logger, pattern, args);
-    }
-
-    /*
-     * Execution combined for function chain
-     *
-     * 1. runString(Supplier<String>, Consumer<String>)
-     * 2. runBoolean(Supplier<Boolean>, Consumer<Boolean>)
-     * 3. runInteger(Supplier<Integer>, Consumer<Integer>)
-     */
-    public static void runString(final Supplier<String> supplier, final Consumer<String> consumer) {
-        KeTool.consume(supplier, consumer);
-    }
-
-    public static void runBoolean(final Supplier<Boolean> supplier, final Consumer<Boolean> consumer) {
-        KeTool.consume(supplier, consumer);
-    }
-
-    public static void runInteger(final Supplier<Integer> supplier, final Consumer<Integer> consumer) {
-        KeTool.consume(supplier, consumer);
     }
 
     /*

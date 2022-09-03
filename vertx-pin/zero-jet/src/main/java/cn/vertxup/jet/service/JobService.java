@@ -77,7 +77,7 @@ public class JobService implements JobStub {
              * 1) Supplier here for `JsonObject` generated
              * 2) Mission conversation here to JsonObject directly
              */
-            .compose(Fn.ifJ(job -> JobKit.fetchMission(Jt.jobCode(job))));
+            .compose(Fn.ofJObject(job -> JobKit.fetchMission(Jt.jobCode(job))));
     }
 
     @Override
