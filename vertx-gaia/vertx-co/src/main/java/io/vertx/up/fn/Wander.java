@@ -5,6 +5,7 @@ import io.vertx.aeon.specification.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.util.Ut;
 
@@ -20,6 +21,29 @@ import java.util.function.Function;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class Wander {
+    /*
+     * 构造 data = ? 的最终数据结构
+     * 默认不分组，直接构造，config =
+     * {
+     *     "group": "field"
+     * }
+     * 这种模式下会根据 field 执行分组构造，最终的 data = JsonObject
+     */
+    static JsonObject wrapJ(final String key, final JsonArray data) {
+        return new JsonObject().put(key, data);
+    }
+
+    static JsonObject wrapJ(final String key, final JsonArray data, final JsonObject config) {
+        final String group = Ut.valueString(config, KName.GROUP);
+        final JsonObject response = new JsonObject();
+        if (Ut.isNil(group)) {
+            response.put(key, data);
+        } else {
+            final ConcurrentMap<String, JsonArray> grouped = Ut.elementGroup(data, group);
+            response.put(KName.DATA, Ut.toJObject(grouped));
+        }
+        return response;
+    }
     /*
      * 三种情况：
      * 1）field = value ->
@@ -43,10 +67,6 @@ class Wander {
     static JsonObject wrapJ(final String key, final boolean checked) {
         final KValue.Bool response = checked ? KValue.Bool.SUCCESS : KValue.Bool.FAILURE;
         return new JsonObject().put(key, response.name());
-    }
-
-    static JsonObject wrapJ(final String key, final JsonArray data) {
-        return new JsonObject().put(key, data);
     }
 
     /*

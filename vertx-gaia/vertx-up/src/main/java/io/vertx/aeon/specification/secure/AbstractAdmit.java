@@ -4,15 +4,11 @@ import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -64,19 +60,5 @@ public abstract class AbstractAdmit implements HAdmit {
         }
         // 维度模型使用统一的Qr构造器，这部分变数比较大，从 Hoi 直接绑定执行器来处理
         return Ut.fromExpression(qrJ, parameters);
-    }
-
-    protected Future<JsonObject> outputJ(final JsonArray data, final JsonObject config) {
-        final JsonObject output = Ut.valueJObject(config, KName.OUTPUT);
-        final String group = Ut.valueString(output, KName.GROUP);
-        final JsonObject response = config.copy();
-        if (Ut.isNil(group)) {
-            response.put(KName.DATA, data);
-        } else {
-            final ConcurrentMap<String, JsonArray> grouped = Ut.elementGroup(data, group);
-            final JsonObject serialized = Ut.toJObject(grouped);
-            response.put(KName.DATA, serialized);
-        }
-        return Ux.future(response);
     }
 }

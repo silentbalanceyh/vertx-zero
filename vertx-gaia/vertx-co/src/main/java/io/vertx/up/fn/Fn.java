@@ -808,6 +808,14 @@ public final class Fn {
         return Future.succeededFuture(Wander.wrapJ(KName.DATA, data));
     }
 
+    public static Future<JsonObject> wrapJ(final JsonArray data, final JsonObject config) {
+        return Future.succeededFuture(Wander.wrapJ(KName.DATA, data, config));
+    }
+
+    public static Future<JsonObject> wrapJ(final String field, final JsonArray data, final JsonObject config) {
+        return Future.succeededFuture(Wander.wrapJ(field, data, config));
+    }
+
     // json -> bool
     public static Future<Boolean> wrapB(final String field, final JsonObject input) {
         return Future.succeededFuture(Wander.wrapB(field, input));
