@@ -67,7 +67,7 @@ final class To {
     }
 
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
-        return Fn.getJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
+        return Fn.orJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
     }
 
     static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
@@ -89,7 +89,7 @@ final class To {
     }
 
     static Integer toInteger(final Object value) {
-        return Fn.getNull(null, () -> Integer.parseInt(value.toString()), value);
+        return Fn.orNull(null, () -> Integer.parseInt(value.toString()), value);
     }
 
     static List<Class<?>> toClass(final JsonArray names) {
@@ -110,7 +110,7 @@ final class To {
     }
 
     static String toString(final Object reference) {
-        return Fn.getNull("null", () -> {
+        return Fn.orNull("null", () -> {
             final String literal;
             if (Types.isJObject(reference)) {
                 // Fix issue for serialization
@@ -168,6 +168,11 @@ final class To {
         }
     }
 
+    static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonObject parsed = toJObject(literal);
+        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+    }
+
     static JsonArray toJArray(final String literal) {
         if (Ut.isNil(literal)) {
             return new JsonArray();
@@ -180,6 +185,17 @@ final class To {
         }
     }
 
+    static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonArray parsed = toJArray(literal);
+        if (Objects.isNull(itemFn)) {
+            return parsed;
+        } else {
+            final JsonArray replaced = new JsonArray();
+            Ut.itJArray(parsed).map(itemFn).forEach(replaced::add);
+            return replaced;
+        }
+    }
+
     static <T> JsonArray toJArray(final T entity, final int repeat) {
         final JsonArray array = new JsonArray();
         for (int idx = Values.IDX; idx < repeat; idx++) {
@@ -189,7 +205,7 @@ final class To {
     }
 
     static Collection<?> toCollection(final Object value) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             // Collection
             if (value instanceof Collection) {
                 return ((Collection<?>) value);
@@ -250,7 +266,7 @@ final class To {
         final Class<?> clazz,
         final Throwable error
     ) {
-        return Fn.getSemi(error instanceof WebException, null,
+        return Fn.orSemi(error instanceof WebException, null,
             () -> (WebException) error,
             () -> new _500InternalServerException(clazz, error.getMessage()));
     }

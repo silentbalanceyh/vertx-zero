@@ -31,7 +31,7 @@ public class MetaCleaner extends AbstractStatic {
          * 读取当前 DataPool
          */
         final DataPool pool = DataPool.create();
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             /*
              * 获取连接
              */

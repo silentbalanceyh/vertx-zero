@@ -11,9 +11,9 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 
@@ -39,7 +39,7 @@ public class AttachActor {
          * -- 2.3. Update all the attachments
          */
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
-        Ut.ifJObject(content, KName.METADATA);
+        Fn.ifJObject(content, KName.METADATA);
         content.put(KName.SIGMA, header.getSigma());
         content.put(KName.ACTIVE, Boolean.TRUE);
         /*

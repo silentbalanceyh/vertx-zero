@@ -127,7 +127,9 @@ public class CommandAtom implements Serializable {
             } else {
                 return Ut.isImplement(this.plugin, Commander.class);
             }
-        } else return true;
+        } else {
+            return true;
+        }
     }
 
     @SuppressWarnings("unchecked")

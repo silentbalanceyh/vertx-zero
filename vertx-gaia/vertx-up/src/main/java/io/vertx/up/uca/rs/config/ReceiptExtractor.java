@@ -18,7 +18,7 @@ public class ReceiptExtractor implements Extractor<Set<Receipt>> {
 
     @Override
     public Set<Receipt> extract(final Class<?> clazz) {
-        return Fn.getNull(new HashSet<>(), () -> {
+        return Fn.orNull(new HashSet<>(), () -> {
             // 1. Class verify
             Verifier.noArg(clazz, this.getClass());
             Verifier.modifier(clazz, this.getClass());

@@ -7,6 +7,7 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -53,7 +54,7 @@ public class Around {
                  * 组件配置
                  */
                 final JsonObject componentConfig = Ut.valueJObject(component.getJsonObject("config"));
-                return this.captureAsync(componentCls, componentConfig).compose(Ut.ifNil(
+                return this.captureAsync(componentCls, componentConfig).compose(Fn.ifNil(
                     () -> config,
                     step -> step.procAsync(config))
                 );

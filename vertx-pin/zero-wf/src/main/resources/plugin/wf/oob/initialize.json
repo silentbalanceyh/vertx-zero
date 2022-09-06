@@ -2,6 +2,7 @@
     "plugin/wf/oob/cab/system.todo.xlsx",
     "plugin/wf/oob/cab/system.report.xlsx",
     "plugin/wf/oob/cab/system.workflow.xlsx",
+    "plugin/wf/oob/data/authority.flow.xlsx",
     "plugin/wf/oob/data/wf.dict.xlsx",
     "plugin/wf/oob/data/wf.list.qr.xlsx",
     "plugin/wf/oob/data/wf.menu.xlsx",

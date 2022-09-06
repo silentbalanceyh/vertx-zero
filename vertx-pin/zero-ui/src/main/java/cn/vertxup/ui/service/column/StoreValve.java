@@ -5,14 +5,13 @@ import cn.vertxup.ui.domain.tables.pojos.UiColumn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -56,20 +55,20 @@ class StoreValve implements UiValve {
          * fixed
          * width
          */
-        Ke.runBoolean(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
-        Ke.runBoolean(column::getFixed, (fixed) -> {
+        Fn.safeSemi(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
+        Fn.safeSemi(column::getFixed, (fixed) -> {
             if (fixed) {
                 columnJson.put("fixed", "left");
             } else {
                 columnJson.put("fixed", "right");
             }
         });
-        Ke.runString(column::getClassName, (className) -> columnJson.put("className", className));
-        Ke.runInteger(column::getWidth, (width) -> columnJson.put("width", width));
+        Fn.safeSemi(column::getClassName, (className) -> columnJson.put("className", className));
+        Fn.safeSemi(column::getWidth, (width) -> columnJson.put("width", width));
         /*
          * If render
          */
-        Ke.runString(column::getRender, (render) -> {
+        Fn.safeSemi(column::getRender, (render) -> {
             columnJson.put("$render", render);
             if ("DATE".equals(render)) {
                 assert null != column.getFormat() : " $format should not be null when DATE";
@@ -80,22 +79,22 @@ class StoreValve implements UiValve {
                 columnJson.put("$datum", column.getDatum());
             }
         });
-        Ke.runString(column::getFilterType, (filterType) -> {
+        Fn.safeSemi(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
-            Ut.ifJObject(columnJson, "$filter.config");
+            Fn.ifJObject(columnJson, "$filter.config");
         });
         /*
          * Zero Config
          */
-        Ke.runString(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
-        Ke.runString(column::getMapping, (mapping) -> {
+        Fn.safeSemi(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
+        Fn.safeSemi(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
-            Ut.ifJObject(columnJson, "$mapping");
+            Fn.ifJObject(columnJson, "$mapping");
         });
-        Ke.runString(column::getConfig, (config) -> {
+        Fn.safeSemi(column::getConfig, (config) -> {
             columnJson.put("$config", config);
-            Ut.ifJObject(columnJson, "$config");
+            Fn.ifJObject(columnJson, "$config");
         });
         return columnJson;
     }

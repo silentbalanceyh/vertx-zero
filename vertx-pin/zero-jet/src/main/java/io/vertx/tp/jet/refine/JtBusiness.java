@@ -30,7 +30,7 @@ class JtBusiness {
     private static final Cc<String, Identity> CC_IDENTITY = Cc.open();
 
     static DSetting toDict(final IService service) {
-        return Fn.getNull(null, () -> CC_DICT.pick(() -> {
+        return Fn.orNull(null, () -> CC_DICT.pick(() -> {
             /*
              * Dict Config for service
              */
@@ -59,7 +59,7 @@ class JtBusiness {
     }
 
     static BTree toMapping(final IService service) {
-        return Fn.getNull(null, () -> CC_MAPPING.pick(() -> {
+        return Fn.orNull(null, () -> CC_MAPPING.pick(() -> {
             /*
              * DualMapping
              */
@@ -79,7 +79,7 @@ class JtBusiness {
     }
 
     static Identity toIdentify(final IService service) {
-        return Fn.getNull(null, () -> CC_IDENTITY.pick(() -> {
+        return Fn.orNull(null, () -> CC_IDENTITY.pick(() -> {
             /*
              * Identity for `identifier` processing
              */

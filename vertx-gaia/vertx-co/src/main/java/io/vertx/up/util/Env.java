@@ -59,7 +59,7 @@ class Env {
 
     @SuppressWarnings("unchecked")
     private static Map<String, String> envMap() {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Map<String, String> env = System.getenv();
             final Field field = env.getClass().getDeclaredField("m");
             field.setAccessible(true);

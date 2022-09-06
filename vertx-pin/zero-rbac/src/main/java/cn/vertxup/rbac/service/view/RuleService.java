@@ -10,8 +10,8 @@ import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.rbac.acl.rule.AdmitValve;
 import io.vertx.tp.rbac.atom.ScOwner;
+import io.vertx.tp.rbac.ruler.AdmitValve;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
@@ -38,12 +38,26 @@ public class RuleService implements RuleStub {
 
     @Override
     public Future<JsonArray> regionAsync(final List<SPath> paths) {
+        /*
+         * Major Path Configuration
+         * 1. Not null and `runComponent` is not null
+         * 2. `parentId` is null
+         * 3. Sort By `uiSort`
+         */
         final List<SPath> filtered = paths.stream()
-            // Not null and `runComponent` is not null
             .filter(Objects::nonNull)
-            // Sort By `uiSort`
+            .filter(item -> Ut.isNil(item.getParentId()))
             .sorted(Comparator.comparing(SPath::getUiSort))
             .collect(Collectors.toList());
+
+        /*
+         * Children Grouped
+         */
+        final ConcurrentMap<String, List<SPath>> grouped =
+            Ut.elementGroup(paths.stream()
+                .filter(Objects::nonNull)
+                .filter(item -> Ut.notNil(item.getParentId()))
+                .collect(Collectors.toList()), SPath::getParentId);
         return Fn.combineT(filtered, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured
@@ -59,7 +73,7 @@ public class RuleService implements RuleStub {
             /*
              * JsonObject Configuration for SPath here
              */
-            Ut.ifJObject(pathJ,
+            Fn.ifJObject(pathJ,
                 // UI Configuration
                 KName.UI_CONFIG,
                 KName.UI_CONDITION,
@@ -71,6 +85,14 @@ public class RuleService implements RuleStub {
                 KName.METADATA,
                 KName.MAPPING
             );
+            /*
+             * Build map based on `code` for Area usage
+             * `children` of pathJ
+             */
+            if (grouped.containsKey(path.getKey())) {
+                final JsonArray children = Ux.toJson(grouped.getOrDefault(path.getKey(), new ArrayList<>()));
+                pathJ.put(KName.CHILDREN, children);
+            }
             return value.configure(pathJ);
         }).compose(Ux::futureA);
     }
@@ -121,7 +143,7 @@ public class RuleService implements RuleStub {
         condition.put("resourceId,i", keys);
         condition.put(KName.NAME, view);
         return Ux.Jooq.on(SViewDao.class).fetchAndAsync(condition).compose(Ux::futureA)
-            .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
+            .compose(Fn.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION));
     }
 
     @Override
@@ -192,7 +214,7 @@ public class RuleService implements RuleStub {
                 })
                 .compose(nil -> jooq.insertAsync(addQueue))
                 .compose(Ux::futureA)
-                .compose(Ut.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
+                .compose(Fn.ifJArray("rows", Qr.KEY_CRITERIA, Qr.KEY_PROJECTION))
                 //                .compose(Ke.mounts("rows", "criteria"))
                 //                .compose(result -> {
                 //                    Ut.itJArray(result).forEach(json -> Ke.mountArray(json, "projection"));

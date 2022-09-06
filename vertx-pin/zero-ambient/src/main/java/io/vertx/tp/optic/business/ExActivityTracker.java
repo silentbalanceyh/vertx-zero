@@ -7,6 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -23,7 +24,7 @@ public class ExActivityTracker implements ExActivity {
     public Future<JsonArray> activities(final String modelId, final String modelKey) {
         return this.fetchActivities(modelId, modelKey)
             .compose(Ux::futureA)
-            .compose(Ut.ifJArray(KName.RECORD_NEW, KName.RECORD_OLD));
+            .compose(Fn.ifJArray(KName.RECORD_NEW, KName.RECORD_OLD));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class ExActivityTracker implements ExActivity {
             } else {
                 return this.changes(activityId).compose(changes -> {
                     final JsonObject activityJ = Ux.toJson(activity);
-                    Ut.ifJObject(activityJ,
+                    Fn.ifJObject(activityJ,
                         KName.RECORD_NEW,
                         KName.RECORD_OLD
                     );

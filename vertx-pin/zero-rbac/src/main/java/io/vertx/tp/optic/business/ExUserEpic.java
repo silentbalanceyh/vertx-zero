@@ -58,20 +58,20 @@ public class ExUserEpic implements ExUser {
     public Future<ConcurrentMap<String, JsonObject>> mapUser(final Set<String> keys, final boolean extension) {
         final Refer userRef = new Refer();
         return this.fetchList(keys)
-                .compose(userRef::future)
-                .compose(queried -> {
-                    if (extension) {
-                        return Junc.refExtension().identAsync(queried);
-                    } else {
-                        return Ux.futureA();
-                    }
-                })
-                .compose(employeeA -> {
-                    final List<SUser> users = userRef.get();
-                    final JsonArray userA = Ux.toJson(users);
-                    final ConcurrentMap<String, JsonObject> mapUser = Ut.elementMap(userA, KName.KEY);
-                    return Ux.future(this.userMap(mapUser, employeeA));
-                });
+            .compose(userRef::future)
+            .compose(queried -> {
+                if (extension) {
+                    return Junc.refExtension().identAsync(queried);
+                } else {
+                    return Ux.futureA();
+                }
+            })
+            .compose(employeeA -> {
+                final List<SUser> users = userRef.get();
+                final JsonArray userA = Ux.toJson(users);
+                final ConcurrentMap<String, JsonObject> mapUser = Ut.elementMap(userA, KName.KEY);
+                return Ux.future(this.userMap(mapUser, employeeA));
+            });
     }
 
     @Override

@@ -9,7 +9,7 @@ import io.vertx.up.util.Ut;
 public class EnumSaber extends BaseSaber {
     @Override
     public <T> Object from(final T input) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             Object reference = null;
             if (input instanceof Enum) {
                 reference = Ut.invoke(input, "name");

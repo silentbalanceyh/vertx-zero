@@ -11,7 +11,7 @@ public class ClusterSetUp implements JTransformer<ClusterOptions> {
 
     @Override
     public ClusterOptions transform(final JsonObject config) {
-        return Fn.getSemi(null == config, LOGGER,
+        return Fn.orSemi(null == config, LOGGER,
             ClusterOptions::new,
             () -> new ClusterOptions(config));
     }

@@ -30,8 +30,8 @@ class To {
     }
 
     static <T> Future<T> future(final T entity) {
-        return Fn.getNull(Future.succeededFuture(),
-            () -> Fn.getSemi(entity instanceof Throwable, null,
+        return Fn.orNull(Future.succeededFuture(),
+            () -> Fn.orSemi(entity instanceof Throwable, null,
                 () -> Future.failedFuture((Throwable) entity),
                 () -> Future.succeededFuture(entity)),
             entity);
@@ -40,8 +40,8 @@ class To {
     static <T> JsonObject toJObject(
         final T entity,
         final String pojo) {
-        return Fn.getNull(new JsonObject(),
-            () -> Fn.getSemi(Ut.isNil(pojo), null,
+        return Fn.orNull(new JsonObject(),
+            () -> Fn.orSemi(Ut.isNil(pojo), null,
                 // Turn On Smart
                 () -> Ut.serializeJson(entity, true),
                 () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
@@ -52,7 +52,7 @@ class To {
         final T entity,
         final Function<JsonObject, JsonObject> convert
     ) {
-        return Fn.getSemi(null == convert, null,
+        return Fn.orSemi(null == convert, null,
             () -> toJObject(entity, ""),
             () -> convert.apply(toJObject(entity, "")));
     }
@@ -61,7 +61,7 @@ class To {
         final List<T> list,
         final Function<JsonObject, JsonObject> convert
     ) {
-        return Fn.getNull(new JsonArray(), () -> {
+        return Fn.orNull(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
                 .filter(Objects::nonNull)
@@ -75,7 +75,7 @@ class To {
         final List<T> list,
         final String pojo
     ) {
-        return Fn.getNull(new JsonArray(), () -> {
+        return Fn.orNull(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
                 .filter(Objects::nonNull)
@@ -89,7 +89,7 @@ class To {
         final List<T> list,
         final String pojo
     ) {
-        return Fn.getNull(new ArrayList<>(), () -> {
+        return Fn.orNull(new ArrayList<>(), () -> {
             final List<JsonObject> jlist = new ArrayList<>();
             Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
             return jlist;
@@ -100,7 +100,7 @@ class To {
     static <T> Envelop toEnvelop(
         final T entity
     ) {
-        return Fn.getNull(Envelop.ok(), () -> Fn.getSemi(entity instanceof WebException, null,
+        return Fn.orNull(Envelop.ok(), () -> Fn.orSemi(entity instanceof WebException, null,
                 () -> Envelop.failure((WebException) entity),
                 () -> {
                     if (Envelop.class == entity.getClass()) {
@@ -116,7 +116,7 @@ class To {
         final T entity,
         final WebException error
     ) {
-        return Fn.getNull(Envelop.failure(error),
+        return Fn.orNull(Envelop.failure(error),
             () -> Envelop.success(entity), entity);
     }
 
@@ -131,7 +131,7 @@ class To {
         final JsonArray array,
         final String pojo
     ) {
-        return Fn.getSemi(null == array || array.isEmpty(), null,
+        return Fn.orSemi(null == array || array.isEmpty(), null,
             () -> toJObject(null, pojo),
             () -> toJObject(array.getValue(0), pojo));
     }

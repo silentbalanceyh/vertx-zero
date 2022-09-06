@@ -10,6 +10,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -36,17 +37,19 @@ public class MenuActor {
         data.put(KName.OWNER, Ux.keyUser(user));
         /* Condition Building */
         final JsonObject condition = Ux.whereAnd();
-        Ut.ifJAssign(data,
+        // data -> condition
+        Fn.ifCopies(condition, data,
             KName.OWNER,
             KName.Ui.PAGE,
             KName.POSITION,
             KName.TYPE
-        ).apply(condition);
+        );
         /* Data Building */
         JsonArray menus = data.getJsonArray("menus", new JsonArray());
         menus = menus.copy();
         final JsonObject combine = new JsonObject();
-        Ut.ifJAssign(data,
+        // data -> combine
+        Fn.ifCopies(combine, data,
             KName.OWNER,
             KName.Ui.PAGE,
             KName.POSITION,
@@ -57,7 +60,7 @@ public class MenuActor {
             KName.UPDATED_BY,
             KName.CREATED_AT,
             KName.CREATED_BY
-        ).apply(combine);
+        );
         Ut.itJArray(menus).forEach(menu -> menu.mergeIn(combine));
         return this.menuStub.saveMy(condition, menus);
     }

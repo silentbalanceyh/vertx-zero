@@ -24,7 +24,7 @@ final class Codec {
      * @return The encoded string with MD5
      */
     static String md5(final String input) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final MessageDigest digest = MessageDigest.getInstance("MD5");
             final byte[] source = input.getBytes(Values.DEFAULT_CHARSET);
             digest.update(source);
@@ -64,7 +64,7 @@ final class Codec {
 
     @SuppressWarnings("all")
     private static String sha(final String strText, final String strType) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final MessageDigest messageDigest = MessageDigest.getInstance(strType);
             messageDigest.update(strText.getBytes());
             final byte[] byteBuffer = messageDigest.digest();
@@ -84,7 +84,7 @@ final class Codec {
      * Base-64
      */
     static String base64(final String input, final boolean encript) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             if (encript) {
                 return Base64.getEncoder().encodeToString(input.getBytes());
             } else {
@@ -94,7 +94,7 @@ final class Codec {
     }
 
     static String url(final String input, final boolean encript) {
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             if (encript) {
                 return URLEncoder.encode(input, Values.ENCODING);
             } else {

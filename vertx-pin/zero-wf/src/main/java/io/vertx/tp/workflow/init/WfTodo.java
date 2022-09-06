@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.init;
 
-import cn.zeroup.macrocosm.cv.WfCv;
+import cn.vertxup.workflow.cv.WfCv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.FileSuffix;

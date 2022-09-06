@@ -14,11 +14,11 @@ public class DateSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.getNull(() ->
-                Fn.getSemi(Date.class == paramType ||
-                        Calendar.class == paramType, getLogger(),
+        return Fn.orNull(() ->
+                Fn.orSemi(Date.class == paramType ||
+                        Calendar.class == paramType, this.getLogger(),
                     () -> {
-                        verifyInput(!Ut.isDate(literal), paramType, literal);
+                        this.verifyInput(!Ut.isDate(literal), paramType, literal);
                         final Date reference = Ut.parse(literal);
                         if (Calendar.class == paramType) {
                             // Specific date format
@@ -33,7 +33,7 @@ public class DateSaber extends BaseSaber {
 
     @Override
     public <T> Object from(final T input) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             Object reference = null;
             if (input instanceof Date) {
                 final Date date = (Date) input;

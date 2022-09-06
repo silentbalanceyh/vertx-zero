@@ -83,7 +83,7 @@ class RpcHelper {
 
     static JsonObject getSslConfig(final String name,
                                    final JsonObject rpcConfig) {
-        return Fn.getNull(new JsonObject(), () -> {
+        return Fn.orNull(new JsonObject(), () -> {
             final JsonObject sslConfig = new JsonObject();
             if (rpcConfig.containsKey(Key.SSL) &&
                 Boolean.parseBoolean(rpcConfig.getValue(Key.SSL).toString())) {

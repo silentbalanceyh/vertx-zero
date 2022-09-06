@@ -37,7 +37,7 @@ final class StringUtil {
     }
 
     static Set<String> split(final String input, final String separator) {
-        return Fn.getNull(new HashSet<>(), () -> {
+        return Fn.orNull(new HashSet<>(), () -> {
             final String[] array = input.split(separator);
             final Set<String> result = new HashSet<>();
             for (final String item : array) {
@@ -60,7 +60,7 @@ final class StringUtil {
 
     static String join(final Collection<String> input, final String separator) {
         final String connector = (null == separator) ? Strings.COMMA : separator;
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final StringBuilder builder = new StringBuilder();
             final int size = input.size();
             int start = 0;
@@ -340,7 +340,7 @@ final class StringUtil {
 
     // Regex Matcher for string
     static boolean isMatch(final String regex, final String original) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final Pattern pattern = Pattern.compile(regex);
             final Matcher matcher = pattern.matcher(original);
             return matcher.matches();

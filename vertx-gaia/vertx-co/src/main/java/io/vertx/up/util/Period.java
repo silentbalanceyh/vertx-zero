@@ -252,7 +252,7 @@ final class Period {
     }
 
     static Date parse(final String literal) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             String target = literal;
             if (target.contains("T")) {
                 target = target.replace('T', ' ');
@@ -311,7 +311,7 @@ final class Period {
      * @return null or valid `java.util.Date` object
      */
     static Date parseFull(final String literal) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             // Datetime parsing
             final LocalDateTime datetime = toDateTime(literal);
             final ZoneId zoneId = getAdjust(literal);

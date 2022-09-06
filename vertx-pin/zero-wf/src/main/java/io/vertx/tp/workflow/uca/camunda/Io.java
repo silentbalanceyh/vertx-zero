@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.camunda;
 
-import cn.zeroup.macrocosm.cv.WfPool;
+import cn.vertxup.workflow.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;

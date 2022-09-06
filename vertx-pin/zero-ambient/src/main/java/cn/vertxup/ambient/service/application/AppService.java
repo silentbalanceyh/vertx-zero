@@ -13,6 +13,7 @@ import io.vertx.tp.optic.feature.Modulat;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -62,7 +63,7 @@ public class AppService implements AppStub {
             /* Get Result */
             .compose(Ux::futureJ)
             /* JDBC */
-            .compose(Ut.ifJObject("jdbcConfig"));
+            .compose(Fn.ifJObject("jdbcConfig"));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class AppService implements AppStub {
         return this.updateLogo(appId, data)
             .compose(updated -> Ux.Jooq.on(XAppDao.class).updateJAsync(appId, updated)
                 /* Image field: logo */
-                .compose(Ut.ifJObject(KName.App.LOGO)));
+                .compose(Fn.ifJObject(KName.App.LOGO)));
     }
 
     private Future<JsonObject> updateLogo(final String appId, final JsonObject data) {

@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.init;
 
 import cn.vertxup.workflow.domain.tables.daos.WFlowDao;
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
-import cn.zeroup.macrocosm.cv.WfCv;
+import cn.vertxup.workflow.cv.WfCv;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;

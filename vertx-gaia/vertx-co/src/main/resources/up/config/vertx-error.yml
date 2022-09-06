@@ -177,6 +177,7 @@ E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, 
 E60049: "({0}) HttpException: {1}"
 E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
 E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`"
+E60058: "(409) - You `runComponent` has not been configured, but the scDim = `{0}`, they are conflict"
 
 # File attachment
 E60052: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"

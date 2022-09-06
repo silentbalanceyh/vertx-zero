@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -85,7 +86,7 @@ public class VisitService implements VisitStub {
                         Sc.infoView(this.getClass(), "Visitant Record: {0}", criteria.encode());
                         return Ux.Jooq.on(SVisitantDao.class).fetchOneAsync(criteria)
                             .compose(Ux::futureJ)
-                            .compose(Ut.ifJObject(
+                            .compose(Fn.ifJObject(
                                 "aclVisible",
                                 "aclView",
                                 "aclVariety",
@@ -128,7 +129,7 @@ public class VisitService implements VisitStub {
         }
         Sc.infoView(this.getClass(), "Visitant Upsert: {0}, Data: {1}",
             criteria.encode(), request.encode());
-        Ut.ifString(request,
+        Fn.ifString(request,
             "aclVisible",
             "aclView",
             "aclVariety",
@@ -142,7 +143,7 @@ public class VisitService implements VisitStub {
              */
             .upsertAsync(criteria, visitant)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 "aclVisible",
                 "aclView",
                 "aclVariety",

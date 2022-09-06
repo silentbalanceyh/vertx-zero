@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.zeroup.macrocosm.cv.WfPool;
+import cn.vertxup.workflow.cv.WfPool;
 import io.vertx.core.Future;
 import io.vertx.tp.error._404RunOnSupplierException;
 import io.vertx.tp.error._500EventTypeNullException;

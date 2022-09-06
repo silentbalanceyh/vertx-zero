@@ -13,11 +13,11 @@ public abstract class DecimalSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.getNull(() ->
-                Fn.getSemi(isValid(paramType), getLogger(),
+        return Fn.orNull(() ->
+                Fn.orSemi(this.isValid(paramType), this.getLogger(),
                     () -> {
-                        verifyInput(!Ut.isDecimal(literal), paramType, literal);
-                        return getFun().apply(literal);
+                        this.verifyInput(!Ut.isDecimal(literal), paramType, literal);
+                        return this.getFun().apply(literal);
                     }, () -> 0.0),
             paramType, literal);
     }

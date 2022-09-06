@@ -176,7 +176,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_ID);
+        return Arrays.asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_CODE_SIGMA);
     }
 
     @Override

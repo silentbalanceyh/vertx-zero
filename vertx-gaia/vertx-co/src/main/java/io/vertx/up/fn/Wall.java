@@ -10,9 +10,11 @@ import io.vertx.up.exception.heart.ArgumentException;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Errors;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -125,6 +127,19 @@ final class Wall {
                 }
                 return null;
             }), logger);
+    }
+
+    static <T> void safeT(final Supplier<T> supplier, final Consumer<T> consumer) {
+        final T input = supplier.get();
+        if (Objects.nonNull(input)) {
+            if (input instanceof String) {
+                if (Ut.notNil((String) input)) {
+                    consumer.accept(input);
+                }
+            } else {
+                consumer.accept(input);
+            }
+        }
     }
 
     @SuppressWarnings("all")

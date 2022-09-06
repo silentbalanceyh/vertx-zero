@@ -87,8 +87,8 @@ class TwineExtension implements Twine<SUser> {
             final Class<?> clazz = qr.getClassDao();
             searcher.join(clazz);
             return searcher.searchAsync(queryJ)
-                    // Connect to `groups`
-                    .compose(this::connect);
+                // Connect to `groups`
+                .compose(this::connect);
         });
     }
 
@@ -148,8 +148,8 @@ class TwineExtension implements Twine<SUser> {
 
     private Future<JsonArray> runBatch(final List<SUser> users, final KQr qr) {
         final Set<String> keys = users.stream()
-                .map(SUser::getModelKey)
-                .collect(Collectors.toSet());
+            .map(SUser::getModelKey)
+            .collect(Collectors.toSet());
         if (keys.isEmpty()) {
             return Ux.futureA();
         } else {
@@ -226,7 +226,7 @@ class TwineExtension implements Twine<SUser> {
         return Junc.refRights().identAsync(userKeys).compose(relations -> {
             // 分组
             final ConcurrentMap<String, JsonArray> grouped =
-                    Ut.elementGroup(relations, AuthKey.F_USER_ID);
+                Ut.elementGroup(relations, AuthKey.F_USER_ID);
             final JsonArray replaced = Ut.elementZip(users, KName.KEY, KName.GROUPS, grouped, AuthKey.F_GROUP_ID);
             pagination.put(KName.LIST, replaced);
             return Ux.future(pagination);
@@ -241,14 +241,14 @@ class TwineExtension implements Twine<SUser> {
          * 3. KQr is valid configured in ScConfig
          */
         return users.stream()
-                .filter(Objects::nonNull)
-                .filter(user -> Objects.nonNull(user.getModelId()))
-                .filter(user -> Objects.nonNull(user.getModelKey()))
-                .filter(user -> {
-                    final KQr qr = CONFIG.category(user.getModelId());
-                    return Objects.nonNull(qr) && qr.valid();
-                })
-                .collect(Collectors.toList());
+            .filter(Objects::nonNull)
+            .filter(user -> Objects.nonNull(user.getModelId()))
+            .filter(user -> Objects.nonNull(user.getModelKey()))
+            .filter(user -> {
+                final KQr qr = CONFIG.category(user.getModelId());
+                return Objects.nonNull(qr) && qr.valid();
+            })
+            .collect(Collectors.toList());
     }
 
     private JsonObject combine(final JsonObject userJ, final JsonObject extensionJ, final KQr qr) {

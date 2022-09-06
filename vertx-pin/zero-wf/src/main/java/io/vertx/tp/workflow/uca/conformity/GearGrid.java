@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.conformity;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
+import cn.vertxup.workflow.cv.em.PassWay;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

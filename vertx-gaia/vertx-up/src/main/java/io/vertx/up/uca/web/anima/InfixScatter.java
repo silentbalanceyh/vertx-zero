@@ -81,7 +81,7 @@ public class InfixScatter implements Scatter<Vertx> {
      * Check whether clazz has the method of name
      */
     private Method findInit(final Class<?> clazz) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final Method[] methods = clazz.getDeclaredMethods();
             final List<Method> found = Arrays.stream(methods)
                 .filter(item -> "init".equals(item.getName()) && this.validMethod(item))

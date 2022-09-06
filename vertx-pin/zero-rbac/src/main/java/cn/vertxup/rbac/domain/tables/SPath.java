@@ -5,6 +5,7 @@ package cn.vertxup.rbac.domain.tables;
 
 
 import cn.vertxup.rbac.domain.Db;
+import cn.vertxup.rbac.domain.Indexes;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.SPathRecord;
 import org.jooq.Record;
@@ -50,6 +51,11 @@ public class SPath extends TableImpl<SPathRecord> {
      * ui 转换
      */
     public final TableField<SPathRecord, String> MAPPING = createField(DSL.name("MAPPING"), SQLDataType.CLOB, this, "「mapping」- 从 dm -> ui 转换");
+    /**
+     * The column <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
+     */
+    public final TableField<SPathRecord, String> PARENT_ID = createField(DSL.name("PARENT_ID"), SQLDataType.VARCHAR(36), this, "「parentId」- 区域模式下的父ID，系统内部读取");
     /**
      * The column <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
      * HValve执行组件，组件内置处理 dm / ui 两部分内容
@@ -183,6 +189,11 @@ public class SPath extends TableImpl<SPathRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Db.DB_ETERNAL;
+    }
+
+    @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.S_PATH_IDX_S_PATH_RUN_TYPE_SIGMA);
     }
 
     @Override

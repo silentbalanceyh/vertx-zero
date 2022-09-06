@@ -86,7 +86,7 @@ class Atomic {
 
     @SuppressWarnings("all")
     private static Object invoke(final Class<?> clazz, final Vertx vertx) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Method initMethod = Arrays.asList(clazz.getDeclaredMethods())
                 .stream().filter(method -> "init".equals(method.getName()))
                 .findFirst().orElse(null);

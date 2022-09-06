@@ -9,57 +9,11 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 final class Norm {
-
-    /*
-     * Split `input` data structure
-     *
-     * {
-     *     "...": "...",
-     *     "__data": {
-     *        "...": "..."
-     *     },
-     *     "__flag": xxx
-     * }
-     *
-     * 1) previous ( Came from __data )
-     *    {
-     *        "...": "...",
-     *        "__flag": "xxx"
-     *    }
-     * 2) current
-     *    {
-     *        "...": "...",
-     *        "__flag": "xxx"
-     *    }
-     */
-    static Future<JsonObject> effectTabb(
-            final JsonObject input, final BiFunction<JsonObject, JsonObject, Future<JsonObject>> executor) {
-        Objects.requireNonNull(input);
-        final JsonObject previous = Ut.aiDataO(input);
-        final JsonObject normalized = Ut.aiDataN(input);
-        /*
-         * input variable data structure:
-         * {
-         *     "__data": {},
-         *     "__flag": FLAG
-         * }
-         *
-         * Split the record into two:
-         * 1) previous:  No __data
-         * 2) current:   No __data
-         * 3) The same field of __flag
-         */
-        if (normalized.containsKey(KName.__.FLAG)) {
-            previous.put(KName.__.FLAG, normalized.getValue(KName.__.FLAG));
-        }
-        return executor.apply(previous, normalized);
-    }
 
     /*
      * Output Normalized for new specification such as following:
@@ -96,22 +50,22 @@ final class Norm {
 
                 // DELETE ( Whole ), All element is DELETE
                 Ut.itJArray(previous)
-                        .map(item -> effectInternal(item, null)).forEach(response::add);
+                    .map(item -> effectInternal(item, null)).forEach(response::add);
             } else {
                 if (Ut.isNil(previous)) {
 
                     // ADD ( Whole ), All element is ADD
                     Ut.itJArray(current)
-                            .map(item -> effectInternal(null, item)).forEach(response::add);
+                        .map(item -> effectInternal(null, item)).forEach(response::add);
                 } else {
 
                     // UPDATE ( Json May be UPDATE, ADD, DELETE )
                     final ConcurrentMap<ChangeFlag, JsonArray> comparedMap
-                            = CompareJ.compareJ(previous, current, field);
+                        = CompareJ.compareJ(previous, current, field);
                     Ut.itJArray(comparedMap.get(ChangeFlag.ADD))
-                            .map(item -> effectInternal(null, item)).forEach(response::add);
+                        .map(item -> effectInternal(null, item)).forEach(response::add);
                     Ut.itJArray(comparedMap.get(ChangeFlag.DELETE))
-                            .map(item -> effectInternal(item, null)).forEach(response::add);
+                        .map(item -> effectInternal(item, null)).forEach(response::add);
 
                     // UPDATE ( prev / now )
                     Ut.itJArray(current).forEach(record -> {
@@ -183,16 +137,14 @@ final class Norm {
 
     @SuppressWarnings("unchecked")
     static <T> Future<T> combine(final T input, final T processed) {
-        if (input instanceof JsonObject) {
-            final JsonObject inputJ = (JsonObject) input;
+        if (input instanceof final JsonObject inputJ) {
             final JsonObject processedJ = (JsonObject) processed;
             return combine(inputJ, processedJ)
-                    .compose(json -> To.future((T) json));
-        } else if (input instanceof JsonArray) {
-            final JsonArray inputA = (JsonArray) input;
+                .compose(json -> To.future((T) json));
+        } else if (input instanceof final JsonArray inputA) {
             final JsonArray processedA = (JsonArray) processed;
             return combine(inputA, processedA)
-                    .compose(json -> To.future((T) json));
+                .compose(json -> To.future((T) json));
         } else {
             return Ux.future(processed);
         }

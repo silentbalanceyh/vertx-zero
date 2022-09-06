@@ -70,6 +70,18 @@ public interface ISPath extends VertxPojo, Serializable {
     public String getMapping();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
+     */
+    public ISPath setParentId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
+     */
+    public String getParentId();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
      * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
@@ -308,6 +320,7 @@ public interface ISPath extends VertxPojo, Serializable {
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setPhase,json::getString,"PHASE","java.lang.String");
                 setOrThrow(this::setMapping,json::getString,"MAPPING","java.lang.String");
+                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setRunType,json::getString,"RUN_TYPE","java.lang.String");
                 setOrThrow(this::setDmType,json::getString,"DM_TYPE","java.lang.String");
@@ -340,6 +353,7 @@ public interface ISPath extends VertxPojo, Serializable {
                 json.put("CODE",getCode());
                 json.put("PHASE",getPhase());
                 json.put("MAPPING",getMapping());
+                json.put("PARENT_ID",getParentId());
                 json.put("RUN_COMPONENT",getRunComponent());
                 json.put("RUN_TYPE",getRunType());
                 json.put("DM_TYPE",getDmType());

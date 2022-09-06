@@ -71,7 +71,7 @@ public class DiPlugin {
         Observable.fromIterable(infixes)
             .filter(Infix.class::isAssignableFrom)
             .subscribe(item -> {
-                final Method method = Fn.getJvm(() -> item.getDeclaredMethod("get"), item);
+                final Method method = Fn.orJvm(() -> item.getDeclaredMethod("get"), item);
                 final Class<?> type = method.getReturnType();
                 binds.put(type, item);
             })

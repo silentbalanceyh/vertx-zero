@@ -8,6 +8,7 @@ import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -97,13 +98,13 @@ class ConfigTodo implements Serializable {
              * - flowDefinitionId
              */
             // final JsonObject ticketData = processed.copy();
-            Ut.ifJCopy(ticketData, KName.INDENT, KName.SERIAL);
+            Fn.ifCopy(ticketData, KName.INDENT, KName.SERIAL);
             /*
              * Todo Generate `key` for `todoUrl`
              * Previous
              * ticketData.put(KName.KEY, UUID.randomUUID().toString());
              */
-            Ut.ifJCopy(ticketData, KName.INDENT, KName.CODE);
+            Fn.ifCopy(ticketData, KName.INDENT, KName.CODE);
 
 
             // ---------- modelKey / modelChild

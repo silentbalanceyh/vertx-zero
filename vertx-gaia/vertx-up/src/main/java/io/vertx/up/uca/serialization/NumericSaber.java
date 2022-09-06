@@ -13,11 +13,11 @@ public abstract class NumericSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.getNull(() ->
-                Fn.getSemi(isValid(paramType), getLogger(),
+        return Fn.orNull(() ->
+                Fn.orSemi(this.isValid(paramType), this.getLogger(),
                     () -> {
-                        verifyInput(!Ut.isInteger(literal), paramType, literal);
-                        return getFun().apply(literal);
+                        this.verifyInput(!Ut.isInteger(literal), paramType, literal);
+                        return this.getFun().apply(literal);
                     }, () -> null),
             paramType, literal);
     }

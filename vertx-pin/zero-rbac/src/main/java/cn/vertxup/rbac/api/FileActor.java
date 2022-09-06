@@ -42,7 +42,7 @@ public class FileActor {
         if (!file.exists()) {
             return Ux.future(Envelop.success(Boolean.FALSE));
         }
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final JsonObject headers = request.headersX().copy();
             /*
              * Read file to inputStream

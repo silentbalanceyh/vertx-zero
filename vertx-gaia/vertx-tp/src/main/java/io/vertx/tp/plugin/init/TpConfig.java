@@ -45,8 +45,8 @@ public class TpConfig implements Serializable {
 
         // Extract config information.
         final JsonObject raw = config.getJsonObject(key);
-        this.endpoint = Fn.getNull(null, () -> raw.getString(KEY_ENDPOINT), raw.getValue(KEY_ENDPOINT));
-        this.config = Fn.getNull(new JsonObject(), () -> raw.getJsonObject(KEY_CONFIG), raw.getValue(KEY_CONFIG));
+        this.endpoint = Fn.orNull(null, () -> raw.getString(KEY_ENDPOINT), raw.getValue(KEY_ENDPOINT));
+        this.config = Fn.orNull(new JsonObject(), () -> raw.getJsonObject(KEY_CONFIG), raw.getValue(KEY_CONFIG));
         // Verify the config data.
         if (null != rule) {
             Fn.outUp(() -> Fn.safeZero(() -> Ruler.verify(rule, this.config), this.config), LOGGER);

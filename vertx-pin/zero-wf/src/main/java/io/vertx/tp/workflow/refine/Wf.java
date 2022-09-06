@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.refine;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
+import cn.vertxup.workflow.cv.em.PassWay;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import org.camunda.bpm.engine.repository.ProcessDefinition;

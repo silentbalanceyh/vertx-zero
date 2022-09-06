@@ -54,6 +54,13 @@ The whole **Zero Framework ( Aeon Environment )** is as following:
 
 ![](/doc/_image/arch.png)
 
+### 2.3. Schematic
+
+I have published the design schematic diagram of zero to: [Zero Architecture](https://www.edrawmax.cn/online/share.html?code=6a3c11741e9411edab98b3f29ce75cdd), you can refer the interaction graphic online and this working is on going. The main diagram of **Zero Booting** is as following:
+
+![](/doc/_image/booting.png)
+
+
 ## 3. Envrionment
 
 * **Back-End**: You can download scaffold project from <https://github.com/silentbalanceyh/vertx-zero-scaffold> to initialize zero environment. 

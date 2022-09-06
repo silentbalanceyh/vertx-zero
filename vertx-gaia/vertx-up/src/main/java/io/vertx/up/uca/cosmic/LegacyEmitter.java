@@ -40,7 +40,7 @@ class LegacyEmitter extends AbstractEmitter {
 
     @Override
     public String request(final String apiKey, final JsonObject params, final MultiMap headers) {
-        return Fn.getNull(Strings.EMPTY, () -> {
+        return Fn.orNull(Strings.EMPTY, () -> {
             /*
              * Read IntegrationRequest object
              */
@@ -58,7 +58,7 @@ class LegacyEmitter extends AbstractEmitter {
     }
 
     private String send(final String uri, final HttpMethod method, final MediaType mediaType, final String content) {
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             this.logger().info(Message.HTTP_REQUEST, uri, method, content);
             final String contentType = Objects.isNull(mediaType) ? MediaType.APPLICATION_JSON : mediaType.toString();
 

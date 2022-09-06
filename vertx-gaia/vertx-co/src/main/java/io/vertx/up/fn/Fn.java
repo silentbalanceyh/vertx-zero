@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.ZeroException;
@@ -101,16 +102,16 @@ public final class Fn {
         return Wall.jvmReturn(supplier, null);
     }
 
-    public static <T> T getJvm(final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final JvmSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(null, supplier, input);
     }
 
-    public static <T> T getJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(defaultValue, supplier, input);
     }
 
     // ------ Zero Safe
-    public static <T> T getZero(final ZeroSupplier<T> supplier, final Annal logger) {
+    public static <T> T orZero(final ZeroSupplier<T> supplier, final Annal logger) {
         return Wall.zeroReturn(supplier, logger);
     }
 
@@ -127,33 +128,28 @@ public final class Fn {
         Zero.exec(consumer, input);
     }
 
-    public static <T> T getNull(final Supplier<T> supplier, final Object... input) {
+    /*
+     * 修改原 get 前缀为 or，代表有可能得情况，这部分API改动量巨大，且和if可能会有些许重复
+     * 重复部分暂时先维持原始信息，等之后合并
+     */
+    public static <T> T orNull(final Supplier<T> supplier, final Object... input) {
         return Zero.get(null, supplier, input);
     }
 
-    public static <T> T getNull(final T defaultValue, final Supplier<T> supplier, final Object... input) {
+    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier, final Object... input) {
         return Zero.get(defaultValue, supplier, input);
     }
 
-    public static <T> T getNull(final T defaultValue, final Supplier<T> supplier) {
+    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier) {
         return Wall.execReturn(supplier, defaultValue);
     }
 
-    public static <T> T getEmpty(final Supplier<T> supplier, final String... input) {
+    public static <T> T orEmpty(final Supplier<T> supplier, final String... input) {
         return Zero.getEmpty(null, supplier, input);
     }
 
-    public static <T> T getEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
+    public static <T> T orEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
         return Zero.getEmpty(defaultValue, supplier, input);
-    }
-
-    // ------ Function Processing
-    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
-        return Wait.wrapper(supplier, defaultValue);
-    }
-
-    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
-        return Wait.wrapperAsync(supplier, defaultValue);
     }
 
     // ------ Semi Safe
@@ -169,15 +165,19 @@ public final class Fn {
         Wall.exec(condition, null, tSupplier, null);
     }
 
-    public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
+    public static <T> void safeSemi(final Supplier<T> supplier, final Consumer<T> consumer) {
+        Wall.safeT(supplier, consumer);
+    }
+
+    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
 
-    public static <T> T getSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
+    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, null), logger);
     }
 
-    public static <T> T getSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {
+    public static <T> T orSemi(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier) throws ZeroException {
         return Wall.execZero(condition, tSupplier, fSupplier);
     }
 
@@ -764,5 +764,266 @@ public final class Fn {
                                                     final Function<JsonObject, Future<J>> itemFnJ,
                                                     final Function<JsonArray, Future<A>> itemFnA) {
         return War.choiceJ(input, field, itemFnJ, itemFnA);
+    }
+
+
+    // ------ Function Processing for Output
+    /*
+     * 1）wrap / wrapAsync：执行封装
+     * 2）wrapJ：最终返回的是 Future<JsonObject>,  JS = Json Sync，同步返回
+     * 3）wrapB: 最终返回的是 Future<Boolean>
+     * 4）wrapTo / wrapOn: 最终返回的是 Function，且返回值是 Future<JsonObject>
+     * --- 只有异步，没有同步
+     *
+     * To:  T -> mount( field = T )
+     * On:  T -> T ( field = mount )
+     */
+    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
+        return Wait.wrapper(supplier, defaultValue);
+    }
+
+    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+        return Wait.wrapperAsync(supplier, defaultValue);
+    }
+
+    // bool -> json
+    public static Future<JsonObject> wrapJ(final String field, final boolean result) {
+        return Future.succeededFuture(Wander.wrapJ(field, result));
+    }
+
+    public static JsonObject wrapJS(final String field, final boolean result) {
+        return Wander.wrapJ(field, result);
+    }
+
+    public static Future<JsonObject> wrapJ(final boolean result) {
+        return Future.succeededFuture(Wander.wrapJ(KName.RESULT, result));
+    }
+
+    // JsonArray -> json
+    public static Future<JsonObject> wrapJ(final String field, final JsonArray data) {
+        return Future.succeededFuture(Wander.wrapJ(field, data));
+    }
+
+    public static Future<JsonObject> wrapJ(final JsonArray data) {
+        return Future.succeededFuture(Wander.wrapJ(KName.DATA, data));
+    }
+
+    // json -> bool
+    public static Future<Boolean> wrapB(final String field, final JsonObject input) {
+        return Future.succeededFuture(Wander.wrapB(field, input));
+    }
+
+    public static Future<Boolean> wrapB(final JsonObject input) {
+        return Future.succeededFuture(Wander.wrapB(KName.RESULT, input));
+    }
+
+    // json -> data( field = json )
+    public static <T> Function<T, Future<JsonObject>> wrapTo(final String field, final JsonObject data) {
+        return t -> Future.succeededFuture(Wander.wrapTo(field, data).apply(t));
+    }
+
+    // json -> json ( field = data )
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapOn(
+        final String field, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapOn(field, executor);
+    }
+
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapTree(
+        final String field, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapTree(field, false, executor);
+    }
+
+    public static <T> Function<JsonObject, Future<JsonObject>> wrapTree(
+        final String field, final boolean deeply, final Function<T, Future<JsonObject>> executor) {
+        return Wander.wrapTree(field, deeply, executor);
+    }
+
+    public static Future<JsonObject> wrapWeb(final JsonObject json, final String field) {
+        return Wander.wrapWeb(json, field);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> wrapWeb(final String field) {
+        return json -> wrapWeb(json, field);
+    }
+
+    // ------ 防御式专用API
+    /*
+     * smart 功能未开启之前的检查必备
+     * 1) ifString - 检查JsonObject中的 JsonArray / JsonObject，转换成 String
+     *    ifStrings - 检查JsonArray中....
+     * 上述方法对应的逆方法
+     *    ifJObject
+     *    ifJArray
+     * 2) ifPage - 分页专用方法规范：list / count 属性，特定场景使用
+     * 3) ifMerge - 合并双对象专用
+     * 4) ifField - 提取字段执行专用，存在一个单字段消费链接专用的API，生成 Consumer<JsonObject>
+     * 5) ifCopy / ifCopies - 复制专用，由于复制的第二参和第三参有可能会引起重载时JVM的错误判断，所以采用单复数模式
+     * 6) ifDefault - 原来的 ifJValue
+     * 7) 扩展非空检查专用方法
+     *    ifNil     - 异步空检查             ofNil  默认值异步
+     *    ifNull    - 同步空检查             ofNull 默认值异步
+     *    ifEmpty   - 异步集合检查（无同步）
+     */
+    public static JsonObject ifString(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Wag.ifString(json, field));
+        return json;
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
+        return json -> Future.succeededFuture(ifString(json, fields));
+    }
+
+    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
+        Ut.itJArray(array).forEach(json -> ifString(json, fields));
+        return array;
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
+        return array -> Future.succeededFuture(ifStrings(array, fields));
+    }
+
+    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> Wag.ifJson(json, field));
+        return json;
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
+        return json -> Future.succeededFuture(ifJObject(json, fields));
+    }
+
+    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
+        Ut.itJArray(array).forEach(json -> ifJObject(json, fields));
+        return array;
+    }
+
+    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
+        return array -> Future.succeededFuture(ifJArray(array, fields));
+    }
+
+    public static JsonObject ifDefault(final JsonObject record, final String field, final Object value) {
+        return Wag.ifDefault(record, field, value);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifDefault(final String field, final Object value) {
+        return record -> Future.succeededFuture(ifDefault(record, field, value));
+    }
+
+    // ======================= 和业务些许相关的复杂操作（特殊类API）
+
+    public static JsonObject ifCopy(final JsonObject record, final String from, final String to) {
+        return Wag.ifCopy(record, from, to);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifCopy(final String from, final String to) {
+        return json -> Future.succeededFuture(ifCopy(json, from, to));
+    }
+
+    public static JsonObject ifCopies(final JsonObject target, final JsonObject source, final String... fields) {
+        return Wag.ifCopies(target, source, fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifCopies(final JsonObject source, final String... fields) {
+        return target -> Future.succeededFuture(ifCopies(target, source, fields));
+    }
+
+    /*
+     * 「双态型」两种形态
+     */
+    public static JsonObject ifPage(final JsonObject pageData, final String... fields) {
+        return Wag.ifPage(pageData, fields);
+    }
+
+    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
+        return pageData -> Future.succeededFuture(ifPage(pageData, fields));
+    }
+
+    // 单模式特殊方法（无第二形态）
+    public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
+        return t -> Future.succeededFuture(Wag.ifField(input, null, t));
+    }
+
+    public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
+        return t -> Future.succeededFuture(Wag.ifField(input, field, t));
+    }
+
+    public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> executor) {
+        return input -> {
+            final JsonObject inputJ = Ut.valueJObject(input);
+            if (inputJ.containsKey(field)) {
+                final Object value = inputJ.getValue(field);
+                if (Objects.nonNull(value)) {
+                    executor.apply((V) value);
+                }
+            }
+        };
+    }
+
+    // ------------------------------- 异步处理 -----------------
+    // 直接包装
+    public static <I, T> Function<I, Future<T>> ifNil(final Function<I, Future<T>> executor) {
+        return Wash.ifNil(executor);
+    }
+
+    // 默认值同步
+    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
+        return ifNil(supplier, (i) -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
+        return input -> ofNil(() -> Future.succeededFuture(supplier.get()), executor).apply(input);
+    }
+
+    // 默认值异步
+    public static <I, T> Function<I, Future<T>> ofNil(final Supplier<Future<T>> supplier, final Supplier<Future<T>> executor) {
+        return ofNil(supplier, i -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ofNil(final Supplier<Future<T>> supplier, final Function<I, Future<T>> executor) {
+        return Wash.ifNil(supplier, executor);
+    }
+
+    // 变种（全异步，默认值同步）JsonObject
+    public static <I> Function<I, Future<JsonObject>> ofJObject(final Function<I, Future<JsonObject>> executor) {
+        return ofNil(() -> Future.succeededFuture(new JsonObject()), executor);
+    }
+
+    public static <I> Function<I, Future<JsonObject>> ofJObject(final Supplier<Future<JsonObject>> executor) {
+        return ofJObject(i -> executor.get());
+    }
+
+    // 变种（全异步，默认值同步）JsonArray
+    public static <I> Function<I, Future<JsonArray>> ofJArray(final Function<I, Future<JsonArray>> executor) {
+        return ofNil(() -> Future.succeededFuture(new JsonArray()), executor);
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ofJArray(final Supplier<Future<JsonArray>> executor) {
+        return ofJArray(i -> executor.get());
+    }
+
+    // ------------------------------- 同步处理 -----------------
+    public static <I, T> Function<I, Future<T>> ifNul(final Function<I, T> executor) {
+        return Wash.ifNul(executor);
+    }
+
+    // 默认值同步
+    public static <I, T> Function<I, Future<T>> ifNul(final Supplier<T> supplier, final Supplier<T> executor) {
+        return ifNul(supplier, (i) -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ifNul(final Supplier<T> supplier, final Function<I, T> executor) {
+        return input -> ofNul(() -> Future.succeededFuture(supplier.get()), executor).apply(input);
+    }
+
+    // 默认值异步
+    public static <I, T> Function<I, Future<T>> ofNul(final Supplier<Future<T>> supplier, final Supplier<T> executor) {
+        return ofNul(supplier, i -> executor.get() /* Function */);
+    }
+
+    public static <I, T> Function<I, Future<T>> ofNul(final Supplier<Future<T>> supplier, final Function<I, T> executor) {
+        return Wash.ifNul(supplier, executor);
+    }
+
+    public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
+        return Wash.ifEmpty(executor);
     }
 }

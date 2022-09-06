@@ -217,10 +217,10 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
         if (filename.endsWith(FileSuffix.EXCEL_2003)) {
-            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), filename);
+            workbook = CC_WORKBOOK.pick(() -> Fn.orJvm(() -> new HSSFWorkbook(in)), filename);
             // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
-            workbook = CC_WORKBOOK.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), filename);
+            workbook = CC_WORKBOOK.pick(() -> Fn.orJvm(() -> new XSSFWorkbook(in)), filename);
             // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
@@ -231,10 +231,10 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, "Stream");
         final Workbook workbook;
         if (isXlsx) {
-            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new XSSFWorkbook(in)), in.hashCode());
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.orJvm(() -> new XSSFWorkbook(in)), in.hashCode());
             // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
-            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.getJvm(() -> new HSSFWorkbook(in)), in.hashCode());
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.orJvm(() -> new HSSFWorkbook(in)), in.hashCode());
             // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
         /* Force to recalculation for evaluator */
@@ -246,7 +246,7 @@ class ExcelHelper {
      * Get Set<ExSheet> collection based on workbook
      */
     Set<ExTable> getExTables(final Workbook workbook, final HTAtom HTAtom) {
-        return Fn.getNull(new HashSet<>(), () -> {
+        return Fn.orNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 

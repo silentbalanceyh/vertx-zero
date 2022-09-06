@@ -158,7 +158,7 @@ public abstract class AbstractRotator implements Rotator {
         this.configHeader(request, headers);
 
         /* send request */
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final HttpResponse httpResponse = this.client().execute(request);
 
             /* build response here */
@@ -175,7 +175,7 @@ public abstract class AbstractRotator implements Rotator {
         this.configHeader(request, headers);
 
         /* send request */
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final HttpResponse httpResponse = this.client().execute(request);
 
             /* Final data */

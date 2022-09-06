@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.feature.Linkage;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -28,7 +29,7 @@ public class ExLinkage implements Linkage {
 
     @Override
     public Future<JsonArray> fetch(final JsonObject criteria) {
-        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria).compose(Ut.ifJArray(
+        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria).compose(Fn.ifJArray(
             KName.SOURCE_DATA,
             KName.TARGET_DATA
         ));

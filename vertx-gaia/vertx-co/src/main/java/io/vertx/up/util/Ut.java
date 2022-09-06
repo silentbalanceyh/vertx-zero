@@ -899,122 +899,6 @@ public final class Ut {
     }
 
     /*
-     * Flatting method for function executing
-     * 1) ifMerge
-     * 2) ifNil / ifJNil / ifTNil
-     * 3) ifEmpty / ifJEmpty
-     * 4) ifJValue -> JsonObject field filling of value
-     * 5) ifJCopy -> JsonObject copy self
-     * 6) ifJObject / ifJArray / ifPage
-     * 7) ifString / ifStrings
-     * 8) ifJAssign -> Source Json -> Target Json copy fields
-     */
-
-    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
-        return array;
-    }
-
-    public static JsonObject ifString(final JsonObject json, final String... fields) {
-        Apply.ifString(json, fields);
-        return json;
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
-        return Apply.ifStrings(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
-        return Apply.ifString(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
-        return Apply.ifJObject(fields);
-    }
-
-    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
-        Apply.ifJson(json, fields);
-        return json;
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
-        return Apply.ifPage(fields);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
-        return Apply.ifJArray(fields);
-    }
-
-    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
-        return array;
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
-        return Apply.applyField(input, null);
-    }
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <T> Function<T, Future<T>> ifNil(final Function<T, Future<T>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifTNil(final Function<T, Future<JsonObject>> executor) {
-        return Apply.<T, JsonObject>applyNil(JsonObject::new, executor);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJNil(final Function<JsonObject, Future<JsonObject>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static Future<JsonObject> ifJNil(final JsonObject input) {
-        return Future.succeededFuture(isNil(input) ? new JsonObject() : input);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJEmpty(final Function<JsonArray, Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(executor);
-    }
-
-    public static Future<JsonArray> ifJEmpty(final JsonArray input, final Supplier<Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(item -> executor.get()).apply(input);
-    }
-
-    public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
-        return Apply.applyEmpty(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
-        return Apply.applyField(input, field);
-    }
-
-    public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> function) {
-        return Apply.applyField(field, function);
-    }
-
-    public static JsonObject ifJValue(final JsonObject record, final String field, final Object value) {
-        return Apply.applyJValue(record, field, value);
-    }
-
-    public static JsonObject ifJValue(final String field, final Object value) {
-        return Apply.applyJValue(null, field, value);
-    }
-
-    public static Function<JsonObject, JsonObject> ifJAssign(final JsonObject input, final String... fields) {
-        return Apply.applyJCopy(input, fields);
-    }
-
-    public static JsonObject ifJCopy(final JsonObject record, final String from, final String to) {
-        return Apply.applyJCopy(record, from, to);
-    }
-
-    /*
      * ConfigStoreOptions reading
      * 1) loadJson
      * 2) loadYaml
@@ -1406,6 +1290,10 @@ public final class Ut {
         return To.toJArray(literal);
     }
 
+    public static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJArray(literal, itemFn);
+    }
+
     public static <T> JsonArray toJArray(final T value, final int repeat) {
         return To.toJArray(value, repeat);
     }
@@ -1428,6 +1316,10 @@ public final class Ut {
 
     public static JsonObject toJObject(final String literal) {
         return To.toJObject(literal);
+    }
+
+    public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJObject(literal, itemFn);
     }
 
     public static JsonObject toJObject(final Object value) {
@@ -1877,6 +1769,57 @@ public final class Ut {
         return Jackson.sureJObject(input, field);
     }
 
+    // mapping + replace/append
+    /*
+     * <Flag>Over: Replace the whole input
+     * -- reference not change
+     * <Flag>: Extract the data from input only
+     */
+    public static JsonObject valueToOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vTo(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueToOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueToOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vTo(input, mapping, true, itFn);
+    }
+
+    public static JsonObject valueFromOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vFrom(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueFromOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueFromOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueFrom(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vFrom(input, mapping, true, itFn);
+    }
     // --------------------- 环境相关方法 ----------------------
 
     /**

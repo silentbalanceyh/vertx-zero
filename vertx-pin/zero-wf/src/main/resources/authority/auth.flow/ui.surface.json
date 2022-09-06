@@ -1,0 +1,14 @@
+{
+    "webComponent": "HxFlow",
+    "webChildren": [
+        {
+            "component": "HxList",
+            "key": "rule.flow.queue"
+        },
+        {
+            "component": "HxAction",
+            "key": "rule.flow.action"
+        }
+    ],
+    "webBind": {}
+}

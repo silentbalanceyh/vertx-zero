@@ -89,7 +89,7 @@ public abstract class AbstractDao implements HDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Fn.getNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
+        return Fn.orNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public Boolean exist(final Criteria criteria) {
-        return Fn.getNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
+        return Fn.orNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
     }
 
     @Override
@@ -121,7 +121,7 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public Boolean miss(final Criteria criteria) {
-        return Fn.getNull(Boolean.FALSE, () -> this.aggr.missing(criteria), criteria);
+        return Fn.orNull(Boolean.FALSE, () -> this.aggr.missing(criteria), criteria);
     }
 
     @Override
@@ -183,7 +183,7 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public Record insert(final Record record) {
-        return Fn.getNull(null, () -> this.flush.insert(record), record);
+        return Fn.orNull(null, () -> this.flush.insert(record), record);
     }
 
     @Override
@@ -254,7 +254,7 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public Record update(final Record record) {
-        return Fn.getNull(null, () -> this.flush.update(record), record);
+        return Fn.orNull(null, () -> this.flush.update(record), record);
     }
 
     /*
@@ -277,7 +277,7 @@ public abstract class AbstractDao implements HDao {
      */
     @Override
     public <ID> Record fetchById(final ID id) {
-        return Fn.getNull(null, () -> this.unique.fetchById(id), id);
+        return Fn.orNull(null, () -> this.unique.fetchById(id), id);
     }
 
     @Override
@@ -336,7 +336,7 @@ public abstract class AbstractDao implements HDao {
      */
     @Override
     public Record fetchOne(final Criteria criteria) {
-        return Fn.getNull(null, () -> this.unique.fetchOne(criteria), criteria);
+        return Fn.orNull(null, () -> this.unique.fetchOne(criteria), criteria);
     }
 
     @Override
@@ -357,12 +357,12 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public JsonObject search(final JsonObject query) {
-        return Fn.getNull(Ux.pageData(), () -> this.search.search(query), query);
+        return Fn.orNull(Ux.pageData(), () -> this.search.search(query), query);
     }
 
     @Override
     public Record[] fetch(final JsonObject criteria) {
-        return Fn.getNull(new Record[]{}, () -> this.search.query(criteria), criteria);
+        return Fn.orNull(new Record[]{}, () -> this.search.query(criteria), criteria);
     }
 
 
@@ -404,7 +404,7 @@ public abstract class AbstractDao implements HDao {
 
     @Override
     public boolean delete(final Record record) {
-        return Fn.getNull(Boolean.FALSE, () -> this.flush.delete(record), record);
+        return Fn.orNull(Boolean.FALSE, () -> this.flush.delete(record), record);
     }
 
     @Override

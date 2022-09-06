@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom.runtime;
 
-import cn.zeroup.macrocosm.cv.em.PassWay;
+import cn.vertxup.workflow.cv.em.PassWay;
 import io.vertx.tp.error._409InValidTaskApiException;
 import org.camunda.bpm.engine.task.Task;
 

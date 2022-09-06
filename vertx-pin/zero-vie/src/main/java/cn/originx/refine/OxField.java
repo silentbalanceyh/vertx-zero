@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -133,7 +134,7 @@ final class OxField {
     static JsonArray metadata(final JsonArray input) {
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(input)
-            .map(item -> Ut.ifJObject(item, KName.METADATA))
+            .map(item -> Fn.ifJObject(item, KName.METADATA))
             .filter(item -> {
                 final JsonObject metadata = item.getJsonObject(KName.METADATA);
                 if (Ut.notNil(metadata)) {
@@ -142,7 +143,7 @@ final class OxField {
                     return true;
                 }
             })
-            .map(item -> Ut.ifString(item, KName.Ui.COLUMNS))
+            .map(item -> Fn.ifString(item, KName.Ui.COLUMNS))
             .forEach(normalized::add);
         return normalized;
     }

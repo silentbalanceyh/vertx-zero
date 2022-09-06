@@ -29,7 +29,7 @@ class RibTool {
         T reference = null;
         if (Objects.nonNull(value)) {
             final Object result = ZeroSerializer.getValue(clazz, value.toString());
-            reference = Fn.getNull(() -> (T) result, result);
+            reference = Fn.orNull(() -> (T) result, result);
         }
         return reference;
     }

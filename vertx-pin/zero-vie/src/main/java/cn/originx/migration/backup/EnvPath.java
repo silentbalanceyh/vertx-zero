@@ -20,7 +20,7 @@ public class EnvPath extends AbstractStep {
 
     @Override
     public Future<JsonObject> procAsync(final JsonObject config) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             this.banner("001.2 初始化目录");
             Ox.Log.infoShell(this.getClass(), "输出目录参数：output = {0}", config.getString("output"));
             final String folder = this.ioRoot(config);

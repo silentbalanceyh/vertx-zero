@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.atom.configuration;
 
-import cn.zeroup.macrocosm.cv.em.RecordMode;
+import cn.vertxup.workflow.cv.em.RecordMode;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

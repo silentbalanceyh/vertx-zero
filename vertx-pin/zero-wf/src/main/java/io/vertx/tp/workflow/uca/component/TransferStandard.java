@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.component;
 
-import cn.zeroup.macrocosm.cv.em.TodoStatus;
+import cn.vertxup.workflow.cv.em.TodoStatus;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;

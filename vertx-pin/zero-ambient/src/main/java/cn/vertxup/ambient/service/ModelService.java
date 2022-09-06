@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.environment.Modeling;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,7 +36,7 @@ public class ModelService implements ModelStub {
             .fetchOneAsync(filters)
             .compose(Ux::futureJ)
             /* Metadata field usage */
-            .compose(Ut.ifJObject(KName.METADATA)));
+            .compose(Fn.ifJObject(KName.METADATA)));
     }
 
     @Override

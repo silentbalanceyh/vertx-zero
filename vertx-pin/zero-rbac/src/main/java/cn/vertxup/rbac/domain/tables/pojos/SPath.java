@@ -25,6 +25,7 @@ public class SPath implements VertxPojo, ISPath {
     private String code;
     private String phase;
     private String mapping;
+    private String parentId;
     private String runComponent;
     private String runType;
     private String dmType;
@@ -54,6 +55,7 @@ public class SPath implements VertxPojo, ISPath {
         this.code = value.getCode();
         this.phase = value.getPhase();
         this.mapping = value.getMapping();
+        this.parentId = value.getParentId();
         this.runComponent = value.getRunComponent();
         this.runType = value.getRunType();
         this.dmType = value.getDmType();
@@ -82,6 +84,7 @@ public class SPath implements VertxPojo, ISPath {
         String code,
         String phase,
         String mapping,
+        String parentId,
         String runComponent,
         String runType,
         String dmType,
@@ -108,6 +111,7 @@ public class SPath implements VertxPojo, ISPath {
         this.code = code;
         this.phase = phase;
         this.mapping = mapping;
+        this.parentId = parentId;
         this.runComponent = runComponent;
         this.runType = runType;
         this.dmType = dmType;
@@ -219,6 +223,25 @@ public class SPath implements VertxPojo, ISPath {
     @Override
     public SPath setMapping(String mapping) {
         this.mapping = mapping;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
+     */
+    @Override
+    public String getParentId() {
+        return this.parentId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
+     */
+    @Override
+    public SPath setParentId(String parentId) {
+        this.parentId = parentId;
         return this;
     }
 
@@ -617,6 +640,12 @@ public class SPath implements VertxPojo, ISPath {
         }
         else if (!this.mapping.equals(other.mapping))
             return false;
+        if (this.parentId == null) {
+            if (other.parentId != null)
+                return false;
+        }
+        else if (!this.parentId.equals(other.parentId))
+            return false;
         if (this.runComponent == null) {
             if (other.runComponent != null)
                 return false;
@@ -749,6 +778,7 @@ public class SPath implements VertxPojo, ISPath {
         result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
         result = prime * result + ((this.phase == null) ? 0 : this.phase.hashCode());
         result = prime * result + ((this.mapping == null) ? 0 : this.mapping.hashCode());
+        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
         result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
         result = prime * result + ((this.runType == null) ? 0 : this.runType.hashCode());
         result = prime * result + ((this.dmType == null) ? 0 : this.dmType.hashCode());
@@ -781,6 +811,7 @@ public class SPath implements VertxPojo, ISPath {
         sb.append(", ").append(code);
         sb.append(", ").append(phase);
         sb.append(", ").append(mapping);
+        sb.append(", ").append(parentId);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(runType);
         sb.append(", ").append(dmType);
@@ -817,6 +848,7 @@ public class SPath implements VertxPojo, ISPath {
         setCode(from.getCode());
         setPhase(from.getPhase());
         setMapping(from.getMapping());
+        setParentId(from.getParentId());
         setRunComponent(from.getRunComponent());
         setRunType(from.getRunType());
         setDmType(from.getDmType());

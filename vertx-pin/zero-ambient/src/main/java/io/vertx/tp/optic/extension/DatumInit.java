@@ -70,7 +70,7 @@ public class DatumInit implements Init {
             client.importAsync(filename, result -> {
                 At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                 if (result.succeeded()) {
-                    pre.complete(Ux.outBool(filename, Boolean.TRUE));
+                    pre.complete(Fn.wrapJS(filename, Boolean.TRUE));
                 } else {
                     pre.fail(result.cause());
                 }

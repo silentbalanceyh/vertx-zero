@@ -6,6 +6,7 @@
     "plugin/ambient/oob/data/ambient.directory.tree.xlsx",
     "plugin/ambient/oob/data/ambient.number.xlsx",
     "plugin/ambient/oob/data/ambient.menu.xlsx",
+    "plugin/ambient/oob/data/authority.menu.xlsx",
     "plugin/ambient/oob/cab/ambient.app.xlsx",
     "plugin/ambient/oob/cab/system.document.xlsx",
     "plugin/ambient/oob/cab/system.sync_log.xlsx",

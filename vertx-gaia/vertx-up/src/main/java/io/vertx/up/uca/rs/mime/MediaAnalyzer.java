@@ -47,7 +47,7 @@ public class MediaAnalyzer implements Analyzer {
 
     private MediaType getMedia(final RoutingContext context) {
         final String header = context.request().getHeader(HttpHeaders.CONTENT_TYPE);
-        return Fn.getSemi(Ut.isNil(header), LOGGER,
+        return Fn.orSemi(Ut.isNil(header), LOGGER,
             () -> MediaType.WILDCARD_TYPE,
             () -> MediaType.valueOf(header));
     }

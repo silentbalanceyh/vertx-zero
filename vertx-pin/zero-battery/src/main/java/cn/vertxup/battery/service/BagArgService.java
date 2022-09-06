@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.atom.PowerApp;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -76,7 +77,7 @@ public class BagArgService implements BagArgStub {
         Objects.requireNonNull(bagId);
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchByIdAsync(bagId)
             // Cache Processing
-            .compose(Ut.ifNil(JsonObject::new, bag -> this.saveConfigure(bag, data)));
+            .compose(Fn.ofJObject(bag -> this.saveConfigure(bag, data)));
     }
 
     @Override
@@ -84,7 +85,7 @@ public class BagArgService implements BagArgStub {
         Objects.requireNonNull(nameAbbr);
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchOneAsync("nameAbbr", nameAbbr)
             // Cache Processing
-            .compose(Ut.ifNil(JsonObject::new, bag -> this.saveConfigure(bag, data)));
+            .compose(Fn.ofJObject(bag -> this.saveConfigure(bag, data)));
     }
 
     private Future<JsonObject> saveConfigure(final BBag bag, final JsonObject data) {

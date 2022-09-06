@@ -23,8 +23,8 @@ public class PemCert implements CertPipe<JsonObject> {
 
     @Override
     public Handler<TCPSSLOptions> parse(final JsonObject options) {
-        return Fn.getNull(() -> {
-            final PemKeyCertOptions pem = Fn.getSemi(
+        return Fn.orNull(() -> {
+            final PemKeyCertOptions pem = Fn.orSemi(
                 null == options ||
                     !options.containsKey(PATH_KEY) ||
                     !options.containsKey(PATH_CERT), LOGGER,

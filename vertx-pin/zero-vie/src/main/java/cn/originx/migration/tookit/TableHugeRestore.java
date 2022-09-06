@@ -45,7 +45,7 @@ public class TableHugeRestore extends AbstractStatic {
             .append(" -p").append(database.getSmartPassword())
             .append(" --default-character-set=utf8 ")
             .append(" ").append(database.getInstance());
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final File fileObj = Ut.ioFile(file);
             final BasicFileAttributes fileAttributes = Files.readAttributes(fileObj.toPath(), BasicFileAttributes.class);
             if (fileObj.exists() && fileAttributes.isRegularFile()) {

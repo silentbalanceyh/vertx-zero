@@ -96,7 +96,7 @@ final class Types {
     }
 
     static boolean isJArray(final String literal) {
-        return Fn.getNull(Boolean.FALSE, () -> {
+        return Fn.orNull(Boolean.FALSE, () -> {
             try {
                 new JsonArray(literal);
                 return true;
@@ -107,7 +107,7 @@ final class Types {
     }
 
     static boolean isJArray(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> isJArray(value.getClass()));
     }
@@ -137,13 +137,13 @@ final class Types {
     }
 
     static boolean isClass(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> null != Instance.clazz(value.toString()));
     }
 
     static boolean isJObject(final String literal) {
-        return Fn.getNull(Boolean.FALSE, () -> {
+        return Fn.orNull(Boolean.FALSE, () -> {
             try {
                 new JsonObject(literal);
                 return true;
@@ -154,7 +154,7 @@ final class Types {
     }
 
     static boolean isEmpty(final JsonObject json) {
-        return Fn.getNull(Boolean.TRUE, () -> 0 == json.fieldNames().size(), json);
+        return Fn.orNull(Boolean.TRUE, () -> 0 == json.fieldNames().size(), json);
     }
 
     static boolean isEmpty(final JsonArray jsonArray) {
@@ -166,7 +166,7 @@ final class Types {
     }
 
     static boolean isJObject(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> isJObject(value.getClass()));
     }
@@ -193,7 +193,7 @@ final class Types {
     }
 
     static boolean isInteger(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> Numeric.isInteger(value.toString()));
     }
@@ -205,7 +205,7 @@ final class Types {
     }
 
     static boolean isDecimal(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> Numeric.isDecimal(value.toString()));
     }
@@ -221,7 +221,7 @@ final class Types {
     }
 
     static boolean isBoolean(final Object value) {
-        return Fn.getSemi(null == value, LOGGER,
+        return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> {
                 boolean logical = false;
