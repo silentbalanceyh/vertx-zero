@@ -977,6 +977,23 @@ public final class Fn {
         return ifNil(supplier, (i) -> executor.get() /* Function */);
     }
 
+
+    public static <I> Function<I, Future<JsonObject>> ifJObject(final Supplier<JsonObject> executor) {
+        return ofJObject(() -> Future.succeededFuture(executor.get()));
+    }
+
+    public static <I> Function<I, Future<JsonObject>> ifJObject(final Function<I, JsonObject> executor) {
+        return ofJObject(item -> Future.succeededFuture(executor.apply(item)));
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ifJArray(final Supplier<JsonArray> executor) {
+        return ofJArray(() -> Future.succeededFuture(executor.get()));
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ifJArray(final Function<I, JsonArray> executor) {
+        return ofJArray(item -> Future.succeededFuture(executor.apply(item)));
+    }
+
     public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
         return input -> ofNil(() -> Future.succeededFuture(supplier.get()), executor).apply(input);
     }
