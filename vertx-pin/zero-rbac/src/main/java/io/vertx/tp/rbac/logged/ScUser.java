@@ -191,7 +191,7 @@ public class ScUser {
 
     // ------------------------- Session Method -----------------------
     public Future<JsonObject> view() {
-        return this.<JsonObject>get(KName.VIEW).compose(Fn.ifNul(item -> item));
+        return this.<JsonObject>get(KName.VIEW).compose(Fn.ifJObject(item -> item));
     }
 
     public Future<JsonObject> view(final String viewKey) {
@@ -224,7 +224,7 @@ public class ScUser {
      * }
      */
     public Future<JsonObject> profile() {
-        return this.<JsonObject>get(KName.PROFILE).compose(Fn.ifNul(item -> item));
+        return this.<JsonObject>get(KName.PROFILE).compose(Fn.ifJObject(item -> item));
     }
 
     public Future<JsonObject> permissions() {
