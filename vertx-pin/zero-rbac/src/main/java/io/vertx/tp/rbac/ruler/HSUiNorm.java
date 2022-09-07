@@ -15,18 +15,8 @@ import io.vertx.up.util.Ut;
 public class HSUiNorm extends AbstractAdmit {
 
     @Override
-    public Future<JsonObject> configure(final HPermit permit) {
-        /*
-         * Ui 的配置流程，配置完成后会输入
-         * {
-         *     "surface": uiSurface,
-         *     "qr":      uiQr
-         * }
-         */
-        final JsonObject request = permit.uiJ();
-        final JsonObject qrJ = Ut.valueJObject(request, KName.Rbac.QR);
-        request.put(KName.Rbac.QR, this.valueQr(qrJ, null));
-        return Future.succeededFuture(request);
+    public Future<JsonObject> configure(final HPermit permit, final JsonObject requestJ) {
+        return super.configure(permit, requestJ, HPermit::uiJ);
     }
 
     @Override
