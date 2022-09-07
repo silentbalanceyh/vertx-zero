@@ -6,21 +6,28 @@
         {
             "icon": "upload",
             "text": "保存",
-            "type": "primary"
+            "type": "primary",
+            "key": "__KEY_SAVE",
+            "connectId": "__ID_SAVE"
         },
         {
             "icon": "cloud-upload",
             "text": "保存所有",
-            "type": "primary"
+            "type": "primary",
+            "key": "__OUTER_KEY_SAVE_ALL",
+            "connectId": "__OUTER_ID_SAVE_ALL"
         }
     ],
-    "webView": {
-        "name": "`${view}`",
-        "position": "`${position}`"
-    },
-    "webArea": {
-        "source": "workflow.cat",
-        "group": "type",
-        "field": "code"
+    "webTag": {
+        "config": {
+            "source": "workflow.cat",
+            "field": "type",
+            "display": "name",
+            "value": "code"
+        },
+        "ui": {
+            "placeholder": "（请选择过滤类型）",
+            "mode": "multiple"
+        }
     }
 }

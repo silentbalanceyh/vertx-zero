@@ -177,14 +177,23 @@ public class HCatena implements Serializable {
      *          // 常用配置解析
      *          "webAdmit":             "[], 需要超级管理员权限的定义维度",
      *          "webAction":            "[]|{}, 按钮定义，单个或多个",
-     *          "webView":              "{}, 当前维度操作的视图维度，主要填充 view 和 position参数和安全对接",
      *          "webComponent":         "主组件，最终写入根节点 ui 中",
      *          "webBind":              "xx, 当前管理区域绑定的 S_RESOURCE 资源 code",
+     *
      *          "webTree":              "xx, 如果数据以树型呈现，提供树相关配置",
+     *          "webTag":               "区域定义，当前数据的所分区域定义",
+     *          "webView":              "{}, 当前维度操作的视图维度，主要填充 view 和 position参数和安全对接",
+     *
      *          "webData": {
      *              "empty":            "true | false, 读取数据为空时是否全填充，或全禁止",
      *              "initializer":      "数据加载脚本",
      *              "requester":        "数据提交脚本"
+     *          },
+     *          "webUi": {
+     *              "...UI部分独立配置，可共享的键如",
+     *
+     *              "webTree": "",
+     *              "webTag":  ""
      *          }
      *     }
      *     "ui":            "ui -> webComponent，主组件配置处理",
@@ -196,6 +205,7 @@ public class HCatena implements Serializable {
      *     "data":          "<子类填充>",
      *     "children":      "<子类填充>",
      * }
+     * 构造四层树，重复键需提取：webTree / webTag
      */
     public JsonObject response() {
         final JsonObject normalized = new JsonObject();
@@ -206,8 +216,17 @@ public class HCatena implements Serializable {
          * 读取所有 web 前缀下的配置
          * 维度 + 数据（都读取配置层）
          * --> uiSurface
+         * 重新拟定算法
+         * uiSurface,   webTree / webTag 提取到 webUi
          */
         final JsonObject uiSurface = Ut.valueJObject(this.configUi, KName.Rbac.SURFACE).copy();
+        {
+            // 特殊配置直接来自 uiConfig 字段
+            final JsonObject configUi = this.configUi.copy();
+            final JsonObject webUi = new JsonObject();
+            Ut.itStart(configUi, KName.WEB, (value, field) -> webUi.put(field, value));
+            uiSurface.put(KName.Rbac.WEB_UI, webUi);
+        }
         final JsonObject configDm = this.configDm.copy();
         Ut.itStart(configDm, KName.WEB, (value, field) -> uiSurface.put(field, value));
         normalized.put(KName.CONFIG, uiSurface);
