@@ -43,22 +43,22 @@ class It {
         return itJString(array, predicate);
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("unchecked")
     static <T> T itJson(final T data, final Function<JsonObject, T> executor) {
         if (Objects.isNull(data)) {
             return null;
         } else {
-            if (data instanceof JsonObject) {
-                final JsonObject reference = (JsonObject) data;
+            if (data instanceof final JsonObject reference) {
                 return executor.apply(reference);
-            } else if (data instanceof JsonArray) {
+            } else if (data instanceof final JsonArray reference) {
                 final JsonArray normalized = new JsonArray();
-                final JsonArray reference = (JsonArray) data;
                 itJArray(reference)
                     .map(each -> itJson(each, (json) -> executor.apply(json)))
                     .forEach(normalized::add);
                 return (T) normalized;
-            } else return data;
+            } else {
+                return data;
+            }
         }
     }
 }

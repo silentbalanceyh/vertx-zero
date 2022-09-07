@@ -28,11 +28,8 @@ public class HSDimNorm extends AbstractAdmit {
          *     "qr":      shapeQr
          * }
          */
-        final JsonObject request = permit.dmJ();
-        final JsonObject qrJ = Ut.valueJObject(request, KName.Rbac.QR);
-        request.put(KName.Rbac.QR, this.valueQr(qrJ, null));
-        // 维度计算一旦存在直接调用 compile
-        return Future.succeededFuture(request);
+        final JsonObject configured = this.valueConfig(permit, null);
+        return Future.succeededFuture(configured);
     }
 
     @Override

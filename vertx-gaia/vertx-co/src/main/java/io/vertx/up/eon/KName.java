@@ -188,6 +188,7 @@ public interface KName {
     String ACTIONS = "actions";                  /* Security: actions */
 
     String DAO = "dao";                          /* Dao field in json configuration */
+    String WEB = "web";                          /* Web Prefix */
     String CONNECT = "connect";                  /* Connect field in json configuration */
     String PLUGIN_IO = "plugin.io";              /* Attribute Plugin for "io" of source config */
     String TIMER = "timer";                      /* Timer in Job */
@@ -518,6 +519,9 @@ public interface KName {
         // Qr Component
         String QR_COMPONENT = "qrComponent";
         String QR_CONFIG = "qrConfig";
+        // Web Component
+        String WEB_COMPONENT = "webComponent";
+        String WEB_CONFIG = "webConfig";
     }
 
 

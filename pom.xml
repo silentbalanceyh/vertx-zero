@@ -57,9 +57,9 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.13.3</jackson.version>
-        <jackson.databind.version>2.13.3</jackson.databind.version>
-        <jackson.extension.version>2.13.3</jackson.extension.version>
+        <jackson.version>2.13.4</jackson.version>
+        <jackson.databind.version>2.13.4</jackson.databind.version>
+        <jackson.extension.version>2.13.4</jackson.extension.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -71,13 +71,13 @@
         <stack.version>4.3.3</stack.version>
 
         <jcabi.version>0.24.1</jcabi.version>
-        <jersey.version>2.36</jersey.version>
+        <jersey.version>2.37</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
         <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.17.3</jooq.version>
+        <jooq.version>3.17.4</jooq.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.30</mysql.version>
 

@@ -5,6 +5,7 @@ import io.vertx.aeon.atom.secure.Hoi;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.util.Ut;
 
@@ -60,5 +61,37 @@ public abstract class AbstractAdmit implements HAdmit {
         }
         // 维度模型使用统一的Qr构造器，这部分变数比较大，从 Hoi 直接绑定执行器来处理
         return Ut.fromExpression(qrJ, parameters);
+    }
+
+    /*
+     * Dm 配置，子类使用，目前版本流程
+     * 1）调用 valueQr 执行查询条件处理
+     *
+     * - 该方法可在主记录中调用，也可以在子记录中调用
+     * - 如果出现多级，则构造如下结构
+     * {
+     *     "items": ...,
+     *     "....",
+     *     "children": {
+     *         "code": {
+     *             "DM递归结构（不包含children和webChildren），只支持一级递归，不支持二级递归"
+     *         }
+     *     }
+     * }
+     */
+    protected JsonObject valueConfig(final HPermit permit, final JsonObject requestJ) {
+        /*
+         * 字段集
+         * - items
+         * - qr
+         * - mapping
+         */
+        final JsonObject inputJ = permit.dmJ();
+        final JsonObject qrJ = Ut.valueJObject(inputJ, KName.Rbac.QR);
+        // 复制原始记录（创建副本以防止混乱）
+        final JsonObject normalizedJ = inputJ.copy();
+        // 维度计算只会存在于 compile 中，此处只做 qr 的处理
+        normalizedJ.put(KName.Rbac.QR, this.valueQr(qrJ, requestJ));
+        return normalizedJ;
     }
 }

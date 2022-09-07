@@ -205,9 +205,27 @@ public class HCatena implements Serializable {
          * configDm + configUi      = surface
          * 读取所有 web 前缀下的配置
          * 维度 + 数据（都读取配置层）
+         * --> uiSurface
          */
         final JsonObject uiSurface = Ut.valueJObject(this.configUi, KName.Rbac.SURFACE).copy();
         final JsonObject configDm = this.configDm.copy();
-        return null;
+        Ut.itStart(configDm, KName.WEB, (value, field) -> uiSurface.put(field, value));
+        normalized.put(KName.CONFIG, uiSurface);
+
+        /*
+         * page
+         * webComponent     ->      ui
+         * key              ->      key
+         * name             ->      label
+         * code             ->      value
+         * datum            ->      {} store
+         */
+        normalized.put(KName.Rbac.UI, Ut.valueString(uiSurface, KName.Component.WEB_COMPONENT));
+        final JsonObject input = this.request.copy();
+        normalized.put(KName.KEY, input.getValue(KName.KEY));
+        normalized.put(KName.LABEL, input.getValue(KName.NAME));
+        normalized.put(KName.VALUE, input.getValue(KName.CODE));
+        normalized.put(KName.DATUM, input.copy());
+        return normalized;
     }
 }
