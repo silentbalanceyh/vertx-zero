@@ -16,23 +16,8 @@ import java.util.Objects;
 public class HSDimNorm extends AbstractAdmit {
 
     @Override
-    public Future<JsonObject> configure(final HPermit permit) {
-        /*
-         * 提取 dmConfig 字段的数据，解析 items 内容，执行维度数据源的提取
-         * - items 为 JsonArray
-         * - items 为 JsonObject（三种模式）
-         *
-         * {
-         *     "items":   JOBJECT | JARRAY,
-         *     "mapping": shapeMapping,
-         *     "qr":      shapeQr
-         * }
-         */
-        final JsonObject request = permit.dmJ();
-        final JsonObject qrJ = Ut.valueJObject(request, KName.Rbac.QR);
-        request.put(KName.Rbac.QR, this.valueQr(qrJ, null));
-        // 维度计算一旦存在直接调用 compile
-        return Future.succeededFuture(request);
+    public Future<JsonObject> configure(final HPermit permit, final JsonObject requestJ) {
+        return super.configure(permit, requestJ, HPermit::dmJ);
     }
 
     @Override
@@ -67,7 +52,7 @@ public class HSDimNorm extends AbstractAdmit {
                      * 2. config 就为 itemJ 本身
                      */
                     final JsonObject inputJ = permit.dmJ();
-                    final JsonObject qrJ = this.valueQr(Ut.valueJObject(inputJ, KName.Rbac.QR), null);
+                    final JsonObject qrJ = this.configureQr(Ut.valueJObject(inputJ, KName.Rbac.QR), null);
                     return this.compile(permit, qrJ, itemJ.copy())
                         .compose(itemA -> this.normalize(itemA, permit))
                         .compose(Future::succeededFuture);

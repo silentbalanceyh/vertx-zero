@@ -17,5 +17,10 @@
     "webView": {
         "name": "`${view}`",
         "position": "`${position}`"
+    },
+    "webArea": {
+        "source": "workflow.cat",
+        "group": "type",
+        "field": "code"
     }
 }

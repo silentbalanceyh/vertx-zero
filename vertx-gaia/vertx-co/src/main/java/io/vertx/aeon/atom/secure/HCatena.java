@@ -164,4 +164,68 @@ public class HCatena implements Serializable {
         parameters.put(KName.IN, this.request);
         return parameters;
     }
+
+    /*
+     * 流程数据读取的基础骨架，最终响应数据的基础格式处理
+     * 基础格式处理如下：
+     * {
+     *     "group":         "dm -> items，表示维度计算结果",
+     *     "config":        {                                   // "ui -> surface，界面呈现专用配置",
+     *          // 配置来源于两个方向
+     *          // dmJ -> web前缀配置 DM_CONFIG
+     *          // uiJ -> web前缀配置 UI_SURFACE
+     *          // 常用配置解析
+     *          "webAdmit":             "[], 需要超级管理员权限的定义维度",
+     *          "webAction":            "[]|{}, 按钮定义，单个或多个",
+     *          "webView":              "{}, 当前维度操作的视图维度，主要填充 view 和 position参数和安全对接",
+     *          "webComponent":         "主组件，最终写入根节点 ui 中",
+     *          "webBind":              "xx, 当前管理区域绑定的 S_RESOURCE 资源 code",
+     *          "webTree":              "xx, 如果数据以树型呈现，提供树相关配置",
+     *          "webData": {
+     *              "empty":            "true | false, 读取数据为空时是否全填充，或全禁止",
+     *              "initializer":      "数据加载脚本",
+     *              "requester":        "数据提交脚本"
+     *          }
+     *     }
+     *     "ui":            "ui -> webComponent，主组件配置处理",
+     *     "key":           "input -> 输入主键，对应 S_PATH",
+     *     "label":         "input -> 输入名称，对应 S_PATH",
+     *     "value":         "input -> 输入编码，对应 S_PATH",
+     *     "datum":         {                                   // "S_PATH对象本身数据"
+     *     }
+     *     "data":          "<子类填充>",
+     *     "children":      "<子类填充>",
+     * }
+     */
+    public JsonObject response() {
+        final JsonObject normalized = new JsonObject();
+        // group                    = dm -> items
+        normalized.put(KName.GROUP, this.dataDm.getValue(KName.ITEMS));
+        /*
+         * configDm + configUi      = surface
+         * 读取所有 web 前缀下的配置
+         * 维度 + 数据（都读取配置层）
+         * --> uiSurface
+         */
+        final JsonObject uiSurface = Ut.valueJObject(this.configUi, KName.Rbac.SURFACE).copy();
+        final JsonObject configDm = this.configDm.copy();
+        Ut.itStart(configDm, KName.WEB, (value, field) -> uiSurface.put(field, value));
+        normalized.put(KName.CONFIG, uiSurface);
+
+        /*
+         * page
+         * webComponent     ->      ui
+         * key              ->      key
+         * name             ->      label
+         * code             ->      value
+         * datum            ->      {} store
+         */
+        normalized.put(KName.Rbac.UI, Ut.valueString(uiSurface, KName.Component.WEB_COMPONENT));
+        final JsonObject input = this.request.copy();
+        normalized.put(KName.KEY, input.getValue(KName.KEY));
+        normalized.put(KName.LABEL, input.getValue(KName.NAME));
+        normalized.put(KName.VALUE, input.getValue(KName.CODE));
+        normalized.put(KName.DATUM, input.copy());
+        return normalized;
+    }
 }

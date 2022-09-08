@@ -808,6 +808,14 @@ public final class Fn {
         return Future.succeededFuture(Wander.wrapJ(KName.DATA, data));
     }
 
+    public static Future<JsonObject> wrapJ(final JsonArray data, final JsonObject config) {
+        return Future.succeededFuture(Wander.wrapJ(KName.DATA, data, config));
+    }
+
+    public static Future<JsonObject> wrapJ(final String field, final JsonArray data, final JsonObject config) {
+        return Future.succeededFuture(Wander.wrapJ(field, data, config));
+    }
+
     // json -> bool
     public static Future<Boolean> wrapB(final String field, final JsonObject input) {
         return Future.succeededFuture(Wander.wrapB(field, input));
@@ -967,6 +975,23 @@ public final class Fn {
     // 默认值同步
     public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
         return ifNil(supplier, (i) -> executor.get() /* Function */);
+    }
+
+
+    public static <I> Function<I, Future<JsonObject>> ifJObject(final Supplier<JsonObject> executor) {
+        return ofJObject(() -> Future.succeededFuture(executor.get()));
+    }
+
+    public static <I> Function<I, Future<JsonObject>> ifJObject(final Function<I, JsonObject> executor) {
+        return ofJObject(item -> Future.succeededFuture(executor.apply(item)));
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ifJArray(final Supplier<JsonArray> executor) {
+        return ofJArray(() -> Future.succeededFuture(executor.get()));
+    }
+
+    public static <I> Function<I, Future<JsonArray>> ifJArray(final Function<I, JsonArray> executor) {
+        return ofJArray(item -> Future.succeededFuture(executor.apply(item)));
     }
 
     public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {

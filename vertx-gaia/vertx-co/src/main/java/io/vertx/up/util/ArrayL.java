@@ -28,7 +28,6 @@ final class ArrayL {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
-     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
@@ -303,9 +302,6 @@ final class ArrayL {
         return group(source, item -> item.getString(field));
     }
 
-    /**
-     *
-     */
     static List<JsonArray> group(final JsonArray source, final Integer size) {
         final List<JsonArray> groupData = new ArrayList<>();
         final JsonArray container = new JsonArray();

@@ -65,7 +65,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -427,10 +426,11 @@ public final class Ut {
      *  7) itMatrix
      *  8) itCollection
      *  9) itRepeat
-     * 10) itJObject / etJObject
-     * 11) itJArray / etJArray
+     * 10) itJObject
+     * 11) itJArray
      * 12) itJson ( For <T> extract by JsonObject/JsonArray )
      * 13) itJString
+     * 14) itStart / itEnd / itPart
      *
      * `it` means iterator method here
      * `et` means `Error Iterator` to be sure comsumer should throw some checked exception
@@ -535,6 +535,18 @@ public final class Ut {
 
     public static <T> T itJson(final T data, final Function<JsonObject, T> executor) {
         return It.itJson(data, executor);
+    }
+
+    public static <T> void itStart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, true, consumer);
+    }
+
+    public static <T> void itPart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, null, consumer);
+    }
+
+    public static <T> void itEnd(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, false, consumer);
     }
 
     /*
@@ -1486,7 +1498,6 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
-     *
      * @return a string of captcha with certain length.
      */
     /*
