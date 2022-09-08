@@ -36,7 +36,7 @@ class SheetImport {
         final Set<T> resultSet = new HashSet<>();
         if (Objects.nonNull(table.classPojo()) && Objects.nonNull(table.classDao())) {
             try {
-                final JsonObject filters = table.whereUnique(data);
+                final JsonObject filters = table.whereAncient(data);
                 LOGGER.debug("[ Έξοδος ]  Table: {1}, Filters: {0}", filters.encode(), table.getName());
                 final List<T> entities = Ux.fromJson(data, table.classPojo(), table.filePojo());
                 final UxJooq jooq = this.jooq(table);

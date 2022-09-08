@@ -6,6 +6,7 @@ import io.vertx.tp.error._404ConnectMissingException;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -85,13 +86,57 @@ public class ExTable implements Serializable {
         return filters;
     }
 
-    public JsonObject whereUnique(final JsonArray data) {
-        final JsonObject filters = new JsonObject();
-        filters.put(Strings.EMPTY, Boolean.FALSE);
-        Ut.itJArray(data, JsonObject.class, (item, index) -> {
-            final String indexKey = "$" + index;
-            filters.put(indexKey, this.whereUnique(item).put(Strings.EMPTY, Boolean.TRUE));
-        });
+    /*
+     * 批量条件需执行新算法，防止
+     * java.lang.StackOverflowError: null
+     * 	at org.jooq.impl.AbstractQueryPart.equals(AbstractQueryPart.java:158)
+     * 先根据 unique 统计数据，按统计结果排序，然后构造一个组
+     * 如：code / sigma / stateId
+     * 计算三个字段的总的数据量，得到最终的查询条件：
+     * 1) 如果只有一个则直接 = 符号，若多个再使用 in 操作符，防止 in 操作符越界
+     * 2) 得到的每个维度之间的全部使用 OR 连接符，叶节点则使用 AND 连接符
+     * 转换公式如：
+     * A & B1 & C1
+     * A & B1 & C2
+     * A & B2 & C3
+     * A & B2 & C4
+     * -->
+     * A & IN (B1, B2) & IN (C1, C2, C3, C4)
+     * 1）提供第二参数选择是否要截断C条件，因为导入过程只牵涉到保存，所以最低维度条件已经被涵盖，
+     *    不会存在 A & IN (B1, B2) 条件不满足时候，却满足IN (C1, C2, C3, C4)的情况，由于第三条件
+     *    是根据输入数据计算的，而第三条件满足，前边条件不满足的情况不存在，这种时候可直接省略第三条件（简化查询）
+     * 2）简化第三条件可能引起查询数据会更多，但由于导入不牵涉删除，只是保存和更新，最终计算结构并不会受到影响，且
+     *    在 Zero 中第三条件一般会是单条数据的 unique 判断。
+     * 此处提取数据时如果前条件不满足，那么直接忽略这种数据，这种数据没有前置条件，可以不纳入考虑
+     */
+    public JsonObject whereAncient(final JsonArray data) {
+        final JsonArray unique = this.getConnect().getUnique();
+        final ConcurrentMap<String, Integer> counter = Ut.elementCount(data, unique);
+        /*
+         * 查找最大节点
+         */
+        final Integer max = Collections.max(counter.values());
+        final JsonObject filters;
+        if (1 < max) {
+            filters = Ux.whereAnd();
+            final Set<String> fields = new HashSet<>();
+            counter.forEach((field, count) -> {
+                if (!Objects.equals(max, count)) {
+                    fields.add(field);
+                }
+            });
+            fields.forEach(field -> {
+                final JsonArray value = Ut.valueJArray(data, field);
+                filters.put(field + ",i", value);
+            });
+        } else {
+            // 底层处理，数据量比较少地情况
+            filters = Ux.whereOr();
+            Ut.itJArray(data, JsonObject.class, (item, index) -> {
+                final String indexKey = "$" + index;
+                filters.put(indexKey, this.whereUnique(item).put(Strings.EMPTY, Boolean.TRUE));
+            });
+        }
         return filters;
     }
 
