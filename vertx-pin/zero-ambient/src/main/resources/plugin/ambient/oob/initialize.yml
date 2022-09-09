@@ -31,7 +31,6 @@
 -   dao: cn.vertxup.ambient.domain.tables.daos.XNumberDao   # X_NUMBER
     unique:
     - code
-    - type
     - appId
 -   dao: cn.vertxup.ambient.domain.tables.daos.XMenuMyDao     # X_MENU_MY
     key: key
