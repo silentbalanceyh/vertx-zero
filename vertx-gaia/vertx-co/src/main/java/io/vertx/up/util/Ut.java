@@ -37,6 +37,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * Uniform Tool
@@ -65,6 +66,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -130,6 +132,7 @@ public final class Ut {
      * 11) elementCompress
      * 12) elementSet
      * 13) elementRevert
+     * 14) elementCount
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
@@ -236,6 +239,19 @@ public final class Ut {
 
     public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
         return ArrayL.subset(input, fnFilter);
+    }
+
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final String... fields) {
+        return ArrayL.count(input, Arrays.stream(fields).collect(Collectors.toSet()));
+    }
+
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final Set<String> fieldSet) {
+        return ArrayL.count(input, fieldSet);
+    }
+
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final JsonArray fieldArray) {
+        final Set<String> fieldSet = toSet(fieldArray);
+        return ArrayL.count(input, fieldSet);
     }
 
     public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
@@ -1498,6 +1514,7 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
+     *
      * @return a string of captcha with certain length.
      */
     /*

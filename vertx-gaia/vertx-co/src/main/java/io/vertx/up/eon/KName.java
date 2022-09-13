@@ -424,12 +424,14 @@ public interface KName {
         String DM = "dm";                            /* Definition: DM Process */
         String UI = "ui";                            /* Definition: UI Process */
         String QR = "qr";                            /* Definition: */
-        String SURFACE = "surface";                  /* Definition: UI Show */
         String IN = KName.IN;                        /* Definition: In Process */
 
         String PACK_V = "v";
         String PACK_H = "h";
         String PACK_Q = "q";
+
+        String SURFACE = "surface";                  /* Definition: UI Show */
+        String WEB_UI = "webUi";
     }
 
 

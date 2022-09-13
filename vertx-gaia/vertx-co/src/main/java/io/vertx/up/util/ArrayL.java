@@ -28,6 +28,7 @@ final class ArrayL {
      * @param list     The target list
      * @param fnFilter the filter for list search.
      * @param <T>      The generic type of list element.
+     *
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
@@ -94,6 +95,15 @@ final class ArrayL {
             .filter(Ut::notNil)
             .forEach(updated::add);
         return updated;
+    }
+
+    static ConcurrentMap<String, Integer> count(final JsonArray array, final Set<String> fields) {
+        final ConcurrentMap<String, Integer> counter = new ConcurrentHashMap<>();
+        fields.forEach(field -> {
+            final Set<String> set = Epsilon.vStringSet(array, field);
+            counter.put(field, set.size());
+        });
+        return counter;
     }
 
     static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {

@@ -13,10 +13,8 @@
     "webAction": {
         "icon": "upload",
         "text": "保存",
-        "type": "primary"
-    },
-    "webView": {
-        "name": "DEFAULT",
-        "position": "DEFAULT"
+        "type": "primary",
+        "key": "__KEY_SAVE",
+        "connectId": "__ID_SAVE"
     }
 }
