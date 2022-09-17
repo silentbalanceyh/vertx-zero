@@ -33,11 +33,39 @@ final class ArrayL {
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
         return Fn.orNull(() -> {
-            final List<T> filtered = list.stream().filter(fnFilter).collect(Collectors.toList());
+            final List<T> filtered = list.stream().filter(fnFilter).toList();
             return Fn.orSemi(filtered.isEmpty(), LOGGER,
                 () -> null,
                 () -> filtered.get(Values.IDX));
         }, list, fnFilter);
+    }
+
+    static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn){
+        if(Objects.isNull(entity)){
+            return list;
+        }
+        final V keyAdd = keyFn.apply(entity);
+        if(Objects.isNull(keyAdd)){
+            return list;
+        }
+        int foundIdx = Values.RANGE;
+        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+            final T original = list.get(idx);
+            if(Objects.isNull(original)){
+                continue;
+            }
+            final V keyOld = keyFn.apply(original);
+            if(keyAdd.equals(keyOld)){
+                foundIdx = idx;
+                break;
+            }
+        }
+        if(Values.RANGE == foundIdx){
+            list.add(entity);
+        }else{
+            list.set(foundIdx, entity);
+        }
+        return list;
     }
 
     static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
