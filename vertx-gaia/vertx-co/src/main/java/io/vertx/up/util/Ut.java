@@ -162,6 +162,13 @@ public final class Ut {
     public static <T> List<T> elementSave(final List<T> list, final T entity, final Function<T, String> keyFn){
         return ArrayL.save(list, entity, keyFn);
     }
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field){
+        return ArrayL.remove(list, entity, item -> Ut.field(item, field));
+    }
+
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final Function<T, String> keyFn){
+        return ArrayL.remove(list, entity, keyFn);
+    }
 
     public static JsonArray elementClimb(final JsonArray children, final JsonArray tree) {
         return ArrayJ.climb(children, tree, null);

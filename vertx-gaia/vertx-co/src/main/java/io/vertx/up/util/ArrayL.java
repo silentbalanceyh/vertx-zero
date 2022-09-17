@@ -40,6 +40,28 @@ final class ArrayL {
         }, list, fnFilter);
     }
 
+    static <T, V> List<T> remove(final List<T> list, final T entity, final Function<T, V> keyFn){
+        if(Objects.isNull(entity)){
+            return list;
+        }
+        final V keyAdd = keyFn.apply(entity);
+        if(Objects.isNull(keyAdd)){
+            return list;
+        }
+        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+            final T original = list.get(idx);
+            if(Objects.isNull(original)){
+                continue;
+            }
+            final V keyOld = keyFn.apply(original);
+            if(keyAdd.equals(keyOld)){
+                list.remove(original);
+                break;
+            }
+        }
+        return list;
+    }
+
     static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn){
         if(Objects.isNull(entity)){
             return list;
