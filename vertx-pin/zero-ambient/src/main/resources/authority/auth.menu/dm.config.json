@@ -14,7 +14,7 @@
         "icon": "upload",
         "text": "保存",
         "type": "primary",
-        "key": "__KEY_SAVE",
-        "connectId": "__ID_SAVE"
+        "key": "__ID_MENU_SAVE",
+        "connectId": "__CID_MENU_SAVE"
     }
 }
