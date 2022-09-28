@@ -126,11 +126,10 @@ class IxFn {
             } else {
                 final UxJooq switchedJq;
                 final JsonObject filters = new JsonObject();
-                if (object instanceof JsonObject) {
+                if (object instanceof final JsonObject json) {
                     /*
                      * Json Object Processing
                      */
-                    final JsonObject json = (JsonObject) object;
                     final KPoint point = join.point(json);
                     final KModule switched = IxPin.getActor(point.getCrud());
                     switchedJq = IxPin.jooq(switched, in.envelop());

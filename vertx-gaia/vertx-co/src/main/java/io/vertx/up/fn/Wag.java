@@ -50,6 +50,7 @@ class Wag {
             if (Ut.notNil(object)) {
                 final Object value = object.getValue(field);
                 if (value instanceof final String literal) {
+                    // String Literal
                     if (Ut.isJObject(literal)) {
                         final JsonObject replaced = Ut.toJObject(literal, Wag::ifMetadata);
                         object.put(field, replaced);
@@ -57,6 +58,14 @@ class Wag {
                         final JsonArray replaced = Ut.toJArray(literal, Wag::ifMetadata);
                         object.put(field, replaced);
                     }
+                }else if(value instanceof final JsonObject valueJ){
+                    // JsonObject
+                    object.put(field, Wag.ifMetadata(valueJ));
+                }else if(value instanceof final JsonArray valueA){
+                    // JsonArray
+                    final JsonArray replaced = new JsonArray();
+                    Ut.itJArray(valueA).forEach(valueJ -> replaced.add(Wag.ifMetadata(valueJ)));
+                    object.put(field, replaced);
                 }
             }
         }
