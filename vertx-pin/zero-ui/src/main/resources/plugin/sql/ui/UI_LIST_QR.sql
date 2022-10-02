@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS UI_LIST_QR
      * 追加维度
      * -- 按模型
      * -- 按流程
-     * 一个模型可能包含多个流程，此处做开放
+     * 一个模型可能包含多个流程，此处做开放的新维度
      */
     `IDENTIFIER`   VARCHAR(255) COMMENT '「identifier」- 模型标识符',
     `WORKFLOW`     VARCHAR(255) COMMENT '「workflow」- 工作流名称',

@@ -34,7 +34,16 @@ public class HSUiArea extends HSUiNorm {
         input.children().forEach(permit -> {
             // permit -> code ( code 就是 key 相关信息 ）
             final String code = permit.code();
-            final JsonObject childJ = this.valueChild(code, request);
+            /*
+             * 此处的 in 提取是由于输入本身执行了封装，在 uiComponent 调用时，请求被封装成了如下数据结构
+             * {
+             *     "ui": "uiX部分的配置标准化",
+             *     "dm": "dmX部分的配置标准化",
+             *     "in": "Json格式的输入"
+             * }
+             */
+            final JsonObject inputJ = Ut.valueJObject(request, KName.Rbac.IN);
+            final JsonObject childJ = this.valueChild(code, inputJ);
             /*
              * Call HAdmit
              * 1) HCatena构造
