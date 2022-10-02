@@ -16,7 +16,6 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 
 /**
@@ -47,6 +46,15 @@ public class UiListQr extends TableImpl<UiListQrRecord> {
      * The column <code>DB_ETERNAL.UI_LIST_QR.SORT</code>. 「sort」- QR的顺序
      */
     public final TableField<UiListQrRecord, Integer> SORT = createField(DSL.name("SORT"), SQLDataType.INTEGER, this, "「sort」- QR的顺序");
+    /**
+     * The column <code>DB_ETERNAL.UI_LIST_QR.IDENTIFIER</code>. 「identifier」-
+     * 模型标识符
+     */
+    public final TableField<UiListQrRecord, String> IDENTIFIER = createField(DSL.name("IDENTIFIER"), SQLDataType.VARCHAR(255), this, "「identifier」- 模型标识符");
+    /**
+     * The column <code>DB_ETERNAL.UI_LIST_QR.WORKFLOW</code>. 「workflow」- 工作流名称
+     */
+    public final TableField<UiListQrRecord, String> WORKFLOW = createField(DSL.name("WORKFLOW"), SQLDataType.VARCHAR(255), this, "「workflow」- 工作流名称");
     /**
      * The column <code>DB_ETERNAL.UI_LIST_QR.VIEW</code>. 「view」- 视图名
      */
@@ -220,29 +228,5 @@ public class UiListQr extends TableImpl<UiListQrRecord> {
     @Override
     public UiListQr rename(Table<?> name) {
         return new UiListQr(name.getQualifiedName(), null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row21 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row21<String, String, String, Integer, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row21) super.fieldsRow();
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
-     */
-    public <U> SelectField<U> mapping(Function21<? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(Records.mapping(from));
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
-     */
-    public <U> SelectField<U> mapping(Class<U> toType, Function21<? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(toType, Records.mapping(from));
     }
 }

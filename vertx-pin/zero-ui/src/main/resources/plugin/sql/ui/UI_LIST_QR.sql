@@ -15,6 +15,15 @@ CREATE TABLE IF NOT EXISTS UI_LIST_QR
     `CODE`         VARCHAR(255) COMMENT '「code」- 系统编码',
     `SORT`         INT COMMENT '「sort」- QR的顺序',
 
+    /*
+     * 追加维度
+     * -- 按模型
+     * -- 按流程
+     * 一个模型可能包含多个流程，此处做开放
+     */
+    `IDENTIFIER`   VARCHAR(255) COMMENT '「identifier」- 模型标识符',
+    `WORKFLOW`     VARCHAR(255) COMMENT '「workflow」- 工作流名称',
+
     `VIEW`         VARCHAR(96) COMMENT '「view」- 视图名',
     `POSITION`     VARCHAR(96) COMMENT '「position」- 当前视图的模块位置，比页面低一个维度',
 

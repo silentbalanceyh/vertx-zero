@@ -60,6 +60,28 @@ public interface IUiListQr extends VertxPojo, Serializable {
     public Integer getSort();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_LIST_QR.IDENTIFIER</code>. 「identifier」-
+     * 模型标识符
+     */
+    public IUiListQr setIdentifier(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_LIST_QR.IDENTIFIER</code>. 「identifier」-
+     * 模型标识符
+     */
+    public String getIdentifier();
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_LIST_QR.WORKFLOW</code>. 「workflow」- 工作流名称
+     */
+    public IUiListQr setWorkflow(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_LIST_QR.WORKFLOW</code>. 「workflow」- 工作流名称
+     */
+    public String getWorkflow();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_LIST_QR.VIEW</code>. 「view」- 视图名
      */
     public IUiListQr setView(String value);
@@ -273,6 +295,8 @@ public interface IUiListQr extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSort,json::getInteger,"SORT","java.lang.Integer");
+                setOrThrow(this::setIdentifier,json::getString,"IDENTIFIER","java.lang.String");
+                setOrThrow(this::setWorkflow,json::getString,"WORKFLOW","java.lang.String");
                 setOrThrow(this::setView,json::getString,"VIEW","java.lang.String");
                 setOrThrow(this::setPosition,json::getString,"POSITION","java.lang.String");
                 setOrThrow(this::setTitle,json::getString,"TITLE","java.lang.String");
@@ -301,6 +325,8 @@ public interface IUiListQr extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("SORT",getSort());
+                json.put("IDENTIFIER",getIdentifier());
+                json.put("WORKFLOW",getWorkflow());
                 json.put("VIEW",getView());
                 json.put("POSITION",getPosition());
                 json.put("TITLE",getTitle());

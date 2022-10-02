@@ -3,9 +3,9 @@ package io.vertx.tp.rbac.ruler;
 import io.vertx.aeon.atom.secure.HCatena;
 import io.vertx.aeon.atom.secure.HPermit;
 import io.vertx.aeon.specification.secure.AbstractValve;
+import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -65,11 +65,6 @@ public class AdmitValve extends AbstractValve {
 
     @Override
     protected Future<JsonObject> response(final HPermit permit, final HCatena catena) {
-        final JsonObject response = catena.response();
-        // ui -> surface, data
-        final JsonObject uiJ = catena.data(false);
-        final Object uiData = uiJ.getValue(KName.DATA);
-        response.put(KName.DATA, uiData);
-        return Ux.futureJ(response);
+        return Ux.futureJ(HValve.output(catena));
     }
 }

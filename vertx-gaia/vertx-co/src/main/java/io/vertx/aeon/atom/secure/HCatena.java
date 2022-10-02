@@ -200,10 +200,11 @@ public class HCatena implements Serializable {
      *     "key":           "input -> 输入主键，对应 S_PATH",
      *     "label":         "input -> 输入名称，对应 S_PATH",
      *     "value":         "input -> 输入编码，对应 S_PATH",
-     *     "datum":         {                                   // "S_PATH对象本身数据"
+     *     "datum":         {
+     *          // "S_PATH对象本身数据"
      *     }
-     *     "data":          "<子类填充>",
-     *     "children":      "<子类填充>",
+     *     "data":          "<子类填充>,基础数据",
+     *     "children":      "<子类填充>,带子节点数据",
      * }
      * 构造四层树，重复键需提取：webTree / webTag
      */

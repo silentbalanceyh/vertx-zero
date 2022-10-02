@@ -24,6 +24,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
     private String name;
     private String code;
     private Integer sort;
+    private String identifier;
+    private String workflow;
     private String view;
     private String position;
     private String title;
@@ -49,6 +51,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         this.name = value.getName();
         this.code = value.getCode();
         this.sort = value.getSort();
+        this.identifier = value.getIdentifier();
+        this.workflow = value.getWorkflow();
         this.view = value.getView();
         this.position = value.getPosition();
         this.title = value.getTitle();
@@ -73,6 +77,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         String name,
         String code,
         Integer sort,
+        String identifier,
+        String workflow,
         String view,
         String position,
         String title,
@@ -95,6 +101,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         this.name = name;
         this.code = code;
         this.sort = sort;
+        this.identifier = identifier;
+        this.workflow = workflow;
         this.view = view;
         this.position = position;
         this.title = title;
@@ -186,6 +194,42 @@ public class UiListQr implements VertxPojo, IUiListQr {
     @Override
     public UiListQr setSort(Integer sort) {
         this.sort = sort;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_LIST_QR.IDENTIFIER</code>. 「identifier」-
+     * 模型标识符
+     */
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_LIST_QR.IDENTIFIER</code>. 「identifier」-
+     * 模型标识符
+     */
+    @Override
+    public UiListQr setIdentifier(String identifier) {
+        this.identifier = identifier;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_LIST_QR.WORKFLOW</code>. 「workflow」- 工作流名称
+     */
+    @Override
+    public String getWorkflow() {
+        return this.workflow;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_LIST_QR.WORKFLOW</code>. 「workflow」- 工作流名称
+     */
+    @Override
+    public UiListQr setWorkflow(String workflow) {
+        this.workflow = workflow;
         return this;
     }
 
@@ -533,6 +577,18 @@ public class UiListQr implements VertxPojo, IUiListQr {
         }
         else if (!this.sort.equals(other.sort))
             return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.workflow == null) {
+            if (other.workflow != null)
+                return false;
+        }
+        else if (!this.workflow.equals(other.workflow))
+            return false;
         if (this.view == null) {
             if (other.view != null)
                 return false;
@@ -646,6 +702,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
         result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.workflow == null) ? 0 : this.workflow.hashCode());
         result = prime * result + ((this.view == null) ? 0 : this.view.hashCode());
         result = prime * result + ((this.position == null) ? 0 : this.position.hashCode());
         result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
@@ -674,6 +732,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         sb.append(", ").append(name);
         sb.append(", ").append(code);
         sb.append(", ").append(sort);
+        sb.append(", ").append(identifier);
+        sb.append(", ").append(workflow);
         sb.append(", ").append(view);
         sb.append(", ").append(position);
         sb.append(", ").append(title);
@@ -706,6 +766,8 @@ public class UiListQr implements VertxPojo, IUiListQr {
         setName(from.getName());
         setCode(from.getCode());
         setSort(from.getSort());
+        setIdentifier(from.getIdentifier());
+        setWorkflow(from.getWorkflow());
         setView(from.getView());
         setPosition(from.getPosition());
         setTitle(from.getTitle());

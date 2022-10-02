@@ -84,6 +84,36 @@ public class UiListQrDao extends AbstractVertxDAO<UiListQrRecord, cn.vertxup.ui.
         }
 
         /**
+     * Find records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiListQr>> findManyByIdentifier(Collection<String> values) {
+                return findManyByCondition(UiListQr.UI_LIST_QR.IDENTIFIER.in(values));
+        }
+
+        /**
+     * Find records that have <code>IDENTIFIER IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiListQr>> findManyByIdentifier(Collection<String> values, int limit) {
+                return findManyByCondition(UiListQr.UI_LIST_QR.IDENTIFIER.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>WORKFLOW IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiListQr>> findManyByWorkflow(Collection<String> values) {
+                return findManyByCondition(UiListQr.UI_LIST_QR.WORKFLOW.in(values));
+        }
+
+        /**
+     * Find records that have <code>WORKFLOW IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiListQr>> findManyByWorkflow(Collection<String> values, int limit) {
+                return findManyByCondition(UiListQr.UI_LIST_QR.WORKFLOW.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>VIEW IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ui.domain.tables.pojos.UiListQr>> findManyByView(Collection<String> values) {

@@ -178,8 +178,21 @@ public abstract class AbstractAdmit implements HAdmit {
             final String code = Ut.valueString(childJ, KName.CODE);
             if (Ut.notNil(code)) {
                 final HPermit child = input.child(code);
-                final JsonObject childDm = this.valueConfig(child, childJ, supplierJ);
-                childrenJ.put(code, childDm);
+                /*
+                 * 数据结构重新处理
+                 * {
+                 *     "dm": {
+                 *         "qr": {},
+                 *         "surface": {}
+                 *     },
+                 *     "qr": {},
+                 *     "surface": {}
+                 * }
+                 */
+                final JsonObject childUi = this.valueConfig(child, childJ, supplierJ);
+                final JsonObject childDm = this.valueConfig(child, childJ, HPermit::dmJ);
+                childUi.put(KName.Rbac.DM, childDm);
+                childrenJ.put(code, childUi);
             }
         });
         return childrenJ;
