@@ -101,11 +101,12 @@ public class UiActor {
     @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
     public Future<JsonArray> fetchListQr(
         final String id, final String position,
-        final ViewType type, final XHeader header
+        final String typeStr, final XHeader header
     ) {
         final JsonObject condition = Ux.whereAnd()
             .put(KName.SIGMA, header.getSigma())
             .put(KName.POSITION, position);
+        final ViewType type = Ut.toEnum(ViewType.class, typeStr);
         if (ViewType.Model == type) {
             // POSITION = ? AND SIGMA = ? AND IDENTIFIER = ? ORDER BY SORT ASC
             condition.put(KName.IDENTIFIER, id);
