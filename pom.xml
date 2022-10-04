@@ -84,7 +84,7 @@
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
         <lombok.version>1.18.24</lombok.version>
-        <asm.version>9.3</asm.version>
+        <asm.version>9.4</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10.2</reflection.version>
 
@@ -109,7 +109,7 @@
         <poi.schema.version>4.1.2</poi.schema.version>
         <jedis.version>4.3.0-m2</jedis.version>
         <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.25.0</checker.version>
+        <checker.version>3.26.0</checker.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.17.6</elasticsearch.version>
@@ -190,7 +190,7 @@
 
         <!-- Logging -->
         <log4j2.version>2.19.0</log4j2.version>
-        <logback.version>1.4.1</logback.version>
+        <logback.version>1.4.3</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>2.0.3</slf4j.version>
 
