@@ -24,7 +24,7 @@ public interface ListStub {
      */
     Future<JsonArray> fetchByIdentifier(String identifier, String sigma);
 
-    Future<JsonArray> fetchQr(String code, String sigma);
+    Future<JsonArray> fetchQr(JsonObject condition);
 
 
     /*

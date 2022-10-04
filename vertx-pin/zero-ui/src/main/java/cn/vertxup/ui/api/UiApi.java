@@ -7,6 +7,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.ViewType;
 
 import javax.ws.rs.*;
 
@@ -109,9 +110,23 @@ public interface UiApi {
     JsonArray fetchLists(@HeaderParam(ID.Header.X_SIGMA) String sigma,
                          @PathParam(KName.IDENTIFIER) String identifier);
 
-    @Path("/ui/list-qr/:code")
+    /*
+     * Fetch list-qr ( views ) by new interface
+     * /api/ui/views/:id/:position?type=?
+     * id is
+     * 1) workflow name     ( type = null or WORKFLOW )
+     * 2) model identifier  ( type = MODEL )
+     * position means queue position here
+     * 1) 当列表位于不同 position 时会产生不同的视图效果，所以 position 控制了位置信息
+     * 2) 而本身的id用于指名使用的是哪种视图
+     *    type = null | WF:   工作流视图
+     *    type = MOD:         模型视图
+     * 按不同的业务场景区分不同类别执行相关操作，position可控制视图相关信息。
+     */
+    @Path("/ui/views/:id/:position")
     @GET
     @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
-    JsonArray fetchListQr(@HeaderParam(ID.Header.X_SIGMA) String sigma,
-                          @PathParam(KName.CODE) String code);
+    JsonArray fetchListQr(@PathParam(KName.ID) String id,
+                          @PathParam(KName.POSITION) String position,
+                          @QueryParam(KName.TYPE) ViewType type);
 }

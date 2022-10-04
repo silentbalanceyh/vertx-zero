@@ -13,9 +13,11 @@ import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.ViewType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -97,8 +99,21 @@ public class UiActor {
     }
 
     @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
-    public Future<JsonArray> fetchListQr(final String sigma, final String code) {
-        return this.listStub.fetchQr(code, sigma);
+    public Future<JsonArray> fetchListQr(
+        final String id, final String position,
+        final ViewType type, final XHeader header
+    ) {
+        final JsonObject condition = Ux.whereAnd()
+            .put(KName.SIGMA, header.getSigma())
+            .put(KName.POSITION, position);
+        if (ViewType.Model == type) {
+            // POSITION = ? AND SIGMA = ? AND IDENTIFIER = ? ORDER BY SORT ASC
+            condition.put(KName.IDENTIFIER, id);
+        } else {
+            // POSITION = ? AND SIGMA = ? AND WORKFLOW = ? ORDER BY SORT ASC
+            condition.put(KName.Flow.WORKFLOW, id);
+        }
+        return this.listStub.fetchQr(condition);
     }
 
     @Address(Addr.Control.FETCH_BY_VISITOR)

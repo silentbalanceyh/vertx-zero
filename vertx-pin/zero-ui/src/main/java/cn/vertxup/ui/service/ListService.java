@@ -59,11 +59,7 @@ public class ListService implements ListStub {
     }
 
     @Override
-    public Future<JsonArray> fetchQr(final String code, final String sigma) {
-        // CODE = ? AND SIGMA = ? ORDER BY SORT ASC
-        final JsonObject condition = Ux.whereAnd()
-            .put(KName.CODE, code)
-            .put(KName.SIGMA, sigma);
+    public Future<JsonArray> fetchQr(final JsonObject condition) {
 
         final Sorter sorter = Sorter.create(KName.SORT, true);
 
