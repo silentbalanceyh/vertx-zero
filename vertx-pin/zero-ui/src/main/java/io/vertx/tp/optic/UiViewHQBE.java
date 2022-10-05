@@ -1,7 +1,7 @@
 package io.vertx.tp.optic;
 
-import cn.vertxup.ui.domain.tables.daos.UiListQrDao;
-import cn.vertxup.ui.domain.tables.pojos.UiListQr;
+import cn.vertxup.ui.domain.tables.daos.UiViewDao;
+import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.vertx.aeon.specification.query.HCond;
 import io.vertx.aeon.specification.query.HQBE;
 import io.vertx.core.Future;
@@ -29,12 +29,12 @@ public class UiViewHQBE implements HQBE {
         final JsonObject condition = qbeJ.copy();
         condition.put(KName.SIGMA, header.getSigma());
         // From cached to fetch the list qr object ( reference )
-        return QBECache.cached(condition, () -> Ux.Jooq.on(UiListQrDao.class).fetchOneAsync(condition))
-                // Processing the `criteria` modification
-                .compose(listQr -> this.before(listQr, envelop));
+        return QBECache.cached(condition, () -> Ux.Jooq.on(UiViewDao.class).fetchOneAsync(condition))
+            // Processing the `criteria` modification
+            .compose(listQr -> this.before(listQr, envelop));
     }
 
-    private Future<Envelop> before(final UiListQr listQr, final Envelop envelop) {
+    private Future<Envelop> before(final UiView listQr, final Envelop envelop) {
         final Class<?> qrComponent = Ut.clazz(listQr.getQrComponent(), null);
         final Future<JsonObject> future;
         final JsonObject request = this.beforeArgs(envelop);
@@ -68,13 +68,13 @@ public class UiViewHQBE implements HQBE {
     }
 
     // criteria field only
-    private Future<JsonObject> beforeInternal(final UiListQr listQr, final JsonObject request) {
+    private Future<JsonObject> beforeInternal(final UiView listQr, final JsonObject request) {
         final JsonObject criteriaJ = Ut.toJObject(listQr.getCriteria());
         return Ux.future(Ut.fromExpression(criteriaJ, request));
     }
 
     // qrComponent extension
-    private Future<JsonObject> beforeInternal(final UiListQr listQr, final JsonObject request, final Class<?> qrComponent) {
+    private Future<JsonObject> beforeInternal(final UiView listQr, final JsonObject request, final Class<?> qrComponent) {
         return this.beforeInternal(listQr, request).compose(configured -> {
             final HCond cond = QBECache.CCT_H_COND.pick(() -> Ut.instance(qrComponent));
             final JsonObject qrConfig = Ut.toJObject(listQr.getQrConfig());

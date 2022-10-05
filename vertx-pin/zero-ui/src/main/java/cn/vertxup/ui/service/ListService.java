@@ -1,11 +1,11 @@
 package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiListDao;
-import cn.vertxup.ui.domain.tables.daos.UiListQrDao;
 import cn.vertxup.ui.domain.tables.daos.UiOpDao;
+import cn.vertxup.ui.domain.tables.daos.UiViewDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
-import cn.vertxup.ui.domain.tables.pojos.UiListQr;
 import cn.vertxup.ui.domain.tables.pojos.UiOp;
+import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -63,7 +63,7 @@ public class ListService implements ListStub {
 
         final Sorter sorter = Sorter.create(KName.SORT, true);
 
-        return Ux.Jooq.on(UiListQrDao.class).<UiListQr>fetchAsync(condition, sorter)
+        return Ux.Jooq.on(UiViewDao.class).<UiView>fetchAsync(condition, sorter)
             // Cached Data for future usage
             .compose(QBECache::cached)
             .compose(Ux::futureA)
