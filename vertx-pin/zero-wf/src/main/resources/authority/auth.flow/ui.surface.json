@@ -2,7 +2,7 @@
     "webComponent": "HxFlow",
     "webChildren": [
         {
-            "component": "HxList",
+            "component": "HxQueue",
             "key": "rule.flow.queue"
         },
         {
