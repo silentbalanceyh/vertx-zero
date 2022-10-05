@@ -16,6 +16,7 @@ interface __H1H {
     ConcurrentMap<ScIn, Supplier<HAdmitCompiler>> ADMIN_COMPILER = new ConcurrentHashMap<>() {
         {
             this.put(ScIn.DAO, UiDaoCompiler::new);
+            this.put(ScIn.WEB, UiWebCompiler::new);
         }
     };
     // HType = Supplier :: HEyelet
