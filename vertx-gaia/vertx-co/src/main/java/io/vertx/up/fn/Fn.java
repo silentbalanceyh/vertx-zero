@@ -804,6 +804,10 @@ public final class Fn {
         return Future.succeededFuture(Wander.wrapJ(field, data));
     }
 
+    public static Future<JsonObject> wrapJ(final String field, final JsonObject data) {
+        return Future.succeededFuture(Wander.wrapJ(field, data));
+    }
+
     public static Future<JsonObject> wrapJ(final JsonArray data) {
         return Future.succeededFuture(Wander.wrapJ(KName.DATA, data));
     }

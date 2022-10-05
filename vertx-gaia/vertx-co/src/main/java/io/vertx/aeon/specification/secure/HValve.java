@@ -21,8 +21,9 @@ public interface HValve extends HEvent<JsonObject, JsonObject> {
         final JsonObject response = catena.response();
         // ui -> surface, data
         final JsonObject uiJ = catena.data(false);
-        final Object uiData = uiJ.getValue(KName.DATA);
-        response.put(KName.DATA, uiData);
+        // data, children
+        response.put(KName.DATA, uiJ.getValue(KName.DATA));
+        response.put(KName.CHILDREN, uiJ.getValue(KName.CHILDREN));
         return response;
     }
 

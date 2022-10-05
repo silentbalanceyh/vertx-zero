@@ -48,19 +48,26 @@ public class HSUiArea extends HSUiNorm {
              * Call HAdmit
              * 1) HCatena构造
              * 2) HSemi构造
-             * 3）只执行 ui 部分且只执行 compile 方法
              */
             final HCatena catena = HCatena.instance(childJ);
             final HSemi semi = HSemi.create(permit);
-            futureMap.put(code, semi.uiCompile(catena)
+            futureMap.put(code, Ux.future(catena)
+                /*
+                 * 此处的特殊点在于，必须执行 uiConfigure 方法先对UI部分执行配置，否则
+                 * uiConfig 中的数据不会被 HCatena 捕捉导致 configUi 无值，而这个流程和
+                 * 步骤在后期会被规范化，简单说 ui 执行和 dm 的执行只会出现以下几种
+                 * 1) DM -> configure -> compile
+                 * 2) DM -> configure
+                 * 3) UI -> configure -> compile
+                 * 4) UI -> configure
+                 * 不存在单独的 compile 流程
+                 */
+                .compose(semi::uiConfigure).compose(semi::uiCompile)
                 .compose(item -> Ux.future(HValve.output(item))));
         });
         return Fn.combineM(futureMap)
-            /*
-             * child1 = {},
-             * child2 = {}
-             */
-            .compose(normalized -> Ux.future(Ut.toJObject(normalized)));
+            /* children = {} */
+            .compose(normalized -> Fn.wrapJ(KName.CHILDREN, Ut.toJObject(normalized)));
     }
 
     private JsonObject valueChild(final String code, final JsonObject requestJ) {
