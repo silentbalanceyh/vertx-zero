@@ -159,6 +159,22 @@ public class UiOpDao extends AbstractVertxDAO<UiOpRecord, cn.vertxup.ui.domain.t
         }
 
         /**
+     * Find records that have <code>CONTROL_TYPE IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlType(Collection<String> values) {
+                return findManyByCondition(UiOp.UI_OP.CONTROL_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>CONTROL_TYPE IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlType(Collection<String> values, int limit) {
+                return findManyByCondition(UiOp.UI_OP.CONTROL_TYPE.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>ACTIVE IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByActive(Collection<Boolean> values) {

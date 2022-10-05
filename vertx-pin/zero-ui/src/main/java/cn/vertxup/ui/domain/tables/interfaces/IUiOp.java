@@ -118,6 +118,18 @@ public interface IUiOp extends VertxPojo, Serializable {
     public String getControlId();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    public IUiOp setControlType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    public String getControlType();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_OP.ACTIVE</code>. 「active」- 是否启用
      */
     public IUiOp setActive(Boolean value);
@@ -224,6 +236,7 @@ public interface IUiOp extends VertxPojo, Serializable {
                 setOrThrow(this::setConfig,json::getString,"CONFIG","java.lang.String");
                 setOrThrow(this::setPlugin,json::getString,"PLUGIN","java.lang.String");
                 setOrThrow(this::setControlId,json::getString,"CONTROL_ID","java.lang.String");
+                setOrThrow(this::setControlType,json::getString,"CONTROL_TYPE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -248,6 +261,7 @@ public interface IUiOp extends VertxPojo, Serializable {
                 json.put("CONFIG",getConfig());
                 json.put("PLUGIN",getPlugin());
                 json.put("CONTROL_ID",getControlId());
+                json.put("CONTROL_TYPE",getControlType());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

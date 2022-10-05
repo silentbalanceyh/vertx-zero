@@ -29,6 +29,7 @@ public class UiOp implements VertxPojo, IUiOp {
     private String config;
     private String plugin;
     private String controlId;
+    private String controlType;
     private Boolean active;
     private String sigma;
     private String metadata;
@@ -50,6 +51,7 @@ public class UiOp implements VertxPojo, IUiOp {
         this.config = value.getConfig();
         this.plugin = value.getPlugin();
         this.controlId = value.getControlId();
+        this.controlType = value.getControlType();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -70,6 +72,7 @@ public class UiOp implements VertxPojo, IUiOp {
         String config,
         String plugin,
         String controlId,
+        String controlType,
         Boolean active,
         String sigma,
         String metadata,
@@ -88,6 +91,7 @@ public class UiOp implements VertxPojo, IUiOp {
         this.config = config;
         this.plugin = plugin;
         this.controlId = controlId;
+        this.controlType = controlType;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -263,6 +267,25 @@ public class UiOp implements VertxPojo, IUiOp {
     @Override
     public UiOp setControlId(String controlId) {
         this.controlId = controlId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    @Override
+    public String getControlType() {
+        return this.controlType;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    @Override
+    public UiOp setControlType(String controlType) {
+        this.controlType = controlType;
         return this;
     }
 
@@ -465,6 +488,12 @@ public class UiOp implements VertxPojo, IUiOp {
         }
         else if (!this.controlId.equals(other.controlId))
             return false;
+        if (this.controlType == null) {
+            if (other.controlType != null)
+                return false;
+        }
+        else if (!this.controlType.equals(other.controlType))
+            return false;
         if (this.active == null) {
             if (other.active != null)
                 return false;
@@ -529,6 +558,7 @@ public class UiOp implements VertxPojo, IUiOp {
         result = prime * result + ((this.config == null) ? 0 : this.config.hashCode());
         result = prime * result + ((this.plugin == null) ? 0 : this.plugin.hashCode());
         result = prime * result + ((this.controlId == null) ? 0 : this.controlId.hashCode());
+        result = prime * result + ((this.controlType == null) ? 0 : this.controlType.hashCode());
         result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
         result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
         result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
@@ -553,6 +583,7 @@ public class UiOp implements VertxPojo, IUiOp {
         sb.append(", ").append(config);
         sb.append(", ").append(plugin);
         sb.append(", ").append(controlId);
+        sb.append(", ").append(controlType);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -581,6 +612,7 @@ public class UiOp implements VertxPojo, IUiOp {
         setConfig(from.getConfig());
         setPlugin(from.getPlugin());
         setControlId(from.getControlId());
+        setControlType(from.getControlType());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());
