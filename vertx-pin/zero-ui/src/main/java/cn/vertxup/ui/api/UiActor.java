@@ -1,14 +1,12 @@
 package cn.vertxup.ui.api;
 
-import cn.vertxup.ui.service.ControlStub;
-import cn.vertxup.ui.service.FormStub;
-import cn.vertxup.ui.service.ListStub;
-import cn.vertxup.ui.service.PageStub;
+import cn.vertxup.ui.service.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.tp.ui.cv.em.ControlType;
+import io.vertx.tp.ui.cv.em.OpType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
@@ -32,6 +30,9 @@ public class UiActor {
 
     @Inject
     private transient ListStub listStub;
+
+    @Inject
+    private transient DoStub doStub;
 
     @Inject
     private transient FormStub formStub;
@@ -65,21 +66,31 @@ public class UiActor {
     @Address(Addr.Control.FETCH_OP)
     public Future<JsonArray> fetchOps(final JsonObject body) {
         return Ui.cacheOps(body, () -> {
-            final String control = body.getString("control");
-            if (Ut.notNil(control)) {
-                /*
-                 * UI_OP stored
-                 */
-                return this.listStub.fetchOpDynamic(control);
+            /*
+             * 新逻辑处理，参数种类
+             * control -> controlId
+             * type    -> null / ATOM,   动态表单
+             *         -> FLOW,          流程表单,   提取 workflow,event
+             *         -> WEB,           静态表单,   提取 identifier
+             * 隐含流程：当 control = null 时，检索 identifier 执行 WEB 类型读取
+             */
+            final String type = Ut.valueString(body, KName.TYPE);
+            final OpType opType = Ut.toEnum(() -> type, OpType.class, null);
+            if (Objects.isNull(opType)) {
+                // ATOM / WEB
+                return this.doStub.fetchSmart(body);
             } else {
-                /*
-                 * fetch data plugin/ui/ops.json
-                 */
-                final String identifier = body.getString(KName.IDENTIFIER);
-                return this.listStub.fetchOpFixed(identifier);
+                // 标准流程
+                return switch (opType) {
+                    // ATOM
+                    case ATOM -> this.doStub.fetchAtom(body);
+                    // WEB
+                    case WEB -> this.doStub.fetchWeb(body);
+                    // FLOW
+                    case FLOW -> this.doStub.fetchFlow(body);
+                };
             }
         });
-
     }
 
     @Address(Addr.Control.FETCH_FORM_BY_CODE)

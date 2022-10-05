@@ -1,6 +1,15 @@
 {
     "webSection": {
-        "run": "处理/审批工单",
-        "done": "历史工单"
+        "field": "position",
+        "region": [
+            {
+                "value": "run",
+                "title": "处理/审批工单"
+            },
+            {
+                "value": "done",
+                "title": "历史工单"
+            }
+        ]
     }
 }
