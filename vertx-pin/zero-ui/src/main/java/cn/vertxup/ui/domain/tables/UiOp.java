@@ -47,17 +47,17 @@ public class UiOp extends TableImpl<UiOpRecord> {
     /**
      * The column <code>DB_ETERNAL.UI_OP.EVENT</code>. 「event」- 操作中的 event 事件名称
      */
-    public final TableField<UiOpRecord, String> EVENT = createField(DSL.name("EVENT"), SQLDataType.VARCHAR(32), this, "「event」- 操作中的 event 事件名称");
+    public final TableField<UiOpRecord, String> EVENT = createField(DSL.name("EVENT"), SQLDataType.VARCHAR(128), this, "「event」- 操作中的 event 事件名称");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CLIENT_KEY</code>. 「clientKey」-
      * 一般是Html中对应的key信息，如 $opSave
      */
-    public final TableField<UiOpRecord, String> CLIENT_KEY = createField(DSL.name("CLIENT_KEY"), SQLDataType.VARCHAR(32), this, "「clientKey」- 一般是Html中对应的key信息，如 $opSave");
+    public final TableField<UiOpRecord, String> CLIENT_KEY = createField(DSL.name("CLIENT_KEY"), SQLDataType.VARCHAR(128), this, "「clientKey」- 一般是Html中对应的key信息，如 $opSave");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CLIENT_ID</code>. 「clientId」-
      * 没有特殊情况，clientId = clientKey
      */
-    public final TableField<UiOpRecord, String> CLIENT_ID = createField(DSL.name("CLIENT_ID"), SQLDataType.VARCHAR(32), this, "「clientId」- 没有特殊情况，clientId = clientKey");
+    public final TableField<UiOpRecord, String> CLIENT_ID = createField(DSL.name("CLIENT_ID"), SQLDataType.VARCHAR(128), this, "「clientId」- 没有特殊情况，clientId = clientKey");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CONFIG</code>. 「config」-
      * 该按钮操作对应的配置数据信息, icon, type
