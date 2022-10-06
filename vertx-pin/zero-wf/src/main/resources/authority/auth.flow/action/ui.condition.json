@@ -1,3 +1,5 @@
 {
-    "sigma": "`${sigma}`"
+    "sigma": "`${sigma}`",
+    "controlType": "FLOW",
+    "": true
 }
