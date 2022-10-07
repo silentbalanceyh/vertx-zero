@@ -103,7 +103,7 @@
         <joda.version>2.11.2</joda.version>
         <codehaus.janino.version>3.1.8</codehaus.janino.version>
         <codehaus.mojo.version>1.22</codehaus.mojo.version>
-        <ignite.version>2.13.0</ignite.version>
+        <ignite.version>2.14.0</ignite.version>
         <mongodb.async.version>3.12.11</mongodb.async.version>
         <poi.version>5.2.3</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
@@ -230,7 +230,7 @@
         <maven.plugin.docker>0.40.2</maven.plugin.docker>
 
         <!-- Camunda -->
-        <camunda.version>7.17.0</camunda.version>
+        <camunda.version>7.18.0</camunda.version>
         <camunda.spin.version>1.18.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.6</camunda.connect.version>
