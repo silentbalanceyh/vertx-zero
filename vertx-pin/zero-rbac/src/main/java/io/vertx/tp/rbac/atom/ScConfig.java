@@ -89,14 +89,12 @@ public class ScConfig implements Serializable {
      * 3 times / 300 seconds
      */
     private Integer verifyDuration = 300;
-    /*
-     * Role Pool when secondary cache enabled.
-     */
+    /* Role Pool when secondary cache enabled. */
     private String poolPermission = AuthKey.Pool.PERMISSIONS;
-    /*
-     * Resource Pool when secondary cache enabled.
-     */
+    /* Resource Pool when secondary cache enabled. */
     private String poolResource = AuthKey.Pool.RESOURCES;
+    /* Resource Pool when admit for RBAC Management */
+    private String poolAdmit = AuthKey.Pool.ADMIT;
     /*
      * Password Init
      */
@@ -142,13 +140,6 @@ public class ScConfig implements Serializable {
         this.codeLength = codeLength;
     }
 
-    public String getPoolCode() {
-        return this.poolCode;
-    }
-
-    public void setPoolCode(final String poolCode) {
-        this.poolCode = poolCode;
-    }
 
     public Boolean getSupportSecondary() {
         return this.supportSecondary;
@@ -158,12 +149,28 @@ public class ScConfig implements Serializable {
         this.supportSecondary = supportSecondary;
     }
 
+    public String getPoolCode() {
+        return this.poolCode;
+    }
+
+    public void setPoolCode(final String poolCode) {
+        this.poolCode = poolCode;
+    }
+
     public String getPoolPermission() {
         return this.poolPermission;
     }
 
     public void setPoolPermission(final String poolPermission) {
         this.poolPermission = poolPermission;
+    }
+
+    public String getPoolAdmit() {
+        return this.poolAdmit;
+    }
+
+    public void setPoolAdmit(final String poolAdmit) {
+        this.poolAdmit = poolAdmit;
     }
 
     public Long getTokenExpired() {

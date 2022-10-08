@@ -142,6 +142,8 @@ public class Debugger {
      */
     private static final String KEY_AUTHORIZED_CACHE = "authorized.cache";
 
+    private static final String KEY_ADMIT_CACHE = "admit.cache";
+
     static {
         final JsonObject configuration = VISITOR.read();
         if (configuration.containsKey("debug")) {
@@ -160,6 +162,10 @@ public class Debugger {
 
     public static boolean offUiCache() {
         return isDisabled(KEY_UI_CACHE);
+    }
+
+    public static boolean offAdmitCache() {
+        return isDisabled(KEY_ADMIT_CACHE);
     }
 
 

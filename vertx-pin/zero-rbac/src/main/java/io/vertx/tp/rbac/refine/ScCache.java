@@ -1,6 +1,7 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OUser;
+import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
@@ -16,10 +17,12 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,8 +31,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-class ScTool {
-    private static final Annal LOGGER = Annal.get(ScTool.class);
+class ScCache {
+    private static final Annal LOGGER = Annal.get(ScCache.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
 
     /*
@@ -90,7 +93,7 @@ class ScTool {
         // sigma 值聚集
         final Set<String> sigmaSet = Ut.valueSetString(users, SUser::getSigma);
         if (Values.ONE != sigmaSet.size()) {
-            return Future.failedFuture(new _403TokenGenerationException(ScTool.class, sigmaSet.size()));
+            return Future.failedFuture(new _403TokenGenerationException(ScCache.class, sigmaSet.size()));
         }
         /*
          * Credential 通道读取，主要读取 KCredential 对象，属性如：
@@ -186,24 +189,37 @@ class ScTool {
         return Rapid.<String, V>t(codePool, codeExpired).write(key, value);
     }
 
+    static Future<JsonObject> admit(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
+        if (Debugger.offAdmitCache()) {
+            // Cache Enabled for Default
+            final String admitPool = CONFIG.getPoolAdmit();
+            // Each sigma has been mapped to single pool
+            final String poolName = admitPool + Strings.SLASH + path.getSigma();
+            final Rapid<String, JsonObject> rapid = Rapid.t(poolName, 3600);
+            return rapid.cached(path.getKey(), () -> executor.apply(path));
+        } else {
+            return executor.apply(path);
+        }
+    }
+
     /*
      * Image generation for tool
      */
     static <T> Future<T> imageVerify(final String sessionId, final JsonObject params, final Function<JsonObject, Future<T>> executor) {
         final Boolean support = CONFIG.getVerifyCode();
         if (Objects.nonNull(support) && support) {
-            Fn.out(Objects.isNull(sessionId), _501NotSupportException.class, ScTool.class);
+            Fn.out(Objects.isNull(sessionId), _501NotSupportException.class, ScCache.class);
             final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
             if (Objects.isNull(imageCode)) {
                 // Not Match
-                return Fn.error(_401ImageCodeWrongException.class, ScTool.class, null);
+                return Fn.error(_401ImageCodeWrongException.class, ScCache.class, null);
             }
             final String imagePool = CONFIG.getPoolVerify();
             final Rapid<String, String> rapid = Rapid.t(imagePool);
             return rapid.read(sessionId).compose(stored -> {
                 if (Objects.isNull(stored)) {
                     // Not Match
-                    return Fn.error(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                    return Fn.error(_401ImageCodeWrongException.class, ScCache.class, imageCode);
                 } else {
                     // Case Ignored
                     if (stored.equalsIgnoreCase(imageCode)) {
@@ -212,7 +228,7 @@ class ScTool {
                         return rapid.clear(sessionId).compose(nil -> executor.apply(processed));
                     } else {
                         // Not Match
-                        return Fn.error(_401ImageCodeWrongException.class, ScTool.class, imageCode);
+                        return Fn.error(_401ImageCodeWrongException.class, ScCache.class, imageCode);
                     }
                 }
             });
@@ -233,7 +249,7 @@ class ScTool {
                 .compose(codeImage -> ScImage.imageGenerate(codeImage, width, height));
         } else {
             // Skip because image Verify off
-            return Fn.error(_501NotSupportException.class, ScTool.class);
+            return Fn.error(_501NotSupportException.class, ScCache.class);
         }
     }
 
@@ -246,7 +262,7 @@ class ScTool {
                 .compose(nil -> Ux.futureT());
         } else {
             // Skip because image Verify off
-            return Fn.error(_501NotSupportException.class, ScTool.class);
+            return Fn.error(_501NotSupportException.class, ScCache.class);
         }
     }
 
@@ -276,7 +292,7 @@ class ScTool {
                     } else {
                         // Failure
                         final Integer verifyDuration = CONFIG.getVerifyDuration();
-                        return Fn.error(_401MaximumTimesException.class, ScTool.class, limitation, verifyDuration);
+                        return Fn.error(_401MaximumTimesException.class, ScCache.class, limitation, verifyDuration);
                     }
                 }
             });
@@ -313,4 +329,12 @@ class ScTool {
             return Rapid.<String, V>t(codeLimitation).clear(username);
         }
     }
+
+    /*
+     * New ScCache for ScAdmit management for RBAC, the data structure is as following:
+     * `sigma` -> `path1` = Data1
+     *            `path2` = Data2
+     * This cache is for 4s reading from system in lower level, also enable new parameter for cache turn on/off
+     * for development environment
+     */
 }
