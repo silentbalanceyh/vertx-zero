@@ -158,7 +158,7 @@ public class UiOp extends TableImpl<UiOpRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_ID);
+        return Arrays.asList(Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_ID, Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_TYPE);
     }
 
     @Override
