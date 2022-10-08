@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS UI_OP
     `CONFIG`       TEXT COMMENT '「config」- 该按钮操作对应的配置数据信息, icon, type',
     `PLUGIN`       TEXT COMMENT '「plugin」- 该按钮中的插件，如 tooltip，component等',
 
+    -- 管理专用属性
+    `UI_SORT`      INT COMMENT '「uiSort」- 按钮在管理过程中的排序',
     -- 直接从 control 这个级别处理 OP
     /*
      * 1）列表类：CONTROL - LIST - COLUMN - OP（列表ID）

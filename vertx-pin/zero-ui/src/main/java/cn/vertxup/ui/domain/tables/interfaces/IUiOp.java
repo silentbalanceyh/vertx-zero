@@ -108,6 +108,16 @@ public interface IUiOp extends VertxPojo, Serializable {
     public String getPlugin();
 
     /**
+     * Setter for <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    public IUiOp setUiSort(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    public Integer getUiSort();
+
+    /**
      * Setter for <code>DB_ETERNAL.UI_OP.CONTROL_ID</code>. 「controlId」- 挂载专用的ID
      */
     public IUiOp setControlId(String value);
@@ -235,6 +245,7 @@ public interface IUiOp extends VertxPojo, Serializable {
                 setOrThrow(this::setClientId,json::getString,"CLIENT_ID","java.lang.String");
                 setOrThrow(this::setConfig,json::getString,"CONFIG","java.lang.String");
                 setOrThrow(this::setPlugin,json::getString,"PLUGIN","java.lang.String");
+                setOrThrow(this::setUiSort,json::getInteger,"UI_SORT","java.lang.Integer");
                 setOrThrow(this::setControlId,json::getString,"CONTROL_ID","java.lang.String");
                 setOrThrow(this::setControlType,json::getString,"CONTROL_TYPE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -260,6 +271,7 @@ public interface IUiOp extends VertxPojo, Serializable {
                 json.put("CLIENT_ID",getClientId());
                 json.put("CONFIG",getConfig());
                 json.put("PLUGIN",getPlugin());
+                json.put("UI_SORT",getUiSort());
                 json.put("CONTROL_ID",getControlId());
                 json.put("CONTROL_TYPE",getControlType());
                 json.put("ACTIVE",getActive());

@@ -69,6 +69,10 @@ public class UiOp extends TableImpl<UiOpRecord> {
      */
     public final TableField<UiOpRecord, String> PLUGIN = createField(DSL.name("PLUGIN"), SQLDataType.CLOB, this, "「plugin」- 该按钮中的插件，如 tooltip，component等");
     /**
+     * The column <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    public final TableField<UiOpRecord, Integer> UI_SORT = createField(DSL.name("UI_SORT"), SQLDataType.INTEGER, this, "「uiSort」- 按钮在管理过程中的排序");
+    /**
      * The column <code>DB_ETERNAL.UI_OP.CONTROL_ID</code>. 「controlId」- 挂载专用的ID
      */
     public final TableField<UiOpRecord, String> CONTROL_ID = createField(DSL.name("CONTROL_ID"), SQLDataType.VARCHAR(128), this, "「controlId」- 挂载专用的ID");
@@ -211,18 +215,18 @@ public class UiOp extends TableImpl<UiOpRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<String, String, String, String, String, String, String, String, Integer, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -230,7 +234,7 @@ public class UiOp extends TableImpl<UiOpRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
