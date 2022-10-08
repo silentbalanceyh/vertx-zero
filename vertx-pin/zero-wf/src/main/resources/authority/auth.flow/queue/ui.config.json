@@ -1,0 +1,6 @@
+{
+    "dao": "cn.vertxup.ui.domain.tables.daos.UiViewDao",
+    "output": {
+        "group": "workflow"
+    }
+}

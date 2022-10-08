@@ -7,11 +7,11 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
-import org.jooq.Record;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -90,7 +90,8 @@ class ActionFetch extends AbstractAction {
         final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
         this.logging("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), condition);
-        return list;
+        // Fix issue: java.lang.NullPointerException: Cannot invoke "java.util.List.isEmpty()" because "qKeys" is null
+        return Optional.ofNullable(list).orElse(new ArrayList<>());
     }
 
     /* Future<List<T>> */

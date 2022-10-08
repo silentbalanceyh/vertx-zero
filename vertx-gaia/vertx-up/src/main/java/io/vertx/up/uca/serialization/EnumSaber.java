@@ -7,6 +7,7 @@ import io.vertx.up.util.Ut;
  * Enum
  */
 public class EnumSaber extends BaseSaber {
+
     @Override
     public <T> Object from(final T input) {
         return Fn.orNull(() -> {

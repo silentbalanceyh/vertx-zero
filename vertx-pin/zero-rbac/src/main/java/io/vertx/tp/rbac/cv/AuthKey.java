@@ -75,5 +75,7 @@ public interface AuthKey {
         String VERIFY = "POOL_VERIFY";
         // POOL_LIMITATION
         String LIMITATION = "POOL_LIMITATION";
+        // POOL_ADMIT
+        String ADMIT = "POOL_ADMIT";
     }
 }

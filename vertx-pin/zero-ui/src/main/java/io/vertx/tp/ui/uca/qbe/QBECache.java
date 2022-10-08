@@ -1,6 +1,6 @@
 package io.vertx.tp.ui.uca.qbe;
 
-import cn.vertxup.ui.domain.tables.pojos.UiListQr;
+import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.vertx.aeon.specification.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -21,24 +21,24 @@ import java.util.function.Supplier;
  */
 public class QBECache {
     public static final Cc<String, HCond> CCT_H_COND = Cc.openThread();
-    private static final Rapid<String, UiListQr> RAPID = Rapid.t(UiCv.POOL_LIST_QR, 600); // 10 min
+    private static final Rapid<String, UiView> RAPID = Rapid.t(UiCv.POOL_LIST_QR, 600); // 10 min
 
-    public static Future<List<UiListQr>> cached(final List<UiListQr> listQr) {
+    public static Future<List<UiView>> cached(final List<UiView> listQr) {
         final List<Future<Boolean>> futures = new ArrayList<>();
         listQr.forEach(qr -> {
             // <sigma> / <code> / <name>
             final String key = qr.getSigma() + Strings.SLASH +
-                    qr.getCode() + Strings.SLASH +
-                    qr.getName();
+                qr.getCode() + Strings.SLASH +
+                qr.getName();
             futures.add(RAPID.write(key, qr).compose(v -> Ux.futureT()));
         });
         return Fn.combineT(futures).compose(done -> Ux.future(listQr));
     }
 
-    public static Future<UiListQr> cached(final JsonObject qr, final Supplier<Future<UiListQr>> executor) {
+    public static Future<UiView> cached(final JsonObject qr, final Supplier<Future<UiView>> executor) {
         final String key = qr.getString(KName.SIGMA) + Strings.SLASH +
-                qr.getString(KName.CODE) + Strings.SLASH +
-                qr.getString(KName.NAME);
+            qr.getString(KName.CODE) + Strings.SLASH +
+            qr.getString(KName.NAME);
         return RAPID.cached(key, executor);
     }
 }

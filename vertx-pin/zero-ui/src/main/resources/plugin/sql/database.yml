@@ -25,7 +25,7 @@ databaseChangeLog:
       file: plugin/sql/ui/UI_LIST.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/ui/UI_LIST_QR.sql
+      file: plugin/sql/ui/UI_VIEW.sql
       relativeToChangelogFile: false
   - include:
       file: plugin/sql/ui/UI_VISITOR.sql

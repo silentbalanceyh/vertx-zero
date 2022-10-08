@@ -1,9 +1,6 @@
 package io.vertx.tp.rbac.refine;
 
-import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
-import cn.vertxup.rbac.domain.tables.pojos.OUser;
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
-import cn.vertxup.rbac.domain.tables.pojos.SUser;
+import cn.vertxup.rbac.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -74,11 +71,15 @@ public class Sc {
      *    - put data into code cache
      */
     public static <V> Future<V> cacheCode(final String key) {
-        return ScTool.code(key);
+        return ScCache.code(key);
     }
 
     public static <V> Future<V> cacheCode(final String key, final V value) {
-        return ScTool.code(key, value);
+        return ScCache.code(key, value);
+    }
+
+    public static Future<JsonObject> cacheAdmit(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
+        return ScCache.admit(path, executor);
     }
 
     /*
@@ -89,27 +90,27 @@ public class Sc {
      * - codePool
      */
     public static String valueCode() {
-        return ScTool.valueCode();
+        return ScCache.valueCode();
     }
 
     public static String valuePassword() {
-        return ScTool.valuePassword();
+        return ScCache.valuePassword();
     }
 
     public static String valueProfile(final SResource resource) {
-        return ScTool.valueProfile(resource);
+        return ScCache.valueProfile(resource);
     }
 
     public static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
-        return ScTool.valueAuth(user, inputJ);
+        return ScCache.valueAuth(user, inputJ);
     }
 
     public static Future<List<OUser>> valueAuth(final List<SUser> users) {
-        return ScTool.valueAuth(users);
+        return ScCache.valueAuth(users);
     }
 
     public static Future<List<SUser>> valueAuth(final JsonArray userA, final String sigma) {
-        return ScTool.valueAuth(userA, sigma);
+        return ScCache.valueAuth(userA, sigma);
     }
 
     /*
@@ -119,32 +120,32 @@ public class Sc {
      * - lockVerify, when before login, verify the specification first
      */
     public static Future<JsonObject> lockVerify(final String username, final Supplier<Future<JsonObject>> executor) {
-        return ScTool.lockVerify(username, executor);
+        return ScCache.lockVerify(username, executor);
     }
 
     public static Future<Integer> lockOn(final String username) {
-        return ScTool.lockOn(username);
+        return ScCache.lockOn(username);
     }
 
     public static Future<Integer> lockOff(final String username) {
-        return ScTool.lockOff(username);
+        return ScCache.lockOff(username);
     }
 
     /*
      * Image Part
      */
     public static Future<Buffer> imageOn(final String sessionId, final int width, final int height) {
-        return ScTool.imageOn(sessionId, width, height);
+        return ScCache.imageOn(sessionId, width, height);
     }
 
     public static <T> Future<T> imageVerify(final String sessionId,
                                             final JsonObject params,
                                             final Function<JsonObject, Future<T>> executor) {
-        return ScTool.imageVerify(sessionId, params, executor);
+        return ScCache.imageVerify(sessionId, params, executor);
     }
 
     public static Future<Boolean> imageOff(final String sessionId) {
-        return ScTool.imageKo(sessionId);
+        return ScCache.imageKo(sessionId);
     }
 
     /*

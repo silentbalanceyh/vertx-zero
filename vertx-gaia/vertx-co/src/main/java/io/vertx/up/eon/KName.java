@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface KName {
+    String EVENT = "event";                      /* event */
     String TRACKABLE = "trackable";              /* trackable */
     String QBE = "QBE";                          /* QBE = ? */
     String ID = "id";                            /* Third Part integration primary key */
@@ -354,6 +355,7 @@ public interface KName {
         String GRID = "grid";
 
         String CONTROLS = "controls";
+        String CONTROL = "control";
 
         String CONTROL_ID = "controlId";
 
@@ -499,7 +501,7 @@ public interface KName {
         // Bpmn ( Belong to Workflow Engine )
         interface Bpmn {
             String CLASS = "class";
-            String EVENT = "event";
+            String EVENT = KName.EVENT;
         }
     }
 

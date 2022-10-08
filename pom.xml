@@ -67,8 +67,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.3.3</vertx.version>
-        <stack.version>4.3.3</stack.version>
+        <vertx.version>4.3.4</vertx.version>
+        <stack.version>4.3.4</stack.version>
 
         <jcabi.version>0.24.1</jcabi.version>
         <jersey.version>2.37</jersey.version>
@@ -84,7 +84,7 @@
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
         <lombok.version>1.18.24</lombok.version>
-        <asm.version>9.3</asm.version>
+        <asm.version>9.4</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10.2</reflection.version>
 
@@ -103,13 +103,13 @@
         <joda.version>2.11.2</joda.version>
         <codehaus.janino.version>3.1.8</codehaus.janino.version>
         <codehaus.mojo.version>1.22</codehaus.mojo.version>
-        <ignite.version>2.13.0</ignite.version>
+        <ignite.version>2.14.0</ignite.version>
         <mongodb.async.version>3.12.11</mongodb.async.version>
         <poi.version>5.2.3</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
         <jedis.version>4.3.0-m2</jedis.version>
         <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.25.0</checker.version>
+        <checker.version>3.26.0</checker.version>
 
         <!-- elasticsearch version -->
         <elasticsearch.version>7.17.6</elasticsearch.version>
@@ -126,6 +126,7 @@
         <common.cli.version>1.5.0</common.cli.version>
         <common.io.version>2.11.0</common.io.version>
         <common.collection4.version>4.4</common.collection4.version>
+        <common.text.version>1.10.0</common.text.version>
 
         <http.async.client.version>4.1.5</http.async.client.version>
         <http.client.version>4.5.13</http.client.version>
@@ -136,8 +137,8 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.49.1</grpc.version>
-        <protobuf.version>3.21.6</protobuf.version>
+        <grpc.version>1.49.2</grpc.version>
+        <protobuf.version>3.21.7</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.9.1</gson.version>
         <picoli.version>4.6.3</picoli.version>
@@ -172,6 +173,10 @@
         <jsr338.version>2.2</jsr338.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
 
+        <!-- New Uniform Version -->
+        <jakarta.activation.version>2.0.1</jakarta.activation.version>
+        <jakarta.xml.bind.version>4.0.0</jakarta.xml.bind.version>
+
         <!-- Testing -->
         <junit.version>4.13.2</junit.version>
 
@@ -185,47 +190,47 @@
 
         <!-- Logging -->
         <log4j2.version>2.19.0</log4j2.version>
-        <logback.version>1.4.1</logback.version>
+        <logback.version>1.4.3</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>2.0.2</slf4j.version>
+        <slf4j.version>2.0.3</slf4j.version>
 
         <!-- Cloud -->
         <eclipse.git.version>6.3.0.202209071007-r</eclipse.git.version>
 
         <!-- Plugin -->
-        <maven.plugin.assembly>3.3.0</maven.plugin.assembly>
-        <maven.plugin.compiler>3.8.1</maven.plugin.compiler>
-        <maven.plugin.surefire>3.0.0-M5</maven.plugin.surefire>
-        <maven.plugin.clean>3.1.0</maven.plugin.clean>
-        <maven.plugin.version>2.8.1</maven.plugin.version>
-        <maven.plugin.install>3.0.0-M1</maven.plugin.install>
-        <maven.plugin.deploy>3.0.0-M1</maven.plugin.deploy>
-        <maven.plugin.jar>3.0.2</maven.plugin.jar>
-        <maven.plugin.resource>3.2.0</maven.plugin.resource>
-        <maven.plugin.site>3.9.1</maven.plugin.site>
-        <maven.plugin.enforcer>3.0.0-M3</maven.plugin.enforcer>
+        <maven.plugin.assembly>3.4.2</maven.plugin.assembly>
+        <maven.plugin.compiler>3.10.1</maven.plugin.compiler>
+        <maven.plugin.surefire>3.0.0-M7</maven.plugin.surefire>
+        <maven.plugin.clean>3.2.0</maven.plugin.clean>
+        <maven.plugin.version>2.12.0</maven.plugin.version>
+        <maven.plugin.install>3.0.1</maven.plugin.install>
+        <maven.plugin.deploy>3.0.0</maven.plugin.deploy>
+        <maven.plugin.jar>3.3.0</maven.plugin.jar>
+        <maven.plugin.resource>3.3.0</maven.plugin.resource>
+        <maven.plugin.site>4.0.0-M3</maven.plugin.site>
+        <maven.plugin.enforcer>3.1.0</maven.plugin.enforcer>
         <maven.plugin.lombok>1.18.20.0</maven.plugin.lombok>
         <maven.plugin.processor>4.5-jdk8</maven.plugin.processor>
         <maven.plugin.source>3.2.1</maven.plugin.source>
-        <maven.plugin.javadoc>3.2.0</maven.plugin.javadoc>
-        <maven.plugin.staging>1.6.8</maven.plugin.staging>
-        <maven.plugin.pgp>1.6</maven.plugin.pgp>
+        <maven.plugin.javadoc>3.4.1</maven.plugin.javadoc>
+        <maven.plugin.staging>1.6.13</maven.plugin.staging>
+        <maven.plugin.pgp>3.0.1</maven.plugin.pgp>
         <maven.plugin.coveralls>4.3.0</maven.plugin.coveralls>
         <maven.plugin.cobertura>2.7</maven.plugin.cobertura>
         <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
-        <maven.plugin.os>1.5.0.Final</maven.plugin.os>
-        <maven.plugin.antrun>3.0.0</maven.plugin.antrun>
+        <maven.plugin.os>1.7.0</maven.plugin.os>
+        <maven.plugin.antrun>3.1.0</maven.plugin.antrun>
         <maven.plugin.aspectj>1.14.0</maven.plugin.aspectj>
-        <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
+        <maven.plugin.jcabi>0.17.0</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
-        <maven.plugin.project.info>3.3.0</maven.plugin.project.info>
+        <maven.plugin.project.info>3.4.1</maven.plugin.project.info>
 
         <!-- Container -->
-        <maven.plugin.fabric8>4.4.1</maven.plugin.fabric8>
-        <maven.plugin.docker>0.40.1</maven.plugin.docker>
+        <maven.plugin.fabric8>4.4.2</maven.plugin.fabric8>
+        <maven.plugin.docker>0.40.2</maven.plugin.docker>
 
         <!-- Camunda -->
-        <camunda.version>7.17.0</camunda.version>
+        <camunda.version>7.18.0</camunda.version>
         <camunda.spin.version>1.18.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.6</camunda.connect.version>
@@ -238,6 +243,18 @@
     </prerequisites>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.sun.activation/jakarta.activation -->
+            <dependency>
+                <groupId>com.sun.activation</groupId>
+                <artifactId>jakarta.activation</artifactId>
+                <version>${jakarta.activation.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -1031,6 +1048,12 @@
                 <artifactId>commons-io</artifactId>
                 <version>${common.io.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${common.text.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
             <dependency>
                 <groupId>com.hazelcast</groupId>
@@ -1701,6 +1724,11 @@
                 <artifactId>netty-transport-native-kqueue</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-unix-common</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -2033,7 +2061,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <release>11</release>
+                            <release>17</release>
                         </configuration>
                     </execution>
                 </executions>

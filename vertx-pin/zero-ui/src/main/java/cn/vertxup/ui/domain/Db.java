@@ -56,11 +56,6 @@ public class Db extends SchemaImpl {
     public final UiList UI_LIST = UiList.UI_LIST;
 
     /**
-     * The table <code>DB_ETERNAL.UI_LIST_QR</code>.
-     */
-    public final UiListQr UI_LIST_QR = UiListQr.UI_LIST_QR;
-
-    /**
      * The table <code>DB_ETERNAL.UI_OP</code>.
      */
     public final UiOp UI_OP = UiOp.UI_OP;
@@ -69,6 +64,11 @@ public class Db extends SchemaImpl {
      * The table <code>DB_ETERNAL.UI_PAGE</code>.
      */
     public final UiPage UI_PAGE = UiPage.UI_PAGE;
+
+    /**
+     * The table <code>DB_ETERNAL.UI_VIEW</code>.
+     */
+    public final UiView UI_VIEW = UiView.UI_VIEW;
 
     /**
      * The table <code>DB_ETERNAL.UI_VISITOR</code>.
@@ -117,9 +117,9 @@ public class Db extends SchemaImpl {
             UiForm.UI_FORM,
             UiLayout.UI_LAYOUT,
             UiList.UI_LIST,
-            UiListQr.UI_LIST_QR,
             UiOp.UI_OP,
             UiPage.UI_PAGE,
+            UiView.UI_VIEW,
             UiVisitor.UI_VISITOR,
             VFragment.V_FRAGMENT,
             VQuery.V_QUERY,

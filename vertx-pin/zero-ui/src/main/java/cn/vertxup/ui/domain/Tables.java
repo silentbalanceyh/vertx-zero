@@ -10,9 +10,9 @@ import cn.vertxup.ui.domain.tables.UiField;
 import cn.vertxup.ui.domain.tables.UiForm;
 import cn.vertxup.ui.domain.tables.UiLayout;
 import cn.vertxup.ui.domain.tables.UiList;
-import cn.vertxup.ui.domain.tables.UiListQr;
 import cn.vertxup.ui.domain.tables.UiOp;
 import cn.vertxup.ui.domain.tables.UiPage;
+import cn.vertxup.ui.domain.tables.UiView;
 import cn.vertxup.ui.domain.tables.UiVisitor;
 import cn.vertxup.ui.domain.tables.VFragment;
 import cn.vertxup.ui.domain.tables.VQuery;
@@ -57,11 +57,6 @@ public class Tables {
     public static final UiList UI_LIST = UiList.UI_LIST;
 
     /**
-     * The table <code>DB_ETERNAL.UI_LIST_QR</code>.
-     */
-    public static final UiListQr UI_LIST_QR = UiListQr.UI_LIST_QR;
-
-    /**
      * The table <code>DB_ETERNAL.UI_OP</code>.
      */
     public static final UiOp UI_OP = UiOp.UI_OP;
@@ -70,6 +65,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.UI_PAGE</code>.
      */
     public static final UiPage UI_PAGE = UiPage.UI_PAGE;
+
+    /**
+     * The table <code>DB_ETERNAL.UI_VIEW</code>.
+     */
+    public static final UiView UI_VIEW = UiView.UI_VIEW;
 
     /**
      * The table <code>DB_ETERNAL.UI_VISITOR</code>.

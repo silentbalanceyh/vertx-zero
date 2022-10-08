@@ -43,7 +43,7 @@
     - code
     - sigma
 # 列表视图
--   dao: cn.vertxup.ui.domain.tables.daos.UiListQrDao
+-   dao: cn.vertxup.ui.domain.tables.daos.UiViewDao
     key: key
     unique:
     - code

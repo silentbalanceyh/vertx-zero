@@ -1,21 +1,21 @@
 package cn.vertxup.ui.api;
 
-import cn.vertxup.ui.service.ControlStub;
-import cn.vertxup.ui.service.FormStub;
-import cn.vertxup.ui.service.ListStub;
-import cn.vertxup.ui.service.PageStub;
+import cn.vertxup.ui.service.*;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.tp.ui.cv.em.ControlType;
+import io.vertx.tp.ui.cv.em.OpType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.ViewType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,6 +30,9 @@ public class UiActor {
 
     @Inject
     private transient ListStub listStub;
+
+    @Inject
+    private transient DoStub doStub;
 
     @Inject
     private transient FormStub formStub;
@@ -63,21 +66,31 @@ public class UiActor {
     @Address(Addr.Control.FETCH_OP)
     public Future<JsonArray> fetchOps(final JsonObject body) {
         return Ui.cacheOps(body, () -> {
-            final String control = body.getString("control");
-            if (Ut.notNil(control)) {
-                /*
-                 * UI_OP stored
-                 */
-                return this.listStub.fetchOpDynamic(control);
+            /*
+             * 新逻辑处理，参数种类
+             * control -> controlId
+             * type    -> null / ATOM,   动态表单
+             *         -> FLOW,          流程表单,   提取 workflow,event
+             *         -> WEB,           静态表单,   提取 identifier
+             * 隐含流程：当 control = null 时，检索 identifier 执行 WEB 类型读取
+             */
+            final String type = Ut.valueString(body, KName.TYPE);
+            final OpType opType = Ut.toEnum(() -> type, OpType.class, null);
+            if (Objects.isNull(opType)) {
+                // ATOM / WEB
+                return this.doStub.fetchSmart(body);
             } else {
-                /*
-                 * fetch data plugin/ui/ops.json
-                 */
-                final String identifier = body.getString(KName.IDENTIFIER);
-                return this.listStub.fetchOpFixed(identifier);
+                // 标准流程
+                return switch (opType) {
+                    // ATOM
+                    case ATOM -> this.doStub.fetchAtom(body);
+                    // WEB
+                    case WEB -> this.doStub.fetchWeb(body);
+                    // FLOW
+                    case FLOW -> this.doStub.fetchFlow(body);
+                };
             }
         });
-
     }
 
     @Address(Addr.Control.FETCH_FORM_BY_CODE)
@@ -97,8 +110,22 @@ public class UiActor {
     }
 
     @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
-    public Future<JsonArray> fetchListQr(final String sigma, final String code) {
-        return this.listStub.fetchQr(code, sigma);
+    public Future<JsonArray> fetchListQr(
+        final String id, final String position,
+        final String typeStr, final XHeader header
+    ) {
+        final JsonObject condition = Ux.whereAnd()
+            .put(KName.SIGMA, header.getSigma())
+            .put(KName.POSITION, position);
+        final ViewType type = Ut.toEnum(ViewType.class, typeStr);
+        if (ViewType.Model == type) {
+            // POSITION = ? AND SIGMA = ? AND IDENTIFIER = ? ORDER BY SORT ASC
+            condition.put(KName.IDENTIFIER, id);
+        } else {
+            // POSITION = ? AND SIGMA = ? AND WORKFLOW = ? ORDER BY SORT ASC
+            condition.put(KName.Flow.WORKFLOW, id);
+        }
+        return this.listStub.fetchQr(condition);
     }
 
     @Address(Addr.Control.FETCH_BY_VISITOR)

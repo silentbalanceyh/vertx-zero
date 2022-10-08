@@ -1,15 +1,12 @@
 package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiListDao;
-import cn.vertxup.ui.domain.tables.daos.UiListQrDao;
-import cn.vertxup.ui.domain.tables.daos.UiOpDao;
+import cn.vertxup.ui.domain.tables.daos.UiViewDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
-import cn.vertxup.ui.domain.tables.pojos.UiListQr;
-import cn.vertxup.ui.domain.tables.pojos.UiOp;
+import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ui.init.UiPin;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.tp.ui.uca.qbe.QBECache;
 import io.vertx.up.atom.query.Sorter;
@@ -59,15 +56,11 @@ public class ListService implements ListStub {
     }
 
     @Override
-    public Future<JsonArray> fetchQr(final String code, final String sigma) {
-        // CODE = ? AND SIGMA = ? ORDER BY SORT ASC
-        final JsonObject condition = Ux.whereAnd()
-            .put(KName.CODE, code)
-            .put(KName.SIGMA, sigma);
+    public Future<JsonArray> fetchQr(final JsonObject condition) {
 
         final Sorter sorter = Sorter.create(KName.SORT, true);
 
-        return Ux.Jooq.on(UiListQrDao.class).<UiListQr>fetchAsync(condition, sorter)
+        return Ux.Jooq.on(UiViewDao.class).<UiView>fetchAsync(condition, sorter)
             // Cached Data for future usage
             .compose(QBECache::cached)
             .compose(Ux::futureA)
@@ -108,19 +101,5 @@ public class ListService implements ListStub {
             .compose(Fn.wrapTree(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
             /* Combiner for final processing */
             .compose(Fn.wrapWeb("classCombiner"));
-    }
-
-    @Override
-    public Future<JsonArray> fetchOpDynamic(final String control) {
-        return Ux.Jooq.on(UiOpDao.class)
-            .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
-            .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.Ui.CONFIG));
-    }
-
-    @Override
-    public Future<JsonArray> fetchOpFixed(final String identifier) {
-        Ui.infoUi(LOGGER, "The fixed identifier = `{0}`", identifier);
-        return Ux.future(UiPin.getOp());
     }
 }

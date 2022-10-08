@@ -28,7 +28,9 @@ public class UiOp implements VertxPojo, IUiOp {
     private String clientId;
     private String config;
     private String plugin;
+    private Integer uiSort;
     private String controlId;
+    private String controlType;
     private Boolean active;
     private String sigma;
     private String metadata;
@@ -49,7 +51,9 @@ public class UiOp implements VertxPojo, IUiOp {
         this.clientId = value.getClientId();
         this.config = value.getConfig();
         this.plugin = value.getPlugin();
+        this.uiSort = value.getUiSort();
         this.controlId = value.getControlId();
+        this.controlType = value.getControlType();
         this.active = value.getActive();
         this.sigma = value.getSigma();
         this.metadata = value.getMetadata();
@@ -69,7 +73,9 @@ public class UiOp implements VertxPojo, IUiOp {
         String clientId,
         String config,
         String plugin,
+        Integer uiSort,
         String controlId,
+        String controlType,
         Boolean active,
         String sigma,
         String metadata,
@@ -87,7 +93,9 @@ public class UiOp implements VertxPojo, IUiOp {
         this.clientId = clientId;
         this.config = config;
         this.plugin = plugin;
+        this.uiSort = uiSort;
         this.controlId = controlId;
+        this.controlType = controlType;
         this.active = active;
         this.sigma = sigma;
         this.metadata = metadata;
@@ -250,6 +258,23 @@ public class UiOp implements VertxPojo, IUiOp {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    @Override
+    public Integer getUiSort() {
+        return this.uiSort;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    @Override
+    public UiOp setUiSort(Integer uiSort) {
+        this.uiSort = uiSort;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.UI_OP.CONTROL_ID</code>. 「controlId」- 挂载专用的ID
      */
     @Override
@@ -263,6 +288,25 @@ public class UiOp implements VertxPojo, IUiOp {
     @Override
     public UiOp setControlId(String controlId) {
         this.controlId = controlId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    @Override
+    public String getControlType() {
+        return this.controlType;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    @Override
+    public UiOp setControlType(String controlType) {
+        this.controlType = controlType;
         return this;
     }
 
@@ -459,11 +503,23 @@ public class UiOp implements VertxPojo, IUiOp {
         }
         else if (!this.plugin.equals(other.plugin))
             return false;
+        if (this.uiSort == null) {
+            if (other.uiSort != null)
+                return false;
+        }
+        else if (!this.uiSort.equals(other.uiSort))
+            return false;
         if (this.controlId == null) {
             if (other.controlId != null)
                 return false;
         }
         else if (!this.controlId.equals(other.controlId))
+            return false;
+        if (this.controlType == null) {
+            if (other.controlType != null)
+                return false;
+        }
+        else if (!this.controlType.equals(other.controlType))
             return false;
         if (this.active == null) {
             if (other.active != null)
@@ -528,7 +584,9 @@ public class UiOp implements VertxPojo, IUiOp {
         result = prime * result + ((this.clientId == null) ? 0 : this.clientId.hashCode());
         result = prime * result + ((this.config == null) ? 0 : this.config.hashCode());
         result = prime * result + ((this.plugin == null) ? 0 : this.plugin.hashCode());
+        result = prime * result + ((this.uiSort == null) ? 0 : this.uiSort.hashCode());
         result = prime * result + ((this.controlId == null) ? 0 : this.controlId.hashCode());
+        result = prime * result + ((this.controlType == null) ? 0 : this.controlType.hashCode());
         result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
         result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
         result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
@@ -552,7 +610,9 @@ public class UiOp implements VertxPojo, IUiOp {
         sb.append(", ").append(clientId);
         sb.append(", ").append(config);
         sb.append(", ").append(plugin);
+        sb.append(", ").append(uiSort);
         sb.append(", ").append(controlId);
+        sb.append(", ").append(controlType);
         sb.append(", ").append(active);
         sb.append(", ").append(sigma);
         sb.append(", ").append(metadata);
@@ -580,7 +640,9 @@ public class UiOp implements VertxPojo, IUiOp {
         setClientId(from.getClientId());
         setConfig(from.getConfig());
         setPlugin(from.getPlugin());
+        setUiSort(from.getUiSort());
         setControlId(from.getControlId());
+        setControlType(from.getControlType());
         setActive(from.getActive());
         setSigma(from.getSigma());
         setMetadata(from.getMetadata());

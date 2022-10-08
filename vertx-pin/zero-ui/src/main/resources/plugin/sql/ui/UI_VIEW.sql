@@ -1,19 +1,28 @@
 -- liquibase formatted sql
 
--- changeset Lang:ox-list-qr-1
--- 控件表：UI_LIST_QR
-DROP TABLE IF EXISTS UI_LIST_QR;
-CREATE TABLE IF NOT EXISTS UI_LIST_QR
+-- changeset Lang:ui-view-1
+-- 控件表：UI_VIEW
+DROP TABLE IF EXISTS UI_VIEW;
+CREATE TABLE IF NOT EXISTS UI_VIEW
 (
     `KEY`          VARCHAR(36) COMMENT '「key」- 查询记录ID',
     /*
-     * 此处需要说明的是 UI_LIST_QR 只挂载在 LIST 中，所以有几个维度需要说明
+     * 此处需要说明的是 UI_VIEW 只挂载在 LIST 中，所以有几个维度需要说明
      * -- CODE值为当前系统内码，传参专用
      * -- NAME/POSITION对应的就是视图 SView 中的 NAME/POSITION
      */
     `NAME`         VARCHAR(255) COMMENT '「name」- 视图名称，每个 MATRIX 对应一个视图',
     `CODE`         VARCHAR(255) COMMENT '「code」- 系统编码',
     `SORT`         INT COMMENT '「sort」- QR的顺序',
+
+    /*
+     * 追加维度
+     * -- 按模型
+     * -- 按流程
+     * 一个模型可能包含多个流程，此处做开放的新维度
+     */
+    `IDENTIFIER`   VARCHAR(255) COMMENT '「identifier」- 模型标识符',
+    `WORKFLOW`     VARCHAR(255) COMMENT '「workflow」- 工作流名称',
 
     `VIEW`         VARCHAR(96) COMMENT '「view」- 视图名',
     `POSITION`     VARCHAR(96) COMMENT '「position」- 当前视图的模块位置，比页面低一个维度',
@@ -45,7 +54,7 @@ CREATE TABLE IF NOT EXISTS UI_LIST_QR
     PRIMARY KEY (`KEY`)
 );
 
--- changeset Lang:ox-list-qr-2
+-- changeset Lang:ui-view-2
 -- 业务集
 /*
  * sigma    - 租户级
@@ -54,7 +63,7 @@ CREATE TABLE IF NOT EXISTS UI_LIST_QR
  * view     - 当前视图名          ( 标识所属安全视图 )
  * position - 当前视图位置        ( 标识所属安全视图 )
  */
-ALTER TABLE UI_LIST_QR
+ALTER TABLE UI_VIEW
     ADD UNIQUE (`SIGMA`, `CODE`, `NAME`);
-ALTER TABLE UI_LIST_QR
+ALTER TABLE UI_VIEW
     ADD UNIQUE (`SIGMA`, `CODE`, `VIEW`, `POSITION`);

@@ -1,8 +1,10 @@
 package io.vertx.aeon.specification.secure;
 
+import io.vertx.aeon.atom.secure.HCatena;
 import io.vertx.aeon.specification.action.HEvent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 
 /**
  * 「阀」
@@ -14,6 +16,16 @@ import io.vertx.core.json.JsonObject;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HValve extends HEvent<JsonObject, JsonObject> {
+
+    static JsonObject output(final HCatena catena) {
+        final JsonObject response = catena.response();
+        // ui -> surface, data
+        final JsonObject uiJ = catena.data(false);
+        // data, children
+        response.put(KName.DATA, uiJ.getValue(KName.DATA));
+        response.put(KName.CHILDREN, uiJ.getValue(KName.CHILDREN));
+        return response;
+    }
 
     /*
      * 根据输入的 JsonObject 提取 HPermit 辅助管理

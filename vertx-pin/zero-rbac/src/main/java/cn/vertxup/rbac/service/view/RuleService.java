@@ -11,6 +11,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.tp.rbac.ruler.AdmitValve;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
@@ -58,7 +59,7 @@ public class RuleService implements RuleStub {
                 .filter(Objects::nonNull)
                 .filter(item -> Ut.notNil(item.getParentId()))
                 .collect(Collectors.toList()), SPath::getParentId);
-        return Fn.combineT(filtered, path -> {
+        return Fn.combineT(filtered, input -> Sc.cacheAdmit(input, path -> {
             /*
              * Extract `runComponent` to build `HValve` and then run it based on configured
              * Information here.
@@ -94,7 +95,7 @@ public class RuleService implements RuleStub {
                 pathJ.put(KName.CHILDREN, children);
             }
             return value.configure(pathJ);
-        }).compose(Ux::futureA);
+        })).compose(Ux::futureA);
     }
 
     /*

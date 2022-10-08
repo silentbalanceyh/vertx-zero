@@ -144,6 +144,21 @@ public class UiOpDao extends AbstractVertxDAO<UiOpRecord, cn.vertxup.ui.domain.t
         }
 
         /**
+     * Find records that have <code>UI_SORT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByUiSort(Collection<Integer> values) {
+                return findManyByCondition(UiOp.UI_OP.UI_SORT.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_SORT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByUiSort(Collection<Integer> values, int limit) {
+                return findManyByCondition(UiOp.UI_OP.UI_SORT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>CONTROL_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlId(Collection<String> values) {
@@ -156,6 +171,22 @@ public class UiOpDao extends AbstractVertxDAO<UiOpRecord, cn.vertxup.ui.domain.t
      */
         public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlId(Collection<String> values, int limit) {
                 return findManyByCondition(UiOp.UI_OP.CONTROL_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>CONTROL_TYPE IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlType(Collection<String> values) {
+                return findManyByCondition(UiOp.UI_OP.CONTROL_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>CONTROL_TYPE IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ui.domain.tables.pojos.UiOp>> findManyByControlType(Collection<String> values, int limit) {
+                return findManyByCondition(UiOp.UI_OP.CONTROL_TYPE.in(values),limit);
         }
 
         /**

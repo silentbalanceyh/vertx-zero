@@ -35,6 +35,23 @@ public abstract class AbstractValve implements HValve {
      *     "uiConfig": {},
      *     "uiSurface": {}
      * }
+     * 管理界面流程详细说明（HCatena / HPermit相互配合，一个为配置，一个为数据）：
+     * 0. 前置条件
+     * -- uiType不能是NONE，最少需要一个对应数据源
+     * 1. 基本流程
+     * -- 1.1. DM == NONE（无维度定义）
+     *    -- 前置：phase定义必须是EAGER，不可以LAZY，由于无维度定义所以UI数据必须是优先提取，直接在该接口需要返回UI对应数据
+     *    -- 1）先执行UI组件 configure
+     *    -- 2）再执行UI组件 compile
+     * -- 1.2. DM != NONE（带有维度定义：FLAT, TREE, FOREST）
+     *    -- 1）先执行DM组件 configure
+     *    -- 2）再执行DM组件 compile
+     *    -- 3）根据 UI 的 phase
+     *    -- 3.1）如果 phase = EAGER
+     *            执行UI组件 configure
+     *            执行UI组件 compile
+     *    -- 3.2）如果 phase = LAZY
+     *            执行UI组件 configure
      */
     @Override
     public Future<JsonObject> configure(final JsonObject input) {

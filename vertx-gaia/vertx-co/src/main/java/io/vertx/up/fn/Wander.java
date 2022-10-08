@@ -5,6 +5,7 @@ import io.vertx.aeon.specification.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.util.Ut;
@@ -29,7 +30,7 @@ class Wander {
      * }
      * 这种模式下会根据 field 执行分组构造，最终的 data = JsonObject
      */
-    static JsonObject wrapJ(final String key, final JsonArray data) {
+    static JsonObject wrapJ(final String key, final ClusterSerializable data) {
         return new JsonObject().put(key, data);
     }
 
