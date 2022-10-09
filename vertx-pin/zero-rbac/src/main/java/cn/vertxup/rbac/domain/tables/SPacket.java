@@ -17,7 +17,6 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 
 /**
@@ -95,6 +94,16 @@ public class SPacket extends TableImpl<SPacketRecord> {
      * 运行专用配置
      */
     public final TableField<SPacketRecord, String> RUN_CONFIG = createField(DSL.name("RUN_CONFIG"), SQLDataType.CLOB, this, "「runConfig」- 运行专用配置");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    public final TableField<SPacketRecord, String> SEEK_SYNTAX = createField(DSL.name("SEEK_SYNTAX"), SQLDataType.CLOB, this, "「seekSyntax」- 访问者语法");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    public final TableField<SPacketRecord, String> SEEK_CONFIG = createField(DSL.name("SEEK_CONFIG"), SQLDataType.CLOB, this, "「seekConfig」- 访问者配置");
     /**
      * The column <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -226,29 +235,5 @@ public class SPacket extends TableImpl<SPacketRecord> {
     @Override
     public SPacket rename(Table<?> name) {
         return new SPacket(name.getQualifiedName(), null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row22 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row22<String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row22) super.fieldsRow();
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
-     */
-    public <U> SelectField<U> mapping(Function22<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(Records.mapping(from));
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
-     */
-    public <U> SelectField<U> mapping(Class<U> toType, Function22<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(toType, Records.mapping(from));
     }
 }

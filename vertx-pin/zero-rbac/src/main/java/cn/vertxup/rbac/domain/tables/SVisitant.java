@@ -17,7 +17,6 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 
 /**
@@ -41,6 +40,11 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     public final TableField<SVisitantRecord, String> VIEW_ID = createField(DSL.name("VIEW_ID"), SQLDataType.VARCHAR(36), this, "「viewId」- 视图访问者的读ID");
     /**
+     * The column <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    public final TableField<SVisitantRecord, String> MODE = createField(DSL.name("MODE"), SQLDataType.VARCHAR(36), this, "「mode」- 模式，资源访问者继承于资源，可`替换/扩展`两种模式");
+    /**
      * The column <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
      */
     public final TableField<SVisitantRecord, String> PHASE = createField(DSL.name("PHASE"), SQLDataType.VARCHAR(64), this, "「phase」- 作用周期");
@@ -54,10 +58,24 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
      */
     public final TableField<SVisitantRecord, String> IDENTIFIER = createField(DSL.name("IDENTIFIER"), SQLDataType.VARCHAR(255), this, "「identifier」- 动态类型中的模型ID");
     /**
-     * The column <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * The column <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
-    public final TableField<SVisitantRecord, String> CONFIG_KEY = createField(DSL.name("CONFIG_KEY"), SQLDataType.VARCHAR(36), this, "「configKey」- 模型下记录对应的ID，一般是配置的ID");
+    public final TableField<SVisitantRecord, String> SEEK_KEY = createField(DSL.name("SEEK_KEY"), SQLDataType.VARCHAR(255), this, "「seekKey」- 资源检索的唯一键");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    public final TableField<SVisitantRecord, String> DM_ROW = createField(DSL.name("DM_ROW"), SQLDataType.CLOB, this, "「dmRow」对应视图中 Rows");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    public final TableField<SVisitantRecord, String> DM_QR = createField(DSL.name("DM_QR"), SQLDataType.CLOB, this, "「dmQr」对应视图中的 Criteria");
+    /**
+     * The column <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    public final TableField<SVisitantRecord, String> DM_COLUMN = createField(DSL.name("DM_COLUMN"), SQLDataType.CLOB, this, "「dmColumn」对应视图中的 Projection");
     /**
      * The column <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」-
      * 可见的属性集
@@ -217,29 +235,5 @@ public class SVisitant extends TableImpl<SVisitantRecord> {
     @Override
     public SVisitant rename(Table<?> name) {
         return new SVisitant(name.getQualifiedName(), null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row19 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row19<String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
-     */
-    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(Records.mapping(from));
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
-     */
-    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
-        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -87,5 +87,5 @@ public class Keys {
     public static final UniqueKey<SViewRecord> KEY_S_VIEW_OWNER_TYPE = Internal.createUniqueKey(SView.S_VIEW, DSL.name("KEY_S_VIEW_OWNER_TYPE"), new TableField[] { SView.S_VIEW.OWNER_TYPE, SView.S_VIEW.OWNER, SView.S_VIEW.RESOURCE_ID, SView.S_VIEW.NAME, SView.S_VIEW.POSITION }, true);
     public static final UniqueKey<SViewRecord> KEY_S_VIEW_PRIMARY = Internal.createUniqueKey(SView.S_VIEW, DSL.name("KEY_S_VIEW_PRIMARY"), new TableField[] { SView.S_VIEW.KEY }, true);
     public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_PRIMARY = Internal.createUniqueKey(SVisitant.S_VISITANT, DSL.name("KEY_S_VISITANT_PRIMARY"), new TableField[] { SVisitant.S_VISITANT.KEY }, true);
-    public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_VIEW_ID = Internal.createUniqueKey(SVisitant.S_VISITANT, DSL.name("KEY_S_VISITANT_VIEW_ID"), new TableField[] { SVisitant.S_VISITANT.VIEW_ID, SVisitant.S_VISITANT.TYPE, SVisitant.S_VISITANT.CONFIG_KEY }, true);
+    public static final UniqueKey<SVisitantRecord> KEY_S_VISITANT_VIEW_ID = Internal.createUniqueKey(SVisitant.S_VISITANT, DSL.name("KEY_S_VISITANT_VIEW_ID"), new TableField[] { SVisitant.S_VISITANT.VIEW_ID, SVisitant.S_VISITANT.TYPE, SVisitant.S_VISITANT.SEEK_KEY }, true);
 }

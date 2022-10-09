@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      * LIST: 列表访问者（深度列过滤）
      * OP：操作访问者（操作处理）
      * VIEW: 视图访问者
-     * 1）关于 configKey
-     * -- 在配置模式下，configKey 描述的配置的 control 记录
-     * -- 在记录读取下，configKey 描述的是模型的 category 的主键
+     * 1）关于 seekKey
+     * -- 在配置模式下，seekKey 描述的配置的 control 记录
+     * -- 在记录读取下，seekKey 描述的是模型的 category 的主键
      **/
     `TYPE`        VARCHAR(128) COMMENT '「type」- 访问者类型',
     `IDENTIFIER`  VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',
@@ -50,6 +50,17 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
      *        "type": "LIST / FORM / OP",
      *        "workflow": "工作流"
      *    }
+     * 关于Seek的整体结构
+     * 管理端              消费端             定义端
+     * S_PACKET           S_VISITANT        S_RESOURCE
+     * SEEK_CONFIG                          SEEK_CONFIG
+     * SEEK_SYNTAX        SEEK_KEY          SEEK_SYNTAX
+     *                                      SEEK_COMPONENT
+     * 抽象资源的提取，S_VIEW --> S_RESOURCE ( virtual = true ) --> S_VISITANT --> 计算最终的过滤部分内容 DM_ / ACL_
+     * 抽象资源的定义，S_PATH --> webBind ( resource = packet ) --> S_PACKET -->
+     * --- S_PATH绑定的资源操作（视图）
+     * --- S_PATH绑定的资源操作（视图 + 资源访问者）
+     * --- 上述分支出现在 resource 中的 virtual = true
      */
     `SEEK_KEY`    VARCHAR(255) COMMENT '「seekKey」- 资源检索的唯一键',
 

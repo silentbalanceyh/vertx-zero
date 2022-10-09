@@ -34,6 +34,8 @@ public class SPacket implements VertxPojo, ISPacket {
     private String qConfig;
     private String runComponent;
     private String runConfig;
+    private String seekSyntax;
+    private String seekConfig;
     private String sigma;
     private String language;
     private Boolean active;
@@ -60,6 +62,8 @@ public class SPacket implements VertxPojo, ISPacket {
         this.qConfig = value.getQConfig();
         this.runComponent = value.getRunComponent();
         this.runConfig = value.getRunConfig();
+        this.seekSyntax = value.getSeekSyntax();
+        this.seekConfig = value.getSeekConfig();
         this.sigma = value.getSigma();
         this.language = value.getLanguage();
         this.active = value.getActive();
@@ -85,6 +89,8 @@ public class SPacket implements VertxPojo, ISPacket {
         String qConfig,
         String runComponent,
         String runConfig,
+        String seekSyntax,
+        String seekConfig,
         String sigma,
         String language,
         Boolean active,
@@ -108,6 +114,8 @@ public class SPacket implements VertxPojo, ISPacket {
         this.qConfig = qConfig;
         this.runComponent = runComponent;
         this.runConfig = runConfig;
+        this.seekSyntax = seekSyntax;
+        this.seekConfig = seekConfig;
         this.sigma = sigma;
         this.language = language;
         this.active = active;
@@ -378,6 +386,44 @@ public class SPacket implements VertxPojo, ISPacket {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    @Override
+    public String getSeekSyntax() {
+        return this.seekSyntax;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    @Override
+    public SPacket setSeekSyntax(String seekSyntax) {
+        this.seekSyntax = seekSyntax;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    @Override
+    public String getSeekConfig() {
+        return this.seekConfig;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    @Override
+    public SPacket setSeekConfig(String seekConfig) {
+        this.seekConfig = seekConfig;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
@@ -606,6 +652,18 @@ public class SPacket implements VertxPojo, ISPacket {
         }
         else if (!this.runConfig.equals(other.runConfig))
             return false;
+        if (this.seekSyntax == null) {
+            if (other.seekSyntax != null)
+                return false;
+        }
+        else if (!this.seekSyntax.equals(other.seekSyntax))
+            return false;
+        if (this.seekConfig == null) {
+            if (other.seekConfig != null)
+                return false;
+        }
+        else if (!this.seekConfig.equals(other.seekConfig))
+            return false;
         if (this.sigma == null) {
             if (other.sigma != null)
                 return false;
@@ -675,6 +733,8 @@ public class SPacket implements VertxPojo, ISPacket {
         result = prime * result + ((this.qConfig == null) ? 0 : this.qConfig.hashCode());
         result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
         result = prime * result + ((this.runConfig == null) ? 0 : this.runConfig.hashCode());
+        result = prime * result + ((this.seekSyntax == null) ? 0 : this.seekSyntax.hashCode());
+        result = prime * result + ((this.seekConfig == null) ? 0 : this.seekConfig.hashCode());
         result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
         result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
         result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
@@ -704,6 +764,8 @@ public class SPacket implements VertxPojo, ISPacket {
         sb.append(", ").append(qConfig);
         sb.append(", ").append(runComponent);
         sb.append(", ").append(runConfig);
+        sb.append(", ").append(seekSyntax);
+        sb.append(", ").append(seekConfig);
         sb.append(", ").append(sigma);
         sb.append(", ").append(language);
         sb.append(", ").append(active);
@@ -737,6 +799,8 @@ public class SPacket implements VertxPojo, ISPacket {
         setQConfig(from.getQConfig());
         setRunComponent(from.getRunComponent());
         setRunConfig(from.getRunConfig());
+        setSeekSyntax(from.getSeekSyntax());
+        setSeekConfig(from.getSeekConfig());
         setSigma(from.getSigma());
         setLanguage(from.getLanguage());
         setActive(from.getActive());

@@ -89,6 +89,9 @@ CREATE TABLE IF NOT EXISTS S_PACKET
     -- 保留设置（扩展自定义配置）
     `RUN_COMPONENT` VARCHAR(255) COMMENT '「runComponent」- 自定义模式下的组件',
     `RUN_CONFIG`    LONGTEXT COMMENT '「runConfig」- 运行专用配置',
+    -- 访问者定义（绑定的 resource 中 virtual = true）
+    `SEEK_SYNTAX`   LONGTEXT COMMENT '「seekSyntax」- 访问者语法',
+    `SEEK_CONFIG`   LONGTEXT COMMENT '「seekConfig」- 访问者配置',
 
     `SIGMA`         VARCHAR(32) COMMENT '「sigma」- 统一标识',
     `LANGUAGE`      VARCHAR(10) COMMENT '「language」- 使用的语言',

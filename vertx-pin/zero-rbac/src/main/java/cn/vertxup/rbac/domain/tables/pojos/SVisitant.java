@@ -22,10 +22,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
 
     private String key;
     private String viewId;
+    private String mode;
     private String phase;
     private String type;
     private String identifier;
-    private String configKey;
+    private String seekKey;
+    private String dmRow;
+    private String dmQr;
+    private String dmColumn;
     private String aclVisible;
     private String aclView;
     private String aclVariety;
@@ -45,10 +49,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
     public SVisitant(ISVisitant value) {
         this.key = value.getKey();
         this.viewId = value.getViewId();
+        this.mode = value.getMode();
         this.phase = value.getPhase();
         this.type = value.getType();
         this.identifier = value.getIdentifier();
-        this.configKey = value.getConfigKey();
+        this.seekKey = value.getSeekKey();
+        this.dmRow = value.getDmRow();
+        this.dmQr = value.getDmQr();
+        this.dmColumn = value.getDmColumn();
         this.aclVisible = value.getAclVisible();
         this.aclView = value.getAclView();
         this.aclVariety = value.getAclVariety();
@@ -67,10 +75,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
     public SVisitant(
         String key,
         String viewId,
+        String mode,
         String phase,
         String type,
         String identifier,
-        String configKey,
+        String seekKey,
+        String dmRow,
+        String dmQr,
+        String dmColumn,
         String aclVisible,
         String aclView,
         String aclVariety,
@@ -87,10 +99,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
     ) {
         this.key = key;
         this.viewId = viewId;
+        this.mode = mode;
         this.phase = phase;
         this.type = type;
         this.identifier = identifier;
-        this.configKey = configKey;
+        this.seekKey = seekKey;
+        this.dmRow = dmRow;
+        this.dmQr = dmQr;
+        this.dmColumn = dmColumn;
         this.aclVisible = aclVisible;
         this.aclView = aclView;
         this.aclVariety = aclVariety;
@@ -148,6 +164,25 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    @Override
+    public String getMode() {
+        return this.mode;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    @Override
+    public SVisitant setMode(String mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
      */
     @Override
@@ -201,21 +236,76 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
     @Override
-    public String getConfigKey() {
-        return this.configKey;
+    public String getSeekKey() {
+        return this.seekKey;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
     @Override
-    public SVisitant setConfigKey(String configKey) {
-        this.configKey = configKey;
+    public SVisitant setSeekKey(String seekKey) {
+        this.seekKey = seekKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    @Override
+    public String getDmRow() {
+        return this.dmRow;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    @Override
+    public SVisitant setDmRow(String dmRow) {
+        this.dmRow = dmRow;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    @Override
+    public String getDmQr() {
+        return this.dmQr;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    @Override
+    public SVisitant setDmQr(String dmQr) {
+        this.dmQr = dmQr;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    @Override
+    public String getDmColumn() {
+        return this.dmColumn;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    @Override
+    public SVisitant setDmColumn(String dmColumn) {
+        this.dmColumn = dmColumn;
         return this;
     }
 
@@ -477,6 +567,12 @@ public class SVisitant implements VertxPojo, ISVisitant {
         }
         else if (!this.viewId.equals(other.viewId))
             return false;
+        if (this.mode == null) {
+            if (other.mode != null)
+                return false;
+        }
+        else if (!this.mode.equals(other.mode))
+            return false;
         if (this.phase == null) {
             if (other.phase != null)
                 return false;
@@ -495,11 +591,29 @@ public class SVisitant implements VertxPojo, ISVisitant {
         }
         else if (!this.identifier.equals(other.identifier))
             return false;
-        if (this.configKey == null) {
-            if (other.configKey != null)
+        if (this.seekKey == null) {
+            if (other.seekKey != null)
                 return false;
         }
-        else if (!this.configKey.equals(other.configKey))
+        else if (!this.seekKey.equals(other.seekKey))
+            return false;
+        if (this.dmRow == null) {
+            if (other.dmRow != null)
+                return false;
+        }
+        else if (!this.dmRow.equals(other.dmRow))
+            return false;
+        if (this.dmQr == null) {
+            if (other.dmQr != null)
+                return false;
+        }
+        else if (!this.dmQr.equals(other.dmQr))
+            return false;
+        if (this.dmColumn == null) {
+            if (other.dmColumn != null)
+                return false;
+        }
+        else if (!this.dmColumn.equals(other.dmColumn))
             return false;
         if (this.aclVisible == null) {
             if (other.aclVisible != null)
@@ -588,10 +702,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
         int result = 1;
         result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
         result = prime * result + ((this.viewId == null) ? 0 : this.viewId.hashCode());
+        result = prime * result + ((this.mode == null) ? 0 : this.mode.hashCode());
         result = prime * result + ((this.phase == null) ? 0 : this.phase.hashCode());
         result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
         result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
-        result = prime * result + ((this.configKey == null) ? 0 : this.configKey.hashCode());
+        result = prime * result + ((this.seekKey == null) ? 0 : this.seekKey.hashCode());
+        result = prime * result + ((this.dmRow == null) ? 0 : this.dmRow.hashCode());
+        result = prime * result + ((this.dmQr == null) ? 0 : this.dmQr.hashCode());
+        result = prime * result + ((this.dmColumn == null) ? 0 : this.dmColumn.hashCode());
         result = prime * result + ((this.aclVisible == null) ? 0 : this.aclVisible.hashCode());
         result = prime * result + ((this.aclView == null) ? 0 : this.aclView.hashCode());
         result = prime * result + ((this.aclVariety == null) ? 0 : this.aclVariety.hashCode());
@@ -614,10 +732,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
 
         sb.append(key);
         sb.append(", ").append(viewId);
+        sb.append(", ").append(mode);
         sb.append(", ").append(phase);
         sb.append(", ").append(type);
         sb.append(", ").append(identifier);
-        sb.append(", ").append(configKey);
+        sb.append(", ").append(seekKey);
+        sb.append(", ").append(dmRow);
+        sb.append(", ").append(dmQr);
+        sb.append(", ").append(dmColumn);
         sb.append(", ").append(aclVisible);
         sb.append(", ").append(aclView);
         sb.append(", ").append(aclVariety);
@@ -644,10 +766,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
     public void from(ISVisitant from) {
         setKey(from.getKey());
         setViewId(from.getViewId());
+        setMode(from.getMode());
         setPhase(from.getPhase());
         setType(from.getType());
         setIdentifier(from.getIdentifier());
-        setConfigKey(from.getConfigKey());
+        setSeekKey(from.getSeekKey());
+        setDmRow(from.getDmRow());
+        setDmQr(from.getDmQr());
+        setDmColumn(from.getDmColumn());
         setAclVisible(from.getAclVisible());
         setAclView(from.getAclView());
         setAclVariety(from.getAclVariety());

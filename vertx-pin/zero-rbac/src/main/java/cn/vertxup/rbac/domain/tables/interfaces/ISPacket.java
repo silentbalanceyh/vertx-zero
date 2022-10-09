@@ -174,6 +174,30 @@ public interface ISPacket extends VertxPojo, Serializable {
     public String getRunConfig();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    public ISPacket setSeekSyntax(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    public String getSeekSyntax();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    public ISPacket setSeekConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    public String getSeekConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
     public ISPacket setSigma(String value);
@@ -285,6 +309,8 @@ public interface ISPacket extends VertxPojo, Serializable {
                 setOrThrow(this::setQConfig,json::getString,"Q_CONFIG","java.lang.String");
                 setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
                 setOrThrow(this::setRunConfig,json::getString,"RUN_CONFIG","java.lang.String");
+                setOrThrow(this::setSeekSyntax,json::getString,"SEEK_SYNTAX","java.lang.String");
+                setOrThrow(this::setSeekConfig,json::getString,"SEEK_CONFIG","java.lang.String");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -314,6 +340,8 @@ public interface ISPacket extends VertxPojo, Serializable {
                 json.put("Q_CONFIG",getQConfig());
                 json.put("RUN_COMPONENT",getRunComponent());
                 json.put("RUN_CONFIG",getRunConfig());
+                json.put("SEEK_SYNTAX",getSeekSyntax());
+                json.put("SEEK_CONFIG",getSeekConfig());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

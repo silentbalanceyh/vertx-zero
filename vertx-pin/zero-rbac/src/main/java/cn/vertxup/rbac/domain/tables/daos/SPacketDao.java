@@ -235,6 +235,38 @@ public class SPacketDao extends AbstractVertxDAO<SPacketRecord, cn.vertxup.rbac.
         }
 
         /**
+     * Find records that have <code>SEEK_SYNTAX IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyBySeekSyntax(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.SEEK_SYNTAX.in(values));
+        }
+
+        /**
+     * Find records that have <code>SEEK_SYNTAX IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyBySeekSyntax(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.SEEK_SYNTAX.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>SEEK_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyBySeekConfig(Collection<String> values) {
+                return findManyByCondition(SPacket.S_PACKET.SEEK_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>SEEK_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyBySeekConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPacket.S_PACKET.SEEK_CONFIG.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>SIGMA IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPacket>> findManyBySigma(Collection<String> values) {

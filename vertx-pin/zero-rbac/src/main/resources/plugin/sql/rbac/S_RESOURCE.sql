@@ -22,8 +22,12 @@ CREATE TABLE IF NOT EXISTS S_RESOURCE
 
     -- 资源访问者配置，动态资源定义
     `VIRTUAL`        BIT COMMENT '「virtual」- 虚拟资源',
-    `SEEK_SYNTAX`    TEXT COMMENT '「seekSyntax」- 访问者语法',
-    `SEEK_CONFIG`    TEXT COMMENT '「seekConfig」- 访问者配置',
+    /*
+     * 访问者扩展：针对 seekConfig 进行分类，分类位于配置中详细定义
+     * 访问者类型是抽象过程中单独定义
+     */
+    `SEEK_SYNTAX`    LONGTEXT COMMENT '「seekSyntax」- 访问者语法',
+    `SEEK_CONFIG`    LONGTEXT COMMENT '「seekConfig」- 访问者配置',
     `SEEK_COMPONENT` VARCHAR(255) COMMENT '「seekComponent」- 访问者组件',
 
     -- 资源标识
