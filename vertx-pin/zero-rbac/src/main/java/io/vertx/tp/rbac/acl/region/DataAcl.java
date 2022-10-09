@@ -11,7 +11,6 @@ import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.run.ActTime;
-import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +20,6 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class DataAcl {
-    private static final Annal LOGGER = Annal.get(DataAcl.class);
 
     /*
      * Calculated `syntax` to generate visitant condition

@@ -47,7 +47,7 @@ public class DataBound implements Serializable {
         final JsonObject rows = new JsonObject();
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
         json.put("rows", rows);
-        /* Advanced */
+        /* Advanced, Impact, Seeker */
         json.put("credit", credit);
         if (Ut.notNil(this.seeker)) {
             json.put("seeker", this.seeker);

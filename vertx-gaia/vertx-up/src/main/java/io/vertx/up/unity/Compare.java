@@ -109,12 +109,14 @@ class Compare {
                 return old;
             } else {
                 /*
-                 * Convert old entity to json
+                 * 此处做一个比较大的比对变更，主要用于如何合并属性的考虑，此处的 T 包含了所有属性集，为一级数据
+                 * 在比对过程中，如果遇到了JSON属性，那么二层JSON属性不应该执行 Merge 操作，而是直接替换，只有
+                 * 一级属性会做相关比对
+                 * 1. combineJson - 旧数据
+                 * 2. latestJson  - 新数据
+                 * 所以此处在调用 mergeIn 方法时第二参数应该为 false
                  */
                 final JsonObject combineJson = Ut.valueJObject(To.toJObject(old, pojo));
-                /*
-                 * Convert current entity to json
-                 */
                 final JsonObject latestJson = Ut.valueJObject(To.toJObject(latest, pojo));
                 if (latestJson.containsKey("key")) {
                     /*
@@ -123,13 +125,7 @@ class Compare {
                      */
                     latestJson.remove("key");
                 }
-                /*
-                 * Merged
-                 */
-                combineJson.mergeIn(latestJson, true);
-                /*
-                 * Deserialization
-                 */
+                combineJson.mergeIn(latestJson, false);
                 final Class<?> clazz = latest.getClass();
                 return (T) From.fromJson(combineJson, clazz, pojo);
             }
