@@ -84,6 +84,6 @@
 -   dao: cn.vertxup.rbac.domain.tables.daos.SPacketDao
     key: key
     unique:
-    - pathId
-    - resourceId
+    - code
+    - resource
     - sigma

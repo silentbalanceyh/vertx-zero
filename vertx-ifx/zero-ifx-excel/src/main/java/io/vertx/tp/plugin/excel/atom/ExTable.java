@@ -113,11 +113,13 @@ public class ExTable implements Serializable {
         final JsonArray unique = this.getConnect().getUnique();
         final ConcurrentMap<String, Integer> counter = Ut.elementCount(data, unique);
         /*
-         * 查找最大节点
+         * 查找最大节点，最大节点的比对必须超过阈值，阈值设置原理
+         * 1）前端下拉处理，稍稍复杂一点，阈值设置为32
+         * 2）LBS中城市超过省份格式，目前只有城市、二级市会遇到：org.jooq.impl.AbstractQueryPart.equals(AbstractQueryPart.java:158)
          */
         final Integer max = Collections.max(counter.values());
         final JsonObject filters;
-        if (1 < max) {
+        if (32 < max) {
             filters = Ux.whereAnd();
             final Set<String> fields = new HashSet<>();
             counter.forEach((field, count) -> {

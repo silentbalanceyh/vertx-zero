@@ -27,6 +27,7 @@ public class KConnect implements Serializable {
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
     private transient JsonArray unique;
+
     private transient String key;
 
     public String getTable() {
