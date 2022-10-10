@@ -10,7 +10,10 @@
             "key": "rule.flow.action"
         }
     ],
-    "webBind": {},
+    "webBind": {
+        "HxQueue": "res.views.fetch",
+        "HxAction": "res.op.by.control"
+    },
     "webWelcome": {
         "header": {
             "label": "选择流程",

@@ -13,5 +13,8 @@
         ]
     },
     "webData": {
+        "paramDefault": "ALL",
+        "initializer": "aclInHS",
+        "requester": "aclOutHS"
     }
 }
