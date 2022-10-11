@@ -11,7 +11,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -40,32 +40,53 @@ public class SeekCosmo implements Cosmo {
      */
     @Override
     public Future<Envelop> before(final Envelop request, final JsonObject matrix) {
-        return this.runAop(request, matrix,
+        return this.runAop(request, matrix, ActTime.BEFORE, () -> Quest.syntax()
             /*
              * Before -> beforeAsync
              * 1）以条件判断是否读取资源访问者（带缓存访问）
              * 2）使用资源访问者构造Acl
              * 3）Acl用于 List 和 Form
              */
-            ActTime.BEFORE, Quest.syntax()::beforeAsync
+            .beforeAsync(request, matrix).compose(processed -> {
+
+                /* Projection Modification */
+                DataIn.visitProjection(processed, matrix);
+
+                /* Criteria Modification */
+                DataIn.visitCriteria(processed, matrix);
+
+                return Ux.future(processed);
+            })
         ).otherwise(Ux.otherwise());
     }
 
     @Override
     public Future<Envelop> after(final Envelop response, final JsonObject matrix) {
-        return this.runAop(response, matrix,
+        return this.runAop(response, matrix, ActTime.AFTER, () -> Quest.syntax()
             /*
              * After -> afterAsync
              * 1）以条件判断是否读取资源访问者（带缓存访问）
              * 2）使用资源访问者构造Acl
              * 3）Acl用于 List 和 Form
              */
-            ActTime.AFTER, Quest.syntax()::afterAsync
+            .afterAsync(response, matrix).compose(processed -> {
+
+                /* Projection */
+                DataOut.dwarfRecord(processed, matrix);
+
+                /* Rows */
+                DataOut.dwarfRows(processed, matrix);
+
+                /* Projection For Array */
+                DataOut.dwarfCollection(processed, matrix);
+
+                return Ux.future(processed);
+            })
         ).otherwise(Ux.otherwise());
     }
 
     private Future<Envelop> runAop(final Envelop envelop, final JsonObject matrix, final ActTime phase,
-                                   final BiFunction<Envelop, JsonObject, Future<Envelop>> executor) {
+                                   final Supplier<Future<Envelop>> executor) {
         /*
          * 检查 seeker:
          *    理论上，如果是Zero Extension内部调用，由于之前做了seeker检查（DataRegion中）
@@ -108,6 +129,6 @@ public class SeekCosmo implements Cosmo {
             final Cosmo external = CC_COSMO_EXTERNAL.pick(() -> Ut.instance(componentCls));
             return (ActTime.BEFORE == phase) ? external.before(envelop, matrix) : external.after(envelop, matrix);
         }
-        return executor.apply(envelop, matrix);
+        return executor.get();
     }
 }

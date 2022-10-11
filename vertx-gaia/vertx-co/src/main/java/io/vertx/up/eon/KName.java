@@ -130,6 +130,8 @@ public interface KName {
     String COMPONENTS = "components";            /* Definition: components */
     String COMPONENT = "component";              /* Definition: ( Single ) component */
 
+    String SELECTOR = "selector";                /* Definition: selector */
+
     String SOURCE = "source";                    /* Database ( X_SOURCE ) related field */
     String SOURCE_DATA = "sourceData";           /* sourceData */
     String SOURCE_FIELD = "sourceField";         /* sourceField */

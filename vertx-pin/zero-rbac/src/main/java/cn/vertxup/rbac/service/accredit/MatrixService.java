@@ -48,12 +48,10 @@ public class MatrixService implements MatrixStub {
                      */
                     if (Objects.nonNull(virtual) && virtual) {
                         final JsonObject seeker = new JsonObject();
-                        seeker.put("config", Ut.toJObject(resource.getSeekConfig()));
-                        seeker.put("syntax", Ut.toJObject(resource.getSeekSyntax()));
-                        seeker.put("component", resource.getSeekComponent());
-                        /*
-                         * Store view object into json for future condition building
-                         */
+                        seeker.put(KName.CONFIG, Ut.toJObject(resource.getSeekConfig()));
+                        seeker.put(KName.SYNTAX, Ut.toJObject(resource.getSeekSyntax()));
+                        seeker.put(KName.COMPONENT, resource.getSeekComponent());
+                        /* Store view object into json for future condition building */
                         bound.addSeeker(seeker);
                     }
                     return Ux.future(bound);
@@ -103,14 +101,14 @@ public class MatrixService implements MatrixStub {
      */
     private Future<DataBound> toBound(final List<SView> matrices) {
         final DataBound bound = new DataBound();
-        matrices.forEach(matrix -> {
-            final JsonObject viewData = Ut.serializeJson(matrix);
+        matrices.forEach(viewRef -> {
+            final JsonObject viewData = Ut.serializeJson(viewRef);
             /*
              * Basic view configuration reading
              */
-            bound.addProjection(matrix.getProjection())
-                .addRows(matrix.getRows())
-                .addCriteria(matrix.getCriteria())
+            bound.addProjection(viewRef.getProjection())
+                .addRows(viewRef.getRows())
+                .addCriteria(viewRef.getCriteria())
                 .addView(viewData);
         });
         return Future.succeededFuture(bound);

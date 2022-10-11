@@ -72,11 +72,36 @@ class QuestAcl implements Quest {
 
     @Override
     public Future<Envelop> beforeAsync(final Envelop request, final JsonObject matrixJ) {
-        return null;
+        // 在执行之前调用，处理 BEFORE 语法
+        final JsonObject body = request.body();
+        return SyntaxData.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
+            // 绑定专用
+            request.acl(acl);
+            return Ux.future(request);
+        });
     }
 
     @Override
-    public Future<Envelop> afterAsync(final Envelop request, final JsonObject matrixJ) {
-        return null;
+    public Future<Envelop> afterAsync(final Envelop response, final JsonObject matrixJ) {
+        // 在执行之前调用，处理 BEFORE 语法
+        final JsonObject body = response.body();
+        return SyntaxData.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
+            // 绑定专用
+            response.acl(acl);
+            /*
+             * Append data of `acl` into description for future usage
+             * This feature is ok when RunPhase = DELAY because the EAGER
+             * will impact our current request response directly.
+             *
+             * But this node should returned all critical data
+             * 1) access, The fields that you could visit
+             * 2) edition, The fields that you could edit
+             * 3) record, The fields of all current record
+             */
+            if (Objects.nonNull(acl)) {
+                response.valueOn("acl", acl.acl());
+            }
+            return Ux.future(response);
+        });
     }
 }

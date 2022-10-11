@@ -39,6 +39,22 @@ public class DataBound implements Serializable {
     private final JsonObject seeker = new JsonObject();
     private final JsonObject viewData = new JsonObject();
 
+    /*
+     * {
+     *     "projection":        "S_VIEW -> PROJECTION",
+     *     "criteria":          "S_VIEW -> CRITERIA",
+     *     "rows":              "S_VIEW -> ROWS",
+     *     "credit":            "S_VIEW -> RENEW_CREDIT",
+     *     "seeker":            {
+     *         "config":        "S_RESOURCE -> SEEK_CONFIG",
+     *         "component":     "S_RESOURCE -> SEEK_COMPONENT",
+     *         "syntax":        "S_RESOURCE -> SEEK_SYNTAX"
+     *     },
+     *     "view":              {
+     *         "S_VIEW 全字段"
+     *     }
+     * }
+     */
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
         json.put("projection", Ut.toJArray(this.projection));

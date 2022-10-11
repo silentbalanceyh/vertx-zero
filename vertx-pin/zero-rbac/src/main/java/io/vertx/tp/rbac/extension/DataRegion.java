@@ -92,14 +92,21 @@ public class DataRegion extends AbstractRegion {
     private Future<JsonObject> cacheView(final RoutingContext context, final Envelop envelop) {
         final String habitus = envelop.habitus();
         if (Ut.isNil(habitus)) {
-            /*
-             * Empty bound in current interface instead of other
-             */
+            /* Empty bound in current interface instead of other */
             return Ux.future(new JsonObject());
         } else {
             final String viewKey = Ke.keyView(context);
             final ScUser scUser = ScUser.login(habitus);
-            return scUser.view(viewKey);
+            return scUser.view(viewKey).compose(matrix -> {
+                /*
+                 * 此处需要针对缓存中的 matrix 执行拷贝，后续流程中会直接执行如下流程
+                 * cache matrix -> Before + Visitant -> 影响 matrix
+                 *              -> After  + Visitant -> 影响 matrix
+                 * DataRegion中消费的 matrix 在新版本中会直接被 Cosmo 组件变更，而造成最终的影响
+                 * 所以读取出来的视图矩阵在此处执行拷贝
+                 */
+                return Ux.future(matrix.copy());
+            });
         }
     }
 
