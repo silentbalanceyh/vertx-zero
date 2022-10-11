@@ -1,15 +1,16 @@
 package cn.vertxup.rbac.service.view;
 
-import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
+import cn.vertxup.rbac.domain.tables.daos.SPacketDao;
+import cn.vertxup.rbac.domain.tables.daos.SPathDao;
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.rbac.acl.rapier.Quest;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.tp.rbac.ruler.AdmitValve;
@@ -25,7 +26,6 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -98,41 +98,27 @@ public class RuleService implements RuleStub {
         })).compose(Ux::futureA);
     }
 
-    /*
-     * 此处已经在上层提取了相关规则集 SPacket，最终构造数据格式
-     */
     @Override
-    public Future<JsonObject> regionAsync(final List<SPacket> packets, final ScOwner owner) {
-        // 根据 resource codes 读取所有要操作的资源记录
-        final Set<String> restCodes = packets.stream()
-            .filter(Objects::nonNull)
-            .map(SPacket::getResource)
-            .collect(Collectors.toSet());
-
-        final String sigma = Ut.valueString(packets, SPacket::getSigma);
-
-        // 提取资源
-        final JsonObject condition = Ux.whereAnd()
-            .put(KName.SIGMA, sigma)
-            .put(KName.CODE + ",i", Ut.toJArray(restCodes));
-        return Ux.Jooq.on(SResourceDao.class).<SResource>fetchAsync(condition)
-            .compose(resources -> {
-                // 根据资源记录读取所需视图集
-                final ConcurrentMap<String, SResource> resourceMap =
-                    Ut.elementMap(resources, SResource::getCode);
-
-                // resource -> json
-                final ConcurrentMap<String, Future<JsonObject>> futures =
-                    new ConcurrentHashMap<>();
-                packets.forEach(packet -> {
-                    // HEyelet Capture
-                    final SResource resource = resourceMap.getOrDefault(packet.getResource(), null);
-                    if (Objects.nonNull(resource)) {
-                        futures.put(resource.getCode(), RuleKit.regionJ(packet, resource, owner));
-                    }
-                });
-                return Fn.combineM(futures).compose(map -> Ux.future(Ut.toJObject(map)));
-            });
+    public Future<JsonObject> regionAsync(final JsonObject pathData, final ScOwner owner) {
+        /*
+         * 查找合法的被影响资源，此处会有很多种变化
+         * - 每个Region影响的资源可能是多个值，也可能是一个值
+         * - 由于Region在前端读取的时候已经是执行过 type 维度的条件，所以此处不再考虑 type 参数
+         *   type 直接从 region 的 runType 中提取
+         * - 此处提取时直接按照 region codes + sigma 二者的值来提取 Pocket 定义
+         */
+        final SPath path = Ux.fromJson(pathData, SPath.class);
+        return Ux.Jooq.on(SPathDao.class).<SPath>fetchAsync(KName.PARENT_ID, path.getKey())
+            .compose(children -> {
+                // CODE IN (?, ?, ?) AND SIGMA = ?
+                final JsonObject condition = Ux.whereAnd()
+                    .put(KName.SIGMA, path.getSigma());
+                final JsonArray codes = new JsonArray().add(path.getCode());
+                children.forEach(child -> codes.add(child.getCode()));
+                // SPath -> SPacket
+                return Ux.Jooq.on(SPacketDao.class).<SPacket>fetchAsync(condition);
+            })
+            .compose(packets -> Quest.syntax().fetchAsync(pathData, packets, owner));
     }
 
     @Override

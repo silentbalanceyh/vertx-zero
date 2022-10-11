@@ -67,9 +67,8 @@ public interface Cc<K, V> {
         if (Objects.isNull(mode)) {
             throw new _501NotSupportException(Cc.class);
         }
-        final Cc<K, V> reference;
-        switch (mode) {
-            case THREAD:
+        return switch (mode) {
+            case THREAD ->
                 /*
                  * Thread pool
                  * 1) The cache key must be String type
@@ -80,9 +79,8 @@ public interface Cc<K, V> {
                  * thread3 = reference3
                  * ......
                  */
-                reference = (Cc<K, V>) new CcThread<V>();
-                break;
-            case STANDARD:
+                (Cc<K, V>) new CcThread<V>();
+            case STANDARD ->
                 /*
                  * Standard Hash Map
                  * 1) The cache key is K type
@@ -93,20 +91,8 @@ public interface Cc<K, V> {
                  * k3 = reference3
                  * ......
                  */
-                reference = new CcMemory<>();
-                break;
-            default:
-                /*
-                 * 501 Throw Out because the reference of Cc could not
-                 * be initialized in current runtime.
-                 */
-                reference = null;
-                break;
-        }
-        if (Objects.isNull(reference)) {
-            throw new _501NotSupportException(Cc.class);
-        }
-        return reference;
+                new CcMemory<>();
+        };
     }
 
     Cd<K, V> store();

@@ -1,6 +1,5 @@
 package cn.vertxup.rbac.service.view;
 
-import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -48,7 +47,7 @@ public interface RuleStub {
      * }
      * 3) The value of each node must be calculated based on `owner` and stored `resource`
      */
-    Future<JsonObject> regionAsync(List<SPacket> packets, ScOwner owner);
+    Future<JsonObject> regionAsync(JsonObject pathData, ScOwner owner);
 
     /*
      * Fetch all views that belong to

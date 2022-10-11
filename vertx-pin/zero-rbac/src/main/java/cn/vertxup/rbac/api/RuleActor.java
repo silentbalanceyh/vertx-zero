@@ -1,8 +1,6 @@
 package cn.vertxup.rbac.api;
 
-import cn.vertxup.rbac.domain.tables.daos.SPacketDao;
 import cn.vertxup.rbac.domain.tables.daos.SPathDao;
-import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
@@ -51,26 +49,12 @@ public class RuleActor {
     @Address(Addr.Rule.FETCH_REGION_VALUES)
     public Future<JsonObject> fetchValues(final String ownerId, final JsonObject pathJ,
                                           final Vis view) {
-        /*
-         * 查找合法的被影响资源，此处会有很多种变化
-         * - 每个Region影响的资源可能是多个值，也可能是一个值
-         * - 由于Region在前端读取的时候已经是执行过 type 维度的条件，所以此处不再考虑 type 参数
-         *   type 直接从 region 的 runType 中提取
-         * - 此处提取时直接按照 region codes + sigma 二者的值来提取 Pocket 定义
-         */
-        final SPath path = Ux.fromJson(pathJ, SPath.class);
-        final JsonObject condition = Ux.whereAnd()
-            .put(KName.CODE, path.getCode())
-            .put(KName.SIGMA, path.getSigma());
-
-
-        // CODE = ? AND SIGMA = ?
-        final OwnerType ownerType = Ut.toEnum(path::getRunType, OwnerType.class, OwnerType.ROLE);
+        final OwnerType ownerType = Ut.toEnum(() -> pathJ.getString(KName.RUN_TYPE),
+            OwnerType.class, OwnerType.ROLE);
         final ScOwner owner = new ScOwner(ownerId, ownerType);
         owner.bind(view);
-        return Ux.Jooq.on(SPacketDao.class)
-            .<SPacket>fetchAsync(condition)
-            .compose(packets -> this.stub.regionAsync(packets, owner));
+
+        return this.stub.regionAsync(pathJ, owner);
     }
 
     @Me

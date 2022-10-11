@@ -14,6 +14,7 @@ import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.KName;
 import io.vertx.up.extension.AbstractRegion;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -31,61 +32,61 @@ public class DataRegion extends AbstractRegion {
 
     @Override
     public Future<Envelop> before(final RoutingContext context, final Envelop envelop) {
-        if (this.isEnabled(context)) {
-            /* Get Critical parameters */
-            return this.cacheView(context, envelop).compose(matrix -> {
-                if (this.hasValue(matrix)) {
-                    Sc.infoAuth(this.getLogger(), AuthMsg.REGION_BEFORE,
-                        context.request().path(), matrix.encode());
-                    /*
-                     * Select cosmo by matrix
-                     */
-                    final HttpMethod method = envelop.method();
-                    if (HttpMethod.POST == method || HttpMethod.GET == method) {
-                        final Cosmo cosmo = this.cosmo(matrix);
-                        return cosmo.before(envelop, matrix);
-                    } else {
-                        /*
-                         * DELETE / PUT has no before
-                         */
-                        return Ux.future(envelop);
-                    }
-                } else {
-                    /*
-                     * Matrix null or empty
-                     */
-                    return Ux.future(envelop);
-                }
-            });
-        } else {
+        if (!this.isEnabled(context)) {
             // Data Region disabled
             return Ux.future(envelop);
         }
+
+        /* Get Critical parameters */
+        return this.cacheView(context, envelop).compose(matrix -> {
+            if (this.hasValue(matrix)) {
+                Sc.infoAuth(this.getLogger(), AuthMsg.REGION_BEFORE,
+                    context.request().path(), matrix.encode());
+                /*
+                 * Select cosmo by matrix
+                 */
+                final HttpMethod method = envelop.method();
+                if (HttpMethod.POST == method || HttpMethod.GET == method) {
+                    final Cosmo cosmo = this.cosmo(matrix);
+                    return cosmo.before(envelop, matrix);
+                } else {
+                    /*
+                     * DELETE / PUT has no before
+                     */
+                    return Ux.future(envelop);
+                }
+            } else {
+                /*
+                 * Matrix null or empty
+                 */
+                return Ux.future(envelop);
+            }
+        });
     }
 
     @Override
     public Future<Envelop> after(final RoutingContext context, final Envelop response) {
-        if (this.isEnabled(context)) {
-            /* Get Critical parameters */
-            return this.cacheView(context, response).compose(matrix -> {
-                if (this.hasValue(matrix)) {
-                    Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
-                    /*
-                     * Select cosmo by matrix
-                     */
-                    final Cosmo cosmo = this.cosmo(matrix);
-                    return cosmo.after(response, matrix);
-                } else {
-                    /*
-                     * Matrix null or empty
-                     */
-                    return Ux.future(response);
-                }
-            });
-        } else {
+        if (!this.isEnabled(context)) {
             // Data Region disabled
             return Ux.future(response);
         }
+
+        /* Get Critical parameters */
+        return this.cacheView(context, response).compose(matrix -> {
+            if (this.hasValue(matrix)) {
+                Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
+                /*
+                 * Select cosmo by matrix
+                 */
+                final Cosmo cosmo = this.cosmo(matrix);
+                return cosmo.after(response, matrix);
+            } else {
+                /*
+                 * Matrix null or empty
+                 */
+                return Ux.future(response);
+            }
+        });
     }
 
     private Future<JsonObject> cacheView(final RoutingContext context, final Envelop envelop) {
@@ -123,7 +124,7 @@ public class DataRegion extends AbstractRegion {
 
     private Cosmo cosmo(final JsonObject matrix) {
         /* Build DataCosmo */
-        if (matrix.containsKey("seeker")) {
+        if (matrix.containsKey(KName.SEEKER)) {
             /*
              * Virtual resource region calculation
              */

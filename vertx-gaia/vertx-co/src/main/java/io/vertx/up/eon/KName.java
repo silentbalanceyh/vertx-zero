@@ -128,6 +128,7 @@ public interface KName {
     String IN = "in";                            /* Definition: output definition */
     String OPTIONS = "options";                  /* Definition: configuration options */
     String COMPONENTS = "components";            /* Definition: components */
+    String COMPONENT = "component";              /* Definition: ( Single ) component */
 
     String SOURCE = "source";                    /* Database ( X_SOURCE ) related field */
     String SOURCE_DATA = "sourceData";           /* sourceData */
