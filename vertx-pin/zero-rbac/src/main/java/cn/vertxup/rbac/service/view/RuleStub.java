@@ -50,6 +50,17 @@ public interface RuleStub {
     Future<JsonObject> regionAsync(JsonObject pathData, ScOwner owner);
 
     /*
+     * 内置处理 path -> code 集合，直接传入的 pathCodes 包含了当前 path 之下的子集合
+     * viewData 则维持原始的 Body 经过处理之后的集合
+     * {
+     *     "resource1": {
+     *         "xxx"
+     *     }
+     * }
+     */
+    Future<JsonObject> regionAsync(JsonObject condition, JsonObject viewData);
+
+    /*
      * Fetch all views that belong to
      *
      * 1) ownerType: USER | ROLE

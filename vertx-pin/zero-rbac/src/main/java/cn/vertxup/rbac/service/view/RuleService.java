@@ -108,19 +108,38 @@ public class RuleService implements RuleStub {
          * - 此处提取时直接按照 region codes + sigma 二者的值来提取 Pocket 定义
          */
         final SPath path = Ux.fromJson(pathData, SPath.class);
-        return Ux.Jooq.on(SPathDao.class).<SPath>fetchAsync(KName.PARENT_ID, path.getKey())
-            .compose(children -> {
-                // CODE IN (?, ?, ?) AND SIGMA = ?
-                final JsonObject condition = Ux.whereAnd()
-                    .put(KName.SIGMA, path.getSigma());
-                final JsonArray codes = new JsonArray().add(path.getCode());
-                children.forEach(child -> codes.add(child.getCode()));
-                // SPath -> SPacket
-                return Ux.Jooq.on(SPacketDao.class).<SPacket>fetchAsync(condition);
-            })
+        return this.packetAsync(path)
             .compose(packets -> Quest.syntax().fetchAsync(pathData, packets, owner));
     }
 
+    private Future<List<SPacket>> packetAsync(final SPath path) {
+        if (Objects.isNull(path)) {
+            return Ux.futureL();
+        }
+        return Ux.Jooq.on(SPathDao.class).<SPath>fetchAsync(KName.PARENT_ID, path.getKey()).compose(children -> {
+            // CODE IN (?, ?, ?) AND SIGMA = ?
+            final JsonObject condition = Ux.whereAnd()
+                .put(KName.SIGMA, path.getSigma());
+            final JsonArray codes = new JsonArray().add(path.getCode());
+            children.forEach(child -> codes.add(child.getCode()));
+            condition.put(KName.CODE + ",i", codes);
+            // SPath -> SPacket
+            return Ux.Jooq.on(SPacketDao.class).fetchAsync(condition);
+        });
+    }
+
+    @Override
+    public Future<JsonObject> regionAsync(final JsonObject condition, final JsonObject viewData) {
+        return Ux.Jooq.on(SPathDao.class).<SPath>fetchOneAsync(condition)
+            .compose(this::packetAsync)
+            .compose(packets -> {
+                final Set<String> resources = Ut.elementSet(packets, SPacket::getResource);
+                final JsonObject normalized = Ut.elementSubset(viewData, resources);
+                return Quest.syntax().syncAsync(normalized);
+            });
+    }
+
+    // --------------------- 旧代码，准备拿掉 -------------------------
     @Override
     public Future<JsonArray> fetchViews(final String ownerType, final String ownerId,
                                         final JsonArray keys, final String view) {

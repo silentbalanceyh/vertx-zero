@@ -9,8 +9,11 @@ import io.vertx.ext.auth.User;
 import io.vertx.tp.error._403ActionDinnedException;
 import io.vertx.tp.error._404ActionMissingException;
 import io.vertx.tp.error._404ResourceMissingException;
+import io.vertx.tp.rbac.acl.rapier.Quinn;
 import io.vertx.tp.rbac.atom.ScConfig;
+import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.logged.ScResource;
 import io.vertx.tp.rbac.logged.ScUser;
@@ -31,8 +34,6 @@ public class AccreditService implements AccreditStub {
 
     @Inject
     private transient ActionStub stub;
-    @Inject
-    private transient MatrixStub matrixStub;
 
     /*
      * Permission
@@ -80,13 +81,42 @@ public class AccreditService implements AccreditStub {
             return Future.succeededFuture(new JsonObject());
         }
         return user.view(keyView).compose(viewData -> {
-            if (Objects.isNull(viewData)) {
-                return this.matrixStub.fetchBound(user, resource)
-                    .compose(bound -> user.view(keyView, bound.toJson()))
-                    .compose(nil -> Ux.future(response));
-            } else {
+            if (Objects.nonNull(viewData)) {
                 return Ux.future(response);
             }
+            /*
+             * Fetch DataBound by:
+             * request -> userId, session, fetchProfile
+             *
+             * 提取RBAC配置信息（资源池的缓存）
+             */
+            final ScConfig config = ScPin.getConfig();
+            final Refer resourceRef = new Refer();
+            return Rapid.<String, JsonObject>t(config.getPoolResource()).read(resource.key()).compose(data -> {
+                final SResource resourceT = Ux.fromJson(data.getJsonObject(KName.RECORD), SResource.class);
+                return resourceRef.future(resourceT);
+            }).compose(resourceT -> {
+                /*
+                 * No Personal View
+                 * There is no matrix stored into database related to current user.
+                 * Then find all role related matrices instead of current matrix.
+                 */
+                final String profileName = Sc.valueProfile(resourceT);
+                return user.roles(profileName);
+            }).compose(roles -> {
+                /*
+                 * Fetch Role View
+                 * It means that there is defined user resource instead of role resource.
+                 * In this situation, return to user's resource matrix directly.
+                 * 此处会预处理数据，主要目的是为构造 ScOwner，一旦构造完成后，会智能提取相关数据
+                 * 1）如果不绑定 roles，则等价于直接从 ScOwner 中提取数据
+                 * 2）如果绑定了 roles，则提取用户视图为空时会提取角色视图
+                 */
+                final ScOwner owner = new ScOwner(user.user(), OwnerType.USER);
+                owner.bind(resource.view());
+                final SResource resourceT = resourceRef.get();
+                return Quinn.view().fetchAsync(resourceT, owner);
+            });
         });
     }
 

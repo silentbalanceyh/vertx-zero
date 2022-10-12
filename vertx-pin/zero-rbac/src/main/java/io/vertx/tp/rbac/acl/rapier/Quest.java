@@ -44,6 +44,7 @@ public interface Quest {
     /*
      * 管理端保存（资源访问者保存
      */
+    Future<JsonObject> syncAsync(JsonObject resourceJ);
 
     /*
      * 消费端

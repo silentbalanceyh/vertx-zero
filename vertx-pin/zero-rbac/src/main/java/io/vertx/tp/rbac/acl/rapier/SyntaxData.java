@@ -21,82 +21,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class SyntaxData {
-    private static final Cc<String, Confine> CC_FINITY = Cc.openThread();
-
-    /*
-     * 计算 `syntax` 用于生成条件，然后系统会根据条件读取 visitant 对象
-     * matrix 数据结构
-     * {
-     *     "seeker": 访问者配置{
-     *         "syntax": {
-     *             Syntax 结构，对应资源字段 SEEK_SYNTAX
-     *         }
-     *     },
-     *     "view":   视图数据 {
-     *         "resourceId": "访问资源ID",
-     *         "sigma":      "统一标识符",
-     *         "language":   "语言信息",
-     *         "key":        "视图ID",
-     *         "position":   "位置数据（新版加入）"
-     *     }
-     * }
-     *
-     * syntax 数据结构
-     * {
-     *     "phase": "ActTime, BEFORE / AFTER",
-     *     "data": {
-     *         可执行表达式解析专用的数据输入部分
-     *     },
-     *     "metadata": {
-     *         "wheel": "资源访问者筛选组件，根据输入组件筛选相关信息"
-     *     }
-     * }
-     */
-    static Future<Acl> aclBefore(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
-        return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
-            .compose(visitant -> normOutput(visitant, matrixJ, ActTime.BEFORE));
-    }
-
-    static Future<Acl> aclAfter(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
-        return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
-            .compose(visitant -> normOutput(visitant, matrixJ, ActTime.AFTER));
-    }
-
-    private static void normMatrix(final SVisitant visitant, final JsonObject matrixJ) {
-
-    }
-
-    private static Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ, final ActTime phase) {
-        if (Objects.isNull(visitant)) {
-            return Ux.future();
-        }
-        final ActTime configured = Ut.toEnum(visitant::getPhase, ActTime.class, null);
-        if (configured != phase) {
-            return Ux.future();
-        }
-        normMatrix(visitant, matrixJ);
-        /*
-         * vQr
-         * {
-         *     "rows": {
-         *         "field1": []
-         *     },
-         *     "criteria": {
-         *         Qr Engine 语法
-         *     },
-         *     "projection": [
-         *         选择可用列处理
-         *     ]
-         * }
-         */
-        final JsonObject vQr = new JsonObject();
-        vQr.put(KName.Rbac.ROWS, Ut.toJObject(visitant.getDmRow()));
-        vQr.put(KName.Rbac.CRITERIA, Ut.toJObject(visitant.getDmQr()));
-        vQr.put(KName.Rbac.PROJECTION, Ut.toJArray(visitant.getDmColumn()));
-        return Ux.future(new AclData(visitant).config(vQr));
-    }
+    static final Cc<String, Confine> CC_FINITY = Cc.openThread();
 
     private static Future<JsonObject> normInput(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
         /*
@@ -149,5 +74,80 @@ class SyntaxData {
 
         final Confine confine = CC_FINITY.pick(() -> Ut.instance(confineCls), confineCls.getName());
         return confine.restrict(requestJ, syntaxJ);
+    }
+
+    /*
+     * 计算 `syntax` 用于生成条件，然后系统会根据条件读取 visitant 对象
+     * matrix 数据结构
+     * {
+     *     "seeker": 访问者配置{
+     *         "syntax": {
+     *             Syntax 结构，对应资源字段 SEEK_SYNTAX
+     *         }
+     *     },
+     *     "view":   视图数据 {
+     *         "resourceId": "访问资源ID",
+     *         "sigma":      "统一标识符",
+     *         "language":   "语言信息",
+     *         "key":        "视图ID",
+     *         "position":   "位置数据（新版加入）"
+     *     }
+     * }
+     *
+     * syntax 数据结构
+     * {
+     *     "phase": "ActTime, BEFORE / AFTER",
+     *     "data": {
+     *         可执行表达式解析专用的数据输入部分
+     *     },
+     *     "metadata": {
+     *         "wheel": "资源访问者筛选组件，根据输入组件筛选相关信息"
+     *     }
+     * }
+     */
+    Future<Acl> aclBefore(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
+        return normInput(bodyData, matrixJ, headerJ)
+            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
+            .compose(visitant -> this.normOutput(visitant, matrixJ, ActTime.BEFORE));
+    }
+
+    Future<Acl> aclAfter(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
+        return normInput(bodyData, matrixJ, headerJ)
+            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
+            .compose(visitant -> this.normOutput(visitant, matrixJ, ActTime.AFTER));
+    }
+
+    private void normMatrix(final SVisitant visitant, final JsonObject matrixJ) {
+
+    }
+
+    private Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ, final ActTime phase) {
+        if (Objects.isNull(visitant)) {
+            return Ux.future();
+        }
+        final ActTime configured = Ut.toEnum(visitant::getPhase, ActTime.class, null);
+        if (configured != phase) {
+            return Ux.future();
+        }
+        this.normMatrix(visitant, matrixJ);
+        /*
+         * vQr
+         * {
+         *     "rows": {
+         *         "field1": []
+         *     },
+         *     "criteria": {
+         *         Qr Engine 语法
+         *     },
+         *     "projection": [
+         *         选择可用列处理
+         *     ]
+         * }
+         */
+        final JsonObject vQr = new JsonObject();
+        vQr.put(KName.Rbac.ROWS, Ut.toJObject(visitant.getDmRow()));
+        vQr.put(KName.Rbac.CRITERIA, Ut.toJObject(visitant.getDmQr()));
+        vQr.put(KName.Rbac.PROJECTION, Ut.toJArray(visitant.getDmColumn()));
+        return Ux.future(new AclData(visitant).config(vQr));
     }
 }

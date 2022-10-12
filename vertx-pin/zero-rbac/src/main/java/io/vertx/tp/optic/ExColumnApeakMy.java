@@ -7,15 +7,17 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.ui.Anchoret;
 import io.vertx.tp.optic.ui.ApeakMy;
+import io.vertx.tp.rbac.acl.rapier.Quinn;
+import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-
-import java.util.Objects;
 
 public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
 
@@ -29,13 +31,17 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         }
         final String userId = params.getString(ARG1);
         final Vis view = Vis.smart(params.getValue(ARG2));
-        return this.stub.fetchMatrix(userId, resourceId, view)
-            .compose(queried -> Objects.isNull(queried) ?
-                /* No view found */
-                Ux.future(new JsonArray()) :
-                /* View found and get projection */
-                Ux.future(Ut.toJArray(queried.getProjection()))
-            );
+        // DataBound Building
+        final ScOwner owner = new ScOwner(userId, OwnerType.USER);
+        owner.bind(view);
+        return Quinn.view().<DataBound>fetchAsync(resourceId, owner).compose(bound -> {
+            final JsonArray projection = bound.vProjection();
+            /*
+             * No view found                        -> []
+             * View found and get projection        -> [?,?,...]
+             */
+            return Ux.future(projection);
+        });
     }
 
     @Override

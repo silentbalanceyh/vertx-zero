@@ -64,10 +64,16 @@ public interface RuleAgent {
      *         "code1": {
      *              "rows":          ??,
      *              "projection":    ??,
-     *              "criteria":      ??
+     *              "criteria":      ??,
+     *              "view":          ??,
+     *              "position":      ??
      *         }
      *     }
      * }
+     *
+     * 保存时只可能针对单个 region 进行保存
+     * 1 - 如果是直接针对 region 执行保存，则该 region 没有子 region
+     * 2 - 如果是直接针对带有子 region 执行保存，则直接针对子 region 执行保存
      *
      * view的逻辑执行：
      * 1) 检查是否存在
@@ -75,6 +81,7 @@ public interface RuleAgent {
      *    -- 视图不存在（插入新视图）
      * 2）更新资源相对应的权限信息
      * 3）更新权限缓存
+     * 4）注意视图执行保存时需考虑资源访问者的同步信息，根据 resource ( virtual = true ) 执行判断
      */
     @POST
     @Path("/authority/region/:path")

@@ -153,4 +153,8 @@ public class DataBound implements Serializable {
         }
         return this;
     }
+
+    public JsonArray vProjection() {
+        return Ut.toJArray(this.projection);
+    }
 }

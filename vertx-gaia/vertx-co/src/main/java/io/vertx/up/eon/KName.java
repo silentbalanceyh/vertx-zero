@@ -7,6 +7,7 @@ import java.util.Set;
 
 public interface KName {
     String EVENT = "event";                      /* event */
+    String VIRTUAL = "virtual";                  /* virtual resource for RBAC */
     String TRACKABLE = "trackable";              /* trackable */
     String QBE = "QBE";                          /* QBE = ? */
     String ID = "id";                            /* Third Part integration primary key */
@@ -40,6 +41,7 @@ public interface KName {
     String REALM = "realm";                      /* Authorization realm field for security */
     String GRANT_TYPE = "grantType";             /* OAuth grant type field */
     String RESOURCE_ID = "resourceId";           /* Security Action related resource field */
+    String RESOURCE = "resource";                /* Security Action for admit resource field */
 
     String HANDLER = "handler";                  /* Sock Handler Usage */
 

@@ -11,6 +11,10 @@
         "sort": "order"
     },
     "webData": {
+        "paramView": {
+            "view": "DEFAULT",
+            "position": "DEFAULT"
+        },
         "paramDefault": "ALL",
         "initializer": "aclInHS",
         "requester": "aclOutHS"

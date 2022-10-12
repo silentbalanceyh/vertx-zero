@@ -6,9 +6,9 @@ import cn.vertxup.rbac.service.view.RuleStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.Addr;
-import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
@@ -49,17 +49,60 @@ public class RuleActor {
     @Address(Addr.Rule.FETCH_REGION_VALUES)
     public Future<JsonObject> fetchValues(final String ownerId, final JsonObject pathJ,
                                           final Vis view) {
-        final OwnerType ownerType = Ut.toEnum(() -> pathJ.getString(KName.RUN_TYPE),
-            OwnerType.class, OwnerType.ROLE);
-        final ScOwner owner = new ScOwner(ownerId, ownerType);
+        final ScOwner owner = new ScOwner(ownerId, pathJ.getString(KName.RUN_TYPE));
         owner.bind(view);
-
         return this.stub.regionAsync(pathJ, owner);
     }
 
+
     @Me
     @Address(Addr.Rule.SAVE_REGION)
-    public Future<JsonObject> saveRegion(final String path, final JsonObject viewData) {
-        return Ux.futureJ();
+    public Future<JsonObject> saveRegion(final String pathCode, final JsonObject viewData,
+                                         final User user) {
+        /*
+         * {
+         *     "owner":         ??,
+         *     "ownerType":     ??,
+         *     "name":          ??,
+         *     "position":      ??,
+         *     "active":        true,
+         *     "language":      cn,
+         *     "sigma":         xxx,
+         *     "resource": {
+         *         "code1": {
+         *              "rows":          ??,
+         *              "projection":    ??,
+         *              "criteria":      ??,
+         *              "view":          ??,
+         *              "position":      ??
+         *         }
+         *     }
+         * }
+         * 转换
+         * {
+         *     "resource-code1": {
+         *     },
+         *     "resource-code2": {
+         *     }
+         * }
+         * -- 追加 owner, ownerType, ( view -> name ), position, updatedBy
+         */
+        final JsonObject resourceBody = new JsonObject();
+        final JsonObject resourceI = Ut.valueJObject(viewData, KName.RESOURCE);
+        final String userKey = Ux.keyUser(user);
+        Ut.<JsonObject>itJObject(resourceI, (eachJ, field) -> {
+            final JsonObject resourceJ = eachJ.copy();
+            Ut.elementCopy(resourceJ, viewData,
+                KName.SIGMA, KName.OWNER, KName.OWNER_TYPE
+            );
+            resourceJ.put(KName.NAME, resourceJ.getValue(KName.VIEW));
+            resourceJ.put(KName.UPDATED_BY, userKey);
+            resourceBody.put(field, resourceJ);
+        });
+        // CODE = ? AND SIGMA = ?
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.SIGMA, Ut.valueString(viewData, KName.SIGMA));
+        condition.put(KName.CODE, pathCode);
+        return this.stub.regionAsync(condition, resourceBody);
     }
 }

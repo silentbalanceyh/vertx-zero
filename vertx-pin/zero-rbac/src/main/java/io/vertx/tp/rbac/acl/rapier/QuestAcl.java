@@ -6,6 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -24,9 +25,13 @@ import java.util.stream.Collectors;
  */
 class QuestAcl implements Quest {
     private final transient SyntaxMeta syntaxMeta;
+    private final transient SyntaxData syntaxData;
+    private final transient SyntaxSave syntaxSave;
 
     QuestAcl() {
         this.syntaxMeta = new SyntaxMeta();
+        this.syntaxData = new SyntaxData();
+        this.syntaxSave = new SyntaxSave();
     }
 
     @Override
@@ -71,10 +76,42 @@ class QuestAcl implements Quest {
     }
 
     @Override
+    public Future<JsonObject> syncAsync(final JsonObject resourceJ) {
+        final ConcurrentMap<String, Future<JsonObject>> futureM = new ConcurrentHashMap<>();
+        Ut.<JsonObject>itJObject(resourceJ, (resourceData, code) -> {
+            /*
+             * 1. 构造 SResource
+             * 2. 构造 ScOwner
+             * 3. 数据部分直接从 resourceData 中直接提取
+             */
+            final JsonObject condition = Ux.whereAnd();
+            condition.put(KName.CODE, code);
+            condition.put(KName.SIGMA, Ut.valueString(resourceData, KName.SIGMA));
+            futureM.put(code, Ux.Jooq.on(SResourceDao.class).<SResource>fetchOneAsync(condition).compose(resource -> {
+                if (Objects.isNull(resourceJ)) {
+                    Sc.infoView(this.getClass(), "Zero system could not find the resource: {0}", code);
+                    return Ux.future();
+                }
+
+                final ScOwner owner = new ScOwner(
+                    Ut.valueString(resourceData, KName.OWNER),
+                    Ut.valueString(resourceData, KName.OWNER_TYPE)
+                );
+                owner.bind(
+                    Ut.valueString(resourceData, KName.NAME),
+                    Ut.valueString(resourceData, KName.POSITION)
+                );
+                return this.syntaxSave.syncAsync(resource, owner, resourceData);
+            }));
+        });
+        return Fn.combineM(futureM).compose(map -> Ux.future(Ut.toJObject(map)));
+    }
+
+    @Override
     public Future<Envelop> beforeAsync(final Envelop request, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
         final JsonObject body = request.body();
-        return SyntaxData.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
+        return this.syntaxData.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
             // 绑定专用
             request.acl(acl);
             return Ux.future(request);
@@ -85,7 +122,7 @@ class QuestAcl implements Quest {
     public Future<Envelop> afterAsync(final Envelop response, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
         final JsonObject body = response.body();
-        return SyntaxData.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
+        return this.syntaxData.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
             // 绑定专用
             response.acl(acl);
             /*

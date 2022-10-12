@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS S_PACKET
     `RUN_COMPONENT` VARCHAR(255) COMMENT '「runComponent」- 自定义模式下的组件',
     `RUN_CONFIG`    LONGTEXT COMMENT '「runConfig」- 运行专用配置',
     -- 访问者定义（绑定的 resource 中 virtual = true）
+    -- 当前资源记录影响的视图计算，和资源访问语法相同
     `SEEK_SYNTAX`   LONGTEXT COMMENT '「seekSyntax」- 访问者语法',
     `SEEK_CONFIG`   LONGTEXT COMMENT '「seekConfig」- 访问者配置',
 

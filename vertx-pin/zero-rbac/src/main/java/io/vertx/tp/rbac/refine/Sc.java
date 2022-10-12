@@ -40,6 +40,11 @@ public class Sc {
         ScLog.infoResource(logger, pattern, args);
     }
 
+    public static void infoResource(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        ScLog.infoResource(logger, pattern, args);
+    }
+
     public static void debugCredit(final Annal logger, final String pattern, final Object... args) {
         ScLog.debugCredit(logger, pattern, args);
     }
@@ -62,6 +67,11 @@ public class Sc {
     public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal LOGGER = Annal.get(clazz);
         ScLog.infoView(LOGGER, pattern, args);
+    }
+
+    public static void warnView(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.warnView(LOGGER, pattern, args);
     }
 
     /*

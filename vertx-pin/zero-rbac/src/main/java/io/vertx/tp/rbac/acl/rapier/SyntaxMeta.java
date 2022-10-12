@@ -68,7 +68,11 @@ class SyntaxMeta {
             eyeletM.put(KName.Rbac.PACK_V, this.regionV(packet, view));
             eyeletM.put(KName.Rbac.PACK_H, this.regionH(packet, view));
             eyeletM.put(KName.Rbac.PACK_Q, this.regionQ(packet, view));
-            return Fn.combineM(eyeletM).compose(map -> Ux.future(Ut.toJObject(map)));
+            return Fn.combineM(eyeletM).compose(map -> {
+                final JsonObject response = Ut.toJObject(map);
+                response.put(KName.VIRTUAL, resource.getVirtual());
+                return Ux.future(response);
+            });
         });
     }
 
