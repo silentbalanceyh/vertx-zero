@@ -4,6 +4,8 @@ import cn.vertxup.rbac.domain.tables.daos.SVisitantDao;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.feature.Confine;
+import io.vertx.tp.optic.secure.ConfineBuiltIn;
 import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;

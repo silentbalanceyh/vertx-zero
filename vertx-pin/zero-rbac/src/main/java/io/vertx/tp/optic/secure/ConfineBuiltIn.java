@@ -1,7 +1,8 @@
-package io.vertx.tp.rbac.acl.rapier;
+package io.vertx.tp.optic.secure;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.feature.Confine;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;

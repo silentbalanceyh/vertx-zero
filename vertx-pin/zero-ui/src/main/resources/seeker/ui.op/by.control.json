@@ -1,5 +1,6 @@
 {
     "phase": "BEFORE",
+    "selector": "io.vertx.tp.optic.secure.ConfineAction",
     "data": {
         "type": "`${type}`",
         "viewId": "`${viewId}`",

@@ -1,4 +1,4 @@
-package io.vertx.tp.rbac.acl.rapier;
+package io.vertx.tp.optic.feature;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
