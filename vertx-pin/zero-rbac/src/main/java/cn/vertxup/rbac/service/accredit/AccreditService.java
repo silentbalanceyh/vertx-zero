@@ -19,6 +19,7 @@ import io.vertx.tp.rbac.logged.ScResource;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
+import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
@@ -113,9 +114,11 @@ public class AccreditService implements AccreditStub {
                  * 2）如果绑定了 roles，则提取用户视图为空时会提取角色视图
                  */
                 final ScOwner owner = new ScOwner(user.user(), OwnerType.USER);
-                owner.bind(resource.view());
+                owner.bind(resource.view()).bind(Ut.toSet(roles));
                 final SResource resourceT = resourceRef.get();
-                return Quinn.view().fetchAsync(resourceT, owner);
+                return Quinn.view().<DataBound>fetchAsync(resourceT, owner)
+                    .compose(bound -> user.view(keyView, bound.toJson()))
+                    .compose(nil -> Ux.future(response));
             });
         });
     }
