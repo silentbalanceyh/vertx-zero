@@ -117,7 +117,7 @@ class SyntaxData {
          *
          * }
          */
-        final Class<?> finityCls = Ut.valueCI(syntaxJ, KName.SELECTOR, Confine.class, ConfineBuiltIn.class);
+        final Class<?> confineCls = Ut.valueCI(syntaxJ, KName.SELECTOR, Confine.class, ConfineBuiltIn.class);
 
 
         /*
@@ -145,7 +145,7 @@ class SyntaxData {
         requestJ.put(KName.VIEW, viewData.getString(KName.NAME, KValue.View.VIEW_DEFAULT));
         requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, KValue.View.POSITION_DEFAULT));
 
-        final Confine confine = CC_FINITY.pick(() -> Ut.instance(finityCls), finityCls.getName());
+        final Confine confine = CC_FINITY.pick(() -> Ut.instance(confineCls), confineCls.getName());
         return confine.restrict(requestJ, syntaxJ);
     }
 }
