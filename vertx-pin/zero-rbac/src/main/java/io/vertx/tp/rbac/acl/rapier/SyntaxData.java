@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class SyntaxData {
-    private static final Cc<String, Finity> CC_FINITY = Cc.openThread();
+    private static final Cc<String, Confine> CC_FINITY = Cc.openThread();
 
     /*
      * 计算 `syntax` 用于生成条件，然后系统会根据条件读取 visitant 对象
@@ -71,9 +71,24 @@ class SyntaxData {
             return Ux.future();
         }
         final ActTime configured = Ut.toEnum(visitant::getPhase, ActTime.class, null);
-        if (phase == configured) {
-            normMatrix(visitant, matrixJ);
+        if (configured != phase) {
+            return Ux.future();
         }
+        normMatrix(visitant, matrixJ);
+        /*
+         * vQr
+         * {
+         *     "rows": {
+         *         "field1": []
+         *     },
+         *     "criteria": {
+         *         Qr Engine 语法
+         *     },
+         *     "projection": [
+         *         选择可用列处理
+         *     ]
+         * }
+         */
         final JsonObject vQr = new JsonObject();
         vQr.put(KName.Rbac.ROWS, Ut.toJObject(visitant.getDmRow()));
         vQr.put(KName.Rbac.CRITERIA, Ut.toJObject(visitant.getDmQr()));
@@ -102,7 +117,7 @@ class SyntaxData {
          *
          * }
          */
-        final Class<?> finityCls = Ut.valueCI(syntaxJ, KName.SELECTOR, Finity.class, FinityBuiltIn.class);
+        final Class<?> finityCls = Ut.valueCI(syntaxJ, KName.SELECTOR, Confine.class, ConfineBuiltIn.class);
 
 
         /*
@@ -130,7 +145,7 @@ class SyntaxData {
         requestJ.put(KName.VIEW, viewData.getString(KName.NAME, KValue.View.VIEW_DEFAULT));
         requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, KValue.View.POSITION_DEFAULT));
 
-        final Finity finity = CC_FINITY.pick(() -> Ut.instance(finityCls), finityCls.getName());
-        return finity.restrict(requestJ, syntaxJ);
+        final Confine confine = CC_FINITY.pick(() -> Ut.instance(finityCls), finityCls.getName());
+        return confine.restrict(requestJ, syntaxJ);
     }
 }

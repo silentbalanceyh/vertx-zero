@@ -10,7 +10,11 @@ import io.vertx.up.util.Ut;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class FinityBuiltIn implements Finity {
+public class ConfineBuiltIn implements Confine {
+    /*
+     * 1. 直接根据 request 中的数据和 syntax 中定义的模板执行解析
+     * 2. 走 JEXL 流程
+     */
     @Override
     public Future<JsonObject> restrict(final JsonObject request, final JsonObject syntax) {
         // 标准化执行处理

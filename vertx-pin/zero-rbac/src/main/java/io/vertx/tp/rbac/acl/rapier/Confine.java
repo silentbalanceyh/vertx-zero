@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface Finity {
+public interface Confine {
 
     Future<JsonObject> restrict(JsonObject request, JsonObject syntax);
 }

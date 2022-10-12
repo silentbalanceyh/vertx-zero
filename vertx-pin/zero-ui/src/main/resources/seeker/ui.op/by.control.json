@@ -1,0 +1,9 @@
+{
+    "phase": "BEFORE",
+    "data": {
+        "type": "`${type}`",
+        "viewId": "`${viewId}`",
+        "seekKey": "`${control}`",
+        "identifier": "`${identifier}`"
+    }
+}
