@@ -1,6 +1,5 @@
 package io.vertx.tp.rbac.acl.rapier;
 
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
@@ -10,7 +9,7 @@ import io.vertx.tp.rbac.atom.ScOwner;
  */
 public class QuinnVisit implements Quinn {
     @Override
-    public Future<JsonObject> syncAsync(final SResource resource, final ScOwner owner, final JsonObject data) {
+    public Future<JsonObject> saveAsync(final String resourceId, final ScOwner owner, final JsonObject data) {
         return null;
     }
 }

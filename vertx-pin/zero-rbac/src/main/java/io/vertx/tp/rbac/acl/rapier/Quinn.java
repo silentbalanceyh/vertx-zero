@@ -31,7 +31,7 @@ public interface Quinn {
      * 2）带有资源访问者的保存流程
      * 新接口中直接替换原始流程生成完整的 DataBound，移除掉原始的 ViewStub / VisitStub 以及 MatrixStub 部分逻辑
      */
-    Future<JsonObject> syncAsync(SResource resource, ScOwner owner, JsonObject data);
+    Future<JsonObject> saveAsync(String resourceId, ScOwner owner, JsonObject data);
 
     default <T> Future<T> fetchAsync(final SResource resource, final ScOwner owner) {
         Objects.requireNonNull(resource);

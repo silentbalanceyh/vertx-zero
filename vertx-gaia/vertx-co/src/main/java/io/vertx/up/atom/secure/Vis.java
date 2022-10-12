@@ -85,8 +85,7 @@ public class Vis extends JsonObject {
         } else if (json instanceof JsonObject) {
             // Json object convert to Vis ( sub class )
             return new Vis(((JsonObject) json));
-        } else if (json instanceof String) {
-            final String viewJson = (String) json;
+        } else if (json instanceof final String viewJson) {
             if (Ut.isJObject(viewJson)) {
                 // The json is literal
                 return new Vis(Ut.toJObject(viewJson));

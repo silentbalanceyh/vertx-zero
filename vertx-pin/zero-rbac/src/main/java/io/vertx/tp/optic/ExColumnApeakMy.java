@@ -1,7 +1,5 @@
 package io.vertx.tp.optic;
 
-import cn.vertxup.rbac.service.view.ViewService;
-import cn.vertxup.rbac.service.view.ViewStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,12 +14,11 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.secure.DataBound;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
-
-    private final transient ViewStub stub = Ut.singleton(ViewService.class);
 
     @Override
     public Future<JsonArray> fetchMy(final JsonObject params) {
@@ -51,17 +48,21 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
             return Ux.futureJ();
         }
         final String userId = params.getString(ARG1);
-        /*
-         * Normalize data for `language` and `sigma` etc.
-         */
+        /* Normalize data for `language` and `sigma` etc.*/
         final JsonObject viewData = params.copy();
-        /*
-         * Two Params
-         */
-        final JsonArray projection = viewInput.getJsonArray(Qr.KEY_PROJECTION);
-        final JsonObject criteria = viewInput.getJsonObject(Qr.KEY_CRITERIA);
+
+        final ScOwner owner = new ScOwner(userId, OwnerType.USER);
+        final Vis vis = Vis.smart(viewData.getValue(KName.VIEW));
+        owner.bind(vis);
+        /* Two Params: projection, criteria, rows */
+        Ut.elementCopy(viewData, viewInput,
+            Qr.KEY_PROJECTION,
+            Qr.KEY_CRITERIA,
+            KName.Rbac.ROWS
+        );
+        viewData.put(KName.UPDATED_BY, userId);     // updatedBy = userId
         /* Save View */
-        return this.stub.saveMatrix(userId, viewData.put(ARG0, resourceId), projection, criteria)
+        return Quinn.view().saveAsync(resourceId, owner, viewData)
             /*
              * Flush cache of session on impacted uri
              * This method is for projection refresh here

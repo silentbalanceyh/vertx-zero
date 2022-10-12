@@ -9,23 +9,83 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class QuinnView implements Quinn {
     @Override
-    public Future<JsonObject> syncAsync(final SResource resource, final ScOwner owner, final JsonObject data) {
-        return null;
+    public Future<JsonObject> saveAsync(final String resourceId, final ScOwner owner, final JsonObject viewData) {
+        // 1. 读取该用户视图
+        return this.fetchView(resourceId, owner).compose(queried -> {
+            final SView myView = this.initialize(queried, resourceId, owner, viewData);
+            this.updateData(myView, viewData);
+            if (Objects.isNull(queried)) {
+                return Ux.Jooq.on(SViewDao.class).insertAsync(myView);
+            } else {
+                return Ux.Jooq.on(SViewDao.class).updateAsync(myView);
+            }
+        }).compose(upsert -> {
+            /* Response Building */
+            final JsonObject cached = new JsonObject();
+            cached.put(Qr.KEY_PROJECTION, Ut.toJArray(upsert.getProjection()));
+            cached.put(Qr.KEY_CRITERIA, Ut.toJObject(upsert.getCriteria()));
+            cached.put(KName.Rbac.ROWS, Ut.toJObject(upsert.getRows()));
+            return Ux.future(cached);
+        });
+    }
+
+    // ----------------------------- 私有方法 「写」---------------------------
+    private SView initialize(final SView found, final String resourceId, final ScOwner owner, final JsonObject viewData) {
+        if (Objects.isNull(found)) {
+            // 新创建一个视图
+            final JsonObject qrData = this.qrCond(resourceId, owner);
+            qrData.mergeIn(viewData);
+            final SView inserted = Ut.deserialize(qrData, SView.class);
+            inserted.setKey(UUID.randomUUID().toString());
+            inserted.setActive(Boolean.TRUE);
+
+            // 创建专用 auditor
+            inserted.setCreatedAt(LocalDateTime.now());
+            inserted.setCreatedBy(Ut.valueString(viewData, KName.UPDATED_BY));
+            return inserted;
+        } else {
+            // 更新已有的视图
+            return found;
+        }
+    }
+
+    private void updateData(final SView view, final JsonObject viewData) {
+        // projection
+        if (viewData.containsKey(Qr.KEY_PROJECTION)) {
+            view.setProjection(Ut.valueJArray(viewData, Qr.KEY_PROJECTION).encode());
+        }
+        // rows
+        if (viewData.containsKey(KName.Rbac.ROWS)) {
+            view.setRows(Ut.valueJObject(viewData, KName.Rbac.ROWS).encode());
+        }
+        // criteria
+        if (viewData.containsKey(Qr.KEY_CRITERIA)) {
+            view.setCriteria(Ut.valueJObject(viewData, Qr.KEY_CRITERIA).encode());
+        } else {
+            // 只有查询条件存在清空
+            view.setCriteria(new JsonObject().encode());
+        }
+        /* Auditor Information */
+        view.setUpdatedAt(LocalDateTime.now());
+        view.setUpdatedBy(Ut.valueString(viewData, KName.UPDATED_BY));
     }
 
     /*
@@ -74,7 +134,7 @@ public class QuinnView implements Quinn {
         });
     }
 
-    // ----------------------------- 私有方法 ---------------------------
+    // ----------------------------- 私有方法 「读」---------------------------
     /*
      * Data Bound building
      * 1) projection append
