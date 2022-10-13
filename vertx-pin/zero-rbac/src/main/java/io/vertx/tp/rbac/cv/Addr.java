@@ -11,17 +11,6 @@ interface Prefix {
 public interface Addr {
 
     interface Rule {
-        /*
-         * Fetch all rules that defined in current app
-         */
-        String FETCH_BY_SIGMA = Prefix._EVENT + "X-RULE/FETCH/ALL";
-        String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
-
-        /*
-         * Fetch all resource definition
-         */
-        String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
-        String FETCH_VISITANT = Prefix._EVENT + "X-VISITANT/FETCH/OWNER";
 
         /*
          * 「New Version」
@@ -124,8 +113,6 @@ public interface Addr {
     }
 
     interface View {
-
-        String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
         /*
          * View interface publish for `my view` instead of old `my`
          */

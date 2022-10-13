@@ -26,7 +26,7 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class SyntaxMeta {
+class SyntaxRegion {
     // 根据定义、资源、拥有者处理视图信息
     /*
      * {

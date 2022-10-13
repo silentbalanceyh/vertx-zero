@@ -116,7 +116,7 @@ public class AccreditService implements AccreditStub {
                 final ScOwner owner = new ScOwner(user.user(), OwnerType.USER);
                 owner.bind(resource.view()).bind(Ut.toSet(roles));
                 final SResource resourceT = resourceRef.get();
-                return Quinn.view().<DataBound>fetchAsync(resourceT, owner)
+                return Quinn.vivid().<DataBound>fetchAsync(resourceT, owner)
                     .compose(bound -> user.view(keyView, bound.toJson()))
                     .compose(nil -> Ux.future(response));
             });

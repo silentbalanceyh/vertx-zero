@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.api.view;
+package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;

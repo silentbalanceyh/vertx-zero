@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class SyntaxData {
+class SyntaxAop {
     static final Cc<String, Confine> CC_FINITY = Cc.openThread();
 
     private static Future<JsonObject> normInput(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {

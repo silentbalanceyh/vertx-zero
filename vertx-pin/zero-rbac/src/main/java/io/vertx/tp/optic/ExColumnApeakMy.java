@@ -31,7 +31,8 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         // DataBound Building
         final ScOwner owner = new ScOwner(userId, OwnerType.USER);
         owner.bind(view);
-        return Quinn.view().<DataBound>fetchAsync(resourceId, owner).compose(bound -> {
+        // ScResource building
+        return Quinn.vivid().<DataBound>fetchAsync(resourceId, owner).compose(bound -> {
             final JsonArray projection = bound.vProjection();
             /*
              * No view found                        -> []
@@ -62,7 +63,7 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         );
         viewData.put(KName.UPDATED_BY, userId);     // updatedBy = userId
         /* Save View */
-        return Quinn.view().saveAsync(resourceId, owner, viewData)
+        return Quinn.vivid().<JsonObject>saveAsync(resourceId, owner, viewData)
             /*
              * Flush cache of session on impacted uri
              * This method is for projection refresh here

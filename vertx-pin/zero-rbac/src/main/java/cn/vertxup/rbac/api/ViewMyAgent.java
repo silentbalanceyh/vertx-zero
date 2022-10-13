@@ -1,4 +1,4 @@
-package cn.vertxup.rbac.api.view;
+package cn.vertxup.rbac.api;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -11,31 +11,7 @@ import javax.ws.rs.*;
 
 @Path("/api")
 @EndPoint
-public interface ViewAgent {
-    /*
-     * All interface is for DEFAULT view
-     * instead of personal views for future usage
-     */
-    @Path("/view/:ownerType/:ownerId")
-    @PUT
-    @Address(Addr.View.VIEW_UPDATE_BY_TYPE)
-    JsonObject saveViews(@PathParam(KName.OWNER_TYPE) String ownerType,
-                         @PathParam(KName.OWNER_ID) String key,
-                         @BodyParam JsonArray data);
-
-    @Path("/view/:ownerType/:ownerId")
-    @POST
-    @Address(Addr.Rule.FETCH_VIEWS)
-    JsonObject fetchByKeys(@PathParam(KName.OWNER_TYPE) String ownerType,
-                           @PathParam(KName.OWNER_ID) String ownerId,
-                           @BodyParam JsonArray ids);
-
-    @POST
-    @Path("/visitant/:ownerType/:ownerId")
-    @Address(Addr.Rule.FETCH_VISITANT)
-    JsonObject fetchVisitant(@PathParam(KName.OWNER_TYPE) String ownerType,
-                             @PathParam(KName.OWNER_ID) String ownerId,
-                             @BodyParam JsonObject params);
+public interface ViewMyAgent {
 
     /*
      * View Add, DELETE, FETCH

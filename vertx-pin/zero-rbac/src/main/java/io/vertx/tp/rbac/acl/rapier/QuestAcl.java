@@ -24,14 +24,12 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class QuestAcl implements Quest {
-    private final transient SyntaxMeta syntaxMeta;
-    private final transient SyntaxData syntaxData;
-    private final transient SyntaxSave syntaxSave;
+    private final transient SyntaxRegion syntaxRegion;
+    private final transient SyntaxAop syntaxAop;
 
     QuestAcl() {
-        this.syntaxMeta = new SyntaxMeta();
-        this.syntaxData = new SyntaxData();
-        this.syntaxSave = new SyntaxSave();
+        this.syntaxRegion = new SyntaxRegion();
+        this.syntaxAop = new SyntaxAop();
     }
 
     @Override
@@ -69,7 +67,7 @@ class QuestAcl implements Quest {
                 new ConcurrentHashMap<>();
             packetData.forEach(packet -> {
                 final SResource resource = resourceMap.get(packet.getResource());
-                futureMap.put(resource.getCode(), this.syntaxMeta.regionJ(resource, owner, packet));
+                futureMap.put(resource.getCode(), this.syntaxRegion.regionJ(resource, owner, packet));
             });
             return Fn.combineM(futureMap);
         }).compose(map -> Ux.future(Ut.toJObject(map)));
@@ -88,7 +86,7 @@ class QuestAcl implements Quest {
             condition.put(KName.CODE, code);
             condition.put(KName.SIGMA, Ut.valueString(resourceData, KName.SIGMA));
             futureM.put(code, Ux.Jooq.on(SResourceDao.class).<SResource>fetchOneAsync(condition).compose(resource -> {
-                if (Objects.isNull(resourceJ)) {
+                if (Objects.isNull(resource)) {
                     Sc.infoView(this.getClass(), "Zero system could not find the resource: {0}", code);
                     return Ux.future();
                 }
@@ -101,7 +99,7 @@ class QuestAcl implements Quest {
                     Ut.valueString(resourceData, KName.NAME),
                     Ut.valueString(resourceData, KName.POSITION)
                 );
-                return this.syntaxSave.syncAsync(resource, owner, resourceData);
+                return Quinn.visit().saveAsync(resource, owner, resourceData);
             }));
         });
         return Fn.combineM(futureM).compose(map -> Ux.future(Ut.toJObject(map)));
@@ -111,7 +109,7 @@ class QuestAcl implements Quest {
     public Future<Envelop> beforeAsync(final Envelop request, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
         final JsonObject body = request.body();
-        return this.syntaxData.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
+        return this.syntaxAop.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
             // 绑定专用
             request.acl(acl);
             return Ux.future(request);
@@ -122,7 +120,7 @@ class QuestAcl implements Quest {
     public Future<Envelop> afterAsync(final Envelop response, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
         final JsonObject body = response.body();
-        return this.syntaxData.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
+        return this.syntaxAop.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
             // 绑定专用
             response.acl(acl);
             /*
