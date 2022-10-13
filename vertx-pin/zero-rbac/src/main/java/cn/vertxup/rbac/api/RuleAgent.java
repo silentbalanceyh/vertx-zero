@@ -27,7 +27,16 @@ public interface RuleAgent {
     @GET
     @Path("/authority/region/:type")
     @Address(Addr.Rule.FETCH_REGION)
-    Future<JsonArray> fetchRegion(@PathParam(KName.TYPE) String type);
+    Future<JsonArray> fetchRegions(@PathParam(KName.TYPE) String type);
+
+    /*
+     * 延迟读取策略，在选中某个 Region 的时候读取详情
+     * 而不是初始化时读取 Region 的详情
+     */
+    @GET
+    @Path("/authority/region-d/:key")
+    @Address(Addr.Rule.FETCH_REGION_DEFINE)
+    Future<JsonObject> fetchRegion(@PathParam(KName.KEY) String key);
 
     /*
      * 读取权限管理区域所有的值（只能单独存储）

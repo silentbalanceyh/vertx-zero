@@ -19,9 +19,9 @@ import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -30,64 +30,50 @@ public class RuleService implements RuleStub {
     private static final Cc<String, HValve> CC_VALVE = Cc.openThread();
 
     @Override
-    public Future<JsonArray> regionAsync(final List<SPath> paths) {
+    public Future<JsonObject> regionAsync(final SPath input) {
         /*
          * Major Path Configuration
          * 1. Not null and `runComponent` is not null
          * 2. `parentId` is null
          * 3. Sort By `uiSort`
          */
-        final List<SPath> filtered = paths.stream()
-            .filter(Objects::nonNull)
-            .filter(item -> Ut.isNil(item.getParentId()))
-            .sorted(Comparator.comparing(SPath::getUiSort))
-            .collect(Collectors.toList());
-
-        /*
-         * Children Grouped
-         */
-        final ConcurrentMap<String, List<SPath>> grouped =
-            Ut.elementGroup(paths.stream()
-                .filter(Objects::nonNull)
-                .filter(item -> Ut.notNil(item.getParentId()))
-                .collect(Collectors.toList()), SPath::getParentId);
-        return Fn.combineT(filtered, input -> Sc.cacheAdmit(input, path -> {
-            /*
-             * Extract `runComponent` to build `HValve` and then run it based on configured
-             * Information here.
-             */
-            final Class<?> clazz = Ut.clazz(path.getRunComponent(), AdmitValve.class);
-            if (Objects.isNull(clazz)) {
-                return Ux.future();
-            }
-            final String cacheKey = path.getSigma() + Strings.SLASH + path.getCode();
-            final HValve value = CC_VALVE.pick(() -> Ut.instance(clazz), cacheKey);
-            final JsonObject pathJ = Ux.toJson(path);
-            /*
-             * JsonObject Configuration for SPath here
-             */
-            Fn.ifJObject(pathJ,
-                // UI Configuration
-                KName.UI_CONFIG,
-                KName.UI_CONDITION,
-                KName.UI_SURFACE,
-                // DM Configuration
-                KName.DM_CONDITION,
-                KName.DM_CONFIG,
-                // metadata / mapping
-                KName.METADATA,
-                KName.MAPPING
-            );
-            /*
-             * Build map based on `code` for Area usage
-             * `children` of pathJ
-             */
-            if (grouped.containsKey(path.getKey())) {
-                final JsonArray children = Ux.toJson(grouped.getOrDefault(path.getKey(), new ArrayList<>()));
-                pathJ.put(KName.CHILDREN, children);
-            }
-            return value.configure(pathJ);
-        })).compose(Ux::futureA);
+        return Sc.cachePath(input, path -> Ux.Jooq.on(SPathDao.class).fetchJAsync(KName.PARENT_ID, path.getKey())
+            .compose(children -> {
+                /*
+                 * Extract `runComponent` to build `HValve` and then run it based on configured
+                 * Information here.
+                 */
+                final Class<?> clazz = Ut.clazz(path.getRunComponent(), AdmitValve.class);
+                if (Objects.isNull(clazz)) {
+                    return Ux.future();
+                }
+                final String cacheKey = path.getSigma() + Strings.SLASH + path.getCode();
+                final HValve value = CC_VALVE.pick(() -> Ut.instance(clazz), cacheKey);
+                final JsonObject pathJ = Ux.toJson(path);
+                /*
+                 * JsonObject Configuration for SPath here
+                 */
+                Fn.ifJObject(pathJ,
+                    // UI Configuration
+                    KName.UI_CONFIG,
+                    KName.UI_CONDITION,
+                    KName.UI_SURFACE,
+                    // DM Configuration
+                    KName.DM_CONDITION,
+                    KName.DM_CONFIG,
+                    // metadata / mapping
+                    KName.METADATA,
+                    KName.MAPPING
+                );
+                /*
+                 * Build map based on `code` for Area usage
+                 * `children` of pathJ
+                 */
+                if (!children.isEmpty()) {
+                    pathJ.put(KName.CHILDREN, children);
+                }
+                return value.configure(pathJ);
+            }));
     }
 
     @Override
@@ -104,20 +90,21 @@ public class RuleService implements RuleStub {
             .compose(packets -> Quest.syntax().fetchAsync(pathData, packets, owner));
     }
 
-    private Future<List<SPacket>> packetAsync(final SPath path) {
-        if (Objects.isNull(path)) {
+    private Future<List<SPacket>> packetAsync(final SPath input) {
+        if (Objects.isNull(input)) {
             return Ux.futureL();
         }
-        return Ux.Jooq.on(SPathDao.class).<SPath>fetchAsync(KName.PARENT_ID, path.getKey()).compose(children -> {
-            // CODE IN (?, ?, ?) AND SIGMA = ?
-            final JsonObject condition = Ux.whereAnd()
-                .put(KName.SIGMA, path.getSigma());
-            final JsonArray codes = new JsonArray().add(path.getCode());
-            children.forEach(child -> codes.add(child.getCode()));
-            condition.put(KName.CODE + ",i", codes);
-            // SPath -> SPacket
-            return Ux.Jooq.on(SPacketDao.class).fetchAsync(condition);
-        });
+        return Sc.cachePocket(input, path -> Ux.Jooq.on(SPathDao.class).<SPath>fetchAsync(KName.PARENT_ID, path.getKey())
+            .compose(children -> {
+                // CODE IN (?, ?, ?) AND SIGMA = ?
+                final JsonObject condition = Ux.whereAnd()
+                    .put(KName.SIGMA, path.getSigma());
+                final JsonArray codes = new JsonArray().add(path.getCode());
+                children.forEach(child -> codes.add(child.getCode()));
+                condition.put(KName.CODE + ",i", codes);
+                // SPath -> SPacket
+                return Ux.Jooq.on(SPacketDao.class).fetchAsync(condition);
+            }));
     }
 
     @Override

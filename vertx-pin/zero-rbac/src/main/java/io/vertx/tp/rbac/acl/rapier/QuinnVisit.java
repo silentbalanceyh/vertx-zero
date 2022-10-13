@@ -14,13 +14,15 @@ import java.util.Objects;
  */
 public class QuinnVisit implements Quinn {
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Future<T> saveAsync(final SResource resource, final ScOwner owner, final JsonObject data) {
         return Quinn.view().<SView>saveAsync(resource.getKey(), owner, data).compose(view -> {
             final Boolean virtual = Objects.isNull(resource.getVirtual()) ? Boolean.FALSE : resource.getVirtual();
-            if (virtual) {
-                // 资源访问者保存流程
+            if (!virtual) {
+                return Ux.futureJ(view);
             }
-            return Ux.future();
-        });
+            // 资源访问者保存流程
+            return Ux.futureJ();
+        }).compose(json -> Ux.future((T) json));
     }
 }

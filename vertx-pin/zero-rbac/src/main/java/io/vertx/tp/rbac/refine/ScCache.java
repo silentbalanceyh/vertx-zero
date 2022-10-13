@@ -189,13 +189,13 @@ class ScCache {
         return Rapid.<String, V>t(codePool, codeExpired).write(key, value);
     }
 
-    static Future<JsonObject> admit(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
+    static <R> Future<R> admitPath(final SPath path, final Function<SPath, Future<R>> executor, final String suffix) {
         if (Debugger.offAdmitCache()) {
             // Cache Enabled for Default
             final String admitPool = CONFIG.getPoolAdmit();
             // Each sigma has been mapped to single pool
-            final String poolName = admitPool + Strings.SLASH + path.getSigma();
-            final Rapid<String, JsonObject> rapid = Rapid.t(poolName, 3600);
+            final String poolName = admitPool + Strings.SLASH + path.getSigma() + Strings.SLASH + suffix;
+            final Rapid<String, R> rapid = Rapid.t(poolName, 3600);
             return rapid.cached(path.getKey(), () -> executor.apply(path));
         } else {
             return executor.apply(path);

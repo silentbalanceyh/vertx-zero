@@ -20,6 +20,8 @@ public interface Addr {
         String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
         String FETCH_REGION_VALUES = Prefix._EVENT + "X-RULE/FETCH/REGION-VALUES";
 
+        String FETCH_REGION_DEFINE = Prefix._EVENT + "X-RULE/FETCH/REGION-DEFINE";
+
         String SAVE_REGION = Prefix._EVENT + "X-RULE/SAVING/SINGLE";
     }
 

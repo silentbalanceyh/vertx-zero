@@ -12,6 +12,7 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
@@ -30,16 +31,21 @@ public class RuleActor {
     private transient RuleStub stub;
 
     @Address(Addr.Rule.FETCH_REGION)
-    public Future<JsonArray> fetchRegion(final String type, final XHeader header) {
-
+    public Future<JsonArray> fetchRegions(final String type, final XHeader header) {
         // RUN_TYPE = ? AND SIGMA = ?
         final JsonObject condition = Ux.whereAnd()
             .put(KName.RUN_TYPE, type)
             .put(KName.SIGMA, header.getSigma());
 
-
         return Ux.Jooq.on(SPathDao.class)
-            .<SPath>fetchAsync(condition)
+            .<SPath>fetchAsync(condition, Sorter.create(KName.UI_SORT, true))
+            .compose(Ux::futureA);
+    }
+
+    @Address(Addr.Rule.FETCH_REGION_DEFINE)
+    public Future<JsonObject> fetchRegion(final String key) {
+        return Ux.Jooq.on(SPathDao.class)
+            .<SPath>fetchByIdAsync(key)
             .compose(this.stub::regionAsync);
     }
 

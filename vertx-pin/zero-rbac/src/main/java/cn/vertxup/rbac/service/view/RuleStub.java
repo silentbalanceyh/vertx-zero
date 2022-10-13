@@ -2,11 +2,8 @@ package cn.vertxup.rbac.service.view;
 
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
-
-import java.util.List;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -19,7 +16,7 @@ public interface RuleStub {
      * 2) Based on `HValue` to extract `HPermit` object
      * 3) Configure based on `HPermit`
      */
-    Future<JsonArray> regionAsync(List<SPath> paths);
+    Future<JsonObject> regionAsync(SPath paths);
 
     /*
      * Process SPath

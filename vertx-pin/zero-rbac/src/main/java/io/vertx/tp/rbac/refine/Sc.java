@@ -88,8 +88,12 @@ public class Sc {
         return ScCache.code(key, value);
     }
 
-    public static Future<JsonObject> cacheAdmit(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
-        return ScCache.admit(path, executor);
+    public static Future<JsonObject> cachePath(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
+        return ScCache.admitPath(path, executor, "PATH");
+    }
+
+    public static Future<List<SPacket>> cachePocket(final SPath path, final Function<SPath, Future<List<SPacket>>> executor) {
+        return ScCache.admitPath(path, executor, "POCKET");
     }
 
     /*
