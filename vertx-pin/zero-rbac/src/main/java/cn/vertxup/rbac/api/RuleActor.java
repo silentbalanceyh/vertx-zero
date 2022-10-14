@@ -16,6 +16,7 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +36,8 @@ public class RuleActor {
         // RUN_TYPE = ? AND SIGMA = ?
         final JsonObject condition = Ux.whereAnd()
             .put(KName.RUN_TYPE, type)
-            .put(KName.SIGMA, header.getSigma());
+            .put(KName.SIGMA, header.getSigma())
+            .put(KName.PARENT_ID + ",n", Strings.EMPTY);
 
         return Ux.Jooq.on(SPathDao.class)
             .<SPath>fetchAsync(condition, Sorter.create(KName.UI_SORT, true))
