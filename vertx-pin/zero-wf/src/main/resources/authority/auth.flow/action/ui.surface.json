@@ -11,7 +11,8 @@
             "event": "STATE:node.event"
         },
         "paramView": {
-            "position": ":workflow"
+            "position": ":workflow",
+            "view": ":event"
         },
         "paramVisit": {
             "phase": "EAGER",
