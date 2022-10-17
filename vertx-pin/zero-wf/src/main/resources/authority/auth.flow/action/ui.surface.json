@@ -6,6 +6,18 @@
         "empty": "请选择您要设置权限的流程节点"
     },
     "webData": {
+        "paramIn": {
+            "workflow": "PROP:workflow.value",
+            "event": "STATE:node.event"
+        },
+        "paramView": {
+            "position": ":workflow"
+        },
+        "paramVisit": {
+            "phase": "EAGER",
+            "mode": "REPLACE",
+            "seekKey": ":workflow/:event/DEFAULT`"
+        },
         "paramDefault": "ALL",
         "initializer": "aclInHS",
         "requester": "aclOutHS"

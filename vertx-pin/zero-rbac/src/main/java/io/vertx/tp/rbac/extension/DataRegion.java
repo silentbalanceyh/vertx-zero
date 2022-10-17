@@ -105,7 +105,7 @@ public class DataRegion extends AbstractRegion {
                  * DataRegion中消费的 matrix 在新版本中会直接被 Cosmo 组件变更，而造成最终的影响
                  * 所以读取出来的视图矩阵在此处执行拷贝
                  */
-                return Ux.future(matrix.copy());
+                return Ux.future(Objects.isNull(matrix) ? null : matrix.copy());
             });
         }
     }

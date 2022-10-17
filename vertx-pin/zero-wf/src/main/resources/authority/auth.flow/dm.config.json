@@ -9,13 +9,6 @@
             "type": "primary",
             "key": "__ID_FLOW_SAVE",
             "connectId": "__CID_FLOW_SAVE"
-        },
-        {
-            "icon": "cloud-upload",
-            "text": "保存所有",
-            "type": "primary",
-            "key": "__ID_FLOW_ALL",
-            "connectId": "__CID_FLOW_ALL"
         }
     ],
     "webTag": {

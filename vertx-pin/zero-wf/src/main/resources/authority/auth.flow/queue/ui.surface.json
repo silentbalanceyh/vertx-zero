@@ -13,6 +13,19 @@
         ]
     },
     "webData": {
+        "paramIn": {
+            "workflow": "PROP:workflow.value",
+            "position": "OPTION:value"
+        },
+        "paramView": {
+            "position": ":position",
+            "view": "DEFAULT"
+        },
+        "paramVisit": {
+            "phase": "EAGER",
+            "mode": "REPLACE",
+            "seekKey": ":workflow/:position/DEFAULT"
+        },
         "paramDefault": "ALL",
         "initializer": "aclInHS",
         "requester": "aclOutHS"
