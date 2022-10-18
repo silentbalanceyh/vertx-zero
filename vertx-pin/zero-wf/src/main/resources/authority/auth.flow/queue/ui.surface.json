@@ -22,6 +22,8 @@
             "view": "DEFAULT"
         },
         "paramVisit": {
+            "identifier": "ui.view",
+            "type": "VIEW",
             "phase": "EAGER",
             "mode": "REPLACE",
             "seekKey": ":workflow/:position/DEFAULT"

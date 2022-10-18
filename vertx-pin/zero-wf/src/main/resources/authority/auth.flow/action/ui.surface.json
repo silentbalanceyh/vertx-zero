@@ -17,6 +17,8 @@
         "paramVisit": {
             "phase": "EAGER",
             "mode": "REPLACE",
+            "identifier": "ui.op",
+            "type": "OP",
             "seekKey": ":workflow/:event/DEFAULT`"
         },
         "paramDefault": "ALL",

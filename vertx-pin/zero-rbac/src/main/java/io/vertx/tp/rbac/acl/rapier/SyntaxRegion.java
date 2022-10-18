@@ -1,9 +1,11 @@
 package io.vertx.tp.rbac.acl.rapier;
 
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
+import cn.vertxup.rbac.domain.tables.daos.SVisitantDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
+import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -84,7 +86,24 @@ class SyntaxRegion {
         });
     }
 
+    Future<JsonObject> regionJ(final SView view, final List<SVisitant> visitants) {
+        final JsonObject response = Ux.toJson(view);
+        response.put(KName.VIEW, view.getName());
+        response.put(KName.VIRTUAL, Boolean.TRUE);
+        {
+            // v, q, h
+            response.put(KName.Rbac.PACK_H, Ut.toJObject(view.getRows()));
+            response.put(KName.Rbac.PACK_Q, Ut.toJObject(view.getCriteria()));
+            response.put(KName.Rbac.PACK_V, Ut.toJArray(view.getProjection()));
+        }
+        final JsonObject visitantJ = new JsonObject();
+        visitants.forEach(visitant -> visitantJ.put(visitant.getSeekKey(), Ux.toJson(visitant)));
+        response.put(KName.Rbac.VISITANT, visitantJ);
+        return Ux.future(response);
+    }
+
     private Future<JsonObject> regionView(final SResource resource, final SView view, final SPacket packet) {
+        Objects.requireNonNull(view);
         final JsonObject response = this.regionVInit(resource, view);
         final ConcurrentMap<String, Future<ClusterSerializable>> eyeletM = new ConcurrentHashMap<>();
         eyeletM.put(KName.Rbac.PACK_V, this.regionV(packet, view));
@@ -98,6 +117,19 @@ class SyntaxRegion {
             // 一对多再对多的两层多叉树
             response.mergeIn(vqh, false);
             return Ux.future(response);
+        }).compose(responseJ -> {
+            final Boolean virtual = Objects.isNull(resource.getVirtual()) ? Boolean.FALSE : resource.getVirtual();
+            if (virtual) {
+                return Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchAsync(KName.VIEW_ID, view.getKey())
+                    .compose(visitants -> {
+                        final JsonObject visitantJ = new JsonObject();
+                        visitants.forEach(visitant -> visitantJ.put(visitant.getSeekKey(), Ux.toJson(visitant)));
+                        responseJ.put(KName.Rbac.VISITANT, visitantJ);
+                        return Ux.future(responseJ);
+                    });
+            } else {
+                return Ux.future(responseJ);
+            }
         });
     }
 
@@ -161,7 +193,7 @@ class SyntaxRegion {
 
     private JsonObject regionVInit(final SResource resource, final SView view) {
         final JsonObject response = new JsonObject();
-        response.put(KName.VIRTUAL, resource.getVirtual());
+        response.put(KName.VIRTUAL, Objects.isNull(resource.getVirtual()) ? Boolean.FALSE : resource.getVirtual());
         // view / position for front-end calculation
         // 多视图管理时需在前端执行过滤提取数据
         // 1 Resource --- n View --- n Visitant
