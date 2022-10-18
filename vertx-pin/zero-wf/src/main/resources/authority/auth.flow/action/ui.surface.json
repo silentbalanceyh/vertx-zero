@@ -19,7 +19,7 @@
             "mode": "REPLACE",
             "identifier": "ui.op",
             "type": "OP",
-            "seekKey": ":workflow/:event/DEFAULT`"
+            "seekKey": ":workflow/:event/DEFAULT"
         },
         "paramDefault": "ALL",
         "initializer": "IN_HV_BY",
