@@ -29,7 +29,7 @@
             "seekKey": ":workflow/:position/DEFAULT"
         },
         "paramDefault": "ALL",
-        "initializer": "aclInHS",
-        "requester": "aclOutHS"
+        "initializer": "IN_HV",
+        "requester": "OUT_H"
     }
 }
