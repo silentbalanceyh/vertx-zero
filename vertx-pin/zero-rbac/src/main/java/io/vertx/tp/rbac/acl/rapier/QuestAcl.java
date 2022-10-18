@@ -4,6 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.refine.Sc;
@@ -13,6 +14,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -75,8 +77,8 @@ class QuestAcl implements Quest {
 
     @Override
     public Future<JsonObject> syncAsync(final JsonObject resourceJ) {
-        final ConcurrentMap<String, Future<JsonObject>> futureM = new ConcurrentHashMap<>();
-        Ut.<JsonObject>itJObject(resourceJ, (resourceData, code) -> {
+        final ConcurrentMap<String, Future<JsonArray>> futureM = new ConcurrentHashMap<>();
+        Ut.<JsonArray>itJObject(resourceJ, (resourceData, code) -> {
             /*
              * 1. 构造 SResource
              * 2. 构造 ScOwner
@@ -90,19 +92,26 @@ class QuestAcl implements Quest {
                     Sc.infoView(this.getClass(), "Zero system could not find the resource: {0}", code);
                     return Ux.future();
                 }
-
-                final ScOwner owner = new ScOwner(
-                    Ut.valueString(resourceData, KName.OWNER),
-                    Ut.valueString(resourceData, KName.OWNER_TYPE)
-                );
-                owner.bind(
-                    Ut.valueString(resourceData, KName.NAME),
-                    Ut.valueString(resourceData, KName.POSITION)
-                );
-                return Quinn.visit().saveAsync(resource, owner, resourceData);
+                return this.syncViews(resource, resourceData);
             }));
         });
         return Fn.combineM(futureM).compose(map -> Ux.future(Ut.toJObject(map)));
+    }
+
+    private Future<JsonArray> syncViews(final SResource resource, final JsonArray viewData) {
+        final List<Future<JsonObject>> futures = new ArrayList<>();
+        Ut.itJArray(viewData).forEach(viewJ -> {
+            final ScOwner owner = new ScOwner(
+                Ut.valueString(viewJ, KName.OWNER),
+                Ut.valueString(viewJ, KName.OWNER_TYPE)
+            );
+            owner.bind(
+                Ut.valueString(viewJ, KName.NAME),
+                Ut.valueString(viewJ, KName.POSITION)
+            );
+            futures.add(Quinn.visit().saveAsync(resource, owner, viewJ));
+        });
+        return Fn.combineA(futures);
     }
 
     @Override

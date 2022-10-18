@@ -86,31 +86,58 @@ public class RuleActor {
          *         }
          *     }
          * }
-         * 转换
+         * 转换（多视图存储转换）
          * {
-         *     "resource-code1": {
-         *     },
-         *     "resource-code2": {
-         *     }
+         *     "resource-code1": [],
+         *     "resource-code2": []
          * }
          * -- 追加 owner, ownerType, ( view -> name ), position, updatedBy
+         * 返回数据：
+         * {
+         *     v, h, q,
+         *     virtual,
+         *     visitant: {
+         *         seekKey1: {},
+         *         seekKey2: {}
+         *     }
+         * }
          */
-        final JsonObject resourceBody = new JsonObject();
-        final JsonObject resourceI = Ut.valueJObject(viewData, KName.RESOURCE);
         final String userKey = Ux.keyUser(user);
-        Ut.<JsonObject>itJObject(resourceI, (eachJ, field) -> {
-            final JsonObject resourceJ = eachJ.copy();
-            Ut.elementCopy(resourceJ, viewData,
-                KName.SIGMA, KName.OWNER, KName.OWNER_TYPE
-            );
-            resourceJ.put(KName.NAME, resourceJ.getValue(KName.VIEW));
-            resourceJ.put(KName.UPDATED_BY, userKey);
-            resourceBody.put(field, resourceJ);
-        });
         // CODE = ? AND SIGMA = ?
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.SIGMA, Ut.valueString(viewData, KName.SIGMA));
         condition.put(KName.CODE, pathCode);
-        return this.stub.regionAsync(condition, resourceBody);
+        return this.stub.regionAsync(condition, this.valueBody(viewData, userKey));
+    }
+
+    private JsonObject valueBody(final JsonObject viewData, final String userKey) {
+        final JsonObject resourceBody = new JsonObject();
+        final JsonObject resourceI = Ut.valueJObject(viewData, KName.RESOURCE);
+        /*
+         * Normalize Data Processing
+         * 1) Update Directly
+         * 2) Update Visitant ( Deeply Saving )
+         */
+        resourceI.fieldNames().forEach(resourceKey -> {
+            final JsonArray viewQueue = new JsonArray();
+            final Object view = resourceI.getValue(resourceKey);
+            if (view instanceof final JsonObject viewJ) {
+                viewQueue.add(this.valueView(viewData, userKey, viewJ));
+            } else if (view instanceof final JsonArray viewA) {
+                Ut.itJArray(viewA).map(eachJ -> this.valueView(viewData, userKey, eachJ)).forEach(viewQueue::add);
+            }
+            resourceBody.put(resourceKey, viewQueue);
+        });
+        return resourceBody;
+    }
+
+    private JsonObject valueView(final JsonObject viewData, final String userKey, final JsonObject eachJ) {
+        final JsonObject resourceJ = eachJ.copy();
+        Ut.elementCopy(resourceJ, viewData,
+            KName.SIGMA, KName.OWNER, KName.OWNER_TYPE
+        );
+        resourceJ.put(KName.NAME, resourceJ.getValue(KName.VIEW));
+        resourceJ.put(KName.UPDATED_BY, userKey);
+        return resourceJ;
     }
 }
