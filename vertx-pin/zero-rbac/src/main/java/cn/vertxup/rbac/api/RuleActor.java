@@ -134,7 +134,7 @@ public class RuleActor {
     private JsonObject valueView(final JsonObject viewData, final String userKey, final JsonObject eachJ) {
         final JsonObject resourceJ = eachJ.copy();
         Ut.elementCopy(resourceJ, viewData,
-            KName.SIGMA, KName.OWNER, KName.OWNER_TYPE
+            KName.SIGMA, KName.LANGUAGE, KName.OWNER, KName.OWNER_TYPE
         );
         resourceJ.put(KName.NAME, resourceJ.getValue(KName.VIEW));
         resourceJ.put(KName.UPDATED_BY, userKey);

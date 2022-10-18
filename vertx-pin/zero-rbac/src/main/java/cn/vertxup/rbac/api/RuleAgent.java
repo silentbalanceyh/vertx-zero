@@ -70,13 +70,15 @@ public interface RuleAgent {
      *     "language":      cn,
      *     "sigma":         xxx,
      *     "resource": {
-     *         "code1": {
-     *              "rows":          ??,
-     *              "projection":    ??,
-     *              "criteria":      ??,
-     *              "view":          ??,
-     *              "position":      ??
-     *         }
+     *         "code1": [
+     *              {
+     *                  "rows":          ??,
+     *                  "projection":    ??,
+     *                  "criteria":      ??,
+     *                  "view":          ??,
+     *                  "position":      ??
+     *              }
+     *         ]
      *     }
      * }
      *

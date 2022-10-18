@@ -439,6 +439,7 @@ public interface KName {
 
         String SURFACE = "surface";                  /* Definition: UI Show */
         String WEB_UI = "webUi";
+        String VISITANT = "visitant";
     }
 
 

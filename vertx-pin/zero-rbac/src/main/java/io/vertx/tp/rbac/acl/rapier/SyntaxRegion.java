@@ -5,6 +5,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.tp.rbac.atom.ScOwner;
@@ -15,10 +16,11 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 
 /**
  * 管理平台专用类，用于处理管理部分的值读取操作
@@ -29,23 +31,27 @@ import java.util.function.Function;
 class SyntaxRegion {
     // 根据定义、资源、拥有者处理视图信息
     /*
-     * {
-     *         "v": {
-     *             "mapping": {},
-     *             "config": {},
-     *             "value": ...
-     *         },
-     *         "h": {
-     *             "mapping": {},
-     *             "config": {},
-     *             "value": ...
-     *         },
-     *         "q": {
-     *             "mapping": {},
-     *             "config": {},
-     *             "value": ...
-     *         }
-     *     }
+     * $bindData新结构
+     * S_RESOURCE 和 S_PACKET 的关系为一对一，此处可直接设置
+     * resource = {
+     *     "metadata": {
+     *          v, q, h
+     *          此处 v, q, h -> {
+     *              "mapping": {},
+     *              "config":  {}
+     *          }
+     *     },
+     *     "data": [
+     *          {
+     *               v, q, h = [],
+     *               virtual = true / false,
+     *               view / position
+     *               visitant = {
+     *                   "seekKey1": {
+     *                   }
+     *               }
+     *          }
+     *     ]
      * }
      */
     Future<JsonObject> regionJ(final SResource resource, final ScOwner owner, final SPacket packet) {
@@ -60,73 +66,132 @@ class SyntaxRegion {
         final JsonObject viewQr = Ux.whereAnd()
             .put(KName.OWNER_TYPE, owner.type().name())
             .put(KName.OWNER, owner.owner())
-            .put(KName.NAME, owner.view())
-            .put(KName.POSITION, owner.position())
+            // 多视图支持，整体形成一个 view - visitant 的完整结构（多叉树）
+            // .put(KName.NAME, owner.view())
+            // .put(KName.POSITION, owner.position())
             .put(KName.RESOURCE_ID, resource.getKey());
-        return Ux.Jooq.on(SViewDao.class).<SView>fetchOneAsync(viewQr).compose(view -> {
-            final ConcurrentMap<String, Future<JsonObject>> eyeletM = new ConcurrentHashMap<>();
-            eyeletM.put(KName.Rbac.PACK_V, this.regionV(packet, view));
-            eyeletM.put(KName.Rbac.PACK_H, this.regionH(packet, view));
-            eyeletM.put(KName.Rbac.PACK_Q, this.regionQ(packet, view));
-            return Fn.combineM(eyeletM).compose(map -> {
-                final JsonObject response = Ut.toJObject(map);
-                response.put(KName.VIRTUAL, resource.getVirtual());
+        return Ux.Jooq.on(SViewDao.class).<SView>fetchAsync(viewQr).compose(views -> {
+            // metadata
+            final JsonObject response = new JsonObject();
+            response.put(KName.METADATA, this.regionMeta(packet));
+            // data
+            final List<Future<JsonObject>> futures = new ArrayList<>();
+            views.forEach(view -> futures.add(this.regionView(resource, view, packet)));
+            return Fn.combineA(futures).compose(data -> {
+                response.put(KName.DATA, data);
                 return Ux.future(response);
             });
         });
     }
 
+    private Future<JsonObject> regionView(final SResource resource, final SView view, final SPacket packet) {
+        final JsonObject response = this.regionVInit(resource, view);
+        final ConcurrentMap<String, Future<ClusterSerializable>> eyeletM = new ConcurrentHashMap<>();
+        eyeletM.put(KName.Rbac.PACK_V, this.regionV(packet, view));
+        eyeletM.put(KName.Rbac.PACK_H, this.regionH(packet, view));
+        eyeletM.put(KName.Rbac.PACK_Q, this.regionQ(packet, view));
+        return Fn.combineM(eyeletM).compose(map -> {
+            final JsonObject vqh = Ut.toJObject(map);
+            // view / position for front-end calculation
+            // 多视图管理时需在前端执行过滤提取数据
+            // 1 Resource --- n View --- n Visitant
+            // 一对多再对多的两层多叉树
+            response.mergeIn(vqh, false);
+            return Ux.future(response);
+        });
+    }
+
     // ----------------------- 私有方法 ----------------------
-    private Future<JsonObject> regionV(final SPacket packet, final SView view) {
+    // ----------------------- metadata ----------------------
+    private JsonObject regionMeta(final SPacket packet) {
+        final JsonObject metadata = new JsonObject();
+        metadata.put(KName.Rbac.PACK_H, this.regionH(packet));
+        metadata.put(KName.Rbac.PACK_V, this.regionV(packet));
+        metadata.put(KName.Rbac.PACK_Q, this.regionQ(packet));
+        return metadata;
+    }
+
+    // metadata 节点
+    private JsonObject regionV(final SPacket packet) {
         final PackType.VType vType = Ut.toEnum(packet::getVType, PackType.VType.class, PackType.VType.NONE);
         if (PackType.VType.NONE == vType) {
-            return Ux.futureJ();
+            return new JsonObject();
         }
         final JsonObject response = new JsonObject();
         response.put(KName.MAPPING, Ut.toJObject(packet.getVMapping()));
         response.put(KName.CONFIG, Ut.toJObject(packet.getVConfig()));
-        return this.regionValue(response, vType, eyelet -> eyelet.ingest(packet, view));
+        return response;
     }
 
-    private Future<JsonObject> regionH(final SPacket packet, final SView view) {
+
+    private JsonObject regionH(final SPacket packet) {
         final PackType.HType hType = Ut.toEnum(packet::getHType, PackType.HType.class, PackType.HType.NONE);
         if (PackType.HType.NONE == hType) {
-            return Ux.futureJ();
+            return new JsonObject();
         }
         final JsonObject response = new JsonObject();
         response.put(KName.MAPPING, Ut.toJObject(packet.getHMapping()));
         response.put(KName.CONFIG, Ut.toJObject(packet.getHConfig()));
-        return this.regionValue(response, hType, eyelet -> eyelet.ingest(packet, view));
+        return response;
     }
 
-    private Future<JsonObject> regionQ(final SPacket packet, final SView view) {
+    private JsonObject regionQ(final SPacket packet) {
         final PackType.QType qType = Ut.toEnum(packet::getQType, PackType.QType.class, PackType.QType.NONE);
         if (PackType.QType.NONE == qType) {
-            return Ux.futureJ();
+            return new JsonObject();
         }
         final JsonObject response = new JsonObject();
         response.put(KName.MAPPING, Ut.toJObject(packet.getQMapping()));
         response.put(KName.CONFIG, Ut.toJObject(packet.getQConfig()));
-        return this.regionValue(response, qType, eyelet -> eyelet.ingest(packet, view));
+        return response;
     }
 
-    /*
-     *  v -> view
-     *  h -> view
-     *  q -> view
-     */
-    @SuppressWarnings("all")
-    private Future<JsonObject> regionValue(final JsonObject response,
-                                           final Enum eyeType,
-                                           final Function<HEyelet, Future<ClusterSerializable>> consumer) {
-        final HEyelet eyelet = HEyelet.instance(eyeType);
-        if (Objects.isNull(eyelet)) {
-            return Ux.future(response);
-        } else {
-            return consumer.apply(eyelet).compose(vJ -> {
-                response.put(KName.VALUE, vJ);
-                return Ux.future(response);
-            });
+    // ----------------------- data ----------------------
+    private Future<ClusterSerializable> regionV(final SPacket packet, final SView view) {
+        final PackType.VType vType = Ut.toEnum(packet::getVType, PackType.VType.class, PackType.VType.NONE);
+        if (PackType.VType.NONE == vType) {
+            return Ux.future(new JsonArray());
         }
+        final HEyelet eyelet = HEyelet.instance(vType);
+        if (Objects.isNull(eyelet)) {
+            return Ux.future(new JsonArray());
+        }
+        return eyelet.ingest(packet, view);
+    }
+
+    private JsonObject regionVInit(final SResource resource, final SView view) {
+        final JsonObject response = new JsonObject();
+        response.put(KName.VIRTUAL, resource.getVirtual());
+        // view / position for front-end calculation
+        // 多视图管理时需在前端执行过滤提取数据
+        // 1 Resource --- n View --- n Visitant
+        // 一对多再对多的两层多叉树
+        response.put(KName.VIEW, view.getName());
+        response.put(KName.POSITION, view.getPosition());
+        return response;
+    }
+
+    private Future<ClusterSerializable> regionH(final SPacket packet, final SView view) {
+        final PackType.HType hType = Ut.toEnum(packet::getHType, PackType.HType.class, PackType.HType.NONE);
+        if (PackType.HType.NONE == hType) {
+            return Ux.future(new JsonObject());
+        }
+        final HEyelet eyelet = HEyelet.instance(hType);
+        if (Objects.isNull(eyelet)) {
+            return Ux.future(new JsonObject());
+        }
+        return eyelet.ingest(packet, view);
+    }
+
+    private Future<ClusterSerializable> regionQ(final SPacket packet, final SView view) {
+        final PackType.QType qType = Ut.toEnum(packet::getQType, PackType.QType.class, PackType.QType.NONE);
+        if (PackType.QType.NONE == qType) {
+            return Ux.future(new JsonObject());
+        }
+        final HEyelet eyelet = HEyelet.instance(qType);
+        if (Objects.isNull(eyelet)) {
+            return Ux.future(new JsonObject());
+        }
+        return eyelet.ingest(packet, view);
     }
 }
