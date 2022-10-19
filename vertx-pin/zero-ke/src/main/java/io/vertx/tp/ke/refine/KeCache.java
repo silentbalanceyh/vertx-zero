@@ -55,7 +55,9 @@ class KeCache {
         final String uri = uri(context);
         /* Cache Data */
         final String literal = request.getParam(KName.VIEW);
-        final String cacheKey = keyView(request.method().name(), uri, Vis.create(literal));
+        /* Url Encoding / Decoding */
+        final Vis vis = Vis.create(literal);
+        final String cacheKey = keyView(request.method().name(), uri, vis);
         /* Cache Data */
         Ke.debugKe(LOGGER, LOGGER_VIEW, cacheKey, literal, uri, request.method().name());
         return cacheKey;

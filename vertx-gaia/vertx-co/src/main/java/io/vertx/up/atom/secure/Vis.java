@@ -71,9 +71,22 @@ public class Vis extends JsonObject {
         } else {
             /*
              * Normalized
+             * If encoded the literal here, the literal should contains one of
+             * [ - %5B
+             * , - %2C
+             * ] - %5D
+             * This Fix should resolve the bug of `view` parameters
              */
-            final String normalized = Ut.aiJArray(literal);
-            final JsonArray data = Ut.toJArray(normalized);
+            final String normalized;
+            if (literal.contains("%5B") ||
+                literal.contains("%2C") ||
+                literal.contains("%5D")) {
+                normalized = Ut.decryptUrl(literal);
+            } else {
+                normalized = literal;
+            }
+            final String detected = Ut.aiJArray(normalized);
+            final JsonArray data = Ut.toJArray(detected);
             return create(data);
         }
     }

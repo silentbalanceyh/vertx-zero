@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 
@@ -127,5 +128,6 @@ public interface UiApi {
     @Address(Addr.Control.FETCH_LIST_QR_BY_CODE)
     JsonArray fetchListQr(@PathParam(KName.ID) String id,
                           @PathParam(KName.POSITION) String position,
-                          @QueryParam(KName.TYPE) String type);
+                          @QueryParam(KName.TYPE) String type,
+                          @PointParam(KName.VIEW) Vis view);
 }
