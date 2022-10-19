@@ -48,8 +48,8 @@ public class DoService implements DoStub {
 
     @Override
     public Future<JsonArray> fetchFlow(final JsonObject params) {
-        final String workflow = Ut.valueString(params, KName.Ui.CONTROL);
-        final String task = Ut.valueString(params, KName.EVENT);
+        final String workflow = Ut.valueString(params, KName.Flow.WORKFLOW);
+        final String task = Ut.valueString(params, KName.Flow.NODE);
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.Ui.CONTROL_ID, workflow);
         condition.put(KName.EVENT, task);

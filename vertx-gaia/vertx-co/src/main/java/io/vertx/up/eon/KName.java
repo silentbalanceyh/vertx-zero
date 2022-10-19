@@ -445,6 +445,7 @@ public interface KName {
         String WEB_UI = "webUi";
         String VISITANT = "visitant";
         String SEEK_KEY = "seekKey";
+        String ACL = "acl";
     }
 
 

@@ -142,9 +142,7 @@ class QuestAcl implements Quest {
              * 2) edition, The fields that you could edit
              * 3) record, The fields of all current record
              */
-            if (Objects.nonNull(acl)) {
-                response.valueOn("acl", acl.acl());
-            }
+            response.onAcl(acl);
             return Ux.future(response);
         });
     }

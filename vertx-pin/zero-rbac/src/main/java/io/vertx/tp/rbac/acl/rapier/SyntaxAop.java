@@ -15,7 +15,7 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
-import io.vertx.up.eon.em.run.ActTime;
+import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -112,41 +112,37 @@ class SyntaxAop {
      */
     Future<Acl> aclBefore(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
         return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> this.aclAop(qr, matrixJ, ActTime.BEFORE));
+            .compose(qr -> this.aclAop(qr, matrixJ));
     }
 
     Future<Acl> aclAfter(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
         return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> this.aclAop(qr, matrixJ, ActTime.AFTER));
+            .compose(qr -> this.aclAop(qr, matrixJ));
     }
 
-    private Future<Acl> aclAop(final JsonObject condition, final JsonObject matrixJ, final ActTime actTime) {
+    private Future<Acl> aclAop(final JsonObject condition, final JsonObject matrixJ) {
         if (Ut.isNil(condition)) {
             return Ux.future();
         }
         return Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(condition)
-            .compose(visitant -> this.normOutput(visitant, matrixJ, actTime));
+            .compose(visitant -> this.normOutput(visitant, matrixJ));
     }
 
-
-    private void normOutput(final SVisitant visitant, final JsonObject matrixJ) {
+    private Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ) {
+        if (Objects.isNull(visitant)) {
+            return Ux.future();
+        }
+        final ActPhase configured = Ut.toEnum(visitant::getPhase, ActPhase.class, null);
+        if (configured == ActPhase.DELAY) {
+            // Exclude
+            return Ux.future();
+        }
         // dmRow
         Dmx.outlet(DmxRow.class).output(visitant, matrixJ);
         // dmQr
         Dmx.outlet(DmxQr.class).output(visitant, matrixJ);
         // dmColumn
         Dmx.outlet(DmxColumn.class).output(visitant, matrixJ);
-    }
-
-    private Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ, final ActTime phase) {
-        if (Objects.isNull(visitant)) {
-            return Ux.future();
-        }
-        final ActTime configured = Ut.toEnum(visitant::getPhase, ActTime.class, null);
-        if (configured != phase) {
-            return Ux.future();
-        }
-        this.normOutput(visitant, matrixJ);
         /*
          * vQr
          * {

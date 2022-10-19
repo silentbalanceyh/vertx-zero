@@ -10,6 +10,6 @@
     ],
     "data": {
         "ATOM": "`${identifier}/${control}`",
-        "FLOW": "`${workflow}/${node}/${view}`"
+        "FLOW": "`${workflow}/${node}/DEFAULT`"
     }
 }

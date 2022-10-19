@@ -182,12 +182,6 @@ public class Envelop implements Serializable {
         Rib.set(this.data, field, value, argIndex);
     }
 
-    public void valueOn(final String field, final Object value) {
-        if (Objects.nonNull(this.data)) {
-            this.data.put(field, value);
-        }
-    }
-
     // ------------------ Below are response Part -------------------
     /* String */
     public String outString() {
@@ -271,6 +265,17 @@ public class Envelop implements Serializable {
         if (app) {
             this.value(KName.APP_ID, headerX.getValue(KName.APP_ID));
             this.value(KName.APP_KEY, headerX.getValue(KName.APP_KEY));
+        }
+    }
+
+
+    public void onAcl(final Acl acl) {
+        if (Objects.isNull(this.data) || Objects.isNull(acl)) {
+            return;
+        }
+        final JsonObject aclData = acl.acl();
+        if (Ut.notNil(aclData)) {
+            this.data.put(KName.Rbac.ACL, aclData);
         }
     }
 
