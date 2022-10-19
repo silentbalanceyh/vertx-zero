@@ -103,6 +103,16 @@ public class SeekCosmo implements Cosmo {
 
 
         /*
+         * 检查 component:
+         *    如果定义了 component 则执行自定义流程而跳过 executor 的标准化流程
+         */
+        final Class<?> componentCls = Ut.valueCI(seeker, KName.COMPONENT, Cosmo.class);
+        if (Objects.nonNull(componentCls)) {
+            final Cosmo external = CC_COSMO_EXTERNAL.pick(() -> Ut.instance(componentCls));
+            return (ActTime.BEFORE == phase) ? external.before(envelop, matrix) : external.after(envelop, matrix);
+        }
+
+        /*
          * 检查 syntax:
          *    如果定义了 seeker，则表示走核心流程，有两种情况不执行
          *    1) 如果 syntax 未定义则不执行
@@ -119,16 +129,6 @@ public class SeekCosmo implements Cosmo {
             return Ux.future(envelop);
         }
 
-
-        /*
-         * 检查 component:
-         *    如果定义了 component 则执行自定义流程而跳过 executor 的标准化流程
-         */
-        final Class<?> componentCls = Ut.valueCI(seeker, KName.COMPONENT, Cosmo.class);
-        if (Objects.nonNull(componentCls)) {
-            final Cosmo external = CC_COSMO_EXTERNAL.pick(() -> Ut.instance(componentCls));
-            return (ActTime.BEFORE == phase) ? external.before(envelop, matrix) : external.after(envelop, matrix);
-        }
         return executor.get();
     }
 }

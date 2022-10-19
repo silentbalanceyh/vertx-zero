@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.feature.Confine;
 import io.vertx.tp.optic.secure.ConfineBuiltIn;
 import io.vertx.tp.rbac.atom.acl.AclData;
+import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
@@ -71,7 +72,7 @@ class SyntaxAop {
         requestJ.put(KName.VIEW_ID, viewData.getString(KName.KEY));
         requestJ.put(KName.VIEW, viewData.getString(KName.NAME, KValue.View.VIEW_DEFAULT));
         requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, KValue.View.POSITION_DEFAULT));
-
+        Sc.infoVisit(SyntaxAop.class, "Confine component input: {0}", requestJ.encode());
         final Confine confine = CC_FINITY.pick(() -> Ut.instance(confineCls), confineCls.getName());
         return confine.restrict(requestJ, syntaxJ);
     }
@@ -107,18 +108,26 @@ class SyntaxAop {
      */
     Future<Acl> aclBefore(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
         return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
-            .compose(visitant -> this.normOutput(visitant, matrixJ, ActTime.BEFORE));
+            .compose(qr -> this.aclAop(qr, matrixJ, ActTime.BEFORE));
     }
 
     Future<Acl> aclAfter(final JsonObject bodyData, final JsonObject matrixJ, final JsonObject headerJ) {
         return normInput(bodyData, matrixJ, headerJ)
-            .compose(qr -> Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(qr))
-            .compose(visitant -> this.normOutput(visitant, matrixJ, ActTime.AFTER));
+            .compose(qr -> this.aclAop(qr, matrixJ, ActTime.AFTER));
     }
 
-    private void normMatrix(final SVisitant visitant, final JsonObject matrixJ) {
+    private Future<Acl> aclAop(final JsonObject condition, final JsonObject matrixJ, final ActTime actTime) {
+        if (Ut.isNil(condition)) {
+            return Ux.future();
+        }
+        return Ux.Jooq.on(SVisitantDao.class).<SVisitant>fetchOneAsync(condition)
+            .compose(visitant -> this.normOutput(visitant, matrixJ, actTime));
+    }
 
+
+    private void normOutput(final SVisitant visitant, final JsonObject matrixJ) {
+        System.out.println(visitant);
+        System.out.println(matrixJ);
     }
 
     private Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ, final ActTime phase) {
@@ -129,7 +138,7 @@ class SyntaxAop {
         if (configured != phase) {
             return Ux.future();
         }
-        this.normMatrix(visitant, matrixJ);
+        this.normOutput(visitant, matrixJ);
         /*
          * vQr
          * {

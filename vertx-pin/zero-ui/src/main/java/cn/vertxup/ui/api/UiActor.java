@@ -84,8 +84,8 @@ public class UiActor {
                 return switch (opType) {
                     // ATOM
                     case ATOM -> this.doStub.fetchAtom(body);
-                    // WEB
-                    case WEB -> this.doStub.fetchWeb(body);
+                    // OP
+                    case OP -> this.doStub.fetchWeb(body);
                     // FLOW
                     case FLOW -> this.doStub.fetchFlow(body);
                 };

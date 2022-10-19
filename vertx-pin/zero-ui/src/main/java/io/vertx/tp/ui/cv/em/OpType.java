@@ -5,6 +5,6 @@ package io.vertx.tp.ui.cv.em;
  */
 public enum OpType {
     ATOM,
-    WEB,
-    FLOW
+    FLOW,
+    OP,     // 历史问题，替换值 WEB
 }

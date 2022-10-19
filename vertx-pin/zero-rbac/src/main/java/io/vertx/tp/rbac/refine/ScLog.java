@@ -48,6 +48,10 @@ class ScLog {
         info(logger, "View", pattern, args);
     }
 
+    static void infoVisit(final Annal logger, final String pattern, final Object... args) {
+        info(logger, "Visit", pattern, args);
+    }
+
     static void warnView(final Annal logger, final String pattern, final Object... args) {
         warn(logger, "View", pattern, args);
     }

@@ -1,10 +1,15 @@
 {
-    "phase": "BEFORE",
-    "selector": "io.vertx.tp.optic.secure.ConfineAction",
+    "phase": "AFTER",
+    "selector": "io.vertx.tp.optic.secure.ConfineKind",
+    "kind": "type",
+    "comment": [
+        "type定义：io.vertx.up.eon.em.OpType",
+        "ATOM -- 动态建模OP",
+        "WEB -- 静态标准OP",
+        "FLOW -- 流程专用OP"
+    ],
     "data": {
-        "type": "`${type}`",
-        "viewId": "`${viewId}`",
-        "seekKey": "`${control}`",
-        "identifier": "`${identifier}`"
+        "ATOM": "`${identifier}/${control}`",
+        "FLOW": "`${workflow}/${node}/${view}`"
     }
 }

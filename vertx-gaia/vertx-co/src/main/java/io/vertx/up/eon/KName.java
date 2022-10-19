@@ -108,6 +108,7 @@ public interface KName {
 
     String SERVER = "server";                    /* Common: server */
     String DATA = "data";                        /* Common: data */
+    String KIND = "kind";                        /* Common: kind */
 
     String FORK = "fork";                        /* Fork/Join -> Fork */
     String JOIN = "join";                        /* Fork/Join -> Join */

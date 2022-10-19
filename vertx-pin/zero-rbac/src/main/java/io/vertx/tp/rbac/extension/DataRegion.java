@@ -45,7 +45,7 @@ public class DataRegion extends AbstractRegion {
                  */
                 return Ux.future(envelop);
             }
-        });
+        }).otherwise(Ux.otherwise(envelop));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DataRegion extends AbstractRegion {
                  */
                 return Ux.future(response);
             }
-        });
+        }).otherwise(Ux.otherwise(response));
     }
 
     private Cosmo cosmo(final JsonObject matrix) {

@@ -70,6 +70,11 @@ public class Sc {
         ScLog.infoView(LOGGER, pattern, args);
     }
 
+    public static void infoVisit(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoVisit(LOGGER, pattern, args);
+    }
+
     public static void warnView(final Class<?> clazz, final String pattern, final Object... args) {
         final Annal LOGGER = Annal.get(clazz);
         ScLog.warnView(LOGGER, pattern, args);

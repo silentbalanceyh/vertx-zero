@@ -117,7 +117,7 @@ class QuestAcl implements Quest {
     @Override
     public Future<Envelop> beforeAsync(final Envelop request, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
-        final JsonObject body = request.body();
+        final JsonObject body = request.request();
         return this.syntaxAop.aclBefore(body, matrixJ, request.headersX()).compose(acl -> {
             // 绑定专用
             request.acl(acl);
@@ -128,7 +128,7 @@ class QuestAcl implements Quest {
     @Override
     public Future<Envelop> afterAsync(final Envelop response, final JsonObject matrixJ) {
         // 在执行之前调用，处理 BEFORE 语法
-        final JsonObject body = response.body();
+        final JsonObject body = response.request();
         return this.syntaxAop.aclAfter(body, matrixJ, response.headersX()).compose(acl -> {
             // 绑定专用
             response.acl(acl);
