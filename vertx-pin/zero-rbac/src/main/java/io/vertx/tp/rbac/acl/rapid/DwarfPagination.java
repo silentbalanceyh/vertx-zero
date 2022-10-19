@@ -37,7 +37,7 @@ import io.vertx.up.unity.Ux;
  *          AFTER:  rows is ok
  * 4. In future, we could expand the `rows` calculation from here for complex usage
  */
-class PaginationDwarf implements Dwarf {
+class DwarfPagination implements Dwarf {
     @Override
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */

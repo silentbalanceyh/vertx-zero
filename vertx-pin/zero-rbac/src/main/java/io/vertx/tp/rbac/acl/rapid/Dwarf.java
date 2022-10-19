@@ -13,12 +13,12 @@ public interface Dwarf {
 
     static Dwarf create(final RegionType type) {
         if (RegionType.RECORD == type) {
-            return Pool.CC_DWARF.pick(RecordDwarf::new, type);
+            return Pool.CC_DWARF.pick(DwarfRecord::new, type);
         } else if (RegionType.PAGINATION == type) {
-            return Pool.CC_DWARF.pick(PaginationDwarf::new, type);
+            return Pool.CC_DWARF.pick(DwarfPagination::new, type);
             //return Fn.po?l(Pool.DWARF_POOL, type, PaginationDwarf::new);
         } else if (RegionType.ARRAY == type) {
-            return Pool.CC_DWARF.pick(ArrayDwarf::new, type);
+            return Pool.CC_DWARF.pick(DwarfArray::new, type);
             //return Fn.po?l(Pool.DWARF_POOL, type, ArrayDwarf::new);
         } else {
             /*

@@ -6,6 +6,10 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.feature.Confine;
 import io.vertx.tp.optic.secure.ConfineBuiltIn;
+import io.vertx.tp.rbac.acl.rapid.Dmx;
+import io.vertx.tp.rbac.acl.rapid.DmxColumn;
+import io.vertx.tp.rbac.acl.rapid.DmxQr;
+import io.vertx.tp.rbac.acl.rapid.DmxRow;
 import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.secure.Acl;
@@ -126,8 +130,12 @@ class SyntaxAop {
 
 
     private void normOutput(final SVisitant visitant, final JsonObject matrixJ) {
-        System.out.println(visitant);
-        System.out.println(matrixJ);
+        // dmRow
+        Dmx.outlet(DmxRow.class).output(visitant, matrixJ);
+        // dmQr
+        Dmx.outlet(DmxQr.class).output(visitant, matrixJ);
+        // dmColumn
+        Dmx.outlet(DmxColumn.class).output(visitant, matrixJ);
     }
 
     private Future<Acl> normOutput(final SVisitant visitant, final JsonObject matrixJ, final ActTime phase) {

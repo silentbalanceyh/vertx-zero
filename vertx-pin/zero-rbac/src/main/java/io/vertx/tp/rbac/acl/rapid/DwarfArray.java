@@ -33,7 +33,7 @@ import java.util.Objects;
  * ---- projection directly without any configuration defined in `seeker syntax`.
  * ---- rows filtering with configuration defined in `seeker syntax`.
  */
-class ArrayDwarf implements Dwarf {
+class DwarfArray implements Dwarf {
     @Override
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */

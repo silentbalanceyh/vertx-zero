@@ -31,7 +31,7 @@ import io.vertx.up.commune.secure.Acl;
  * ---- There are additional node `acl` in the same level of `data` that stored into database
  * ---- In front, the `acl` data will be stored to `__acl`
  */
-class RecordDwarf implements Dwarf {
+class DwarfRecord implements Dwarf {
     @Override
     public void minimize(final JsonObject dataReference, final JsonObject matrix, final Acl acl) {
         /* inputArray */
