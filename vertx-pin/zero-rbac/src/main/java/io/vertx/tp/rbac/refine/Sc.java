@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
@@ -95,6 +96,11 @@ public class Sc {
     public static Future<List<SPacket>> cachePocket(final SPath path, final Function<SPath, Future<List<SPacket>>> executor) {
         return ScCache.admitPath(path, executor, "POCKET");
     }
+
+    public static Future<JsonObject> cacheView(final RoutingContext context, final String habitus) {
+        return ScCache.view(context, habitus);
+    }
+
 
     /*
      * Business logical

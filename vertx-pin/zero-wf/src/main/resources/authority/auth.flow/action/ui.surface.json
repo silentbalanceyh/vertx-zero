@@ -15,7 +15,7 @@
             "view": ":event"
         },
         "paramVisit": {
-            "phase": "EAGER",
+            "phase": "AFTER",
             "mode": "REPLACE",
             "identifier": "ui.op",
             "type": "OP",

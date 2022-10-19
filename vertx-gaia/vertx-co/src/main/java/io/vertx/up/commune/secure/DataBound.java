@@ -2,6 +2,8 @@ package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
@@ -57,17 +59,21 @@ public class DataBound implements Serializable {
      */
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
-        json.put("projection", Ut.toJArray(this.projection));
-        json.put("criteria", this.criteria);
+        json.put(Qr.KEY_PROJECTION, Ut.toJArray(this.projection));
+        json.put(Qr.KEY_CRITERIA, this.criteria);
+
+
         /* Rows */
         final JsonObject rows = new JsonObject();
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
-        json.put("rows", rows);
+        json.put(KName.Rbac.ROWS, rows);
+
+
         /* Advanced, Impact, Seeker */
-        json.put("credit", credit);
+        json.put(KName.Rbac.CREDIT, credit);
         if (Ut.notNil(this.seeker)) {
-            json.put("seeker", this.seeker);
-            json.put("view", this.viewData);
+            json.put(KName.SEEKER, this.seeker);
+            json.put(KName.VIEW, this.viewData);
         }
         return json;
     }
@@ -122,8 +128,8 @@ public class DataBound implements Serializable {
             .map(literal -> literal.split(" "))
             .filter(splitted -> Values.TWO == splitted.length)
             .map(splitted -> new JsonObject()
-                .put("method", splitted[0])
-                .put("uri", splitted[1])
+                .put(KName.METHOD, splitted[0])
+                .put(KName.URI, splitted[1])
             ).forEach(this.credit::add);
         return this;
     }

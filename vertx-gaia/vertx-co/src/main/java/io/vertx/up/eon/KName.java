@@ -53,6 +53,7 @@ public interface KName {
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
     String PROFILE = "profile";                  /* */
+    String PREFIX = "prefix";
     String POSITION = "position";                /* View security of view position */
     String MODULE = "module";                    /* View sub-module picking up */
 
@@ -424,6 +425,8 @@ public interface KName {
         // view related
         String PROJECTION = Qr.KEY_PROJECTION;
         String CRITERIA = Qr.KEY_CRITERIA;
+        String CREDIT = "credit";
+
         String ROWS = "rows";
         String POSITION = "position";
 

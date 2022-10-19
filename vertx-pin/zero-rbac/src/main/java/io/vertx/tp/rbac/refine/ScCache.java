@@ -8,13 +8,16 @@ import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.error._401ImageCodeWrongException;
 import io.vertx.tp.error._401MaximumTimesException;
 import io.vertx.tp.error._403TokenGenerationException;
+import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.web.Credential;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
+import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
@@ -330,11 +333,26 @@ class ScCache {
         }
     }
 
-    /*
-     * New ScCache for ScAdmit management for RBAC, the data structure is as following:
-     * `sigma` -> `path1` = Data1
-     *            `path2` = Data2
-     * This cache is for 4s reading from system in lower level, also enable new parameter for cache turn on/off
-     * for development environment
-     */
+    static Future<JsonObject> view(final RoutingContext context, final String habitus) {
+        // habitus 为 Zero Framework 的专用 Session（内置业务会话标识）
+        if (Ut.isNil(habitus)) {
+            /*
+             * Empty bound in current interface instead of other
+             * -- Maybe the user has not been logged
+             * */
+            return Ux.futureJ();
+        }
+
+        final String viewKey = Ke.keyView(context);
+        final ScUser scUser = ScUser.login(habitus);
+        /*
+         * 此处需要针对缓存中的 matrix 执行拷贝，后续流程中会直接执行如下流程
+         * cache matrix -> Before + Visitant -> 影响 matrix
+         *              -> After  + Visitant -> 影响 matrix
+         * DataRegion中消费的 matrix 在新版本中会直接被 Cosmo 组件变更，而造成最终的影响
+         * 所以读取出来的视图矩阵在此处执行拷贝
+         */
+        return scUser.view(viewKey)
+            .compose(matrix -> Ux.future(Objects.isNull(matrix) ? null : matrix.copy()));
+    }
 }
