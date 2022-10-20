@@ -8,10 +8,7 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -71,6 +68,10 @@ class ActionFetch extends AbstractAction {
         if (Objects.isNull(value) || Ut.isNil(field)) {
             return Ux.futureL();
         }
+        // Fix issue of in ()
+        if (value instanceof final Collection values && values.isEmpty()) {
+            return Ux.futureL();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<List<T>>) this.dao().findManyByCondition(condition)).compose(list -> {
             this.logging("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
@@ -82,6 +83,10 @@ class ActionFetch extends AbstractAction {
     /* List<T> */
     <T> List<T> fetch(final String field, final Object value) {
         if (Objects.isNull(value) || Ut.isNil(field)) {
+            return new ArrayList<>();
+        }
+        // Fix issue of in ()
+        if (value instanceof final Collection values && values.isEmpty()) {
             return new ArrayList<>();
         }
         final Condition condition = this.analyzer.conditionField(field, value);
