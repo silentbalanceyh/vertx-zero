@@ -43,7 +43,10 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     @Override
     public Future<T> write(final K key, final T value) {
         if (0 < this.expired) {
-            return this.pool.put(key, value, this.expired).compose(Kv::value);
+            return this.pool.put(key, value, this.expired).compose(kv -> {
+
+                return kv.value();
+            });
         } else {
             return this.pool.put(key, value).compose(Kv::value);
         }

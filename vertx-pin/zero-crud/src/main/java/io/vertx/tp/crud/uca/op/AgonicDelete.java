@@ -69,7 +69,7 @@ class AgonicDelete implements Agonic {
 
 
                     // 「AOP」Wrap JsonArray delete
-                    .compose(Ix.wrap(module, Aspect::wrapACreate, wrapData -> Ux.future(wrapData)
+                    .compose(Ix.wrap(module, Aspect::wrapADelete, wrapData -> Ux.future(wrapData)
                         /* 200, IxLinker deleted first and then delete related records */
                         .compose(processed -> Ix.<Boolean>seekFn(in, processed)
                             .apply(() -> Boolean.FALSE, UxJooq::deleteByAsync))

@@ -107,22 +107,12 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
             if (res.succeeded()) {
                 final V reference = res.result();
                 Fn.safeSemi(null == reference, LOGGER,
-                    () -> map.result().put(key, value, added -> {
-                        if (added.succeeded()) {
-                            handler.handle(Future.succeededFuture(Kv.create(key, value)));
-                        } else {
-                            final WebException error = new _500SharedDataModeException(getClass(), added.cause());
-                            handler.handle(Future.failedFuture(error));
-                        }
-                    }),
-                    () -> map.result().replace(key, value, replaced -> {
-                        if (replaced.succeeded()) {
-                            handler.handle(Future.succeededFuture(Kv.create(key, value)));
-                        } else {
-                            final WebException error = new _500SharedDataModeException(getClass(), replaced.cause());
-                            handler.handle(Future.failedFuture(error));
-                        }
-                    }));
+                    // Successed for Add
+                    () -> map.result()
+                        .put(key, value, added -> this.putHandler(added, key, value, handler)),
+                    // Successed for Replace
+                    () -> map.result()
+                        .replace(key, value, replaced -> this.putHandler(replaced, key, value, handler)));
             } else {
                 final WebException error = new _500SharedDataModeException(getClass(), res.cause());
                 handler.handle(Future.failedFuture(error));
@@ -134,10 +124,35 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     @Override
     public SharedClient<K, V> put(final K key, final V value, final int seconds,
                                   final Handler<AsyncResult<Kv<K, V>>> handler) {
-        final SharedClient<K, V> reference = this.put(key, value, handler);
         LOGGER.info(Info.INFO_TIMER_PUT, String.valueOf(key), String.valueOf(seconds));
-        this.vertx.setTimer(seconds * 1000, id -> this.remove(key, res -> LOGGER.info(Info.INFO_TIMER_EXPIRE, key)));
-        return reference;
+        final Integer ms = seconds * 1000;
+        this.async(map -> map.result().get(key, res -> {
+            if (res.succeeded()) {
+                final V reference = res.result();
+                Fn.safeSemi(null == reference, LOGGER,
+                    // Successed for Add
+                    () -> map.result()
+                        .put(key, value, ms, added -> this.putHandler(added, key, value, handler)),
+                    // Successed for Replace
+                    () -> map.result()
+                        .replace(key, value, ms, replaced -> this.putHandler(replaced, key, value, handler)));
+            } else {
+                final WebException error = new _500SharedDataModeException(getClass(), res.cause());
+                handler.handle(Future.failedFuture(error));
+            }
+        }));
+        return this;
+    }
+
+    private <K, V> void putHandler(final AsyncResult done, final K key, final V value,
+                                   final Handler<AsyncResult<Kv<K, V>>> handler) {
+        if (done.succeeded()) {
+            LOGGER.info(Info.INFO_TIMER_EXPIRE, key);
+            handler.handle(Future.succeededFuture(Kv.create(key, value)));
+        } else {
+            final WebException error = new _500SharedDataModeException(getClass(), done.cause());
+            handler.handle(Future.failedFuture(error));
+        }
     }
 
     @Override
