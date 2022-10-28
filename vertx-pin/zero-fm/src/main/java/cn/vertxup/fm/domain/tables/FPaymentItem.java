@@ -58,7 +58,7 @@ public class FPaymentItem extends TableImpl<FPaymentItemRecord> {
      * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.AMOUNT_PRE</code>.
      * 「amountPre」预付金额
      */
-    public final TableField<FPaymentItemRecord, BigDecimal> AMOUNT_PRE = createField(DSL.name("AMOUNT_PRE"), SQLDataType.DECIMAL(18, 2).nullable(false), this, "「amountPre」预付金额");
+    public final TableField<FPaymentItemRecord, BigDecimal> AMOUNT_PRE = createField(DSL.name("AMOUNT_PRE"), SQLDataType.DECIMAL(18, 2), this, "「amountPre」预付金额");
     /**
      * The column <code>DB_ETERNAL.F_PAYMENT_ITEM.SETTLEMENT_ID</code>.
      * 「settlementId」结算单ID
