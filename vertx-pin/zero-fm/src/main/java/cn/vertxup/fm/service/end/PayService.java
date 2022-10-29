@@ -83,7 +83,7 @@ public class PayService implements PayStub {
                 payedMap.put(payment.getSettlementId(), sum);
             });
 
-            debts.forEach(debt -> {
+            debts.stream().filter(debt -> endKeys.contains(debt.getSettlementId())).forEach(debt -> {
                 final BigDecimal amount = Optional.ofNullable(debt.getAmount()).orElse(new BigDecimal(0));
                 final BigDecimal payed = payedMap.getOrDefault(debt.getSettlementId(), new BigDecimal(0));
                 if (Math.abs(amount.doubleValue()) <= payed.doubleValue()) {
