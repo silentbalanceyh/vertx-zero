@@ -12,6 +12,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
+import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -45,16 +46,29 @@ public class PayService implements PayStub {
          * ]
          */
         final JsonArray endKeys = data.getJsonArray("finished");
-
         return this.indentStub.payAsync(data)
             .compose(Ux.Jooq.on(FPaymentDao.class)::insertAsync)
             .compose(payment -> {
                 final JsonArray paymentArr = data.getJsonArray(FmCv.ID.PAYMENT, new JsonArray());
                 final List<FPaymentItem> payments = Ux.fromJson(paymentArr, FPaymentItem.class);
                 this.fillStub.payment(payment, payments);
-                return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments);
+                return this.savePayment(endKeys, payments);
             })
             .compose(payments -> this.forwardDebt(payments, Ut.toSet(endKeys)));
+    }
+
+    private Future<List<FPaymentItem>> savePayment(final JsonArray endKeys, final List<FPaymentItem> payments) {
+        final UxJooq jq = Ux.Jooq.on(FPaymentItemDao.class);
+        return jq.<FPaymentItem>fetchInAsync(FmCv.ID.SETTLEMENT_ID, endKeys).compose(original -> {
+            final ConcurrentMap<ChangeFlag, List<FPaymentItem>> compared =
+                Ux.compare(original, payments, FPaymentItem::getSerial);
+            return jq.insertAsync(compared.get(ChangeFlag.ADD)).compose(inserted -> {
+                // 返回合并值
+                final List<FPaymentItem> ignored = compared.get(ChangeFlag.UPDATE);
+                ignored.addAll(inserted);
+                return Ux.future(ignored);
+            });
+        });
     }
 
     private Future<JsonObject> forwardDebt(final List<FPaymentItem> payments, final Set<String> endKeys) {
@@ -97,7 +111,7 @@ public class PayService implements PayStub {
             return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(nil -> {
                 final JsonObject response = new JsonObject();
                 processed.forEach(debt -> {
-                    final JsonObject debtJ = Ux.toJson(response);
+                    final JsonObject debtJ = Ux.toJson(debt);
                     debtJ.put(FmCv.ID.PAYMENT, Ux.toJson(payments));
                     response.put(debt.getKey(), debtJ);
                 });

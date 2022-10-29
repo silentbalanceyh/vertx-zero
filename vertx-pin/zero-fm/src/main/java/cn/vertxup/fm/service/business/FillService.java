@@ -187,8 +187,10 @@ public class FillService implements FillStub {
         for (int idx = 0; idx < payments.size(); idx++) {
             final FPaymentItem item = payments.get(idx);
             item.setPaymentId(payment.getKey());
-            item.setSerial(payment.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
-            item.setCode(payment.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
+            if (Objects.isNull(item.getCode()) || Objects.isNull(item.getSerial())) {
+                item.setSerial(payment.getSerial() + "-" + Ut.fromAdjust(idx + 1, 2));
+                item.setCode(payment.getCode() + "-" + Ut.fromAdjust(idx + 1, 2));
+            }
             Ke.umCreated(item, payment);
         }
     }
