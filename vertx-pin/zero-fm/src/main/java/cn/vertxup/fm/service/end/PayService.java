@@ -82,8 +82,10 @@ public class PayService implements PayStub {
                 sum = sum.add(amount);
                 payedMap.put(payment.getSettlementId(), sum);
             });
-
-            debts.stream().filter(debt -> endKeys.contains(debt.getSettlementId())).forEach(debt -> {
+            final List<FDebt> processed = debts.stream()
+                .filter(debt -> endKeys.contains(debt.getSettlementId()))
+                .toList();
+            processed.forEach(debt -> {
                 final BigDecimal amount = Optional.ofNullable(debt.getAmount()).orElse(new BigDecimal(0));
                 final BigDecimal payed = payedMap.getOrDefault(debt.getSettlementId(), new BigDecimal(0));
                 if (Math.abs(amount.doubleValue()) <= payed.doubleValue()) {
@@ -92,9 +94,9 @@ public class PayService implements PayStub {
                     qUpdate.add(debt);
                 }
             });
-            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(updated -> {
+            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(nil -> {
                 final JsonObject response = new JsonObject();
-                updated.forEach(debt -> {
+                processed.forEach(debt -> {
                     final JsonObject debtJ = Ux.toJson(response);
                     debtJ.put(FmCv.ID.PAYMENT, Ux.toJson(payments));
                     response.put(debt.getKey(), debtJ);

@@ -1,6 +1,7 @@
 [
     "serial,结算单编号,,true",
     "amount,结算金额,CURRENCY",
+    "comment,结算备注,TEXT",
     {
         "metadata": "linked,是否结算,MAPPING",
         "$mapping": {
