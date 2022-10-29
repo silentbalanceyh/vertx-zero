@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `F_PAYMENT_ITEM`;
 CREATE TABLE `F_PAYMENT_ITEM`
 (
     `KEY`           VARCHAR(36) COMMENT '「key」- 收款明细账单主键ID',
-    `NAME`          VARCHAR(255)   NOT NULL COMMENT '「name」 - 收款明细单标题',
+    `NAME`          VARCHAR(255) COMMENT '「name」 - 收款明细单标题',
     `CODE`          VARCHAR(255)   NOT NULL COMMENT '「code」 - 收款明细单编号',
     `SERIAL`        VARCHAR(36)    NOT NULL COMMENT '「serial」 - 收款明细单据号',
 

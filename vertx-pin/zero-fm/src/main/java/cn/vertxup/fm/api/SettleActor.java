@@ -18,7 +18,6 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -176,13 +175,7 @@ public class SettleActor {
     @Me
     @Address(Addr.Settle.PAY_CREATE)
     public Future<JsonObject> paymentCreate(final JsonObject data) {
-        return this.payStub.createAsync(data).compose(processed -> {
-            if (1 == processed.size()) {
-                return Ux.future(processed.getJsonObject(Values.IDX));
-            } else {
-                return Ux.futureJ();
-            }
-        });
+        return this.payStub.createAsync(data);
     }
 
     @Address(Addr.Settle.PAY_DELETE)

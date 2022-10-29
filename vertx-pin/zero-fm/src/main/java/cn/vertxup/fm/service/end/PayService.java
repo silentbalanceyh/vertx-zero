@@ -5,7 +5,6 @@ import cn.vertxup.fm.domain.tables.daos.FPaymentDao;
 import cn.vertxup.fm.domain.tables.daos.FPaymentItemDao;
 import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
-import cn.vertxup.fm.service.business.FillService;
 import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
 import com.google.inject.Inject;
@@ -18,11 +17,11 @@ import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
@@ -33,8 +32,11 @@ public class PayService implements PayStub {
     @Inject
     private IndentStub indentStub;
 
+    @Inject
+    private FillStub fillStub;
+
     @Override
-    public Future<JsonArray> createAsync(final JsonObject data) {
+    public Future<JsonObject> createAsync(final JsonObject data) {
         /*
          * payment data structure
          * [
@@ -49,25 +51,56 @@ public class PayService implements PayStub {
             .compose(payment -> {
                 final JsonArray paymentArr = data.getJsonArray(FmCv.ID.PAYMENT, new JsonArray());
                 final List<FPaymentItem> payments = Ux.fromJson(paymentArr, FPaymentItem.class);
-                final FillStub stub = Ut.singleton(FillService.class);
-                stub.payment(payment, payments);
+                this.fillStub.payment(payment, payments);
                 return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments);
             })
             .compose(payments -> this.forwardDebt(payments, Ut.toSet(endKeys)));
     }
 
-    private Future<JsonArray> forwardDebt(final List<FPaymentItem> payments, final Set<String> endKeys) {
+    private Future<JsonObject> forwardDebt(final List<FPaymentItem> payments, final Set<String> endKeys) {
         return this.fetchDebt(payments).compose(debts -> {
             final List<FDebt> qUpdate = new ArrayList<>();
+            /*
+             * 针对 PaymentItem 按结算总金额进行分组
+             * settlementId = List<FPaymentItem>
+             * 1）Debt 中的 debtId 和 settlementId 的对比关系是1:1
+             * 2）根据 Debt 金额执行计算
+             * -- 金额为负：退款
+             * -- 金额为正：应收
+             * 3）所有 FPaymentItem 中的金额之和 >= 退款/应收金额绝对值：finished = true，反之 false
+             */
+            final ConcurrentMap<String, BigDecimal> payedMap = new ConcurrentHashMap<>();
+            payments.forEach(payment -> {
+                final BigDecimal amount;
+                if (payedMap.containsKey(payment.getSettlementId())) {
+                    amount = payedMap.get(payment.getSettlementId());
+                } else {
+                    amount = new BigDecimal(0);
+                }
+                // 计算和
+                BigDecimal sum = Optional.ofNullable(payment.getAmount()).orElse(new BigDecimal(0));
+                sum = sum.add(amount);
+                payedMap.put(payment.getSettlementId(), sum);
+            });
+
             debts.forEach(debt -> {
-                if (endKeys.contains(debt.getSettlementId())) {
+                final BigDecimal amount = Optional.ofNullable(debt.getAmount()).orElse(new BigDecimal(0));
+                final BigDecimal payed = payedMap.getOrDefault(debt.getSettlementId(), new BigDecimal(0));
+                if (Math.abs(amount.doubleValue()) <= payed.doubleValue()) {
                     debt.setFinished(Boolean.TRUE);
                     debt.setFinishedAt(LocalDateTime.now());
                     qUpdate.add(debt);
                 }
             });
-            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate)
-                .compose(nil -> Ux.futureA(payments));
+            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(updated -> {
+                final JsonObject response = new JsonObject();
+                updated.forEach(debt -> {
+                    final JsonObject debtJ = Ux.toJson(response);
+                    debtJ.put(FmCv.ID.PAYMENT, Ux.toJson(payments));
+                    response.put(debt.getKey(), debtJ);
+                });
+                return Ux.future(response);
+            });
         });
     }
 
