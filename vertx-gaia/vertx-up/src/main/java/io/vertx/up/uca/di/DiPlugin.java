@@ -12,6 +12,8 @@ import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Named;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +39,17 @@ public class DiPlugin {
 
     public <T> T createComponent(final Class<?> clazz) {
         final Injector di = ZeroAnno.getDi();
-        return Ut.singleton(clazz, () -> (T) di.getInstance(clazz));
+        /*
+         * Add @Named Support
+         */
+        String extensionKey;
+        if (clazz.isAnnotationPresent(Named.class)) {
+            final Annotation annotation = clazz.getAnnotation(Named.class);
+            extensionKey = Ut.invoke(annotation, "value");
+        } else {
+            extensionKey = null;
+        }
+        return Ut.singleton(clazz, () -> (T) di.getInstance(clazz), extensionKey);
     }
 
     public void createInjection(final Object proxy) {

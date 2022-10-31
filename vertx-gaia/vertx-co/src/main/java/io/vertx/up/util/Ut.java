@@ -14,7 +14,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
@@ -155,18 +154,19 @@ public final class Ut {
         return ArrayJ.save(array, json, field);
     }
 
-    public static <T> List<T> elementSave(final List<T> list, final T entity, final String field){
+    public static <T> List<T> elementSave(final List<T> list, final T entity, final String field) {
         return ArrayL.save(list, entity, item -> Ut.field(item, field));
     }
 
-    public static <T> List<T> elementSave(final List<T> list, final T entity, final Function<T, String> keyFn){
+    public static <T> List<T> elementSave(final List<T> list, final T entity, final Function<T, String> keyFn) {
         return ArrayL.save(list, entity, keyFn);
     }
-    public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field){
+
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field) {
         return ArrayL.remove(list, entity, item -> Ut.field(item, field));
     }
 
-    public static <T> List<T> elementRemove(final List<T> list, final T entity, final Function<T, String> keyFn){
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final Function<T, String> keyFn) {
         return ArrayL.remove(list, entity, keyFn);
     }
 
@@ -626,6 +626,10 @@ public final class Ut {
 
     public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
         return Instance.singleton(clazz, supplier);
+    }
+
+    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier, final String extensionKey) {
+        return Instance.singleton(clazz, supplier, extensionKey);
     }
 
     public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {

@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
@@ -75,8 +76,16 @@ final class Instance {
     }
 
     static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return (T) CC_SINGLETON.pick(supplier::get, clazz.getName());
+        return singleton(clazz, supplier, null);
         // Fn.po?l(SINGLETON, clazz.getName(), supplier::get);
+    }
+
+    static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier, final String extensionKey) {
+        if (Ut.isNil(extensionKey)) {
+            return (T) CC_SINGLETON.pick(supplier::get, clazz.getName());
+        } else {
+            return (T) CC_SINGLETON.pick(supplier::get, clazz.getName() + Strings.SLASH + extensionKey);
+        }
     }
 
     /**
