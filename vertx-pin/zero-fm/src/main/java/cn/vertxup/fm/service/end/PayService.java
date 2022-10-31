@@ -3,8 +3,10 @@ package cn.vertxup.fm.service.end;
 import cn.vertxup.fm.domain.tables.daos.FDebtDao;
 import cn.vertxup.fm.domain.tables.daos.FPaymentDao;
 import cn.vertxup.fm.domain.tables.daos.FPaymentItemDao;
+import cn.vertxup.fm.domain.tables.daos.FSettlementDao;
 import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.domain.tables.pojos.FPaymentItem;
+import cn.vertxup.fm.domain.tables.pojos.FSettlement;
 import cn.vertxup.fm.service.business.FillStub;
 import cn.vertxup.fm.service.business.IndentStub;
 import com.google.inject.Inject;
@@ -12,6 +14,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -108,7 +111,7 @@ public class PayService implements PayStub {
                     qUpdate.add(debt);
                 }
             });
-            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(nil -> {
+            return Ux.Jooq.on(FDebtDao.class).updateAsync(qUpdate).compose(this::syncSettlement).compose(nil -> {
                 final JsonObject response = new JsonObject();
                 processed.forEach(debt -> {
                     final JsonObject debtJ = Ux.toJson(debt);
@@ -151,6 +154,28 @@ public class PayService implements PayStub {
         });
     }
 
+    // 结算记录中需查看应收/退款，应收退款完成时，结算也完成，反之结算也未完成
+    private Future<List<FDebt>> syncSettlement(final List<FDebt> debts) {
+        final Set<String> keys = debts.stream().map(FDebt::getSettlementId).collect(Collectors.toSet());
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.KEY + ",i", Ut.toJArray(keys));
+        final UxJooq jq = Ux.Jooq.on(FSettlementDao.class);
+        return jq.<FSettlement>fetchAsync(condition).compose(settlements -> {
+            final ConcurrentMap<String, FDebt> debtMap = Ut.elementMap(debts, FDebt::getSettlementId);
+            settlements.forEach(settlement -> {
+                final FDebt debt = debtMap.get(settlement.getKey());
+                if (debt.getFinished()) {
+                    settlement.setFinished(Boolean.TRUE);
+                    settlement.setFinishedAt(LocalDateTime.now());
+                } else {
+                    settlement.setFinished(Boolean.FALSE);
+                    settlement.setFinishedAt(null);
+                }
+            });
+            return jq.updateAsync(settlements).compose(nil -> Ux.future(debts));
+        });
+    }
+
     private Future<Boolean> revertDebt(final List<FPaymentItem> items) {
         return this.fetchDebt(items).compose(debts -> {
             debts.forEach(debt -> {
@@ -158,6 +183,7 @@ public class PayService implements PayStub {
                 debt.setFinishedAt(null);
             });
             return Ux.Jooq.on(FDebtDao.class).updateAsync(debts)
+                .compose(this::syncSettlement)
                 .compose(nil -> Ux.futureT());
         });
     }

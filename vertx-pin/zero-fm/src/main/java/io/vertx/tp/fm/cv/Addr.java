@@ -45,6 +45,7 @@ public interface Addr {
         String PAY_DELETE = Prefix._EVENT + "PAYMENT/REMOVE/BY/KEY";
         // Fetch By Key
         String FETCH_BY_KEY = Prefix._EVENT + "FETCH/SETTLEMENT/BY/KEY";
+        String FETCH_BY_QR = Prefix._EVENT + "FETCH/SETTLEMENT/SEARCH";
         // Fetch Debt
         String FETCH_DEBT = Prefix._EVENT + "FETCH/DEBT/BY/KEY";
     }

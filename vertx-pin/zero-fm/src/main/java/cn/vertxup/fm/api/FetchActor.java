@@ -2,7 +2,9 @@ package cn.vertxup.fm.api;
 
 import cn.vertxup.fm.domain.tables.daos.FBillDao;
 import cn.vertxup.fm.domain.tables.daos.FBillItemDao;
+import cn.vertxup.fm.domain.tables.daos.FSettlementDao;
 import cn.vertxup.fm.domain.tables.pojos.FBill;
+import cn.vertxup.fm.domain.tables.pojos.FDebt;
 import cn.vertxup.fm.service.BillStub;
 import cn.vertxup.fm.service.BookStub;
 import cn.vertxup.fm.service.end.QrStub;
@@ -144,6 +146,33 @@ public class FetchActor {
     @Address(Addr.Settle.FETCH_BY_KEY)
     public Future<JsonObject> fetchSettlement(final String key) {
         return Fn.ofJObject(this.qrStub::fetchSettlement).apply(key);
+    }
+
+
+    @Address(Addr.Settle.FETCH_BY_QR)
+    public Future<JsonObject> searchSettle(final JsonObject qr) {
+        return Ux.Jooq.on(FSettlementDao.class).searchAsync(qr).compose(pageData -> {
+            final JsonArray settlementData = Ut.valueJArray(pageData, "list");
+            final Set<String> keys = Ut.valueSetString(settlementData, KName.KEY);
+            return this.qrStub.fetchDebtMap(keys).compose(debt -> {
+                Ut.itJArray(settlementData).forEach(settleJ -> {
+                    final String key = Ut.valueString(settleJ, KName.KEY);
+                    if (debt.containsKey(key)) {
+                        // linked
+                        final FDebt found = debt.get(key);
+                        if (0 < found.getAmount().doubleValue()) {
+                            settleJ.put("linked", "Debt");
+                        } else {
+                            settleJ.put("linked", "Refund");
+                        }
+                    } else {
+                        settleJ.put("linked", "Pure");
+                    }
+                });
+                pageData.put("list", settlementData);
+                return Ux.future(pageData);
+            });
+        });
     }
 
     @Address(Addr.Settle.FETCH_DEBT)

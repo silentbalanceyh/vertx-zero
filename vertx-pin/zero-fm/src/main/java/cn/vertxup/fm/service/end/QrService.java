@@ -64,6 +64,12 @@ public class QrService implements QrStub {
             });
     }
 
+    @Override
+    public Future<ConcurrentMap<String, FDebt>> fetchDebtMap(final Set<String> settlementId) {
+        return Ux.Jooq.on(FDebtDao.class).<FDebt>fetchInAsync(FmCv.ID.SETTLEMENT_ID, Ut.toJArray(settlementId))
+            .compose(dataA -> Ux.future(Ut.elementMap(dataA, FDebt::getSettlementId)));
+    }
+
     private Future<Boolean> fetchItems(final String settlementId, final JsonObject response) {
         return Ux.Jooq.on(FSettlementItemDao.class)
             .<FSettlementItem>fetchAsync(FmCv.ID.SETTLEMENT_ID, settlementId).compose(items -> {

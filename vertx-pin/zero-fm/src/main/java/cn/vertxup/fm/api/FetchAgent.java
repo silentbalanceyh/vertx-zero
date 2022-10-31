@@ -59,6 +59,12 @@ public interface FetchAgent {
     @Address(Addr.Settle.FETCH_BY_KEY)
     JsonObject fetchSettlement(@PathParam(KName.KEY) String key);
 
+    @POST
+    @Path("/settlement/search")
+    @Address(Addr.Settle.FETCH_BY_QR)
+    JsonObject searchSettles(@BodyParam JsonObject qr);
+
+
     /*
      * Overwrite the api
      * /api/debt/:key
