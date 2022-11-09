@@ -14,11 +14,11 @@ class SlWelcome {
     static void welcome() {
         final String banner = WELCOME.getString("banner");
         final String version = WELCOME.getString("version");
-        System.out.println("------------------------------------------------------");
-        System.out.println("|                                                    |");
-        System.out.println("|         " + Log.color(banner, Log.COLOR_CYAN, true) + "         |");
-        System.out.println("|                                                    |");
-        System.out.println("------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("|                                                              |");
+        System.out.println("|         " + Log.color(banner, Log.COLOR_CYAN, true) + "              |");
+        System.out.println("|                                                              |");
+        System.out.println("----------------------------------------------------------------");
         System.out.println("                                   ---- Version." + version + "   ");
     }
 
