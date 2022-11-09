@@ -42,6 +42,13 @@
             </ignoreVersions>
         </rule>
 
+        <!-- neo4j 4.x -->
+        <rule groupId="org.neo4j" comparisonMethod="maven">
+            <ignoreVersions>
+                <ignoreVersion type="regex">5.*</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+
         <rule groupId="*.maven" comparisonMethod="mercury"/>
         <rule groupId="org.scala-lang" comparisonMethod="maven">
             <ignoreVersions>
