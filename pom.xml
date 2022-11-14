@@ -154,7 +154,7 @@
         <io.termd.version>1.1.9</io.termd.version>
 
         <!-- Upload Issue -->
-        <hazelcast.version>5.2.1</hazelcast.version>
+        <hazelcast.version>5.2.0</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.16</error.prone.version>
         <reactive.streams.version>1.0.4</reactive.streams.version>
