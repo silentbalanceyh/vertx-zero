@@ -65,12 +65,17 @@ public class PayService implements PayStub {
         return jq.<FPaymentItem>fetchInAsync(FmCv.ID.SETTLEMENT_ID, endKeys).compose(original -> {
             final ConcurrentMap<ChangeFlag, List<FPaymentItem>> compared =
                 Ux.compare(original, payments, FPaymentItem::getSerial);
-            return jq.insertAsync(compared.get(ChangeFlag.ADD)).compose(inserted -> {
+            /*return jq.insertAsync(compared.get(ChangeFlag.ADD)).compose(inserted -> {
                 // 返回合并值
                 final List<FPaymentItem> ignored = compared.get(ChangeFlag.UPDATE);
                 ignored.addAll(inserted);
                 return Ux.future(ignored);
-            });
+            });*/
+            /*
+            * Fix：https://e.gitee.com/wei-code/issues/table?issue=I60392
+            * 不进行更新数据的操作
+            * */
+            return jq.insertAsync(compared.get(ChangeFlag.ADD));
         });
     }
 
