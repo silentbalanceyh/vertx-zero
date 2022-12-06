@@ -1,9 +1,9 @@
-package io.vertx.aeon.eon;
+package io.vertx.up.runtime;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HEnv {
+public interface ENV {
     /*
      * Aeon 系统启用时的核心的环境变量
      * 1. 系统环境变量
@@ -21,6 +21,8 @@ public interface HEnv {
      * - Z_PORT_WEB         Http Server启动端口专用环境变量，如果未设置则选择配置文件中的环境变量
      * - Z_PORT_SOCK        Sock Server启动端口专用环境变量，如果未设置则选择配置文件中的环境变量
      * - Z_PORT_DB          数据库专用端口环境变量，如果未设置则选择配置文件中的环境变量（三库同端口：标准库、工作流库、历史库）
+     *
+     * - Z_CORS_WEB         跨域访问专用环境变量（可设置前端跨域环境变量，方便后续协同开发）
      */
     String ZERO_AEON = "ZERO_AEON";
     String ZK_APP = "ZK_APP";
@@ -38,4 +40,6 @@ public interface HEnv {
         ZA_LANG,
         ZK_PASS,
     };
+
+    String Z_DEBUG_IO = "Z_DEBUG_IO";
 }

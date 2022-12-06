@@ -9,7 +9,7 @@ import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.vertx.up.runtime.EnvVariables;
+import io.vertx.up.runtime.ENV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -274,7 +274,7 @@ final class Stream {
     }
 
     private static void ioDebug(final Actuator executor) {
-        final boolean ioDebug = Env.readBool(EnvVariables.Z_IO_DEBUG);
+        final boolean ioDebug = Env.readBool(ENV.Z_DEBUG_IO);
         if (ioDebug) {
             executor.execute();
         }

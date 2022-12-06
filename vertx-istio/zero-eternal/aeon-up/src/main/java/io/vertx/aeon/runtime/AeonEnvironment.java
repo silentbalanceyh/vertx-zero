@@ -1,8 +1,8 @@
 package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.refine.HLog;
+import io.vertx.up.runtime.ENV;
 
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class AeonEnvironment {
 
         // 最终环境变量报表
         final StringBuilder builder = new StringBuilder();
-        Arrays.stream(HEnv.REQUIRED).forEach(name -> {
+        Arrays.stream(ENV.REQUIRED).forEach(name -> {
             final String value = System.getenv(name);
             builder.append("\n\t").append(name).append(" = ").append(value);
         });

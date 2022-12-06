@@ -3,7 +3,6 @@ package io.vertx.aeon;
 import io.vertx.aeon.atom.HSwitcher;
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
-import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.AeonEnvironmentException;
 import io.vertx.aeon.runtime.AeonEnvironment;
@@ -11,6 +10,7 @@ import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ENV;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.util.Ut;
@@ -84,7 +84,7 @@ public class AeonApplication extends ZeroApplication {
 
         AeonEnvironment.initialize(aeon);
         // Error-50003
-        final String workspace = System.getenv(HEnv.ZERO_AEON);
+        final String workspace = System.getenv(ENV.ZERO_AEON);
         Fn.out(Ut.isNil(workspace), AeonEnvironmentException.class, this.upClazz);
     }
 }

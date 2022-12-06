@@ -1,8 +1,8 @@
 package io.vertx.aeon.atom.iras;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.vertx.aeon.eon.HEnv;
 import io.vertx.aeon.eon.em.TypeRepo;
+import io.vertx.up.runtime.ENV;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -57,7 +57,7 @@ public class HRepo implements Serializable {
          * 2. 如果 path 不存在则使用标准环境变量：ZK_APP
          * 3. 如果环境变量无法提取，则直接使用 path 作为目录
          */
-        final String pathKey = Ut.isNil(this.path) ? HEnv.ZK_APP : this.path;
+        final String pathKey = Ut.isNil(this.path) ? ENV.ZK_APP : this.path;
         return Ut.envIn(pathKey, this.path);
     }
 
