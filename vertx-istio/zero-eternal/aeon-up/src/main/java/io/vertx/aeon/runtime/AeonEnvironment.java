@@ -2,7 +2,7 @@ package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.refine.HLog;
-import io.vertx.up.runtime.ENV;
+import io.vertx.up.eon.ENV;
 
 import java.util.Arrays;
 

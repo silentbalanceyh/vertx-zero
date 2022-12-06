@@ -1,15 +1,11 @@
 package io.vertx.up.util;
 
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Protocols;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.*;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.vertx.up.runtime.ENV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

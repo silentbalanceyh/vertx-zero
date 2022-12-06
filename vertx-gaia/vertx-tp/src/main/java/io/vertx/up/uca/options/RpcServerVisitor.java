@@ -11,7 +11,6 @@ import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.marshal.JTransformer;
 import io.vertx.up.uca.marshal.RpcServerSetUp;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;

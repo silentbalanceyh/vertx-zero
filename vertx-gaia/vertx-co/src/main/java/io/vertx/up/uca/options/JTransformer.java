@@ -1,4 +1,4 @@
-package io.vertx.up.uca.marshal;
+package io.vertx.up.uca.options;
 
 import io.vertx.core.json.JsonObject;
 

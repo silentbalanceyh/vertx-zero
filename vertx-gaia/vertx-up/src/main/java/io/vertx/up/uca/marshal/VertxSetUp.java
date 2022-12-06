@@ -4,6 +4,7 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.options.JTransformer;
 import io.vertx.up.uca.options.NodeVisitor;
 
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package io.vertx.up.runtime;
+package io.vertx.up.eon;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

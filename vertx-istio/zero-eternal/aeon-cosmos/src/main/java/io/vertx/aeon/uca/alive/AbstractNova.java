@@ -9,7 +9,7 @@ import io.vertx.aeon.specification.program.HNova;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.runtime.ENV;
+import io.vertx.up.eon.ENV;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

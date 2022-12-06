@@ -2,7 +2,6 @@ package io.vertx.up.uca.wffs;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.playbook.Hooker;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

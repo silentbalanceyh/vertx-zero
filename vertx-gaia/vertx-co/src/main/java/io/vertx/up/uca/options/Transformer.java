@@ -1,4 +1,4 @@
-package io.vertx.up.uca.marshal;
+package io.vertx.up.uca.options;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
