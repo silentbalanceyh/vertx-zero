@@ -15,7 +15,7 @@ import java.io.Serializable;
  * - component
  * - config
  */
-public class ComponentOpts implements Serializable {
+public class ComponentOption implements Serializable {
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> component;

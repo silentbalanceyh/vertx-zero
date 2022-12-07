@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.store;
 
-import io.vertx.up.atom.config.ComponentOpts;
+import io.vertx.up.atom.config.ComponentOption;
 import io.vertx.up.uca.job.timer.VertxInterval;
 
 import java.io.Serializable;
@@ -21,44 +21,44 @@ import java.util.Optional;
  */
 public class JobConfig implements Serializable {
 
-    private transient ComponentOpts store;
-    private transient ComponentOpts interval;
-    private transient ComponentOpts client;
+    private transient ComponentOption store;
+    private transient ComponentOption interval;
+    private transient ComponentOption client;
 
-    public ComponentOpts getStore() {
-        return Optional.ofNullable(store).orElse(new ComponentOpts());
+    public ComponentOption getStore() {
+        return Optional.ofNullable(this.store).orElse(new ComponentOption());
     }
 
-    public void setStore(final ComponentOpts store) {
+    public void setStore(final ComponentOption store) {
         this.store = store;
     }
 
-    public ComponentOpts getInterval() {
-        final ComponentOpts componentOpts = Optional.ofNullable(interval).orElse(new ComponentOpts());
-        if (Objects.isNull(componentOpts.getComponent())) {
-            componentOpts.setComponent(VertxInterval.class);
+    public ComponentOption getInterval() {
+        final ComponentOption componentOption = Optional.ofNullable(this.interval).orElse(new ComponentOption());
+        if (Objects.isNull(componentOption.getComponent())) {
+            componentOption.setComponent(VertxInterval.class);
         }
-        return componentOpts;
+        return componentOption;
     }
 
-    public void setInterval(final ComponentOpts interval) {
+    public void setInterval(final ComponentOption interval) {
         this.interval = interval;
     }
 
-    public ComponentOpts getClient() {
-        return Optional.ofNullable(client).orElse(new ComponentOpts());
+    public ComponentOption getClient() {
+        return Optional.ofNullable(this.client).orElse(new ComponentOption());
     }
 
-    public void setClient(final ComponentOpts client) {
+    public void setClient(final ComponentOption client) {
         this.client = client;
     }
 
     @Override
     public String toString() {
         return "JobConfig{" +
-            "store=" + store +
-            ", interval=" + interval +
-            ", client=" + client +
+            "store=" + this.store +
+            ", interval=" + this.interval +
+            ", client=" + this.client +
             '}';
     }
 }

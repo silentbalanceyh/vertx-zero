@@ -6,5 +6,5 @@ package io.vertx.up.uca.adminicle;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class MatureLand implements Mature {
-
+    
 }

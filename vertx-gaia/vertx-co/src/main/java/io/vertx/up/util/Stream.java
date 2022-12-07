@@ -270,7 +270,7 @@ final class Stream {
     }
 
     private static void ioDebug(final Actuator executor) {
-        final boolean ioDebug = Env.readBool(ENV.Z_DEBUG_IO);
+        final boolean ioDebug = Env.readBool(KEnv.Z_DEBUG_IO);
         if (ioDebug) {
             executor.execute();
         }

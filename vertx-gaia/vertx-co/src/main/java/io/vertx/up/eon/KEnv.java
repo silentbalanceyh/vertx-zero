@@ -3,7 +3,7 @@ package io.vertx.up.eon;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface ENV {
+public interface KEnv {
     /*
      * Aeon 系统启用时的核心的环境变量
      * 1. 系统环境变量

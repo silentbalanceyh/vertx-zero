@@ -9,5 +9,5 @@ package io.vertx.up.uca.adminicle;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Mature {
-
+    // 环境变量加载，根据环境变量修订核心配置点，实现配置本身的处理
 }

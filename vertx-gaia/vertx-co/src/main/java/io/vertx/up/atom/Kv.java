@@ -63,8 +63,7 @@ public final class Kv<K, V> {
         if (o == this) {
             return true;
         }
-        if (o instanceof Map.Entry) {
-            final Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
+        if (o instanceof final Map.Entry<?, ?> e) {
             return Objects.equals(this.key, e.getKey()) &&
                 Objects.equals(this.value, e.getValue());
         }
