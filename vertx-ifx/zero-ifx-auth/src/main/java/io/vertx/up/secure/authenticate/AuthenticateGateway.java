@@ -34,7 +34,7 @@ public class AuthenticateGateway {
                 if (Objects.isNull(cached)) {
                     actuator.execute();
                 } else {
-                    if (Debugger.onAuthorizedCache()) {
+                    if (Debugger.devAuthorized()) {
                         LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated Cached successfully!\u001b[m");
                     }
                     fnCache.execute();

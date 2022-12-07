@@ -9,8 +9,8 @@ import io.vertx.aeon.runtime.AeonEnvironment;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.up.eon.KEnv;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.Macrocosm;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
 import io.vertx.up.util.Ut;
@@ -84,7 +84,7 @@ public class AeonApplication extends ZeroApplication {
 
         AeonEnvironment.initialize(aeon);
         // Error-50003
-        final String workspace = System.getenv(KEnv.ZERO_AEON);
+        final String workspace = System.getenv(Macrocosm.ZERO_AEON);
         Fn.out(Ut.isNil(workspace), AeonEnvironmentException.class, this.upClazz);
     }
 }

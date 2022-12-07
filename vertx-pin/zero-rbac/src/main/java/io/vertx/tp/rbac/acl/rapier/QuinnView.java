@@ -96,7 +96,7 @@ public class QuinnView implements Quinn {
         // OWNER = ?, OWNER_TYPE = ? --- ownerType 从 ScOwner 中提取
         condition.put(KName.OWNER, owner.owner());
         condition.put(KName.OWNER_TYPE, owner.type().name());
-        if (Debugger.onAuthorizedCache()) {
+        if (Debugger.devAuthorized()) {
             Sc.infoResource(this.getClass(), AuthMsg.VIEW_PROCESS, "fetchAsync", condition.encode());
         }
         return Ux.Jooq.on(SViewDao.class).fetchOneAsync(condition);

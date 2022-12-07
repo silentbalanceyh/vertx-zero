@@ -34,7 +34,7 @@ public class PageService implements PageStub {
                  * Configuration converted to Json
                  */
                 .compose(Fn.ifJObject(KName.Ui.CONFIG));
-        if (Debugger.offUiCache()) {
+        if (Debugger.cacheUi()) {
             // Ui Cache Enabled
             return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT)
                 .cached(layoutId, () -> executor.apply(layoutId));

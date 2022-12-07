@@ -259,7 +259,7 @@ final class StringUtil {
             }
         } catch (final JexlException ex) {
             // ex.printStackTrace();    // For Debug
-            if (Debugger.onStackTracing()) {
+            if (Debugger.devJvmStack()) {
                 ex.printStackTrace();
             }
             return null;                // Get null

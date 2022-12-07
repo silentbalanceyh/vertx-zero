@@ -197,7 +197,7 @@ public class ScUser {
     public Future<JsonObject> view(final String viewKey) {
         return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)))
             .compose(view -> {
-                if (Ut.notNil(view) && Debugger.onAuthorizedCache()) {
+                if (Ut.notNil(view) && Debugger.devAuthorized()) {
                     Sc.infoAuth(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
                         viewKey, view.encode());
                 }

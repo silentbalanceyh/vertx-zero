@@ -91,7 +91,7 @@ public class JooqCond {
          */
         if (!Ut.isNil(filters)) {
             LOGGER.debug("( JqTool ) Mode selected {0}, filters raw = {1}",
-                    criteria.mode(), filters);
+                criteria.mode(), filters);
         }
         if (Qr.Mode.LINEAR == criteria.mode()) {
             JsonObject inputFilters = filters;
@@ -148,7 +148,7 @@ public class JooqCond {
             }
             condition = transformTree(filters, fnAnalyze, fnTable);
         }
-        if (null != condition && Debugger.onJooqCondition()) {
+        if (null != condition && Debugger.devJooqCond()) {
             LOGGER.info(Info.JOOQ_PARSE, condition);
         }
         return condition; // cached(filters, operator, condition);
@@ -190,9 +190,9 @@ public class JooqCond {
     }
 
     private static List<Condition> transformTreeSet(
-            final JsonObject filters,
-            final Function<String, Field> fnAnalyze,
-            final Function<String, String> fnTable) {
+        final JsonObject filters,
+        final Function<String, Field> fnAnalyze,
+        final Function<String, String> fnTable) {
         final List<Condition> conditions = new ArrayList<>();
         final JsonObject tree = filters.copy();
         if (!tree.isEmpty()) {
@@ -228,10 +228,10 @@ public class JooqCond {
     }
 
     private static Condition transformLinear(
-            final JsonObject filters,
-            final Operator operator,
-            final Function<String, Field> fnAnalyze,
-            final Function<String, String> fnTable) {
+        final JsonObject filters,
+        final Operator operator,
+        final Function<String, Field> fnAnalyze,
+        final Function<String, String> fnTable) {
         Condition condition = null;
         for (final String field : filters.fieldNames()) {
             /*
@@ -318,7 +318,7 @@ public class JooqCond {
                  */
                 final Clause clause = Clause.get(type);
                 Fn.outUp(Objects.isNull(clause), LOGGER, JooqCondClauseException.class,
-                        JooqCond.class, metaField.getName(), type, targetField);
+                    JooqCond.class, metaField.getName(), type, targetField);
 
                 /*
                  * Get condition of this term

@@ -40,7 +40,7 @@ public class SheetAnalyzer implements Serializable {
      * Scan sheet to find all the data and definition part
      */
     public Set<ExTable> analyzed(final ExBound bound, final HTAtom HTAtom) {
-        if (Debugger.onExcelRanging()) {
+        if (Debugger.devExcelRange()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
         try {
@@ -63,7 +63,7 @@ public class SheetAnalyzer implements Serializable {
             });
             /* analyzedBounds */
             if (!tableCell.isEmpty()) {
-                if (Debugger.onExcelRanging()) {
+                if (Debugger.devExcelRange()) {
                     LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
                         this.sheet.getSheetName(), String.valueOf(tableCell.size()));
                 }

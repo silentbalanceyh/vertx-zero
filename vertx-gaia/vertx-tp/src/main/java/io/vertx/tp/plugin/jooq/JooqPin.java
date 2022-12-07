@@ -8,7 +8,6 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.Table;
@@ -56,16 +55,8 @@ public class JooqPin {
                     final DataPool pool = DataPool.create(Database.configure(options));
                     final Configuration configuration = pool.configuration();
                     configurationMap.put(key, configuration);
-                    /*
-                     * Process Jooq password by `debug` mode turn on
-                     */
                     final JsonObject populated = options.copy();
-                    if (Debugger.offPasswordHidden()) {
-                        /*
-                         * Hidden Password
-                         */
-                        populated.remove("password");
-                    }
+                    populated.remove(KName.PASSWORD);
                     LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
                 });
         }

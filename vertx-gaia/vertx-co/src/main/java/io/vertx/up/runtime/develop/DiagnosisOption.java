@@ -1,6 +1,7 @@
 package io.vertx.up.runtime.develop;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.vertx.up.runtime.Macrocosm;
 
 import java.io.Serializable;
 
@@ -13,45 +14,113 @@ import java.io.Serializable;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DiagnosisOption implements Serializable {
+public class DiagnosisOption implements Serializable, Macrocosm {
     // ------------- cache ----------------
     // 是否开启UI缓存，默认true，开启
-    @JsonProperty("cache.ui")
+    @JsonProperty(CACHE_UI)
     private Boolean cacheUi = Boolean.TRUE;
 
-    // 是否开启认证，默认true，开启
-    @JsonProperty("cache.authorized")
-    private Boolean cacheAuthorized = Boolean.TRUE;
-
     // 是否打开授权缓存，默认true，开启
-    @JsonProperty("cache.admit")
+    @JsonProperty(CACHE_ADMIT)
     private Boolean cacheAdmit = Boolean.TRUE;
-
-    // ------------- secure ----------------
-    // 是否显示密码，默认 false，不显示
-    @JsonProperty("secure.password")
-    private Boolean securePassword = Boolean.FALSE;
-
     // ------------- dev -------------------
     // 是否显示URI路由检测状况，默认 false，不检测
-    @JsonProperty("dev.uri.detecting")
-    private Boolean devUri = Boolean.FALSE;
+    @JsonProperty(DEV_WEB_URI)
+    private Boolean devWebUri = Boolean.FALSE;
+    @JsonProperty(DEV_JVM_STACK)
+    private Boolean devJvmStack = Boolean.FALSE;
+    @JsonProperty(DEV_JOB_BOOT)
+    private Boolean devJobBoot = Boolean.FALSE;
+    @JsonProperty(DEV_EXCEL_RANGE)
+    private Boolean devExcelRange = Boolean.FALSE;
+    @JsonProperty(DEV_JOOQ_COND)
+    private Boolean devJooqCond = Boolean.FALSE;
+    @JsonProperty(DEV_EXPR_BIND)
+    private Boolean devExprBind = Boolean.FALSE;
+    @JsonProperty(DEV_DAO_BIND)
+    private Boolean devDaoBind = Boolean.TRUE;
 
-    @JsonProperty("dev.stack.tracking")
-    private Boolean devStack = Boolean.FALSE;
+    // 是否开启认证日志，默认false，关闭（5个地方调用）
+    @JsonProperty(DEV_AUTHORIZED)
+    private Boolean devAuthorized = Boolean.FALSE;
 
-    @JsonProperty("dev.job.booting")
-    private Boolean devJob = Boolean.FALSE;
+    public Boolean getCacheUi() {
+        return this.cacheUi;
+    }
 
-    @JsonProperty("dev.excel.ranging")
-    private Boolean devExcel = Boolean.FALSE;
+    public void setCacheUi(final Boolean cacheUi) {
+        this.cacheUi = cacheUi;
+    }
 
-    @JsonProperty("dev.jooq.querying")
-    private Boolean devJooq = Boolean.FALSE;
+    public Boolean getCacheAdmit() {
+        return this.cacheAdmit;
+    }
 
-    @JsonProperty("dev.expr.binding")
-    private Boolean devExpression = Boolean.FALSE;
+    public void setCacheAdmit(final Boolean cacheAdmit) {
+        this.cacheAdmit = cacheAdmit;
+    }
 
-    @JsonProperty("dev.io.tracking")
-    private Boolean devIo = Boolean.FALSE;
+    public Boolean getDevAuthorized() {
+        return this.devAuthorized;
+    }
+
+    public void setDevAuthorized(final Boolean devAuthorized) {
+        this.devAuthorized = devAuthorized;
+    }
+
+    public Boolean getDevWebUri() {
+        return this.devWebUri;
+    }
+
+    public void setDevWebUri(final Boolean devWebUri) {
+        this.devWebUri = devWebUri;
+    }
+
+    public Boolean getDevJvmStack() {
+        return this.devJvmStack;
+    }
+
+    public void setDevJvmStack(final Boolean devJvmStack) {
+        this.devJvmStack = devJvmStack;
+    }
+
+    public Boolean getDevJobBoot() {
+        return this.devJobBoot;
+    }
+
+    public void setDevJobBoot(final Boolean devJobBoot) {
+        this.devJobBoot = devJobBoot;
+    }
+
+    public Boolean getDevExcelRange() {
+        return this.devExcelRange;
+    }
+
+    public void setDevExcelRange(final Boolean devExcelRange) {
+        this.devExcelRange = devExcelRange;
+    }
+
+    public Boolean getDevJooqCond() {
+        return this.devJooqCond;
+    }
+
+    public void setDevJooqCond(final Boolean devJooqCond) {
+        this.devJooqCond = devJooqCond;
+    }
+
+    public Boolean getDevExprBind() {
+        return this.devExprBind;
+    }
+
+    public void setDevExprBind(final Boolean devExprBind) {
+        this.devExprBind = devExprBind;
+    }
+
+    public Boolean getDevDaoBind() {
+        return this.devDaoBind;
+    }
+
+    public void setDevDaoBind(final Boolean devDaoBind) {
+        this.devDaoBind = devDaoBind;
+    }
 }

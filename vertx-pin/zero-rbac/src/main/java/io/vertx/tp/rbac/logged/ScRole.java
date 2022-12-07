@@ -76,7 +76,7 @@ public class ScRole {
             if (Objects.isNull(permissions)) {
                 return this.fetch().compose(this::permission);
             } else {
-                if (Debugger.onAuthorizedCache()) {
+                if (Debugger.devAuthorized()) {
                     Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
                 }
                 /* Authorities fill from cache ( Sync the authorities ) */

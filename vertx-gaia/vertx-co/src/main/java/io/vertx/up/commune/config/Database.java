@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
-import io.vertx.up.eon.KEnv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.Macrocosm;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -113,7 +113,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
              * 「Z_PORT_DB」
              */
             final String port = Ut.valueString(jooq, KName.PORT);
-            final String portEnv = Ut.envIn(KEnv.Z_PORT_DB, port);
+            final String portEnv = Ut.envIn(Macrocosm.Z_PORT_DB, port);
             if (Ut.notNil(portEnv) && Ut.isInteger(portEnv)) {
                 // Fix Issue: NumberFormatException: null
                 jooq.put(KName.PORT, Integer.valueOf(portEnv));

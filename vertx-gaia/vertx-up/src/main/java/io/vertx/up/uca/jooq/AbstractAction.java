@@ -8,7 +8,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
@@ -47,7 +46,7 @@ abstract class AbstractAction {
 
     protected void logging(final String pattern, final Object... args) {
         final Annal logger = Annal.get(getClass());
-        if (Debugger.onJooqCondition()) {
+        if (Debugger.devJooqCond()) {
             logger.info(pattern, args);
         }
     }

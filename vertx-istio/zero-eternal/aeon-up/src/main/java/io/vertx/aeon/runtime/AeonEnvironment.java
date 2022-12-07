@@ -2,7 +2,7 @@ package io.vertx.aeon.runtime;
 
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.refine.HLog;
-import io.vertx.up.eon.KEnv;
+import io.vertx.up.runtime.Macrocosm;
 
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class AeonEnvironment {
 
         // 最终环境变量报表
         final StringBuilder builder = new StringBuilder();
-        Arrays.stream(KEnv.REQUIRED).forEach(name -> {
+        Arrays.stream(Macrocosm.REQUIRED).forEach(name -> {
             final String value = System.getenv(name);
             builder.append("\n\t").append(name).append(" = ").append(value);
         });

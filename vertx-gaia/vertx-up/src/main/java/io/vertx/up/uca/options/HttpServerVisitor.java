@@ -5,10 +5,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.KEnv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.Macrocosm;
 import io.vertx.up.uca.marshal.HttpServerSetUp;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +48,7 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
             /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
             final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
             final String portCfg = Ut.valueString(configJ, KName.PORT);
-            final String portEnv = Ut.envIn(KEnv.Z_PORT_WEB, portCfg);
+            final String portEnv = Ut.envIn(Macrocosm.Z_PORT_WEB, portCfg);
             configJ.put(KName.PORT, Integer.valueOf(portEnv));
 
             // 1. Extract port

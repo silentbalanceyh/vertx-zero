@@ -23,7 +23,7 @@ public abstract class AbstractInlet implements Inlet {
     }
 
     protected void console(final String message, final Object... args) {
-        if (Debugger.onExpressionBind()) {
+        if (Debugger.devExprBind()) {
             final Annal logger = Annal.get(this.getClass());
             logger.info(message, args);
         }

@@ -193,7 +193,7 @@ class ScCache {
     }
 
     static <R> Future<R> admitPath(final SPath path, final Function<SPath, Future<R>> executor, final String suffix) {
-        if (Debugger.offAdmitCache()) {
+        if (Debugger.cacheAdmit()) {
             // Cache Enabled for Default
             final String admitPool = CONFIG.getPoolAdmit();
             // Each sigma has been mapped to single pool

@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface KName {
+    String QBE = "QBE";                          /* QBE = ? */
+    String ENV = "ENV";                          /* ENV */
+
     String EVENT = "event";                      /* event */
     String VIRTUAL = "virtual";                  /* virtual resource for RBAC */
     String TRACKABLE = "trackable";              /* trackable */
-    String QBE = "QBE";                          /* QBE = ? */
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 
@@ -89,6 +91,7 @@ public interface KName {
 
     String DEBUG = "debug";                      /* Development: for debugging */
     String DEVELOPER = "developer";              /* Development: for developer */
+    String DEVELOPMENT = "development";          /* Development: for development */
 
     String APP = "application";                  /* Reserved: */
 

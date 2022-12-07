@@ -81,7 +81,7 @@ class IxDao {
         CONFIG_MAP.put(config.getName(), config);
         ALIAS_MAP.put(identifier, config.getName());
         /* 5. Logger */
-        if (Debugger.isEnabled("curd.dao.file")) {
+        if (Debugger.devDaoBind()) {
             Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
         }
     }
