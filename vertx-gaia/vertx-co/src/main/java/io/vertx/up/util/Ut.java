@@ -1884,8 +1884,16 @@ public final class Ut {
         return Env.readEnv(name, defaultValue);
     }
 
+    public static <T> T envIn(final String name, final T defaultValue, final Class<T> clazz) {
+        return Env.readEnv(name, defaultValue, clazz);
+    }
+
     public static String envIn(final String name) {
         return Env.readEnv(name, name);
+    }
+
+    public static <T> T envIn(final String name, final Class<T> clazz) {
+        return Env.readEnv(name, null, clazz);
     }
 
     public static ConcurrentMap<String, String> envOut(final Properties properties) {

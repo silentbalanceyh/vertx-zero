@@ -7,7 +7,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
-import io.vertx.up.uca.serialization.TypedArgument;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AsyncSignatureException;
 import io.vertx.zero.exception.WorkerArgumentException;
@@ -163,7 +163,8 @@ public class InvokerUtil {
              * (String, String,<T>) -> (idx, current), (0, 0), (1, 1), (2, ?)
              *                                                          adjust = 1
              */
-            final Object analyzed = TypedArgument.analyzeWorker(envelop, type);
+            // Old: TypedArgument.analyzeWorker
+            final Object analyzed = Ux.toParameter(envelop, type);
             if (Objects.isNull(analyzed)) {
                 final int current = idx - adjust;
                 final Object value = json.getValue(String.valueOf(current));
@@ -204,7 +205,8 @@ public class InvokerUtil {
                                final Envelop envelop) {
         final Class<?> argType = method.getParameterTypes()[Values.IDX];
         // Append single argument
-        final Object analyzed = TypedArgument.analyzeWorker(envelop, argType);
+        // Old TypedArgument.analyzeWorker
+        final Object analyzed = Ux.toParameter(envelop, argType);
         if (Objects.isNull(analyzed)) {
             // One type dynamic here
             final Object reference = envelop.data();
@@ -212,7 +214,7 @@ public class InvokerUtil {
             Object parameters = reference;
             if (JsonObject.class == reference.getClass()) {
                 final JsonObject json = (JsonObject) reference;
-                if (TypedArgument.modeInterface(json)) {
+                if (modeInterface(json)) {
                     // Proxy mode
                     if (Values.ONE == json.fieldNames().size()) {
                         // New Mode for direct type
@@ -231,5 +233,14 @@ public class InvokerUtil {
              */
             return invoke(proxy, method, analyzed); // Ut.invoke(proxy, method.getName(), analyzed);
         }
+    }
+
+    private static boolean modeInterface(final JsonObject json) {
+        final long count = json.fieldNames().stream().filter(Ut::isInteger)
+            .count();
+        // All json keys are numbers
+        LOGGER.debug("( isInterface Mode ) Parameter count: {0}, json: {1}",
+            count, json.encode());
+        return count == json.fieldNames().size();
     }
 }

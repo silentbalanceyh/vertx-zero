@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  * DictEpsilon
  */
 @SuppressWarnings("all")
-class DiTool {
+class Dict {
     private static final Cc<Integer, Dictionary> CC_DICT = Cc.open();
 
     static <T> Future<T> dictTo(final T record, final DFabric fabric) {

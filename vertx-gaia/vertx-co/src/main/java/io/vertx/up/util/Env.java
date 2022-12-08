@@ -24,6 +24,19 @@ class Env {
         return Ut.isNil(parsed) ? defaultValue : parsed;
     }
 
+    static <T> T readEnv(final String name, final T defaultValue, final Class<T> clazz) {
+        final String literal = readEnv(name, null);
+        if (Ut.isNil(literal)) {
+            return defaultValue;
+        }
+
+        final T value = Ut.deserialize(literal, clazz);
+        if (Objects.isNull(value)) {
+            return defaultValue;
+        }
+        return value;
+    }
+
     /*
      * JDK 9 之后要带上启动参数才允许
      * --add-opens java.base/java.util=ALL-UNNAMED

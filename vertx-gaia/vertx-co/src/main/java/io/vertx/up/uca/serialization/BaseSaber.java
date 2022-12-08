@@ -3,20 +3,19 @@ package io.vertx.up.uca.serialization;
 import io.vertx.up.exception.web._400ParameterFromStringException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroSerializer;
 
 public abstract class BaseSaber implements Saber {
 
     protected Annal getLogger() {
-        return Annal.get(getClass());
+        return Annal.get(this.getClass());
     }
 
     void verifyInput(final boolean condition,
                      final Class<?> paramType,
                      final String literal) {
         Fn.outUp(condition,
-            getLogger(), _400ParameterFromStringException.class,
-            ZeroSerializer.class, paramType, literal);
+            this.getLogger(), _400ParameterFromStringException.class,
+            this.getClass(), paramType, literal);
     }
 
     @Override

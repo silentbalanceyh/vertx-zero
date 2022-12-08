@@ -8,14 +8,17 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.FileUpload;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Integration;
@@ -257,6 +260,27 @@ public final class Ux {
 
     public static JsonObject toZip(final Object... args) {
         return To.toToggle(args);
+    }
+
+    /*
+     * Analyze the arguments by type
+     * 1) used by `io.vertx.up.uca.rs.mime.parse.TypedAtomic`.
+     * 2) used by `io.vertx.up.uca.invoker.InvokerUtil`.
+     * The arguments are different, but could support more method declare
+     */
+    // Job
+    public static Object toParameter(final Envelop envelop, final Class<?> type, final Mission mission, final Refer underway) {
+        return Web.toParameter(envelop, type, mission, underway);
+    }
+
+    // Worker
+    public static Object toParameter(final Envelop envelop, final Class<?> type) {
+        return Web.toParameter(envelop, type);
+    }
+
+    // Agent
+    public static Object toParameter(final RoutingContext context, final Class<?> type) {
+        return Web.toParameter(context, type);
     }
 
     public static <T> T fromJson(final JsonObject data, final Class<T> clazz) {
@@ -1073,11 +1097,11 @@ public final class Ux {
     }
 
     public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramsMap) {
-        return DiTool.dictCalc(dict, paramsMap);
+        return Dict.dictCalc(dict, paramsMap);
     }
 
     public static <T> Future<T> dictTo(final T record, final DFabric fabric) {
-        return DiTool.dictTo(record, fabric);
+        return Dict.dictTo(record, fabric);
     }
 
     /*

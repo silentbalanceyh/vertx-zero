@@ -8,7 +8,6 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.exception.web._417JobMethodException;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.serialization.TypedArgument;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -38,7 +37,9 @@ class RunOn {
         if (Objects.nonNull(method)) {
             Element.onceLog(mission, () -> LOGGER.info(Info.PHASE_3RD_JOB_RUN, mission.getCode(), method.getName()));
             return this.execute(envelop, method, mission);
-        } else return Ux.future(envelop);
+        } else {
+            return Ux.future(envelop);
+        }
     }
 
     Future<Envelop> callback(final Envelop envelop, final Mission mission) {
@@ -46,7 +47,9 @@ class RunOn {
         if (Objects.nonNull(method)) {
             Element.onceLog(mission, () -> LOGGER.info(Info.PHASE_6TH_JOB_CALLBACK, mission.getCode(), method.getName()));
             return this.execute(envelop, method, mission);
-        } else return Ux.future(envelop);
+        } else {
+            return Ux.future(envelop);
+        }
 
     }
 
@@ -92,7 +95,8 @@ class RunOn {
         final List<Object> argsList = new ArrayList<>();
         if (0 < parameters.length) {
             for (final Class<?> parameterType : parameters) {
-                argsList.add(TypedArgument.analyzeJob(envelop, parameterType, mission, this.underway));
+                // Old: TypedArgument.analyzeJob
+                argsList.add(Ux.toParameter(envelop, parameterType, mission, this.underway));
             }
         } else {
             throw new _417JobMethodException(this.getClass(), mission.getCode());

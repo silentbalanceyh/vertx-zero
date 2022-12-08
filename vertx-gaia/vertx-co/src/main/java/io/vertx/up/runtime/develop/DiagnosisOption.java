@@ -2,6 +2,7 @@ package io.vertx.up.runtime.develop;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.vertx.up.runtime.Macrocosm;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
@@ -45,7 +46,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
     private Boolean devAuthorized = Boolean.FALSE;
 
     public Boolean getCacheUi() {
-        return this.cacheUi;
+        return Ut.envIn(CACHE_UI, this.cacheUi, Boolean.class);
     }
 
     public void setCacheUi(final Boolean cacheUi) {
