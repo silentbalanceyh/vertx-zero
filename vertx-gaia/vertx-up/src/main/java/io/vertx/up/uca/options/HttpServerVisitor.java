@@ -8,7 +8,7 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.Macrocosm;
+import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.uca.marshal.HttpServerSetUp;
 import io.vertx.up.util.Ut;
 

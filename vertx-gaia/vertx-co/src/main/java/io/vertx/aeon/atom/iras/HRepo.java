@@ -2,7 +2,7 @@ package io.vertx.aeon.atom.iras;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vertx.aeon.eon.em.TypeRepo;
-import io.vertx.up.runtime.Macrocosm;
+import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

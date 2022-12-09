@@ -1,7 +1,7 @@
-package io.vertx.up.uca.adminicle;
+package io.vertx.up.runtime.env;
 
-import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.record.AttrSet;
 
 /**
  * 成熟度环境模型，负责各种环境变量的读取和执行
@@ -15,10 +15,7 @@ class MatureEnv implements Mature {
      *   field2 = ENV_NAME2
      */
     @Override
-    public JsonObject configure(final JsonObject configJ, final MultiMap vector) {
-        vector.forEach((field, envName) -> {
-
-        });
+    public JsonObject configure(final JsonObject configJ, final AttrSet set) {
         return null;
     }
 }

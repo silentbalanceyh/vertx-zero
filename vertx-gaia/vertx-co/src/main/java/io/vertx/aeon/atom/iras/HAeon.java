@@ -1,5 +1,6 @@
 package io.vertx.aeon.atom.iras;
 
+import io.vertx.aeon.atom.config.HPlot;
 import io.vertx.aeon.eon.HName;
 import io.vertx.aeon.eon.HPath;
 import io.vertx.aeon.eon.em.ModeAeon;
@@ -26,30 +27,24 @@ public class HAeon implements Serializable {
     // 工作目录
     private final String workspace;
     private final String name;
+
+    private HPlot plot;
+
     // 启动配置
     private HBoot boot;
 
     /* 三种库 */
     private HAeon(final JsonObject configuration) {
-        this.mode = Ut.toEnum(
-            () -> Ut.valueString(configuration, KName.MODE),
-            ModeAeon.class, ModeAeon.MIN
-        );
+        this.mode = Ut.toEnum(() -> Ut.valueString(configuration, KName.MODE),
+            ModeAeon.class, ModeAeon.MIN);
         // 上层工作区
         this.name = Ut.valueString(configuration, HName.NAME);
-        final String ws = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
-        this.workspace = ws;
+        this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
+        // 云工作区 Plot
+        final JsonObject plotJ = Ut.valueJObject(configuration, KName.PLOT);
+
         // 遍历读取 Repo, kinect, kidd, kzero
-        final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
-        Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
-            final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
-            if (Objects.nonNull(repoType)) {
-                final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
-                // 绑定仓库工作区：workspace + runtime
-                final String wsRepo = Ut.ioPath(ws, repoType.name());
-                this.repos.put(repoType, repo.assemble(wsRepo));
-            }
-        });
+        this.initRepo(configuration);
     }
 
     public static HAeon configure(final JsonObject configJ) {
@@ -62,6 +57,19 @@ public class HAeon implements Serializable {
         }
         // 初始化
         return H1H.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
+    }
+
+    private void initRepo(final JsonObject configuration) {
+        final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
+        Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
+            final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
+            if (Objects.nonNull(repoType)) {
+                final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
+                // 绑定仓库工作区：workspace + runtime
+                final String wsRepo = Ut.ioPath(this.workspace, repoType.name());
+                this.repos.put(repoType, repo.assemble(wsRepo));
+            }
+        });
     }
 
     // ------------------------- 提取配置专用

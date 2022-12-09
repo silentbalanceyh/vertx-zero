@@ -9,6 +9,8 @@ public interface KName {
     String QBE = "QBE";                          /* QBE = ? */
     String ENV = "ENV";                          /* ENV */
 
+    String PLOT = "plot";                        /* Plot Configuration */
+
     String EVENT = "event";                      /* event */
     String VIRTUAL = "virtual";                  /* virtual resource for RBAC */
     String TRACKABLE = "trackable";              /* trackable */

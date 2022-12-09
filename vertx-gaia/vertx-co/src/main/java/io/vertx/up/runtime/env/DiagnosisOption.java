@@ -1,7 +1,6 @@
-package io.vertx.up.runtime.develop;
+package io.vertx.up.runtime.env;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.vertx.up.runtime.Macrocosm;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

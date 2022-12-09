@@ -11,7 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.Macrocosm;
+import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;

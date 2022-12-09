@@ -2,7 +2,7 @@ package io.vertx.up.log;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.runtime.develop.DiagnosisOption;
+import io.vertx.up.runtime.env.DiagnosisOption;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;

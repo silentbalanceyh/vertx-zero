@@ -33,6 +33,19 @@ public class ZeroAeon implements Node<HAeon> {
          * kzero  - 「只读」连接 vertx-zero-cloud 代码管理
          */
         final JsonObject aeonJ = Ut.valueJObject(configJ, HName.AEON);
+        /*
+         * aeon:
+         *   name: app-xxx
+         *   workspace: /var/tmp/xxx-cloud
+         *   mode:
+         *   repo:
+         *     kzero:
+         *     kinect:
+         *     kidd:
+         *   app:
+         *     code:
+         *     language:
+         */
         final HAeon aeon = HAeon.configure(aeonJ);
         if (Objects.nonNull(aeon)) {
             this.assemble(aeon);

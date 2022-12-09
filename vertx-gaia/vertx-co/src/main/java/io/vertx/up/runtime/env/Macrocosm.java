@@ -1,4 +1,4 @@
-package io.vertx.up.runtime;
+package io.vertx.up.runtime.env;
 
 /**
  * 核心系统环境变量接口，可直接实现
@@ -49,9 +49,12 @@ public interface Macrocosm {
      *   历史数据库专用环境变量，未设置同标准
      */
     // 「Production」生产专用 ---------------------------------------
-    String CORS_DOMAIN = "Z_CORS_DOMAIN";               // 跨域配置（可支持多个，这个作为额外的添加）
+
     String CACHE_UI = "Z_CACHE_UI";                     // UI缓存
     String CACHE_ADMIT = "Z_CACHE_ADMIT";               // 安全管理缓存
+    // 应用环境
+    String APP = "Z_APP";                               // 应用
+    String CORS_DOMAIN = "Z_CORS_DOMAIN";               // 跨域配置（可支持多个，这个作为额外的添加）
 
     // RESTful 端口号/主机
     String API_PORT = "Z_API_PORT";
@@ -65,7 +68,7 @@ public interface Macrocosm {
     String DBS_PORT = "Z_DBS_PORT";
     String DBS_HOST = "Z_DBS_HOST";
 
-    String DBS_INSTANCE = "Z_DB_INSTANCE";
+    String DBS_INSTANCE = "Z_DBS_INSTANCE";
 
     // 工作流数据库端口号/主机
     String DBW_PORT = "Z_DBW_PORT";
@@ -90,6 +93,13 @@ public interface Macrocosm {
      * - Z_LANG             当前环境使用的系统语言
      *
      */
+    String AEON_CLOUD = "AEON_CLOUD";
+    String AEON_APP = "AEON_APP";
+    String Z_APP = "Z_APP";
+    String Z_NS = "Z_NS";
+    String Z_SIGMA = "Z_SIGMA";
+    String Z_LANG = "Z_LANG";
+
     String ZERO_AEON = "ZERO_AEON";
     String ZK_APP = "Z_APP";
     String ZA_LANG = "Z_LANG";
