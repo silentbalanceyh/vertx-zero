@@ -67,8 +67,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.3.5</vertx.version>
-        <stack.version>4.3.5</stack.version>
+        <vertx.version>4.3.6</vertx.version>
+        <stack.version>4.3.6</stack.version>
 
         <jcabi.version>0.24.1</jcabi.version>
         <jersey.version>2.37</jersey.version>
@@ -77,7 +77,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.17.5</jooq.version>
+        <jooq.version>3.17.6</jooq.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.30</mysql.version>
 
@@ -115,7 +115,7 @@
         <elasticsearch.version>7.17.7</elasticsearch.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.9</neo4j.version>
+        <neo4j.version>4.4.10</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -133,12 +133,12 @@
         <http.core.version>4.4.16</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>4.17.2</liquibase.version>
+        <liquibase.version>4.18.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
         <grpc.version>1.51.0</grpc.version>
-        <protobuf.version>3.21.10</protobuf.version>
+        <protobuf.version>3.21.11</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.10</gson.version>
         <picoli.version>4.7.0</picoli.version>

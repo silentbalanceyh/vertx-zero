@@ -9,9 +9,17 @@ import java.io.Serializable;
 /**
  * 调试专用环境变量（统一处理）
  * 基本命名规范
- * - dev:    开发专用参数
- * - cache:  缓存相关参数
- * - secure: 安全相关参数
+ * - Z_DEV_:    开发专用参数
+ * - Z_CACHE_:  缓存相关参数
+ * 检索优先级
+ * 1. 先检查环境变量
+ * 2. 再检查配置中的信息，配置格式如下
+ * <pre><code class="yaml">
+ *     # vertx-deployment.yml
+ *     development:
+ *       ENV:
+ *         Z_DEV_XX: xxx
+ * </code></pre>
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -45,6 +53,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
     @JsonProperty(DEV_AUTHORIZED)
     private Boolean devAuthorized = Boolean.FALSE;
 
+    // Z_CACHE_UI
     public Boolean getCacheUi() {
         return Ut.envIn(CACHE_UI, this.cacheUi, Boolean.class);
     }
@@ -53,72 +62,81 @@ public class DiagnosisOption implements Serializable, Macrocosm {
         this.cacheUi = cacheUi;
     }
 
+    // Z_CACHE_ADMIT
     public Boolean getCacheAdmit() {
-        return this.cacheAdmit;
+        return Ut.envIn(CACHE_ADMIT, this.cacheAdmit, Boolean.class);
     }
 
     public void setCacheAdmit(final Boolean cacheAdmit) {
         this.cacheAdmit = cacheAdmit;
     }
 
+    // Z_DEV_AUTHORIZED
     public Boolean getDevAuthorized() {
-        return this.devAuthorized;
+        return Ut.envIn(DEV_AUTHORIZED, this.devAuthorized, Boolean.class);
     }
 
     public void setDevAuthorized(final Boolean devAuthorized) {
         this.devAuthorized = devAuthorized;
     }
 
+    // Z_DEV_WEB_URI
     public Boolean getDevWebUri() {
-        return this.devWebUri;
+        return Ut.envIn(DEV_WEB_URI, this.devWebUri, Boolean.class);
     }
 
     public void setDevWebUri(final Boolean devWebUri) {
         this.devWebUri = devWebUri;
     }
 
+    // Z_DEV_JVM_STACK
     public Boolean getDevJvmStack() {
-        return this.devJvmStack;
+        return Ut.envIn(DEV_JVM_STACK, this.devJvmStack, Boolean.class);
     }
 
     public void setDevJvmStack(final Boolean devJvmStack) {
         this.devJvmStack = devJvmStack;
     }
 
+    // Z_DEV_JOB_BOOT
     public Boolean getDevJobBoot() {
-        return this.devJobBoot;
+        return Ut.envIn(DEV_JOB_BOOT, this.devJobBoot, Boolean.class);
     }
 
     public void setDevJobBoot(final Boolean devJobBoot) {
         this.devJobBoot = devJobBoot;
     }
 
+    // Z_DEV_EXCEL_RANGE
     public Boolean getDevExcelRange() {
-        return this.devExcelRange;
+        return Ut.envIn(DEV_EXCEL_RANGE, this.devExcelRange, Boolean.class);
     }
 
     public void setDevExcelRange(final Boolean devExcelRange) {
         this.devExcelRange = devExcelRange;
     }
 
+    // Z_DEV_JOOQ_COND
     public Boolean getDevJooqCond() {
-        return this.devJooqCond;
+        return Ut.envIn(DEV_JOOQ_COND, this.devJooqCond, Boolean.class);
     }
 
     public void setDevJooqCond(final Boolean devJooqCond) {
         this.devJooqCond = devJooqCond;
     }
 
+    // Z_DEV_EXPR_BIND
     public Boolean getDevExprBind() {
-        return this.devExprBind;
+        return Ut.envIn(DEV_EXPR_BIND, this.devExprBind, Boolean.class);
     }
 
     public void setDevExprBind(final Boolean devExprBind) {
         this.devExprBind = devExprBind;
     }
 
+    // Z_DEV_DAO_BIND
     public Boolean getDevDaoBind() {
-        return this.devDaoBind;
+        return Ut.envIn(DEV_DAO_BIND, this.devDaoBind, Boolean.class);
     }
 
     public void setDevDaoBind(final Boolean devDaoBind) {

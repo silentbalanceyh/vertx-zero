@@ -2,6 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.up.atom.Kv;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroSerializer;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -24,13 +25,17 @@ class Env {
         return Ut.isNil(parsed) ? defaultValue : parsed;
     }
 
+    /*
+     * 可直接将字符串的 literal 根据Zero内置序列化子系统反序列化成
+     * 想要的数据类型对应的值，主要针对 boolean, int, double 等
+     */
     static <T> T readEnv(final String name, final T defaultValue, final Class<T> clazz) {
         final String literal = readEnv(name, null);
         if (Ut.isNil(literal)) {
             return defaultValue;
         }
 
-        final T value = Ut.deserialize(literal, clazz);
+        final T value = ZeroSerializer.getValueT(clazz, literal);
         if (Objects.isNull(value)) {
             return defaultValue;
         }

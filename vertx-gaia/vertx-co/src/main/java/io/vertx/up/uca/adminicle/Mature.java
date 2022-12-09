@@ -1,5 +1,8 @@
 package io.vertx.up.uca.adminicle;
 
+import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonObject;
+
 /**
  * 成熟度，处理环境变量专用的处理模型
  * - 主要用于环境变量的执行
@@ -9,5 +12,6 @@ package io.vertx.up.uca.adminicle;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Mature {
-    // 环境变量加载，根据环境变量修订核心配置点，实现配置本身的处理
+    /* 环境变量加载，根据环境变量修订核心配置点，实现配置本身的处理 */
+    JsonObject configure(JsonObject configJ, MultiMap vector);
 }

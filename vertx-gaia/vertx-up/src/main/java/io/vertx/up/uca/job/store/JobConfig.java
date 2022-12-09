@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.store;
 
-import io.vertx.up.atom.config.ComponentOption;
+import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.uca.job.timer.VertxInterval;
 
 import java.io.Serializable;
@@ -21,35 +21,35 @@ import java.util.Optional;
  */
 public class JobConfig implements Serializable {
 
-    private transient ComponentOption store;
-    private transient ComponentOption interval;
-    private transient ComponentOption client;
+    private transient JComponent store;
+    private transient JComponent interval;
+    private transient JComponent client;
 
-    public ComponentOption getStore() {
-        return Optional.ofNullable(this.store).orElse(new ComponentOption());
+    public JComponent getStore() {
+        return Optional.ofNullable(this.store).orElse(new JComponent());
     }
 
-    public void setStore(final ComponentOption store) {
+    public void setStore(final JComponent store) {
         this.store = store;
     }
 
-    public ComponentOption getInterval() {
-        final ComponentOption componentOption = Optional.ofNullable(this.interval).orElse(new ComponentOption());
+    public JComponent getInterval() {
+        final JComponent componentOption = Optional.ofNullable(this.interval).orElse(new JComponent());
         if (Objects.isNull(componentOption.getComponent())) {
             componentOption.setComponent(VertxInterval.class);
         }
         return componentOption;
     }
 
-    public void setInterval(final ComponentOption interval) {
+    public void setInterval(final JComponent interval) {
         this.interval = interval;
     }
 
-    public ComponentOption getClient() {
-        return Optional.ofNullable(this.client).orElse(new ComponentOption());
+    public JComponent getClient() {
+        return Optional.ofNullable(this.client).orElse(new JComponent());
     }
 
-    public void setClient(final ComponentOption client) {
+    public void setClient(final JComponent client) {
         this.client = client;
     }
 

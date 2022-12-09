@@ -102,6 +102,12 @@ public class ZeroSerializer {
         return reference;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getValueT(final Class<?> paramType,
+                                  final String literal) {
+        return (T) getValue(paramType, literal);
+    }
+
     public static <T> boolean isDirect(final T input) {
         boolean result = false;
         if (null != input) {
