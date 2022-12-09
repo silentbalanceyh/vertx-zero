@@ -54,7 +54,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_CACHE_UI
     public Boolean getCacheUi() {
-        return Ut.envIn(CACHE_UI, this.cacheUi, Boolean.class);
+        return Ut.envWith(CACHE_UI, this.cacheUi, Boolean.class);
     }
 
     public void setCacheUi(final Boolean cacheUi) {
@@ -63,7 +63,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_CACHE_ADMIT
     public Boolean getCacheAdmit() {
-        return Ut.envIn(CACHE_ADMIT, this.cacheAdmit, Boolean.class);
+        return Ut.envWith(CACHE_ADMIT, this.cacheAdmit, Boolean.class);
     }
 
     public void setCacheAdmit(final Boolean cacheAdmit) {
@@ -72,7 +72,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_AUTHORIZED
     public Boolean getDevAuthorized() {
-        return Ut.envIn(DEV_AUTHORIZED, this.devAuthorized, Boolean.class);
+        return Ut.envWith(DEV_AUTHORIZED, this.devAuthorized, Boolean.class);
     }
 
     public void setDevAuthorized(final Boolean devAuthorized) {
@@ -81,7 +81,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_WEB_URI
     public Boolean getDevWebUri() {
-        return Ut.envIn(DEV_WEB_URI, this.devWebUri, Boolean.class);
+        return Ut.envWith(DEV_WEB_URI, this.devWebUri, Boolean.class);
     }
 
     public void setDevWebUri(final Boolean devWebUri) {
@@ -90,7 +90,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_JVM_STACK
     public Boolean getDevJvmStack() {
-        return Ut.envIn(DEV_JVM_STACK, this.devJvmStack, Boolean.class);
+        return Ut.envWith(DEV_JVM_STACK, this.devJvmStack, Boolean.class);
     }
 
     public void setDevJvmStack(final Boolean devJvmStack) {
@@ -99,7 +99,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_JOB_BOOT
     public Boolean getDevJobBoot() {
-        return Ut.envIn(DEV_JOB_BOOT, this.devJobBoot, Boolean.class);
+        return Ut.envWith(DEV_JOB_BOOT, this.devJobBoot, Boolean.class);
     }
 
     public void setDevJobBoot(final Boolean devJobBoot) {
@@ -108,7 +108,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_EXCEL_RANGE
     public Boolean getDevExcelRange() {
-        return Ut.envIn(DEV_EXCEL_RANGE, this.devExcelRange, Boolean.class);
+        return Ut.envWith(DEV_EXCEL_RANGE, this.devExcelRange, Boolean.class);
     }
 
     public void setDevExcelRange(final Boolean devExcelRange) {
@@ -117,7 +117,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_JOOQ_COND
     public Boolean getDevJooqCond() {
-        return Ut.envIn(DEV_JOOQ_COND, this.devJooqCond, Boolean.class);
+        return Ut.envWith(DEV_JOOQ_COND, this.devJooqCond, Boolean.class);
     }
 
     public void setDevJooqCond(final Boolean devJooqCond) {
@@ -126,7 +126,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_EXPR_BIND
     public Boolean getDevExprBind() {
-        return Ut.envIn(DEV_EXPR_BIND, this.devExprBind, Boolean.class);
+        return Ut.envWith(DEV_EXPR_BIND, this.devExprBind, Boolean.class);
     }
 
     public void setDevExprBind(final Boolean devExprBind) {
@@ -135,7 +135,7 @@ public class DiagnosisOption implements Serializable, Macrocosm {
 
     // Z_DEV_DAO_BIND
     public Boolean getDevDaoBind() {
-        return Ut.envIn(DEV_DAO_BIND, this.devDaoBind, Boolean.class);
+        return Ut.envWith(DEV_DAO_BIND, this.devDaoBind, Boolean.class);
     }
 
     public void setDevDaoBind(final Boolean devDaoBind) {

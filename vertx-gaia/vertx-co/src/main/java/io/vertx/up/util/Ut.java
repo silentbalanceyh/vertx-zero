@@ -66,7 +66,6 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
-     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -1534,7 +1533,6 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
-     *
      * @return a string of captcha with certain length.
      */
     /*
@@ -1880,15 +1878,19 @@ public final class Ut {
         return TypeOs.from(System.getProperty(KValue.NS.KEY_OS));
     }
 
-    public static String envIn(final String name, final String defaultValue) {
-        return Env.readEnv(name, defaultValue);
-    }
-
-    public static String envIn(final String name) {
+    public static String env(final String name) {
         return Env.readEnv(name, name);
     }
 
-    public static <T> T envIn(final String name, final T defaultValue, final Class<T> clazz) {
+    public static <T> T env(final String name, final Class<T> clazz) {
+        return Env.readEnv(name, clazz);
+    }
+
+    public static String envWith(final String name, final String defaultValue) {
+        return Env.readEnv(name, defaultValue);
+    }
+
+    public static <T> T envWith(final String name, final T defaultValue, final Class<T> clazz) {
         return Env.readEnv(name, defaultValue, clazz);
     }
 

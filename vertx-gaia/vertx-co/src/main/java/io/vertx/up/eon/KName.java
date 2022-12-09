@@ -10,6 +10,8 @@ public interface KName {
     String ENV = "ENV";                          /* ENV */
 
     String PLOT = "plot";                        /* Plot Configuration */
+    String CLOUD = "cloud";                      /* Plot Cloud Attribute */
+    String CHILD = "child";                      /* Plot Child Attribute */
 
     String EVENT = "event";                      /* event */
     String VIRTUAL = "virtual";                  /* virtual resource for RBAC */

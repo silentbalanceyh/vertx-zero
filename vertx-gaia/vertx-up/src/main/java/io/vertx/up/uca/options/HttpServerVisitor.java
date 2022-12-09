@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor<HttpServerOptions> {
 
     protected transient final JTransformer<HttpServerOptions>
-        transformer = Ut.singleton(HttpServerSetUp.class);
+            transformer = Ut.singleton(HttpServerSetUp.class);
 
     /**
      * @return Server config to generate HttpServerOptions by port
@@ -30,12 +30,12 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
      */
     @Override
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
-        throws ZeroException {
+            throws ZeroException {
         final JsonArray serverData = this.serverPre(0, key);
         this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, HttpServerOptions> map =
-            new ConcurrentHashMap<>();
+                new ConcurrentHashMap<>();
         this.extract(serverData, map);
         if (!map.isEmpty()) {
             this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
@@ -48,7 +48,7 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
             /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
             final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
             final String portCfg = Ut.valueString(configJ, KName.PORT);
-            final String portEnv = Ut.envIn(Macrocosm.Z_PORT_WEB, portCfg);
+            final String portEnv = Ut.envWith(Macrocosm.Z_PORT_WEB, portCfg);
             configJ.put(KName.PORT, Integer.valueOf(portEnv));
 
             // 1. Extract port

@@ -4,6 +4,7 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -35,11 +36,16 @@ public class AttrSet implements Serializable {
     }
 
     public AttrSet save(final String name, final String alias) {
-        return this.save(name, alias, null);
+        return this.save(name, alias, null, null);
     }
 
     public AttrSet save(final String name, final String alias,
-                        final Class<?> type) {
+                        final Object value) {
+        return this.save(name, alias, null, value);
+    }
+
+    public AttrSet save(final String name, final String alias,
+                        final Class<?> type, final Object value) {
         final Attr attr;
         if (this.attrMap.containsKey(name)) {
             attr = this.attrMap.get(name);
@@ -57,5 +63,13 @@ public class AttrSet implements Serializable {
     public AttrSet remove(final String name) {
         this.attrMap.remove(name);
         return this;
+    }
+
+    public Attr attribute(final String name){
+        return this.attrMap.getOrDefault(name, null);
+    }
+
+    public Set<String> names(){
+        return this.attrMap.keySet();
     }
 }

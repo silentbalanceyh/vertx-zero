@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.vertx.up.atom.Kv;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
 
@@ -25,12 +26,16 @@ class Env {
         return Ut.isNil(parsed) ? defaultValue : parsed;
     }
 
+    static <T> T readEnv(final String name, final Class<T> clazz) {
+        return readEnv(name, null, clazz);
+    }
+
     /*
      * 可直接将字符串的 literal 根据Zero内置序列化子系统反序列化成
      * 想要的数据类型对应的值，主要针对 boolean, int, double 等
      */
     static <T> T readEnv(final String name, final T defaultValue, final Class<T> clazz) {
-        final String literal = readEnv(name, null);
+        final String literal = readEnv(name, Strings.EMPTY);
         if (Ut.isNil(literal)) {
             return defaultValue;
         }

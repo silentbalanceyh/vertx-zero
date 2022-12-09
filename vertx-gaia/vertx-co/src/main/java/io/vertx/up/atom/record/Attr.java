@@ -15,11 +15,13 @@ public class Attr implements Serializable {
     private final String name;
     private String alias;
     private Class<?> type;
+    private Object value;
 
     public Attr(final String name) {
         this.name = name;
         this.alias = name;
         this.type = String.class;
+        this.value = null;
     }
 
     public Attr bind(final String alias) {
@@ -29,6 +31,11 @@ public class Attr implements Serializable {
 
     public Attr bind(final Class<?> type) {
         this.type = type;
+        return this;
+    }
+
+    public Attr value(final Object value) {
+        this.value = value;
         return this;
     }
 
@@ -42,5 +49,10 @@ public class Attr implements Serializable {
 
     public String alias() {
         return this.alias;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T value() {
+        return (T) this.value;
     }
 }

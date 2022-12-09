@@ -113,7 +113,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
              * 「Z_PORT_DB」
              */
             final String port = Ut.valueString(jooq, KName.PORT);
-            final String portEnv = Ut.envIn(Macrocosm.Z_PORT_DB, port);
+            final String portEnv = Ut.envWith(Macrocosm.Z_PORT_DB, port);
             if (Ut.notNil(portEnv) && Ut.isInteger(portEnv)) {
                 // Fix Issue: NumberFormatException: null
                 jooq.put(KName.PORT, Integer.valueOf(portEnv));
@@ -246,7 +246,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
     public void fromJson(final JsonObject data) {
         if (Ut.notNil(data)) {
             this.category = Ut.toEnum(() -> data.getString("category"),
-                DatabaseType.class, DatabaseType.MYSQL5);
+                    DatabaseType.class, DatabaseType.MYSQL5);
             this.hostname = data.getString("hostname");
             this.port = data.getInteger("port");
             this.instance = data.getString("instance");
@@ -293,15 +293,15 @@ public class Database implements Serializable, Json, Copyable<Database> {
     @Override
     public String toString() {
         return "Database{" +
-            "hostname='" + this.hostname + '\'' +
-            ", instance='" + this.instance + '\'' +
-            ", port=" + this.port +
-            ", category=" + this.category +
-            ", jdbcUrl='" + this.jdbcUrl + '\'' +
-            ", username='" + this.username + '\'' +
-            ", password='" + this.password + '\'' +
-            ", driverClassName='" + this.driverClassName + '\'' +
-            ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
-            '}';
+                "hostname='" + this.hostname + '\'' +
+                ", instance='" + this.instance + '\'' +
+                ", port=" + this.port +
+                ", category=" + this.category +
+                ", jdbcUrl='" + this.jdbcUrl + '\'' +
+                ", username='" + this.username + '\'' +
+                ", password='" + this.password + '\'' +
+                ", driverClassName='" + this.driverClassName + '\'' +
+                ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
+                '}';
     }
 }

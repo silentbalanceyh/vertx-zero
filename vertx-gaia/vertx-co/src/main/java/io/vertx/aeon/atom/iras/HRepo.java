@@ -58,7 +58,7 @@ public class HRepo implements Serializable {
          * 3. 如果环境变量无法提取，则直接使用 path 作为目录
          */
         final String pathKey = Ut.isNil(this.path) ? Macrocosm.ZK_APP : this.path;
-        return Ut.envIn(pathKey, this.path);
+        return Ut.envWith(pathKey, this.path);
     }
 
     public void setPath(final String path) {
@@ -82,7 +82,7 @@ public class HRepo implements Serializable {
     }
 
     public String getSecret() {
-        return Ut.envIn(this.secret);
+        return Ut.env(this.secret);
     }
 
     public void setSecret(final String secret) {

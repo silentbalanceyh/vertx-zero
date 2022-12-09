@@ -35,7 +35,7 @@ public class AbstractNova implements HNova {
         final HRepo kinectP = repoMap.get(RTEAeon.kinect);
 
         final HFS fs = HFS.common();
-        final String language = Ut.envIn(Macrocosm.ZA_LANG, Constants.DEFAULT_LANGUAGE);
+        final String language = Ut.envWith(Macrocosm.ZA_LANG, Constants.DEFAULT_LANGUAGE);
         // kzero -> kinect:  /kzero 配置拷贝
         final String zeroS = Ut.ioPath(kzeroP.inWS(), MessageFormat.format(HPath.SOURCE_ZERO, language));
         final String zeroT = Ut.ioPath(kinectP.getPath(), HName.KZERO);
