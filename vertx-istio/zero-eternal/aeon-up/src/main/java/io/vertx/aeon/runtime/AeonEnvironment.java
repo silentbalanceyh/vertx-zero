@@ -4,8 +4,6 @@ import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.refine.HLog;
 import io.vertx.up.runtime.env.Macrocosm;
 
-import java.util.Arrays;
-
 /**
  * 「环境变量选择器」
  *
@@ -21,11 +19,7 @@ public class AeonEnvironment {
      */
     public static void initialize(final HAeon aeon) {
         // 最终环境变量报表
-        final StringBuilder builder = new StringBuilder();
-        Arrays.stream(Macrocosm.REQUIRED).forEach(name -> {
-            final String value = System.getenv(name);
-            builder.append("\n\t").append(name).append(" = ").append(value);
-        });
-        HLog.infoAeon(AeonEnvironment.class, "Aeon Environment Variables: {0}\n", builder.toString());
+        final String content = Macrocosm.envContent();
+        HLog.infoAeon(AeonEnvironment.class, "Aeon Environment Variables: {0}\n", content);
     }
 }

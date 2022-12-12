@@ -36,12 +36,12 @@ public class AttrSet implements Serializable {
     }
 
     public AttrSet save(final String name, final String alias) {
-        return this.save(name, alias, null, null);
+        return this.save(name, alias, String.class, null);
     }
 
     public AttrSet save(final String name, final String alias,
                         final Object value) {
-        return this.save(name, alias, null, value);
+        return this.save(name, alias, String.class, value);
     }
 
     public AttrSet save(final String name, final String alias,
@@ -65,11 +65,11 @@ public class AttrSet implements Serializable {
         return this;
     }
 
-    public Attr attribute(final String name){
+    public Attr attribute(final String name) {
         return this.attrMap.getOrDefault(name, null);
     }
 
-    public Set<String> names(){
+    public Set<String> names() {
         return this.attrMap.keySet();
     }
 }

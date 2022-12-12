@@ -9,6 +9,7 @@ import io.vertx.aeon.refine.HLog;
 import io.vertx.aeon.runtime.H1H;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class HAeon implements Serializable {
     private final String workspace;
     private final String name;
 
-    private HPlot plot;
+    private final HPlot plot;
 
     // 启动配置
     private HBoot boot;
@@ -36,12 +37,15 @@ public class HAeon implements Serializable {
     /* 三种库 */
     private HAeon(final JsonObject configuration) {
         this.mode = Ut.toEnum(() -> Ut.valueString(configuration, KName.MODE),
-            ModeAeon.class, ModeAeon.MIN);
+                ModeAeon.class, ModeAeon.MIN);
         // 上层工作区
         this.name = Ut.valueString(configuration, HName.NAME);
         this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
         // 云工作区 Plot
-        final JsonObject plotJ = Ut.valueJObject(configuration, KName.PLOT);
+        JsonObject plotJ = Ut.valueJObject(configuration, KName.PLOT);
+        plotJ = MatureOn.envPlot(plotJ);
+        this.plot = Ut.deserialize(plotJ, HPlot.class);
+
 
         // 遍历读取 Repo, kinect, kidd, kzero
         this.initRepo(configuration);
@@ -75,6 +79,10 @@ public class HAeon implements Serializable {
     // ------------------------- 提取配置专用
     public HBoot inBoot() {
         return this.boot;
+    }
+
+    public HPlot inPlot() {
+        return this.plot;
     }
 
     public ModeAeon inMode() {

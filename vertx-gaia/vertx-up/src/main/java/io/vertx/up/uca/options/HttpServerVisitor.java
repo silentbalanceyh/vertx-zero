@@ -7,8 +7,7 @@ import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.ZeroException;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.marshal.HttpServerSetUp;
 import io.vertx.up.util.Ut;
 
@@ -44,21 +43,22 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
     }
 
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, HttpServerOptions> map) {
-        Ut.itJArray(serverData).filter(this::isServer).forEach(item -> {
-            /* 「Z_PORT_WEB」环境变量注入，HttpServer专用 */
-            final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
-            final String portCfg = Ut.valueString(configJ, KName.PORT);
-            final String portEnv = Ut.envWith(Macrocosm.Z_PORT_WEB, portCfg);
-            configJ.put(KName.PORT, Integer.valueOf(portEnv));
-
-            // 1. Extract port
-            final int port = this.serverPort(configJ);
-            // 2. Convert JsonObject to HttpServerOptions
-            final HttpServerOptions options = this.transformer.transform(item);
-            Fn.safeNull(() -> {
-                // 3. Add to map;
+        /*
+         * 多服务器模式：Server可使用环境变量，环境变量后缀为索引值（0抹去）
+         */
+        Ut.itJArray(serverData, (item, index) -> {
+            if (this.isServer(item)) {
+                // 合法 Server
+                JsonObject configureJ = Ut.valueJObject(item, KName.CONFIG);
+                configureJ = MatureOn.envApi(configureJ, index);
+                // 1. Extract port
+                final int port = this.serverPort(configureJ);
+                // 2. Convert JsonObject to HttpServerOptions
+                item.put(KName.CONFIG, configureJ);
+                final HttpServerOptions options = this.transformer.transform(item);
+                // 3. Add to map
                 map.put(port, options);
-            }, port, options);
+            }
         });
     }
 }

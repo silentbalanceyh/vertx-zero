@@ -6,11 +6,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.exception.ZeroException;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.marshal.SockSetUp;
 import io.vertx.up.util.Ut;
 
@@ -40,23 +38,19 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
     }
 
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, SockOptions> map) {
-        Ut.itJArray(serverData).filter(this::isServer).forEach(item -> {
-            /* 「Z_PORT_SOCK」环境变量注入，HttpServer专用 */
-            final JsonObject configJ = item.getJsonObject(KName.CONFIG).copy();
-            final String portCfg = Ut.valueString(configJ, KName.PORT);
-            String portEnv = Ut.envWith(Macrocosm.Z_PORT_SOCK, Strings.EMPTY);
-            if (Ut.isNil(portEnv)) {
-                portEnv = Ut.envWith(Macrocosm.Z_PORT_WEB, portCfg);
-            }
-            configJ.put(KName.PORT, Integer.valueOf(portEnv));
+        /*
+         * 多服务器模式：Server可使用环境变量，环境变量后缀为索引值（0抹去）
+         */
+        Ut.itJArray(serverData, (item, index) -> {
+            // 合法 Server
+            JsonObject configureJ = Ut.valueJObject(item, KName.CONFIG);
+            configureJ = MatureOn.envSock(configureJ, index);
             // 1. Extract port
-            final int port = this.serverPort(configJ);
+            final int port = this.serverPort(configureJ);
             // 2. Convert JsonObject to SockOptions
             final SockOptions options = this.transformer.transform(item);
-            Fn.safeNull(() -> {
-                // 3. Add to map;
-                map.put(port, options);
-            }, port, options);
+            // 3. Add to map
+            map.put(port, options);
         });
     }
 

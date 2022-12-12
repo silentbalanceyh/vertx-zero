@@ -1,18 +1,17 @@
 package io.vertx.aeon;
 
 import io.vertx.aeon.atom.HSwitcher;
+import io.vertx.aeon.atom.config.HPlot;
 import io.vertx.aeon.atom.iras.HAeon;
 import io.vertx.aeon.atom.iras.HBoot;
 import io.vertx.aeon.exception.heart.AeonConfigureException;
 import io.vertx.aeon.exception.heart.AeonEnvironmentException;
-import io.vertx.aeon.runtime.AeonEnvironment;
 import io.vertx.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroApplication;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -79,12 +78,12 @@ public class AeonApplication extends ZeroApplication {
         // 开始启动 Aeon环境
         final HAeon aeon = HSwitcher.aeon();
 
-        // Error-50001
-        Fn.out(Objects.isNull(aeon), AeonConfigureException.class, this.upClazz);
+        // Error-50001, aeon不能为null，并且必须带有plot属性
+        Fn.out(Objects.isNull(aeon) || Objects.isNull(aeon.inPlot()),
+                AeonConfigureException.class, this.upClazz);
 
-        AeonEnvironment.initialize(aeon);
         // Error-50003
-        final String workspace = System.getenv(Macrocosm.ZERO_AEON);
-        Fn.out(Ut.isNil(workspace), AeonEnvironmentException.class, this.upClazz);
+        final HPlot plot = aeon.inPlot();
+        Fn.out(Ut.isNil(plot.getCloud()), AeonEnvironmentException.class, this.upClazz);
     }
 }

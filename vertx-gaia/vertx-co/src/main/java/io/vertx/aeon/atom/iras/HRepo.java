@@ -54,11 +54,10 @@ public class HRepo implements Serializable {
         // 内部逻辑
         /*
          * 1. 优先从配置的 path 提取工作目录：将 this.path 作为环境变量
-         * 2. 如果 path 不存在则使用标准环境变量：ZK_APP
+         * 2. 如果 path 不存在则使用标准环境变量：AEON_APP
          * 3. 如果环境变量无法提取，则直接使用 path 作为目录
          */
-        final String pathKey = Ut.isNil(this.path) ? Macrocosm.ZK_APP : this.path;
-        return Ut.envWith(pathKey, this.path);
+        return Ut.envWith(Macrocosm.AEON_APP, this.path);
     }
 
     public void setPath(final String path) {

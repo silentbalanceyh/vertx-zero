@@ -27,6 +27,8 @@ public interface Constants {
 
     String DEFAULT_LANGUAGE = "cn";
 
+    String DEFAULT_HOST = "0.0.0.0";
+
     String DEFAULT_WORKFLOW_SOURCE = "zero.framework";
 
     String ALGORITHM_RSA = "RSA";

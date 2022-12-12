@@ -53,6 +53,7 @@ public class ZeroArcane {
             HLog.warnEnv(ZeroArcane.class, MSG_DEVELOPMENT, osType.name(), HPath.ENV_DEVELOPMENT);
             final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
             final ConcurrentMap<String, String> written = Ut.envOut(properties);
+            // 2. 打印环境变量
             final StringBuilder out = new StringBuilder();
             written.forEach((name, value) -> out.append("\n\t").append(name).append(" = ").append(value));
             HLog.infoEnv(ZeroArcane.class, MSG_ENV, out.toString());
@@ -91,7 +92,7 @@ public class ZeroArcane {
      */
     public static void startEdge() {
         startEdge(null)
-            .onComplete(res -> HLog.infoEnv(ZeroArcane.class, "Extension Initialized {0}", res.result()));
+                .onComplete(res -> HLog.infoEnv(ZeroArcane.class, "Extension Initialized {0}", res.result()));
     }
 
     public static Future<Boolean> startEdge(final Vertx vertx) {
@@ -127,6 +128,6 @@ public class ZeroArcane {
      */
     public static Future<Boolean> startEnroll(final Vertx vertx) {
         return HES.configure()
-            .compose(initialized -> Future.succeededFuture(Boolean.TRUE));
+                .compose(initialized -> Future.succeededFuture(Boolean.TRUE));
     }
 }

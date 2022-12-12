@@ -1,5 +1,9 @@
 package io.vertx.up.runtime.env;
 
+import io.vertx.up.util.Ut;
+
+import java.util.Arrays;
+
 /**
  * 核心系统环境变量接口，可直接实现
  * - Macrocosm：宏观世界，核心空间
@@ -53,7 +57,6 @@ public interface Macrocosm {
     String CACHE_UI = "Z_CACHE_UI";                     // UI缓存
     String CACHE_ADMIT = "Z_CACHE_ADMIT";               // 安全管理缓存
     // 应用环境
-    String APP = "Z_APP";                               // 应用
     String CORS_DOMAIN = "Z_CORS_DOMAIN";               // 跨域配置（可支持多个，这个作为额外的添加）
 
     // RESTful 端口号/主机
@@ -67,7 +70,6 @@ public interface Macrocosm {
     // 数据库端口号/主机
     String DBS_PORT = "Z_DBS_PORT";
     String DBS_HOST = "Z_DBS_HOST";
-
     String DBS_INSTANCE = "Z_DBS_INSTANCE";
 
     // 工作流数据库端口号/主机
@@ -100,18 +102,26 @@ public interface Macrocosm {
     String Z_SIGMA = "Z_SIGMA";
     String Z_LANG = "Z_LANG";
 
-    String ZERO_AEON = "ZERO_AEON";
-    String ZK_APP = "Z_APP";
-    String ZA_LANG = "Z_LANG";
-
     // For Zero
-    String Z_PORT_WEB = "Z_PORT_WEB";
-    String Z_PORT_SOCK = "Z_PORT_SOCK";
     String Z_PORT_DB = "Z_PORT_DB";
 
-    String[] REQUIRED = new String[]{
-        ZERO_AEON,
-        ZK_APP,
-        ZA_LANG,
-    };
+    // 环境变量打印专用
+    static String envContent() {
+        final StringBuilder content = new StringBuilder();
+        final String[] VARS = new String[]{
+                AEON_CLOUD, AEON_APP,               // 云端一阶变量
+                Z_NS, Z_APP, Z_LANG, Z_SIGMA,       // 应用一阶变量
+                CORS_DOMAIN,                        // 跨域
+                API_HOST, API_PORT,                 // RESTful
+                SOCK_HOST, SOCK_PORT,               // Sock
+                DBS_HOST, DBS_PORT, DBS_INSTANCE,   // DB Service
+                DBW_HOST, DBW_PORT, DBW_INSTANCE,   // DB Workflow
+                DBH_HOST, DBH_PORT, DBH_INSTANCE,   // DB History
+        };
+        Arrays.stream(VARS).filter(Ut::notNil).forEach(name -> {
+            final String value = System.getenv(name);
+            content.append("\n\t").append(name).append(" = ").append(value);
+        });
+        return content.toString();
+    }
 }
