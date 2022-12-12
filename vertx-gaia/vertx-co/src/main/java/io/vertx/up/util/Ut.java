@@ -1879,7 +1879,7 @@ public final class Ut {
     }
 
     public static String env(final String name) {
-        return Env.readEnv(name, name);
+        return Env.readEnv(name, Strings.EMPTY);
     }
 
     public static <T> T env(final String name, final Class<T> clazz) {
