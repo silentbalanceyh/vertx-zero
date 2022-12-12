@@ -36,16 +36,20 @@ public class AttrSet implements Serializable {
     }
 
     public AttrSet save(final String name, final String alias) {
-        return this.save(name, alias, String.class, null);
+        return this.saveWith(name, alias, String.class, null);
     }
 
-    public AttrSet save(final String name, final String alias,
-                        final Object value) {
-        return this.save(name, alias, String.class, value);
+    public AttrSet save(final String name, final String alias, final Class<?> type) {
+        return this.saveWith(name, alias, type, null);
     }
 
-    public AttrSet save(final String name, final String alias,
-                        final Class<?> type, final Object value) {
+    public AttrSet saveWith(final String name, final String alias,
+                            final Object value) {
+        return this.saveWith(name, alias, String.class, value);
+    }
+
+    public AttrSet saveWith(final String name, final String alias,
+                            final Class<?> type, final Object value) {
         final Attr attr;
         if (this.attrMap.containsKey(name)) {
             attr = this.attrMap.get(name);
@@ -56,6 +60,7 @@ public class AttrSet implements Serializable {
         if (Ut.notNil(alias)) {
             attr.bind(alias);
         }
+        attr.value(value);
         this.attrMap.put(name, attr);
         return this;
     }

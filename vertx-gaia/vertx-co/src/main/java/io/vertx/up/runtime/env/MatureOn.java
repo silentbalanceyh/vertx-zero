@@ -30,7 +30,7 @@ public class MatureOn implements Macrocosm {
                 .save(KName.CHILD, AEON_APP)                                    // AEON_APP
                 .save(KName.NAME, Z_APP)                                        // Z_APP
                 .save(KName.NAMESPACE, Z_NS)                                    // Z_NS
-                .save(KName.LANGUAGE, Z_LANG, Constants.DEFAULT_LANGUAGE)       // Z_LANG
+                .saveWith(KName.LANGUAGE, Z_LANG, Constants.DEFAULT_LANGUAGE)   // Z_LANG
                 .save(KName.SIGMA, Z_SIGMA);                                    // Z_SIGMA
         // 创建拷贝
         final JsonObject plotJ = Ut.valueJObject(plot, true);
@@ -128,7 +128,7 @@ public class MatureOn implements Macrocosm {
             envPort = API_PORT + index;
         }
         return AttrSet.of()
-                .save(KName.HOST, envHost, Constants.DEFAULT_HOST)             // Z_API_HOSTX
+                .saveWith(KName.HOST, envHost, Constants.DEFAULT_HOST)             // Z_API_HOSTX
                 .save(KName.PORT, envPort, Integer.class);                     // Z_API_PORTX
     }
 }
