@@ -8,10 +8,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -34,9 +34,18 @@ import java.util.Objects;
  *      "jdbcUrl": "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true",
  * }
  * I_SERVICE -> configDatabase
+ *
+ * YAML 格式说明
+ * jooq:
+ *    provider:         // PRIMARY
+ *    orbit:            // HISTORY
+ * workflow:
+ *    database:         // WORKFLOW
  */
 public class Database implements Serializable, Json, Copyable<Database> {
 
+    public static final String CURRENT = "provider";
+    public static final String HISTORY = "orbit";
     private static final Annal LOGGER = Annal.get(Database.class);
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
     private static Database DATABASE;
@@ -79,56 +88,29 @@ public class Database implements Serializable, Json, Copyable<Database> {
 
     public static Database getCurrent() {
         if (Objects.isNull(DATABASE)) {
-            DATABASE = getDatabase("jooq", "provider");
+            DATABASE = getDatabase(DSMode.PRIMARY, "jooq", CURRENT);
         }
         return DATABASE.copy();
     }
 
     public static Database getHistory() {
-        return getDatabase("jooq", "orbit");
+        return getDatabase(DSMode.HISTORY, "jooq", HISTORY);
     }
 
     public static Database getCamunda() {
-        return getDatabase("workflow", "database");
+        return getDatabase(DSMode.WORKFLOW, KName.Flow.WORKFLOW, KName.DATABASE);
     }
 
-    private static Database getDatabase(final String... keys) {
+    private static Database getDatabase(final DSMode mode, final String... keys) {
         final JsonObject raw = Database.VISITOR.read();
         final JsonObject jooq = Ut.visitJObject(raw, keys);
-        return configure(jooq);
+        final JsonObject jooqJ = MatureOn.envDatabase(jooq, mode);
+        return configure(jooqJ);
     }
 
     public static Database configure(final JsonObject databaseJ) {
         final JsonObject jooq = Ut.valueJObject(databaseJ);
         final Database database = new Database();
-        {
-            /*
-             * 该方法只针对静态数据库生效
-             * jooq:
-             *    provider:
-             *    orbit:
-             *
-             * 1. 读取环境变量 Z_PORT_DB 计算端口
-             * 2. 执行jdbcUrl的处理（表达式）
-             * 「Z_PORT_DB」
-             */
-            final String port = Ut.valueString(jooq, KName.PORT);
-            final String portEnv = Ut.envWith(Macrocosm.Z_PORT_DB, port);
-            if (Ut.notNil(portEnv) && Ut.isInteger(portEnv)) {
-                // Fix Issue: NumberFormatException: null
-                jooq.put(KName.PORT, Integer.valueOf(portEnv));
-            }
-
-            final String jdbcUrl = Ut.valueString(jooq, "jdbcUrl");
-            final String replaced;
-            if (jdbcUrl.contains(Strings.DOLLAR)) {
-                final JsonObject parameters = jooq.copy();
-                replaced = Ut.fromExpression("`" + jdbcUrl + "`", parameters);
-            } else {
-                replaced = jdbcUrl;
-            }
-            jooq.put("jdbcUrl", replaced);
-        }
         database.fromJson(jooq);
         return database;
     }

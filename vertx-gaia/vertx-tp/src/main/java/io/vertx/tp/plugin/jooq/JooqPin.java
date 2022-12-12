@@ -5,9 +5,11 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.Table;
@@ -41,24 +43,37 @@ public class JooqPin {
          *    orbit:
          */
         final ConcurrentMap<String, Configuration> configurationMap =
-            new ConcurrentHashMap<>();
+                new ConcurrentHashMap<>();
 
         Fn.outUp(Ut.isNil(config) || !config.containsKey(Constants.DEFAULT_JOOQ),
-            LOGGER, JooqConfigurationException.class, JooqPin.class);
+                LOGGER, JooqConfigurationException.class, JooqPin.class);
 
         if (Ut.notNil(config)) {
+            /*
+             * provider / orbit
+             * provider - 标准数据库
+             * orbit - 历史数据库
+             */
             config.fieldNames().stream()
-                .filter(key -> Objects.nonNull(config.getValue(key)))
-                .filter(key -> config.getValue(key) instanceof JsonObject)
-                .forEach(key -> {
-                    final JsonObject options = config.getJsonObject(key);
-                    final DataPool pool = DataPool.create(Database.configure(options));
-                    final Configuration configuration = pool.configuration();
-                    configurationMap.put(key, configuration);
-                    final JsonObject populated = options.copy();
-                    populated.remove(KName.PASSWORD);
-                    LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
-                });
+                    // 过滤：key值对应的配置存在，并且是合法的 Database Json 格式
+                    .filter(key -> Objects.nonNull(config.getValue(key)))
+                    .filter(key -> config.getValue(key) instanceof JsonObject)
+                    .forEach(key -> {
+                        final JsonObject options = config.getJsonObject(key);
+                        // Database Environment Connected
+                        final JsonObject databaseJ;
+                        if (Database.HISTORY.equals(key)) {
+                            databaseJ = MatureOn.envDatabase(options, DSMode.HISTORY);
+                        } else {
+                            databaseJ = MatureOn.envDatabase(options, DSMode.PRIMARY);
+                        }
+                        final DataPool pool = DataPool.create(Database.configure(databaseJ));
+                        final Configuration configuration = pool.configuration();
+                        configurationMap.put(key, configuration);
+                        final JsonObject populated = databaseJ.copy();
+                        populated.remove(KName.PASSWORD);
+                        LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
+                    });
         }
         return configurationMap;
     }

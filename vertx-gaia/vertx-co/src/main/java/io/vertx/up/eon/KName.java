@@ -53,6 +53,7 @@ public interface KName {
 
     String BRIDGE = "bridge";                    /* Sock Bridge Usage */
     String HOST = "host";                        /* Host */
+    String HOSTNAME = "hostname";                /* Host Name */
     String PORT = "port";                        /* Port */
 
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
@@ -115,6 +116,7 @@ public interface KName {
 
     String SERVER = "server";                    /* Common: server */
     String DATA = "data";                        /* Common: data */
+    String DATABASE = "database";                /* Common: database */
     String KIND = "kind";                        /* Common: kind */
 
     String FORK = "fork";                        /* Fork/Join -> Fork */

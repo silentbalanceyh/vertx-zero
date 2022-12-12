@@ -13,6 +13,7 @@ import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.runtime.ZeroHeart;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.secure.config.CorsConfig;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
@@ -99,37 +100,41 @@ public class RouterAxis implements Axis<Router> {
      */
     private void mountCors(final Router router) {
         final CorsHandler handler = CorsHandler.create()
-            .allowCredentials(CONFIG.getCredentials())
-            .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
-            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods()));
+                .allowCredentials(CONFIG.getCredentials())
+                .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
+                .allowedMethods(this.getAllowedMethods(CONFIG.getMethods()));
         /*
          * Allowed Multi origin in origin list
          */
-        final JsonArray originArr = CONFIG.getOrigin();
+        this.mountOrigin(handler);
+        router.route().order(Orders.CORS).handler(handler);
+    }
+
+    private void mountOrigin(final CorsHandler handler) {
+        final JsonArray originArr = MatureOn.envDomain(CONFIG.getOrigin());
         Ut.itJArray(originArr, String.class, (value, index) -> {
             if (Origin.isValid(value)) {
                 handler.addOrigin(value);
             }
         });
-        router.route().order(Orders.CORS).handler(handler);
     }
 
     private Set<String> getAllowedHeaders(final JsonArray array) {
         final Set<String> headerSet = new HashSet<>();
         array.stream()
-            .filter(Objects::nonNull)
-            .map(item -> (String) item)
-            .forEach(headerSet::add);
+                .filter(Objects::nonNull)
+                .map(item -> (String) item)
+                .forEach(headerSet::add);
         return headerSet;
     }
 
     private Set<HttpMethod> getAllowedMethods(final JsonArray array) {
         final Set<HttpMethod> methodSet = new HashSet<>();
         array.stream()
-            .filter(Objects::nonNull)
-            .map(item -> (String) item)
-            .map(Ut::toMethod)
-            .forEach(methodSet::add);
+                .filter(Objects::nonNull)
+                .map(item -> (String) item)
+                .map(Ut::toMethod)
+                .forEach(methodSet::add);
         return methodSet;
     }
 }

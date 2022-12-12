@@ -87,11 +87,14 @@ public interface Macrocosm {
     /*
      * Aeon 系统启用时的核心的环境变量
      * 1. 系统环境变量
-     * - ZERO_AEON：        本地 vertx-zero-cloud 目录，启用 Aeon 系统时，系统会自动生成临时目录：/var/tmp/zero-aeon/kzero，
+     * - AEON_CLOUD：       本地 vertx-zero-cloud 目录，启用 Aeon 系统时，系统会自动生成临时目录：/var/tmp/zero-aeon/kzero，
      *                      启动完成后，临时目录中的相关信息自动同步到环境变量工作目录中
+     * - AEON_APP           原来的应用配置路径，用于处理应用程序配置程序加载专用
      *
      * - Z_APP              本地私库 xxx-app 目录，启用 Aeon 系统时，系统会自动生成临时目录：/var/tmp/zero-aeon/kinect，
-     *                      启动完成后，临时目录中的相关信息自动同步到环境变量工作目录中
+     *                      启动完成后，临时目录中的相关信息自动同步到环境变量工作目录中标识符统一Z_SIGMA            名空间
+     * * - 的在所该应用Z_NS
+     * * -
      * - Z_LANG             当前环境使用的系统语言
      *
      */

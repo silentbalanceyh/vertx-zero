@@ -5,6 +5,8 @@ public enum DSMode {
     PRIMARY,
     // History Value ( configured by 'orbit' )
     HISTORY,
+    // Workflow Value ( configured by 'workflow' )
+    WORKFLOW,
     // Dynamic Value ( Build by 'DataPool' here )
     DYNAMIC,
     // Extension Value ( configured by '<key>' that provided )
