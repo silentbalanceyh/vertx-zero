@@ -15,6 +15,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -54,8 +56,13 @@ public class ZeroArcane {
             final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
             final ConcurrentMap<String, String> written = Ut.envOut(properties);
             // 2. 打印环境变量
+            final Set<String> treeSet = new TreeSet<>(written.keySet());
             final StringBuilder out = new StringBuilder();
-            written.forEach((name, value) -> out.append("\n\t").append(name).append(" = ").append(value));
+            treeSet.forEach(name -> {
+                out.append("\n\t").append(name);
+                final String value = written.get(name);
+                out.append(" = ").append(value);
+            });
             HLog.infoEnv(ZeroArcane.class, MSG_ENV, out.toString());
         }
     }
