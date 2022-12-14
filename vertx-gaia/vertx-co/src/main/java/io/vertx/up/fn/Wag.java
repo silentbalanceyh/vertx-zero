@@ -58,13 +58,22 @@ class Wag {
                         final JsonArray replaced = Ut.toJArray(literal, Wag::ifMetadata);
                         object.put(field, replaced);
                     }
-                }else if(value instanceof final JsonObject valueJ){
+                } else if (value instanceof final JsonObject valueJ) {
                     // JsonObject
                     object.put(field, Wag.ifMetadata(valueJ));
-                }else if(value instanceof final JsonArray valueA){
+                } else if (value instanceof final JsonArray valueA) {
                     // JsonArray
                     final JsonArray replaced = new JsonArray();
-                    Ut.itJArray(valueA).forEach(valueJ -> replaced.add(Wag.ifMetadata(valueJ)));
+                    // Element Extracting
+                    valueA.forEach(valueE -> {
+                        if (valueE instanceof JsonObject valueJ) {
+                            // Element = JsonObject
+                            replaced.add(Wag.ifMetadata(valueJ));
+                        } else if (valueE instanceof String valueS) {
+                            // Element = String
+                            replaced.add(valueS);
+                        }
+                    });
                     object.put(field, replaced);
                 }
             }

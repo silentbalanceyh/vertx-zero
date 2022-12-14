@@ -127,6 +127,8 @@
         <common.io.version>2.11.0</common.io.version>
         <common.collection4.version>4.4</common.collection4.version>
         <common.text.version>1.10.0</common.text.version>
+        <!-- For Security: CVE-2022-45047 -->
+        <sshd.version>2.9.2</sshd.version>
 
         <http.async.client.version>4.1.5</http.async.client.version>
         <http.client.version>4.5.14</http.client.version>
@@ -243,6 +245,12 @@
     </prerequisites>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.sshd/sshd-core -->
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-core</artifactId>
+                <version>${sshd.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
