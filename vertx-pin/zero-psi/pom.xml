@@ -26,8 +26,8 @@
                 <configuration>
                     <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
                     <!-- 配置文件路径 -->
-                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
-                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <propertyFile>plugin/sql/psi.properties</propertyFile>
+                    <changeLogFile>plugin/sql/psi.yml</changeLogFile>
                     <!-- 配置参数 -->
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                     <outputFileEncoding>UTF-8</outputFileEncoding>
