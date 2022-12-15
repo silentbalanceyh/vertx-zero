@@ -35,20 +35,6 @@
             </ignoreVersions>
         </rule>
 
-        <!-- es 7.x -->
-        <rule groupId="org.elasticsearch" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">8.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- connector -->
-        <rule groupId="mysql" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">8.0.31</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
         <!-- neo4j 4.x -->
         <rule groupId="org.neo4j" comparisonMethod="maven">
             <ignoreVersions>
