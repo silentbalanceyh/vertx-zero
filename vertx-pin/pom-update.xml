@@ -22,26 +22,7 @@
     </ignoreVersions>
     <rules>
 
-        <!-- hibernate: 6.x -->
-        <rule groupId="org.hibernate.validator" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">(7.*|8.*)</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- neo4j 4.x -->
-        <rule groupId="org.neo4j" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">5.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
         <rule groupId="*.maven" comparisonMethod="mercury"/>
-        <rule groupId="org.scala-lang" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">2.13.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
         <!-- jwt -->
         <rule groupId="com.auth0" comparisonMethod="maven">
             <ignoreVersions>

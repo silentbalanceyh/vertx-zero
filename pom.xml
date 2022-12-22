@@ -98,7 +98,7 @@
         <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
-        <scala.version>2.12.17</scala.version>
+        <scala.version>2.13.10</scala.version>
         <feign.version>8.18.0</feign.version>
         <joda.version>2.12.2</joda.version>
         <codehaus.janino.version>3.1.9</codehaus.janino.version>
@@ -116,7 +116,7 @@
         <elasticsearch.client.version>7.17.8</elasticsearch.client.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.11</neo4j.version>
+        <neo4j.version>5.3.1</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
