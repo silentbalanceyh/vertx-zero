@@ -13,11 +13,11 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
 import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.executable.ExecutableValidator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.executable.ExecutableValidator;
 import jakarta.ws.rs.BodyParam;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Validator {
 
-    private static final javax.validation.Validator VALIDATOR
+    private static final jakarta.validation.Validator VALIDATOR
         = Validation.buildDefaultValidatorFactory().usingContext().messageInterpolator(
         new ValidatorInterpolator()
     ).getValidator();
@@ -121,8 +121,7 @@ public class Validator {
 
     private List<Rule> buildRulers(final Object config) {
         final List<Rule> rulers = new ArrayList<>();
-        if (config instanceof JsonArray) {
-            final JsonArray configData = (JsonArray) config;
+        if (config instanceof final JsonArray configData) {
             Ut.itJArray(configData, JsonObject.class, (item, index) -> {
                 final Rule ruler = Rule.create(item);
                 if (null != ruler) {

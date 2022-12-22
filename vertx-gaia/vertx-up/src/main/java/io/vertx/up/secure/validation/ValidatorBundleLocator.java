@@ -12,7 +12,6 @@ import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.*;
 
@@ -40,7 +39,9 @@ public class ValidatorBundleLocator implements ResourceBundleLocator {
     }
 
     private static <T> T run(final PrivilegedAction<T> action) {
-        return System.getSecurityManager() != null ? AccessController.doPrivileged(action) : action.run();
+        return action.run();
+        // Old
+        // return System.getSecurityManager() != null ? AccessController.doPrivileged(action) : action.run();
     }
 
     private static boolean determineAvailabilityOfResourceBundleControl() {

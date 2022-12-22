@@ -23,11 +23,5 @@
     <rules>
 
         <rule groupId="*.maven" comparisonMethod="mercury"/>
-        <!-- jwt -->
-        <rule groupId="com.auth0" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">4.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
     </rules>
 </ruleset>
