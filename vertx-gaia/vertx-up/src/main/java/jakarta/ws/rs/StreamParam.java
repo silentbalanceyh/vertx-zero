@@ -1,4 +1,4 @@
-package javax.ws.rs;
+package jakarta.ws.rs;
 
 import io.vertx.up.uca.rs.mime.resolver.UnsetResolver;
 

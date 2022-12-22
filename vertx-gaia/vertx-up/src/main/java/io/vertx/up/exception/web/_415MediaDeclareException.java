@@ -2,8 +2,7 @@ package io.vertx.up.exception.web;
 
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
-
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * # 「Error」Zero Exception

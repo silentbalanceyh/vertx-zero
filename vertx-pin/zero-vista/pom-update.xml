@@ -21,12 +21,6 @@
         <ignoreVersion type="regex">.*-BETA-\d*</ignoreVersion>
     </ignoreVersions>
     <rules>
-        <!-- jersey version: 2.x -->
-        <rule groupId="org.glassfish.jersey" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">3.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
 
         <!-- hibernate: 6.x -->
         <rule groupId="org.hibernate.validator" comparisonMethod="maven">

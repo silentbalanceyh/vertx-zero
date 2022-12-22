@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.hunt.adaptor;
 
 import io.vertx.up.uca.cache.Cc;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;

@@ -14,8 +14,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.unity.Ux;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 /*
  * Export / Import file here for processing

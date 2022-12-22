@@ -11,9 +11,9 @@ import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.parse.EpsilonIncome;
 import io.vertx.up.uca.rs.mime.parse.Income;
 import io.vertx.up.util.Ut;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 public class MediaAnalyzer implements Analyzer {

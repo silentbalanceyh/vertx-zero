@@ -24,8 +24,8 @@ package up.god.micro.filter;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
-import javax.ws.rs.ContextParam;
+import jakarta.ws.rs.BodyParam;
+import jakarta.ws.rs.ContextParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 

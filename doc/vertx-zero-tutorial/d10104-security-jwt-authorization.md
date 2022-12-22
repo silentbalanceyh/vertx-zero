@@ -17,7 +17,8 @@ Here are two workflow in zero system that developers could define:
 * **Verify Token**: Before zero system verified config, you can check with your own code logical here.
 
 > In vert.x native JWT support, you must set your own code logical to process config, but in zero system, you could
-> focus on two functions to process config only, zero has split the workflow and let developers process JWT more smartly.
+> focus on two functions to process config only, zero has split the workflow and let developers process JWT more
+> smartly.
 
 Demo projects:
 
@@ -37,7 +38,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 

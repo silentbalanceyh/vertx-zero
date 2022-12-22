@@ -19,8 +19,8 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.log.Annal;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;

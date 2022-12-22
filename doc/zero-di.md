@@ -9,7 +9,7 @@ All the vert.x specific object could be inject as following way.
 ```java
 import javax.inject.infix.Mongo;
 import javax.inject.infix.MySql;
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 

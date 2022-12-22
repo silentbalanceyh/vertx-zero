@@ -22,7 +22,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._417JobMethodException;
 import io.vertx.up.util.Ut;
 
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

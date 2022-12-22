@@ -17,7 +17,7 @@ import io.vertx.up.util.Ut;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.executable.ExecutableValidator;
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;

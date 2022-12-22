@@ -5,7 +5,7 @@ import io.vertx.tp.erp.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /*
  * Employee update here: Employee information ADD / DELETE / UPDATE

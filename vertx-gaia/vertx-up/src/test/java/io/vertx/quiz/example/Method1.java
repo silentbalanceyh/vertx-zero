@@ -1,6 +1,6 @@
 package io.vertx.quiz.example;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 @Path("api")
 public class Method1 {

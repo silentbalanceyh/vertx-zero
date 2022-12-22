@@ -2,8 +2,8 @@ package io.vertx.quiz.example;
 
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 @EndPoint
 public class ED1 {

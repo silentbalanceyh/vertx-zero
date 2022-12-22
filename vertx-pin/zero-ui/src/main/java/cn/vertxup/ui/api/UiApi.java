@@ -9,7 +9,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 @EndPoint
 @Path("/api")

@@ -3,8 +3,8 @@ package io.vertx.up.exception.web;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.util.Ut;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Set;
 
 public class _415MediaNotSupportException extends WebException {

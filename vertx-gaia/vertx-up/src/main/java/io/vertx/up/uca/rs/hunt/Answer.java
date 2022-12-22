@@ -19,7 +19,7 @@ import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;

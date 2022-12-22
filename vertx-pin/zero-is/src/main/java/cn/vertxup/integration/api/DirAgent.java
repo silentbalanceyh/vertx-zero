@@ -6,7 +6,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /**
  * Here the directory support `CRUD` on single record only, it means that

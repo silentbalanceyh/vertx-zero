@@ -9,11 +9,11 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
+import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpHeaders;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.ws.rs.core.MediaType;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;

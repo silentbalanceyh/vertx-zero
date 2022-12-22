@@ -5,9 +5,9 @@ import io.vertx.quiz.ZeroBase;
 import io.vertx.quiz.example.*;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.zero.exception.PathAnnoEmptyException;
+import jakarta.ws.rs.Path;
 import org.junit.Test;
 
-import javax.ws.rs.Path;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.TreeSet;

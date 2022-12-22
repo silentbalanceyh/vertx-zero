@@ -9,7 +9,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.rs.hunt.adaptor.WingSelector;
 import io.vertx.up.uca.rs.hunt.adaptor.Wings;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;

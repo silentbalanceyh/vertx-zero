@@ -3,9 +3,9 @@
 Because body request often used in restful web service application, zero system extend JSR311 and defined new
 annotations for common usage.
 
-* `javax.ws.rs.BodyParam`
-* `javax.ws.rs.SessionParam`
-* `javax.ws.rs.StreamParam`
+* `jakarta.ws.rs.BodyParam`
+* `jakarta.ws.rs.SessionParam`
+* `jakarta.ws.rs.StreamParam`
 
 Above three annotations are defined by zero system, because it's useful in different requirements, current tutorial will
 describe the usage of @BodyParam. There are some simple rules for @BodyParam:
@@ -33,7 +33,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
