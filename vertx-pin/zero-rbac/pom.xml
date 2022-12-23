@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-rbac</artifactId>
-    <name>Extension:「zero-rbac」Sc - Security of RBAC</name>
+    <name>Extension: Sc「zero-rbac」Security of RBAC</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

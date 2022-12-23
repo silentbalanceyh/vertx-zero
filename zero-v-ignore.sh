@@ -33,10 +33,10 @@ cp pom-update.xml ./vertx-import/pom-update.xml
 cp pom-update.xml ./vertx-istio/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-ecology/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-ecology/aeon-ambient/pom-update.xml
+cp pom-update.xml ./vertx-istio/zero-ecology/aeon-vie/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-edge/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-edge/aeon-aurora/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-edge/aeon-code/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-edge/aeon-vie/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-eternal/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-eternal/aeon-cosmos/pom-update.xml
 cp pom-update.xml ./vertx-istio/zero-eternal/aeon-inlet/pom-update.xml

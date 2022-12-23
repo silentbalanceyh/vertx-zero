@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aeon-inlet</artifactId>
-    <name>Cloud:「aeon-inlet」gRPC Module</name>
+    <name>Cloud Module:「aeon-inlet」gRPC Module</name>
     <dependencies>
         <!-- Micro Service -->
         <dependency>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-psi</artifactId>
-    <name>Extension:「zero-psi」Ps - Purchase/Sales/Inventory</name>
+    <name>Extension: Ps「zero-psi」Purchase/Sales/Inventory</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

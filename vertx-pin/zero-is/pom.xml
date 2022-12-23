@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-is</artifactId>
-    <name>Extension:「zero-is」Is - Integration Service</name>
+    <name>Extension: Is「zero-is」Integration Service</name>
 
     <dependencies>
         <!-- Kern -->

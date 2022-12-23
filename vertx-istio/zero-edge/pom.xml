@@ -9,11 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zero-edge</artifactId>
-    <name>Cloud:「zero-edge」Zero Edge Development</name>
+    <name>Cloud Dev:「zero-edge」Zero Edge Development</name>
     <packaging>pom</packaging>
     <modules>
         <module>aeon-code</module>
         <module>aeon-aurora</module>    <!-- 奥罗拉：平台后端 -->
-        <module>aeon-vie</module>    <!-- 单机后端 -->
     </modules>
 </project>

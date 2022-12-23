@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-fm</artifactId>
-    <name>Extension:「zero-fm」Fm - Finance</name>
+    <name>Extension: Fm「zero-fm」Finance</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

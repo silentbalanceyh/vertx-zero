@@ -9,9 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zero-ecology</artifactId>
-    <name>Cloud:「zero-ecology」Zero Ecology Service</name>
+    <name>Cloud Service:「zero-ecology」Zero Ecology Service</name>
     <packaging>pom</packaging>
     <modules>
         <module>aeon-ambient</module>     <!-- 基础环境/配置服务 -->
+        <module>aeon-vie</module>         <!-- 单机后端 -->
     </modules>
 </project>

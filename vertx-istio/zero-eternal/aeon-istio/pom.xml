@@ -9,5 +9,5 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aeon-istio</artifactId>
-    <name>Cloud:「aeon-istio」Istio Environment</name>
+    <name>Cloud Module:「aeon-istio」Istio Environment</name>
 </project>

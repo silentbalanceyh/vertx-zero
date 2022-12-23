@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-atom</artifactId>
-    <name>Extension:「zero-atom」Ao - Modular</name>
+    <name>Extension: Ao「zero-atom」Modular</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

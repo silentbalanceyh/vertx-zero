@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aeon-aurora</artifactId>
-    <name>Cloud Image:「aeon-aurora」Aeon Platform/Control</name>
+    <name>Cloud Dev:「aeon-aurora」Aeon Platform/Control</name>
     <dependencies>
         <!-- Fix issue of MacOS -->
         <dependency>

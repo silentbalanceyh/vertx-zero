@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-vie</artifactId>
-    <name>「zero-vie」Scaffold Platform</name>
+    <name>Focus:「zero-vie」Scaffold Application</name>
 
     <dependencies>
         <!-- CRUD统一模块 -->

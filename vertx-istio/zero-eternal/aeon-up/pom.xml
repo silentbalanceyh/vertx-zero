@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aeon-up</artifactId>
-    <name>Cloud:「aeon-up」Aeon System Container</name>
+    <name>Cloud Module:「aeon-up」Aeon System Container</name>
     <dependencies>
         <!-- Eternal Dependency -->
         <dependency>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-ke</artifactId>
-    <name>Extension:「zero-ke」Ke - Kernel Engine</name>
+    <name>Extension: Ke「zero-ke」Kernel Engine</name>
     <dependencies>
         <!-- 模块化改造 -->
         <dependency>
