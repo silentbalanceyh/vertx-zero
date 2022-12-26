@@ -28,7 +28,6 @@ final class Warning {
      * @param logger    Zero Logger
      * @param zeroClass ZeroException class
      * @param args      Arguments of zero
-     *
      * @throws ZeroException Whether throw out exception of zero defined.
      */
     static void outZero(final Annal logger,
@@ -112,10 +111,17 @@ final class Warning {
 
     static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
         if (condition instanceof Boolean check) {
+            // If boolean, condition = true, throw Error
             if (check) {
                 outWeb(_412NullValueException.class, clazz, message);
             }
+        } else if (condition instanceof String check) {
+            // If string, condition = empty or null, throw Error
+            if (Ut.isNil(check)) {
+                outWeb(_412NullValueException.class, clazz, message);
+            }
         } else if (Objects.isNull(condition)) {
+            // If object, condition = null, throw Error
             outWeb(_412NullValueException.class, clazz, message);
         }
     }
@@ -151,7 +157,6 @@ final class Warning {
      * @param supplier T supplier function
      * @param runCls   ZeroRunException definition
      * @param <T>      T type of object
-     *
      * @return Final T or throw our exception
      */
     static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {
