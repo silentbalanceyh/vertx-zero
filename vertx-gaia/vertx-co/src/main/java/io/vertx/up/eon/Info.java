@@ -110,4 +110,8 @@ public interface Info {
     // ------------- Meansure
     String MEANSURE_REMOVE = "[ Meansure ] The {0} has been removed. ( instances = {1} )";
     String MEANSURE_ADD = "[ Meansure ] The {0} has been added. ( instances = {1} ), worker = {2}";
+
+    // ------------- Program
+    String PROGRAM_NULL = "[ Program ] Null Input";
+    String PROGRAM_QR = "[ Program ] Null Record in database";
 }

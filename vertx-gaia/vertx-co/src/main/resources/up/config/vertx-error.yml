@@ -189,6 +189,9 @@ E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message 
 E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
 E60057: "(400) - (Git) You are executing command `{0}` but met error, message = {1}"
 
+# Program Exception
+E60059: "(400) - (Progma) Detected Null Value = `{0}`"
+
 # ----------- Zero Extension Module Exception --------------------
 # 80001 - 89999
 # CRUD Module

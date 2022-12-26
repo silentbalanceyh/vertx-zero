@@ -4,9 +4,11 @@ import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
+import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -105,6 +107,16 @@ final class Warning {
         if (null != error) {
             sure(error::getTarget, error::getMessage);
             throw error;
+        }
+    }
+
+    static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
+        if (condition instanceof Boolean check) {
+            if (check) {
+                outWeb(_412NullValueException.class, clazz, message);
+            }
+        } else if (Objects.isNull(condition)) {
+            outWeb(_412NullValueException.class, clazz, message);
         }
     }
 

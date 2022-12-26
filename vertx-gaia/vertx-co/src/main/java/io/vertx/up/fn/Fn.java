@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
@@ -84,6 +85,24 @@ public final class Fn {
         }
     }
 
+    /*
+     * Program Used:
+     * */
+    public static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
+        Warning.outOr(condition, clazz, message);
+    }
+
+    public static <T> void outOr(final Class<?> clazz, final String message) {
+        Warning.outOr(true, clazz, message);
+    }
+
+    public static <T> void outOr(final T condition, final Class<?> clazz) {
+        outOr(condition, clazz, Info.PROGRAM_NULL);
+    }
+
+    public static <T> void outQr(final T condition, final Class<?> clazz) {
+        outOr(condition, clazz, Info.PROGRAM_QR);
+    }
     // ------ Jvm Safe
 
     public static void safeJvm(final JvmActuator actuator, final Annal logger) {
