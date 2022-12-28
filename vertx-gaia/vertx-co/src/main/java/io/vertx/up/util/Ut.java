@@ -12,6 +12,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KValue;
@@ -1745,6 +1746,11 @@ public final class Ut {
 
     public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
         return Epsilon.vArraySet(array, field);
+    }
+
+    // Qr Field Processing
+    public static String valueQrIn(final String field) {
+        return Epsilon.vQrField(field, Qr.Op.IN);
     }
 
     // Single Processing
