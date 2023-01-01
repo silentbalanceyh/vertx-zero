@@ -1,6 +1,9 @@
 package io.vertx.up.unity;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
@@ -11,6 +14,16 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 class Debug {
+
+    static void monitorTc(final ClusterSerializable cluster) {
+        if (cluster instanceof JsonObject clusterJ) {
+            System.out.println(clusterJ.encodePrettily());
+        } else if (cluster instanceof JsonArray clusterA) {
+            System.out.println(clusterA.encodePrettily());
+        } else {
+            System.out.println(cluster.toString());
+        }
+    }
 
     static void monitor(final Object... objects) {
         for (final Object reference : objects) {
@@ -25,11 +38,11 @@ class Debug {
         if (null != object) {
             builder.append("\t\t[ ZERO Debug ] type = ").append(object.getClass()).append("\n");
             builder.append("\t\t[ ZERO Debug ] json = ").append(Ut.serialize(object)).append("\n");
-            builder.append("\t\t[ ZERO Debug ] toString = ").append(object.toString()).append("\n");
+            builder.append("\t\t[ ZERO Debug ] toString = ").append(object).append("\n");
             builder.append("\t\t[ ZERO Debug ] hashCode = ").append(object.hashCode()).append("\n");
         }
         builder.append("\t\t[ ZERO Debug ] <--- End \n");
-        System.err.println(builder.toString());
+        System.err.println(builder);
     }
 
     static <T> Future<T> debug(final T item) {

@@ -87,13 +87,24 @@ public final class Fn {
 
     /*
      * Program Used:
+     * outOr / outQr
+     * 1. This point should be first line of one method:
+     *    if(condition){
+     *        throw out exception of `_412NullValueException.class`
+     *    }
+     * 2. This point should be QR result checking after Future<T>
+     *    Future.compose(record -> {
+     *        if(Objects.isNull(record)){
+     *             throw out exception of `_412NullValueException.class`
+     *        }
+     *    })
+     *
+     * The default message:
+     * 1. Or -> [ Program ] Null Input
+     * 2. Qr -> [ Program ] Null Record in database
      * */
     public static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
         Warning.outOr(condition, clazz, message);
-    }
-
-    public static <T> void outOr(final Class<?> clazz, final String message) {
-        Warning.outOr(true, clazz, message);
     }
 
     public static <T> void outOr(final T condition, final Class<?> clazz) {

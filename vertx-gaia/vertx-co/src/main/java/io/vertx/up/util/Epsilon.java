@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -88,6 +89,10 @@ class Epsilon {
             return defaultValue;
         }
         return Instance.clazz(clsStr, defaultValue);
+    }
+
+    static String vQrField(final String field, final String strOp) {
+        return Ut.isNil(strOp) ? field : field + Strings.COMMA + strOp;
     }
 
     static Class<?> vClass(final JsonObject json, final String field,
