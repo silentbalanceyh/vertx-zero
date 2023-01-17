@@ -38,3 +38,21 @@ echo "zero-erp/模块配置 拷贝完成!"
 mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/erp/oob/menu/
 cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/erp/oob/menu/
 echo "zero-erp/菜单配置 拷贝完成!"
+
+echo "zero-fm 执行……"
+export RUN_PRO=zero-fm
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/fm/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/fm/oob/modulat/
+echo "zero-fm/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/fm/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/fm/oob/menu/
+echo "zero-fm/菜单配置 拷贝完成!"
+
+echo "zero-graphic 执行……"
+export RUN_PRO=zero-graphic
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/modulat/
+echo "zero-graphic/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/menu/
+echo "zero-graphic/菜单配置 拷贝完成!"
