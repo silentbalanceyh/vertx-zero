@@ -17,7 +17,7 @@
             <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
             <name>org.jooq.meta.mysql.MySQLDatabase</name>
             <inputSchema>DB_ETERNAL</inputSchema>
-            <includes>(^(TPL_).*)</includes>
+            <includes>(^(TPL_|MY_).*)</includes>
             <unsignedTypes>false</unsignedTypes>
         </database>
         <generate>
@@ -28,7 +28,7 @@
             <fluentSetters>true</fluentSetters>
         </generate>
         <target>
-            <packageName>cn.vertxup.template.domain</packageName>
+            <packageName>cn.vertxup.tpl.domain</packageName>
             <directory>../../src/main/java</directory>
         </target>
         <strategy>

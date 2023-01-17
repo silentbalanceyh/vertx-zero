@@ -14,7 +14,6 @@
     "plugin/ambient/oob/cab/x.attachment.xlsx",
     "plugin/ambient/oob/cab/x.category.xlsx",
     "plugin/ambient/oob/cab/x.linkage.xlsx",
-    "plugin/ambient/oob/cab/x.menu.xlsx",
     "plugin/ambient/oob/cab/x.notice.xlsx",
     "plugin/ambient/oob/cab/x.tabular.xlsx",
     "plugin/ambient/oob/cab/x.tag.xlsx",
@@ -25,7 +24,6 @@
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.attachment.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.category.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.linkage.xlsx",
-    "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.menu.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.notice.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tabular.xlsx",
     "plugin/ambient/oob/role/ADMIN.SUPER/falcon.x.tag.xlsx"

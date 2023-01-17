@@ -43,6 +43,8 @@ public interface KeIpc {
         String LBS = "lbs";
         // zero-wf
         String WF = "wf";
+        // zero-tpl
+        String TPL = "tpl";
     }
 
     /*

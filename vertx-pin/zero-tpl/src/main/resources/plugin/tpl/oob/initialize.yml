@@ -1,0 +1,8 @@
+-   dao: cn.vertxup.template.domain.tables.daos.MyMenuDao     # MY_MENU
+    key: key
+    unique:
+    - owner
+    - type
+    - page
+    - position
+    - uiMenu
