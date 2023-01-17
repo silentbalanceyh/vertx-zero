@@ -75,3 +75,39 @@ echo "zero-jet/模块配置 拷贝完成!"
 mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/menu/
 cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/menu/
 echo "zero-jet/菜单配置 拷贝完成!"
+
+echo "zero-psi 执行……"
+export RUN_PRO=zero-psi
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/psi/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/psi/oob/modulat/
+echo "zero-psi/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/psi/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/psi/oob/menu/
+echo "zero-psi/菜单配置 拷贝完成!"
+
+echo "zero-rbac 执行……"
+export RUN_PRO=zero-rbac
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/rbac/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/rbac/oob/modulat/
+echo "zero-rbac/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/rbac/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/rbac/oob/menu/
+echo "zero-rbac/菜单配置 拷贝完成!"
+
+echo "zero-ui 执行……"
+export RUN_PRO=zero-ui
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/ui/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/ui/oob/modulat/
+echo "zero-ui/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/ui/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/ui/oob/menu/
+echo "zero-ui/菜单配置 拷贝完成!"
+
+echo "zero-wf 执行……"
+export RUN_PRO=zero-wf
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/wf/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/wf/oob/modulat/
+echo "zero-wf/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/wf/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/wf/oob/menu/
+echo "zero-wf/菜单配置 拷贝完成!"
