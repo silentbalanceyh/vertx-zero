@@ -56,3 +56,22 @@ echo "zero-graphic/模块配置 拷贝完成!"
 mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/menu/
 cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/graphic/oob/menu/
 echo "zero-graphic/菜单配置 拷贝完成!"
+
+echo "zero-is 执行……"
+export RUN_PRO=zero-is
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/is/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/is/oob/modulat/
+echo "zero-is/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/is/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/is/oob/menu/
+echo "zero-is/菜单配置 拷贝完成!"
+
+
+echo "zero-jet 执行……"
+export RUN_PRO=zero-jet
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/modulat/
+echo "zero-jet/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/jet/oob/menu/
+echo "zero-jet/菜单配置 拷贝完成!"
