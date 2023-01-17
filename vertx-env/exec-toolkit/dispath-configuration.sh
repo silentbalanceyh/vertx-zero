@@ -20,3 +20,12 @@ echo "zero-battery/模块配置 拷贝完成!"
 mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/battery/oob/menu/
 cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/battery/oob/menu/
 echo "zero-battery/菜单配置 拷贝完成!"
+
+echo "zero-atom 执行……"
+export RUN_PRO=zero-atom
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/atom/oob/modulat/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MOD/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/atom/oob/modulat/
+echo "zero-atom/模块配置 拷贝完成!"
+mkdir -p $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/atom/oob/menu/
+cp -rf $ZERO_ROOT/$ZERO_ROOT_MENU/$RUN_PRO/* $ZERO_ROOT/vertx-pin/$RUN_PRO/$ZERO_REST_OOB/plugin/atom/oob/menu/
+echo "zero-atom/菜单配置 拷贝完成!"
