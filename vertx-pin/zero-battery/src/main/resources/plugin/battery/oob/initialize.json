@@ -1,11 +1,10 @@
 [
     "plugin/battery/oob/cab/battery.module.xlsx",
     "plugin/battery/oob/role/ADMIN.SUPER/falcon.battery.module.xlsx",
-    "plugin/battery/oob/data/10000_1100_ZERO-D.STD_3_24928191-2b7a-4309-95af-31f9fb6b4e1e.xlsx",
-    "plugin/battery/oob/data/10000_1105_ZERO-D.TP_7_3399d3e9-ae4c-4b7c-b3fd-fe918bad83a5.xlsx",
-    "plugin/battery/oob/data/10000_ZERO-D_6298664f-cb8c-410f-ac85-aeaeff6fe6d8.xlsx",
-    "plugin/battery/oob/data/11000_ZERO-F_a94f83ae-7320-4358-a372-a683c3eece07.xlsx",
-    "plugin/battery/oob/data/12000_ZERO-E_0a8c3e34-d359-48ab-86af-17898c50a007.xlsx",
-    "plugin/battery/oob/data/1015-develop.app.module.xlsx",
-    "plugin/battery/oob/data/1020-develop.app.module.config.xlsx"
+    "plugin/battery/oob/modulat/10000_1100_ZERO-D.STD_3.xlsx",
+    "plugin/battery/oob/modulat/10000_1105_ZERO-D.TP_7.xlsx",
+    "plugin/battery/oob/modulat/10000_ZERO-D_6298664f-cb8c-410f-ac85-aeaeff6fe6d8.xlsx",
+    "plugin/battery/oob/modulat/11000_ZERO-F_a94f83ae-7320-4358-a372-a683c3eece07.xlsx",
+    "plugin/battery/oob/modulat/12000_ZERO-E_0a8c3e34-d359-48ab-86af-17898c50a007.xlsx",
+    "plugin/battery/oob/menu/MENU-DEV-10000-2-develop.app.module.xlsx"
 ]
