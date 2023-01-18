@@ -4,7 +4,7 @@
 package cn.vertxup.erp.domain.tables;
 
 
-import cn.vertxup.erp.domain.DbHotel;
+import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.RAssetShareRecord;
 
@@ -106,7 +106,7 @@ public class RAssetShare extends TableImpl<RAssetShareRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : DbHotel.DB_HOTEL;
+        return aliased() ? null : Db.DB_HOTEL;
     }
 
     @Override

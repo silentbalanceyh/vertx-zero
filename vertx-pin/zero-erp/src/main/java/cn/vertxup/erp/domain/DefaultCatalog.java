@@ -28,7 +28,7 @@ public class DefaultCatalog extends CatalogImpl {
     /**
      * The schema <code>DB_HOTEL</code>.
      */
-    public final DbHotel DB_HOTEL = DbHotel.DB_HOTEL;
+    public final Db DB_HOTEL = Db.DB_HOTEL;
 
     /**
      * No further instances allowed
@@ -40,7 +40,7 @@ public class DefaultCatalog extends CatalogImpl {
     @Override
     public final List<Schema> getSchemas() {
         return Arrays.asList(
-            DbHotel.DB_HOTEL
+            Db.DB_HOTEL
         );
     }
 

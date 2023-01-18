@@ -4,7 +4,7 @@
 package cn.vertxup.erp.domain.tables;
 
 
-import cn.vertxup.erp.domain.DbHotel;
+import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EProjectRecord;
 
@@ -242,7 +242,7 @@ public class EProject extends TableImpl<EProjectRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : DbHotel.DB_HOTEL;
+        return aliased() ? null : Db.DB_HOTEL;
     }
 
     @Override
