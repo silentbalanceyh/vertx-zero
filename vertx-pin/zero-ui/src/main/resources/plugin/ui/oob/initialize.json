@@ -1,6 +1,7 @@
 [
-    "plugin/ui/oob/data/ui.menu.xlsx",
-    "plugin/ui/oob/data/zero-k.ui.xlsx",
+    "plugin/ui/oob/menu/MENU-DEV-40000$-develop.web.xlsx",
+    "plugin/ui/oob/menu/MENU-DEV-40000-old.zero.develop.form.xlsx",
+    "plugin/ui/oob/modulat/10000_1100_1030_ZERO-D.UI.xlsx",
     "plugin/ui/oob/cab/ui.app.xlsx",
     "plugin/ui/oob/cab/epic.form.xlsx",
     "plugin/ui/oob/cab/epic.page.xlsx",

@@ -4,4 +4,4 @@ runtime/**/*.zip
 runtime/**/*.tgz
 runtime/**/*.rdb
 server
-runtime/zookeeper/data
+config-runtime/zookeeper/data

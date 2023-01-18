@@ -1,7 +1,9 @@
 [
+    "plugin/rbac/oob/menu/MENU-DEV-90000$-develop.rbac.xlsx",
+    "plugin/rbac/oob/menu/MENU-SIDE-5900$-zero.rbac.xlsx",
+    "plugin/rbac/oob/modulat/12000_2100_ZERO-E.SEC.xlsx",
     "plugin/rbac/oob/data/rbac.account.xlsx",
     "plugin/rbac/oob/data/rbac.dict.xlsx",
-    "plugin/rbac/oob/data/rbac.menu.xlsx",
     "plugin/rbac/oob/cab/login.index.xlsx",
     "plugin/rbac/oob/cab/view.personal.xlsx",
     "plugin/rbac/oob/cab/rbac.group.xlsx",

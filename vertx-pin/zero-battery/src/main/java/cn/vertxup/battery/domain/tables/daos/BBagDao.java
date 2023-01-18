@@ -159,6 +159,36 @@ public class BBagDao extends AbstractVertxDAO<BBagRecord, cn.vertxup.battery.dom
         }
 
         /**
+     * Find records that have <code>ENTRY IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByEntry(Collection<Boolean> values) {
+                return findManyByCondition(BBag.B_BAG.ENTRY.in(values));
+        }
+
+        /**
+     * Find records that have <code>ENTRY IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByEntry(Collection<Boolean> values, int limit) {
+                return findManyByCondition(BBag.B_BAG.ENTRY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ENTRY_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByEntryId(Collection<String> values) {
+                return findManyByCondition(BBag.B_BAG.ENTRY_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>ENTRY_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByEntryId(Collection<String> values, int limit) {
+                return findManyByCondition(BBag.B_BAG.ENTRY_ID.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>APP_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.battery.domain.tables.pojos.BBag>> findManyByAppId(Collection<String> values) {

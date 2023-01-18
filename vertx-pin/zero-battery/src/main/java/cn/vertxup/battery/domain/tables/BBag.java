@@ -67,6 +67,16 @@ public class BBag extends TableImpl<BBagRecord> {
      */
     public final TableField<BBagRecord, String> UI_CONFIG = createField(DSL.name("UI_CONFIG"), SQLDataType.CLOB, this, "「uiConfig」- 模块核心配置");
     /**
+     * The column <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    public final TableField<BBagRecord, Boolean> ENTRY = createField(DSL.name("ENTRY"), SQLDataType.BIT, this, "「entry」- 是否入口（带入口为应用，当前APP_ID下安装内容）");
+    /**
+     * The column <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    public final TableField<BBagRecord, String> ENTRY_ID = createField(DSL.name("ENTRY_ID"), SQLDataType.VARCHAR(36), this, "「entryId」- 入口专用ID，关联 X_MENU 中的ID，其余的直接使用链接");
+    /**
      * The column <code>DB_ETERNAL.B_BAG.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public final TableField<BBagRecord, String> APP_ID = createField(DSL.name("APP_ID"), SQLDataType.VARCHAR(36), this, "「appId」- 关联的应用程序ID");
@@ -203,18 +213,18 @@ public class BBag extends TableImpl<BBagRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, String, String, String, Long, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row21<String, String, String, String, String, String, String, Long, String, Boolean, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function21<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -222,7 +232,7 @@ public class BBag extends TableImpl<BBagRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function21<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

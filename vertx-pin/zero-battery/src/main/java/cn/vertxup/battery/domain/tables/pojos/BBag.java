@@ -29,6 +29,8 @@ public class BBag implements VertxPojo, IBBag {
     private String uiStyle;
     private Long uiSort;
     private String uiConfig;
+    private Boolean entry;
+    private String entryId;
     private String appId;
     private String parentId;
     private Boolean active;
@@ -52,6 +54,8 @@ public class BBag implements VertxPojo, IBBag {
         this.uiStyle = value.getUiStyle();
         this.uiSort = value.getUiSort();
         this.uiConfig = value.getUiConfig();
+        this.entry = value.getEntry();
+        this.entryId = value.getEntryId();
         this.appId = value.getAppId();
         this.parentId = value.getParentId();
         this.active = value.getActive();
@@ -74,6 +78,8 @@ public class BBag implements VertxPojo, IBBag {
         String uiStyle,
         Long uiSort,
         String uiConfig,
+        Boolean entry,
+        String entryId,
         String appId,
         String parentId,
         Boolean active,
@@ -94,6 +100,8 @@ public class BBag implements VertxPojo, IBBag {
         this.uiStyle = uiStyle;
         this.uiSort = uiSort;
         this.uiConfig = uiConfig;
+        this.entry = entry;
+        this.entryId = entryId;
         this.appId = appId;
         this.parentId = parentId;
         this.active = active;
@@ -261,6 +269,44 @@ public class BBag implements VertxPojo, IBBag {
     @Override
     public BBag setUiConfig(String uiConfig) {
         this.uiConfig = uiConfig;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    @Override
+    public Boolean getEntry() {
+        return this.entry;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    @Override
+    public BBag setEntry(Boolean entry) {
+        this.entry = entry;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    @Override
+    public String getEntryId() {
+        return this.entryId;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    @Override
+    public BBag setEntryId(String entryId) {
+        this.entryId = entryId;
         return this;
     }
 
@@ -497,6 +543,18 @@ public class BBag implements VertxPojo, IBBag {
         }
         else if (!this.uiConfig.equals(other.uiConfig))
             return false;
+        if (this.entry == null) {
+            if (other.entry != null)
+                return false;
+        }
+        else if (!this.entry.equals(other.entry))
+            return false;
+        if (this.entryId == null) {
+            if (other.entryId != null)
+                return false;
+        }
+        else if (!this.entryId.equals(other.entryId))
+            return false;
         if (this.appId == null) {
             if (other.appId != null)
                 return false;
@@ -573,6 +631,8 @@ public class BBag implements VertxPojo, IBBag {
         result = prime * result + ((this.uiStyle == null) ? 0 : this.uiStyle.hashCode());
         result = prime * result + ((this.uiSort == null) ? 0 : this.uiSort.hashCode());
         result = prime * result + ((this.uiConfig == null) ? 0 : this.uiConfig.hashCode());
+        result = prime * result + ((this.entry == null) ? 0 : this.entry.hashCode());
+        result = prime * result + ((this.entryId == null) ? 0 : this.entryId.hashCode());
         result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
         result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
         result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
@@ -599,6 +659,8 @@ public class BBag implements VertxPojo, IBBag {
         sb.append(", ").append(uiStyle);
         sb.append(", ").append(uiSort);
         sb.append(", ").append(uiConfig);
+        sb.append(", ").append(entry);
+        sb.append(", ").append(entryId);
         sb.append(", ").append(appId);
         sb.append(", ").append(parentId);
         sb.append(", ").append(active);
@@ -629,6 +691,8 @@ public class BBag implements VertxPojo, IBBag {
         setUiStyle(from.getUiStyle());
         setUiSort(from.getUiSort());
         setUiConfig(from.getUiConfig());
+        setEntry(from.getEntry());
+        setEntryId(from.getEntryId());
         setAppId(from.getAppId());
         setParentId(from.getParentId());
         setActive(from.getActive());

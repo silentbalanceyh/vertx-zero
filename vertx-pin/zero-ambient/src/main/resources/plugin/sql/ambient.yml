@@ -22,9 +22,6 @@ databaseChangeLog:
       file: plugin/sql/ambient/X_MENU.sql
       relativeToChangelogFile: false
   - include:
-      file: plugin/sql/ambient/X_MENU_MY.sql
-      relativeToChangelogFile: false
-  - include:
       file: plugin/sql/ambient/X_NUMBER.sql
       relativeToChangelogFile: false
   - include:

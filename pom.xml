@@ -93,7 +93,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
 
-        <jwt.version>4.2.1</jwt.version>
+        <jwt.version>4.2.2</jwt.version>
         <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
@@ -107,15 +107,15 @@
         <poi.version>5.2.3</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
         <jedis.version>4.4.0-m1</jedis.version>
-        <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.28.0</checker.version>
+        <j2objc.version>2.8</j2objc.version>
+        <checker.version>3.29.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>8.5.3</elasticsearch.version>
+        <elasticsearch.version>8.6.0</elasticsearch.version>
         <elasticsearch.client.version>7.17.8</elasticsearch.client.version>
 
         <!-- neo4j search -->
-        <neo4j.version>5.3.1</neo4j.version>
+        <neo4j.version>5.4.0</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
@@ -139,10 +139,10 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.51.1</grpc.version>
+        <grpc.version>1.52.1</grpc.version>
         <protobuf.version>3.21.12</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
-        <gson.version>2.10</gson.version>
+        <gson.version>2.10.1</gson.version>
         <picoli.version>4.7.0</picoli.version>
 
         <!-- Yaml -->
@@ -151,14 +151,14 @@
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
-        <netty.version>4.1.86.Final</netty.version>
+        <netty.tcnative.version>2.0.56.Final</netty.tcnative.version>
+        <netty.version>4.1.87.Final</netty.version>
         <io.termd.version>1.1.9</io.termd.version>
 
         <!-- Upload Issue -->
         <hazelcast.version>5.2.1</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.16</error.prone.version>
+        <error.prone.version>2.18.0</error.prone.version>
         <reactive.streams.version>1.0.4</reactive.streams.version>
         <zookeeper.version>3.8.0</zookeeper.version>
         <!-- JSR -->
@@ -238,7 +238,7 @@
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.6</camunda.connect.version>
         <camunda.util.version>1.12.0</camunda.util.version>
-        <java.uuid.generator>4.0.1</java.uuid.generator>
+        <java.uuid.generator>4.1.0</java.uuid.generator>
         <mybatis.version>3.5.11</mybatis.version>
     </properties>
     <prerequisites>
