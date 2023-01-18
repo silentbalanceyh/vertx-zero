@@ -123,13 +123,8 @@ class DevMenu {
             } else {
                 literal = text + "," + name;
             }
-            if (level == 1) {
-                csv.add(literal);
-            } else if (level == 2) {
-                csv.add("   " + literal);
-            } else if (level == 3) {
-                csv.add("       " + literal);
-            }
+            final String content = "   ".repeat(Math.max(0, level - 1)) + literal;
+            csv.add(content);
         }
         final JsonArray children = json.getJsonArray(KName.CHILDREN);
         if (Ut.notNil(children)) {
