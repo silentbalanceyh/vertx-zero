@@ -18,334 +18,330 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IECompany extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.KEY</code>. 「key」- 公司主键
+     * Setter for <code>DB_HOTEL.E_COMPANY.KEY</code>. 「key」- 公司主键
      */
     public IECompany setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.KEY</code>. 「key」- 公司主键
+     * Getter for <code>DB_HOTEL.E_COMPANY.KEY</code>. 「key」- 公司主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.NAME</code>. 「name」- 公司名称
+     * Setter for <code>DB_HOTEL.E_COMPANY.NAME</code>. 「name」- 公司名称
      */
     public IECompany setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.NAME</code>. 「name」- 公司名称
+     * Getter for <code>DB_HOTEL.E_COMPANY.NAME</code>. 「name」- 公司名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.ALIAS</code>. 「alias」- 公司别称
+     * Setter for <code>DB_HOTEL.E_COMPANY.ALIAS</code>. 「alias」- 公司别称
      */
     public IECompany setAlias(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.ALIAS</code>. 「alias」- 公司别称
+     * Getter for <code>DB_HOTEL.E_COMPANY.ALIAS</code>. 「alias」- 公司别称
      */
     public String getAlias();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.TITLE</code>. 「title」- 公司显示标题
+     * Setter for <code>DB_HOTEL.E_COMPANY.TITLE</code>. 「title」- 公司显示标题
      */
     public IECompany setTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.TITLE</code>. 「title」- 公司显示标题
+     * Getter for <code>DB_HOTEL.E_COMPANY.TITLE</code>. 「title」- 公司显示标题
      */
     public String getTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CODE</code>. 「code」- 公司编号
+     * Setter for <code>DB_HOTEL.E_COMPANY.CODE</code>. 「code」- 公司编号
      */
     public IECompany setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CODE</code>. 「code」- 公司编号
+     * Getter for <code>DB_HOTEL.E_COMPANY.CODE</code>. 「code」- 公司编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.COMMENT</code>. 「comment」- 公司简介
+     * Setter for <code>DB_HOTEL.E_COMPANY.COMMENT</code>. 「comment」- 公司简介
      */
     public IECompany setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.COMMENT</code>. 「comment」- 公司简介
+     * Getter for <code>DB_HOTEL.E_COMPANY.COMMENT</code>. 「comment」- 公司简介
      */
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.TAX_CODE</code>. 「taxCode」- 公司税号
+     * Setter for <code>DB_HOTEL.E_COMPANY.TAX_CODE</code>. 「taxCode」- 公司税号
      */
     public IECompany setTaxCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.TAX_CODE</code>. 「taxCode」- 公司税号
+     * Getter for <code>DB_HOTEL.E_COMPANY.TAX_CODE</code>. 「taxCode」- 公司税号
      */
     public String getTaxCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Setter for <code>DB_HOTEL.E_COMPANY.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     public IECompany setTaxTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Getter for <code>DB_HOTEL.E_COMPANY.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     public String getTaxTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.EMAIL</code>. 「email」- 企业邮箱
+     * Setter for <code>DB_HOTEL.E_COMPANY.EMAIL</code>. 「email」- 企业邮箱
      */
     public IECompany setEmail(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.EMAIL</code>. 「email」- 企业邮箱
+     * Getter for <code>DB_HOTEL.E_COMPANY.EMAIL</code>. 「email」- 企业邮箱
      */
     public String getEmail();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.FAX</code>. 「fax」- 传真号
+     * Setter for <code>DB_HOTEL.E_COMPANY.FAX</code>. 「fax」- 传真号
      */
     public IECompany setFax(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.FAX</code>. 「fax」- 传真号
+     * Getter for <code>DB_HOTEL.E_COMPANY.FAX</code>. 「fax」- 传真号
      */
     public String getFax();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.HOMEPAGE</code>. 「homepage」- 公司主页
+     * Setter for <code>DB_HOTEL.E_COMPANY.HOMEPAGE</code>. 「homepage」- 公司主页
      */
     public IECompany setHomepage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.HOMEPAGE</code>. 「homepage」- 公司主页
+     * Getter for <code>DB_HOTEL.E_COMPANY.HOMEPAGE</code>. 「homepage」- 公司主页
      */
     public String getHomepage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.LOGO</code>. 「logo」- 附件对应的
-     * attachment Key
+     * Setter for <code>DB_HOTEL.E_COMPANY.LOGO</code>. 「logo」- 附件对应的 attachment
+     * Key
      */
     public IECompany setLogo(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.LOGO</code>. 「logo」- 附件对应的
-     * attachment Key
+     * Getter for <code>DB_HOTEL.E_COMPANY.LOGO</code>. 「logo」- 附件对应的 attachment
+     * Key
      */
     public String getLogo();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.PHONE</code>. 「phone」- 公司座机
+     * Setter for <code>DB_HOTEL.E_COMPANY.PHONE</code>. 「phone」- 公司座机
      */
     public IECompany setPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.PHONE</code>. 「phone」- 公司座机
+     * Getter for <code>DB_HOTEL.E_COMPANY.PHONE</code>. 「phone」- 公司座机
      */
     public String getPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.ADDRESS</code>. 「address」- 公司地址
+     * Setter for <code>DB_HOTEL.E_COMPANY.ADDRESS</code>. 「address」- 公司地址
      */
     public IECompany setAddress(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.ADDRESS</code>. 「address」- 公司地址
+     * Getter for <code>DB_HOTEL.E_COMPANY.ADDRESS</code>. 「address」- 公司地址
      */
     public String getAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.LOCATION_ID</code>. 「locationId」-
+     * Setter for <code>DB_HOTEL.E_COMPANY.LOCATION_ID</code>. 「locationId」-
      * 启用LBS时对应的Location主键
      */
     public IECompany setLocationId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.LOCATION_ID</code>. 「locationId」-
+     * Getter for <code>DB_HOTEL.E_COMPANY.LOCATION_ID</code>. 「locationId」-
      * 启用LBS时对应的Location主键
      */
     public String getLocationId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CORPORATION_NAME</code>.
+     * Setter for <code>DB_HOTEL.E_COMPANY.CORPORATION_NAME</code>.
      * 「corporationName」- 企业法人
      */
     public IECompany setCorporationName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CORPORATION_NAME</code>.
+     * Getter for <code>DB_HOTEL.E_COMPANY.CORPORATION_NAME</code>.
      * 「corporationName」- 企业法人
      */
     public String getCorporationName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CORPORATION_PHONE</code>.
+     * Setter for <code>DB_HOTEL.E_COMPANY.CORPORATION_PHONE</code>.
      * 「corporationPhone」- 法人电话
      */
     public IECompany setCorporationPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CORPORATION_PHONE</code>.
+     * Getter for <code>DB_HOTEL.E_COMPANY.CORPORATION_PHONE</code>.
      * 「corporationPhone」- 法人电话
      */
     public String getCorporationPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CONTACT_NAME</code>. 「contactName」-
+     * Setter for <code>DB_HOTEL.E_COMPANY.CONTACT_NAME</code>. 「contactName」-
      * 联系人电话
      */
     public IECompany setContactName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CONTACT_NAME</code>. 「contactName」-
+     * Getter for <code>DB_HOTEL.E_COMPANY.CONTACT_NAME</code>. 「contactName」-
      * 联系人电话
      */
     public String getContactName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CONTACT_PHONE</code>.
-     * 「contactPhone」- 联系人电话
+     * Setter for <code>DB_HOTEL.E_COMPANY.CONTACT_PHONE</code>. 「contactPhone」-
+     * 联系人电话
      */
     public IECompany setContactPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CONTACT_PHONE</code>.
-     * 「contactPhone」- 联系人电话
+     * Getter for <code>DB_HOTEL.E_COMPANY.CONTACT_PHONE</code>. 「contactPhone」-
+     * 联系人电话
      */
     public String getContactPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CONTACT_ONLINE</code>.
+     * Setter for <code>DB_HOTEL.E_COMPANY.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     public IECompany setContactOnline(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CONTACT_ONLINE</code>.
+     * Getter for <code>DB_HOTEL.E_COMPANY.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     public String getContactOnline();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.COMPANY_ID</code>. 「companyId」-
+     * Setter for <code>DB_HOTEL.E_COMPANY.COMPANY_ID</code>. 「companyId」-
      * 公司、子公司结构时需要
      */
     public IECompany setCompanyId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.COMPANY_ID</code>. 「companyId」-
+     * Getter for <code>DB_HOTEL.E_COMPANY.COMPANY_ID</code>. 「companyId」-
      * 公司、子公司结构时需要
      */
     public String getCompanyId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CUSTOMER_ID</code>. 「customerId」-
+     * Setter for <code>DB_HOTEL.E_COMPANY.CUSTOMER_ID</code>. 「customerId」-
      * 公司作为客户时的客户信息
      */
     public IECompany setCustomerId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CUSTOMER_ID</code>. 「customerId」-
+     * Getter for <code>DB_HOTEL.E_COMPANY.CUSTOMER_ID</code>. 「customerId」-
      * 公司作为客户时的客户信息
      */
     public String getCustomerId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.TYPE</code>. 「type」- 公司分类
+     * Setter for <code>DB_HOTEL.E_COMPANY.TYPE</code>. 「type」- 公司分类
      */
     public IECompany setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.TYPE</code>. 「type」- 公司分类
+     * Getter for <code>DB_HOTEL.E_COMPANY.TYPE</code>. 「type」- 公司分类
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_COMPANY.METADATA</code>. 「metadata」- 附加配置
      */
     public IECompany setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_COMPANY.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_COMPANY.ACTIVE</code>. 「active」- 是否启用
      */
     public IECompany setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_COMPANY.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Setter for <code>DB_HOTEL.E_COMPANY.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public IECompany setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Getter for <code>DB_HOTEL.E_COMPANY.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_COMPANY.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IECompany setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_COMPANY.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_COMPANY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IECompany setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_COMPANY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_COMPANY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IECompany setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_COMPANY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_COMPANY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IECompany setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_COMPANY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_COMPANY.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_COMPANY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IECompany setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_COMPANY.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_COMPANY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

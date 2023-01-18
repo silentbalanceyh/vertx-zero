@@ -28,7 +28,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.KEY</code>. 「key」- 品牌ID
+     * Setter for <code>DB_HOTEL.E_BRAND.KEY</code>. 「key」- 品牌ID
      */
     @Override
     public EBrandRecord setKey(String value) {
@@ -37,7 +37,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.KEY</code>. 「key」- 品牌ID
+     * Getter for <code>DB_HOTEL.E_BRAND.KEY</code>. 「key」- 品牌ID
      */
     @Override
     public String getKey() {
@@ -45,7 +45,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CODE</code>. 「code」- 品牌编码
+     * Setter for <code>DB_HOTEL.E_BRAND.CODE</code>. 「code」- 品牌编码
      */
     @Override
     public EBrandRecord setCode(String value) {
@@ -54,7 +54,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CODE</code>. 「code」- 品牌编码
+     * Getter for <code>DB_HOTEL.E_BRAND.CODE</code>. 「code」- 品牌编码
      */
     @Override
     public String getCode() {
@@ -62,7 +62,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.NAME</code>. 「name」- 品牌名称
+     * Setter for <code>DB_HOTEL.E_BRAND.NAME</code>. 「name」- 品牌名称
      */
     @Override
     public EBrandRecord setName(String value) {
@@ -71,7 +71,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.NAME</code>. 「name」- 品牌名称
+     * Getter for <code>DB_HOTEL.E_BRAND.NAME</code>. 「name」- 品牌名称
      */
     @Override
     public String getName() {
@@ -79,7 +79,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
+     * Setter for <code>DB_HOTEL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
      */
     @Override
     public EBrandRecord setAlias(String value) {
@@ -88,7 +88,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
+     * Getter for <code>DB_HOTEL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
      */
     @Override
     public String getAlias() {
@@ -96,7 +96,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
+     * Setter for <code>DB_HOTEL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
      * 品牌公司名
      */
     @Override
@@ -106,7 +106,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
+     * Getter for <code>DB_HOTEL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
      * 品牌公司名
      */
     @Override
@@ -115,7 +115,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
+     * Setter for <code>DB_HOTEL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
      * 类别代码
      */
     @Override
@@ -125,7 +125,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
+     * Getter for <code>DB_HOTEL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
      * 类别代码
      */
     @Override
@@ -134,7 +134,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
+     * Setter for <code>DB_HOTEL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
      * 类别名称
      */
     @Override
@@ -144,7 +144,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
+     * Getter for <code>DB_HOTEL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
      * 类别名称
      */
     @Override
@@ -153,7 +153,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
     @Override
@@ -163,7 +163,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
     @Override
@@ -172,7 +172,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
      */
     @Override
     public EBrandRecord setAreaName(String value) {
@@ -181,7 +181,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
      */
     @Override
     public String getAreaName() {
@@ -189,7 +189,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
      * 区域类别码
      */
     @Override
@@ -199,7 +199,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
      * 区域类别码
      */
     @Override
@@ -208,7 +208,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public EBrandRecord setMetadata(String value) {
@@ -217,7 +217,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -225,7 +225,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public EBrandRecord setActive(Boolean value) {
@@ -234,7 +234,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -242,7 +242,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Setter for <code>DB_HOTEL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     @Override
     public EBrandRecord setSigma(String value) {
@@ -251,7 +251,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Getter for <code>DB_HOTEL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     @Override
     public String getSigma() {
@@ -259,7 +259,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public EBrandRecord setLanguage(String value) {
@@ -268,7 +268,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -276,7 +276,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public EBrandRecord setCreatedAt(LocalDateTime value) {
@@ -285,7 +285,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -293,7 +293,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public EBrandRecord setCreatedBy(String value) {
@@ -302,7 +302,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -310,7 +310,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public EBrandRecord setUpdatedAt(LocalDateTime value) {
@@ -319,7 +319,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -327,7 +327,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public EBrandRecord setUpdatedBy(String value) {
@@ -336,7 +336,7 @@ public class EBrandRecord extends UpdatableRecordImpl<EBrandRecord> implements V
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {

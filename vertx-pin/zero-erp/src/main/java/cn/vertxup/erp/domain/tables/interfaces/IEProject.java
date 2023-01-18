@@ -19,328 +19,320 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEProject extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.KEY</code>. 「key」- 项目ID
+     * Setter for <code>DB_HOTEL.E_PROJECT.KEY</code>. 「key」- 项目ID
      */
     public IEProject setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.KEY</code>. 「key」- 项目ID
+     * Getter for <code>DB_HOTEL.E_PROJECT.KEY</code>. 「key」- 项目ID
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.NAME</code>. 「name」- 项目名称
+     * Setter for <code>DB_HOTEL.E_PROJECT.NAME</code>. 「name」- 项目名称
      */
     public IEProject setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.NAME</code>. 「name」- 项目名称
+     * Getter for <code>DB_HOTEL.E_PROJECT.NAME</code>. 「name」- 项目名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CODE</code>. 「code」- 项目编号
+     * Setter for <code>DB_HOTEL.E_PROJECT.CODE</code>. 「code」- 项目编号
      */
     public IEProject setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CODE</code>. 「code」- 项目编号
+     * Getter for <code>DB_HOTEL.E_PROJECT.CODE</code>. 「code」- 项目编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
-     * 项目简称
+     * Setter for <code>DB_HOTEL.E_PROJECT.SHORT_NAME</code>. 「shortName」- 项目简称
      */
     public IEProject setShortName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
-     * 项目简称
+     * Getter for <code>DB_HOTEL.E_PROJECT.SHORT_NAME</code>. 「shortName」- 项目简称
      */
     public String getShortName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Setter for <code>DB_HOTEL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     public IEProject setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Getter for <code>DB_HOTEL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.TYPE</code>. 「type」-
      * 项目分类，zero.project
      */
     public IEProject setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.TYPE</code>. 「type」-
      * 项目分类，zero.project
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.STATUS</code>. 「status」-
      * 项目状态，zero.project.status
      */
     public IEProject setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.STATUS</code>. 「status」-
      * 项目状态，zero.project.status
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.BUDGET</code>. 「budget」-
      * 所属预算，zero.project.budget
      */
     public IEProject setBudget(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.BUDGET</code>. 「budget」-
      * 所属预算，zero.project.budget
      */
     public String getBudget();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.LEVEL</code>. 「level」-
      * 项目级别，zero.project.level
      */
     public IEProject setLevel(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.LEVEL</code>. 「level」-
      * 项目级别，zero.project.level
      */
     public String getLevel();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.PRIORITY</code>. 「priority」-
      * 项目优先级，zero.project.priority
      */
     public IEProject setPriority(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.PRIORITY</code>. 「priority」-
      * 项目优先级，zero.project.priority
      */
     public String getPriority();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.RISK</code>. 「risk」-
      * 项目风险，zero.project.risk
      */
     public IEProject setRisk(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.RISK</code>. 「risk」-
      * 项目风险，zero.project.risk
      */
     public String getRisk();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
+     * Setter for <code>DB_HOTEL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     public IEProject setTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
+     * Getter for <code>DB_HOTEL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     public String getTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.ICON</code>. 「icon」- 项目图标
+     * Setter for <code>DB_HOTEL.E_PROJECT.ICON</code>. 「icon」- 项目图标
      */
     public IEProject setIcon(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.ICON</code>. 「icon」- 项目图标
+     * Getter for <code>DB_HOTEL.E_PROJECT.ICON</code>. 「icon」- 项目图标
      */
     public String getIcon();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     * Setter for <code>DB_HOTEL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
      */
     public IEProject setAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     * Getter for <code>DB_HOTEL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
      */
     public BigDecimal getAmount();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     * Setter for <code>DB_HOTEL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
      */
     public IEProject setSubject(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     * Getter for <code>DB_HOTEL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
      */
     public String getSubject();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
     public IEProject setDescription(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
     public String getDescription();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     * Setter for <code>DB_HOTEL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
      */
     public IEProject setRemark(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     * Getter for <code>DB_HOTEL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
      */
     public String getRemark();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
+     * Setter for <code>DB_HOTEL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     public IEProject setLeadBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
+     * Getter for <code>DB_HOTEL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     public String getLeadBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     public IEProject setPlanStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     public LocalDateTime getPlanStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
-     * 结束日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」- 结束日期
      */
     public IEProject setPlanEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
-     * 结束日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」- 结束日期
      */
     public LocalDateTime getPlanEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
      */
     public IEProject setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
      */
     public IEProject setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
      */
     public IEProject setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
      */
     public IEProject setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
+     * Setter for <code>DB_HOTEL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
      */
     public IEProject setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
+     * Getter for <code>DB_HOTEL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEProject setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_PROJECT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEProject setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_PROJECT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEProject setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEProject setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEProject setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

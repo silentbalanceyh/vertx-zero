@@ -64,7 +64,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -73,7 +73,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -83,7 +83,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -92,7 +92,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -102,7 +102,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -111,7 +111,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -121,7 +121,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -130,7 +130,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -140,7 +140,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -148,7 +148,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
      */
     @Override
     public TVendorCheckIn setEndAt(LocalDateTime endAt) {
@@ -157,8 +157,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」-
-     * Duration
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」- Duration
      */
     @Override
     public Integer getDays() {
@@ -166,8 +165,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」-
-     * Duration
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」- Duration
      */
     @Override
     public TVendorCheckIn setDays(Integer days) {
@@ -176,7 +174,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
      * 「onboardAt」- To
      */
     @Override
@@ -185,7 +183,7 @@ public class TVendorCheckIn implements VertxPojo, ITVendorCheckIn {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
      * 「onboardAt」- To
      */
     @Override

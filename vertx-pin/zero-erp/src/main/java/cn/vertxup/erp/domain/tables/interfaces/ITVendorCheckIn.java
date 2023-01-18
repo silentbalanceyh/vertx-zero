@@ -18,83 +18,81 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITVendorCheckIn extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public ITVendorCheckIn setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITVendorCheckIn setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public ITVendorCheckIn setClassification(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public String getClassification();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
      * From
      */
     public ITVendorCheckIn setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.START_AT</code>. 「startAt」-
      * From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
      */
     public ITVendorCheckIn setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」-
-     * Duration
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」- Duration
      */
     public ITVendorCheckIn setDays(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」-
-     * Duration
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.DAYS</code>. 「days」- Duration
      */
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
      * 「onboardAt」- To
      */
     public ITVendorCheckIn setOnboardAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_IN.ONBOARD_AT</code>.
      * 「onboardAt」- To
      */
     public LocalDateTime getOnboardAt();

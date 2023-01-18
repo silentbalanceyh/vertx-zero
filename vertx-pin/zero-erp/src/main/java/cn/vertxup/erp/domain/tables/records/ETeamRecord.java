@@ -28,7 +28,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.KEY</code>. 「key」- 组主键
+     * Setter for <code>DB_HOTEL.E_TEAM.KEY</code>. 「key」- 组主键
      */
     @Override
     public ETeamRecord setKey(String value) {
@@ -37,7 +37,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.KEY</code>. 「key」- 组主键
+     * Getter for <code>DB_HOTEL.E_TEAM.KEY</code>. 「key」- 组主键
      */
     @Override
     public String getKey() {
@@ -45,7 +45,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.NAME</code>. 「name」- 组名称
+     * Setter for <code>DB_HOTEL.E_TEAM.NAME</code>. 「name」- 组名称
      */
     @Override
     public ETeamRecord setName(String value) {
@@ -54,7 +54,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.NAME</code>. 「name」- 组名称
+     * Getter for <code>DB_HOTEL.E_TEAM.NAME</code>. 「name」- 组名称
      */
     @Override
     public String getName() {
@@ -62,7 +62,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CODE</code>. 「code」- 组编号
+     * Setter for <code>DB_HOTEL.E_TEAM.CODE</code>. 「code」- 组编号
      */
     @Override
     public ETeamRecord setCode(String value) {
@@ -71,7 +71,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CODE</code>. 「code」- 组编号
+     * Getter for <code>DB_HOTEL.E_TEAM.CODE</code>. 「code」- 组编号
      */
     @Override
     public String getCode() {
@@ -79,7 +79,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
+     * Setter for <code>DB_HOTEL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
      */
     @Override
     public ETeamRecord setLeaderId(String value) {
@@ -88,7 +88,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
+     * Getter for <code>DB_HOTEL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
      */
     @Override
     public String getLeaderId() {
@@ -96,7 +96,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
+     * Setter for <code>DB_HOTEL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
      */
     @Override
     public ETeamRecord setLeaderName(String value) {
@@ -105,7 +105,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
+     * Getter for <code>DB_HOTEL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
      */
     @Override
     public String getLeaderName() {
@@ -113,7 +113,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
+     * Setter for <code>DB_HOTEL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
      */
     @Override
     public ETeamRecord setDeptId(String value) {
@@ -122,7 +122,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
+     * Getter for <code>DB_HOTEL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
      */
     @Override
     public String getDeptId() {
@@ -130,7 +130,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
+     * Setter for <code>DB_HOTEL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
      */
     @Override
     public ETeamRecord setTeamId(String value) {
@@ -139,7 +139,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
+     * Getter for <code>DB_HOTEL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
      */
     @Override
     public String getTeamId() {
@@ -147,7 +147,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.COMMENT</code>. 「comment」- 组备注
+     * Setter for <code>DB_HOTEL.E_TEAM.COMMENT</code>. 「comment」- 组备注
      */
     @Override
     public ETeamRecord setComment(String value) {
@@ -156,7 +156,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.COMMENT</code>. 「comment」- 组备注
+     * Getter for <code>DB_HOTEL.E_TEAM.COMMENT</code>. 「comment」- 组备注
      */
     @Override
     public String getComment() {
@@ -164,8 +164,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
-     * 绑定用户组ID,安全专用处理
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_ID</code>. 「bindId」- 绑定用户组ID,安全专用处理
      */
     @Override
     public ETeamRecord setBindId(String value) {
@@ -174,8 +173,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
-     * 绑定用户组ID,安全专用处理
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_ID</code>. 「bindId」- 绑定用户组ID,安全专用处理
      */
     @Override
     public String getBindId() {
@@ -183,8 +181,8 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
-     * 「bindComponent」- 绑定扩展组件
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_COMPONENT</code>. 「bindComponent」-
+     * 绑定扩展组件
      */
     @Override
     public ETeamRecord setBindComponent(String value) {
@@ -193,8 +191,8 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
-     * 「bindComponent」- 绑定扩展组件
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_COMPONENT</code>. 「bindComponent」-
+     * 绑定扩展组件
      */
     @Override
     public String getBindComponent() {
@@ -202,7 +200,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
      * 绑定JSON详细配置
      */
     @Override
@@ -212,7 +210,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
      * 绑定JSON详细配置
      */
     @Override
@@ -221,7 +219,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public ETeamRecord setMetadata(String value) {
@@ -230,7 +228,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -238,7 +236,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public ETeamRecord setActive(Boolean value) {
@@ -247,7 +245,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -255,7 +253,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public ETeamRecord setSigma(String value) {
@@ -264,7 +262,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public String getSigma() {
@@ -272,7 +270,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public ETeamRecord setLanguage(String value) {
@@ -281,7 +279,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -289,7 +287,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public ETeamRecord setCreatedAt(LocalDateTime value) {
@@ -298,7 +296,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -306,7 +304,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public ETeamRecord setCreatedBy(String value) {
@@ -315,7 +313,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -323,7 +321,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public ETeamRecord setUpdatedAt(LocalDateTime value) {
@@ -332,7 +330,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -340,7 +338,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public ETeamRecord setUpdatedBy(String value) {
@@ -349,7 +347,7 @@ public class ETeamRecord extends UpdatableRecordImpl<ETeamRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {

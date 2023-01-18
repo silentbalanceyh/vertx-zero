@@ -50,8 +50,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     @Override
     public String getAssetId() {
@@ -59,8 +58,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     @Override
     public RAssetShare setAssetId(String assetId) {
@@ -69,8 +67,8 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     @Override
     public String getEntityType() {
@@ -78,8 +76,8 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     @Override
     public RAssetShare setEntityType(String entityType) {
@@ -88,7 +86,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     @Override
@@ -97,7 +95,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     @Override
@@ -107,7 +105,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public String getComment() {
@@ -115,7 +113,7 @@ public class RAssetShare implements VertxPojo, IRAssetShare {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public RAssetShare setComment(String comment) {

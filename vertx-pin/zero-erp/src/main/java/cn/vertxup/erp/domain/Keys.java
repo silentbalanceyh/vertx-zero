@@ -55,7 +55,7 @@ import org.jooq.impl.Internal;
 
 /**
  * A class modelling foreign key relationships and constraints of tables in
- * DB_ETERNAL.
+ * DB_HOTEL.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {

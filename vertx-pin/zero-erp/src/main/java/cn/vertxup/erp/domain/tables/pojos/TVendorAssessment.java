@@ -80,7 +80,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -89,7 +89,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -99,7 +99,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -108,7 +108,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -118,7 +118,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -127,7 +127,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -137,8 +137,8 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.START_AT</code>.
-     * 「startAt」- From
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.START_AT</code>. 「startAt」-
+     * From
      */
     @Override
     public LocalDateTime getStartAt() {
@@ -146,8 +146,8 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.START_AT</code>.
-     * 「startAt」- From
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.START_AT</code>. 「startAt」-
+     * From
      */
     @Override
     public TVendorAssessment setStartAt(LocalDateTime startAt) {
@@ -156,8 +156,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」-
-     * To
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -165,8 +164,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」-
-     * To
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public TVendorAssessment setEndAt(LocalDateTime endAt) {
@@ -175,7 +173,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
      * Duration
      */
     @Override
@@ -184,7 +182,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
      * Duration
      */
     @Override
@@ -194,7 +192,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
      * 「assessOn」- The user that will be assessed
      */
     @Override
@@ -203,7 +201,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
      * 「assessOn」- The user that will be assessed
      */
     @Override
@@ -213,7 +211,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
      * 「assessScore」- The score of the user
      */
     @Override
@@ -222,7 +220,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
      * 「assessScore」- The score of the user
      */
     @Override
@@ -232,7 +230,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
      * 「commentDept」- from department
      */
     @Override
@@ -241,7 +239,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
      * 「commentDept」- from department
      */
     @Override
@@ -251,7 +249,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
      * 「commentAssess」- from assess
      */
     @Override
@@ -260,7 +258,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
      * 「commentAssess」- from assess
      */
     @Override
@@ -270,7 +268,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
      * 「commentLeader」- from leader of project
      */
     @Override
@@ -279,7 +277,7 @@ public class TVendorAssessment implements VertxPojo, ITVendorAssessment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
      * 「commentLeader」- from leader of project
      */
     @Override

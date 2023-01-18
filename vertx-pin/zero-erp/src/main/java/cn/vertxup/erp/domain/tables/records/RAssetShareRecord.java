@@ -26,8 +26,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     @Override
     public RAssetShareRecord setAssetId(String value) {
@@ -36,8 +35,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     @Override
     public String getAssetId() {
@@ -45,8 +43,8 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     @Override
     public RAssetShareRecord setEntityType(String value) {
@@ -55,8 +53,8 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     @Override
     public String getEntityType() {
@@ -64,7 +62,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     @Override
@@ -74,7 +72,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     @Override
@@ -83,7 +81,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public RAssetShareRecord setComment(String value) {
@@ -92,7 +90,7 @@ public class RAssetShareRecord extends UpdatableRecordImpl<RAssetShareRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public String getComment() {

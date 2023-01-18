@@ -28,113 +28,113 @@ import cn.vertxup.erp.domain.tables.TVendorHour;
 
 
 /**
- * Convenience access to all tables in DB_ETERNAL.
+ * Convenience access to all tables in DB_HOTEL.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
-     * The table <code>DB_ETERNAL.E_ASSET</code>.
+     * The table <code>DB_HOTEL.E_ASSET</code>.
      */
     public static final EAsset E_ASSET = EAsset.E_ASSET;
 
     /**
-     * The table <code>DB_ETERNAL.E_BRAND</code>.
+     * The table <code>DB_HOTEL.E_BRAND</code>.
      */
     public static final EBrand E_BRAND = EBrand.E_BRAND;
 
     /**
-     * The table <code>DB_ETERNAL.E_COMPANY</code>.
+     * The table <code>DB_HOTEL.E_COMPANY</code>.
      */
     public static final ECompany E_COMPANY = ECompany.E_COMPANY;
 
     /**
-     * The table <code>DB_ETERNAL.E_CONTRACT</code>.
+     * The table <code>DB_HOTEL.E_CONTRACT</code>.
      */
     public static final EContract E_CONTRACT = EContract.E_CONTRACT;
 
     /**
-     * The table <code>DB_ETERNAL.E_CUSTOMER</code>.
+     * The table <code>DB_HOTEL.E_CUSTOMER</code>.
      */
     public static final ECustomer E_CUSTOMER = ECustomer.E_CUSTOMER;
 
     /**
-     * The table <code>DB_ETERNAL.E_DEPT</code>.
+     * The table <code>DB_HOTEL.E_DEPT</code>.
      */
     public static final EDept E_DEPT = EDept.E_DEPT;
 
     /**
-     * The table <code>DB_ETERNAL.E_EMPLOYEE</code>.
+     * The table <code>DB_HOTEL.E_EMPLOYEE</code>.
      */
     public static final EEmployee E_EMPLOYEE = EEmployee.E_EMPLOYEE;
 
     /**
-     * The table <code>DB_ETERNAL.E_IDENTITY</code>.
+     * The table <code>DB_HOTEL.E_IDENTITY</code>.
      */
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
-     * The table <code>DB_ETERNAL.E_PROJECT</code>.
+     * The table <code>DB_HOTEL.E_PROJECT</code>.
      */
     public static final EProject E_PROJECT = EProject.E_PROJECT;
 
     /**
-     * The table <code>DB_ETERNAL.E_TEAM</code>.
+     * The table <code>DB_HOTEL.E_TEAM</code>.
      */
     public static final ETeam E_TEAM = ETeam.E_TEAM;
 
     /**
-     * The table <code>DB_ETERNAL.R_ASSET_SHARE</code>.
+     * The table <code>DB_HOTEL.R_ASSET_SHARE</code>.
      */
     public static final RAssetShare R_ASSET_SHARE = RAssetShare.R_ASSET_SHARE;
 
     /**
-     * The table <code>DB_ETERNAL.R_COMPANY_CUSTOMER</code>.
+     * The table <code>DB_HOTEL.R_COMPANY_CUSTOMER</code>.
      */
     public static final RCompanyCustomer R_COMPANY_CUSTOMER = RCompanyCustomer.R_COMPANY_CUSTOMER;
 
     /**
-     * The table <code>DB_ETERNAL.R_TEAM_EMPLOYEE</code>.
+     * The table <code>DB_HOTEL.R_TEAM_EMPLOYEE</code>.
      */
     public static final RTeamEmployee R_TEAM_EMPLOYEE = RTeamEmployee.R_TEAM_EMPLOYEE;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_ASSIGNMENT</code>.
+     * The table <code>DB_HOTEL.T_OA_ASSIGNMENT</code>.
      */
     public static final TOaAssignment T_OA_ASSIGNMENT = TOaAssignment.T_OA_ASSIGNMENT;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_TRAINING</code>.
+     * The table <code>DB_HOTEL.T_OA_TRAINING</code>.
      */
     public static final TOaTraining T_OA_TRAINING = TOaTraining.T_OA_TRAINING;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_TRIP</code>.
+     * The table <code>DB_HOTEL.T_OA_TRIP</code>.
      */
     public static final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
 
     /**
-     * The table <code>DB_ETERNAL.T_OA_VACATION</code>.
+     * The table <code>DB_HOTEL.T_OA_VACATION</code>.
      */
     public static final TOaVacation T_OA_VACATION = TOaVacation.T_OA_VACATION;
 
     /**
-     * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.
+     * The table <code>DB_HOTEL.T_VENDOR_ASSESSMENT</code>.
      */
     public static final TVendorAssessment T_VENDOR_ASSESSMENT = TVendorAssessment.T_VENDOR_ASSESSMENT;
 
     /**
-     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_IN</code>.
+     * The table <code>DB_HOTEL.T_VENDOR_CHECK_IN</code>.
      */
     public static final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
 
     /**
-     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_OUT</code>.
+     * The table <code>DB_HOTEL.T_VENDOR_CHECK_OUT</code>.
      */
     public static final TVendorCheckOut T_VENDOR_CHECK_OUT = TVendorCheckOut.T_VENDOR_CHECK_OUT;
 
     /**
-     * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
+     * The table <code>DB_HOTEL.T_VENDOR_HOUR</code>.
      */
     public static final TVendorHour T_VENDOR_HOUR = TVendorHour.T_VENDOR_HOUR;
 }

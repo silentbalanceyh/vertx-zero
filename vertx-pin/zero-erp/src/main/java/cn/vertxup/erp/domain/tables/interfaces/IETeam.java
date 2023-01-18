@@ -18,198 +18,196 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IETeam extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.KEY</code>. 「key」- 组主键
+     * Setter for <code>DB_HOTEL.E_TEAM.KEY</code>. 「key」- 组主键
      */
     public IETeam setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.KEY</code>. 「key」- 组主键
+     * Getter for <code>DB_HOTEL.E_TEAM.KEY</code>. 「key」- 组主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.NAME</code>. 「name」- 组名称
+     * Setter for <code>DB_HOTEL.E_TEAM.NAME</code>. 「name」- 组名称
      */
     public IETeam setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.NAME</code>. 「name」- 组名称
+     * Getter for <code>DB_HOTEL.E_TEAM.NAME</code>. 「name」- 组名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CODE</code>. 「code」- 组编号
+     * Setter for <code>DB_HOTEL.E_TEAM.CODE</code>. 「code」- 组编号
      */
     public IETeam setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CODE</code>. 「code」- 组编号
+     * Getter for <code>DB_HOTEL.E_TEAM.CODE</code>. 「code」- 组编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
+     * Setter for <code>DB_HOTEL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
      */
     public IETeam setLeaderId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
+     * Getter for <code>DB_HOTEL.E_TEAM.LEADER_ID</code>. 「leaderId」- 组长
      */
     public String getLeaderId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
+     * Setter for <code>DB_HOTEL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
      */
     public IETeam setLeaderName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
+     * Getter for <code>DB_HOTEL.E_TEAM.LEADER_NAME</code>. 「leaderName」- 组长姓名
      */
     public String getLeaderName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
+     * Setter for <code>DB_HOTEL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public IETeam setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
+     * Getter for <code>DB_HOTEL.E_TEAM.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
+     * Setter for <code>DB_HOTEL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
      */
     public IETeam setTeamId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
+     * Getter for <code>DB_HOTEL.E_TEAM.TEAM_ID</code>. 「teamId」- 父组ID
      */
     public String getTeamId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.COMMENT</code>. 「comment」- 组备注
+     * Setter for <code>DB_HOTEL.E_TEAM.COMMENT</code>. 「comment」- 组备注
      */
     public IETeam setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.COMMENT</code>. 「comment」- 组备注
+     * Getter for <code>DB_HOTEL.E_TEAM.COMMENT</code>. 「comment」- 组备注
      */
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
-     * 绑定用户组ID,安全专用处理
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_ID</code>. 「bindId」- 绑定用户组ID,安全专用处理
      */
     public IETeam setBindId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
-     * 绑定用户组ID,安全专用处理
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_ID</code>. 「bindId」- 绑定用户组ID,安全专用处理
      */
     public String getBindId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
-     * 「bindComponent」- 绑定扩展组件
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_COMPONENT</code>. 「bindComponent」-
+     * 绑定扩展组件
      */
     public IETeam setBindComponent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
-     * 「bindComponent」- 绑定扩展组件
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_COMPONENT</code>. 「bindComponent」-
+     * 绑定扩展组件
      */
     public String getBindComponent();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * Setter for <code>DB_HOTEL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
      * 绑定JSON详细配置
      */
     public IETeam setBindConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * Getter for <code>DB_HOTEL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
      * 绑定JSON详细配置
      */
     public String getBindConfig();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     public IETeam setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
      */
     public IETeam setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_TEAM.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
      */
     public IETeam setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_TEAM.SIGMA</code>. 「sigma」- 统一标识
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IETeam setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_TEAM.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IETeam setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_TEAM.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IETeam setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_TEAM.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IETeam setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_TEAM.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IETeam setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_TEAM.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

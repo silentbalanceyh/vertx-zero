@@ -47,7 +47,32 @@
                         }
                     ],
                     [
-                        "contactOnline,在线联系方式,,,,placeholder=QQ、微博等在线联系方式"
+                        "contactOnline,在线联系方式,,,,placeholder=QQ、微博等在线联系方式",
+                        {
+                            "metadata": "rltPricecat,房价码,,,aiTreeSelector,placeholder=（请选择）",
+                            "optionJsx.config": {
+                                "ajax": {
+                                    "uri": "/api/room-price/member/:appId",
+                                    "magic": {
+                                        "appId": "PROP:app.key",
+                                        "type": "code.pricecat"
+                                    }
+                                },
+                                "linker": {
+                                    "key": "rltPricecat"
+                                },
+                                "selection": {
+                                    "multiple": false,
+                                    "checkStrictly": true
+                                },
+                                "tree": {
+                                    "title": "name"
+                                },
+                                "validation": "请选择房价码",
+                                "window": "选择房价码,选择,关闭,false,900,false"
+                            },
+                            "optionJsx.allowClear": true
+                        }
                     ]
                 ]
             }

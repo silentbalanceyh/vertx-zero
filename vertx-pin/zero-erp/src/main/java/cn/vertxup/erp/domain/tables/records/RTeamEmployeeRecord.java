@@ -26,8 +26,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.TEAM_ID</code>. 「teamId」-
-     * 组的ID
+     * Setter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.TEAM_ID</code>. 「teamId」- 组的ID
      */
     @Override
     public RTeamEmployeeRecord setTeamId(String value) {
@@ -36,8 +35,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.TEAM_ID</code>. 「teamId」-
-     * 组的ID
+     * Getter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.TEAM_ID</code>. 「teamId」- 组的ID
      */
     @Override
     public String getTeamId() {
@@ -45,7 +43,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.EMPLOYEE_ID</code>.
+     * Setter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.EMPLOYEE_ID</code>.
      * 「employeeId」- 员工ID
      */
     @Override
@@ -55,7 +53,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.EMPLOYEE_ID</code>.
+     * Getter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.EMPLOYEE_ID</code>.
      * 「employeeId」- 员工ID
      */
     @Override
@@ -64,8 +62,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.COMMENT</code>. 「comment」-
-     * 关系备注
+     * Setter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public RTeamEmployeeRecord setComment(String value) {
@@ -74,8 +71,7 @@ public class RTeamEmployeeRecord extends UpdatableRecordImpl<RTeamEmployeeRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_TEAM_EMPLOYEE.COMMENT</code>. 「comment」-
-     * 关系备注
+     * Getter for <code>DB_HOTEL.R_TEAM_EMPLOYEE.COMMENT</code>. 「comment」- 关系备注
      */
     @Override
     public String getComment() {

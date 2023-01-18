@@ -157,7 +157,7 @@ public class EProject implements VertxPojo, IEProject {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.KEY</code>. 「key」- 项目ID
+     * Getter for <code>DB_HOTEL.E_PROJECT.KEY</code>. 「key」- 项目ID
      */
     @Override
     public String getKey() {
@@ -165,7 +165,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.KEY</code>. 「key」- 项目ID
+     * Setter for <code>DB_HOTEL.E_PROJECT.KEY</code>. 「key」- 项目ID
      */
     @Override
     public EProject setKey(String key) {
@@ -174,7 +174,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.NAME</code>. 「name」- 项目名称
+     * Getter for <code>DB_HOTEL.E_PROJECT.NAME</code>. 「name」- 项目名称
      */
     @Override
     public String getName() {
@@ -182,7 +182,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.NAME</code>. 「name」- 项目名称
+     * Setter for <code>DB_HOTEL.E_PROJECT.NAME</code>. 「name」- 项目名称
      */
     @Override
     public EProject setName(String name) {
@@ -191,7 +191,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CODE</code>. 「code」- 项目编号
+     * Getter for <code>DB_HOTEL.E_PROJECT.CODE</code>. 「code」- 项目编号
      */
     @Override
     public String getCode() {
@@ -199,7 +199,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CODE</code>. 「code」- 项目编号
+     * Setter for <code>DB_HOTEL.E_PROJECT.CODE</code>. 「code」- 项目编号
      */
     @Override
     public EProject setCode(String code) {
@@ -208,8 +208,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
-     * 项目简称
+     * Getter for <code>DB_HOTEL.E_PROJECT.SHORT_NAME</code>. 「shortName」- 项目简称
      */
     @Override
     public String getShortName() {
@@ -217,8 +216,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SHORT_NAME</code>. 「shortName」-
-     * 项目简称
+     * Setter for <code>DB_HOTEL.E_PROJECT.SHORT_NAME</code>. 「shortName」- 项目简称
      */
     @Override
     public EProject setShortName(String shortName) {
@@ -227,7 +225,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Getter for <code>DB_HOTEL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     @Override
@@ -236,7 +234,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Setter for <code>DB_HOTEL.E_PROJECT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     @Override
@@ -246,7 +244,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.TYPE</code>. 「type」-
      * 项目分类，zero.project
      */
     @Override
@@ -255,7 +253,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TYPE</code>. 「type」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.TYPE</code>. 「type」-
      * 项目分类，zero.project
      */
     @Override
@@ -265,7 +263,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.STATUS</code>. 「status」-
      * 项目状态，zero.project.status
      */
     @Override
@@ -274,7 +272,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.STATUS</code>. 「status」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.STATUS</code>. 「status」-
      * 项目状态，zero.project.status
      */
     @Override
@@ -284,7 +282,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.BUDGET</code>. 「budget」-
      * 所属预算，zero.project.budget
      */
     @Override
@@ -293,7 +291,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.BUDGET</code>. 「budget」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.BUDGET</code>. 「budget」-
      * 所属预算，zero.project.budget
      */
     @Override
@@ -303,7 +301,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.LEVEL</code>. 「level」-
      * 项目级别，zero.project.level
      */
     @Override
@@ -312,7 +310,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LEVEL</code>. 「level」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.LEVEL</code>. 「level」-
      * 项目级别，zero.project.level
      */
     @Override
@@ -322,7 +320,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.PRIORITY</code>. 「priority」-
      * 项目优先级，zero.project.priority
      */
     @Override
@@ -331,7 +329,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PRIORITY</code>. 「priority」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.PRIORITY</code>. 「priority」-
      * 项目优先级，zero.project.priority
      */
     @Override
@@ -341,7 +339,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.RISK</code>. 「risk」-
      * 项目风险，zero.project.risk
      */
     @Override
@@ -350,7 +348,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.RISK</code>. 「risk」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.RISK</code>. 「risk」-
      * 项目风险，zero.project.risk
      */
     @Override
@@ -360,7 +358,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
+     * Getter for <code>DB_HOTEL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     @Override
     public String getTitle() {
@@ -368,7 +366,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.TITLE</code>. 「title」- 项目标题
+     * Setter for <code>DB_HOTEL.E_PROJECT.TITLE</code>. 「title」- 项目标题
      */
     @Override
     public EProject setTitle(String title) {
@@ -377,7 +375,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.ICON</code>. 「icon」- 项目图标
+     * Getter for <code>DB_HOTEL.E_PROJECT.ICON</code>. 「icon」- 项目图标
      */
     @Override
     public String getIcon() {
@@ -385,7 +383,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.ICON</code>. 「icon」- 项目图标
+     * Setter for <code>DB_HOTEL.E_PROJECT.ICON</code>. 「icon」- 项目图标
      */
     @Override
     public EProject setIcon(String icon) {
@@ -394,7 +392,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     * Getter for <code>DB_HOTEL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
      */
     @Override
     public BigDecimal getAmount() {
@@ -402,7 +400,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
+     * Setter for <code>DB_HOTEL.E_PROJECT.AMOUNT</code>. 「amount」- 项目金额
      */
     @Override
     public EProject setAmount(BigDecimal amount) {
@@ -411,7 +409,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     * Getter for <code>DB_HOTEL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
      */
     @Override
     public String getSubject() {
@@ -419,7 +417,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
+     * Setter for <code>DB_HOTEL.E_PROJECT.SUBJECT</code>. 「subject」- 项目目标
      */
     @Override
     public EProject setSubject(String subject) {
@@ -428,7 +426,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
+     * Getter for <code>DB_HOTEL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
     @Override
@@ -437,7 +435,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.DESCRIPTION</code>. 「description」-
+     * Setter for <code>DB_HOTEL.E_PROJECT.DESCRIPTION</code>. 「description」-
      * 主单描述内容
      */
     @Override
@@ -447,7 +445,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     * Getter for <code>DB_HOTEL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
      */
     @Override
     public String getRemark() {
@@ -455,7 +453,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
+     * Setter for <code>DB_HOTEL.E_PROJECT.REMARK</code>. 「remark」- 项目备注
      */
     @Override
     public EProject setRemark(String remark) {
@@ -464,7 +462,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
+     * Getter for <code>DB_HOTEL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     @Override
     public String getLeadBy() {
@@ -472,7 +470,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
+     * Setter for <code>DB_HOTEL.E_PROJECT.LEAD_BY</code>. 「leadBy」- 项目经理
      */
     @Override
     public EProject setLeadBy(String leadBy) {
@@ -481,8 +479,8 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     @Override
     public LocalDateTime getPlanStartAt() {
@@ -490,8 +488,8 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     @Override
     public EProject setPlanStartAt(LocalDateTime planStartAt) {
@@ -500,8 +498,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
-     * 结束日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」- 结束日期
      */
     @Override
     public LocalDateTime getPlanEndAt() {
@@ -509,8 +506,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」-
-     * 结束日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.PLAN_END_AT</code>. 「planEndAt」- 结束日期
      */
     @Override
     public EProject setPlanEndAt(LocalDateTime planEndAt) {
@@ -519,7 +515,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
      */
     @Override
     public LocalDateTime getStartAt() {
@@ -527,7 +523,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.START_AT</code>. 「startAt」- 实际开始日期
      */
     @Override
     public EProject setStartAt(LocalDateTime startAt) {
@@ -536,7 +532,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     * Getter for <code>DB_HOTEL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -544,7 +540,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
+     * Setter for <code>DB_HOTEL.E_PROJECT.END_AT</code>. 「endAt」- 实际结束日期
      */
     @Override
     public EProject setEndAt(LocalDateTime endAt) {
@@ -553,7 +549,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -561,7 +557,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_PROJECT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public EProject setMetadata(String metadata) {
@@ -570,7 +566,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -578,7 +574,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_PROJECT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public EProject setActive(Boolean active) {
@@ -587,7 +583,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
+     * Getter for <code>DB_HOTEL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
      */
     @Override
     public String getSigma() {
@@ -595,7 +591,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
+     * Setter for <code>DB_HOTEL.E_PROJECT.SIGMA</code>. 「sigma」- 统一标识（项目所属应用）
      */
     @Override
     public EProject setSigma(String sigma) {
@@ -604,7 +600,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -612,7 +608,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_PROJECT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public EProject setLanguage(String language) {
@@ -621,8 +617,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_PROJECT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -630,8 +625,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_PROJECT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public EProject setCreatedAt(LocalDateTime createdAt) {
@@ -640,7 +634,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -648,7 +642,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_PROJECT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public EProject setCreatedBy(String createdBy) {
@@ -657,8 +651,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -666,8 +659,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_PROJECT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public EProject setUpdatedAt(LocalDateTime updatedAt) {
@@ -676,7 +668,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {
@@ -684,7 +676,7 @@ public class EProject implements VertxPojo, IEProject {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_PROJECT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public EProject setUpdatedBy(String updatedBy) {

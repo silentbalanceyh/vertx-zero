@@ -18,127 +18,125 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITOaTrip extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.KEY</code>. 「key」- Ticket Primary
-     * Key
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.KEY</code>. 「key」- Ticket Primary Key
      */
     public ITOaTrip setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.KEY</code>. 「key」- Ticket Primary
-     * Key
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.KEY</code>. 「key」- Ticket Primary Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITOaTrip setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.REQUEST_BY</code>. 「requestBy」-
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.REQUEST_BY</code>. 「requestBy」-
      * Request User
      */
     public ITOaTrip setRequestBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.REQUEST_BY</code>. 「requestBy」-
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.REQUEST_BY</code>. 「requestBy」-
      * Request User
      */
     public String getRequestBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.START_AT</code>. 「startAt」- From
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.START_AT</code>. 「startAt」- From
      */
     public ITOaTrip setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.START_AT</code>. 「startAt」- From
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.START_AT</code>. 「startAt」- From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.END_AT</code>. 「endAt」- To
      */
     public ITOaTrip setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.DAYS</code>. 「days」- Duration
      */
     public ITOaTrip setDays(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.DAYS</code>. 「days」- Duration
      */
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_PROVINCE</code>.
-     * 「tripProvince」- Trip Province
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.TRIP_PROVINCE</code>. 「tripProvince」-
+     * Trip Province
      */
     public ITOaTrip setTripProvince(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_PROVINCE</code>.
-     * 「tripProvince」- Trip Province
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.TRIP_PROVINCE</code>. 「tripProvince」-
+     * Trip Province
      */
     public String getTripProvince();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_CITY</code>. 「tripCity」- Trip
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.TRIP_CITY</code>. 「tripCity」- Trip
      * City
      */
     public ITOaTrip setTripCity(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_CITY</code>. 「tripCity」- Trip
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.TRIP_CITY</code>. 「tripCity」- Trip
      * City
      */
     public String getTripCity();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_ADDRESS</code>. 「tripAddress」-
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.TRIP_ADDRESS</code>. 「tripAddress」-
      * Trip Address
      */
     public ITOaTrip setTripAddress(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.TRIP_ADDRESS</code>. 「tripAddress」-
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.TRIP_ADDRESS</code>. 「tripAddress」-
      * Trip Address
      */
     public String getTripAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.REASON</code>. 「reason」- The reason
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.REASON</code>. 「reason」- The reason
      * to be done
      */
     public ITOaTrip setReason(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.REASON</code>. 「reason」- The reason
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.REASON</code>. 「reason」- The reason
      * to be done
      */
     public String getReason();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRIP.WORK_CONTENT</code>. 「workContent」-
+     * Setter for <code>DB_HOTEL.T_OA_TRIP.WORK_CONTENT</code>. 「workContent」-
      * Working Assignment Content
      */
     public ITOaTrip setWorkContent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRIP.WORK_CONTENT</code>. 「workContent」-
+     * Getter for <code>DB_HOTEL.T_OA_TRIP.WORK_CONTENT</code>. 「workContent」-
      * Working Assignment Content
      */
     public String getWorkContent();

@@ -18,292 +18,272 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEEmployee extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.KEY</code>. 「key」- 员工主键
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.KEY</code>. 「key」- 员工主键
      */
     public IEEmployee setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.KEY</code>. 「key」- 员工主键
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.KEY</code>. 「key」- 员工主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.COMPANY_ID</code>. 「companyId」-
-     * 所属公司
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public IEEmployee setCompanyId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.COMPANY_ID</code>. 「companyId」-
-     * 所属公司
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public String getCompanyId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.DEPT_ID</code>. 「deptId」- 所属部门
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public IEEmployee setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.DEPT_ID</code>. 「deptId」- 所属部门
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.TEAM_ID</code>. 「teamId」- 所属组
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.TEAM_ID</code>. 「teamId」- 所属组
      */
     public IEEmployee setTeamId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.TEAM_ID</code>. 「teamId」- 所属组
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.TEAM_ID</code>. 「teamId」- 所属组
      */
     public String getTeamId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.IDENTITY_ID</code>. 「identityId」-
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.IDENTITY_ID</code>. 「identityId」-
      * 关联档案
      */
     public IEEmployee setIdentityId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.IDENTITY_ID</code>. 「identityId」-
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.IDENTITY_ID</code>. 「identityId」-
      * 关联档案
      */
     public String getIdentityId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_NAME</code>. 「viceName」- 员工姓名
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.VICE_NAME</code>. 「viceName」- 员工姓名
      */
     public IEEmployee setViceName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_NAME</code>. 「viceName」- 员工姓名
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.VICE_NAME</code>. 「viceName」- 员工姓名
      */
     public String getViceName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_EMAIL</code>. 「viceEmail」-
-     * 员工邮箱
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.VICE_EMAIL</code>. 「viceEmail」- 员工邮箱
      */
     public IEEmployee setViceEmail(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_EMAIL</code>. 「viceEmail」-
-     * 员工邮箱
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.VICE_EMAIL</code>. 「viceEmail」- 员工邮箱
      */
     public String getViceEmail();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_MOBILE</code>. 「viceMobile」-
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.VICE_MOBILE</code>. 「viceMobile」-
      * 员工手机
      */
     public IEEmployee setViceMobile(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.VICE_MOBILE</code>. 「viceMobile」-
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.VICE_MOBILE</code>. 「viceMobile」-
      * 员工手机
      */
     public String getViceMobile();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_NUMBER</code>. 「workNumber」-
-     * 工号
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_NUMBER</code>. 「workNumber」- 工号
      */
     public IEEmployee setWorkNumber(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_NUMBER</code>. 「workNumber」-
-     * 工号
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_NUMBER</code>. 「workNumber」- 工号
      */
     public String getWorkNumber();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_TITLE</code>. 「workTitle」- 头衔
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_TITLE</code>. 「workTitle」- 头衔
      */
     public IEEmployee setWorkTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_TITLE</code>. 「workTitle」- 头衔
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_TITLE</code>. 「workTitle」- 头衔
      */
     public String getWorkTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_LOCATION</code>.
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_LOCATION</code>.
      * 「workLocation」- 办公地点
      */
     public IEEmployee setWorkLocation(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_LOCATION</code>.
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_LOCATION</code>.
      * 「workLocation」- 办公地点
      */
     public String getWorkLocation();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_PHONE</code>. 「workPhone」-
-     * 办公电话
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_PHONE</code>. 「workPhone」- 办公电话
      */
     public IEEmployee setWorkPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_PHONE</code>. 「workPhone」-
-     * 办公电话
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_PHONE</code>. 「workPhone」- 办公电话
      */
     public String getWorkPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_EXTENSION</code>.
      * 「workExtension」- 分机号
      */
     public IEEmployee setWorkExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_EXTENSION</code>.
      * 「workExtension」- 分机号
      */
     public String getWorkExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
      * 入职时间
      */
     public IEEmployee setWorkHireAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.WORK_HIRE_AT</code>. 「workHireAt」-
      * 入职时间
      */
     public LocalDateTime getWorkHireAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
      */
     public IEEmployee setBankId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.BANK_ID</code>. 「bankId」- 开户行
      */
     public String getBankId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     public IEEmployee setBankCard(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     public String getBankCard();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     public IEEmployee setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.TYPE</code>. 「type」- 员工分类
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
      */
     public IEEmployee setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.STATUS</code>. 「status」- 员工状态
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
      */
     public IEEmployee setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.ACTIVE</code>. 「active」- 是否启用
      */
     public IEEmployee setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.SIGMA</code>. 「sigma」-
-     * 统一标识（公司所属应用）
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public IEEmployee setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.SIGMA</code>. 「sigma」-
-     * 统一标识（公司所属应用）
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEEmployee setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEEmployee setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEEmployee setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEEmployee setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_EMPLOYEE.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Setter for <code>DB_HOTEL.E_EMPLOYEE.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEEmployee setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_EMPLOYEE.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Getter for <code>DB_HOTEL.E_EMPLOYEE.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

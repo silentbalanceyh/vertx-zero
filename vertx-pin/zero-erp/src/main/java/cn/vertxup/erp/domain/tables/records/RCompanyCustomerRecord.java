@@ -26,7 +26,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMPANY_ID</code>.
+     * Setter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.COMPANY_ID</code>.
      * 「companyId」- 企业的ID
      */
     @Override
@@ -36,7 +36,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMPANY_ID</code>.
+     * Getter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.COMPANY_ID</code>.
      * 「companyId」- 企业的ID
      */
     @Override
@@ -45,7 +45,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.CUSTOMER_ID</code>.
+     * Setter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.CUSTOMER_ID</code>.
      * 「customerId」- 客户信息的ID
      */
     @Override
@@ -55,7 +55,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.CUSTOMER_ID</code>.
+     * Getter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.CUSTOMER_ID</code>.
      * 「customerId」- 客户信息的ID
      */
     @Override
@@ -64,7 +64,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMMENT</code>. 「comment」-
+     * Setter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.COMMENT</code>. 「comment」-
      * 关系备注
      */
     @Override
@@ -74,7 +74,7 @@ public class RCompanyCustomerRecord extends UpdatableRecordImpl<RCompanyCustomer
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.R_COMPANY_CUSTOMER.COMMENT</code>. 「comment」-
+     * Getter for <code>DB_HOTEL.R_COMPANY_CUSTOMER.COMMENT</code>. 「comment」-
      * 关系备注
      */
     @Override

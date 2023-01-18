@@ -45,6 +45,7 @@ CREATE TABLE `E_CUSTOMER`
     `SIGN_PHONE`     VARCHAR(20) COMMENT '「signPhone」- 签单人电话',
     `RUN_UP`         BIT            DEFAULT NULL COMMENT '「runUp」- 挂账属性',
     `RUN_UP_AMOUNT`  DECIMAL(18, 2) DEFAULT NULL COMMENT '「runUpAmount」- 挂账限额',
+    `RLT_PRICECAT`   varchar(255)   DEFAULT NULL COMMENT '「rltPricecat」- 挂账限额',
 
     -- 银行账号/开户行
     `BANK_ID`        VARCHAR(36) COMMENT '「bankId」- 开户行',
@@ -55,6 +56,7 @@ CREATE TABLE `E_CUSTOMER`
     `ACTIVE`         BIT            DEFAULT NULL COMMENT '「active」- 是否启用',
     `SIGMA`          VARCHAR(32)    DEFAULT NULL COMMENT '「sigma」- 统一标识（客户所属应用）',
     `LANGUAGE`       VARCHAR(8)     DEFAULT NULL COMMENT '「language」- 使用的语言',
+
 
     -- Auditor字段
     `CREATED_AT`     DATETIME COMMENT '「createdAt」- 创建时间',

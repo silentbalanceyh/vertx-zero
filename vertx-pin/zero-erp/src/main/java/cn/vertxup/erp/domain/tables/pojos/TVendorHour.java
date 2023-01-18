@@ -80,8 +80,8 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     @Override
     public String getKey() {
@@ -89,8 +89,8 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     @Override
     public TVendorHour setKey(String key) {
@@ -99,7 +99,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -108,7 +108,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -118,7 +118,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -127,7 +127,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -137,8 +137,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.START_AT</code>. 「startAt」-
-     * From
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.START_AT</code>. 「startAt」- From
      */
     @Override
     public LocalDateTime getStartAt() {
@@ -146,8 +145,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.START_AT</code>. 「startAt」-
-     * From
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.START_AT</code>. 「startAt」- From
      */
     @Override
     public TVendorHour setStartAt(LocalDateTime startAt) {
@@ -156,7 +154,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -164,7 +162,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.END_AT</code>. 「endAt」- To
      */
     @Override
     public TVendorHour setEndAt(LocalDateTime endAt) {
@@ -173,7 +171,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.DAYS</code>. 「days」- Duration
      */
     @Override
     public Integer getDays() {
@@ -181,7 +179,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.DAYS</code>. 「days」- Duration
      */
     @Override
     public TVendorHour setDays(Integer days) {
@@ -190,7 +188,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.REQUEST_TYPE</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.REQUEST_TYPE</code>.
      * 「requestType」- Request type of hour
      */
     @Override
@@ -199,7 +197,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.REQUEST_TYPE</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.REQUEST_TYPE</code>.
      * 「requestType」- Request type of hour
      */
     @Override
@@ -209,7 +207,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.FROM_TYPE</code>. 「fromType」
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.FROM_TYPE</code>. 「fromType」
      */
     @Override
     public String getFromType() {
@@ -217,7 +215,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.FROM_TYPE</code>. 「fromType」
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.FROM_TYPE</code>. 「fromType」
      */
     @Override
     public TVendorHour setFromType(String fromType) {
@@ -226,7 +224,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.FROM_AT</code>. 「fromAt」
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.FROM_AT</code>. 「fromAt」
      */
     @Override
     public LocalDateTime getFromAt() {
@@ -234,7 +232,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.FROM_AT</code>. 「fromAt」
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.FROM_AT</code>. 「fromAt」
      */
     @Override
     public TVendorHour setFromAt(LocalDateTime fromAt) {
@@ -243,7 +241,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.TO_TYPE</code>. 「toType」
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.TO_TYPE</code>. 「toType」
      */
     @Override
     public String getToType() {
@@ -251,7 +249,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.TO_TYPE</code>. 「toType」
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.TO_TYPE</code>. 「toType」
      */
     @Override
     public TVendorHour setToType(String toType) {
@@ -260,7 +258,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_HOUR.TO_AT</code>. 「toAt」
+     * Getter for <code>DB_HOTEL.T_VENDOR_HOUR.TO_AT</code>. 「toAt」
      */
     @Override
     public LocalDateTime getToAt() {
@@ -268,7 +266,7 @@ public class TVendorHour implements VertxPojo, ITVendorHour {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_HOUR.TO_AT</code>. 「toAt」
+     * Setter for <code>DB_HOTEL.T_VENDOR_HOUR.TO_AT</code>. 「toAt」
      */
     @Override
     public TVendorHour setToAt(LocalDateTime toAt) {

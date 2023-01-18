@@ -19,576 +19,572 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEAsset extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.KEY</code>. 「key」- 资产主键
+     * Setter for <code>DB_HOTEL.E_ASSET.KEY</code>. 「key」- 资产主键
      */
     public IEAsset setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.KEY</code>. 「key」- 资产主键
+     * Getter for <code>DB_HOTEL.E_ASSET.KEY</code>. 「key」- 资产主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NAME</code>. 「name」- 资产名称
+     * Setter for <code>DB_HOTEL.E_ASSET.NAME</code>. 「name」- 资产名称
      */
     public IEAsset setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NAME</code>. 「name」- 资产名称
+     * Getter for <code>DB_HOTEL.E_ASSET.NAME</code>. 「name」- 资产名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.CODE</code>. 「code」- 资产编号
+     * Setter for <code>DB_HOTEL.E_ASSET.CODE</code>. 「code」- 资产编号
      */
     public IEAsset setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.CODE</code>. 「code」- 资产编号
+     * Getter for <code>DB_HOTEL.E_ASSET.CODE</code>. 「code」- 资产编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.TYPE</code>. 「type」- 资产类型
+     * Setter for <code>DB_HOTEL.E_ASSET.TYPE</code>. 「type」- 资产类型
      */
     public IEAsset setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.TYPE</code>. 「type」- 资产类型
+     * Getter for <code>DB_HOTEL.E_ASSET.TYPE</code>. 「type」- 资产类型
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     * Setter for <code>DB_HOTEL.E_ASSET.STATUS</code>. 「status」- 资产状态
      */
     public IEAsset setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.STATUS</code>. 「status」- 资产状态
+     * Getter for <code>DB_HOTEL.E_ASSET.STATUS</code>. 「status」- 资产状态
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
+     * Setter for <code>DB_HOTEL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
      * 规格型号
      */
     public IEAsset setModelNumber(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
+     * Getter for <code>DB_HOTEL.E_ASSET.MODEL_NUMBER</code>. 「modelNumber」-
      * 规格型号
      */
     public String getModelNumber();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.UNIT</code>. 「unit」- 计量单位
+     * Setter for <code>DB_HOTEL.E_ASSET.UNIT</code>. 「unit」- 计量单位
      */
     public IEAsset setUnit(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.UNIT</code>. 「unit」- 计量单位
+     * Getter for <code>DB_HOTEL.E_ASSET.UNIT</code>. 「unit」- 计量单位
      */
     public String getUnit();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NUM</code>. 「num」- 资产数量
+     * Setter for <code>DB_HOTEL.E_ASSET.NUM</code>. 「num」- 资产数量
      */
     public IEAsset setNum(Long value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NUM</code>. 「num」- 资产数量
+     * Getter for <code>DB_HOTEL.E_ASSET.NUM</code>. 「num」- 资产数量
      */
     public Long getNum();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NUM_DEPRECATING</code>.
+     * Setter for <code>DB_HOTEL.E_ASSET.NUM_DEPRECATING</code>.
      * 「numDeprecating」- 预计折旧数量
      */
     public IEAsset setNumDeprecating(Long value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NUM_DEPRECATING</code>.
+     * Getter for <code>DB_HOTEL.E_ASSET.NUM_DEPRECATING</code>.
      * 「numDeprecating」- 预计折旧数量
      */
     public Long getNumDeprecating();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NUM_DEPRECATED</code>.
-     * 「numDeprecated」- 已折旧数量
+     * Setter for <code>DB_HOTEL.E_ASSET.NUM_DEPRECATED</code>. 「numDeprecated」-
+     * 已折旧数量
      */
     public IEAsset setNumDeprecated(Long value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NUM_DEPRECATED</code>.
-     * 「numDeprecated」- 已折旧数量
+     * Getter for <code>DB_HOTEL.E_ASSET.NUM_DEPRECATED</code>. 「numDeprecated」-
+     * 已折旧数量
      */
     public Long getNumDeprecated();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NUM_USING</code>. 「numUsing」- 预计使用数量
+     * Setter for <code>DB_HOTEL.E_ASSET.NUM_USING</code>. 「numUsing」- 预计使用数量
      */
     public IEAsset setNumUsing(Long value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NUM_USING</code>. 「numUsing」- 预计使用数量
+     * Getter for <code>DB_HOTEL.E_ASSET.NUM_USING</code>. 「numUsing」- 预计使用数量
      */
     public Long getNumUsing();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.NUM_USED</code>. 「numUsed」- 已使用数量
+     * Setter for <code>DB_HOTEL.E_ASSET.NUM_USED</code>. 「numUsed」- 已使用数量
      */
     public IEAsset setNumUsed(Long value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.NUM_USED</code>. 「numUsed」- 已使用数量
+     * Getter for <code>DB_HOTEL.E_ASSET.NUM_USED</code>. 「numUsed」- 已使用数量
      */
     public Long getNumUsed();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.WAY_CHANGE</code>. 「wayChange」- 变动方式
+     * Setter for <code>DB_HOTEL.E_ASSET.WAY_CHANGE</code>. 「wayChange」- 变动方式
      */
     public IEAsset setWayChange(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.WAY_CHANGE</code>. 「wayChange」- 变动方式
+     * Getter for <code>DB_HOTEL.E_ASSET.WAY_CHANGE</code>. 「wayChange」- 变动方式
      */
     public String getWayChange();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.WAY_DEPRECATE</code>. 「wayDeprecate」-
+     * Setter for <code>DB_HOTEL.E_ASSET.WAY_DEPRECATE</code>. 「wayDeprecate」-
      * 折旧方式
      */
     public IEAsset setWayDeprecate(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.WAY_DEPRECATE</code>. 「wayDeprecate」-
+     * Getter for <code>DB_HOTEL.E_ASSET.WAY_DEPRECATE</code>. 「wayDeprecate」-
      * 折旧方式
      */
     public String getWayDeprecate();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.WAY_ACCORDING</code>. 「wayAccording」-
+     * Setter for <code>DB_HOTEL.E_ASSET.WAY_ACCORDING</code>. 「wayAccording」-
      * 折旧依据
      */
     public IEAsset setWayAccording(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.WAY_ACCORDING</code>. 「wayAccording」-
+     * Getter for <code>DB_HOTEL.E_ASSET.WAY_ACCORDING</code>. 「wayAccording」-
      * 折旧依据
      */
     public String getWayAccording();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.USED_AT</code>. 「usedAt」- 开始使用时间
+     * Setter for <code>DB_HOTEL.E_ASSET.USED_AT</code>. 「usedAt」- 开始使用时间
      */
     public IEAsset setUsedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.USED_AT</code>. 「usedAt」- 开始使用时间
+     * Getter for <code>DB_HOTEL.E_ASSET.USED_AT</code>. 「usedAt」- 开始使用时间
      */
     public LocalDateTime getUsedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.USED_BY</code>. 「usedBy」- 使用者
+     * Setter for <code>DB_HOTEL.E_ASSET.USED_BY</code>. 「usedBy」- 使用者
      */
     public IEAsset setUsedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.USED_BY</code>. 「usedBy」- 使用者
+     * Getter for <code>DB_HOTEL.E_ASSET.USED_BY</code>. 「usedBy」- 使用者
      */
     public String getUsedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.USED_STATUS</code>. 「usedStatus」-
-     * 使用状态
+     * Setter for <code>DB_HOTEL.E_ASSET.USED_STATUS</code>. 「usedStatus」- 使用状态
      */
     public IEAsset setUsedStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.USED_STATUS</code>. 「usedStatus」-
-     * 使用状态
+     * Getter for <code>DB_HOTEL.E_ASSET.USED_STATUS</code>. 「usedStatus」- 使用状态
      */
     public String getUsedStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_ORIGINAL</code>. 「vOriginal」- 原价值
+     * Setter for <code>DB_HOTEL.E_ASSET.V_ORIGINAL</code>. 「vOriginal」- 原价值
      */
     public IEAsset setVOriginal(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_ORIGINAL</code>. 「vOriginal」- 原价值
+     * Getter for <code>DB_HOTEL.E_ASSET.V_ORIGINAL</code>. 「vOriginal」- 原价值
      */
     public BigDecimal getVOriginal();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_TAX</code>. 「vTax」- 税额
+     * Setter for <code>DB_HOTEL.E_ASSET.V_TAX</code>. 「vTax」- 税额
      */
     public IEAsset setVTax(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_TAX</code>. 「vTax」- 税额
+     * Getter for <code>DB_HOTEL.E_ASSET.V_TAX</code>. 「vTax」- 税额
      */
     public BigDecimal getVTax();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_DE_READY</code>. 「vDeReady」- 减值准备
+     * Setter for <code>DB_HOTEL.E_ASSET.V_DE_READY</code>. 「vDeReady」- 减值准备
      */
     public IEAsset setVDeReady(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_DE_READY</code>. 「vDeReady」- 减值准备
+     * Getter for <code>DB_HOTEL.E_ASSET.V_DE_READY</code>. 「vDeReady」- 减值准备
      */
     public BigDecimal getVDeReady();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_NET_JUNK</code>. 「vNetJunk」- 净残值
+     * Setter for <code>DB_HOTEL.E_ASSET.V_NET_JUNK</code>. 「vNetJunk」- 净残值
      */
     public IEAsset setVNetJunk(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_NET_JUNK</code>. 「vNetJunk」- 净残值
+     * Getter for <code>DB_HOTEL.E_ASSET.V_NET_JUNK</code>. 「vNetJunk」- 净残值
      */
     public BigDecimal getVNetJunk();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_NET</code>. 「vNet」- 净值
+     * Setter for <code>DB_HOTEL.E_ASSET.V_NET</code>. 「vNet」- 净值
      */
     public IEAsset setVNet(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_NET</code>. 「vNet」- 净值
+     * Getter for <code>DB_HOTEL.E_ASSET.V_NET</code>. 「vNet」- 净值
      */
     public BigDecimal getVNet();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_NET_AMOUNT</code>. 「vNetAmount」- 净额
+     * Setter for <code>DB_HOTEL.E_ASSET.V_NET_AMOUNT</code>. 「vNetAmount」- 净额
      */
     public IEAsset setVNetAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_NET_AMOUNT</code>. 「vNetAmount」- 净额
+     * Getter for <code>DB_HOTEL.E_ASSET.V_NET_AMOUNT</code>. 「vNetAmount」- 净额
      */
     public BigDecimal getVNetAmount();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_DEPRECATED_M</code>.
-     * 「vDeprecatedM」- 月折旧
+     * Setter for <code>DB_HOTEL.E_ASSET.V_DEPRECATED_M</code>. 「vDeprecatedM」-
+     * 月折旧
      */
     public IEAsset setVDeprecatedM(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_DEPRECATED_M</code>.
-     * 「vDeprecatedM」- 月折旧
+     * Getter for <code>DB_HOTEL.E_ASSET.V_DEPRECATED_M</code>. 「vDeprecatedM」-
+     * 月折旧
      */
     public BigDecimal getVDeprecatedM();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.V_DEPRECATED_A</code>.
-     * 「vDeprecatedA」- 累积折旧
+     * Setter for <code>DB_HOTEL.E_ASSET.V_DEPRECATED_A</code>. 「vDeprecatedA」-
+     * 累积折旧
      */
     public IEAsset setVDeprecatedA(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.V_DEPRECATED_A</code>.
-     * 「vDeprecatedA」- 累积折旧
+     * Getter for <code>DB_HOTEL.E_ASSET.V_DEPRECATED_A</code>. 「vDeprecatedA」-
+     * 累积折旧
      */
     public BigDecimal getVDeprecatedA();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_FIXED</code>. 「kFixed」- 固定资产科目
+     * Setter for <code>DB_HOTEL.E_ASSET.K_FIXED</code>. 「kFixed」- 固定资产科目
      */
     public IEAsset setKFixed(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_FIXED</code>. 「kFixed」- 固定资产科目
+     * Getter for <code>DB_HOTEL.E_ASSET.K_FIXED</code>. 「kFixed」- 固定资产科目
      */
     public String getKFixed();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_DEPRECATED</code>. 「kDeprecated」-
+     * Setter for <code>DB_HOTEL.E_ASSET.K_DEPRECATED</code>. 「kDeprecated」-
      * 累积折旧科目
      */
     public IEAsset setKDeprecated(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_DEPRECATED</code>. 「kDeprecated」-
+     * Getter for <code>DB_HOTEL.E_ASSET.K_DEPRECATED</code>. 「kDeprecated」-
      * 累积折旧科目
      */
     public String getKDeprecated();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_ASSIGNMENT</code>. 「kAssignment」-
+     * Setter for <code>DB_HOTEL.E_ASSET.K_ASSIGNMENT</code>. 「kAssignment」-
      * 折旧费用分配科目
      */
     public IEAsset setKAssignment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_ASSIGNMENT</code>. 「kAssignment」-
+     * Getter for <code>DB_HOTEL.E_ASSET.K_ASSIGNMENT</code>. 「kAssignment」-
      * 折旧费用分配科目
      */
     public String getKAssignment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_TAX</code>. 「kTax」- 税金科目
+     * Setter for <code>DB_HOTEL.E_ASSET.K_TAX</code>. 「kTax」- 税金科目
      */
     public IEAsset setKTax(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_TAX</code>. 「kTax」- 税金科目
+     * Getter for <code>DB_HOTEL.E_ASSET.K_TAX</code>. 「kTax」- 税金科目
      */
     public String getKTax();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_DEVALUE</code>. 「kDevalue」- 减值准备科目
+     * Setter for <code>DB_HOTEL.E_ASSET.K_DEVALUE</code>. 「kDevalue」- 减值准备科目
      */
     public IEAsset setKDevalue(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_DEVALUE</code>. 「kDevalue」- 减值准备科目
+     * Getter for <code>DB_HOTEL.E_ASSET.K_DEVALUE</code>. 「kDevalue」- 减值准备科目
      */
     public String getKDevalue();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.K_CHANGE</code>. 「kChange」- 资产变动对方科目
+     * Setter for <code>DB_HOTEL.E_ASSET.K_CHANGE</code>. 「kChange」- 资产变动对方科目
      */
     public IEAsset setKChange(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.K_CHANGE</code>. 「kChange」- 资产变动对方科目
+     * Getter for <code>DB_HOTEL.E_ASSET.K_CHANGE</code>. 「kChange」- 资产变动对方科目
      */
     public String getKChange();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.CUSTOMER_ID</code>. 「customerId」-
-     * 供应商ID
+     * Setter for <code>DB_HOTEL.E_ASSET.CUSTOMER_ID</code>. 「customerId」- 供应商ID
      */
     public IEAsset setCustomerId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.CUSTOMER_ID</code>. 「customerId」-
-     * 供应商ID
+     * Getter for <code>DB_HOTEL.E_ASSET.CUSTOMER_ID</code>. 「customerId」- 供应商ID
      */
     public String getCustomerId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.EXPIRED_AT</code>. 「expiredAt」- 到期时间
+     * Setter for <code>DB_HOTEL.E_ASSET.EXPIRED_AT</code>. 「expiredAt」- 到期时间
      */
     public IEAsset setExpiredAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.EXPIRED_AT</code>. 「expiredAt」- 到期时间
+     * Getter for <code>DB_HOTEL.E_ASSET.EXPIRED_AT</code>. 「expiredAt」- 到期时间
      */
     public LocalDateTime getExpiredAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.EXPIRED_COMMENT</code>.
+     * Setter for <code>DB_HOTEL.E_ASSET.EXPIRED_COMMENT</code>.
      * 「expiredComment」- 到期说明
      */
     public IEAsset setExpiredComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.EXPIRED_COMMENT</code>.
+     * Getter for <code>DB_HOTEL.E_ASSET.EXPIRED_COMMENT</code>.
      * 「expiredComment」- 到期说明
      */
     public String getExpiredComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.USER_ID</code>. 「userId」- 资产管理者
+     * Setter for <code>DB_HOTEL.E_ASSET.USER_ID</code>. 「userId」- 资产管理者
      */
     public IEAsset setUserId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.USER_ID</code>. 「userId」- 资产管理者
+     * Getter for <code>DB_HOTEL.E_ASSET.USER_ID</code>. 「userId」- 资产管理者
      */
     public String getUserId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.STORE_ID</code>. 「storeId」- 所属仓库ID
+     * Setter for <code>DB_HOTEL.E_ASSET.STORE_ID</code>. 「storeId」- 所属仓库ID
      */
     public IEAsset setStoreId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.STORE_ID</code>. 「storeId」- 所属仓库ID
+     * Getter for <code>DB_HOTEL.E_ASSET.STORE_ID</code>. 「storeId」- 所属仓库ID
      */
     public String getStoreId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.DEPT_ID</code>. 「deptId」- 所属部门
+     * Setter for <code>DB_HOTEL.E_ASSET.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public IEAsset setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.DEPT_ID</code>. 「deptId」- 所属部门
+     * Getter for <code>DB_HOTEL.E_ASSET.DEPT_ID</code>. 「deptId」- 所属部门
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Setter for <code>DB_HOTEL.E_ASSET.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public IEAsset setCompanyId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Getter for <code>DB_HOTEL.E_ASSET.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public String getCompanyId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.PARENT_ID</code>. 「parentId」- 上级资产
+     * Setter for <code>DB_HOTEL.E_ASSET.PARENT_ID</code>. 「parentId」- 上级资产
      */
     public IEAsset setParentId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.PARENT_ID</code>. 「parentId」- 上级资产
+     * Getter for <code>DB_HOTEL.E_ASSET.PARENT_ID</code>. 「parentId」- 上级资产
      */
     public String getParentId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.COMMENT</code>. 「comment」- 资产备注
+     * Setter for <code>DB_HOTEL.E_ASSET.COMMENT</code>. 「comment」- 资产备注
      */
     public IEAsset setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.COMMENT</code>. 「comment」- 资产备注
+     * Getter for <code>DB_HOTEL.E_ASSET.COMMENT</code>. 「comment」- 资产备注
      */
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_ASSET.SIGMA</code>. 「sigma」- 统一标识
      */
     public IEAsset setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_ASSET.SIGMA</code>. 「sigma」- 统一标识
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_ASSET.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEAsset setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_ASSET.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_ASSET.ACTIVE</code>. 「active」- 是否启用
      */
     public IEAsset setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_ASSET.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.METADATA</code>. 「metadata」- 附加配置数据
+     * Setter for <code>DB_HOTEL.E_ASSET.METADATA</code>. 「metadata」- 附加配置数据
      */
     public IEAsset setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.METADATA</code>. 「metadata」- 附加配置数据
+     * Getter for <code>DB_HOTEL.E_ASSET.METADATA</code>. 「metadata」- 附加配置数据
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.ENTER_AT</code>. 「enterAt」- 入库时间
+     * Setter for <code>DB_HOTEL.E_ASSET.ENTER_AT</code>. 「enterAt」- 入库时间
      */
     public IEAsset setEnterAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.ENTER_AT</code>. 「enterAt」- 入库时间
+     * Getter for <code>DB_HOTEL.E_ASSET.ENTER_AT</code>. 「enterAt」- 入库时间
      */
     public LocalDateTime getEnterAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.ENTER_BY</code>. 「enterBy」- 入库人
+     * Setter for <code>DB_HOTEL.E_ASSET.ENTER_BY</code>. 「enterBy」- 入库人
      */
     public IEAsset setEnterBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.ENTER_BY</code>. 「enterBy」- 入库人
+     * Getter for <code>DB_HOTEL.E_ASSET.ENTER_BY</code>. 「enterBy」- 入库人
      */
     public String getEnterBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.ACCOUNT_AT</code>. 「accountAt」- 入账时间
+     * Setter for <code>DB_HOTEL.E_ASSET.ACCOUNT_AT</code>. 「accountAt」- 入账时间
      */
     public IEAsset setAccountAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.ACCOUNT_AT</code>. 「accountAt」- 入账时间
+     * Getter for <code>DB_HOTEL.E_ASSET.ACCOUNT_AT</code>. 「accountAt」- 入账时间
      */
     public LocalDateTime getAccountAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.ACCOUNT_BY</code>. 「accountBy」- 入账人
+     * Setter for <code>DB_HOTEL.E_ASSET.ACCOUNT_BY</code>. 「accountBy」- 入账人
      */
     public IEAsset setAccountBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.ACCOUNT_BY</code>. 「accountBy」- 入账人
+     * Getter for <code>DB_HOTEL.E_ASSET.ACCOUNT_BY</code>. 「accountBy」- 入账人
      */
     public String getAccountBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.SCRAP_AT</code>. 「scrapAt」- 报废时间
+     * Setter for <code>DB_HOTEL.E_ASSET.SCRAP_AT</code>. 「scrapAt」- 报废时间
      */
     public IEAsset setScrapAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.SCRAP_AT</code>. 「scrapAt」- 报废时间
+     * Getter for <code>DB_HOTEL.E_ASSET.SCRAP_AT</code>. 「scrapAt」- 报废时间
      */
     public LocalDateTime getScrapAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.SCRAP_BY</code>. 「scrapBy」- 报废人
+     * Setter for <code>DB_HOTEL.E_ASSET.SCRAP_BY</code>. 「scrapBy」- 报废人
      */
     public IEAsset setScrapBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.SCRAP_BY</code>. 「scrapBy」- 报废人
+     * Getter for <code>DB_HOTEL.E_ASSET.SCRAP_BY</code>. 「scrapBy」- 报废人
      */
     public String getScrapBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_ASSET.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEAsset setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_ASSET.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_ASSET.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEAsset setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_ASSET.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_ASSET.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEAsset setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_ASSET.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_ASSET.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_ASSET.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEAsset setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_ASSET.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_ASSET.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 
