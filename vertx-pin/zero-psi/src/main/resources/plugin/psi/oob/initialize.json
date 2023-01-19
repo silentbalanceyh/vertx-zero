@@ -1,10 +1,11 @@
 [
-    "plugin/psi/oob/menu/MENU-SIDE-5400$-zero.psi-p.xlsx",
-    "plugin/psi/oob/menu/MENU-SIDE-5500$-zero.psi-s.xlsx",
-    "plugin/psi/oob/menu/MENU-SIDE-5600$-zero.psi-i.xlsx",
-    "plugin/psi/oob/menu/MENU-SIDE-7000-zero.data.psi.xlsx",
     "plugin/psi/oob/cab/psi.pos.xlsx",
     "plugin/psi/oob/cab/psi.wh.xlsx",
+    "plugin/psi/oob/data/psi.menu.xlsx",
+    "plugin/psi/oob/menu/APP-80015-5400$-zero.psi-p-SIDE.xlsx",
+    "plugin/psi/oob/menu/APP-80015-5500$-zero.psi-s-SIDE.xlsx",
+    "plugin/psi/oob/menu/APP-80015-5600$-zero.psi-i-SIDE.xlsx",
+    "plugin/psi/oob/menu/APP-90000-5910-1200-zero.data.psi-SIDE.xlsx",
     "plugin/psi/oob/role/ADMIN.SUPER/falcon.psi.pos.xlsx",
     "plugin/psi/oob/role/ADMIN.SUPER/falcon.psi.wh.xlsx"
 ]

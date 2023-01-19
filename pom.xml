@@ -76,7 +76,7 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.17.6</jooq.version>
+        <jooq.version>3.17.7</jooq.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.31</mysql.version>
 
@@ -135,7 +135,7 @@
         <http.core.version>4.4.16</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>4.18.0</liquibase.version>
+        <liquibase.version>4.19.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
