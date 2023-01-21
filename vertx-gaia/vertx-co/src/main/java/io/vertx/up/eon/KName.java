@@ -33,6 +33,8 @@ public interface KName {
     String RULE = "rule";                        /* Model definition, rule for source reference */
     String TABLE_NAME = "tableName";             /* Model definition, tableName field */
 
+    String ENTRY = "entry";                      /* Entry checking */
+    String ENTRY_ID = "entryId";                 /* Entry id for menu extracting */
     String TABLE = "table";                      /* Model Connect: table */
 
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
@@ -337,6 +339,8 @@ public interface KName {
         String BAG_ID = "bagId";
         String BAG = "bag";
         String BLOCK = "block";
+
+        String BAGS = "bags";
     }
 
 

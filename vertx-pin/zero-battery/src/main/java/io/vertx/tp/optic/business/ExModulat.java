@@ -1,6 +1,7 @@
 package io.vertx.tp.optic.business;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.uca.dock.Ark;
 import io.vertx.tp.optic.feature.Modulat;
@@ -26,14 +27,26 @@ public class ExModulat implements Modulat {
         });
     }
 
+    /*
+     * {
+     *     "configKey1": {},
+     *     "configKey2": {}
+     * }
+     */
     @Override
     public Future<JsonObject> extension(final String appId) {
         Objects.requireNonNull(appId);
         final JsonObject appJ = new JsonObject();
-        return this.moduleAdmin(appId).compose(moduleJ -> {
-            appJ.mergeIn(moduleJ, true);
-            return Ux.future(appJ);
-        });
+        return this.moduleAdmin(appId)
+            .compose(moduleJ -> {
+                appJ.mergeIn(moduleJ, true);
+                return Ux.future(appJ);
+            })
+            .compose(nil -> this.moduleBag(appId))
+            .compose(bagJ -> {
+                appJ.mergeIn(bagJ, true);
+                return Ux.future(appJ);
+            });
     }
 
     /*
@@ -47,5 +60,13 @@ public class ExModulat implements Modulat {
         final Ark ark = Ark.configure();
         return ark.modularize(appId)
             .compose(data -> Ux.future((JsonObject) data));
+    }
+
+    private Future<JsonObject> moduleBag(final String appId) {
+        final Ark ark = Ark.bag();
+        return ark.modularize(appId).compose(data -> {
+            final JsonArray bags = (JsonArray) data;
+            return Ux.future(new JsonObject().put(KName.App.BAGS, bags));
+        });
     }
 }

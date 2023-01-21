@@ -16,6 +16,10 @@ public interface Ark {
         return CC_ARK.pick(ArkConfigure::new, ArkConfigure.class.getName());
     }
 
+    static Ark bag() {
+        return CC_ARK.pick(ArkBag::new, ArkBag.class.getName());
+    }
+
     /*
      * Fetch data from the system by `appId`
      * instead of other modulat.
