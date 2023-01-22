@@ -46,7 +46,8 @@ public abstract class AbstractArk implements Ark {
         } else {
             final Set<String> bagNames = bags.stream()
                 .map(TypeBag::key).collect(Collectors.toSet());
-            conditionJ.put(KName.TYPE + ",i", bagNames);
+            // type,i = [bag1, bag2, bag3]
+            conditionJ.put(KName.TYPE + ",i", Ut.toJArray(bagNames));
         }
         return conditionJ;
     }
