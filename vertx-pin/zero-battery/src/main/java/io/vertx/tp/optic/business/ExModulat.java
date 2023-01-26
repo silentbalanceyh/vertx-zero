@@ -62,6 +62,14 @@ public class ExModulat implements Modulat {
             .compose(data -> Ux.future((JsonObject) data));
     }
 
+    /*
+     * This is for bags extracting from the system, the condition for X_BAG is as
+     *
+     * ENTRY = true AND ENTRY_ID IS NOT NULL
+     *
+     * It will build the entry of all modules as ( Bag = App ) in our platform instead.
+     * All the configuration page will be built in above `moduleAdmin` method for detail configuration.
+     */
     private Future<JsonObject> moduleBag(final String appId) {
         final Ark ark = Ark.bag();
         return ark.modularize(appId).compose(data -> {

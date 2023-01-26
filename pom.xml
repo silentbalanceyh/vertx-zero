@@ -111,7 +111,7 @@
         <checker.version>3.29.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>8.6.0</elasticsearch.version>
+        <elasticsearch.version>8.6.1</elasticsearch.version>
         <elasticsearch.client.version>7.17.8</elasticsearch.client.version>
 
         <!-- neo4j search -->
@@ -2111,6 +2111,32 @@
                 <configuration>
                     <rulesUri>file://${project.basedir}/pom-update.xml</rulesUri>
                 </configuration>
+            </plugin>
+            <!--
+            Fix warning:   Project does not define minimum Maven version required for build, default is: 2.0
+            [ERROR] Project does not define required minimum version of Maven.
+            [ERROR] Update the pom.xml to contain maven-enforcer-plugin to
+            [ERROR] force the Maven version which is needed to build this project.
+            [ERROR] See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+            [ERROR] Using the minimum version of Maven: null
+            -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.1</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
