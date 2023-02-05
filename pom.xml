@@ -227,6 +227,7 @@
         <maven.plugin.jcabi>0.17.0</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
         <maven.plugin.project.info>3.4.1</maven.plugin.project.info>
+        <maven.plugin.dependency>3.5.0</maven.plugin.dependency>
 
         <!-- Container -->
         <maven.plugin.fabric8>4.4.2</maven.plugin.fabric8>
@@ -1854,6 +1855,12 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.plugin.dependency}</version>
+                </plugin>
                 <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
                 <plugin>
                     <groupId>org.liquibase</groupId>
@@ -2042,8 +2049,9 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <!-- 输出设置：路径/风格 -->
+                    <outputDirectory>${basedir}/document</outputDirectory>
                     <reportOutputDirectory>${basedir}</reportOutputDirectory>
-                    <destDir>document</destDir>
+                    <!--                    <destDir>document</destDir>-->
                     <!-- 连接配置 -->
                     <doclint>none,-missing</doclint>
                     <!--<stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
