@@ -16,7 +16,6 @@
         <module>aeon-eternal</module>     <!-- Zero Eternal Environment -->
         <module>aeon-edge</module>        <!-- Zero Edge Development    -->
         <module>aeon-ecology</module>     <!-- Zero Ecology Environment -->
-        <module>aeon-iac</module>         <!-- Zero Infrastructure as Code -->
     </modules>
     <dependencies>
         <dependency>
