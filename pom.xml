@@ -12,7 +12,7 @@
     <modules>
         <module>vertx-gaia</module>
         <module>vertx-ifx</module>
-        <module>vertx-istio</module>
+        <module>vertx-semper</module>
         <module>vertx-pin</module>
         <module>vertx-import</module>
     </modules>
@@ -103,7 +103,7 @@
         <codehaus.janino.version>3.1.9</codehaus.janino.version>
         <codehaus.mojo.version>1.22</codehaus.mojo.version>
         <ignite.version>2.14.0</ignite.version>
-        <mongodb.async.version>3.12.11</mongodb.async.version>
+        <mongodb.async.version>3.12.12</mongodb.async.version>
         <poi.version>5.2.3</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
         <jedis.version>4.4.0-m2</jedis.version>

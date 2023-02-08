@@ -9,13 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>vertx-istio</artifactId>
+    <artifactId>vertx-semper</artifactId>
     <packaging>pom</packaging>
-    <name>「vertx-istio」Zero Native Cloud Environment</name>
+    <name>「vertx-semper」Zero Native Cloud Environment</name>
     <modules>
-        <module>zero-eternal</module>     <!-- Zero Eternal Environment -->
-        <module>zero-edge</module>        <!-- Zero Edge Development    -->
-        <module>zero-ecology</module>     <!-- Zero Ecology Environment -->
+        <module>aeon-eternal</module>     <!-- Zero Eternal Environment -->
+        <module>aeon-edge</module>        <!-- Zero Edge Development    -->
+        <module>aeon-ecology</module>     <!-- Zero Ecology Environment -->
+        <module>aeon-iac</module>         <!-- Zero Infrastructure as Code -->
     </modules>
     <dependencies>
         <dependency>

@@ -25,8 +25,8 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-auth/pom-update.xml
 cp pom-update.xml ./vertx-import/pom-update.xml
 
 # 微服务
-cp pom-update.xml ./vertx-istio/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-iproxy/pom-update.xml
+cp pom-update.xml ./vertx-semper/pom-update.xml
+cp pom-update.xml ./vertx-semper/zero-iproxy/pom-update.xml
 
 # 扩展框架
 cp pom-update.xml ./vertx-pin/pom-update.xml

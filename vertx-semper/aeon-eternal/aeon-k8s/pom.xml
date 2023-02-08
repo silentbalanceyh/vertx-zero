@@ -3,11 +3,11 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>zero-eternal</artifactId>
+        <artifactId>aeon-eternal</artifactId>
         <groupId>cn.vertxup</groupId>
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aeon-istio</artifactId>
-    <name>Cloud Module:「aeon-istio」Istio Environment</name>
+    <artifactId>aeon-k8s</artifactId>
+    <name>Cloud Module:「zero-k8s」K8S Module</name>
 </project>
