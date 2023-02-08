@@ -71,4 +71,4 @@ cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-istio/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-k8s/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-up/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-iac/pom-update.xml
-cp pom-update.xml ./vertx-semper/aeon-iac/aeon-sure/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-iac/aeon-kit-loader/pom-update.xml

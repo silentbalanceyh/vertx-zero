@@ -12,6 +12,6 @@
     <packaging>pom</packaging>
     <name>Cloud IaC:「aeon-iac」Zero Infrastructure as Code</name>
     <modules>
-        <module>aeon-sure</module>
+        <module>aeon-kit-loader</module>
     </modules>
 </project>
