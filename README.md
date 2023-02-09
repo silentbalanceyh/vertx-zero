@@ -33,7 +33,7 @@ Zero Framework ( Latest Version ) contains five major projects as following:
 |vertx-gaia|**Zero Core** Runtime, it contains minimum zero environment and you can deploy your projects on zero.|
 |vertx-ifx|**Infix Architecture**, Useful plug-ins that could be supported by Zero and you can choose as required.|
 |vertx-import|Zero Usage dependency to perform development, it provides uniform entrance for your projects.|
-|vertx-istio|**Aeon System**, The native cloud environment based on K8S with Istio. |
+|vertx-semper|**Aeon System**, The native cloud environment based on K8S with Istio. |
 |vertx-pin|**Zero Extension** Modules, it provides common business features to satisfy many enterprise requirements such as [ODOO](https://www.odoo.com/). |
 
 ### 1.2. Usage Links

@@ -3,11 +3,16 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>zero-eternal</artifactId>
+        <artifactId>vertx-semper</artifactId>
         <groupId>cn.vertxup</groupId>
         <version>0.9.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aeon-cosmos</artifactId>
-    <name>Cloud Module:「aeon-cosmos」Configuration</name>
+    <artifactId>aeon-edge</artifactId>
+    <name>Cloud Dev:「aeon-edge」Zero Edge Development</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>aeon-code</module>
+        <module>aeon-aurora</module>    <!-- 奥罗拉：平台后端 -->
+    </modules>
 </project>

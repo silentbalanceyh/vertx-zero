@@ -115,6 +115,10 @@ public class DevKit {
         doLoading(DevDefault.pathOob(), null, true);
     }
 
+    public static void oobLoader(final String path, final boolean isOob){
+        doLoading(path, null, isOob);
+    }
+
     // ----------------------- DevModeller Object -------------------------
 
     public static DevModeller modeller() {

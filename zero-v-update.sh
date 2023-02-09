@@ -29,21 +29,6 @@ cp pom-update.xml ./vertx-ifx/zero-ifx-liquibase/pom-update.xml
 # 根项目
 cp pom-update.xml ./vertx-import/pom-update.xml
 
-# 微服务 / 原生云
-cp pom-update.xml ./vertx-istio/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-ecology/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-ecology/aeon-ambient/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-ecology/aeon-vie/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-edge/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-edge/aeon-aurora/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-edge/aeon-code/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/aeon-cosmos/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/aeon-inlet/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/aeon-istio/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/aeon-k8s/pom-update.xml
-cp pom-update.xml ./vertx-istio/zero-eternal/aeon-up/pom-update.xml
-
 # 扩展框架
 cp pom-update.xml ./vertx-pin/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-ambient/pom-update.xml
@@ -69,3 +54,21 @@ cp pom-update.xml ./vertx-pin/zero-vie/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-mysql/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-oracle/pom-update.xml
+
+# =======================================================================
+# 微服务 / 原生云
+cp pom-update.xml ./vertx-semper/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-ecology/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-ecology/aeon-ambient/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-ecology/aeon-vie/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-edge/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-edge/aeon-aurora/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-edge/aeon-code/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-cosmos/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-inlet/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-istio/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-k8s/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-up/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-iac/pom-update.xml
+cp pom-update.xml ./vertx-semper/aeon-iac/aeon-kit-loader/pom-update.xml

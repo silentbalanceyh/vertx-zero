@@ -19,6 +19,7 @@ import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
@@ -743,6 +744,10 @@ public final class Ut {
      */
     public static String ioPath(final String folder, final String file) {
         return StringUtil.path(folder, file);
+    }
+
+    public static String ioPath(final String path, final Environment environment){
+        return StringUtil.path(path, environment);
     }
 
     public static List<String> ioPathSet(final String storePath) {

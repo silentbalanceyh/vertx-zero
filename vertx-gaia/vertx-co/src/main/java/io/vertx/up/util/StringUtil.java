@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import org.apache.commons.jexl3.*;
@@ -313,6 +314,17 @@ final class StringUtil {
             matchSet.add(found);
         }
         return matchSet;
+    }
+
+    static String path(final String path, final Environment environment){
+        if(Ut.isNil(path) || path.startsWith(Strings.SLASH)){
+            return path;
+        }
+        if(Environment.Production == environment){
+            return path;
+        }else{
+            return path("src/main/resources", path);
+        }
     }
 
     static String path(final String folder, final String file) {
