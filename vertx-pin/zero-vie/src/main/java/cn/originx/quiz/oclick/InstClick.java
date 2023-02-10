@@ -1,0 +1,36 @@
+package cn.originx.quiz.oclick;
+
+import cn.originx.quiz.develop.DevKit;
+import io.vertx.tp.ke.refine.Ke;
+import io.vertx.up.eon.em.Environment;
+import io.vertx.up.exception.web._400BadRequestException;
+import io.vertx.up.util.Ut;
+
+public class InstClick {
+    private final transient Class<?> target;
+
+    private InstClick(final Class<?> target) {
+        this.target = target;
+    }
+
+    public static InstClick instance(final Class<?> target) {
+        return new InstClick(target);
+    }
+
+    public void runLoad(final String[] args) {
+        if (1 > args.length) {
+            // 无参数不可执行 HLoader
+            throw new _400BadRequestException(this.target);
+        }
+        // 参数数量必须 > 1
+        //   0 - isOob,
+        //   1 - inputPath
+        final boolean isOob = Boolean.parseBoolean(args[0]);
+        final String inputPath = 1 == args.length || Ut.isNil(args[1])
+            ? "init/oob" : args[1];
+        // 路径构造
+        final String path = Ut.ioPath(inputPath, Environment.Development);
+        Ke.infoKe(this.target, "加载路径：{0}, 开启OOB：{1}", inputPath, isOob);
+        DevKit.oobLoader(path, isOob);
+    }
+}

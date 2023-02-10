@@ -53,6 +53,7 @@ public interface Macrocosm {
      *   历史数据库专用环境变量，未设置同标准
      */
     // 「Production」生产专用 ---------------------------------------
+    String HED_COMPONENT = "Z_HED";                     // 外置 HED 模块
 
     String CACHE_UI = "Z_CACHE_UI";                     // UI缓存
     String CACHE_ADMIT = "Z_CACHE_ADMIT";               // 安全管理缓存
@@ -112,14 +113,14 @@ public interface Macrocosm {
     static String envContent() {
         final StringBuilder content = new StringBuilder();
         final String[] VARS = new String[]{
-                AEON_CLOUD, AEON_APP,               // 云端一阶变量
-                Z_NS, Z_APP, Z_LANG, Z_SIGMA,       // 应用一阶变量
-                CORS_DOMAIN,                        // 跨域
-                API_HOST, API_PORT,                 // RESTful
-                SOCK_HOST, SOCK_PORT,               // Sock
-                DBS_HOST, DBS_PORT, DBS_INSTANCE,   // DB Service
-                DBW_HOST, DBW_PORT, DBW_INSTANCE,   // DB Workflow
-                DBH_HOST, DBH_PORT, DBH_INSTANCE,   // DB History
+            AEON_CLOUD, AEON_APP,               // 云端一阶变量
+            Z_NS, Z_APP, Z_LANG, Z_SIGMA,       // 应用一阶变量
+            CORS_DOMAIN,                        // 跨域
+            API_HOST, API_PORT,                 // RESTful
+            SOCK_HOST, SOCK_PORT,               // Sock
+            DBS_HOST, DBS_PORT, DBS_INSTANCE,   // DB Service
+            DBW_HOST, DBW_PORT, DBW_INSTANCE,   // DB Workflow
+            DBH_HOST, DBH_PORT, DBH_INSTANCE,   // DB History
         };
         Arrays.stream(VARS).filter(Ut::notNil).forEach(name -> {
             final String value = System.getenv(name);
