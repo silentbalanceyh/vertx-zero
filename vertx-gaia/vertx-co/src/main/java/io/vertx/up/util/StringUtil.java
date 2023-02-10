@@ -316,13 +316,13 @@ final class StringUtil {
         return matchSet;
     }
 
-    static String path(final String path, final Environment environment){
-        if(Ut.isNil(path) || path.startsWith(Strings.SLASH)){
+    static String path(final String path, final Environment environment) {
+        if (Ut.isNil(path) || path.startsWith(Strings.SLASH)) {
             return path;
         }
-        if(Environment.Production == environment){
+        if (Environment.Production == environment) {
             return path;
-        }else{
+        } else {
             return path("src/main/resources", path);
         }
     }
