@@ -68,6 +68,8 @@ public interface InitStub {
      */
     Future<JsonObject> initModeling(String appName);
 
+    Future<JsonObject> initModeling(String appName, String outPath);
+
     /**
      * 「Async」Pre-Workflow before initialization when call this method.
      *

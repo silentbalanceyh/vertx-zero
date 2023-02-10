@@ -19,13 +19,18 @@ public class FileReader implements AoFile {
 
     @Override
     public Set<Model> readModels(final String appName) {
+        return this.readModels(appName, null);
+    }
+
+    @Override
+    public Set<Model> readModels(final String appName, final String outPath) {
         // 实体
-        final Set<String> schemaFiles = this.readFiles("schema");
+        final Set<String> schemaFiles = this.readFiles("schema", outPath);
         final Set<Schema> schemata = schemaFiles.stream()
             .map(file -> Ao.toSchema(appName, file))
             .collect(Collectors.toSet());
         // 模型
-        final Set<String> files = this.readFiles("model");
+        final Set<String> files = this.readFiles("model", outPath);
         return files.stream()
             .map(file -> Ao.toModel(appName, file))
             .map(model -> model.bind(schemata))
@@ -34,7 +39,7 @@ public class FileReader implements AoFile {
 
     @Override
     public Set<String> readServices() {
-        return this.readFiles("service");
+        return this.readFiles("service", null);
     }
 
     @Override
@@ -42,10 +47,16 @@ public class FileReader implements AoFile {
         return null;
     }
 
-    private Set<String> readFiles(final String folder) {
-        final List<String> files = Ut.ioFiles(Ao.Path.PATH_JSON + folder);
+    private Set<String> readFiles(final String folder, final String outPath) {
+        final String filePath;
+        if (Ut.isNil(outPath)) {
+            filePath = Ao.Path.PATH_JSON + folder;
+        } else {
+            filePath = outPath + folder;
+        }
+        final List<String> files = Ut.ioFiles(filePath);
         final Set<String> results = new HashSet<>();
-        files.forEach(file -> results.add(Ao.Path.PATH_JSON + folder + "/" + file));
+        files.forEach(file -> results.add(filePath + "/" + file));
         return results;
     }
 }

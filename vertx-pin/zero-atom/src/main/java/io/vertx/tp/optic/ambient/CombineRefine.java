@@ -30,7 +30,8 @@ class CombineRefine implements AoRefine {
             final AoPerformer performer = AoPerformer.getInstance(name);
             return performer.fetchAsync().compose(storedSet -> {
                 // 读取文件中的
-                final Set<Model> models = this.marshal.readModels(name);
+                final String outPath = Ut.valueString(appJson, KName.OUTPUT);
+                final Set<Model> models = this.marshal.readModels(name, outPath);
                 // 两边查找对比，然后更新原始引用
                 models.stream().filter(storedSet::contains)
                     .forEach(jsonRef -> storedSet

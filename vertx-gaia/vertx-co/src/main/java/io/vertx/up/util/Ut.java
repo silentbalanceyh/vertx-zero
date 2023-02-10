@@ -68,6 +68,7 @@ public final class Ut {
      * @param left  First Set
      * @param right Second Set
      * @param <T>   The element type in Set
+     *
      * @return The result set
      */
     public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
@@ -746,7 +747,7 @@ public final class Ut {
         return StringUtil.path(folder, file);
     }
 
-    public static String ioPath(final String path, final Environment environment){
+    public static String ioPath(final String path, final Environment environment) {
         return StringUtil.path(path, environment);
     }
 
@@ -856,6 +857,14 @@ public final class Ut {
 
     public static InputStream ioStream(final String filename) {
         return Stream.in(filename);
+    }
+
+    public static InputStream ioStreamN(final String filename) {
+        return Stream.inN(filename);
+    }
+
+    public static InputStream ioStreamN(final String filename, final Class<?> clazz) {
+        return Stream.inN(filename, clazz);
     }
 
     public static String ioCompress(final String filename) {
@@ -1539,6 +1548,7 @@ public final class Ut {
 
     /**
      * @param length Length of intended captcha string.
+     *
      * @return a string of captcha with certain length.
      */
     /*

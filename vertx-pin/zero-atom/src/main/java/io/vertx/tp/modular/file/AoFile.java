@@ -19,6 +19,11 @@ public interface AoFile {
      */
     Set<Model> readModels(String appName);
 
+    /*
+     * 读取建模数据：从前一步输出数据中读取
+     */
+    Set<Model> readModels(String appName, String outPath);
+
     /**
      * 读取接口数据
      */

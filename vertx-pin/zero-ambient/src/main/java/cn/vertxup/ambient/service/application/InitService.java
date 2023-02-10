@@ -12,6 +12,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -112,6 +113,11 @@ public class InitService implements InitStub {
      */
     @Override
     public Future<JsonObject> initModeling(final String appName) {
+        return this.initModeling(appName, null);
+    }
+
+    @Override
+    public Future<JsonObject> initModeling(final String appName, final String outPath) {
         /* Fetch App */
         return Ux.Jooq.on(XAppDao.class)
             /* X_APP Fetching */
@@ -119,9 +125,18 @@ public class InitService implements InitStub {
             .compose(Ux::futureJ)
             /* X_SOURCE fetching, Fetching skip Database initialization */
             .compose(this::initCombine)
+            /* Output Path Injection */
+            .compose(appJson -> this.initOutput(appJson, outPath))
             .compose(this::initDefined)
             /* Image */
             .compose(Fn.ifJObject(KName.App.LOGO));
+    }
+
+    private Future<JsonObject> initOutput(final JsonObject combined, final String outPath) {
+        if (Ut.notNil(outPath)) {
+            combined.put(KName.OUTPUT, outPath);
+        }
+        return Ux.future(combined);
     }
 
     /**

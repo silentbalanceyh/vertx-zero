@@ -143,6 +143,11 @@ public class DevKit {
         click.runLoad(args);
     }
 
+    public static void instAtom(final Class<?> target, final String[] args) {
+        final InstClick click = InstClick.instance(target);
+        click.runAtom(args);
+    }
+
     // ----------------------- Private Method -------------------------
     @SuppressWarnings("all")
     private static void doLoading(final String root, final String prefix, final boolean isOob) {
