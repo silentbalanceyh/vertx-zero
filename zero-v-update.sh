@@ -55,11 +55,6 @@ cp pom-update.xml ./vertx-pin/zero-vista/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-mysql/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-oracle/pom-update.xml
 
-# 快速开发工具箱
-cp pom-update.xml ./vertx-rapid/pom-update.xml
-cp pom-update.xml ./vertx-rapid/inst-atom/pom-update.xml
-cp pom-update.xml ./vertx-rapid/inst-load/pom-update.xml
-
 # =======================================================================
 # 微服务 / 原生云
 cp pom-update.xml ./vertx-semper/pom-update.xml
