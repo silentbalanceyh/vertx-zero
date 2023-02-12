@@ -11,6 +11,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -178,7 +179,14 @@ public class Database implements Serializable, Json, Copyable<Database> {
     }
 
     public String getSmartPassword() {
-        return Ut.decryptRSAV(this.password);
+        final Boolean enabled = Ut.envWith(Macrocosm.HED_ENABLED, false, Boolean.class);
+        LOGGER.info("[HED] Encrypt of HED enabled: {0}", enabled);
+        if (enabled) {
+            // HED_ENABLED=true
+            return Ut.decryptRSAV(this.password);
+        } else {
+            return this.password;
+        }
     }
 
     public String getDriverClassName() {
@@ -228,7 +236,7 @@ public class Database implements Serializable, Json, Copyable<Database> {
     public void fromJson(final JsonObject data) {
         if (Ut.notNil(data)) {
             this.category = Ut.toEnum(() -> data.getString("category"),
-                    DatabaseType.class, DatabaseType.MYSQL5);
+                DatabaseType.class, DatabaseType.MYSQL5);
             this.hostname = data.getString("hostname");
             this.port = data.getInteger("port");
             this.instance = data.getString("instance");
@@ -275,15 +283,15 @@ public class Database implements Serializable, Json, Copyable<Database> {
     @Override
     public String toString() {
         return "Database{" +
-                "hostname='" + this.hostname + '\'' +
-                ", instance='" + this.instance + '\'' +
-                ", port=" + this.port +
-                ", category=" + this.category +
-                ", jdbcUrl='" + this.jdbcUrl + '\'' +
-                ", username='" + this.username + '\'' +
-                ", password='" + this.password + '\'' +
-                ", driverClassName='" + this.driverClassName + '\'' +
-                ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
-                '}';
+            "hostname='" + this.hostname + '\'' +
+            ", instance='" + this.instance + '\'' +
+            ", port=" + this.port +
+            ", category=" + this.category +
+            ", jdbcUrl='" + this.jdbcUrl + '\'' +
+            ", username='" + this.username + '\'' +
+            ", password='" + this.password + '\'' +
+            ", driverClassName='" + this.driverClassName + '\'' +
+            ", options=" + (Objects.isNull(this.options) ? "{}" : this.options.encodePrettily()) +
+            '}';
     }
 }
