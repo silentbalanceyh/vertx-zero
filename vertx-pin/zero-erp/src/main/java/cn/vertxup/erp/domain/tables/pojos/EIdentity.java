@@ -200,7 +200,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.KEY</code>. 「key」- 身份主键
+     * Getter for <code>DB_HOTEL.E_IDENTITY.KEY</code>. 「key」- 身份主键
      */
     @Override
     public String getKey() {
@@ -208,7 +208,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.KEY</code>. 「key」- 身份主键
+     * Setter for <code>DB_HOTEL.E_IDENTITY.KEY</code>. 「key」- 身份主键
      */
     @Override
     public EIdentity setKey(String key) {
@@ -217,7 +217,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CODE</code>. 「code」- 系统编号
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CODE</code>. 「code」- 系统编号
      */
     @Override
     public String getCode() {
@@ -225,7 +225,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CODE</code>. 「code」- 系统编号
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CODE</code>. 「code」- 系统编号
      */
     @Override
     public EIdentity setCode(String code) {
@@ -234,7 +234,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.TYPE</code>. 「type」- 身份类型/档案类型
+     * Getter for <code>DB_HOTEL.E_IDENTITY.TYPE</code>. 「type」- 身份类型/档案类型
      */
     @Override
     public String getType() {
@@ -242,7 +242,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.TYPE</code>. 「type」- 身份类型/档案类型
+     * Setter for <code>DB_HOTEL.E_IDENTITY.TYPE</code>. 「type」- 身份类型/档案类型
      */
     @Override
     public EIdentity setType(String type) {
@@ -251,7 +251,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.STATUS</code>. 「status」- 档案状态
+     * Getter for <code>DB_HOTEL.E_IDENTITY.STATUS</code>. 「status」- 档案状态
      */
     @Override
     public String getStatus() {
@@ -259,7 +259,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.STATUS</code>. 「status」- 档案状态
+     * Setter for <code>DB_HOTEL.E_IDENTITY.STATUS</code>. 「status」- 档案状态
      */
     @Override
     public EIdentity setStatus(String status) {
@@ -268,7 +268,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.COUNTRY</code>. 「country」- 国籍
+     * Getter for <code>DB_HOTEL.E_IDENTITY.COUNTRY</code>. 「country」- 国籍
      */
     @Override
     public String getCountry() {
@@ -276,7 +276,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.COUNTRY</code>. 「country」- 国籍
+     * Setter for <code>DB_HOTEL.E_IDENTITY.COUNTRY</code>. 「country」- 国籍
      */
     @Override
     public EIdentity setCountry(String country) {
@@ -285,8 +285,8 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.NATIVE_PLACE</code>.
-     * 「nativePlace」- 籍贯
+     * Getter for <code>DB_HOTEL.E_IDENTITY.NATIVE_PLACE</code>. 「nativePlace」-
+     * 籍贯
      */
     @Override
     public String getNativePlace() {
@@ -294,8 +294,8 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.NATIVE_PLACE</code>.
-     * 「nativePlace」- 籍贯
+     * Setter for <code>DB_HOTEL.E_IDENTITY.NATIVE_PLACE</code>. 「nativePlace」-
+     * 籍贯
      */
     @Override
     public EIdentity setNativePlace(String nativePlace) {
@@ -304,7 +304,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.NATION</code>. 「nation」- 民族
+     * Getter for <code>DB_HOTEL.E_IDENTITY.NATION</code>. 「nation」- 民族
      */
     @Override
     public String getNation() {
@@ -312,7 +312,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.NATION</code>. 「nation」- 民族
+     * Setter for <code>DB_HOTEL.E_IDENTITY.NATION</code>. 「nation」- 民族
      */
     @Override
     public EIdentity setNation(String nation) {
@@ -321,7 +321,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.ADDRESS</code>. 「address」- 居住地址
+     * Getter for <code>DB_HOTEL.E_IDENTITY.ADDRESS</code>. 「address」- 居住地址
      */
     @Override
     public String getAddress() {
@@ -329,7 +329,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.ADDRESS</code>. 「address」- 居住地址
+     * Setter for <code>DB_HOTEL.E_IDENTITY.ADDRESS</code>. 「address」- 居住地址
      */
     @Override
     public EIdentity setAddress(String address) {
@@ -338,7 +338,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.REALNAME</code>. 「realname」- 真实姓名
+     * Getter for <code>DB_HOTEL.E_IDENTITY.REALNAME</code>. 「realname」- 真实姓名
      */
     @Override
     public String getRealname() {
@@ -346,7 +346,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.REALNAME</code>. 「realname」- 真实姓名
+     * Setter for <code>DB_HOTEL.E_IDENTITY.REALNAME</code>. 「realname」- 真实姓名
      */
     @Override
     public EIdentity setRealname(String realname) {
@@ -355,7 +355,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.BIRTHDAY</code>. 「birthday」- 生日
+     * Getter for <code>DB_HOTEL.E_IDENTITY.BIRTHDAY</code>. 「birthday」- 生日
      */
     @Override
     public LocalDateTime getBirthday() {
@@ -363,7 +363,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.BIRTHDAY</code>. 「birthday」- 生日
+     * Setter for <code>DB_HOTEL.E_IDENTITY.BIRTHDAY</code>. 「birthday」- 生日
      */
     @Override
     public EIdentity setBirthday(LocalDateTime birthday) {
@@ -372,7 +372,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.DRIVER_LICENSE</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.DRIVER_LICENSE</code>.
      * 「driverLicense」- 驾驶证
      */
     @Override
@@ -381,7 +381,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.DRIVER_LICENSE</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.DRIVER_LICENSE</code>.
      * 「driverLicense」- 驾驶证
      */
     @Override
@@ -391,7 +391,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CAR_PLATE</code>. 「carPlate」- 常用车牌
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CAR_PLATE</code>. 「carPlate」- 常用车牌
      */
     @Override
     public String getCarPlate() {
@@ -399,7 +399,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CAR_PLATE</code>. 「carPlate」- 常用车牌
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CAR_PLATE</code>. 「carPlate」- 常用车牌
      */
     @Override
     public EIdentity setCarPlate(String carPlate) {
@@ -408,7 +408,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.PASSPORT</code>. 「passport」- 护照
+     * Getter for <code>DB_HOTEL.E_IDENTITY.PASSPORT</code>. 「passport」- 护照
      */
     @Override
     public String getPassport() {
@@ -416,7 +416,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.PASSPORT</code>. 「passport」- 护照
+     * Setter for <code>DB_HOTEL.E_IDENTITY.PASSPORT</code>. 「passport」- 护照
      */
     @Override
     public EIdentity setPassport(String passport) {
@@ -425,7 +425,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.GENDER</code>. 「gender」- 性别
+     * Getter for <code>DB_HOTEL.E_IDENTITY.GENDER</code>. 「gender」- 性别
      */
     @Override
     public Boolean getGender() {
@@ -433,7 +433,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.GENDER</code>. 「gender」- 性别
+     * Setter for <code>DB_HOTEL.E_IDENTITY.GENDER</code>. 「gender」- 性别
      */
     @Override
     public EIdentity setGender(Boolean gender) {
@@ -442,7 +442,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.MARITAL</code>. 「marital」- 婚姻状况
+     * Getter for <code>DB_HOTEL.E_IDENTITY.MARITAL</code>. 「marital」- 婚姻状况
      */
     @Override
     public String getMarital() {
@@ -450,7 +450,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.MARITAL</code>. 「marital」- 婚姻状况
+     * Setter for <code>DB_HOTEL.E_IDENTITY.MARITAL</code>. 「marital」- 婚姻状况
      */
     @Override
     public EIdentity setMarital(String marital) {
@@ -459,7 +459,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_MOBILE</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CONTACT_MOBILE</code>.
      * 「contactMobile」- 联系手机
      */
     @Override
@@ -468,7 +468,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_MOBILE</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CONTACT_MOBILE</code>.
      * 「contactMobile」- 联系手机
      */
     @Override
@@ -478,7 +478,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_PHONE</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CONTACT_PHONE</code>.
      * 「contactPhone」- 座机
      */
     @Override
@@ -487,7 +487,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_PHONE</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CONTACT_PHONE</code>.
      * 「contactPhone」- 座机
      */
     @Override
@@ -497,7 +497,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_ADDRESS</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CONTACT_ADDRESS</code>.
      * 「contactAddress」- 联系地址
      */
     @Override
@@ -506,7 +506,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_ADDRESS</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CONTACT_ADDRESS</code>.
      * 「contactAddress」- 联系地址
      */
     @Override
@@ -516,7 +516,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_EMAIL</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系Email
      */
     @Override
@@ -525,7 +525,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CONTACT_EMAIL</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系Email
      */
     @Override
@@ -535,7 +535,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.URGENT_NAME</code>. 「urgentName」-
+     * Getter for <code>DB_HOTEL.E_IDENTITY.URGENT_NAME</code>. 「urgentName」-
      * 紧急联系人
      */
     @Override
@@ -544,7 +544,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.URGENT_NAME</code>. 「urgentName」-
+     * Setter for <code>DB_HOTEL.E_IDENTITY.URGENT_NAME</code>. 「urgentName」-
      * 紧急联系人
      */
     @Override
@@ -554,8 +554,8 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.URGENT_PHONE</code>.
-     * 「urgentPhone」- 紧急联系电话
+     * Getter for <code>DB_HOTEL.E_IDENTITY.URGENT_PHONE</code>. 「urgentPhone」-
+     * 紧急联系电话
      */
     @Override
     public String getUrgentPhone() {
@@ -563,8 +563,8 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.URGENT_PHONE</code>.
-     * 「urgentPhone」- 紧急联系电话
+     * Setter for <code>DB_HOTEL.E_IDENTITY.URGENT_PHONE</code>. 「urgentPhone」-
+     * 紧急联系电话
      */
     @Override
     public EIdentity setUrgentPhone(String urgentPhone) {
@@ -573,7 +573,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.EC_QQ</code>. 「ecQq」- QQ号码
+     * Getter for <code>DB_HOTEL.E_IDENTITY.EC_QQ</code>. 「ecQq」- QQ号码
      */
     @Override
     public String getEcQq() {
@@ -581,7 +581,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.EC_QQ</code>. 「ecQq」- QQ号码
+     * Setter for <code>DB_HOTEL.E_IDENTITY.EC_QQ</code>. 「ecQq」- QQ号码
      */
     @Override
     public EIdentity setEcQq(String ecQq) {
@@ -590,7 +590,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.EC_ALIPAY</code>. 「ecAlipay」- 支付宝
+     * Getter for <code>DB_HOTEL.E_IDENTITY.EC_ALIPAY</code>. 「ecAlipay」- 支付宝
      */
     @Override
     public String getEcAlipay() {
@@ -598,7 +598,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.EC_ALIPAY</code>. 「ecAlipay」- 支付宝
+     * Setter for <code>DB_HOTEL.E_IDENTITY.EC_ALIPAY</code>. 「ecAlipay」- 支付宝
      */
     @Override
     public EIdentity setEcAlipay(String ecAlipay) {
@@ -607,7 +607,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.EC_WECHAT</code>. 「ecWechat」- 微信
+     * Getter for <code>DB_HOTEL.E_IDENTITY.EC_WECHAT</code>. 「ecWechat」- 微信
      */
     @Override
     public String getEcWechat() {
@@ -615,7 +615,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.EC_WECHAT</code>. 「ecWechat」- 微信
+     * Setter for <code>DB_HOTEL.E_IDENTITY.EC_WECHAT</code>. 「ecWechat」- 微信
      */
     @Override
     public EIdentity setEcWechat(String ecWechat) {
@@ -624,7 +624,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_TYPE</code>. 「idcType」- 证件类型
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_TYPE</code>. 「idcType」- 证件类型
      */
     @Override
     public String getIdcType() {
@@ -632,7 +632,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_TYPE</code>. 「idcType」- 证件类型
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_TYPE</code>. 「idcType」- 证件类型
      */
     @Override
     public EIdentity setIdcType(String idcType) {
@@ -641,8 +641,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_NUMBER</code>. 「idcNumber」-
-     * 证件号
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_NUMBER</code>. 「idcNumber」- 证件号
      */
     @Override
     public String getIdcNumber() {
@@ -650,8 +649,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_NUMBER</code>. 「idcNumber」-
-     * 证件号
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_NUMBER</code>. 「idcNumber」- 证件号
      */
     @Override
     public EIdentity setIdcNumber(String idcNumber) {
@@ -660,7 +658,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_ADDRESS</code>. 「idcAddress」-
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_ADDRESS</code>. 「idcAddress」-
      * 证件地址
      */
     @Override
@@ -669,7 +667,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_ADDRESS</code>. 「idcAddress」-
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_ADDRESS</code>. 「idcAddress」-
      * 证件地址
      */
     @Override
@@ -679,7 +677,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_EXPIRED_AT</code>.
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_EXPIRED_AT</code>.
      * 「idcExpiredAt」- 证件过期时间
      */
     @Override
@@ -688,7 +686,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_EXPIRED_AT</code>.
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_EXPIRED_AT</code>.
      * 「idcExpiredAt」- 证件过期时间
      */
     @Override
@@ -698,8 +696,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_FRONT</code>. 「idcFront」-
-     * 证件正面附件
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_FRONT</code>. 「idcFront」- 证件正面附件
      */
     @Override
     public String getIdcFront() {
@@ -707,8 +704,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_FRONT</code>. 「idcFront」-
-     * 证件正面附件
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_FRONT</code>. 「idcFront」- 证件正面附件
      */
     @Override
     public EIdentity setIdcFront(String idcFront) {
@@ -717,7 +713,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_BACK</code>. 「idcBack」- 证件背面附件
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_BACK</code>. 「idcBack」- 证件背面附件
      */
     @Override
     public String getIdcBack() {
@@ -725,7 +721,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_BACK</code>. 「idcBack」- 证件背面附件
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_BACK</code>. 「idcBack」- 证件背面附件
      */
     @Override
     public EIdentity setIdcBack(String idcBack) {
@@ -734,7 +730,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_ISSUER</code>. 「idcIssuer」-
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_ISSUER</code>. 「idcIssuer」-
      * 证件签发机构
      */
     @Override
@@ -743,7 +739,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_ISSUER</code>. 「idcIssuer」-
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_ISSUER</code>. 「idcIssuer」-
      * 证件签发机构
      */
     @Override
@@ -753,7 +749,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.IDC_ISSUE_AT</code>. 「idcIssueAt」-
+     * Getter for <code>DB_HOTEL.E_IDENTITY.IDC_ISSUE_AT</code>. 「idcIssueAt」-
      * 证件签发时间
      */
     @Override
@@ -762,7 +758,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.IDC_ISSUE_AT</code>. 「idcIssueAt」-
+     * Setter for <code>DB_HOTEL.E_IDENTITY.IDC_ISSUE_AT</code>. 「idcIssueAt」-
      * 证件签发时间
      */
     @Override
@@ -772,8 +768,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.VERIFIED</code>. 「verified」-
-     * 是否验证、备案
+     * Getter for <code>DB_HOTEL.E_IDENTITY.VERIFIED</code>. 「verified」- 是否验证、备案
      */
     @Override
     public Boolean getVerified() {
@@ -781,8 +776,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.VERIFIED</code>. 「verified」-
-     * 是否验证、备案
+     * Setter for <code>DB_HOTEL.E_IDENTITY.VERIFIED</code>. 「verified」- 是否验证、备案
      */
     @Override
     public EIdentity setVerified(Boolean verified) {
@@ -791,7 +785,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_IDENTITY.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -799,7 +793,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_IDENTITY.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public EIdentity setMetadata(String metadata) {
@@ -808,7 +802,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_IDENTITY.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -816,7 +810,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_IDENTITY.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public EIdentity setActive(Boolean active) {
@@ -825,7 +819,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_IDENTITY.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public String getSigma() {
@@ -833,7 +827,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_IDENTITY.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public EIdentity setSigma(String sigma) {
@@ -842,7 +836,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_IDENTITY.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -850,7 +844,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_IDENTITY.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public EIdentity setLanguage(String language) {
@@ -859,8 +853,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -868,8 +861,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public EIdentity setCreatedAt(LocalDateTime createdAt) {
@@ -878,8 +870,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Getter for <code>DB_HOTEL.E_IDENTITY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -887,8 +878,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Setter for <code>DB_HOTEL.E_IDENTITY.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public EIdentity setCreatedBy(String createdBy) {
@@ -897,8 +887,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_IDENTITY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -906,8 +895,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_IDENTITY.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public EIdentity setUpdatedAt(LocalDateTime updatedAt) {
@@ -916,8 +904,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_IDENTITY.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Getter for <code>DB_HOTEL.E_IDENTITY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {
@@ -925,8 +912,7 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_IDENTITY.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Setter for <code>DB_HOTEL.E_IDENTITY.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public EIdentity setUpdatedBy(String updatedBy) {

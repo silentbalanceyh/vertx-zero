@@ -28,7 +28,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -38,7 +38,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -47,7 +47,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -57,7 +57,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -66,8 +66,8 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     @Override
     public TOaAssignmentRecord setRequestBy(String value) {
@@ -76,8 +76,8 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     @Override
     public String getRequestBy() {
@@ -85,7 +85,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -95,7 +95,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -104,7 +104,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public TOaAssignmentRecord setEndAt(LocalDateTime value) {
@@ -113,7 +113,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -121,7 +121,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     @Override
     public TOaAssignmentRecord setDays(Integer value) {
@@ -130,7 +130,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     @Override
     public Integer getDays() {
@@ -138,7 +138,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -148,7 +148,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -157,7 +157,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override
@@ -167,7 +167,7 @@ public class TOaAssignmentRecord extends UpdatableRecordImpl<TOaAssignmentRecord
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override

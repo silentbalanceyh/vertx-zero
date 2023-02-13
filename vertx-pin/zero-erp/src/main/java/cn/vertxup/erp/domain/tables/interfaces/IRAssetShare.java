@@ -17,48 +17,46 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IRAssetShare extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     public IRAssetShare setAssetId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」-
-     * 资产ID
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ASSET_ID</code>. 「assetId」- 资产ID
      */
     public String getAssetId();
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     public IRAssetShare setEntityType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_TYPE</code>.
-     * 「entityType」- 关联类型
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_TYPE</code>. 「entityType」-
+     * 关联类型
      */
     public String getEntityType();
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     public IRAssetShare setEntityId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.ENTITY_ID</code>. 「entityId」-
      * 关联实体ID
      */
     public String getEntityId();
 
     /**
-     * Setter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Setter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     public IRAssetShare setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
+     * Getter for <code>DB_HOTEL.R_ASSET_SHARE.COMMENT</code>. 「comment」- 关系备注
      */
     public String getComment();
 

@@ -68,7 +68,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -77,7 +77,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -87,7 +87,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -96,7 +96,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -106,8 +106,8 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     @Override
     public String getRequestBy() {
@@ -115,8 +115,8 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     @Override
     public TOaAssignment setRequestBy(String requestBy) {
@@ -125,7 +125,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -134,7 +134,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     @Override
@@ -144,7 +144,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -152,7 +152,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     @Override
     public TOaAssignment setEndAt(LocalDateTime endAt) {
@@ -161,7 +161,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     @Override
     public Integer getDays() {
@@ -169,7 +169,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     @Override
     public TOaAssignment setDays(Integer days) {
@@ -178,7 +178,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -187,7 +187,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -197,7 +197,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override
@@ -206,7 +206,7 @@ public class TOaAssignment implements VertxPojo, ITOaAssignment {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override

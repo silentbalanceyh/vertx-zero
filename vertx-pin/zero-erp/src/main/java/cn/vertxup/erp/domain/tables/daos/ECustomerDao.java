@@ -375,6 +375,22 @@ public class ECustomerDao extends AbstractVertxDAO<ECustomerRecord, cn.vertxup.e
         }
 
         /**
+     * Find records that have <code>RLT_PRICECAT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRltPricecat(Collection<String> values) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RLT_PRICECAT.in(values));
+        }
+
+        /**
+     * Find records that have <code>RLT_PRICECAT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByRltPricecat(Collection<String> values, int limit) {
+                return findManyByCondition(ECustomer.E_CUSTOMER.RLT_PRICECAT.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>BANK_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ECustomer>> findManyByBankId(Collection<String> values) {

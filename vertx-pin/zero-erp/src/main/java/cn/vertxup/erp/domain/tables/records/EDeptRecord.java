@@ -28,7 +28,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Setter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     @Override
     public EDeptRecord setKey(String value) {
@@ -37,7 +37,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Getter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     @Override
     public String getKey() {
@@ -45,7 +45,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     @Override
     public EDeptRecord setName(String value) {
@@ -54,7 +54,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     @Override
     public String getName() {
@@ -62,7 +62,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Setter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     @Override
     public EDeptRecord setCode(String value) {
@@ -71,7 +71,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Getter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     @Override
     public String getCode() {
@@ -79,7 +79,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     @Override
     public EDeptRecord setManagerId(String value) {
@@ -88,7 +88,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     @Override
     public String getManagerId() {
@@ -96,8 +96,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     @Override
     public EDeptRecord setManagerName(String value) {
@@ -106,8 +105,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     @Override
     public String getManagerName() {
@@ -115,7 +113,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Setter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     @Override
     public EDeptRecord setCompanyId(String value) {
@@ -124,7 +122,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Getter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     @Override
     public String getCompanyId() {
@@ -132,7 +130,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Setter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     @Override
     public EDeptRecord setDeptId(String value) {
@@ -141,7 +139,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Getter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     @Override
     public String getDeptId() {
@@ -149,7 +147,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Setter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     @Override
     public EDeptRecord setComment(String value) {
@@ -158,7 +156,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Getter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     @Override
     public String getComment() {
@@ -166,7 +164,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public EDeptRecord setMetadata(String value) {
@@ -175,7 +173,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -183,7 +181,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public EDeptRecord setActive(Boolean value) {
@@ -192,7 +190,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -200,7 +198,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public EDeptRecord setSigma(String value) {
@@ -209,7 +207,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public String getSigma() {
@@ -217,7 +215,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public EDeptRecord setLanguage(String value) {
@@ -226,7 +224,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -234,7 +232,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public EDeptRecord setCreatedAt(LocalDateTime value) {
@@ -243,7 +241,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -251,7 +249,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public EDeptRecord setCreatedBy(String value) {
@@ -260,7 +258,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -268,7 +266,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public EDeptRecord setUpdatedAt(LocalDateTime value) {
@@ -277,7 +275,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -285,7 +283,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public EDeptRecord setUpdatedBy(String value) {
@@ -294,7 +292,7 @@ public class EDeptRecord extends UpdatableRecordImpl<EDeptRecord> implements Ver
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {

@@ -28,8 +28,8 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     @Override
     public TOaVacationRecord setKey(String value) {
@@ -38,8 +38,8 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     @Override
     public String getKey() {
@@ -47,7 +47,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -57,7 +57,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -66,7 +66,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.REQUEST_BY</code>. 「requestBy」-
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.REQUEST_BY</code>. 「requestBy」-
      * Request User
      */
     @Override
@@ -76,7 +76,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.REQUEST_BY</code>. 「requestBy」-
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.REQUEST_BY</code>. 「requestBy」-
      * Request User
      */
     @Override
@@ -85,7 +85,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -95,7 +95,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -104,8 +104,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.START_AT</code>. 「startAt」-
-     * From
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.START_AT</code>. 「startAt」- From
      */
     @Override
     public TOaVacationRecord setStartAt(LocalDateTime value) {
@@ -114,8 +113,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.START_AT</code>. 「startAt」-
-     * From
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.START_AT</code>. 「startAt」- From
      */
     @Override
     public LocalDateTime getStartAt() {
@@ -123,7 +121,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.END_AT</code>. 「endAt」- To
      */
     @Override
     public TOaVacationRecord setEndAt(LocalDateTime value) {
@@ -132,7 +130,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -140,7 +138,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.DAYS</code>. 「days」- Duration
      */
     @Override
     public TOaVacationRecord setDays(Integer value) {
@@ -149,7 +147,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.DAYS</code>. 「days」- Duration
      */
     @Override
     public Integer getDays() {
@@ -157,7 +155,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.REASON</code>. 「reason」- The
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -167,7 +165,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.REASON</code>. 「reason」- The
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.REASON</code>. 「reason」- The
      * reason to be done
      */
     @Override
@@ -176,7 +174,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_VACATION.WORK_CONTENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_VACATION.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override
@@ -186,7 +184,7 @@ public class TOaVacationRecord extends UpdatableRecordImpl<TOaVacationRecord> im
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_VACATION.WORK_CONTENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_VACATION.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     @Override

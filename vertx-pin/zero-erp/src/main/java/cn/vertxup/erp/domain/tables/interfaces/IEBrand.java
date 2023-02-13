@@ -18,192 +18,192 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEBrand extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.KEY</code>. 「key」- 品牌ID
+     * Setter for <code>DB_HOTEL.E_BRAND.KEY</code>. 「key」- 品牌ID
      */
     public IEBrand setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.KEY</code>. 「key」- 品牌ID
+     * Getter for <code>DB_HOTEL.E_BRAND.KEY</code>. 「key」- 品牌ID
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CODE</code>. 「code」- 品牌编码
+     * Setter for <code>DB_HOTEL.E_BRAND.CODE</code>. 「code」- 品牌编码
      */
     public IEBrand setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CODE</code>. 「code」- 品牌编码
+     * Getter for <code>DB_HOTEL.E_BRAND.CODE</code>. 「code」- 品牌编码
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.NAME</code>. 「name」- 品牌名称
+     * Setter for <code>DB_HOTEL.E_BRAND.NAME</code>. 「name」- 品牌名称
      */
     public IEBrand setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.NAME</code>. 「name」- 品牌名称
+     * Getter for <code>DB_HOTEL.E_BRAND.NAME</code>. 「name」- 品牌名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
+     * Setter for <code>DB_HOTEL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
      */
     public IEBrand setAlias(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
+     * Getter for <code>DB_HOTEL.E_BRAND.ALIAS</code>. 「alias」- 品牌别名
      */
     public String getAlias();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
+     * Setter for <code>DB_HOTEL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
      * 品牌公司名
      */
     public IEBrand setCompanyName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
+     * Getter for <code>DB_HOTEL.E_BRAND.COMPANY_NAME</code>. 「companyName」-
      * 品牌公司名
      */
     public String getCompanyName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
+     * Setter for <code>DB_HOTEL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
      * 类别代码
      */
     public IEBrand setCategoryCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
+     * Getter for <code>DB_HOTEL.E_BRAND.CATEGORY_CODE</code>. 「categoryCode」-
      * 类别代码
      */
     public String getCategoryCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
+     * Setter for <code>DB_HOTEL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
      * 类别名称
      */
     public IEBrand setCategoryName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
+     * Getter for <code>DB_HOTEL.E_BRAND.CATEGORY_NAME</code>. 「categoryName」-
      * 类别名称
      */
     public String getCategoryName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
     public IEBrand setArea(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
     public Integer getArea();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
      */
     public IEBrand setAreaName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
      */
     public String getAreaName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
+     * Setter for <code>DB_HOTEL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
      * 区域类别码
      */
     public IEBrand setAreaCategory(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
+     * Getter for <code>DB_HOTEL.E_BRAND.AREA_CATEGORY</code>. 「areaCategory」-
      * 区域类别码
      */
     public String getAreaCategory();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
      */
     public IEBrand setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_BRAND.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
      */
     public IEBrand setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_BRAND.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Setter for <code>DB_HOTEL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public IEBrand setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
+     * Getter for <code>DB_HOTEL.E_BRAND.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEBrand setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_BRAND.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEBrand setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_BRAND.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEBrand setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_BRAND.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEBrand setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_BRAND.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEBrand setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_BRAND.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

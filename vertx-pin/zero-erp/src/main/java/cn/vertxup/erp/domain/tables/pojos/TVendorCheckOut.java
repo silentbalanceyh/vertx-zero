@@ -68,7 +68,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -77,7 +77,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     @Override
@@ -87,7 +87,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -96,7 +96,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     @Override
@@ -106,7 +106,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -115,7 +115,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     @Override
@@ -125,8 +125,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.START_AT</code>.
-     * 「startAt」- From
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.START_AT</code>. 「startAt」-
+     * From
      */
     @Override
     public LocalDateTime getStartAt() {
@@ -134,8 +134,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.START_AT</code>.
-     * 「startAt」- From
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.START_AT</code>. 「startAt」-
+     * From
      */
     @Override
     public TVendorCheckOut setStartAt(LocalDateTime startAt) {
@@ -144,7 +144,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
      */
     @Override
     public LocalDateTime getEndAt() {
@@ -152,7 +152,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
      */
     @Override
     public TVendorCheckOut setEndAt(LocalDateTime endAt) {
@@ -161,7 +161,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
      * Duration
      */
     @Override
@@ -170,7 +170,7 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
      * Duration
      */
     @Override
@@ -180,8 +180,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>.
-     * 「leaveAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>. 「leaveAt」-
+     * To
      */
     @Override
     public LocalDateTime getLeaveAt() {
@@ -189,8 +189,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>.
-     * 「leaveAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>. 「leaveAt」-
+     * To
      */
     @Override
     public TVendorCheckOut setLeaveAt(LocalDateTime leaveAt) {
@@ -199,8 +199,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」-
-     * The reason to be done
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」- The
+     * reason to be done
      */
     @Override
     public String getReason() {
@@ -208,8 +208,8 @@ public class TVendorCheckOut implements VertxPojo, ITVendorCheckOut {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」-
-     * The reason to be done
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」- The
+     * reason to be done
      */
     @Override
     public TVendorCheckOut setReason(String reason) {

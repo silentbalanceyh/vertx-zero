@@ -19,362 +19,360 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IECustomer extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
      */
     public IECustomer setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     public IECustomer setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     public IECustomer setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TYPE</code>. 「type」-
      * 客户分类（不同类型代表不同客户）
      */
     public IECustomer setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TYPE</code>. 「type」-
      * 客户分类（不同类型代表不同客户）
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
      */
     public IECustomer setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
     public IECustomer setTaxCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
     public String getTaxCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     public IECustomer setTaxTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     public String getTaxTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_NAME</code>. 「contactName」-
+     * 联系人姓名
      */
     public IECustomer setContactName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_NAME</code>. 「contactName」-
+     * 联系人姓名
      */
     public String getContactName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_PHONE</code>.
      * 「contactPhone」- 联系人电话
      */
     public IECustomer setContactPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_PHONE</code>.
      * 「contactPhone」- 联系人电话
      */
     public String getContactPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系人Email
      */
     public IECustomer setContactEmail(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系人Email
      */
     public String getContactEmail();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     public IECustomer setContactOnline(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     public String getContactOnline();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
      */
     public IECustomer setTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
      */
     public String getTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
      */
     public IECustomer setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
      */
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     public IECustomer setEmail(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     public String getEmail();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
      */
     public IECustomer setFax(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
      */
     public String getFax();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
      */
     public IECustomer setHomepage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
      */
     public String getHomepage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
      * attachment Key
      */
     public IECustomer setLogo(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
      * attachment Key
      */
     public String getLogo();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
      */
     public IECustomer setPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
      */
     public String getPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
      */
     public IECustomer setAddress(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
      */
     public String getAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
-     * 签单人姓名
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGN_NAME</code>. 「signName」- 签单人姓名
      */
     public IECustomer setSignName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
-     * 签单人姓名
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGN_NAME</code>. 「signName」- 签单人姓名
      */
     public String getSignName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
      * 签单人电话
      */
     public IECustomer setSignPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
      * 签单人电话
      */
     public String getSignPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     public IECustomer setRunUp(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     public Boolean getRunUp();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
-     * 「runUpAmount」- 挂账限额
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP_AMOUNT</code>. 「runUpAmount」-
+     * 挂账限额
      */
     public IECustomer setRunUpAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
-     * 「runUpAmount」- 挂账限额
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP_AMOUNT</code>. 「runUpAmount」-
+     * 挂账限额
      */
     public BigDecimal getRunUpAmount();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RLT_PRICECAT</code>. 「rltPricecat」-
+     * 挂账限额
+     */
+    public IECustomer setRltPricecat(String value);
+
+    /**
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RLT_PRICECAT</code>. 「rltPricecat」-
+     * 挂账限额
+     */
+    public String getRltPricecat();
+
+    /**
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
      */
     public IECustomer setBankId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
      */
     public String getBankId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     public IECustomer setBankCard(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     public String getBankCard();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     public IECustomer setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
      */
     public IECustomer setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGMA</code>. 「sigma」-
-     * 统一标识（客户所属应用）
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGMA</code>. 「sigma」- 统一标识（客户所属应用）
      */
     public IECustomer setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGMA</code>. 「sigma」-
-     * 统一标识（客户所属应用）
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGMA</code>. 「sigma」- 统一标识（客户所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IECustomer setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IECustomer setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IECustomer setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IECustomer setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IECustomer setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 
@@ -419,6 +417,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 setOrThrow(this::setSignPhone,json::getString,"SIGN_PHONE","java.lang.String");
                 setOrThrow(this::setRunUp,json::getBoolean,"RUN_UP","java.lang.Boolean");
                 setOrThrow(this::setRunUpAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"RUN_UP_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setRltPricecat,json::getString,"RLT_PRICECAT","java.lang.String");
                 setOrThrow(this::setBankId,json::getString,"BANK_ID","java.lang.String");
                 setOrThrow(this::setBankCard,json::getString,"BANK_CARD","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -459,6 +458,7 @@ public interface IECustomer extends VertxPojo, Serializable {
                 json.put("SIGN_PHONE",getSignPhone());
                 json.put("RUN_UP",getRunUp());
                 json.put("RUN_UP_AMOUNT",getRunUpAmount()==null?null:getRunUpAmount().toString());
+                json.put("RLT_PRICECAT",getRltPricecat());
                 json.put("BANK_ID",getBankId());
                 json.put("BANK_CARD",getBankCard());
                 json.put("METADATA",getMetadata());

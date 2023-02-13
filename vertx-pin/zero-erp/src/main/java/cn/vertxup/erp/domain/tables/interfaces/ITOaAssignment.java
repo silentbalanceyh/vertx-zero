@@ -18,93 +18,93 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITOaAssignment extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public ITOaAssignment setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITOaAssignment setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     public ITOaAssignment setRequestBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REQUEST_BY</code>.
-     * 「requestBy」- Request User
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REQUEST_BY</code>. 「requestBy」-
+     * Request User
      */
     public String getRequestBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     public ITOaAssignment setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.START_AT</code>. 「startAt」-
      * From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     public ITOaAssignment setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     public ITOaAssignment setDays(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.DAYS</code>. 「days」- Duration
      */
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     public ITOaAssignment setReason(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.REASON</code>. 「reason」- The
      * reason to be done
      */
     public String getReason();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     public ITOaAssignment setWorkContent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_ASSIGNMENT.WORK_CONTENT</code>.
      * 「workContent」- Working Assignment Content
      */
     public String getWorkContent();

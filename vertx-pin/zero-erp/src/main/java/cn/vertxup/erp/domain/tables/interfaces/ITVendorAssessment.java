@@ -18,133 +18,131 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITVendorAssessment extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public ITVendorAssessment setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITVendorAssessment setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public ITVendorAssessment setClassification(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public String getClassification();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.START_AT</code>.
-     * 「startAt」- From
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.START_AT</code>. 「startAt」-
+     * From
      */
     public ITVendorAssessment setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.START_AT</code>.
-     * 「startAt」- From
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.START_AT</code>. 「startAt」-
+     * From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」-
-     * To
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」- To
      */
     public ITVendorAssessment setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」-
-     * To
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
      * Duration
      */
     public ITVendorAssessment setDays(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.DAYS</code>. 「days」-
      * Duration
      */
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
      * 「assessOn」- The user that will be assessed
      */
     public ITVendorAssessment setAssessOn(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_ON</code>.
      * 「assessOn」- The user that will be assessed
      */
     public String getAssessOn();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
      * 「assessScore」- The score of the user
      */
     public ITVendorAssessment setAssessScore(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.ASSESS_SCORE</code>.
      * 「assessScore」- The score of the user
      */
     public Integer getAssessScore();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
      * 「commentDept」- from department
      */
     public ITVendorAssessment setCommentDept(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_DEPT</code>.
      * 「commentDept」- from department
      */
     public String getCommentDept();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
      * 「commentAssess」- from assess
      */
     public ITVendorAssessment setCommentAssess(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_ASSESS</code>.
      * 「commentAssess」- from assess
      */
     public String getCommentAssess();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
      * 「commentLeader」- from leader of project
      */
     public ITVendorAssessment setCommentLeader(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_ASSESSMENT.COMMENT_LEADER</code>.
      * 「commentLeader」- from leader of project
      */
     public String getCommentLeader();

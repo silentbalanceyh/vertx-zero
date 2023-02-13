@@ -18,119 +18,117 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITOaTraining extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     public ITOaTraining setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.KEY</code>. 「key」- Ticket
-     * Primary Key
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.KEY</code>. 「key」- Ticket Primary
+     * Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITOaTraining setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.START_AT</code>. 「startAt」-
-     * From
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.START_AT</code>. 「startAt」- From
      */
     public ITOaTraining setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.START_AT</code>. 「startAt」-
-     * From
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.START_AT</code>. 「startAt」- From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.END_AT</code>. 「endAt」- To
      */
     public ITOaTraining setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.TRAIN_LOCATION</code>.
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.TRAIN_LOCATION</code>.
      * 「trainLocation」- The location for training
      */
     public ITOaTraining setTrainLocation(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.TRAIN_LOCATION</code>.
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.TRAIN_LOCATION</code>.
      * 「trainLocation」- The location for training
      */
     public String getTrainLocation();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.TRAIN_MODE</code>. 「trainMode」-
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.TRAIN_MODE</code>. 「trainMode」-
      * The mode of training
      */
     public ITOaTraining setTrainMode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.TRAIN_MODE</code>. 「trainMode」-
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.TRAIN_MODE</code>. 「trainMode」-
      * The mode of training
      */
     public String getTrainMode();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.LEADER</code>. 「leader」- The
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.LEADER</code>. 「leader」- The
      * training leader
      */
     public ITOaTraining setLeader(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.LEADER</code>. 「leader」- The
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.LEADER</code>. 「leader」- The
      * training leader
      */
     public String getLeader();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.LEADER_COMMENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.LEADER_COMMENT</code>.
      * 「leaderComment」- Comment from leader
      */
     public ITOaTraining setLeaderComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.LEADER_COMMENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.LEADER_COMMENT</code>.
      * 「leaderComment」- Comment from leader
      */
     public String getLeaderComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.REVIEWER</code>. 「reviewer」-
-     * The training reviewer
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.REVIEWER</code>. 「reviewer」- The
+     * training reviewer
      */
     public ITOaTraining setReviewer(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.REVIEWER</code>. 「reviewer」-
-     * The training reviewer
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.REVIEWER</code>. 「reviewer」- The
+     * training reviewer
      */
     public String getReviewer();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_OA_TRAINING.REVIEWER_COMMENT</code>.
+     * Setter for <code>DB_HOTEL.T_OA_TRAINING.REVIEWER_COMMENT</code>.
      * 「reviewerComment」- Comment from reviewer
      */
     public ITOaTraining setReviewerComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_OA_TRAINING.REVIEWER_COMMENT</code>.
+     * Getter for <code>DB_HOTEL.T_OA_TRAINING.REVIEWER_COMMENT</code>.
      * 「reviewerComment」- Comment from reviewer
      */
     public String getReviewerComment();

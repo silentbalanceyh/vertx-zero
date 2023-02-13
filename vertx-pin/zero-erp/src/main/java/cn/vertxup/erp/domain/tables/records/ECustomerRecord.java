@@ -26,7 +26,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
      */
     @Override
     public ECustomerRecord setKey(String value) {
@@ -35,7 +35,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.KEY</code>. 「key」- 客户ID
      */
     @Override
     public String getKey() {
@@ -43,7 +43,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     @Override
     public ECustomerRecord setName(String value) {
@@ -52,7 +52,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.NAME</code>. 「name」- 客户名称
      */
     @Override
     public String getName() {
@@ -60,7 +60,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     @Override
     public ECustomerRecord setCode(String value) {
@@ -69,7 +69,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CODE</code>. 「code」- 客户编号
      */
     @Override
     public String getCode() {
@@ -77,7 +77,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TYPE</code>. 「type」-
      * 客户分类（不同类型代表不同客户）
      */
     @Override
@@ -87,7 +87,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TYPE</code>. 「type」-
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TYPE</code>. 「type」-
      * 客户分类（不同类型代表不同客户）
      */
     @Override
@@ -96,7 +96,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
      */
     @Override
     public ECustomerRecord setStatus(String value) {
@@ -105,7 +105,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
      */
     @Override
     public String getStatus() {
@@ -113,7 +113,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
     @Override
     public ECustomerRecord setTaxCode(String value) {
@@ -122,7 +122,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
     @Override
     public String getTaxCode() {
@@ -130,7 +130,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     @Override
     public ECustomerRecord setTaxTitle(String value) {
@@ -139,7 +139,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TAX_TITLE</code>. 「taxTitle」- 开票抬头
      */
     @Override
     public String getTaxTitle() {
@@ -147,8 +147,8 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_NAME</code>. 「contactName」-
+     * 联系人姓名
      */
     @Override
     public ECustomerRecord setContactName(String value) {
@@ -157,8 +157,8 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_NAME</code>.
-     * 「contactName」- 联系人姓名
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_NAME</code>. 「contactName」-
+     * 联系人姓名
      */
     @Override
     public String getContactName() {
@@ -166,7 +166,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_PHONE</code>.
      * 「contactPhone」- 联系人电话
      */
     @Override
@@ -176,7 +176,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_PHONE</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_PHONE</code>.
      * 「contactPhone」- 联系人电话
      */
     @Override
@@ -185,7 +185,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系人Email
      */
     @Override
@@ -195,7 +195,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_EMAIL</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_EMAIL</code>.
      * 「contactEmail」- 联系人Email
      */
     @Override
@@ -204,7 +204,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     @Override
@@ -214,7 +214,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CONTACT_ONLINE</code>.
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CONTACT_ONLINE</code>.
      * 「contactOnline」- 在线联系方式
      */
     @Override
@@ -223,7 +223,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
      */
     @Override
     public ECustomerRecord setTitle(String value) {
@@ -232,7 +232,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.TITLE</code>. 「title」- 客户显示标题
      */
     @Override
     public String getTitle() {
@@ -240,7 +240,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
      */
     @Override
     public ECustomerRecord setComment(String value) {
@@ -249,7 +249,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.COMMENT</code>. 「comment」- 客户备注
      */
     @Override
     public String getComment() {
@@ -257,7 +257,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     @Override
     public ECustomerRecord setEmail(String value) {
@@ -266,7 +266,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.EMAIL</code>. 「email」- 企业邮箱
      */
     @Override
     public String getEmail() {
@@ -274,7 +274,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
      */
     @Override
     public ECustomerRecord setFax(String value) {
@@ -283,7 +283,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.FAX</code>. 「fax」- 传真号
      */
     @Override
     public String getFax() {
@@ -291,7 +291,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
      */
     @Override
     public ECustomerRecord setHomepage(String value) {
@@ -300,7 +300,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.HOMEPAGE</code>. 「homepage」- 客户主页
      */
     @Override
     public String getHomepage() {
@@ -308,7 +308,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
      * attachment Key
      */
     @Override
@@ -318,7 +318,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.LOGO</code>. 「logo」- 附件对应的
      * attachment Key
      */
     @Override
@@ -327,7 +327,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
      */
     @Override
     public ECustomerRecord setPhone(String value) {
@@ -336,7 +336,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.PHONE</code>. 「phone」- 客户座机
      */
     @Override
     public String getPhone() {
@@ -344,7 +344,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
      */
     @Override
     public ECustomerRecord setAddress(String value) {
@@ -353,7 +353,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.ADDRESS</code>. 「address」- 客户地址
      */
     @Override
     public String getAddress() {
@@ -361,8 +361,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
-     * 签单人姓名
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGN_NAME</code>. 「signName」- 签单人姓名
      */
     @Override
     public ECustomerRecord setSignName(String value) {
@@ -371,8 +370,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_NAME</code>. 「signName」-
-     * 签单人姓名
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGN_NAME</code>. 「signName」- 签单人姓名
      */
     @Override
     public String getSignName() {
@@ -380,7 +378,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
      * 签单人电话
      */
     @Override
@@ -390,7 +388,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGN_PHONE</code>. 「signPhone」-
      * 签单人电话
      */
     @Override
@@ -399,7 +397,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     @Override
     public ECustomerRecord setRunUp(Boolean value) {
@@ -408,7 +406,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP</code>. 「runUp」- 挂账属性
      */
     @Override
     public Boolean getRunUp() {
@@ -416,8 +414,8 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
-     * 「runUpAmount」- 挂账限额
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP_AMOUNT</code>. 「runUpAmount」-
+     * 挂账限额
      */
     @Override
     public ECustomerRecord setRunUpAmount(BigDecimal value) {
@@ -426,8 +424,8 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
-     * 「runUpAmount」- 挂账限额
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RUN_UP_AMOUNT</code>. 「runUpAmount」-
+     * 挂账限额
      */
     @Override
     public BigDecimal getRunUpAmount() {
@@ -435,185 +433,192 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.RLT_PRICECAT</code>. 「rltPricecat」-
+     * 挂账限额
      */
     @Override
-    public ECustomerRecord setBankId(String value) {
+    public ECustomerRecord setRltPricecat(String value) {
         set(23, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.RLT_PRICECAT</code>. 「rltPricecat」-
+     * 挂账限额
      */
     @Override
-    public String getBankId() {
+    public String getRltPricecat() {
         return (String) get(23);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
      */
     @Override
-    public ECustomerRecord setBankCard(String value) {
+    public ECustomerRecord setBankId(String value) {
         set(24, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」-
-     * 开户行账号
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
      */
     @Override
-    public String getBankCard() {
+    public String getBankId() {
         return (String) get(24);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     @Override
-    public ECustomerRecord setMetadata(String value) {
+    public ECustomerRecord setBankCard(String value) {
         set(25, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.BANK_CARD</code>. 「bankCard」- 开户行账号
      */
     @Override
-    public String getMetadata() {
+    public String getBankCard() {
         return (String) get(25);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
-    public ECustomerRecord setActive(Boolean value) {
+    public ECustomerRecord setMetadata(String value) {
         set(26, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
-    public Boolean getActive() {
-        return (Boolean) get(26);
+    public String getMetadata() {
+        return (String) get(26);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.SIGMA</code>. 「sigma」-
-     * 统一标识（客户所属应用）
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
-    public ECustomerRecord setSigma(String value) {
+    public ECustomerRecord setActive(Boolean value) {
         set(27, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.SIGMA</code>. 「sigma」-
-     * 统一标识（客户所属应用）
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
-    public String getSigma() {
-        return (String) get(27);
+    public Boolean getActive() {
+        return (Boolean) get(27);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.SIGMA</code>. 「sigma」- 统一标识（客户所属应用）
      */
     @Override
-    public ECustomerRecord setLanguage(String value) {
+    public ECustomerRecord setSigma(String value) {
         set(28, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.SIGMA</code>. 「sigma」- 统一标识（客户所属应用）
      */
     @Override
-    public String getLanguage() {
+    public String getSigma() {
         return (String) get(28);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
-    public ECustomerRecord setCreatedAt(LocalDateTime value) {
+    public ECustomerRecord setLanguage(String value) {
         set(29, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
-    public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(29);
+    public String getLanguage() {
+        return (String) get(29);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
-    public ECustomerRecord setCreatedBy(String value) {
+    public ECustomerRecord setCreatedAt(LocalDateTime value) {
         set(30, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
-    public String getCreatedBy() {
-        return (String) get(30);
+    public LocalDateTime getCreatedAt() {
+        return (LocalDateTime) get(30);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
-    public ECustomerRecord setUpdatedAt(LocalDateTime value) {
+    public ECustomerRecord setCreatedBy(String value) {
         set(31, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
-    public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(31);
+    public String getCreatedBy() {
+        return (String) get(31);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
-    public ECustomerRecord setUpdatedBy(String value) {
+    public ECustomerRecord setUpdatedAt(LocalDateTime value) {
         set(32, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     */
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        return (LocalDateTime) get(32);
+    }
+
+    /**
+     * Setter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」- 更新人
+     */
+    @Override
+    public ECustomerRecord setUpdatedBy(String value) {
+        set(33, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_HOTEL.E_CUSTOMER.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(32);
+        return (String) get(33);
     }
 
     // -------------------------------------------------------------------------
@@ -654,6 +659,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
         setSignPhone(from.getSignPhone());
         setRunUp(from.getRunUp());
         setRunUpAmount(from.getRunUpAmount());
+        setRltPricecat(from.getRltPricecat());
         setBankId(from.getBankId());
         setBankCard(from.getBankCard());
         setMetadata(from.getMetadata());
@@ -686,7 +692,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
     /**
      * Create a detached, initialised ECustomerRecord
      */
-    public ECustomerRecord(String key, String name, String code, String type, String status, String taxCode, String taxTitle, String contactName, String contactPhone, String contactEmail, String contactOnline, String title, String comment, String email, String fax, String homepage, String logo, String phone, String address, String signName, String signPhone, Boolean runUp, BigDecimal runUpAmount, String bankId, String bankCard, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public ECustomerRecord(String key, String name, String code, String type, String status, String taxCode, String taxTitle, String contactName, String contactPhone, String contactEmail, String contactOnline, String title, String comment, String email, String fax, String homepage, String logo, String phone, String address, String signName, String signPhone, Boolean runUp, BigDecimal runUpAmount, String rltPricecat, String bankId, String bankCard, String metadata, Boolean active, String sigma, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(ECustomer.E_CUSTOMER);
 
         setKey(key);
@@ -712,6 +718,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
         setSignPhone(signPhone);
         setRunUp(runUp);
         setRunUpAmount(runUpAmount);
+        setRltPricecat(rltPricecat);
         setBankId(bankId);
         setBankCard(bankCard);
         setMetadata(metadata);
@@ -754,6 +761,7 @@ public class ECustomerRecord extends UpdatableRecordImpl<ECustomerRecord> implem
             setSignPhone(value.getSignPhone());
             setRunUp(value.getRunUp());
             setRunUpAmount(value.getRunUpAmount());
+            setRltPricecat(value.getRltPricecat());
             setBankId(value.getBankId());
             setBankCard(value.getBankCard());
             setMetadata(value.getMetadata());

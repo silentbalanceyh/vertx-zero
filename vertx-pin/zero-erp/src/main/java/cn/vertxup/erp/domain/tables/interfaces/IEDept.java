@@ -18,164 +18,162 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEDept extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Setter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     public IEDept setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Getter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     public IEDept setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Setter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     public IEDept setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Getter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     public IEDept setManagerId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     public String getManagerId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     public IEDept setManagerName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     public String getManagerName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Setter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public IEDept setCompanyId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Getter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     public String getCompanyId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Setter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     public IEDept setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Getter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Setter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     public IEDept setComment(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Getter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     public String getComment();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     public IEDept setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     public IEDept setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     public IEDept setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEDept setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEDept setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEDept setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEDept setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEDept setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

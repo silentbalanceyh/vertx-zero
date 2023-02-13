@@ -100,7 +100,7 @@ public class EDept implements VertxPojo, IEDept {
         }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Getter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     @Override
     public String getKey() {
@@ -108,7 +108,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.KEY</code>. 「key」- 部门主键
+     * Setter for <code>DB_HOTEL.E_DEPT.KEY</code>. 「key」- 部门主键
      */
     @Override
     public EDept setKey(String key) {
@@ -117,7 +117,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     @Override
     public String getName() {
@@ -125,7 +125,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.NAME</code>. 「name」- 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.NAME</code>. 「name」- 部门名称
      */
     @Override
     public EDept setName(String name) {
@@ -134,7 +134,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Getter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     @Override
     public String getCode() {
@@ -142,7 +142,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CODE</code>. 「code」- 部门编号
+     * Setter for <code>DB_HOTEL.E_DEPT.CODE</code>. 「code」- 部门编号
      */
     @Override
     public EDept setCode(String code) {
@@ -151,7 +151,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     @Override
     public String getManagerId() {
@@ -159,7 +159,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_ID</code>. 「managerId」- 部门经理
      */
     @Override
     public EDept setManagerId(String managerId) {
@@ -168,8 +168,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Getter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     @Override
     public String getManagerName() {
@@ -177,8 +176,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.MANAGER_NAME</code>. 「managerName」-
-     * 部门名称
+     * Setter for <code>DB_HOTEL.E_DEPT.MANAGER_NAME</code>. 「managerName」- 部门名称
      */
     @Override
     public EDept setManagerName(String managerName) {
@@ -187,7 +185,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Getter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     @Override
     public String getCompanyId() {
@@ -195,7 +193,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
+     * Setter for <code>DB_HOTEL.E_DEPT.COMPANY_ID</code>. 「companyId」- 所属公司
      */
     @Override
     public EDept setCompanyId(String companyId) {
@@ -204,7 +202,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Getter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     @Override
     public String getDeptId() {
@@ -212,7 +210,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
+     * Setter for <code>DB_HOTEL.E_DEPT.DEPT_ID</code>. 「deptId」- 父部门
      */
     @Override
     public EDept setDeptId(String deptId) {
@@ -221,7 +219,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Getter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     @Override
     public String getComment() {
@@ -229,7 +227,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
+     * Setter for <code>DB_HOTEL.E_DEPT.COMMENT</code>. 「comment」- 部门备注
      */
     @Override
     public EDept setComment(String comment) {
@@ -238,7 +236,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public String getMetadata() {
@@ -246,7 +244,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_DEPT.METADATA</code>. 「metadata」- 附加配置
      */
     @Override
     public EDept setMetadata(String metadata) {
@@ -255,7 +253,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public Boolean getActive() {
@@ -263,7 +261,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_DEPT.ACTIVE</code>. 「active」- 是否启用
      */
     @Override
     public EDept setActive(Boolean active) {
@@ -272,7 +270,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Getter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public String getSigma() {
@@ -280,7 +278,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
+     * Setter for <code>DB_HOTEL.E_DEPT.SIGMA</code>. 「sigma」- 统一标识
      */
     @Override
     public EDept setSigma(String sigma) {
@@ -289,7 +287,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public String getLanguage() {
@@ -297,7 +295,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_DEPT.LANGUAGE</code>. 「language」- 使用的语言
      */
     @Override
     public EDept setLanguage(String language) {
@@ -306,7 +304,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public LocalDateTime getCreatedAt() {
@@ -314,7 +312,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     @Override
     public EDept setCreatedAt(LocalDateTime createdAt) {
@@ -323,7 +321,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Getter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public String getCreatedBy() {
@@ -331,7 +329,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
+     * Setter for <code>DB_HOTEL.E_DEPT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     @Override
     public EDept setCreatedBy(String createdBy) {
@@ -340,7 +338,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public LocalDateTime getUpdatedAt() {
@@ -348,7 +346,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     @Override
     public EDept setUpdatedAt(LocalDateTime updatedAt) {
@@ -357,7 +355,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Getter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public String getUpdatedBy() {
@@ -365,7 +363,7 @@ public class EDept implements VertxPojo, IEDept {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
+     * Setter for <code>DB_HOTEL.E_DEPT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     @Override
     public EDept setUpdatedBy(String updatedBy) {

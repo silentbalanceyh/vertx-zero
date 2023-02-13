@@ -19,410 +19,400 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface IEContract extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.KEY</code>. 「key」- 合同主键
+     * Setter for <code>DB_HOTEL.E_CONTRACT.KEY</code>. 「key」- 合同主键
      */
     public IEContract setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.KEY</code>. 「key」- 合同主键
+     * Getter for <code>DB_HOTEL.E_CONTRACT.KEY</code>. 「key」- 合同主键
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.NAME</code>. 「name」- 合同名称
+     * Setter for <code>DB_HOTEL.E_CONTRACT.NAME</code>. 「name」- 合同名称
      */
     public IEContract setName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.NAME</code>. 「name」- 合同名称
+     * Getter for <code>DB_HOTEL.E_CONTRACT.NAME</code>. 「name」- 合同名称
      */
     public String getName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.CODE</code>. 「code」- 合同编号
+     * Setter for <code>DB_HOTEL.E_CONTRACT.CODE</code>. 「code」- 合同编号
      */
     public IEContract setCode(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.CODE</code>. 「code」- 合同编号
+     * Getter for <code>DB_HOTEL.E_CONTRACT.CODE</code>. 「code」- 合同编号
      */
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Setter for <code>DB_HOTEL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     public IEContract setDeptId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
+     * Getter for <code>DB_HOTEL.E_CONTRACT.DEPT_ID</code>. 「deptId」- 所属部门,
      * resource.departments
      */
     public String getDeptId();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.TYPE</code>. 「type」-
      * 合同分类，zero.contract
      */
     public IEContract setType(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.TYPE</code>. 「type」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.TYPE</code>. 「type」-
      * 合同分类，zero.contract
      */
     public String getType();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.STATUS</code>. 「status」-
      * 合同状态，zero.contract.status
      */
     public IEContract setStatus(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.STATUS</code>. 「status」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.STATUS</code>. 「status」-
      * 合同状态，zero.contract.status
      */
     public String getStatus();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.BUDGET</code>. 「budget」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.BUDGET</code>. 「budget」-
      * 所属预算，zero.contract.budget
      */
     public IEContract setBudget(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.BUDGET</code>. 「budget」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.BUDGET</code>. 「budget」-
      * 所属预算，zero.contract.budget
      */
     public String getBudget();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.LEVEL</code>. 「level」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.LEVEL</code>. 「level」-
      * 合同级别，zero.contract.level
      */
     public IEContract setLevel(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.LEVEL</code>. 「level」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.LEVEL</code>. 「level」-
      * 合同级别，zero.contract.level
      */
     public String getLevel();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
+     * Setter for <code>DB_HOTEL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
      */
     public IEContract setTitle(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
+     * Getter for <code>DB_HOTEL.E_CONTRACT.TITLE</code>. 「title」- 合同标题
      */
     public String getTitle();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
+     * Setter for <code>DB_HOTEL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
      */
     public IEContract setSubject(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
+     * Getter for <code>DB_HOTEL.E_CONTRACT.SUBJECT</code>. 「subject」- 合同目标
      */
     public String getSubject();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.DESCRIPTION</code>. 「description」-
      * 合同描述
      */
     public IEContract setDescription(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.DESCRIPTION</code>. 「description」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.DESCRIPTION</code>. 「description」-
      * 合同描述
      */
     public String getDescription();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
+     * Setter for <code>DB_HOTEL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
      */
     public IEContract setAmount(BigDecimal value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
+     * Getter for <code>DB_HOTEL.E_CONTRACT.AMOUNT</code>. 「amount」- 合同金额
      */
     public BigDecimal getAmount();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
+     * Setter for <code>DB_HOTEL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
      */
     public IEContract setRemark(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
+     * Getter for <code>DB_HOTEL.E_CONTRACT.REMARK</code>. 「remark」- 合同备注
      */
     public String getRemark();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Setter for <code>DB_HOTEL.E_CONTRACT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     public IEContract setPlanStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.PLAN_START_AT</code>.
-     * 「planStartAt」- 开始日期
+     * Getter for <code>DB_HOTEL.E_CONTRACT.PLAN_START_AT</code>. 「planStartAt」-
+     * 开始日期
      */
     public LocalDateTime getPlanStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
      * 结束日期
      */
     public IEContract setPlanEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.PLAN_END_AT</code>. 「planEndAt」-
      * 结束日期
      */
     public LocalDateTime getPlanEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
+     * Setter for <code>DB_HOTEL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
      */
     public IEContract setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
+     * Getter for <code>DB_HOTEL.E_CONTRACT.START_AT</code>. 「startAt」- 实际开始日期
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
+     * Setter for <code>DB_HOTEL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
      */
     public IEContract setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
+     * Getter for <code>DB_HOTEL.E_CONTRACT.END_AT</code>. 「endAt」- 实际结束日期
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
+     * Setter for <code>DB_HOTEL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
      */
     public IEContract setSignedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
+     * Getter for <code>DB_HOTEL.E_CONTRACT.SIGNED_BY</code>. 「signedBy」- 签订人
      */
     public String getSignedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
+     * Setter for <code>DB_HOTEL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
      */
     public IEContract setSignedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
+     * Getter for <code>DB_HOTEL.E_CONTRACT.SIGNED_AT</code>. 「signedAt」- 签订时间
      */
     public LocalDateTime getSignedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.PARTY_A</code>. 「partyA」-
      * 甲方（关联公司ID，E_COMPANY）
      */
     public IEContract setPartyA(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_A</code>. 「partyA」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.PARTY_A</code>. 「partyA」-
      * 甲方（关联公司ID，E_COMPANY）
      */
     public String getPartyA();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.PARTY_B</code>. 「partyB」-
      * 乙方（关联客户ID，E_CUSTOMER）
      */
     public IEContract setPartyB(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.PARTY_B</code>. 「partyB」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.PARTY_B</code>. 「partyB」-
      * 乙方（关联客户ID，E_CUSTOMER）
      */
     public String getPartyB();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.A_NAME</code>. 「aName」-
      * 甲方名称（个人为姓名/企业为企业名）
      */
     public IEContract setAName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_NAME</code>. 「aName」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.A_NAME</code>. 「aName」-
      * 甲方名称（个人为姓名/企业为企业名）
      */
     public String getAName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
+     * Setter for <code>DB_HOTEL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
      */
     public IEContract setAPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
+     * Getter for <code>DB_HOTEL.E_CONTRACT.A_PHONE</code>. 「aPhone」- 甲方电话
      */
     public String getAPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
      * 甲方法人（企业合同专用）
      */
     public IEContract setALegal(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.A_LEGAL</code>. 「aLegal」-
      * 甲方法人（企业合同专用）
      */
     public String getALegal();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
+     * Setter for <code>DB_HOTEL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
      */
     public IEContract setAAddress(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
+     * Getter for <code>DB_HOTEL.E_CONTRACT.A_ADDRESS</code>. 「aAddress」- 甲方地址
      */
     public String getAAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.B_NAME</code>. 「bName」-
      * 乙方名称（个人为姓名/企业为企业名）
      */
     public IEContract setBName(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_NAME</code>. 「bName」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.B_NAME</code>. 「bName」-
      * 乙方名称（个人为姓名/企业为企业名）
      */
     public String getBName();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
+     * Setter for <code>DB_HOTEL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
      */
     public IEContract setBPhone(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
+     * Getter for <code>DB_HOTEL.E_CONTRACT.B_PHONE</code>. 「bPhone」- 乙方人电话
      */
     public String getBPhone();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * Setter for <code>DB_HOTEL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
      * 乙方法人（企业合同专用）
      */
     public IEContract setBLegal(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
+     * Getter for <code>DB_HOTEL.E_CONTRACT.B_LEGAL</code>. 「bLegal」-
      * 乙方法人（企业合同专用）
      */
     public String getBLegal();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
+     * Setter for <code>DB_HOTEL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
      */
     public IEContract setBAddress(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
+     * Getter for <code>DB_HOTEL.E_CONTRACT.B_ADDRESS</code>. 「bAddress」- 乙方地址
      */
     public String getBAddress();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
+     * Setter for <code>DB_HOTEL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
      */
     public IEContract setMetadata(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
+     * Getter for <code>DB_HOTEL.E_CONTRACT.METADATA</code>. 「metadata」- 附加配置
      */
     public String getMetadata();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.ACTIVE</code>. 「active」- 是否启用
+     * Setter for <code>DB_HOTEL.E_CONTRACT.ACTIVE</code>. 「active」- 是否启用
      */
     public IEContract setActive(Boolean value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.ACTIVE</code>. 「active」- 是否启用
+     * Getter for <code>DB_HOTEL.E_CONTRACT.ACTIVE</code>. 「active」- 是否启用
      */
     public Boolean getActive();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.SIGMA</code>. 「sigma」-
-     * 统一标识（公司所属应用）
+     * Setter for <code>DB_HOTEL.E_CONTRACT.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public IEContract setSigma(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.SIGMA</code>. 「sigma」-
-     * 统一标识（公司所属应用）
+     * Getter for <code>DB_HOTEL.E_CONTRACT.SIGMA</code>. 「sigma」- 统一标识（公司所属应用）
      */
     public String getSigma();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.LANGUAGE</code>. 「language」- 使用的语言
+     * Setter for <code>DB_HOTEL.E_CONTRACT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public IEContract setLanguage(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.LANGUAGE</code>. 「language」- 使用的语言
+     * Getter for <code>DB_HOTEL.E_CONTRACT.LANGUAGE</code>. 「language」- 使用的语言
      */
     public String getLanguage();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Setter for <code>DB_HOTEL.E_CONTRACT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public IEContract setCreatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.CREATED_AT</code>. 「createdAt」-
-     * 创建时间
+     * Getter for <code>DB_HOTEL.E_CONTRACT.CREATED_AT</code>. 「createdAt」- 创建时间
      */
     public LocalDateTime getCreatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Setter for <code>DB_HOTEL.E_CONTRACT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public IEContract setCreatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.CREATED_BY</code>. 「createdBy」-
-     * 创建人
+     * Getter for <code>DB_HOTEL.E_CONTRACT.CREATED_BY</code>. 「createdBy」- 创建人
      */
     public String getCreatedBy();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Setter for <code>DB_HOTEL.E_CONTRACT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public IEContract setUpdatedAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.UPDATED_AT</code>. 「updatedAt」-
-     * 更新时间
+     * Getter for <code>DB_HOTEL.E_CONTRACT.UPDATED_AT</code>. 「updatedAt」- 更新时间
      */
     public LocalDateTime getUpdatedAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.E_CONTRACT.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Setter for <code>DB_HOTEL.E_CONTRACT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public IEContract setUpdatedBy(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.E_CONTRACT.UPDATED_BY</code>. 「updatedBy」-
-     * 更新人
+     * Getter for <code>DB_HOTEL.E_CONTRACT.UPDATED_BY</code>. 「updatedBy」- 更新人
      */
     public String getUpdatedBy();
 

@@ -18,96 +18,96 @@ import static io.github.jklingsporn.vertx.jooq.shared.internal.VertxPojo.*;
 public interface ITVendorCheckOut extends VertxPojo, Serializable {
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public ITVendorCheckOut setKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.KEY</code>. 「key」- Ticket
      * Primary Key
      */
     public String getKey();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public ITVendorCheckOut setCommentExtension(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.COMMENT_EXTENSION</code>.
      * 「commentExtension」- Extension Comment
      */
     public String getCommentExtension();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public ITVendorCheckOut setClassification(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.CLASSIFICATION</code>.
      * 「classification」- The ticket related business type
      */
     public String getClassification();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.START_AT</code>.
-     * 「startAt」- From
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.START_AT</code>. 「startAt」-
+     * From
      */
     public ITVendorCheckOut setStartAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.START_AT</code>.
-     * 「startAt」- From
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.START_AT</code>. 「startAt」-
+     * From
      */
     public LocalDateTime getStartAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
      */
     public ITVendorCheckOut setEndAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.END_AT</code>. 「endAt」- To
      */
     public LocalDateTime getEndAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
      * Duration
      */
     public ITVendorCheckOut setDays(Integer value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.DAYS</code>. 「days」-
      * Duration
      */
     public Integer getDays();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>.
-     * 「leaveAt」- To
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>. 「leaveAt」-
+     * To
      */
     public ITVendorCheckOut setLeaveAt(LocalDateTime value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>.
-     * 「leaveAt」- To
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.LEAVE_AT</code>. 「leaveAt」-
+     * To
      */
     public LocalDateTime getLeaveAt();
 
     /**
-     * Setter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」-
-     * The reason to be done
+     * Setter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」- The
+     * reason to be done
      */
     public ITVendorCheckOut setReason(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」-
-     * The reason to be done
+     * Getter for <code>DB_HOTEL.T_VENDOR_CHECK_OUT.REASON</code>. 「reason」- The
+     * reason to be done
      */
     public String getReason();
 
