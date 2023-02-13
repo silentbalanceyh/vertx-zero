@@ -64,6 +64,7 @@
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
+        <java.target.version>11</java.target.version>
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
@@ -1945,7 +1946,7 @@
                     <version>${maven.plugin.compiler}</version>
                     <configuration>
                         <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <target>${java.target.version}</target>
                     </configuration>
                 </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
