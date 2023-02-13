@@ -41,7 +41,18 @@ public class ExcelReader implements AoFile {
 
     @Override
     public Set<Model> readModels(final String appName) {
-        final Set<String> files = this.readFiles("schema");
+        return this.readModels(appName, null);
+    }
+
+    @Override
+    public Set<Model> readModels(final String appName, final String outPath) {
+        final String folder;
+        if (Ut.isNil(outPath)) {
+            folder = this.rootPath + "meta";
+        } else {
+            folder = outPath;
+        }
+        final Set<String> files = this.readFiles(folder);
 
         Ao.infoUca(this.getClass(), "找到符合条件的文件：{0}", String.valueOf(files.size()));
         /*
@@ -70,16 +81,16 @@ public class ExcelReader implements AoFile {
 
     @Override
     public Set<String> readDataFiles() {
-        return this.readFiles("data");
+        final String root = this.rootPath + "data";
+        return this.readFiles(root);
     }
 
 
     private Set<String> readFiles(final String folder) {
-        final String root = this.rootPath + folder;
-        final List<String> files = Ut.ioFiles(root);
+        final List<String> files = Ut.ioFiles(folder);
         return files.stream()
             .filter(file -> file.endsWith(".xlsx") || file.equals("xls"))    // Only Excel Valid
             .filter(file -> !file.startsWith("~"))  // 过滤Office的临时文件
-            .map(item -> root + "/" + item).collect(Collectors.toSet());
+            .map(item -> folder + "/" + item).collect(Collectors.toSet());
     }
 }

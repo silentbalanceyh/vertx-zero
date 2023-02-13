@@ -1,12 +1,15 @@
 package io.vertx.up.uca.crypto;
 
 import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.experiment.channel.Pocket;
 import io.vertx.up.experiment.mixture.HED;
 import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.util.Ut;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -45,7 +48,26 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
     // --------------- Child Method Inherit
     protected String runHED(final String source, final Function<HED, String> executor) {
-        final HED hed = Pocket.lookup(HED.class);
+        /*
+         * Rapid Tool Usage for Z_HED environment part
+         * 1. Set the Z_HED overwrite the default
+         * 2. Extract the default ( jar -> Service Loader )
+         * 3. Extract the app ( Classpath )
+         */
+        final String hedCls = Ut.envWith(Macrocosm.HED_COMPONENT, Strings.EMPTY);
+        HED hed = null;
+        
+
+        // Z_HED
+        if (Ut.notNil(hedCls)) {
+            hed = Ut.instance(hedCls);
+        }
+
+
+        // META-INF/services/io.vertx.up.experiment.mixture.HED
+        if (Objects.isNull(hed)) {
+            hed = Pocket.lookup(HED.class);
+        }
         if (Objects.isNull(hed)) {
             final Annal logger = Annal.get(this.getClass());
             logger.warn("[ HED ] Missed `HED` component in service loader: META-INF/services/{0}", HED.class.getName());

@@ -245,6 +245,14 @@ final class Stream {
         return Fn.orJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
     }
 
+    static InputStream inN(final String filename) {
+        return read(filename);
+    }
+
+    static InputStream inN(final String filename, final Class<?> clazz) {
+        return read(filename, clazz);
+    }
+
     /**
      * Stream read from clazz
      * clazz.getResourceAsStream(filename)

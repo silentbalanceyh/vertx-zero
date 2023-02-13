@@ -1,5 +1,6 @@
 package cn.originx.quiz.develop;
 
+import cn.originx.quiz.oclick.InstClick;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.booter.Bt;
@@ -115,7 +116,7 @@ public class DevKit {
         doLoading(DevDefault.pathOob(), null, true);
     }
 
-    public static void oobLoader(final String path, final boolean isOob){
+    public static void oobLoader(final String path, final boolean isOob) {
         doLoading(path, null, isOob);
     }
 
@@ -134,6 +135,17 @@ public class DevKit {
 
     public static void outAtom(final HAtom atom) {
         DevReport.outAtom(atom);
+    }
+
+    // ----------------------- Inst Method -------------------------
+    public static void instLoad(final Class<?> target, final String[] args) {
+        final InstClick click = InstClick.instance(target);
+        click.runLoad(args);
+    }
+
+    public static void instAtom(final Class<?> target, final String[] args) {
+        final InstClick click = InstClick.instance(target);
+        click.runAtom(args);
     }
 
     // ----------------------- Private Method -------------------------
