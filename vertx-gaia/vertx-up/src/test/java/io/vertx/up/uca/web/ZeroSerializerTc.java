@@ -32,12 +32,12 @@ public class ZeroSerializerTc extends ZeroBase {
 
     @Test
     public void testInt1() {
-        this.put(new Integer("3"));
+        this.put(Integer.valueOf("3"));
     }
 
     @Test
     public void testLong() {
-        this.put(new Long("3"));
+        this.put(Long.valueOf("3"));
     }
 
     @Test
