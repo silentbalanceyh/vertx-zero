@@ -50,7 +50,7 @@ following in `vertx-zeus`,
 
 ### 2.1. Api Gateway Configuration
 
-In your resources folder, you should preparing following configuration files:
+In your resources folder, you should prepare following configuration files:
 
 ```properties
 src/main/resources/vertx.yml
@@ -64,7 +64,7 @@ src/main/resources/vertx-server.yml
 
 ```yaml
 zero:
-  lime: etcd3      # This configuration is required for micro service environment
+  lime: etcd3      # This configuration is required for microservice environment
   vertx:
     instance:
     - name: vx-zero

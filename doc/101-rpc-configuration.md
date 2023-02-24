@@ -87,7 +87,8 @@ Here are some examples of Rpc SSL configuration.
     type: JKS
     jsk: tlk/server-key.jks
     password: wibble
-
+```
+```yaml
 ## vertx-rpc.yml ( The name depend on lime )
 # Rpc Client use default
 rpc:
@@ -96,7 +97,8 @@ rpc:
     type: PEM
     cert: tlk/server-cert.pem
     key: tlk/server-key.pem
-
+```
+```yaml
 # Rpc Client with spec service
 
 rpc:
