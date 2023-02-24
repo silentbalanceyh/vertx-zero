@@ -23,6 +23,7 @@ final class IsConfiguration {
             Is.Log.infoInit(IsConfiguration.class, "Is Configuration: {0}", CONFIG.toString());
             // 新环境变量 Z_SIS_STORE
             final String storeRoot = Ut.envWith(Macrocosm.SIS_STORE, CONFIG.getStoreRoot());
+            CONFIG.setStoreRoot(storeRoot);
             Is.Log.infoInit(IsConfiguration.class, "Is StoreRoot = {0}", storeRoot);
         }
     }
