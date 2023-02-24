@@ -72,6 +72,9 @@ class Wag {
                         } else if (valueE instanceof String valueS) {
                             // Element = String
                             replaced.add(valueS);
+                        } else if (valueE instanceof JsonArray valueIA) {
+                            // Element = JsonArray（Fix Issue）
+                            replaced.add(valueIA);
                         }
                     });
                     object.put(field, replaced);
