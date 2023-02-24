@@ -62,8 +62,8 @@ public class HikariDataPool implements DataPool {
             this.dataSource.setConnectionTimeout(this.database.getLong(OPT_CONNECTION_TIMEOUT, 300000L));
             this.dataSource.setIdleTimeout(this.database.getLong(OPT_IDLE_TIMEOUT, 600000L));
             // Fix: Possibly consider using a shorter maxLifetime value
-            this.dataSource.setMaxLifetime(this.database.getLong(OPT_MAX_LIFETIME, 1800000L));
-            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 256));
+            this.dataSource.setMaxLifetime(this.database.getLong(OPT_MAX_LIFETIME, 600000L));
+            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 0));
             this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 512));
 
             // Default attributes

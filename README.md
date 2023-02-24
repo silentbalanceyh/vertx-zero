@@ -17,6 +17,8 @@ build mature system with native cloud nature for more enterprise to execute crit
 I hope it could act as an important tool for more enterprise to complete digital transformation to satisfy the
 sustainable development, it could be high efficiently digital middleware in your side!
 
+* Gitee Repo: <https://gitee.com/silentbalanceyh/vertx-zero>
+
 ## 1. Features
 
 **Critical For Beginner**: Zero Framework has been re-factor many times, the features are very complex now, you can
@@ -28,13 +30,13 @@ refer following link for more details to know the power of Zero.
 
 Zero Framework ( Latest Version ) contains five major projects as following:
 
-|Name|Comment|
-|---|---|
-|vertx-gaia|**Zero Core** Runtime, it contains minimum zero environment and you can deploy your projects on zero.|
-|vertx-ifx|**Infix Architecture**, Useful plug-ins that could be supported by Zero and you can choose as required.|
-|vertx-import|Zero Usage dependency to perform development, it provides uniform entrance for your projects.|
-|vertx-semper|**Aeon System**, The native cloud environment based on K8S with Istio. |
-|vertx-pin|**Zero Extension** Modules, it provides common business features to satisfy many enterprise requirements such as [ODOO](https://www.odoo.com/). |
+| Name         | Comment                                                                                                                                         |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| vertx-gaia   | **Zero Core** Runtime, it contains minimum zero environment and you can deploy your projects on zero.                                           |
+| vertx-ifx    | **Infix Architecture**, Useful plug-ins that could be supported by Zero and you can choose as required.                                         |
+| vertx-import | Zero Usage dependency to perform development, it provides uniform entrance for your projects.                                                   |
+| vertx-semper | **Aeon System**, The native cloud environment based on K8S with Istio.                                                                          |
+| vertx-pin    | **Zero Extension** Modules, it provides common business features to satisfy many enterprise requirements such as [ODOO](https://www.odoo.com/). |
 
 ### 1.2. Usage Links
 
@@ -175,7 +177,7 @@ If you want to switch to freedom mode, you can set the configuration in `vertx.y
 
 ```yaml
 zero:
-    freedom: true     # The default value of `freedom` is false.
+  freedom: true     # The default value of `freedom` is false.
 ```
 
 ### 4.2. Logging in Zero
@@ -216,20 +218,20 @@ is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is 
 * **In Progress**: In Development or Upgraded Development
 * **Running**: Running on Production Environment
 
-| System Information                |Zero Version| Type |System Status |
-|-----------------------------------|---|---|---------------|
-| TLK Video Mobile System           |0.4.6| Commercial | Deprecated    |
-| CMDB Platform of Bank             |Latest| Commercial | Running       |
-| ITSM/ITIL Platform of Bank        |Latest| Commercial | Running |
-| Integration of Bank               |Latest| Commercial | Running       |
-| Zero Training Demo                |Latest| Internal | Running       |
-| Data Analyzing Exam               |Latest| Internal | Running       |
-| Commercial Opportunity Management |Latest| Internal | Running |
-| Hotel Management Platform         |Latest| Commercial | In Progress   |
-| ISO27000 Management Platform      |Latest| Commercial | In Progress |
-| IoT Control System                |Latest| Commercial | In Progress |
-| Medical Workflow Management       |Latest| Commercial | In Progress |
-| Aeon Development Platform         |Latest| Internal | In Progress |
+| System Information                | Zero Version | Type       | System Status |
+|-----------------------------------|--------------|------------|---------------|
+| TLK Video Mobile System           | 0.4.6        | Commercial | Deprecated    |
+| CMDB Platform of Bank             | Latest       | Commercial | Running       |
+| ITSM/ITIL Platform of Bank        | Latest       | Commercial | Running       |
+| Integration of Bank               | Latest       | Commercial | Running       |
+| Zero Training Demo                | Latest       | Internal   | Running       |
+| Data Analyzing Exam               | Latest       | Internal   | Running       |
+| Commercial Opportunity Management | Latest       | Internal   | Running       |
+| Hotel Management Platform         | Latest       | Commercial | In Progress   |
+| ISO27000 Management Platform      | Latest       | Commercial | In Progress   |
+| IoT Control System                | Latest       | Commercial | In Progress   |
+| Medical Workflow Management       | Latest       | Commercial | In Progress   |
+| Aeon Development Platform         | Latest       | Internal   | In Progress   |
 
 ### 5.2. WeChat Group
 

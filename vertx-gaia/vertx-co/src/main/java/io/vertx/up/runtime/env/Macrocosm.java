@@ -55,6 +55,7 @@ public interface Macrocosm {
     // 「Production」生产专用 ---------------------------------------
     String HED_COMPONENT = "Z_HED";                     // 外置 HED 模块
     String HED_ENABLED = "Z_HED_ENABLED";               // 是否打开 HED 模块
+    String SIS_STORE = "Z_SIS_STORE";                   // 集成服务中的存储
 
     String CACHE_UI = "Z_CACHE_UI";                     // UI缓存
     String CACHE_ADMIT = "Z_CACHE_ADMIT";               // 安全管理缓存
