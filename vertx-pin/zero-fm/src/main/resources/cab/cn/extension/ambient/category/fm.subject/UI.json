@@ -74,7 +74,7 @@
             "search.op.view": "查询条件",
             "search.placeholder": "名称/编码",
             "search.advanced": true,
-            "search.advanced.width": "40%",
+            "search.advanced.width": "70%",
             "search.advanced.title": "搜索会计科目",
             "search.advanced.notice": {
                 "message": "注意！",
