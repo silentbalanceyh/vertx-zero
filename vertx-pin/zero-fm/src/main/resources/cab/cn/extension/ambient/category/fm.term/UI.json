@@ -142,7 +142,7 @@
             "op.submit.save": "保存",
             "op.submit.delete": "删除",
             "op.submit.reset": "重置",
-            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,640,true,btnBatchEdit",
+            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,720,true,btnBatchEdit",
             "window.extra.column": "请选择您要显示的列,leftTop,720,true",
             "window.extra.export": "选择导出字段,导出,关闭,false,720,true,btnExport",
             "window.extra.import": "请上传导入文件,导入,关闭,false,720,true,btnImport",
