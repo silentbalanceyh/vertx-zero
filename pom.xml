@@ -147,7 +147,7 @@
         <picoli.version>4.7.1</picoli.version>
 
         <!-- Yaml -->
-        <yaml.version>1.33</yaml.version>
+        <yaml.version>2.0</yaml.version>
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
