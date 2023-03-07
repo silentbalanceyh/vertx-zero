@@ -120,6 +120,12 @@ public class DevSite {
             }
             menuJ.put(KName.LEVEL, defaultLevel);
             parsed.put(menuJ.getString(KName.NAME), menuJ);
+
+            /*  DEBUG专用
+                final Integer indent = menuJ.getInteger(KName.LEVEL);
+                Ut.itRepeat(indent, () -> System.out.print("    "));
+                System.out.println(indent + "," + menuJ.getString(KName.NAME) + "," + menuJ.getInteger(KName.ORDER));
+            */
             // 解析子节点
             final Object children = treeData.getValue(field);
             if (Objects.nonNull(children)) {
@@ -152,8 +158,8 @@ public class DevSite {
         } else {
             menuData.put(KName.NAME, expr);
             menuData.put(KName.ORDER, step.value());
-            step.moveOn();
         }
+        step.moveOn();
         return menuData;
     }
 }
