@@ -18,10 +18,10 @@ import java.util.concurrent.ConcurrentMap;
 public class DevSite {
     private static final ConcurrentMap<Integer, Integer> SEQ_STORE = new ConcurrentHashMap<>() {
         {
-            this.put(1, 10005);
-            this.put(2, 1005);
-            this.put(3, 1005);
-            this.put(4, 1005);
+            this.put(1, 10000);
+            this.put(2, 1000);
+            this.put(3, 1000);
+            this.put(4, 1000);
         }
     };
     private static final ConcurrentMap<Integer, Integer> SEQ_STEP = new ConcurrentHashMap<>() {
