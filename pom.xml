@@ -98,7 +98,7 @@
         <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
-        <scala.version>2.13.10</scala.version>
+        <scala.version>2.13.11-M1</scala.version>
         <feign.version>8.18.0</feign.version>
         <joda.version>2.12.2</joda.version>
         <codehaus.janino.version>3.1.9</codehaus.janino.version>
