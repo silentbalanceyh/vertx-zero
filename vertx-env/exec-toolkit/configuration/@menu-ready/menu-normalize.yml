@@ -9,7 +9,7 @@ sider:                                                    # 主菜单
 
   # 流程管理
   zero.wm@80000:                                          #   流程管理         BAG-MENU
-    zero.wf.office:                                       #    *职员管理流程
+    zero.wf.office@5000:                                  #    *职员管理流程
       zero.wf.office.trip:                                #       出差管理
         zero.wf.office.trip.open:                         #         新建工单
         zero.wf.office.trip.approval:                     #         处理/审批工单
@@ -116,6 +116,11 @@ dash.app:                                                 # 主界面菜单
     zero.cm.dash.out:                                     #     外包离场申请
     zero.cm.dash.check:                                   #     外包人员考核
     zero.cm.dash.hour:                                    #     工时补签
+  zero.bsm:                                               #   办公协同
+    zero.bsm.dash.trip:                                   #     出差申请
+    zero.bsm.dash.vacation:                               #     休假申请
+    zero.bsm.dash.assignment:                             #     工作交接
+    zero.bsm.dash.training:                               #     培训申请
 
 dash.catalog:                                             # 服务目录           SC-MENU
   process.oa@80005:                                       #  *人员管理
