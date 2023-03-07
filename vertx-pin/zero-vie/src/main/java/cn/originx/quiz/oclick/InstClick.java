@@ -1,6 +1,7 @@
 package cn.originx.quiz.oclick;
 
 import cn.originx.quiz.develop.DevModeller;
+import cn.originx.quiz.develop.DevSite;
 import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.Strings;
@@ -58,6 +59,24 @@ public class InstClick {
                 Ke.infoKe(this.target, "「Init」模型初始化完成！");
                 System.exit(0);
             });
+        });
+    }
+
+    public void runMenu(final String[] args) {
+        final String inputPath;
+        if (0 == args.length) {
+            inputPath = "init/map/menu.yml";
+        } else {
+            inputPath = Ut.isNil(args[0]) ? "init/map/menu.yml" : args[0];
+        }
+        final String path = Ut.ioPath(inputPath, Environment.Production);
+        DevSite.planOn(path).onComplete(res -> {
+            if (res.result()) {
+                Ke.infoKe(this.target, "「Menu」菜单规划完成！");
+                System.exit(0);
+            } else {
+                res.cause().printStackTrace();
+            }
         });
     }
 }

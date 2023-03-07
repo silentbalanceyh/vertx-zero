@@ -138,14 +138,19 @@ public class DevKit {
     }
 
     // ----------------------- Inst Method -------------------------
-    public static void instLoad(final Class<?> target, final String[] args) {
+    public static void instLoad(final Class<?> target, final String... args) {
         final InstClick click = InstClick.instance(target);
         click.runLoad(args);
     }
 
-    public static void instAtom(final Class<?> target, final String[] args) {
+    public static void instAtom(final Class<?> target, final String... args) {
         final InstClick click = InstClick.instance(target);
         click.runAtom(args);
+    }
+
+    public static void instMenu(final Class<?> target, final String... args) {
+        final InstClick click = InstClick.instance(target);
+        click.runMenu(args);
     }
 
     // ----------------------- Private Method -------------------------

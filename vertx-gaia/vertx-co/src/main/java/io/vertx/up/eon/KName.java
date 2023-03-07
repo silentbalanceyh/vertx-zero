@@ -105,6 +105,7 @@ public interface KName {
     String KEY = "key";                          /* Common: primary key */
     String KEY_P = "pKey";                       /* Common: argument key */
     String NAME = "name";                        /* Common: name */
+    String ORDER = "order";                      /* Common: order */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
 
@@ -250,6 +251,7 @@ public interface KName {
     String INITIALIZE = "initialize";            /* File Management, initialize field */
 
     String PARENT_ID = "parentId";               /* Tree for parent id */
+    String LEVEL = "level";                      /* Tree for level */
     String KEY_WORD = "keyword";                 /* Search Key Word */
     String SORT = "sort";                        /* Sort */
 
@@ -260,6 +262,7 @@ public interface KName {
     String DESCRIPTION = "description";          /* Text Part: description */
     String REMARK = "remark";                    /* Text Part: remark */
     String REMARKS = "remarks";                  /* Text Part: remarks */
+    String TEXT = "text";                        /* Text Part: text */
 
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";
