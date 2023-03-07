@@ -53,17 +53,23 @@ public class DevSite {
             final Set<String> removeSet = new HashSet<>();
             menus.forEach(menu -> {
                 if (parsed.containsKey(menu.getName())) {
-                    Ux.updateT(menu, parsed.get(menu.getName()));
-                    updateQ.add(menu);
+                    final XMenu updated = Ux.updateT(menu, parsed.get(menu.getName()));
+                    updateQ.add(updated);
                 } else {
-                    removeSet.add(menu.getName());
+                    if (!"DEV-MENU".equals(menu.getType())) {
+                        removeSet.add(menu.getName());
+                    }
                 }
             });
+            return jooq.updateAsync(updateQ).compose(updated -> {
+                Ke.infoKe(DevSite.class, "更新菜单数：{0}", String.valueOf(updated.size()));
+                return Ux.future(removeSet);
+            });
+        }).compose(removeSet -> {
             Ke.infoKe(DevSite.class, "移除菜单数量：{0}", String.valueOf(removeSet.size()));
-            return Ux.futureT();
-        }).otherwise(error -> {
-            System.out.println(error);
-            return false;
+            final JsonObject nameQr = Ux.whereAnd();
+            nameQr.put(KName.NAME + ",i", Ut.toJArray(removeSet));
+            return jooq.deleteByAsync(nameQr);
         });
     }
 
@@ -114,7 +120,6 @@ public class DevSite {
             }
             menuJ.put(KName.LEVEL, defaultLevel);
             parsed.put(menuJ.getString(KName.NAME), menuJ);
-            System.out.println(menuJ.encodePrettily());
             // 解析子节点
             final Object children = treeData.getValue(field);
             if (Objects.nonNull(children)) {
