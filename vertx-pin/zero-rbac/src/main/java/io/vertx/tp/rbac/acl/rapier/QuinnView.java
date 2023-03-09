@@ -46,6 +46,10 @@ public class QuinnView implements Quinn {
             inserted.setKey(UUID.randomUUID().toString());
             inserted.setActive(Boolean.TRUE);
 
+            // 此处没有 owner / ownerType（新建时需跟上）
+            inserted.setOwner(owner.owner());
+            inserted.setOwnerType(owner.type().name());
+
             // 创建专用 auditor
             inserted.setCreatedAt(LocalDateTime.now());
             inserted.setCreatedBy(Ut.valueString(viewData, KName.UPDATED_BY));

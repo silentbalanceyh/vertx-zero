@@ -72,10 +72,19 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
              * This impact will be in time when this method called.
              * The method is used in this class only and could not be shared.
              */
-            .compose(flushed -> this.flush(params, flushed));
+            .compose(flushed -> this.flushImpact(params, flushed))
+            /*
+             * Here should flush the key of
+             */
+            .compose(flushed -> this.flushMy(params, flushed));
     }
 
-    private Future<JsonObject> flush(final JsonObject params, final JsonObject updated) {
+    private Future<JsonObject> flushMy(final JsonObject params, final JsonObject updated) {
+
+        return Ux.futureJ(updated);
+    }
+
+    private Future<JsonObject> flushImpact(final JsonObject params, final JsonObject updated) {
         /*
          * ScHabitus instance
          */

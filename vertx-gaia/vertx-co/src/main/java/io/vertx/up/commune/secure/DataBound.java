@@ -10,6 +10,7 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,8 +32,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 public class DataBound implements Serializable {
-
-    private final Set<String> projection = new HashSet<>();
+    // 此处必须有序，有序才可执行查询
+    private final Set<String> projection = new LinkedHashSet<>();
     private final JsonObject criteria = new JsonObject();
     private final JsonArray credit = new JsonArray();
     private final ConcurrentMap<String, Set<String>> rows =
