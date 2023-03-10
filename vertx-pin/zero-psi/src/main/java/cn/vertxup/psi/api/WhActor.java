@@ -8,6 +8,7 @@ import io.vertx.tp.psi.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
+import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.unity.Ux;
 
@@ -24,7 +25,7 @@ public class WhActor {
         return this.dao().insertAsync(data, CHILD_FIELD);
     }
 
-    @Me
+    @Me(active = BoolStatus.IGNORE)
     @Address(Addr.WH_UPDATE)
     public Future<JsonObject> updateAsync(final String key, final JsonObject data) {
         return this.dao().updateAsync(key, data, CHILD_FIELD);
