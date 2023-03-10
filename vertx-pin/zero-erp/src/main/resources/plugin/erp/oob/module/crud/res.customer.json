@@ -11,5 +11,10 @@
                 "sigma"
             ]
         ]
+    },
+    "transform": {
+        "initial": {
+            "type": "`${type}`"
+        }
     }
 }
