@@ -53,8 +53,7 @@
     "table": {
         "columns": [
             {
-                "metadata": "serial,单号",
-                "width": 120
+                "metadata": "serial,单号"
             },
             "title,工单标题",
             {

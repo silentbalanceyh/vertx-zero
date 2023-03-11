@@ -65,8 +65,7 @@
     "table": {
         "columns": [
             {
-                "metadata": "code,资产编号",
-                "width": 120
+                "metadata": "code,资产编号"
             },
             "name,资产名称",
             {
