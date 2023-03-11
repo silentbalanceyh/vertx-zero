@@ -191,7 +191,15 @@ final class To {
             return parsed;
         } else {
             final JsonArray replaced = new JsonArray();
-            Ut.itJArray(parsed).map(itemFn).forEach(replaced::add);
+            parsed.forEach(item -> {
+                if (item instanceof JsonObject) {
+                    replaced.add(itemFn.apply((JsonObject) item));
+                } else {
+                    // Fix String Literal Serialization
+                    replaced.add(item);
+                }
+            });
+            // Ut.itJArray(parsed).map(itemFn).forEach(replaced::add);
             return replaced;
         }
     }

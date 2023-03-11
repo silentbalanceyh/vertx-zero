@@ -9,5 +9,14 @@
                 "sigma"
             ]
         ]
+    },
+    "transform": {
+        "initial": {
+            "type": "`${type}`",
+            "identifier": "`${module}`"
+        },
+        "tree": {
+            "in": "code"
+        }
     }
 }

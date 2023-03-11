@@ -12,7 +12,7 @@
     },
     "transform": {
         "initial": {
-            "type": "`${module}`"
+            "type": "`${type}`"
         }
     }
 }

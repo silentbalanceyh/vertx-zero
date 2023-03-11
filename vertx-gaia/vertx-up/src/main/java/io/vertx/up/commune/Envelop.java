@@ -15,6 +15,7 @@ import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -255,10 +256,13 @@ public class Envelop implements Serializable {
         this.reference(reference -> Ux.irAndQH(reference, criteria, true));
     }
 
-    public void onMe(final boolean active, final boolean app) {
+    public void onMe(final BoolStatus active, final boolean app) {
         final JsonObject headerX = this.headersX();
         this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
-        this.value(KName.ACTIVE, active);
+        if (BoolStatus.IGNORE != active) {
+            this.value(KName.ACTIVE, BoolStatus.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
+        }
+        // this.value(KName.ACTIVE, active);
         if (headerX.containsKey(KName.LANGUAGE)) {
             this.value(KName.LANGUAGE, headerX.getValue(KName.LANGUAGE));
         }

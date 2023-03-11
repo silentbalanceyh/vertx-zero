@@ -5,6 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiClient;
@@ -45,7 +46,7 @@ public abstract class AbstractInvoker implements Invoker {
     private void invokePre(final Method method, final Envelop envelop) {
         if (method.isAnnotationPresent(Me.class)) {
             final Annotation annotation = method.getDeclaredAnnotation(Me.class);
-            final boolean active = Ut.invoke(annotation, "active");
+            final BoolStatus active = Ut.invoke(annotation, "active");
             final boolean app = Ut.invoke(annotation, "app");
             envelop.onMe(active, app);
         }

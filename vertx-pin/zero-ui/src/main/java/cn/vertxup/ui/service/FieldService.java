@@ -95,7 +95,7 @@ public class FieldService implements FieldStub {
             final List<JsonObject> row = Ut.itJArray(fieldJson)
                 .filter(item -> current.equals(item.getInteger("yPoint")))
                 .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
-                .collect(Collectors.toList());
+                .toList();
             /*
              * Calculate columns
              */
