@@ -69,13 +69,13 @@ class TwineExtension implements Twine<SUser> {
      * Fix Issue: https://github.com/silentbalanceyh/ox-engine/issues/1207
      */
     @Override
-    public Future<JsonObject> searchAsync(final String identifier, final JsonObject criteria) {
+    public Future<JsonObject> searchAsync(final String identifier, final JsonObject query) {
         // KQr 为空，不执行关联查询
         final KQr qr = CONFIG.category(identifier);
         if (Objects.isNull(qr) || !qr.valid()) {
-            return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(criteria);
+            return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(query);
         }
-        return TwineQr.normalize(qr, criteria).compose(queryJ -> {
+        return TwineQr.normalize(qr, query).compose(queryJ -> {
             final UxJoin searcher = Ux.Join.on();
             /*
              * S_USER ( modelKey )
