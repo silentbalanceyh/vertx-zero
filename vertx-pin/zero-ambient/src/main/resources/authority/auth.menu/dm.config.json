@@ -1,6 +1,9 @@
 {
     "items": {
         "root": "BAG-MENU",
+        "exclude": [
+            "zero.desktop"
+        ],
         "children": [
             "SC-MENU,服务目录菜单",
             {
@@ -12,11 +15,7 @@
                 ]
             },
             "SIDE-MENU,应用主菜单"
-        ],
-        "development": {
-            "type": "DEV-MENU",
-            "text": "开发中心菜单"
-        }
+        ]
     },
     "webAction": {
         "icon": "upload",
