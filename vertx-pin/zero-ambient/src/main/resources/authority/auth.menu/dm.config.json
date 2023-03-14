@@ -8,7 +8,7 @@
             "SC-MENU,服务目录菜单",
             {
                 "key": "NAV-MENU",
-                "label": "主页快捷菜单",
+                "title": "主页快捷菜单",
                 "value": [
                     "NAV-MENU",
                     "REPO-MENU"
