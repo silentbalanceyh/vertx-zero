@@ -1,5 +1,23 @@
 [
     {
+        "title": "所属公司",
+        "dataIndex": "companyId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.companys",
+            "value": "key",
+            "display": "name"
+        }
+    },
+    {
+        "metadata": "type,公司性质,DATUM",
+        "$datum": "source=zero.company,value=key,display=name"
+    },
+    {
+        "title": "客户",
+        "dataIndex": "customerId"
+    },
+    {
         "title": "公司名称",
         "dataIndex": "name",
         "sorter": true,
