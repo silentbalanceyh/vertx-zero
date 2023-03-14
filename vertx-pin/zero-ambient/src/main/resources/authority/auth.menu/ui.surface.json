@@ -1,7 +1,7 @@
 {
-    "webComponent": "HxMenu",
+    "webComponent": "HxSite",
     "webBind": {
-        "HxMenu": "res.menu.read"
+        "HxSite": "res.menu.read"
     },
     "webTree": {
         "parent": "parentId",

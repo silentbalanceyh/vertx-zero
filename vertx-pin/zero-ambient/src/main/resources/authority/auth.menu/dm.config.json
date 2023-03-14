@@ -1,15 +1,23 @@
 {
-    "items": [
-        "SC-MENU,服务目录菜单",
-        "TOP-MENU,顶部菜单",
-        "SIDE-MENU,主菜单",
-        "DEV-MENU,开发者菜单",
-        "SYS-MENU,实施者菜单"
-    ],
-    "webAdmit": [
-        "DEV-MENU",
-        "SYS-MENU"
-    ],
+    "items": {
+        "root": "BAG-MENU",
+        "children": [
+            "SC-MENU,服务目录菜单",
+            {
+                "key": "NAV-MENU",
+                "label": "主页快捷菜单",
+                "value": [
+                    "NAV-MENU",
+                    "REPO-MENU"
+                ]
+            },
+            "SIDE-MENU,应用主菜单"
+        ],
+        "development": {
+            "type": "DEV-MENU",
+            "text": "开发中心菜单"
+        }
+    },
     "webAction": {
         "icon": "upload",
         "text": "保存",
