@@ -102,10 +102,16 @@ public class Vis extends JsonObject {
             if (Ut.isJObject(viewJson)) {
                 // The json is literal
                 return new Vis(Ut.toJObject(viewJson));
+            } else if (Ut.isJArray(viewJson)) {
+                // String literal
+                return create(viewJson);
             } else {
                 // Single view with default position
                 return new Vis((String) json, KValue.View.POSITION_DEFAULT);
             }
+        } else if (json instanceof final JsonArray jsonArray) {
+            // JsonArray
+            return create(jsonArray);
         } else {
             // Default value
             return new Vis(KValue.View.VIEW_DEFAULT, KValue.View.POSITION_DEFAULT);

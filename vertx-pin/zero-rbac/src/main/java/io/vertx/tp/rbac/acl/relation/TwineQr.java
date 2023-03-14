@@ -117,17 +117,17 @@ class TwineQr {
         final JsonArray keyArr = criteriaJ.getJsonArray(fieldRep, new JsonArray());
         if (keyArr.isEmpty()) {
             // keyArr is null, role / group first extracting
-            if (keySet.isEmpty()) {
-                // forbidden condition
-                criteriaJ.put(fieldRep, keyArr);
-            } else {
+            if (!keySet.isEmpty()) {
                 // add user key in our condition
                 keySet.forEach(keyArr::add);
             }
+            // forbidden condition
+            // criteriaJ.put(fieldRep, keyArr);
         } else {
             // add user key in our condition
             keySet.forEach(keyArr::add);
         }
+        criteriaJ.put(fieldRep, keyArr);
         Arrays.stream(removeFields).forEach(criteriaJ::remove);
         return Ux.future(criteriaJ);
     }

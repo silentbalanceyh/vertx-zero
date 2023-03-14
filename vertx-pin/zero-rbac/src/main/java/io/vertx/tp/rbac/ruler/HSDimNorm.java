@@ -37,7 +37,7 @@ public class HSDimNorm extends AbstractAdmit {
                      *     }
                      * }
                      */
-                    return Future.succeededFuture(request);
+                    return Future.succeededFuture(itemJ);
                 } else {
                     /*
                      * 2. 后端模式
