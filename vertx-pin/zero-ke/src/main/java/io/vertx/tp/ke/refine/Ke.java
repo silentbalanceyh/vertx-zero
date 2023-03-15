@@ -6,14 +6,17 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
+import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @SuppressWarnings("all")
 public class Ke {
@@ -54,12 +57,8 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final TypeAtom TypeAtom) {
-        return KeCompare.combineAsync(data, headers, columns, TypeAtom);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> fabricFn(final String field) {
-        return KeCompare.combineAsync(field);
+                                                 final HTAtom HTAtom) {
+        return KeCompare.combineAsync(data, headers, columns, HTAtom);
     }
 
     /*
@@ -93,50 +92,13 @@ public class Ke {
         KeLog.infoKe(logger, pattern, args);
     }
 
+    public static void infoKe(final Class<?> target, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(target);
+        KeLog.infoKe(logger, pattern, args);
+    }
+
     public static void debugKe(final Annal logger, final String pattern, final Object... args) {
         KeLog.debugKe(logger, pattern, args);
-    }
-
-    /*
-     * Execution combined for function chain
-     *
-     * 1. runString(Supplier<String>, Consumer<String>)
-     * 2. runBoolean(Supplier<Boolean>, Consumer<Boolean>)
-     * 3. runInteger(Supplier<Integer>, Consumer<Integer>)
-     */
-    public static void runString(final Supplier<String> supplier, final Consumer<String> consumer) {
-        KeTool.consume(supplier, consumer);
-    }
-
-    public static void runBoolean(final Supplier<Boolean> supplier, final Consumer<Boolean> consumer) {
-        KeTool.consume(supplier, consumer);
-    }
-
-    public static void runInteger(final Supplier<Integer> supplier, final Consumer<Integer> consumer) {
-        KeTool.consume(supplier, consumer);
-    }
-
-    /*
-     * Channel Execution
-     *
-     * 1. channel
-     * 2. channelSync
-     * 3. channelAsync
-     * 4. channelFile
-     */
-    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
-                                           final Function<T, Future<O>> executor) {
-        return KeChannel.channel(clazz, supplier, executor);
-    }
-
-    public static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
-                                       final Function<T, O> executor) {
-        return KeChannel.channelSync(clazz, supplier, executor);
-    }
-
-    public static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
-                                                final Function<T, Future<O>> executor) {
-        return KeChannel.channelAsync(clazz, supplier, executor);
     }
 
     /*
@@ -289,5 +251,23 @@ public class Ke {
 
     public static Future<JsonObject> umAData(final JsonObject config, final JsonObject params) {
         return KeEnv.daoJ(config, params);
+    }
+
+    public static Future<JsonArray> umALink(final String field, final String key, final Class<?> daoCls) {
+        return KeEnv.daoR(field, key, daoCls);
+    }
+
+    public static <T> Future<List<T>> umALink(final String field, final String key, final Class<?> daoCls,
+                                              final Function<T, Integer> priorityFn) {
+        return KeEnv.daoR(field, key, daoCls, priorityFn);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input, final JsonObject config) {
+        return KeUser.umUser(input, config);
+    }
+
+    public static Future<JsonObject> umUser(final JsonObject input) {
+        final JsonObject config = Ut.valueJObject(input, KName.__.USER);
+        return KeUser.umUser(input, config);
     }
 }

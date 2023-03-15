@@ -10,6 +10,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -33,10 +34,10 @@ public class GraphActor {
             if (client.connected()) {
                 return client.connect(graphName).graphicByKey(key, level).compose(graphic -> {
                     final JsonArray nodeRef = graphic.getJsonArray(KName.Graphic.NODES);
-                    Ut.ifJArray(nodeRef, KName.DATA);
+                    Fn.ifJArray(nodeRef, KName.DATA);
                     // Ut.itJArray(nodeRef).forEach(node -> Ke.mount(node, KName.DATA));
                     final JsonArray edgeRef = graphic.getJsonArray(KName.Graphic.EDGES);
-                    Ut.ifJArray(edgeRef, KName.DATA);
+                    Fn.ifJArray(edgeRef, KName.DATA);
                     // Ut.itJArray(edgeRef).forEach(node -> Ke.mount(node, KName.DATA));
                     return Ux.future(graphic);
                 });

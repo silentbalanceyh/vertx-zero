@@ -27,7 +27,7 @@ public class SRoleDao extends AbstractVertxDAO<SRoleRecord, cn.vertxup.rbac.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SRoleDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SRole.S_ROLE, cn.vertxup.rbac.domain.tables.pojos.SRole.class, new JDBCClassicQueryExecutor<SRoleRecord,cn.vertxup.rbac.domain.tables.pojos.SRole,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SRole.class,vertx));

@@ -15,12 +15,14 @@ import cn.vertxup.ui.domain.tables.pojos.UiList;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -151,7 +153,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
          * 生成记录报表
          */
         return Ok.app().compose(app -> {
-            final DataAtom atom = DataAtom.get(app.getName(), identifier);
+            final DataAtom atom = Ao.toAtom(app.getName(), identifier);
             /*
              * Form -> 表单数据处理
              * List -> 列配置数据处理
@@ -169,7 +171,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiList(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchAndAsync(condition)
-            .compose(lists -> Ux.thenCombineT(lists, this::uiListField))
+            .compose(lists -> Fn.combineT(lists, this::uiListField))
             .compose(Ux::futureA);
     }
 
@@ -189,7 +191,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
     private Future<JsonArray> uiForm(final String identifier, final String sigma) {
         final JsonObject condition = this.uiCond(identifier, sigma);
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
-            .compose(forms -> Ux.thenCombineT(forms, this::uiFormField))
+            .compose(forms -> Fn.combineT(forms, this::uiFormField))
             .compose(Ux::futureA);
     }
 

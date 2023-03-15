@@ -26,7 +26,7 @@ public class VFragmentDao extends AbstractVertxDAO<VFragmentRecord, cn.vertxup.u
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public VFragmentDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(VFragment.V_FRAGMENT, cn.vertxup.ui.domain.tables.pojos.VFragment.class, new JDBCClassicQueryExecutor<VFragmentRecord,cn.vertxup.ui.domain.tables.pojos.VFragment,String>(configuration,cn.vertxup.ui.domain.tables.pojos.VFragment.class,vertx));

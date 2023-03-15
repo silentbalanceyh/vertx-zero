@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 final class ArrayJ {
@@ -147,7 +148,7 @@ final class ArrayJ {
     }
 
     static JsonArray save(final JsonArray array, final JsonObject json, final String field) {
-        return Fn.getNull(new JsonArray(), () -> {
+        return Fn.orNull(new JsonArray(), () -> {
             final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
             It.itJArray(array).forEach(each -> {
                 final boolean isSame = isSameBy(each, json, field);

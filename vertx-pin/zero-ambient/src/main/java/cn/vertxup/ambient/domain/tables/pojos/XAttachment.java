@@ -20,32 +20,32 @@ public class XAttachment implements VertxPojo, IXAttachment {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        extension;
-    private String        type;
-    private String        mime;
-    private Integer       size;
-    private String        status;
-    private String        directoryId;
-    private String        storeWay;
-    private String        storePath;
-    private String        storeUri;
-    private String        modelId;
-    private String        modelKey;
-    private String        modelCategory;
-    private String        fileName;
-    private String        fileKey;
-    private String        fileUrl;
-    private String        filePath;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String extension;
+    private String type;
+    private String mime;
+    private Integer size;
+    private String status;
+    private String directoryId;
+    private String storeWay;
+    private String storePath;
+    private String storeUri;
+    private String modelId;
+    private String modelKey;
+    private String modelCategory;
+    private String fileName;
+    private String fileKey;
+    private String fileUrl;
+    private String filePath;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XAttachment() {}
 
@@ -79,32 +79,32 @@ public class XAttachment implements VertxPojo, IXAttachment {
     }
 
     public XAttachment(
-        String        key,
-        String        name,
-        String        extension,
-        String        type,
-        String        mime,
-        Integer       size,
-        String        status,
-        String        directoryId,
-        String        storeWay,
-        String        storePath,
-        String        storeUri,
-        String        modelId,
-        String        modelKey,
-        String        modelCategory,
-        String        fileName,
-        String        fileKey,
-        String        fileUrl,
-        String        filePath,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String extension,
+        String type,
+        String mime,
+        Integer size,
+        String status,
+        String directoryId,
+        String storeWay,
+        String storePath,
+        String storeUri,
+        String modelId,
+        String modelKey,
+        String modelCategory,
+        String fileName,
+        String fileKey,
+        String fileUrl,
+        String filePath,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -619,6 +619,207 @@ public class XAttachment implements VertxPojo, IXAttachment {
     public XAttachment setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XAttachment other = (XAttachment) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.extension == null) {
+            if (other.extension != null)
+                return false;
+        }
+        else if (!this.extension.equals(other.extension))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.mime == null) {
+            if (other.mime != null)
+                return false;
+        }
+        else if (!this.mime.equals(other.mime))
+            return false;
+        if (this.size == null) {
+            if (other.size != null)
+                return false;
+        }
+        else if (!this.size.equals(other.size))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.directoryId == null) {
+            if (other.directoryId != null)
+                return false;
+        }
+        else if (!this.directoryId.equals(other.directoryId))
+            return false;
+        if (this.storeWay == null) {
+            if (other.storeWay != null)
+                return false;
+        }
+        else if (!this.storeWay.equals(other.storeWay))
+            return false;
+        if (this.storePath == null) {
+            if (other.storePath != null)
+                return false;
+        }
+        else if (!this.storePath.equals(other.storePath))
+            return false;
+        if (this.storeUri == null) {
+            if (other.storeUri != null)
+                return false;
+        }
+        else if (!this.storeUri.equals(other.storeUri))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.modelKey == null) {
+            if (other.modelKey != null)
+                return false;
+        }
+        else if (!this.modelKey.equals(other.modelKey))
+            return false;
+        if (this.modelCategory == null) {
+            if (other.modelCategory != null)
+                return false;
+        }
+        else if (!this.modelCategory.equals(other.modelCategory))
+            return false;
+        if (this.fileName == null) {
+            if (other.fileName != null)
+                return false;
+        }
+        else if (!this.fileName.equals(other.fileName))
+            return false;
+        if (this.fileKey == null) {
+            if (other.fileKey != null)
+                return false;
+        }
+        else if (!this.fileKey.equals(other.fileKey))
+            return false;
+        if (this.fileUrl == null) {
+            if (other.fileUrl != null)
+                return false;
+        }
+        else if (!this.fileUrl.equals(other.fileUrl))
+            return false;
+        if (this.filePath == null) {
+            if (other.filePath != null)
+                return false;
+        }
+        else if (!this.filePath.equals(other.filePath))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.extension == null) ? 0 : this.extension.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.mime == null) ? 0 : this.mime.hashCode());
+        result = prime * result + ((this.size == null) ? 0 : this.size.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.directoryId == null) ? 0 : this.directoryId.hashCode());
+        result = prime * result + ((this.storeWay == null) ? 0 : this.storeWay.hashCode());
+        result = prime * result + ((this.storePath == null) ? 0 : this.storePath.hashCode());
+        result = prime * result + ((this.storeUri == null) ? 0 : this.storeUri.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.modelKey == null) ? 0 : this.modelKey.hashCode());
+        result = prime * result + ((this.modelCategory == null) ? 0 : this.modelCategory.hashCode());
+        result = prime * result + ((this.fileName == null) ? 0 : this.fileName.hashCode());
+        result = prime * result + ((this.fileKey == null) ? 0 : this.fileKey.hashCode());
+        result = prime * result + ((this.fileUrl == null) ? 0 : this.fileUrl.hashCode());
+        result = prime * result + ((this.filePath == null) ? 0 : this.filePath.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

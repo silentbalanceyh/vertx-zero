@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.EAssetRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -328,6 +329,11 @@ public class EAsset extends TableImpl<EAssetRecord> {
         return new EAsset(alias, this);
     }
 
+    @Override
+    public EAsset as(Table<?> alias) {
+        return new EAsset(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -342,5 +348,13 @@ public class EAsset extends TableImpl<EAssetRecord> {
     @Override
     public EAsset rename(Name name) {
         return new EAsset(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public EAsset rename(Table<?> name) {
+        return new EAsset(name.getQualifiedName(), null);
     }
 }

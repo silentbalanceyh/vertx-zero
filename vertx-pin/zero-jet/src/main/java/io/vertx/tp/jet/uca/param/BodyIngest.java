@@ -32,7 +32,7 @@ class BodyIngest implements JtIngest {
         /*
          * Body processing
          */
-        final String body = context.getBodyAsString();
+        final String body = context.body().asString();
         if (Ut.isJArray(body)) {
             // JsonArray格式
             envelop.value(ID.PARAM_BODY, new JsonArray(body));

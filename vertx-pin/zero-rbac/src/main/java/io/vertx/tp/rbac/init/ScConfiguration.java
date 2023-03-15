@@ -7,6 +7,8 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
+import java.util.Objects;
+
 /*
  * Configuration class initialization
  * plugin/rbac/configuration.json
@@ -29,6 +31,9 @@ class ScConfiguration {
     }
 
     static ScConfig getConfig() {
+        if (Objects.isNull(CONFIG)) {
+            init();
+        }
         return CONFIG;
     }
 }

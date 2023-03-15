@@ -21,45 +21,45 @@ public class PBuyOrder implements VertxPojo, IPBuyOrder {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        type;
-    private String        status;
-    private String        whId;
-    private String        customerId;
+    private String key;
+    private String serial;
+    private String type;
+    private String status;
+    private String whId;
+    private String customerId;
     private LocalDateTime payedAt;
-    private Integer       payedDay;
+    private Integer payedDay;
     private LocalDateTime opAt;
-    private String        opBy;
-    private String        opDept;
-    private String        tags;
-    private String        comment;
-    private String        statusSend;
-    private String        reason;
-    private BigDecimal    amount;
-    private BigDecimal    amountWait;
-    private BigDecimal    amountDebt;
-    private BigDecimal    amountPlan;
-    private BigDecimal    amountYes;
-    private BigDecimal    discountAmount;
-    private BigDecimal    discountRate;
-    private Boolean       discount;
-    private String        approvedBy;
+    private String opBy;
+    private String opDept;
+    private String tags;
+    private String comment;
+    private String statusSend;
+    private String reason;
+    private BigDecimal amount;
+    private BigDecimal amountWait;
+    private BigDecimal amountDebt;
+    private BigDecimal amountPlan;
+    private BigDecimal amountYes;
+    private BigDecimal discountAmount;
+    private BigDecimal discountRate;
+    private Boolean discount;
+    private String approvedBy;
     private LocalDateTime approvedAt;
-    private String        toId;
-    private String        toAddress;
-    private String        fromId;
-    private String        fromAddress;
-    private String        currencyId;
-    private String        companyId;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String toId;
+    private String toAddress;
+    private String fromId;
+    private String fromAddress;
+    private String currencyId;
+    private String companyId;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public PBuyOrder() {}
 
@@ -106,45 +106,45 @@ public class PBuyOrder implements VertxPojo, IPBuyOrder {
     }
 
     public PBuyOrder(
-        String        key,
-        String        serial,
-        String        type,
-        String        status,
-        String        whId,
-        String        customerId,
+        String key,
+        String serial,
+        String type,
+        String status,
+        String whId,
+        String customerId,
         LocalDateTime payedAt,
-        Integer       payedDay,
+        Integer payedDay,
         LocalDateTime opAt,
-        String        opBy,
-        String        opDept,
-        String        tags,
-        String        comment,
-        String        statusSend,
-        String        reason,
-        BigDecimal    amount,
-        BigDecimal    amountWait,
-        BigDecimal    amountDebt,
-        BigDecimal    amountPlan,
-        BigDecimal    amountYes,
-        BigDecimal    discountAmount,
-        BigDecimal    discountRate,
-        Boolean       discount,
-        String        approvedBy,
+        String opBy,
+        String opDept,
+        String tags,
+        String comment,
+        String statusSend,
+        String reason,
+        BigDecimal amount,
+        BigDecimal amountWait,
+        BigDecimal amountDebt,
+        BigDecimal amountPlan,
+        BigDecimal amountYes,
+        BigDecimal discountAmount,
+        BigDecimal discountRate,
+        Boolean discount,
+        String approvedBy,
         LocalDateTime approvedAt,
-        String        toId,
-        String        toAddress,
-        String        fromId,
-        String        fromAddress,
-        String        currencyId,
-        String        companyId,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String toId,
+        String toAddress,
+        String fromId,
+        String fromAddress,
+        String currencyId,
+        String companyId,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -895,6 +895,298 @@ public class PBuyOrder implements VertxPojo, IPBuyOrder {
     public PBuyOrder setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PBuyOrder other = (PBuyOrder) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.whId == null) {
+            if (other.whId != null)
+                return false;
+        }
+        else if (!this.whId.equals(other.whId))
+            return false;
+        if (this.customerId == null) {
+            if (other.customerId != null)
+                return false;
+        }
+        else if (!this.customerId.equals(other.customerId))
+            return false;
+        if (this.payedAt == null) {
+            if (other.payedAt != null)
+                return false;
+        }
+        else if (!this.payedAt.equals(other.payedAt))
+            return false;
+        if (this.payedDay == null) {
+            if (other.payedDay != null)
+                return false;
+        }
+        else if (!this.payedDay.equals(other.payedDay))
+            return false;
+        if (this.opAt == null) {
+            if (other.opAt != null)
+                return false;
+        }
+        else if (!this.opAt.equals(other.opAt))
+            return false;
+        if (this.opBy == null) {
+            if (other.opBy != null)
+                return false;
+        }
+        else if (!this.opBy.equals(other.opBy))
+            return false;
+        if (this.opDept == null) {
+            if (other.opDept != null)
+                return false;
+        }
+        else if (!this.opDept.equals(other.opDept))
+            return false;
+        if (this.tags == null) {
+            if (other.tags != null)
+                return false;
+        }
+        else if (!this.tags.equals(other.tags))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.statusSend == null) {
+            if (other.statusSend != null)
+                return false;
+        }
+        else if (!this.statusSend.equals(other.statusSend))
+            return false;
+        if (this.reason == null) {
+            if (other.reason != null)
+                return false;
+        }
+        else if (!this.reason.equals(other.reason))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.amountWait == null) {
+            if (other.amountWait != null)
+                return false;
+        }
+        else if (!this.amountWait.equals(other.amountWait))
+            return false;
+        if (this.amountDebt == null) {
+            if (other.amountDebt != null)
+                return false;
+        }
+        else if (!this.amountDebt.equals(other.amountDebt))
+            return false;
+        if (this.amountPlan == null) {
+            if (other.amountPlan != null)
+                return false;
+        }
+        else if (!this.amountPlan.equals(other.amountPlan))
+            return false;
+        if (this.amountYes == null) {
+            if (other.amountYes != null)
+                return false;
+        }
+        else if (!this.amountYes.equals(other.amountYes))
+            return false;
+        if (this.discountAmount == null) {
+            if (other.discountAmount != null)
+                return false;
+        }
+        else if (!this.discountAmount.equals(other.discountAmount))
+            return false;
+        if (this.discountRate == null) {
+            if (other.discountRate != null)
+                return false;
+        }
+        else if (!this.discountRate.equals(other.discountRate))
+            return false;
+        if (this.discount == null) {
+            if (other.discount != null)
+                return false;
+        }
+        else if (!this.discount.equals(other.discount))
+            return false;
+        if (this.approvedBy == null) {
+            if (other.approvedBy != null)
+                return false;
+        }
+        else if (!this.approvedBy.equals(other.approvedBy))
+            return false;
+        if (this.approvedAt == null) {
+            if (other.approvedAt != null)
+                return false;
+        }
+        else if (!this.approvedAt.equals(other.approvedAt))
+            return false;
+        if (this.toId == null) {
+            if (other.toId != null)
+                return false;
+        }
+        else if (!this.toId.equals(other.toId))
+            return false;
+        if (this.toAddress == null) {
+            if (other.toAddress != null)
+                return false;
+        }
+        else if (!this.toAddress.equals(other.toAddress))
+            return false;
+        if (this.fromId == null) {
+            if (other.fromId != null)
+                return false;
+        }
+        else if (!this.fromId.equals(other.fromId))
+            return false;
+        if (this.fromAddress == null) {
+            if (other.fromAddress != null)
+                return false;
+        }
+        else if (!this.fromAddress.equals(other.fromAddress))
+            return false;
+        if (this.currencyId == null) {
+            if (other.currencyId != null)
+                return false;
+        }
+        else if (!this.currencyId.equals(other.currencyId))
+            return false;
+        if (this.companyId == null) {
+            if (other.companyId != null)
+                return false;
+        }
+        else if (!this.companyId.equals(other.companyId))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.whId == null) ? 0 : this.whId.hashCode());
+        result = prime * result + ((this.customerId == null) ? 0 : this.customerId.hashCode());
+        result = prime * result + ((this.payedAt == null) ? 0 : this.payedAt.hashCode());
+        result = prime * result + ((this.payedDay == null) ? 0 : this.payedDay.hashCode());
+        result = prime * result + ((this.opAt == null) ? 0 : this.opAt.hashCode());
+        result = prime * result + ((this.opBy == null) ? 0 : this.opBy.hashCode());
+        result = prime * result + ((this.opDept == null) ? 0 : this.opDept.hashCode());
+        result = prime * result + ((this.tags == null) ? 0 : this.tags.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.statusSend == null) ? 0 : this.statusSend.hashCode());
+        result = prime * result + ((this.reason == null) ? 0 : this.reason.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.amountWait == null) ? 0 : this.amountWait.hashCode());
+        result = prime * result + ((this.amountDebt == null) ? 0 : this.amountDebt.hashCode());
+        result = prime * result + ((this.amountPlan == null) ? 0 : this.amountPlan.hashCode());
+        result = prime * result + ((this.amountYes == null) ? 0 : this.amountYes.hashCode());
+        result = prime * result + ((this.discountAmount == null) ? 0 : this.discountAmount.hashCode());
+        result = prime * result + ((this.discountRate == null) ? 0 : this.discountRate.hashCode());
+        result = prime * result + ((this.discount == null) ? 0 : this.discount.hashCode());
+        result = prime * result + ((this.approvedBy == null) ? 0 : this.approvedBy.hashCode());
+        result = prime * result + ((this.approvedAt == null) ? 0 : this.approvedAt.hashCode());
+        result = prime * result + ((this.toId == null) ? 0 : this.toId.hashCode());
+        result = prime * result + ((this.toAddress == null) ? 0 : this.toAddress.hashCode());
+        result = prime * result + ((this.fromId == null) ? 0 : this.fromId.hashCode());
+        result = prime * result + ((this.fromAddress == null) ? 0 : this.fromAddress.hashCode());
+        result = prime * result + ((this.currencyId == null) ? 0 : this.currencyId.hashCode());
+        result = prime * result + ((this.companyId == null) ? 0 : this.companyId.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

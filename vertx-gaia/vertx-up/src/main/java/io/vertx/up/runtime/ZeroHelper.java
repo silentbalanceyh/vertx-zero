@@ -7,8 +7,8 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AgentDuplicatedException;
+import jakarta.ws.rs.Path;
 
-import javax.ws.rs.Path;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class ZeroHelper {
      *
      **/
     public static ServerType getAgentKey(final Class<?> clazz) {
-        return Fn.getSemi(clazz.isAnnotationPresent(Agent.class), LOGGER,
+        return Fn.orSemi(clazz.isAnnotationPresent(Agent.class), LOGGER,
             () -> Ut.invoke(clazz.getDeclaredAnnotation(Agent.class), "type"),
             () -> null);
     }

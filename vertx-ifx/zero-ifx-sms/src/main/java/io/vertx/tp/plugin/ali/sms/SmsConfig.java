@@ -87,7 +87,7 @@ public class SmsConfig implements Serializable {
 
     @SuppressWarnings("all")
     public String getTpl(final String key) {
-        return Fn.getSemi(null != this.tpl && this.tpl.containsKey(key), Annal.get(this.getClass()),
+        return Fn.orSemi(null != this.tpl && this.tpl.containsKey(key), Annal.get(this.getClass()),
             () -> this.tpl.getString(key));
     }
 

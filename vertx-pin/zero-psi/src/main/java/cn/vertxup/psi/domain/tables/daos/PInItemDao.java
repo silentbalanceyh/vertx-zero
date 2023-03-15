@@ -28,7 +28,7 @@ public class PInItemDao extends AbstractVertxDAO<PInItemRecord, cn.vertxup.psi.d
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PInItemDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PInItem.P_IN_ITEM, cn.vertxup.psi.domain.tables.pojos.PInItem.class, new JDBCClassicQueryExecutor<PInItemRecord,cn.vertxup.psi.domain.tables.pojos.PInItem,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PInItem.class,vertx));

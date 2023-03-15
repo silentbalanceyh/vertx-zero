@@ -34,7 +34,7 @@ public class ModeSplitter {
     private static final Annal LOGGER = Annal.get(ModeSplitter.class);
 
     public Aim<RoutingContext> distribute(final Event event) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             // 1. Scan method to check @Address
             final Method method = event.getAction();
             final boolean annotated = method.isAnnotationPresent(Address.class);

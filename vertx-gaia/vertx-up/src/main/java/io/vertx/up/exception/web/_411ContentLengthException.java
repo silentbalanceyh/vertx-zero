@@ -7,7 +7,7 @@ import io.vertx.up.exception.WebException;
  * # 「Error」Zero Exception
  *
  * * Category: WebException
- * * Code: -40068
+ * * Code: -60052
  * * Status: 411
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -21,7 +21,7 @@ public class _411ContentLengthException extends WebException {
 
     @Override
     public int getCode() {
-        return -40068;
+        return -60052;
     }
 
     @Override

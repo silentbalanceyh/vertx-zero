@@ -27,6 +27,10 @@ import java.util.function.Supplier;
  * 1. original: The old data
  * 2. current: The new data
  *
+ * ### 3. Upgrade Operation
+ *
+ * 1. Connect to HAtom Part here
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 @SuppressWarnings("unchecked")

@@ -1,7 +1,5 @@
 package io.vertx.up.util;
 
-import io.vertx.config.ConfigStoreOptions;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,14 +65,6 @@ enum StoreConfig {
 }
 
 interface Storage {
-    /**
-     * Class cached.
-     */
-    ConcurrentMap<String, Class<?>> CLASSES = new ConcurrentHashMap<>();
-    /**
-     * Memory pool for each up.god.file of ConfigStoreOptions
-     */
-    ConcurrentMap<String, ConfigStoreOptions> STORE = new ConcurrentHashMap<>();
     /**
      * Date Time patterns
      */
@@ -258,4 +248,8 @@ interface Iso {
      */
     DateTimeFormatter READBALE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         .withLocale(Locale.getDefault());
+    /*
+     * 1:00:00
+     */
+    DateTimeFormatter TIME_FIX = DateTimeFormatter.ofPattern("H:mm:ss");
 }

@@ -32,12 +32,62 @@ final class ArrayL {
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
-        return Fn.getNull(() -> {
-            final List<T> filtered = list.stream().filter(fnFilter).collect(Collectors.toList());
-            return Fn.getSemi(filtered.isEmpty(), LOGGER,
+        return Fn.orNull(() -> {
+            final List<T> filtered = list.stream().filter(fnFilter).toList();
+            return Fn.orSemi(filtered.isEmpty(), LOGGER,
                 () -> null,
                 () -> filtered.get(Values.IDX));
         }, list, fnFilter);
+    }
+
+    static <T, V> List<T> remove(final List<T> list, final T entity, final Function<T, V> keyFn){
+        if(Objects.isNull(entity)){
+            return list;
+        }
+        final V keyAdd = keyFn.apply(entity);
+        if(Objects.isNull(keyAdd)){
+            return list;
+        }
+        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+            final T original = list.get(idx);
+            if(Objects.isNull(original)){
+                continue;
+            }
+            final V keyOld = keyFn.apply(original);
+            if(keyAdd.equals(keyOld)){
+                list.remove(original);
+                break;
+            }
+        }
+        return list;
+    }
+
+    static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn){
+        if(Objects.isNull(entity)){
+            return list;
+        }
+        final V keyAdd = keyFn.apply(entity);
+        if(Objects.isNull(keyAdd)){
+            return list;
+        }
+        int foundIdx = Values.RANGE;
+        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+            final T original = list.get(idx);
+            if(Objects.isNull(original)){
+                continue;
+            }
+            final V keyOld = keyFn.apply(original);
+            if(keyAdd.equals(keyOld)){
+                foundIdx = idx;
+                break;
+            }
+        }
+        if(Values.RANGE == foundIdx){
+            list.add(entity);
+        }else{
+            list.set(foundIdx, entity);
+        }
+        return list;
     }
 
     static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
@@ -97,8 +147,17 @@ final class ArrayL {
         return updated;
     }
 
+    static ConcurrentMap<String, Integer> count(final JsonArray array, final Set<String> fields) {
+        final ConcurrentMap<String, Integer> counter = new ConcurrentHashMap<>();
+        fields.forEach(field -> {
+            final Set<String> set = Epsilon.vStringSet(array, field);
+            counter.put(field, set.size());
+        });
+        return counter;
+    }
+
     static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {
-        return Fn.getNull(new JsonArray(), () -> {
+        return Fn.orNull(new JsonArray(), () -> {
             final JsonArray subset = new JsonArray();
             It.itJArray(array).filter(fnFilter::apply).forEach(subset::add);
             return subset;
@@ -128,6 +187,29 @@ final class ArrayL {
             .filter(item -> Objects.nonNull(item.getValue(field)))
             .forEach(item -> grouped.put(item.getString(field), item.copy()));
         return grouped;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> JsonArray zipper(final JsonArray array, final String fieldFrom,
+                                final String fieldOn,
+                                final ConcurrentMap<T, JsonArray> grouped, final String fieldTo) {
+        Ut.itJArray(array).forEach(json -> {
+            final T fieldV = (T) json.getValue(fieldFrom, null);
+            final JsonArray data;
+            if (Objects.nonNull(fieldV)) {
+                data = grouped.getOrDefault(fieldV, new JsonArray());
+            } else {
+                data = new JsonArray();
+            }
+            if (Ut.isNil(fieldTo)) {
+                json.put(fieldOn, data);
+            } else {
+                final JsonArray replaced = new JsonArray();
+                Ut.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
+                json.put(fieldOn, replaced);
+            }
+        });
+        return array;
     }
 
     static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
@@ -235,7 +317,13 @@ final class ArrayL {
         final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
         It.itJArray(data).forEach(json -> {
             final String key = json.getString(field);
-            if (Ut.notNil(key)) {
+            /*
+             * Fix Issue:
+             * java.lang.NullPointerException
+             *      at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+             *      at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+             */
+            if (Ut.notNil(key) && Objects.nonNull(json.getValue(to))) {
                 mapped.put(key, (T) json.getValue(to));
             }
         });
@@ -274,9 +362,6 @@ final class ArrayL {
         return group(source, item -> item.getString(field));
     }
 
-    /**
-     *
-     */
     static List<JsonArray> group(final JsonArray source, final Integer size) {
         final List<JsonArray> groupData = new ArrayList<>();
         final JsonArray container = new JsonArray();

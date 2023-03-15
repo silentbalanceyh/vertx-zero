@@ -20,27 +20,27 @@ public class XSource implements VertxPojo, IXSource {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        ipV4;
-    private String        ipV6;
-    private String        hostname;
-    private Integer       port;
-    private String        category;
-    private String        driverClassName;
-    private String        jdbcUrl;
-    private String        jdbcConfig;
-    private String        instance;
-    private String        username;
-    private String        password;
-    private String        appId;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String ipV4;
+    private String ipV6;
+    private String hostname;
+    private Integer port;
+    private String category;
+    private String driverClassName;
+    private String jdbcUrl;
+    private String jdbcConfig;
+    private String instance;
+    private String username;
+    private String password;
+    private String appId;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XSource() {}
 
@@ -69,27 +69,27 @@ public class XSource implements VertxPojo, IXSource {
     }
 
     public XSource(
-        String        key,
-        String        ipV4,
-        String        ipV6,
-        String        hostname,
-        Integer       port,
-        String        category,
-        String        driverClassName,
-        String        jdbcUrl,
-        String        jdbcConfig,
-        String        instance,
-        String        username,
-        String        password,
-        String        appId,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String ipV4,
+        String ipV6,
+        String hostname,
+        Integer port,
+        String category,
+        String driverClassName,
+        String jdbcUrl,
+        String jdbcConfig,
+        String instance,
+        String username,
+        String password,
+        String appId,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.ipV4 = ipV4;
@@ -480,6 +480,172 @@ public class XSource implements VertxPojo, IXSource {
     public XSource setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XSource other = (XSource) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.ipV4 == null) {
+            if (other.ipV4 != null)
+                return false;
+        }
+        else if (!this.ipV4.equals(other.ipV4))
+            return false;
+        if (this.ipV6 == null) {
+            if (other.ipV6 != null)
+                return false;
+        }
+        else if (!this.ipV6.equals(other.ipV6))
+            return false;
+        if (this.hostname == null) {
+            if (other.hostname != null)
+                return false;
+        }
+        else if (!this.hostname.equals(other.hostname))
+            return false;
+        if (this.port == null) {
+            if (other.port != null)
+                return false;
+        }
+        else if (!this.port.equals(other.port))
+            return false;
+        if (this.category == null) {
+            if (other.category != null)
+                return false;
+        }
+        else if (!this.category.equals(other.category))
+            return false;
+        if (this.driverClassName == null) {
+            if (other.driverClassName != null)
+                return false;
+        }
+        else if (!this.driverClassName.equals(other.driverClassName))
+            return false;
+        if (this.jdbcUrl == null) {
+            if (other.jdbcUrl != null)
+                return false;
+        }
+        else if (!this.jdbcUrl.equals(other.jdbcUrl))
+            return false;
+        if (this.jdbcConfig == null) {
+            if (other.jdbcConfig != null)
+                return false;
+        }
+        else if (!this.jdbcConfig.equals(other.jdbcConfig))
+            return false;
+        if (this.instance == null) {
+            if (other.instance != null)
+                return false;
+        }
+        else if (!this.instance.equals(other.instance))
+            return false;
+        if (this.username == null) {
+            if (other.username != null)
+                return false;
+        }
+        else if (!this.username.equals(other.username))
+            return false;
+        if (this.password == null) {
+            if (other.password != null)
+                return false;
+        }
+        else if (!this.password.equals(other.password))
+            return false;
+        if (this.appId == null) {
+            if (other.appId != null)
+                return false;
+        }
+        else if (!this.appId.equals(other.appId))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.ipV4 == null) ? 0 : this.ipV4.hashCode());
+        result = prime * result + ((this.ipV6 == null) ? 0 : this.ipV6.hashCode());
+        result = prime * result + ((this.hostname == null) ? 0 : this.hostname.hashCode());
+        result = prime * result + ((this.port == null) ? 0 : this.port.hashCode());
+        result = prime * result + ((this.category == null) ? 0 : this.category.hashCode());
+        result = prime * result + ((this.driverClassName == null) ? 0 : this.driverClassName.hashCode());
+        result = prime * result + ((this.jdbcUrl == null) ? 0 : this.jdbcUrl.hashCode());
+        result = prime * result + ((this.jdbcConfig == null) ? 0 : this.jdbcConfig.hashCode());
+        result = prime * result + ((this.instance == null) ? 0 : this.instance.hashCode());
+        result = prime * result + ((this.username == null) ? 0 : this.username.hashCode());
+        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
+        result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

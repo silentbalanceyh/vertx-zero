@@ -14,7 +14,7 @@ interface Info {
     String ADDRESS_ITEM = "       Addr : {0}";
 
     String METHOD_IGNORE = "Method name = {0} has not annotated with " +
-        "javax.ws.rs.[@GET,@POST,@PUT,@DELETE,@OPTIONS,@PATCH,@HEAD], ignored resolving.";
+        "jakarta.ws.rs.[@GET,@POST,@PUT,@DELETE,@OPTIONS,@PATCH,@HEAD], ignored resolving.";
 
     String METHOD_MODIFIER = "( Ignored ) Method name = {0} access scope is invalid, " +
         "the scope must be public non-static.";

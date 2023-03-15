@@ -7,6 +7,7 @@ package cn.vertxup.battery.domain.tables;
 import cn.vertxup.battery.domain.Db;
 import cn.vertxup.battery.domain.Keys;
 import cn.vertxup.battery.domain.tables.records.BAuthorityRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -14,6 +15,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -147,6 +149,11 @@ public class BAuthority extends TableImpl<BAuthorityRecord> {
         return new BAuthority(alias, this);
     }
 
+    @Override
+    public BAuthority as(Table<?> alias) {
+        return new BAuthority(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -163,6 +170,14 @@ public class BAuthority extends TableImpl<BAuthorityRecord> {
         return new BAuthority(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public BAuthority rename(Table<?> name) {
+        return new BAuthority(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row12 type methods
     // -------------------------------------------------------------------------
@@ -170,5 +185,20 @@ public class BAuthority extends TableImpl<BAuthorityRecord> {
     @Override
     public Row12<String, String, String, String, String, String, String, String, Boolean, String, String, String> fieldsRow() {
         return (Row12) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function12<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function12<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

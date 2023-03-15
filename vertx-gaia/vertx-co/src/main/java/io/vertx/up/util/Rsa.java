@@ -8,7 +8,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 
-class Rsa {
+public class Rsa {
     private Rsa() {
     }
 
@@ -19,13 +19,13 @@ class Rsa {
      *
      * @return The encoded string with rsa
      */
-    static String encrypt(final String strText, final String keyPath) {
-        return Fn.getJvm(() ->
-            encrypt(strText, loadRSAPublicKeyByFile(keyPath)), strText);
+    static String encryptRSALegacy(final String strText, final String keyPath) {
+        return Fn.orJvm(() ->
+            encryptRSALegacy(strText, loadRSAPublicKeyByFile(keyPath)), strText);
     }
 
-    static String encrypt(final String strText, final RSAPublicKey publicKey) {
-        return Fn.getJvm(() -> {
+    static String encryptRSALegacy(final String strText, final RSAPublicKey publicKey) {
+        return Fn.orJvm(() -> {
             final Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeBase64String(cipher.doFinal(strText.getBytes()));

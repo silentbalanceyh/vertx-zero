@@ -22,7 +22,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -158,7 +158,7 @@ public abstract class AbstractRotator implements Rotator {
         this.configHeader(request, headers);
 
         /* send request */
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final HttpResponse httpResponse = this.client().execute(request);
 
             /* build response here */
@@ -175,7 +175,7 @@ public abstract class AbstractRotator implements Rotator {
         this.configHeader(request, headers);
 
         /* send request */
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final HttpResponse httpResponse = this.client().execute(request);
 
             /* Final data */

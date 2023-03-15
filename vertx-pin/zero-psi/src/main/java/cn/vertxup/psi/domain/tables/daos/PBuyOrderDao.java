@@ -28,7 +28,7 @@ public class PBuyOrderDao extends AbstractVertxDAO<PBuyOrderRecord, cn.vertxup.p
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PBuyOrderDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PBuyOrder.P_BUY_ORDER, cn.vertxup.psi.domain.tables.pojos.PBuyOrder.class, new JDBCClassicQueryExecutor<PBuyOrderRecord,cn.vertxup.psi.domain.tables.pojos.PBuyOrder,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PBuyOrder.class,vertx));

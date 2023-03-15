@@ -20,7 +20,7 @@ import io.vertx.tp.rbac.authorization.parent.GpHorizon;
 import io.vertx.tp.rbac.authorization.parent.GpOverlook;
 import io.vertx.tp.rbac.logged.ProfileGroup;
 import io.vertx.tp.rbac.logged.ProfileRole;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;
@@ -80,16 +80,22 @@ public interface ScDetent {
      */
     interface Group {
 
+
+        Cc<String, ScDetent> CC_DETENT = Cc.open();
+
         static ScDetent horizon() {
-            return Fn.pool(Pool.DETENT_POOL, GdHorizon.class.getName(), GdHorizon::new);
+            return CC_DETENT.pick(GdHorizon::new, GdHorizon.class.getName());
+            // return Fn.po?l(Pool.DETENT_POOL, GdHorizon.class.getName(), GdHorizon::new);
         }
 
         static ScDetent critical() {
-            return Fn.pool(Pool.DETENT_POOL, GdCritical.class.getName(), GdCritical::new);
+            return CC_DETENT.pick(GdCritical::new, GdCritical.class.getName());
+            // return Fn.po?l(Pool.DETENT_POOL, GdCritical.class.getName(), GdCritical::new);
         }
 
         static ScDetent overlook() {
-            return Fn.pool(Pool.DETENT_POOL, GdOverlook.class.getName(), GdOverlook::new);
+            return CC_DETENT.pick(GdOverlook::new, GdOverlook.class.getName());
+            // return Fn.p?ol(Pool.DETENT_POOL, GdOverlook.class.getName(), GdOverlook::new);
         }
 
         /*
@@ -98,7 +104,8 @@ public interface ScDetent {
         interface Parent {
 
             static ScDetent horizon() {
-                return Fn.pool(Pool.DETENT_POOL, GpHorizon.class.getName(), GpHorizon::new);
+                return CC_DETENT.pick(GpHorizon::new, GpHorizon.class.getName());
+                // return Fn.po?l(Pool.DETENT_POOL, GpHorizon.class.getName(), GpHorizon::new);
             }
 
             static ScDetent critical(final List<ProfileGroup> original) {
@@ -115,7 +122,8 @@ public interface ScDetent {
          */
         interface Child {
             static ScDetent horizon() {
-                return Fn.pool(Pool.DETENT_POOL, GcHorizon.class.getName(), GcHorizon::new);
+                return CC_DETENT.pick(GcHorizon::new, GcHorizon.class.getName());
+                // return Fn.po?l(Pool.DETENT_POOL, GcHorizon.class.getName(), GcHorizon::new);
             }
 
             static ScDetent critical(final List<ProfileGroup> original) {

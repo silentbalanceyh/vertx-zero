@@ -1,0 +1,84 @@
+{
+    "identifier": "w.todo",
+    "module": "plugin/wf/oob/module/hybrid/w.todo.json",
+    "linkage": [
+        "w.ticket"
+    ],
+    "hybrid": {
+        "alias": "任务单",
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0",
+            "flowDefinitionId": "1,0,1,0,0,0,0,0",
+            "flowDefinitionKey": "1,0,1,0,0,0,0,0",
+            "flowInstanceId": "1,0,1,0,0,0,0,0",
+            "taskId": "1,0,1,0,0,0,0,0",
+            "taskKey": "1,0,1,0,0,0,0,0",
+            "taskCode": "1,0,1,0,0,0,0,0",
+            "taskName": "1,0,1,0,0,0,0,0"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
+        },
+        "attribute": {
+            "key": "任务单主键",
+            "serial": "任务编号",
+            "name": "任务名称",
+            "code": "任务编码",
+            "icon": "任务图标",
+            "status": "任务状态",
+            "todoUrl": "任务链接",
+            "type": "任务类型",
+            "expiredAt": "过期时间",
+            "modelId": "模型标识",
+            "modelKey": "模型主键ID",
+            "modelCategory": "模型分类",
+            "parentId": "父任务",
+            "traceId": "主单ID",
+            "traceOrder": "任务顺序",
+            "taskId": "流程任务ID",
+            "taskKey": "流程任务定义",
+            "activityId": "行为ID",
+            "comment": "任务描述",
+            "commentApproval": "通过描述",
+            "commentReject": "拒绝理由",
+            "toLocation": "分派地址",
+            "toGroup": "分派用户组",
+            "toDept": "分派部门",
+            "toTeam": "分派业务组",
+            "toUser": "分派用户",
+            "toRole": "分派角色",
+            "assignedBy": "指派人",
+            "assignedAt": "指派时间",
+            "acceptedBy": "接收人",
+            "acceptedAt": "接收时间",
+            "finishedBy": "完成人",
+            "finishedAt": "完成时间",
+            "active": "是否有效",
+            "sigma": "统一标识符",
+            "metadata": "配置数据",
+            "language": "系统语言",
+            "createdAt": "创建时间",
+            "createdBy": "创建人",
+            "updatedAt": "更新时间",
+            "updatedBy": "更新人"
+        }
+    }
+}

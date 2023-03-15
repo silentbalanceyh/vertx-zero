@@ -27,7 +27,7 @@ public class MAttributeDao extends AbstractVertxDAO<MAttributeRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MAttributeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MAttribute.M_ATTRIBUTE, cn.vertxup.atom.domain.tables.pojos.MAttribute.class, new JDBCClassicQueryExecutor<MAttributeRecord,cn.vertxup.atom.domain.tables.pojos.MAttribute,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MAttribute.class,vertx));

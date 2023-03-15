@@ -15,6 +15,7 @@ import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.fn.Actuator;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;
@@ -35,6 +36,10 @@ public class DevModeller {
         this.output = this.slashPath(output);
     }
 
+    public static DevModeller instance(final String input, final String output) {
+        return new DevModeller(input, output);
+    }
+
     private String slashPath(final String literal) {
         if (Objects.nonNull(literal)) {
             if (literal.endsWith(Strings.SLASH)) {
@@ -48,6 +53,10 @@ public class DevModeller {
     }
 
     public void preprocess() {
+        this.preprocess(null);
+    }
+
+    public void preprocess(final Actuator actuator) {
         Ok.on(handler -> {
             final OkA partyA = handler.result();
             final JtApp app = partyA.configApp();
@@ -70,7 +79,7 @@ public class DevModeller {
                  * Flush data to output path
                  */
                 Ut.ioOut(resolved, modelJson);
-                schemata.addAll(model.schemata());
+                schemata.addAll(model.schema());
             });
             schemata.forEach(schema -> {
                 final JsonObject schemaJson = schema.toJson();
@@ -83,11 +92,18 @@ public class DevModeller {
              */
             timer.end(System.currentTimeMillis());
             Ox.Log.infoHub(this.getClass(), "Successfully generation: {0}", timer.value());
-            System.exit(0);
+            if (Objects.isNull(actuator)) {
+                System.exit(0);
+            }
+            actuator.execute();
         });
     }
 
     public void initialize() {
+        this.initialize(null);
+    }
+
+    public void initialize(final Actuator actuator) {
         Ok.on(handler -> {
             final OkA partyA = handler.result();
             final JtApp app = partyA.configApp();
@@ -97,7 +113,7 @@ public class DevModeller {
              * Timer started
              */
             final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
-            stub.initModeling(app.getName()).compose(initialized -> {
+            stub.initModeling(app.getName(), this.output).compose(initialized -> {
                 Ox.Log.infoAtom(this.getClass(), "Modeling Environment has been initialized!");
                 final MigrateStep step = new MetaLimit(Environment.Development);
                 return step.bind(app).procAsync(new JsonObject());
@@ -107,7 +123,10 @@ public class DevModeller {
                  */
                 timer.end(System.currentTimeMillis());
                 Ox.Log.infoAtom(this.getClass(), "Modeling Adjustment has been finished: {0}", timer.value());
-                System.exit(0);
+                if (Objects.isNull(actuator)) {
+                    System.exit(0);
+                }
+                actuator.execute();
             });
         });
     }

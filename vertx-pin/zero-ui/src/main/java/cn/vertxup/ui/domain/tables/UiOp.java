@@ -8,6 +8,7 @@ import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Indexes;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.UiOpRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -16,6 +17,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -45,17 +47,17 @@ public class UiOp extends TableImpl<UiOpRecord> {
     /**
      * The column <code>DB_ETERNAL.UI_OP.EVENT</code>. 「event」- 操作中的 event 事件名称
      */
-    public final TableField<UiOpRecord, String> EVENT = createField(DSL.name("EVENT"), SQLDataType.VARCHAR(32), this, "「event」- 操作中的 event 事件名称");
+    public final TableField<UiOpRecord, String> EVENT = createField(DSL.name("EVENT"), SQLDataType.VARCHAR(128), this, "「event」- 操作中的 event 事件名称");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CLIENT_KEY</code>. 「clientKey」-
      * 一般是Html中对应的key信息，如 $opSave
      */
-    public final TableField<UiOpRecord, String> CLIENT_KEY = createField(DSL.name("CLIENT_KEY"), SQLDataType.VARCHAR(32), this, "「clientKey」- 一般是Html中对应的key信息，如 $opSave");
+    public final TableField<UiOpRecord, String> CLIENT_KEY = createField(DSL.name("CLIENT_KEY"), SQLDataType.VARCHAR(128), this, "「clientKey」- 一般是Html中对应的key信息，如 $opSave");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CLIENT_ID</code>. 「clientId」-
      * 没有特殊情况，clientId = clientKey
      */
-    public final TableField<UiOpRecord, String> CLIENT_ID = createField(DSL.name("CLIENT_ID"), SQLDataType.VARCHAR(32), this, "「clientId」- 没有特殊情况，clientId = clientKey");
+    public final TableField<UiOpRecord, String> CLIENT_ID = createField(DSL.name("CLIENT_ID"), SQLDataType.VARCHAR(128), this, "「clientId」- 没有特殊情况，clientId = clientKey");
     /**
      * The column <code>DB_ETERNAL.UI_OP.CONFIG</code>. 「config」-
      * 该按钮操作对应的配置数据信息, icon, type
@@ -67,9 +69,18 @@ public class UiOp extends TableImpl<UiOpRecord> {
      */
     public final TableField<UiOpRecord, String> PLUGIN = createField(DSL.name("PLUGIN"), SQLDataType.CLOB, this, "「plugin」- 该按钮中的插件，如 tooltip，component等");
     /**
+     * The column <code>DB_ETERNAL.UI_OP.UI_SORT</code>. 「uiSort」- 按钮在管理过程中的排序
+     */
+    public final TableField<UiOpRecord, Integer> UI_SORT = createField(DSL.name("UI_SORT"), SQLDataType.INTEGER, this, "「uiSort」- 按钮在管理过程中的排序");
+    /**
      * The column <code>DB_ETERNAL.UI_OP.CONTROL_ID</code>. 「controlId」- 挂载专用的ID
      */
-    public final TableField<UiOpRecord, String> CONTROL_ID = createField(DSL.name("CONTROL_ID"), SQLDataType.VARCHAR(36), this, "「controlId」- 挂载专用的ID");
+    public final TableField<UiOpRecord, String> CONTROL_ID = createField(DSL.name("CONTROL_ID"), SQLDataType.VARCHAR(128), this, "「controlId」- 挂载专用的ID");
+    /**
+     * The column <code>DB_ETERNAL.UI_OP.CONTROL_TYPE</code>. 「controlType」-
+     * 操作关联的控件类型
+     */
+    public final TableField<UiOpRecord, String> CONTROL_TYPE = createField(DSL.name("CONTROL_TYPE"), SQLDataType.VARCHAR(255), this, "「controlType」- 操作关联的控件类型");
     /**
      * The column <code>DB_ETERNAL.UI_OP.ACTIVE</code>. 「active」- 是否启用
      */
@@ -151,7 +162,7 @@ public class UiOp extends TableImpl<UiOpRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_ID);
+        return Arrays.asList(Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_ID, Indexes.UI_OP_IDXM_UI_OP_SIGMA_CONTROL_TYPE);
     }
 
     @Override
@@ -174,6 +185,11 @@ public class UiOp extends TableImpl<UiOpRecord> {
         return new UiOp(alias, this);
     }
 
+    @Override
+    public UiOp as(Table<?> alias) {
+        return new UiOp(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -190,12 +206,35 @@ public class UiOp extends TableImpl<UiOpRecord> {
         return new UiOp(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public UiOp rename(Table<?> name) {
+        return new UiOp(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row17 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row17<String, String, String, String, String, String, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row17) super.fieldsRow();
+    public Row19<String, String, String, String, String, String, String, String, Integer, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -8,6 +8,7 @@ import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Indexes;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.RUserRoleRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -108,6 +110,11 @@ public class RUserRole extends TableImpl<RUserRoleRecord> {
         return new RUserRole(alias, this);
     }
 
+    @Override
+    public RUserRole as(Table<?> alias) {
+        return new RUserRole(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -124,6 +131,14 @@ public class RUserRole extends TableImpl<RUserRoleRecord> {
         return new RUserRole(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RUserRole rename(Table<?> name) {
+        return new RUserRole(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
@@ -131,5 +146,20 @@ public class RUserRole extends TableImpl<RUserRoleRecord> {
     @Override
     public Row3<String, String, Integer> fieldsRow() {
         return (Row3) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

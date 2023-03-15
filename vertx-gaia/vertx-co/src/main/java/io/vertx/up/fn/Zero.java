@@ -63,7 +63,7 @@ final class Zero {
             }
             if (!(ex instanceof DateTimeParseException)) {
                 // TODO: Debug Trace for JVM
-                if (Debugger.onStackTracing()) {
+                if (Debugger.devJvmStack()) {
                     ex.printStackTrace();
                 }
             }

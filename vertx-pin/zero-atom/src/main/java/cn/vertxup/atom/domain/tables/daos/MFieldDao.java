@@ -27,7 +27,7 @@ public class MFieldDao extends AbstractVertxDAO<MFieldRecord, cn.vertxup.atom.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MFieldDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MField.M_FIELD, cn.vertxup.atom.domain.tables.pojos.MField.class, new JDBCClassicQueryExecutor<MFieldRecord,cn.vertxup.atom.domain.tables.pojos.MField,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MField.class,vertx));

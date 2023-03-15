@@ -269,7 +269,7 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setRounded,json::getString,"ROUNDED","java.lang.String");
                 setOrThrow(this::setFinished,json::getBoolean,"FINISHED","java.lang.Boolean");
@@ -296,7 +296,7 @@ public interface IFSettlement extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("COMMENT",getComment());
                 json.put("ROUNDED",getRounded());
                 json.put("FINISHED",getFinished());

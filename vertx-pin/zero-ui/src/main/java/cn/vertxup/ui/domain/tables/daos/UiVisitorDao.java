@@ -27,7 +27,7 @@ public class UiVisitorDao extends AbstractVertxDAO<UiVisitorRecord, cn.vertxup.u
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiVisitorDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiVisitor.UI_VISITOR, cn.vertxup.ui.domain.tables.pojos.UiVisitor.class, new JDBCClassicQueryExecutor<UiVisitorRecord,cn.vertxup.ui.domain.tables.pojos.UiVisitor,Record5<String, String, String, String, String>>(configuration,cn.vertxup.ui.domain.tables.pojos.UiVisitor.class,vertx));

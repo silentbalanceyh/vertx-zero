@@ -2,14 +2,13 @@ package io.vertx.up.util;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KValue;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Number checking
@@ -21,14 +20,14 @@ final class Numeric {
     }
 
     static Integer mathMultiply(final Integer left, final Integer right) {
-        final Integer leftValue = Fn.getNull(0, () -> left, left);
-        final Integer rightValue = Fn.getNull(0, () -> right, right);
+        final Integer leftValue = Fn.orNull(0, () -> left, left);
+        final Integer rightValue = Fn.orNull(0, () -> right, right);
         return Math.multiplyExact(leftValue, rightValue);
     }
 
     @SuppressWarnings("unchecked")
     static <T> T mathJSum(final JsonArray source, final String field, final Class<T> clazz) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             Object returnValue = null;
             if (Double.class == clazz || BigDecimal.class == clazz) {
                 final double result = source.stream().mapToDouble(item -> JsonObject.mapFrom(item).getDouble(field)).sum();
@@ -44,16 +43,8 @@ final class Numeric {
         }, source, field, clazz);
     }
 
-    private static boolean isMatch(final String regex, final String original) {
-        return Fn.getNull(() -> {
-            final Pattern pattern = Pattern.compile(regex);
-            final Matcher matcher = pattern.matcher(original);
-            return matcher.matches();
-        }, regex, original);
-    }
-
     static boolean isPositive(final String original) {
-        return isMatch("^\\+{0,1}[0-9]\\d*", original);
+        return StringUtil.isMatch(KValue.Regex.POSITIVE, original);
     }
 
     static boolean isPositive(final int number) {
@@ -75,15 +66,15 @@ final class Numeric {
     }
 
     static boolean isNegative(final String original) {
-        return isMatch("^-[0-9]\\d*", original);
+        return StringUtil.isMatch(KValue.Regex.NEGATIVE, original);
     }
 
     static boolean isInteger(final String original) {
-        return isMatch("[+-]{0,1}0", original) || isPositive(original) || isNegative(original);
+        return StringUtil.isMatch(KValue.Regex.INTEGER, original) || isPositive(original) || isNegative(original);
     }
 
     static boolean isDecimal(final String original) {
-        return isMatch("[-+]{0,1}\\d+\\.\\d*|[-+]{0,1}\\d*\\.\\d+", original);
+        return StringUtil.isMatch(KValue.Regex.DECIMAL, original);
     }
 
     static boolean isReal(final String original) {
@@ -122,11 +113,11 @@ final class Numeric {
     static class Decimal {
 
         static boolean isPositive(final String original) {
-            return isMatch("\\+{0,1}[0]\\.[1-9]*|\\+{0,1}[1-9]\\d*\\.\\d*", original);
+            return StringUtil.isMatch(KValue.Regex.DECIMAL_POSITIVE, original);
         }
 
         static boolean isNegative(final String original) {
-            return isMatch("^-[0]\\.[1-9]*|^-[1-9]\\d*\\.\\d*", original);
+            return StringUtil.isMatch(KValue.Regex.DECIMAL_NEGATIVE, original);
         }
     }
 }

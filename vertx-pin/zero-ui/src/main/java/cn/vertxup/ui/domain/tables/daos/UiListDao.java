@@ -27,7 +27,7 @@ public class UiListDao extends AbstractVertxDAO<UiListRecord, cn.vertxup.ui.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiListDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiList.UI_LIST, cn.vertxup.ui.domain.tables.pojos.UiList.class, new JDBCClassicQueryExecutor<UiListRecord,cn.vertxup.ui.domain.tables.pojos.UiList,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiList.class,vertx));

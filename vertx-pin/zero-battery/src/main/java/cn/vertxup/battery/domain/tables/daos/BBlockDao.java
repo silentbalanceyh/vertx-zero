@@ -27,7 +27,7 @@ public class BBlockDao extends AbstractVertxDAO<BBlockRecord, cn.vertxup.battery
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public BBlockDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(BBlock.B_BLOCK, cn.vertxup.battery.domain.tables.pojos.BBlock.class, new JDBCClassicQueryExecutor<BBlockRecord,cn.vertxup.battery.domain.tables.pojos.BBlock,String>(configuration,cn.vertxup.battery.domain.tables.pojos.BBlock.class,vertx));

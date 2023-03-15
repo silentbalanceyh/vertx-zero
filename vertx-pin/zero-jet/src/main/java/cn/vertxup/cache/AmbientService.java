@@ -12,16 +12,16 @@ import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
-import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobStatus;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.job.plugin.JobClient;
+import io.vertx.up.uca.job.plugin.JobInfix;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
 
 public class AmbientService implements AmbientStub {
-    private final transient JobClient client = JobInfix.getClient();
 
     @Override
     public Future<JsonObject> updateJob(final IJob job, final IService service) {
@@ -36,7 +36,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Ux.thenError(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.error(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtJob combining
@@ -56,7 +56,8 @@ public class AmbientService implements AmbientStub {
              * Reset `JobStatus`
              */
             mission.setStatus(JobStatus.STOPPED);
-            this.client.save(mission);
+            final JobClient client = JobInfix.getClient();
+            client.save(mission);
             return Ux.future(JobKit.toJson(mission));
         }
     }
@@ -74,7 +75,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Ux.thenError(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.error(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtUri combining

@@ -6,8 +6,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Trash;
+import io.vertx.tp.rbac.acl.relation.Junc;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
@@ -26,18 +26,6 @@ public class UserActor {
     @Inject
     private transient LoginStub loginStub;
 
-    /*
-     * User information get from the system to extract data here.
-     */
-    @Address(Addr.User.INFORMATION)
-    public Future<JsonObject> information(final Envelop envelop) {
-        final String userId = envelop.userId();
-        /*
-         * Async for user information
-         */
-        return this.stub.fetchEmployee(userId);
-    }
-
     @Address(Addr.User.PASSWORD)
     public Future<JsonObject> password(final Envelop envelop) {
         /*
@@ -45,14 +33,14 @@ public class UserActor {
          */
         final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
-        return this.stub.updateUser(userId, params);
+        return Junc.refRights().identAsync(userId, params);
     }
 
     @Address(Addr.User.PROFILE)
     public Future<JsonObject> profile(final Envelop envelop) {
         final String userId = envelop.userId();
         final JsonObject params = Ux.getJson(envelop);
-        return this.stub.updateEmployee(userId, params);
+        return this.stub.updateInformation(userId, params);
     }
 
     @Address(Addr.Auth.LOGOUT)
@@ -80,7 +68,7 @@ public class UserActor {
 
     @Address(Addr.User.GET)
     public Future<JsonObject> getById(final String key) {
-        return this.stub.fetchUser(key);
+        return Junc.refRights().identAsync(key);
     }
 
     @Address(Addr.User.ADD)
@@ -90,14 +78,29 @@ public class UserActor {
 
     @Address(Addr.User.UPDATE)
     public Future<JsonObject> update(final String key, final JsonObject data) {
-        return this.stub.updateUser(key, data);
+        return Junc.refRights().identAsync(key, data);
     }
 
     @Address(Addr.User.DELETE)
     public Future<Boolean> delete(final String key) {
-        return Ke.channelAsync(Trash.class, () -> this.stub.deleteUser(key),
-            tunnel -> this.stub.fetchUser(key)
+        return Ux.channelA(Trash.class, () -> this.stub.deleteUser(key),
+            tunnel -> Junc.refRights().identAsync(key)
                 .compose(user -> tunnel.backupAsync("sec.user", user))
                 .compose(backup -> this.stub.deleteUser(key)));
+    }
+
+    // ====================== Information ( By Type ) =======================
+    /*
+     * User information get from the system to extract data here.
+     */
+    @Address(Addr.User.INFORMATION)
+    public Future<JsonObject> information(final Envelop envelop) {
+        final String userId = envelop.userId();
+        return this.stub.fetchInformation(userId);
+    }
+
+    @Address(Addr.User.QR_USER_SEARCH)
+    public Future<JsonObject> searchByType(final String identifier, final JsonObject criteria) {
+        return Junc.refExtension().searchAsync(identifier, criteria);
     }
 }

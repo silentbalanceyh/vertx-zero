@@ -28,7 +28,7 @@ public class PAmountSpecDao extends AbstractVertxDAO<PAmountSpecRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PAmountSpecDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PAmountSpec.P_AMOUNT_SPEC, cn.vertxup.psi.domain.tables.pojos.PAmountSpec.class, new JDBCClassicQueryExecutor<PAmountSpecRecord,cn.vertxup.psi.domain.tables.pojos.PAmountSpec,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PAmountSpec.class,vertx));

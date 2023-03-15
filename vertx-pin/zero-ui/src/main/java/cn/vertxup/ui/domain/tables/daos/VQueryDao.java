@@ -26,7 +26,7 @@ public class VQueryDao extends AbstractVertxDAO<VQueryRecord, cn.vertxup.ui.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public VQueryDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(VQuery.V_QUERY, cn.vertxup.ui.domain.tables.pojos.VQuery.class, new JDBCClassicQueryExecutor<VQueryRecord,cn.vertxup.ui.domain.tables.pojos.VQuery,String>(configuration,cn.vertxup.ui.domain.tables.pojos.VQuery.class,vertx));

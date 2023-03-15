@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.change;
 
-import io.vertx.up.commune.compare.VsExtension;
+import io.vertx.up.uca.compare.VsExtension;
 
 import java.util.Objects;
 
@@ -16,6 +16,8 @@ public class AtomVsExtension implements VsExtension {
              * 两个值不同
              */
             return Boolean.FALSE;
-        } else return adjuster.isSame(valueOld, valueNew);
+        } else {
+            return adjuster.isSame(valueOld, valueNew);
+        }
     }
 }

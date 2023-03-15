@@ -5,9 +5,9 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ class MediaResolver {
 
     private static final Set<MediaType> DEFAULTS = new HashSet<MediaType>() {
         {
-            add(MediaType.WILDCARD_TYPE);
+            this.add(MediaType.WILDCARD_TYPE);
         }
     };
 
@@ -54,9 +54,9 @@ class MediaResolver {
     private static Set<MediaType> resolve(final Method method,
                                           final Class<? extends Annotation>
                                               mediaCls) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             final Annotation anno = method.getAnnotation(mediaCls);
-            return Fn.getSemi(null == anno, LOGGER,
+            return Fn.orSemi(null == anno, LOGGER,
                 () -> DEFAULTS,
                 () -> {
                     final String[] value = Ut.invoke(anno, "value");

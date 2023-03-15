@@ -37,7 +37,7 @@
                             ]
                         },
                         {
-                            "metadata": "email,签单人邮箱,,,,placeholder=格式：xxx@xxx.xx",
+                            "metadata": "contactEmail,签单人邮箱,,,,placeholder=格式：xxx@xxx.xx",
                             "optionConfig.rules": [
                                 {
                                     "pattern": "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}",
@@ -109,11 +109,11 @@
             "op.submit.save": "保存",
             "op.submit.delete": "删除",
             "op.submit.reset": "重置",
-            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,640,true,btnBatchEdit",
-            "window.extra.column": "请选择您要显示的列,leftTop,640,true",
+            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,720,true,btnBatchEdit",
+            "window.extra.column": "请选择您要显示的列,leftTop,720,true",
             "window.extra.export": "选择导出字段,导出,关闭,false,720,true,btnExport",
             "window.extra.import": "请上传导入文件,导入,关闭,false,720,true,btnImport",
-            "window.extra.view": "视图管理,right,400,true,btnView",
+            "window.extra.view": "视图管理,right,480,true,btnView",
             "id.submit.add": "$opAdd",
             "id.submit.save": "$opSave",
             "id.submit.reset": "$opReset",

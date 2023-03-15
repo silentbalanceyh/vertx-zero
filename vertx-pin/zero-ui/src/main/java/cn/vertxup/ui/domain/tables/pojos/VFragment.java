@@ -18,14 +18,14 @@ public class VFragment implements VertxPojo, IVFragment {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
-    private String  container;
-    private String  notice;
-    private String  buttonConnect;
-    private String  buttonGroup;
-    private String  modal;
+    private String key;
+    private String container;
+    private String notice;
+    private String buttonConnect;
+    private String buttonGroup;
+    private String modal;
     private Integer grid;
-    private String  config;
+    private String config;
 
     public VFragment() {}
 
@@ -41,14 +41,14 @@ public class VFragment implements VertxPojo, IVFragment {
     }
 
     public VFragment(
-        String  key,
-        String  container,
-        String  notice,
-        String  buttonConnect,
-        String  buttonGroup,
-        String  modal,
+        String key,
+        String container,
+        String notice,
+        String buttonConnect,
+        String buttonGroup,
+        String modal,
         Integer grid,
-        String  config
+        String config
     ) {
         this.key = key;
         this.container = container;
@@ -213,6 +213,81 @@ public class VFragment implements VertxPojo, IVFragment {
     public VFragment setConfig(String config) {
         this.config = config;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final VFragment other = (VFragment) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.container == null) {
+            if (other.container != null)
+                return false;
+        }
+        else if (!this.container.equals(other.container))
+            return false;
+        if (this.notice == null) {
+            if (other.notice != null)
+                return false;
+        }
+        else if (!this.notice.equals(other.notice))
+            return false;
+        if (this.buttonConnect == null) {
+            if (other.buttonConnect != null)
+                return false;
+        }
+        else if (!this.buttonConnect.equals(other.buttonConnect))
+            return false;
+        if (this.buttonGroup == null) {
+            if (other.buttonGroup != null)
+                return false;
+        }
+        else if (!this.buttonGroup.equals(other.buttonGroup))
+            return false;
+        if (this.modal == null) {
+            if (other.modal != null)
+                return false;
+        }
+        else if (!this.modal.equals(other.modal))
+            return false;
+        if (this.grid == null) {
+            if (other.grid != null)
+                return false;
+        }
+        else if (!this.grid.equals(other.grid))
+            return false;
+        if (this.config == null) {
+            if (other.config != null)
+                return false;
+        }
+        else if (!this.config.equals(other.config))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.container == null) ? 0 : this.container.hashCode());
+        result = prime * result + ((this.notice == null) ? 0 : this.notice.hashCode());
+        result = prime * result + ((this.buttonConnect == null) ? 0 : this.buttonConnect.hashCode());
+        result = prime * result + ((this.buttonGroup == null) ? 0 : this.buttonGroup.hashCode());
+        result = prime * result + ((this.modal == null) ? 0 : this.modal.hashCode());
+        result = prime * result + ((this.grid == null) ? 0 : this.grid.hashCode());
+        result = prime * result + ((this.config == null) ? 0 : this.config.hashCode());
+        return result;
     }
 
     @Override

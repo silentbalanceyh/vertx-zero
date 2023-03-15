@@ -305,7 +305,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
                 setOrThrow(this::setMajor,json::getBoolean,"MAJOR","java.lang.Boolean");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setChecked,json::getBoolean,"CHECKED","java.lang.Boolean");
                 setOrThrow(this::setCheckedDesc,json::getString,"CHECKED_DESC","java.lang.String");
@@ -337,7 +337,7 @@ public interface IFBook extends VertxPojo, Serializable {
                 json.put("TYPE",getType());
                 json.put("STATUS",getStatus());
                 json.put("MAJOR",getMajor());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("COMMENT",getComment());
                 json.put("CHECKED",getChecked());
                 json.put("CHECKED_DESC",getCheckedDesc());

@@ -5,11 +5,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.rs.announce.Rigor;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -38,7 +38,7 @@ class CodexPre implements Pre {
             final WebException error = rigor.verify(rules, data);
             if (null != error) {
                 Ix.Log.verify(this.getClass(), "---> Error Code: {0}", String.valueOf(error.getCode()));
-                throw error;
+                return Future.failedFuture(error);
             }
         }
         return Ux.future(data);

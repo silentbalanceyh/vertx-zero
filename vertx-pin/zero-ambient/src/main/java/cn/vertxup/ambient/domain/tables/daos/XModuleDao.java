@@ -27,7 +27,7 @@ public class XModuleDao extends AbstractVertxDAO<XModuleRecord, cn.vertxup.ambie
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XModuleDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XModule.X_MODULE, cn.vertxup.ambient.domain.tables.pojos.XModule.class, new JDBCClassicQueryExecutor<XModuleRecord,cn.vertxup.ambient.domain.tables.pojos.XModule,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XModule.class,vertx));

@@ -41,15 +41,14 @@ CREATE TABLE `L_LOCATION`
     PRIMARY KEY (`KEY`)
 );
 
--- changeset Lang:l-city-2
+-- changeset Lang:l-location-2
 ALTER TABLE L_LOCATION
     ADD UNIQUE (`CODE`, `SIGMA`);
--- changeset Lang:l-city-3
+-- changeset Lang:l-location-3
 
 -- ----------------------------
 -- Records of L_LOCATION
 -- ----------------------------
-BEGIN;
 INSERT INTO `L_LOCATION`
 VALUES ('217e8162-c0e4-4294-b798-dbd18dd31917', '供应商地址2', 'CN.CQ.LCT.VENDOR2', '奥园康城A区10号楼8栋13-5供应商2', '重庆市', '中国',
         '渝中区', '重庆市渝中区黄杨路奥园康城A区10号楼8栋13-5供应商2', '重庆', '黄杨路', NULL, NULL, '400040', NULL,
@@ -63,6 +62,5 @@ INSERT INTO `L_LOCATION`
 VALUES ('d3678a79-705b-45ed-8193-af21efd1e92b', '供应商地址1', 'CN.CQ.LCT.VENDOR', '奥园康城A区10号楼8栋13-5供应商', '重庆市', '中国', '渝中区',
         '重庆市渝中区黄杨路奥园康城A区10号楼8栋13-5供应商', '重庆', '黄杨路', NULL, NULL, '400040', NULL, '374889fc-1c4b-4260-a351-18e5220a2a54',
         1, 'ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq', 'cn', NULL, '2019-06-17 11:04:25', NULL, NULL);
-COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

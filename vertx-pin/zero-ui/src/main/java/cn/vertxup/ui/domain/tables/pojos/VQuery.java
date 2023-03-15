@@ -147,6 +147,60 @@ public class VQuery implements VertxPojo, IVQuery {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final VQuery other = (VQuery) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.projection == null) {
+            if (other.projection != null)
+                return false;
+        }
+        else if (!this.projection.equals(other.projection))
+            return false;
+        if (this.pager == null) {
+            if (other.pager != null)
+                return false;
+        }
+        else if (!this.pager.equals(other.pager))
+            return false;
+        if (this.sorter == null) {
+            if (other.sorter != null)
+                return false;
+        }
+        else if (!this.sorter.equals(other.sorter))
+            return false;
+        if (this.criteria == null) {
+            if (other.criteria != null)
+                return false;
+        }
+        else if (!this.criteria.equals(other.criteria))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.projection == null) ? 0 : this.projection.hashCode());
+        result = prime * result + ((this.pager == null) ? 0 : this.pager.hashCode());
+        result = prime * result + ((this.sorter == null) ? 0 : this.sorter.hashCode());
+        result = prime * result + ((this.criteria == null) ? 0 : this.criteria.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("VQuery (");
 

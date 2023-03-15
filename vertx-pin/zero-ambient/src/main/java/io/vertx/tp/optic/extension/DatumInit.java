@@ -1,8 +1,6 @@
 package io.vertx.tp.optic.extension;
 
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
@@ -12,6 +10,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -57,7 +56,7 @@ public class DatumInit implements Init {
             .map(file -> dataFolder + file)
             .map(this::doLoading)
             .collect(Collectors.toList());
-        return Ux.thenCombine(futures)
+        return Fn.combineA(futures)
             /* Stored each result */
             .compose(results -> UObject.create().append(KName.RESULT, results)
                 .toFuture())
@@ -65,24 +64,18 @@ public class DatumInit implements Init {
     }
 
     private Future<JsonObject> doLoading(final String filename) {
-        final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Ux.nativeWorker(filename);
-        executor.<JsonObject>executeBlocking(
-            pre -> {
-                /* ExcelClient */
-                final ExcelClient client = ExcelInfix.createClient();
-                client.importAsync(filename, result -> {
-                    At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
-                    if (result.succeeded()) {
-                        pre.complete(Ux.outBool(filename, Boolean.TRUE));
-                    } else {
-                        pre.fail(result.cause());
-                    }
-                });
-            },
-            post -> promise.complete(post.result())
-        );
-        return promise.future();
+        return Ux.nativeWorker(filename, pre -> {
+            /* ExcelClient */
+            final ExcelClient client = ExcelInfix.createClient();
+            client.importAsync(filename, result -> {
+                At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
+                if (result.succeeded()) {
+                    pre.complete(Fn.wrapJS(filename, Boolean.TRUE));
+                } else {
+                    pre.fail(result.cause());
+                }
+            });
+        });
     }
 
     @Override

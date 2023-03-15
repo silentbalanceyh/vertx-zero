@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -32,7 +33,7 @@ class ScatterModeler implements AoModeler {
                     // Index
                     .compose(AoModeler.index().apply())
             ));
-            return Ux.thenCombine(futures)
+            return Fn.combineA(futures)
                 .compose(schemataJson -> Ux.future(this.onResult(modelJson, schemataJson)));
         };
     }

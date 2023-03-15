@@ -12,11 +12,19 @@ import cn.vertxup.erp.domain.tables.ECustomer;
 import cn.vertxup.erp.domain.tables.EDept;
 import cn.vertxup.erp.domain.tables.EEmployee;
 import cn.vertxup.erp.domain.tables.EIdentity;
-import cn.vertxup.erp.domain.tables.EJobLog;
+import cn.vertxup.erp.domain.tables.EProject;
 import cn.vertxup.erp.domain.tables.ETeam;
 import cn.vertxup.erp.domain.tables.RAssetShare;
 import cn.vertxup.erp.domain.tables.RCompanyCustomer;
 import cn.vertxup.erp.domain.tables.RTeamEmployee;
+import cn.vertxup.erp.domain.tables.TOaAssignment;
+import cn.vertxup.erp.domain.tables.TOaTraining;
+import cn.vertxup.erp.domain.tables.TOaTrip;
+import cn.vertxup.erp.domain.tables.TOaVacation;
+import cn.vertxup.erp.domain.tables.TVendorAssessment;
+import cn.vertxup.erp.domain.tables.TVendorCheckIn;
+import cn.vertxup.erp.domain.tables.TVendorCheckOut;
+import cn.vertxup.erp.domain.tables.TVendorHour;
 
 
 /**
@@ -66,9 +74,9 @@ public class Tables {
     public static final EIdentity E_IDENTITY = EIdentity.E_IDENTITY;
 
     /**
-     * The table <code>DB_ETERNAL.E_JOB_LOG</code>.
+     * The table <code>DB_ETERNAL.E_PROJECT</code>.
      */
-    public static final EJobLog E_JOB_LOG = EJobLog.E_JOB_LOG;
+    public static final EProject E_PROJECT = EProject.E_PROJECT;
 
     /**
      * The table <code>DB_ETERNAL.E_TEAM</code>.
@@ -89,4 +97,44 @@ public class Tables {
      * The table <code>DB_ETERNAL.R_TEAM_EMPLOYEE</code>.
      */
     public static final RTeamEmployee R_TEAM_EMPLOYEE = RTeamEmployee.R_TEAM_EMPLOYEE;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_ASSIGNMENT</code>.
+     */
+    public static final TOaAssignment T_OA_ASSIGNMENT = TOaAssignment.T_OA_ASSIGNMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRAINING</code>.
+     */
+    public static final TOaTraining T_OA_TRAINING = TOaTraining.T_OA_TRAINING;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_TRIP</code>.
+     */
+    public static final TOaTrip T_OA_TRIP = TOaTrip.T_OA_TRIP;
+
+    /**
+     * The table <code>DB_ETERNAL.T_OA_VACATION</code>.
+     */
+    public static final TOaVacation T_OA_VACATION = TOaVacation.T_OA_VACATION;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_ASSESSMENT</code>.
+     */
+    public static final TVendorAssessment T_VENDOR_ASSESSMENT = TVendorAssessment.T_VENDOR_ASSESSMENT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_IN</code>.
+     */
+    public static final TVendorCheckIn T_VENDOR_CHECK_IN = TVendorCheckIn.T_VENDOR_CHECK_IN;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_CHECK_OUT</code>.
+     */
+    public static final TVendorCheckOut T_VENDOR_CHECK_OUT = TVendorCheckOut.T_VENDOR_CHECK_OUT;
+
+    /**
+     * The table <code>DB_ETERNAL.T_VENDOR_HOUR</code>.
+     */
+    public static final TVendorHour T_VENDOR_HOUR = TVendorHour.T_VENDOR_HOUR;
 }

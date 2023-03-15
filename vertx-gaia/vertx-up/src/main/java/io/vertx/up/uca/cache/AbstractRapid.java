@@ -5,12 +5,16 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxPool;
 import io.vertx.up.util.Ut;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,10 +43,27 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     @Override
     public Future<T> write(final K key, final T value) {
         if (0 < this.expired) {
-            return this.pool.put(key, value, this.expired).compose(Kv::value);
+            return this.pool.put(key, value, this.expired).compose(kv -> {
+
+                return kv.value();
+            });
         } else {
             return this.pool.put(key, value).compose(Kv::value);
         }
+    }
+
+    @Override
+    public Future<T> writeMulti(final Set<K> keySet, final T value) {
+        final List<Future<T>> futures = new ArrayList<>();
+        keySet.forEach(key -> futures.add(this.write(key, value)));
+        return Fn.combineT(futures).compose(nil -> Ux.future(value));
+    }
+
+    @Override
+    public Future<Boolean> writeMulti(final Set<K> keySet) {
+        final List<Future<T>> futures = new ArrayList<>();
+        keySet.forEach(key -> futures.add(this.clear(key)));
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     @Override

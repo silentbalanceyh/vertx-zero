@@ -2,10 +2,10 @@ package io.vertx.up.unity;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.plugin.job.JobClient;
-import io.vertx.tp.plugin.job.JobInfix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.job.plugin.JobClient;
+import io.vertx.up.uca.job.plugin.JobInfix;
 
 public class UxJob {
     private static final Annal LOGGER = Annal.get(UxJob.class);
@@ -17,7 +17,7 @@ public class UxJob {
 
     // Start job
     public Future<Boolean> startAsync(final String code) {
-        return Fn.thenGeneric(future -> this.client.startAsync(code, res -> {
+        return Fn.unbox(future -> this.client.startAsync(code, res -> {
             LOGGER.info(Info.JOB_START, code, res.result());
             future.complete(Boolean.TRUE);
         }));
@@ -25,7 +25,7 @@ public class UxJob {
 
     // Stop job
     public Future<Boolean> stopAsync(final String code) {
-        return Fn.thenGeneric(future -> this.client.stopAsync(code,
+        return Fn.unbox(future -> this.client.stopAsync(code,
             res -> {
                 LOGGER.info(Info.JOB_STOP, code);
                 future.complete(Boolean.TRUE);
@@ -34,7 +34,7 @@ public class UxJob {
 
     // Resume job
     public Future<Boolean> resumeAsync(final String code) {
-        return Fn.thenGeneric(future -> this.client.resumeAsync(code,
+        return Fn.unbox(future -> this.client.resumeAsync(code,
             res -> {
                 LOGGER.info(Info.JOB_RESUME, code);
                 future.complete(Boolean.TRUE);

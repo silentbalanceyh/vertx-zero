@@ -1,5 +1,7 @@
 package cn.originx.cv;
 
+import io.vertx.up.eon.KName;
+
 /**
  * ## 平台常量
  *
@@ -115,7 +117,7 @@ public interface OxCv {
      * - {@link cn.originx.scaffold.plugin.AspectRecord cn.originx.scaffold.plugin.AspectRecord}， 单记录处理，JsonObject类型
      * - {@link cn.originx.scaffold.plugin.AspectBatch cn.originx.scaffold.plugin.AspectBatch}，多记录处理，JsonArray类型
      */
-    String PLUGIN_COMPONENT = "plugin.component";
+    String PLUGIN_COMPONENT = KName.Aop.COMPONENT;
     /**
      * <value>plugin.component.before</value>，「Plugin」ServiceConfig配置中的AOP<strong>前置</strong>插件链，JsonArray数据结构。
      *
@@ -134,7 +136,7 @@ public interface OxCv {
      *
      * > 该插件链会对JsonObject和JsonArray执行Monad的链式操作：`Monad1 -> Monad2 -> Monad3`
      */
-    String PLUGIN_COMPONENT_BEFORE = "plugin.component.before";
+    String PLUGIN_COMPONENT_BEFORE = KName.Aop.COMPONENT_BEFORE;
     /**
      * <value>plugin.component.after</value>，「Plugin」ServiceConfig配置中的AOP<strong>后置</strong>插件链，JsonArray数据结构。
      *
@@ -155,7 +157,7 @@ public interface OxCv {
      *
      * > 该插件链会对JsonObject和JsonArray执行Monad的链式操作：`Monad1 -> Monad2 -> Monad3`
      */
-    String PLUGIN_COMPONENT_AFTER = "plugin.component.after";
+    String PLUGIN_COMPONENT_AFTER = KName.Aop.COMPONENT_AFTER;
     /**
      * <value>plugin.component.job</value>，「Plugin」ServiceConfig配置中的AOP<strong>后置</strong>异步回调插件，在after之后，JsonArray数组结构。
      *
@@ -175,7 +177,7 @@ public interface OxCv {
      *
      * > 该插件链位于after之后，即在after之后开启异步Job流程，响应信息可先回客户端而实现数据本身的异步任务，以提高性能。
      */
-    String PLUGIN_COMPONENT_JOB = "plugin.component.job";
+    String PLUGIN_COMPONENT_JOB = KName.Aop.COMPONENT_JOB;
     /**
      * <value>plugin.config</value>，「Plugin」和Before/After相关的组件静态配置，为JsonObject结构。
      *
@@ -197,7 +199,7 @@ public interface OxCv {
      *
      * 示例中配置了`BeforeNumber`插件所需的基础配置信息，可任意定义。
      */
-    String PLUGIN_CONFIG = "plugin.config";
+    String PLUGIN_CONFIG = KName.Aop.COMPONENT_CONFIG;
     /**
      * <value>plugin.identifier</value>，「Plugin」ServiceConfig配置中<strong>标识选择</strong>插件，实现接口`io.vertx.tp.optic.environment.Identifier`。
      */
@@ -212,7 +214,7 @@ public interface OxCv {
      * - DELETE：删除
      * - UPDATE：更新
      */
-    String CONFIGURATION_OPERATION = "configuration.operation";
+    String CONFIGURATION_OPERATION = KName.Aop.COMPONENT_TYPE;
     /**
      * <value>__VERTX_MASTER__</value>，图引擎中主图的代码信息，对应`cn.vertxup.graphic.domain.tables.pojos.GGraphic`中的`code`属性，`CODE`字段。
      *

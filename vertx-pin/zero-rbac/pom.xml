@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-rbac</artifactId>
-    <name>Extension:「zero-rbac」Sc - Security of RBAC</name>
+    <name>Extension: Sc「zero-rbac」Security of RBAC</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -29,9 +29,10 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
+                    <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
                     <!-- 配置文件路径 -->
-                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
-                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <propertyFile>plugin/sql/rbac.properties</propertyFile>
+                    <changeLogFile>plugin/sql/rbac.yml</changeLogFile>
                     <!-- 配置参数 -->
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                     <outputFileEncoding>UTF-8</outputFileEncoding>

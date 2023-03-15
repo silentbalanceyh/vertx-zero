@@ -27,7 +27,7 @@ public class UiFieldDao extends AbstractVertxDAO<UiFieldRecord, cn.vertxup.ui.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiFieldDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiField.UI_FIELD, cn.vertxup.ui.domain.tables.pojos.UiField.class, new JDBCClassicQueryExecutor<UiFieldRecord,cn.vertxup.ui.domain.tables.pojos.UiField,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiField.class,vertx));

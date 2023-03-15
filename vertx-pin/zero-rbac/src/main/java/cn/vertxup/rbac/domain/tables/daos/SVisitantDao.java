@@ -27,7 +27,7 @@ public class SVisitantDao extends AbstractVertxDAO<SVisitantRecord, cn.vertxup.r
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SVisitantDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SVisitant.S_VISITANT, cn.vertxup.rbac.domain.tables.pojos.SVisitant.class, new JDBCClassicQueryExecutor<SVisitantRecord,cn.vertxup.rbac.domain.tables.pojos.SVisitant,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SVisitant.class,vertx));
@@ -51,6 +51,21 @@ public class SVisitantDao extends AbstractVertxDAO<SVisitantRecord, cn.vertxup.r
      */
         public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByViewId(Collection<String> values, int limit) {
                 return findManyByCondition(SVisitant.S_VISITANT.VIEW_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByMode(Collection<String> values) {
+                return findManyByCondition(SVisitant.S_VISITANT.MODE.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByMode(Collection<String> values, int limit) {
+                return findManyByCondition(SVisitant.S_VISITANT.MODE.in(values),limit);
         }
 
         /**
@@ -99,18 +114,63 @@ public class SVisitantDao extends AbstractVertxDAO<SVisitantRecord, cn.vertxup.r
         }
 
         /**
-     * Find records that have <code>CONFIG_KEY IN (values)</code> asynchronously
+     * Find records that have <code>SEEK_KEY IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByConfigKey(Collection<String> values) {
-                return findManyByCondition(SVisitant.S_VISITANT.CONFIG_KEY.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyBySeekKey(Collection<String> values) {
+                return findManyByCondition(SVisitant.S_VISITANT.SEEK_KEY.in(values));
         }
 
         /**
-     * Find records that have <code>CONFIG_KEY IN (values)</code> asynchronously
+     * Find records that have <code>SEEK_KEY IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByConfigKey(Collection<String> values, int limit) {
-                return findManyByCondition(SVisitant.S_VISITANT.CONFIG_KEY.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyBySeekKey(Collection<String> values, int limit) {
+                return findManyByCondition(SVisitant.S_VISITANT.SEEK_KEY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_ROW IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmRow(Collection<String> values) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_ROW.in(values));
+        }
+
+        /**
+     * Find records that have <code>DM_ROW IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmRow(Collection<String> values, int limit) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_ROW.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_QR IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmQr(Collection<String> values) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_QR.in(values));
+        }
+
+        /**
+     * Find records that have <code>DM_QR IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmQr(Collection<String> values, int limit) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_QR.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_COLUMN IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmColumn(Collection<String> values) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_COLUMN.in(values));
+        }
+
+        /**
+     * Find records that have <code>DM_COLUMN IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SVisitant>> findManyByDmColumn(Collection<String> values, int limit) {
+                return findManyByCondition(SVisitant.S_VISITANT.DM_COLUMN.in(values),limit);
         }
 
         /**

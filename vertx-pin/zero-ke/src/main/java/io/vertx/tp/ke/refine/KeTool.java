@@ -7,6 +7,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
@@ -17,8 +18,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 class KeTool {
 
@@ -66,26 +65,13 @@ class KeTool {
                 /*
                  * Log
                  */
-                KeLog.warnChannel(KeChannel.class, "Criteria must be not empty");
+                KeLog.warnChannel(KeTool.class, "Criteria must be not empty");
             }
         });
-        return Ux.thenCombine(futures).compose(mapData -> {
+        return Fn.combineM(futures).compose(mapData -> {
             mapData.forEach(data::put);
             return Ux.future(data);
         });
-    }
-
-    static <T> void consume(final Supplier<T> supplier, final Consumer<T> consumer) {
-        final T input = supplier.get();
-        if (Objects.nonNull(input)) {
-            if (input instanceof String) {
-                if (Ut.notNil((String) input)) {
-                    consumer.accept(input);
-                }
-            } else {
-                consumer.accept(input);
-            }
-        }
     }
 
     static void banner(final String module) {

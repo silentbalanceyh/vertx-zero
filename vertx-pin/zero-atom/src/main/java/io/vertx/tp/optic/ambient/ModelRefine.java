@@ -7,8 +7,6 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -16,6 +14,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,15 +34,14 @@ class ModelRefine implements AoRefine {
             // 读取上一个流程中处理完成的 models
             final JsonArray modelJson = appJson.getJsonArray(KName.Modeling.MODELS);
             final String name = appJson.getString(KName.NAME);
-            final String namespace = Model.namespace(name);
             final Set<Model> models = new HashSet<>();
-            Ut.itJArray(modelJson).map(data -> Model.instance(namespace, data))
+            Ut.itJArray(modelJson).map(data -> Ao.toModel(name, data))
                 .forEach(models::add);
             Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型
             final List<Future<JsonObject>> futures = new ArrayList<>();
             models.stream().map(this::saveModelAsync).forEach(futures::add);
-            return Ux.thenCombine(futures)
+            return Fn.combineA(futures)
                 .compose(nil -> Ux.future(appJson));
         };
     }
@@ -52,30 +50,24 @@ class ModelRefine implements AoRefine {
      * 异步导入Model
      */
     private Future<JsonObject> saveModelAsync(final Model model) {
-        final Promise<JsonObject> promise = Promise.promise();
-        final WorkerExecutor executor = Ux.nativeWorker("model - " + model.identifier());
-        executor.<JsonObject>executeBlocking(
-            pre -> {
-                // Model -> Attributes 批量执行
-                final List<Future<JsonArray>> futures = new ArrayList<>();
-                futures.add(this.saveAttrAsync(model));
-                // Model -> 插入 Model
-                futures.add(this.saveJoinAsync(model));
-                // Entity
-                final MModel entity = model.dbModel();
-                final JsonObject criteria = new JsonObject();
-                criteria.put(KName.NAMESPACE, entity.getNamespace());
-                criteria.put(KName.IDENTIFIER, entity.getIdentifier());
-                Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
-                    entity.getIdentifier(), criteria.encode());
-                final Future<JsonObject> execute = Ux.thenCombineArray(futures)
-                    .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))
-                    .compose(Ux::futureJ);
-                execute.onSuccess(pre::complete);
-            },
-            post -> promise.complete(post.result())
-        );
-        return promise.future();
+        return Ux.nativeWorker("model-" + model.identifier(), pre -> {
+            // Model -> Attributes 批量执行
+            final List<Future<JsonArray>> futures = new ArrayList<>();
+            futures.add(this.saveAttrAsync(model));
+            // Model -> 插入 Model
+            futures.add(this.saveJoinAsync(model));
+            // Entity
+            final MModel entity = model.dbModel();
+            final JsonObject criteria = new JsonObject();
+            criteria.put(KName.NAMESPACE, entity.getNamespace());
+            criteria.put(KName.IDENTIFIER, entity.getIdentifier());
+            Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
+                entity.getIdentifier(), criteria.encode());
+            final Future<JsonObject> execute = Fn.compressA(futures)
+                .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))
+                .compose(Ux::futureJ);
+            execute.onSuccess(pre::complete);
+        });
     }
 
     /*

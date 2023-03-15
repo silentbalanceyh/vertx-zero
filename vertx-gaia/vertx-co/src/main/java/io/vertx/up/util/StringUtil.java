@@ -1,7 +1,9 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import org.apache.commons.jexl3.*;
@@ -16,9 +18,11 @@ import java.util.regex.Pattern;
  */
 final class StringUtil {
     private static final JexlEngine EXPR = new JexlBuilder()
-        .cache(512).silent(false).create();
+        .cache(4096).silent(false).create();
     private static final String SEED =
         "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    private static final String CAPTCHA_SEED =
+        "23456789qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM";
     private static final String CHAR =
         "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
@@ -34,7 +38,7 @@ final class StringUtil {
     }
 
     static Set<String> split(final String input, final String separator) {
-        return Fn.getNull(new HashSet<>(), () -> {
+        return Fn.orNull(new HashSet<>(), () -> {
             final String[] array = input.split(separator);
             final Set<String> result = new HashSet<>();
             for (final String item : array) {
@@ -57,7 +61,7 @@ final class StringUtil {
 
     static String join(final Collection<String> input, final String separator) {
         final String connector = (null == separator) ? Strings.COMMA : separator;
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final StringBuilder builder = new StringBuilder();
             final int size = input.size();
             int start = 0;
@@ -96,6 +100,16 @@ final class StringUtil {
         return builder.toString();
     }
 
+    /// Captcha related. ///
+    private static char randomCaptchaChar() {
+        return randomChar(CAPTCHA_SEED);
+    }
+
+    static String captcha(final int length) {
+        return random(length, StringUtil::randomCaptchaChar);
+    }
+
+    /// Random related. ///
     private static char randomChar() {
         return randomChar(SEED);
     }
@@ -127,18 +141,131 @@ final class StringUtil {
         return builder.toString();
     }
 
-    static JsonObject expression(final JsonObject data, final JsonObject params) {
+    /*
+     * Input Data Structure
+     * {
+     *     "field1": "expr1",
+     *     "field2": "expr2"
+     * }
+     *
+     * 1. If expr contains ` character, it will be replaced by parsed result.
+     * 2. If expr does not contain ` character, it will be kept.
+     *
+     * Then the method will create new parts of normalized to avoid modify input exprObject
+     */
+    static JsonObject expression(final JsonObject exprObject, final JsonObject params) {
         // Iterator On Json Object
-        data.fieldNames().forEach(k -> {
-            final Object value = data.getValue(k);
-            if (value instanceof String) {
-                final String valueExpr = (String) value;
-                if (Ut.notNil(valueExpr) && valueExpr.contains("`")) {
-                    data.put(k, expression(valueExpr, params));
+        final JsonObject parsed = new JsonObject();
+        if (Ut.notNil(exprObject)) {
+            exprObject.fieldNames().forEach(k -> {
+                final Object value = exprObject.getValue(k);
+                if (value instanceof String) {
+
+
+                    // 「String」
+                    final Object formatted = expressionWith((String) value, params);
+                    parsed.put(k, formatted);
+                } else if (value instanceof JsonObject) {
+
+
+                    // 「JsonObject」
+                    final JsonObject formatted = expression((JsonObject) value, params);
+                    parsed.put(k, formatted);
+                } else if (value instanceof JsonArray) {
+
+
+                    // 「JsonArray」
+                    final JsonArray formatted = expression((JsonArray) value, params);
+                    parsed.put(k, formatted);
+                } else {
+                    // 「Keep」Non-String Part include `null`
+                    parsed.put(k, value);
                 }
+            });
+        }
+        return parsed;
+    }
+
+    static JsonArray expression(final JsonArray exprArray, final JsonObject params) {
+        final JsonArray normalized = new JsonArray();
+        if (Ut.notNil(exprArray)) {
+            exprArray.forEach(valueElement -> {
+                if (valueElement instanceof String) {
+
+                    // Element = String
+                    final Object formatted = expressionWith((String) valueElement, params);
+                    normalized.add(formatted);
+                } else if (valueElement instanceof JsonObject) {
+
+
+                    // Element = JsonObject
+                    final JsonObject formatted = expression((JsonObject) valueElement, params);
+                    normalized.add(formatted);
+                } else if (valueElement instanceof JsonArray) {
+
+
+                    // Element = JsonArray
+                    final JsonArray formatted = expression((JsonArray) valueElement, params);
+                    normalized.add(formatted);
+                } else {
+
+
+                    // Element = Other
+                    normalized.add(valueElement);
+                }
+            });
+        }
+        return normalized;
+    }
+
+    static Object expressionWith(final String valueExpr, final JsonObject params) {
+        if (Ut.notNil(valueExpr)) {
+            final Object valueResult;
+            if (valueExpr.contains("`")) {
+                // Actual Parsing
+                valueResult = expressionT(valueExpr, params);
+            } else {
+                // 「Keep」Original String
+                valueResult = valueExpr;
             }
-        });
-        return data;
+            return valueResult;
+        } else {
+            // 「Keep」Empty String
+            return valueExpr;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> T expressionT(final String valueExpr, final JsonObject params) {
+        try {
+            /*
+             * cache(4096), the default cache size is 4096.
+             * silent(false): silent = false means the exception will be thrown.
+             */
+            final JexlExpression expression = EXPR.createExpression(valueExpr);
+            // Parameter
+            final JexlContext context = new MapContext();
+            params.fieldNames().forEach(field -> {
+                // Here the null should be valid
+                final Object value = params.getValue(field);
+                context.set(field, value);
+            });
+            // Ut.itJObject(params, (value, key) -> context.set(key, value));
+            // Processed
+            final Object result = expression.evaluate(context);
+            if (Objects.nonNull(result)) {
+                return (T) result;
+            } else {
+                return null;
+            }
+        } catch (final JexlException ex) {
+            // ex.printStackTrace();    // For Debug
+            if (Debugger.devJvmStack()) {
+                ex.printStackTrace();
+            }
+            return null;                // Get null
+            // throw new JexlExpressionException(StringUtil.class, expr, ex);
+        }
     }
 
     static JsonObject prefix(final JsonObject data, final String prefix) {
@@ -148,28 +275,22 @@ final class StringUtil {
         return resultJ;
     }
 
-    static String expression(final String expr, final JsonObject params) {
-        try {
-            final JexlExpression expression = EXPR.createExpression(expr);
-            // Parameter
-            final JexlContext context = new MapContext();
-            Ut.itJObject(params, (value, key) -> context.set(key, value));
-            // Processed
-            final Object result = expression.evaluate(context);
-            if (Objects.nonNull(result)) {
-                return result.toString();
-            } else {
-                return null;
-            }
-        } catch (final JexlException ex) {
-            // ex.printStackTrace();    // For Debug
-            if (Debugger.onStackTracing()) {
-                ex.printStackTrace();
-            }
-            return null;                // Get null
-            // throw new JexlExpressionException(StringUtil.class, expr, ex);
-        }
-    }
+    /*
+     * The engine is:
+     *
+     *      JexlEngine EXPR = new JexlBuilder().cache(4096).silent(false).create()
+     *
+     * The basic expression parsing method for default usage such as:
+     *
+     * `Message ${name} and ${code}`
+     *
+     * Be careful of expression syntax:
+     * 1) The start/end character should be "`".
+     * 2) The variable expression part is "${name}".
+     *
+     * This api is for message parsing only, this expression must start/end with "`" so that
+     * it could be parsed, other situations will be ignored.
+     */
 
     static boolean isNil(final String input) {
         return null == input || 0 == input.trim().length();
@@ -195,6 +316,16 @@ final class StringUtil {
         return matchSet;
     }
 
+    static String path(final String path, final Environment environment) {
+        if (Ut.isNil(path) || path.startsWith(Strings.SLASH)) {
+            return path;
+        }
+        if (Environment.Production == environment) {
+            return path;
+        } else {
+            return path("src/main/resources", path);
+        }
+    }
 
     static String path(final String folder, final String file) {
         Objects.requireNonNull(file);
@@ -217,5 +348,14 @@ final class StringUtil {
         }
         // Convert `//` to `/`
         return (valueFolder + valueFile).replace("//", "/");
+    }
+
+    // Regex Matcher for string
+    static boolean isMatch(final String regex, final String original) {
+        return Fn.orNull(() -> {
+            final Pattern pattern = Pattern.compile(regex);
+            final Matcher matcher = pattern.matcher(original);
+            return matcher.matches();
+        }, regex, original);
     }
 }

@@ -28,7 +28,7 @@ public class FSettlementItemDao extends AbstractVertxDAO<FSettlementItemRecord, 
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FSettlementItemDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FSettlementItem.F_SETTLEMENT_ITEM, cn.vertxup.fm.domain.tables.pojos.FSettlementItem.class, new JDBCClassicQueryExecutor<FSettlementItemRecord,cn.vertxup.fm.domain.tables.pojos.FSettlementItem,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FSettlementItem.class,vertx));

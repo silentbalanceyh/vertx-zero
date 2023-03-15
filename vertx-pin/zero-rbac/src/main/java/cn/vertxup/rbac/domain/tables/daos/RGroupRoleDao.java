@@ -27,7 +27,7 @@ public class RGroupRoleDao extends AbstractVertxDAO<RGroupRoleRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RGroupRoleDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RGroupRole.R_GROUP_ROLE, cn.vertxup.rbac.domain.tables.pojos.RGroupRole.class, new JDBCClassicQueryExecutor<RGroupRoleRecord,cn.vertxup.rbac.domain.tables.pojos.RGroupRole,Record2<String, String>>(configuration,cn.vertxup.rbac.domain.tables.pojos.RGroupRole.class,vertx));

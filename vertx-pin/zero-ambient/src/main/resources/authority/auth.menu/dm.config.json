@@ -1,0 +1,27 @@
+{
+    "items": {
+        "root": "BAG-MENU",
+        "exclude": [
+            "zero.desktop"
+        ],
+        "children": [
+            "SC-MENU,服务目录菜单",
+            {
+                "key": "NAV-MENU",
+                "title": "主页快捷菜单",
+                "value": [
+                    "NAV-MENU",
+                    "REPO-MENU"
+                ]
+            },
+            "SIDE-MENU,应用主菜单"
+        ]
+    },
+    "webAction": {
+        "icon": "upload",
+        "text": "保存",
+        "type": "primary",
+        "key": "__ID_MENU_SAVE",
+        "connectId": "__CID_MENU_SAVE"
+    }
+}

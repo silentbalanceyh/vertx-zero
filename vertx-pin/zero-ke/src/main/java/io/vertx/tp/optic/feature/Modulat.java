@@ -25,4 +25,6 @@ public interface Modulat {
      * --- 2) store of uiConfig
      */
     Future<JsonObject> extension(JsonObject appJson);
+
+    Future<JsonObject> extension(String appId);
 }

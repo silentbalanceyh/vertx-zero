@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
+import io.vertx.up.experiment.mixture.HAtom;
 
 /**
  * 绑定接口
@@ -22,5 +22,5 @@ public interface AoBinder<T extends AoBinder> {
     /**
      * 绑定一个 Atom 元数据
      */
-    T on(final DataAtom atom);
+    T on(final HAtom atom);
 }

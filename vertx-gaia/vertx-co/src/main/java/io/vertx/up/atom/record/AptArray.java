@@ -11,11 +11,11 @@ import java.util.Objects;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class AptArray implements Serializable {
-    private final transient JsonArray add = new JsonArray();
-    private final transient JsonArray delete = new JsonArray();
-    private final transient JsonArray append = new JsonArray();
-    private final transient JsonArray replace = new JsonArray();
-    private transient String field = "key";
+    private final JsonArray add = new JsonArray();
+    private final JsonArray delete = new JsonArray();
+    private final JsonArray append = new JsonArray();
+    private final JsonArray replace = new JsonArray();
+    private String field = "key";
 
     public String getField() {
         return this.field;

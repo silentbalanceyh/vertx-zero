@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-jet</artifactId>
-    <name>Extension:「zero-jet」Jt - Dynamic Api/Job</name>
+    <name>Extension: Jt「zero-jet」Dynamic Api/Job</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -24,9 +24,10 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
+                    <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
                     <!-- 配置文件路径 -->
-                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
-                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <propertyFile>plugin/sql/jet.properties</propertyFile>
+                    <changeLogFile>plugin/sql/jet.yml</changeLogFile>
                     <!-- 配置参数 -->
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                     <outputFileEncoding>UTF-8</outputFileEncoding>

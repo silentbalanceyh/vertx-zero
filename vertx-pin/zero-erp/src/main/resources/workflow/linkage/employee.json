@@ -1,0 +1,72 @@
+{
+    "config": {
+        "query": {
+            "sourceType": "w.ticket",
+            "targetType": "res.employee"
+        }
+    },
+    "message": {
+        "window": "选择关联员工",
+        "add": "添加关联员工",
+        "search": "搜索员工：",
+        "tip": "（默认只有`在工作`的员工可以被选择关联，若要关联其他员工，请联系管理员。）",
+        "failure": "请选择您要添加的员工信息，您未选择任何员工！",
+        "success": "您的关联员工信息已成功保存！"
+    },
+    "editor": {
+        "selection": {
+            "status": [
+                null,
+                "running"
+            ]
+        },
+        "tree": {
+            "source": "resource.departments",
+            "title": "所在部门",
+            "config": {
+                "parent": "deptId",
+                "title": "name",
+                "text": "name",
+                "value": "key"
+            },
+            "condition": "deptId,i"
+        },
+        "initial": {
+            "alias": "员工关联记录",
+            "type": "TICKET",
+            "linkType": "TICKET-EMPLOYEE",
+            "sourceType": "w.ticket",
+            "targetType": "res.employee"
+        },
+        "search": {
+            "condition": [
+                "workNumber,c",
+                "realname,c"
+            ],
+            "placeholder": "工号/姓名"
+        },
+        "ajax": {
+            "uri": "/api/user/search/employee",
+            "method": "POST"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "title": "部门",
+                "dataIndex": "deptId",
+                "$render": "USER",
+                "$config": {
+                    "uri": "/api/dept/:key",
+                    "field": "name",
+                    "icon": false
+                },
+                "$empty": "（无）"
+            },
+            "workNumber,员工号",
+            "username,登录账号",
+            "realname,姓名",
+            "workPhone,工作电话"
+        ]
+    }
+}

@@ -1,5 +1,8 @@
 package io.vertx.up.util;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 
@@ -7,6 +10,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.Base64;
+import java.util.Objects;
 
 final class Codec {
     private Codec() {
@@ -20,7 +24,7 @@ final class Codec {
      * @return The encoded string with MD5
      */
     static String md5(final String input) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final MessageDigest digest = MessageDigest.getInstance("MD5");
             final byte[] source = input.getBytes(Values.DEFAULT_CHARSET);
             digest.update(source);
@@ -60,7 +64,7 @@ final class Codec {
 
     @SuppressWarnings("all")
     private static String sha(final String strText, final String strType) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final MessageDigest messageDigest = MessageDigest.getInstance(strType);
             messageDigest.update(strText.getBytes());
             final byte[] byteBuffer = messageDigest.digest();
@@ -68,7 +72,7 @@ final class Codec {
             for (int i = 0; i < byteBuffer.length; i++) {
                 final String hex = Integer.toHexString(0xff & byteBuffer[i]);
                 if (hex.length() == 1) {
-                    strHexString.append('0' );
+                    strHexString.append('0');
                 }
                 strHexString.append(hex);
             }
@@ -80,7 +84,7 @@ final class Codec {
      * Base-64
      */
     static String base64(final String input, final boolean encript) {
-        return Fn.getNull(null, () -> {
+        return Fn.orNull(null, () -> {
             if (encript) {
                 return Base64.getEncoder().encodeToString(input.getBytes());
             } else {
@@ -90,12 +94,36 @@ final class Codec {
     }
 
     static String url(final String input, final boolean encript) {
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             if (encript) {
                 return URLEncoder.encode(input, Values.ENCODING);
             } else {
                 return URLDecoder.decode(input, Values.ENCODING);
             }
         }, input);
+    }
+
+    static String encodeJ(final Object value) {
+        if (value instanceof JsonObject) {
+            return ((JsonObject) value).encode();
+        }
+        if (value instanceof JsonArray) {
+            return ((JsonArray) value).encode();
+        }
+        return Objects.isNull(value) ? Strings.EMPTY : value.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> T decodeJ(final String literal) {
+        if (StringUtil.isNil(literal)) {
+            return null;
+        }
+        final String trimInput = literal.trim();
+        if (trimInput.startsWith(Strings.LEFT_BRACE)) {
+            return (T) To.toJObject(literal);
+        } else if (trimInput.startsWith(Strings.LEFT_SQUARE)) {
+            return (T) To.toJArray(literal);
+        }
+        return null;
     }
 }

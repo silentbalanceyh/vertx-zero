@@ -1,5 +1,6 @@
 package cn.vertxup.ambient.api.file;
 
+import cn.vertxup.ambient.service.file.DocBStub;
 import cn.vertxup.ambient.service.file.DocRStub;
 import cn.vertxup.ambient.service.file.DocWStub;
 import io.vertx.core.Future;
@@ -27,11 +28,13 @@ public class DocActor {
     private transient DocRStub reader;
     @Inject
     private transient DocWStub writer;
+    @Inject
+    private transient DocBStub builder;
 
     // ---------------------- Read Operation -------------------------
     @Address(Addr.Doc.DOCUMENT)
     public Future<JsonArray> start(final String type, final String appId) {
-        return this.reader.treeDir(appId, type);
+        return this.builder.initialize(appId, type);
     }
 
     @Address(Addr.Doc.BY_DIRECTORY)

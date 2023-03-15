@@ -27,6 +27,9 @@ databaseChangeLog:
     -   include:
             file: plugin/sql/erp/E_ASSET.sql
             relativeToChangelogFile: false
+    -   include:
+            file: plugin/sql/erp/E_PROJECT.sql
+            relativeToChangelogFile: false
     # 关联关系
     -   include:
             file: plugin/sql/erp/R_COMPANY_CUSTOMER.sql

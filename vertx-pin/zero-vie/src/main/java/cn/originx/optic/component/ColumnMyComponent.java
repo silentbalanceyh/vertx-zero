@@ -4,12 +4,12 @@ import cn.originx.refine.Ox;
 import cn.originx.scaffold.component.AbstractAdaptor;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.optic.ui.ApeakMy;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.unity.Ux;
 
 /**
  * ## 「Channel」我的列读取通道
@@ -50,7 +50,7 @@ import io.vertx.up.commune.Envelop;
  *
  * ```java
  * // <pre><code class="java">
- *     .compose(params -> Ke.channelAsync(ApeakMy.class,
+ *     .compose(params -> Ux.channelAsync(ApeakMy.class,
  *          () -> ActOut.future(new JsonArray()),
  *          stub -> stub.fetchMy(params).compose(ActOut::future)
  *     ))
@@ -77,7 +77,7 @@ public class ColumnMyComponent extends AbstractAdaptor {
         /* 最终Uri */
         final DataAtom atom = this.atom();
         /* 前置一致 */
-        return Ox.viewMy(envelop, atom.identifier()).compose(params -> Ke.channelAsync(ApeakMy.class,
+        return Ox.viewMy(envelop, atom.identifier()).compose(params -> Ux.channelA(ApeakMy.class,
             () -> ActOut.future(new JsonArray()),
             stub -> stub.fetchMy(params).compose(ActOut::future)
         ));

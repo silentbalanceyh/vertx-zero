@@ -7,17 +7,17 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._417DataAtomNullException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroHeart;
+import io.vertx.up.runtime.ZeroArcane;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -78,7 +78,7 @@ public class Ok implements OkA {
     /**
      * 「Async」根据传入的模型定义对象构造对应的字典翻译器。
      */
-    public static Future<DiFabric> fabric(final DataAtom atom, final String bName) {
+    public static Future<DFabric> fabric(final DataAtom atom, final String bName) {
         if (Objects.isNull(atom)) {
             return Future.failedFuture(new _417DataAtomNullException(Ok.class));
         } else {
@@ -132,7 +132,7 @@ public class Ok implements OkA {
         if (!this.initialized) {
             OInfix.on(vertx);
             LOGGER.info("[ Ok ] Zero Infix has been initialized!! = {0}", this.tenant);
-            return ZeroHeart.initExtension(vertx).compose(nil -> {
+            return ZeroArcane.startEdge(vertx).compose(nil -> {
                 // 应用初始化
                 final JsonObject app = this.tenant.getApplication();
                 final String sigma = app.getString(KName.SIGMA);

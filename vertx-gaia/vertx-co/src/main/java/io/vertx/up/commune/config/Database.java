@@ -7,8 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.Json;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -28,12 +32,21 @@ import java.util.Objects;
  *      "port": 3306,
  *      "category": "MYSQL5",
  *      "driverClassName": "Fix driver issue here",
- *      "jdbcUrl": "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false",
+ *      "jdbcUrl": "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true",
  * }
  * I_SERVICE -> configDatabase
+ *
+ * YAML 格式说明
+ * jooq:
+ *    provider:         // PRIMARY
+ *    orbit:            // HISTORY
+ * workflow:
+ *    database:         // WORKFLOW
  */
 public class Database implements Serializable, Json, Copyable<Database> {
 
+    public static final String CURRENT = "provider";
+    public static final String HISTORY = "orbit";
     private static final Annal LOGGER = Annal.get(Database.class);
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
     private static Database DATABASE;
@@ -43,28 +56,28 @@ public class Database implements Serializable, Json, Copyable<Database> {
     /* Database options for different pool */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject options = new JsonObject();
+    private JsonObject options = new JsonObject();
     /* Database host name */
-    private transient String hostname;
+    private String hostname;
     /* Database instance name */
-    private transient String instance;
+    private String instance;
     /* Database port number */
-    private transient Integer port;
+    private Integer port;
     /* Database category */
-    private transient DatabaseType category;
+    private DatabaseType category;
     /* JDBC connection string */
-    private transient String jdbcUrl;
+    private String jdbcUrl;
     /* Database username */
-    private transient String username;
+    private String username;
     /* Database password */
-    private transient String password;
+    private String password;
     /* Database driver class */
-    private transient String driverClassName;
+    private String driverClassName;
 
     /* Database Connection Testing */
     public static boolean test(final Database database) {
         try {
-            DriverManager.getConnection(database.getJdbcUrl(), database.getUsername(), database.getPassword());
+            DriverManager.getConnection(database.getJdbcUrl(), database.getUsername(), database.getSmartPassword());
             return true;
         } catch (final SQLException ex) {
             // Debug for database connection
@@ -76,26 +89,33 @@ public class Database implements Serializable, Json, Copyable<Database> {
 
     public static Database getCurrent() {
         if (Objects.isNull(DATABASE)) {
-            DATABASE = getDatabase("jooq", "provider");
+            DATABASE = getDatabase(DSMode.PRIMARY, "jooq", CURRENT);
         }
         return DATABASE.copy();
     }
 
     public static Database getHistory() {
-        return getDatabase("jooq", "orbit");
+        return getDatabase(DSMode.HISTORY, "jooq", HISTORY);
     }
 
     public static Database getCamunda() {
-        return getDatabase("workflow", "database");
+        return getDatabase(DSMode.WORKFLOW, KName.Flow.WORKFLOW, KName.DATABASE);
     }
 
-    private static Database getDatabase(final String... keys) {
+    private static Database getDatabase(final DSMode mode, final String... keys) {
         final JsonObject raw = Database.VISITOR.read();
         final JsonObject jooq = Ut.visitJObject(raw, keys);
+        final JsonObject jooqJ = MatureOn.envDatabase(jooq, mode);
+        return configure(jooqJ);
+    }
+
+    public static Database configure(final JsonObject databaseJ) {
+        final JsonObject jooq = Ut.valueJObject(databaseJ);
         final Database database = new Database();
         database.fromJson(jooq);
         return database;
     }
+
 
     /* Database Connection Testing */
     public boolean test() {
@@ -158,6 +178,17 @@ public class Database implements Serializable, Json, Copyable<Database> {
         this.password = password;
     }
 
+    public String getSmartPassword() {
+        final Boolean enabled = Ut.envWith(Macrocosm.HED_ENABLED, false, Boolean.class);
+        LOGGER.info("[HED] Encrypt of HED enabled: {0}", enabled);
+        if (enabled) {
+            // HED_ENABLED=true
+            return Ut.decryptRSAV(this.password);
+        } else {
+            return this.password;
+        }
+    }
+
     public String getDriverClassName() {
         return this.driverClassName;
     }
@@ -216,9 +247,9 @@ public class Database implements Serializable, Json, Copyable<Database> {
             /*
              * options
              */
-            final Object value = data.getValue("options");
-            if (Objects.nonNull(value) && value instanceof JsonObject) {
-                this.options.mergeIn((JsonObject) value);
+            final JsonObject options = Ut.valueJObject(data, KName.OPTIONS);
+            if (Ut.notNil(options)) {
+                this.options.mergeIn(options);
                 LOGGER.info("Database Options: {0}", this.options.encode());
             }
         }

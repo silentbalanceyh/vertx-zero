@@ -2,7 +2,6 @@ package io.vertx.tp.optic.extension;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 /*
@@ -17,7 +16,8 @@ public interface Prerequisite {
      * Initializer generate method.
      */
     static Prerequisite generate(final Class<?> clazz) {
-        return Fn.pool(Pool.PREREQUISITE_POOL, clazz.getName(), () -> Ut.instance(clazz));
+        return Pool.CC_PREREQUISITE.pick(() -> Ut.instance(clazz), clazz.getName());
+        // return Fn.po?l(Pool.PREREQUISITE_POOL, clazz.getName(), () -> Ut.instance(clazz));
     }
 
     /*

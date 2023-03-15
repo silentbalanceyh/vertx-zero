@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -14,25 +15,33 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/*
+/**
+ * ## Atom Part
  * Pojo metadata container
  * Meta of Java Object
+ * Here are definition for HAtom upgrade.
+ *
+ * The Yaml Data Structure is as following:
+ *
+ * // <pre><code class="yaml">
+ *     type:                                    # POJO Type of Jooq Generated
+ *     mapping:                                 # Mapping from entity -> field
+ *         pojoField: jsonField
+ * // </code></pre>
  */
 public class Mojo implements Serializable {
 
     private static final Annal LOGGER = Annal.get(Mojo.class);
-    private static final String TYPE = "type";
-    private static final String MAPPING = "mapping";
     @JsonIgnore
     private final ConcurrentMap<String, String> columns = new ConcurrentHashMap<>();
     @JsonIgnore
-    private transient String pojoFile;
-    @JsonProperty(TYPE)
+    private String pojoFile;
+    @JsonProperty(KName.TYPE)
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
     private Class<?> type;
-    @JsonProperty(MAPPING)
-    private ConcurrentMap<String, String> config = new ConcurrentHashMap<>();
+    @JsonProperty(KName.MAPPING)
+    private ConcurrentMap<String, String> mapping = new ConcurrentHashMap<>();
 
     public Class<?> getType() {
         return this.type;
@@ -62,8 +71,8 @@ public class Mojo implements Serializable {
      */
     public ConcurrentMap<String, String> getOut() {
         // Fix no mapping issue for empty mapping conversion.
-        Fn.safeSemi(null == this.config, LOGGER, () -> this.config = new ConcurrentHashMap<>());
-        return this.config;
+        Fn.safeSemi(null == this.mapping, LOGGER, () -> this.mapping = new ConcurrentHashMap<>());
+        return this.mapping;
     }
 
     public String getOut(final String key) {
@@ -80,12 +89,12 @@ public class Mojo implements Serializable {
      */
     @SuppressWarnings("all")
     public ConcurrentMap<String, String> getIn() {
-        Fn.safeSemi(config.keySet().size() != config.values().size(), LOGGER,
+        Fn.safeSemi(mapping.keySet().size() != mapping.values().size(), LOGGER,
             () -> LOGGER.warn(Info.VALUE_SAME,
-                config.keySet().size(), config.values().size()));
+                mapping.keySet().size(), mapping.values().size()));
         final ConcurrentMap<String, String> mapper =
             new ConcurrentHashMap<>();
-        config.forEach((key, value) -> mapper.put(value, key));
+        mapping.forEach((key, value) -> mapper.put(value, key));
         return mapper;
     }
 
@@ -136,7 +145,7 @@ public class Mojo implements Serializable {
 
     public Mojo bind(final Mojo mojo) {
         this.type = mojo.type;
-        this.config.putAll(mojo.config);
+        this.mapping.putAll(mojo.mapping);
         return this;
     }
 
@@ -165,13 +174,13 @@ public class Mojo implements Serializable {
         final StringBuilder report = new StringBuilder();
         report.append("==> Column: \n");
         this.columns.forEach((column, field) -> report
-            .append(column).append('=' ).append(field).append('\n' ));
+            .append(column).append('=').append(field).append('\n'));
         /*
          *
          */
         report.append("==> Pojo: \n");
-        this.config.forEach((actual, input) -> report
-            .append(actual).append('=' ).append(input).append('\n' ));
+        this.mapping.forEach((actual, input) -> report
+            .append(actual).append('=').append(input).append('\n'));
         return report.toString();
     }
 }

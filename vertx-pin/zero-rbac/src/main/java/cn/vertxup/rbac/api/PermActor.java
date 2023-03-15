@@ -2,8 +2,8 @@ package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.domain.tables.daos.RRolePermDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
-import cn.vertxup.rbac.service.business.PermGStub;
 import cn.vertxup.rbac.service.business.PermStub;
+import cn.vertxup.rbac.service.business.RightsStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -31,7 +31,7 @@ public class PermActor {
     private transient PermStub stub;
 
     @Inject
-    private transient PermGStub setStub;
+    private transient RightsStub setStub;
 
     /*
      * Calculate Permission Groups
@@ -120,7 +120,7 @@ public class PermActor {
 
     @Address(Addr.Authority.PERMISSION_BY_ROLE)
     public Future<JsonArray> fetchAsync(final String roleId) {
-        return Fn.getEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
+        return Fn.orEmpty(Ux.futureA(), () -> Ux.Jooq.on(RRolePermDao.class)
             .fetchAsync(KName.Rbac.ROLE_ID, roleId)
             .compose(Ux::futureA), roleId);
     }

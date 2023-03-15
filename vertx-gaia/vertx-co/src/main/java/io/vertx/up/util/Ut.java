@@ -1,7 +1,9 @@
 package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.vertx.aeon.eon.em.TypeOs;
+import io.vertx.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -9,10 +11,19 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.BiMapping;
+import io.vertx.up.commune.exchange.BMapping;
+import io.vertx.up.eon.KValue;
+import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.eon.em.Environment;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
+import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;
 import java.io.InputStream;
@@ -21,7 +32,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +39,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * Uniform Tool
@@ -38,7 +49,7 @@ public final class Ut {
     private Ut() {
     }
 
-    public static ObjectMapper mapper() {
+    public static JsonMapper mapper() {
         return Jackson.getMapper();
     }
     /*
@@ -108,14 +119,6 @@ public final class Ut {
         return new ArrayList<>(diff(new HashSet<>(subtrahend), new HashSet<>(minuend), fnGet));
     }
 
-    public static <T> Set<T> each(final Set<T> source, final Consumer<T>... consumers) {
-        return (Set<T>) Arithmetic.each(source, consumers);
-    }
-
-    public static <T> List<T> each(final List<T> source, final Consumer<T>... consumers) {
-        return (List<T>) Arithmetic.each(source, consumers);
-    }
-
     /*
      * Array or List calculation
      * 1) elementAdd
@@ -131,6 +134,7 @@ public final class Ut {
      * 11) elementCompress
      * 12) elementSet
      * 13) elementRevert
+     * 14) elementCount
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
@@ -150,6 +154,22 @@ public final class Ut {
 
     public static JsonArray elementSave(final JsonArray array, final JsonObject json, final String field) {
         return ArrayJ.save(array, json, field);
+    }
+
+    public static <T> List<T> elementSave(final List<T> list, final T entity, final String field) {
+        return ArrayL.save(list, entity, item -> Ut.field(item, field));
+    }
+
+    public static <T> List<T> elementSave(final List<T> list, final T entity, final Function<T, String> keyFn) {
+        return ArrayL.save(list, entity, keyFn);
+    }
+
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field) {
+        return ArrayL.remove(list, entity, item -> Ut.field(item, field));
+    }
+
+    public static <T> List<T> elementRemove(final List<T> list, final T entity, final Function<T, String> keyFn) {
+        return ArrayL.remove(list, entity, keyFn);
     }
 
     public static JsonArray elementClimb(final JsonArray children, final JsonArray tree) {
@@ -212,6 +232,17 @@ public final class Ut {
         return ArrayL.zipper(array, field);
     }
 
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final String fieldOn, final ConcurrentMap<String, JsonArray> grouped) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, null);
+    }
+
+    public static JsonArray elementZip(final JsonArray array, final String fieldKey,
+                                       final String fieldOn,
+                                       final ConcurrentMap<String, JsonArray> grouped, final String fieldTo) {
+        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, fieldTo);
+    }
+
     public static JsonObject elementSubset(final JsonObject input, final String... fields) {
         return ArrayL.subset(input, fields);
     }
@@ -228,8 +259,25 @@ public final class Ut {
         return ArrayL.subset(input, fnFilter);
     }
 
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final String... fields) {
+        return ArrayL.count(input, Arrays.stream(fields).collect(Collectors.toSet()));
+    }
+
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final Set<String> fieldSet) {
+        return ArrayL.count(input, fieldSet);
+    }
+
+    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final JsonArray fieldArray) {
+        final Set<String> fieldSet = toSet(fieldArray);
+        return ArrayL.count(input, fieldSet);
+    }
+
     public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
         return ArrayL.group(object, keyFn, valueFn);
+    }
+
+    public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn) {
+        return ArrayL.group(object, keyFn, item -> (V) item);
     }
 
     public static <K, V> ConcurrentMap<K, V> elementMap(final List<V> dataList, final Function<V, K> keyFn) {
@@ -288,24 +336,20 @@ public final class Ut {
     /*
      * Encryption method for string
      * 1) encryptMD5
-     * 2) encryptRSA
-     * 3) encryptSHA256
-     * 4) encryptSHA512
-     * 5) encryptBase64
-     * 6) decryptBase64
-     * 7) encryptUrl
-     * 8) decryptUrl
+     * 2) encryptSHA256
+     * 3) encryptSHA512
+     *
+     * 4.1) encryptBase64
+     * 4.2) decryptBase64
+     *
+     * 5.1) encryptUrl
+     * 5.2) decryptUrl
+     *
+     * 6.1) encryptRSAP / decryptRSAV ( Mode 1 )
+     * 6.2) encryptRSAV / decryptRSAP ( Mode 2 )
      */
     public static String encryptMD5(final String input) {
         return Codec.md5(input);
-    }
-
-    public static String encryptRSA(final String input, final String filePath) {
-        return Rsa.encrypt(input, filePath);
-    }
-
-    public static String encryptRSA(final String input, final RSAPublicKey publicKey) {
-        return Rsa.encrypt(input, publicKey);
     }
 
     public static String encryptSHA256(final String input) {
@@ -342,6 +386,53 @@ public final class Ut {
         return Codec.url(input, false);
     }
 
+    public static String encryptJ(final Object value) {
+        return Codec.encodeJ(value);
+    }
+
+    public static <T> T decryptJ(final String literal) {
+        return Codec.decodeJ(literal);
+    }
+
+
+    // This is usage in case1 for integration, that's why keep here
+    //    public static String encryptRSAPIo(final String input, final String keyPath) {
+    //        final String keyContent = Ut.ioString(keyPath);
+    //        return ED.rsa(true).encrypt(input, keyContent);
+    //    }
+
+    public static String encryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(true).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAP(final String input) {
+        return ED.rsa(true).encrypt(input);
+    }
+
+    public static String decryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(true).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAV(final String input) {
+        return ED.rsa(true).decrypt(input);
+    }
+
+    public static String encryptRSAV(final String input, final String keyContent) {
+        return ED.rsa(false).encrypt(input, keyContent);
+    }
+
+    public static String encryptRSAV(final String input) {
+        return ED.rsa(false).encrypt(input);
+    }
+
+    public static String decryptRSAP(final String input, final String keyContent) {
+        return ED.rsa(false).decrypt(input, keyContent);
+    }
+
+    public static String decryptRSAP(final String input) {
+        return ED.rsa(false).decrypt(input);
+    }
+
     /*
      * Comparing method of two
      * 1) compareTo: Generate comparing method to return int
@@ -369,10 +460,11 @@ public final class Ut {
      *  7) itMatrix
      *  8) itCollection
      *  9) itRepeat
-     * 10) itJObject / etJObject
-     * 11) itJArray / etJArray
+     * 10) itJObject
+     * 11) itJArray
      * 12) itJson ( For <T> extract by JsonObject/JsonArray )
      * 13) itJString
+     * 14) itStart / itEnd / itPart
      *
      * `it` means iterator method here
      * `et` means `Error Iterator` to be sure comsumer should throw some checked exception
@@ -392,15 +484,31 @@ public final class Ut {
     }
 
     public static void itDay(final String from, final String to, final Consumer<Date> consumer) {
-        Period.itDay(from, to, consumer);
+        final LocalDateTime begin = Period.toDateTime(Period.parseFull(from));
+        final LocalDateTime end = Period.toDateTime(Period.parseFull(to));
+        Period.itDay(begin.toLocalDate(), end.toLocalDate(), consumer);
     }
 
     public static void itDay(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itDay(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itDay(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itDay(from, to, consumer);
     }
 
-    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+    public static void itWeek(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
+        Period.itWeek(from.toLocalDate(), to.toLocalDate(), consumer);
+    }
+
+    public static void itWeek(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
         Period.itWeek(from, to, consumer);
+    }
+
+    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
+        final LocalDate begin = Period.toDate(Period.parseFull(from));
+        final LocalDate end = Period.toDate(Period.parseFull(to));
+        Period.itWeek(begin, end, consumer);
     }
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
@@ -463,6 +571,18 @@ public final class Ut {
         return It.itJson(data, executor);
     }
 
+    public static <T> void itStart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, true, consumer);
+    }
+
+    public static <T> void itPart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, null, consumer);
+    }
+
+    public static <T> void itEnd(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
+        Congregation.exec(data, prefix, false, consumer);
+    }
+
     /*
      * Reflection method to create instance
      * 1) instance
@@ -482,7 +602,8 @@ public final class Ut {
      */
 
     public static <T> T service(final Class<T> interfaceCls) {
-        return Instance.service(interfaceCls);
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        return HService.load(interfaceCls, classLoader);
     }
 
     public static <T> T plugin(final JsonObject options, final String pluginKey, final Class<T> interfaceCls) {
@@ -507,6 +628,10 @@ public final class Ut {
 
     public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
         return Instance.singleton(clazz, supplier);
+    }
+
+    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier, final String extensionKey) {
+        return Instance.singleton(clazz, supplier, extensionKey);
     }
 
     public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
@@ -622,32 +747,56 @@ public final class Ut {
         return StringUtil.path(folder, file);
     }
 
+    public static String ioPath(final String path, final Environment environment) {
+        return StringUtil.path(path, environment);
+    }
+
+    public static List<String> ioPathSet(final String storePath) {
+        return IOPath.ladder(storePath);
+    }
+
+    public static String ioPathRoot(final String path) {
+        return IOPath.first(path, Strings.SLASH);
+    }
+
+    public static String ioPathRoot(final String path, final String separator) {
+        return IOPath.first(path, separator);
+    }
+
+    public static String ioPathLeaf(final String path) {
+        return IOPath.last(path, Strings.SLASH);
+    }
+
+    public static String ioPathLeaf(final String path, final String separator) {
+        return IOPath.last(path, separator);
+    }
+
     public static List<String> ioFiles(final String folder) {
-        return Folder.listFiles(folder, null);
+        return IODirectory.listFiles(folder, null);
     }
 
     public static List<String> ioFiles(final String folder, final String extension) {
-        return Folder.listFiles(folder, extension);
+        return IODirectory.listFiles(folder, extension);
     }
 
     public static List<String> ioFilesN(final String folder) {
-        return Folder.listFilesN(folder, null, null);
+        return IODirectory.listFilesN(folder, null, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension) {
-        return Folder.listFilesN(folder, extension, null);
+        return IODirectory.listFilesN(folder, extension, null);
     }
 
     public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
-        return Folder.listFilesN(folder, extension, prefix);
+        return IODirectory.listFilesN(folder, extension, prefix);
     }
 
     public static List<String> ioDirectories(final String folder) {
-        return Folder.listDirectories(folder);
+        return IODirectory.listDirectories(folder);
     }
 
     public static List<String> ioDirectoriesN(final String folder) {
-        return Folder.listDirectoriesN(folder);
+        return IODirectory.listDirectoriesN(folder);
     }
 
     public static <T> T ioYaml(final String filename) {
@@ -695,7 +844,7 @@ public final class Ut {
     }
 
     public static Buffer ioZip(final Set<String> fileSet) {
-        return IOCmd.zip(fileSet);
+        return IO.zip(fileSet);
     }
 
     public static InputStream ioStream(final File file) {
@@ -708,6 +857,14 @@ public final class Ut {
 
     public static InputStream ioStream(final String filename) {
         return Stream.in(filename);
+    }
+
+    public static InputStream ioStreamN(final String filename) {
+        return Stream.inN(filename);
+    }
+
+    public static InputStream ioStreamN(final String filename, final Class<?> clazz) {
+        return Stream.inN(filename, clazz);
     }
 
     public static String ioCompress(final String filename) {
@@ -753,29 +910,6 @@ public final class Ut {
     }
 
     /*
-     * Command
-     * 1. cmdRm / cmdRmFile
-     * 2. cmdMkdir
-     * 3. cmdRename
-     */
-    public static boolean cmdRm(final Set<String> filename) {
-        filename.forEach(Ut::cmdRm);
-        return true;
-    }
-
-    public static boolean cmdRm(final String filename) {
-        return IOCmd.rm(filename);
-    }
-
-    public static boolean cmdMkdir(final String filename) {
-        return IOCmd.mkdir(filename);
-    }
-
-    public static boolean cmdRename(final String filename, final String to) {
-        return IOCmd.rename(filename, to);
-    }
-
-    /*
      * Serialization method operation method here.
      * 1) serialize / serializeJson
      * 2) deserialize
@@ -783,7 +917,11 @@ public final class Ut {
      * Object converting here of serialization
      */
     public static <T, R extends Iterable> R serializeJson(final T t) {
-        return Jackson.serializeJson(t);
+        return Jackson.serializeJson(t, false);
+    }
+
+    public static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
+        return Jackson.serializeJson(t, isSmart);
     }
 
     public static <T> String serialize(final T t) {
@@ -791,11 +929,19 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final JsonObject value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, true);
+    }
+
+    public static <T> T deserialize(final JsonObject value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> T deserialize(final JsonArray value, final Class<T> type) {
-        return Jackson.deserialize(value, type);
+        return Jackson.deserialize(value, type, false);
+    }
+
+    public static <T> T deserialize(final JsonArray value, final Class<T> type, boolean isSmart) {
+        return Jackson.deserialize(value, type, isSmart);
     }
 
     public static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
@@ -803,127 +949,15 @@ public final class Ut {
     }
 
     public static <T> T deserialize(final String value, final Class<T> clazz) {
-        return Jackson.deserialize(value, clazz);
+        return Jackson.deserialize(value, clazz, false);
+    }
+
+    public static <T> T deserialize(final String value, final Class<T> clazz, boolean isSmart) {
+        return Jackson.deserialize(value, clazz, isSmart);
     }
 
     public static <T> T deserialize(final String value, final TypeReference<T> type) {
         return Jackson.deserialize(value, type);
-    }
-
-    /*
-     * Flatting method for function executing
-     * 1) ifMerge
-     * 2) ifNil / ifJNil / ifTNil
-     * 3) ifEmpty / ifJEmpty
-     * 4) ifJValue -> JsonObject field filling of value
-     * 5) ifJCopy -> JsonObject copy self
-     * 6) ifJObject / ifJArray / ifPage
-     * 7) ifString / ifStrings
-     * 8) ifJAssign -> Source Json -> Target Json copy fields
-     */
-
-    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifString(json, fields));
-        return array;
-    }
-
-    public static JsonObject ifString(final JsonObject json, final String... fields) {
-        Apply.ifString(json, fields);
-        return json;
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
-        return Apply.ifStrings(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
-        return Apply.ifString(fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
-        return Apply.ifJObject(fields);
-    }
-
-    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
-        Apply.ifJson(json, fields);
-        return json;
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
-        return Apply.ifPage(fields);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
-        return Apply.ifJArray(fields);
-    }
-
-    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
-        It.itJArray(array).forEach(json -> Apply.ifJson(json, fields));
-        return array;
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
-        return Apply.applyField(input, null);
-    }
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Function<I, Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <I, T> Function<I, Future<T>> ifNil(final Supplier<T> supplier, final Supplier<Future<T>> executor) {
-        return Apply.applyNil(supplier, executor);
-    }
-
-    public static <T> Function<T, Future<T>> ifNil(final Function<T, Future<T>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifTNil(final Function<T, Future<JsonObject>> executor) {
-        return Apply.<T, JsonObject>applyNil(JsonObject::new, executor);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJNil(final Function<JsonObject, Future<JsonObject>> executor) {
-        return Apply.applyNil(executor);
-    }
-
-    public static Future<JsonObject> ifJNil(final JsonObject input) {
-        return Future.succeededFuture(isNil(input) ? new JsonObject() : input);
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJEmpty(final Function<JsonArray, Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(executor);
-    }
-
-    public static Future<JsonArray> ifJEmpty(final JsonArray input, final Supplier<Future<JsonArray>> executor) {
-        return Apply.applyJEmpty(item -> executor.get()).apply(input);
-    }
-
-    public static <T> Function<T[], Future<T[]>> ifEmpty(final Function<T[], Future<T[]>> executor) {
-        return Apply.applyEmpty(executor);
-    }
-
-    public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
-        return Apply.applyField(input, field);
-    }
-
-    public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> function) {
-        return Apply.applyField(field, function);
-    }
-
-    public static JsonObject ifJValue(final JsonObject record, final String field, final Object value) {
-        return Apply.applyJValue(record, field, value);
-    }
-
-    public static JsonObject ifJValue(final String field, final Object value) {
-        return Apply.applyJValue(null, field, value);
-    }
-
-    public static Function<JsonObject, JsonObject> ifJAssign(final JsonObject input, final String... fields) {
-        return Apply.applyJCopy(input, fields);
-    }
-
-    public static JsonObject ifJCopy(final JsonObject record, final String from, final String to) {
-        return Apply.applyJCopy(record, from, to);
     }
 
     /*
@@ -998,6 +1032,10 @@ public final class Ut {
     }
 
     /*
+     * isMatch of Regex
+     */
+
+    /*
      * Checking method for all
      * 1) isSame / isDate
      * 2) isBoolean
@@ -1011,6 +1049,10 @@ public final class Ut {
      */
     public static boolean isRange(final Integer value, final Integer min, final Integer max) {
         return Numeric.isRange(value, min, max);
+    }
+
+    public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
+        return Period.isDuration(current, start, end);
     }
 
     public static boolean isSame(final Date left, final Date right) {
@@ -1083,6 +1125,11 @@ public final class Ut {
 
     public static boolean isDecimalNegative(final String original) {
         return Numeric.Decimal.isNegative(original);
+    }
+
+    // isFileName
+    public static boolean isFileName(final String original) {
+        return StringUtil.isMatch(KValue.Regex.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {
@@ -1186,6 +1233,10 @@ public final class Ut {
         return !isNil(jsonArray);
     }
 
+    public static void notNull(final Object... objects) {
+        Arrays.stream(objects).forEach(Objects::requireNonNull);
+    }
+
     /*
      * Complex compare method for two record
      * - oldRecord: Old data record that stored in our system
@@ -1223,23 +1274,36 @@ public final class Ut {
         return Jackson.flag(recordN, recordO);
     }
 
+    public static ChangeFlag aiFlag(final JsonObject input) {
+        return Jackson.flag(input);
+    }
+
+    // Specifical Api for data
+    public static JsonObject aiDataN(final JsonObject input) {
+        return Jackson.data(input, false);
+    }
+
+    public static JsonObject aiDataO(final JsonObject input) {
+        return Jackson.data(input, true);
+    }
+
     public static String aiJArray(final String literal) {
         return Jackson.aiJArray(literal);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping, final boolean keepNil) {
         return Value.aiIn(in, mapping, keepNil);
     }
 
-    public static JsonObject aiIn(final JsonObject in, final BiMapping mapping) {
+    public static JsonObject aiIn(final JsonObject in, final BMapping mapping) {
         return Value.aiIn(in, mapping, true);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping, final boolean keepNil) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping, final boolean keepNil) {
         return Value.aiOut(out, mapping, keepNil);
     }
 
-    public static JsonObject aiOut(final JsonObject out, final BiMapping mapping) {
+    public static JsonObject aiOut(final JsonObject out, final BMapping mapping) {
         return Value.aiOut(out, mapping, true);
     }
 
@@ -1253,7 +1317,7 @@ public final class Ut {
      * 5) toEnum
      * 6) toCollection / toPrimary
      * 7) toString
-     * 8) toDateTime / toDate / toTime
+     * 8) toDateTime / toDate / toTime / toAdjust
      * 9) toBytes
      * 10) toSet
      * 11) toMap
@@ -1268,11 +1332,16 @@ public final class Ut {
     }
 
     public static Set<String> toSet(final JsonArray keys) {
-        return To.toSet(keys);
+        return new HashSet<>(To.toList(keys));
     }
 
     public static List<String> toList(final JsonArray keys) {
         return To.toList(keys);
+    }
+
+
+    public static List<Class<?>> toClass(final JsonArray names) {
+        return To.toClass(names);
     }
 
     public static JsonArray toJArray(final Object value) {
@@ -1281,6 +1350,10 @@ public final class Ut {
 
     public static JsonArray toJArray(final String literal) {
         return To.toJArray(literal);
+    }
+
+    public static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJArray(literal, itemFn);
     }
 
     public static <T> JsonArray toJArray(final T value, final int repeat) {
@@ -1307,8 +1380,16 @@ public final class Ut {
         return To.toJObject(literal);
     }
 
+    public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        return To.toJObject(literal, itemFn);
+    }
+
     public static JsonObject toJObject(final Object value) {
         return Jackson.toJObject(value);
+    }
+
+    public static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
+        return To.toJObject(map);
     }
 
     public static JsonObject toJObject(final Map<String, Object> map) {
@@ -1419,12 +1500,25 @@ public final class Ut {
         return To.toMap(data);
     }
 
+    public static Map<String, Object> toMapExpr(final JsonObject data) {
+        return To.toMapExpr(data);
+    }
+
+    public static WebException toError(final Class<?> clazz, final Throwable error) {
+        return To.toError(clazz, error);
+    }
+
+    public static WebException toError(final Class<? extends WebException> clazz, final Object... args) {
+        return To.toError(clazz, args);
+    }
+
     /*
      * JsonObject tree visiting
      * 1) visitJObject
      * 2) visitJArray
      * 3) visitInt
      * 4) visitString
+     * 5) visitT
      */
     public static JsonObject visitJObject(final JsonObject item, final String... keys) {
         return Jackson.visitJObject(item, keys);
@@ -1442,11 +1536,28 @@ public final class Ut {
         return Jackson.visitString(item, keys);
     }
 
+    public static <T> T visitT(final JsonObject item, final String... keys) {
+        return Jackson.visitT(item, keys);
+    }
+
+    public static <T> T visitTSmart(final JsonObject item, final String path) {
+        // Fix issue of split by regex, the . must be \\.
+        final String[] pathes = path.split("\\.");
+        return Jackson.visitT(item, pathes);
+    }
+
+    /**
+     * @param length Length of intended captcha string.
+     *
+     * @return a string of captcha with certain length.
+     */
     /*
      * Random method
      * 1) randomNumber
      * 2) randomString
      * 3) randomLetter
+     * 4) randomRsa
+     * 5) randomCaptcha
      */
     public static Integer randomNumber(final int length) {
         return Numeric.randomNumber(length);
@@ -1456,8 +1567,16 @@ public final class Ut {
         return StringUtil.random(length);
     }
 
+    public static String randomCaptcha(final int length) {
+        return StringUtil.captcha(length);
+    }
+
     public static String randomLetter(final int length) {
         return StringUtil.randomNoDigit(length);
+    }
+
+    public static KPair randomRsa(final int length) {
+        return ED.rsa(true).generate(length);
     }
 
     /*
@@ -1481,7 +1600,7 @@ public final class Ut {
         return Period.parse(date);
     }
 
-    public static Date now() {
+    public static Date valueNow() {
         return Period.parse(LocalDateTime.now());
     }
 
@@ -1497,7 +1616,9 @@ public final class Ut {
      * 4) fromJoin
      * 5) fromAdjust
      * 6) fromExpression
-     * 7) fromAt
+     * 7) fromExpressionT
+     * 8) fromPrefix
+     * 9) fromDate
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return Stream.from(pos, buffer);
@@ -1551,20 +1672,44 @@ public final class Ut {
         return StringUtil.adjust(seed, width, '0');
     }
 
-    public static String fromExpression(final String expr, final JsonObject params) {
-        return StringUtil.expression(expr, params);
+    public static <T> T fromExpressionT(final String expr, final JsonObject params) {
+        return StringUtil.expressionT(expr, params);
     }
 
-    public static JsonObject fromExpression(final JsonObject data, final JsonObject params) {
-        return StringUtil.expression(data, params);
+    public static String fromExpression(final String expr, final JsonObject params) {
+        return (String) StringUtil.expressionWith(expr, params);
+    }
+
+    public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
+        return StringUtil.expression(exprObject, params);
+    }
+
+    public static JsonArray fromExpression(final JsonArray exprArray, final JsonObject params) {
+        return StringUtil.expression(exprArray, params);
     }
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
         return StringUtil.prefix(data, prefix);
     }
 
-    public static Instant fromAt(final String expr) {
-        return Period.parseAt(expr);
+    public static String fromDate(final LocalDate date, final String pattern) {
+        return Period.fromPattern(date, pattern);
+    }
+
+    public static String fromDate(final LocalDateTime datetime, final String pattern) {
+        return Period.fromPattern(datetime, pattern);
+    }
+
+    public static String fromDate(final LocalTime time, final String pattern) {
+        return Period.fromPattern(time, pattern);
+    }
+
+    public static String fromDate(final Date date, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(date), pattern);
+    }
+
+    public static String fromDate(final Instant instant, final String pattern) {
+        return Period.fromPattern(Period.toDateTime(instant), pattern);
     }
 
     /*
@@ -1599,20 +1744,68 @@ public final class Ut {
      * - valueJArray(JsonObject, String)              JsonObject -> field -> JsonArray
      * - valueSetArray(JsonArray, String)             JsonArray -> field -> Set<JsonArray>
      * - valueSetString(JsonArray, String)            JsonArray -> field -> Set<String>
-     * - valueSetString(JsonArray, String, boolean )  JsonArray -> field -> Set<String> ( include null when boolean = true )
+     * - valueSetString(List<T>, Function<T,String> ) List<T> -> function -> Set<String>
      * - valueString(JsonArray, String)               JsonArray -> field -> String ( Unique Mapping )
+     * - valueC
+     * - valueCI
+     *
+     * - valueTime(LocalTime, LocalDateTime)
      */
     public static Set<String> valueSetString(final JsonArray array, final String field) {
         return Epsilon.vStringSet(array, field);
+    }
+
+    public static <T> Set<String> valueSetString(final List<T> list, final Function<T, String> executor) {
+        return Epsilon.vStringSet(list, executor);
     }
 
     public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
         return Epsilon.vArraySet(array, field);
     }
 
+    // Qr Field Processing
+    public static String valueQrIn(final String field) {
+        return Epsilon.vQrField(field, Qr.Op.IN);
+    }
+
     // Single Processing
     public static String valueString(final JsonArray array, final String field) {
         return Epsilon.vString(array, field);
+    }
+
+    public static String valueString(final JsonObject json, final String field) {
+        return Epsilon.vString(json, field, null);
+    }
+
+    public static Integer valueInt(final JsonObject json, final String field) {
+        return Epsilon.vInt(json, field, Values.RANGE);
+    }
+
+    public static String valueString(final JsonObject json, final String field, final String defaultValue) {
+        return Epsilon.vString(json, field, defaultValue);
+    }
+
+    public static Class<?> valueC(final JsonObject json, final String field) {
+        return Epsilon.vClass(json, field, null);
+    }
+
+    public static Class<?> valueC(final JsonObject json, final String field,
+                                  final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, defaultClass);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls) {
+        return Epsilon.vClass(json, field, interfaceCls, null);
+    }
+
+    public static Class<?> valueCI(final JsonObject json, final String field,
+                                   final Class<?> interfaceCls, final Class<?> defaultClass) {
+        return Epsilon.vClass(json, field, interfaceCls, defaultClass);
+    }
+
+    public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
+        return list.stream().map(stringFn).findFirst().orElse(null);
     }
 
     public static JsonArray valueJArray(final JsonArray array, final String field) {
@@ -1623,6 +1816,10 @@ public final class Ut {
         return Jackson.sureJArray(array);
     }
 
+    public static JsonArray valueJArray(final JsonArray array, final boolean copied) {
+        return Jackson.sureJArray(array, copied);
+    }
+
     public static JsonArray valueJArray(final JsonObject input, final String field) {
         return Jackson.sureJArray(input, field);
     }
@@ -1631,7 +1828,98 @@ public final class Ut {
         return Jackson.sureJObject(object);
     }
 
+    public static JsonObject valueJObject(final JsonObject object, final boolean copied) {
+        return Jackson.sureJObject(object, copied);
+    }
+
     public static JsonObject valueJObject(final JsonObject input, final String field) {
         return Jackson.sureJObject(input, field);
+    }
+
+    // mapping + replace/append
+    /*
+     * <Flag>Over: Replace the whole input
+     * -- reference not change
+     * <Flag>: Extract the data from input only
+     */
+    public static JsonObject valueToOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vTo(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueToOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueToOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vTo(input, mapping, smart);
+    }
+
+    public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vTo(input, mapping, true, itFn);
+    }
+
+    public static JsonObject valueFromOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        final JsonObject converted = Epsilon.vFrom(input, mapping, smart);
+        input.mergeIn(converted, true);
+        return input;
+    }
+
+    public static JsonArray valueFromOver(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        Ut.itJArray(input).forEach(json -> valueFromOver(json, mapping, smart));
+        return input;
+    }
+
+    public static JsonObject valueFrom(final JsonObject input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final boolean smart) {
+        return Epsilon.vFrom(input, mapping, smart);
+    }
+
+    public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
+        return Epsilon.vFrom(input, mapping, true, itFn);
+    }
+    // --------------------- 环境相关方法 ----------------------
+
+    /**
+     * 判断当前操作系统类型
+     *
+     * @return {@link TypeOs}
+     */
+    public static TypeOs envOs() {
+        // os.name
+        return TypeOs.from(System.getProperty(KValue.NS.KEY_OS));
+    }
+
+    public static String env(final String name) {
+        return Env.readEnv(name, Strings.EMPTY);
+    }
+
+    public static <T> T env(final String name, final Class<T> clazz) {
+        return Env.readEnv(name, clazz);
+    }
+
+    public static String envWith(final String name, final String defaultValue) {
+        return Env.readEnv(name, defaultValue);
+    }
+
+    public static <T> T envWith(final String name, final T defaultValue, final Class<T> clazz) {
+        return Env.readEnv(name, defaultValue, clazz);
+    }
+
+    public static ConcurrentMap<String, String> envOut(final Properties properties) {
+        return Env.writeEnv(properties);
+    }
+
+    public static Kv<String, String> envOut(final String name, final String value) {
+        return Env.writeEnv(name, value);
     }
 }

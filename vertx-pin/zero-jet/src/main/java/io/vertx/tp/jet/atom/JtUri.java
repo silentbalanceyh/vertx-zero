@@ -11,7 +11,7 @@ import io.vertx.up.commune.Api;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.util.Ut;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Objects;
 import java.util.Set;
 

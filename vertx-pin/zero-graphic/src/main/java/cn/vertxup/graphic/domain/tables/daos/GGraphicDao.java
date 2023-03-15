@@ -27,7 +27,7 @@ public class GGraphicDao extends AbstractVertxDAO<GGraphicRecord, cn.vertxup.gra
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public GGraphicDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(GGraphic.G_GRAPHIC, cn.vertxup.graphic.domain.tables.pojos.GGraphic.class, new JDBCClassicQueryExecutor<GGraphicRecord,cn.vertxup.graphic.domain.tables.pojos.GGraphic,String>(configuration,cn.vertxup.graphic.domain.tables.pojos.GGraphic.class,vertx));

@@ -27,7 +27,7 @@ public class MKeyDao extends AbstractVertxDAO<MKeyRecord, cn.vertxup.atom.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MKeyDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MKey.M_KEY, cn.vertxup.atom.domain.tables.pojos.MKey.class, new JDBCClassicQueryExecutor<MKeyRecord,cn.vertxup.atom.domain.tables.pojos.MKey,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MKey.class,vertx));

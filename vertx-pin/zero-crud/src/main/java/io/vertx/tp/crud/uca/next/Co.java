@@ -5,7 +5,6 @@ import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.desk.IxWeb;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 import java.util.List;
 
@@ -35,30 +34,30 @@ public interface Co<I, A, S, O> {
 
     static Co nextQ(final IxMod in, final boolean isArray) {
         if (isArray) {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAQr(in), NtAQr.class.getName() + in.keyPool());
+            return Pooled.CC_CO.pick(() -> new NtAQr(in), NtAQr.class.getName() + in.keyPool());
         } else {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJQr(in), NtJQr.class.getName() + in.keyPool());
+            return Pooled.CC_CO.pick(() -> new NtJQr(in), NtJQr.class.getName() + in.keyPool());
         }
     }
 
     static Co nextJ(final IxMod in, final boolean isArray) {
         if (isArray) {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtAData(in), NtAData.class.getName() + in.keyPool());
+            return Pooled.CC_CO.pick(() -> new NtAData(in), NtAData.class.getName() + in.keyPool());
         } else {
-            return Fn.poolThread(Pooled.CO_MAP, () -> new NtJData(in), NtJData.class.getName() + in.keyPool());
+            return Pooled.CC_CO.pick(() -> new NtJData(in), NtJData.class.getName() + in.keyPool());
         }
     }
 
     static Co endV(final boolean isMy) {
         if (isMy) {
-            return Fn.poolThread(Pooled.CO_MAP, OkAActive::new, "ApeakMy:" + OkAActive.class.getName());
+            return Pooled.CC_CO.pick(OkAActive::new, "ApeakMy:" + OkAActive.class.getName());
         } else {
-            return Fn.poolThread(Pooled.CO_MAP, OkAApeak::new, OkAApeak.class.getName());
+            return Pooled.CC_CO.pick(OkAApeak::new, OkAApeak.class.getName());
         }
     }
 
     static Co endE(final List<String> columns) {
-        return Fn.poolThread(Pooled.CO_MAP, () -> new OkAExport(columns),
+        return Pooled.CC_CO.pick(() -> new OkAExport(columns),
             OkAExport.class.getName() + columns.hashCode());
     }
 

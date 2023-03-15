@@ -27,7 +27,7 @@ public class MEntityDao extends AbstractVertxDAO<MEntityRecord, cn.vertxup.atom.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MEntityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MEntity.M_ENTITY, cn.vertxup.atom.domain.tables.pojos.MEntity.class, new JDBCClassicQueryExecutor<MEntityRecord,cn.vertxup.atom.domain.tables.pojos.MEntity,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MEntity.class,vertx));

@@ -1,16 +1,16 @@
 package io.vertx.tp.modular.jooq;
 
-import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import org.jooq.DSLContext;
 
 /**
  * 使用Jooq处理
  */
 public class JQEngine {
+    private final static Cc<String, JQEngine> CC_ENGINE = Cc.openThread();
     private final transient JQInsert insertT;
     private final transient JQDelete deleteT;
     private final transient JQQuery queryT;
@@ -36,7 +36,8 @@ public class JQEngine {
     }
 
     public static JQEngine create(final DSLContext context) {
-        return Fn.poolThread(AoCache.POOL_ENGINES, () -> new JQEngine(context), String.valueOf(context.hashCode()));
+        return CC_ENGINE.pick(() -> new JQEngine(context), String.valueOf(context.hashCode()));
+        // return Fn.po?lThread(AoCache.POOL_ENGINES, () -> new JQEngine(context), String.valueOf(context.hashCode()));
     }
 
     public JQEngine bind(final AoSentence sentence) {

@@ -26,7 +26,7 @@ public class BComponentDao extends AbstractVertxDAO<BComponentRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public BComponentDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(BComponent.B_COMPONENT, cn.vertxup.battery.domain.tables.pojos.BComponent.class, new JDBCClassicQueryExecutor<BComponentRecord,cn.vertxup.battery.domain.tables.pojos.BComponent,String>(configuration,cn.vertxup.battery.domain.tables.pojos.BComponent.class,vertx));

@@ -24,13 +24,24 @@ class CompareJ {
     static JsonArray ruleJReduce(final JsonArray records, final JsonArray matrix) {
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(records).filter(json -> ruleJOk(json, matrix)).forEach(normalized::add);
+        logReduce(records, normalized);
         return normalized;
     }
 
     static JsonArray ruleJReduce(final JsonArray records, final Set<String> fields) {
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(records).filter(json -> ruleJOk(json, fields)).forEach(normalized::add);
+        logReduce(records, normalized);
         return normalized;
+    }
+
+    private static void logReduce(final JsonArray records, final JsonArray normalized) {
+        final int input = records.size();
+        final int output = normalized.size();
+        if (input != output) {
+            LOGGER.info("[ RD ] Compress: {0}/{1}",
+                String.valueOf(output), String.valueOf(input));
+        }
     }
 
     static boolean ruleJOk(final JsonObject record, final Set<String> fields) {
@@ -155,6 +166,15 @@ class CompareJ {
         final JsonArray original, final JsonArray current, final Set<String> fields) {
         return compareJ(original, current,
             (source, record) -> ruleJFind(source, record, fields));
+    }
+
+    static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final String field) {
+        return CompareJ.compareJ(original, current, new HashSet<>() {
+            {
+                this.add(field);
+            }
+        });
     }
 
     static ConcurrentMap<ChangeFlag, JsonArray> compareJ(

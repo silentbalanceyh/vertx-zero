@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.plugin;
 
-import cn.zeroup.macrocosm.cv.WfCv;
+import cn.vertxup.workflow.cv.WfCv;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.refine.Wf;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

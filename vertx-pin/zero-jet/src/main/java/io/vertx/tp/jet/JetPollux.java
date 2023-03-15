@@ -10,8 +10,8 @@ import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.uca.aim.*;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
-import io.vertx.up.extension.PlugRouter;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.eon.Orders;
+import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroJet;
 import io.vertx.up.uca.web.failure.CommonEndurer;
 import io.vertx.up.util.Ut;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * 2) The dynamic router will call connection pool of configuration, will manage all the routers in current system.
  * 3) The dynamic router will registry the routers information when booting
  */
-public class JetPollux implements PlugRouter {
+public class JetPollux extends AbstractAres {
     /*
      * Multi Application environment here
      */
@@ -36,7 +36,12 @@ public class JetPollux implements PlugRouter {
     private static final AtomicBoolean UNREADY = new AtomicBoolean(Boolean.TRUE);
 
     private final transient JtMonitor monitor = JtMonitor.create(this.getClass());
-    private transient JetCastor castor;
+    private final transient JetCastor castor;
+
+    public JetPollux(final Vertx vertx) {
+        super(vertx);
+        this.castor = JetCastor.create(vertx);
+    }
 
     @Override
     @SuppressWarnings("all")
@@ -57,7 +62,7 @@ public class JetPollux implements PlugRouter {
                 /*
                  * Start up and bind `order` and `config`
                  */
-                .map(uri -> uri.bind(this.getOrder())
+                .map(uri -> uri.bind(Orders.DYNAMIC)
                     .<JtUri>bind(Ut.deserialize(config.copy(), JtConfig.class)))
                 /*
                  * Routing deployment
@@ -97,16 +102,6 @@ public class JetPollux implements PlugRouter {
         }
     }
 
-    /*
-     * Bind two components to the same Vertx instance
-     */
-    @Override
-    public void bind(final Vertx vertx) {
-        if (Objects.nonNull(vertx)) {
-            this.castor = JetCastor.create(vertx);
-        }
-    }
-
     private void registryUri(final Route route, final JtUri uri) {
         // Uri, Method, Order
         route.path(uri.path()).order(uri.order()).method(uri.method());
@@ -126,10 +121,11 @@ public class JetPollux implements PlugRouter {
          *      3.2) Send message to worker
          *      3.3) Let worker consume component
          */
-        final JtAim pre = Fn.poolThread(Pool.AIM_PRE_HUBS, () -> Ut.instance(PreAim.class));
-        final JtAim in = Fn.poolThread(Pool.AIM_IN_HUBS, () -> Ut.instance(InAim.class));
-        final JtAim engine = Fn.poolThread(Pool.AIM_ENGINE_HUBS, () -> Ut.instance(EngineAim.class));
-        final JtAim send = Fn.poolThread(Pool.AIM_SEND_HUBS, () -> Ut.instance(SendAim.class));
+        final JtAim pre = Pool.CC_AIM.pick(() -> Ut.instance(PreAim.class), PreAim.class.getName());
+        // Fn.po?lThread(Pool.AIM_PRE_HUBS, () -> Ut.instance(PreAim.class));
+        final JtAim in = Pool.CC_AIM.pick(() -> Ut.instance(InAim.class), InAim.class.getName());
+        final JtAim engine = Pool.CC_AIM.pick(() -> Ut.instance(EngineAim.class), EngineAim.class.getName());
+        final JtAim send = Pool.CC_AIM.pick(() -> Ut.instance(SendAim.class), SendAim.class.getName());
         route
             /* Basic parameter validation / 400 Bad Request */
             .handler(pre.attack(uri))

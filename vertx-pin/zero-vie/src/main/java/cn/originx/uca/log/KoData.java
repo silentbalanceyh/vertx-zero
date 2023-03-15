@@ -5,7 +5,7 @@ import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.pojos.XLog;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

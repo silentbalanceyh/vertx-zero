@@ -5,7 +5,7 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.rs.router.Hub;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Set;
 
 public class MediaHub implements Hub<Route> {

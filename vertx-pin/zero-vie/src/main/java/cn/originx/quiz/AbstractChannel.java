@@ -2,11 +2,12 @@ package cn.originx.quiz;
 
 import cn.originx.quiz.atom.QRequest;
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.tp.atom.modeling.Model;
+import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtCommercial;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtJob;
@@ -18,6 +19,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Commercial;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -32,6 +34,7 @@ import java.util.function.Function;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
+@SuppressWarnings("all")
 public class AbstractChannel extends AbstractPlatform {
     /*
      * 重新构造Job和Uri
@@ -81,6 +84,16 @@ public class AbstractChannel extends AbstractPlatform {
     }
 
     // -------------------- 子类专用 ---------------------
+
+    protected Future<Envelop> tcScheduler(final String jobKey) {
+        return this.channelJob(jobKey, job -> {
+            final Mission mission = job.toJob();
+            final Agha agha = Agha.get(mission.getType());
+            Ut.contract(agha, Vertx.class, VERTX);
+            return agha.begin(mission);
+        }).compose(finished -> Ux.future(Envelop.success(finished)));
+    }
+
     protected Future<Envelop> tcJob(final String jobKey) {
         return this.tcJob(jobKey, new JsonObject());
     }
@@ -148,7 +161,7 @@ public class AbstractChannel extends AbstractPlatform {
     }
 
     private <T> T channelJob(final String jobCode, final Function<JtJob, T> executor) {
-        final String namespace = Model.namespace(this.app().getName());
+        final String namespace = Ao.toNS(this.app().getName());
         final String jobKey = namespace + Strings.DASH + jobCode;
         final JtJob job = JOBS.get(jobKey);
         Objects.requireNonNull(job);

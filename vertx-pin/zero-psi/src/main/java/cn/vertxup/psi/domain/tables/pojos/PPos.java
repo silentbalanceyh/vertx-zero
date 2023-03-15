@@ -20,31 +20,31 @@ public class PPos implements VertxPojo, IPPos {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        type;
-    private String        status;
-    private String        whId;
-    private Boolean       direct;
-    private Long          capacity;
-    private Long          capacityExceed;
-    private String        limitType;
-    private String        limitRule;
-    private Integer       posRow;
-    private Integer       posColumn;
-    private Integer       posHeight;
-    private String        posTags;
-    private String        posTrace;
-    private String        comment;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String type;
+    private String status;
+    private String whId;
+    private Boolean direct;
+    private Long capacity;
+    private Long capacityExceed;
+    private String limitType;
+    private String limitRule;
+    private Integer posRow;
+    private Integer posColumn;
+    private Integer posHeight;
+    private String posTags;
+    private String posTrace;
+    private String comment;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public PPos() {}
 
@@ -77,31 +77,31 @@ public class PPos implements VertxPojo, IPPos {
     }
 
     public PPos(
-        String        key,
-        String        name,
-        String        code,
-        String        type,
-        String        status,
-        String        whId,
-        Boolean       direct,
-        Long          capacity,
-        Long          capacityExceed,
-        String        limitType,
-        String        limitRule,
-        Integer       posRow,
-        Integer       posColumn,
-        Integer       posHeight,
-        String        posTags,
-        String        posTrace,
-        String        comment,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String type,
+        String status,
+        String whId,
+        Boolean direct,
+        Long capacity,
+        Long capacityExceed,
+        String limitType,
+        String limitRule,
+        Integer posRow,
+        Integer posColumn,
+        Integer posHeight,
+        String posTags,
+        String posTrace,
+        String comment,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -560,6 +560,200 @@ public class PPos implements VertxPojo, IPPos {
     public PPos setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PPos other = (PPos) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.whId == null) {
+            if (other.whId != null)
+                return false;
+        }
+        else if (!this.whId.equals(other.whId))
+            return false;
+        if (this.direct == null) {
+            if (other.direct != null)
+                return false;
+        }
+        else if (!this.direct.equals(other.direct))
+            return false;
+        if (this.capacity == null) {
+            if (other.capacity != null)
+                return false;
+        }
+        else if (!this.capacity.equals(other.capacity))
+            return false;
+        if (this.capacityExceed == null) {
+            if (other.capacityExceed != null)
+                return false;
+        }
+        else if (!this.capacityExceed.equals(other.capacityExceed))
+            return false;
+        if (this.limitType == null) {
+            if (other.limitType != null)
+                return false;
+        }
+        else if (!this.limitType.equals(other.limitType))
+            return false;
+        if (this.limitRule == null) {
+            if (other.limitRule != null)
+                return false;
+        }
+        else if (!this.limitRule.equals(other.limitRule))
+            return false;
+        if (this.posRow == null) {
+            if (other.posRow != null)
+                return false;
+        }
+        else if (!this.posRow.equals(other.posRow))
+            return false;
+        if (this.posColumn == null) {
+            if (other.posColumn != null)
+                return false;
+        }
+        else if (!this.posColumn.equals(other.posColumn))
+            return false;
+        if (this.posHeight == null) {
+            if (other.posHeight != null)
+                return false;
+        }
+        else if (!this.posHeight.equals(other.posHeight))
+            return false;
+        if (this.posTags == null) {
+            if (other.posTags != null)
+                return false;
+        }
+        else if (!this.posTags.equals(other.posTags))
+            return false;
+        if (this.posTrace == null) {
+            if (other.posTrace != null)
+                return false;
+        }
+        else if (!this.posTrace.equals(other.posTrace))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.whId == null) ? 0 : this.whId.hashCode());
+        result = prime * result + ((this.direct == null) ? 0 : this.direct.hashCode());
+        result = prime * result + ((this.capacity == null) ? 0 : this.capacity.hashCode());
+        result = prime * result + ((this.capacityExceed == null) ? 0 : this.capacityExceed.hashCode());
+        result = prime * result + ((this.limitType == null) ? 0 : this.limitType.hashCode());
+        result = prime * result + ((this.limitRule == null) ? 0 : this.limitRule.hashCode());
+        result = prime * result + ((this.posRow == null) ? 0 : this.posRow.hashCode());
+        result = prime * result + ((this.posColumn == null) ? 0 : this.posColumn.hashCode());
+        result = prime * result + ((this.posHeight == null) ? 0 : this.posHeight.hashCode());
+        result = prime * result + ((this.posTags == null) ? 0 : this.posTags.hashCode());
+        result = prime * result + ((this.posTrace == null) ? 0 : this.posTrace.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-erp</artifactId>
-    <name>Extension:「zero-erp」Er - Enterprise Resource</name>
+    <name>Extension: Er「zero-erp」Enterprise Resource</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -24,9 +24,10 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
+                    <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
                     <!-- 配置文件路径 -->
-                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
-                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <propertyFile>plugin/sql/erp.properties</propertyFile>
+                    <changeLogFile>plugin/sql/erp-complete.yml</changeLogFile>
                     <!-- 配置参数 -->
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                     <outputFileEncoding>UTF-8</outputFileEncoding>

@@ -3,9 +3,12 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
+import io.vertx.up.atom.query.Sorter;
+import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 import org.jooq.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,6 +42,9 @@ class ActionFetch extends AbstractAction {
 
     /* Future<T> */
     <T, ID> Future<T> fetchByIdAsync(final ID id) {
+        if (Objects.isNull(id)) {
+            return Ux.future();
+        }
         return ((Future<T>) this.dao().findOneById(id)).compose(queried -> {
             this.logging("[ Jq ] fetchByIdAsync(ID) by id: {1}, queried record: {0}", queried, id);
             return Future.succeededFuture(queried);
@@ -47,6 +53,9 @@ class ActionFetch extends AbstractAction {
 
     /* T */
     <T, ID> T fetchById(final ID id) {
+        if (Objects.isNull(id)) {
+            return null;
+        }
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(this.analyzer.conditionId(id));
         final T queried = (T) ((ResultQuery) selectStep).fetchOneInto(this.analyzer.type());
@@ -56,6 +65,13 @@ class ActionFetch extends AbstractAction {
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return Ux.futureL();
+        }
+        // Fix issue of in ()
+        if (value instanceof final Collection values && values.isEmpty()) {
+            return Ux.futureL();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<List<T>>) this.dao().findManyByCondition(condition)).compose(list -> {
             this.logging("[ Jq ] fetchAsync(String, Object) condition: \"{1}\", queried rows: {0}",
@@ -66,35 +82,61 @@ class ActionFetch extends AbstractAction {
 
     /* List<T> */
     <T> List<T> fetch(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return new ArrayList<>();
+        }
+        // Fix issue of in ()
+        if (value instanceof final Collection values && values.isEmpty()) {
+            return new ArrayList<>();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);
         final List<T> list = (List<T>) ((ResultQuery) selectStep).fetchInto(this.analyzer.type());
         this.logging("[ Jq ] fetch(String, Object) condition: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), condition);
-        return list;
+        // Fix issue: java.lang.NullPointerException: Cannot invoke "java.util.List.isEmpty()" because "qKeys" is null
+        return Optional.ofNullable(list).orElse(new ArrayList<>());
     }
 
     /* Future<List<T>> */
     <T> Future<List<T>> fetchAsync(final JsonObject criteria) {
-        return this.qr.<T>searchAsync(criteria).compose(list -> {
+        return this.qr.<T>searchAsync(criteria, null).compose(list -> {
             this.logging("[ Jq ] fetchAsync(JsonObject) condition json: \"{1}\", queried rows: {0}",
                 String.valueOf(list.size()), criteria);
             return Future.succeededFuture(list);
         });
     }
 
+    <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
+        return this.qr.<T>searchAsync(criteria, sorter).compose(list -> {
+            this.logging("[ Jq ] fetchAsync(JsonObject, Sorter) condition json: \"{1}\" and sorter: \"{2}\", queried rows: {0}",
+                String.valueOf(list.size()), criteria, sorter);
+            return Future.succeededFuture(list);
+        });
+    }
+
     /* List<T> */
     <T> List<T> fetch(final JsonObject criteria) {
-        final List<T> list = this.qr.search(criteria);
+        final List<T> list = this.qr.search(criteria, null);
         this.logging("[ Jq ] fetch(JsonObject) condition json: \"{1}\", queried rows: {0}",
             String.valueOf(list.size()), criteria);
+        return list;
+    }
+
+    <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
+        final List<T> list = this.qr.search(criteria, sorter);
+        this.logging("[ Jq ] fetch(JsonObject, Sorter) condition json: \"{1}\"  and sorter: \"{2}\", queried rows: {0}",
+            String.valueOf(list.size()), criteria, sorter);
         return list;
     }
 
 
     /* Future<T> */
     <T> Future<T> fetchOneAsync(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return Ux.future();
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         return ((Future<T>) this.dao().findOneByCondition(condition)).compose(queried -> {
             this.logging("[ Jq ] fetchOneAsync(String, Object) condition: \"{1}\", queried record: {0}", queried, condition);
@@ -104,6 +146,9 @@ class ActionFetch extends AbstractAction {
 
     /* T */
     <T> T fetchOne(final String field, final Object value) {
+        if (Objects.isNull(value) || Ut.isNil(field)) {
+            return null;
+        }
         final Condition condition = this.analyzer.conditionField(field, value);
         final SelectConditionStep selectStep = this.context().selectFrom(this.analyzer.table())
             .where(condition);

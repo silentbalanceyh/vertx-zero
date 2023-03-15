@@ -5,20 +5,22 @@ package io.vertx.up.eon;
  */
 public interface Orders {
     /**
-     * Monitor Order
+     * Cors Order
+     * Fix issue of frontend, this handler must be at first
+     * in the latest version for request preflight
      * 1,000,000
+     **/
+    int CORS = 1_000_000;
+    /**
+     * Monitor Order
+     * 1,100,000
      */
-    int MONITOR = 1_000_000;
+    int MONITOR = 1_100_000; // 1_000_000;
     /*
      * Time Out
-     * 1,050,000
+     * 1,150,000
      */
-    int TIMEOUT = 1_050_000;
-    /**
-     * Cors Order
-     * 1,100,000
-     **/
-    int CORS = 1_100_000;
+    int TIMEOUT = 1_150_000;
     /**
      * Cookie Order
      * 1,200,000
@@ -64,6 +66,10 @@ public interface Orders {
      * 5,000,000
      */
     int EVENT = 5_000_000;
+
+    int EVENT_USER = 5_100_000;
+
+    int SOCK = 5_200_000;
     /**
      * ( Default for dynamic routing )
      * 6,000,000

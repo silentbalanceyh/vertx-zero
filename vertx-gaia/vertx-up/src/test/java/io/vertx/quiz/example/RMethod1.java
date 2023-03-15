@@ -2,7 +2,7 @@ package io.vertx.quiz.example;
 
 import io.vertx.up.eon.Strings;
 
-import javax.ws.rs.GET;
+import jakarta.ws.rs.GET;
 
 public class RMethod1 {
     @GET

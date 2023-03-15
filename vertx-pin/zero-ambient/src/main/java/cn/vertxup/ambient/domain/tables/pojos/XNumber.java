@@ -20,28 +20,28 @@ public class XNumber implements VertxPojo, IXNumber {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        code;
-    private String        comment;
-    private Long          current;
-    private String        format;
-    private String        identifier;
-    private String        prefix;
-    private String        suffix;
-    private String        time;
-    private Integer       length;
-    private Integer       step;
-    private Boolean       decrement;
-    private String        appId;
-    private Boolean       renewal;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String code;
+    private String comment;
+    private Long current;
+    private String format;
+    private String identifier;
+    private String prefix;
+    private String suffix;
+    private String time;
+    private Integer length;
+    private Integer step;
+    private Boolean decrement;
+    private String appId;
+    private Boolean renewal;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XNumber() {}
 
@@ -71,28 +71,28 @@ public class XNumber implements VertxPojo, IXNumber {
     }
 
     public XNumber(
-        String        key,
-        String        code,
-        String        comment,
-        Long          current,
-        String        format,
-        String        identifier,
-        String        prefix,
-        String        suffix,
-        String        time,
-        Integer       length,
-        Integer       step,
-        Boolean       decrement,
-        String        appId,
-        Boolean       renewal,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String code,
+        String comment,
+        Long current,
+        String format,
+        String identifier,
+        String prefix,
+        String suffix,
+        String time,
+        Integer length,
+        Integer step,
+        Boolean decrement,
+        String appId,
+        Boolean renewal,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.code = code;
@@ -519,6 +519,179 @@ public class XNumber implements VertxPojo, IXNumber {
     public XNumber setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XNumber other = (XNumber) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.current == null) {
+            if (other.current != null)
+                return false;
+        }
+        else if (!this.current.equals(other.current))
+            return false;
+        if (this.format == null) {
+            if (other.format != null)
+                return false;
+        }
+        else if (!this.format.equals(other.format))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.prefix == null) {
+            if (other.prefix != null)
+                return false;
+        }
+        else if (!this.prefix.equals(other.prefix))
+            return false;
+        if (this.suffix == null) {
+            if (other.suffix != null)
+                return false;
+        }
+        else if (!this.suffix.equals(other.suffix))
+            return false;
+        if (this.time == null) {
+            if (other.time != null)
+                return false;
+        }
+        else if (!this.time.equals(other.time))
+            return false;
+        if (this.length == null) {
+            if (other.length != null)
+                return false;
+        }
+        else if (!this.length.equals(other.length))
+            return false;
+        if (this.step == null) {
+            if (other.step != null)
+                return false;
+        }
+        else if (!this.step.equals(other.step))
+            return false;
+        if (this.decrement == null) {
+            if (other.decrement != null)
+                return false;
+        }
+        else if (!this.decrement.equals(other.decrement))
+            return false;
+        if (this.appId == null) {
+            if (other.appId != null)
+                return false;
+        }
+        else if (!this.appId.equals(other.appId))
+            return false;
+        if (this.renewal == null) {
+            if (other.renewal != null)
+                return false;
+        }
+        else if (!this.renewal.equals(other.renewal))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.current == null) ? 0 : this.current.hashCode());
+        result = prime * result + ((this.format == null) ? 0 : this.format.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.prefix == null) ? 0 : this.prefix.hashCode());
+        result = prime * result + ((this.suffix == null) ? 0 : this.suffix.hashCode());
+        result = prime * result + ((this.time == null) ? 0 : this.time.hashCode());
+        result = prime * result + ((this.length == null) ? 0 : this.length.hashCode());
+        result = prime * result + ((this.step == null) ? 0 : this.step.hashCode());
+        result = prime * result + ((this.decrement == null) ? 0 : this.decrement.hashCode());
+        result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
+        result = prime * result + ((this.renewal == null) ? 0 : this.renewal.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

@@ -3,13 +3,14 @@ package io.vertx.tp.modular.reference;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.config.AoRule;
-import io.vertx.tp.atom.modeling.reference.RDao;
-import io.vertx.tp.atom.modeling.reference.RQuote;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Constants;
+import io.vertx.up.experiment.mixture.HRule;
+import io.vertx.up.experiment.reference.RDao;
+import io.vertx.up.experiment.reference.RQuote;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
@@ -61,7 +62,7 @@ class RaySource {
     }
 
 
-    private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<AoRule, JsonObject> supplier) {
+    private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<HRule, JsonObject> supplier) {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<Integer, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
@@ -74,7 +75,7 @@ class RaySource {
                             return dao.fetchByAsync(condition);
                         }));
             });
-            return Ux.thenCombine(futureMap).compose(queriedMap -> {
+            return Fn.combineM(futureMap).compose(queriedMap -> {
                 final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
                 queriedMap.forEach((hashCode, dataArray) -> {
                     fieldCodes.forEach((field, codeKey) -> {
@@ -88,7 +89,7 @@ class RaySource {
         });
     }
 
-    private ConcurrentMap<String, JsonArray> data(final Function<AoRule, JsonObject> supplier) {
+    private ConcurrentMap<String, JsonArray> data(final Function<HRule, JsonObject> supplier) {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
@@ -109,7 +110,7 @@ class RaySource {
     }
 
     private <T> T ready(
-        final Function<AoRule, JsonObject> supplier,
+        final Function<HRule, JsonObject> supplier,
         final BiFunction<ConcurrentMap<String, Integer>, ConcurrentMap<Integer, Kv<JsonObject, RDao>>, T> executor) {
         /*
          * 换一种算法

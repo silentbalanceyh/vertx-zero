@@ -23,10 +23,6 @@ public interface Addr {
     interface Menu {
 
         String BY_APP_ID = Prefix._EVENT + "X-MENU/APP-ID";
-
-        String MY_FETCH = Prefix._EVENT + "X-MENU/MY/FETCH";
-
-        String MY_SAVE = Prefix._EVENT + "X-MENU/MY/SAVE";
     }
 
     interface Init {
@@ -38,6 +34,8 @@ public interface Addr {
         String CONNECT = Prefix._EVENT + "X-CONNECT";
 
         String SOURCE = Prefix._EVENT + "X-SOURCE";
+
+        String NOTICE = Prefix._EVENT + "X-NOTICE";
     }
 
     interface File {

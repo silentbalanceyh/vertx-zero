@@ -1,12 +1,11 @@
 package io.vertx.tp.rbac.refine;
 
-import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
-import cn.vertxup.rbac.domain.tables.pojos.SResource;
-import io.vertx.core.CompositeFuture;
+import cn.vertxup.rbac.domain.tables.pojos.*;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.log.Annal;
 
@@ -42,8 +41,18 @@ public class Sc {
         ScLog.infoResource(logger, pattern, args);
     }
 
+    public static void infoResource(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        ScLog.infoResource(logger, pattern, args);
+    }
+
     public static void debugCredit(final Annal logger, final String pattern, final Object... args) {
         ScLog.debugCredit(logger, pattern, args);
+    }
+
+    public static void infoAuth(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoAuth(LOGGER, pattern, args);
     }
 
     public static void infoWeb(final Class<?> clazz, final String pattern, final Object... args) {
@@ -61,6 +70,16 @@ public class Sc {
         ScLog.infoView(LOGGER, pattern, args);
     }
 
+    public static void infoVisit(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.infoVisit(LOGGER, pattern, args);
+    }
+
+    public static void warnView(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal LOGGER = Annal.get(clazz);
+        ScLog.warnView(LOGGER, pattern, args);
+    }
+
     /*
      * cache information
      * 1. Code: Authorization Code Cache Pool
@@ -68,12 +87,25 @@ public class Sc {
      *    - put data into code cache
      */
     public static <V> Future<V> cacheCode(final String key) {
-        return ScTool.code(key);
+        return ScCache.code(key);
     }
 
     public static <V> Future<V> cacheCode(final String key, final V value) {
-        return ScTool.code(key, value);
+        return ScCache.code(key, value);
     }
+
+    public static Future<JsonObject> cachePath(final SPath path, final Function<SPath, Future<JsonObject>> executor) {
+        return ScCache.admitPath(path, executor, "PATH");
+    }
+
+    public static Future<List<SPacket>> cachePocket(final SPath path, final Function<SPath, Future<List<SPacket>>> executor) {
+        return ScCache.admitPath(path, executor, "POCKET");
+    }
+
+    public static Future<JsonObject> cacheView(final RoutingContext context, final String habitus) {
+        return ScCache.view(context, habitus);
+    }
+
 
     /*
      * Business logical
@@ -83,15 +115,27 @@ public class Sc {
      * - codePool
      */
     public static String valueCode() {
-        return ScTool.valueCode();
+        return ScCache.valueCode();
     }
 
     public static String valuePassword() {
-        return ScTool.valuePassword();
+        return ScCache.valuePassword();
     }
 
     public static String valueProfile(final SResource resource) {
-        return ScTool.valueProfile(resource);
+        return ScCache.valueProfile(resource);
+    }
+
+    public static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
+        return ScCache.valueAuth(user, inputJ);
+    }
+
+    public static Future<List<OUser>> valueAuth(final List<SUser> users) {
+        return ScCache.valueAuth(users);
+    }
+
+    public static Future<List<SUser>> valueAuth(final JsonArray userA, final String sigma) {
+        return ScCache.valueAuth(userA, sigma);
     }
 
     /*
@@ -101,32 +145,32 @@ public class Sc {
      * - lockVerify, when before login, verify the specification first
      */
     public static Future<JsonObject> lockVerify(final String username, final Supplier<Future<JsonObject>> executor) {
-        return ScTool.lockVerify(username, executor);
+        return ScCache.lockVerify(username, executor);
     }
 
     public static Future<Integer> lockOn(final String username) {
-        return ScTool.lockOn(username);
+        return ScCache.lockOn(username);
     }
 
     public static Future<Integer> lockOff(final String username) {
-        return ScTool.lockOff(username);
+        return ScCache.lockOff(username);
     }
 
     /*
      * Image Part
      */
     public static Future<Buffer> imageOn(final String sessionId, final int width, final int height) {
-        return ScTool.imageOn(sessionId, width, height);
+        return ScCache.imageOn(sessionId, width, height);
     }
 
     public static <T> Future<T> imageVerify(final String sessionId,
                                             final JsonObject params,
                                             final Function<JsonObject, Future<T>> executor) {
-        return ScTool.imageVerify(sessionId, params, executor);
+        return ScCache.imageVerify(sessionId, params, executor);
     }
 
     public static Future<Boolean> imageOff(final String sessionId) {
-        return ScTool.imageKo(sessionId);
+        return ScCache.imageKo(sessionId);
     }
 
     /*
@@ -149,22 +193,6 @@ public class Sc {
 
     public static OAccessToken jwtToken(final JsonObject jwt, final String userKey) {
         return ScToken.jwtToken(jwt, userKey);
-    }
-
-    /*
-     * Relation query based on input parameters
-     * JqTool `R_X_Y` Where `field = key` ( field belong to X )
-     *
-     * 1) R_USER_ROLE: JqTool roles based on user's key
-     * 2) R_GROUP_ROLE: JqTool roles based on group's key
-     * 3) R_USER_GROUP: JqTool groups based on user's key
-     */
-    public static <T> Future<JsonArray> relation(final String field, final String key, final Class<?> daoCls) {
-        return ScFn.<T>relation(field, key, daoCls);
-    }
-
-    public static <T> Future<List<T>> composite(final CompositeFuture res) {
-        return ScFn.composite(res);
     }
 
     /*

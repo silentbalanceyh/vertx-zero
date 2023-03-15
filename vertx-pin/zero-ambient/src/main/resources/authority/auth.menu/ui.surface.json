@@ -1,0 +1,22 @@
+{
+    "webComponent": "HxSite",
+    "webBind": {
+        "HxSite": "res.menu.read"
+    },
+    "webTree": {
+        "parent": "parentId",
+        "title": "text",
+        "text": "text",
+        "value": "name",
+        "sort": "order"
+    },
+    "webData": {
+        "paramView": {
+            "view": "DEFAULT",
+            "position": "DEFAULT"
+        },
+        "paramDefault": "ALL",
+        "initializer": "IN_H",
+        "requester": "OUT_H"
+    }
+}

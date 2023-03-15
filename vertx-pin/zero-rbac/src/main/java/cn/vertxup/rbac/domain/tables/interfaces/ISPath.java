@@ -48,62 +48,108 @@ public interface ISPath extends VertxPojo, Serializable {
     public String getCode();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_MAPPING</code>. 「mapping」- 从
-     * group -&gt; ui 转换
+     * Setter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
      */
-    public ISPath setGroupMapping(String value);
+    public ISPath setPhase(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_MAPPING</code>. 「mapping」- 从
-     * group -&gt; ui 转换
+     * Getter for <code>DB_ETERNAL.S_PATH.PHASE</code>. 「phase」- UI读取数据的操作周期
      */
-    public String getGroupMapping();
+    public String getPhase();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_TYPE</code>. 「groupType」- 分组类型
+     * Setter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
+     * ui 转换
      */
-    public ISPath setGroupType(String value);
+    public ISPath setMapping(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_TYPE</code>. 「groupType」- 分组类型
+     * Getter for <code>DB_ETERNAL.S_PATH.MAPPING</code>. 「mapping」- 从 dm -&gt;
+     * ui 转换
      */
-    public String getGroupType();
+    public String getMapping();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>.
-     * 「groupComponent」- 必须绑定组专用Dao组件
+     * Setter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
      */
-    public ISPath setGroupComponent(String value);
+    public ISPath setParentId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_COMPONENT</code>.
-     * 「groupComponent」- 必须绑定组专用Dao组件
+     * Getter for <code>DB_ETERNAL.S_PATH.PARENT_ID</code>. 「parentId」-
+     * 区域模式下的父ID，系统内部读取
      */
-    public String getGroupComponent();
+    public String getParentId();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>.
-     * 「groupCondition」- 分组条件
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
+     * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
-    public ISPath setGroupCondition(String value);
+    public ISPath setRunComponent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_CONDITION</code>.
-     * 「groupCondition」- 分组条件
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_COMPONENT</code>. 「runComponent」-
+     * HValve执行组件，组件内置处理 dm / ui 两部分内容
      */
-    public String getGroupCondition();
+    public String getRunComponent();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.GROUP_CONFIG</code>. 「groupConfig」-
+     * Setter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
+     */
+    public ISPath setRunType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.RUN_TYPE</code>. 「runType」-
+     * 视图管理类型（查询用）
+     */
+    public String getRunType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
+     */
+    public ISPath setDmType(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_TYPE</code>. 「dmType」- 分组类型
+     */
+    public String getDmType();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_COMPONENT</code>. 「dmComponent」-
+     * 必须绑定组专用Dao组件
+     */
+    public ISPath setDmComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_COMPONENT</code>. 「dmComponent」-
+     * 必须绑定组专用Dao组件
+     */
+    public String getDmComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_CONDITION</code>. 「dmCondition」-
+     * 分组条件
+     */
+    public ISPath setDmCondition(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_CONDITION</code>. 「dmCondition」-
+     * 分组条件
+     */
+    public String getDmCondition();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.DM_CONFIG</code>. 「dmConfig」-
      * 组配置信息，配置呈现部分
      */
-    public ISPath setGroupConfig(String value);
+    public ISPath setDmConfig(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.GROUP_CONFIG</code>. 「groupConfig」-
+     * Getter for <code>DB_ETERNAL.S_PATH.DM_CONFIG</code>. 「dmConfig」-
      * 组配置信息，配置呈现部分
      */
-    public String getGroupConfig();
+    public String getDmConfig();
 
     /**
      * Setter for <code>DB_ETERNAL.S_PATH.UI_TYPE</code>. 「uiType」- 目标数据源类型
@@ -138,16 +184,38 @@ public interface ISPath extends VertxPojo, Serializable {
     public String getUiCondition();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」- 在
-     * DAO/OX/DEF 时的特殊组件
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」-
+     * 特殊组件
      */
     public ISPath setUiComponent(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」- 在
-     * DAO/OX/DEF 时的特殊组件
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_COMPONENT</code>. 「uiComponent」-
+     * 特殊组件
      */
     public String getUiComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_SURFACE</code>. 「uiSurface」-
+     * 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）
+     */
+    public ISPath setUiSurface(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_SURFACE</code>. 「uiSurface」-
+     * 界面呈现模式，已经被降维之后（列表、树、其他等相关配置）
+     */
+    public String getUiSurface();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_PATH.UI_SORT</code>. 「sort」- 该板块的排序（前端）
+     */
+    public ISPath setUiSort(Integer value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_PATH.UI_SORT</code>. 「sort」- 该板块的排序（前端）
+     */
+    public Integer getUiSort();
 
     /**
      * Setter for <code>DB_ETERNAL.S_PATH.SIGMA</code>. 「sigma」- 统一标识
@@ -250,15 +318,21 @@ public interface ISPath extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
-                setOrThrow(this::setGroupMapping,json::getString,"GROUP_MAPPING","java.lang.String");
-                setOrThrow(this::setGroupType,json::getString,"GROUP_TYPE","java.lang.String");
-                setOrThrow(this::setGroupComponent,json::getString,"GROUP_COMPONENT","java.lang.String");
-                setOrThrow(this::setGroupCondition,json::getString,"GROUP_CONDITION","java.lang.String");
-                setOrThrow(this::setGroupConfig,json::getString,"GROUP_CONFIG","java.lang.String");
+                setOrThrow(this::setPhase,json::getString,"PHASE","java.lang.String");
+                setOrThrow(this::setMapping,json::getString,"MAPPING","java.lang.String");
+                setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setRunComponent,json::getString,"RUN_COMPONENT","java.lang.String");
+                setOrThrow(this::setRunType,json::getString,"RUN_TYPE","java.lang.String");
+                setOrThrow(this::setDmType,json::getString,"DM_TYPE","java.lang.String");
+                setOrThrow(this::setDmComponent,json::getString,"DM_COMPONENT","java.lang.String");
+                setOrThrow(this::setDmCondition,json::getString,"DM_CONDITION","java.lang.String");
+                setOrThrow(this::setDmConfig,json::getString,"DM_CONFIG","java.lang.String");
                 setOrThrow(this::setUiType,json::getString,"UI_TYPE","java.lang.String");
                 setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
                 setOrThrow(this::setUiCondition,json::getString,"UI_CONDITION","java.lang.String");
                 setOrThrow(this::setUiComponent,json::getString,"UI_COMPONENT","java.lang.String");
+                setOrThrow(this::setUiSurface,json::getString,"UI_SURFACE","java.lang.String");
+                setOrThrow(this::setUiSort,json::getInteger,"UI_SORT","java.lang.Integer");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setLanguage,json::getString,"LANGUAGE","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -277,15 +351,21 @@ public interface ISPath extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
-                json.put("GROUP_MAPPING",getGroupMapping());
-                json.put("GROUP_TYPE",getGroupType());
-                json.put("GROUP_COMPONENT",getGroupComponent());
-                json.put("GROUP_CONDITION",getGroupCondition());
-                json.put("GROUP_CONFIG",getGroupConfig());
+                json.put("PHASE",getPhase());
+                json.put("MAPPING",getMapping());
+                json.put("PARENT_ID",getParentId());
+                json.put("RUN_COMPONENT",getRunComponent());
+                json.put("RUN_TYPE",getRunType());
+                json.put("DM_TYPE",getDmType());
+                json.put("DM_COMPONENT",getDmComponent());
+                json.put("DM_CONDITION",getDmCondition());
+                json.put("DM_CONFIG",getDmConfig());
                 json.put("UI_TYPE",getUiType());
                 json.put("UI_CONFIG",getUiConfig());
                 json.put("UI_CONDITION",getUiCondition());
                 json.put("UI_COMPONENT",getUiComponent());
+                json.put("UI_SURFACE",getUiSurface());
+                json.put("UI_SORT",getUiSort());
                 json.put("SIGMA",getSigma());
                 json.put("LANGUAGE",getLanguage());
                 json.put("ACTIVE",getActive());

@@ -49,7 +49,11 @@ public interface Annal {
 }
 
 class CommonAnnal implements Annal {
-
+    /*
+     * LoggerFactory.getLogger
+     * Default implementation for Logger here, the logger of zero framework is
+     * logback instead of log4j / log4j2, this is common usage.
+     */
     private static final Logger RECORD = LoggerFactory.getLogger(CommonAnnal.class);
     private static final Set<Class<?>> OUTED = new ConcurrentHashSet<>();
 

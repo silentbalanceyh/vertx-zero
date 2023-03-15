@@ -27,7 +27,7 @@ public class ECompanyDao extends AbstractVertxDAO<ECompanyRecord, cn.vertxup.erp
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public ECompanyDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(ECompany.E_COMPANY, cn.vertxup.erp.domain.tables.pojos.ECompany.class, new JDBCClassicQueryExecutor<ECompanyRecord,cn.vertxup.erp.domain.tables.pojos.ECompany,String>(configuration,cn.vertxup.erp.domain.tables.pojos.ECompany.class,vertx));

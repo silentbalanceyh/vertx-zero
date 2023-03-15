@@ -27,7 +27,7 @@ public class MAccDao extends AbstractVertxDAO<MAccRecord, cn.vertxup.atom.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MAccDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MAcc.M_ACC, cn.vertxup.atom.domain.tables.pojos.MAcc.class, new JDBCClassicQueryExecutor<MAccRecord,cn.vertxup.atom.domain.tables.pojos.MAcc,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MAcc.class,vertx));

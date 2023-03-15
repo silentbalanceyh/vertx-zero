@@ -238,8 +238,8 @@ public interface IPCommodityHis extends VertxPojo, Serializable {
                 setOrThrow(this::setCommodityId,json::getString,"COMMODITY_ID","java.lang.String");
                 setOrThrow(this::setNumFrom,json::getInteger,"NUM_FROM","java.lang.Integer");
                 setOrThrow(this::setNumTo,json::getInteger,"NUM_TO","java.lang.Integer");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_FROM!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TO!
+                setOrThrow(this::setAmountFrom,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_FROM","java.math.BigDecimal");
+                setOrThrow(this::setAmountTo,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_TO","java.math.BigDecimal");
                 setOrThrow(this::setItemId,json::getString,"ITEM_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -262,8 +262,8 @@ public interface IPCommodityHis extends VertxPojo, Serializable {
                 json.put("COMMODITY_ID",getCommodityId());
                 json.put("NUM_FROM",getNumFrom());
                 json.put("NUM_TO",getNumTo());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_FROM!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TO!
+                json.put("AMOUNT_FROM",getAmountFrom()==null?null:getAmountFrom().toString());
+                json.put("AMOUNT_TO",getAmountTo()==null?null:getAmountTo().toString());
                 json.put("ITEM_ID",getItemId());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

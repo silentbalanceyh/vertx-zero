@@ -160,6 +160,18 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getParentId();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    public IWTodo setSerialFork(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    public String getSerialFork();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -184,40 +196,28 @@ public interface IWTodo extends VertxPojo, Serializable {
     public Integer getTraceOrder();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
     public IWTodo setTaskId(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
     public String getTaskId();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
      * 和待办绑定的taskKey
      */
     public IWTodo setTaskKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
      * 和待办绑定的taskKey
      */
     public String getTaskKey();
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    public IWTodo setActivityId(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    public String getActivityId();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.COMMENT</code>. 「comment」- 待办描述
@@ -276,16 +276,6 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getToGroup();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    public IWTodo setToDept(String value);
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    public String getToDept();
-
-    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
      */
     public IWTodo setToTeam(String value);
@@ -294,6 +284,16 @@ public interface IWTodo extends VertxPojo, Serializable {
      * Getter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
      */
     public String getToTeam();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    public IWTodo setToRole(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    public String getToRole();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.TO_USER</code>. 「toUser」- 待办指定人
@@ -306,14 +306,36 @@ public interface IWTodo extends VertxPojo, Serializable {
     public String getToUser();
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
-    public IWTodo setToRole(String value);
+    public IWTodo setToDept(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
-    public String getToRole();
+    public String getToDept();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    public IWTodo setEscalate(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    public Boolean getEscalate();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    public IWTodo setEscalateData(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    public String getEscalateData();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.ASSIGNED_BY</code>. 「assignedBy」-
@@ -348,6 +370,18 @@ public interface IWTodo extends VertxPojo, Serializable {
      * 待办接收人
      */
     public String getAcceptedBy();
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public IWTodo setAcceptedGroup(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    public String getAcceptedGroup();
 
     /**
      * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_AT</code>. 「acceptedAt」- 接收时间
@@ -492,23 +526,26 @@ public interface IWTodo extends VertxPojo, Serializable {
                 setOrThrow(this::setModelKey,json::getString,"MODEL_KEY","java.lang.String");
                 setOrThrow(this::setModelCategory,json::getString,"MODEL_CATEGORY","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
+                setOrThrow(this::setSerialFork,json::getString,"SERIAL_FORK","java.lang.String");
                 setOrThrow(this::setTraceId,json::getString,"TRACE_ID","java.lang.String");
                 setOrThrow(this::setTraceOrder,json::getInteger,"TRACE_ORDER","java.lang.Integer");
                 setOrThrow(this::setTaskId,json::getString,"TASK_ID","java.lang.String");
                 setOrThrow(this::setTaskKey,json::getString,"TASK_KEY","java.lang.String");
-                setOrThrow(this::setActivityId,json::getString,"ACTIVITY_ID","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setCommentApproval,json::getString,"COMMENT_APPROVAL","java.lang.String");
                 setOrThrow(this::setCommentReject,json::getString,"COMMENT_REJECT","java.lang.String");
                 setOrThrow(this::setToLocation,json::getString,"TO_LOCATION","java.lang.String");
                 setOrThrow(this::setToGroup,json::getString,"TO_GROUP","java.lang.String");
-                setOrThrow(this::setToDept,json::getString,"TO_DEPT","java.lang.String");
                 setOrThrow(this::setToTeam,json::getString,"TO_TEAM","java.lang.String");
-                setOrThrow(this::setToUser,json::getString,"TO_USER","java.lang.String");
                 setOrThrow(this::setToRole,json::getString,"TO_ROLE","java.lang.String");
+                setOrThrow(this::setToUser,json::getString,"TO_USER","java.lang.String");
+                setOrThrow(this::setToDept,json::getString,"TO_DEPT","java.lang.String");
+                setOrThrow(this::setEscalate,json::getBoolean,"ESCALATE","java.lang.Boolean");
+                setOrThrow(this::setEscalateData,json::getString,"ESCALATE_DATA","java.lang.String");
                 setOrThrow(this::setAssignedBy,json::getString,"ASSIGNED_BY","java.lang.String");
                 setOrThrow(this::setAssignedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ASSIGNED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setAcceptedBy,json::getString,"ACCEPTED_BY","java.lang.String");
+                setOrThrow(this::setAcceptedGroup,json::getString,"ACCEPTED_GROUP","java.lang.String");
                 setOrThrow(this::setAcceptedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ACCEPTED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setFinishedBy,json::getString,"FINISHED_BY","java.lang.String");
                 setOrThrow(this::setFinishedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"FINISHED_AT","java.time.LocalDateTime");
@@ -540,23 +577,26 @@ public interface IWTodo extends VertxPojo, Serializable {
                 json.put("MODEL_KEY",getModelKey());
                 json.put("MODEL_CATEGORY",getModelCategory());
                 json.put("PARENT_ID",getParentId());
+                json.put("SERIAL_FORK",getSerialFork());
                 json.put("TRACE_ID",getTraceId());
                 json.put("TRACE_ORDER",getTraceOrder());
                 json.put("TASK_ID",getTaskId());
                 json.put("TASK_KEY",getTaskKey());
-                json.put("ACTIVITY_ID",getActivityId());
                 json.put("COMMENT",getComment());
                 json.put("COMMENT_APPROVAL",getCommentApproval());
                 json.put("COMMENT_REJECT",getCommentReject());
                 json.put("TO_LOCATION",getToLocation());
                 json.put("TO_GROUP",getToGroup());
-                json.put("TO_DEPT",getToDept());
                 json.put("TO_TEAM",getToTeam());
-                json.put("TO_USER",getToUser());
                 json.put("TO_ROLE",getToRole());
+                json.put("TO_USER",getToUser());
+                json.put("TO_DEPT",getToDept());
+                json.put("ESCALATE",getEscalate());
+                json.put("ESCALATE_DATA",getEscalateData());
                 json.put("ASSIGNED_BY",getAssignedBy());
                 json.put("ASSIGNED_AT",getAssignedAt()==null?null:getAssignedAt().toString());
                 json.put("ACCEPTED_BY",getAcceptedBy());
+                json.put("ACCEPTED_GROUP",getAcceptedGroup());
                 json.put("ACCEPTED_AT",getAcceptedAt()==null?null:getAcceptedAt().toString());
                 json.put("FINISHED_BY",getFinishedBy());
                 json.put("FINISHED_AT",getFinishedAt()==null?null:getFinishedAt().toString());

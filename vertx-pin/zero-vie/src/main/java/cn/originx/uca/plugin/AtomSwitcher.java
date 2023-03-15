@@ -4,13 +4,14 @@ import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
 import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
-import io.vertx.up.commune.rule.RuleUnique;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -85,13 +86,13 @@ public class AtomSwitcher implements Switcher {
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " Identifier 选择器：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
-            return this.indent.resolve(input, config).compose(Ut.ifNil(
+            return this.indent.resolve(input, config).compose(Fn.ifNil(
 
                 /* 默认值，配置优先 */
                 () -> defaultAtom,
 
                 /* 动态驱动成功 */
-                switched -> this.atom(switched, defaultAtom.ruleDirect())
+                switched -> this.atom(switched, defaultAtom.rule())
             ));
         }
     }
@@ -114,12 +115,12 @@ public class AtomSwitcher implements Switcher {
             input.put(KName.DATA, data);
             Ox.Log.debugUca(this.getClass(), " Identifier 选择器（批量）：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
-            return this.indent.resolve(input, atom.identifier(), config).compose(Ut.ifNil(
+            return this.indent.resolve(input, atom.identifier(), config).compose(Fn.ifNil(
                 /* 默认值，配置优先 */
                 HashSet::new,
 
                 /* 动态驱动 */
-                switched -> this.atom(switched, atom.ruleDirect())
+                switched -> this.atom(switched, atom.rule())
             ));
         }
     }
@@ -138,7 +139,7 @@ public class AtomSwitcher implements Switcher {
             if (Objects.isNull(found)) {
                 found = unique;
             }
-            return atom.ruleConnect(found);
+            return atom.rule(found);
         }
     }
 

@@ -628,14 +628,14 @@ public interface IEAsset extends VertxPojo, Serializable {
                 setOrThrow(this::setUsedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"USED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setUsedBy,json::getString,"USED_BY","java.lang.String");
                 setOrThrow(this::setUsedStatus,json::getString,"USED_STATUS","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column V_ORIGINAL!
-                // Omitting unrecognized type java.math.BigDecimal for column V_TAX!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DE_READY!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET_JUNK!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DEPRECATED_M!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DEPRECATED_A!
+                setOrThrow(this::setVOriginal,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_ORIGINAL","java.math.BigDecimal");
+                setOrThrow(this::setVTax,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_TAX","java.math.BigDecimal");
+                setOrThrow(this::setVDeReady,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_DE_READY","java.math.BigDecimal");
+                setOrThrow(this::setVNetJunk,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_NET_JUNK","java.math.BigDecimal");
+                setOrThrow(this::setVNet,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_NET","java.math.BigDecimal");
+                setOrThrow(this::setVNetAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_NET_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setVDeprecatedM,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_DEPRECATED_M","java.math.BigDecimal");
+                setOrThrow(this::setVDeprecatedA,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"V_DEPRECATED_A","java.math.BigDecimal");
                 setOrThrow(this::setKFixed,json::getString,"K_FIXED","java.lang.String");
                 setOrThrow(this::setKDeprecated,json::getString,"K_DEPRECATED","java.lang.String");
                 setOrThrow(this::setKAssignment,json::getString,"K_ASSIGNMENT","java.lang.String");
@@ -690,14 +690,14 @@ public interface IEAsset extends VertxPojo, Serializable {
                 json.put("USED_AT",getUsedAt()==null?null:getUsedAt().toString());
                 json.put("USED_BY",getUsedBy());
                 json.put("USED_STATUS",getUsedStatus());
-                // Omitting unrecognized type java.math.BigDecimal for column V_ORIGINAL!
-                // Omitting unrecognized type java.math.BigDecimal for column V_TAX!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DE_READY!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET_JUNK!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET!
-                // Omitting unrecognized type java.math.BigDecimal for column V_NET_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DEPRECATED_M!
-                // Omitting unrecognized type java.math.BigDecimal for column V_DEPRECATED_A!
+                json.put("V_ORIGINAL",getVOriginal()==null?null:getVOriginal().toString());
+                json.put("V_TAX",getVTax()==null?null:getVTax().toString());
+                json.put("V_DE_READY",getVDeReady()==null?null:getVDeReady().toString());
+                json.put("V_NET_JUNK",getVNetJunk()==null?null:getVNetJunk().toString());
+                json.put("V_NET",getVNet()==null?null:getVNet().toString());
+                json.put("V_NET_AMOUNT",getVNetAmount()==null?null:getVNetAmount().toString());
+                json.put("V_DEPRECATED_M",getVDeprecatedM()==null?null:getVDeprecatedM().toString());
+                json.put("V_DEPRECATED_A",getVDeprecatedA()==null?null:getVDeprecatedA().toString());
                 json.put("K_FIXED",getKFixed());
                 json.put("K_DEPRECATED",getKDeprecated());
                 json.put("K_ASSIGNMENT",getKAssignment());

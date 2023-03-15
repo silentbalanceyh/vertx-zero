@@ -26,6 +26,6 @@ interface Info {
 
     String ATP_MSG = "The arguments could not be both null to build `io.vertx.up.atom.record.Apt`";
 
-    String POOL_KEY_MSG = "The input key of `Pool` is null, it''s conflict in current environment";
+    String CACHE_KEY_MSG = "The input key of `Pool` is null, it''s conflict in current environment";
 
 }

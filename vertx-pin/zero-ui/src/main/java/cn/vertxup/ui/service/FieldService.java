@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -46,7 +47,7 @@ public class FieldService implements FieldStub {
             // filter(deduplicate) by name
             .filter(item -> (!item.containsKey(KName.NAME)) ||
                 (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
-            .map(item -> Ut.ifString(item,
+            .map(item -> Fn.ifString(item,
                 FieldStub.OPTION_JSX,
                 FieldStub.OPTION_CONFIG,
                 FieldStub.OPTION_ITEM,
@@ -62,7 +63,7 @@ public class FieldService implements FieldStub {
                 .insertAsync(fields)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(Ut.ifJArray(
+                .compose(Fn.ifJArray(
                     FieldStub.OPTION_JSX,
                     FieldStub.OPTION_CONFIG,
                     FieldStub.OPTION_ITEM,
@@ -94,7 +95,7 @@ public class FieldService implements FieldStub {
             final List<JsonObject> row = Ut.itJArray(fieldJson)
                 .filter(item -> current.equals(item.getInteger("yPoint")))
                 .sorted(Comparator.comparing(item -> item.getInteger("xPoint")))
-                .collect(Collectors.toList());
+                .toList();
             /*
              * Calculate columns
              */
@@ -114,12 +115,12 @@ public class FieldService implements FieldStub {
                     // Container type will be mapped to name field here
                     dataCell.put(KName.NAME, cell.getValue("container"));
                     // optionJsx -> config
-                    Ut.ifJObject(cell, FieldStub.OPTION_JSX);
+                    Fn.ifJObject(cell, FieldStub.OPTION_JSX);
                     if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
                         dataCell.put(KName.Ui.CONFIG, cell.getValue(FieldStub.OPTION_JSX));
                     }
                 } else {
-                    Ut.ifJObject(cell,
+                    Fn.ifJObject(cell,
                         FieldStub.OPTION_JSX,
                         FieldStub.OPTION_CONFIG,
                         FieldStub.OPTION_ITEM,

@@ -4,9 +4,8 @@ import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.feature.Attachment;
-import io.vertx.tp.workflow.atom.WRecord;
+import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -38,9 +37,10 @@ public class RespectFile extends AbstractRespect {
 
         final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
         condition.put("key,!i", keys);
-        return Ke.channelAsync(Attachment.class, Ux::futureA, file ->
-            // Attachment Removing / Create
-            file.removeAsync(condition).compose(deleted -> file.uploadAsync(dataArray)));
+        return Ux.channelA(Attachment.class, Ux::futureA, file ->
+            file.saveAsync(condition, dataArray, params));
+        // Attachment Removing / Create
+        // file.removeAsync(condition).compose(deleted -> file.uploadAsync(dataArray, params))
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RespectFile extends AbstractRespect {
         final WTicket ticket = record.ticket();
         final JsonObject condition = this.queryTpl(ticket);
         condition.put(KName.MODEL_KEY, ticket.getKey());
-        return Ke.channelAsync(Attachment.class, Ux::futureA, link -> link.fetchAsync(condition));
+        return Ux.channelA(Attachment.class, Ux::futureA, link -> link.fetchAsync(condition));
     }
 
     /*

@@ -33,7 +33,7 @@ package up.god.micro.params;
 
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.ArrayList;

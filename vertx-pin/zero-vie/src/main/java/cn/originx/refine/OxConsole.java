@@ -1,7 +1,7 @@
 package cn.originx.refine;
 
 import io.vertx.core.Future;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.shell.refine.Sl;
@@ -50,7 +50,7 @@ final class OxConsole {
             client.deleteIndex(identifier);
             client.createIndex(identifier, atom.type());
         } catch (final Throwable ex) {
-            if(Debugger.onStackTracing()){
+            if (Debugger.devJvmStack()) {
                 ex.printStackTrace();
             }
             Sl.failWarn("当前索引不存在：identifier = {0}, details", identifier, ex.getMessage());

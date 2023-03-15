@@ -27,7 +27,7 @@ public class MJoinDao extends AbstractVertxDAO<MJoinRecord, cn.vertxup.atom.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MJoinDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MJoin.M_JOIN, cn.vertxup.atom.domain.tables.pojos.MJoin.class, new JDBCClassicQueryExecutor<MJoinRecord,cn.vertxup.atom.domain.tables.pojos.MJoin,Record4<String, String, String, String>>(configuration,cn.vertxup.atom.domain.tables.pojos.MJoin.class,vertx));

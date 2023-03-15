@@ -16,6 +16,7 @@ CREATE TABLE `E_EMPLOYEE`
     `DEPT_ID`        VARCHAR(36) COMMENT '「deptId」- 所属部门',
     `TEAM_ID`        VARCHAR(36) COMMENT '「teamId」- 所属组',
     `IDENTITY_ID`    VARCHAR(36) COMMENT '「identityId」- 关联档案',
+
     -- 二级姓名/手机/邮箱
     -- 和账号关联时，则直接使用账号中的三个值
     -- 和账号不关联时，则使用当前员工表中的该值
@@ -38,6 +39,7 @@ CREATE TABLE `E_EMPLOYEE`
     -- 特殊字段
     `TYPE`           VARCHAR(36) COMMENT '「type」- 员工分类',
     `STATUS`         VARCHAR(36) COMMENT '「status」- 员工状态',
+
     `METADATA`       TEXT COMMENT '「metadata」- 附加配置',
     `ACTIVE`         BIT         DEFAULT NULL COMMENT '「active」- 是否启用',
     `SIGMA`          VARCHAR(32) DEFAULT NULL COMMENT '「sigma」- 统一标识（公司所属应用）',

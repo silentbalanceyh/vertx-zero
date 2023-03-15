@@ -27,7 +27,7 @@ public class XTabularDao extends AbstractVertxDAO<XTabularRecord, cn.vertxup.amb
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XTabularDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XTabular.X_TABULAR, cn.vertxup.ambient.domain.tables.pojos.XTabular.class, new JDBCClassicQueryExecutor<XTabularRecord,cn.vertxup.ambient.domain.tables.pojos.XTabular,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XTabular.class,vertx));

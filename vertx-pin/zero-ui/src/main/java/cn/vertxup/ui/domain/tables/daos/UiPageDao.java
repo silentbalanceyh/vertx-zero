@@ -27,7 +27,7 @@ public class UiPageDao extends AbstractVertxDAO<UiPageRecord, cn.vertxup.ui.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiPageDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiPage.UI_PAGE, cn.vertxup.ui.domain.tables.pojos.UiPage.class, new JDBCClassicQueryExecutor<UiPageRecord,cn.vertxup.ui.domain.tables.pojos.UiPage,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiPage.class,vertx));

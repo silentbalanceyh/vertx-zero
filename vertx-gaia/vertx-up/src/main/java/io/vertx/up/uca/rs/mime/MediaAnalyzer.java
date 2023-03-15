@@ -7,21 +7,19 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.parse.EpsilonIncome;
 import io.vertx.up.uca.rs.mime.parse.Income;
 import io.vertx.up.util.Ut;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class MediaAnalyzer implements Analyzer {
 
     private static final Annal LOGGER = Annal.get(MediaAnalyzer.class);
-
-    private static final ConcurrentMap<String, Income<List<Epsilon<Object>>>> POOL_EPSILON = new ConcurrentHashMap<>();
+    private static final Cc<String, Income<List<Epsilon<Object>>>> CC_EPSILON = Cc.openThread();
 
     @Override
     public Object[] in(final RoutingContext context,
@@ -32,7 +30,7 @@ public class MediaAnalyzer implements Analyzer {
         MediaAtom.accept(event, requestMedia);
 
         /* Extract definition from method **/
-        final Income<List<Epsilon<Object>>> income = Fn.poolThread(POOL_EPSILON, EpsilonIncome::new);
+        final Income<List<Epsilon<Object>>> income = CC_EPSILON.pick(EpsilonIncome::new); // Fn.po?lThread(POOL_EPSILON, EpsilonIncome::new);
         final List<Epsilon<Object>> epsilons = income.in(context, event);
 
         /* Extract value list **/
@@ -49,7 +47,7 @@ public class MediaAnalyzer implements Analyzer {
 
     private MediaType getMedia(final RoutingContext context) {
         final String header = context.request().getHeader(HttpHeaders.CONTENT_TYPE);
-        return Fn.getSemi(Ut.isNil(header), LOGGER,
+        return Fn.orSemi(Ut.isNil(header), LOGGER,
             () -> MediaType.WILDCARD_TYPE,
             () -> MediaType.valueOf(header));
     }

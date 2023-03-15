@@ -3,9 +3,9 @@ package io.vertx.tp.workflow.uca.modeling;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.atom.MetaInstance;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 
@@ -13,6 +13,8 @@ import io.vertx.up.util.Ut;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Register {
+
+    Cc<String, Register> CC_REGISTER = Cc.openThread();
 
     static Register phantom(final JsonObject params, final MetaInstance metadata) {
         if (metadata.recordSkip()) {
@@ -28,7 +30,7 @@ public interface Register {
              * - save = update
              * - update only
              */
-            return Fn.poolThread(Pool.THREAD_POOL, RegisterV::new, RegisterV.class.getName());
+            return CC_REGISTER.pick(RegisterV::new, RegisterV.class.getName());
         } else {
             return instance(params);
         }
@@ -39,10 +41,10 @@ public interface Register {
             final Object record = params.getValue(KName.RECORD);
             if (record instanceof JsonObject) {
                 // Json Processing
-                return Fn.poolThread(Pool.THREAD_POOL, RegisterJ::new, RegisterJ.class.getName());
+                return CC_REGISTER.pick(RegisterJ::new, RegisterJ.class.getName());
             } else if (record instanceof JsonArray) {
                 // Array Processing
-                return Fn.poolThread(Pool.THREAD_POOL, RegisterA::new, RegisterA.class.getName());
+                return CC_REGISTER.pick(RegisterA::new, RegisterA.class.getName());
             } else {
                 // Single for nothing
                 return Ut.singleton(RegisterN.class);

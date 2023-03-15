@@ -483,13 +483,13 @@ public interface IPBuyOrder extends VertxPojo, Serializable {
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setStatusSend,json::getString,"STATUS_SEND","java.lang.String");
                 setOrThrow(this::setReason,json::getString,"REASON","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_WAIT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_DEBT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PLAN!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_YES!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setAmountWait,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_WAIT","java.math.BigDecimal");
+                setOrThrow(this::setAmountDebt,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_DEBT","java.math.BigDecimal");
+                setOrThrow(this::setAmountPlan,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_PLAN","java.math.BigDecimal");
+                setOrThrow(this::setAmountYes,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_YES","java.math.BigDecimal");
+                setOrThrow(this::setDiscountAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setDiscountRate,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_RATE","java.math.BigDecimal");
                 setOrThrow(this::setDiscount,json::getBoolean,"DISCOUNT","java.lang.Boolean");
                 setOrThrow(this::setApprovedBy,json::getString,"APPROVED_BY","java.lang.String");
                 setOrThrow(this::setApprovedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"APPROVED_AT","java.time.LocalDateTime");
@@ -529,13 +529,13 @@ public interface IPBuyOrder extends VertxPojo, Serializable {
                 json.put("COMMENT",getComment());
                 json.put("STATUS_SEND",getStatusSend());
                 json.put("REASON",getReason());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_WAIT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_DEBT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PLAN!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_YES!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
+                json.put("AMOUNT_WAIT",getAmountWait()==null?null:getAmountWait().toString());
+                json.put("AMOUNT_DEBT",getAmountDebt()==null?null:getAmountDebt().toString());
+                json.put("AMOUNT_PLAN",getAmountPlan()==null?null:getAmountPlan().toString());
+                json.put("AMOUNT_YES",getAmountYes()==null?null:getAmountYes().toString());
+                json.put("DISCOUNT_AMOUNT",getDiscountAmount()==null?null:getDiscountAmount().toString());
+                json.put("DISCOUNT_RATE",getDiscountRate()==null?null:getDiscountRate().toString());
                 json.put("DISCOUNT",getDiscount());
                 json.put("APPROVED_BY",getApprovedBy());
                 json.put("APPROVED_AT",getApprovedAt()==null?null:getApprovedAt().toString());

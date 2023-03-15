@@ -7,15 +7,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 
@@ -41,31 +39,22 @@ public class AttachActor {
          * -- 2.3. Update all the attachments
          */
         At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
-        Ut.ifJObject(content, KName.METADATA);
+        Fn.ifJObject(content, KName.METADATA);
+        content.put(KName.SIGMA, header.getSigma());
+        content.put(KName.ACTIVE, Boolean.TRUE);
         /*
          * ExIo to extract from
          *
          * directory ( Code ) -> directoryId
+         *
+         * Here are three situation
+         * 0) Pre Process -> directory calculation ( For dynamic processing )
+         *
+         * The normalized parameters are ( directory ) here for split workflow.
+         * 1) Contains `: expression directory
+         * 2) Contains non `: directory code instead ( Because the code part will not contains / and ` )
          */
-        if (content.containsKey(KName.DIRECTORY)) {
-            final String sigma = header.getSigma();
-            final String directory = content.getString(KName.DIRECTORY);
-            return Ke.channel(ExIo.class, () -> content, io -> io.dirBy(sigma, directory).compose(directoryJ -> {
-                /*
-                 * Replaced the field
-                 * - directoryId, refer to I_DIRECTORY record,                      key field
-                 * - storeWay, refer to I_DIRECTORY record,                         type field
-                 * - storePath, refer to calculated result here.  I_DIRECTORY storePath + name
-                 */
-                content.put(KName.DIRECTORY_ID, directoryJ.getString(KName.KEY));
-                final String folder = directoryJ.getString(KName.STORE_PATH);
-                content.put(KName.STORE_PATH, Ut.ioPath(folder, content.getString(KName.NAME)));
-                content.put(KName.Attachment.STORE_WAY, directoryJ.getString(KName.TYPE));
-                return Ux.future(content);
-            }));
-        } else {
-            return Ux.future(content);
-        }
+        return Ux.future(content);
     }
 
     @Address(Addr.File.DOWNLOAD)

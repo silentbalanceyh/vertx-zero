@@ -27,7 +27,7 @@ public class IDirectoryDao extends AbstractVertxDAO<IDirectoryRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public IDirectoryDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(IDirectory.I_DIRECTORY, cn.vertxup.integration.domain.tables.pojos.IDirectory.class, new JDBCClassicQueryExecutor<IDirectoryRecord,cn.vertxup.integration.domain.tables.pojos.IDirectory,String>(configuration,cn.vertxup.integration.domain.tables.pojos.IDirectory.class,vertx));

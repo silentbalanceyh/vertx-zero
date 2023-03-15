@@ -4,9 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.record.Apt;
@@ -15,6 +14,8 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.mixture.HAtom;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
@@ -129,8 +130,12 @@ public class Ao {
      * - 3) joinKeys
      * - 4) toSchema
      */
-    public static String toNamespace(final String appName) {
-        return AoStore.toNamespace(appName);
+    public static String toNS(final String appName) {
+        return AoStore.namespace(appName);
+    }
+
+    public static String toNS(final String appName, final String identifier) {
+        return AoStore.namespace(appName) + "-" + identifier;
     }
 
     public static <ID> Object toKey(final ID id) {
@@ -165,16 +170,21 @@ public class Ao {
         return AoImpl.toSchema(appName, file);
     }
 
+    public static Switcher toSwitcher(final Identity identity, final JsonObject options) {
+        return AoImpl.toSwitcher(identity, options);
+    }
+
+    // ------------------- Model Creating -----------------
     public static Model toModel(final String appName, final JsonObject modelJson) {
-        return AoImpl.toModel(appName, modelJson);
+        final Model model = AoImpl.toModel(appName);
+        model.fromJson(modelJson);
+        return model;
     }
 
     public static Model toModel(final String appName, final String file) {
-        return AoImpl.toModel(appName, file);
-    }
-
-    public static Switcher toSwitcher(final Identity identity, final JsonObject options) {
-        return AoImpl.toSwitcher(identity, options);
+        final Model model = AoImpl.toModel(appName);
+        model.fromFile(file);
+        return model;
     }
 
     // ------------------- Dao / Atom -----------------
@@ -201,19 +211,23 @@ public class Ao {
         return AoImpl.toAtom(options);
     }
 
-    public static AoDao toDao(final DataAtom atom) {
-        return AoImpl.toDao(atom);
-    }
-
-    public static AoDao toDao(final DataAtom atom, final Database database) {
-        return AoImpl.toDao(() -> atom, database);
-    }
-
     public static DataAtom toAtom(final String identifier) {
         return AoImpl.toAtom(identifier);
     }
 
-    public static AoDao toDao(final String identifier) {
+    public static DataAtom toAtom(final String appName, final String identifier) {
+        return AoImpl.toAtom(appName, identifier);
+    }
+
+    public static HDao toDao(final HAtom atom) {
+        return AoImpl.toDao(atom);
+    }
+
+    public static HDao toDao(final HAtom atom, final Database database) {
+        return AoImpl.toDao(() -> atom, database);
+    }
+
+    public static HDao toDao(final String identifier) {
         return AoImpl.toDao(identifier);
     }
 

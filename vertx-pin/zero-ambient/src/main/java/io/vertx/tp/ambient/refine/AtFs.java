@@ -1,20 +1,20 @@
 package io.vertx.tp.ambient.refine;
 
+import io.vertx.aeon.specification.app.HFS;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.ambient.atom.AtConfig;
+import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -33,13 +33,19 @@ import java.util.function.Function;
 class AtFs {
     private static final Annal LOGGER = Annal.get(AtFs.class);
 
+    static Future<JsonObject> fileMeta(final JsonObject appJ) {
+        final AtConfig config = AtPin.getConfig();
+        if (Objects.nonNull(config)) {
+            appJ.put(KName.STORE_PATH, config.getStorePath());
+        }
+        return Ux.futureJ(appJ).compose(Fn.ifJObject(KName.App.LOGO));
+    }
+
     static Future<Buffer> fileDownload(final JsonArray attachment) {
         if (Ut.isNil(attachment)) {
             return Ux.future(Buffer.buffer());
         } else {
-            return splitRun(attachment, (directoryId, fileMap) -> Ke.channel(ExIo.class, Buffer::buffer,
-
-
+            return splitRun(attachment, (directoryId, fileMap) -> Ux.channel(ExIo.class, Buffer::buffer,
                 // Call ExIo `fsDownload`
                 io -> io.fsDownload(directoryId, fileMap)
             ));
@@ -57,7 +63,7 @@ class AtFs {
             return Ux.future(Buffer.buffer());
         } else {
             final String storePath = attachment.getString(KName.STORE_PATH);
-            return Ke.channel(ExIo.class, Buffer::buffer,
+            return Ux.channel(ExIo.class, Buffer::buffer,
 
                 // Call ExIo `fsDownload`
                 io -> io.fsDownload(directoryId, storePath)
@@ -76,11 +82,11 @@ class AtFs {
             return Ux.futureA();
         } else {
             return splitInternal(attachment, Ux::future,
-                remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+                remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,
 
                     // Call ExIo `fsUpload`
                     io -> io.fsUpload(directoryId, fileMap)
-                        .compose(removed -> Ux.future(Ut.cmdRm(fileMap.keySet())))
+                        .compose(removed -> HFS.common().rmAsync(fileMap.keySet()))
                         .compose(removed -> Ux.future(remote))
                 )));
         }
@@ -94,10 +100,10 @@ class AtFs {
             return splitInternal(attachment, local -> {
                 final Set<String> files = new HashSet<>();
                 Ut.itJArray(local).forEach(each -> files.add(each.getString(KName.Attachment.FILE_PATH)));
-                Ut.cmdRm(files);
+                HFS.common().rm(files);
                 At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
                 return Ux.future(local);
-            }, remote -> splitRun(remote, (directoryId, fileMap) -> Ke.channel(ExIo.class, () -> remote,
+            }, remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,
 
                 // Call ExIo `fsRemove`
                 io -> io.fsRemove(directoryId, fileMap).compose(removed -> Ux.future(remote))
@@ -145,6 +151,6 @@ class AtFs {
         if (Ut.notNil(dataR)) {
             futures.add(fnRemote.apply(dataR));
         }
-        return Ux.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 }

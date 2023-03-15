@@ -9,8 +9,11 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
+import javax.inject.Named;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 public class DiPlugin {
 
+    private static final Cc<Class<?>, DiPlugin> CC_DI = Cc.open();
     private transient final Class<?> clazz;
     private transient final Annal logger;
 
@@ -29,12 +33,23 @@ public class DiPlugin {
     }
 
     public static DiPlugin create(final Class<?> clazz) {
-        return Fn.pool(Pool.PLUGINS, clazz, () -> new DiPlugin(clazz));
+        return CC_DI.pick(() -> new DiPlugin(clazz), clazz);
+        // return Fn.po?l(Pool.PLUGINS, clazz, () -> new DiPlugin(clazz));
     }
 
     public <T> T createComponent(final Class<?> clazz) {
         final Injector di = ZeroAnno.getDi();
-        return Ut.singleton(clazz, () -> (T) di.getInstance(clazz));
+        /*
+         * Add @Named Support
+         */
+        String extensionKey;
+        if (clazz.isAnnotationPresent(Named.class)) {
+            final Annotation annotation = clazz.getAnnotation(Named.class);
+            extensionKey = Ut.invoke(annotation, "value");
+        } else {
+            extensionKey = null;
+        }
+        return Ut.singleton(clazz, () -> (T) di.getInstance(clazz), extensionKey);
     }
 
     public void createInjection(final Object proxy) {
@@ -68,7 +83,7 @@ public class DiPlugin {
         Observable.fromIterable(infixes)
             .filter(Infix.class::isAssignableFrom)
             .subscribe(item -> {
-                final Method method = Fn.getJvm(() -> item.getDeclaredMethod("get"), item);
+                final Method method = Fn.orJvm(() -> item.getDeclaredMethod("get"), item);
                 final Class<?> type = method.getReturnType();
                 binds.put(type, item);
             })

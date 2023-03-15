@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 
@@ -34,7 +34,7 @@ public class WfPin {
         final List<Future<Boolean>> futures = new ArrayList<>();
         // Deployment for .bpmn files
         resources.forEach(resource -> DeployOn.get(resource).initialize());
-        return Ux.thenCombineT(futures)
+        return Fn.combineT(futures)
             // Flow initialized
             .compose(nil -> WfConfiguration.init(vertx));
     }

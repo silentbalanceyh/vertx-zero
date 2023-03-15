@@ -9,11 +9,11 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
+import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpHeaders;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.ws.rs.core.MediaType;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -40,15 +40,16 @@ class LegacyEmitter extends AbstractEmitter {
 
     @Override
     public String request(final String apiKey, final JsonObject params, final MultiMap headers) {
-        return Fn.getNull(Strings.EMPTY, () -> {
+        return Fn.orNull(Strings.EMPTY, () -> {
             /*
              * Read IntegrationRequest object
              */
             final IntegrationRequest request = this.integration().createRequest(apiKey);
             /*
              * Encrypt content with public key of RSA
+             * Replace the method `getPublicKeyFile` with `getPublicKey` for content extracting
              */
-            final String content = Ut.encryptRSA(params.encode(), this.integration().getPublicKeyFile());
+            final String content = Ut.encryptRSAP(params.encode(), this.integration().getPublicKey());
             /*
              * Send request to read String response here.
              */
@@ -57,7 +58,7 @@ class LegacyEmitter extends AbstractEmitter {
     }
 
     private String send(final String uri, final HttpMethod method, final MediaType mediaType, final String content) {
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             this.logger().info(Message.HTTP_REQUEST, uri, method, content);
             final String contentType = Objects.isNull(mediaType) ? MediaType.APPLICATION_JSON : mediaType.toString();
 

@@ -28,7 +28,7 @@ public class FInvoiceDao extends AbstractVertxDAO<FInvoiceRecord, cn.vertxup.fm.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FInvoiceDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FInvoice.F_INVOICE, cn.vertxup.fm.domain.tables.pojos.FInvoice.class, new JDBCClassicQueryExecutor<FInvoiceRecord,cn.vertxup.fm.domain.tables.pojos.FInvoice,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FInvoice.class,vertx));

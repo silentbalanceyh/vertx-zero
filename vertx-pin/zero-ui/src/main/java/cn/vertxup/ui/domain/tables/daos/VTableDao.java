@@ -26,7 +26,7 @@ public class VTableDao extends AbstractVertxDAO<VTableRecord, cn.vertxup.ui.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public VTableDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(VTable.V_TABLE, cn.vertxup.ui.domain.tables.pojos.VTable.class, new JDBCClassicQueryExecutor<VTableRecord,cn.vertxup.ui.domain.tables.pojos.VTable,String>(configuration,cn.vertxup.ui.domain.tables.pojos.VTable.class,vertx));

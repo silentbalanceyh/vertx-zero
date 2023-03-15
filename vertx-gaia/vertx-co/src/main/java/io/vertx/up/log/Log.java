@@ -49,7 +49,7 @@ public final class Log {
 
     public static void jvm(final Logger logger, final Throwable ex) {
         Fn.safeNull(error -> logger.warn("", error), ex);
-        if (Debugger.onStackTracing()) {
+        if (Debugger.devJvmStack()) {
             /* Default to false */
             ex.printStackTrace();
         }

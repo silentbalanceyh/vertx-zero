@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
@@ -11,30 +11,37 @@ import java.util.function.Supplier;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 interface Pool {
-    ConcurrentMap<String, Wings> POOL_THREAD = new ConcurrentHashMap<>();
 
-    ConcurrentMap<String, ConcurrentMap<String, Supplier<Wings>>> SELECT_POOL = new ConcurrentHashMap<String, ConcurrentMap<String, Supplier<Wings>>>() {
+    Cc<String, Wings> CC_WINGS = Cc.openThread();
+
+    ConcurrentMap<String, ConcurrentMap<String, Supplier<Wings>>> SELECT_POOL = new ConcurrentHashMap<>() {
         {
             /* Type `*` */
-            this.put(MediaType.WILDCARD_TYPE.getType(), new ConcurrentHashMap<String, Supplier<Wings>>() {
+            this.put(MediaType.WILDCARD_TYPE.getType(), new ConcurrentHashMap<>() {
                 {
                     /* SubType `*` */
                     this.put(MediaType.WILDCARD_TYPE.getSubtype(),
-                        () -> Fn.poolThread(POOL_THREAD, JsonWings::new, MediaType.WILDCARD_TYPE.toString()));
+                        () -> CC_WINGS.pick(JsonWings::new, MediaType.WILDCARD_TYPE.toString())
+                        // () -> Fn.po?lThread(POOL_THREAD, JsonWings::new, MediaType.WILDCARD_TYPE.toString())
+                    );
                 }
             });
 
             /* Type `application` */
 
-            this.put(MediaType.APPLICATION_JSON_TYPE.getType(), new ConcurrentHashMap<String, Supplier<Wings>>() {
+            this.put(MediaType.APPLICATION_JSON_TYPE.getType(), new ConcurrentHashMap<>() {
                 {
                     /* SubType: json */
                     this.put(MediaType.APPLICATION_JSON_TYPE.getSubtype(),
-                        () -> Fn.poolThread(POOL_THREAD, JsonWings::new, MediaType.APPLICATION_JSON_TYPE.toString()));
+                        () -> CC_WINGS.pick(JsonWings::new, MediaType.APPLICATION_JSON_TYPE.toString())
+                        // () -> Fn.po?lThread(POOL_THREAD, JsonWings::new, MediaType.APPLICATION_JSON_TYPE.toString())
+                    );
 
                     /* SubType: octet-stream */
                     this.put(MediaType.APPLICATION_OCTET_STREAM_TYPE.getSubtype(),
-                        () -> Fn.poolThread(POOL_THREAD, BufferWings::new, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString()));
+                        () -> CC_WINGS.pick(BufferWings::new, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString())
+                        // () -> Fn.po?lThread(POOL_THREAD, BufferWings::new, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString()));
+                    );
                 }
             });
         }

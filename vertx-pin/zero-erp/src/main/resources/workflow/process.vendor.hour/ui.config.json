@@ -1,0 +1,14 @@
+{
+    "canvas": {
+        "height": 240
+    },
+    "synonym": {
+        "phase": "记录单状态",
+        "title": "记录单标题",
+        "serial": "记录单单号"
+    },
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
+}

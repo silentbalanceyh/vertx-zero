@@ -1,8 +1,9 @@
 package io.vertx.tp.modular.apply;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.cv.AoCache;
+import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 
 import java.util.UUID;
 
@@ -11,38 +12,38 @@ import java.util.UUID;
  */
 public interface AoDefault {
     static AoDefault schema() {
-        return Fn.pool(Pool.DEFAULT_POOL, SchemaDefault.class.getName(),
-            SchemaDefault::new);
+        return AoCache.CC_DEFAULT.pick(SchemaDefault::new, SchemaDefault.class.getName());
+        // Fn.po?l(Pool.DEFAULT_POOL, SchemaDefault.class.getName(), SchemaDefault::new);
     }
 
     static AoDefault entity() {
-        return Fn.pool(Pool.DEFAULT_POOL, EntityDefault.class.getName(),
-            EntityDefault::new);
+        return AoCache.CC_DEFAULT.pick(EntityDefault::new, EntityDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, EntityDefault.class.getName(), EntityDefault::new);
     }
 
     static AoDefault key() {
-        return Fn.pool(Pool.DEFAULT_POOL, KeyDefault.class.getName(),
-            KeyDefault::new);
+        return AoCache.CC_DEFAULT.pick(KeyDefault::new, KeyDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, KeyDefault.class.getName(), KeyDefault::new);
     }
 
     static AoDefault field() {
-        return Fn.pool(Pool.DEFAULT_POOL, FieldDefault.class.getName(),
-            FieldDefault::new);
+        return AoCache.CC_DEFAULT.pick(FieldDefault::new, FieldDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, FieldDefault.class.getName(), FieldDefault::new);
     }
 
     static AoDefault model() {
-        return Fn.pool(Pool.DEFAULT_POOL, ModelDefault.class.getName(),
-            ModelDefault::new);
+        return AoCache.CC_DEFAULT.pick(ModelDefault::new, ModelDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, ModelDefault.class.getName(), ModelDefault::new);
     }
 
     static AoDefault attribute() {
-        return Fn.pool(Pool.DEFAULT_POOL, AttributeDefault.class.getName(),
-            AttributeDefault::new);
+        return AoCache.CC_DEFAULT.pick(AttributeDefault::new, AttributeDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, AttributeDefault.class.getName(), AttributeDefault::new);
     }
 
     static AoDefault join() {
-        return Fn.pool(Pool.DEFAULT_POOL, JoinDefault.class.getName(),
-            JoinDefault::new);
+        return AoCache.CC_DEFAULT.pick(JoinDefault::new, JoinDefault.class.getName());
+        // return Fn.po?l(Pool.DEFAULT_POOL, JoinDefault.class.getName(), JoinDefault::new);
     }
 
     static <T> void apply(final JsonObject target,
@@ -57,7 +58,7 @@ public interface AoDefault {
         // 这四个字段基本一致
         apply(entity, KName.KEY, UUID.randomUUID().toString());
         apply(entity, KName.ACTIVE, Boolean.TRUE);
-        apply(entity, KName.LANGUAGE, "cn");  // 默认使用cn
+        apply(entity, KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);  // 默认使用cn
         apply(entity, KName.METADATA, new JsonObject().encode());
     }
 

@@ -31,4 +31,8 @@ class UiLog {
     static void infoWarn(final Annal logger, final String pattern, final Object... args) {
         error(logger, "Warn", pattern, args);
     }
+
+    static void infoView(final Annal logger, final String pattern, final Object... args) {
+        error(logger, "View", pattern, args);
+    }
 }

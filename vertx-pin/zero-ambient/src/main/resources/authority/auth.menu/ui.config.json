@@ -1,0 +1,6 @@
+{
+    "dao": "cn.vertxup.ambient.domain.tables.daos.XMenuDao",
+    "output": {
+        "group": "type"
+    }
+}

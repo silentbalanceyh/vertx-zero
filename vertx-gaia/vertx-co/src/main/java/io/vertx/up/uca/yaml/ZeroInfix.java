@@ -15,6 +15,6 @@ public class ZeroInfix implements Node<JsonObject> {
     public JsonObject read() {
         // Not null because execNil
         final JsonObject config = ZeroTool.read(key, true);
-        return Fn.getJvm(new JsonObject(), () -> config, config);
+        return Fn.orJvm(new JsonObject(), () -> config, config);
     }
 }

@@ -6,89 +6,86 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.digital.*;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 public class DatumService implements DatumStub {
 
-    private static final ConcurrentMap<String, Aide> POOL_AIDE = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Tree> POOL_TREE = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, SerialGen> POOL_SERIAL = new ConcurrentHashMap<>();
+    private static final Cc<String, Aide> CC_AIDE = Cc.open();
+    private static final Cc<String, Tree> CC_TREE = Cc.open();
+    private static final Cc<String, SerialGen> CC_SERIAL = Cc.open();
 
     // ------------------------ Dict Operation Api
     @Override
     public Future<JsonArray> dictApp(final String appId, final String type) {
-        final Aide aide = Fn.pool(POOL_AIDE, appId, AideApp::new);
+        final Aide aide = CC_AIDE.pick(AideApp::new, appId); // Fn.po?l(POOL_AIDE, appId, AideApp::new);
         return aide.fetch(appId, new JsonArray().add(type));
     }
 
     @Override
     public Future<JsonArray> dictApp(final String appId, final JsonArray types) {
-        final Aide aide = Fn.pool(POOL_AIDE, appId, AideApp::new);
+        final Aide aide = CC_AIDE.pick(AideApp::new, appId); // Fn.po?l(POOL_AIDE, appId, AideApp::new);
         return aide.fetch(appId, types);
     }
 
     @Override
     public Future<JsonObject> dictApp(final String appId, final String type, final String code) {
-        final Aide aide = Fn.pool(POOL_AIDE, appId, AideApp::new);
+        final Aide aide = CC_AIDE.pick(AideApp::new, appId); // Fn.po?l(POOL_AIDE, appId, AideApp::new);
         return aide.fetch(appId, type, code);
     }
 
     @Override
     public Future<JsonArray> dictSigma(final String sigma, final JsonArray types) {
-        final Aide aide = Fn.pool(POOL_AIDE, sigma, AideSigma::new);
+        final Aide aide = CC_AIDE.pick(AideSigma::new, sigma); // Fn.po?l(POOL_AIDE, sigma, AideSigma::new);
         return aide.fetch(sigma, types);
     }
 
     @Override
     public Future<JsonArray> dictSigma(final String sigma, final String type) {
-        final Aide aide = Fn.pool(POOL_AIDE, sigma, AideSigma::new);
+        final Aide aide = CC_AIDE.pick(AideSigma::new, sigma); // Fn.po?l(POOL_AIDE, sigma, AideSigma::new);
         return aide.fetch(sigma, new JsonArray().add(type));
     }
 
     @Override
     public Future<JsonObject> dictSigma(final String sigma, final String type, final String code) {
-        final Aide aide = Fn.pool(POOL_AIDE, sigma, AideSigma::new);
+        final Aide aide = CC_AIDE.pick(AideSigma::new, sigma); // Fn.po?l(POOL_AIDE, sigma, AideSigma::new);
         return aide.fetch(sigma, type, code);
     }
 
     // ------------------------ Tree Operation Api
     @Override
     public Future<JsonArray> treeApp(final String appId, final String type, final Boolean leaf) {
-        final Tree tree = Fn.pool(POOL_TREE, appId, TreeApp::new);
+        final Tree tree = CC_TREE.pick(TreeApp::new, appId); // Fn.po?l(POOL_TREE, appId, TreeApp::new);
         return tree.fetch(appId, type, leaf);
     }
 
     @Override
     public Future<JsonArray> treeApp(final String appId, final JsonArray types) {
-        final Tree tree = Fn.pool(POOL_TREE, appId, TreeApp::new);
+        final Tree tree = CC_TREE.pick(TreeApp::new, appId); // Fn.po?l(POOL_TREE, appId, TreeApp::new);
         return tree.fetch(appId, types);
     }
 
 
     @Override
     public Future<JsonObject> treeApp(final String appId, final String type, final String code) {
-        final Tree tree = Fn.pool(POOL_TREE, appId, TreeApp::new);
+        final Tree tree = CC_TREE.pick(TreeApp::new, appId); // Fn.po?l(POOL_TREE, appId, TreeApp::new);
         return tree.fetch(appId, type, code);
     }
 
     @Override
     public Future<JsonArray> treeSigma(final String sigma, final String type, final Boolean leaf) {
-        final Tree tree = Fn.pool(POOL_TREE, sigma, TreeSigma::new);
+        final Tree tree = CC_TREE.pick(TreeSigma::new, sigma); // Fn.po?l(POOL_TREE, sigma, TreeSigma::new);
         return tree.fetch(sigma, type, leaf);
     }
 
     @Override
     public Future<JsonArray> treeSigma(final String sigma, final JsonArray types) {
-        final Tree tree = Fn.pool(POOL_TREE, sigma, TreeSigma::new);
+        final Tree tree = CC_TREE.pick(TreeSigma::new, sigma); // Fn.po?l(POOL_TREE, sigma, TreeSigma::new);
         return tree.fetch(sigma, types);
     }
 
     @Override
     public Future<JsonObject> treeSigma(final String sigma, final String type, final String code) {
-        final Tree tree = Fn.pool(POOL_TREE, sigma, TreeSigma::new);
+        final Tree tree = CC_TREE.pick(TreeSigma::new, sigma); // Fn.po?l(POOL_TREE, sigma, TreeSigma::new);
         return tree.fetch(sigma, type, code);
     }
 
@@ -100,7 +97,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.CODE, code);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, appId, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, appId); // Fn.po?l(POOL_SERIAL, appId, SerialGen::new);
         return serial.generate(condition, count);
     }
 
@@ -112,7 +109,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.IDENTIFIER, identifier);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, appId, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, appId); // Fn.po?l(POOL_SERIAL, appId, SerialGen::new);
         return serial.generate(condition, count);
     }
 
@@ -123,7 +120,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.CODE, code);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, sigma, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, sigma); // Fn.po?l(POOL_SERIAL, sigma, SerialGen::new);
         return serial.generate(condition, count);
     }
 
@@ -134,7 +131,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.IDENTIFIER, identifier);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, sigma, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, sigma); // Fn.po?l(POOL_SERIAL, sigma, SerialGen::new);
         return serial.generate(condition, count);
     }
 
@@ -145,7 +142,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.CODE, code);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, appId, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, appId); // Fn.po?l(POOL_SERIAL, appId, SerialGen::new);
         return serial.reset(condition, defaultValue);
     }
 
@@ -156,7 +153,7 @@ public class DatumService implements DatumStub {
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.CODE, code);
 
-        final Serial serial = Fn.pool(POOL_SERIAL, sigma, SerialGen::new);
+        final Serial serial = CC_SERIAL.pick(SerialGen::new, sigma); // Fn.po?l(POOL_SERIAL, sigma, SerialGen::new);
         return serial.reset(condition, defaultValue);
     }
 }

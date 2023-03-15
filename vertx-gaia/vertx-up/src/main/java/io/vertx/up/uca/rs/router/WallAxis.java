@@ -10,6 +10,8 @@ import io.vertx.up.eon.Orders;
 import io.vertx.up.eon.Values;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 
@@ -23,25 +25,7 @@ import java.util.TreeSet;
  * 401 for authorization only
  */
 public class WallAxis implements Axis<Router> {
-    /**
-     * Extract all walls that will be generated route.
-     */
-    private static final Set<Aegis> WALLS = ZeroAnno.getWalls();
-
-    static {
-        WALLS.forEach(wall -> {
-            if (!Pool.WALL_MAP.containsKey(wall.getPath())) {
-                Pool.WALL_MAP.put(wall.getPath(), new TreeSet<>());
-            }
-            /*
-             * 1. group by `path`, when you define more than one wall in one path, you can collect
-             * all the wall into Set.
-             * 2. The order will be re-calculated by each group
-             * 3. But you could not define `path + order` duplicated wall
-             */
-            Pool.WALL_MAP.get(wall.getPath()).add(wall);
-        });
-    }
+    private static final Cc<String, Set<Aegis>> CC_WALLS = ZeroAnno.getWalls();
 
     private transient final Vertx vertx;
     private transient final Bolt bolt;
@@ -65,7 +49,8 @@ public class WallAxis implements Axis<Router> {
          *      0                0                  0
          *      1                1                  1
          */
-        Pool.WALL_MAP.forEach((path, aegisSet) -> {
+        final Cd<String, Set<Aegis>> store = CC_WALLS.store();
+        store.data().forEach((path, aegisSet) -> {
             if (!aegisSet.isEmpty()) {
                 /*
                  * The handler of 401 of each group should be

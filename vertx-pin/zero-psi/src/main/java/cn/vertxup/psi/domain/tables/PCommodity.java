@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PCommodityRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -236,6 +237,11 @@ public class PCommodity extends TableImpl<PCommodityRecord> {
         return new PCommodity(alias, this);
     }
 
+    @Override
+    public PCommodity as(Table<?> alias) {
+        return new PCommodity(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -250,5 +256,13 @@ public class PCommodity extends TableImpl<PCommodityRecord> {
     @Override
     public PCommodity rename(Name name) {
         return new PCommodity(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PCommodity rename(Table<?> name) {
+        return new PCommodity(name.getQualifiedName(), null);
     }
 }

@@ -7,6 +7,7 @@ package cn.vertxup.integration.domain.tables;
 import cn.vertxup.integration.domain.Db;
 import cn.vertxup.integration.domain.Keys;
 import cn.vertxup.integration.domain.tables.records.IDirectoryRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -35,7 +36,7 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.NAME</code>. 「name」- 目录名称
      */
-    public final TableField<IDirectoryRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(32).nullable(false), this, "「name」- 目录名称");
+    public final TableField<IDirectoryRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "「name」- 目录名称");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.CODE</code>. 「code」- 目录编号
      */
@@ -49,7 +50,7 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
      * The column <code>DB_ETERNAL.I_DIRECTORY.LINKED_PATH</code>. 「linkedPath」-
      * 链接路径，type = LINK 时专用
      */
-    public final TableField<IDirectoryRecord, String> LINKED_PATH = createField(DSL.name("LINKED_PATH"), SQLDataType.VARCHAR(521), this, "「linkedPath」- 链接路径，type = LINK 时专用");
+    public final TableField<IDirectoryRecord, String> LINKED_PATH = createField(DSL.name("LINKED_PATH"), SQLDataType.VARCHAR(512), this, "「linkedPath」- 链接路径，type = LINK 时专用");
     /**
      * The column <code>DB_ETERNAL.I_DIRECTORY.PARENT_ID</code>. 「parentId」-
      * 父目录ID
@@ -208,6 +209,11 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
         return new IDirectory(alias, this);
     }
 
+    @Override
+    public IDirectory as(Table<?> alias) {
+        return new IDirectory(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -222,5 +228,13 @@ public class IDirectory extends TableImpl<IDirectoryRecord> {
     @Override
     public IDirectory rename(Name name) {
         return new IDirectory(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IDirectory rename(Table<?> name) {
+        return new IDirectory(name.getQualifiedName(), null);
     }
 }

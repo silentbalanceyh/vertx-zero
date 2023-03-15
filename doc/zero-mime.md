@@ -20,9 +20,9 @@
 * [x] `javax.ws.rs.PathParam`
 * [x] `javax.ws.rs.HeaderParam`
 * [x] `javax.ws.rs.CookieParam`
-* [x] `javax.ws.rs.BodyParam`
-* [x] `javax.ws.rs.StreamParam`
-* [x] `javax.ws.rs.SessionParam`
+* [x] `jakarta.ws.rs.BodyParam`
+* [x] `jakarta.ws.rs.StreamParam`
+* [x] `jakarta.ws.rs.SessionParam`
 
 ## 2. Java Types
 

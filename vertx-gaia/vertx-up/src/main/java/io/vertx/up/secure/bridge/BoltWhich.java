@@ -12,14 +12,10 @@ import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
-import io.vertx.up.secure.LeeBuiltIn;
-import io.vertx.up.secure.LeeExtension;
-import io.vertx.up.util.Ut;
+import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -33,8 +29,9 @@ class BoltWhich implements Bolt {
         new AtomicBoolean(Boolean.TRUE),
         new AtomicBoolean(Boolean.TRUE)
     };
-    private static final ConcurrentMap<String, Lee> POOL_LEE = new ConcurrentHashMap<>();
-    static ConcurrentMap<String, Bolt> POOL_BOLT = new ConcurrentHashMap<>();
+
+    static Cc<String, Bolt> CC_BOLT = Cc.openThread();
+    static Cc<String, Lee> CC_LEE = Cc.openThread();
 
     @Override
     public AuthenticationHandler authenticate(final Vertx vertx, final Aegis config) {
@@ -47,7 +44,7 @@ class BoltWhich implements Bolt {
             return null;
         }
         final Aegis verified = this.verifyAuthenticate(config);
-        final Lee lee = this.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             // Log
             if (LOG_LEE[1].getAndSet(Boolean.FALSE)) {
@@ -71,11 +68,24 @@ class BoltWhich implements Bolt {
         if (config.noAuthorization()) {
             return null;
         }
-        final Lee lee = this.reference(config);
+        final Lee lee = Bolt.reference(config.getType());
         if (Objects.isNull(lee)) {
             return null;
         }
         return lee.authorization(vertx, config);
+    }
+
+    @Override
+    public AuthenticationProvider authenticateProvider(final Vertx vertx, final Aegis config) {
+        Objects.requireNonNull(config);
+        if (config.noAuthentication()) {
+            return null;
+        }
+        final Lee lee = Bolt.reference(config.getType());
+        if (Objects.isNull(lee)) {
+            return null;
+        }
+        return lee.provider(vertx, config);
     }
 
     /*
@@ -104,14 +114,5 @@ class BoltWhich implements Bolt {
             WallProviderConflictException.class,
             this.getClass(), item));
         return config;
-    }
-
-    private Lee reference(final Aegis config) {
-        final AuthWall wall = config.getType();
-        if (AuthWall.EXTENSION == wall) {
-            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeExtension.class), LeeExtension.class.getName());
-        } else {
-            return Fn.poolThread(POOL_LEE, () -> Ut.service(LeeBuiltIn.class), LeeBuiltIn.class.getName());
-        }
     }
 }

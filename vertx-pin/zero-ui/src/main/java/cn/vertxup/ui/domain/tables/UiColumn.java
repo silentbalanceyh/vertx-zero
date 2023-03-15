@@ -8,6 +8,7 @@ import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Indexes;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.UiColumnRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -215,6 +216,11 @@ public class UiColumn extends TableImpl<UiColumnRecord> {
         return new UiColumn(alias, this);
     }
 
+    @Override
+    public UiColumn as(Table<?> alias) {
+        return new UiColumn(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -229,5 +235,13 @@ public class UiColumn extends TableImpl<UiColumnRecord> {
     @Override
     public UiColumn rename(Name name) {
         return new UiColumn(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public UiColumn rename(Table<?> name) {
+        return new UiColumn(name.getQualifiedName(), null);
     }
 }

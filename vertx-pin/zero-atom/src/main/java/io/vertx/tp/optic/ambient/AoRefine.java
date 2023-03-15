@@ -1,7 +1,7 @@
 package io.vertx.tp.optic.ambient;
 
 import io.vertx.tp.optic.extension.Init;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * OOB数据初始化专用接口
@@ -9,17 +9,22 @@ import io.vertx.up.fn.Fn;
 public interface AoRefine extends Init {
 
     static AoRefine combine() {
-        return Fn.pool(Pool.REFINE_POOL, CombineRefine.class.getName(),
-            CombineRefine::new);
+        return Pool.CC_REFINE.pick(CombineRefine::new, CombineRefine.class.getName());
+        //  Fn.po?l(Pool.REFINE_POOL, CombineRefine.class.getName(),CombineRefine::new);
     }
 
     static AoRefine schema() {
-        return Fn.pool(Pool.REFINE_POOL, SchemaRefine.class.getName(),
-            SchemaRefine::new);
+        return Pool.CC_REFINE.pick(SchemaRefine::new, SchemaRefine.class.getName());
+        // return Fn.po?l(Pool.REFINE_POOL, SchemaRefine.class.getName(),SchemaRefine::new);
     }
 
     static AoRefine model() {
-        return Fn.pool(Pool.REFINE_POOL, ModelRefine.class.getName(),
-            ModelRefine::new);
+        return Pool.CC_REFINE.pick(ModelRefine::new, ModelRefine.class.getName());
+        // return Fn.po?l(Pool.REFINE_POOL, ModelRefine.class.getName(), ModelRefine::new);
     }
+}
+
+interface Pool {
+
+    Cc<String, AoRefine> CC_REFINE = Cc.open();
 }

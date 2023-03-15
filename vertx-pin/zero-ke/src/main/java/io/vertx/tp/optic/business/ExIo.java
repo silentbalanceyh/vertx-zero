@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -13,7 +14,6 @@ import java.util.concurrent.ConcurrentMap;
  * 1. Storage of Default
  * 2. Storage of FTP
  * 3. Storage of SSH
- *
  * -- dirXx,  For Directory Only, it supports directory feature ( Directory + Io )
  * ---- JsonArray include X_DIRECTORY data only
  * -- fsXx,   For Attachment Standalone operation ( Io Only )
@@ -49,6 +49,8 @@ public interface ExIo {
 
     Future<JsonArray> dirTrash(String sigma);
 
+    Future<JsonArray> dirTree(String sigma, List<String> paths);
+
     /*
      * Fetch dir by `code` ( MD5 )
      */
@@ -71,6 +73,34 @@ public interface ExIo {
     Future<Buffer> fsDownload(String directoryId, String storePath);
 
     // ----------------- Mix Interface ----------------------
+
+    /*
+     * The directoryJ data structure is as following:
+     * - storePath
+     * - sigma
+     * - updatedBy
+     *
+     * The returned is directoryId
+     *
+     * 1. Step 1
+     * - 1) Query I_DIRECTORY by `storePath` and `sigma` to unique one
+     * - 2) If Null, go to Step 2
+     *      If Data, terminal
+     * 2. Step 2
+     * - 1) Split `storePath` by `/` to List<String> ( Sorted by length )
+     * - 2) Iterator for each level directory making
+     * - 3) Returned the last directory ( the storePath is the longest )
+     */
+    Future<JsonObject> verifyIn(JsonArray directoryA, JsonObject params);
+
+    /*
+     * Update the tree from `directoryId` for impacting
+     * - updatedAt
+     * - updatedBy
+     * All above information must be updated in current interface
+     */
+    Future<JsonObject> update(String directoryId, String user);
+
     /*
      * File Map Data structure
      * -- storePath = directoryId

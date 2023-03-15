@@ -394,15 +394,15 @@ public interface IPBuyItem extends VertxPojo, Serializable {
                 setOrThrow(this::setNumRequest,json::getInteger,"NUM_REQUEST","java.lang.Integer");
                 setOrThrow(this::setNumApproved,json::getInteger,"NUM_APPROVED","java.lang.Integer");
                 setOrThrow(this::setNum,json::getInteger,"NUM","java.lang.Integer");
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_RATE!
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_PRICE!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_SPLIT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                setOrThrow(this::setTaxRate,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"TAX_RATE","java.math.BigDecimal");
+                setOrThrow(this::setTaxAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"TAX_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setTaxPrice,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"TAX_PRICE","java.math.BigDecimal");
+                setOrThrow(this::setAmountTotal,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_TOTAL","java.math.BigDecimal");
+                setOrThrow(this::setAmountSplit,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_SPLIT","java.math.BigDecimal");
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setPrice,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"PRICE","java.math.BigDecimal");
+                setOrThrow(this::setDiscountAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setDiscountRate,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_RATE","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setArriveAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"ARRIVE_AT","java.time.LocalDateTime");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -432,15 +432,15 @@ public interface IPBuyItem extends VertxPojo, Serializable {
                 json.put("NUM_REQUEST",getNumRequest());
                 json.put("NUM_APPROVED",getNumApproved());
                 json.put("NUM",getNum());
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_RATE!
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_PRICE!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_SPLIT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                json.put("TAX_RATE",getTaxRate()==null?null:getTaxRate().toString());
+                json.put("TAX_AMOUNT",getTaxAmount()==null?null:getTaxAmount().toString());
+                json.put("TAX_PRICE",getTaxPrice()==null?null:getTaxPrice().toString());
+                json.put("AMOUNT_TOTAL",getAmountTotal()==null?null:getAmountTotal().toString());
+                json.put("AMOUNT_SPLIT",getAmountSplit()==null?null:getAmountSplit().toString());
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
+                json.put("PRICE",getPrice()==null?null:getPrice().toString());
+                json.put("DISCOUNT_AMOUNT",getDiscountAmount()==null?null:getDiscountAmount().toString());
+                json.put("DISCOUNT_RATE",getDiscountRate()==null?null:getDiscountRate().toString());
                 json.put("COMMENT",getComment());
                 json.put("ARRIVE_AT",getArriveAt()==null?null:getArriveAt().toString());
                 json.put("ACTIVE",getActive());

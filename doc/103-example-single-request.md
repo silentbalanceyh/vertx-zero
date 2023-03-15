@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.annotations.Ipc;
 
-import javax.ws.rs.BodyParam;
+import jakarta.ws.rs.BodyParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 

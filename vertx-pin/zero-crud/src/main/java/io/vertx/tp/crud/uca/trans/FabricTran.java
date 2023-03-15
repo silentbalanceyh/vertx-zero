@@ -6,18 +6,18 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KTransform;
-import io.vertx.tp.optic.Pocket;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
+import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.channel.Pocket;
+import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.specification.KTransform;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +37,7 @@ class FabricTran implements Tran {
     @Override
     public Future<JsonObject> inJAsync(final JsonObject data, final IxMod in) {
         if (in.canTransform()) {
-            return this.fabric(in).compose(Ut.ifNil(() -> data, fabric ->
+            return this.fabric(in).compose(Fn.ifNil(() -> data, fabric ->
                 this.isFrom ? fabric.inFrom(data) : fabric.inTo(data)));
         } else {
             return Ux.future(data);
@@ -47,14 +47,14 @@ class FabricTran implements Tran {
     @Override
     public Future<JsonArray> inAAsync(final JsonArray data, final IxMod in) {
         if (in.canTransform()) {
-            return this.fabric(in).compose(Ut.ifNil(() -> data, fabric ->
+            return this.fabric(in).compose(Fn.ifNil(() -> data, fabric ->
                 this.isFrom ? fabric.inFrom(data) : fabric.inTo(data)));
         } else {
             return Ux.future(data);
         }
     }
 
-    private Future<DiFabric> fabric(final IxMod in) {
+    private Future<DFabric> fabric(final IxMod in) {
         final Envelop envelop = in.envelop();
         final KModule module = in.module();
         final KTransform transform = module.getTransform();
@@ -69,20 +69,20 @@ class FabricTran implements Tran {
                 /*
                  * Combine DiConsumer
                  */
-                final ConcurrentMap<String, DiConsumer> connectConsumer = transform.epsilon();
+                final ConcurrentMap<String, DConsumer> connectConsumer = transform.epsilon();
                 if (Objects.nonNull(transformConnect)) {
                     connectConsumer.putAll(transformConnect.epsilon());
                 }
                 return this.fabric(connect, envelop).compose(dictConnect -> {
                     dictMap.putAll(dictConnect);
-                    return Ux.future(DiFabric.create()
+                    return Ux.future(DFabric.create()
                         .dictionary(dictMap)
                         .epsilon(connectConsumer)
                     );
                 });
             } else {
                 // No Connect Module
-                return Ux.future(DiFabric.create()
+                return Ux.future(DFabric.create()
                     .dictionary(dictMap)
                     .epsilon(transform.epsilon())
                 );
@@ -96,11 +96,11 @@ class FabricTran implements Tran {
             return Ux.future(new ConcurrentHashMap<>());
         }
         /* Epsilon */
-        final ConcurrentMap<String, DiConsumer> epsilonMap = transform.epsilon();
+        final ConcurrentMap<String, DConsumer> epsilonMap = transform.epsilon();
         /* Channel Plugin, Here will enable Pool */
         final Dictionary plugin = Pocket.lookup(Dictionary.class);
         /* Dict */
-        final DiSetting dict = transform.source();
+        final DSetting dict = transform.source();
         if (epsilonMap.isEmpty() || Objects.isNull(plugin) || !dict.validSource()) {
             /*
              * Direct returned
@@ -110,7 +110,7 @@ class FabricTran implements Tran {
             return Ux.future(new ConcurrentHashMap<>());
         }
         // Calculation
-        final List<DiSource> sources = dict.getSource();
+        final List<DSource> sources = dict.getSource();
         final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
         final JsonObject headers = envelop.headersX();
         paramMap.add(KName.SIGMA, headers.getString(KName.SIGMA));

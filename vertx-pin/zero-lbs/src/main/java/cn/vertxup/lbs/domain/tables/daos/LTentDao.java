@@ -27,7 +27,7 @@ public class LTentDao extends AbstractVertxDAO<LTentRecord, cn.vertxup.lbs.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LTentDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LTent.L_TENT, cn.vertxup.lbs.domain.tables.pojos.LTent.class, new JDBCClassicQueryExecutor<LTentRecord,cn.vertxup.lbs.domain.tables.pojos.LTent,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LTent.class,vertx));

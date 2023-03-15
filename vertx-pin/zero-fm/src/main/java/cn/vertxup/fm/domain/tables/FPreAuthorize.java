@@ -8,6 +8,7 @@ import cn.vertxup.fm.domain.Db;
 import cn.vertxup.fm.domain.Indexes;
 import cn.vertxup.fm.domain.Keys;
 import cn.vertxup.fm.domain.tables.records.FPreAuthorizeRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -198,6 +200,11 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
         return new FPreAuthorize(alias, this);
     }
 
+    @Override
+    public FPreAuthorize as(Table<?> alias) {
+        return new FPreAuthorize(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -214,6 +221,14 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
         return new FPreAuthorize(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public FPreAuthorize rename(Table<?> name) {
+        return new FPreAuthorize(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row20 type methods
     // -------------------------------------------------------------------------
@@ -221,5 +236,20 @@ public class FPreAuthorize extends TableImpl<FPreAuthorizeRecord> {
     @Override
     public Row20<String, String, String, String, BigDecimal, String, LocalDateTime, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
         return (Row20) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function20<? super String, ? super String, ? super String, ? super String, ? super BigDecimal, ? super String, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function20<? super String, ? super String, ? super String, ? super String, ? super BigDecimal, ? super String, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

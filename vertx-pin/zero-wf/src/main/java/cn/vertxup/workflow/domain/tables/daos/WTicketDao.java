@@ -25,9 +25,9 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workflow.domain.tables.pojos.WTicket, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>>, Future<cn.vertxup.workflow.domain.tables.pojos.WTicket>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WTicketRecord,cn.vertxup.workflow.domain.tables.pojos.WTicket,String> {
 
         /**
-     * @param configuration The ConfigRunner used for rendering and query
+     * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WTicketDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WTicket.W_TICKET, cn.vertxup.workflow.domain.tables.pojos.WTicket.class, new JDBCClassicQueryExecutor<WTicketRecord,cn.vertxup.workflow.domain.tables.pojos.WTicket,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WTicket.class,vertx));
@@ -389,6 +389,21 @@ public class WTicketDao extends AbstractVertxDAO<WTicketRecord, cn.vertxup.workf
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenBy(Collection<String> values, int limit) {
                 return findManyByCondition(WTicket.W_TICKET.OPEN_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>OPEN_GROUP IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenGroup(Collection<String> values) {
+                return findManyByCondition(WTicket.W_TICKET.OPEN_GROUP.in(values));
+        }
+
+        /**
+     * Find records that have <code>OPEN_GROUP IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTicket>> findManyByOpenGroup(Collection<String> values, int limit) {
+                return findManyByCondition(WTicket.W_TICKET.OPEN_GROUP.in(values),limit);
         }
 
         /**

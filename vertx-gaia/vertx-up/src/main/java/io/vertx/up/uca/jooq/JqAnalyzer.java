@@ -11,6 +11,7 @@ import io.vertx.up.exception.zero.JooqFieldMissingException;
 import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -27,6 +28,8 @@ public class JqAnalyzer {
     private static final Annal LOGGER = Annal.get(JqAnalyzer.class);
     private static final ConcurrentMap<Integer, JooqDsl> DAO_POOL =
         new ConcurrentHashMap<>();
+
+    private static final Cc<Integer, JooqDsl> CC_DAO = Cc.open();
 
     private transient final JooqDsl dsl;
     /* Field to Column */
@@ -50,7 +53,8 @@ public class JqAnalyzer {
     private transient Class<?> entityCls;
 
     private JqAnalyzer(final JooqDsl dsl) {
-        this.dsl = Fn.pool(DAO_POOL, dsl.hashCode(), () -> dsl);
+        this.dsl = CC_DAO.pick(() -> dsl, dsl.hashCode());
+        // Fn.po?l(DAO_POOL, dsl.hashCode(), () -> dsl);
         // Mapping initializing
         this.table = Ut.field(dsl.dao(), "table");
 
@@ -344,7 +348,7 @@ public class JqAnalyzer {
     public <T> T copyEntity(final T target, final T updated) {
         Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
             UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
-        return Fn.getSemi(null == target && null == updated, LOGGER, () -> null, () -> {
+        return Fn.orSemi(null == target && null == updated, LOGGER, () -> null, () -> {
             final JsonObject targetJson = null == target ? new JsonObject() : Ut.serializeJson(target);
             /*
              * Skip Primary Key
@@ -404,26 +408,29 @@ public class JqAnalyzer {
         /**
          * Copied from jOOQs DAOImpl#equal-method
          */
-        TableField<? extends Record, ?>[] pk = uk.getFieldsArray();
+        TableField<? extends org.jooq.Record, ?>[] pk = uk.getFieldsArray();
         Condition condition;
         if (pk.length == 1) {
             condition = ((Field<Object>) pk[0]).equal(pk[0].getDataType().convert(id));
         } else {
-            condition = row(pk).equal((Record) id);
+            condition = row(pk).equal((org.jooq.Record) id);
         }
         return condition;
     }
 
     public <T> Condition conditionUk(T pojo) {
         Objects.requireNonNull(pojo);
-        Record record = this.dsl.context().newRecord(this.table, pojo);
-        Condition where = DSL.trueCondition();
+        org.jooq.Record record = this.dsl.context().newRecord(this.table, pojo);
+        // Condition where = DSL.trueCondition();
+        final Set<Condition> conditions = new HashSet<>();
         UniqueKey<?> pk = this.table.getPrimaryKey();
         for (TableField<?, ?> tableField : pk.getFields()) {
             //exclude primary keys from update
-            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+            final Condition condition = ((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField));
+            conditions.add(condition);
+            // where = where.?nd(((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField)));
         }
-        return where;
+        return DSL.and(conditions);
     }
 
     public Condition conditionField(final String field, final Object value) {

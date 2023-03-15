@@ -1,8 +1,6 @@
 package io.vertx.up.uca.invoker;
 
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._500ReturnNullException;
@@ -34,8 +32,18 @@ public class AsyncInvoker extends AbstractInvoker {
         final Envelop envelop = message.body();
         // Deserialization from message bus.
         final Class<?> returnType = method.getReturnType();
-        this.getLogger().info(Info.MSG_DIRECT, this.getClass(), returnType,
-            method.getName(), method.getDeclaringClass());
+
+
+        // LOG
+        this.getLogger().info(
+            Info.MSG_DIRECT,
+            this.getClass(),
+            returnType,
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
+
         // Get T
         final Class<?> tCls = returnType.getComponentType();
         if (Envelop.class == tCls) {
@@ -50,21 +58,57 @@ public class AsyncInvoker extends AbstractInvoker {
         } else {
             final Object returnValue = this.invokeInternal(proxy, method, envelop);
             // Null Pointer return value checking
-            Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
+            // Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
             if (null == returnValue) {
-                /*
-                    final Future future = Future.future();
-                    future.setHandler(Ux.handler(message));
-                    Not frequent usage of this branch
-                */
                 final Promise promise = Promise.promise();
-                // promise.future().setHandler(Ux.handler(message));
                 promise.future().onComplete(Ux.handler(message));
             } else {
 
                 final Future future = (Future) returnValue;
                 future.onComplete(Ux.handler(message));
-                // future.setHandler(Ux.handler(message));
+            }
+        }
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public <I, O> void handle(final Object proxy, final Method method, final I input, final Handler<AsyncResult<O>> handler) {
+        final Envelop envelop = this.invokeWrap(input);
+
+        // Deserialization from message bus.
+        final Class<?> returnType = method.getReturnType();
+
+
+        // LOG
+        this.getLogger().info(
+            Info.MSG_HANDLE,
+            this.getClass(),
+            returnType,
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
+
+        // Get T
+        final Class<?> tCls = returnType.getComponentType();
+        if (Envelop.class == tCls) {
+            // Input type is Envelop, input directly
+            final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
+
+            // Null Pointer return value checking
+            Fn.out(Objects.isNull(result), _500ReturnNullException.class, this.getClass(), method);
+
+            result.onComplete(item -> handler.handle(Future.succeededFuture((O) item.result())));
+            // result.setHandler(item -> message.reply(item.result()));
+        } else {
+            final Object returnValue = this.invokeInternal(proxy, method, envelop);
+            // Null Pointer return value checking
+            // Fn.out(Objects.isNull(returnValue), _500ReturnNullException.class, getClass(), method);
+            if (null == returnValue) {
+                handler.handle(Future.succeededFuture());
+            } else {
+                final Future future = (Future) returnValue;
+                handler.handle(future);
             }
         }
     }
@@ -78,30 +122,27 @@ public class AsyncInvoker extends AbstractInvoker {
         final Envelop envelop = message.body();
         // Deserialization from message bus.
         final Class<?> returnType = method.getReturnType();
-        this.getLogger().info(Info.MSG_RPC, this.getClass(), returnType,
-            method.getName(), method.getDeclaringClass());
+
+
+        // LOG
+        this.getLogger().info(
+            Info.MSG_RPC,
+            this.getClass(),
+            returnType,
+            method.getName(),
+            method.getDeclaringClass()
+        );
+
+
         // Get T
         final Class<?> tCls = returnType.getComponentType();
         if (Envelop.class == tCls) {
             // Input type is Envelop, input directly
             final Future<Envelop> result = Ut.invoke(proxy, method.getName(), envelop);
-            /* replaced old cold
-            result.compose(item -> TunnelClient.create(this.getClass())
-                    .connect(vertx)
-                    .connect(method)
-                    .send(item))
-                    .setHandler(Ux.handler(message)); */
             result.compose(this.nextEnvelop(vertx, method))
                 .onComplete(Ux.handler(message));
         } else {
             final Future future = this.invokeJson(proxy, method, envelop);
-            /* replaced old code
-            future.compose(item -> TunnelClient.create(this.getClass())
-                    .connect(vertx)
-                    .connect(method)
-                    .send(Ux.to(item)))
-                    .compose(item -> Future.succeededFuture(Ux.to(item)))
-                    .setHandler(Ux.handler(message)); */
             future.compose(this.nextEnvelop(vertx, method))
                 .onComplete(Ux.handler(message));
         }

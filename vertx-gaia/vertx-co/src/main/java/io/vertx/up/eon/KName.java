@@ -1,12 +1,21 @@
 package io.vertx.up.eon;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.query.engine.Qr;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public interface KName {
+    String QBE = "QBE";                          /* QBE = ? */
+    String ENV = "ENV";                          /* ENV */
+
+    String PLOT = "plot";                        /* Plot Configuration */
+    String CLOUD = "cloud";                      /* Plot Cloud Attribute */
+    String CHILD = "child";                      /* Plot Child Attribute */
+
+    String EVENT = "event";                      /* event */
+    String VIRTUAL = "virtual";                  /* virtual resource for RBAC */
+    String TRACKABLE = "trackable";              /* trackable */
     String ID = "id";                            /* Third Part integration primary key */
     String GLOBAL_ID = "globalId";               /* Third part global id of primary key */
 
@@ -24,6 +33,10 @@ public interface KName {
     String RULE = "rule";                        /* Model definition, rule for source reference */
     String TABLE_NAME = "tableName";             /* Model definition, tableName field */
 
+    String ENTRY = "entry";                      /* Entry checking */
+    String ENTRY_ID = "entryId";                 /* Entry id for menu extracting */
+    String TABLE = "table";                      /* Model Connect: table */
+
     String MODEL_ID = "modelId";                 /* Model Consumer ( identifier ) field */
     String MODEL_KEY = "modelKey";               /* Model Consumer ( key ) field */
     String MODEL_CATEGORY = "modelCategory";     /* Model Consumer ( related XCategory ) field */
@@ -36,21 +49,33 @@ public interface KName {
     String REALM = "realm";                      /* Authorization realm field for security */
     String GRANT_TYPE = "grantType";             /* OAuth grant type field */
     String RESOURCE_ID = "resourceId";           /* Security Action related resource field */
+    String RESOURCE = "resource";                /* Security Action for admit resource field */
+
+    String HANDLER = "handler";                  /* Sock Handler Usage */
+
+    String BRIDGE = "bridge";                    /* Sock Bridge Usage */
+    String HOST = "host";                        /* Host */
+    String HOSTNAME = "hostname";                /* Host Name */
+    String PORT = "port";                        /* Port */
 
     String HABITUS = "habitus";                  /* Authorization header to store current logged user session data, Permission Pool */
     String DYNAMIC = "dynamic";                  /* View security of field for dynamic view name */
     String VIEW = "view";                        /* View security of view name */
     String PROFILE = "profile";                  /* */
+    String PREFIX = "prefix";
     String POSITION = "position";                /* View security of view position */
     String MODULE = "module";                    /* View sub-module picking up */
 
     String ROLE = "role";                        /* Security Object: role field */
+    String ROLES = "roles";                      /* Security Object: roles field */
     String ROLE_ID = "roleId";                   /* Security Object: role id ( X_ROLE key ) field */
     String USER = "user";                        /* Security Object: user field */
+    String AUDITOR = "auditor";                  /* Security Object: auditor field */
     String USER_ID = "userId";                   /* Security Object: user id ( X_USER key ) field */
     String USERNAME = "username";                /* Security Object: user name ( X_USER username) field*/
     String REAL_NAME = "realname";               /* Security Object: user real name field */
     String GROUP = "group";                      /* Security Object: group */
+    String GROUPS = "groups";                    /* Security Object: groups */
     String ALIAS = "alias";                      /* Security Object: another name for current */
     String PASSWORD = "password";                /* Security Object: Password belong to field of security framework, ( X_USER password ) field */
     String EMAIL = "email";                      /* Security Object: user email ( X_USER email ) field */
@@ -72,27 +97,46 @@ public interface KName {
     String CATALOG = "catalog";                  /* catalog */
 
     String DEBUG = "debug";                      /* Development: for debugging */
+    String DEVELOPER = "developer";              /* Development: for developer */
+    String DEVELOPMENT = "development";          /* Development: for development */
 
     String APP = "application";                  /* Reserved: */
 
     String KEY = "key";                          /* Common: primary key */
     String KEY_P = "pKey";                       /* Common: argument key */
     String NAME = "name";                        /* Common: name */
+    String ORDER = "order";                      /* Common: order */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
+
+    String LABEL = "label";                      /* Common: label */
     String TYPE = "type";                        /* Common: type for different model */
     String DEPLOY_ID = "deployID";               /* */
+    String ASPECT = "aspect";                    /* Aspect Component Usage */
     String DEPLOYMENT = "deployment";            /* */
     String CATEGORY = "category";                /* Common: category */
     String SERVICE = "service";                  /* Common: service */
+
+    String SERVER = "server";                    /* Common: server */
     String DATA = "data";                        /* Common: data */
+    String DATABASE = "database";                /* Common: database */
+    String KIND = "kind";                        /* Common: kind */
+
+    String FORK = "fork";                        /* Fork/Join -> Fork */
+    String JOIN = "join";                        /* Fork/Join -> Join */
+    String MODE = "mode";                        /* Mode Selection */
+    String GATEWAY = "gateway";                  /* Gateway for Workflow */
+    String INPUT = "input";                      /* Input */
+    String OUTPUT = "output";                    /* Output */
     String DATUM = "datum";                      /* Common: metadata key */
     String MAPPING = "mapping";                  /* Common: Json mapping configuration */
+    String ATOM = "atom";                        /* Common: Atom */
     String STATUS = "status";                    /* Common: status for different workflow */
     String SERIAL = "serial";                    /* Common: serial field ( XNumber related or other meaningful serial */
 
     String METADATA = "metadata";                /* Shared: metadata for most table of METADATA ( JsonObject ) field */
     String ACTIVE = "active";                    /* Shared: active field for most table of ACTIVE ( Boolean ) field */
+    String ACTIVITY_ID = "activityId";
     String LANGUAGE = "language";                /* Shared: language field for most table of LANGUAGE ( String ) field */
 
     String NUMBERS = "numbers";                  /* Definition: numbers definition here */
@@ -100,6 +144,9 @@ public interface KName {
     String IN = "in";                            /* Definition: output definition */
     String OPTIONS = "options";                  /* Definition: configuration options */
     String COMPONENTS = "components";            /* Definition: components */
+    String COMPONENT = "component";              /* Definition: ( Single ) component */
+
+    String SELECTOR = "selector";                /* Definition: selector */
 
     String SOURCE = "source";                    /* Database ( X_SOURCE ) related field */
     String SOURCE_DATA = "sourceData";           /* sourceData */
@@ -120,9 +167,13 @@ public interface KName {
     String EPSILON = "epsilon";                  /* Dictionary Consumer */
     String FORMAT = "format";                    /* DataFormat json configuration of uniform */
 
+    String MATRIX = "matrix";                    /* Attribute Matrix for 8 dim */
+    String REFERENCE = "reference";              /* Attribute Reference for */
+
     String METHOD = "method";                    /* Web: http method */
     String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
+    String ROUTER = "router";                    /* Web: Router */
     String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */
     String RESULT = "result";                    /* Web: http response */
@@ -142,9 +193,12 @@ public interface KName {
 
     String COMPANY_ID = "companyId";             /* Company Id */
     String DEPT_ID = "deptId";                   /* Department Id */
+    String DEPT = "dept";                        /* Dept */
     String TEAM_ID = "teamId";                   /* Team Id */
+    String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 
+    String WEB_SOCKET = "websocket";             /* Web Socket */
     String CONFIG = "config";                    /* Acl Usage */
     String PHASE = "phase";                      /* Acl Phase */
     String SEEKER = "seeker";                    /* Acl Seeker */
@@ -154,6 +208,7 @@ public interface KName {
     String ACTIONS = "actions";                  /* Security: actions */
 
     String DAO = "dao";                          /* Dao field in json configuration */
+    String WEB = "web";                          /* Web Prefix */
     String CONNECT = "connect";                  /* Connect field in json configuration */
     String PLUGIN_IO = "plugin.io";              /* Attribute Plugin for "io" of source config */
     String TIMER = "timer";                      /* Timer in Job */
@@ -173,6 +228,7 @@ public interface KName {
     String OWNER = "owner";                      /* Workflow: owner */
     String HISTORY = "history";                  /* Workflow: history */
     String EDITION = "edition";
+    String READ_ONLY = "readOnly";
 
     String SIZE = "size";                        /* XAttachment, Size Attribute */
     String MIME = "mime";                        /* XAttachment, Web Flow mime processing */
@@ -195,6 +251,7 @@ public interface KName {
     String INITIALIZE = "initialize";            /* File Management, initialize field */
 
     String PARENT_ID = "parentId";               /* Tree for parent id */
+    String LEVEL = "level";                      /* Tree for level */
     String KEY_WORD = "keyword";                 /* Search Key Word */
     String SORT = "sort";                        /* Sort */
 
@@ -204,6 +261,8 @@ public interface KName {
     String COMMENT = "comment";                  /* Text Part: comment */
     String DESCRIPTION = "description";          /* Text Part: description */
     String REMARK = "remark";                    /* Text Part: remark */
+    String REMARKS = "remarks";                  /* Text Part: remarks */
+    String TEXT = "text";                        /* Text Part: text */
 
     String VISIT = "visit";
     String VISIT_MODE = "visitMode";
@@ -212,10 +271,37 @@ public interface KName {
     String VISIT_COMPONENT = "visitComponent";
 
     String UI_CONFIG = "uiConfig";
+    String UI_CONDITION = "uiCondition";
+    String UI_SURFACE = "uiSurface";
     String UI_STYLE = "uiStyle";
     String UI_SORT = "uiSort";
     String UI_ICON = "uiIcon";
+    String UI_TYPE = "uiType";
 
+    String DM_TYPE = "dmType";
+    String DM_CONFIG = "dmConfig";
+    String DM_CONDITION = "dmCondition";
+
+
+    String OWNER_TYPE = "ownerType";
+    String OWNER_ID = "ownerId";
+    String RUN_TYPE = "runType";
+    String PATH = "path";
+
+    // 「Specification Definition」
+    interface __ {
+        String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
+        String DATA = "__" + KName.DATA;             /* __data for previous data */
+        String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
+
+        String INPUT = "__" + KName.INPUT;           /* __input for input original data */
+        String USER = "__" + KName.USER;             /* __user for user extraction */
+        String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
+        String ACL = "__" + Flow.ACL;                /* __acl */
+    }
+
+
+    // 「Attachment Definition」
     interface Attachment {
         String STORE_WAY = "storeWay";               /* XAttachment, store way of the file */
         String FILE_NAME = "fileName";               /* XAttachment filename */
@@ -227,15 +313,17 @@ public interface KName {
         String R = "r";
     }
 
+
+    // 「Micro Service」
     interface Micro {
         String ETCD = "etcd";
     }
 
-    /*
-     * X_APP
-     */
+
+    // 「Application Definition」
     interface App {
 
+        // Application
         String COPY_RIGHT = "copyRight";
         String ICP = "icp";
         String TITLE = "title";
@@ -246,7 +334,7 @@ public interface KName {
         String APP_PORT = "appPort";
         String ROUTE = "route";
 
-        String PATH = "path";
+        String PATH = KName.PATH;
         String URL_ENTRY = "urlEntry";
         String URL_MAIN = "urlMain";
 
@@ -254,11 +342,12 @@ public interface KName {
         String BAG_ID = "bagId";
         String BAG = "bag";
         String BLOCK = "block";
+
+        String BAGS = "bags";
     }
 
-    /*
-     * I_API / I_SERVICE
-     */
+
+    // 「Dynamic Api/Job Definition」, I_API / I_SERVICE
     interface Api {
         String CONFIG_DATABASE = "configDatabase";
 
@@ -275,9 +364,8 @@ public interface KName {
         String DICT_EPSILON = "dictEpsilon";                 /* Origin X to store definition of Epsilon */
     }
 
-    /*
-     * UI_* table definition
-     */
+
+    // 「Dynamic UI Definition」
     interface Ui {
         String CONFIG = "config";
 
@@ -290,6 +378,7 @@ public interface KName {
         String GRID = "grid";
 
         String CONTROLS = "controls";
+        String CONTROL = "control";
 
         String CONTROL_ID = "controlId";
 
@@ -306,6 +395,8 @@ public interface KName {
         String WINDOW = "window";
     }
 
+
+    // 「Dynamic Modeling Definition」
     interface Modeling {
 
         String KEYS = "keys";
@@ -323,7 +414,7 @@ public interface KName {
         String VALUE_BEFORE = "BEFORE";
         String VALUE_AFTER = "AFTER";
 
-        Set<String> VALUE_SET = new HashSet<String>() {
+        Set<String> VALUE_SET = new HashSet<>() {
             {
                 this.add(VALUE_BEFORE);
                 this.add(VALUE_AFTER);
@@ -331,6 +422,8 @@ public interface KName {
         };
     }
 
+
+    // 「Graphic Definition」 Neo4j Part
     interface Graphic {
 
         String GRAPHIC = "graphic";               /* Graphic Engine needed */
@@ -340,6 +433,8 @@ public interface KName {
         String EDGES = "edges";                   /* Graphic edges */
     }
 
+
+    // 「RBAC Module Usage」
     interface Rbac {
         String ROLE_ID = "roleId";
         String PERM_ID = "permId";
@@ -347,38 +442,39 @@ public interface KName {
         // view related
         String PROJECTION = Qr.KEY_PROJECTION;
         String CRITERIA = Qr.KEY_CRITERIA;
+        String CREDIT = "credit";
+
         String ROWS = "rows";
         String POSITION = "position";
 
-        JsonArray INCLUDE = new JsonArray()
-            .add("/api/user")                    // zero-rbac
-            .add("/api/permission")              // zero-rbac
-            .add("/api/employee")                // zero-erp
-            .add("/api/wh")                      // zero-psi
-            .add("/api/i-directory")             // zero-is
-            .add("/api/file/upload")             // zero-ambient
-            .add("/api/my/menu/save")            // zero-ambient
-            .add("/api/up/flow")                 // zero-wf
-            .add("/api/linkage/sync")            // zero-wf, zero-ambient
-            .add("/api/bill/")                   // zero-fm
-            .add("/api/bill-item/")              // zero-fm
-            .add("/api/settle/")                 // zero-fm
-            .add("/api/payment");                // zero-fm
 
-        JsonArray EXCLUDE = new JsonArray()
-            .add("/api/:actor/search")           // zero-crud
-            .add("/api/:actor/missing")          // zero-crud
-            .add("/api/:actor/existing")         // zero-crud
-            .add("/api/:actor/export")           // zero-crud
-            .add("/api/:actor/import");          // zero-crud
+        String DM = "dm";                            /* Definition: DM Process */
+        String UI = "ui";                            /* Definition: UI Process */
+        String QR = "qr";                            /* Definition: */
+        String IN = KName.IN;                        /* Definition: In Process */
+
+        String PACK_V = "v";
+        String PACK_H = "h";
+        String PACK_Q = "q";
+
+        String SURFACE = "surface";                  /* Definition: UI Show */
+        String WEB_UI = "webUi";
+        String VISITANT = "visitant";
+        String SEEK_KEY = "seekKey";
+        String ACL = "acl";
     }
 
+
+    // 「Tenant Field Definition」, When you enable multi tenants environment, it will be used
     interface Tenant {
         String STELLAR = "stellar";                  /* Business */
         String TENANT = "tenant";
+        String ID = "tenantId";
         String VENDORS = "vendors";
     }
 
+
+    // 「Workflow Engine Definition」
     interface Flow {
         String DEFINITION_ID = "definitionId";
         String DEFINITION_KEY = "definitionKey";
@@ -407,11 +503,17 @@ public interface KName {
         String TRACE_SERIAL = "traceSerial";
         String TASK_SERIAL = "taskSerial";
         String TASK_CODE = "taskCode";
+        String TASK_NAME = "taskName";
+
+        String TASK_KEY = "taskKey";
 
         // Flow Field
         String FLOW_END = "flowEnd";
+
+        String FLOW_NAME = "flowName";
         String FLOW_DEFINITION_KEY = "flowDefinitionKey";
         String FLOW_DEFINITION_ID = "flowDefinitionId";
+        String FLOW_INSTANCE_ID = "flowInstanceId";
 
         // Processing
         String CONFIG_START = "startConfig";
@@ -424,35 +526,15 @@ public interface KName {
         String UI_ASSIST = "uiAssist";
         String UI_LINKAGE = "uiLinkage";
 
-        // Auditor
-        interface Auditor {
-            String FINISHED_BY = "finishedBy";
-            String FINISHED_AT = "finishedAt";
-
-            String OPEN_BY = "openBy";
-            String CLOSE_BY = "closeBy";
-            String CLOSE_AT = "closeAt";
-            String CANCEL_BY = "cancelBy";
-            String CANCEL_AT = "cancelAt";
-
-            String OWNER = "owner";
-            String SUPERVISOR = "supervisor";
-
-            String TO_USER = "toUser";
-
-            String TO_TEAM = "toTeam";
-            String TO_DEPT = "toDept";
-            String TO_ROLE = "toRole";
-            String TO_GROUP = "toGroup";
-        }
-
-        // Bpmn
+        // Bpmn ( Belong to Workflow Engine )
         interface Bpmn {
             String CLASS = "class";
-            String EVENT = "event";
+            String EVENT = KName.EVENT;
         }
     }
 
+
+    // 「Component Specification Definition」
     interface Component {
         // Run Component
         String RUN_COMPONENT = "runComponent";
@@ -460,5 +542,123 @@ public interface KName {
         // Tree Component
         String TREE_COMPONENT = "treeComponent";
         String TREE_CONFIG = "treeConfig";
+        // Ui Component
+        String UI_COMPONENT = "uiComponent";
+        String UI_CONFIG = KName.UI_CONFIG;
+        // Dm Component
+        String DM_COMPONENT = "dmComponent";
+        String DM_CONFIG = KName.DM_CONFIG;
+        // Qr Component
+        String QR_COMPONENT = "qrComponent";
+        String QR_CONFIG = "qrConfig";
+        // Web Component
+        String WEB_COMPONENT = "webComponent";
+        String WEB_CONFIG = "webConfig";
+    }
+
+
+    // 「Zero Internal Usage」
+    interface Internal {
+        String ERROR = "error";
+        String INJECT = "inject";
+        String SERVER = "server";
+        String RESOLVER = "resolver";
+
+        /**
+         * Vertx Zero configuration
+         */
+        String ZERO = "zero";
+        /**
+         * External Zero configuration
+         */
+        String LIME = "lime";
+    }
+
+
+    // 「Auditor Specification Definition」
+    interface Auditor {
+        String FINISHED_BY = "finishedBy";
+        String FINISHED_AT = "finishedAt";
+
+        String OPEN_BY = "openBy";
+        String CLOSE_BY = "closeBy";
+        String CLOSE_AT = "closeAt";
+        String CANCEL_BY = "cancelBy";
+        String CANCEL_AT = "cancelAt";
+
+        String OWNER = "owner";
+        String SUPERVISOR = "supervisor";
+
+        String TO_USER = "toUser";
+
+        String TO_TEAM = "toTeam";
+        String TO_DEPT = "toDept";
+        String TO_ROLE = "toRole";
+        String TO_GROUP = "toGroup";
+
+        String ASSIGNED_BY = "assignedBy";
+        String ASSIGNED_AT = "assignedAt";
+        String ACCEPTED_BY = "acceptedBy";
+        String ACCEPTED_AT = "acceptedAt";
+
+        Set<String> USER_FIELDS = new HashSet<>() {
+            {
+                this.add(TO_USER);       // Approved / Processed By
+                this.add(CREATED_BY);    // Created By
+                this.add(UPDATED_BY);    // Updated By
+                this.add(OWNER);         // Owner
+                this.add(SUPERVISOR);    // Supervisor
+                this.add(CANCEL_BY);     // Cancel By
+                this.add(CLOSE_BY);      // Close By
+                this.add(OPEN_BY);       // Open By
+                this.add(FINISHED_BY);   // Finished By
+                this.add(ASSIGNED_BY);   // Assigned By
+                this.add(ACCEPTED_BY);   // Accdpted By
+            }
+        };
+    }
+
+
+    // 「AOP Specification Definition」
+    interface Aop {
+        String COMPONENT_TYPE = "configuration.operation";
+        String COMPONENT = "plugin.component";
+        String COMPONENT_BEFORE = "plugin.component.before";
+        String COMPONENT_AFTER = "plugin.component.after";
+        String COMPONENT_JOB = "plugin.component.job";
+        String COMPONENT_CONFIG = "plugin.config";
+    }
+
+
+    // 「Date Specification Definition」
+    interface Moment {
+        String DATE = "date";
+        String DATETIME = "datetime";
+        String TIME = "time";
+        String CALENDAR = "calendar";
+
+        String SECOND = "second";
+        String SECONDS = "seconds";
+
+        String MINUTE = "minute";
+        String MINUTES = "minutes";
+
+        String HOUR = "hour";
+        String HOURS = "hours";
+
+        String DAY = "day";
+        String DAYS = "days";
+
+        String WEEK = "week";
+        String WEEKS = "weeks";
+
+        String MONTH = "month";
+        String MONTHS = "months";
+
+        String QUARTER = "quarter";
+        String QUARTERS = "quarters";
+
+        String YEAR = "year";
+        String YEARS = "years";
     }
 }

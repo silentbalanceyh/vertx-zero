@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +22,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VQueryDao.class)
             .<VQuery>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 FIELD_QUERY_CRITERIA,
                 FIELD_QUERY_PROJECTION
             ));
@@ -32,7 +33,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VSearchDao.class)
             .<VSearch>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 FIELD_SEARCH_NOTICE,
                 FIELD_SEARCH_VIEW,
                 FIELD_SEARCH_COND
@@ -44,7 +45,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VFragmentDao.class)
             .<VFragment>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 FIELD_FRAGMENT_MODEL,
                 FIELD_FRAGMENT_NOTICE,
                 FIELD_FRAGMENT_CONFIG,
@@ -57,7 +58,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VTableDao.class)
             .<VTable>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 FIELD_TABLE_OP_CONFIG
             ));
     }
@@ -69,7 +70,7 @@ public class OptionService implements OptionStub {
         final List<UiOp> ops = Ut.itJArray(data)
             // filter(deduplicate) by action
             .filter(item -> Ut.notNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
-            .map(item -> Ut.ifString(item,
+            .map(item -> Fn.ifString(item,
                 FIELD_OP_CONFIG,
                 FIELD_OP_PLUGIN,
                 KName.METADATA
@@ -83,7 +84,7 @@ public class OptionService implements OptionStub {
                 .insertAsync(ops)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(Ut.ifJArray(
+                .compose(Fn.ifJArray(
                     FIELD_OP_CONFIG,
                     FIELD_OP_PLUGIN,
                     KName.METADATA

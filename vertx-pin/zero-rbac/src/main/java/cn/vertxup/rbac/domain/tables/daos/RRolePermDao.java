@@ -27,7 +27,7 @@ public class RRolePermDao extends AbstractVertxDAO<RRolePermRecord, cn.vertxup.r
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RRolePermDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RRolePerm.R_ROLE_PERM, cn.vertxup.rbac.domain.tables.pojos.RRolePerm.class, new JDBCClassicQueryExecutor<RRolePermRecord,cn.vertxup.rbac.domain.tables.pojos.RRolePerm,Record2<String, String>>(configuration,cn.vertxup.rbac.domain.tables.pojos.RRolePerm.class,vertx));

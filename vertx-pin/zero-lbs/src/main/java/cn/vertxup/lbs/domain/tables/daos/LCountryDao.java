@@ -27,7 +27,7 @@ public class LCountryDao extends AbstractVertxDAO<LCountryRecord, cn.vertxup.lbs
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LCountryDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LCountry.L_COUNTRY, cn.vertxup.lbs.domain.tables.pojos.LCountry.class, new JDBCClassicQueryExecutor<LCountryRecord,cn.vertxup.lbs.domain.tables.pojos.LCountry,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LCountry.class,vertx));

@@ -298,7 +298,7 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setManualNo,json::getString,"MANUAL_NO","java.lang.String");
                 setOrThrow(this::setPayTermId,json::getString,"PAY_TERM_ID","java.lang.String");
@@ -327,7 +327,7 @@ public interface IFSettlementItem extends VertxPojo, Serializable {
                 json.put("SERIAL",getSerial());
                 json.put("INCOME",getIncome());
                 json.put("TYPE",getType());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("COMMENT",getComment());
                 json.put("MANUAL_NO",getManualNo());
                 json.put("PAY_TERM_ID",getPayTermId());

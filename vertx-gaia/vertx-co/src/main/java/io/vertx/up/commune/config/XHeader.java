@@ -11,11 +11,13 @@ import java.util.Objects;
 
 public class XHeader implements Serializable, Json {
 
-    private transient String sigma;
-    private transient String appId;
-    private transient String appKey;
-    private transient String language;
-    private transient String session;
+    private String sigma;
+    private String appId;
+    private String appKey;
+    private String language;
+    // New for Cloud
+    private String tenantId;
+    private String session;
 
     public String getLanguage() {
         return this.language;
@@ -53,6 +55,14 @@ public class XHeader implements Serializable, Json {
         return this.session;
     }
 
+    public String getTenantId() {
+        return this.tenantId;
+    }
+
+    public void setTenantId(final String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public void fromJson(final JsonObject json) {
         final XHeader header = Ut.deserialize(json, XHeader.class);
@@ -62,6 +72,7 @@ public class XHeader implements Serializable, Json {
             this.sigma = header.sigma;
             this.language = header.language;
             this.session = header.session;
+            this.tenantId = header.tenantId;
         }
     }
 
@@ -72,6 +83,7 @@ public class XHeader implements Serializable, Json {
             this.sigma = headers.get(ID.Header.X_SIGMA);
             this.language = headers.get(ID.Header.X_LANG);
             this.session = headers.get(ID.Header.X_SESSION_ID);
+            this.tenantId = headers.get(ID.Header.X_TENANT_ID);
         }
     }
 

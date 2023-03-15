@@ -8,6 +8,7 @@ import cn.vertxup.ui.domain.Db;
 import cn.vertxup.ui.domain.Indexes;
 import cn.vertxup.ui.domain.Keys;
 import cn.vertxup.ui.domain.tables.records.UiFieldRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -199,6 +200,11 @@ public class UiField extends TableImpl<UiFieldRecord> {
         return new UiField(alias, this);
     }
 
+    @Override
+    public UiField as(Table<?> alias) {
+        return new UiField(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -213,5 +219,13 @@ public class UiField extends TableImpl<UiFieldRecord> {
     @Override
     public UiField rename(Name name) {
         return new UiField(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public UiField rename(Table<?> name) {
+        return new UiField(name.getQualifiedName(), null);
     }
 }

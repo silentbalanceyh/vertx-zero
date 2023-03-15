@@ -15,7 +15,7 @@ public class BufferResolver<T> implements Resolver<T> {
         throws WebException {
         final Class<?> clazz = income.getArgType();
         if (Buffer.class == clazz) {
-            final Buffer body = context.getBody();
+            final Buffer body = context.body().buffer();
             income.setValue((T) body);
         }
         return income;

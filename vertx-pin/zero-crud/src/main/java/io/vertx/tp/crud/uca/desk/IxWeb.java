@@ -104,8 +104,8 @@ public class IxWeb {
             }
         }
         Ix.Log.web(this.getClass(), LOGGER_MOD,
-            this.active.module().getIdentifier(),
-            Objects.nonNull(this.standBy) ? this.standBy.module().getIdentifier() : null,
+            this.active.module().identifier(),
+            Objects.nonNull(this.standBy) ? this.standBy.module().identifier() : null,
             this.apiSpecification, this.view.view() + ":" + this.view.position());
         return this;
     }

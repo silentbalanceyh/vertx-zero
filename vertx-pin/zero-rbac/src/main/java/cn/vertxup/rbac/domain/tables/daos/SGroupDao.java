@@ -27,7 +27,7 @@ public class SGroupDao extends AbstractVertxDAO<SGroupRecord, cn.vertxup.rbac.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SGroupDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SGroup.S_GROUP, cn.vertxup.rbac.domain.tables.pojos.SGroup.class, new JDBCClassicQueryExecutor<SGroupRecord,cn.vertxup.rbac.domain.tables.pojos.SGroup,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SGroup.class,vertx));

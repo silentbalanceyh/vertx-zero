@@ -3,10 +3,9 @@ package cn.originx.uca.log;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 import java.util.Queue;
 import java.util.Set;
@@ -23,7 +22,8 @@ import java.util.Set;
 public interface Auditor {
 
     static Auditor history(final DataAtom atom, final JsonObject options) {
-        return Fn.pool(AuditorHistory.POOL_HISTORY, atom.key(options), () -> new AuditorHistory(options).bind(atom));
+        return AuditorHistory.CC_AUDITOR.pick(() -> new AuditorHistory(options).bind(atom), atom.atomKey(options));
+        // Fn.po?l(AuditorHistory.POOL_HISTORY, atom.atomKey(options), () -> new AuditorHistory(options).bind(atom));
     }
 
     Auditor bind(DataAtom atom);

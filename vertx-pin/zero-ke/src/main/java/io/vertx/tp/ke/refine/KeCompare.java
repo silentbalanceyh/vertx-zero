@@ -3,12 +3,12 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.ui.Combiner;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.commune.element.TypeAtom;
-import io.vertx.up.commune.element.TypeField;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -20,18 +20,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 class KeCompare {
-
-    static Function<JsonObject, Future<JsonObject>> combineAsync(final String field) {
-        return json -> {
-            if (Ut.isNil(json) || !json.containsKey(field)) {
-                return Ux.future(json);
-            } else {
-                final Class<?> clazz = Ut.clazz(json.getString(field));
-                final Combiner<JsonObject> fabric = Ut.instance(clazz);
-                return fabric.combine(json);
-            }
-        };
-    }
 
     /*
      * ADD / UPDATE
@@ -79,21 +67,21 @@ class KeCompare {
                 String.valueOf(updated.size()));
 
             final List<Future<JsonArray>> futures = new ArrayList<>();
-            futures.add(Ut.ifJEmpty(iFun).apply(inserted));
-            futures.add(Ut.ifJEmpty(uFun).apply(updated));
-            return Ux.thenCombineArray(futures);
+            futures.add(Fn.ofJArray(iFun).apply(inserted));
+            futures.add(Fn.ofJArray(uFun).apply(updated));
+            return Fn.compressA(futures);
         };
     }
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                           final List<String> columns,
-                                          final TypeAtom TypeAtom) {
+                                          final HTAtom HTAtom) {
         final JsonArray combined = new JsonArray();
         final boolean complex;
-        if (TypeAtom == null) {
+        if (HTAtom == null) {
             complex = false;
         } else {
-            complex = TypeAtom.isComplex();
+            complex = HTAtom.isComplex();
         }
         /*
          * Header
@@ -119,15 +107,15 @@ class KeCompare {
                 /*
                  * New Data Structure
                  */
-                if (TypeAtom.isComplex(column)) {
+                if (HTAtom.isComplex(column)) {
                     complexField.add(column);
                     // Complex that belong to data array
-                    final int columnSize = TypeAtom.size(column);
+                    final int columnSize = HTAtom.size(column);
                     firstCnHeader.add(itemColumn(headers.get(column), columnSize));
                     firstEnHeader.add(itemColumn(column, columnSize));
 
                     // Children column here
-                    final TypeField item = TypeAtom.item(column);
+                    final HTField item = HTAtom.item(column);
                     if (Objects.nonNull(item)) {
                         /*
                          * Adjust
@@ -164,13 +152,13 @@ class KeCompare {
                 /* Data Part */
                 final JsonArray row = new JsonArray();
                 columns.forEach(column -> {
-                    if (TypeAtom.isComplex(column)) {
+                    if (HTAtom.isComplex(column)) {
                         /* If complex */
                         final JsonArray columnValue = each.getJsonArray(column);
                         /*
                          * children field
                          */
-                        final TypeField item = TypeAtom.item(column);
+                        final HTField item = HTAtom.item(column);
                         /*
                          * Only pick first
                          */
@@ -208,8 +196,8 @@ class KeCompare {
                     final JsonArray addOn = new JsonArray();
                     final int maxIdx = idx;
                     columns.forEach(column -> {
-                        if (TypeAtom.isComplex(column)) {
-                            final TypeField item = TypeAtom.item(column);
+                        if (HTAtom.isComplex(column)) {
+                            final HTField item = HTAtom.item(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
                             if (Ut.notNil(columnValue) && 1 < columnValue.size()) {
@@ -277,7 +265,7 @@ class KeCompare {
         return itemString;
     }
 
-    private static void rowChild(final TypeField item, final JsonObject value, final JsonArray row) {
+    private static void rowChild(final HTField item, final JsonObject value, final JsonArray row) {
         /*
          * children field
          */

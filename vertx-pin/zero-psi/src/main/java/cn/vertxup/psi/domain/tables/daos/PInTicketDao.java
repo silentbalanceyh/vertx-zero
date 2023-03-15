@@ -28,7 +28,7 @@ public class PInTicketDao extends AbstractVertxDAO<PInTicketRecord, cn.vertxup.p
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PInTicketDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PInTicket.P_IN_TICKET, cn.vertxup.psi.domain.tables.pojos.PInTicket.class, new JDBCClassicQueryExecutor<PInTicketRecord,cn.vertxup.psi.domain.tables.pojos.PInTicket,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PInTicket.class,vertx));

@@ -4,8 +4,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.MethodNullException;
+import jakarta.ws.rs.*;
 
-import javax.ws.rs.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -20,7 +20,7 @@ class MethodResolver {
     private static final Annal LOGGER = Annal.get(MethodResolver.class);
 
     private static final ConcurrentMap<Class<?>, HttpMethod> METHODS =
-        new ConcurrentHashMap<Class<?>, HttpMethod>() {
+        new ConcurrentHashMap<>() {
             {
                 this.put(GET.class, HttpMethod.GET);
                 this.put(POST.class, HttpMethod.POST);

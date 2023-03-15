@@ -3,7 +3,7 @@
         "name": "runtime",
         "simple": "r",
         "type": "SYSTEM",
-        "description": "\u001b[1;32m（子系统）\u001b[m标准部署工具",
+        "description": "\u001b[1;32m（子系统）\u001b[m生产运行工具集 Runtime Toolkit",
         "commands": [
             {
                 "simple": "l",
@@ -84,7 +84,7 @@
         "name": "deploy",
         "simple": "d",
         "type": "SYSTEM",
-        "description": "\u001B[1;32m（子系统）\u001b[m部署诊断工具",
+        "description": "\u001B[1;32m（子系统）\u001b[m诊断工具集 Debugging Toolkit",
         "commands": [
             {
                 "simple": "j",
@@ -140,7 +140,7 @@
         "name": "upgrade",
         "simple": "u",
         "type": "SYSTEM",
-        "description": "\u001b[1;32m（子系统）\u001B[m升级专用子程序",
+        "description": "\u001b[1;32m（子系统）\u001B[m升级工具集 Upgrading Toolkit",
         "commands": [
             {
                 "simple": "k",
@@ -208,7 +208,7 @@
         "name": "kit",
         "simple": "k",
         "type": "SYSTEM",
-        "description": "\u001b[1;32m（子系统）\u001B[m开发工具箱",
+        "description": "\u001b[1;32m（子系统）\u001B[m开发工具集 Development Toolkit",
         "commands": [
             {
                 "simple": "u",
@@ -325,6 +325,25 @@
                         "name": "output",
                         "description": "Json输出文件路径，默认：runtime/json/",
                         "defaultValue": "runtime/json/"
+                    }
+                ]
+            },
+            {
+                "simple": "o",
+                "name": "encrypt",
+                "description": "密码加密专用工具",
+                "plugin": "cn.originx.uca.console.HEDInstruction",
+                "options": [
+                    {
+                        "simple": "i",
+                        "name": "input",
+                        "description": "需要加密的字符串",
+                        "required": true
+                    },
+                    {
+                        "simple": "p",
+                        "name": "path",
+                        "description": "加密所用的公钥文件路径"
                     }
                 ]
             }

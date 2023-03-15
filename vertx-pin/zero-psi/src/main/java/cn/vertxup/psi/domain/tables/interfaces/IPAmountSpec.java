@@ -226,8 +226,8 @@ public interface IPAmountSpec extends VertxPojo, Serializable {
                 setOrThrow(this::setCommodityCode,json::getString,"COMMODITY_CODE","java.lang.String");
                 setOrThrow(this::setCommodityName,json::getString,"COMMODITY_NAME","java.lang.String");
                 setOrThrow(this::setWhId,json::getString,"WH_ID","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_MIN!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_MAX!
+                setOrThrow(this::setAmountMin,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_MIN","java.math.BigDecimal");
+                setOrThrow(this::setAmountMax,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_MAX","java.math.BigDecimal");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -249,8 +249,8 @@ public interface IPAmountSpec extends VertxPojo, Serializable {
                 json.put("COMMODITY_CODE",getCommodityCode());
                 json.put("COMMODITY_NAME",getCommodityName());
                 json.put("WH_ID",getWhId());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_MIN!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_MAX!
+                json.put("AMOUNT_MIN",getAmountMin()==null?null:getAmountMin().toString());
+                json.put("AMOUNT_MAX",getAmountMax()==null?null:getAmountMax().toString());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

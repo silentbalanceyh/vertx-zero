@@ -27,7 +27,7 @@ public class XNumberDao extends AbstractVertxDAO<XNumberRecord, cn.vertxup.ambie
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XNumberDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XNumber.X_NUMBER, cn.vertxup.ambient.domain.tables.pojos.XNumber.class, new JDBCClassicQueryExecutor<XNumberRecord,cn.vertxup.ambient.domain.tables.pojos.XNumber,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XNumber.class,vertx));

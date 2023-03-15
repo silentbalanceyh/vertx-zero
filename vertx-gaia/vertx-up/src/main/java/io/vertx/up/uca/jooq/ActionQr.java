@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.query.Pager;
+import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
@@ -39,8 +40,8 @@ public class ActionQr extends AbstractAction {
      * 1): Full query:  pager, sorter, projection, criteria
      * 2): Simple query: criteria only
      */
-    <T> Future<List<T>> searchAsync(final JsonObject criteria) {
-        final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, criteria);
+    <T> Future<List<T>> searchAsync(final JsonObject criteria, final Sorter sorter) {
+        final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, criteria, sorter);
         return Future.succeededFuture(executor.apply(this.context()));
     }
 
@@ -48,16 +49,16 @@ public class ActionQr extends AbstractAction {
         return this.searchInternal(this.context(), qr);
     }
 
-    <T> List<T> search(final JsonObject criteria) {
-        return this.searchInternal(this.context(), criteria);
+    <T> List<T> search(final JsonObject criteria, final Sorter sorter) {
+        return this.searchInternal(this.context(), criteria, sorter);
     }
 
     /*
      * The interface to call `public` only
      * The Aop Cache should call this method to get original data from database
      */
-    public <T> List<Object> searchPrimary(final JsonObject criteria) {
-        final List<T> entities = this.search(criteria);
+    public <T> List<Object> searchPrimary(final JsonObject criteria, final Sorter sorter) {
+        final List<T> entities = this.search(criteria, sorter);
         /*
          * Process entity ids here
          */
@@ -68,7 +69,7 @@ public class ActionQr extends AbstractAction {
      * 「Sync method」
      * Simple query
      */
-    private <T> List<T> searchInternal(final DSLContext context, final JsonObject criteria) {
+    private <T> List<T> searchInternal(final DSLContext context, final JsonObject criteria, final Sorter sorter) {
         // Started steps
         final SelectWhereStep started = context.selectFrom(this.analyzer.table());
         // Condition injection
@@ -77,8 +78,21 @@ public class ActionQr extends AbstractAction {
             final Condition condition = JooqCond.transform(criteria, this.analyzer::column);
             conditionStep = started.where(condition);
         }
-        // Projection
-        return started.fetchInto(this.analyzer.type());
+
+        if (Objects.isNull(sorter)) {
+            // Projection
+            return started.fetchInto(this.analyzer.type());
+        } else {
+            // Sorted Enabled
+            SelectSeekStepN selectStep = null;
+            final List<OrderField> orders = JooqCond.orderBy(sorter, this.analyzer::column, null);
+            if (null == conditionStep) {
+                selectStep = started.orderBy(orders);
+            } else {
+                selectStep = conditionStep.orderBy(orders);
+            }
+            return selectStep.fetchInto(this.analyzer.type());
+        }
     }
 
     /*

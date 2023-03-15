@@ -207,7 +207,7 @@ public interface IUiForm extends VertxPojo, Serializable {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column WINDOW!
+                setOrThrow(this::setWindow,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"WINDOW","java.math.BigDecimal");
                 setOrThrow(this::setColumns,json::getInteger,"COLUMNS","java.lang.Integer");
                 setOrThrow(this::setHidden,json::getString,"HIDDEN","java.lang.String");
                 setOrThrow(this::setRow,json::getString,"ROW","java.lang.String");
@@ -230,7 +230,7 @@ public interface IUiForm extends VertxPojo, Serializable {
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
-                // Omitting unrecognized type java.math.BigDecimal for column WINDOW!
+                json.put("WINDOW",getWindow()==null?null:getWindow().toString());
                 json.put("COLUMNS",getColumns());
                 json.put("HIDDEN",getHidden());
                 json.put("ROW",getRow());

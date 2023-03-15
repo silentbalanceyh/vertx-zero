@@ -1,0 +1,22 @@
+{
+    "name": "w-oa-trip",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
+    "field": {
+        "unique": [
+            [
+                "key"
+            ]
+        ]
+    },
+    "connect": {
+        "targetIndent": "w.todo",
+        "target": {
+            "w.todo": {
+                "keyJoin": "traceId"
+            }
+        },
+        "source": {
+            "keyJoin": "key"
+        }
+    }
+}

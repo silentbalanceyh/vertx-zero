@@ -7,6 +7,7 @@ package cn.vertxup.erp.domain.tables;
 import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.ECustomerRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -46,6 +47,10 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      * 客户分类（不同类型代表不同客户）
      */
     public final TableField<ECustomerRecord, String> TYPE = createField(DSL.name("TYPE"), SQLDataType.VARCHAR(36), this, "「type」- 客户分类（不同类型代表不同客户）");
+    /**
+     * The column <code>DB_ETERNAL.E_CUSTOMER.STATUS</code>. 「status」- 客户状态
+     */
+    public final TableField<ECustomerRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(36), this, "「status」- 客户状态");
     /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.TAX_CODE</code>. 「taxCode」- 税号
      */
@@ -122,10 +127,10 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
      */
     public final TableField<ECustomerRecord, Boolean> RUN_UP = createField(DSL.name("RUN_UP"), SQLDataType.BIT, this, "「runUp」- 挂账属性");
     /**
-     * The column <code>DB_ETERNAL.E_CUSTOMER.RUN_AMOUNT</code>. 「runAmount」-
-     * 挂账限额
+     * The column <code>DB_ETERNAL.E_CUSTOMER.RUN_UP_AMOUNT</code>.
+     * 「runUpAmount」- 挂账限额
      */
-    public final TableField<ECustomerRecord, BigDecimal> RUN_AMOUNT = createField(DSL.name("RUN_AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「runAmount」- 挂账限额");
+    public final TableField<ECustomerRecord, BigDecimal> RUN_UP_AMOUNT = createField(DSL.name("RUN_UP_AMOUNT"), SQLDataType.DECIMAL(18, 2), this, "「runUpAmount」- 挂账限额");
     /**
      * The column <code>DB_ETERNAL.E_CUSTOMER.BANK_ID</code>. 「bankId」- 开户行
      */
@@ -239,6 +244,11 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
         return new ECustomer(alias, this);
     }
 
+    @Override
+    public ECustomer as(Table<?> alias) {
+        return new ECustomer(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -253,5 +263,13 @@ public class ECustomer extends TableImpl<ECustomerRecord> {
     @Override
     public ECustomer rename(Name name) {
         return new ECustomer(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public ECustomer rename(Table<?> name) {
+        return new ECustomer(name.getQualifiedName(), null);
     }
 }

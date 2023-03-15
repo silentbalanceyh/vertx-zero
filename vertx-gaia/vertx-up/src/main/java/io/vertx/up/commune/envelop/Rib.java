@@ -1,7 +1,6 @@
 package io.vertx.up.commune.envelop;
 
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.exception.WebException;
@@ -50,13 +49,5 @@ public class Rib {
 
     public static boolean isIndex(final Integer argIndex) {
         return Constants.INDEXES.containsKey(argIndex);
-    }
-
-    public static void projection(final JsonObject reference, final JsonArray projection, final boolean clear) {
-        RibIr.irProjection(reference, projection, clear);
-    }
-
-    public static void criteria(final JsonObject reference, final JsonObject criteria, final boolean clear) {
-        RibIr.irCriteria(reference, criteria, clear);
     }
 }

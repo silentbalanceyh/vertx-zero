@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public abstract class AbstractTree extends AbstractAide implements Tree {
     protected Future<JsonArray> fetchTree(final JsonObject criteria) {
         return Ux.Jooq.on(XCategoryDao.class).fetchAsync(criteria)
             .compose(Ux::futureA)
-            .compose(Ut.ifJArray(
+            .compose(Fn.ifJArray(
                 KName.METADATA,
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG

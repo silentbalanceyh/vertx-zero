@@ -27,7 +27,7 @@ public class LFloorDao extends AbstractVertxDAO<LFloorRecord, cn.vertxup.lbs.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LFloorDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LFloor.L_FLOOR, cn.vertxup.lbs.domain.tables.pojos.LFloor.class, new JDBCClassicQueryExecutor<LFloorRecord,cn.vertxup.lbs.domain.tables.pojos.LFloor,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LFloor.class,vertx));

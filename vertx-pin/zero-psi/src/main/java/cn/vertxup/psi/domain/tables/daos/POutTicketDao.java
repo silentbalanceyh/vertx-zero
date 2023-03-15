@@ -28,7 +28,7 @@ public class POutTicketDao extends AbstractVertxDAO<POutTicketRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public POutTicketDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(POutTicket.P_OUT_TICKET, cn.vertxup.psi.domain.tables.pojos.POutTicket.class, new JDBCClassicQueryExecutor<POutTicketRecord,cn.vertxup.psi.domain.tables.pojos.POutTicket,String>(configuration,cn.vertxup.psi.domain.tables.pojos.POutTicket.class,vertx));

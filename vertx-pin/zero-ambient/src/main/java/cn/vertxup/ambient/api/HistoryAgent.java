@@ -7,7 +7,7 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /**
  * # Zero History Api Definition

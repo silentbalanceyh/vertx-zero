@@ -27,7 +27,7 @@ public class EIdentityDao extends AbstractVertxDAO<EIdentityRecord, cn.vertxup.e
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EIdentityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EIdentity.E_IDENTITY, cn.vertxup.erp.domain.tables.pojos.EIdentity.class, new JDBCClassicQueryExecutor<EIdentityRecord,cn.vertxup.erp.domain.tables.pojos.EIdentity,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EIdentity.class,vertx));

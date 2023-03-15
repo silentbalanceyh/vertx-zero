@@ -438,9 +438,9 @@ public interface IPInTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setTags,json::getString,"TAGS","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setSource,json::getString,"SOURCE","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
+                setOrThrow(this::setTaxAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"TAX_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setAmountTotal,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_TOTAL","java.math.BigDecimal");
                 setOrThrow(this::setApprovedBy,json::getString,"APPROVED_BY","java.lang.String");
                 setOrThrow(this::setApprovedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"APPROVED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setToId,json::getString,"TO_ID","java.lang.String");
@@ -480,9 +480,9 @@ public interface IPInTicket extends VertxPojo, Serializable {
                 json.put("TAGS",getTags());
                 json.put("COMMENT",getComment());
                 json.put("SOURCE",getSource());
-                // Omitting unrecognized type java.math.BigDecimal for column TAX_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
+                json.put("TAX_AMOUNT",getTaxAmount()==null?null:getTaxAmount().toString());
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
+                json.put("AMOUNT_TOTAL",getAmountTotal()==null?null:getAmountTotal().toString());
                 json.put("APPROVED_BY",getApprovedBy());
                 json.put("APPROVED_AT",getApprovedAt()==null?null:getApprovedAt().toString());
                 json.put("TO_ID",getToId());

@@ -8,6 +8,7 @@ import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Indexes;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.RUserGroupRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -109,6 +111,11 @@ public class RUserGroup extends TableImpl<RUserGroupRecord> {
         return new RUserGroup(alias, this);
     }
 
+    @Override
+    public RUserGroup as(Table<?> alias) {
+        return new RUserGroup(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -125,6 +132,14 @@ public class RUserGroup extends TableImpl<RUserGroupRecord> {
         return new RUserGroup(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public RUserGroup rename(Table<?> name) {
+        return new RUserGroup(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
@@ -132,5 +147,20 @@ public class RUserGroup extends TableImpl<RUserGroupRecord> {
     @Override
     public Row3<String, String, Integer> fieldsRow() {
         return (Row3) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super String, ? super String, ? super Integer, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

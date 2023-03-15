@@ -375,14 +375,14 @@ public interface IPOutItem extends VertxPojo, Serializable {
                 setOrThrow(this::setTicketId,json::getString,"TICKET_ID","java.lang.String");
                 setOrThrow(this::setWhId,json::getString,"WH_ID","java.lang.String");
                 setOrThrow(this::setNum,json::getInteger,"NUM","java.lang.Integer");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setPrice,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"PRICE","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column COST_PER_BASIS!
-                // Omitting unrecognized type java.math.BigDecimal for column COST_PER!
-                // Omitting unrecognized type java.math.BigDecimal for column COST_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                setOrThrow(this::setCostPerBasis,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"COST_PER_BASIS","java.math.BigDecimal");
+                setOrThrow(this::setCostPer,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"COST_PER","java.math.BigDecimal");
+                setOrThrow(this::setCostAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"COST_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setDiscountAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setDiscountRate,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"DISCOUNT_RATE","java.math.BigDecimal");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
@@ -411,14 +411,14 @@ public interface IPOutItem extends VertxPojo, Serializable {
                 json.put("TICKET_ID",getTicketId());
                 json.put("WH_ID",getWhId());
                 json.put("NUM",getNum());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
+                json.put("PRICE",getPrice()==null?null:getPrice().toString());
                 json.put("COMMENT",getComment());
-                // Omitting unrecognized type java.math.BigDecimal for column COST_PER_BASIS!
-                // Omitting unrecognized type java.math.BigDecimal for column COST_PER!
-                // Omitting unrecognized type java.math.BigDecimal for column COST_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column DISCOUNT_RATE!
+                json.put("COST_PER_BASIS",getCostPerBasis()==null?null:getCostPerBasis().toString());
+                json.put("COST_PER",getCostPer()==null?null:getCostPer().toString());
+                json.put("COST_AMOUNT",getCostAmount()==null?null:getCostAmount().toString());
+                json.put("DISCOUNT_AMOUNT",getDiscountAmount()==null?null:getDiscountAmount().toString());
+                json.put("DISCOUNT_RATE",getDiscountRate()==null?null:getDiscountRate().toString());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());
                 json.put("METADATA",getMetadata());

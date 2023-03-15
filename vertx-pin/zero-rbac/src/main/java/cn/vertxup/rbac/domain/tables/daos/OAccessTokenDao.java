@@ -27,7 +27,7 @@ public class OAccessTokenDao extends AbstractVertxDAO<OAccessTokenRecord, cn.ver
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public OAccessTokenDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(OAccessToken.O_ACCESS_TOKEN, cn.vertxup.rbac.domain.tables.pojos.OAccessToken.class, new JDBCClassicQueryExecutor<OAccessTokenRecord,cn.vertxup.rbac.domain.tables.pojos.OAccessToken,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.OAccessToken.class,vertx));

@@ -36,6 +36,11 @@ public class Db extends SchemaImpl {
     public final XActivityChange X_ACTIVITY_CHANGE = XActivityChange.X_ACTIVITY_CHANGE;
 
     /**
+     * The table <code>DB_ETERNAL.X_ACTIVITY_RULE</code>.
+     */
+    public final XActivityRule X_ACTIVITY_RULE = XActivityRule.X_ACTIVITY_RULE;
+
+    /**
      * The table <code>DB_ETERNAL.X_APP</code>.
      */
     public final XApp X_APP = XApp.X_APP;
@@ -66,11 +71,6 @@ public class Db extends SchemaImpl {
     public final XMenu X_MENU = XMenu.X_MENU;
 
     /**
-     * The table <code>DB_ETERNAL.X_MENU_MY</code>.
-     */
-    public final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
-
-    /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
      */
     public final XModule X_MODULE = XModule.X_MODULE;
@@ -96,6 +96,11 @@ public class Db extends SchemaImpl {
     public final XTabular X_TABULAR = XTabular.X_TABULAR;
 
     /**
+     * The table <code>DB_ETERNAL.X_TAG</code>.
+     */
+    public final XTag X_TAG = XTag.X_TAG;
+
+    /**
      * No further instances allowed
      */
     private Db() {
@@ -113,18 +118,19 @@ public class Db extends SchemaImpl {
         return Arrays.asList(
             XActivity.X_ACTIVITY,
             XActivityChange.X_ACTIVITY_CHANGE,
+            XActivityRule.X_ACTIVITY_RULE,
             XApp.X_APP,
             XAttachment.X_ATTACHMENT,
             XCategory.X_CATEGORY,
             XLinkage.X_LINKAGE,
             XLog.X_LOG,
             XMenu.X_MENU,
-            XMenuMy.X_MENU_MY,
             XModule.X_MODULE,
             XNotice.X_NOTICE,
             XNumber.X_NUMBER,
             XSource.X_SOURCE,
-            XTabular.X_TABULAR
+            XTabular.X_TABULAR,
+            XTag.X_TAG
         );
     }
 }

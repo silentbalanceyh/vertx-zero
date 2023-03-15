@@ -1,5 +1,7 @@
 package io.vertx.up.annotations;
 
+import io.vertx.up.eon.em.BoolStatus;
+
 import java.lang.annotation.*;
 
 /**
@@ -10,5 +12,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface Me {
-    boolean active() default true;
+    BoolStatus active() default BoolStatus.TRUE;
+
+    boolean app() default false;
 }

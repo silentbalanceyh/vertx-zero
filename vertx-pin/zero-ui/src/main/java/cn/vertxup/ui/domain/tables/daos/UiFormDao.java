@@ -28,7 +28,7 @@ public class UiFormDao extends AbstractVertxDAO<UiFormRecord, cn.vertxup.ui.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiFormDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiForm.UI_FORM, cn.vertxup.ui.domain.tables.pojos.UiForm.class, new JDBCClassicQueryExecutor<UiFormRecord,cn.vertxup.ui.domain.tables.pojos.UiForm,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiForm.class,vertx));

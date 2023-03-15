@@ -4,61 +4,33 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.em.DatabaseType;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
-import org.jooq.ConnectionProvider;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultConnectionProvider;
+import org.jooq.Table;
 
-import java.sql.Connection;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-class JooqPin {
+public class JooqPin {
 
     private static final Annal LOGGER = Annal.get(JooqPin.class);
-    private static final ConcurrentMap<DatabaseType, SQLDialect> DIALECT =
-        new ConcurrentHashMap<DatabaseType, SQLDialect>() {
-            {
-                this.put(DatabaseType.MYSQL, SQLDialect.MYSQL);
-                this.put(DatabaseType.MYSQL5, SQLDialect.MYSQL);
-                this.put(DatabaseType.MYSQL8, SQLDialect.MYSQL);
-            }
-        };
 
-    private static DataPool initPool(final JsonObject databaseJson) {
-        final Database database = new Database();
-        database.fromJson(databaseJson);
-        return DataPool.create(database);
+    public static String initTable(final Class<?> clazz) {
+        final JooqDsl dsl = JooqInfix.getDao(clazz);
+        final Table<?> table = Ut.field(dsl.dao(), KName.TABLE);
+        return table.getName();
     }
 
-    static Configuration initConfig(final DataPool pool) {
-        // Initialized client
-        final Database database = pool.getDatabase();
-        final Configuration configuration = new DefaultConfiguration();
-        SQLDialect dialect = DIALECT.get(database.getCategory());
-        if (Objects.isNull(dialect)) {
-            dialect = SQLDialect.DEFAULT;
-        }
-        configuration.set(dialect);
-        final Connection connection = Fn.getJvm(() -> pool.getDataSource().getConnection());
-        // Database object it bind to jooq configuration
-        final ConnectionProvider provider = new DefaultConnectionProvider(connection);
-        // Initialized default configuration
-        configuration.set(provider);
-        return configuration;
-    }
-
-    private static Configuration initConfig(final JsonObject options) {
-        final DataPool pool = initPool(options);
-        return initConfig(pool);
+    public static Class<?> initPojo(final Class<?> clazz) {
+        final JooqDsl dsl = JooqInfix.getDao(clazz);
+        return Ut.field(dsl.dao(), KName.TYPE);
     }
 
     static ConcurrentMap<String, Configuration> initConfiguration(final JsonObject config) {
@@ -71,31 +43,37 @@ class JooqPin {
          *    orbit:
          */
         final ConcurrentMap<String, Configuration> configurationMap =
-            new ConcurrentHashMap<>();
+                new ConcurrentHashMap<>();
 
         Fn.outUp(Ut.isNil(config) || !config.containsKey(Constants.DEFAULT_JOOQ),
-            LOGGER, JooqConfigurationException.class, JooqPin.class);
+                LOGGER, JooqConfigurationException.class, JooqPin.class);
 
         if (Ut.notNil(config)) {
+            /*
+             * provider / orbit
+             * provider - 标准数据库
+             * orbit - 历史数据库
+             */
             config.fieldNames().stream()
-                .filter(key -> Objects.nonNull(config.getValue(key)))
-                .filter(key -> config.getValue(key) instanceof JsonObject)
-                .forEach(key -> {
-                    final JsonObject options = config.getJsonObject(key);
-                    final Configuration configuration = initConfig(options);
-                    configurationMap.put(key, configuration);
-                    /*
-                     * Process Jooq password by `debug` mode turn on
-                     */
-                    final JsonObject populated = options.copy();
-                    if (Debugger.onPasswordHidden()) {
-                        /*
-                         * Hidden Password
-                         */
-                        populated.remove("password");
-                    }
-                    LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
-                });
+                    // 过滤：key值对应的配置存在，并且是合法的 Database Json 格式
+                    .filter(key -> Objects.nonNull(config.getValue(key)))
+                    .filter(key -> config.getValue(key) instanceof JsonObject)
+                    .forEach(key -> {
+                        final JsonObject options = config.getJsonObject(key);
+                        // Database Environment Connected
+                        final JsonObject databaseJ;
+                        if (Database.HISTORY.equals(key)) {
+                            databaseJ = MatureOn.envDatabase(options, DSMode.HISTORY);
+                        } else {
+                            databaseJ = MatureOn.envDatabase(options, DSMode.PRIMARY);
+                        }
+                        final DataPool pool = DataPool.create(Database.configure(databaseJ));
+                        final Configuration configuration = pool.configuration();
+                        configurationMap.put(key, configuration);
+                        final JsonObject populated = databaseJ.copy();
+                        populated.remove(KName.PASSWORD);
+                        LOGGER.info("Jooq options: \n{0}", populated.encodePrettily());
+                    });
         }
         return configurationMap;
     }

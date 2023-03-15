@@ -1,20 +1,25 @@
 package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.SessionData;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.extension.pointer.PluginExtension;
+import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -28,6 +33,7 @@ import java.util.function.Supplier;
  * 2. Operation based on event, envelop, context
  */
 public final class Answer {
+    private static final Annal LOGGER = Annal.get(Answer.class);
 
     public static Envelop previous(final RoutingContext context) {
         Envelop envelop = context.get(ID.REQUEST_BODY);
@@ -93,9 +99,6 @@ public final class Answer {
 
     private static void reply(final RoutingContext context, final Envelop envelop,
                               final Set<MediaType> mediaTypes, final Method sessionAction) {
-        /*
-         * New workflow here, firstly checking response after get response reference.
-         */
         final HttpServerResponse response = context.response();
         /*
          * FIX: java.lang.IllegalStateException: Response is closed
@@ -135,7 +138,7 @@ public final class Answer {
                 /*
                  * SessionData Stored
                  */
-                storeSession(context, envelop.data(), sessionAction);
+                dataSession(context, envelop.data(), sessionAction);
             }
             /*
              * Plugin Extension for response replying here ( Plug-in )
@@ -150,29 +153,54 @@ public final class Answer {
                  * and ACL workflow won't be OK for response data serialization.
                  */
                 Outcome.out(response, processed, mediaTypes);
+
+                /*
+                 * New Feature to publish data into address of @Off
+                 */
+                dataPublish(context, processed, sessionAction);
                 return Future.succeededFuture();
             });
         }
     }
 
-    private static <T> void storeSession(final RoutingContext context,
-                                         final T data,
-                                         final Method method) {
-        final Session session = context.session();
-        if (null != session && null != data) {
-            if (Objects.nonNull(method) && method.isAnnotationPresent(SessionData.class)) {
-                final Annotation annotation = method.getAnnotation(SessionData.class);
-                final String key = Ut.invoke(annotation, "value");
-                final String field = Ut.invoke(annotation, "field");
-                // Data Storage
-                Object reference = data;
-                if (Ut.isJObject(data) && Ut.notNil(field)) {
-                    final JsonObject target = (JsonObject) data;
-                    reference = target.getValue(field);
-                }
-                // Session Put / Include Session ID
-                session.put(key, reference);
-            }
+    private static void dataPublish(final RoutingContext context, final Envelop envelop,
+                                    final Method method) {
+        if (Objects.isNull(method) || !method.isAnnotationPresent(Off.class)) {
+            return;
         }
+        final Annotation annotation = method.getAnnotation(Off.class);
+        final String address = Ut.invoke(annotation, "address");
+        if (Ut.isNil(address)) {
+            return;
+        }
+
+        final Vertx vertx = context.vertx();
+        final EventBus publish = vertx.eventBus();
+        LOGGER.info("[ Publish ] The response will be published to {0}", address);
+        publish.publish(address, envelop);
+    }
+
+    private static <T> void dataSession(final RoutingContext context,
+                                        final T data,
+                                        final Method method) {
+        final Session session = context.session();
+        if (Objects.isNull(session) || Objects.isNull(data)) {
+            return;
+        }
+        if (Objects.isNull(method) || !method.isAnnotationPresent(SessionData.class)) {
+            return;
+        }
+
+        final Annotation annotation = method.getAnnotation(SessionData.class);
+        final String key = Ut.invoke(annotation, KName.VALUE);
+        final String field = Ut.invoke(annotation, KName.FIELD);
+        // Data Storage
+        Object reference = data;
+        if (Ut.isJObject(data) && Ut.notNil(field)) {
+            final JsonObject target = (JsonObject) data;
+            reference = target.getValue(field);
+        }
+        // Session Put / Include Session ID
+        session.put(key, reference);
     }
 }

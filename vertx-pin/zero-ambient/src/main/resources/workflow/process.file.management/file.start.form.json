@@ -57,7 +57,7 @@
     ],
     "initial": {
         "phase": "INIT",
-        "catalog": "UNIQUE:service.catalog,code,code=FIX:w.document.request",
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.document.request",
         "openBy": "USER:key",
         "owner": "USER:key"
     }

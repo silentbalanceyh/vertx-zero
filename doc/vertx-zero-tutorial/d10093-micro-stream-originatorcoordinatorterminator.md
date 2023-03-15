@@ -130,7 +130,8 @@ public class HuttInsider {
 }
 ```
 
-> Here please be careful about different role configuration for stream, you can refer [D10083 - Micro, Rpc Mode](d10083-micro-rpc-mode.md) to check different role configuration tutorials.
+> Here please be careful about different role configuration for stream, you can
+> refer [D10083 - Micro, Rpc Mode](d10083-micro-rpc-mode.md) to check different role configuration tutorials.
 
 ## 3. Testing
 

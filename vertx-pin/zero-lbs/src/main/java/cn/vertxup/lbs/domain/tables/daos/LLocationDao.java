@@ -27,7 +27,7 @@ public class LLocationDao extends AbstractVertxDAO<LLocationRecord, cn.vertxup.l
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LLocationDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LLocation.L_LOCATION, cn.vertxup.lbs.domain.tables.pojos.LLocation.class, new JDBCClassicQueryExecutor<LLocationRecord,cn.vertxup.lbs.domain.tables.pojos.LLocation,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LLocation.class,vertx));

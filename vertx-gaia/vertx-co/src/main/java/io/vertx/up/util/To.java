@@ -7,6 +7,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
@@ -34,8 +36,38 @@ final class To {
         return map;
     }
 
+    static <T> Map<String, Object> toMapExpr(final JsonObject data) {
+        // Serialized
+        final Map<String, Object> map = new HashMap<>();
+        data.getMap().forEach((key, value) -> {
+            if (value instanceof JsonObject) {
+                map.put(key, toMapExpr((JsonObject) value));
+            } else if (value instanceof JsonArray) {
+                map.put(key, toMapExpr((JsonArray) value));
+            } else {
+                map.put(key, value);
+            }
+        });
+        return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Object> toMapExpr(final JsonArray data) {
+        final List<Object> nested = new ArrayList<>();
+        data.getList().forEach(item -> {
+            if (item instanceof JsonObject) {
+                nested.add(toMapExpr((JsonObject) item));
+            } else if (item instanceof JsonArray) {
+                nested.add(toMapExpr((JsonArray) item));
+            } else {
+                nested.add(item);
+            }
+        });
+        return nested;
+    }
+
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
-        return Fn.getJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
+        return Fn.orJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
     }
 
     static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
@@ -57,14 +89,17 @@ final class To {
     }
 
     static Integer toInteger(final Object value) {
-        return Fn.getNull(null, () -> Integer.parseInt(value.toString()), value);
+        return Fn.orNull(null, () -> Integer.parseInt(value.toString()), value);
     }
 
-    static Set<String> toSet(final JsonArray keys) {
-        final JsonArray keysData = Jackson.sureJArray(keys);
-        final Set<String> keySet = new HashSet<>();
-        It.itJString(keysData).forEach(keySet::add);
-        return keySet;
+    static List<Class<?>> toClass(final JsonArray names) {
+        final JsonArray keysData = Jackson.sureJArray(names);
+        final List<Class<?>> classList = new ArrayList<>();
+        It.itJString(keysData)
+            .map(name -> Instance.clazz(name, null))
+            .filter(Objects::nonNull)
+            .forEach(classList::add);
+        return classList;
     }
 
     static List<String> toList(final JsonArray keys) {
@@ -75,7 +110,7 @@ final class To {
     }
 
     static String toString(final Object reference) {
-        return Fn.getNull("null", () -> {
+        return Fn.orNull("null", () -> {
             final String literal;
             if (Types.isJObject(reference)) {
                 // Fix issue for serialization
@@ -133,6 +168,11 @@ final class To {
         }
     }
 
+    static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonObject parsed = toJObject(literal);
+        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+    }
+
     static JsonArray toJArray(final String literal) {
         if (Ut.isNil(literal)) {
             return new JsonArray();
@@ -145,6 +185,25 @@ final class To {
         }
     }
 
+    static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonArray parsed = toJArray(literal);
+        if (Objects.isNull(itemFn)) {
+            return parsed;
+        } else {
+            final JsonArray replaced = new JsonArray();
+            parsed.forEach(item -> {
+                if (item instanceof JsonObject) {
+                    replaced.add(itemFn.apply((JsonObject) item));
+                } else {
+                    // Fix String Literal Serialization
+                    replaced.add(item);
+                }
+            });
+            // Ut.itJArray(parsed).map(itemFn).forEach(replaced::add);
+            return replaced;
+        }
+    }
+
     static <T> JsonArray toJArray(final T entity, final int repeat) {
         final JsonArray array = new JsonArray();
         for (int idx = Values.IDX; idx < repeat; idx++) {
@@ -154,7 +213,7 @@ final class To {
     }
 
     static Collection<?> toCollection(final Object value) {
-        return Fn.getNull(() -> {
+        return Fn.orNull(() -> {
             // Collection
             if (value instanceof Collection) {
                 return ((Collection<?>) value);
@@ -179,6 +238,12 @@ final class To {
         return params;
     }
 
+    static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
+        final JsonObject params = new JsonObject();
+        Fn.safeNull(() -> map.forEach(params::put), map);
+        return params;
+    }
+
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
         Fn.safeNull(() -> multiMap.forEach(
@@ -189,5 +254,28 @@ final class To {
 
     static Class<?> toPrimary(final Class<?> source) {
         return Types.UNBOXES.getOrDefault(source, source);
+    }
+
+
+    static WebException toError(
+        final Class<? extends WebException> clazz,
+        final Object... args
+    ) {
+        if (null == clazz || null == args) {
+            // Fix Cast WebException error.
+            return new _500InternalServerException(To.class, "clazz arg is null");
+        } else {
+            return Ut.instance(clazz, args);
+        }
+    }
+
+    @SuppressWarnings("all")
+    static WebException toError(
+        final Class<?> clazz,
+        final Throwable error
+    ) {
+        return Fn.orSemi(error instanceof WebException, null,
+            () -> (WebException) error,
+            () -> new _500InternalServerException(clazz, error.getMessage()));
     }
 }

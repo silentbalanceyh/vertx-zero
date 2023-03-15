@@ -6,9 +6,9 @@ DROP TABLE IF EXISTS W_TODO;
 CREATE TABLE IF NOT EXISTS W_TODO
 (
     `KEY`              VARCHAR(36) COMMENT '「key」- 待办主键',
-    `SERIAL`           VARCHAR(255) COMMENT '「serial」- 待办编号，使用 X_NUMBER 生成',
+    `SERIAL`           VARCHAR(128) COMMENT '「serial」- 待办编号，使用 X_NUMBER 生成',
     `NAME`             VARCHAR(255) COMMENT '「name」- 待办名称（标题）',
-    `CODE`             VARCHAR(36) COMMENT '「code」- 待办系统码，使用流程时候关联流程的任务ID',
+    `CODE`             VARCHAR(128) COMMENT '「code」- 待办系统码，使用流程时候关联流程的任务ID',
     `ICON`             VARCHAR(255) COMMENT '「icon」- 待办显示的图标',
     -- 待办相关内容
     /*
@@ -58,14 +58,22 @@ CREATE TABLE IF NOT EXISTS W_TODO
      * trace_task_id = Active Task ID ( Multi Tasks )
      */
     `PARENT_ID`        VARCHAR(36) COMMENT '「parentId」- 待办支持父子集结构，父待办执行时候子待办同样执行',
+    /*
+     * 1:1,
+     * 1:N,
+     * N:1,
+     * N:N
+     * 1）1:1,1:N 不考虑分支序号，直接生成
+     * 2）N:1,N:N 考虑分支序号，根据分支序号生成
+     */
+    `SERIAL_FORK`      VARCHAR(255) COMMENT '「serialFork」- 生成序号的分支序号',
 
     -- 主单ID（TraceId）
     `TRACE_ID`         VARCHAR(36) COMMENT '「traceId」- 同一个流程的待办执行分组',
     `TRACE_ORDER`      INTEGER COMMENT '「traceOrder」- 待办的处理顺序',
 
-    `TASK_ID`          VARCHAR(36) COMMENT '「traceTask」- 和待办绑定的taskId（任务）',
-    `TASK_KEY`         VARCHAR(255) COMMENT '「traceTaskKey」- 和待办绑定的taskKey',
-    `ACTIVITY_ID`      VARCHAR(36) COMMENT '「activityId」- 生成的ACTIVITY_ID',
+    `TASK_ID`          VARCHAR(36) COMMENT '「taskId」- 和待办绑定的taskId（任务）',
+    `TASK_KEY`         VARCHAR(255) COMMENT '「taskKey」- 和待办绑定的taskKey',
 
 
     -- 特殊字段
@@ -82,21 +90,29 @@ CREATE TABLE IF NOT EXISTS W_TODO
      */
     `TO_LOCATION`      VARCHAR(36) COMMENT '「toLocation」- 指定地址区域',
     `TO_GROUP`         VARCHAR(36) COMMENT '「toGroup」- 指定用户组',
-    `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
     `TO_TEAM`          VARCHAR(36) COMMENT '「toTeam」- 指定业务组',
-    `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
     `TO_ROLE`          VARCHAR(36) COMMENT '「toRole」- 待办角色（集体）',
+    /*
+     * 目前在使用的指定待办人
+     * 1）单指定模式（已测试过），toUser = processed 形成最终结果
+     * 2）组指定模式，toDept = [] 形成最终结果
+     */
+    `TO_USER`          VARCHAR(36) COMMENT '「toUser」- 待办指定人',
+    `TO_DEPT`          VARCHAR(36) COMMENT '「toDept」- 指定部门',
 
+    `ESCALATE`         BIT         DEFAULT NULL COMMENT '「escalate」- 是否升级',
+    `ESCALATE_DATA`    LONGTEXT COMMENT '「escalateData」- 升级单据数据',
 
     /*
      * 任务三个主体：
      * 1. 指派人
-     * 2. 接收人
+     * 2. 接收人（当前处理人）
      * 3. 完成人
      */
     `ASSIGNED_BY`      VARCHAR(36) COMMENT '「assignedBy」- 待办指派人', -- 指派人
     `ASSIGNED_AT`      DATETIME COMMENT '「assignedAt」- 指派时间',
     `ACCEPTED_BY`      VARCHAR(36) COMMENT '「acceptedBy」- 待办接收人', -- 接收人
+    `ACCEPTED_GROUP`   LONGTEXT COMMENT '「acceptedGroup」- 当前处理组',
     `ACCEPTED_AT`      DATETIME COMMENT '「acceptedAt」- 接收时间',
     `FINISHED_BY`      VARCHAR(36) COMMENT '「finishedBy」- 待办完成人', -- 完成人
     `FINISHED_AT`      DATETIME COMMENT '「finishedAt」- 完成时间',
@@ -108,9 +124,9 @@ CREATE TABLE IF NOT EXISTS W_TODO
 
     -- Auditor字段
     `CREATED_AT`       DATETIME COMMENT '「createdAt」- 创建时间',
-    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',    -- 创建人
+    `CREATED_BY`       VARCHAR(36) COMMENT '「createdBy」- 创建人',      -- 创建人
     `UPDATED_AT`       DATETIME COMMENT '「updatedAt」- 更新时间',
-    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',    -- 更新人
+    `UPDATED_BY`       VARCHAR(36) COMMENT '「updatedBy」- 更新人',      -- 更新人
     PRIMARY KEY (`KEY`) USING BTREE
 );
 

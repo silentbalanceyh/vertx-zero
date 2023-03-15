@@ -15,15 +15,6 @@ public class D10047Tc extends EpicBase {
     }
 
     @Test
-    public void testCopy() {
-        final JsonObject data = this.ioJObject("d10047.json");
-        final D10047Obj obj = Ut.deserialize(data, D10047Obj.class);
-        final D10047Obj target = new D10047Obj();
-        final D10047Obj result = this.copyEntity(target, obj);
-        System.out.println(Ut.serialize(target));
-    }
-
-    @Test
     public void testToJson() {
         final JsonObject data = this.ioJObject("d10047.json");
         final D10047Obj obj = Ut.deserialize(data, D10047Obj.class);

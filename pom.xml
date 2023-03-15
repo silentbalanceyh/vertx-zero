@@ -12,7 +12,7 @@
     <modules>
         <module>vertx-gaia</module>
         <module>vertx-ifx</module>
-        <module>vertx-istio</module>
+        <module>vertx-semper</module>
         <module>vertx-pin</module>
         <module>vertx-import</module>
     </modules>
@@ -57,34 +57,34 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.13.2</jackson.version>
-        <jackson.databind.version>2.13.2.1</jackson.databind.version>
-        <jackson.extension.version>2.13.2</jackson.extension.version>
+        <jackson.version>2.14.2</jackson.version>
+        <jackson.databind.version>2.14.2</jackson.databind.version>
+        <jackson.extension.version>2.14.2</jackson.extension.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
+        <java.target.version>11</java.target.version>
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.2.6</vertx.version>
-        <stack.version>4.2.6</stack.version>
+        <vertx.version>4.4.0</vertx.version>
+        <stack.version>4.4.0</stack.version>
 
-        <jcabi.version>0.23.2</jcabi.version>
-        <jersey.version>2.35</jersey.version>
+        <jcabi.version>0.24.1</jcabi.version>
+        <jersey.version>3.1.1</jersey.version>
         <javax.el.version>3.0.1-b06</javax.el.version>
-        <glassfish.el.version>3.0.1-b12</glassfish.el.version>
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.16.5</jooq.version>
-        <vertx.jooq.version>6.5.0</vertx.jooq.version>
-        <mysql.version>8.0.28</mysql.version>
+        <jooq.version>3.18.0</jooq.version>
+        <vertx.jooq.version>6.5.5</vertx.jooq.version>
+        <mysql.version>8.0.32</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.22</lombok.version>
-        <asm.version>9.2</asm.version>
+        <lombok.version>1.18.26</lombok.version>
+        <asm.version>9.4</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10.2</reflection.version>
 
@@ -92,72 +92,76 @@
         <etcd.version>2.18.0</etcd.version>
 
         <!-- Bean Validation -->
-        <hibernate.validator.version>6.2.3.Final</hibernate.validator.version>
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
 
-        <jwt.version>3.19.0</jwt.version>
-        <jetbrains.version>23.0.0</jetbrains.version>
+        <jwt.version>4.3.0</jwt.version>
+        <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
-        <scala.version>2.12.15</scala.version>
+        <scala.version>2.13.11-M1</scala.version>
         <feign.version>8.18.0</feign.version>
-        <joda.version>2.10.14</joda.version>
-        <codehaus.janino.version>3.1.6</codehaus.janino.version>
-        <codehaus.mojo.version>1.21</codehaus.mojo.version>
-        <ignite.version>2.12.0</ignite.version>
-        <mongodb.async.version>3.12.10</mongodb.async.version>
-        <poi.version>5.2.2</poi.version>
+        <joda.version>2.12.2</joda.version>
+        <codehaus.janino.version>3.1.9</codehaus.janino.version>
+        <codehaus.mojo.version>1.22</codehaus.mojo.version>
+        <ignite.version>2.14.0</ignite.version>
+        <mongodb.async.version>3.12.12</mongodb.async.version>
+        <poi.version>5.2.3</poi.version>
         <poi.schema.version>4.1.2</poi.schema.version>
-        <jedis.version>4.2.0</jedis.version>
-        <j2objc.version>1.3</j2objc.version>
-        <checker.version>3.21.3</checker.version>
-        <termd.version>1.1.9</termd.version>
+        <jedis.version>4.4.0-m2</jedis.version>
+        <j2objc.version>2.8</j2objc.version>
+        <checker.version>3.32.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>7.17.1</elasticsearch.version>
+        <elasticsearch.version>8.6.2</elasticsearch.version>
+        <elasticsearch.client.version>7.17.9</elasticsearch.client.version>
 
         <!-- neo4j search -->
-        <neo4j.version>4.4.5</neo4j.version>
+        <neo4j.version>5.6.0</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.2.1</common.jexl.version>
         <common.lang3.version>3.12.0</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
-        <common.net.version>3.8.0</common.net.version>
+        <common.net.version>3.9.0</common.net.version>
         <common.codec.version>1.15</common.codec.version>
         <common.cli.version>1.5.0</common.cli.version>
         <common.io.version>2.11.0</common.io.version>
         <common.collection4.version>4.4</common.collection4.version>
+        <common.text.version>1.10.0</common.text.version>
+        <!-- For Security: CVE-2022-45047 -->
+        <sshd.version>2.9.2</sshd.version>
 
         <http.async.client.version>4.1.5</http.async.client.version>
-        <http.client.version>4.5.13</http.client.version>
-        <http.core.version>4.4.15</http.core.version>
+        <http.client.version>4.5.14</http.client.version>
+        <http.core.version>4.4.16</http.core.version>
 
         <!-- Liquibase -->
-        <liquibase.version>3.10.3</liquibase.version>
+        <liquibase.version>4.20.0</liquibase.version>
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.45.0</grpc.version>
-        <protobuf.version>3.19.4</protobuf.version>
+        <grpc.version>1.53.0</grpc.version>
+        <protobuf.version>3.22.2</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
-        <gson.version>2.9.0</gson.version>
-        <picoli.version>4.6.3</picoli.version>
+        <gson.version>2.10.1</gson.version>
+        <picoli.version>4.7.1</picoli.version>
 
         <!-- Yaml -->
-        <yaml.version>1.30</yaml.version>
+        <yaml.version>2.0</yaml.version>
         <hdr.version>2.1.12</hdr.version>
 
         <!-- Vert.x Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.51.Final</netty.tcnative.version>
-        <netty.version>4.1.75.Final</netty.version>
+        <netty.tcnative.version>2.0.59.Final</netty.tcnative.version>
+        <netty.version>4.1.90.Final</netty.version>
+        <io.termd.version>1.1.9</io.termd.version>
 
         <!-- Upload Issue -->
-        <hazelcast.version>5.1.1</hazelcast.version>
+        <hazelcast.version>5.2.2</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.11.0</error.prone.version>
-        <reactive.streams.version>1.0.3</reactive.streams.version>
-        <zookeeper.version>3.8.0</zookeeper.version>
+        <error.prone.version>2.18.0</error.prone.version>
+        <reactive.streams.version>1.0.4</reactive.streams.version>
+        <zookeeper.version>3.8.1</zookeeper.version>
         <!-- JSR -->
         <!--
             <jsr311.version>1.1.1</jsr311.version>          Replaced by Jersey-Common
@@ -172,66 +176,144 @@
         <jsr338.version>2.2</jsr338.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
 
+        <!-- New Uniform Version -->
+        <jakarta.activation.version>2.0.1</jakarta.activation.version>
+        <jakarta.xml.bind.version>4.0.0</jakarta.xml.bind.version>
+        <jakarta.el.version>5.0.0-M1</jakarta.el.version>
+
         <!-- Testing -->
         <junit.version>4.13.2</junit.version>
 
         <!-- AspectJ -->
-        <aspectj.version>1.9.9</aspectj.version>
-        <javassist.version>3.28.0-GA</javassist.version>
+        <aspectj.version>1.9.19</aspectj.version>
+        <javassist.version>3.29.2-GA</javassist.version>
+        <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
+        <asciidoctor.version>2.2.2</asciidoctor.version>
+        <asciidoctor.doc.version>2.2.1</asciidoctor.doc.version>
 
         <!-- Logging -->
-        <log4j2.version>2.17.2</log4j2.version>
-        <logback.version>1.2.11</logback.version>
+        <log4j2.version>2.20.0</log4j2.version>
+        <logback.version>1.4.6</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.6</slf4j.version>
+
+        <!-- Cloud -->
+        <eclipse.git.version>6.5.0.202303070854-r</eclipse.git.version>
 
         <!-- Plugin -->
-        <maven.plugin.assembly>3.3.0</maven.plugin.assembly>
-        <maven.plugin.compiler>3.8.1</maven.plugin.compiler>
-        <maven.plugin.surefire>3.0.0-M5</maven.plugin.surefire>
-        <maven.plugin.clean>3.1.0</maven.plugin.clean>
-        <maven.plugin.version>2.8.1</maven.plugin.version>
-        <maven.plugin.install>3.0.0-M1</maven.plugin.install>
-        <maven.plugin.deploy>3.0.0-M1</maven.plugin.deploy>
-        <maven.plugin.jar>3.0.2</maven.plugin.jar>
-        <maven.plugin.resource>3.2.0</maven.plugin.resource>
-        <maven.plugin.site>3.9.1</maven.plugin.site>
-        <maven.plugin.enforcer>3.0.0-M3</maven.plugin.enforcer>
+        <maven.plugin.assembly>3.4.2</maven.plugin.assembly>
+        <maven.plugin.compiler>3.10.1</maven.plugin.compiler>
+        <maven.plugin.surefire>3.0.0-M7</maven.plugin.surefire>
+        <maven.plugin.clean>3.2.0</maven.plugin.clean>
+        <maven.plugin.version>2.12.0</maven.plugin.version>
+        <maven.plugin.install>3.0.1</maven.plugin.install>
+        <maven.plugin.deploy>3.0.0</maven.plugin.deploy>
+        <maven.plugin.jar>3.3.0</maven.plugin.jar>
+        <maven.plugin.resource>3.3.0</maven.plugin.resource>
+        <maven.plugin.site>4.0.0-M3</maven.plugin.site>
+        <maven.plugin.enforcer>3.1.0</maven.plugin.enforcer>
         <maven.plugin.lombok>1.18.20.0</maven.plugin.lombok>
         <maven.plugin.processor>4.5-jdk8</maven.plugin.processor>
         <maven.plugin.source>3.2.1</maven.plugin.source>
-        <maven.plugin.javadoc>3.2.0</maven.plugin.javadoc>
-        <maven.plugin.staging>1.6.8</maven.plugin.staging>
-        <maven.plugin.pgp>1.6</maven.plugin.pgp>
-        <maven.plugin.fabric8>4.4.1</maven.plugin.fabric8>
+        <maven.plugin.javadoc>3.4.1</maven.plugin.javadoc>
+        <maven.plugin.staging>1.6.13</maven.plugin.staging>
+        <maven.plugin.pgp>3.0.1</maven.plugin.pgp>
         <maven.plugin.coveralls>4.3.0</maven.plugin.coveralls>
         <maven.plugin.cobertura>2.7</maven.plugin.cobertura>
-        <maven.plugin.spotify>1.2.2</maven.plugin.spotify>
         <maven.plugin.protobuf>0.6.1</maven.plugin.protobuf>
-        <maven.plugin.os>1.5.0.Final</maven.plugin.os>
-        <maven.plugin.antrun>3.0.0</maven.plugin.antrun>
+        <maven.plugin.os>1.7.0</maven.plugin.os>
+        <maven.plugin.antrun>3.1.0</maven.plugin.antrun>
         <maven.plugin.aspectj>1.14.0</maven.plugin.aspectj>
-        <maven.plugin.jcabi>0.14.1</maven.plugin.jcabi>
+        <maven.plugin.jcabi>0.17.0</maven.plugin.jcabi>
         <maven.plugin.jar>3.2.0</maven.plugin.jar>
+        <maven.plugin.project.info>3.4.1</maven.plugin.project.info>
+        <maven.plugin.dependency>3.5.0</maven.plugin.dependency>
+
+        <!-- Container -->
+        <maven.plugin.fabric8>4.4.2</maven.plugin.fabric8>
+        <maven.plugin.docker>0.40.2</maven.plugin.docker>
 
         <!-- Camunda -->
-        <camunda.version>7.16.0</camunda.version>
-        <camunda.spin.version>1.14.0</camunda.spin.version>
+        <camunda.version>7.18.0</camunda.version>
+        <camunda.spin.version>1.18.1</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
-        <java.uuid.generator>4.0.1</java.uuid.generator>
-        <mybatis.version>3.5.9</mybatis.version>
+        <camunda.connect.version>1.5.6</camunda.connect.version>
+        <camunda.util.version>1.12.0</camunda.util.version>
+        <java.uuid.generator>4.1.0</java.uuid.generator>
+        <mybatis.version>3.5.13</mybatis.version>
     </properties>
     <prerequisites>
         <maven>3.6.0</maven>
     </prerequisites>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.sshd/sshd-core -->
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-core</artifactId>
+                <version>${sshd.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.sun.activation/jakarta.activation -->
+            <dependency>
+                <groupId>com.sun.activation</groupId>
+                <artifactId>jakarta.activation</artifactId>
+                <version>${jakarta.activation.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-testing -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-testing</artifactId>
+                <version>${camunda.util.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-utils -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-utils</artifactId>
+                <version>${camunda.util.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.commons/camunda-commons-logging -->
+            <dependency>
+                <groupId>org.camunda.commons</groupId>
+                <artifactId>camunda-commons-logging</artifactId>
+                <version>${camunda.util.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-core -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-core</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-soap-http-client -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-soap-http-client</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-http-client -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-http-client</artifactId>
+                <version>${camunda.connect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.connect/camunda-connect-connectors-all -->
+            <dependency>
+                <groupId>org.camunda.connect</groupId>
+                <artifactId>camunda-connect-connectors-all</artifactId>
+                <version>${camunda.connect.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-xml-dom -->
             <dependency>
@@ -377,6 +459,11 @@
                         <artifactId>jackson-databind</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-stomp</artifactId>
+                <version>${vertx.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -736,7 +823,7 @@
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${elasticsearch.version}</version>
+                <version>${elasticsearch.client.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.apache.logging.log4j</groupId>
@@ -752,7 +839,7 @@
             <dependency>
                 <groupId>io.termd</groupId>
                 <artifactId>termd-core</artifactId>
-                <version>${termd.version}</version>
+                <version>${io.termd.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -972,6 +1059,12 @@
                 <artifactId>commons-io</artifactId>
                 <version>${common.io.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${common.text.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
             <dependency>
                 <groupId>com.hazelcast</groupId>
@@ -1053,11 +1146,11 @@
                 <artifactId>javax.el-api</artifactId>
                 <version>${javax.el.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.glassfish/javax.el -->
+            <!-- https://mvnrepository.com/artifact/org.glassfish/jakarta.el -->
             <dependency>
                 <groupId>org.glassfish</groupId>
-                <artifactId>javax.el</artifactId>
-                <version>${glassfish.el.version}</version>
+                <artifactId>jakarta.el</artifactId>
+                <version>${jakarta.el.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
             <dependency>
@@ -1642,6 +1735,11 @@
                 <artifactId>netty-transport-native-kqueue</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-unix-common</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -1747,11 +1845,23 @@
                 <artifactId>checker-qual</artifactId>
                 <version>${checker.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit</artifactId>
+                <version>${eclipse.git.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
         <pluginManagement>
             <plugins>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.plugin.dependency}</version>
+                </plugin>
                 <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
                 <plugin>
                     <groupId>org.liquibase</groupId>
@@ -1788,18 +1898,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven.plugin.assembly}</version>
-                </plugin>
-                <!-- https://mvnrepository.com/artifact/com.spotify/docker-maven-plugin -->
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${maven.plugin.spotify}</version>
-                </plugin>
-                <!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>${maven.plugin.fabric8}</version>
                 </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin/ -->
                 <plugin>
@@ -1848,7 +1946,7 @@
                     <version>${maven.plugin.compiler}</version>
                     <configuration>
                         <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <target>${java.target.version}</target>
                     </configuration>
                 </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
@@ -1888,6 +1986,13 @@
                         </excludes>
                     </configuration>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven.plugin.project.info}</version>
+                </plugin>
+
                 <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
@@ -1912,6 +2017,19 @@
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>${maven.plugin.cobertura}</version>
                 </plugin>
+                <!-- Container / K8S -->
+                <!-- https://mvnrepository.com/artifact/io.fabric8/docker-maven-plugin -->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.plugin.docker}</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>fabric8-maven-plugin</artifactId>
+                    <version>${maven.plugin.fabric8}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -1931,7 +2049,28 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <doclint>none</doclint>
+                    <!-- 输出设置：路径/风格 -->
+                    <outputDirectory>${basedir}/document</outputDirectory>
+                    <reportOutputDirectory>${basedir}</reportOutputDirectory>
+                    <!--                    <destDir>document</destDir>-->
+                    <!-- 连接配置 -->
+                    <doclint>none,-missing</doclint>
+                    <!--<stylesheetfile>${basedir}/script/zero.css</stylesheetfile>
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    <additionalJOptions>
+                        <additionalJOption>
+                            -J&#45;&#45;add-exports=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED
+                        </additionalJOption> &lt;!&ndash;(1)&ndash;&gt;
+                        <additionalJOption>-Xdoclint:none,-html,-accessibility,-missing</additionalJOption>
+                        <additionalJOption>${project.basedir}</additionalJOption>
+                    </additionalJOptions>-->
+                    <!--                    <doclet>org.asciidoctor.asciidoclet.Asciidoclet</doclet>
+                                        <docletArtifact>
+                                            <groupId>org.uniknow</groupId>
+                                            <artifactId>asciidoclet</artifactId>
+                                            <version>${asciidoctor.doc.version}</version>
+                                        </docletArtifact>-->
+                    <detectJavaApiLink>true</detectJavaApiLink>
                 </configuration>
                 <executions>
                     <execution>
@@ -1939,6 +2078,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <release>17</release>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -1978,6 +2120,32 @@
                 <configuration>
                     <rulesUri>file://${project.basedir}/pom-update.xml</rulesUri>
                 </configuration>
+            </plugin>
+            <!--
+            Fix warning:   Project does not define minimum Maven version required for build, default is: 2.0
+            [ERROR] Project does not define required minimum version of Maven.
+            [ERROR] Update the pom.xml to contain maven-enforcer-plugin to
+            [ERROR] force the Maven version which is needed to build this project.
+            [ERROR] See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+            [ERROR] Using the minimum version of Maven: null
+            -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.1</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

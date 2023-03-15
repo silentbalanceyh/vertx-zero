@@ -2,13 +2,14 @@ package io.vertx.tp.modular.dao;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HAtom;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -21,7 +22,7 @@ import java.util.Objects;
  * 异步：operationAsync
  * 针对所有的数据库操作统一处理
  */
-public abstract class AbstractDao implements AoDao {
+public abstract class AbstractDao implements HDao {
 
     protected final transient AoConnection conn;
     /*
@@ -66,7 +67,7 @@ public abstract class AbstractDao implements AoDao {
     }
 
     @Override
-    public AoDao mount(final DataAtom atom) {
+    public HDao mount(final HAtom atom) {
         // 读取器直接穿透，让读取器挂载在元数据上
         this.unique.on(atom);     // Uniqueor 挂载
         this.flush.on(atom);     // Partakor 挂载
@@ -88,7 +89,7 @@ public abstract class AbstractDao implements AoDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Fn.getNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
+        return Fn.orNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
     }
 
     @Override
@@ -109,7 +110,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean exist(final Criteria criteria) {
-        return Fn.getNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
+        return Fn.orNull(Boolean.FALSE, () -> this.aggr.existing(criteria), criteria);
     }
 
     @Override
@@ -120,7 +121,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Boolean miss(final Criteria criteria) {
-        return Fn.getNull(Boolean.FALSE, () -> this.aggr.missing(criteria), criteria);
+        return Fn.orNull(Boolean.FALSE, () -> this.aggr.missing(criteria), criteria);
     }
 
     @Override
@@ -182,7 +183,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record insert(final Record record) {
-        return Fn.getNull(null, () -> this.flush.insert(record), record);
+        return Fn.orNull(null, () -> this.flush.insert(record), record);
     }
 
     @Override
@@ -253,7 +254,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public Record update(final Record record) {
-        return Fn.getNull(null, () -> this.flush.update(record), record);
+        return Fn.orNull(null, () -> this.flush.update(record), record);
     }
 
     /*
@@ -276,7 +277,7 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public <ID> Record fetchById(final ID id) {
-        return Fn.getNull(null, () -> this.unique.fetchById(id), id);
+        return Fn.orNull(null, () -> this.unique.fetchById(id), id);
     }
 
     @Override
@@ -335,7 +336,7 @@ public abstract class AbstractDao implements AoDao {
      */
     @Override
     public Record fetchOne(final Criteria criteria) {
-        return Fn.getNull(null, () -> this.unique.fetchOne(criteria), criteria);
+        return Fn.orNull(null, () -> this.unique.fetchOne(criteria), criteria);
     }
 
     @Override
@@ -356,12 +357,12 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public JsonObject search(final JsonObject query) {
-        return Fn.getNull(Ux.pageData(), () -> this.search.search(query), query);
+        return Fn.orNull(Ux.pageData(), () -> this.search.search(query), query);
     }
 
     @Override
     public Record[] fetch(final JsonObject criteria) {
-        return Fn.getNull(new Record[]{}, () -> this.search.query(criteria), criteria);
+        return Fn.orNull(new Record[]{}, () -> this.search.query(criteria), criteria);
     }
 
 
@@ -403,7 +404,7 @@ public abstract class AbstractDao implements AoDao {
 
     @Override
     public boolean delete(final Record record) {
-        return Fn.getNull(Boolean.FALSE, () -> this.flush.delete(record), record);
+        return Fn.orNull(Boolean.FALSE, () -> this.flush.delete(record), record);
     }
 
     @Override

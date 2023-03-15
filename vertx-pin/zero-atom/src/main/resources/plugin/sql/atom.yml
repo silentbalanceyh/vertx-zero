@@ -27,6 +27,3 @@ databaseChangeLog:
   - include:
       file: plugin/sql/atom/M_ACC.sql
       relativeToChangelogFile: false
-  - include:
-      file: plugin/sql/atom/M_TPL.sql
-      relativeToChangelogFile: false

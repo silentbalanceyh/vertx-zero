@@ -9,7 +9,7 @@ import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.vertx.up.runtime.EnvVariables;
+import io.vertx.up.runtime.env.Macrocosm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,8 @@ import java.util.function.Supplier;
  */
 final class Stream {
     /**
-     * Direct read by vert.x logger to avoid dead lock.
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Stream.class);
 
@@ -41,7 +42,7 @@ final class Stream {
      */
     static <T> byte[] to(final T message) {
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        return Fn.getJvm(new byte[0], () -> {
+        return Fn.orJvm(new byte[0], () -> {
             final ObjectOutputStream out = new ObjectOutputStream(bytes);
             out.writeObject(message);
             out.close();
@@ -62,7 +63,7 @@ final class Stream {
     static <T> T from(final int pos, final Buffer buffer) {
         LOGGER.debug("[ Position ] {}", pos);
         final ByteArrayInputStream stream = new ByteArrayInputStream(buffer.getBytes());
-        return Fn.getJvm(null, () -> {
+        return Fn.orJvm(null, () -> {
             final ObjectInputStream in = new ObjectInputStream(stream);
             return (T) in.readObject();
         }, stream);
@@ -93,7 +94,7 @@ final class Stream {
 
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
 
             final byte[] temp = new byte[Values.CACHE_SIZE];
@@ -241,7 +242,15 @@ final class Stream {
      */
     static InputStream in(final File file) {
         ioDebug(() -> Log.info(LOGGER, Info.__FILE_INPUT_STREAM, Objects.isNull(file) ? null : file.getAbsolutePath()));
-        return Fn.getJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
+        return Fn.orJvm(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
+    }
+
+    static InputStream inN(final String filename) {
+        return read(filename);
+    }
+
+    static InputStream inN(final String filename, final Class<?> clazz) {
+        return read(filename, clazz);
     }
 
     /**
@@ -255,7 +264,7 @@ final class Stream {
      */
     static InputStream in(final String filename, final Class<?> clazz) {
         ioDebug(() -> Log.info(LOGGER, Info.__RESOURCE_AS_STREAM, filename));
-        return Fn.getJvm(() -> clazz.getResourceAsStream(filename), clazz, filename);
+        return Fn.orJvm(() -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
     /**
@@ -269,11 +278,12 @@ final class Stream {
     static InputStream in(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         ioDebug(() -> Log.info(LOGGER, Info.__CLASS_LOADER, filename));
-        return Fn.getJvm(() -> loader.getResourceAsStream(filename), filename);
+        return Fn.orJvm(() -> loader.getResourceAsStream(filename), filename);
     }
 
     private static void ioDebug(final Actuator executor) {
-        final boolean ioDebug = Env.envBool(EnvVariables.Z_IO_DEBUG);
+        /* 底层防止循环调用，此处不走 DiagnosisOption */
+        final boolean ioDebug = Env.readBool(Macrocosm.DEV_IO);
         if (ioDebug) {
             executor.execute();
         }

@@ -6,18 +6,18 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AuditorHistory extends AbstractAuditor {
-    static final ConcurrentMap<String, Auditor> POOL_HISTORY = new ConcurrentHashMap<>();
+    static final Cc<String, Auditor> CC_AUDITOR = Cc.open();
 
     public AuditorHistory(final JsonObject options) {
         super(options);
@@ -80,7 +80,7 @@ class AuditorHistory extends AbstractAuditor {
                 }
             });
         }
-        return Ux.thenCombine(futures);
+        return Fn.combineA(futures);
     }
 
     /**

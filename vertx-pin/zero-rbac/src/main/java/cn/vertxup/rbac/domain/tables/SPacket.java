@@ -8,6 +8,7 @@ import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Indexes;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.SPacketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -34,54 +35,75 @@ public class SPacket extends TableImpl<SPacketRecord> {
      */
     public final TableField<SPacketRecord, String> KEY = createField(DSL.name("KEY"), SQLDataType.VARCHAR(36).nullable(false), this, "「key」- 包信息");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.PATH_ID</code>. 「pathId」- 关联的 path
-     * id，包含关系
+     * The column <code>DB_ETERNAL.S_PACKET.CODE</code>. 「code」- 关联的 PATH 表对应的
+     * code
      */
-    public final TableField<SPacketRecord, String> PATH_ID = createField(DSL.name("PATH_ID"), SQLDataType.VARCHAR(36), this, "「pathId」- 关联的 path id，包含关系");
+    public final TableField<SPacketRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255), this, "「code」- 关联的 PATH 表对应的 code");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.RESOURCE_ID</code>. 「resourceId」-
-     * 关联的资源 id
+     * The column <code>DB_ETERNAL.S_PACKET.RESOURCE</code>. 「resource」-
+     * 关联的资源表对应的 code
      */
-    public final TableField<SPacketRecord, String> RESOURCE_ID = createField(DSL.name("RESOURCE_ID"), SQLDataType.VARCHAR(36), this, "「resourceId」- 关联的资源 id");
+    public final TableField<SPacketRecord, String> RESOURCE = createField(DSL.name("RESOURCE"), SQLDataType.VARCHAR(255), this, "「resource」- 关联的资源表对应的 code");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.ROW_TYPE</code>. 「rowType」- 行过滤类型
+     * The column <code>DB_ETERNAL.S_PACKET.H_TYPE</code>. 「hType」- 行过滤类型
      */
-    public final TableField<SPacketRecord, String> ROW_TYPE = createField(DSL.name("ROW_TYPE"), SQLDataType.VARCHAR(255), this, "「rowType」- 行过滤类型");
+    public final TableField<SPacketRecord, String> H_TYPE = createField(DSL.name("H_TYPE"), SQLDataType.VARCHAR(16), this, "「hType」- 行过滤类型");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.ROW_FIELD</code>. 「rowField」- 行输入
+     * The column <code>DB_ETERNAL.S_PACKET.H_MAPPING</code>. 「hMapping」-
+     * 字段映射关系，存在转换时必须
      */
-    public final TableField<SPacketRecord, String> ROW_FIELD = createField(DSL.name("ROW_FIELD"), SQLDataType.VARCHAR(255), this, "「rowField」- 行输入");
+    public final TableField<SPacketRecord, String> H_MAPPING = createField(DSL.name("H_MAPPING"), SQLDataType.CLOB, this, "「hMapping」- 字段映射关系，存在转换时必须");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.ROW_TPL</code>. 「rowTpl」- 多字段的模板
+     * The column <code>DB_ETERNAL.S_PACKET.H_CONFIG</code>. 「hConfig」- 字段附加配置
      */
-    public final TableField<SPacketRecord, String> ROW_TPL = createField(DSL.name("ROW_TPL"), SQLDataType.CLOB, this, "「rowTpl」- 多字段的模板");
+    public final TableField<SPacketRecord, String> H_CONFIG = createField(DSL.name("H_CONFIG"), SQLDataType.CLOB, this, "「hConfig」- 字段附加配置");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.ROW_TPL_MAPPING</code>.
-     * 「rowTplMapping」- 多字段的映射关系
+     * The column <code>DB_ETERNAL.S_PACKET.V_TYPE</code>. 「vType」- 列过滤类型
      */
-    public final TableField<SPacketRecord, String> ROW_TPL_MAPPING = createField(DSL.name("ROW_TPL_MAPPING"), SQLDataType.CLOB, this, "「rowTplMapping」- 多字段的映射关系");
+    public final TableField<SPacketRecord, String> V_TYPE = createField(DSL.name("V_TYPE"), SQLDataType.VARCHAR(16), this, "「vType」- 列过滤类型");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.COL_TYPE</code>. 「colType」- 列过滤类型
+     * The column <code>DB_ETERNAL.S_PACKET.V_MAPPING</code>. 「vMapping」-
+     * 列字段映射关系，存在转换时必须
      */
-    public final TableField<SPacketRecord, String> COL_TYPE = createField(DSL.name("COL_TYPE"), SQLDataType.VARCHAR(255), this, "「colType」- 列过滤类型");
+    public final TableField<SPacketRecord, String> V_MAPPING = createField(DSL.name("V_MAPPING"), SQLDataType.CLOB, this, "「vMapping」- 列字段映射关系，存在转换时必须");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.COL_CONFIG</code>. 「colConfig」- 列配置
+     * The column <code>DB_ETERNAL.S_PACKET.V_CONFIG</code>. 「vConfig」- 列配置
      */
-    public final TableField<SPacketRecord, String> COL_CONFIG = createField(DSL.name("COL_CONFIG"), SQLDataType.CLOB, this, "「colConfig」- 列配置");
+    public final TableField<SPacketRecord, String> V_CONFIG = createField(DSL.name("V_CONFIG"), SQLDataType.CLOB, this, "「vConfig」- 列配置");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.COND_TPL</code>. 「condTpl」- 条件模板
+     * The column <code>DB_ETERNAL.S_PACKET.Q_TYPE</code>. 「qType」- 条件模板
      */
-    public final TableField<SPacketRecord, String> COND_TPL = createField(DSL.name("COND_TPL"), SQLDataType.CLOB, this, "「condTpl」- 条件模板");
+    public final TableField<SPacketRecord, String> Q_TYPE = createField(DSL.name("Q_TYPE"), SQLDataType.VARCHAR(16), this, "「qType」- 条件模板");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.COND_TPL_MAPPING</code>.
-     * 「condTplMapping」- 查询条件映射关系
+     * The column <code>DB_ETERNAL.S_PACKET.Q_MAPPING</code>. 「qMapping」-
+     * 查询条件映射关系
      */
-    public final TableField<SPacketRecord, String> COND_TPL_MAPPING = createField(DSL.name("COND_TPL_MAPPING"), SQLDataType.CLOB, this, "「condTplMapping」- 查询条件映射关系");
+    public final TableField<SPacketRecord, String> Q_MAPPING = createField(DSL.name("Q_MAPPING"), SQLDataType.CLOB, this, "「qMapping」- 查询条件映射关系");
     /**
-     * The column <code>DB_ETERNAL.S_PACKET.COND_CONFIG</code>. 「condConfig」-
+     * The column <code>DB_ETERNAL.S_PACKET.Q_CONFIG</code>. 「qConfig」-
      * 条件配置（界面配置相关）
      */
-    public final TableField<SPacketRecord, String> COND_CONFIG = createField(DSL.name("COND_CONFIG"), SQLDataType.CLOB, this, "「condConfig」- 条件配置（界面配置相关）");
+    public final TableField<SPacketRecord, String> Q_CONFIG = createField(DSL.name("Q_CONFIG"), SQLDataType.CLOB, this, "「qConfig」- 条件配置（界面配置相关）");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.RUN_COMPONENT</code>.
+     * 「runComponent」- 自定义模式下的组件
+     */
+    public final TableField<SPacketRecord, String> RUN_COMPONENT = createField(DSL.name("RUN_COMPONENT"), SQLDataType.VARCHAR(255), this, "「runComponent」- 自定义模式下的组件");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.RUN_CONFIG</code>. 「runConfig」-
+     * 运行专用配置
+     */
+    public final TableField<SPacketRecord, String> RUN_CONFIG = createField(DSL.name("RUN_CONFIG"), SQLDataType.CLOB, this, "「runConfig」- 运行专用配置");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.SEEK_SYNTAX</code>. 「seekSyntax」-
+     * 访问者语法
+     */
+    public final TableField<SPacketRecord, String> SEEK_SYNTAX = createField(DSL.name("SEEK_SYNTAX"), SQLDataType.CLOB, this, "「seekSyntax」- 访问者语法");
+    /**
+     * The column <code>DB_ETERNAL.S_PACKET.SEEK_CONFIG</code>. 「seekConfig」-
+     * 访问者配置
+     */
+    public final TableField<SPacketRecord, String> SEEK_CONFIG = createField(DSL.name("SEEK_CONFIG"), SQLDataType.CLOB, this, "「seekConfig」- 访问者配置");
     /**
      * The column <code>DB_ETERNAL.S_PACKET.SIGMA</code>. 「sigma」- 统一标识
      */
@@ -163,7 +185,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_ID);
+        return Arrays.asList(Indexes.S_PACKET_IDX_S_PACKET_PATH_CODE_SIGMA);
     }
 
     @Override
@@ -173,7 +195,7 @@ public class SPacket extends TableImpl<SPacketRecord> {
 
     @Override
     public List<UniqueKey<SPacketRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_S_PACKET_PATH_ID);
+        return Arrays.asList(Keys.KEY_S_PACKET_CODE);
     }
 
     @Override
@@ -184,6 +206,11 @@ public class SPacket extends TableImpl<SPacketRecord> {
     @Override
     public SPacket as(Name alias) {
         return new SPacket(alias, this);
+    }
+
+    @Override
+    public SPacket as(Table<?> alias) {
+        return new SPacket(alias.getQualifiedName(), this);
     }
 
     /**
@@ -202,12 +229,11 @@ public class SPacket extends TableImpl<SPacketRecord> {
         return new SPacket(name, null);
     }
 
-    // -------------------------------------------------------------------------
-    // Row20 type methods
-    // -------------------------------------------------------------------------
-
+    /**
+     * Rename this table
+     */
     @Override
-    public Row20<String, String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row20) super.fieldsRow();
+    public SPacket rename(Table<?> name) {
+        return new SPacket(name.getQualifiedName(), null);
     }
 }

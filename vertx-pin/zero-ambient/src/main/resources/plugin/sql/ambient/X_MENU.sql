@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS X_MENU
     `TYPE`       VARCHAR(255) COMMENT '「type」- 菜单类型',
     `ORDER`      BIGINT COMMENT '「order」- 菜单排序',
     `LEVEL`      BIGINT COMMENT '「level」- 菜单层级',
+
     `PARENT_ID`  VARCHAR(36) COMMENT '「parentId」- 菜单父ID',
     `APP_ID`     VARCHAR(36) COMMENT '「appId」- 应用程序ID',
 
@@ -37,3 +38,5 @@ ALTER TABLE X_MENU
 -- 场景：读取应用中的菜单
 ALTER TABLE X_MENU
     ADD INDEX IDX_X_MENU_APP_ID (`APP_ID`) USING BTREE;
+ALTER TABLE X_MENU
+    ADD INDEX IDX_X_MENU_APP_ID_SIGMA (`APP_ID`, `SIGMA`) USING BTREE;

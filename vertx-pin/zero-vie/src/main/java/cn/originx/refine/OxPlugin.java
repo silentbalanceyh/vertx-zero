@@ -4,12 +4,13 @@ import cn.originx.uca.log.Ko;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.Pocket;
-import io.vertx.tp.optic.environment.DS;
 import io.vertx.tp.optic.plugin.AspectPlugin;
+import io.vertx.tp.plugin.database.DS;
 import io.vertx.tp.plugin.database.DataPool;
+import io.vertx.up.experiment.channel.Pocket;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -155,7 +156,7 @@ final class OxPlugin {
                                       final BiFunction<JsonArray, DataAtom, Future<JsonArray>> consumer) {
         final List<Future<JsonArray>> futures = new ArrayList<>();
         groupSet.forEach(group -> futures.add(consumer.apply(group.data(), group.atom())));
-        return Ux.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 
     /**

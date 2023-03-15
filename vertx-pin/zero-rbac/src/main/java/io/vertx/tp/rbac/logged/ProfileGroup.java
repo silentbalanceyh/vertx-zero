@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.tp.rbac.refine.Sc;
+import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class ProfileGroup implements Serializable {
             .forEach(futures::add);
         return CompositeFuture.join(futures)
             /* Composite Result */
-            .compose(Sc::<ProfileRole>composite)
+            .compose(Fn::<ProfileRole>combineT)
             .compose(profiles -> {
                 /* Bind each fetchProfile to group Id */
                 profiles.forEach(profile -> profile.setGroup(this));

@@ -9,16 +9,18 @@ import java.util.Objects;
 
 public class QTree {
 
-    private final transient QNode current;
+    private final QNode current;
 
-    private QTree(final Criteria criteria) {
-        /* 1. Linear or Tree */
-        final JsonObject content = criteria.toJson();
+    private QTree(final JsonObject content) {
         this.current = this.initTier(content, 0);
     }
 
     public static QTree create(final Criteria criteria) {
-        return new QTree(criteria);
+        return new QTree(criteria.toJson());
+    }
+
+    public static QTree create(final JsonObject content) {
+        return new QTree(content);
     }
 
     private QNode initTier(final String field, final Object value, final Integer level) {

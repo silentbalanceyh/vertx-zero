@@ -28,7 +28,7 @@ public class POutItemDao extends AbstractVertxDAO<POutItemRecord, cn.vertxup.psi
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public POutItemDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(POutItem.P_OUT_ITEM, cn.vertxup.psi.domain.tables.pojos.POutItem.class, new JDBCClassicQueryExecutor<POutItemRecord,cn.vertxup.psi.domain.tables.pojos.POutItem,String>(configuration,cn.vertxup.psi.domain.tables.pojos.POutItem.class,vertx));

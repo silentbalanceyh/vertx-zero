@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.impl.DSL;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -13,7 +14,6 @@ import java.util.concurrent.ConcurrentMap;
  * SQL Statement:
  * -- SELECT COUNT(*) FROM <TABLE_NAME>
  */
-@SuppressWarnings("all")
 class AggregatorCount extends AbstractAggregator {
 
     private static final String FIELD_COUNT = "COUNT";
@@ -27,7 +27,7 @@ class AggregatorCount extends AbstractAggregator {
      * All count
      */
     Long count() {
-        Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table()));
+        final Long rows = (long) this.context().fetchCount(this.analyzer.table());
         this.logging("[ Jq ] count() rows: {0}", String.valueOf(rows));
         return rows;
     }
@@ -41,7 +41,7 @@ class AggregatorCount extends AbstractAggregator {
      */
     Long count(final JsonObject criteria) {
         final Condition condition = this.analyzer.condition(criteria);
-        Long rows = Long.valueOf(this.context().fetchCount(this.analyzer.table(), condition));
+        final Long rows = (long) this.context().fetchCount(this.analyzer.table(), condition);
         this.logging("[ Jq ] count(JsonObject) rows: {0}", String.valueOf(rows));
         return rows;
     }
@@ -55,7 +55,8 @@ class AggregatorCount extends AbstractAggregator {
      */
     ConcurrentMap<String, Integer> countBy(final JsonObject criteria, final String groupField) {
         final String primary = this.analyzer.primary();
-        final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
+        // (Deprecated) final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
+        final Field<Integer> countField = DSL.countDistinct(this.analyzer.column(primary)).as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupField);
     }
 
@@ -64,7 +65,8 @@ class AggregatorCount extends AbstractAggregator {
      */
     JsonArray countBy(final JsonObject criteria, final String... groupFields) {
         final String primary = this.analyzer.primary();
-        final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
+        // (Deprecated) final Field countField = this.analyzer.column(primary).count().as(FIELD_COUNT);
+        final Field<Integer> countField = DSL.countDistinct(this.analyzer.column(primary)).as(FIELD_COUNT);
         return this.aggregateBy(countField, criteria, groupFields);
     }
 

@@ -5,6 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiClient;
@@ -45,8 +46,19 @@ public abstract class AbstractInvoker implements Invoker {
     private void invokePre(final Method method, final Envelop envelop) {
         if (method.isAnnotationPresent(Me.class)) {
             final Annotation annotation = method.getDeclaredAnnotation(Me.class);
-            final boolean active = Ut.invoke(annotation, "active");
-            envelop.onMe(active);
+            final BoolStatus active = Ut.invoke(annotation, "active");
+            final boolean app = Ut.invoke(annotation, "app");
+            envelop.onMe(active, app);
+        }
+    }
+
+    protected <I> Envelop invokeWrap(final I input) {
+        if (input instanceof Envelop) {
+            // Return Envelop directly
+            return (Envelop) input;
+        } else {
+            // Return Envelop building
+            return Envelop.success(input);
         }
     }
 
@@ -61,24 +73,7 @@ public abstract class AbstractInvoker implements Invoker {
         // Preparing Method
         invokePre(method, envelop);
         // Return value here.
-        Object returnValue;
-        final Class<?>[] argTypes = method.getParameterTypes();
-        final Class<?> returnType = method.getReturnType();
-        if (Values.ONE == method.getParameterCount()) {
-            final Class<?> firstArg = argTypes[Values.IDX];
-            if (Envelop.class == firstArg) {
-                // Input type is Envelop, input directly
-                returnValue = InvokerUtil.invoke(proxy, method, envelop);
-                // Ut.invoke(proxy, method.getName(), envelop);
-            } else {
-                // One type dynamic here
-                returnValue = InvokerUtil.invokeSingle(proxy, method, envelop);
-            }
-        } else {
-            // Multi parameter dynamic here
-            returnValue = InvokerUtil.invokeMulti(proxy, method, envelop);
-        }
-        return returnValue;
+        return InvokerUtil.invokeCall(proxy, method, envelop);
     }
 
     /**

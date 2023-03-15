@@ -1,25 +1,24 @@
 package io.vertx.tp.optic;
 
-import cn.vertxup.rbac.service.view.ViewService;
-import cn.vertxup.rbac.service.view.ViewStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.ui.Anchoret;
 import io.vertx.tp.optic.ui.ApeakMy;
+import io.vertx.tp.rbac.acl.rapier.Quinn;
+import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
+import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.commune.secure.DataBound;
+import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.Objects;
-
 public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
-
-    private final transient ViewStub stub = Ut.singleton(ViewService.class);
 
     @Override
     public Future<JsonArray> fetchMy(final JsonObject params) {
@@ -29,13 +28,18 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         }
         final String userId = params.getString(ARG1);
         final Vis view = Vis.smart(params.getValue(ARG2));
-        return this.stub.fetchMatrix(userId, resourceId, view)
-            .compose(queried -> Objects.isNull(queried) ?
-                /* No view found */
-                Ux.future(new JsonArray()) :
-                /* View found and get projection */
-                Ux.future(Ut.toJArray(queried.getProjection()))
-            );
+        // DataBound Building
+        final ScOwner owner = new ScOwner(userId, OwnerType.USER);
+        owner.bind(view);
+        // ScResource building
+        return Quinn.vivid().<DataBound>fetchAsync(resourceId, owner).compose(bound -> {
+            final JsonArray projection = bound.vProjection();
+            /*
+             * No view found                        -> []
+             * View found and get projection        -> [?,?,...]
+             */
+            return Ux.future(projection);
+        });
     }
 
     @Override
@@ -45,17 +49,21 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
             return Ux.futureJ();
         }
         final String userId = params.getString(ARG1);
-        /*
-         * Normalize data for `language` and `sigma` etc.
-         */
+        /* Normalize data for `language` and `sigma` etc.*/
         final JsonObject viewData = params.copy();
-        /*
-         * Two Params
-         */
-        final JsonArray projection = viewInput.getJsonArray(Qr.KEY_PROJECTION);
-        final JsonObject criteria = viewInput.getJsonObject(Qr.KEY_CRITERIA);
+
+        final ScOwner owner = new ScOwner(userId, OwnerType.USER);
+        final Vis vis = Vis.smart(viewData.getValue(KName.VIEW));
+        owner.bind(vis);
+        /* Two Params: projection, criteria, rows */
+        Ut.elementCopy(viewData, viewInput,
+            Qr.KEY_PROJECTION,
+            Qr.KEY_CRITERIA,
+            KName.Rbac.ROWS
+        );
+        viewData.put(KName.UPDATED_BY, userId);     // updatedBy = userId
         /* Save View */
-        return this.stub.saveMatrix(userId, viewData.put(ARG0, resourceId), projection, criteria)
+        return Quinn.vivid().<JsonObject>saveAsync(resourceId, owner, viewData)
             /*
              * Flush cache of session on impacted uri
              * This method is for projection refresh here
@@ -64,10 +72,19 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
              * This impact will be in time when this method called.
              * The method is used in this class only and could not be shared.
              */
-            .compose(flushed -> this.flush(params, flushed));
+            .compose(flushed -> this.flushImpact(params, flushed))
+            /*
+             * Here should flush the key of
+             */
+            .compose(flushed -> this.flushMy(params, flushed));
     }
 
-    private Future<JsonObject> flush(final JsonObject params, final JsonObject updated) {
+    private Future<JsonObject> flushMy(final JsonObject params, final JsonObject updated) {
+
+        return Ux.futureJ(updated);
+    }
+
+    private Future<JsonObject> flushImpact(final JsonObject params, final JsonObject updated) {
         /*
          * ScHabitus instance
          */

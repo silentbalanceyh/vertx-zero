@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -77,7 +78,7 @@ class DevMenu {
             final JsonArray required = buildRequired(role);
             menuFuture.put(role, fetchMenuTree(MenuType.valueDefault(), required));
         });
-        return Ux.thenCombine(menuFuture).compose(menuData -> {
+        return Fn.combineM(menuFuture).compose(menuData -> {
             final ConcurrentMap<String, JsonArray> menuMap = new ConcurrentHashMap<>();
             menuData.forEach((role, menuEach) -> {
                 final JsonArray menuJArray = new JsonArray();
@@ -122,13 +123,8 @@ class DevMenu {
             } else {
                 literal = text + "," + name;
             }
-            if (level == 1) {
-                csv.add(literal);
-            } else if (level == 2) {
-                csv.add("   " + literal);
-            } else if (level == 3) {
-                csv.add("       " + literal);
-            }
+            final String content = "   ".repeat(Math.max(0, level - 1)) + literal;
+            csv.add(content);
         }
         final JsonArray children = json.getJsonArray(KName.CHILDREN);
         if (Ut.notNil(children)) {

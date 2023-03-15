@@ -27,7 +27,7 @@ public class MIndexDao extends AbstractVertxDAO<MIndexRecord, cn.vertxup.atom.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MIndexDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MIndex.M_INDEX, cn.vertxup.atom.domain.tables.pojos.MIndex.class, new JDBCClassicQueryExecutor<MIndexRecord,cn.vertxup.atom.domain.tables.pojos.MIndex,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MIndex.class,vertx));

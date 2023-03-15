@@ -1,6 +1,6 @@
 package io.vertx.quiz.example;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 /**
  * 1. Root: api

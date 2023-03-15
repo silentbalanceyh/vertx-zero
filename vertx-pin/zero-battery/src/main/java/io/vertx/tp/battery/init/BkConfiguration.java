@@ -1,7 +1,7 @@
 package io.vertx.tp.battery.init;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.battery.atom.MetaBattery;
+import io.vertx.tp.battery.atom.PowerConfig;
 import io.vertx.tp.battery.cv.BkCv;
 import io.vertx.tp.battery.refine.Bk;
 import io.vertx.up.uca.yaml.Node;
@@ -17,7 +17,7 @@ import java.util.Set;
  */
 class BkConfiguration {
     private static final Node<JsonObject> READER = Ut.singleton(ZeroUniform.class);
-    private static MetaBattery CONFIG;
+    private static PowerConfig CONFIG;
 
     private BkConfiguration() {
     }
@@ -28,7 +28,7 @@ class BkConfiguration {
             final JsonObject configuration = configJson.getJsonObject(BkCv.FOLDER_MODULE, new JsonObject());
             Bk.Log.infoInit(BkConfiguration.class, "The Modulat Engine will be initialized!! `{0}`",
                 configuration.encode());
-            CONFIG = Ut.deserialize(configuration, MetaBattery.class);
+            CONFIG = Ut.deserialize(configuration, PowerConfig.class);
         }
     }
 

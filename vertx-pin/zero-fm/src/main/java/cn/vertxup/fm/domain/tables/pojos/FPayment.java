@@ -21,25 +21,25 @@ public class FPayment implements VertxPojo, IFPayment {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        serial;
-    private BigDecimal    amount;
-    private String        payName;
-    private String        payMobile;
-    private String        payMethod;
-    private String        payId;
-    private String        comment;
-    private Boolean       prepay;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String code;
+    private String serial;
+    private BigDecimal amount;
+    private String payName;
+    private String payMobile;
+    private String payMethod;
+    private String payId;
+    private String comment;
+    private Boolean prepay;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public FPayment() {}
 
@@ -66,25 +66,25 @@ public class FPayment implements VertxPojo, IFPayment {
     }
 
     public FPayment(
-        String        key,
-        String        name,
-        String        code,
-        String        serial,
-        BigDecimal    amount,
-        String        payName,
-        String        payMobile,
-        String        payMethod,
-        String        payId,
-        String        comment,
-        Boolean       prepay,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String code,
+        String serial,
+        BigDecimal amount,
+        String payName,
+        String payMobile,
+        String payMethod,
+        String payId,
+        String comment,
+        Boolean prepay,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -439,6 +439,158 @@ public class FPayment implements VertxPojo, IFPayment {
     public FPayment setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final FPayment other = (FPayment) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.payName == null) {
+            if (other.payName != null)
+                return false;
+        }
+        else if (!this.payName.equals(other.payName))
+            return false;
+        if (this.payMobile == null) {
+            if (other.payMobile != null)
+                return false;
+        }
+        else if (!this.payMobile.equals(other.payMobile))
+            return false;
+        if (this.payMethod == null) {
+            if (other.payMethod != null)
+                return false;
+        }
+        else if (!this.payMethod.equals(other.payMethod))
+            return false;
+        if (this.payId == null) {
+            if (other.payId != null)
+                return false;
+        }
+        else if (!this.payId.equals(other.payId))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.prepay == null) {
+            if (other.prepay != null)
+                return false;
+        }
+        else if (!this.prepay.equals(other.prepay))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.payName == null) ? 0 : this.payName.hashCode());
+        result = prime * result + ((this.payMobile == null) ? 0 : this.payMobile.hashCode());
+        result = prime * result + ((this.payMethod == null) ? 0 : this.payMethod.hashCode());
+        result = prime * result + ((this.payId == null) ? 0 : this.payId.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.prepay == null) ? 0 : this.prepay.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

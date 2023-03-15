@@ -7,8 +7,9 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.ke.atom.specification.KField;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -30,6 +31,7 @@ class AgonicImport implements Agonic {
         final UxJooq jooq = IxPin.jooq(in);
         return Ix.passion(input, in,
             Pre.head()::inAAsync,        /* Header Value */
+            Pre.serial()::inAAsync,      /* Serial/Number */
             this::runCompress            /* Compress */
         ).compose(processed -> Pre.qr(QrType.BY_UK).inAJAsync(processed, in)
             .compose(jooq::fetchJAsync)
@@ -43,13 +45,15 @@ class AgonicImport implements Agonic {
         final List<Future<JsonArray>> combine = new ArrayList<>();
         final JsonArray inserted = compared.getOrDefault(ChangeFlag.ADD, new JsonArray());
         if (!inserted.isEmpty()) {
+            // 「AOP」Internal Call to Trigger
             combine.add(Agonic.write(ChangeFlag.ADD).runAAsync(inserted, in));
         }
         final JsonArray updated = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
         if (!updated.isEmpty()) {
+            // 「AOP」Internal Call to Trigger
             combine.add(Agonic.write(ChangeFlag.UPDATE).runAAsync(updated, in));
         }
-        return Ux.thenCombineArray(combine);
+        return Fn.compressA(combine);
     }
 
     private Future<JsonArray> runCompress(final JsonArray source, final IxMod in) {

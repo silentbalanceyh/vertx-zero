@@ -1,0 +1,147 @@
+# 不带 @ 的菜单一律从 1005 开始，步进为 5
+#             --------------------------------------------- BAG 之下菜单全是 SIDE-MENU
+sider:                                                    # 主菜单
+  # 工作台
+  zero.desktop@10000:                                     #   工作台           BAG-MENU
+    zero.desktop.my@2000:                                 #    *工作台
+      zero.desktop.my.task:                               #       我的待办
+      zero.desktop.my.report:                             #       个人报表
+
+  # 流程管理
+  zero.wm@80000:                                          #   流程管理         BAG-MENU
+    zero.wf.office@5000:                                  #    *职员管理流程
+      zero.wf.office.trip:                                #       出差管理
+        zero.wf.office.trip.open:                         #         新建工单
+        zero.wf.office.trip.approval:                     #         处理/审批工单
+        zero.wf.office.trip.done:                         #         历史工单
+      zero.wf.office.vacation:                            #       休假管理
+        zero.wf.office.vacation.open:                     #         新建工单
+        zero.wf.office.vacation.approval:                 #         处理/审批工单
+        zero.wf.office.vacation.done:                     #         历史工单
+      zero.wf.office.assignment:                          #       工作交接管理
+        zero.wf.office.assignment.open:                   #         新建工单
+        zero.wf.office.assignment.approval:               #         处理/审批工单
+        zero.wf.office.assignment.done:                   #         历史工单
+      zero.wf.office.training:                            #       培训管理
+        zero.wf.office.training.open:                     #         新建工单
+        zero.wf.office.training.approval:                 #         处理/审批工单
+        zero.wf.office.training.done:                     #         历史工单
+  # 对外协同
+  zero.cm@80200:                                          #   外部协同         BAG-MENU
+    zero.cm.customer@5000:                                #    *客户管理
+      zero.cm.customer.corporation:                       #       协议单位
+      zero.cm.customer.account:                           #       第三方账号
+    zero.cm.vendor:                                       #    *供应商设置
+      zero.cm.vendor.repo:                                #       供应商
+      zero.cm.vendor.account:                             #       供应商账号
+    zero.wf.vendor:                                       #    *外包人员流程
+      zero.wf.vendor.in:                                  #      *入场管理
+        zero.wf.vendor.in.open:                           #         新建工单
+        zero.wf.vendor.in.approval:                       #         处理/审批工单
+        zero.wf.vendor.in.done:                           #         历史工单
+      zero.wf.vendor.out:                                 #      *离场管理
+        zero.wf.vendor.out.open:                          #         新建工单
+        zero.wf.vendor.out.approval:                      #         处理/审批工单
+        zero.wf.vendor.out.done:                          #         历史工单
+      zero.wf.vendor.check:                               #      *考核管理
+        zero.wf.vendor.check.open:                        #         新建工单
+        zero.wf.vendor.check.approval:                    #         处理/审批工单
+        zero.wf.vendor.check.done:                        #         历史工单
+      zero.wf.vendor.hour:                                #      *工时补签管理
+        zero.wf.vendor.hour.open:                         #         新建工单
+        zero.wf.vendor.hour.approval:                     #         处理/审批工单
+        zero.wf.vendor.hour.done:                         #         历史工单
+
+  # 资产管理
+  zero.am@80300:                                          #   资产管理         BAG-MENU
+    zero.am.workflow@3000:                                #    *资产管理流程
+    zero.am.config:                                       #    *资产配置
+      zero.am.config.brand:                               #       品牌管理
+      zero.am.config.repo:                                #       仓库管理
+
+  # 业务管理
+  zero.bsm@80400:                                         #   业务管理         BAG-MENU
+    zero.bsm.notify@6000:                                 #    *公告管理
+      zero.bsm.notify.open:                               #       发布公告
+      zero.bsm.notify.queue:                              #       公告列表
+    zero.bsm.project:                                     #    *项目设置吧
+      zero.bsm.project.manage:                            #       项目管理
+    zero.bsm.contract:                                    #    *合同设置
+      zero.bsm.contract.manage:                           #       合同管理
+    zero.bsm.organization:                                #    *组织架构
+      zero.bsm.organization.company:                      #       公司管理
+      zero.bsm.organization.department:                   #       部门设置
+      zero.bsm.organization.employee:                     #       职员设置
+    zero.bsm.document:                                    #    *文档管理
+      zero.bsm.document.store:                            #       文档库
+      zero.bsm.document.type:                             #       文档类型
+
+  # 报表管理
+  zero.rsm@85000:                                         #   报表管理         BAG-MENU
+    zero.rsm.report@4000:                                 #    *基础报表
+
+  # 系统设置
+  zero.ssm@90000:                                         #   系统设置         BAG-MENU
+    zero.ssm.data@5000:                                   #    *基础数据
+      zero.data.fm@8000:                                  #       财务数据
+        zero.data.fm.term:                                #         账单项
+        zero.data.fm.subject:                             #         会计科目
+        zero.data.fm.bank:                                #         开户行
+        zero.data.fm.currency:                            #         币种
+        zero.data.fm.unit:                                #         计量单位
+    zero.ssm.rbac:                                        #    *安全中心
+      zero.ssm.rbac.role:                                 #       角色管理
+      zero.ssm.rbac.group:                                #       用户组
+      zero.ssm.rbac.user:                                 #       用户设置
+      zero.ssm.rbac.authority:                            #      *权限管理
+        zero.ssm.rbac.authority.role:                     #         角色权限
+    zero.ssm.log:                                         #    *日志管理
+      zero.ssm.log.workflow:                              #       流程操作日志
+      zero.ssm.log.sync:                                  #       同步日志
+      zero.ssm.log.system:                                #       系统日志
+      zero.ssm.log.history:                               #       变更历史
+    zero.ssm.bg:                                          #    *系统后台
+      zero.ssm.bg.environment:                            #       全局配置
+      zero.ssm.bg.job:                                    #       后台任务
+
+#             --------------------------------------------- Dashboard专用
+dash.app:                                                 # 主界面菜单
+  zero.ssm:                                               #   系统管理         REF
+    zero.ssm.dash.password:                               #     修改密码       NAV-MENU
+    zero.ssm.dash.authority:                              #     角色授权
+    zero.ssm.dash.environment:                            #     全局配置
+    zero.ssm.dash.job:                                    #     后台任务
+  zero.cm:                                                #   客户管理
+    zero.cm.dash.in:                                      #     外包入场申请
+    zero.cm.dash.out:                                     #     外包离场申请
+    zero.cm.dash.check:                                   #     外包人员考核
+    zero.cm.dash.hour:                                    #     工时补签
+  zero.bsm:                                               #   办公协同
+    zero.bsm.dash.trip:                                   #     出差申请
+    zero.bsm.dash.vacation:                               #     休假申请
+    zero.bsm.dash.assignment:                             #     工作交接
+    zero.bsm.dash.training:                               #     培训申请
+
+dash.catalog:                                             # 服务目录           SC-MENU
+  process.oa@80005:                                       #  *人员管理
+    process.oa.trip:                                      #     出差申请工单
+    process.oa.vacation:                                  #     休假申请工单
+    process.oa.assignment:                                #     工作交接工单
+    process.oa.training:                                  #     培训工单
+  process.vendor@80010:                                   #  *外包人员管理
+    process.vendor.check-in:                              #     入场申请工单
+    process.vendor.check-out:                             #     离场申请工单
+    process.vendor.assessment:                            #     考核工单
+    process.vendor.hour:                                  #     工时补签工单
+
+#             --------------------------------------------- 右上顶部菜单
+extra.navigation:                                         #                   EXTRA_MENU
+  zero.extra.help:                                        # 帮助
+  zero.extra.notify:                                      # 提醒
+  zero.extra.research:                                    # 开发中心
+extra.account:                                            #                   TOP_MENU
+  zero.personal.info:                                     # 个人信息
+  zero.personal.password:                                 # 修改密码
+  zero.personal.company:                                  # 企业信息
+  zero.personal.logout:                                   # 退出系统
+#             --------------------------------------------- 菜单变体

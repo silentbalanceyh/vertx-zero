@@ -3,7 +3,6 @@ package io.vertx.tp.optic.phantom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Arbor;
 import io.vertx.up.eon.KName;
@@ -39,19 +38,29 @@ public abstract class AbstractArbor implements Arbor {
         final ConcurrentMap<String, JsonObject> childMap = Ut.elementMap(children, KName.KEY);
         normalized.add(this.storePathOn(category, null, childMap, store));
         Ut.itJArray(children).map(json -> this.storePathOn(json, category, childMap, store)).forEach(normalized::add);
-        return Ke.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
+
+        return Ux.channel(ExIo.class, () -> children, io -> io.docInitialize(normalized, store)).compose(processed -> {
             /*
              * Filtered by `category` storePath field to exclude the invalid children
              */
-            final String storePath = category.getString(KName.STORE_PATH);
+            // final String storePath = category.getString(KName.STORE_PATH);
             final JsonArray valid = new JsonArray();
+            /*
+             * Store Map For normalized for children sort
+             * The children node should be sort field `sort`
+             */
+            final ConcurrentMap<String, Integer> sortMap = Ut.elementMap(normalized, KName.STORE_PATH, KName.SORT);
             Ut.itJArray(processed).forEach(json -> {
                 // Copy JsonObject
                 json = json.copy();
-                if (storePath.equals(json.getString(KName.STORE_PATH))) {
+                final String storePath = json.getString(KName.STORE_PATH);
+                if (sortMap.containsKey(storePath)) {
                     /* Add `sort` to root node for root sorting */
-                    json.put(KName.SORT, category.getInteger(KName.SORT));
+                    json.put(KName.SORT, sortMap.get(storePath));
                 }
+                //                if (storePath.equals(json.getString(KName.STORE_PATH))) {
+                //                    json.put(KName.SORT, category.getInteger(KName.SORT));
+                //                }
                 valid.add(json);
             });
             return Ux.future(valid);
@@ -62,11 +71,10 @@ public abstract class AbstractArbor implements Arbor {
         return this.combineArbor(category, null, configuration);
     }
 
+
+    // ----------------------- Private Method for store path analyzing / building
     /*
-     * {
-     *      "storeRoot": "",
-     *      "storePath": ""
-     * }
+     * Complex Method for `storePath` and `storeParent` processing.
      */
     private JsonObject storePathOn(final JsonObject record,
                                    // Root

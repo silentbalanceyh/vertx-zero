@@ -2,12 +2,15 @@ package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.atom.query.engine.Qr;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,29 +32,49 @@ import java.util.concurrent.ConcurrentMap;
  */
 @SuppressWarnings("all")
 public class DataBound implements Serializable {
-
-    private final transient Set<String> projection = new HashSet<>();
-    private final transient JsonObject criteria = new JsonObject();
-    private final transient JsonArray credit = new JsonArray();
-    private final transient ConcurrentMap<String, Set<String>> rows =
+    // 此处必须有序，有序才可执行查询
+    private final Set<String> projection = new LinkedHashSet<>();
+    private final JsonObject criteria = new JsonObject();
+    private final JsonArray credit = new JsonArray();
+    private final ConcurrentMap<String, Set<String>> rows =
         new ConcurrentHashMap<>();
 
-    private final transient JsonObject seeker = new JsonObject();
-    private final transient JsonObject viewData = new JsonObject();
+    private final JsonObject seeker = new JsonObject();
+    private final JsonObject viewData = new JsonObject();
 
+    /*
+     * {
+     *     "projection":        "S_VIEW -> PROJECTION",
+     *     "criteria":          "S_VIEW -> CRITERIA",
+     *     "rows":              "S_VIEW -> ROWS",
+     *     "credit":            "S_VIEW -> RENEW_CREDIT",
+     *     "seeker":            {
+     *         "config":        "S_RESOURCE -> SEEK_CONFIG",
+     *         "component":     "S_RESOURCE -> SEEK_COMPONENT",
+     *         "syntax":        "S_RESOURCE -> SEEK_SYNTAX"
+     *     },
+     *     "view":              {
+     *         "S_VIEW 全字段"
+     *     }
+     * }
+     */
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
-        json.put("projection", Ut.toJArray(this.projection));
-        json.put("criteria", this.criteria);
+        json.put(Qr.KEY_PROJECTION, Ut.toJArray(this.projection));
+        json.put(Qr.KEY_CRITERIA, this.criteria);
+
+
         /* Rows */
         final JsonObject rows = new JsonObject();
         Ut.itMap(this.rows, (field, rowSet) -> rows.put(field, Ut.toJArray(rowSet)));
-        json.put("rows", rows);
-        /* Advanced */
-        json.put("credit", credit);
+        json.put(KName.Rbac.ROWS, rows);
+
+
+        /* Advanced, Impact, Seeker */
+        json.put(KName.Rbac.CREDIT, credit);
         if (Ut.notNil(this.seeker)) {
-            json.put("seeker", this.seeker);
-            json.put("view", this.viewData);
+            json.put(KName.SEEKER, this.seeker);
+            json.put(KName.VIEW, this.viewData);
         }
         return json;
     }
@@ -106,8 +129,8 @@ public class DataBound implements Serializable {
             .map(literal -> literal.split(" "))
             .filter(splitted -> Values.TWO == splitted.length)
             .map(splitted -> new JsonObject()
-                .put("method", splitted[0])
-                .put("uri", splitted[1])
+                .put(KName.METHOD, splitted[0])
+                .put(KName.URI, splitted[1])
             ).forEach(this.credit::add);
         return this;
     }
@@ -136,5 +159,9 @@ public class DataBound implements Serializable {
             }
         }
         return this;
+    }
+
+    public JsonArray vProjection() {
+        return Ut.toJArray(this.projection);
     }
 }

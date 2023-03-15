@@ -8,6 +8,7 @@ import cn.vertxup.ambient.domain.Db;
 import cn.vertxup.ambient.domain.Indexes;
 import cn.vertxup.ambient.domain.Keys;
 import cn.vertxup.ambient.domain.tables.records.XActivityRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -16,6 +17,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -56,6 +58,20 @@ public class XActivity extends TableImpl<XActivityRecord> {
      * 组所关联的模型记录ID，用于描述哪一个Model中的记录
      */
     public final TableField<XActivityRecord, String> MODEL_KEY = createField(DSL.name("MODEL_KEY"), SQLDataType.VARCHAR(36), this, "「modelKey」- 组所关联的模型记录ID，用于描述哪一个Model中的记录");
+    /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY.MODEL_CATEGORY</code>.
+     * 「modelCategory」- 关联的category记录，只包含叶节点
+     */
+    public final TableField<XActivityRecord, String> MODEL_CATEGORY = createField(DSL.name("MODEL_CATEGORY"), SQLDataType.VARCHAR(128), this, "「modelCategory」- 关联的category记录，只包含叶节点");
+    /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY.TASK_NAME</code>. 「taskName」- 任务名称
+     */
+    public final TableField<XActivityRecord, String> TASK_NAME = createField(DSL.name("TASK_NAME"), SQLDataType.VARCHAR(255), this, "「taskName」- 任务名称");
+    /**
+     * The column <code>DB_ETERNAL.X_ACTIVITY.TASK_SERIAL</code>. 「taskSerial」-
+     * 任务单号
+     */
+    public final TableField<XActivityRecord, String> TASK_SERIAL = createField(DSL.name("TASK_SERIAL"), SQLDataType.VARCHAR(255), this, "「taskSerial」- 任务单号");
     /**
      * The column <code>DB_ETERNAL.X_ACTIVITY.RECORD_OLD</code>. 「recordOld」-
      * 变更之前的数据（用于回滚）
@@ -170,6 +186,11 @@ public class XActivity extends TableImpl<XActivityRecord> {
         return new XActivity(alias, this);
     }
 
+    @Override
+    public XActivity as(Table<?> alias) {
+        return new XActivity(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -186,12 +207,35 @@ public class XActivity extends TableImpl<XActivityRecord> {
         return new XActivity(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public XActivity rename(Table<?> name) {
+        return new XActivity(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row19<String, String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

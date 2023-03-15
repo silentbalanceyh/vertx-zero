@@ -39,11 +39,16 @@ interface InfixTool {
 public interface Infix {
     /**
      * Old code of BUGS
+     *
+     * // <pre><code class="java">
      * static <R> R initTp(final String key,
      * final Function<JsonObject, R> executor,
      * final Class<?> clazz) {
+     * // </code></pre>
      *
+     * The new code is here for new
      *
+     * // <pre><code class="java">
      * final Annal logger = Annal.get(clazz);
      * final JsonObject options = InfixTool.init(logger, key, clazz);
      * final JsonObject config = null == options.getJsonObject(key) ? new JsonObject() : options.getJsonObject(key);
@@ -52,6 +57,7 @@ public interface Infix {
      * return init(key, (config) ->
      * executor.apply(Ut.sureJObject(config.getJsonObject("config"))), clazz);
      * }
+     * // </code></pre>
      */
     static <R> R init(final String key,
                       final Function<JsonObject, R> executor,

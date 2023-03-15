@@ -27,7 +27,7 @@ public class ETeamDao extends AbstractVertxDAO<ETeamRecord, cn.vertxup.erp.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public ETeamDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(ETeam.E_TEAM, cn.vertxup.erp.domain.tables.pojos.ETeam.class, new JDBCClassicQueryExecutor<ETeamRecord,cn.vertxup.erp.domain.tables.pojos.ETeam,String>(configuration,cn.vertxup.erp.domain.tables.pojos.ETeam.class,vertx));
@@ -142,6 +142,53 @@ public class ETeamDao extends AbstractVertxDAO<ETeamRecord, cn.vertxup.erp.domai
      */
         public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByComment(Collection<String> values, int limit) {
                 return findManyByCondition(ETeam.E_TEAM.COMMENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BIND_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindId(Collection<String> values) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>BIND_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindId(Collection<String> values, int limit) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BIND_COMPONENT IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindComponent(Collection<String> values) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_COMPONENT.in(values));
+        }
+
+        /**
+     * Find records that have <code>BIND_COMPONENT IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindComponent(Collection<String> values, int limit) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>BIND_CONFIG IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindConfig(Collection<String> values) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>BIND_CONFIG IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.ETeam>> findManyByBindConfig(Collection<String> values, int limit) {
+                return findManyByCondition(ETeam.E_TEAM.BIND_CONFIG.in(values),limit);
         }
 
         /**

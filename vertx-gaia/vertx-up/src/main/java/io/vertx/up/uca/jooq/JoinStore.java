@@ -4,10 +4,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
 import org.jooq.Field;
-import org.jooq.Record;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 
@@ -111,7 +111,19 @@ class JoinStore {
         final String tableName = this.daoTable.getOrDefault(daoCls, null);
         if (Objects.nonNull(tableName)) {
             final JqAnalyzer analyzer = this.daoAnalyzer.get(daoCls);
-            this.alias.addAlias(analyzer, tableName, field, alias);
+            String fieldFound;
+            final Mojo mojo = analyzer.pojo();
+            if (Objects.isNull(mojo)) {
+                // Keep
+                fieldFound = field;
+            } else {
+                fieldFound = mojo.getIn(field);
+                if (Objects.isNull(fieldFound)) {
+                    // Keep
+                    fieldFound = field;
+                }
+            }
+            this.alias.addAlias(analyzer, tableName, fieldFound, alias);
         }
     }
 
@@ -216,16 +228,16 @@ class JoinStore {
         return this.tableList;
     }
 
-    Table<Record> tableRecord() {
+    Table<org.jooq.Record> tableRecord() {
         return this.tableRecord(this.first.getKey());
     }
 
-    Table<Record> tableRecord(final int index) {
+    Table<org.jooq.Record> tableRecord(final int index) {
         final String table = this.tableList.get(index);
         return this.tableRecord(table);
     }
 
-    Table<Record> tableRecord(final String tableName) {
+    Table<org.jooq.Record> tableRecord(final String tableName) {
         final String alias = this.tablePrefix.get(tableName);
         return DSL.table(DSL.name(tableName)).as(DSL.name(alias));
     }

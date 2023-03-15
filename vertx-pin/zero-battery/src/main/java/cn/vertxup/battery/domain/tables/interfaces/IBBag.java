@@ -108,6 +108,30 @@ public interface IBBag extends VertxPojo, Serializable {
     public String getUiConfig();
 
     /**
+     * Setter for <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    public IBBag setEntry(Boolean value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    public Boolean getEntry();
+
+    /**
+     * Setter for <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    public IBBag setEntryId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    public String getEntryId();
+
+    /**
      * Setter for <code>DB_ETERNAL.B_BAG.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
     public IBBag setAppId(String value);
@@ -234,6 +258,8 @@ public interface IBBag extends VertxPojo, Serializable {
                 setOrThrow(this::setUiStyle,json::getString,"UI_STYLE","java.lang.String");
                 setOrThrow(this::setUiSort,json::getLong,"UI_SORT","java.lang.Long");
                 setOrThrow(this::setUiConfig,json::getString,"UI_CONFIG","java.lang.String");
+                setOrThrow(this::setEntry,json::getBoolean,"ENTRY","java.lang.Boolean");
+                setOrThrow(this::setEntryId,json::getString,"ENTRY_ID","java.lang.String");
                 setOrThrow(this::setAppId,json::getString,"APP_ID","java.lang.String");
                 setOrThrow(this::setParentId,json::getString,"PARENT_ID","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
@@ -260,6 +286,8 @@ public interface IBBag extends VertxPojo, Serializable {
                 json.put("UI_STYLE",getUiStyle());
                 json.put("UI_SORT",getUiSort());
                 json.put("UI_CONFIG",getUiConfig());
+                json.put("ENTRY",getEntry());
+                json.put("ENTRY_ID",getEntryId());
                 json.put("APP_ID",getAppId());
                 json.put("PARENT_ID",getParentId());
                 json.put("ACTIVE",getActive());

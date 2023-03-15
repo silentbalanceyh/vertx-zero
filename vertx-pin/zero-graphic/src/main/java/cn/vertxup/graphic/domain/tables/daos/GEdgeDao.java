@@ -27,7 +27,7 @@ public class GEdgeDao extends AbstractVertxDAO<GEdgeRecord, cn.vertxup.graphic.d
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public GEdgeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(GEdge.G_EDGE, cn.vertxup.graphic.domain.tables.pojos.GEdge.class, new JDBCClassicQueryExecutor<GEdgeRecord,cn.vertxup.graphic.domain.tables.pojos.GEdge,String>(configuration,cn.vertxup.graphic.domain.tables.pojos.GEdge.class,vertx));

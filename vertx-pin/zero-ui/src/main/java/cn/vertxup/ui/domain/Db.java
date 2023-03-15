@@ -66,6 +66,11 @@ public class Db extends SchemaImpl {
     public final UiPage UI_PAGE = UiPage.UI_PAGE;
 
     /**
+     * The table <code>DB_ETERNAL.UI_VIEW</code>.
+     */
+    public final UiView UI_VIEW = UiView.UI_VIEW;
+
+    /**
      * The table <code>DB_ETERNAL.UI_VISITOR</code>.
      */
     public final UiVisitor UI_VISITOR = UiVisitor.UI_VISITOR;
@@ -114,6 +119,7 @@ public class Db extends SchemaImpl {
             UiList.UI_LIST,
             UiOp.UI_OP,
             UiPage.UI_PAGE,
+            UiView.UI_VIEW,
             UiVisitor.UI_VISITOR,
             VFragment.V_FRAGMENT,
             VQuery.V_QUERY,

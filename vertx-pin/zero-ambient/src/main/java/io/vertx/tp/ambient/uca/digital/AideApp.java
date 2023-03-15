@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -24,6 +24,6 @@ public class AideApp extends AbstractAide {
     public Future<JsonObject> fetch(final String field, final String type, final String code) {
         return Ux.Jooq.on(XTabularDao.class)
             .fetchOneAsync(this.condApp(field, type, code))
-            .compose(Ux::futureJ).compose(Ut.ifJObject(KName.METADATA));
+            .compose(Ux::futureJ).compose(Fn.ifJObject(KName.METADATA));
     }
 }

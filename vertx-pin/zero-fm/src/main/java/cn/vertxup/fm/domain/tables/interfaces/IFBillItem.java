@@ -385,13 +385,13 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setStatus,json::getString,"STATUS","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setManualNo,json::getString,"MANUAL_NO","java.lang.String");
                 setOrThrow(this::setUnit,json::getString,"UNIT","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
+                setOrThrow(this::setPrice,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"PRICE","java.math.BigDecimal");
                 setOrThrow(this::setQuantity,json::getInteger,"QUANTITY","java.lang.Integer");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
+                setOrThrow(this::setAmountTotal,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_TOTAL","java.math.BigDecimal");
                 setOrThrow(this::setOpBy,json::getString,"OP_BY","java.lang.String");
                 setOrThrow(this::setOpNumber,json::getString,"OP_NUMBER","java.lang.String");
                 setOrThrow(this::setOpShift,json::getString,"OP_SHIFT","java.lang.String");
@@ -423,13 +423,13 @@ public interface IFBillItem extends VertxPojo, Serializable {
                 json.put("INCOME",getIncome());
                 json.put("TYPE",getType());
                 json.put("STATUS",getStatus());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("COMMENT",getComment());
                 json.put("MANUAL_NO",getManualNo());
                 json.put("UNIT",getUnit());
-                // Omitting unrecognized type java.math.BigDecimal for column PRICE!
+                json.put("PRICE",getPrice()==null?null:getPrice().toString());
                 json.put("QUANTITY",getQuantity());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_TOTAL!
+                json.put("AMOUNT_TOTAL",getAmountTotal()==null?null:getAmountTotal().toString());
                 json.put("OP_BY",getOpBy());
                 json.put("OP_NUMBER",getOpNumber());
                 json.put("OP_SHIFT",getOpShift());

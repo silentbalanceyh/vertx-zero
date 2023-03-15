@@ -7,6 +7,7 @@ import io.vertx.up.atom.Epsilon;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.unity.Ux;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class FormResolver<T> implements Resolver<T> {
@@ -14,7 +15,7 @@ public class FormResolver<T> implements Resolver<T> {
     @Override
     public Epsilon<T> resolve(final RoutingContext context,
                               final Epsilon<T> income) {
-        final Set<FileUpload> fileUploads = context.fileUploads();
+        final Set<FileUpload> fileUploads = new HashSet<>(context.fileUploads());
         /*
          * Not needed to group `Set<FileUpload>`
          */

@@ -25,9 +25,9 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WFlowDao extends AbstractVertxDAO<WFlowRecord, cn.vertxup.workflow.domain.tables.pojos.WFlow, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WFlow>>, Future<cn.vertxup.workflow.domain.tables.pojos.WFlow>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WFlowRecord,cn.vertxup.workflow.domain.tables.pojos.WFlow,String> {
 
         /**
-     * @param configuration The ConfigRunner used for rendering and query
+     * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WFlowDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WFlow.W_FLOW, cn.vertxup.workflow.domain.tables.pojos.WFlow.class, new JDBCClassicQueryExecutor<WFlowRecord,cn.vertxup.workflow.domain.tables.pojos.WFlow,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WFlow.class,vertx));

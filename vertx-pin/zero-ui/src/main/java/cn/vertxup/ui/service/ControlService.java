@@ -12,6 +12,7 @@ import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -34,7 +35,7 @@ public class ControlService implements ControlStub {
                 final JsonArray result = new JsonArray();
                 list.stream().filter(Objects::nonNull)
                     .map(item -> (JsonObject) item)
-                    .map(item -> Ut.ifJObject(item,
+                    .map(item -> Fn.ifJObject(item,
                         KName.Ui.CONTAINER_CONFIG,
                         KName.Ui.COMPONENT_CONFIG,
                         KName.Ui.ASSIST,
@@ -50,7 +51,7 @@ public class ControlService implements ControlStub {
         return Ux.Jooq.on(UiControlDao.class)
             .<UiControl>fetchByIdAsync(control)
             .compose(Ux::futureJ)
-            .compose(Ut.ifJObject(
+            .compose(Fn.ifJObject(
                 KName.Ui.CONTAINER_CONFIG,
                 KName.Ui.COMPONENT_CONFIG,
                 KName.Ui.ASSIST,

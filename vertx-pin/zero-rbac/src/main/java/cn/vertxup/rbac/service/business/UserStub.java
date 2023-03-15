@@ -1,7 +1,6 @@
 package cn.vertxup.rbac.service.business;
 
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /*
@@ -17,44 +16,6 @@ public interface UserStub {
     Future<JsonObject> fetchOUser(String userKey);
 
     /**
-     * R_USER_ROLE
-     * <p>
-     * userKey -> Relation to Role
-     */
-    Future<JsonArray> fetchRoleIds(String userKey);
-
-    /**
-     * R_USER_GROUP
-     * <p>
-     * userKey -> Relation to Group
-     */
-    Future<JsonArray> fetchGroupIds(String userKey);
-
-    /**
-     *
-     */
-    Future<JsonObject> fetchEmployee(String userId);
-
-    /**
-     * Update user information
-     */
-    Future<JsonObject> updateUser(String userId, JsonObject params);
-
-    /**
-     * Update employee information
-     */
-    Future<JsonObject> updateEmployee(String userId, JsonObject params);
-
-    /**
-     * modified by Hongwei at 2019/12/06
-     * add fetchUser method to get user information: user information and related roles and groups
-     * add createUser method to create user entity: create user record in SUser and OUser tables
-     * modify updateUser method: save user information and related roles and groups
-     * add deleteUser method to delete user information: delete user information and related roles and groups
-     */
-    Future<JsonObject> fetchUser(String userKey);
-
-    /**
      * create user: SUser and OUser
      */
     Future<JsonObject> createUser(JsonObject params);
@@ -63,4 +24,18 @@ public interface UserStub {
      * delete user including related roles and groups
      */
     Future<Boolean> deleteUser(String userKey);
+
+
+    // ====================== Information ( By Type ) =======================
+
+
+    /**
+     * Update employee information
+     */
+    Future<JsonObject> updateInformation(String userId, JsonObject params);
+
+    /**
+     *
+     */
+    Future<JsonObject> fetchInformation(String userId);
 }

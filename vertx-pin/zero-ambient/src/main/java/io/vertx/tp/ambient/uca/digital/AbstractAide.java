@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,7 +23,7 @@ public abstract class AbstractAide implements Aide {
     protected Future<JsonArray> fetchDict(final JsonObject criteria) {
         return Ux.Jooq.on(XTabularDao.class).fetchAsync(criteria)
             .compose(Ux::futureA)
-            .compose(Ut.ifJArray(KName.METADATA));
+            .compose(Fn.ifJArray(KName.METADATA));
     }
 
     // --------------- condition building -----------------

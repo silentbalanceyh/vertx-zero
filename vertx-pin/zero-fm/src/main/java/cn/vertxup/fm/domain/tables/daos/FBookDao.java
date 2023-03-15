@@ -28,7 +28,7 @@ public class FBookDao extends AbstractVertxDAO<FBookRecord, cn.vertxup.fm.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FBookDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FBook.F_BOOK, cn.vertxup.fm.domain.tables.pojos.FBook.class, new JDBCClassicQueryExecutor<FBookRecord,cn.vertxup.fm.domain.tables.pojos.FBook,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FBook.class,vertx));

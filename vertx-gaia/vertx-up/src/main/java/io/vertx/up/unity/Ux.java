@@ -5,79 +5,77 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.FileUpload;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.Record;
-import io.vertx.up.commune.exchange.DiConsumer;
-import io.vertx.up.commune.exchange.DiFabric;
-import io.vertx.up.commune.exchange.DiSetting;
-import io.vertx.up.commune.rule.RuleTerm;
+import io.vertx.up.commune.config.Integration;
+import io.vertx.up.commune.exchange.DConsumer;
+import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
+import io.vertx.up.experiment.rule.RuleTerm;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.fn.wait.Log;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
-import org.jooq.Table;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * #「Kt」Utility X Component in zero
- *
+ * <p>
  * Here Ux is a util interface of uniform to call different tools.
  * It just like helper for business usage.
  */
 @SuppressWarnings("all")
 public final class Ux {
 
-    /*
-     * output part converting
-     */
-    public static JsonObject outBool(final boolean checked) {
-        return Async.bool(KName.RESULT, checked);
-    }
-
-    public static JsonObject outBool(final String key, final boolean checked) {
-        return Async.bool(key, checked);
-    }
-
     /**
      * Create new log instance for store `Annal` mapping
-     *
+     * <p>
      * Debug method for help us to do development
-     * 1) log:  for branch log creation
-     * 2) debug:
-     * 3) otherwise:
+     * 1) debug:
+     * -- debugTc:  It will be used in test case
+     * 2) otherwise:
+     * 3) dataN/dataO -> New / Old Json
      * ( Business Part: Debugging )
      */
-    public static Log log(final Class<?> clazz) {
-        return Log.create(null == clazz ? Ux.class : clazz);
-    }
 
     public static void debug(final Object... objects) {
         Debug.monitor(objects);
+    }
+
+    public static void debugTc(final ClusterSerializable cluster) {
+        Debug.monitorTc(cluster);
     }
 
     public static <T> Future<T> debug(final T item) {
@@ -98,6 +96,20 @@ public final class Ux {
 
     public static <T> Function<Throwable, T> otherwise(T input) {
         return otherwise(() -> input);
+    }
+
+
+    /*
+     * Update Data on Record
+     * 1. Generic T ( Pojo )
+     * 2. List<T>
+     * 3. JsonObject
+     * 4. JsonArray
+     * 5. Record
+     * 6. Record[]
+     */
+    public static <T> T cloneT(final T input) {
+        return Compare.cloneT(input);
     }
 
     public static <T> T updateT(final T query, final JsonObject params) {
@@ -234,6 +246,7 @@ public final class Ux {
      * ( Business Part, support `pojoFile` conversation )
      * 4) toFile
      */
+
     public static <T> JsonObject toJson(final T entity) {
         return To.toJObject(entity, "");
     }
@@ -252,6 +265,27 @@ public final class Ux {
 
     public static JsonObject toZip(final Object... args) {
         return To.toToggle(args);
+    }
+
+    /*
+     * Analyze the arguments by type
+     * 1) used by `io.vertx.up.uca.rs.mime.parse.TypedAtomic`.
+     * 2) used by `io.vertx.up.uca.invoker.InvokerUtil`.
+     * The arguments are different, but could support more method declare
+     */
+    // Job
+    public static Object toParameter(final Envelop envelop, final Class<?> type, final Mission mission, final Refer underway) {
+        return Web.toParameter(envelop, type, mission, underway);
+    }
+
+    // Worker
+    public static Object toParameter(final Envelop envelop, final Class<?> type) {
+        return Web.toParameter(envelop, type);
+    }
+
+    // Agent
+    public static Object toParameter(final RoutingContext context, final Class<?> type) {
+        return Web.toParameter(context, type);
     }
 
     public static <T> T fromJson(final JsonObject data, final Class<T> clazz) {
@@ -274,10 +308,6 @@ public final class Ux {
         return From.fromJson(array, clazz, pojo);
     }
 
-    public static JsonObject criteria(final JsonObject data, final String pojo) {
-        return From.fromJson(data, pojo);
-    }
-
     /**
      * File upload tool to convert data
      *
@@ -285,7 +315,6 @@ public final class Ux {
      * @param expected    The method declared type
      * @param consumer    File consumer to read `filename` to Buffer
      * @param <T>         Returned type for declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final Set<FileUpload> fileUploads, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -299,7 +328,6 @@ public final class Ux {
      * @param expected   The method declared type
      * @param consumer   File consumer to read `filename` to Buffer
      * @param <T>        Returned type of declared
-     *
      * @return T reference that converted
      */
     public static <T> T toFile(final FileUpload fileUpload, final Class<?> expected, final Function<String, Buffer> consumer) {
@@ -310,7 +338,6 @@ public final class Ux {
      * Split `Set<FileUpload>` by fieldname
      *
      * @param fileUploads FileUpload Set
-     *
      * @return Map of `field = Set<FileUpload>`
      */
     public static ConcurrentMap<String, Set<FileUpload>> toFile(final Set<FileUpload> fileUploads) {
@@ -409,14 +436,24 @@ public final class Ux {
         return CompareJ.compareJ(original, current, fields);
     }
 
-    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
-        final JsonArray original, final JsonArray current, final Set<String> fields) {
-        return To.future(CompareJ.compareJ(original, current, fields));
+    public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
+        final JsonArray original, final JsonArray current, final String field) {
+        return CompareJ.compareJ(original, current, field);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
         final JsonArray original, final JsonArray current, final JsonArray matrix) {
         return CompareJ.compareJ(original, current, matrix);
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final Set<String> fields) {
+        return To.future(CompareJ.compareJ(original, current, fields));
+    }
+
+    public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
+        final JsonArray original, final JsonArray current, final String field) {
+        return To.future(CompareJ.compareJ(original, current, field));
     }
 
     public static Future<ConcurrentMap<ChangeFlag, JsonArray>> compareJAsync(
@@ -467,13 +504,75 @@ public final class Ux {
      * -- futureE(T)
      * -- futureE(Supplier)
      *
-     * Spec Data
-     * 6)
-     * -- futureJA(JsonArray)
-     * -- futureB(JsonObject)
-     * -- futureB(boolean)
+     * New Api for normalized mount
+     * 6) futureN
+     * -- futureN(JsonObject, JsonObject)
+     * -- futureN(JsonArray, JsonArray)
+     * -- futureN(JsonArray, JsonArray, String)
+     * > N for normalize and add new field:  __data,  __flag instead of original data
+     *
+     * Combine JsonObject and JsonArray by index
+     * 7) futureC
+     *
+     * Filter JsonObject and JsonArray
+     * 8) futureF
+     * -- futureF(String...)
+     * -- futureF(Set<String>)
+     * -- futureF(ClustSerializble, String...)
+     * -- futureF(JsonArray, String...)
+     * -- futureF(JsonObject, Set<String>)
+     * -- futureF(JsonArray, Set<String>)
      */
+    // ----------------------- futureF ----------------------
+
+    public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final Set<String> removed) {
+        return input -> (input instanceof JsonObject) ?
+            futureF((JsonObject) input, removed).compose(json -> To.future((T) json)) :
+            futureF((JsonArray) input, removed).compose(array -> To.future((T) array));
+    }
+
+    public static <T extends ClusterSerializable> Function<T, Future<T>> futureF(final String... removed) {
+        return futureF(Arrays.stream(removed).collect(Collectors.toSet()));
+    }
+
+    public static Future<JsonObject> futureF(final JsonObject input, final String... removed) {
+        return To.future(To.subset(input, Arrays.stream(removed).collect(Collectors.toSet())));
+    }
+
+    public static Future<JsonObject> futureF(final JsonObject input, final Set<String> removed) {
+        return To.future(To.subset(input, removed));
+    }
+
+    public static Future<JsonArray> futureF(final JsonArray input, final String... removed) {
+        return To.future(To.subset(input, Arrays.stream(removed).collect(Collectors.toSet())));
+    }
+
+    public static Future<JsonArray> futureF(final JsonArray input, final Set<String> removed) {
+        return To.future(To.subset(input, removed));
+    }
+
+    // ----------------------- futureN ----------------------
+    public static Future<JsonObject> futureN(final JsonObject input, final JsonObject previous, final JsonObject current) {
+        return Norm.effect(input, previous, current);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current) {
+        return Norm.effect(previous, current, KName.KEY);
+    }
+
+    public static Future<JsonArray> futureN(final JsonArray previous, final JsonArray current, final String field) {
+        return Norm.effect(previous, current, field);
+    }
+
+    public static <T> Future<T> futureC(final T input, final T processed) {
+        return Norm.combine(input, processed);
+    }
+
     public static Future<Boolean> futureT() {
+        return To.future(Boolean.TRUE);
+    }
+
+    public static <T> Future<Boolean> futureT(final T input) {
         return To.future(Boolean.TRUE);
     }
 
@@ -485,16 +584,10 @@ public final class Ux {
         return future(new ArrayList<>());
     }
 
-    public static Future<JsonObject> futureB(final boolean checked) {
-        return To.future(outBool(checked));
-    }
-
-    public static Future<Boolean> futureB(final JsonObject checked) {
-        return To.future(Async.bool(checked));
-    }
-
-    public static Future<JsonObject> futureJA(final JsonArray array) {
-        return To.future(Async.array(array));
+    public static <T> Future<List<T>> futureL(final T single) {
+        final List<T> list = new ArrayList<>();
+        list.add(single);
+        return future(list);
     }
 
     public static <T> Function<Throwable, Future<T>> futureE(final T input) {
@@ -571,11 +664,11 @@ public final class Ux {
     // --------------- Record processing -----------------
 
     public static Future<JsonObject> futureJ(final Record record) {
-        return Fn.getNull(futureJ(), () -> To.future(record.toJson()), record);
+        return Fn.orNull(futureJ(), () -> To.future(record.toJson()), record);
     }
 
     public static Future<JsonArray> futureA(final Record[] records) {
-        return Fn.getNull(futureA(), () -> To.future(Ut.toJArray(records)), records);
+        return Fn.orNull(futureA(), () -> To.future(Ut.toJArray(records)), records);
     }
 
     // --------------- Future of Map -----------------
@@ -596,20 +689,30 @@ public final class Ux {
     }
 
     /*
-     * Flatting method for function executing
-     * 1) attach -> JsonObject ( field )
-     * 2) attachJ -> Advanced JsonObject ( field )
+     * Channel Execution
+     *
+     * 1. channel
+     * 2. channelS
+     * 3. channelA
      */
-    public static <T> Function<JsonObject, Future<JsonObject>> attach(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttach(field, function);
+    public static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
+                                           final Function<T, Future<O>> executor) {
+        return Async.channel(clazz, supplier, executor);
     }
 
-    public static <T> Function<JsonObject, Future<JsonObject>> attachJ(final String field, final Function<T, Future<JsonObject>> function) {
-        return Web.toAttachJ(field, function);
+
+    public static <T, O> O channelS(final Class<T> clazz, final Supplier<O> supplier,
+                                    final Function<T, O> executor) {
+        return Async.channelSync(clazz, supplier, executor);
     }
 
-    public static <T> Function<T, Future<JsonObject>> attachJ(final String field, final JsonObject data) {
-        return Web.toAttachJ(field, data);
+    public static <T, O> O channelS(final Class<T> clazz, final Function<T, O> executor) {
+        return Async.channelSync(clazz, () -> null, executor);
+    }
+
+    public static <T, O> Future<O> channelA(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                            final Function<T, Future<O>> executor) {
+        return Async.channelAsync(clazz, supplier, executor);
     }
 
     /*
@@ -618,7 +721,9 @@ public final class Ux {
      *      "list": [],
      *      "count": xx
      * }
+     * Normalize old/new data in framework
      */
+
     public static JsonObject pageData() {
         return Web.pageData(new JsonArray(), 0L);
     }
@@ -633,149 +738,6 @@ public final class Ux {
 
     public static JsonObject pageData(final JsonObject pageData, final Function<JsonArray, JsonArray> function) {
         return Web.pageData(pageData, function);
-    }
-
-    /*
-     * Complex calculation
-     * 1) thenCombine
-     * 2) thenCombineArray
-     * 3) thenCompress
-     * 4) thenError
-     * 5) thenErrorSigma
-     *
-     * Additional methods for generic T here
-     * 1) thenCombineT
-     * 2) thenCombineArrayT
-     */
-
-    /**
-     * Future async specific workflow for combine future here.
-     *
-     * For example:
-     *
-     * ```shell
-     * // <pre><code>
-     * --------> generateFun ( Supplier )     operatorFun ( BiConsumer )
-     * --------> json1 -> ? future<out1>  ->  operatorFun[0] -> (json1, out1) -> merged1
-     * jarray -> json2 -> ? future<out2>  ->  operatorFun[1] -> (json2, out2) -> merged2  -> merged ( Future<JsonArray> )
-     * --------> json3 -> ? future<out3>  ->  operatorFun[2] -> (json3, out3) -> merged3
-     * // </code></pre>
-     * ```
-     *
-     * @param source      The first query result of list
-     * @param generateFun (json) -> future(out) ( each record )
-     * @param operatorFun (json, out) -> merged
-     *
-     * @return It often used in secondary select in database here
-     */
-    public static Future<JsonArray> thenCombine(final Future<JsonArray> source, final Function<JsonObject, Future<JsonObject>> generateFun, final BinaryOperator<JsonObject> operatorFun) {
-        return Combine.thenCombine(source, generateFun, operatorFun);
-    }
-
-    /**
-     * The workflow
-     * ------>  generateFun ( Supplier )                operatorFun ( BiConsumer )
-     * ------>  future1 ( json -> ? future<out1> )  ->  operatorFun[0] -> (json, out1) -> merged1  ->
-     * json ->  future2 ( json -> ? future<out2> )  ->  operatorFun[1] -> (json, out2) -> merged2  -> merged
-     * ------>  future3 ( json -> ? future<out3> )  ->  operatorFun[2] -> (json, out3) -> merged3  ->
-     *
-     * @param source      The input json object
-     * @param generateFun The json object should generate list<future>, each future should be json object
-     * @param operatorFun merged the result to json object instead of other
-     *
-     * @return The final result of future
-     */
-    public static Future<JsonObject> thenCombine(final JsonObject source, final Function<JsonObject, List<Future>> generateFun, final BiConsumer<JsonObject, JsonObject>... operatorFun) {
-        return Combine.thenCombine(Future.succeededFuture(source), generateFun, operatorFun);
-    }
-
-    /**
-     * input:
-     * - List: [future1, future2, future3]
-     * output:
-     * - Future: JsonArray ( future1 -> json, future2 -> json, future3 -> json )
-     * The workflow
-     * future1 -> (in1 -> out1)
-     * future2 -> (in2 -> out2) --> future ( [out1, out2, out3] )
-     * future3 -> (in3 -> out3)
-     *
-     * @param futures The list of futures
-     *
-     * @return The final result of futures
-     */
-    public static Future<JsonArray> thenCombine(final List<Future<JsonObject>> futures) {
-        return Combine.thenCombine(futures);
-    }
-
-    public static <F, S, T> Future<T> thenCombine(final Supplier<Future<F>> futureF, final Supplier<Future<S>> futureS,
-                                                  final BiFunction<F, S, Future<T>> consumer) {
-        return Combine.thenCombine(futureF, futureS, consumer);
-    }
-
-    public static <F, S, T> Future<T> thenCombine(final Future<F> futureF, final Future<S> futureS,
-                                                  final BiFunction<F, S, Future<T>> consumer) {
-        return Combine.thenCombine(() -> futureF, () -> futureS, consumer);
-    }
-
-    public static Future<JsonArray> thenCombine(final JsonArray input, final Function<JsonObject, Future<JsonObject>> function) {
-        final List<Future<JsonObject>> futures = new ArrayList<>();
-        Ut.itJArray(input).map(function).forEach(futures::add);
-        return Combine.thenCombine(futures);
-    }
-
-    public static <T> Future<List<T>> thenCombineT(final List<Future<T>> futures) {
-        return Combine.thenCombineT(futures);
-    }
-
-    public static <I, O> Future<List<O>> thenCombineT(final List<I> source, final Function<I, Future<O>> consumer) {
-        final List<Future<O>> futures = new ArrayList<>();
-        Ut.itList(source).map(consumer).forEach(futures::add);
-        return Combine.thenCombineT(futures);
-    }
-
-    public static <K, T> Future<ConcurrentMap<K, T>> thenCombine(final ConcurrentMap<K, Future<T>> futureMap) {
-        return Combine.thenCombine(futureMap);
-    }
-
-    /*
-     * Specific combine method here.
-     */
-    public static Future<JsonArray> thenCombineArray(final List<Future<JsonArray>> futures) {
-        return Combine.thenCombineArray(futures);
-    }
-
-    public static Future<JsonArray> thenCombineArray(final JsonArray source, final Function<JsonObject, Future<JsonArray>> consumer) {
-        return thenCombineArray(source, JsonObject.class, consumer);
-    }
-
-    public static <T> Future<JsonArray> thenCombineArray(final JsonArray source, final Class<T> clazz, final Function<T, Future<JsonArray>> consumer) {
-        final List<Future<JsonArray>> futures = new ArrayList<>();
-        Ut.itJArray(source, clazz, (item, index) -> futures.add(consumer.apply(item)));
-        return Combine.thenCombineArray(futures);
-    }
-
-    public static <T> Future<List<T>> thenCombineArrayT(final List<Future<List<T>>> futures) {
-        return Combine.thenCombineArrayT(futures);
-    }
-
-    public static Future<ConcurrentMap<String, JsonArray>> thenCompress(final List<Future<ConcurrentMap<String, JsonArray>>> futures) {
-        return Combine.thenCompress(futures, (original, latest) -> original.addAll(latest));
-    }
-
-    /**
-     * Common usage: To error directly
-     *
-     * @param clazz The type of WebException, class type, it will be created by reflection.
-     * @param args  The rule
-     *              - arg0: this.getClass(), Because all the first arg of WebException must be clazz here.
-     *              - argX: the arguments of WebException constructor here, instead of fixed arguments.
-     */
-    public static <T> Future<T> thenError(final Class<? extends WebException> clazz, final Object... args) {
-        return Combine.thenError(clazz, args);
-    }
-
-    public static <T> Future<T> thenErrorSigma(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return Combine.thenErrorSigma(clazz, sigma, supplier);
     }
 
     /*
@@ -817,14 +779,79 @@ public final class Ux {
         return Where.whereOr().put(field, value);
     }
 
-    // Qr Add
-    public static JsonObject whereQrA(final JsonObject qr, final Kv<String, Object> kv) {
-        Objects.requireNonNull(kv);
-        return Where.whereQrA(qr, kv.getKey(), kv.getValue());
+    // Where current condition is null
+    /*
+     * Query Engine API
+     *
+     * QH -> Query with Criteria   （全格式）
+     * H  -> Criteria              （查询条件）
+     * V  -> Projection            （列过滤）
+     *
+     * 1) irNil / irAnd / irOne
+     *    - irNil:          判断查询条件是否为空，"": true | false 单节点也为空
+     *    - irOp:           判断查询条件是 AND 还是 OR，AND返回true，OR返回false
+     *    - irOne:          判断查询条件是否单条件（只有一个条件）
+     * 2) irAndQH / irAndH
+     *    - irAndQH:        参数本身为全格式:
+     *      {
+     *           "criteria": {}
+     *      }
+     *    - irAndH:         参数本身为全格式中的 criteria 纯格式
+     * 3) irQV / irV
+     *    - irQV:           参数本身为全格式:
+     *      {
+     *           "projection": []
+     *      }
+     *    - irV:            参数本身为全格式中的 projection 纯格式
+     *
+     * 全格式返回全格式，纯格式返回纯格式
+     */
+    public static boolean irNil(final JsonObject condition) {
+        return Query.irNil(condition);
     }
 
-    public static JsonObject whereQrA(final JsonObject qr, final String field, final Object value) {
-        return Where.whereQrA(qr, field, value);
+    public static boolean irOp(final JsonObject condition) {
+        return Query.irAnd(condition);
+    }
+
+    public static boolean irOne(final JsonObject condition) {
+        return Query.irOne(condition);
+    }
+
+    // ---------------------- Qr Modification --------------------------
+    public static JsonObject irAndQH(final JsonObject qr, final Kv<String, Object> kv) {
+        Objects.requireNonNull(kv);
+        return Query.irQH(qr, kv.getKey(), kv.getValue());
+    }
+
+    public static JsonObject irAndQH(final JsonObject qr, final String field, final Object value) {
+        return Query.irQH(qr, field, value);
+    }
+
+    public static JsonObject irAndQH(final JsonObject query, final JsonObject criteria, final boolean clear) {
+        return Query.irQH(query, criteria, clear);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final JsonObject criteria) {
+        return Query.irH(original, criteria);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final String field, final Object value) {
+        return Query.irH(original, field, value);
+    }
+
+    public static JsonObject irAndH(final JsonObject original, final Kv<String, Object> kv) {
+        Objects.requireNonNull(kv);
+        return Query.irH(original, kv.getKey(), kv.getValue());
+    }
+
+    // Qr Combine ( projection + projection )
+    public static JsonObject irQV(final JsonObject query, final JsonArray projection, final boolean clear) {
+        return Query.irQV(query, projection, clear);
+    }
+
+    public static JsonArray irV(final JsonArray original, final JsonArray projection) {
+        return Query.irV(original, projection);
     }
 
     // ---------------------- Request Data Extract --------------------------
@@ -1021,7 +1048,7 @@ public final class Ux {
     /**
      * This method will be configured in `vertx-extension.yml` file in common situation,
      * The file content should be as following:
-     *
+     * <p>
      * ```yml
      * // <pre><code>
      * init:
@@ -1029,9 +1056,9 @@ public final class Ux {
      *   - component: "[ComponentName2]"
      * // </code></pre>
      * ```
-     *
+     * <p>
      * All components here will be called when container starting, the component must declare the init method as
-     *
+     * <p>
      * ```java
      * // <pre><code>
      * public static void init(){
@@ -1042,7 +1069,7 @@ public final class Ux {
      * }
      * // </code></pre>
      * ```
-     *
+     * <p>
      * This method should be used when you want to develop zero extension module for business requirement.
      *
      * @param init The configuration data came from `init` node in file
@@ -1059,24 +1086,24 @@ public final class Ux {
         return Atomic.nativeWorker(name, 10);
     }
 
-    public static WorkerExecutor nativeWorker(final String name, final Integer minutes) {
-        return Atomic.nativeWorker(name, minutes);
+    public static <T> Future<T> nativeWorker(final String name, final Handler<Promise<T>> handler) {
+        return Atomic.nativeWorker(name, handler);
     }
 
     // -> Dict for caculation
     /*
      * Keep following dict method
      */
-    public static ConcurrentMap<String, DiConsumer> dictEpsilon(final JsonObject epsilon) {
-        return DiTool.mapEpsilon(epsilon);
+    public static ConcurrentMap<String, DConsumer> dictEpsilon(final JsonObject epsilon) {
+        return DConsumer.mapEpsilon(epsilon);
     }
 
-    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DiSetting dict, final MultiMap paramsMap) {
-        return DiTool.dictCalc(dict, paramsMap);
+    public static Future<ConcurrentMap<String, JsonArray>> dictCalc(final DSetting dict, final MultiMap paramsMap) {
+        return Dict.dictCalc(dict, paramsMap);
     }
 
-    public static <T> Future<T> dictTo(final T record, final DiFabric fabric) {
-        return DiTool.dictTo(record, fabric);
+    public static <T> Future<T> dictTo(final T record, final DFabric fabric) {
+        return Dict.dictTo(record, fabric);
     }
 
     /*
@@ -1097,6 +1124,8 @@ public final class Ux {
         }
     }
 
+    // ---------------------------------- Children Utility
+
     /**
      * Inner class of `Jooq` tool of Jooq Engine operations based on pojo here.
      * When developers want to access database and select zero default implementation.
@@ -1115,16 +1144,6 @@ public final class Ux {
      * Here you can do database access smartly and do nothing then.
      */
     public static class Jooq {
-        public static String table(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            final Table<?> table = Ut.field(dsl.dao(), "table");
-            return table.getName();
-        }
-
-        public static Class<?> pojo(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Ut.field(dsl.dao(), "type");
-        }
 
         /**
          * Get reference of UxJooq that bind to Dao class, this method won't access standard database,
@@ -1142,12 +1161,12 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, Constants.DEFAULT_JOOQ_HISTORY);
-            return Fn.poolThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), "HIS-" + dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1163,12 +1182,12 @@ public final class Ux {
          * </code></pre>
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1176,12 +1195,12 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param pool  Input data pool reference, it provide developers to access other database in one application.
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
         /**
@@ -1189,22 +1208,12 @@ public final class Ux {
          *
          * @param clazz The class of `VertxDao` that has been generated by jooq tool
          * @param key   the key configuration in vertx-jooq.yml such as above "orbit", "provider"
-         *
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
-            return Fn.poolThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
-        }
-
-        public static boolean isEmpty(final JsonObject condition) {
-            if (Ut.isNil(condition)) {
-                return true;
-            } else {
-                final JsonObject normalized = condition.copy();
-                normalized.remove(Strings.EMPTY);
-                return Ut.isNil(normalized);
-            }
+            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
     }
 
@@ -1227,7 +1236,8 @@ public final class Ux {
     public static class Pool {
 
         public static UxPool on(final String name) {
-            return Fn.pool(Cache.MAP_POOL, name, () -> new UxPool(name));
+            return Cache.CC_UX_POOL.pick(() -> new UxPool(name), name);
+            // return Fn.po?l(Cache.MAP_POOL, name, () -> new UxPool(name));
         }
 
         public static UxPool on() {
@@ -1241,12 +1251,9 @@ public final class Ux {
         }
     }
 
-    /*
-     * The only one uniform configuration of tp here
-     */
-    public static class Opt {
-        public static UxOpt on() {
-            return new UxOpt();
+    public static class Ldap {
+        public static UxLdap on(final Integration integration) {
+            return Cache.CC_LDAP.pick(() -> new UxLdap(integration), String.valueOf(integration.hashCode()));
         }
     }
 
@@ -1284,4 +1291,5 @@ public final class Ux {
             return extract(jwtToken.getString(KName.ACCESS_TOKEN));
         }
     }
+
 }

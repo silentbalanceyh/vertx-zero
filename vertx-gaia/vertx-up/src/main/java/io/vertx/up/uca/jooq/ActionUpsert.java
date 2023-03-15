@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ class ActionUpsert extends AbstractAction {
             final List<Future<List<T>>> futures = new ArrayList<>();
             futures.add(this.insert.insertAsync(compared.get(ChangeFlag.ADD)));
             futures.add(this.update.updateAsync(compared.get(ChangeFlag.UPDATE)));
-            return Ux.thenCombineArrayT(futures);
+            return Fn.compressL(futures);
         });
     }
 

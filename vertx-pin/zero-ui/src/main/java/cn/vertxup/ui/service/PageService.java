@@ -7,6 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
@@ -32,8 +33,8 @@ public class PageService implements PageStub {
                 /*
                  * Configuration converted to Json
                  */
-                .compose(Ut.ifJObject(KName.Ui.CONFIG));
-        if (Debugger.onUiCache()) {
+                .compose(Fn.ifJObject(KName.Ui.CONFIG));
+        if (Debugger.cacheUi()) {
             // Ui Cache Enabled
             return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT)
                 .cached(layoutId, () -> executor.apply(layoutId));
@@ -105,7 +106,7 @@ public class PageService implements PageStub {
             .compose(layout -> {
                 final JsonObject pageJson = Ux.toJson(page);
                 pageJson.put("layout", layout);
-                return Ut.ifJObject(
+                return Fn.ifJObject(
                     KName.Ui.CONTAINER_CONFIG,
                     KName.Ui.ASSIST,
                     KName.Ui.GRID

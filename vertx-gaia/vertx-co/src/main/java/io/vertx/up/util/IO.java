@@ -16,13 +16,13 @@ import io.vertx.up.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * The library for IO resource reading.
@@ -34,7 +34,8 @@ final class IO {
     private static final ObjectMapper YAML = new YAMLMapper();
 
     /**
-     * Direct read by vert.x logger to avoid dead lock
+     * 「DEAD-LOCK」LoggerFactory.getLogger
+     * Do not use `Annal` logger because of deadlock.
      */
     private static final Logger LOGGER
         = LoggerFactory.getLogger(IO.class);
@@ -81,7 +82,7 @@ final class IO {
 
     static String getString(final InputStream in, final String joined) {
         final StringBuilder buffer = new StringBuilder(Values.BUFFER_SIZE);
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(in, Values.ENCODING));
             // Character stream
             String line;
@@ -98,11 +99,11 @@ final class IO {
     }
 
     static String getString(final String filename, final String joined) {
-        return Fn.getJvm(() -> getString(Stream.read(filename), joined), filename);
+        return Fn.orJvm(() -> getString(Stream.read(filename), joined), filename);
     }
 
     static String getString(final String filename) {
-        return Fn.getJvm(() -> getString(Stream.read(filename)), filename);
+        return Fn.orJvm(() -> getString(Stream.read(filename)), filename);
     }
 
     /**
@@ -162,7 +163,7 @@ final class IO {
      */
     private static YamlType getYamlType(final String filename) {
         final String content = IO.getString(filename);
-        return Fn.getNull(YamlType.OBJECT, () -> {
+        return Fn.orNull(YamlType.OBJECT, () -> {
             if (content.trim().startsWith(Strings.DASH)) {
                 return YamlType.ARRAY;
             } else {
@@ -179,7 +180,7 @@ final class IO {
      * @return Properties that will be returned
      */
     static Properties getProp(final String filename) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Properties prop = new Properties();
             final InputStream in = Stream.read(filename);
             prop.load(in);
@@ -196,10 +197,10 @@ final class IO {
      * @return URL of this filename include ZIP/JAR url
      */
     static URL getURL(final String filename) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final URL url = Thread.currentThread().getContextClassLoader()
                 .getResource(filename);
-            return Fn.getSemi(null == url, null,
+            return Fn.orSemi(null == url, null,
                 () -> IO.class.getResource(filename),
                 () -> url);
         }, filename);
@@ -215,7 +216,7 @@ final class IO {
     @SuppressWarnings("all")
     static Buffer getBuffer(final String filename) {
         final InputStream in = Stream.read(filename);
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final byte[] bytes = new byte[in.available()];
             in.read(bytes);
             in.close();
@@ -231,9 +232,9 @@ final class IO {
      * @return File object by filename that input
      */
     static File getFile(final String filename) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final File file = new File(filename);
-            return Fn.getSemi(file.exists(), null,
+            return Fn.orSemi(file.exists(), null,
                 () -> file,
                 () -> {
                     final URL url = getURL(filename);
@@ -246,12 +247,18 @@ final class IO {
     }
 
     static boolean isExist(final String filename) {
-        final File file = new File(filename);
-        if (file.exists()) {
-            return true;
+        try {
+            final File file = new File(filename);
+            if (file.exists()) {
+                return true;
+            }
+            final URL url = getURL(filename);
+            return Objects.nonNull(url);
+        } catch (final Throwable ex) {
+            // Fix: java.lang.NullPointerException
+            // File does not exist
+            return false;
         }
-        final URL url = getURL(filename);
-        return Objects.nonNull(url);
     }
 
     /**
@@ -262,9 +269,9 @@ final class IO {
      * @return file content that converted to String
      */
     static String getPath(final String filename) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final File file = getFile(filename);
-            return Fn.getJvm(() -> {
+            return Fn.orJvm(() -> {
                 Log.info(LOGGER, Info.INF_APATH, file.getAbsolutePath());
                 return file.getAbsolutePath();
             }, file);
@@ -275,5 +282,33 @@ final class IO {
         final byte[] bytes = Stream.readBytes(file);
         final byte[] compressed = Compressor.decompress(bytes);
         return new String(compressed, Values.DEFAULT_CHARSET);
+    }
+
+    static Buffer zip(final Set<String> fileSet) {
+        // Create Tpl zip file path
+        return Fn.orJvm(() -> {
+            final ByteArrayOutputStream fos = new ByteArrayOutputStream();
+            final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+
+            // Buffer Size
+            final byte[] buffers = new byte[Values.CACHE_SIZE];
+            fileSet.forEach(filename -> Fn.safeJvm(() -> {
+                // create .zip and put file here
+                final File file = new File(filename);
+                final ZipEntry zipEntry = new ZipEntry(file.getName());
+                zos.putNextEntry(zipEntry);
+
+                // Read File content and put them in the zip
+                final FileInputStream fis = new FileInputStream(file);
+                final BufferedInputStream bis = new BufferedInputStream(fis, Values.CACHE_SIZE);
+                int read;
+                while ((read = bis.read(buffers, 0, Values.CACHE_SIZE)) != -1) {
+                    zos.write(buffers, 0, read);
+                }
+                bis.close();
+            }));
+            zos.close();
+            return Buffer.buffer(fos.toByteArray());
+        });
     }
 }

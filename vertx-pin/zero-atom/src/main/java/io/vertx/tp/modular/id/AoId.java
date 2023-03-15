@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.tp.atom.cv.em.IdMode;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.up.commune.Record;
+import io.vertx.up.eon.em.atom.KeyMode;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -18,7 +18,7 @@ public interface AoId {
     /*
      * 根据主键模式读取 Sole 接口
      */
-    static AoId get(final IdMode mode) {
+    static AoId get(final KeyMode mode) {
         return Pool.POOL_ID.get(mode);
     }
 

@@ -28,7 +28,7 @@ public class FDebtDao extends AbstractVertxDAO<FDebtRecord, cn.vertxup.fm.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FDebtDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FDebt.F_DEBT, cn.vertxup.fm.domain.tables.pojos.FDebt.class, new JDBCClassicQueryExecutor<FDebtRecord,cn.vertxup.fm.domain.tables.pojos.FDebt,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FDebt.class,vertx));

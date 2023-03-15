@@ -25,9 +25,9 @@ import io.github.jklingsporn.vertx.jooq.classic.jdbc.JDBCClassicQueryExecutor;
 public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.domain.tables.pojos.WTodo, String, Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>>, Future<cn.vertxup.workflow.domain.tables.pojos.WTodo>, Future<Integer>, Future<String>> implements io.github.jklingsporn.vertx.jooq.classic.VertxDAO<WTodoRecord,cn.vertxup.workflow.domain.tables.pojos.WTodo,String> {
 
         /**
-     * @param configuration The ConfigRunner used for rendering and query
+     * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public WTodoDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(WTodo.W_TODO, cn.vertxup.workflow.domain.tables.pojos.WTodo.class, new JDBCClassicQueryExecutor<WTodoRecord,cn.vertxup.workflow.domain.tables.pojos.WTodo,String>(configuration,cn.vertxup.workflow.domain.tables.pojos.WTodo.class,vertx));
@@ -220,6 +220,22 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
+     * Find records that have <code>SERIAL_FORK IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyBySerialFork(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.SERIAL_FORK.in(values));
+        }
+
+        /**
+     * Find records that have <code>SERIAL_FORK IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyBySerialFork(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.SERIAL_FORK.in(values),limit);
+        }
+
+        /**
      * Find records that have <code>TRACE_ID IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTraceId(Collection<String> values) {
@@ -278,22 +294,6 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByTaskKey(Collection<String> values, int limit) {
                 return findManyByCondition(WTodo.W_TODO.TASK_KEY.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>ACTIVITY_ID IN (values)</code>
-     * asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByActivityId(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.ACTIVITY_ID.in(values));
-        }
-
-        /**
-     * Find records that have <code>ACTIVITY_ID IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByActivityId(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.ACTIVITY_ID.in(values),limit);
         }
 
         /**
@@ -375,21 +375,6 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
-     * Find records that have <code>TO_DEPT IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToDept(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.TO_DEPT.in(values));
-        }
-
-        /**
-     * Find records that have <code>TO_DEPT IN (values)</code> asynchronously
-     * limited by the given limit
-     */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToDept(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.TO_DEPT.in(values),limit);
-        }
-
-        /**
      * Find records that have <code>TO_TEAM IN (values)</code> asynchronously
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToTeam(Collection<String> values) {
@@ -402,6 +387,21 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToTeam(Collection<String> values, int limit) {
                 return findManyByCondition(WTodo.W_TODO.TO_TEAM.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TO_ROLE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToRole(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.TO_ROLE.in(values));
+        }
+
+        /**
+     * Find records that have <code>TO_ROLE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToRole(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TO_ROLE.in(values),limit);
         }
 
         /**
@@ -420,18 +420,49 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
         }
 
         /**
-     * Find records that have <code>TO_ROLE IN (values)</code> asynchronously
+     * Find records that have <code>TO_DEPT IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToRole(Collection<String> values) {
-                return findManyByCondition(WTodo.W_TODO.TO_ROLE.in(values));
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToDept(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.TO_DEPT.in(values));
         }
 
         /**
-     * Find records that have <code>TO_ROLE IN (values)</code> asynchronously
+     * Find records that have <code>TO_DEPT IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToRole(Collection<String> values, int limit) {
-                return findManyByCondition(WTodo.W_TODO.TO_ROLE.in(values),limit);
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByToDept(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.TO_DEPT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ESCALATE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByEscalate(Collection<Boolean> values) {
+                return findManyByCondition(WTodo.W_TODO.ESCALATE.in(values));
+        }
+
+        /**
+     * Find records that have <code>ESCALATE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByEscalate(Collection<Boolean> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.ESCALATE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ESCALATE_DATA IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByEscalateData(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.ESCALATE_DATA.in(values));
+        }
+
+        /**
+     * Find records that have <code>ESCALATE_DATA IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByEscalateData(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.ESCALATE_DATA.in(values),limit);
         }
 
         /**
@@ -480,6 +511,22 @@ public class WTodoDao extends AbstractVertxDAO<WTodoRecord, cn.vertxup.workflow.
      */
         public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByAcceptedBy(Collection<String> values, int limit) {
                 return findManyByCondition(WTodo.W_TODO.ACCEPTED_BY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_GROUP IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByAcceptedGroup(Collection<String> values) {
+                return findManyByCondition(WTodo.W_TODO.ACCEPTED_GROUP.in(values));
+        }
+
+        /**
+     * Find records that have <code>ACCEPTED_GROUP IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.workflow.domain.tables.pojos.WTodo>> findManyByAcceptedGroup(Collection<String> values, int limit) {
+                return findManyByCondition(WTodo.W_TODO.ACCEPTED_GROUP.in(values),limit);
         }
 
         /**

@@ -1,10 +1,8 @@
 package io.vertx.up.verticle;
 
 import io.vertx.ext.web.Router;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 interface Info {
 
@@ -58,19 +56,7 @@ interface Info {
 
 interface Pool {
 
-    ConcurrentMap<String, Axis<Router>> ROUTERS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> EVENTS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> APIS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> WALLS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> FILTERS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> DYNAMICS = new ConcurrentHashMap<>();
-
-    ConcurrentMap<String, Axis<Router>> MEANSURES = new ConcurrentHashMap<>();
+    Cc<String, Axis<Router>> CC_ROUTER = Cc.openThread();
 }
 
 interface Registry {

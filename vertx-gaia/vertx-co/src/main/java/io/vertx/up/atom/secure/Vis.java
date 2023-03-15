@@ -71,9 +71,22 @@ public class Vis extends JsonObject {
         } else {
             /*
              * Normalized
+             * If encoded the literal here, the literal should contains one of
+             * [ - %5B
+             * , - %2C
+             * ] - %5D
+             * This Fix should resolve the bug of `view` parameters
              */
-            final String normalized = Ut.aiJArray(literal);
-            final JsonArray data = Ut.toJArray(normalized);
+            final String normalized;
+            if (literal.contains("%5B") ||
+                literal.contains("%2C") ||
+                literal.contains("%5D")) {
+                normalized = Ut.decryptUrl(literal);
+            } else {
+                normalized = literal;
+            }
+            final String detected = Ut.aiJArray(normalized);
+            final JsonArray data = Ut.toJArray(detected);
             return create(data);
         }
     }
@@ -85,15 +98,20 @@ public class Vis extends JsonObject {
         } else if (json instanceof JsonObject) {
             // Json object convert to Vis ( sub class )
             return new Vis(((JsonObject) json));
-        } else if (json instanceof String) {
-            final String viewJson = (String) json;
+        } else if (json instanceof final String viewJson) {
             if (Ut.isJObject(viewJson)) {
                 // The json is literal
                 return new Vis(Ut.toJObject(viewJson));
+            } else if (Ut.isJArray(viewJson)) {
+                // String literal
+                return create(viewJson);
             } else {
                 // Single view with default position
                 return new Vis((String) json, KValue.View.POSITION_DEFAULT);
             }
+        } else if (json instanceof final JsonArray jsonArray) {
+            // JsonArray
+            return create(jsonArray);
         } else {
             // Default value
             return new Vis(KValue.View.VIEW_DEFAULT, KValue.View.POSITION_DEFAULT);

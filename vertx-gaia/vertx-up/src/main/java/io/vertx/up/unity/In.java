@@ -4,8 +4,12 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
+import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.secure.Lee;
+import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.util.Ut;
 
 import java.time.Instant;
@@ -21,7 +25,7 @@ class In {
     }
 
     static <T> T request(final Envelop envelop, final Class<T> clazz) {
-        return Fn.getSemi(null == envelop, null, () -> null, () -> envelop.data(clazz));
+        return Fn.orSemi(null == envelop, null, () -> null, () -> envelop.data(clazz));
     }
 
     static <T> T request(final Message<Envelop> message, final Integer index, final Class<T> clazz) {
@@ -31,7 +35,7 @@ class In {
 
     static <T> T request(final Envelop envelop, final Integer index, final Class<T> clazz
     ) {
-        return Fn.getSemi(null == envelop, null, () -> null, () -> envelop.data(index, clazz));
+        return Fn.orSemi(null == envelop, null, () -> null, () -> envelop.data(index, clazz));
     }
 
     static String requestUser(final Message<Envelop> message, final String field
@@ -40,14 +44,15 @@ class In {
     }
 
     static String requestUser(final Envelop envelop, final String field) {
-        return Fn.getSemi(null == envelop, null, () -> null,
+        return Fn.orSemi(null == envelop, null, () -> null,
             () -> envelop.identifier(field));
     }
 
-    static String requestTokenData(final String tokenString, final String field) {
+    static String requestToken(final String tokenString, final String field) {
         String result = null;
         if (Ut.notNil(tokenString)) {
-            final JsonObject token = UxJwt.extract(tokenString);
+            final Lee lee = Ut.service(LeeBuiltIn.class);
+            final JsonObject token = lee.decode(tokenString, AegisItem.configMap(AuthWall.JWT));
             if (Objects.nonNull(token)) {
                 result = token.getString(field);
             }
@@ -66,7 +71,7 @@ class In {
         final Envelop envelop,
         final String field
     ) {
-        return Fn.getSemi(null == envelop, null, () -> null,
+        return Fn.orSemi(null == envelop, null, () -> null,
             () -> {
                 final Session session = envelop.session();
                 return null == session ? null : session.get(field);

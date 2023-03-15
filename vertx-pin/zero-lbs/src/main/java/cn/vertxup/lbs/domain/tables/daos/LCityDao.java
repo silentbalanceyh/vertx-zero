@@ -27,7 +27,7 @@ public class LCityDao extends AbstractVertxDAO<LCityRecord, cn.vertxup.lbs.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LCityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LCity.L_CITY, cn.vertxup.lbs.domain.tables.pojos.LCity.class, new JDBCClassicQueryExecutor<LCityRecord,cn.vertxup.lbs.domain.tables.pojos.LCity,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LCity.class,vertx));

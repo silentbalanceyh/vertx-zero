@@ -1,12 +1,13 @@
 package cn.vertxup.ambient.api.application;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 @EndPoint
 public interface AppAgent {
@@ -74,4 +75,14 @@ public interface AppAgent {
     @Path("/api/database")
     @Address(Addr.Init.SOURCE)
     JsonObject database(@HeaderParam(ID.Header.X_APP_ID) String appId);
+
+    /*
+     * 1. Step 1: Update the Notice by `expiredAt` first
+     * 2. Step 2: Query the valid `notice` records from the system
+     */
+    @POST
+    @Path("/api/notice-dashboard")
+    @Address(Addr.Init.NOTICE)
+    JsonArray notice(@HeaderParam(ID.Header.X_APP_ID) String appId,
+                     @BodyParam JsonObject condition);
 }

@@ -14,9 +14,11 @@ import java.util.Objects;
 
 class From {
 
-    static <T> T fromJson(final JsonObject data, final Class<T> clazz, final String pojo) {
-        return Fn.getSemi(Ut.isNil(pojo), null,
-            () -> Ut.deserialize(data, clazz),
+    static <T> T fromJson(final JsonObject data, final Class<T> clazz,
+                          final String pojo) {
+        return Fn.orSemi(Ut.isNil(pojo), null,
+            // Turn On Smart Serialization on Business Layer
+            () -> Ut.deserialize(data, clazz, true),
             () -> Mirror.create(From.class)
                 .mount(pojo)
                 .connect(data)

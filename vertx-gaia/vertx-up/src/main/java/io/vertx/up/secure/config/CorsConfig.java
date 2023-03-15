@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.ID;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -33,6 +34,9 @@ public class CorsConfig implements Serializable {
             final JsonObject cors = config.getJsonObject(KEY);
             if (Ut.notNil(cors)) {
                 INSTANCE = Ut.deserialize(cors, CorsConfig.class);
+                // Cors Connected
+                final JsonArray origins = MatureOn.envDomain(INSTANCE.getOrigin());
+                INSTANCE.setOrigin(origins);
                 LOGGER.info("[ CORS ] Origin Configured = {0}", INSTANCE.getOrigin());
             }
         }
@@ -41,14 +45,20 @@ public class CorsConfig implements Serializable {
         }
     }
 
-    private transient Boolean credentials = Boolean.FALSE;
+    private Boolean credentials = Boolean.FALSE;
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray methods = new JsonArray();
+    private JsonArray methods = new JsonArray();
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray headers = new JsonArray();
-    private transient String origin;
+    private JsonArray headers = new JsonArray();
+    /*
+     * Modified from 4.3.1, here the origin has been modified
+     * From Vert.x 4.3.1, instead the origin must be configured
+     */
+    @JsonSerialize(using = JsonArraySerializer.class)
+    @JsonDeserialize(using = JsonArrayDeserializer.class)
+    private JsonArray origin = new JsonArray();
 
     public static CorsConfig get() {
         return INSTANCE;
@@ -65,11 +75,11 @@ public class CorsConfig implements Serializable {
     public JsonArray getMethods() {
         if (this.methods.isEmpty()) {
             return new JsonArray()
-                .add(HttpMethod.GET.name())
-                .add(HttpMethod.POST.name())
-                .add(HttpMethod.PUT.name())
-                .add(HttpMethod.DELETE.name())
-                .add(HttpMethod.OPTIONS.name());
+                    .add(HttpMethod.GET.name())
+                    .add(HttpMethod.POST.name())
+                    .add(HttpMethod.PUT.name())
+                    .add(HttpMethod.DELETE.name())
+                    .add(HttpMethod.OPTIONS.name());
         } else {
             return this.methods;
         }
@@ -82,16 +92,16 @@ public class CorsConfig implements Serializable {
     public JsonArray getHeaders() {
         if (this.headers.isEmpty()) {
             return new JsonArray()
-                .add(HttpHeaders.AUTHORIZATION.toString())
-                .add(HttpHeaders.ACCEPT.toString())
-                .add(HttpHeaders.CONTENT_DISPOSITION.toString())
-                .add(HttpHeaders.CONTENT_ENCODING.toString())
-                .add(HttpHeaders.CONTENT_LENGTH.toString())
-                .add(HttpHeaders.CONTENT_TYPE.toString())
-                /* User defined header */
-                .add(ID.Header.X_APP_ID)
-                .add(ID.Header.X_APP_KEY)
-                .add(ID.Header.X_SIGMA);
+                    .add(HttpHeaders.AUTHORIZATION.toString())
+                    .add(HttpHeaders.ACCEPT.toString())
+                    .add(HttpHeaders.CONTENT_DISPOSITION.toString())
+                    .add(HttpHeaders.CONTENT_ENCODING.toString())
+                    .add(HttpHeaders.CONTENT_LENGTH.toString())
+                    .add(HttpHeaders.CONTENT_TYPE.toString())
+                    /* User defined header */
+                    .add(ID.Header.X_APP_ID)
+                    .add(ID.Header.X_APP_KEY)
+                    .add(ID.Header.X_SIGMA);
         } else {
             return this.headers;
         }
@@ -101,21 +111,30 @@ public class CorsConfig implements Serializable {
         this.headers = headers;
     }
 
-    public String getOrigin() {
-        return Objects.isNull(this.origin) ? "*" : this.origin;
+    /*
+     * This issue came from frontend:
+     * Access to fetch at 'http://xxx:xxx/app/name/xxx?name=xxx'
+     * from origin 'http://xxx:xxx' has been blocked by CORS policy:
+     * Response to preflight request doesn't pass access control check:
+     * No 'Access-Control-Allow-Origin' header is present on the requested resource.
+     * If an opaque response serves your needs,
+     * set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+     */
+    public JsonArray getOrigin() {
+        return this.origin;
     }
 
-    public void setOrigin(final String origin) {
+    public void setOrigin(final JsonArray origin) {
         this.origin = origin;
     }
 
     @Override
     public String toString() {
         return "CorsConfig{" +
-            "credentials=" + this.credentials +
-            ", methods=" + this.methods +
-            ", headers=" + this.headers +
-            ", origin='" + this.origin + '\'' +
-            '}';
+                "credentials=" + this.credentials +
+                ", methods=" + this.methods +
+                ", headers=" + this.headers +
+                ", origin='" + this.origin + '\'' +
+                '}';
     }
 }

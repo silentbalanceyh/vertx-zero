@@ -4,11 +4,11 @@ import cn.originx.stellaris.OkA;
 import cn.originx.stellaris.OkX;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.commune.exchange.BiTree;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.up.commune.exchange.BTree;
+import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.unity.Ux;
 
@@ -130,9 +130,9 @@ public interface OkB extends OkX, Copyable<OkB> {
     /**
      * 构造映射配置对象，专用执行字段映射处理。
      *
-     * @return {@link BiTree}
+     * @return {@link BTree}
      */
-    BiTree mapping();
+    BTree mapping();
 
     // ---------------- 字典和服务配置 ---------------------
 
@@ -141,20 +141,20 @@ public interface OkB extends OkX, Copyable<OkB> {
      *
      * 该字典翻译器使用默认配置（identifier = ""）
      *
-     * @return `{@link Future}<{@link DiFabric}>`
+     * @return `{@link Future}<{@link DFabric}>`
      */
-    default Future<DiFabric> fabric() {
+    default Future<DFabric> fabric() {
         return this.fabric(Strings.EMPTY);
     }
 
     /**
      * 「Async」根据模型定义异步构造某一个模型的字典翻译器
      *
-     * @param atom {@link DataAtom} 传入的模型定义对象`io.vertx.tp.atom.modeling.data.DataAtom`
+     * @param atom {@link DataAtom} 传入的模型定义对象`io.vertx.tp.atom.modeling.building.DataAtom`
      *
-     * @return `{@link Future}<{@link DiFabric}>`
+     * @return `{@link Future}<{@link DFabric}>`
      */
-    default Future<DiFabric> fabric(final DataAtom atom) {
+    default Future<DFabric> fabric(final DataAtom atom) {
         return this.fabric(atom.identifier()).compose(fabric -> {
             fabric.mapping().bind(atom.type());
             return Ux.future(fabric);
@@ -166,7 +166,7 @@ public interface OkB extends OkX, Copyable<OkB> {
      *
      * @param identifier {@link String} 传入的模型统一标识符
      *
-     * @return `{@link Future}<{@link DiFabric}>`
+     * @return `{@link Future}<{@link DFabric}>`
      */
-    Future<DiFabric> fabric(String identifier);
+    Future<DFabric> fabric(String identifier);
 }

@@ -7,18 +7,19 @@ import io.vertx.ext.auth.User;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
-import io.vertx.tp.ke.atom.specification.KJoin;
-import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KPoint;
-import io.vertx.tp.ke.cv.em.JoinMode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.JoinMode;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
+import io.vertx.up.experiment.specification.KJoin;
+import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 /**
@@ -55,9 +56,9 @@ public class IxMod {
 
     public String cacheKey() {
         if (Objects.isNull(this.connect)) {
-            return this.module.getIdentifier();
+            return this.module.identifier();
         } else {
-            return this.module.getIdentifier() + ":" + this.connect.getIdentifier();
+            return this.module.identifier() + ":" + this.connect.identifier();
         }
     }
 
@@ -92,9 +93,9 @@ public class IxMod {
 
     public String keyPool() {
         final StringBuilder key = new StringBuilder();
-        key.append(this.module.getIdentifier());
+        key.append(this.module.identifier());
         if (this.canJoin()) {
-            key.append(this.connect.getIdentifier());
+            key.append(this.connect.identifier());
         }
         return key.toString();
     }
@@ -172,8 +173,6 @@ public class IxMod {
      * JsonArray processing
      * Here the `input` is the super set of `active`, it means that all the fields will be in `input`
      * and `active` contains the major table fields.
-     *
-     * Ut.elementZip by `key` could merge all the data here.
      */
     public JsonArray dataIn(final JsonArray input, final JsonArray active) {
         /*
@@ -184,28 +183,34 @@ public class IxMod {
          * 2) Input -> module -> joined
          */
         final JsonArray zip = new JsonArray();
-        final Integer size = input.size();
-        Ut.itJArray(active, (data, index) -> {
-            final JsonObject source = data.copy();
-            // Issue: https://github.com/silentbalanceyh/hotel/issues/323
-            if (index < size) {
-                final JsonObject target = input.getJsonObject(index);
-                if (Ut.notNil(target)) {
-                    zip.add(source.mergeIn(target));
-                } else {
-                    zip.add(source);
-                }
+        // Issue: https://github.com/silentbalanceyh/hotel/issues/323
+        this.zipData(input, active, (source, target) -> {
+            // Check Target
+            final JsonObject normalized;
+            if (Ut.isNil(target)) {
+                normalized = this.dataIn(source);
             } else {
-                zip.add(source);
+                normalized = this.dataIn(source, target);
             }
+            zip.add(normalized);
+        });
+        return zip;
+    }
 
+    public JsonArray dataOut(final JsonArray active, final JsonArray standBy) {
+
+        final JsonArray zip = new JsonArray();
+        this.zipData(active, standBy, (source, target) -> {
+            // Check Target
+            final JsonObject normalized;
+            if (Ut.isNil(target)) {
+                normalized = this.dataOut(source);
+            } else {
+                normalized = this.dataOut(source, target);
+            }
+            zip.add(normalized);
         });
-        final JsonArray normalized = new JsonArray();
-        Ut.itJArray(zip).forEach(json -> {
-            final JsonObject dataSt = this.dataIn(json);
-            normalized.add(json.copy().mergeIn(dataSt, true));
-        });
-        return normalized;
+        return zip;
     }
 
     /*
@@ -217,7 +222,7 @@ public class IxMod {
      * kv put into final data
      */
     public JsonObject dataIn(final JsonObject input, final JsonObject active) {
-        final KPoint point = this.point();
+        final KPoint point = this.pointJoin();
         final KJoin connect = this.module.getConnect();
         /*
          * 1. Joined Key
@@ -234,22 +239,12 @@ public class IxMod {
         return dataS;
     }
 
-    public JsonArray dataOut(final JsonArray active, final JsonArray standBy) {
-        // Apply key to standBy
-        Ut.itJArray(standBy).forEach(json -> {
-            final JsonObject data = this.dataOut(json);
-            // The key will be overwritten
-            json.mergeIn(data, true);
-        });
-        return Ut.elementZip(standBy, active);
-    }
-
     /*
      * 1) active data ( include `key` )
      * 2) standBy data ( include `joinKey` )
      */
     public JsonObject dataOut(final JsonObject active, final JsonObject standBy) {
-        final KPoint point = this.point();
+        final KPoint point = this.pointJoin();
         final KJoin connect = this.module.getConnect();
         /*
          * 2. Mapping StandBy
@@ -267,8 +262,56 @@ public class IxMod {
         return data;
     }
 
+    // ======================= Active / StandBy Joined ===========================
+    private void zipData(final JsonArray active, final JsonArray standBy,
+                         final BiConsumer<JsonObject, JsonObject> consumerFn) {
+        this.zipData((sourceKey, targetKey) -> Ut.itJArray(active).forEach(sourceJ -> {
+            Objects.requireNonNull(sourceKey);
+            final Object value = sourceJ.getValue(sourceKey);
+            if (Objects.isNull(targetKey) || Objects.isNull(value)) {
+                // targetKey = null
+                consumerFn.accept(sourceJ, null);
+            } else {
+                // targetKey != null && value != null
+                final JsonObject found = Ut.elementFind(standBy, targetKey, value);
+                consumerFn.accept(sourceJ, found);
+            }
+        }));
+    }
+
+    private void zipData(final BiConsumer<String, String> joinFn) {
+
+        final KJoin connect = this.module.getConnect();
+        // Source Key
+        final String sourceKey;
+        if (Objects.isNull(connect)) {
+            sourceKey = KName.KEY;
+        } else {
+            final KPoint point = connect.getSource();
+            if (Objects.isNull(point)) {
+                sourceKey = KName.KEY;
+            } else {
+                sourceKey = Ut.isNil(point.getKeyJoin()) ? KName.KEY : point.getKeyJoin();
+            }
+        }
+        // Target Key
+        String targetKey = null;
+        if (this.canJoin()) {
+            final KPoint point = this.pointJoin();
+            if (Objects.nonNull(point)) {
+                targetKey = point.getKeyJoin();
+            }
+        }
+        joinFn.accept(sourceKey, targetKey);
+    }
+
+    // ======================= Active Only ===========================
+    /*
+     * When active only mode, the synonym configuration is invalid for this kind of mode
+     * It means that it's pure for Active Data Here.
+     */
     public JsonObject dataIn(final JsonObject active) {
-        final KPoint point = this.point();
+        final KPoint point = this.pointJoin();
         final KJoin connect = this.module.getConnect();
         final JsonObject condJoin = new JsonObject();
         connect.dataIn(active, point, condJoin);
@@ -276,7 +319,7 @@ public class IxMod {
     }
 
     public JsonObject dataOut(final JsonObject active) {
-        final KPoint point = this.point();
+        final KPoint point = this.pointJoin();
         final KJoin connect = this.module.getConnect();
         final JsonObject condJoin = new JsonObject();
         connect.dataOut(active, point, condJoin);
@@ -284,7 +327,7 @@ public class IxMod {
     }
 
     public JsonObject dataCond(final JsonObject active) {
-        final KPoint point = this.point();
+        final KPoint point = this.pointJoin();
         final KJoin connect = this.module.getConnect();
         final JsonObject condJoin = new JsonObject();
         connect.dataCond(active, point, condJoin);
@@ -302,15 +345,15 @@ public class IxMod {
         return condition;
     }
 
-    public KPoint point() {
+    public KPoint pointJoin() {
         if (this.canJoin()) {
             final KJoin join = this.module.getConnect();
             if (Objects.isNull(join)) {
                 return null;
             }
-            final KPoint point = join.point(this.connect.getIdentifier());
+            final KPoint point = join.point(this.connect.identifier());
             Ix.Log.rest(this.getClass(), "Point = {0}, From = {1}, To = {2}",
-                point, this.module.getIdentifier(), this.connect.getIdentifier());
+                point, this.module.identifier(), this.connect.identifier());
             return point;
         } else {
             return null;

@@ -27,7 +27,7 @@ public class FCurrencyDao extends AbstractVertxDAO<FCurrencyRecord, cn.vertxup.f
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FCurrencyDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FCurrency.F_CURRENCY, cn.vertxup.fm.domain.tables.pojos.FCurrency.class, new JDBCClassicQueryExecutor<FCurrencyRecord,cn.vertxup.fm.domain.tables.pojos.FCurrency,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FCurrency.class,vertx));

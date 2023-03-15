@@ -27,7 +27,7 @@ public class IServiceDao extends AbstractVertxDAO<IServiceRecord, cn.vertxup.jet
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public IServiceDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(IService.I_SERVICE, cn.vertxup.jet.domain.tables.pojos.IService.class, new JDBCClassicQueryExecutor<IServiceRecord,cn.vertxup.jet.domain.tables.pojos.IService,String>(configuration,cn.vertxup.jet.domain.tables.pojos.IService.class,vertx));

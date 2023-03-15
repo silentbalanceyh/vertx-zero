@@ -20,35 +20,35 @@ public class IIntegration implements VertxPojo, IIIntegration {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        type;
-    private String        ipV4;
-    private String        ipV6;
-    private String        hostname;
-    private Integer       port;
-    private String        protocol;
-    private Integer       securePort;
-    private String        secureProtocol;
-    private String        endpoint;
-    private String        path;
-    private String        osKey;
-    private String        osSecret;
-    private String        osAuthorize;
-    private String        osToken;
-    private String        username;
-    private String        password;
-    private String        publicKey;
-    private String        options;
-    private String        appId;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String type;
+    private String ipV4;
+    private String ipV6;
+    private String hostname;
+    private Integer port;
+    private String protocol;
+    private Integer securePort;
+    private String secureProtocol;
+    private String endpoint;
+    private String path;
+    private String osKey;
+    private String osSecret;
+    private String osAuthorize;
+    private String osToken;
+    private String username;
+    private String password;
+    private String publicKey;
+    private String options;
+    private String appId;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public IIntegration() {}
 
@@ -85,35 +85,35 @@ public class IIntegration implements VertxPojo, IIIntegration {
     }
 
     public IIntegration(
-        String        key,
-        String        name,
-        String        type,
-        String        ipV4,
-        String        ipV6,
-        String        hostname,
-        Integer       port,
-        String        protocol,
-        Integer       securePort,
-        String        secureProtocol,
-        String        endpoint,
-        String        path,
-        String        osKey,
-        String        osSecret,
-        String        osAuthorize,
-        String        osToken,
-        String        username,
-        String        password,
-        String        publicKey,
-        String        options,
-        String        appId,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String type,
+        String ipV4,
+        String ipV6,
+        String hostname,
+        Integer port,
+        String protocol,
+        Integer securePort,
+        String secureProtocol,
+        String endpoint,
+        String path,
+        String osKey,
+        String osSecret,
+        String osAuthorize,
+        String osToken,
+        String username,
+        String password,
+        String publicKey,
+        String options,
+        String appId,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -676,6 +676,228 @@ public class IIntegration implements VertxPojo, IIIntegration {
     public IIntegration setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final IIntegration other = (IIntegration) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.ipV4 == null) {
+            if (other.ipV4 != null)
+                return false;
+        }
+        else if (!this.ipV4.equals(other.ipV4))
+            return false;
+        if (this.ipV6 == null) {
+            if (other.ipV6 != null)
+                return false;
+        }
+        else if (!this.ipV6.equals(other.ipV6))
+            return false;
+        if (this.hostname == null) {
+            if (other.hostname != null)
+                return false;
+        }
+        else if (!this.hostname.equals(other.hostname))
+            return false;
+        if (this.port == null) {
+            if (other.port != null)
+                return false;
+        }
+        else if (!this.port.equals(other.port))
+            return false;
+        if (this.protocol == null) {
+            if (other.protocol != null)
+                return false;
+        }
+        else if (!this.protocol.equals(other.protocol))
+            return false;
+        if (this.securePort == null) {
+            if (other.securePort != null)
+                return false;
+        }
+        else if (!this.securePort.equals(other.securePort))
+            return false;
+        if (this.secureProtocol == null) {
+            if (other.secureProtocol != null)
+                return false;
+        }
+        else if (!this.secureProtocol.equals(other.secureProtocol))
+            return false;
+        if (this.endpoint == null) {
+            if (other.endpoint != null)
+                return false;
+        }
+        else if (!this.endpoint.equals(other.endpoint))
+            return false;
+        if (this.path == null) {
+            if (other.path != null)
+                return false;
+        }
+        else if (!this.path.equals(other.path))
+            return false;
+        if (this.osKey == null) {
+            if (other.osKey != null)
+                return false;
+        }
+        else if (!this.osKey.equals(other.osKey))
+            return false;
+        if (this.osSecret == null) {
+            if (other.osSecret != null)
+                return false;
+        }
+        else if (!this.osSecret.equals(other.osSecret))
+            return false;
+        if (this.osAuthorize == null) {
+            if (other.osAuthorize != null)
+                return false;
+        }
+        else if (!this.osAuthorize.equals(other.osAuthorize))
+            return false;
+        if (this.osToken == null) {
+            if (other.osToken != null)
+                return false;
+        }
+        else if (!this.osToken.equals(other.osToken))
+            return false;
+        if (this.username == null) {
+            if (other.username != null)
+                return false;
+        }
+        else if (!this.username.equals(other.username))
+            return false;
+        if (this.password == null) {
+            if (other.password != null)
+                return false;
+        }
+        else if (!this.password.equals(other.password))
+            return false;
+        if (this.publicKey == null) {
+            if (other.publicKey != null)
+                return false;
+        }
+        else if (!this.publicKey.equals(other.publicKey))
+            return false;
+        if (this.options == null) {
+            if (other.options != null)
+                return false;
+        }
+        else if (!this.options.equals(other.options))
+            return false;
+        if (this.appId == null) {
+            if (other.appId != null)
+                return false;
+        }
+        else if (!this.appId.equals(other.appId))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.ipV4 == null) ? 0 : this.ipV4.hashCode());
+        result = prime * result + ((this.ipV6 == null) ? 0 : this.ipV6.hashCode());
+        result = prime * result + ((this.hostname == null) ? 0 : this.hostname.hashCode());
+        result = prime * result + ((this.port == null) ? 0 : this.port.hashCode());
+        result = prime * result + ((this.protocol == null) ? 0 : this.protocol.hashCode());
+        result = prime * result + ((this.securePort == null) ? 0 : this.securePort.hashCode());
+        result = prime * result + ((this.secureProtocol == null) ? 0 : this.secureProtocol.hashCode());
+        result = prime * result + ((this.endpoint == null) ? 0 : this.endpoint.hashCode());
+        result = prime * result + ((this.path == null) ? 0 : this.path.hashCode());
+        result = prime * result + ((this.osKey == null) ? 0 : this.osKey.hashCode());
+        result = prime * result + ((this.osSecret == null) ? 0 : this.osSecret.hashCode());
+        result = prime * result + ((this.osAuthorize == null) ? 0 : this.osAuthorize.hashCode());
+        result = prime * result + ((this.osToken == null) ? 0 : this.osToken.hashCode());
+        result = prime * result + ((this.username == null) ? 0 : this.username.hashCode());
+        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
+        result = prime * result + ((this.publicKey == null) ? 0 : this.publicKey.hashCode());
+        result = prime * result + ((this.options == null) ? 0 : this.options.hashCode());
+        result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

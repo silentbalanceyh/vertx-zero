@@ -26,7 +26,7 @@ public class VSearchDao extends AbstractVertxDAO<VSearchRecord, cn.vertxup.ui.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public VSearchDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(VSearch.V_SEARCH, cn.vertxup.ui.domain.tables.pojos.VSearch.class, new JDBCClassicQueryExecutor<VSearchRecord,cn.vertxup.ui.domain.tables.pojos.VSearch,String>(configuration,cn.vertxup.ui.domain.tables.pojos.VSearch.class,vertx));

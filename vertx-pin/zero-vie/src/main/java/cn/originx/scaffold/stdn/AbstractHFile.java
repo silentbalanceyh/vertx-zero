@@ -3,7 +3,7 @@ package cn.originx.scaffold.stdn;
 import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._400FileRequiredException;
 import io.vertx.tp.error._409IdentifierConflictException;
 import io.vertx.tp.error._417DataEmptyException;

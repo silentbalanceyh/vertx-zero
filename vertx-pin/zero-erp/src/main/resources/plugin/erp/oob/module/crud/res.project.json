@@ -1,0 +1,42 @@
+{
+    "name": "project",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EProjectDao",
+    "field": {
+        "numbers": {
+            "code": "NUM.PROJECT"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ],
+        "attachment": [
+            {
+                "field": "files",
+                "condition": {
+                    "modelId": "res.project"
+                }
+            }
+        ]
+    },
+    "transform": {
+        "fabric": {
+            "source": [
+                {
+                    "source": "TABULAR",
+                    "types": [
+                        "zero.project"
+                    ]
+                }
+            ],
+            "epsilon": {
+                "type": {
+                    "source": "zero.project",
+                    "in": "name",
+                    "out": "code"
+                }
+            }
+        }
+    }
+}

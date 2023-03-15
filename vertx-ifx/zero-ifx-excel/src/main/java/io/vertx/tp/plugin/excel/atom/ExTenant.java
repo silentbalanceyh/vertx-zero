@@ -8,6 +8,7 @@ import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,14 +38,19 @@ public class ExTenant implements Serializable {
         return this.tenant.getGlobal();
     }
 
-    public Kv<String, Set<String>> valueCriteria(final String tableName) {
+    public ConcurrentMap<String, Set<String>> valueCriteria(final String tableName) {
         final JsonObject criteria = this.tenant.getForbidden().getOrDefault(tableName, new JsonObject());
         if (Ut.notNil(criteria)) {
-            final String field = criteria.fieldNames().iterator().next();
-            final JsonArray values = criteria.getJsonArray(field, new JsonArray());
-            return Kv.create(field, Ut.toSet(values));
+            final ConcurrentMap<String, Set<String>> conditionMap = new ConcurrentHashMap<>();
+            criteria.fieldNames().forEach(field -> {
+                final JsonArray values = criteria.getJsonArray(field, new JsonArray());
+                if (Ut.notNil(values)) {
+                    conditionMap.put(field, Ut.toSet(values));
+                }
+            });
+            return conditionMap;
         } else {
-            return Kv.create();
+            return new ConcurrentHashMap<>();
         }
     }
 
@@ -83,7 +89,7 @@ public class ExTenant implements Serializable {
             Ut.itJArray(this.tenant.getSource(), String.class, (expr, index) ->
                 futures.add(this.dictionary(expr)));
         }
-        return Ux.thenCombineT(futures).compose(result -> {
+        return Fn.combineT(futures).compose(result -> {
             final ConcurrentMap<String, JsonObject> dataResult = new ConcurrentHashMap<>();
             if (Objects.nonNull(result)) {
                 result.stream().filter(Objects::nonNull)
@@ -134,7 +140,7 @@ public class ExTenant implements Serializable {
                         return Ux.future(data);
                     }))
                     .forEach(futures::add);
-                return Ux.thenCombineArray(futures);
+                return Fn.compressA(futures);
             }).compose(dataArray -> {
                 // Result
                 final String key = segments[4];

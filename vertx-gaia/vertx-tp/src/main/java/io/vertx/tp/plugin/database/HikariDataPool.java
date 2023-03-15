@@ -1,22 +1,15 @@
 package io.vertx.tp.plugin.database;
 
 import com.zaxxer.hikari.HikariDataSource;
-import io.vertx.tp.error.DataSourceException;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
 import org.jooq.Configuration;
-import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultConnectionProvider;
 
-import java.sql.SQLException;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class HikariDataPool implements DataPool {
     private static final Annal LOGGER = Annal.get(HikariDataPool.class);
@@ -27,7 +20,7 @@ public class HikariDataPool implements DataPool {
     private static final String OPT_MINIMUM_IDLE = "hikari.minimum.idle";
     private static final String OPT_MAXIMUM_POOL_SIZE = "hikari.maximum.pool.size";
     private static final String OPT_POOL_NAME = "hikari.name";
-    private static final ConcurrentMap<String, DataPool> POOL_SWITCH = new ConcurrentHashMap<>();
+    private static final Cc<String, DataPool> CC_POOL_SWITCH = Cc.open();
     /*
      * Database Options for HikariDataBase, for current version add new parameter for KikariDatabase
      * performance turning, it's recommend by
@@ -67,10 +60,11 @@ public class HikariDataPool implements DataPool {
             this.dataSource.setAutoCommit(autoCommit);
             // Fix Issue: https://github.com/silentbalanceyh/vertx-zero/issues/304
             this.dataSource.setConnectionTimeout(this.database.getLong(OPT_CONNECTION_TIMEOUT, 300000L));
-            this.dataSource.setIdleTimeout(this.database.getLong(OPT_IDLE_TIMEOUT, 600000L));
-            this.dataSource.setMaxLifetime(this.database.getLong(OPT_MAX_LIFETIME, 25600000L));
-            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 256));
-            this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 512));
+            this.dataSource.setIdleTimeout(this.database.getLong(OPT_IDLE_TIMEOUT, 60000L));
+            // Fix: Possibly consider using a shorter maxLifetime value
+            this.dataSource.setMaxLifetime(this.database.getLong(OPT_MAX_LIFETIME, 120000L));
+            this.dataSource.setMinimumIdle(this.database.getOption(OPT_MINIMUM_IDLE, 0));
+            this.dataSource.setMaximumPoolSize(this.database.getOption(OPT_MAXIMUM_POOL_SIZE, 2048));
 
             // Default attributes
             this.dataSource.addDataSourceProperty("cachePrepStmts", this.database.getOption(OPT_STATEMENT_CACHED, "true"));
@@ -91,7 +85,7 @@ public class HikariDataPool implements DataPool {
             // this.dataSource.addDataSourceProperty("elideSetAutoCommits", this.database.getOption(OPT_ELIDE_COMMIT, "true"));
             this.dataSource.addDataSourceProperty("maintainTimeStats", this.database.getOption(OPT_MAINTAIN_TIMESTAT, "false"));
             // Data pool name
-            this.dataSource.setPoolName(this.database.getOption(OPT_POOL_NAME, "ZERO-POOL-DATA"));
+            this.dataSource.setPoolName(this.database.getOption(OPT_POOL_NAME, "ZeroHikariPool"));
         }
     }
 
@@ -112,7 +106,7 @@ public class HikariDataPool implements DataPool {
 
     @Override
     public DataPool switchTo() {
-        return Fn.pool(POOL_SWITCH, this.database.getJdbcUrl(), () -> {
+        return CC_POOL_SWITCH.pick(() -> {
             final Database database = new Database();
             database.fromJson(this.database.toJson());
             /*
@@ -123,7 +117,7 @@ public class HikariDataPool implements DataPool {
             final Annal logger = Annal.get(this.getClass());
             logger.info("[ DP ] Data Pool Hash : {0}", ds.hashCode());
             return ds;
-        });
+        }, this.database.getJdbcUrl());
     }
 
     @Override
@@ -149,20 +143,11 @@ public class HikariDataPool implements DataPool {
 
     private void initJooq() {
         if (null == this.context) {
-            try {
-                /* Init Jooq configuration */
-                final Configuration configuration = new DefaultConfiguration();
-                final ConnectionProvider provider = new DefaultConnectionProvider(this.dataSource.getConnection());
-                configuration.set(provider);
-                /* Dialect selected */
-                final SQLDialect dialect = Pool.DIALECT.get(this.database.getCategory());
-                LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
-                configuration.set(dialect);
-                this.context = DSL.using(configuration);
-            } catch (final SQLException ex) {
-                // LOGGER.jvm(ex);
-                throw new DataSourceException(this.getClass(), ex, this.database.getJdbcUrl());
-            }
+            /* Init Jooq configuration */
+            final Configuration configuration = this.configuration();
+            final SQLDialect dialect = Pool.DIALECT.get(this.database.getCategory());
+            LOGGER.debug("Jooq Database ：Dialect = {0}, Database = {1}, ", dialect, this.database.toJson().encodePrettily());
+            this.context = DSL.using(configuration);
         }
     }
 
@@ -193,7 +178,7 @@ public class HikariDataPool implements DataPool {
              */
             this.dataSource.setJdbcUrl(this.database.getJdbcUrl());
             this.dataSource.setUsername(this.database.getUsername());
-            this.dataSource.setPassword(this.database.getPassword());
+            this.dataSource.setPassword(this.database.getSmartPassword());
             /*
              * Fix bug for 'no suitable driver'
              */

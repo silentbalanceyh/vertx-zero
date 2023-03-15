@@ -7,6 +7,7 @@ package cn.vertxup.battery.domain.tables;
 import cn.vertxup.battery.domain.Db;
 import cn.vertxup.battery.domain.Keys;
 import cn.vertxup.battery.domain.tables.records.BBlockRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -216,6 +217,11 @@ public class BBlock extends TableImpl<BBlockRecord> {
         return new BBlock(alias, this);
     }
 
+    @Override
+    public BBlock as(Table<?> alias) {
+        return new BBlock(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -230,5 +236,13 @@ public class BBlock extends TableImpl<BBlockRecord> {
     @Override
     public BBlock rename(Name name) {
         return new BBlock(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public BBlock rename(Table<?> name) {
+        return new BBlock(name.getQualifiedName(), null);
     }
 }

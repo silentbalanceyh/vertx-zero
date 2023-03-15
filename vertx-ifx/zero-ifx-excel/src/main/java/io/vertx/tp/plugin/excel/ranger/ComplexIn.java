@@ -6,9 +6,9 @@ import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.commune.element.TypeAtom;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -70,7 +70,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final TypeAtom TypeAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final HTAtom HTAtom) {
         /*
          * Build data column range based on current cell and table
          * 1) table means ExTable for range
@@ -98,7 +98,7 @@ public class ComplexIn extends AbstractExIn {
             /*
              * In first iterator for first row, the system should build `complexMap`
              */
-            ExFn.itRow(row, bound, this.cellConsumer(record, rowMap, table, TypeAtom));
+            ExFn.itRow(row, bound, this.cellConsumer(record, rowMap, table, HTAtom));
             this.extractComplex(complexMap, rowMap);
 
             // ----------------- Other row -------------------
@@ -109,7 +109,7 @@ public class ComplexIn extends AbstractExIn {
             if (1 < size) {
                 for (int idx = 1; idx < size; idx++) {
                     final Row dataRow = rowList.get(idx);
-                    ExFn.itRow(dataRow, bound, this.cellConsumer(rowMap, table, TypeAtom));
+                    ExFn.itRow(dataRow, bound, this.cellConsumer(rowMap, table, HTAtom));
                     this.extractComplex(complexMap, rowMap);
                 }
             }
@@ -118,13 +118,15 @@ public class ComplexIn extends AbstractExIn {
                 complexMap.forEach(record::put);
             }
             /* Not Empty to add, check whether record is valid */
-            if (!record.isEmpty()) table.add(record);
+            if (!record.isEmpty()) {
+                table.add(record);
+            }
         });
         return table;
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ExRecord record, final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final TypeAtom TypeAtom) {
+                                                   final ExTable table, final HTAtom HTAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
@@ -134,10 +136,10 @@ public class ComplexIn extends AbstractExIn {
                     /*
                      * Do Processing
                      */
-                    this.cellConsumer(rowMap, field).accept(dataCell, TypeAtom);
+                    this.cellConsumer(rowMap, field).accept(dataCell, HTAtom);
                 } else {
                     /* Pure Workflow */
-                    final Class<?> type = TypeAtom.type(field);
+                    final Class<?> type = HTAtom.type(field);
                     final Object value = this.extractValue(dataCell, type);
                     record.put(field, value);
                 }
@@ -148,7 +150,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final TypeAtom TypeAtom) {
+                                                   final ExTable table, final HTAtom HTAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
@@ -157,7 +159,7 @@ public class ComplexIn extends AbstractExIn {
                     /*
                      * Data Structure for complex data
                      */
-                    this.cellConsumer(rowMap, field).accept(dataCell, TypeAtom);
+                    this.cellConsumer(rowMap, field).accept(dataCell, HTAtom);
                 }
             } else {
                 this.logger().warn("Field (index = {0}) could not be found", cellIndex);

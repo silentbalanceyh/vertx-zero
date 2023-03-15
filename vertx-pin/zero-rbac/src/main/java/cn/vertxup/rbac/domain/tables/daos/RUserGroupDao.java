@@ -27,7 +27,7 @@ public class RUserGroupDao extends AbstractVertxDAO<RUserGroupRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RUserGroupDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RUserGroup.R_USER_GROUP, cn.vertxup.rbac.domain.tables.pojos.RUserGroup.class, new JDBCClassicQueryExecutor<RUserGroupRecord,cn.vertxup.rbac.domain.tables.pojos.RUserGroup,Record2<String, String>>(configuration,cn.vertxup.rbac.domain.tables.pojos.RUserGroup.class,vertx));

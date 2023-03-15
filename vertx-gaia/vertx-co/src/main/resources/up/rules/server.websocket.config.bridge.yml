@@ -1,0 +1,5 @@
+typed:
+  maxAddressLength: INTEGER
+  maxHandlersPerSocket: INTEGER
+  pingTimeout: INTEGER
+  replyTimeout: INTEGER

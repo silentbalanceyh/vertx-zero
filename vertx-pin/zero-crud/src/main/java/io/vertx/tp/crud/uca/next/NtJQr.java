@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Pooled;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -17,7 +16,8 @@ class NtJQr implements Co<JsonObject, JsonObject, JsonObject, JsonObject> {
 
     NtJQr(final IxMod in) {
         this.in = in;
-        this.record = Fn.poolThread(Pooled.CO_MAP, () -> new NtJData(in), NtJData.class.getName() + in.keyPool());
+        this.record = Pooled.CC_CO.pick(() -> new NtJData(in), NtJData.class.getName() + in.keyPool());
+        // Fn.po?lThread(Pooled.CO_MAP, () -> new NtJData(in), NtJData.class.getName() + in.keyPool());
     }
 
     @Override

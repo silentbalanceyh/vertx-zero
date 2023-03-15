@@ -7,6 +7,8 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.uca.stable.ForbiddenInsurer;
 import io.vertx.up.uca.stable.Insurer;
 import io.vertx.up.uca.stable.RequiredInsurer;
@@ -14,8 +16,6 @@ import io.vertx.up.uca.stable.TypedInsurer;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Ruler checking for json object / json array
@@ -24,10 +24,9 @@ public class Ruler {
 
     private static final Annal LOGGER = Annal.get(Ruler.class);
 
-    private static final ConcurrentMap<String, JsonObject> RULE_MAP =
-        new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Insurer> POOL_INSURER =
-        new ConcurrentHashMap<>();
+    private static final Cc<String, JsonObject> CC_RULE = Cc.open();
+    private static final Cc<String, Insurer> CC_INSURER = Cc.open();
+
 
     /**
      * Verify data for each up.god.file
@@ -38,14 +37,14 @@ public class Ruler {
      * @throws ZeroException Error when verified failure.
      */
     public static void verify(final String file, final JsonObject data) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 1. Rule for json object
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
             for (final String field : data.fieldNames()) {
                 final Object value = data.getValue(field);
-                Fn.onZero(() -> {
+                Fn.safeZero(() -> {
                     if (Ut.isJObject(value) || Ut.isJArray(value)) {
                         final String filename = file + Strings.DOT + field;
                         if (Ut.isJObject(value)) {
@@ -70,12 +69,12 @@ public class Ruler {
      * @throws ZeroException Whether here throw validated exception
      */
     public static void verify(final String file, final JsonArray data) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
             // 1. Rule for json array
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
-            Fn.etJArray(data, (value, field) -> {
+            Fn.verifyJArray(data, (value, field) -> {
                 // 3. Value = JsonObject, identify if extension.
                 final String filename = file + Strings.DOT + field;
                 if (Ut.isJObject(value)) {
@@ -90,29 +89,35 @@ public class Ruler {
     }
 
     private static <T> void verifyItem(final T input, final JsonObject rule) throws ZeroException {
-        Fn.onZero(() -> {
+        Fn.safeZero(() -> {
 
             if (Ut.isJArray(input)) {
                 final JsonArray data = (JsonArray) input;
                 // Required
-                Insurer reference = Fn.poolThread(POOL_INSURER, RequiredInsurer::new, "A-Required");
+                Insurer reference = CC_INSURER.pick(RequiredInsurer::new, "A-Required");
+                // Fn.po?lThread(POOL_INSURER, RequiredInsurer::new, "A-Required");
                 reference.flumen(data, rule);
                 // Typed
-                reference = Fn.poolThread(POOL_INSURER, TypedInsurer::new, "A-Type");
+                reference = CC_INSURER.pick(TypedInsurer::new, "A-Typed");
+                // Fn.po?lThread(POOL_INSURER, TypedInsurer::new, "A-Type");
                 reference.flumen(data, rule);
                 // Forbidden
-                reference = Fn.poolThread(POOL_INSURER, ForbiddenInsurer::new, "A-Forbidden");
+                reference = CC_INSURER.pick(ForbiddenInsurer::new, "A-Forbidden");
+                // Fn.po?lThread(POOL_INSURER, ForbiddenInsurer::new, "A-Forbidden");
                 reference.flumen(data, rule);
             } else {
                 final JsonObject data = (JsonObject) input;
                 // Required
-                Insurer reference = Fn.poolThread(POOL_INSURER, RequiredInsurer::new, "J-Required");
+                Insurer reference = CC_INSURER.pick(RequiredInsurer::new, "J-Required");
+                // Fn.po?lThread(POOL_INSURER, RequiredInsurer::new, "J-Required");
                 reference.flumen(data, rule);
                 // Typed
-                reference = Fn.poolThread(POOL_INSURER, TypedInsurer::new, "J-Type");
+                reference = CC_INSURER.pick(TypedInsurer::new, "J-Type");
+                // Fn.po?lThread(POOL_INSURER, TypedInsurer::new, "J-Type");
                 reference.flumen(data, rule);
                 // Forbidden
-                reference = Fn.poolThread(POOL_INSURER, ForbiddenInsurer::new, "J-Forbidden");
+                reference = CC_INSURER.pick(ForbiddenInsurer::new, "J-Forbidden");
+                // Fn.po?lThread(POOL_INSURER, ForbiddenInsurer::new, "J-Forbidden");
                 reference.flumen(data, rule);
             }
         }, input, rule);
@@ -121,11 +126,12 @@ public class Ruler {
     private static JsonObject getRule(final String file) {
         // Cached rule into memory pool
         final String filename = MessageFormat.format(Values.CONFIG_INTERNAL_RULE, file);
-        if (RULE_MAP.containsKey(filename)) {
+        final Cd<String, JsonObject> data = CC_RULE.store();
+        if (data.is(filename)) {
             LOGGER.debug(Info.RULE_CACHED_FILE, filename);
         } else {
             LOGGER.debug(Info.RULE_FILE, filename);
         }
-        return Fn.pool(RULE_MAP, filename, () -> Ut.ioYaml(filename));
+        return CC_RULE.pick(() -> Ut.ioYaml(filename), filename); // Fn.po?l(RULE_MAP, filename, () -> Ut.ioYaml(filename));
     }
 }

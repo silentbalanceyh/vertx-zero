@@ -7,6 +7,7 @@ import io.vertx.up.atom.query.tree.*;
 import io.vertx.up.eon.Values;
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.impl.DSL;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
@@ -85,18 +86,7 @@ class QVisitor {
         } else if (1 == conditions.size()) {
             return conditions.get(Values.IDX);
         } else {
-            Condition condition = conditions.get(Values.IDX);
-            for (int idx = 1; idx < conditions.size(); idx++) {
-                final Condition target = conditions.get(idx);
-                if (null != target) {
-                    if (QOp.AND == op) {
-                        condition = condition.and(target);
-                    } else {
-                        condition = condition.or(target);
-                    }
-                }
-            }
-            return condition;
+            return (QOp.AND == op) ? DSL.and(conditions) : DSL.or(conditions);
         }
     }
 }

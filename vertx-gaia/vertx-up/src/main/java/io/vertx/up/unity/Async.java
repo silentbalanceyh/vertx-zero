@@ -5,12 +5,10 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
+import io.vertx.up.experiment.channel.Pocket;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +38,11 @@ class Async {
     static <T> Future<T> future(final T input, final Set<Function<T, Future<T>>> set) {
         final List<Future<T>> futures = new ArrayList<>();
         set.stream().map(consumer -> consumer.apply(input)).forEach(futures::add);
-        Ux.thenCombineT(futures).compose(nil -> {
+        Fn.combineT(futures).compose(nil -> {
             LOGGER.info("「Job Plugin」 There are `{0}` jobs that are finished successfully!", String.valueOf(set.size()));
-            return Ux.future(nil);
+            return To.future(nil);
         });
-        return Ux.future(input);
+        return To.future(input);
     }
 
     @SuppressWarnings("all")
@@ -96,9 +94,9 @@ class Async {
                                      * The step stopped
                                      */
                                     .compose(response::future)
-                                    .otherwise(Ux.otherwise(() -> response.add(json).get()));
+                                    .otherwise(Debug.otherwise(() -> response.add(json).get()));
                             }
-                        }).otherwise(Ux.otherwise(() -> response.get()));
+                        }).otherwise(Debug.otherwise(() -> response.get()));
                     }
                     return first;
                 }
@@ -150,14 +148,19 @@ class Async {
     static <T> Future<JsonObject> toUpsertFuture(final T entity, final String pojo,
                                                  final Supplier<Future<JsonObject>> supplier,
                                                  final Function<JsonObject, JsonObject> updateFun) {
-        return Fn.match(
-            Fn.fork(() -> Future.succeededFuture(To.toJObject(entity, pojo))
-                .compose(item -> null == updateFun ?
-                    Future.succeededFuture(item) :
-                    Future.succeededFuture(updateFun.apply(item))
-                )
-            ),
-            Fn.branch(null == entity, supplier));
+        // Default Case
+        if (Objects.isNull(entity)) {
+            return supplier.get();
+        }
+        final JsonObject params = To.toJObject(entity, pojo);
+
+        // Update Function == null
+        if (Objects.isNull(updateFun)) {
+            return Future.succeededFuture(params);
+        }
+
+        // Update Executor
+        return Future.succeededFuture(updateFun.apply(params));
     }
 
     static <T> Function<Throwable, Future<T>> toErrorFuture(final Supplier<T> input) {
@@ -169,19 +172,44 @@ class Async {
         };
     }
 
-    static JsonObject bool(final String key, final boolean checked) {
-        final KValue.Bool response = checked ?
-            KValue.Bool.SUCCESS : KValue.Bool.FAILURE;
-        return new JsonObject().put(key, response.name());
+
+    static <T, O> Future<O> channel(final Class<T> clazz, final Supplier<O> supplier,
+                                    final Function<T, Future<O>> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel {0} null", clazz.getName());
+            return To.future(supplier.get());
+        } else {
+            LOGGER.debug("「SL Channel」Channel Async selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
     }
 
-    static Boolean bool(final JsonObject checkedJson) {
-        final String result = checkedJson.getString(KName.RESULT);
-        final KValue.Bool resultValue = Ut.toEnum(() -> result, KValue.Bool.class, KValue.Bool.FAILURE);
-        return KValue.Bool.SUCCESS == resultValue;
+
+    static <T, O> O channelSync(final Class<T> clazz, final Supplier<O> supplier,
+                                final Function<T, O> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel Sync {0} null", clazz.getName());
+            return supplier.get();
+        } else {
+            LOGGER.debug("「SL Channel」Channel Sync selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
     }
 
-    static JsonObject array(final JsonArray array) {
-        return new JsonObject().put(KName.DATA, array);
+    static <T, O> Future<O> channelAsync(final Class<T> clazz, final Supplier<Future<O>> supplier,
+                                         final Function<T, Future<O>> executor) {
+        final T channel = Pocket.lookup(clazz);
+        if (Objects.isNull(channel)) {
+            LOGGER.warn("「SL Channel」Channel Async {0} null", clazz.getName());
+            return supplier.get();
+        } else {
+            LOGGER.debug("「SL Channel」Channel Async selected {0}, {1}",
+                channel.getClass().getName(), String.valueOf(channel.hashCode()));
+            return executor.apply(channel);
+        }
     }
 }

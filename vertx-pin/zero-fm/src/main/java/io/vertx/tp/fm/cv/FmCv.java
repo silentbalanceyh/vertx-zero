@@ -8,8 +8,12 @@ public interface FmCv {
 
     interface Status {
         String PENDING = "Pending";
+
         String FINISHED = "Finished";
         String INVALID = "InValid";
+
+        String FIXED = "Fixed";
+        String VALID = "Valid";
     }
 
     interface Type {
@@ -19,6 +23,7 @@ public interface FmCv {
 
     interface ID {
         String SETTLEMENT_ID = "settlementId";
+        String PAYMENT_ID = "paymentId";
         String PAYMENT = "payment";
     }
 }

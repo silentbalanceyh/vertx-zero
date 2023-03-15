@@ -14,7 +14,8 @@ We often meet some situations such as following:
 In this situation, we have two tables: Video & Subscription, and we want to get the video list, but each record should
 do the secondary query to check whether this video has been subscribed. Here are the Future for this kind of situation:
 
-> This example is because in the project we used Mongo instead of SQL, there is no join statement and we need to mention that the api is not the best solution, but only introduce the api usage to tell you how to build the Future in zero.
+> This example is because in the project we used Mongo instead of SQL, there is no join statement and we need to mention
+> that the api is not the best solution, but only introduce the api usage to tell you how to build the Future in zero.
 
 ```java
 static <F, S, T> Future<List<T>> thenParallel(

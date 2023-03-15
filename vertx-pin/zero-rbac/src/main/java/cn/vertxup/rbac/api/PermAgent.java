@@ -5,8 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

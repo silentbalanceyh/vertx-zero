@@ -27,7 +27,7 @@ public class LRegionDao extends AbstractVertxDAO<LRegionRecord, cn.vertxup.lbs.d
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LRegionDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LRegion.L_REGION, cn.vertxup.lbs.domain.tables.pojos.LRegion.class, new JDBCClassicQueryExecutor<LRegionRecord,cn.vertxup.lbs.domain.tables.pojos.LRegion,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LRegion.class,vertx));

@@ -1,0 +1,36 @@
+{
+    "webComponent": "HxFlow",
+    "webChildren": [
+        {
+            "component": "HxQueue",
+            "key": "rule.flow.queue"
+        },
+        {
+            "component": "HxAction",
+            "key": "rule.flow.action"
+        }
+    ],
+    "webBind": {
+        "HxQueue": "res.views.fetch",
+        "HxAction": "res.op.by.control"
+    },
+    "webWelcome": {
+        "header": {
+            "label": "选择流程",
+            "value": "流程编码"
+        },
+        "alert": {
+            "message": "流程权限说明",
+            "description": [
+                "您可以在当前页面设置不同角色针对不同流程的相关权限。",
+                "`保存`操作只会保存当前选择流程的权限配置。",
+                "`保存所有`操作会一次性保存当前页面所有设置过的流程权限配置。",
+                "视图权限用于设置该角色在不同列表可访问的视图可见性以及视图的特殊定制。",
+                "操作权限用于设置该角色在不同流程节点可执行的按钮集合以及特殊定制。"
+            ]
+        }
+    },
+    "webData": {
+        "requester": "OUT_C"
+    }
+}

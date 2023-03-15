@@ -27,7 +27,7 @@ public class PWhDao extends AbstractVertxDAO<PWhRecord, cn.vertxup.psi.domain.ta
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PWhDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PWh.P_WH, cn.vertxup.psi.domain.tables.pojos.PWh.class, new JDBCClassicQueryExecutor<PWhRecord,cn.vertxup.psi.domain.tables.pojos.PWh,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PWh.class,vertx));

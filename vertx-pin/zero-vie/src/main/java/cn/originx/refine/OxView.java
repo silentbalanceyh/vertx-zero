@@ -8,7 +8,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.init.JtPin;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.ui.Apeak;
 import io.vertx.tp.optic.web.Seeker;
@@ -97,7 +96,7 @@ final class OxView {
             params.mergeIn(header, true);
         }
         /* Apeak found */
-        return Ke.channel(Apeak.class, JsonArray::new, apeak -> apeak.fetchFull(params));
+        return Ux.channel(Apeak.class, JsonArray::new, apeak -> apeak.fetchFull(params));
     }
 
     /**
@@ -156,7 +155,7 @@ final class OxView {
         /*
          * 3. Seeker 读取视图
          */
-        return Ke.channel(Seeker.class, JsonObject::new, seeker -> seeker.fetchImpact(params).compose(item -> {
+        return Ux.channel(Seeker.class, JsonObject::new, seeker -> seeker.fetchImpact(params).compose(item -> {
             /*
              * 4. 构造参数
              */

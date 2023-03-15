@@ -113,7 +113,7 @@ public class ZeroModule extends SimpleModule {
         this.addKeyDeserializer(OffsetTime.class, OffsetTimeKeyDeserializer.INSTANCE);
         this.addKeyDeserializer(Period.class, PeriodKeyDeserializer.INSTANCE);
         this.addKeyDeserializer(Year.class, YearKeyDeserializer.INSTANCE);
-        this.addKeyDeserializer(YearMonth.class, YearMothKeyDeserializer.INSTANCE);
+        this.addKeyDeserializer(YearMonth.class, YearMonthKeyDeserializer.INSTANCE);
         this.addKeyDeserializer(ZonedDateTime.class, ZonedDateTimeKeyDeserializer.INSTANCE);
         this.addKeyDeserializer(ZoneId.class, ZoneIdKeyDeserializer.INSTANCE);
         this.addKeyDeserializer(ZoneOffset.class, ZoneOffsetKeyDeserializer.INSTANCE);

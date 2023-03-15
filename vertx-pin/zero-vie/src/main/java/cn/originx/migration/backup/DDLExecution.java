@@ -62,7 +62,7 @@ public class DDLExecution extends AbstractStep {
                 }
             }
 
-            final boolean locked = Fn.getJvm(() -> {
+            final boolean locked = Fn.orJvm(() -> {
                 final File created = new File(lockPath);
                 return created.createNewFile();
             });

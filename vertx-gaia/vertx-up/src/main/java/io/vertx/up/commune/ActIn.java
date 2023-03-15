@@ -3,7 +3,7 @@ package io.vertx.up.commune;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.eon.ID;
 import io.vertx.up.fn.Fn;
 import io.vertx.zero.exception.ActSpecificationException;
@@ -39,7 +39,7 @@ public class ActIn extends ActMapping implements Serializable {
     private transient ActJArray jarray;
     private transient Record definition;
 
-    private transient BiTree mapping;
+    private transient BTree mapping;
 
     public ActIn(final Envelop envelop) {
         /* Envelop reference here */
@@ -70,7 +70,7 @@ public class ActIn extends ActMapping implements Serializable {
         this.file = new ActFile(stream);
     }
 
-    public ActIn bind(final BiTree mapping) {
+    public ActIn bind(final BTree mapping) {
         this.mapping = mapping;
         return this;
     }

@@ -1,5 +1,7 @@
 package io.vertx.tp.ke.cv;
 
+import io.vertx.core.json.JsonArray;
+
 /**
  * Standard Ipc for Zero extension module
  * It's for communication
@@ -41,6 +43,8 @@ public interface KeIpc {
         String LBS = "lbs";
         // zero-wf
         String WF = "wf";
+        // zero-tpl
+        String TPL = "tpl";
     }
 
     /*
@@ -51,5 +55,35 @@ public interface KeIpc {
         String IPC_TOKEN_VERIFY = "IPC://TOKEN/VERIFY";
         /* Ipc for access token */
         String IPC_TOKEN_ACCESS = "IPC://TOKEN/ACCESS";
+    }
+
+    interface Audit {
+
+        JsonArray INCLUDE = new JsonArray()
+            .add("/api/user")                           // zero-rbac
+            .add("/api/permission")                     // zero-rbac
+            .add("/api/authority/region/:path")         // zero-rbac
+            .add("/api/employee")                       // zero-erp
+            .add("/api/wh")                             // zero-psi
+            .add("/api/i-directory")                    // zero-is
+            .add("/api/file/upload")                    // zero-ambient
+            .add("/api/my/menu/save")                   // zero-ambient
+            .add("/api/up/flow")                        // zero-wf
+            .add("/api/linkage/sync")                   // zero-wf, zero-ambient
+            .add("/api/bill/")                          // zero-fm
+            .add("/api/bill-item/")                     // zero-fm
+            .add("/api/settle/")                        // zero-fm
+            .add("/api/payment");                       // zero-fm
+
+        JsonArray EXCLUDE = new JsonArray()
+            .add("/api/:actor/search")                  // zero-crud
+            .add("/api/:actor/missing")                 // zero-crud
+            .add("/api/:actor/existing")                // zero-crud
+            .add("/api/:actor/export")                  // zero-crud
+            .add("/api/:actor/import")                  // zero-crud
+            .add("/api/up/flow-queue")                  // zero-wf
+            .add("/api/up/flow-history")                // zero-wf
+            .add("/api/user/search/:identifier")        // zero-rbac
+            ;
     }
 }

@@ -8,8 +8,6 @@ public interface AuthMsg {
     String RELATION_USER_ROLE = "Fetch relations ( User - Role ) by User key: {0}";
     String RELATION_GROUP = "Fetch relations ( User - Group ) by User key: {0}";
     String RELATION_GROUP_ROLE = "Fetch relation ( Group - Role ) by Group key: {0}, Mode: {1}";
-    String EMPLOYEE_BY_USER = "Fetch employee information by id = {0}";
-    String EMPLOYEE_EMPTY = "Employee empty workflow executing";
 
     String LOGIN_SUCCESS = "[ Ακριβώς ] User ( username = {0} ) login successfully.";
     String LOGIN_USER = "[ Ακριβώς ] username = {0} does not exist.";
@@ -50,4 +48,8 @@ public interface AuthMsg {
 
     // -- visitant process for additional
     String VISITANT_PROCESS = "My Visitant Op: {0}, filters = {1}";
+
+
+    String EXTENSION_BY_USER = "Fetch User Extension information by id = {0}";
+    String EXTENSION_EMPTY = "User Extension empty in account workflow.";
 }

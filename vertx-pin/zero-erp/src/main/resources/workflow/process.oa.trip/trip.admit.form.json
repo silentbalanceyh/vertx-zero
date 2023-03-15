@@ -1,0 +1,181 @@
+{
+    "hidden": [
+        "requestBy"
+    ],
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "requestName,出差人,8,,aiUserSelector,placeholder=（谁申请出差）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "requestBy",
+                            "realname": "requestName",
+                            "workNumber": "requestNo",
+                            "mobile": "requestMobile"
+                        },
+                        "user": "出差人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写出差申请人！"
+                    ]
+                },
+                "requestNo,出差人工号,8,,,readOnly=true",
+                "requestMobile,出差人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "startAt,开始时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写出差开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,结束时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写出差结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "tripProvince,出差省,8,,aiSelect,placeholder=（直辖市/省份）",
+                    "optionJsx.config.datum": "source=lbs.state,value=key,label=name",
+                    "optionJsx.depend.impact": {
+                        "reset": [
+                            "tripCity"
+                        ]
+                    },
+                    "optionConfig.rules": [
+                        "required,请选择出差直辖市或省份！"
+                    ],
+                    "optionJsx.allowClear": true
+                },
+                {
+                    "metadata": "tripCity,出差市,8,,aiSelect,placeholder=（市辖区/城市）",
+                    "optionJsx.config.datum": "source=lbs.city,value=key,label=name",
+                    "optionJsx.config.cascade": {
+                        "source": "stateId",
+                        "target": "FORM:tripProvince"
+                    },
+                    "optionConfig.rules": [
+                        "required,请选择出差市辖区或城市！"
+                    ],
+                    "optionJsx.allowClear": true
+                }
+            ],
+            [
+                {
+                    "metadata": "tripAddress,出差地址,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,出差地址不能为空，请填写出差地址！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "reason,出差原因,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,请填写出差原因！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "workContent,工作交接内容,24,,aiTextArea,rows=3"
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "RUN_TICKET": "RUN_APPROVE",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "closeCode": [
+                    "required,提交后工单会自动关闭，请选择关闭代码。"
+                ],
+                "confirmedOk": [
+                    "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
+                ]
+            },
+            "indicator": "confirmedOk",
+            "data": {
+                "YES": {
+                    "confirmed": true,
+                    "phase": "END",
+                    "commentApproval": "FORM:confirmedDesc"
+                },
+                "NO": {
+                    "confirmed": false,
+                    "phase": "REJECTED",
+                    "commentReject": "FORM:confirmedDesc"
+                },
+                "BACK": {
+                    "confirmed": false,
+                    "phase": "REDO",
+                    "commentReject": "FORM:confirmedDesc"
+                }
+            }
+        }
+    }
+}

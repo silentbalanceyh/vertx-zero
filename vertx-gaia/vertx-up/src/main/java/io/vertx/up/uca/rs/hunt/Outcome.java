@@ -9,7 +9,8 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.rs.hunt.adaptor.WingSelector;
 import io.vertx.up.uca.rs.hunt.adaptor.Wings;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
@@ -110,6 +111,11 @@ final class Outcome {
              * The mime type has been set before this step ( mime ( HttpServerResponse, Set<MediaType> )
              */
             if (!response.ended()) {
+                /*
+                 * Set Date Header, Refer to RESTful Cookbook
+                 * This header means when happened ( Error / Success )
+                 */
+                response.putHeader(HttpHeaders.DATE, Instant.now().toString());
                 if (HttpMethod.HEAD == envelop.method()) {
                     /*
                      * Whether the method is header

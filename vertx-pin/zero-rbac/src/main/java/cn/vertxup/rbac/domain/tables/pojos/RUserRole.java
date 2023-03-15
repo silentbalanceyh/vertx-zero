@@ -18,8 +18,8 @@ public class RUserRole implements VertxPojo, IRUserRole {
 
     private static final long serialVersionUID = 1L;
 
-    private String  userId;
-    private String  roleId;
+    private String userId;
+    private String roleId;
     private Integer priority;
 
     public RUserRole() {}
@@ -31,8 +31,8 @@ public class RUserRole implements VertxPojo, IRUserRole {
     }
 
     public RUserRole(
-        String  userId,
-        String  roleId,
+        String userId,
+        String roleId,
         Integer priority
     ) {
         this.userId = userId;
@@ -96,6 +96,46 @@ public class RUserRole implements VertxPojo, IRUserRole {
     public RUserRole setPriority(Integer priority) {
         this.priority = priority;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RUserRole other = (RUserRole) obj;
+        if (this.userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!this.userId.equals(other.userId))
+            return false;
+        if (this.roleId == null) {
+            if (other.roleId != null)
+                return false;
+        }
+        else if (!this.roleId.equals(other.roleId))
+            return false;
+        if (this.priority == null) {
+            if (other.priority != null)
+                return false;
+        }
+        else if (!this.priority.equals(other.priority))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.roleId == null) ? 0 : this.roleId.hashCode());
+        result = prime * result + ((this.priority == null) ? 0 : this.priority.hashCode());
+        return result;
     }
 
     @Override

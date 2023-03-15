@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS W_TICKET
      * - close, 关单人（谁完成该单据并关闭，如果有重开，则该值为最终关单人）
      */
     `OPEN_BY`             VARCHAR(36) COMMENT '「openBy」- 开单人',
+    `OPEN_GROUP`          VARCHAR(36) COMMENT '「openGroup」- 开单组',
     `OPEN_AT`             DATETIME COMMENT '「openAt」- 开单时间',
     `CANCEL_BY`           VARCHAR(36) COMMENT '「cancelBy」- 中断人',
     `CANCEL_AT`           DATETIME COMMENT '「cancelAt」- 中断时间',

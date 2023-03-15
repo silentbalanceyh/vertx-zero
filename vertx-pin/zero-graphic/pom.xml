@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-graphic</artifactId>
-    <name>Extension:「zero-graphic」Gc - Graphic Module</name>
+    <name>Extension: Gc「zero-graphic」Graphic Module</name>
     <dependencies>
         <!-- Kern -->
         <dependency>
@@ -35,9 +35,10 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
+                    <propertyProviderClass>io.vertx.tp.ke.secure.ZeroLiquibaseEncryption</propertyProviderClass>
                     <!-- 配置文件路径 -->
-                    <propertyFile>${basedir}/src/main/resources/plugin/sql/liquibase.properties</propertyFile>
-                    <changeLogFile>${basedir}/src/main/resources/plugin/sql/database.yml</changeLogFile>
+                    <propertyFile>plugin/sql/graphic.properties</propertyFile>
+                    <changeLogFile>plugin/sql/graphic.yml</changeLogFile>
                     <!-- 配置参数 -->
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                     <outputFileEncoding>UTF-8</outputFileEncoding>

@@ -1,6 +1,7 @@
 package io.vertx.up.secure.validation;
 
 import io.reactivex.Observable;
+import io.vertx.aeon.runtime.H2H;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Rule;
@@ -10,13 +11,13 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
-import io.vertx.up.runtime.ZeroCodex;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.executable.ExecutableValidator;
+import jakarta.ws.rs.BodyParam;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.executable.ExecutableValidator;
-import javax.ws.rs.BodyParam;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -25,13 +26,14 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Validator {
 
-    private static final javax.validation.Validator VALIDATOR
+    private static final jakarta.validation.Validator VALIDATOR
         = Validation.buildDefaultValidatorFactory().usingContext().messageInterpolator(
         new ValidatorInterpolator()
     ).getValidator();
 
     private static final ConcurrentMap<String, Map<String, List<Rule>>>
         RULERS = new ConcurrentHashMap<>();
+    private static final Cd<String, JsonObject> STORED = H2H.CC_CODEX.store();
 
     /**
      * Validate the method parameters based on javax.validation: Hibernate Validator.
@@ -98,7 +100,7 @@ public class Validator {
         if (RULERS.containsKey(key)) {
             return RULERS.get(key);
         } else {
-            final JsonObject rule = ZeroCodex.getCodex(key);
+            final JsonObject rule = STORED.data(key); // ZeroCodex.getCodex(key);
             final Map<String, List<Rule>> ruler
                 = new LinkedHashMap<>();
             if (null != rule) {
@@ -119,8 +121,7 @@ public class Validator {
 
     private List<Rule> buildRulers(final Object config) {
         final List<Rule> rulers = new ArrayList<>();
-        if (config instanceof JsonArray) {
-            final JsonArray configData = (JsonArray) config;
+        if (config instanceof final JsonArray configData) {
             Ut.itJArray(configData, JsonObject.class, (item, index) -> {
                 final Rule ruler = Rule.create(item);
                 if (null != ruler) {

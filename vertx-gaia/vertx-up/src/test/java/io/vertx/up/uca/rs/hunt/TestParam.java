@@ -2,8 +2,8 @@ package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.EndPoint;
+import jakarta.ws.rs.*;
 
-import javax.ws.rs.*;
 import java.math.BigDecimal;
 import java.util.Date;
 

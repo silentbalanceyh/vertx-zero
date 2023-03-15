@@ -8,6 +8,7 @@ import cn.vertxup.ambient.domain.Db;
 import cn.vertxup.ambient.domain.Indexes;
 import cn.vertxup.ambient.domain.Keys;
 import cn.vertxup.ambient.domain.tables.records.XCategoryRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -202,6 +203,11 @@ public class XCategory extends TableImpl<XCategoryRecord> {
         return new XCategory(alias, this);
     }
 
+    @Override
+    public XCategory as(Table<?> alias) {
+        return new XCategory(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -216,5 +222,13 @@ public class XCategory extends TableImpl<XCategoryRecord> {
     @Override
     public XCategory rename(Name name) {
         return new XCategory(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public XCategory rename(Table<?> name) {
+        return new XCategory(name.getQualifiedName(), null);
     }
 }

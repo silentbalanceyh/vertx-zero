@@ -28,7 +28,7 @@ public class FPreAuthorizeDao extends AbstractVertxDAO<FPreAuthorizeRecord, cn.v
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FPreAuthorizeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FPreAuthorize.F_PRE_AUTHORIZE, cn.vertxup.fm.domain.tables.pojos.FPreAuthorize.class, new JDBCClassicQueryExecutor<FPreAuthorizeRecord,cn.vertxup.fm.domain.tables.pojos.FPreAuthorize,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FPreAuthorize.class,vertx));

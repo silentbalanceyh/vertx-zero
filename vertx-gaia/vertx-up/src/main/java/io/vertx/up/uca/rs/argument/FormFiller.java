@@ -7,6 +7,7 @@ import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.unity.Ux;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,7 +27,7 @@ public class FormFiller implements Filler {
         /*
          * Set<FileUploads>
          */
-        final Set<FileUpload> uploadSet = context.fileUploads();
+        final Set<FileUpload> uploadSet = new HashSet<>(context.fileUploads());
         if (uploadSet.isEmpty()) {
             /*
              * Not file parameters ( Without uploading )

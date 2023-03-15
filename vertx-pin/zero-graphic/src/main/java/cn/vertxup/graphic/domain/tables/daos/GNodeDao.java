@@ -28,7 +28,7 @@ public class GNodeDao extends AbstractVertxDAO<GNodeRecord, cn.vertxup.graphic.d
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public GNodeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(GNode.G_NODE, cn.vertxup.graphic.domain.tables.pojos.GNode.class, new JDBCClassicQueryExecutor<GNodeRecord,cn.vertxup.graphic.domain.tables.pojos.GNode,String>(configuration,cn.vertxup.graphic.domain.tables.pojos.GNode.class,vertx));

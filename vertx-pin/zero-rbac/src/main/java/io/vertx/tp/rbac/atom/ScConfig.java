@@ -1,6 +1,14 @@
 package io.vertx.tp.rbac.atom;
 
+import com.fasterxml.jackson.databind.JsonObjectDeserializer;
+import com.fasterxml.jackson.databind.JsonObjectSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
+import io.vertx.up.experiment.specification.KQr;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
@@ -9,6 +17,7 @@ import java.io.Serializable;
  *
  */
 public class ScConfig implements Serializable {
+    private static final Cc<String, KQr> CC_KQR = Cc.open();
     /*
      * Pool for verify the code
      */
@@ -26,15 +35,15 @@ public class ScConfig implements Serializable {
      * 5) Action
      * 6) Resource
      */
-    private ScCondition condition;
+    private ScCondition condition = new ScCondition();
     /*
      * Authorization Code expired time: ( s )
      */
-    private Integer codeExpired;
+    private Integer codeExpired = 30;
     /*
      * Authorization Code length ( random string )
      */
-    private Integer codeLength;
+    private Integer codeLength = 8;
     /*
      * Authorization Code session pool
      */
@@ -42,7 +51,7 @@ public class ScConfig implements Serializable {
     /*
      * Token expired time: ( ms )
      */
-    private Long tokenExpired;
+    private Long tokenExpired = 30L;
     /*
      * Token session pool
      */
@@ -59,6 +68,8 @@ public class ScConfig implements Serializable {
      * Enable multi application, whether search action with X-Sigma Header
      */
     private Boolean supportMultiApp = Boolean.TRUE;
+
+    private Boolean supportIntegration = Boolean.FALSE;
     /*
      * Enable image code here, if enabled, the login component must be
      * from `ExLogin` switched to `ExEntry` instead, because here need
@@ -78,25 +89,31 @@ public class ScConfig implements Serializable {
      * 3 times / 300 seconds
      */
     private Integer verifyDuration = 300;
-    /*
-     * Role Pool when secondary cache enabled.
-     */
+    /* Role Pool when secondary cache enabled. */
     private String poolPermission = AuthKey.Pool.PERMISSIONS;
-    /*
-     * Resource Pool when secondary cache enabled.
-     */
+    /* Resource Pool when secondary cache enabled. */
     private String poolResource = AuthKey.Pool.RESOURCES;
+    /* Resource Pool when admit for RBAC Management */
+    private String poolAdmit = AuthKey.Pool.ADMIT;
     /*
      * Password Init
      */
-    private String passwordInit;
+    private String initializePassword;
 
-    public String getPasswordInit() {
-        return this.passwordInit;
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject initialize = new JsonObject();
+
+    @JsonSerialize(using = JsonObjectSerializer.class)
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject category = new JsonObject();
+
+    public String getInitializePassword() {
+        return this.initializePassword;
     }
 
-    public void setPasswordInit(final String passwordInit) {
-        this.passwordInit = passwordInit;
+    public void setInitializePassword(final String initializePassword) {
+        this.initializePassword = initializePassword;
     }
 
     public ScCondition getCondition() {
@@ -123,13 +140,6 @@ public class ScConfig implements Serializable {
         this.codeLength = codeLength;
     }
 
-    public String getPoolCode() {
-        return this.poolCode;
-    }
-
-    public void setPoolCode(final String poolCode) {
-        this.poolCode = poolCode;
-    }
 
     public Boolean getSupportSecondary() {
         return this.supportSecondary;
@@ -139,12 +149,28 @@ public class ScConfig implements Serializable {
         this.supportSecondary = supportSecondary;
     }
 
+    public String getPoolCode() {
+        return this.poolCode;
+    }
+
+    public void setPoolCode(final String poolCode) {
+        this.poolCode = poolCode;
+    }
+
     public String getPoolPermission() {
         return this.poolPermission;
     }
 
     public void setPoolPermission(final String poolPermission) {
         this.poolPermission = poolPermission;
+    }
+
+    public String getPoolAdmit() {
+        return this.poolAdmit;
+    }
+
+    public void setPoolAdmit(final String poolAdmit) {
+        this.poolAdmit = poolAdmit;
     }
 
     public Long getTokenExpired() {
@@ -223,26 +249,65 @@ public class ScConfig implements Serializable {
         this.poolResource = poolResource;
     }
 
+    public JsonObject getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(final JsonObject category) {
+        this.category = category;
+    }
+
+    public Boolean getSupportIntegration() {
+        return this.supportIntegration;
+    }
+
+    public void setSupportIntegration(final Boolean supportIntegration) {
+        this.supportIntegration = supportIntegration;
+    }
+
+    public KQr category(final String name) {
+        return CC_KQR.pick(() -> {
+            final JsonObject serializeJ = Ut.valueJObject(this.category, name);
+            final KQr qr = Ut.deserialize(serializeJ, KQr.class);
+            if (qr.valid()) {
+                return qr.identifier(name);
+            } else {
+                return null;
+            }
+        }, name);
+    }
+
+    public JsonObject getInitialize() {
+        return this.initialize;
+    }
+
+    public void setInitialize(final JsonObject initialize) {
+        this.initialize = initialize;
+    }
+
     @Override
     public String toString() {
         return "ScConfig{" +
+            "poolVerify='" + this.poolVerify + '\'' +
+            ", poolLimitation='" + this.poolLimitation + '\'' +
             ", condition=" + this.condition +
             ", codeExpired=" + this.codeExpired +
             ", codeLength=" + this.codeLength +
+            ", poolCode='" + this.poolCode + '\'' +
             ", tokenExpired=" + this.tokenExpired +
+            ", poolToken='" + this.poolToken + '\'' +
             ", supportGroup=" + this.supportGroup +
             ", supportSecondary=" + this.supportSecondary +
             ", supportMultiApp=" + this.supportMultiApp +
+            ", supportIntegration=" + this.supportIntegration +
             ", verifyCode=" + this.verifyCode +
             ", verifyLimitation=" + this.verifyLimitation +
             ", verifyDuration=" + this.verifyDuration +
             ", poolPermission='" + this.poolPermission + '\'' +
             ", poolResource='" + this.poolResource + '\'' +
-            ", poolCode='" + this.poolCode + '\'' +
-            ", poolVerify='" + this.poolVerify + '\'' +
-            ", poolLimitation='" + this.poolLimitation + '\'' +
-            ", poolToken='" + this.poolToken + '\'' +
-            ", passwordInit='" + this.passwordInit + '\'' +
+            ", initializePassword='" + this.initializePassword + '\'' +
+            ", initialize=" + this.initialize +
+            ", category=" + this.category +
             '}';
     }
 }

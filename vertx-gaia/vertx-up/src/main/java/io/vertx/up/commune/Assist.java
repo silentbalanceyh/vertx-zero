@@ -6,11 +6,15 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
+import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.envelop.Rib;
+import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +41,9 @@ class Assist implements Serializable {
 
     @SuppressWarnings("all")
     String principal(final String field) {
-        return Fn.getJvm(Strings.EMPTY, () -> {
+        return Fn.orJvm(Strings.EMPTY, () -> {
             final JsonObject credential = this.user.principal();
-            return Fn.getSemi(null != credential && credential.containsKey(field),
+            return Fn.orSemi(null != credential && credential.containsKey(field),
                 () -> credential.getString(field),
                 () -> Strings.EMPTY);
         }, this.user);
@@ -96,6 +100,26 @@ class Assist implements Serializable {
     void context(final Map<String, Object> data) {
         this.context.clear();
         this.context.putAll(data);
+    }
+
+    JsonObject requestSmart() {
+        final Object[] arguments = this.reference.get(ID.PARAMS_CONTENT);
+        final JsonObject argumentJ = new JsonObject();
+        // Path + Query ( Low Priority )
+        // 如果出现 view 参数，则需要被 Vis 覆盖
+        this.reference.pathParams().forEach(argumentJ::put);
+        this.reference.queryParams().forEach(argumentJ::put);
+        // Iterate each arguments to check the `JsonObject`
+        Arrays.stream(arguments).forEach(value -> {
+            if (value instanceof final Vis vis) {
+                // Vis ( Inherit from JsonObject )
+                argumentJ.put(KName.VIEW, vis.view());
+                argumentJ.put(KName.POSITION, vis.position());
+            } else if (value instanceof final JsonObject json) {
+                argumentJ.mergeIn(json, false);
+            }
+        });
+        return argumentJ;
     }
 
     @Override

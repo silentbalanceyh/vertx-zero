@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentMap;
  * Package scope usage for json data here.
  */
 class AptSingle implements AptOp<JsonObject> {
-    private final transient ChangeFlag flag;
-    private final transient JsonObject original;
-    private final transient JsonObject current = new JsonObject();
-    private final transient ConcurrentMap<ChangeFlag, JsonObject> combine = new ConcurrentHashMap<>();
+    private final ChangeFlag flag;
+    private final JsonObject original;
+    private final JsonObject current = new JsonObject();
+    private final ConcurrentMap<ChangeFlag, JsonObject> combine = new ConcurrentHashMap<>();
 
     // Refer the same as the UPDATE in combine
-    private final transient JsonObject replaced = new JsonObject();
-    private final transient JsonObject appended = new JsonObject();
+    private final JsonObject replaced = new JsonObject();
+    private final JsonObject appended = new JsonObject();
 
     AptSingle(final JsonObject original, final JsonObject current) {
         this.original = original;

@@ -246,7 +246,7 @@ public interface IFDebt extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setSignName,json::getString,"SIGN_NAME","java.lang.String");
                 setOrThrow(this::setSignMobile,json::getString,"SIGN_MOBILE","java.lang.String");
                 setOrThrow(this::setFinished,json::getBoolean,"FINISHED","java.lang.Boolean");
@@ -273,7 +273,7 @@ public interface IFDebt extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("SIGN_NAME",getSignName());
                 json.put("SIGN_MOBILE",getSignMobile());
                 json.put("FINISHED",getFinished());

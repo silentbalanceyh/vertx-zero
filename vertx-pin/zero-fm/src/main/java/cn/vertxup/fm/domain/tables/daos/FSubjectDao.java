@@ -27,7 +27,7 @@ public class FSubjectDao extends AbstractVertxDAO<FSubjectRecord, cn.vertxup.fm.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FSubjectDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FSubject.F_SUBJECT, cn.vertxup.fm.domain.tables.pojos.FSubject.class, new JDBCClassicQueryExecutor<FSubjectRecord,cn.vertxup.fm.domain.tables.pojos.FSubject,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FSubject.class,vertx));

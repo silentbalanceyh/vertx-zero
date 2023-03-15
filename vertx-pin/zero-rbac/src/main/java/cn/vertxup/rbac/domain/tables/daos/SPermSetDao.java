@@ -27,7 +27,7 @@ public class SPermSetDao extends AbstractVertxDAO<SPermSetRecord, cn.vertxup.rba
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SPermSetDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SPermSet.S_PERM_SET, cn.vertxup.rbac.domain.tables.pojos.SPermSet.class, new JDBCClassicQueryExecutor<SPermSetRecord,cn.vertxup.rbac.domain.tables.pojos.SPermSet,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SPermSet.class,vertx));

@@ -284,6 +284,16 @@ public interface IWTicket extends VertxPojo, Serializable {
     public String getOpenBy();
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    public IWTicket setOpenGroup(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    public String getOpenGroup();
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TICKET.OPEN_AT</code>. 「openAt」- 开单时间
      */
     public IWTicket setOpenAt(LocalDateTime value);
@@ -489,6 +499,7 @@ public interface IWTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setOwner,json::getString,"OWNER","java.lang.String");
                 setOrThrow(this::setSupervisor,json::getString,"SUPERVISOR","java.lang.String");
                 setOrThrow(this::setOpenBy,json::getString,"OPEN_BY","java.lang.String");
+                setOrThrow(this::setOpenGroup,json::getString,"OPEN_GROUP","java.lang.String");
                 setOrThrow(this::setOpenAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"OPEN_AT","java.time.LocalDateTime");
                 setOrThrow(this::setCancelBy,json::getString,"CANCEL_BY","java.lang.String");
                 setOrThrow(this::setCancelAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"CANCEL_AT","java.time.LocalDateTime");
@@ -536,6 +547,7 @@ public interface IWTicket extends VertxPojo, Serializable {
                 json.put("OWNER",getOwner());
                 json.put("SUPERVISOR",getSupervisor());
                 json.put("OPEN_BY",getOpenBy());
+                json.put("OPEN_GROUP",getOpenGroup());
                 json.put("OPEN_AT",getOpenAt()==null?null:getOpenAt().toString());
                 json.put("CANCEL_BY",getCancelBy());
                 json.put("CANCEL_AT",getCancelAt()==null?null:getCancelAt().toString());

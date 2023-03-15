@@ -1,9 +1,6 @@
 package io.vertx.up.unity;
 
-import io.vertx.core.Future;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.WorkerExecutor;
+import io.vertx.core.*;
 import io.vertx.core.eventbus.EnvelopCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.commune.Envelop;
@@ -40,11 +37,27 @@ class Atomic {
         return VERTX.createSharedWorkerExecutor(name, 2, minutes, TimeUnit.MINUTES);
     }
 
+    static <T> Future<T> nativeWorker(final String name, final Handler<Promise<T>> handler) {
+        final Promise<T> promise = Promise.promise();
+        final WorkerExecutor executor = nativeWorker(name, 10);
+        executor.executeBlocking(
+            handler,
+            post -> {
+                // Fix Issue:
+                // Task io.vertx.core.impl.TaskQueue$$Lambda$367/0x00000008004f3440@2b1e3784 rejected from
+                // java.util.concurrent.ThreadPoolExecutor@1db1d316
+                // [Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+                executor.close();
+                promise.complete(post.result());
+            }
+        );
+        return promise.future();
+    }
+
     @SuppressWarnings("all")
     static Future<Boolean> nativeInit(final JsonArray components, final Vertx vertx) {
-        /* Extract Component Class and calculate async and sync */
+        /* Extract Component Class and consider running at the same time */
         final List<Future<Boolean>> async = new ArrayList<>();
-        final List<Class<?>> sync = new ArrayList<>();
         Ut.itJArray(components).forEach(json -> {
             final String className = json.getString("component");
             final Class<?> clazz = Ut.clazz(className, null);
@@ -57,17 +70,13 @@ class Atomic {
                         async.add(ret);
                     }
                 } else {
-                    sync.add(clazz);
+                    // Sync:   void init(Vertx vertx) | init()
+                    async.add(invokeSync(clazz, vertx));
+                    // sync.add(clazz);
                 }
             }
         });
-        // Async First
-        return Ux.thenCombineT(async).compose(ret -> {
-            // Sync: void init(Vertx vertx) | init()
-            final List<Future<Boolean>> futures = new ArrayList<>();
-            sync.stream().map(each -> invokeSync(each, vertx)).forEach(futures::add);
-            return Ux.thenCombineT(futures);
-        }).compose(nil -> Future.succeededFuture(Boolean.TRUE));
+        return Fn.combineB(async);
     }
 
     private static Future<Boolean> invokeSync(final Class<?> clazz, final Vertx vertx) {
@@ -77,7 +86,7 @@ class Atomic {
 
     @SuppressWarnings("all")
     private static Object invoke(final Class<?> clazz, final Vertx vertx) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Method initMethod = Arrays.asList(clazz.getDeclaredMethods())
                 .stream().filter(method -> "init".equals(method.getName()))
                 .findFirst().orElse(null);

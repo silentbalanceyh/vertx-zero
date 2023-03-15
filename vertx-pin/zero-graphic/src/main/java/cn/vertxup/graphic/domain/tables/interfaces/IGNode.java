@@ -226,8 +226,8 @@ public interface IGNode extends VertxPojo, Serializable {
         public default IGNode fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column X!
-                // Omitting unrecognized type java.math.BigDecimal for column Y!
+                setOrThrow(this::setX,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"X","java.math.BigDecimal");
+                setOrThrow(this::setY,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"Y","java.math.BigDecimal");
                 setOrThrow(this::setUi,json::getString,"UI","java.lang.String");
                 setOrThrow(this::setGraphicId,json::getString,"GRAPHIC_ID","java.lang.String");
                 setOrThrow(this::setRecordData,json::getString,"RECORD_DATA","java.lang.String");
@@ -251,8 +251,8 @@ public interface IGNode extends VertxPojo, Serializable {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
                 json.put("NAME",getName());
-                // Omitting unrecognized type java.math.BigDecimal for column X!
-                // Omitting unrecognized type java.math.BigDecimal for column Y!
+                json.put("X",getX()==null?null:getX().toString());
+                json.put("Y",getY()==null?null:getY().toString());
                 json.put("UI",getUi());
                 json.put("GRAPHIC_ID",getGraphicId());
                 json.put("RECORD_DATA",getRecordData());

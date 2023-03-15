@@ -4,7 +4,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.eon.Strings;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Objects;

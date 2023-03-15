@@ -40,6 +40,7 @@ public final class ZeroMotor {
         // 1. Check if clustered mode
         final ClusterOptions cluster = ZeroGrid.getClusterOption();
         if (cluster.isEnabled()) {
+
             // 2.1. Clustered
             final ClusterManager manager = cluster.getManager();
             logger.info(Info.APP_CLUSTERD, manager.getClass().getName(),
@@ -115,12 +116,6 @@ public final class ZeroMotor {
             agents.remove(ServerType.IPC);
         } else {
             LOGGER.info(Info.RPC_ENABLED);
-        }
-        // Check Socket Enabled
-        if (ZeroGrid.getSockOptions().isEmpty()) {
-            agents.remove(ServerType.SOCK);
-        } else {
-            LOGGER.info(Info.SOCK_ENABLED);
         }
         return agents;
     }

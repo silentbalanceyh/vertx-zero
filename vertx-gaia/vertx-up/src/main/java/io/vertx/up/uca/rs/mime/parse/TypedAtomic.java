@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.mime.parse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.uca.serialization.TypedArgument;
+import io.vertx.up.unity.Ux;
 
 @SuppressWarnings("unchecked")
 public class TypedAtomic<T> implements Atomic<T> {
@@ -12,7 +12,8 @@ public class TypedAtomic<T> implements Atomic<T> {
                              final Epsilon<T> income)
         throws WebException {
         final Class<?> paramType = income.getArgType();
-        final Object returnValue = TypedArgument.analyzeAgent(context, paramType);
+        // Old:  TypedArgument.analyzeAgent
+        final Object returnValue = Ux.toParameter(context, paramType);
         return null == returnValue ? income.setValue(null) : income.setValue((T) returnValue);
     }
 }

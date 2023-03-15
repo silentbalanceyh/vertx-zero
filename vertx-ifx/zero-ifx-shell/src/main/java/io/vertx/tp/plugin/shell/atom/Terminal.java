@@ -7,23 +7,23 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Terminal {
 
-    private static final transient UpException ERROR_ARG_MISSING =
+    private static final UpException ERROR_ARG_MISSING =
         new CommandMissingException(Terminal.class);
-    private static final ConcurrentMap<Integer, Scanner> POOL_SCANNER = new ConcurrentHashMap<>();
+    private static final Cc<Integer, Scanner> CC_SCANNER = Cc.open();
 
     private final transient Scanner scanner;
     private final transient Vertx vertx;
@@ -31,7 +31,8 @@ public class Terminal {
 
     private Terminal(final Vertx vertx) {
         this.vertx = vertx;
-        this.scanner = Fn.pool(POOL_SCANNER, vertx.hashCode(), () -> new Scanner(System.in));
+        this.scanner = CC_SCANNER.pick(() -> new Scanner(System.in), vertx.hashCode());
+        // Fn.po?l(POOL_SCANNER, vertx.hashCode(), () -> new Scanner(System.in));
         this.scanner.useDelimiter("\n");
     }
 
@@ -58,7 +59,8 @@ public class Terminal {
                  * handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
                  * When click terminal operation here
                  */
-                POOL_SCANNER.values().forEach(scanner -> Fn.safeJvm(scanner::close));
+                final Cd<Integer, Scanner> cdScanner = CC_SCANNER.store();
+                cdScanner.values().forEach(scanner -> Fn.safeJvm(scanner::close));
                 System.exit(0);
                 // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
             }

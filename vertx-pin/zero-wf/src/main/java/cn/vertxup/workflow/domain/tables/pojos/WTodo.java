@@ -20,47 +20,50 @@ public class WTodo implements VertxPojo, IWTodo {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        serial;
-    private String        name;
-    private String        code;
-    private String        icon;
-    private String        status;
-    private String        todoUrl;
-    private String        type;
+    private String key;
+    private String serial;
+    private String name;
+    private String code;
+    private String icon;
+    private String status;
+    private String todoUrl;
+    private String type;
     private LocalDateTime expiredAt;
-    private String        modelId;
-    private String        modelKey;
-    private String        modelCategory;
-    private String        parentId;
-    private String        traceId;
-    private Integer       traceOrder;
-    private String        taskId;
-    private String        taskKey;
-    private String        activityId;
-    private String        comment;
-    private String        commentApproval;
-    private String        commentReject;
-    private String        toLocation;
-    private String        toGroup;
-    private String        toDept;
-    private String        toTeam;
-    private String        toUser;
-    private String        toRole;
-    private String        assignedBy;
+    private String modelId;
+    private String modelKey;
+    private String modelCategory;
+    private String parentId;
+    private String serialFork;
+    private String traceId;
+    private Integer traceOrder;
+    private String taskId;
+    private String taskKey;
+    private String comment;
+    private String commentApproval;
+    private String commentReject;
+    private String toLocation;
+    private String toGroup;
+    private String toTeam;
+    private String toRole;
+    private String toUser;
+    private String toDept;
+    private Boolean escalate;
+    private String escalateData;
+    private String assignedBy;
     private LocalDateTime assignedAt;
-    private String        acceptedBy;
+    private String acceptedBy;
+    private String acceptedGroup;
     private LocalDateTime acceptedAt;
-    private String        finishedBy;
+    private String finishedBy;
     private LocalDateTime finishedAt;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public WTodo() {}
 
@@ -78,23 +81,26 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelKey = value.getModelKey();
         this.modelCategory = value.getModelCategory();
         this.parentId = value.getParentId();
+        this.serialFork = value.getSerialFork();
         this.traceId = value.getTraceId();
         this.traceOrder = value.getTraceOrder();
         this.taskId = value.getTaskId();
         this.taskKey = value.getTaskKey();
-        this.activityId = value.getActivityId();
         this.comment = value.getComment();
         this.commentApproval = value.getCommentApproval();
         this.commentReject = value.getCommentReject();
         this.toLocation = value.getToLocation();
         this.toGroup = value.getToGroup();
-        this.toDept = value.getToDept();
         this.toTeam = value.getToTeam();
-        this.toUser = value.getToUser();
         this.toRole = value.getToRole();
+        this.toUser = value.getToUser();
+        this.toDept = value.getToDept();
+        this.escalate = value.getEscalate();
+        this.escalateData = value.getEscalateData();
         this.assignedBy = value.getAssignedBy();
         this.assignedAt = value.getAssignedAt();
         this.acceptedBy = value.getAcceptedBy();
+        this.acceptedGroup = value.getAcceptedGroup();
         this.acceptedAt = value.getAcceptedAt();
         this.finishedBy = value.getFinishedBy();
         this.finishedAt = value.getFinishedAt();
@@ -109,47 +115,50 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     public WTodo(
-        String        key,
-        String        serial,
-        String        name,
-        String        code,
-        String        icon,
-        String        status,
-        String        todoUrl,
-        String        type,
+        String key,
+        String serial,
+        String name,
+        String code,
+        String icon,
+        String status,
+        String todoUrl,
+        String type,
         LocalDateTime expiredAt,
-        String        modelId,
-        String        modelKey,
-        String        modelCategory,
-        String        parentId,
-        String        traceId,
-        Integer       traceOrder,
-        String        taskId,
-        String        taskKey,
-        String        activityId,
-        String        comment,
-        String        commentApproval,
-        String        commentReject,
-        String        toLocation,
-        String        toGroup,
-        String        toDept,
-        String        toTeam,
-        String        toUser,
-        String        toRole,
-        String        assignedBy,
+        String modelId,
+        String modelKey,
+        String modelCategory,
+        String parentId,
+        String serialFork,
+        String traceId,
+        Integer traceOrder,
+        String taskId,
+        String taskKey,
+        String comment,
+        String commentApproval,
+        String commentReject,
+        String toLocation,
+        String toGroup,
+        String toTeam,
+        String toRole,
+        String toUser,
+        String toDept,
+        Boolean escalate,
+        String escalateData,
+        String assignedBy,
         LocalDateTime assignedAt,
-        String        acceptedBy,
+        String acceptedBy,
+        String acceptedGroup,
         LocalDateTime acceptedAt,
-        String        finishedBy,
+        String finishedBy,
         LocalDateTime finishedAt,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.serial = serial;
@@ -164,23 +173,26 @@ public class WTodo implements VertxPojo, IWTodo {
         this.modelKey = modelKey;
         this.modelCategory = modelCategory;
         this.parentId = parentId;
+        this.serialFork = serialFork;
         this.traceId = traceId;
         this.traceOrder = traceOrder;
         this.taskId = taskId;
         this.taskKey = taskKey;
-        this.activityId = activityId;
         this.comment = comment;
         this.commentApproval = commentApproval;
         this.commentReject = commentReject;
         this.toLocation = toLocation;
         this.toGroup = toGroup;
-        this.toDept = toDept;
         this.toTeam = toTeam;
-        this.toUser = toUser;
         this.toRole = toRole;
+        this.toUser = toUser;
+        this.toDept = toDept;
+        this.escalate = escalate;
+        this.escalateData = escalateData;
         this.assignedBy = assignedBy;
         this.assignedAt = assignedAt;
         this.acceptedBy = acceptedBy;
+        this.acceptedGroup = acceptedGroup;
         this.acceptedAt = acceptedAt;
         this.finishedBy = finishedBy;
         this.finishedAt = finishedAt;
@@ -433,6 +445,25 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public String getSerialFork() {
+        return this.serialFork;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public WTodo setSerialFork(String serialFork) {
+        this.serialFork = serialFork;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
@@ -471,7 +502,7 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
     @Override
@@ -480,7 +511,7 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
     @Override
@@ -490,7 +521,7 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
      * 和待办绑定的taskKey
      */
     @Override
@@ -499,31 +530,12 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
      * 和待办绑定的taskKey
      */
     @Override
     public WTodo setTaskKey(String taskKey) {
         this.taskKey = taskKey;
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public String getActivityId() {
-        return this.activityId;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
-     */
-    @Override
-    public WTodo setActivityId(String activityId) {
-        this.activityId = activityId;
         return this;
     }
 
@@ -619,23 +631,6 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    @Override
-    public String getToDept() {
-        return this.toDept;
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    @Override
-    public WTodo setToDept(String toDept) {
-        this.toDept = toDept;
-        return this;
-    }
-
-    /**
      * Getter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
      */
     @Override
@@ -649,6 +644,23 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setToTeam(String toTeam) {
         this.toTeam = toTeam;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    @Override
+    public String getToRole() {
+        return this.toRole;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    @Override
+    public WTodo setToRole(String toRole) {
+        this.toRole = toRole;
         return this;
     }
 
@@ -670,19 +682,55 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
     @Override
-    public String getToRole() {
-        return this.toRole;
+    public String getToDept() {
+        return this.toDept;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
     @Override
-    public WTodo setToRole(String toRole) {
-        this.toRole = toRole;
+    public WTodo setToDept(String toDept) {
+        this.toDept = toDept;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    @Override
+    public Boolean getEscalate() {
+        return this.escalate;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    @Override
+    public WTodo setEscalate(Boolean escalate) {
+        this.escalate = escalate;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    @Override
+    public String getEscalateData() {
+        return this.escalateData;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    @Override
+    public WTodo setEscalateData(String escalateData) {
+        this.escalateData = escalateData;
         return this;
     }
 
@@ -738,6 +786,25 @@ public class WTodo implements VertxPojo, IWTodo {
     @Override
     public WTodo setAcceptedBy(String acceptedBy) {
         this.acceptedBy = acceptedBy;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public String getAcceptedGroup() {
+        return this.acceptedGroup;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public WTodo setAcceptedGroup(String acceptedGroup) {
+        this.acceptedGroup = acceptedGroup;
         return this;
     }
 
@@ -931,6 +998,333 @@ public class WTodo implements VertxPojo, IWTodo {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final WTodo other = (WTodo) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.icon == null) {
+            if (other.icon != null)
+                return false;
+        }
+        else if (!this.icon.equals(other.icon))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.todoUrl == null) {
+            if (other.todoUrl != null)
+                return false;
+        }
+        else if (!this.todoUrl.equals(other.todoUrl))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.expiredAt == null) {
+            if (other.expiredAt != null)
+                return false;
+        }
+        else if (!this.expiredAt.equals(other.expiredAt))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.modelKey == null) {
+            if (other.modelKey != null)
+                return false;
+        }
+        else if (!this.modelKey.equals(other.modelKey))
+            return false;
+        if (this.modelCategory == null) {
+            if (other.modelCategory != null)
+                return false;
+        }
+        else if (!this.modelCategory.equals(other.modelCategory))
+            return false;
+        if (this.parentId == null) {
+            if (other.parentId != null)
+                return false;
+        }
+        else if (!this.parentId.equals(other.parentId))
+            return false;
+        if (this.serialFork == null) {
+            if (other.serialFork != null)
+                return false;
+        }
+        else if (!this.serialFork.equals(other.serialFork))
+            return false;
+        if (this.traceId == null) {
+            if (other.traceId != null)
+                return false;
+        }
+        else if (!this.traceId.equals(other.traceId))
+            return false;
+        if (this.traceOrder == null) {
+            if (other.traceOrder != null)
+                return false;
+        }
+        else if (!this.traceOrder.equals(other.traceOrder))
+            return false;
+        if (this.taskId == null) {
+            if (other.taskId != null)
+                return false;
+        }
+        else if (!this.taskId.equals(other.taskId))
+            return false;
+        if (this.taskKey == null) {
+            if (other.taskKey != null)
+                return false;
+        }
+        else if (!this.taskKey.equals(other.taskKey))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.commentApproval == null) {
+            if (other.commentApproval != null)
+                return false;
+        }
+        else if (!this.commentApproval.equals(other.commentApproval))
+            return false;
+        if (this.commentReject == null) {
+            if (other.commentReject != null)
+                return false;
+        }
+        else if (!this.commentReject.equals(other.commentReject))
+            return false;
+        if (this.toLocation == null) {
+            if (other.toLocation != null)
+                return false;
+        }
+        else if (!this.toLocation.equals(other.toLocation))
+            return false;
+        if (this.toGroup == null) {
+            if (other.toGroup != null)
+                return false;
+        }
+        else if (!this.toGroup.equals(other.toGroup))
+            return false;
+        if (this.toTeam == null) {
+            if (other.toTeam != null)
+                return false;
+        }
+        else if (!this.toTeam.equals(other.toTeam))
+            return false;
+        if (this.toRole == null) {
+            if (other.toRole != null)
+                return false;
+        }
+        else if (!this.toRole.equals(other.toRole))
+            return false;
+        if (this.toUser == null) {
+            if (other.toUser != null)
+                return false;
+        }
+        else if (!this.toUser.equals(other.toUser))
+            return false;
+        if (this.toDept == null) {
+            if (other.toDept != null)
+                return false;
+        }
+        else if (!this.toDept.equals(other.toDept))
+            return false;
+        if (this.escalate == null) {
+            if (other.escalate != null)
+                return false;
+        }
+        else if (!this.escalate.equals(other.escalate))
+            return false;
+        if (this.escalateData == null) {
+            if (other.escalateData != null)
+                return false;
+        }
+        else if (!this.escalateData.equals(other.escalateData))
+            return false;
+        if (this.assignedBy == null) {
+            if (other.assignedBy != null)
+                return false;
+        }
+        else if (!this.assignedBy.equals(other.assignedBy))
+            return false;
+        if (this.assignedAt == null) {
+            if (other.assignedAt != null)
+                return false;
+        }
+        else if (!this.assignedAt.equals(other.assignedAt))
+            return false;
+        if (this.acceptedBy == null) {
+            if (other.acceptedBy != null)
+                return false;
+        }
+        else if (!this.acceptedBy.equals(other.acceptedBy))
+            return false;
+        if (this.acceptedGroup == null) {
+            if (other.acceptedGroup != null)
+                return false;
+        }
+        else if (!this.acceptedGroup.equals(other.acceptedGroup))
+            return false;
+        if (this.acceptedAt == null) {
+            if (other.acceptedAt != null)
+                return false;
+        }
+        else if (!this.acceptedAt.equals(other.acceptedAt))
+            return false;
+        if (this.finishedBy == null) {
+            if (other.finishedBy != null)
+                return false;
+        }
+        else if (!this.finishedBy.equals(other.finishedBy))
+            return false;
+        if (this.finishedAt == null) {
+            if (other.finishedAt != null)
+                return false;
+        }
+        else if (!this.finishedAt.equals(other.finishedAt))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.icon == null) ? 0 : this.icon.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.todoUrl == null) ? 0 : this.todoUrl.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.expiredAt == null) ? 0 : this.expiredAt.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.modelKey == null) ? 0 : this.modelKey.hashCode());
+        result = prime * result + ((this.modelCategory == null) ? 0 : this.modelCategory.hashCode());
+        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
+        result = prime * result + ((this.serialFork == null) ? 0 : this.serialFork.hashCode());
+        result = prime * result + ((this.traceId == null) ? 0 : this.traceId.hashCode());
+        result = prime * result + ((this.traceOrder == null) ? 0 : this.traceOrder.hashCode());
+        result = prime * result + ((this.taskId == null) ? 0 : this.taskId.hashCode());
+        result = prime * result + ((this.taskKey == null) ? 0 : this.taskKey.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.commentApproval == null) ? 0 : this.commentApproval.hashCode());
+        result = prime * result + ((this.commentReject == null) ? 0 : this.commentReject.hashCode());
+        result = prime * result + ((this.toLocation == null) ? 0 : this.toLocation.hashCode());
+        result = prime * result + ((this.toGroup == null) ? 0 : this.toGroup.hashCode());
+        result = prime * result + ((this.toTeam == null) ? 0 : this.toTeam.hashCode());
+        result = prime * result + ((this.toRole == null) ? 0 : this.toRole.hashCode());
+        result = prime * result + ((this.toUser == null) ? 0 : this.toUser.hashCode());
+        result = prime * result + ((this.toDept == null) ? 0 : this.toDept.hashCode());
+        result = prime * result + ((this.escalate == null) ? 0 : this.escalate.hashCode());
+        result = prime * result + ((this.escalateData == null) ? 0 : this.escalateData.hashCode());
+        result = prime * result + ((this.assignedBy == null) ? 0 : this.assignedBy.hashCode());
+        result = prime * result + ((this.assignedAt == null) ? 0 : this.assignedAt.hashCode());
+        result = prime * result + ((this.acceptedBy == null) ? 0 : this.acceptedBy.hashCode());
+        result = prime * result + ((this.acceptedGroup == null) ? 0 : this.acceptedGroup.hashCode());
+        result = prime * result + ((this.acceptedAt == null) ? 0 : this.acceptedAt.hashCode());
+        result = prime * result + ((this.finishedBy == null) ? 0 : this.finishedBy.hashCode());
+        result = prime * result + ((this.finishedAt == null) ? 0 : this.finishedAt.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("WTodo (");
 
@@ -947,23 +1341,26 @@ public class WTodo implements VertxPojo, IWTodo {
         sb.append(", ").append(modelKey);
         sb.append(", ").append(modelCategory);
         sb.append(", ").append(parentId);
+        sb.append(", ").append(serialFork);
         sb.append(", ").append(traceId);
         sb.append(", ").append(traceOrder);
         sb.append(", ").append(taskId);
         sb.append(", ").append(taskKey);
-        sb.append(", ").append(activityId);
         sb.append(", ").append(comment);
         sb.append(", ").append(commentApproval);
         sb.append(", ").append(commentReject);
         sb.append(", ").append(toLocation);
         sb.append(", ").append(toGroup);
-        sb.append(", ").append(toDept);
         sb.append(", ").append(toTeam);
-        sb.append(", ").append(toUser);
         sb.append(", ").append(toRole);
+        sb.append(", ").append(toUser);
+        sb.append(", ").append(toDept);
+        sb.append(", ").append(escalate);
+        sb.append(", ").append(escalateData);
         sb.append(", ").append(assignedBy);
         sb.append(", ").append(assignedAt);
         sb.append(", ").append(acceptedBy);
+        sb.append(", ").append(acceptedGroup);
         sb.append(", ").append(acceptedAt);
         sb.append(", ").append(finishedBy);
         sb.append(", ").append(finishedAt);
@@ -999,23 +1396,26 @@ public class WTodo implements VertxPojo, IWTodo {
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
         setParentId(from.getParentId());
+        setSerialFork(from.getSerialFork());
         setTraceId(from.getTraceId());
         setTraceOrder(from.getTraceOrder());
         setTaskId(from.getTaskId());
         setTaskKey(from.getTaskKey());
-        setActivityId(from.getActivityId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());
         setToLocation(from.getToLocation());
         setToGroup(from.getToGroup());
-        setToDept(from.getToDept());
         setToTeam(from.getToTeam());
-        setToUser(from.getToUser());
         setToRole(from.getToRole());
+        setToUser(from.getToUser());
+        setToDept(from.getToDept());
+        setEscalate(from.getEscalate());
+        setEscalateData(from.getEscalateData());
         setAssignedBy(from.getAssignedBy());
         setAssignedAt(from.getAssignedAt());
         setAcceptedBy(from.getAcceptedBy());
+        setAcceptedGroup(from.getAcceptedGroup());
         setAcceptedAt(from.getAcceptedAt());
         setFinishedBy(from.getFinishedBy());
         setFinishedAt(from.getFinishedAt());

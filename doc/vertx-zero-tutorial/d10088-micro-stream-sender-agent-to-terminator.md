@@ -17,7 +17,9 @@ Demo Projects and environment
 
 ## 2. Source Code
 
-> We have introduced interface style to ignore Actor, it's disabled in rpc communication, it means that if you send rpc request from Sender \( Agent \), you could not send the message to internal Consumer \( Worker \), the interface style is used in communication between Sender and Consumer.
+> We have introduced interface style to ignore Actor, it's disabled in rpc communication, it means that if you send rpc
+> request from Sender \( Agent \), you could not send the message to internal Consumer \( Worker \), the interface style
+> is used in communication between Sender and Consumer.
 
 ### 2.1. SimpleApi \( service: up-epimetheus \)
 

@@ -20,47 +20,47 @@ public class EIdentity implements VertxPojo, IEIdentity {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        code;
-    private String        type;
-    private String        status;
-    private String        country;
-    private String        nativePlace;
-    private String        nation;
-    private String        address;
-    private String        realname;
+    private String key;
+    private String code;
+    private String type;
+    private String status;
+    private String country;
+    private String nativePlace;
+    private String nation;
+    private String address;
+    private String realname;
     private LocalDateTime birthday;
-    private String        driverLicense;
-    private String        carPlate;
-    private String        passport;
-    private Boolean       gender;
-    private String        marital;
-    private String        contactMobile;
-    private String        contactPhone;
-    private String        contactAddress;
-    private String        contactEmail;
-    private String        urgentName;
-    private String        urgentPhone;
-    private String        ecQq;
-    private String        ecAlipay;
-    private String        ecWechat;
-    private String        idcType;
-    private String        idcNumber;
-    private String        idcAddress;
+    private String driverLicense;
+    private String carPlate;
+    private String passport;
+    private Boolean gender;
+    private String marital;
+    private String contactMobile;
+    private String contactPhone;
+    private String contactAddress;
+    private String contactEmail;
+    private String urgentName;
+    private String urgentPhone;
+    private String ecQq;
+    private String ecAlipay;
+    private String ecWechat;
+    private String idcType;
+    private String idcNumber;
+    private String idcAddress;
     private LocalDateTime idcExpiredAt;
-    private String        idcFront;
-    private String        idcBack;
-    private String        idcIssuer;
+    private String idcFront;
+    private String idcBack;
+    private String idcIssuer;
     private LocalDateTime idcIssueAt;
-    private Boolean       verified;
-    private String        metadata;
-    private Boolean       active;
-    private String        sigma;
-    private String        language;
+    private Boolean verified;
+    private String metadata;
+    private Boolean active;
+    private String sigma;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public EIdentity() {}
 
@@ -109,47 +109,47 @@ public class EIdentity implements VertxPojo, IEIdentity {
     }
 
     public EIdentity(
-        String        key,
-        String        code,
-        String        type,
-        String        status,
-        String        country,
-        String        nativePlace,
-        String        nation,
-        String        address,
-        String        realname,
+        String key,
+        String code,
+        String type,
+        String status,
+        String country,
+        String nativePlace,
+        String nation,
+        String address,
+        String realname,
         LocalDateTime birthday,
-        String        driverLicense,
-        String        carPlate,
-        String        passport,
-        Boolean       gender,
-        String        marital,
-        String        contactMobile,
-        String        contactPhone,
-        String        contactAddress,
-        String        contactEmail,
-        String        urgentName,
-        String        urgentPhone,
-        String        ecQq,
-        String        ecAlipay,
-        String        ecWechat,
-        String        idcType,
-        String        idcNumber,
-        String        idcAddress,
+        String driverLicense,
+        String carPlate,
+        String passport,
+        Boolean gender,
+        String marital,
+        String contactMobile,
+        String contactPhone,
+        String contactAddress,
+        String contactEmail,
+        String urgentName,
+        String urgentPhone,
+        String ecQq,
+        String ecAlipay,
+        String ecWechat,
+        String idcType,
+        String idcNumber,
+        String idcAddress,
         LocalDateTime idcExpiredAt,
-        String        idcFront,
-        String        idcBack,
-        String        idcIssuer,
+        String idcFront,
+        String idcBack,
+        String idcIssuer,
         LocalDateTime idcIssueAt,
-        Boolean       verified,
-        String        metadata,
-        Boolean       active,
-        String        sigma,
-        String        language,
+        Boolean verified,
+        String metadata,
+        Boolean active,
+        String sigma,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.code = code;
@@ -932,6 +932,312 @@ public class EIdentity implements VertxPojo, IEIdentity {
     public EIdentity setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EIdentity other = (EIdentity) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.country == null) {
+            if (other.country != null)
+                return false;
+        }
+        else if (!this.country.equals(other.country))
+            return false;
+        if (this.nativePlace == null) {
+            if (other.nativePlace != null)
+                return false;
+        }
+        else if (!this.nativePlace.equals(other.nativePlace))
+            return false;
+        if (this.nation == null) {
+            if (other.nation != null)
+                return false;
+        }
+        else if (!this.nation.equals(other.nation))
+            return false;
+        if (this.address == null) {
+            if (other.address != null)
+                return false;
+        }
+        else if (!this.address.equals(other.address))
+            return false;
+        if (this.realname == null) {
+            if (other.realname != null)
+                return false;
+        }
+        else if (!this.realname.equals(other.realname))
+            return false;
+        if (this.birthday == null) {
+            if (other.birthday != null)
+                return false;
+        }
+        else if (!this.birthday.equals(other.birthday))
+            return false;
+        if (this.driverLicense == null) {
+            if (other.driverLicense != null)
+                return false;
+        }
+        else if (!this.driverLicense.equals(other.driverLicense))
+            return false;
+        if (this.carPlate == null) {
+            if (other.carPlate != null)
+                return false;
+        }
+        else if (!this.carPlate.equals(other.carPlate))
+            return false;
+        if (this.passport == null) {
+            if (other.passport != null)
+                return false;
+        }
+        else if (!this.passport.equals(other.passport))
+            return false;
+        if (this.gender == null) {
+            if (other.gender != null)
+                return false;
+        }
+        else if (!this.gender.equals(other.gender))
+            return false;
+        if (this.marital == null) {
+            if (other.marital != null)
+                return false;
+        }
+        else if (!this.marital.equals(other.marital))
+            return false;
+        if (this.contactMobile == null) {
+            if (other.contactMobile != null)
+                return false;
+        }
+        else if (!this.contactMobile.equals(other.contactMobile))
+            return false;
+        if (this.contactPhone == null) {
+            if (other.contactPhone != null)
+                return false;
+        }
+        else if (!this.contactPhone.equals(other.contactPhone))
+            return false;
+        if (this.contactAddress == null) {
+            if (other.contactAddress != null)
+                return false;
+        }
+        else if (!this.contactAddress.equals(other.contactAddress))
+            return false;
+        if (this.contactEmail == null) {
+            if (other.contactEmail != null)
+                return false;
+        }
+        else if (!this.contactEmail.equals(other.contactEmail))
+            return false;
+        if (this.urgentName == null) {
+            if (other.urgentName != null)
+                return false;
+        }
+        else if (!this.urgentName.equals(other.urgentName))
+            return false;
+        if (this.urgentPhone == null) {
+            if (other.urgentPhone != null)
+                return false;
+        }
+        else if (!this.urgentPhone.equals(other.urgentPhone))
+            return false;
+        if (this.ecQq == null) {
+            if (other.ecQq != null)
+                return false;
+        }
+        else if (!this.ecQq.equals(other.ecQq))
+            return false;
+        if (this.ecAlipay == null) {
+            if (other.ecAlipay != null)
+                return false;
+        }
+        else if (!this.ecAlipay.equals(other.ecAlipay))
+            return false;
+        if (this.ecWechat == null) {
+            if (other.ecWechat != null)
+                return false;
+        }
+        else if (!this.ecWechat.equals(other.ecWechat))
+            return false;
+        if (this.idcType == null) {
+            if (other.idcType != null)
+                return false;
+        }
+        else if (!this.idcType.equals(other.idcType))
+            return false;
+        if (this.idcNumber == null) {
+            if (other.idcNumber != null)
+                return false;
+        }
+        else if (!this.idcNumber.equals(other.idcNumber))
+            return false;
+        if (this.idcAddress == null) {
+            if (other.idcAddress != null)
+                return false;
+        }
+        else if (!this.idcAddress.equals(other.idcAddress))
+            return false;
+        if (this.idcExpiredAt == null) {
+            if (other.idcExpiredAt != null)
+                return false;
+        }
+        else if (!this.idcExpiredAt.equals(other.idcExpiredAt))
+            return false;
+        if (this.idcFront == null) {
+            if (other.idcFront != null)
+                return false;
+        }
+        else if (!this.idcFront.equals(other.idcFront))
+            return false;
+        if (this.idcBack == null) {
+            if (other.idcBack != null)
+                return false;
+        }
+        else if (!this.idcBack.equals(other.idcBack))
+            return false;
+        if (this.idcIssuer == null) {
+            if (other.idcIssuer != null)
+                return false;
+        }
+        else if (!this.idcIssuer.equals(other.idcIssuer))
+            return false;
+        if (this.idcIssueAt == null) {
+            if (other.idcIssueAt != null)
+                return false;
+        }
+        else if (!this.idcIssueAt.equals(other.idcIssueAt))
+            return false;
+        if (this.verified == null) {
+            if (other.verified != null)
+                return false;
+        }
+        else if (!this.verified.equals(other.verified))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.country == null) ? 0 : this.country.hashCode());
+        result = prime * result + ((this.nativePlace == null) ? 0 : this.nativePlace.hashCode());
+        result = prime * result + ((this.nation == null) ? 0 : this.nation.hashCode());
+        result = prime * result + ((this.address == null) ? 0 : this.address.hashCode());
+        result = prime * result + ((this.realname == null) ? 0 : this.realname.hashCode());
+        result = prime * result + ((this.birthday == null) ? 0 : this.birthday.hashCode());
+        result = prime * result + ((this.driverLicense == null) ? 0 : this.driverLicense.hashCode());
+        result = prime * result + ((this.carPlate == null) ? 0 : this.carPlate.hashCode());
+        result = prime * result + ((this.passport == null) ? 0 : this.passport.hashCode());
+        result = prime * result + ((this.gender == null) ? 0 : this.gender.hashCode());
+        result = prime * result + ((this.marital == null) ? 0 : this.marital.hashCode());
+        result = prime * result + ((this.contactMobile == null) ? 0 : this.contactMobile.hashCode());
+        result = prime * result + ((this.contactPhone == null) ? 0 : this.contactPhone.hashCode());
+        result = prime * result + ((this.contactAddress == null) ? 0 : this.contactAddress.hashCode());
+        result = prime * result + ((this.contactEmail == null) ? 0 : this.contactEmail.hashCode());
+        result = prime * result + ((this.urgentName == null) ? 0 : this.urgentName.hashCode());
+        result = prime * result + ((this.urgentPhone == null) ? 0 : this.urgentPhone.hashCode());
+        result = prime * result + ((this.ecQq == null) ? 0 : this.ecQq.hashCode());
+        result = prime * result + ((this.ecAlipay == null) ? 0 : this.ecAlipay.hashCode());
+        result = prime * result + ((this.ecWechat == null) ? 0 : this.ecWechat.hashCode());
+        result = prime * result + ((this.idcType == null) ? 0 : this.idcType.hashCode());
+        result = prime * result + ((this.idcNumber == null) ? 0 : this.idcNumber.hashCode());
+        result = prime * result + ((this.idcAddress == null) ? 0 : this.idcAddress.hashCode());
+        result = prime * result + ((this.idcExpiredAt == null) ? 0 : this.idcExpiredAt.hashCode());
+        result = prime * result + ((this.idcFront == null) ? 0 : this.idcFront.hashCode());
+        result = prime * result + ((this.idcBack == null) ? 0 : this.idcBack.hashCode());
+        result = prime * result + ((this.idcIssuer == null) ? 0 : this.idcIssuer.hashCode());
+        result = prime * result + ((this.idcIssueAt == null) ? 0 : this.idcIssueAt.hashCode());
+        result = prime * result + ((this.verified == null) ? 0 : this.verified.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

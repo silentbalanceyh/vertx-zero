@@ -44,7 +44,7 @@ final class Out {
     }
 
     static boolean make(final String path) {
-        return Fn.getNull(() -> Fn.getJvm(() -> {
+        return Fn.orNull(() -> Fn.orJvm(() -> {
             final File file = new File(path);
             boolean created = false;
             if (!file.exists()) {

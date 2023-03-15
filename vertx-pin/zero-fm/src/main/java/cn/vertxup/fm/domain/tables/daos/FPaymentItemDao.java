@@ -28,7 +28,7 @@ public class FPaymentItemDao extends AbstractVertxDAO<FPaymentItemRecord, cn.ver
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FPaymentItemDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FPaymentItem.F_PAYMENT_ITEM, cn.vertxup.fm.domain.tables.pojos.FPaymentItem.class, new JDBCClassicQueryExecutor<FPaymentItemRecord,cn.vertxup.fm.domain.tables.pojos.FPaymentItem,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FPaymentItem.class,vertx));

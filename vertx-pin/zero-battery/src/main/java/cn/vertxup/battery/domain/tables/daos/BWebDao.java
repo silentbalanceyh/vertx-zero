@@ -26,7 +26,7 @@ public class BWebDao extends AbstractVertxDAO<BWebRecord, cn.vertxup.battery.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public BWebDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(BWeb.B_WEB, cn.vertxup.battery.domain.tables.pojos.BWeb.class, new JDBCClassicQueryExecutor<BWebRecord,cn.vertxup.battery.domain.tables.pojos.BWeb,String>(configuration,cn.vertxup.battery.domain.tables.pojos.BWeb.class,vertx));

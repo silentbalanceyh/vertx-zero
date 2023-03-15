@@ -28,7 +28,7 @@ public class FBillDao extends AbstractVertxDAO<FBillRecord, cn.vertxup.fm.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FBillDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FBill.F_BILL, cn.vertxup.fm.domain.tables.pojos.FBill.class, new JDBCClassicQueryExecutor<FBillRecord,cn.vertxup.fm.domain.tables.pojos.FBill,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FBill.class,vertx));

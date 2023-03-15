@@ -27,7 +27,7 @@ public class SResourceDao extends AbstractVertxDAO<SResourceRecord, cn.vertxup.r
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SResourceDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SResource.S_RESOURCE, cn.vertxup.rbac.domain.tables.pojos.SResource.class, new JDBCClassicQueryExecutor<SResourceRecord,cn.vertxup.rbac.domain.tables.pojos.SResource,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SResource.class,vertx));

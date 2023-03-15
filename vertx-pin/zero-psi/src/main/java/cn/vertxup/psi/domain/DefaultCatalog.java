@@ -4,6 +4,7 @@
 package cn.vertxup.psi.domain;
 
 
+import org.jooq.Constants;
 import org.jooq.Schema;
 import org.jooq.impl.CatalogImpl;
 
@@ -22,6 +23,13 @@ public class DefaultCatalog extends CatalogImpl {
      */
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
     private static final long serialVersionUID = 1L;
+    /**
+     * A reference to the 3.17 minor release of the code generator. If this
+     * doesn't compile, it's because the runtime library uses an older minor
+     * release, namely: 3.17. You can turn off the generation of this reference
+     * by specifying /configuration/generator/generate/jooqVersionReference
+     */
+    private static final String REQUIRE_RUNTIME_JOOQ_VERSION = Constants.VERSION_3_17;
     /**
      * The schema <code>DB_ETERNAL</code>.
      */

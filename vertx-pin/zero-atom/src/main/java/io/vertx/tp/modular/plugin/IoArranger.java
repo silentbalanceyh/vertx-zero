@@ -3,13 +3,13 @@ package io.vertx.tp.modular.plugin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.tp.atom.modeling.config.AoAttribute;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HAttribute;
 import io.vertx.up.fn.TiConsumer;
 import io.vertx.up.util.Ut;
 
@@ -190,8 +190,8 @@ class IoArranger {
                 /*
                  * 3. SourceConfig
                  */
-                final JComponent component = new JComponent(attribute.getName(), componentCls);
-                if (component.valid(interfaceCls)) {
+                final JComponent component = JComponent.create(attribute.getName(), componentCls);
+                if (component.isImplement(interfaceCls)) {
                     final JsonObject config = componentConfig(attribute, tpl.atom(), componentCls);
                     pluginMap.put(attribute.getName(), component.bind(config));
                 }
@@ -241,7 +241,7 @@ class IoArranger {
         } else {
             combine = new JsonObject();
         }
-        final AoAttribute aoAttr = atom.attribute(attribute.getName());
+        final HAttribute aoAttr = atom.attribute(attribute.getName());
         final JsonObject attrJson = new JsonObject();
         attrJson.put(KName.NAME, attribute.getName());
         attrJson.put(KName.ALIAS, attribute.getAlias());
@@ -266,7 +266,7 @@ class IoArranger {
          * Source Data Convert
          */
         final ConcurrentMap<String, JComponent> componentMap = new ConcurrentHashMap<>();
-        inMap.values().forEach(component -> componentMap.put(component.source(), component));
+        inMap.values().forEach(component -> componentMap.put(component.keyUnique(), component));
         /*
          * Source Data Process
          */
@@ -278,7 +278,7 @@ class IoArranger {
                     /*
                      * Source Data Extract ( Code Logical )
                      */
-                    componentInstance.source(component.config()).forEach(sourceData::put);
+                    componentInstance.source(component.getConfig()).forEach(sourceData::put);
                 }
             });
         }
@@ -364,7 +364,7 @@ class IoArranger {
         if (!inMap.isEmpty()) {
             final JsonObject dataMap = sourceData(inMap, interfaceCls);
             inMap.forEach((field, component) -> {
-                final JsonObject config = component.config();
+                final JsonObject config = component.getConfig();
                 config.put(KName.SOURCE_DATA, dataMap);
                 consumer.accept(input, component, config);
             });

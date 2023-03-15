@@ -27,7 +27,7 @@ public class MRelationDao extends AbstractVertxDAO<MRelationRecord, cn.vertxup.a
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MRelationDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MRelation.M_RELATION, cn.vertxup.atom.domain.tables.pojos.MRelation.class, new JDBCClassicQueryExecutor<MRelationRecord,cn.vertxup.atom.domain.tables.pojos.MRelation,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MRelation.class,vertx));

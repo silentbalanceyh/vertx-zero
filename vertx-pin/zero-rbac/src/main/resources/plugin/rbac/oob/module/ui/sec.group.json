@@ -1,5 +1,9 @@
 [
     {
+        "metadata": "category,组类型,DATUM",
+        "$datum": "source=ajax.groups.type,value=code,display=name"
+    },
+    {
         "title": "用户组编号",
         "dataIndex": "code",
         "sorter": true,

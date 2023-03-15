@@ -27,7 +27,7 @@ public class LStateDao extends AbstractVertxDAO<LStateRecord, cn.vertxup.lbs.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LStateDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LState.L_STATE, cn.vertxup.lbs.domain.tables.pojos.LState.class, new JDBCClassicQueryExecutor<LStateRecord,cn.vertxup.lbs.domain.tables.pojos.LState,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LState.class,vertx));

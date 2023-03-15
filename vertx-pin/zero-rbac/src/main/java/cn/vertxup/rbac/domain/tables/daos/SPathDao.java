@@ -27,7 +27,7 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SPathDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SPath.S_PATH, cn.vertxup.rbac.domain.tables.pojos.SPath.class, new JDBCClassicQueryExecutor<SPathRecord,cn.vertxup.rbac.domain.tables.pojos.SPath,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SPath.class,vertx));
@@ -69,82 +69,141 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
         }
 
         /**
-     * Find records that have <code>GROUP_MAPPING IN (values)</code>
-     * asynchronously
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupMapping(Collection<String> values) {
-                return findManyByCondition(SPath.S_PATH.GROUP_MAPPING.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByPhase(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.PHASE.in(values));
         }
 
         /**
-     * Find records that have <code>GROUP_MAPPING IN (values)</code>
-     * asynchronously limited by the given limit
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupMapping(Collection<String> values, int limit) {
-                return findManyByCondition(SPath.S_PATH.GROUP_MAPPING.in(values),limit);
-        }
-
-        /**
-     * Find records that have <code>GROUP_TYPE IN (values)</code> asynchronously
-     */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupType(Collection<String> values) {
-                return findManyByCondition(SPath.S_PATH.GROUP_TYPE.in(values));
-        }
-
-        /**
-     * Find records that have <code>GROUP_TYPE IN (values)</code> asynchronously
+     * Find records that have <code>PHASE IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupType(Collection<String> values, int limit) {
-                return findManyByCondition(SPath.S_PATH.GROUP_TYPE.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByPhase(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.PHASE.in(values),limit);
         }
 
         /**
-     * Find records that have <code>GROUP_COMPONENT IN (values)</code>
+     * Find records that have <code>MAPPING IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByMapping(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.MAPPING.in(values));
+        }
+
+        /**
+     * Find records that have <code>MAPPING IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByMapping(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.MAPPING.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByParentId(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.PARENT_ID.in(values));
+        }
+
+        /**
+     * Find records that have <code>PARENT_ID IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByParentId(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.PARENT_ID.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupComponent(Collection<String> values) {
-                return findManyByCondition(SPath.S_PATH.GROUP_COMPONENT.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunComponent(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.RUN_COMPONENT.in(values));
         }
 
         /**
-     * Find records that have <code>GROUP_COMPONENT IN (values)</code>
+     * Find records that have <code>RUN_COMPONENT IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupComponent(Collection<String> values, int limit) {
-                return findManyByCondition(SPath.S_PATH.GROUP_COMPONENT.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunComponent(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.RUN_COMPONENT.in(values),limit);
         }
 
         /**
-     * Find records that have <code>GROUP_CONDITION IN (values)</code>
+     * Find records that have <code>RUN_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunType(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.RUN_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>RUN_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByRunType(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.RUN_TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_TYPE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmType(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.DM_TYPE.in(values));
+        }
+
+        /**
+     * Find records that have <code>DM_TYPE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmType(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.DM_TYPE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_COMPONENT IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupCondition(Collection<String> values) {
-                return findManyByCondition(SPath.S_PATH.GROUP_CONDITION.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmComponent(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.DM_COMPONENT.in(values));
         }
 
         /**
-     * Find records that have <code>GROUP_CONDITION IN (values)</code>
+     * Find records that have <code>DM_COMPONENT IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupCondition(Collection<String> values, int limit) {
-                return findManyByCondition(SPath.S_PATH.GROUP_CONDITION.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmComponent(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.DM_COMPONENT.in(values),limit);
         }
 
         /**
-     * Find records that have <code>GROUP_CONFIG IN (values)</code>
+     * Find records that have <code>DM_CONDITION IN (values)</code>
      * asynchronously
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupConfig(Collection<String> values) {
-                return findManyByCondition(SPath.S_PATH.GROUP_CONFIG.in(values));
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmCondition(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.DM_CONDITION.in(values));
         }
 
         /**
-     * Find records that have <code>GROUP_CONFIG IN (values)</code>
+     * Find records that have <code>DM_CONDITION IN (values)</code>
      * asynchronously limited by the given limit
      */
-        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByGroupConfig(Collection<String> values, int limit) {
-                return findManyByCondition(SPath.S_PATH.GROUP_CONFIG.in(values),limit);
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmCondition(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.DM_CONDITION.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>DM_CONFIG IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmConfig(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.DM_CONFIG.in(values));
+        }
+
+        /**
+     * Find records that have <code>DM_CONFIG IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByDmConfig(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.DM_CONFIG.in(values),limit);
         }
 
         /**
@@ -207,6 +266,36 @@ public class SPathDao extends AbstractVertxDAO<SPathRecord, cn.vertxup.rbac.doma
      */
         public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByUiComponent(Collection<String> values, int limit) {
                 return findManyByCondition(SPath.S_PATH.UI_COMPONENT.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>UI_SURFACE IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByUiSurface(Collection<String> values) {
+                return findManyByCondition(SPath.S_PATH.UI_SURFACE.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_SURFACE IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByUiSurface(Collection<String> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.UI_SURFACE.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>UI_SORT IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByUiSort(Collection<Integer> values) {
+                return findManyByCondition(SPath.S_PATH.UI_SORT.in(values));
+        }
+
+        /**
+     * Find records that have <code>UI_SORT IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.rbac.domain.tables.pojos.SPath>> findManyByUiSort(Collection<Integer> values, int limit) {
+                return findManyByCondition(SPath.S_PATH.UI_SORT.in(values),limit);
         }
 
         /**

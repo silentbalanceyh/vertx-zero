@@ -4,15 +4,9 @@
 package cn.vertxup.workflow.domain;
 
 
-import cn.vertxup.workflow.domain.tables.TAssetIn;
-import cn.vertxup.workflow.domain.tables.TAssetKo;
-import cn.vertxup.workflow.domain.tables.TAssetOut;
 import cn.vertxup.workflow.domain.tables.WFlow;
 import cn.vertxup.workflow.domain.tables.WTicket;
 import cn.vertxup.workflow.domain.tables.WTodo;
-import cn.vertxup.workflow.domain.tables.records.TAssetInRecord;
-import cn.vertxup.workflow.domain.tables.records.TAssetKoRecord;
-import cn.vertxup.workflow.domain.tables.records.TAssetOutRecord;
 import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
 import cn.vertxup.workflow.domain.tables.records.WTicketRecord;
 import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
@@ -34,9 +28,6 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<TAssetInRecord> KEY_T_ASSET_IN_PRIMARY = Internal.createUniqueKey(TAssetIn.T_ASSET_IN, DSL.name("KEY_T_ASSET_IN_PRIMARY"), new TableField[] { TAssetIn.T_ASSET_IN.KEY }, true);
-    public static final UniqueKey<TAssetKoRecord> KEY_T_ASSET_KO_PRIMARY = Internal.createUniqueKey(TAssetKo.T_ASSET_KO, DSL.name("KEY_T_ASSET_KO_PRIMARY"), new TableField[] { TAssetKo.T_ASSET_KO.KEY }, true);
-    public static final UniqueKey<TAssetOutRecord> KEY_T_ASSET_OUT_PRIMARY = Internal.createUniqueKey(TAssetOut.T_ASSET_OUT, DSL.name("KEY_T_ASSET_OUT_PRIMARY"), new TableField[] { TAssetOut.T_ASSET_OUT.KEY }, true);
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_CODE = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_CODE"), new TableField[] { WFlow.W_FLOW.CODE, WFlow.W_FLOW.SIGMA }, true);
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_NAME = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_NAME"), new TableField[] { WFlow.W_FLOW.NAME, WFlow.W_FLOW.SIGMA }, true);
     public static final UniqueKey<WFlowRecord> KEY_W_FLOW_PRIMARY = Internal.createUniqueKey(WFlow.W_FLOW, DSL.name("KEY_W_FLOW_PRIMARY"), new TableField[] { WFlow.W_FLOW.KEY }, true);

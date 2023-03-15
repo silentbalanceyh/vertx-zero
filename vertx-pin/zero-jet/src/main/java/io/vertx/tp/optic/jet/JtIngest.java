@@ -4,7 +4,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.uca.param.DataIngest;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * 「Extension」
@@ -20,8 +20,12 @@ import io.vertx.up.fn.Fn;
  *  2) This class must contain public constructor without any arguments
  */
 public interface JtIngest {
+
+    Cc<String, JtIngest> CC_INGEST = Cc.openThread();
+
     static JtIngest getInstance() {
-        return Fn.poolThread(Pool.POOL_INGEST, DataIngest::new);
+        return CC_INGEST.pick(DataIngest::new);
+        // Fn.po?lThread(Pool.POOL_INGEST, DataIngest::new);
     }
 
     /*

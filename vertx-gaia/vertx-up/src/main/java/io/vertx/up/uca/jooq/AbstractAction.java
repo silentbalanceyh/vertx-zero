@@ -46,7 +46,7 @@ abstract class AbstractAction {
 
     protected void logging(final String pattern, final Object... args) {
         final Annal logger = Annal.get(getClass());
-        if (Debugger.onJooqCondition()) {
+        if (Debugger.devJooqCond()) {
             logger.info(pattern, args);
         }
     }
@@ -83,9 +83,9 @@ abstract class AbstractAction {
     }
 
     // ---------------------------------- Sync Operation
-    protected <T> Record newRecord(T pojo) {
+    protected <T> org.jooq.Record newRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        final Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        final org.jooq.Record record = this.context().newRecord(this.analyzer.table(), pojo);
         int size = record.size();
         for (int i = 0; i < size; i++)
             if (record.get(i) == null) {
@@ -99,14 +99,18 @@ abstract class AbstractAction {
 
     protected <T> UpdateConditionStep editRecord(T pojo) {
         Objects.requireNonNull(pojo);
-        Record record = this.context().newRecord(this.analyzer.table(), pojo);
-        Condition where = DSL.trueCondition();
+        org.jooq.Record record = this.context().newRecord(this.analyzer.table(), pojo);
+        // Condition where = DSL.trueCondition();
         UniqueKey<?> pk = this.analyzer.table().getPrimaryKey();
+        final Set<Condition> conditions = new HashSet<>();
         for (TableField<?, ?> tableField : pk.getFields()) {
             //exclude primary keys from update
             record.changed(tableField, false);
-            where = where.and(((TableField<Record, Object>) tableField).eq(record.get(tableField)));
+            final Condition condition = ((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField));
+            conditions.add(condition);
+            // where = where.?nd(((TableField<org.jooq.Record, Object>) tableField).eq(record.get(tableField)));
         }
+        final Condition where = DSL.and(conditions);
         Map<String, Object> valuesToUpdate =
             Arrays.stream(record.fields())
                 .collect(HashMap::new, (m, f) -> m.put(f.getName(), f.getValue(record)), HashMap::putAll);

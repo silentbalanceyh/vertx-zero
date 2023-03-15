@@ -21,39 +21,7 @@
         <ignoreVersion type="regex">.*-BETA-\d*</ignoreVersion>
     </ignoreVersions>
     <rules>
-        <!-- jersey version: 2.x -->
-        <rule groupId="org.glassfish.jersey" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">3.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- hibernate: 6.x -->
-        <rule groupId="org.hibernate.validator" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">7.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- liquibase 3.x -->
-        <rule groupId="org.liquibase" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">4.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
-
-        <!-- es 7.x -->
-        <rule groupId="org.elasticsearch" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">8.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
 
         <rule groupId="*.maven" comparisonMethod="mercury"/>
-        <rule groupId="org.scala-lang" comparisonMethod="maven">
-            <ignoreVersions>
-                <ignoreVersion type="regex">2.13.*</ignoreVersion>
-            </ignoreVersions>
-        </rule>
     </rules>
 </ruleset>

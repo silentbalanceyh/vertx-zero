@@ -1,6 +1,8 @@
 package io.vertx.up.log;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
+import io.vertx.up.runtime.env.DiagnosisOption;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -8,73 +10,93 @@ import io.vertx.up.util.Ut;
 /**
  * # 「Co」Zero Extension for Debugger to process logs
  *
+ * This configuration stored into `.yml` file such as:
+ *
+ * Default configuration is as following:
+ *
+ * // <pre><code class="yaml">
+ * debug:
+ *     ui.cache:            true        PROD
+ *     password.hidden:     true        PROD
+ *
+ *     web.uri.detecting:   false       PROD
+ *     job.booting:         false       PROD
+ *     stack.tracing:       false       PROD
+ *     jooq.condition:      false       PROD
+ *     excel.ranging:       false       PROD
+ *     expression.bind:     false       PROD
+ *
+ * // </code></pre>
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class Debugger {
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
-    private static final JsonObject JSON_DEBUG = new JsonObject();
-    private static final String KEY_WEB_URI_DETECTING = "web.uri.detecting";
-    private static final String KEY_JOB_BOOTING = "job.booting";
-    private static final String KEY_PASSWORD_HIDDEN = "password.hidden";
-    private static final String KEY_STACK_TRACING = "stack.tracing";
-    private static final String KEY_JOOQ_CONDITION = "jooq.condition";
-    private static final String KEY_EXCEL_RANGING = "excel.ranging";
-    private static final String KEY_UI_CACHE = "ui.cache";
+    private static final DiagnosisOption OPTION;
 
     static {
         final JsonObject configuration = VISITOR.read();
-        if (configuration.containsKey("debug")) {
-            JSON_DEBUG.mergeIn(Ut.valueJObject(configuration.getJsonObject("debug")));
+        if (configuration.containsKey(KName.DEVELOPMENT)) {
+            final JsonObject envJ = Ut.visitJObject(configuration, KName.DEVELOPMENT, KName.ENV);
+            OPTION = Ut.deserialize(envJ, DiagnosisOption.class);
+        } else {
+            OPTION = new DiagnosisOption();
         }
     }
 
     private Debugger() {
     }
 
-    /*
-     * Default false
-     * If no configuration, the value is true
-     */
-    public static boolean onJooqCondition() {
-        return isEnabled(KEY_JOOQ_CONDITION);
+    // ------------------------------ 缓存
+    // Z_CACHE_UI
+    public static boolean cacheUi() {
+        return OPTION.getCacheUi();
     }
 
-    public static boolean onExcelRanging() {
-        return isEnabled(KEY_EXCEL_RANGING);
+    // Z_CACHE_ADMIT
+    public static boolean cacheAdmit() {
+        return OPTION.getCacheAdmit();
     }
 
-    public static boolean onStackTracing() {
-        return isEnabled(KEY_STACK_TRACING);
+    // ------------------------------ 开发
+
+    // Z_DEV_AUTHORIZED
+    public static boolean devAuthorized() {
+        return OPTION.getDevAuthorized();
     }
 
-    public static boolean onJobBooting() {
-        return isEnabled(KEY_JOB_BOOTING);
+    // Z_DEV_EXPR_BIND
+    public static boolean devExprBind() {
+        return OPTION.getDevExprBind();
     }
 
-    public static boolean onUiCache() {
-        return isEnabled(KEY_UI_CACHE);
+    // Z_DEV_JOOQ_COND
+    public static boolean devJooqCond() {
+        return OPTION.getDevJooqCond();
     }
 
-    public static boolean onPasswordHidden() {
-        return isEnabled(KEY_PASSWORD_HIDDEN);
+    // Z_DEV_EXCEL_RANGE
+    public static boolean devExcelRange() {
+        return OPTION.getDevExcelRange();
     }
 
-    /*
-     * Default false
-     * If no configuration, the value is false
-     */
-    public static boolean onWebUriDetect() {
-        return isDisabled(KEY_WEB_URI_DETECTING);
+    // Z_DEV_JVM_STACK
+    public static boolean devJvmStack() {
+        return OPTION.getDevJvmStack();
     }
 
-    /*
-     * Default is false, when true, it' ok
-     */
-    public static boolean isDisabled(final String key) {
-        return JSON_DEBUG.getBoolean(key, Boolean.TRUE);
+    // Z_DEV_JOB_BOOT
+    public static boolean devJobBoot() {
+        return OPTION.getDevJobBoot();
     }
 
-    public static boolean isEnabled(final String key) {
-        return JSON_DEBUG.getBoolean(key, Boolean.FALSE);
+    // Z_DEV_WEB_URI
+    public static boolean devWebUri() {
+        return OPTION.getDevWebUri();
+    }
+
+    // Z_DEV_DAO_BIND
+    public static boolean devDaoBind() {
+        return OPTION.getDevDaoBind();
     }
 }

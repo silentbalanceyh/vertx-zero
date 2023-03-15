@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PPosRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -196,6 +197,11 @@ public class PPos extends TableImpl<PPosRecord> {
         return new PPos(alias, this);
     }
 
+    @Override
+    public PPos as(Table<?> alias) {
+        return new PPos(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -210,5 +216,13 @@ public class PPos extends TableImpl<PPosRecord> {
     @Override
     public PPos rename(Name name) {
         return new PPos(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PPos rename(Table<?> name) {
+        return new PPos(name.getQualifiedName(), null);
     }
 }

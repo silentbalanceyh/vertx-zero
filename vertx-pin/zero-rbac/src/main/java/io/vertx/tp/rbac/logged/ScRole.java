@@ -8,8 +8,9 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -18,8 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class ScRole {
-    private static final ConcurrentMap<String, ScRole> ROLES = new ConcurrentHashMap<>();
+    private static final Cc<String, ScRole> CC_ROLE = Cc.open();
     private static final Annal LOGGER = Annal.get(ScRole.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
     private final transient Rapid<String, JsonArray> cache;
@@ -42,7 +41,8 @@ public class ScRole {
     }
 
     public static ScRole login(final String roleId) {
-        return Fn.pool(ROLES, roleId, () -> new ScRole(roleId));
+        return CC_ROLE.pick(() -> new ScRole(roleId), roleId);
+        // return Fn.po?l(ROLES, roleId, () -> new ScRole(roleId));
     }
 
     public String key() {
@@ -55,7 +55,8 @@ public class ScRole {
 
     // ------------------------- Initialized Method ------------------------
     public Future<JsonArray> clear() {
-        ROLES.remove(this.roleId);
+        CC_ROLE.store().clear(this.roleId);
+        // ROLES.remove(this.roleId);
         return this.cache.clear(this.roleId);
     }
 
@@ -75,7 +76,9 @@ public class ScRole {
             if (Objects.isNull(permissions)) {
                 return this.fetch().compose(this::permission);
             } else {
-                Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
+                if (Debugger.devAuthorized()) {
+                    Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
+                }
                 /* Authorities fill from cache ( Sync the authorities ) */
                 permissions.stream().map(item -> (String) item)
                     .forEach(this.authorities::add);

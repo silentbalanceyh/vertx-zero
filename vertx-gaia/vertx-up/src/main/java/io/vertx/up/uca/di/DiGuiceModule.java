@@ -38,14 +38,15 @@ public abstract class DiGuiceModule extends AbstractModule {
                 this.logger().info("[ DI ] Interface Bind: `{0}`, interfaceCls = `{1}`", clazz, interfaceCls);
                 // clazzSet.add(clazz.getName());
             } else {
+                // interface with multi classed injection
                 implSet.forEach(implCls -> {
                     if (implCls.isAnnotationPresent(Named.class)) {
                         final Annotation annotation = implCls.getAnnotation(Named.class);
                         final String name = Ut.invoke(annotation, "value");
-                        this.logger().info("[ DI ] Interface Bind: `{0}`, interfaceCls = `{1}`, name",
+                        this.logger().info("[ DI ] Interface Bind: `{0}`, interfaceCls = `{1}`, name = {2}",
                             implCls, interfaceCls, name);
                         this.bind(interfaceCls).annotatedWith(Names.named(name))
-                            .to(implCls).asEagerSingleton();
+                            .to(implCls);
                     } else {
                         clazzSet.add(implCls.getName());
                     }

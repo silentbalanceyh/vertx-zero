@@ -1,10 +1,19 @@
 package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
-import cn.zeroup.macrocosm.cv.WfPool;
-import io.vertx.core.json.JsonObject;
+import cn.vertxup.workflow.cv.WfPool;
+import io.vertx.tp.error._404WorkflowNullException;
+import io.vertx.tp.workflow.atom.configuration.MetaInstance;
+import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.init.WfPin;
+import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.central.Behaviour;
+import io.vertx.tp.workflow.uca.coadjutor.Stay;
+import io.vertx.tp.workflow.uca.coadjutor.StayCancel;
+import io.vertx.tp.workflow.uca.coadjutor.StayClose;
+import io.vertx.tp.workflow.uca.coadjutor.StaySave;
 import io.vertx.tp.workflow.uca.component.*;
+import io.vertx.up.experiment.specification.power.KFlow;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -29,20 +38,70 @@ public class EngineOn {
 
     public static EngineOn connect(final String definitionKey) {
         Objects.requireNonNull(definitionKey);
-        /*
-         * Thread pool here.
-         */
-        return Fn.poolThread(WfPool.POOL_ENGINE, () -> {
+        /* Thread pool here. */
+        Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
+        return WfPool.CC_ENGINE.pick(() -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
+            /* Defined Exception throw out because of configuration data */
+            Fn.out(Objects.isNull(flow), _404WorkflowNullException.class, EngineOn.class, definitionKey);
             return new EngineOn(flow);
         }, definitionKey);
     }
 
-    public static EngineOn connect(final JsonObject params) {
-        final WKey key = WKey.build(params);
+    public static EngineOn connect(final WRequest request) {
+        final KFlow key = request.workflow();
+        /*
+         * {
+         *     "definitionKey": "",
+         *     "definitionId": "",
+         *     "instanceId": "",
+         *     "taskId": ""
+         * }
+         */
         return connect(key.definitionKey());
     }
 
+    /*
+     * Here are EngineOn structure for component management, each item refer to
+     * one RESTful api here.
+     *
+     * 1. /up/flow/start
+     *    1.1) 「Movement」runComponent       ->        ( MovementEmpty )
+     *          componentRun()
+     *    1.2) 「Transfer」startComponent     ->        ( TransferEmpty )
+     *          componentStart()
+     *
+     * 2. /up/flow/saving
+     *    2.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    2.2) 「Stay」    ( Fixed )          ->        ( StaySave )
+     *          stayDraft()
+     *
+     * 3. /up/flow/complete
+     *    3.1) 「Movement」runComponent       ->        ( MovementEmpty )
+     *          componentRun()
+     *    3.2) 「Transfer」generateComponent  ->        ( TransferStandard )
+     *          componentGenerate()
+     *
+     * 4. /up/flow/cancel
+     *    4.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    4.2) 「Stay」    ( Fixed )          ->        ( StayCancel )
+     *          stayCancel()
+     *
+     * 5. /up/flow/close
+     *    5.1) 「Movement」( Fixed )          ->        ( MovementStay )
+     *          stayMovement()
+     *    5.2) 「Stay」    ( Fixed )          ->        ( StayClose )
+     *          stayClose()
+     *
+     * For different mode usage here
+     *    <MODE>        runComponent            generateComponent           startComponent
+     *
+     * - Standard       MovementNext            TransferStandard            TransferStart
+     * - Fork/Join      MovementForkNext        TransferForkStandard        TransferForkStart
+     * - Multi          MovementMultiNext       TransferMultiStandard       TransferMultiStart
+     */
     // ----------------------- Configured Component -------------------------
     public Transfer componentStart() {
         return this.component(this.workflow::getStartComponent,
@@ -53,7 +112,7 @@ public class EngineOn {
     public Transfer componentGenerate() {
         return this.component(this.workflow::getGenerateComponent,
             this.workflow.getGenerateConfig(),
-            this::componentGenerateStandard);
+            this::transferStandard);
     }
 
     public Movement componentRun() {
@@ -63,8 +122,8 @@ public class EngineOn {
     }
 
     // ----------------------- Fixed Save -------------------------
-    public Movement environmentPre() {
-        return this.component(MovementPre.class, null);
+    public Movement stayMovement() {
+        return this.component(MovementStay.class, null);
     }
 
     public Stay stayDraft() {
@@ -75,8 +134,12 @@ public class EngineOn {
         return this.component(StayCancel.class, null);
     }
 
+    public Stay stayClose() {
+        return this.component(StayClose.class, null);
+    }
+
     // ----------------------- Private Method -------------------------
-    private Transfer componentGenerateStandard() {
+    private Transfer transferStandard() {
         return this.component(TransferStandard.class, this.workflow.getGenerateComponent());
     }
 
@@ -96,7 +159,25 @@ public class EngineOn {
     @SuppressWarnings("all")
     private <C extends Behaviour> C component(final Class<?> clazz, final String componentValue) {
         final String keyComponent = this.metadata.recordComponentKey(clazz, componentValue);
-        return (C) Fn.poolThread(WfPool.POOL_COMPONENT, () -> {
+        /*
+         * Here are component pool based on keyComponent, the format is as following:
+         * className + ConfigRecord ( hashCode ) + componentValue ( hashCode Optional )
+         * - authorizedComponent
+         *   authorized on user to check who could do actions
+         *
+         * - generateComponent
+         *   close previous todo record / open new todo record
+         *
+         * - runComponent
+         *   run current todo record / processing
+         *
+         * - startComponent
+         *   start new workflow and generate new start todo record
+         *
+         * - endComponent
+         *   end workflow of closing ticket
+         */
+        return (C) WfPool.CC_COMPONENT.pick(() -> {
             final C instance = Ut.instance(clazz);
             instance.bind(Ut.toJObject(componentValue))
                 // Level 1, Record for Transfer

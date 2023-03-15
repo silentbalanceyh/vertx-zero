@@ -14,7 +14,10 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
+import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
+import io.vertx.up.experiment.specification.power.KApp;
+import io.vertx.up.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -23,9 +26,9 @@ import io.vertx.up.util.Ut;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
@@ -47,6 +50,30 @@ public class Mission implements Serializable {
     private String comment;
     /* Whether this job is read only */
     private boolean readOnly;
+    /*
+     * Threshold value for timeout of worker here.
+     * This parameter will be bind to current mission for set worker timeout when long time worker executed.
+     * It means that the following code will be executed:
+     *
+     * final WorkerExecutor executor = this.vertx.createSharedWorkerExecutor(code, 1, threshold);
+     *
+     * For above code, the system will set the timeout parameter of current worker ( Background Job ) and it's
+     * not related to scheduling instead.
+     *
+     * So I moved the code from `KTimer` into `Mission` here.
+     *
+     * There are two mode focus on this parameter calculation as:
+     * 1) From programming part:
+     * 2) From configuration part:
+     *
+     * - The default time unit is TimeUnit.SECONDS
+     * - The final result should be `ns`.
+     *
+     * This field could not be serialized directly, you must call `timeout` to set this value
+     * or the worker will use default parameters.
+     **/
+    @JsonIgnore
+    private long threshold = Values.RANGE;
     /* Job configuration */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -55,13 +82,6 @@ public class Mission implements Serializable {
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject additional = new JsonObject();
-    /* Time: started time */
-    @JsonIgnore
-    private Instant instant = Instant.now();
-    /* Time: duration, default is 5 min */
-    private long duration = Values.RANGE;
-    /* Time: threshold, default is 15 min */
-    private long threshold = Values.RANGE;
 
     @JsonSerialize(using = ClassSerializer.class)
     @JsonDeserialize(using = ClassDeserializer.class)
@@ -83,6 +103,27 @@ public class Mission implements Serializable {
     /* Job end method */
     @JsonIgnore
     private Method off;
+    /*
+     * New attribute for
+     * Application Scope based on KApp specification here that belong to one KApp information
+     * The attribute is as following:
+     * {
+     *     "name":      "application name",
+     *     "ns":        "the default namespace",
+     *     "language":  "the default language",
+     *     "sigma":     "the uniform sigma identifier"
+     * }
+     *
+     * Be careful that this variable will be used in Zero Extension Framework and it's based on
+     * `X_APP` etc here, for programming part it's null before SVN Store connected. In future
+     * version all the configuration data will be stored in integration, it means that you can
+     * set any information of current Mission reference.
+     * */
+    @JsonIgnore
+    private KApp app;
+
+    @JsonIgnore
+    private KTimer timer;
 
     public JobStatus getStatus() {
         return this.status;
@@ -146,30 +187,6 @@ public class Mission implements Serializable {
 
     public void setAdditional(final JsonObject additional) {
         this.additional = additional;
-    }
-
-    public Instant getInstant() {
-        return this.instant;
-    }
-
-    public void setInstant(final Instant instant) {
-        this.instant = instant;
-    }
-
-    public long getDuration() {
-        return this.duration;
-    }
-
-    public void setDuration(final long duration) {
-        this.duration = duration;
-    }
-
-    public long getThreshold() {
-        return this.threshold;
-    }
-
-    public void setThreshold(final long threshold) {
-        this.threshold = threshold;
     }
 
     public Object getProxy() {
@@ -284,7 +301,7 @@ public class Mission implements Serializable {
                     this.outcomeAddress = null;
                 }
             }
-            if (Debugger.onJobBooting()) {
+            if (Debugger.devJobBoot()) {
                 LOGGER.info(Info.JOB_OFF, this.getCode());
             }
         }
@@ -306,6 +323,52 @@ public class Mission implements Serializable {
         return reference;
     }
 
+    public Mission timeout(final Integer input, final TimeUnit unit) {
+        if (Objects.isNull(input)) {
+            this.threshold = Values.RANGE;
+            return this;
+        } else {
+            this.threshold = unit.toNanos(input);
+            return this;
+        }
+    }
+
+    public long timeout() {
+        if (Values.RANGE == this.threshold) {
+            // The default timeout is 15 min
+            return TimeUnit.MINUTES.toNanos(15);
+        } else {
+            return this.threshold;
+        }
+    }
+
+    // ========================== KApp Information =======================
+    // The bind method on KApp
+    public Mission app(final KApp app) {
+        this.app = app;
+        return this;
+    }
+
+    public KApp app() {
+        return this.app;
+    }
+
+    public Mission timer(final KTimer timer) {
+        this.timer = timer;
+        return this;
+    }
+
+    public KTimer timer() {
+        return this.timer;
+    }
+
+    // ========================== Ensure the correct configuration =======================
+    public void detectPre(final String formula) {
+        if (JobType.FORMULA == this.type) {
+            Fn.outWeb(Ut.isNil(formula), _409JobFormulaErrorException.class, this.getClass(), formula);
+        }
+    }
+
     @Override
     public String toString() {
         return "Mission{" +
@@ -317,9 +380,6 @@ public class Mission implements Serializable {
             ", comment='" + this.comment + '\'' +
             ", metadata=" + this.metadata +
             ", additional=" + this.additional +
-            ", instant=" + this.instant +
-            ", duration=" + this.duration +
-            ", threshold=" + this.threshold +
             ", income=" + this.income +
             ", incomeAddress='" + this.incomeAddress + '\'' +
             ", outcome=" + this.outcome +
@@ -327,6 +387,8 @@ public class Mission implements Serializable {
             ", proxy=" + this.proxy +
             ", on=" + this.on +
             ", off=" + this.off +
+            ", app=" + this.app +
+            ", timer=" + this.timer +
             '}';
     }
 }

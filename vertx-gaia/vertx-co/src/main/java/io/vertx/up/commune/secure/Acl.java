@@ -1,7 +1,7 @@
 package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.AclPhase;
+import io.vertx.up.eon.em.run.ActPhase;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -31,7 +31,7 @@ public interface Acl extends Serializable {
     /*
      * Phase
      */
-    AclPhase phase();
+    ActPhase phase();
 
     /*
      * Record bind

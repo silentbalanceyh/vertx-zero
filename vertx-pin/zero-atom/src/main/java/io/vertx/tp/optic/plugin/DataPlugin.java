@@ -1,7 +1,7 @@
 package io.vertx.tp.optic.plugin;
 
-import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.up.commune.exchange.DiFabric;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
+import io.vertx.up.commune.exchange.DFabric;
 
 @SuppressWarnings("unchecked")
 public interface DataPlugin<T> {
@@ -10,7 +10,7 @@ public interface DataPlugin<T> {
         return (T) this;
     }
 
-    default T bind(final DiFabric fabric) {
+    default T bind(final DFabric fabric) {
         return (T) this;
     }
 }

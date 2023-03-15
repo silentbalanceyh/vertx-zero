@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -77,7 +78,7 @@ class JoinWriter {
                 futures.add(childJq.insertJAsync(compared.get(ChangeFlag.ADD)));
                 futures.add(childJq.updateAsync(compared.get(ChangeFlag.UPDATE)).compose(Ux::futureA));
                 futures.add(childJq.deleteJAsync(compared.get(ChangeFlag.DELETE)));
-                return Ux.thenCombineArray(futures);
+                return Fn.compressA(futures);
             });
         } else {
             return Ux.futureA();
@@ -98,7 +99,7 @@ class JoinWriter {
     }
 
     private JsonObject valueNorm(final JsonObject response, final JsonObject joined) {
-        Ut.ifJAssign(response,
+        return Fn.ifCopies(joined, response,
             // Normalized
             KName.CREATED_BY,
             KName.CREATED_AT,
@@ -107,7 +108,6 @@ class JoinWriter {
             KName.SIGMA,
             KName.LANGUAGE,
             KName.ACTIVE
-        ).apply(joined);
-        return joined;
+        );
     }
 }

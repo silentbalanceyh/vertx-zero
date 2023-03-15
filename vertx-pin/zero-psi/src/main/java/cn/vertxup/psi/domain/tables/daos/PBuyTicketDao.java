@@ -27,7 +27,7 @@ public class PBuyTicketDao extends AbstractVertxDAO<PBuyTicketRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PBuyTicketDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PBuyTicket.P_BUY_TICKET, cn.vertxup.psi.domain.tables.pojos.PBuyTicket.class, new JDBCClassicQueryExecutor<PBuyTicketRecord,cn.vertxup.psi.domain.tables.pojos.PBuyTicket,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PBuyTicket.class,vertx));

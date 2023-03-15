@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS B_BAG
     -- 模块核心配置
     `UI_CONFIG`  LONGTEXT COMMENT '「uiConfig」- 模块核心配置',
 
+    `ENTRY`      BIT         DEFAULT NULL COMMENT '「entry」- 是否入口（带入口为应用，当前APP_ID下安装内容）',
+    `ENTRY_ID`   VARCHAR(36) DEFAULT NULL COMMENT '「entryId」- 入口专用ID，关联 X_MENU 中的ID，其余的直接使用链接',
     -- 应用ID
     `APP_ID`     VARCHAR(36) COMMENT '「appId」- 关联的应用程序ID',
     `PARENT_ID`  VARCHAR(36) COMMENT '「parentId」- 父包ID',

@@ -6,11 +6,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KModule;
-import io.vertx.tp.ke.atom.specification.KTransform;
-import io.vertx.tp.ke.atom.specification.KTree;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.experiment.specification.KTransform;
+import io.vertx.up.experiment.specification.KTree;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -117,12 +117,20 @@ class TreeTran implements Tran {
                 if (record.containsKey(field)) {
                     final String value = record.getString(field);
                     final String to = map.get(value);
+                    /*
+                     * When you do mass updating on records, sometimes the `parentId` is null
+                     * The transform rules is as following:
+                     * 1) When parentId is null, skip processing.
+                     * 2) When parentId is not null, transform here
+                     * Fix Issue: https://github.com/silentbalanceyh/hotel/issues/359
+                     *
+                     * ( Mass Update ) Skip Null is true, it means that when to = null, skip putting
+                     * ( Importing ) Skip Null is false ( Default ), when the convert is null, put null into
+                     */
                     record.put(field, to);
                 }
             });
-            return Ux.future(data);
-        } else {
-            return Ux.future(data);
         }
+        return Ux.future(data);
     }
 }

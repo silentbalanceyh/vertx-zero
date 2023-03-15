@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS S_VIEW
     -- 资源拥有者：按角色/用户 处理
     `KEY`         VARCHAR(36) COMMENT '「key」- 限定记录ID',
     -- 用户优先模式，角色为默认（S_RESOURCE需要传入角色计算模式，多个角色处理时支持多角色的筛选字段需要保存在内
-    `NAME`        VARCHAR(255) COMMENT '「name」- 视图名称，每个 MATRIX 对应一个视图',
+    `NAME`        VARCHAR(96) COMMENT '「name」- 视图名称，每个 MATRIX 对应一个视图',
     `TITLE`       VARCHAR(255) COMMENT '「title」- 视图标题，用户输入，可选择',
     `OWNER`       VARCHAR(36) COMMENT '「owner」- 用户 / 角色ID',
     `OWNER_TYPE`  VARCHAR(5) COMMENT '「ownerType」- ROLE 角色，USER 用户',
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS S_VIEW
      * -- 「后置行过滤」
      */
     `ROWS`        TEXT COMMENT '「rows」- 该资源针对保存的行进行过滤',
-    `POSITION`    VARCHAR(255) COMMENT '「position」- 当前视图的模块位置，比页面低一个维度',
+    `POSITION`    VARCHAR(96) COMMENT '「position」- 当前视图的模块位置，比页面低一个维度',
 
     /*
      * 是否虚拟视图，一般在抽象层的为虚拟视图，一旦出现虚拟视图，则需要针对原始视图执行视图替换

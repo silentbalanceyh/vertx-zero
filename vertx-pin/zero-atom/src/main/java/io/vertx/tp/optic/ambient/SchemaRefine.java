@@ -18,6 +18,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -35,7 +36,7 @@ class SchemaRefine implements AoRefine {
             // 读取上一个流程中处理完成的 models
             final JsonArray models = appJson.getJsonArray(KName.Modeling.MODELS);
             final String name = appJson.getString(KName.NAME);
-            final Set<Schema> schemata = this.toSchemata(models, Model.namespace(name));
+            final Set<Schema> schemata = this.toSchemata(models, name);
             Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
@@ -45,7 +46,7 @@ class SchemaRefine implements AoRefine {
             // 2. 更新 MEntity 相关内容
             final List<Future<JsonObject>> futures = new ArrayList<>();
             schemata.stream().map(this::saveSchema).forEach(futures::add);
-            return Ux.thenCombine(futures)
+            return Fn.combineA(futures)
                 .compose(nil -> Ux.future(appJson))
                 .otherwise(Ux.otherwise(() -> null));
         };
@@ -61,11 +62,11 @@ class SchemaRefine implements AoRefine {
         schemata.forEach(builder::synchron);
     }
 
-    private Set<Schema> toSchemata(final JsonArray models, final String namespace) {
+    private Set<Schema> toSchemata(final JsonArray models, final String appName) {
         final Set<Schema> schemata = new HashSet<>();
         Ut.itJArray(models)
-            .map(data -> Model.instance(namespace, data))
-            .map(Model::schemata)
+            .map(data -> Ao.toModel(appName, data))
+            .map(Model::schema)
             .forEach(schemata::addAll);
         return schemata;
     }
@@ -101,13 +102,13 @@ class SchemaRefine implements AoRefine {
             .upsertAsync(this.criteria(updated), updated)
             .compose(entity -> {
                 // 设置关系信息重建
-                schema.relation(entity.getKey());
+                schema.connect(entity.getKey());
                 final List<Future<JsonArray>> combine = new ArrayList<>();
                 // Schema -> Field
                 combine.add(this.saveField(schema, entity));
                 // Schema -> Key
                 combine.add(this.saveKey(schema, entity));
-                return Ux.thenCombineArray(combine)
+                return Fn.compressA(combine)
                     .compose(nil -> Ux.future(entity))
                     .compose(Ux::futureJ)
                     .otherwise(Ux.otherwise(() -> null));

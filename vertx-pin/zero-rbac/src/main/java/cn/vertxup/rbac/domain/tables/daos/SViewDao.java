@@ -27,7 +27,7 @@ public class SViewDao extends AbstractVertxDAO<SViewRecord, cn.vertxup.rbac.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SViewDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SView.S_VIEW, cn.vertxup.rbac.domain.tables.pojos.SView.class, new JDBCClassicQueryExecutor<SViewRecord,cn.vertxup.rbac.domain.tables.pojos.SView,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SView.class,vertx));

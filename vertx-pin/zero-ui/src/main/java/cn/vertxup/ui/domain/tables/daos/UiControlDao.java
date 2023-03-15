@@ -27,7 +27,7 @@ public class UiControlDao extends AbstractVertxDAO<UiControlRecord, cn.vertxup.u
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiControlDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiControl.UI_CONTROL, cn.vertxup.ui.domain.tables.pojos.UiControl.class, new JDBCClassicQueryExecutor<UiControlRecord,cn.vertxup.ui.domain.tables.pojos.UiControl,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiControl.class,vertx));

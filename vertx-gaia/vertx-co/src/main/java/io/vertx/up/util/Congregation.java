@@ -10,6 +10,7 @@ import io.vertx.up.log.Annal;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
@@ -96,9 +97,34 @@ final class Congregation {
     static <T> void exec(final JsonObject data,
                          final BiConsumer<T, String> consumer) {
         try {
-            Fn.etJObject(data, consumer::accept);
+            Fn.verifyJObject(data, consumer::accept);
         } catch (final ZeroException ex) {
             LOGGER.jvm(ex);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> void exec(final JsonObject data, final String flag,
+                         final Boolean sec, // S - Start, E - End, C - Contains
+                         final BiConsumer<T, String> consumer) {
+        if (StringUtil.isNil(flag)) {
+            exec(data, consumer);
+        } else {
+            data.stream().filter(entry -> {
+                final String field = entry.getKey();
+                if (Objects.isNull(sec)) {
+                    return field.contains(flag);
+                } else if (sec) {
+                    return field.startsWith(flag);
+                } else {
+                    return field.endsWith(flag);
+                }
+            }).forEach(entry -> {
+                final Object value = entry.getValue();
+                if (Objects.nonNull(value)) {
+                    consumer.accept((T) value, entry.getKey());
+                }
+            });
         }
     }
 
@@ -110,7 +136,7 @@ final class Congregation {
      */
     static <T> void exec(final JsonArray dataArray, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
         try {
-            Fn.etJArray(dataArray, clazz, consumer::accept);
+            Fn.verifyJArray(dataArray, clazz, consumer::accept);
         } catch (final ZeroException ex) {
             LOGGER.jvm(ex);
         }

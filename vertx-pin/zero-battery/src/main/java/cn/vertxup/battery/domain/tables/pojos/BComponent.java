@@ -18,18 +18,18 @@ public class BComponent implements VertxPojo, IBComponent {
 
     private static final long serialVersionUID = 1L;
 
-    private String  key;
-    private String  blockId;
-    private String  type;
-    private String  mavenAid;
-    private String  mavenGid;
-    private String  specInterface;
-    private String  specImpl;
+    private String key;
+    private String blockId;
+    private String type;
+    private String mavenAid;
+    private String mavenGid;
+    private String specInterface;
+    private String specImpl;
     private Boolean integrated;
     private Boolean active;
-    private String  sigma;
-    private String  metadata;
-    private String  language;
+    private String sigma;
+    private String metadata;
+    private String language;
 
     public BComponent() {}
 
@@ -49,18 +49,18 @@ public class BComponent implements VertxPojo, IBComponent {
     }
 
     public BComponent(
-        String  key,
-        String  blockId,
-        String  type,
-        String  mavenAid,
-        String  mavenGid,
-        String  specInterface,
-        String  specImpl,
+        String key,
+        String blockId,
+        String type,
+        String mavenAid,
+        String mavenGid,
+        String specInterface,
+        String specImpl,
         Boolean integrated,
         Boolean active,
-        String  sigma,
-        String  metadata,
-        String  language
+        String sigma,
+        String metadata,
+        String language
     ) {
         this.key = key;
         this.blockId = blockId;
@@ -297,6 +297,109 @@ public class BComponent implements VertxPojo, IBComponent {
     public BComponent setLanguage(String language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final BComponent other = (BComponent) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.blockId == null) {
+            if (other.blockId != null)
+                return false;
+        }
+        else if (!this.blockId.equals(other.blockId))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.mavenAid == null) {
+            if (other.mavenAid != null)
+                return false;
+        }
+        else if (!this.mavenAid.equals(other.mavenAid))
+            return false;
+        if (this.mavenGid == null) {
+            if (other.mavenGid != null)
+                return false;
+        }
+        else if (!this.mavenGid.equals(other.mavenGid))
+            return false;
+        if (this.specInterface == null) {
+            if (other.specInterface != null)
+                return false;
+        }
+        else if (!this.specInterface.equals(other.specInterface))
+            return false;
+        if (this.specImpl == null) {
+            if (other.specImpl != null)
+                return false;
+        }
+        else if (!this.specImpl.equals(other.specImpl))
+            return false;
+        if (this.integrated == null) {
+            if (other.integrated != null)
+                return false;
+        }
+        else if (!this.integrated.equals(other.integrated))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.blockId == null) ? 0 : this.blockId.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.mavenAid == null) ? 0 : this.mavenAid.hashCode());
+        result = prime * result + ((this.mavenGid == null) ? 0 : this.mavenGid.hashCode());
+        result = prime * result + ((this.specInterface == null) ? 0 : this.specInterface.hashCode());
+        result = prime * result + ((this.specImpl == null) ? 0 : this.specImpl.hashCode());
+        result = prime * result + ((this.integrated == null) ? 0 : this.integrated.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        return result;
     }
 
     @Override

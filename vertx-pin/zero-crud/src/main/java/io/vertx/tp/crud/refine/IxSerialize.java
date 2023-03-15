@@ -2,9 +2,10 @@ package io.vertx.tp.crud.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.atom.specification.KField;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -21,10 +22,10 @@ class IxSerialize {
         /*
          * Deserialize First
          */
-        Ut.ifJObject(data, KName.METADATA);
+        Fn.ifJObject(data, KName.METADATA);
         final KField field = config.getField();
-        field.fieldObject().forEach(each -> Ut.ifJObject(data, each));
-        field.fieldArray().forEach(each -> Ut.ifJObject(data, each));
+        field.fieldObject().forEach(each -> Fn.ifJObject(data, each));
+        field.fieldArray().forEach(each -> Fn.ifJObject(data, each));
     }
 
     static <T> JsonObject serializeJ(final T input, final KModule module) {
@@ -78,10 +79,10 @@ class IxSerialize {
              * New feature for serialization on
              * `array, object` fields for future usage
              */
-            Ut.ifString(data, KName.METADATA);
+            Fn.ifString(data, KName.METADATA);
             final KField field = config.getField();
-            field.fieldArray().forEach(each -> Ut.ifString(data, each));         // JsonArray defined
-            field.fieldObject().forEach(each -> Ut.ifString(data, each));        // JsonObject defined
+            field.fieldArray().forEach(each -> Fn.ifString(data, each));         // JsonArray defined
+            field.fieldObject().forEach(each -> Fn.ifString(data, each));        // JsonObject defined
         }
         final String pojo = config.getPojo();
         final T reference = Ut.isNil(pojo) ?

@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -38,11 +39,12 @@ class IsFs {
         }
     }
 
+
     static Future<JsonArray> run(final JsonArray data, final BiFunction<Fs, JsonArray, Future<JsonArray>> fsRunner) {
         final ConcurrentMap<Fs, JsonArray> componentMap = fsGroup(data);
         final List<Future<JsonArray>> futures = new ArrayList<>();
         componentMap.forEach((fs, dataEach) -> futures.add(fsRunner.apply(fs, dataEach.copy())));
-        return Ux.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 
     /*
@@ -193,7 +195,7 @@ class IsFs {
             futures.add(mkdir(compared.getOrDefault(ChangeFlag.ADD, new JsonArray()), config));
             futures.add(mkdir(compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray()), queried));
             futures.add(Ux.future(compared.getOrDefault(ChangeFlag.NONE, new JsonArray())));
-            return Ux.thenCombineArray(futures);
+            return Fn.compressA(futures);
         });
     }
 
@@ -235,7 +237,7 @@ class IsFs {
         // Group queueAd, Re-Calculate `directoryId` here.
         return run(queueAd, (fs, dataGroup) -> fs.synchronize(dataGroup, config)).compose(inserted -> {
             /* storePath = key */
-            Ut.itJArray(inserted).forEach(json -> Ut.ifJCopy(json, KName.KEY, KName.DIRECTORY_ID));
+            Ut.itJArray(inserted).forEach(json -> Fn.ifCopy(json, KName.KEY, KName.DIRECTORY_ID));
             return Ux.future(inserted);
         });
     }

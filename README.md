@@ -2,61 +2,92 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)  [![Build Status](https://travis-ci.org/silentbalanceyh/vertx-zero.svg?branch=master)](https://travis-ci.org/silentbalanceyh/vertx-zero)
 
-This project is based on Vert.x, the idea came from Spring-Boot framework. It could help developers focus on business
-requirements instead of more details of Vert.x. The project contains two parts "Up" and "Zero". "Up" means running up, "
-Zero" means no more workload for high producation, you could run your project with default configuration only.
+Zero is a middleware framework based on [Vert.x](http://vertx.io) and it could help software engineers focus on business
+requirements instead of technical detail of Vert.x. The original idea of this framework came
+from [Spring Boot](https://spring.io/projects/spring-boot/) as that there is no approximative tools in Vert.x sphere at
+that time.
 
-Micro Service architecture is a future focused method to design and build mature system and help more companies to
-implement project faster, based on this idea, `Zero Framework` came out. It's micro-service oriented framework and will
-be verified by real projects. Also it provide a tool set to help developers to do correct things. Now there are two
-enterprise application cases those are implemented by `Zero`, although the number is small, but the cases could verify
-that `Zero` can be used in production environment instead of tool, demo or good looks.
+Zero has two metaphors, the original name is "Zero Up", "Up" means that I want to build a system that could be always
+running up online, "Zero" means no more workload for high production and you can build your own system efficiently with
+the default configuration only.
 
-This framework contains four sub-projects, all these projects are located under `vertx-gaia` sub-project.
+The latest Zero Micro Architecture ( [Aeon System](https://github.com/silentbalanceyh/vertx-zero-cloud) ) will be
+deployed to [K8S](https://kubernetes.io/) with [Istio](https://istio.io/) environment, it's a future focused method to
+build mature system with native cloud nature for more enterprise to execute critical valuable business efficiently. And
+I hope it could act as an important tool for more enterprise to complete digital transformation to satisfy the
+sustainable development, it could be high efficiently digital middleware in your side!
 
-* `vertx-gaia/vertx-co`: Core Library of Zero Framework
-* `vertx-gaia/vertx-tp`: Third part integration components in Zero Framework
-* `vertx-gaia/vertx-ifx`：Useful plug-ins that could be supported in Zero Framework with **Infix Structure**
-* `vertx-gaia/vertx-up`: Zero Up Engine with nested vert.x web container
-* `vertx-gaia/vertx-rx`: Zero Up Engine with nested rxjava web container instead of web container ( Experimental Version
-  for future )
-* `vertx-import`: Zero Usage dependency project to perform development, provide uniform dependency for your projects.
+* Gitee Repo: <https://gitee.com/silentbalanceyh/vertx-zero>
 
-In latest version, examples have been moved
-to [https://github.com/silentbalanceyh/vertx-zero-example](https://github.com/silentbalanceyh/vertx-zero-example)
-The chinese training book is [《Zero思然汀》](https://lang-yu.gitbook.io/zero/)
+## 1. Features
 
-> If your wan't to study vert.x development skill, you can refer chinese tutorial:[《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/). ( In Progress )
+**Critical For Beginner**: Zero Framework has been re-factor many times, the features are very complex now, you can
+refer following link for more details to know the power of Zero.
 
-![](/doc/_image/structure.jpeg)
+* [功能支持表/Feature List](FEATURES.md)
 
-## 0. Features
+### 1.1. Structure
 
-In 2019, Zero Framework has been re-factor to new version `0.6.x` and here I provide the feature list to let developers
-know more details in Zero Framework: [Feature List](FEATURES.md).
+Zero Framework ( Latest Version ) contains five major projects as following:
 
-Extension Module:
+| Name         | Comment                                                                                                                                         |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| vertx-gaia   | **Zero Core** Runtime, it contains minimum zero environment and you can deploy your projects on zero.                                           |
+| vertx-ifx    | **Infix Architecture**, Useful plug-ins that could be supported by Zero and you can choose as required.                                         |
+| vertx-import | Zero Usage dependency to perform development, it provides uniform entrance for your projects.                                                   |
+| vertx-semper | **Aeon System**, The native cloud environment based on K8S with Istio.                                                                          |
+| vertx-pin    | **Zero Extension** Modules, it provides common business features to satisfy many enterprise requirements such as [ODOO](https://www.odoo.com/). |
 
-![](/doc/_image/feature.png)
+### 1.2. Usage Links
 
-## 1. Documentation
+* **Examples**: In latest version, all zero original example demos have been moved
+  to <https://github.com/silentbalanceyh/vertx-zero-example>.
+* **Training Courses**: The official chinese training courses has been deployed to [Gitbook](https://www.gitbook.com/),
+  the course link is [《Zero冥思录》](https://lang-yu.gitbook.io/zero/).
+* **Vert.x**: If you want to study basic vert.x development skills, you can refer the
+  tutorial: [《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/).
+* **English Docs**: You can refer origin documents on link: [Old Official Document](DOCUMENT.md).
 
-### 1.1. Official Document
+### 1.3. Related Open Source
 
-* You can refer the link to see documents of Zero Framework: [Offical Document](DOCUMENT.md)
-* For all module api documents you can refere [Api Document](DOCUMENT-API.md)
+* [Zero UI](http://www.vertxui.cn)：The front-end scaffold framework that are designed for zero based
+  on [React](https://reactjs.org/) with [Ant-Design](https://ant-design.gitee.io/), [Ant-V](https://antv.vision/).
+* [Zero Ai](http://www.vertxai.cn): The auto script tools for zero full stack framework development.
 
-### 1.2. Related
+## 2. Overlook
 
-* You can refer [Zero UI](http://www.vertxui.cn) to visit front-end framework, it runs 3 production cases ( CN ).
-* You can refer [Spring Up](http://www.spring-up.cn) to visit spring framework bridged component ( Experimental
-  Version ), it runs one production cases ( CN ).
-* You can refer [Origin X](http://www.origin-x.cn) to visit knowledge management of all documents, it act as entry of
-  documentation ( CN ).
+Here I provide a nother view to let you know Zero Framework, the whole progress is about **80%**, please wait for
+version `1.0` released.
 
-## 2. Envrionment
+### 2.1. Modulat
 
-### 2.1. Configuration in pom.xml
+**Zero Extension** has been designed and re-factor to modulat environment, you can configure the modules as required,
+here are some standard modules in Zero Extension.
+
+![](/doc/_image/extension.png)
+
+### 2.2. Topology
+
+The whole **Zero Framework ( Aeon Environment )** is as following:
+
+![](/doc/_image/arch.png)
+
+### 2.3. Schematic
+
+I have published the design schematic diagram of zero
+to: [Zero Architecture](https://www.edrawmax.cn/online/share.html?code=6a3c11741e9411edab98b3f29ce75cdd), you can refer
+the interaction graphic online and this working is on going. The main diagram of **Zero Booting** is as following:
+
+![](/doc/_image/booting.png)
+
+## 3. Envrionment
+
+* **Back-End**: You can download scaffold project from <https://github.com/silentbalanceyh/vertx-zero-scaffold> to
+  initialize zero environment.
+* **Front-End**: You can use command `ai init -name` instead,
+  refer [Front-End Initialize](http://www.vertxai.cn/document/doc-web/module-ai.html#.init).
+
+### 3.1. Configuration in pom.xml
 
 If you want to use Zero framework, you can add following dependency into you `pom.xml` to use Zero:
 
@@ -82,7 +113,7 @@ If you want to use Zero framework, you can add following dependency into you `po
 </parent>
 ```
 
-### 2.2. Start Up
+### 3.2. Start Up ( Core )
 
 In your project, you can provide main entry only as following to run Zero \( Annotated with `@Up` \) .
 
@@ -106,9 +137,25 @@ Once the Zero is up, you can see following logs in your console \( The default p
     Endpoint: http://0.0.0.0:6083/
 ```
 
-### 2.3. Tips
+### 3.3. Start Up ( Native Cloud )
 
-#### 2.3.1. Data Specification
+When you want to enable **Aeon System**, you can switch the code as following:
+
+```java
+import io.vertx.aeon.AeonApplication;
+import io.vertx.up.annotations.Up;
+
+@Up
+public class Driver {
+    public static void main(final String[] args) {
+        AeonApplication.run(Driver.class);
+    }
+}
+```
+
+## 4. Tips
+
+### 4.1. Data Specification
 
 In zero framework, we designed uniform data specification as following response data format for business usage:
 
@@ -130,16 +177,17 @@ If you want to switch to freedom mode, you can set the configuration in `vertx.y
 
 ```yaml
 zero:
-    freedom: true     # The default value of `freedom` is false.
+  freedom: true     # The default value of `freedom` is false.
 ```
 
-#### 2.3.2. Logging in Zero
+### 4.2. Logging in Zero
 
 You can use following function in your coding to get Logger component instead of `log4j` because we have re-designed the
 detail implementation of logging system.
 
 ```java
-// Zero Logger initialized, connect to vert.x logging system directly but uniform managed by zero.
+// Zero Logger initialized, connect to vert.x logging system directly 
+// but uniform managed by zero.
 
 import io.vertx.up.log.Annal;
 
@@ -151,42 +199,47 @@ public final class Statute {
 }
 ```
 
-## 3. Other Information
+### 4.3. Oracle Issue
 
-### 3.1. Cases
+From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need the project
+of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version
+is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
 
-> Because of Contract and Confidentiality Agreement, removed Sensitive information of customer include system name, customer name etc.
+> Above issue has been fixed in `0.8.1`.
+
+## 5. Other Information
+
+### 5.1. Cases List
+
+> Because of Contract and Confidentiality Agreement, removed Sensitive information of customer include system name,
+> customer name etc.
 
 * **Deprecated**: Not Running Now
 * **In Progress**: In Development or Upgraded Development
 * **Running**: Running on Production Environment
 
-| System Information                |Zero Version| System Status |
-|-----------------------------------|---|---------------|
-| TLK Video Mobile System           |0.4.6| Deprecated    |
-| CMDB Platform of Bank             |Latest| Running       |
-| ITSM/ITIL Platform of Bank        |Latest|Running |
-| Integration of XBank              |Latest| Running       |
-| Zero Training Demo                |Latest| Running       |
-| Data Analyzing Exam               |Latest| Running       |
-| Commercial Opportunity Management |Latest| Running |
-| Hotel Management Platform         |Latest| In Progress   |
-| ISO27000 Management Platform      |Latest| In Progress |
-| IoT Control System                |Latest| In Progress |
-| Medical Workflow Management       |Latest | In Progress |
+| System Information                | Zero Version | Type       | System Status |
+|-----------------------------------|--------------|------------|---------------|
+| TLK Video Mobile System           | 0.4.6        | Commercial | Deprecated    |
+| CMDB Platform of Bank             | Latest       | Commercial | Running       |
+| ITSM/ITIL Platform of Bank        | Latest       | Commercial | Running       |
+| Integration of Bank               | Latest       | Commercial | Running       |
+| Zero Training Demo                | Latest       | Internal   | Running       |
+| Data Analyzing Exam               | Latest       | Internal   | Running       |
+| Commercial Opportunity Management | Latest       | Internal   | Running       |
+| Hotel Management Platform         | Latest       | Commercial | In Progress   |
+| ISO27000 Management Platform      | Latest       | Commercial | In Progress   |
+| IoT Control System                | Latest       | Commercial | In Progress   |
+| Medical Workflow Management       | Latest       | Commercial | In Progress   |
+| Aeon Development Platform         | Latest       | Internal   | In Progress   |
 
-* From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need the project
-  of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version
-  is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
-* Above issue has been fixed in `0.8.1`.
+### 5.2. WeChat Group
 
-### 3.2. WeChat Group
-
-You can send request to group leader: `445191171` to contact with the author team of zero.
+You can send request to me: `445191171` to contact with the author team of zero.
 
 ![](/doc/_image/chat.png)
 
-## DESIGNED IN CHINA
+## DESIGNED IN CHINA（中国设计）
 
 
 

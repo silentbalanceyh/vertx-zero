@@ -1,0 +1,28 @@
+{
+    "webNode": {
+        "event": "节点值",
+        "name": "流程节点名称",
+        "action": "操作列表",
+        "empty": "请选择您要设置权限的流程节点"
+    },
+    "webData": {
+        "paramIn": {
+            "workflow": "PROP:workflow.value",
+            "event": "STATE:node.event"
+        },
+        "paramView": {
+            "position": ":workflow",
+            "view": ":event"
+        },
+        "paramVisit": {
+            "phase": "EAGER",
+            "mode": "REPLACE",
+            "identifier": "ui.op",
+            "type": "OP",
+            "seekKey": ":workflow/:event/DEFAULT"
+        },
+        "paramDefault": "ALL",
+        "initializer": "IN_HV_BY",
+        "requester": "OUT_H"
+    }
+}

@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Record;
 import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -108,12 +109,14 @@ class Compare {
                 return old;
             } else {
                 /*
-                 * Convert old entity to json
+                 * 此处做一个比较大的比对变更，主要用于如何合并属性的考虑，此处的 T 包含了所有属性集，为一级数据
+                 * 在比对过程中，如果遇到了JSON属性，那么二层JSON属性不应该执行 Merge 操作，而是直接替换，只有
+                 * 一级属性会做相关比对
+                 * 1. combineJson - 旧数据
+                 * 2. latestJson  - 新数据
+                 * 所以此处在调用 mergeIn 方法时第二参数应该为 false
                  */
                 final JsonObject combineJson = Ut.valueJObject(To.toJObject(old, pojo));
-                /*
-                 * Convert current entity to json
-                 */
                 final JsonObject latestJson = Ut.valueJObject(To.toJObject(latest, pojo));
                 if (latestJson.containsKey("key")) {
                     /*
@@ -122,13 +125,7 @@ class Compare {
                      */
                     latestJson.remove("key");
                 }
-                /*
-                 * Merged
-                 */
-                combineJson.mergeIn(latestJson, true);
-                /*
-                 * Deserialization
-                 */
+                combineJson.mergeIn(latestJson, false);
                 final Class<?> clazz = latest.getClass();
                 return (T) From.fromJson(combineJson, clazz, pojo);
             }
@@ -163,9 +160,19 @@ class Compare {
     static <T> T updateT(final T query, final JsonObject params) {
         Objects.requireNonNull(query);
         final Class<?> entityCls = query.getClass();
-        final JsonObject original = Ux.toJson(query);
+        final JsonObject original = To.toJObject(query, "");
         original.mergeIn(params, true);
         return (T) From.fromJson(original, entityCls, "");
+    }
+
+    @SuppressWarnings("all")
+    static <T> T cloneT(final T input) {
+        if (Objects.isNull(input)) {
+            return null;
+        }
+        final Class<?> clazz = input.getClass();
+        final JsonObject original = To.toJObject(input, "");
+        return (T) From.fromJson(original, clazz, "");
     }
 
     static <ID> Record updateR(final Record record, final JsonObject data,
@@ -246,6 +253,6 @@ class Compare {
         if (!qUpdate.isEmpty()) {
             futures.add(updateAsyncFn.apply(qUpdate).compose(Ux::futureA));
         }
-        return Ux.thenCombineArray(futures);
+        return Fn.compressA(futures);
     }
 }

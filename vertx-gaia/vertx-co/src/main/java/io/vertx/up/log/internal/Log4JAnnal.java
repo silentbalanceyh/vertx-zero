@@ -13,6 +13,9 @@ public class Log4JAnnal implements Annal {
     private transient final Logger logger;
 
     public Log4JAnnal(final Class<?> clazz) {
+        /*
+         * Common usage
+         */
         this.logger = LoggerFactory.getLogger(clazz);
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-semper</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>aeon-eternal</artifactId>
+    <name>Cloud Module:「aeon-eternal」Zero Eternal Environment</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>aeon-inlet</module>     <!-- gRpc Environment -->
+        <module>aeon-istio</module>     <!-- Istio Environment -->
+        <module>aeon-k8s</module>       <!-- K8s Environment -->
+        <module>aeon-cosmos</module>    <!-- Configuration Development -->
+        <module>aeon-up</module>        <!-- Aeon System Container -->
+    </modules>
+</project>

@@ -9,6 +9,7 @@ import io.vertx.tp.optic.extension.Init;
 import io.vertx.tp.optic.extension.Prerequisite;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -60,7 +61,7 @@ public class InitService implements InitStub {
             /* Data Loading */
             .compose(At.initData().apply())
             /* Image */
-            .compose(Ut.ifJObject(KName.App.LOGO));
+            .compose(Fn.ifJObject(KName.App.LOGO));
     }
 
     /**
@@ -112,6 +113,11 @@ public class InitService implements InitStub {
      */
     @Override
     public Future<JsonObject> initModeling(final String appName) {
+        return this.initModeling(appName, null);
+    }
+
+    @Override
+    public Future<JsonObject> initModeling(final String appName, final String outPath) {
         /* Fetch App */
         return Ux.Jooq.on(XAppDao.class)
             /* X_APP Fetching */
@@ -119,9 +125,18 @@ public class InitService implements InitStub {
             .compose(Ux::futureJ)
             /* X_SOURCE fetching, Fetching skip Database initialization */
             .compose(this::initCombine)
+            /* Output Path Injection */
+            .compose(appJson -> this.initOutput(appJson, outPath))
             .compose(this::initDefined)
             /* Image */
-            .compose(Ut.ifJObject(KName.App.LOGO));
+            .compose(Fn.ifJObject(KName.App.LOGO));
+    }
+
+    private Future<JsonObject> initOutput(final JsonObject combined, final String outPath) {
+        if (Ut.notNil(outPath)) {
+            combined.put(KName.OUTPUT, outPath);
+        }
+        return Ux.future(combined);
     }
 
     /**

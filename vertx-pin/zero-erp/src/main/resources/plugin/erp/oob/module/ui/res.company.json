@@ -1,5 +1,23 @@
 [
     {
+        "title": "所属公司",
+        "dataIndex": "companyId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.companys",
+            "value": "key",
+            "display": "name"
+        }
+    },
+    {
+        "metadata": "type,公司性质,DATUM",
+        "$datum": "source=zero.company,value=key,display=name"
+    },
+    {
+        "title": "客户",
+        "dataIndex": "customerId"
+    },
+    {
         "title": "公司名称",
         "dataIndex": "name",
         "sorter": true,
@@ -40,7 +58,9 @@
     },
     {
         "title": "公司简介",
-        "dataIndex": "comment"
+        "dataIndex": "comment",
+        "ellipsis": true,
+        "width": 240
     },
     {
         "title": "公司法人",
@@ -144,7 +164,9 @@
     },
     {
         "title": "公司地址",
-        "dataIndex": "address"
+        "dataIndex": "address",
+        "ellipsis": true,
+        "width": 240
     },
     {
         "title": "是否启用",

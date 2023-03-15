@@ -3,14 +3,14 @@ package io.vertx.tp.atom.modeling.element;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.vertx.tp.atom.cv.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.commune.Record;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.eon.em.atom.ModelType;
+import io.vertx.up.uca.cache.Cc;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -163,7 +163,9 @@ public class DataTpl implements Serializable {
         return tpl -> {
             // 读取 Table Name
             final String tableName = schema.getTable();
-            final DataMatrix matrix = Fn.pool(tpl, tableName, DataMatrix::create);
+
+            final DataMatrix matrix = Cc.pool(tpl, tableName, DataMatrix::create);
+            // Fn.po?l(tpl, tableName, DataMatrix::create);
             // 是否绑定 AoSentence
             if (null != this.sentence) {
                 matrix.on(this.sentence);

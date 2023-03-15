@@ -5,7 +5,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XLog;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 
 import java.util.List;
 

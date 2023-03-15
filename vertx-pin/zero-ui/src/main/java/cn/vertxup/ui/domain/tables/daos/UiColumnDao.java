@@ -27,7 +27,7 @@ public class UiColumnDao extends AbstractVertxDAO<UiColumnRecord, cn.vertxup.ui.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiColumnDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiColumn.UI_COLUMN, cn.vertxup.ui.domain.tables.pojos.UiColumn.class, new JDBCClassicQueryExecutor<UiColumnRecord,cn.vertxup.ui.domain.tables.pojos.UiColumn,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiColumn.class,vertx));

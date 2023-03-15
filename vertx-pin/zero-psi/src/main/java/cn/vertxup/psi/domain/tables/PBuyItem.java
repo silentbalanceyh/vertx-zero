@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PBuyItemRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -238,6 +239,11 @@ public class PBuyItem extends TableImpl<PBuyItemRecord> {
         return new PBuyItem(alias, this);
     }
 
+    @Override
+    public PBuyItem as(Table<?> alias) {
+        return new PBuyItem(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -252,5 +258,13 @@ public class PBuyItem extends TableImpl<PBuyItemRecord> {
     @Override
     public PBuyItem rename(Name name) {
         return new PBuyItem(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PBuyItem rename(Table<?> name) {
+        return new PBuyItem(name.getQualifiedName(), null);
     }
 }

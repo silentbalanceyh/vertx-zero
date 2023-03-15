@@ -20,24 +20,24 @@ public class SAction implements VertxPojo, ISAction {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        resourceId;
-    private String        permissionId;
-    private Integer       level;
-    private String        uri;
-    private String        method;
-    private String        sigma;
-    private String        renewalCredit;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
-    private String        comment;
+    private String key;
+    private String name;
+    private String code;
+    private String resourceId;
+    private String permissionId;
+    private Integer level;
+    private String uri;
+    private String method;
+    private String sigma;
+    private String renewalCredit;
+    private String language;
+    private Boolean active;
+    private String metadata;
+    private String comment;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public SAction() {}
 
@@ -63,24 +63,24 @@ public class SAction implements VertxPojo, ISAction {
     }
 
     public SAction(
-        String        key,
-        String        name,
-        String        code,
-        String        resourceId,
-        String        permissionId,
-        Integer       level,
-        String        uri,
-        String        method,
-        String        sigma,
-        String        renewalCredit,
-        String        language,
-        Boolean       active,
-        String        metadata,
-        String        comment,
+        String key,
+        String name,
+        String code,
+        String resourceId,
+        String permissionId,
+        Integer level,
+        String uri,
+        String method,
+        String sigma,
+        String renewalCredit,
+        String language,
+        Boolean active,
+        String metadata,
+        String comment,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -417,6 +417,151 @@ public class SAction implements VertxPojo, ISAction {
     public SAction setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SAction other = (SAction) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.resourceId == null) {
+            if (other.resourceId != null)
+                return false;
+        }
+        else if (!this.resourceId.equals(other.resourceId))
+            return false;
+        if (this.permissionId == null) {
+            if (other.permissionId != null)
+                return false;
+        }
+        else if (!this.permissionId.equals(other.permissionId))
+            return false;
+        if (this.level == null) {
+            if (other.level != null)
+                return false;
+        }
+        else if (!this.level.equals(other.level))
+            return false;
+        if (this.uri == null) {
+            if (other.uri != null)
+                return false;
+        }
+        else if (!this.uri.equals(other.uri))
+            return false;
+        if (this.method == null) {
+            if (other.method != null)
+                return false;
+        }
+        else if (!this.method.equals(other.method))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.renewalCredit == null) {
+            if (other.renewalCredit != null)
+                return false;
+        }
+        else if (!this.renewalCredit.equals(other.renewalCredit))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.resourceId == null) ? 0 : this.resourceId.hashCode());
+        result = prime * result + ((this.permissionId == null) ? 0 : this.permissionId.hashCode());
+        result = prime * result + ((this.level == null) ? 0 : this.level.hashCode());
+        result = prime * result + ((this.uri == null) ? 0 : this.uri.hashCode());
+        result = prime * result + ((this.method == null) ? 0 : this.method.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.renewalCredit == null) ? 0 : this.renewalCredit.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

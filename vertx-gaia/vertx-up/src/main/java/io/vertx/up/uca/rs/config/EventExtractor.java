@@ -9,6 +9,7 @@ import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroHelper;
@@ -16,8 +17,8 @@ import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.EventSourceException;
+import jakarta.ws.rs.Path;
 
-import javax.ws.rs.Path;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
 
     @Override
     public Set<Event> extract(final Class<?> clazz) {
-        return Fn.getNull(new ConcurrentHashSet<>(), () -> {
+        return Fn.orNull(new ConcurrentHashSet<>(), () -> {
             // 1. Class verify
             this.verify(clazz);
             // 2. Check whether clazz annotated with @PATH
@@ -90,6 +91,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
             .map(item -> this.extract(item, root))
             .filter(Objects::nonNull)
             .collect(Collectors.toSet()));
+        // 3.Break the Event `priority` draw down.
         return events;
     }
 
@@ -139,6 +141,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         if (clazz.isInterface()) {
             final Class<?> implClass = Ut.child(clazz);
             if (null != implClass) {
+                // Interface + Impl
                 proxy = PLUGIN.createComponent(implClass); // Ut.singleton(implClass);
             } else {
                 /*
@@ -156,7 +159,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         // 8. Order
         if (method.isAnnotationPresent(Adjust.class)) {
             final Annotation adjust = method.getDeclaredAnnotation(Adjust.class);
-            final Integer order = Ut.invoke(adjust, "value");
+            final Integer order = Ut.invoke(adjust, KName.VALUE);
             if (Objects.nonNull(order)) {
                 /*
                  * Routing order modification.

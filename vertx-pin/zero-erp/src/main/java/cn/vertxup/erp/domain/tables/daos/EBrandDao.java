@@ -27,7 +27,7 @@ public class EBrandDao extends AbstractVertxDAO<EBrandRecord, cn.vertxup.erp.dom
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public EBrandDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(EBrand.E_BRAND, cn.vertxup.erp.domain.tables.pojos.EBrand.class, new JDBCClassicQueryExecutor<EBrandRecord,cn.vertxup.erp.domain.tables.pojos.EBrand,String>(configuration,cn.vertxup.erp.domain.tables.pojos.EBrand.class,vertx));

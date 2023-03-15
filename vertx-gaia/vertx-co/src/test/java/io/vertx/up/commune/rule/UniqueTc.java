@@ -2,6 +2,7 @@ package io.vertx.up.commune.rule;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
+import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 import org.junit.Assert;
 import org.junit.Test;

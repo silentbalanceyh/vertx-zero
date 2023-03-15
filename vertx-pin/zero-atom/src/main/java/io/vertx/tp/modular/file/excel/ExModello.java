@@ -37,7 +37,7 @@ public class ExModello {
                 final Set<ExTable> tables = CLIENT.ingest(file);
                 this.initMap(tables);
             } catch (final Throwable ex) {
-                if (Debugger.onStackTracing()) {
+                if (Debugger.devJvmStack()) {
                     ex.printStackTrace();
                 }
             }

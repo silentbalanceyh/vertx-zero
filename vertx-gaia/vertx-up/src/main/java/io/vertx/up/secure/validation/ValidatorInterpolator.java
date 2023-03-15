@@ -1,15 +1,14 @@
 package io.vertx.up.secure.validation;
 
 import io.vertx.up.log.Annal;
+import jakarta.el.ELManager;
+import jakarta.el.ExpressionFactory;
 import org.hibernate.validator.internal.engine.messageinterpolation.InterpolationTerm;
 import org.hibernate.validator.internal.util.privilegedactions.GetClassLoader;
 import org.hibernate.validator.internal.util.privilegedactions.SetContextClassLoader;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 
-import javax.el.ELManager;
-import javax.el.ExpressionFactory;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Locale;
 
@@ -95,7 +94,9 @@ public class ValidatorInterpolator extends ValidatorMessager {
     }
 
     private static <T> T run(final PrivilegedAction<T> action) {
-        return System.getSecurityManager() != null ? AccessController.doPrivileged(action) : action.run();
+        return action.run();
+        // Old
+        // return System.getSecurityManager() != null ? AccessController.doPrivileged(action) : action.run();
     }
 
     @Override

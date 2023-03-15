@@ -1,13 +1,17 @@
 package io.vertx.tp.optic.business;
 
+import cn.vertxup.ambient.service.DatumService;
+import cn.vertxup.ambient.service.DatumStub;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.em.GlossaryType;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -20,9 +24,11 @@ import java.util.concurrent.ConcurrentMap;
  * Dictionary implementation class
  */
 public class ExAmbientDictionary implements Dictionary {
+    private static final Cc<String, DatumStub> CC_DICT = Cc.openThread();
+
     @Override
     public Future<ConcurrentMap<String, JsonArray>> fetchAsync(final MultiMap paramMap,
-                                                               final List<DiSource> sources) {
+                                                               final List<DSource> sources) {
         /*
          * Whether sources is empty
          */
@@ -49,7 +55,7 @@ public class ExAmbientDictionary implements Dictionary {
              * 2) Category ( type -> JsonArray )     size > 0
              * 3) Assist ( type -> JsonArray )       size > 0
              */
-            return Ux.thenCompress(futures).compose(dict -> {
+            return Fn.compressM(futures).compose(dict -> {
                 final StringBuilder report = new StringBuilder();
                 report.append("[ PT ] Dictionary Total：").append(dict.size());
                 dict.forEach((key, array) -> report
@@ -59,5 +65,17 @@ public class ExAmbientDictionary implements Dictionary {
                 return Ux.future(dict);
             });
         }
+    }
+
+    @Override
+    public Future<JsonArray> fetchTree(final String sigma, final String type) {
+        final DatumStub stub = CC_DICT.pick(DatumService::new);
+        return stub.treeSigma(sigma, type);
+    }
+
+    @Override
+    public Future<JsonArray> fetchList(final String sigma, final String type) {
+        final DatumStub stub = CC_DICT.pick(DatumService::new);
+        return stub.dictSigma(sigma, type);
     }
 }

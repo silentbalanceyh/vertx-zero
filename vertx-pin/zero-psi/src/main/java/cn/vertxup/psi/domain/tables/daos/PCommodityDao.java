@@ -28,7 +28,7 @@ public class PCommodityDao extends AbstractVertxDAO<PCommodityRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PCommodityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PCommodity.P_COMMODITY, cn.vertxup.psi.domain.tables.pojos.PCommodity.class, new JDBCClassicQueryExecutor<PCommodityRecord,cn.vertxup.psi.domain.tables.pojos.PCommodity,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PCommodity.class,vertx));

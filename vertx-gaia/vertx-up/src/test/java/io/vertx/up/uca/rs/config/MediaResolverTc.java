@@ -5,7 +5,7 @@ import io.vertx.quiz.ZeroBase;
 import io.vertx.quiz.example.Media;
 import org.junit.Test;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.lang.reflect.Method;
 import java.util.Set;
 

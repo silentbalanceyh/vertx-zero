@@ -27,7 +27,7 @@ public class RTeamEmployeeDao extends AbstractVertxDAO<RTeamEmployeeRecord, cn.v
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RTeamEmployeeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RTeamEmployee.R_TEAM_EMPLOYEE, cn.vertxup.erp.domain.tables.pojos.RTeamEmployee.class, new JDBCClassicQueryExecutor<RTeamEmployeeRecord,cn.vertxup.erp.domain.tables.pojos.RTeamEmployee,Record2<String, String>>(configuration,cn.vertxup.erp.domain.tables.pojos.RTeamEmployee.class,vertx));

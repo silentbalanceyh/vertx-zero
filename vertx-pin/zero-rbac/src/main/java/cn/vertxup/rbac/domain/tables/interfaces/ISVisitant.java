@@ -40,6 +40,18 @@ public interface ISVisitant extends VertxPojo, Serializable {
     public String getViewId();
 
     /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    public ISVisitant setMode(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    public String getMode();
+
+    /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
      */
     public ISVisitant setPhase(String value);
@@ -72,16 +84,50 @@ public interface ISVisitant extends VertxPojo, Serializable {
     public String getIdentifier();
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
-    public ISVisitant setConfigKey(String value);
+    public ISVisitant setSeekKey(String value);
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
-    public String getConfigKey();
+    public String getSeekKey();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    public ISVisitant setDmRow(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    public String getDmRow();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    public ISVisitant setDmQr(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    public String getDmQr();
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    public ISVisitant setDmColumn(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    public String getDmColumn();
 
     /**
      * Setter for <code>DB_ETERNAL.S_VISITANT.ACL_VISIBLE</code>. 「aclVisible」-
@@ -249,10 +295,14 @@ public interface ISVisitant extends VertxPojo, Serializable {
         public default ISVisitant fromJson(io.vertx.core.json.JsonObject json) {
                 setOrThrow(this::setKey,json::getString,"KEY","java.lang.String");
                 setOrThrow(this::setViewId,json::getString,"VIEW_ID","java.lang.String");
+                setOrThrow(this::setMode,json::getString,"MODE","java.lang.String");
                 setOrThrow(this::setPhase,json::getString,"PHASE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setIdentifier,json::getString,"IDENTIFIER","java.lang.String");
-                setOrThrow(this::setConfigKey,json::getString,"CONFIG_KEY","java.lang.String");
+                setOrThrow(this::setSeekKey,json::getString,"SEEK_KEY","java.lang.String");
+                setOrThrow(this::setDmRow,json::getString,"DM_ROW","java.lang.String");
+                setOrThrow(this::setDmQr,json::getString,"DM_QR","java.lang.String");
+                setOrThrow(this::setDmColumn,json::getString,"DM_COLUMN","java.lang.String");
                 setOrThrow(this::setAclVisible,json::getString,"ACL_VISIBLE","java.lang.String");
                 setOrThrow(this::setAclView,json::getString,"ACL_VIEW","java.lang.String");
                 setOrThrow(this::setAclVariety,json::getString,"ACL_VARIETY","java.lang.String");
@@ -275,10 +325,14 @@ public interface ISVisitant extends VertxPojo, Serializable {
                 io.vertx.core.json.JsonObject json = new io.vertx.core.json.JsonObject();
                 json.put("KEY",getKey());
                 json.put("VIEW_ID",getViewId());
+                json.put("MODE",getMode());
                 json.put("PHASE",getPhase());
                 json.put("TYPE",getType());
                 json.put("IDENTIFIER",getIdentifier());
-                json.put("CONFIG_KEY",getConfigKey());
+                json.put("SEEK_KEY",getSeekKey());
+                json.put("DM_ROW",getDmRow());
+                json.put("DM_QR",getDmQr());
+                json.put("DM_COLUMN",getDmColumn());
                 json.put("ACL_VISIBLE",getAclVisible());
                 json.put("ACL_VIEW",getAclView());
                 json.put("ACL_VARIETY",getAclVariety());

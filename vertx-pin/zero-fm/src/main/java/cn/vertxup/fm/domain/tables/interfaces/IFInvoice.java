@@ -356,7 +356,7 @@ public interface IFInvoice extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setInvoiceTitle,json::getString,"INVOICE_TITLE","java.lang.String");
                 setOrThrow(this::setInvoiceNumber,json::getString,"INVOICE_NUMBER","java.lang.String");
@@ -392,7 +392,7 @@ public interface IFInvoice extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("TYPE",getType());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("COMMENT",getComment());
                 json.put("INVOICE_TITLE",getInvoiceTitle());
                 json.put("INVOICE_NUMBER",getInvoiceNumber());

@@ -9,7 +9,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /*
  * HTTP Method: POST

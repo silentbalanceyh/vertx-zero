@@ -78,7 +78,7 @@
         }
     },
     {
-        "title": "GB/T2659-2000国际标准区域码",
+        "title": "区域码（GB/T2659-2000）",
         "dataIndex": "area",
         "sorter": true,
         "$filter.type": "SEARCH",

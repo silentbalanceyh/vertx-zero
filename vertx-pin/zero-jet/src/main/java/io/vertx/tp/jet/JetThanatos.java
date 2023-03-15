@@ -3,7 +3,7 @@ package io.vertx.tp.jet;
 import io.vertx.tp.error._400RequiredParamException;
 import io.vertx.tp.error._500DefinitionErrorException;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 /*
  * Uniform Error throw out and build Envelop ( Failure )
@@ -11,6 +11,7 @@ import io.vertx.up.fn.Fn;
  */
 public class JetThanatos {
 
+    private static final Cc<Class<?>, JetThanatos> CC_ENSURER = Cc.open();
     private transient final Class<?> target;
 
     private JetThanatos(final Class<?> target) {
@@ -18,7 +19,8 @@ public class JetThanatos {
     }
 
     public static JetThanatos create(final Class<?> target) {
-        return Fn.pool(Pool.ENSURERS, target, () -> new JetThanatos(target));
+        return CC_ENSURER.pick(() -> new JetThanatos(target), target);
+        // return Fn.po?l(Pool.ENSURERS, target, () -> new JetThanatos(target));
     }
 
     public Envelop to400RequiredParam(final String filename) {

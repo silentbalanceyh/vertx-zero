@@ -11,9 +11,9 @@ import java.util.Objects;
  * 2) dynamic identifier: the identifier came from identifierComponent
  */
 public class Identity implements Serializable, Copyable<Identity> {
-    private transient String identifier;
-    private transient String sigma;
-    private transient Class<?> identifierComponent;
+    private String identifier;
+    private String sigma;
+    private Class<?> identifierComponent;
 
     public String getIdentifier() {
         return this.identifier;

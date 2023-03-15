@@ -11,11 +11,11 @@ import io.vertx.rx.rs.router.RouterAxis;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroGrid;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
-import io.vertx.up.verticle.ZeroAtomic;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -29,20 +29,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Agent(type = ServerType.RX)
 public class ZeroRxAgent extends AbstractVerticle {
 
+    private static final Cc<String, Axis<Router>> CC_ROUTES = Cc.openThread();
+    private static final Cc<String, Axis<Router>> CC_EVENTS = Cc.openThread();
     private static final Annal LOGGER = Annal.get(ZeroRxAgent.class);
     private transient final String NAME = this.getClass().getSimpleName();
 
     @Override
     public void start() {
         /* 1.Call router hub to mount commont **/
-        final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-            () -> Ut.instance(RouterAxis.class));
+        final Axis<Router> routerAxiser = CC_ROUTES.pick(() -> Ut.instance(RouterAxis.class));
+        // Fn.po?lThread(Pool.ROUTERS, () -> Ut.instance(RouterAxis.class));
         /* 2.Call route hub to mount defined **/
-        final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-            () -> Ut.instance(EventAxis.class));
+        final Axis<Router> axiser = CC_EVENTS.pick(() -> Ut.instance(EventAxis.class));
+        // Fn.po?lThread(Pool.EVENTS, () -> Ut.instance(EventAxis.class));
 
         /* 3.Get the default HttpServer Options **/
-        ZeroAtomic.RX_OPTS.forEach((port, option) -> {
+        ZeroGrid.getRxOptions().forEach((port, option) -> {
             /* 3.1.Single server processing **/
             final HttpServer server = this.vertx.createHttpServer(option);
             /* 3.2. Build router with current option **/
@@ -64,7 +66,7 @@ public class ZeroRxAgent extends AbstractVerticle {
     private void recordServer(final HttpServerOptions options,
                               final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.RX_START_LOGS.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);

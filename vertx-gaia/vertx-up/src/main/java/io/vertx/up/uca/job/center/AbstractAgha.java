@@ -8,7 +8,6 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
@@ -24,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 /*
  * The chain should be
@@ -61,7 +61,7 @@ public abstract class AbstractAgha implements Agha {
      *     |------- ERROR
      *
      */
-    private static final ConcurrentMap<JobStatus, JobStatus> MOVING = new ConcurrentHashMap<JobStatus, JobStatus>() {
+    private static final ConcurrentMap<JobStatus, JobStatus> VM = new ConcurrentHashMap<>() {
         {
             /* STARTING -> READY */
             this.put(JobStatus.STARTING, JobStatus.READY);
@@ -82,7 +82,7 @@ public abstract class AbstractAgha implements Agha {
     @Contract
     private transient Vertx vertx;
 
-    Interval interval() {
+    Interval interval(final Consumer<Long> consumer) {
         final Class<?> intervalCls = CONFIG.getInterval().getComponent();
         final Interval interval = Ut.singleton(intervalCls);
         Ut.contract(interval, Vertx.class, this.vertx);
@@ -91,7 +91,14 @@ public abstract class AbstractAgha implements Agha {
             /* Be sure the log only provide once */
             this.getLogger().info(Info.JOB_COMPONENT_SELECTED, "Interval", interval.getClass().getName());
         }
+        if (Objects.nonNull(consumer)) {
+            interval.bind(consumer);
+        }
         return interval;
+    }
+
+    Interval interval() {
+        return this.interval(null);
     }
 
     JobStore store() {
@@ -150,14 +157,12 @@ public abstract class AbstractAgha implements Agha {
             this.moveOn(mission, true);
             /*
              * Read threshold
+             * 「OLD」for KTimer not null, but in ONCE or some spec types,
+             * the timer could be null
+             * final KTimer timer = mission.timer();
+             * Objects.requireNonNull(timer);
              */
-            long threshold = mission.getThreshold();
-            if (Values.RANGE == threshold) {
-                /*
-                 * Zero here
-                 */
-                threshold = TimeUnit.MINUTES.toNanos(5);
-            }
+            final long threshold = mission.timeout();
             /*
              * Worker Executor of New created
              * 1) Create new worker pool for next execution here
@@ -167,51 +172,49 @@ public abstract class AbstractAgha implements Agha {
             final String code = mission.getCode();
             final WorkerExecutor executor =
                 this.vertx.createSharedWorkerExecutor(code, 1, threshold);
-            this.getLogger().info(Info.JOB_POOL_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
+            this.getLogger().info(Info.JOB_WORKER_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
             /*
              * The executor start to process the workers here.
              */
-            executor.<Envelop>executeBlocking(
-                promise -> promise.handle(this.workingAsync(mission)
-                    .compose(result -> {
+            executor.<Envelop>executeBlocking(promise -> promise.handle(this.workingAsync(mission)
+                .compose(result -> {
+                    /*
+                     * The job is executing successfully and then stopped
+                     */
+                    actuator.execute();
+                    this.getLogger().info(Info.JOB_WORKER_END, code);
+                    return Future.succeededFuture(result);
+                })
+                .otherwise(error -> {
+                    /*
+                     * The job exception
+                     */
+                    if (!(error instanceof NoStackTraceThrowable)) {
+                        error.printStackTrace();
+                        this.moveOn(mission, false);
+                    }
+                    return Envelop.failure(error);
+                })), handler -> {
+                /*
+                 * Async result here to check whether it's ended
+                 */
+                if (handler.succeeded()) {
+                    /*
+                     * Successful, close worker executor
+                     */
+                    executor.close();
+                } else {
+                    if (Objects.nonNull(handler.cause())) {
                         /*
-                         * The job is executing successfully and then stopped
+                         * Failure, print stack instead of other exception here.
                          */
-                        actuator.execute();
-                        this.getLogger().info(Info.JOB_POOL_END, code);
-                        return Future.succeededFuture(result);
-                    })
-                    .otherwise(error -> {
-                        /*
-                         * The job exception
-                         */
+                        final Throwable error = handler.cause();
                         if (!(error instanceof NoStackTraceThrowable)) {
                             error.printStackTrace();
-                            this.moveOn(mission, false);
-                        }
-                        return Envelop.failure(error);
-                    })),
-                handler -> {
-                    /*
-                     * Async result here to check whether it's ended
-                     */
-                    if (handler.succeeded()) {
-                        /*
-                         * Successful, close worker executor
-                         */
-                        executor.close();
-                    } else {
-                        if (Objects.nonNull(handler.cause())) {
-                            /*
-                             * Failure, print stack instead of other exception here.
-                             */
-                            final Throwable error = handler.cause();
-                            if (!(error instanceof NoStackTraceThrowable)) {
-                                error.printStackTrace();
-                            }
                         }
                     }
-                });
+                }
+            });
         }
     }
 
@@ -220,11 +223,11 @@ public abstract class AbstractAgha implements Agha {
             /*
              * Preparing for job
              **/
-            if (MOVING.containsKey(mission.getStatus())) {
+            if (VM.containsKey(mission.getStatus())) {
                 /*
                  * Next Status
                  */
-                final JobStatus moved = MOVING.get(mission.getStatus());
+                final JobStatus moved = VM.get(mission.getStatus());
                 final JobStatus original = mission.getStatus();
                 mission.setStatus(moved);
                 /*
@@ -239,7 +242,7 @@ public abstract class AbstractAgha implements Agha {
              */
             if (JobStatus.RUNNING == mission.getStatus()) {
                 mission.setStatus(JobStatus.ERROR);
-                this.getLogger().info(Info.JOB_TERMINAL, mission.getCode());
+                this.getLogger().info(Info.JOB_TERMINAL, mission.getType(), mission.getCode());
                 this.store().update(mission);
             }
         }

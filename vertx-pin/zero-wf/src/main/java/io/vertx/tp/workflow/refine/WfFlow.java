@@ -1,102 +1,32 @@
 package io.vertx.tp.workflow.refine;
 
-import cn.zeroup.macrocosm.cv.WfCv;
-import io.vertx.core.Future;
+import cn.vertxup.workflow.cv.em.PassWay;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.error._404ProcessMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
+import org.camunda.bpm.model.bpmn.impl.instance.Outgoing;
+import org.camunda.bpm.model.bpmn.instance.FlowNode;
+import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
+import org.camunda.bpm.model.bpmn.instance.UserTask;
+import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class WfFlow {
-    /*
-     * Pool Cached for ProcessDefinition
-     */
-    private static final ConcurrentMap<String, ProcessDefinition> POOL_PROCESS = new ConcurrentHashMap<>();
-
-    // --------------- Process Fetching ------------------
-    static Future<ProcessDefinition> processByKey(final String definitionKey) {
-        Objects.requireNonNull(definitionKey);
-        if (POOL_PROCESS.containsKey(definitionKey)) {
-            return Ux.future(POOL_PROCESS.get(definitionKey));
-        }
-        final RepositoryService service = WfPin.camundaRepository();
-        final ProcessDefinition definition = service.createProcessDefinitionQuery()
-            // New Version for each
-            .latestVersion().processDefinitionKey(definitionKey).singleResult();
-        if (Objects.nonNull(definition)) {
-            POOL_PROCESS.put(definitionKey, definition);
-        }
-        return processInternal(definition, definitionKey);
-    }
-
-    static Future<ProcessDefinition> processById(final String definitionId) {
-        Objects.requireNonNull(definitionId);
-        if (POOL_PROCESS.containsKey(definitionId)) {
-            return Ux.future(POOL_PROCESS.get(definitionId));
-        }
-        final RepositoryService service = WfPin.camundaRepository();
-        final ProcessDefinition definition = service.getProcessDefinition(definitionId);
-        if (Objects.nonNull(definition)) {
-            POOL_PROCESS.put(definitionId, definition);
-        }
-        return processInternal(definition, definitionId);
-    }
-
-    static Future<ProcessInstance> instanceById(final String instanceId) {
-        if (Objects.isNull(instanceId)) {
-            return Ux.future();
-        } else {
-            final RuntimeService service = WfPin.camundaRuntime();
-            final ProcessInstance instance = service.createProcessInstanceQuery()
-                .processInstanceId(instanceId).singleResult();
-            return Ux.future(instance);
-        }
-    }
-
-    static Future<HistoricProcessInstance> instanceFinished(final String instanceId) {
-        if (Objects.isNull(instanceId)) {
-            return Ux.future();
-        } else {
-            final HistoryService service = WfPin.camundaHistory();
-            final HistoricProcessInstance instance = service.createHistoricProcessInstanceQuery()
-                .processInstanceId(instanceId).singleResult();
-            return Ux.future(instance);
-        }
-    }
-
-    private static Future<ProcessDefinition> processInternal(final ProcessDefinition definition, final String key) {
-        if (Objects.isNull(definition)) {
-            // Error
-            return Ux.thenError(_404ProcessMissingException.class, WfFlow.class, key);
-        } else {
-            return Ux.future(definition);
-        }
-    }
 
     // ------------------- Other Output ------------------------
-    static JsonObject bpmnOut(final ProcessDefinition definition) {
+    static JsonObject outBpmn(final ProcessDefinition definition) {
         final RepositoryService service = WfPin.camundaRepository();
         // Content Definition
         final BpmnModelInstance instance = service.getBpmnModelInstance(definition.getId());
@@ -111,69 +41,168 @@ class WfFlow {
         return workflow;
     }
 
-    static JsonObject taskStart(final JsonObject workflow, final Set<StartEvent> starts) {
-        if (1 == starts.size()) {
-            final StartEvent event = starts.iterator().next();
-            workflow.put(KName.Flow.TASK, event.getId());
-            workflow.put(KName.MULTIPLE, Boolean.FALSE);
-        } else {
-            final JsonObject startMap = new JsonObject();
-            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
-            workflow.put(KName.Flow.TASK, startMap);
-            workflow.put(KName.MULTIPLE, Boolean.TRUE);
-        }
-        return workflow;
+    static JsonObject outLinkage(final JsonObject linkageJ) {
+        final JsonObject parsed = new JsonObject();
+        linkageJ.fieldNames().forEach(field -> {
+            final Object value = linkageJ.getValue(field);
+            /*
+             * Secondary format for
+             * field1: path1
+             * field1: path2
+             */
+            JsonObject json = null;
+            if (value instanceof String) {
+                json = Ut.ioJObject(value.toString());
+            } else if (value instanceof JsonObject) {
+                json = (JsonObject) value;
+            }
+            if (Ut.notNil(json)) {
+                assert json != null;
+                parsed.put(field, json.copy());
+            }
+        });
+        return parsed;
     }
 
-    static JsonObject taskEnd(final JsonObject workflow, final Set<EndEvent> starts) {
-        if (1 == starts.size()) {
-            final EndEvent event = starts.iterator().next();
-            workflow.put(KName.Flow.TASK, event.getId());
-            workflow.put(KName.MULTIPLE, Boolean.FALSE);
+    // ------------------- Gateway Type Analyzing ------------------------
+    /*
+     * PassWay Input Data
+     * 1: 1
+     * {
+     *     "toUser": "user1"
+     * }
+     *
+     * n: 1
+     * {
+     *     "toUser": {
+     *         "type1": "user1",
+     *         "type2": "user2",
+     *         "type3": "user3",
+     *         "...":   "...",
+     *         "typeN": "userN"
+     *     }
+     * }
+     *
+     * 1: n
+     * {
+     *     "toUser": [
+     *         "user1",
+     *         "user2",
+     *         "user3",
+     *         "...",
+     *         "userN"
+     *     ]
+     * }
+     *
+     * n: n
+     * {
+     *     "toUser": {
+     *         "type1": [
+     *              "user1",
+     *              "user2",
+     *              "..."
+     *         ],
+     *         "type2": [
+     *              "user3",
+     *              "user4",
+     *              "...",
+     *              "userY"
+     *         ],
+     *         "...": [
+     *              "...",
+     *              "userN"
+     *         ],
+     *         "typeN": [
+     *              "user2",
+     *              "user3",
+     *              "...",
+     *              "userX"
+     *         ],
+     *     }
+     * }
+     */
+    static PassWay inGateway(final JsonObject requestJ) {
+        // toUser field extraction
+        final JsonObject requestData = Ut.valueJObject(requestJ);
+        final Object toUser = requestData.getValue(KName.Auditor.TO_USER);
+        if (toUser instanceof String) {
+            // String
+            return PassWay.Standard;
+        } else if (toUser instanceof JsonArray) {
+            // JsonArray
+            return PassWay.Multi;
+        } else if (toUser instanceof JsonObject) {
+            // JsonObject
+            /*
+             * - Fork/Join:  All String
+             * - Grid:       All JsonObject
+             */
+            final JsonObject toUserJ = ((JsonObject) toUser);
+            final Set<String> typeSet = toUserJ.fieldNames();
+            final long strCount = typeSet.stream()
+                .filter(field -> (toUserJ.getValue(field) instanceof String))
+                .count();
+            if (typeSet.size() == strCount) {
+                // Fork/Join
+                return PassWay.Fork;
+            } else {
+                // Grid
+                return PassWay.Grid;
+            }
         } else {
-            final JsonObject startMap = new JsonObject();
-            starts.forEach(start -> startMap.put(start.getId(), start.getName()));
-            workflow.put(KName.Flow.TASK, startMap);
-            workflow.put(KName.MULTIPLE, Boolean.TRUE);
+            // Undermine
+            return null;
         }
-        return workflow;
     }
 
-    static JsonObject taskOut(final JsonObject workflow, final Task task) {
+    // ------------------- Name Event ------------------------
+    static String nameEvent(final Task task) {
+        if (Objects.isNull(task)) {
+            return null;
+        }
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
+        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
+        return node.getElementType().getTypeName();
+    }
+
+    static List<Task> taskNext(final Task task, final List<Task> source) {
         Objects.requireNonNull(task);
-        workflow.put(KName.MULTIPLE, Boolean.FALSE);
-        workflow.put(KName.Flow.TASK, task.getTaskDefinitionKey());
-        // History Processing
-        return workflow;
+        final RepositoryService service = WfPin.camundaRepository();
+        final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
+        final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
+        final Set<String> nextKeys = taskSearch(node, instance);
+        Wf.Log.infoMove(WfFlow.class, "[Outgoing] Keys = {0}", Ut.fromJoin(nextKeys));
+        return source.stream()
+            .filter(taskNext -> nextKeys.contains(taskNext.getTaskDefinitionKey()))
+            .collect(Collectors.toList());
     }
 
-    // --------------- Form Fetching ------------------
-    static JsonObject formOut(final String formKey, final String definitionId, final String definitionKey) {
-        Objects.requireNonNull(formKey);
-        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
-        // Build Form ConfigRunner parameters
-        final JsonObject response = new JsonObject();
-        response.put(KName.CODE, code);
-        response.put(KName.Flow.FORM_KEY, formKey);
-        response.put(KName.Flow.DEFINITION_KEY, definitionKey);
-        response.put(KName.Flow.DEFINITION_ID, definitionId);
-        return response;
-    }
-
-    static JsonObject formInput(final JsonObject form, final String sigma) {
-        final String definition = form.getString(KName.Flow.DEFINITION_KEY);
-        final JsonObject parameters = new JsonObject();
-        final String code = form.getString(KName.CODE);
-        final String configFile = WfCv.FOLDER_ROOT + "/" + definition + "/" + code + ".json";
-        // Dynamic Processing
-        if (Ut.ioExist(configFile)) {
-            parameters.put(KName.DYNAMIC, Boolean.FALSE);
-            parameters.put(KName.CODE, configFile);
-        } else {
-            parameters.put(KName.DYNAMIC, Boolean.TRUE);
-            parameters.put(KName.CODE, code);
-            parameters.put(KName.SIGMA, sigma);
-        }
-        return parameters;
+    /*
+     * The method is recursion calling on BPMN, here are some situations
+     * 1. The objective will be: Find the next all UserTask
+     * 2. When the system met gateway node, continue to find the task here
+     */
+    private static Set<String> taskSearch(final ModelElementInstance nodeTask, final BpmnModelInstance instance) {
+        // Find all `outgoing` that belong to `nodeTask`
+        final Collection<Outgoing> outgoing = nodeTask.getChildElementsByType(Outgoing.class);
+        final Set<String> keys = new HashSet<>();
+        outgoing.forEach(child -> {
+            final ModelElementInstance sequence = instance.getModelElementById(child.getTextContent());
+            // SequenceFlow
+            if (sequence instanceof SequenceFlow) {
+                final FlowNode target = ((SequenceFlow) sequence).getTarget();
+                final ModelElementInstance found = instance.getModelElementById(target.getId());
+                if (found instanceof UserTask) {
+                    // Task -> Task
+                    keys.add(target.getId());
+                } else {
+                    // Task -> Gateway -> Task
+                    final Set<String> continueSearch = taskSearch(found, instance);
+                    keys.addAll(continueSearch);
+                }
+            }
+        });
+        return keys;
     }
 }

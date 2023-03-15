@@ -8,6 +8,7 @@ import cn.vertxup.workflow.domain.Db;
 import cn.vertxup.workflow.domain.Indexes;
 import cn.vertxup.workflow.domain.Keys;
 import cn.vertxup.workflow.domain.tables.records.WTicketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -138,6 +139,10 @@ public class WTicket extends TableImpl<WTicketRecord> {
      * The column <code>DB_ETERNAL.W_TICKET.OPEN_BY</code>. 「openBy」- 开单人
      */
     public final TableField<WTicketRecord, String> OPEN_BY = createField(DSL.name("OPEN_BY"), SQLDataType.VARCHAR(36), this, "「openBy」- 开单人");
+    /**
+     * The column <code>DB_ETERNAL.W_TICKET.OPEN_GROUP</code>. 「openGroup」- 开单组
+     */
+    public final TableField<WTicketRecord, String> OPEN_GROUP = createField(DSL.name("OPEN_GROUP"), SQLDataType.VARCHAR(36), this, "「openGroup」- 开单组");
     /**
      * The column <code>DB_ETERNAL.W_TICKET.OPEN_AT</code>. 「openAt」- 开单时间
      */
@@ -276,6 +281,11 @@ public class WTicket extends TableImpl<WTicketRecord> {
         return new WTicket(alias, this);
     }
 
+    @Override
+    public WTicket as(Table<?> alias) {
+        return new WTicket(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -290,5 +300,13 @@ public class WTicket extends TableImpl<WTicketRecord> {
     @Override
     public WTicket rename(Name name) {
         return new WTicket(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public WTicket rename(Table<?> name) {
+        return new WTicket(name.getQualifiedName(), null);
     }
 }

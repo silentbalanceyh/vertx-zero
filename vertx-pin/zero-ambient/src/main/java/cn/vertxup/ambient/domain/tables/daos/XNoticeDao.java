@@ -27,7 +27,7 @@ public class XNoticeDao extends AbstractVertxDAO<XNoticeRecord, cn.vertxup.ambie
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XNoticeDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XNotice.X_NOTICE, cn.vertxup.ambient.domain.tables.pojos.XNotice.class, new JDBCClassicQueryExecutor<XNoticeRecord,cn.vertxup.ambient.domain.tables.pojos.XNotice,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XNotice.class,vertx));

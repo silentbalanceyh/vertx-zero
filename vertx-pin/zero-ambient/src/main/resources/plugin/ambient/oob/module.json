@@ -3,5 +3,6 @@
     "x.log",
     "x.tabular",
     "x.attachment",
-    "x.notice"
+    "x.notice",
+    "x.tag"
 ]

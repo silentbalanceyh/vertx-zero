@@ -1,13 +1,12 @@
 package cn.vertxup.fm.api;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -8,18 +8,16 @@ import feign.codec.JsonObjectDecoder;
 import feign.codec.JsonObjectEncoder;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.init.TpConfig;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
 
 import java.io.Serializable;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Plugin for feign client
  */
 public class FeignDepot implements Serializable {
 
-    private static final ConcurrentMap<String, FeignDepot> CACHE = new ConcurrentHashMap<>();
+    private static final Cc<String, FeignDepot> CC_CACHE = Cc.open();
     // Default configuration of feign
     private static final JsonObject DEFAULTS = new JsonObject();
     private static final JsonObject OPTIONS = new JsonObject();
@@ -55,7 +53,8 @@ public class FeignDepot implements Serializable {
     }
 
     public static FeignDepot create(final String key, final String rule) {
-        return Fn.pool(CACHE, key, () -> new FeignDepot(key, rule));
+        return CC_CACHE.pick(() -> new FeignDepot(key, rule), key);
+        // Fn.po?l(CACHE, key, () -> new FeignDepot(key, rule));
     }
 
     /**

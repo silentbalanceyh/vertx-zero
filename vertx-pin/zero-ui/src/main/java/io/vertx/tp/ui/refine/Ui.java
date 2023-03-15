@@ -23,6 +23,11 @@ public class Ui {
         UiLog.infoWarn(logger, pattern, args);
     }
 
+    public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
+        final Annal logger = Annal.get(clazz);
+        UiLog.infoView(logger, pattern, args);
+    }
+
     /*
      * Search Option
      */

@@ -18,13 +18,11 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -109,36 +107,20 @@ public class SettleActor {
              */
             .compose(settleItems -> {
                 final FSettlement settlement = settleRef.get();
+                /*
+                 * Here are different workflow for `FDebt` and `FPayment`
+                 * 1) When isRunUp = true, the system will create `FDebt` here and
+                 *    then when user process: Refund / Debt in future, the system will
+                 *    create `FPayment` soon.
+                 * 2) When isRunUp = false, ignore the FDebt creation because there is
+                 *    no continue workflow, create `FPayment` directly.
+                 */
                 if (isRunUp) {
-                    /*
-                     * DEBT Processing, here is the S payment when run up is enabled
-                     * 1. amount > 0, Debt process
-                     * 2. amount < 0, Refund process ( debt ticket is not finished )
-                     */
                     final FDebt debt = Ux.fromJson(data, FDebt.class);
+                    debt.setFinished(Boolean.FALSE);
                     return this.createDebt(debt, settlement, settleItems);
                 } else {
-                    /*
-                     * Payment Processing, here is the standard when run up is disabled
-                     * 1. amount > 0, Standard settlement
-                     * 2. amount < 0,
-                     * -- If payed = true, ( debt ticket is finished, Refund Query )
-                     * -- payed = false, Refund process ( debt ticket is not finished )
-                     */
-                    return this.createPayment(data, settlement).compose(nil -> {
-                        if (0 > settlement.getAmount().doubleValue()) {
-                            // Generate debt new
-                            final FDebt debt = Ux.fromJson(data, FDebt.class);
-                            final Boolean ended = data.getBoolean("payed", Boolean.TRUE);
-                            if (ended) {
-                                debt.setFinished(Boolean.TRUE);
-                                debt.setFinishedAt(LocalDateTime.now());
-                            }
-                            return this.createDebt(debt, settlement, settleItems);
-                        } else {
-                            return Ux.futureT();
-                        }
-                    });
+                    return this.createPayment(data, settlement);
                 }
             })
             .compose(nil -> Ux.future(settleRef.get()))
@@ -146,13 +128,16 @@ public class SettleActor {
     }
 
     private Future<Boolean> createPayment(final JsonObject data, final FSettlement settlement) {
-        final List<FPaymentItem> payments = Ux.fromJson(data.getJsonArray(FmCv.ID.PAYMENT), FPaymentItem.class);
+        final JsonArray paymentJ = Ut.valueJArray(data, FmCv.ID.PAYMENT);
+        final List<FPaymentItem> payments = Ux.fromJson(paymentJ, FPaymentItem.class);
         this.fillStub.payment(settlement, payments);
         return Ux.Jooq.on(FPaymentItemDao.class).insertAsync(payments)
             .compose(nil -> Ux.futureT());
     }
 
-    private Future<Boolean> createDebt(final FDebt debt, final FSettlement settlement, final List<FSettlementItem> settleItems) {
+    private Future<Boolean> createDebt(final FDebt debt,
+                                       final FSettlement settlement,
+                                       final List<FSettlementItem> settleItems) {
         this.fillStub.settle(settlement, debt);
         return Ux.Jooq.on(FDebtDao.class).insertAsync(debt).compose(insertd -> {
             settleItems.forEach(each -> each.setDebtId(insertd.getKey()));
@@ -190,13 +175,7 @@ public class SettleActor {
     @Me
     @Address(Addr.Settle.PAY_CREATE)
     public Future<JsonObject> paymentCreate(final JsonObject data) {
-        return this.payStub.createAsync(data).compose(processed -> {
-            if (1 == processed.size()) {
-                return Ux.future(processed.getJsonObject(Values.IDX));
-            } else {
-                return Ux.futureJ();
-            }
-        });
+        return this.payStub.createAsync(data);
     }
 
     @Address(Addr.Settle.PAY_DELETE)

@@ -19,11 +19,13 @@ class It {
     }
 
     private static <T> java.util.stream.Stream<T> itCollection(final Collection<T> source) {
+        // 并行
         return source.stream().filter(Objects::nonNull);
     }
 
     static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
         final JsonArray source = Jackson.sureJArray(array);
+        // 并行
         return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
 
@@ -33,6 +35,7 @@ class It {
 
     static java.util.stream.Stream<String> itJString(final JsonArray array) {
         final JsonArray source = Jackson.sureJArray(array);
+        // 并行
         return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
     }
 
@@ -40,22 +43,22 @@ class It {
         return itJString(array, predicate);
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("unchecked")
     static <T> T itJson(final T data, final Function<JsonObject, T> executor) {
         if (Objects.isNull(data)) {
             return null;
         } else {
-            if (data instanceof JsonObject) {
-                final JsonObject reference = (JsonObject) data;
+            if (data instanceof final JsonObject reference) {
                 return executor.apply(reference);
-            } else if (data instanceof JsonArray) {
+            } else if (data instanceof final JsonArray reference) {
                 final JsonArray normalized = new JsonArray();
-                final JsonArray reference = (JsonArray) data;
                 itJArray(reference)
                     .map(each -> itJson(each, (json) -> executor.apply(json)))
                     .forEach(normalized::add);
                 return (T) normalized;
-            } else return data;
+            } else {
+                return data;
+            }
         }
     }
 }

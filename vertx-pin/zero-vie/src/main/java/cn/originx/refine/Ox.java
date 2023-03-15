@@ -10,9 +10,8 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.modular.dao.AoDao;
 import io.vertx.tp.optic.plugin.AfterPlugin;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DataPool;
@@ -23,6 +22,7 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
+import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -676,13 +676,13 @@ public final class Ox {
      * @param key        {@link String} 应用标识，可以是`appId`、也可以是`sigma`
      * @param identifier {@link String} 模型统一标识符
      *
-     * @return {@link AoDao} 数据库访问对象
+     * @return {@link HDao} 数据库访问对象
      */
-    public static AoDao toDao(final String key, final String identifier) {
+    public static HDao toDao(final String key, final String identifier) {
         return OxTo.toDao(key, identifier);
     }
 
-    public static AoDao toDao(final DataAtom atom) {
+    public static HDao toDao(final DataAtom atom) {
         return OxTo.toDao(atom.sigma(), atom.identifier());
     }
 

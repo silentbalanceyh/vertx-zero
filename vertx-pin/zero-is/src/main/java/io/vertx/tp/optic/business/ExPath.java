@@ -10,6 +10,7 @@ import io.vertx.tp.is.refine.Is;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -122,6 +123,12 @@ public class ExPath implements ExIo {
     }
 
     // ----------------- Mix Interface ----------------------
+
+    @Override
+    public Future<JsonObject> update(final String directoryId, final String user) {
+        return Is.directoryBranch(directoryId, user).compose(Ux::futureJ);
+    }
+
     /*
      * Update all the X_DIRECTORY information here.
      *  1. active = false
@@ -157,7 +164,7 @@ public class ExPath implements ExIo {
                     final ConcurrentMap<String, String> renameMap = Is.trashIn(storeSet);
                     futures.add(fs.rm(renameMap.values()));
                 });
-                return Ux.thenCombineT(futures);
+                return Fn.combineT(futures);
             }))
             .compose(nil -> Ux.future(directoryJ));
     }
@@ -166,14 +173,31 @@ public class ExPath implements ExIo {
     public Future<Boolean> rename(final JsonObject directoryJ, final Kv<String, String> renameKv) {
         final String directoryId = directoryJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        final String updatedBy = directoryJ.getString(KName.UPDATED_BY);
         return jq.<IDirectory>fetchByIdAsync(directoryId)
             .compose(directory -> {
                 directory.setUpdatedAt(LocalDateTime.now());
-                directory.setUpdatedBy(directoryJ.getString(KName.UPDATED_BY));
-                return jq.updateAsync(directory).compose(updated -> Is.directoryBranch(directoryId, updated));
+                directory.setUpdatedBy(updatedBy);
+                return jq.updateAsync(directory)
+                    .compose(updated -> Is.directoryBranch(directoryId, updatedBy));
             })
             .compose(directory -> Is.fsComponent(directory.getKey()))
             .compose(fs -> fs.rename(renameKv));
+    }
+
+    @Override
+    public Future<JsonArray> dirTree(final String sigma, final List<String> paths) {
+        final JsonObject condition = Ux.whereAnd();
+        condition.put(KName.STORE_PATH + ",i", Ut.toJArray(paths));
+        condition.put(KName.SIGMA, sigma);
+        final UxJooq jq = Ux.Jooq.on(IDirectoryDao.class);
+        return jq.fetchJAsync(condition);
+    }
+
+    @Override
+    public Future<JsonObject> verifyIn(final JsonArray directoryA, final JsonObject params) {
+        Fn.ifStrings(directoryA, KName.VISIT_MODE);
+        return Is.directoryLeaf(directoryA, params).compose(Ux::futureJ);
     }
 
     // ----------------- Private Interface ----------------------
@@ -204,7 +228,7 @@ public class ExPath implements ExIo {
             }
             futures.add(fs.rename(renameMap));
         });
-        return Ux.thenCombineT(futures).compose(nil -> Ux.futureT());
+        return Fn.combineT(futures).compose(nil -> Ux.futureT());
     }
 
     private Future<ConcurrentMap<Fs, Set<String>>> directoryD(final JsonArray directoryD) {

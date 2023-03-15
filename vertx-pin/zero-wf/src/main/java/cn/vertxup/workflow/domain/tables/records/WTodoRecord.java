@@ -258,12 +258,31 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     }
 
     /**
+     * Setter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public WTodoRecord setSerialFork(String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.SERIAL_FORK</code>. 「serialFork」-
+     * 生成序号的分支序号
+     */
+    @Override
+    public String getSerialFork() {
+        return (String) get(13);
+    }
+
+    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TRACE_ID</code>. 「traceId」-
      * 同一个流程的待办执行分组
      */
     @Override
     public WTodoRecord setTraceId(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -273,7 +292,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getTraceId() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
@@ -282,7 +301,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setTraceOrder(Integer value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -292,63 +311,44 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public Integer getTraceOrder() {
-        return (Integer) get(14);
+        return (Integer) get(15);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
      * 和待办绑定的taskId（任务）
      */
     @Override
     public WTodoRecord setTaskId(String value) {
-        set(15, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「traceTask」-
-     * 和待办绑定的taskId（任务）
-     */
-    @Override
-    public String getTaskId() {
-        return (String) get(15);
-    }
-
-    /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
-     * 和待办绑定的taskKey
-     */
-    @Override
-    public WTodoRecord setTaskKey(String value) {
         set(16, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「traceTaskKey」-
-     * 和待办绑定的taskKey
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_ID</code>. 「taskId」-
+     * 和待办绑定的taskId（任务）
      */
     @Override
-    public String getTaskKey() {
+    public String getTaskId() {
         return (String) get(16);
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
+     * Setter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
+     * 和待办绑定的taskKey
      */
     @Override
-    public WTodoRecord setActivityId(String value) {
+    public WTodoRecord setTaskKey(String value) {
         set(17, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.ACTIVITY_ID</code>. 「activityId」-
-     * 生成的ACTIVITY_ID
+     * Getter for <code>DB_ETERNAL.W_TODO.TASK_KEY</code>. 「taskKey」-
+     * 和待办绑定的taskKey
      */
     @Override
-    public String getActivityId() {
+    public String getTaskKey() {
         return (String) get(17);
     }
 
@@ -444,28 +444,11 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    @Override
-    public WTodoRecord setToDept(String value) {
-        set(23, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
-     */
-    @Override
-    public String getToDept() {
-        return (String) get(23);
-    }
-
-    /**
      * Setter for <code>DB_ETERNAL.W_TODO.TO_TEAM</code>. 「toTeam」- 指定业务组
      */
     @Override
     public WTodoRecord setToTeam(String value) {
-        set(24, value);
+        set(23, value);
         return this;
     }
 
@@ -474,6 +457,23 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getToTeam() {
+        return (String) get(23);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    @Override
+    public WTodoRecord setToRole(String value) {
+        set(24, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     */
+    @Override
+    public String getToRole() {
         return (String) get(24);
     }
 
@@ -495,20 +495,56 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Setter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
     @Override
-    public WTodoRecord setToRole(String value) {
+    public WTodoRecord setToDept(String value) {
         set(26, value);
         return this;
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.W_TODO.TO_ROLE</code>. 「toRole」- 待办角色（集体）
+     * Getter for <code>DB_ETERNAL.W_TODO.TO_DEPT</code>. 「toDept」- 指定部门
      */
     @Override
-    public String getToRole() {
+    public String getToDept() {
         return (String) get(26);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    @Override
+    public WTodoRecord setEscalate(Boolean value) {
+        set(27, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE</code>. 「escalate」- 是否升级
+     */
+    @Override
+    public Boolean getEscalate() {
+        return (Boolean) get(27);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    @Override
+    public WTodoRecord setEscalateData(String value) {
+        set(28, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ESCALATE_DATA</code>. 「escalateData」-
+     * 升级单据数据
+     */
+    @Override
+    public String getEscalateData() {
+        return (String) get(28);
     }
 
     /**
@@ -517,7 +553,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setAssignedBy(String value) {
-        set(27, value);
+        set(29, value);
         return this;
     }
 
@@ -527,7 +563,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getAssignedBy() {
-        return (String) get(27);
+        return (String) get(29);
     }
 
     /**
@@ -535,7 +571,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setAssignedAt(LocalDateTime value) {
-        set(28, value);
+        set(30, value);
         return this;
     }
 
@@ -544,7 +580,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getAssignedAt() {
-        return (LocalDateTime) get(28);
+        return (LocalDateTime) get(30);
     }
 
     /**
@@ -553,7 +589,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setAcceptedBy(String value) {
-        set(29, value);
+        set(31, value);
         return this;
     }
 
@@ -563,7 +599,26 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getAcceptedBy() {
-        return (String) get(29);
+        return (String) get(31);
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public WTodoRecord setAcceptedGroup(String value) {
+        set(32, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.W_TODO.ACCEPTED_GROUP</code>.
+     * 「acceptedGroup」- 当前处理组
+     */
+    @Override
+    public String getAcceptedGroup() {
+        return (String) get(32);
     }
 
     /**
@@ -571,7 +626,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setAcceptedAt(LocalDateTime value) {
-        set(30, value);
+        set(33, value);
         return this;
     }
 
@@ -580,7 +635,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getAcceptedAt() {
-        return (LocalDateTime) get(30);
+        return (LocalDateTime) get(33);
     }
 
     /**
@@ -589,7 +644,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setFinishedBy(String value) {
-        set(31, value);
+        set(34, value);
         return this;
     }
 
@@ -599,7 +654,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getFinishedBy() {
-        return (String) get(31);
+        return (String) get(34);
     }
 
     /**
@@ -607,7 +662,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setFinishedAt(LocalDateTime value) {
-        set(32, value);
+        set(35, value);
         return this;
     }
 
@@ -616,7 +671,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getFinishedAt() {
-        return (LocalDateTime) get(32);
+        return (LocalDateTime) get(35);
     }
 
     /**
@@ -624,7 +679,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setActive(Boolean value) {
-        set(33, value);
+        set(36, value);
         return this;
     }
 
@@ -633,7 +688,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public Boolean getActive() {
-        return (Boolean) get(33);
+        return (Boolean) get(36);
     }
 
     /**
@@ -641,7 +696,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setSigma(String value) {
-        set(34, value);
+        set(37, value);
         return this;
     }
 
@@ -650,7 +705,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getSigma() {
-        return (String) get(34);
+        return (String) get(37);
     }
 
     /**
@@ -658,7 +713,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setMetadata(String value) {
-        set(35, value);
+        set(38, value);
         return this;
     }
 
@@ -667,7 +722,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getMetadata() {
-        return (String) get(35);
+        return (String) get(38);
     }
 
     /**
@@ -675,7 +730,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setLanguage(String value) {
-        set(36, value);
+        set(39, value);
         return this;
     }
 
@@ -684,7 +739,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getLanguage() {
-        return (String) get(36);
+        return (String) get(39);
     }
 
     /**
@@ -692,7 +747,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setCreatedAt(LocalDateTime value) {
-        set(37, value);
+        set(40, value);
         return this;
     }
 
@@ -701,7 +756,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(37);
+        return (LocalDateTime) get(40);
     }
 
     /**
@@ -709,7 +764,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setCreatedBy(String value) {
-        set(38, value);
+        set(41, value);
         return this;
     }
 
@@ -718,7 +773,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getCreatedBy() {
-        return (String) get(38);
+        return (String) get(41);
     }
 
     /**
@@ -726,7 +781,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setUpdatedAt(LocalDateTime value) {
-        set(39, value);
+        set(42, value);
         return this;
     }
 
@@ -735,7 +790,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(39);
+        return (LocalDateTime) get(42);
     }
 
     /**
@@ -743,7 +798,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public WTodoRecord setUpdatedBy(String value) {
-        set(40, value);
+        set(43, value);
         return this;
     }
 
@@ -752,7 +807,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
      */
     @Override
     public String getUpdatedBy() {
-        return (String) get(40);
+        return (String) get(43);
     }
 
     // -------------------------------------------------------------------------
@@ -783,23 +838,26 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
         setModelKey(from.getModelKey());
         setModelCategory(from.getModelCategory());
         setParentId(from.getParentId());
+        setSerialFork(from.getSerialFork());
         setTraceId(from.getTraceId());
         setTraceOrder(from.getTraceOrder());
         setTaskId(from.getTaskId());
         setTaskKey(from.getTaskKey());
-        setActivityId(from.getActivityId());
         setComment(from.getComment());
         setCommentApproval(from.getCommentApproval());
         setCommentReject(from.getCommentReject());
         setToLocation(from.getToLocation());
         setToGroup(from.getToGroup());
-        setToDept(from.getToDept());
         setToTeam(from.getToTeam());
-        setToUser(from.getToUser());
         setToRole(from.getToRole());
+        setToUser(from.getToUser());
+        setToDept(from.getToDept());
+        setEscalate(from.getEscalate());
+        setEscalateData(from.getEscalateData());
         setAssignedBy(from.getAssignedBy());
         setAssignedAt(from.getAssignedAt());
         setAcceptedBy(from.getAcceptedBy());
+        setAcceptedGroup(from.getAcceptedGroup());
         setAcceptedAt(from.getAcceptedAt());
         setFinishedBy(from.getFinishedBy());
         setFinishedAt(from.getFinishedAt());
@@ -833,7 +891,7 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
     /**
      * Create a detached, initialised WTodoRecord
      */
-    public WTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String parentId, String traceId, Integer traceOrder, String taskId, String taskKey, String activityId, String comment, String commentApproval, String commentReject, String toLocation, String toGroup, String toDept, String toTeam, String toUser, String toRole, String assignedBy, LocalDateTime assignedAt, String acceptedBy, LocalDateTime acceptedAt, String finishedBy, LocalDateTime finishedAt, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
+    public WTodoRecord(String key, String serial, String name, String code, String icon, String status, String todoUrl, String type, LocalDateTime expiredAt, String modelId, String modelKey, String modelCategory, String parentId, String serialFork, String traceId, Integer traceOrder, String taskId, String taskKey, String comment, String commentApproval, String commentReject, String toLocation, String toGroup, String toTeam, String toRole, String toUser, String toDept, Boolean escalate, String escalateData, String assignedBy, LocalDateTime assignedAt, String acceptedBy, String acceptedGroup, LocalDateTime acceptedAt, String finishedBy, LocalDateTime finishedAt, Boolean active, String sigma, String metadata, String language, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         super(WTodo.W_TODO);
 
         setKey(key);
@@ -849,23 +907,26 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
         setModelKey(modelKey);
         setModelCategory(modelCategory);
         setParentId(parentId);
+        setSerialFork(serialFork);
         setTraceId(traceId);
         setTraceOrder(traceOrder);
         setTaskId(taskId);
         setTaskKey(taskKey);
-        setActivityId(activityId);
         setComment(comment);
         setCommentApproval(commentApproval);
         setCommentReject(commentReject);
         setToLocation(toLocation);
         setToGroup(toGroup);
-        setToDept(toDept);
         setToTeam(toTeam);
-        setToUser(toUser);
         setToRole(toRole);
+        setToUser(toUser);
+        setToDept(toDept);
+        setEscalate(escalate);
+        setEscalateData(escalateData);
         setAssignedBy(assignedBy);
         setAssignedAt(assignedAt);
         setAcceptedBy(acceptedBy);
+        setAcceptedGroup(acceptedGroup);
         setAcceptedAt(acceptedAt);
         setFinishedBy(finishedBy);
         setFinishedAt(finishedAt);
@@ -899,23 +960,26 @@ public class WTodoRecord extends UpdatableRecordImpl<WTodoRecord> implements Ver
             setModelKey(value.getModelKey());
             setModelCategory(value.getModelCategory());
             setParentId(value.getParentId());
+            setSerialFork(value.getSerialFork());
             setTraceId(value.getTraceId());
             setTraceOrder(value.getTraceOrder());
             setTaskId(value.getTaskId());
             setTaskKey(value.getTaskKey());
-            setActivityId(value.getActivityId());
             setComment(value.getComment());
             setCommentApproval(value.getCommentApproval());
             setCommentReject(value.getCommentReject());
             setToLocation(value.getToLocation());
             setToGroup(value.getToGroup());
-            setToDept(value.getToDept());
             setToTeam(value.getToTeam());
-            setToUser(value.getToUser());
             setToRole(value.getToRole());
+            setToUser(value.getToUser());
+            setToDept(value.getToDept());
+            setEscalate(value.getEscalate());
+            setEscalateData(value.getEscalateData());
             setAssignedBy(value.getAssignedBy());
             setAssignedAt(value.getAssignedAt());
             setAcceptedBy(value.getAcceptedBy());
+            setAcceptedGroup(value.getAcceptedGroup());
             setAcceptedAt(value.getAcceptedAt());
             setFinishedBy(value.getFinishedBy());
             setFinishedAt(value.getFinishedAt());

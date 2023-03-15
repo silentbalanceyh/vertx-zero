@@ -3,10 +3,10 @@ package io.vertx.tp.optic;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.ke.atom.KCredential;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.web.Credential;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.specification.KCredential;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;

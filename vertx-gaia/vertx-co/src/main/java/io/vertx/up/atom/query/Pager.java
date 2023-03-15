@@ -18,19 +18,19 @@ public class Pager implements Serializable {
     /**
      * Start page: >= 1
      */
-    private transient int page;
+    private int page;
     /**
      * Page size
      */
-    private transient int size;
+    private int size;
     /**
      * From index: offset
      */
-    private transient int start;
+    private int start;
     /**
      * To index: limit
      */
-    private transient int end;
+    private int end;
 
     private Pager(final Integer page, final Integer size) {
         this.init(page, size);

@@ -5,17 +5,26 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KField;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.atom.Kv;
+import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.experiment.specification.KField;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.JqAnalyzer;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -107,11 +116,50 @@ class IxData {
             final KModule module = in.module();
             final KModule connect = in.connect();
             if (Objects.isNull(connect)) {
-                parameters.put(KName.MODULE, module.getIdentifier());
+                parameters.put(KName.MODULE, module.identifier());
             } else {
-                parameters.put(KName.MODULE, connect.getIdentifier());
+                parameters.put(KName.MODULE, connect.identifier());
             }
         }
         return parameters;
+    }
+
+    static HTAtom atom(final IxMod active, final JsonArray columns) {
+        final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
+        columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
+            /* Calculated */
+            headers.put(kv.getKey(), kv.getValue());
+        });
+        /*
+         * First module for calculation
+         */
+        final HTAtom atom = HTAtom.create();
+        final KModule module = active.module();
+        final List<HTField> fieldList = new ArrayList<>();
+
+        final KModule connect = active.connect();
+        if (Objects.nonNull(connect)) {
+            fieldList.addAll(field(connect, active.envelop(), headers));
+        }
+        fieldList.addAll(field(module, active.envelop(), headers));
+
+        fieldList.forEach(atom::add);
+        return atom;
+    }
+
+    private static List<HTField> field(final KModule module, final Envelop envelop,
+                                       final ConcurrentMap<String, String> headerMap) {
+        final UxJooq jooq = IxPin.jooq(module, envelop);
+        final JqAnalyzer analyzer = jooq.analyzer();
+        final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
+        /*
+         * Processing for TypeField list building
+         */
+        final List<HTField> fieldList = new ArrayList<>();
+        headerMap.forEach((field, alias) -> {
+            final Class<?> type = typeMap.getOrDefault(field, String.class);
+            fieldList.add(HTField.create(field, alias, type));
+        });
+        return fieldList;
     }
 }

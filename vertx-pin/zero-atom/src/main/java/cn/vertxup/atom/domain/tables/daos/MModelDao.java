@@ -27,7 +27,7 @@ public class MModelDao extends AbstractVertxDAO<MModelRecord, cn.vertxup.atom.do
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public MModelDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(MModel.M_MODEL, cn.vertxup.atom.domain.tables.pojos.MModel.class, new JDBCClassicQueryExecutor<MModelRecord,cn.vertxup.atom.domain.tables.pojos.MModel,String>(configuration,cn.vertxup.atom.domain.tables.pojos.MModel.class,vertx));

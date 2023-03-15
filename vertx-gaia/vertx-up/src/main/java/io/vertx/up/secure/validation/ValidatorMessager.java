@@ -1,6 +1,8 @@
 package io.vertx.up.secure.validation;
 
 import io.vertx.up.log.Annal;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ValidationException;
 import org.hibernate.validator.internal.engine.messageinterpolation.InterpolationTermType;
 import org.hibernate.validator.internal.engine.messageinterpolation.LocalizedMessage;
 import org.hibernate.validator.internal.engine.messageinterpolation.parser.MessageDescriptorFormatException;
@@ -10,8 +12,6 @@ import org.hibernate.validator.internal.engine.messageinterpolation.parser.Token
 import org.hibernate.validator.internal.util.ConcurrentReferenceHashMap;
 import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.ValidationException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

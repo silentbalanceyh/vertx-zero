@@ -27,7 +27,7 @@ public class SActionDao extends AbstractVertxDAO<SActionRecord, cn.vertxup.rbac.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SActionDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SAction.S_ACTION, cn.vertxup.rbac.domain.tables.pojos.SAction.class, new JDBCClassicQueryExecutor<SActionRecord,cn.vertxup.rbac.domain.tables.pojos.SAction,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SAction.class,vertx));

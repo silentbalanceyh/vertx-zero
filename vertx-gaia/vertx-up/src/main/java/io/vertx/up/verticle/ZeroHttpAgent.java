@@ -11,15 +11,18 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.extension.Ares;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
-import io.vertx.up.uca.monitor.MeansureAxis;
+import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.uca.rs.Axis;
-import io.vertx.up.uca.rs.router.*;
+import io.vertx.up.uca.rs.router.EventAxis;
+import io.vertx.up.uca.rs.router.FilterAxis;
+import io.vertx.up.uca.rs.router.RouterAxis;
+import io.vertx.up.uca.rs.router.WallAxis;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -42,29 +45,54 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
     @Override
     public void start() {
-        /* 1.Call router hub to mount commont **/
-        final Axis<Router> routerAxiser = Fn.poolThread(Pool.ROUTERS,
-            () -> new RouterAxis(this.vertx));
+        /* 1.Call router hub to mount common **/
+        final Axis<Router> routerAxis = Pool.CC_ROUTER.pick(
+            () -> new RouterAxis(this.vertx), RouterAxis.class.getName());
+        // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
         /* 2.Call route hub to mount defined **/
-        final Axis<Router> axiser = Fn.poolThread(Pool.EVENTS,
-            EventAxis::new);
-        final Axis<Router> dynamic = Fn.poolThread(Pool.DYNAMICS,
-            DynamicAxis::new);
+        final Axis<Router> axis = Pool.CC_ROUTER.pick(
+            EventAxis::new, EventAxis.class.getName());
 
         /* 3.Call route hub to mount walls **/
-        final Axis<Router> wallAxiser = Fn.poolThread(Pool.WALLS,
-            () -> Ut.instance(WallAxis.class, this.vertx));
+        final Axis<Router> wallAxis = Pool.CC_ROUTER.pick(
+            () -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
+        // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
+
 
         /* 4.Call route hub to mount filters **/
-        final Axis<Router> filterAxiser = Fn.poolThread(Pool.FILTERS,
-            FilterAxis::new);
+        final Axis<Router> filterAxis = Pool.CC_ROUTER.pick(
+            FilterAxis::new, FilterAxis.class.getName());
+        // Fn.po?lThread(Pool.FILTERS, FilterAxis::new);
 
-        /* 5.Call route to mount meansure **/
-        final Axis<Router> monitorAxiser = Fn.poolThread(Pool.MEANSURES,
-            () -> new MeansureAxis(this.vertx, false));
+
+        /* 5.Call route to mount Measure **/
+        final Axis<Router> monitorAxis = Pool.CC_ROUTER.pick(
+            () -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + false);
+        // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, false));
+
+        /*
+         * New Extension Structure, Here I designed new interface `Ares` for router extension Part to replace
+         * previous system.
+         * Here the framework use the structure of following:
+         * 1. The instance type is `AresHub`
+         * 2. Internal Call chain is as following:
+         * -- 2.1. AresDynamic / It's for dynamic routing system.
+         * -- 2.2. AresSock    / It's for websocket system ( with STOMP or not ).
+         */
+        final Ares ares = Ares.instance(this.vertx);
+
         /* Get the default HttpServer Options **/
-        ZeroAtomic.HTTP_OPTS.forEach((port, option) -> {
+        ZeroGrid.getServerOptions().forEach((port, option) -> {
+            /*
+             * To enable extend of StompServer, there should be
+             * Some code logical to set WebSocket Sub Protocols such as
+             *
+             * v10.stomp, v11.stomp, v12.stomp etc, instead, when you create
+             * HttpServer, there should be some code logical to cross configuration
+             **/
+            ares.configure(option);
+
             /* Single server processing **/
             final HttpServer server = this.vertx.createHttpServer(option);
 
@@ -72,24 +100,24 @@ public class ZeroHttpAgent extends AbstractVerticle {
             final Router router = Router.router(this.vertx);
 
             // Router
-            routerAxiser.mount(router);
+            routerAxis.mount(router);
             // Wall
-            wallAxiser.mount(router);
+            wallAxis.mount(router);
             // Event
-            axiser.mount(router);
-            // Meansure
-            monitorAxiser.mount(router);
-            {
-                /*
-                 * Dynamic Extension for some user-defined router to resolve some spec
-                 * requirement such as Data Driven System and Origin X etc.
-                 * Call second method to inject vertx reference.
-                 */
-                // This step is required for bind vertx instance
-                ((DynamicAxis) dynamic).bind(this.vertx).mount(router);
-            }
+            axis.mount(router);
+            // Measure
+            monitorAxis.mount(router);
+
+            /*
+             * Extension Part of New, here the called API is empty `config`, second parameter is
+             * {} because all the component config data will be passed internal each component
+             * in `Hub` instead of input here.
+             */
+            ares.bind(server, option).mount(router);
+
+
             // Filter
-            filterAxiser.mount(router);
+            filterAxis.mount(router);
             /* Listen for router on the server **/
             server.requestHandler(router).listen();
             {
@@ -101,7 +129,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
 
     @Override
     public void stop() {
-        Ut.itMap(ZeroAtomic.HTTP_OPTS, (port, config) -> {
+        Ut.itMap(ZeroGrid.getServerOptions(), (port, config) -> {
             // Enabled micro mode.
             if (ZeroHeart.isEtcd()) {
                 // Template call registry to modify the status of current service.
@@ -114,7 +142,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
     private void registryServer(final HttpServerOptions options,
                                 final Router router) {
         final Integer port = options.getPort();
-        final AtomicInteger out = ZeroAtomic.HTTP_START_LOGS.get(port);
+        final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (Values.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);

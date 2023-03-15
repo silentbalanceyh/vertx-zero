@@ -27,7 +27,7 @@ public class FBankDao extends AbstractVertxDAO<FBankRecord, cn.vertxup.fm.domain
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public FBankDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(FBank.F_BANK, cn.vertxup.fm.domain.tables.pojos.FBank.class, new JDBCClassicQueryExecutor<FBankRecord,cn.vertxup.fm.domain.tables.pojos.FBank,String>(configuration,cn.vertxup.fm.domain.tables.pojos.FBank.class,vertx));

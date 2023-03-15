@@ -15,6 +15,7 @@ import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.heart.EmptyStreamException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -112,7 +113,7 @@ public abstract class AbstractInstruction extends AbstractCommander {
             condition.mergeIn(attachedJson, true);
             return this.identifiers(condition)
                 /* identifiers 中处理每一个 */
-                .compose(identifiers -> Ux.thenCombineT(new ArrayList<>(identifiers), consumer));
+                .compose(identifiers -> Fn.combineT(new ArrayList<>(identifiers), consumer));
         });
     }
 

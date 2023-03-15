@@ -13,18 +13,21 @@
     <packaging>pom</packaging>
     <name>「vertx-ifx」Zero Plugins</name>
     <modules>
-        <module>zero-ifx-es</module>
-        <module>zero-ifx-excel</module>
-        <module>zero-ifx-feign</module>
-        <module>zero-ifx-history</module>
-        <module>zero-ifx-iqiy</module>
-        <module>zero-ifx-mongo</module>
-        <module>zero-ifx-neo4j</module>
-        <module>zero-ifx-redis</module>
-        <module>zero-ifx-sms</module>
-        <module>zero-ifx-shell</module>
-        <module>zero-ifx-auth</module>
-        <module>zero-ifx-ftp</module>
+        <module>zero-ifx-excel</module>     <!-- Excel with Apache POI -->
+        <module>zero-ifx-history</module>   <!-- Trash Module to support backup in deleting -->
+        <module>zero-ifx-shell</module>     <!-- Zero Shell Framework for DevOps -->
+        <module>zero-ifx-es</module>        <!-- ElasticSearch Client -->
+        <module>zero-ifx-ftp</module>       <!-- FTP Service   Client  -->
+        <module>zero-ifx-git</module>       <!-- Git Service   Client  -->
+        <module>zero-ifx-feign</module>     <!-- Feign         Client  -->
+        <module>zero-ifx-mongo</module>     <!-- MongoDb       Client -->
+        <module>zero-ifx-neo4j</module>     <!-- Neo4j         Client -->
+        <module>zero-ifx-redis</module>     <!-- Redis         Client -->
+        <module>zero-ifx-stomp</module>     <!-- Enhance:      Extension for WebSocket ( stomp include )-->
+        <module>zero-ifx-auth</module>      <!-- Enhance:      Extension for Authorization ( Rbac Module ) -->
+        <module>zero-ifx-sms</module>       <!-- CN:           Ali Sms Client -->
+        <module>zero-ifx-iqiy</module>      <!-- CN:           iqiy Client -->
+        <module>zero-ifx-liquibase</module> <!-- Liquibase Fix        -->
     </modules>
     <dependencies>
         <dependency>

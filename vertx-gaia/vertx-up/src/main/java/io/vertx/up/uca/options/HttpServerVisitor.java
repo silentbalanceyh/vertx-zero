@@ -5,15 +5,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Plugins;
-import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.demon.ServerConfigException;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
-import io.vertx.up.uca.marshal.HttpServerStrada;
-import io.vertx.up.uca.marshal.JTransformer;
-import io.vertx.up.uca.yaml.Node;
+import io.vertx.up.runtime.env.MatureOn;
+import io.vertx.up.uca.marshal.HttpServerSetUp;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,74 +18,47 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang
  * Http options only, it's standard
  */
-public class HttpServerVisitor implements ServerVisitor<HttpServerOptions> {
+public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor<HttpServerOptions> {
 
     protected transient final JTransformer<HttpServerOptions>
-        transformer = Ut.singleton(HttpServerStrada.class);
-    private transient final Node<JsonObject> NODE = Node.infix(Plugins.SERVER);
+            transformer = Ut.singleton(HttpServerSetUp.class);
 
     /**
      * @return Server config to generate HttpServerOptions by port
      * @throws ZeroException ServerConfigException
      */
     @Override
-    @SuppressWarnings("all")
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
-        throws ZeroException {
-        // 1. Must be the first line, fixed position.
-        Fn.inLenEq(getClass(), 0, (Object[]) key);
-        // 2. Visit the node for server, http
-        final JsonObject data = NODE.read();
-
-        Fn.outZero(null == data || !data.containsKey(KEY), getLogger(),
-            ServerConfigException.class,
-            getClass(), null == data ? null : data.encode());
-
-        return visit(data.getJsonArray(KEY));
-    }
-
-    private ConcurrentMap<Integer, HttpServerOptions> visit(final JsonArray serverData)
-        throws ZeroException {
-        this.getLogger().info(Info.INF_B_VERIFY, KEY, this.getType(), serverData.encode());
-        Ruler.verify(KEY, serverData);
+            throws ZeroException {
+        final JsonArray serverData = this.serverPre(0, key);
+        this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
+        Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, HttpServerOptions> map =
-            new ConcurrentHashMap<>();
+                new ConcurrentHashMap<>();
         this.extract(serverData, map);
-        this.getLogger().info(Info.INF_A_VERIFY, KEY, this.getType(), map.keySet());
+        if (!map.isEmpty()) {
+            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+        }
         return map;
     }
 
     protected void extract(final JsonArray serverData, final ConcurrentMap<Integer, HttpServerOptions> map) {
-        Ut.itJArray(serverData, JsonObject.class, (item, index) -> {
+        /*
+         * 多服务器模式：Server可使用环境变量，环境变量后缀为索引值（0抹去）
+         */
+        Ut.itJArray(serverData, (item, index) -> {
             if (this.isServer(item)) {
+                // 合法 Server
+                JsonObject configureJ = Ut.valueJObject(item, KName.CONFIG);
+                configureJ = MatureOn.envApi(configureJ, index);
                 // 1. Extract port
-                final int port = this.extractPort(item.getJsonObject(YKEY_CONFIG));
+                final int port = this.serverPort(configureJ);
                 // 2. Convert JsonObject to HttpServerOptions
+                item.put(KName.CONFIG, configureJ);
                 final HttpServerOptions options = this.transformer.transform(item);
-                Fn.safeNull(() -> {
-                    // 3. Add to map;
-                    map.put(port, options);
-                }, port, options);
+                // 3. Add to map
+                map.put(port, options);
             }
         });
-    }
-
-    protected boolean isServer(final JsonObject item) {
-        return this.getType().match(item.getString(YKEY_TYPE));
-    }
-
-    private int extractPort(final JsonObject config) {
-        if (null != config) {
-            return config.getInteger("port", HttpServerOptions.DEFAULT_PORT);
-        }
-        return HttpServerOptions.DEFAULT_PORT;
-    }
-
-    protected ServerType getType() {
-        return ServerType.HTTP;
-    }
-
-    protected Annal getLogger() {
-        return Annal.get(this.getClass());
     }
 }

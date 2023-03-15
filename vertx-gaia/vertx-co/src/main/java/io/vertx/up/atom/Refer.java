@@ -43,6 +43,6 @@ public final class Refer {
 
     @SuppressWarnings("unchecked")
     public <T> T get() {
-        return Fn.getNull(() -> (T) this.reference, this.reference);
+        return Fn.orNull(() -> (T) this.reference, this.reference);
     }
 }

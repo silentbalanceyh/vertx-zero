@@ -27,7 +27,7 @@ public class IApiDao extends AbstractVertxDAO<IApiRecord, cn.vertxup.jet.domain.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public IApiDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(IApi.I_API, cn.vertxup.jet.domain.tables.pojos.IApi.class, new JDBCClassicQueryExecutor<IApiRecord,cn.vertxup.jet.domain.tables.pojos.IApi,String>(configuration,cn.vertxup.jet.domain.tables.pojos.IApi.class,vertx));

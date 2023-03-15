@@ -3,11 +3,8 @@ package io.vertx.tp.plugin.ali;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.ali.sms.SmsClient;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.plugin.Infix;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import io.vertx.up.uca.cache.Cc;
 
 @Plugin
 @SuppressWarnings("all")
@@ -15,14 +12,13 @@ public class SmsInfix implements Infix {
 
     private static final String NAME = "ZERO_ALI_SMS_POOL";
 
-    private static final ConcurrentMap<String, SmsClient> CLIENTS
-        = new ConcurrentHashMap<>();
+    private static final Cc<String, SmsClient> CC_CLIENT = Cc.open();
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        Fn.pool(CLIENTS, name, () -> Infix.init("ali-sms",
+        CC_CLIENT.pick(() -> Infix.init("ali-sms",
             (config) -> SmsClient.createShared(vertx),
-            SmsInfix.class));
+            SmsInfix.class), name);
     }
 
     public static void init(final Vertx vertx) {
@@ -30,7 +26,7 @@ public class SmsInfix implements Infix {
     }
 
     public static SmsClient getClient() {
-        return CLIENTS.get(NAME);
+        return CC_CLIENT.store(NAME);
     }
 
     @Override

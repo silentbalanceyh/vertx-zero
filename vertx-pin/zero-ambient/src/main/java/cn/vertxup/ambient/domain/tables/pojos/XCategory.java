@@ -20,29 +20,29 @@ public class XCategory implements VertxPojo, IXCategory {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        icon;
-    private String        type;
-    private Integer       sort;
-    private Boolean       leaf;
-    private String        parentId;
-    private String        identifier;
-    private String        comment;
-    private String        appId;
-    private String        treeComponent;
-    private String        treeConfig;
-    private String        runComponent;
-    private String        runConfig;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String icon;
+    private String type;
+    private Integer sort;
+    private Boolean leaf;
+    private String parentId;
+    private String identifier;
+    private String comment;
+    private String appId;
+    private String treeComponent;
+    private String treeConfig;
+    private String runComponent;
+    private String runConfig;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public XCategory() {}
 
@@ -73,29 +73,29 @@ public class XCategory implements VertxPojo, IXCategory {
     }
 
     public XCategory(
-        String        key,
-        String        name,
-        String        code,
-        String        icon,
-        String        type,
-        Integer       sort,
-        Boolean       leaf,
-        String        parentId,
-        String        identifier,
-        String        comment,
-        String        appId,
-        String        treeComponent,
-        String        treeConfig,
-        String        runComponent,
-        String        runConfig,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String icon,
+        String type,
+        Integer sort,
+        Boolean leaf,
+        String parentId,
+        String identifier,
+        String comment,
+        String appId,
+        String treeComponent,
+        String treeConfig,
+        String runComponent,
+        String runConfig,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -534,6 +534,186 @@ public class XCategory implements VertxPojo, IXCategory {
     public XCategory setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final XCategory other = (XCategory) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.icon == null) {
+            if (other.icon != null)
+                return false;
+        }
+        else if (!this.icon.equals(other.icon))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.sort == null) {
+            if (other.sort != null)
+                return false;
+        }
+        else if (!this.sort.equals(other.sort))
+            return false;
+        if (this.leaf == null) {
+            if (other.leaf != null)
+                return false;
+        }
+        else if (!this.leaf.equals(other.leaf))
+            return false;
+        if (this.parentId == null) {
+            if (other.parentId != null)
+                return false;
+        }
+        else if (!this.parentId.equals(other.parentId))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.appId == null) {
+            if (other.appId != null)
+                return false;
+        }
+        else if (!this.appId.equals(other.appId))
+            return false;
+        if (this.treeComponent == null) {
+            if (other.treeComponent != null)
+                return false;
+        }
+        else if (!this.treeComponent.equals(other.treeComponent))
+            return false;
+        if (this.treeConfig == null) {
+            if (other.treeConfig != null)
+                return false;
+        }
+        else if (!this.treeConfig.equals(other.treeConfig))
+            return false;
+        if (this.runComponent == null) {
+            if (other.runComponent != null)
+                return false;
+        }
+        else if (!this.runComponent.equals(other.runComponent))
+            return false;
+        if (this.runConfig == null) {
+            if (other.runConfig != null)
+                return false;
+        }
+        else if (!this.runConfig.equals(other.runConfig))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.icon == null) ? 0 : this.icon.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
+        result = prime * result + ((this.leaf == null) ? 0 : this.leaf.hashCode());
+        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.appId == null) ? 0 : this.appId.hashCode());
+        result = prime * result + ((this.treeComponent == null) ? 0 : this.treeComponent.hashCode());
+        result = prime * result + ((this.treeConfig == null) ? 0 : this.treeConfig.hashCode());
+        result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
+        result = prime * result + ((this.runConfig == null) ? 0 : this.runConfig.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

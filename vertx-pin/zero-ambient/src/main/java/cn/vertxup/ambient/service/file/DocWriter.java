@@ -6,11 +6,12 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.error._400FileNameInValidException;
 import io.vertx.tp.optic.business.ExIo;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -32,17 +33,32 @@ public class DocWriter implements DocWStub {
 
     @Override
     public Future<JsonArray> upload(final JsonArray documentA) {
-        return Ke.channel(Attachment.class, () -> documentA, file -> file.uploadAsync(documentA));
+        /*
+         * This method is used in document management only, it means that
+         * the document management will put required field `directory` instead of
+         * other field to linkage directory here.
+         *
+         * This directory will be parsed in AtFs instead of other method to be sure all
+         * the directoryId be valid, if the directoryId is invalid, the system will not
+         * move the files to actual storage, instead the template file storage will take
+         * place.
+         */
+        return Ux.channel(Attachment.class, () -> documentA, file -> file.uploadAsync(documentA));
     }
 
     @Override
     public Future<JsonObject> rename(final JsonObject documentJ) {
+        // isFileName Checking
+        final String name = documentJ.getString(KName.NAME);
+        if (!Ut.isFileName(name)) {
+            return Fn.error(_400FileNameInValidException.class, this.getClass());
+        }
         final String key = documentJ.getString(KName.KEY);
         final UxJooq jq = Ux.Jooq.on(XAttachmentDao.class);
         return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {
             final String from = attachment.getStorePath();
             final JsonObject documentData = documentJ.copy();
-            Ut.ifString(documentData, KName.METADATA, KName.VISIT_MODE);
+            Fn.ifString(documentData, KName.METADATA, KName.VISIT_MODE);
             final XAttachment updated = Ux.updateT(attachment, documentData);
             return jq.updateAsync(updated).compose(processed -> {
                 final String to = processed.getStorePath();
@@ -52,7 +68,7 @@ public class DocWriter implements DocWStub {
                 final JsonObject directoryJ = new JsonObject();
                 directoryJ.put(KName.KEY, directoryId);
                 directoryJ.put(KName.UPDATED_BY, documentJ.getString(KName.UPDATED_BY));
-                return Ke.channel(ExIo.class, () -> documentJ, io -> io.rename(directoryJ, kv)
+                return Ux.channel(ExIo.class, () -> documentJ, io -> io.rename(directoryJ, kv)
                     .compose(nil -> Ux.future(documentJ)));
             });
         });
@@ -76,7 +92,7 @@ public class DocWriter implements DocWStub {
             (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.FALSE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
+                return Ux.channel(ExIo.class, () -> documentA, fs -> fs.trashIn(directoryA, fileMap));
             }
         );
     }
@@ -88,7 +104,7 @@ public class DocWriter implements DocWStub {
             (attachmentA) -> this.attachment.updateAsync(attachmentA, Boolean.TRUE),
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
+                return Ux.channel(ExIo.class, () -> documentA, fs -> fs.trashOut(directoryA, fileMap));
             }
         );
     }
@@ -100,7 +116,7 @@ public class DocWriter implements DocWStub {
             this.attachment::purgeAsync,
             (directoryA, attachmentA) -> {
                 final ConcurrentMap<String, String> fileMap = Ut.elementMap(attachmentA, KName.STORE_PATH, KName.DIRECTORY_ID);
-                return Ke.channel(ExIo.class, () -> documentA,
+                return Ux.channel(ExIo.class, () -> documentA,
                     // Kill Directory and All Sub Files
                     fs -> fs.purge(directoryA, fileMap).compose(this::trashKoDeep));
             });

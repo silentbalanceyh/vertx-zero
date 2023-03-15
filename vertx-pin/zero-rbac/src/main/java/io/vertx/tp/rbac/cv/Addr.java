@@ -11,16 +11,18 @@ interface Prefix {
 public interface Addr {
 
     interface Rule {
+
         /*
-         * Fetch all rules that defined in current app
+         * 「New Version」
+         * 1. Fetch for HPermit of new structure
+         * 2. Save View based on Configuration
          */
-        String FETCH_BY_SIGMA = Prefix._EVENT + "X-RULE/FETCH/ALL";
-        String FETCH_RULE_ITEMS = Prefix._EVENT + "X-RULE-ITEM/FETCH/BY/RULE";
-        /*
-         * Fetch all resource definition
-         */
-        String FETCH_VIEWS = Prefix._EVENT + "X-RULE-VIEW/FETCH/BY-KEYS";
-        String FETCH_VISITANT = Prefix._EVENT + "X-VISITANT/FETCH/OWNER";
+        String FETCH_REGION = Prefix._EVENT + "X-RULE/FETCH/REGION";
+        String FETCH_REGION_VALUES = Prefix._EVENT + "X-RULE/FETCH/REGION-VALUES";
+
+        String FETCH_REGION_DEFINE = Prefix._EVENT + "X-RULE/FETCH/REGION-DEFINE";
+
+        String SAVE_REGION = Prefix._EVENT + "X-RULE/SAVING/SINGLE";
     }
 
     interface Auth {
@@ -62,6 +64,11 @@ public interface Addr {
         String UPDATE = Prefix._EVENT + "X-PUT/USER/ID";
 
         String IMPORT = Prefix._EVENT + "X-IMPORT/USER";
+
+        /*
+         * New for user processing
+         */
+        String QR_USER_SEARCH = Prefix._EVENT + "X-USER/QR/SEARCH";
     }
 
     interface Perm {
@@ -108,8 +115,6 @@ public interface Addr {
     }
 
     interface View {
-
-        String VIEW_UPDATE_BY_TYPE = Prefix._EVENT + "S-VIEW-BY-TYPE/PUT";
         /*
          * View interface publish for `my view` instead of old `my`
          */

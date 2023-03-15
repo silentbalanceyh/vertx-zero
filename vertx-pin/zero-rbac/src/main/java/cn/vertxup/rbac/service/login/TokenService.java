@@ -6,12 +6,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
+import io.vertx.tp.rbac.acl.relation.Junc;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.unity.Ux;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class TokenService implements TokenStub {
     public Future<JsonObject> execute(final String clientId, final String code, final Session session) {
         return this.codeStub.verify(clientId, code)
             /* Fetch role keys */
-            .compose(item -> this.userStub.fetchRoleIds(item))
+            .compose(Junc.role()::identAsync)
 
             /* Build Data in Token */
             .compose(roles -> UObject.create()
@@ -71,7 +72,7 @@ public class TokenService implements TokenStub {
              * Extract clientId
              */
             final String userKey = response.getString("user");
-            return this.userStub.fetchGroupIds(userKey)
+            return Junc.group().identAsync(userKey)
                 .compose(this::fetchRoles)
                 .compose(groups -> UObject.create(response)
                     .append("group", groups).toFuture());
@@ -88,6 +89,6 @@ public class TokenService implements TokenStub {
             .forEach(item -> futures.add(this.groupStub.fetchRoleIdsAsync(item.getString(AuthKey.F_GROUP_ID))
                 .compose(roles -> UObject.create(item).append("role", roles).toFuture())
             ));
-        return Ux.thenCombine(futures);
+        return Fn.combineA(futures);
     }
 }

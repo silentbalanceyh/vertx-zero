@@ -7,6 +7,7 @@ package cn.vertxup.battery.domain.tables;
 import cn.vertxup.battery.domain.Db;
 import cn.vertxup.battery.domain.Keys;
 import cn.vertxup.battery.domain.tables.records.BBagRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -64,6 +66,16 @@ public class BBag extends TableImpl<BBagRecord> {
      * The column <code>DB_ETERNAL.B_BAG.UI_CONFIG</code>. 「uiConfig」- 模块核心配置
      */
     public final TableField<BBagRecord, String> UI_CONFIG = createField(DSL.name("UI_CONFIG"), SQLDataType.CLOB, this, "「uiConfig」- 模块核心配置");
+    /**
+     * The column <code>DB_ETERNAL.B_BAG.ENTRY</code>. 「entry」-
+     * 是否入口（带入口为应用，当前APP_ID下安装内容）
+     */
+    public final TableField<BBagRecord, Boolean> ENTRY = createField(DSL.name("ENTRY"), SQLDataType.BIT, this, "「entry」- 是否入口（带入口为应用，当前APP_ID下安装内容）");
+    /**
+     * The column <code>DB_ETERNAL.B_BAG.ENTRY_ID</code>. 「entryId」- 入口专用ID，关联
+     * X_MENU 中的ID，其余的直接使用链接
+     */
+    public final TableField<BBagRecord, String> ENTRY_ID = createField(DSL.name("ENTRY_ID"), SQLDataType.VARCHAR(36), this, "「entryId」- 入口专用ID，关联 X_MENU 中的ID，其余的直接使用链接");
     /**
      * The column <code>DB_ETERNAL.B_BAG.APP_ID</code>. 「appId」- 关联的应用程序ID
      */
@@ -171,6 +183,11 @@ public class BBag extends TableImpl<BBagRecord> {
         return new BBag(alias, this);
     }
 
+    @Override
+    public BBag as(Table<?> alias) {
+        return new BBag(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -187,12 +204,35 @@ public class BBag extends TableImpl<BBagRecord> {
         return new BBag(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public BBag rename(Table<?> name) {
+        return new BBag(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row19 type methods
+    // Row21 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<String, String, String, String, String, String, String, Long, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row21<String, String, String, String, String, String, String, Long, String, Boolean, String, String, String, Boolean, String, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row21) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function21<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function21<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -3,7 +3,7 @@ package io.vertx.tp.optic.component;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.commune.exchange.DiSource;
+import io.vertx.up.commune.exchange.DSource;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -23,5 +23,9 @@ public interface Dictionary {
      * }
      */
     Future<ConcurrentMap<String, JsonArray>> fetchAsync(MultiMap paramMap,
-                                                        List<DiSource> sources);
+                                                        List<DSource> sources);
+
+    Future<JsonArray> fetchTree(String sigma, String type);
+
+    Future<JsonArray> fetchList(String sigma, String type);
 }

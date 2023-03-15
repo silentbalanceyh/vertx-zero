@@ -3,10 +3,17 @@ package io.vertx.tp.modular.acc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cc;
+
+/**
+ * @author <a href="http://www.origin-x.cn">Lang</a>
+ */
+interface Pool {
+    Cc<String, Rise> CC_RISE = Cc.openThread();
+}
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -14,7 +21,7 @@ import io.vertx.up.fn.Fn;
 public interface Rise {
 
     static Rise rapid() {
-        return Fn.poolThread(Pool.POOL_RAPID, RiseRapid::new);
+        return Pool.CC_RISE.pick(RiseRapid::new); // Fn.po?lThread(Pool.POOL_RAPID, RiseRapid::new);
     }
 
     Rise bind(Database database);

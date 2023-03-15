@@ -27,7 +27,7 @@ public class PPosDao extends AbstractVertxDAO<PPosRecord, cn.vertxup.psi.domain.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PPosDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PPos.P_POS, cn.vertxup.psi.domain.tables.pojos.PPos.class, new JDBCClassicQueryExecutor<PPosRecord,cn.vertxup.psi.domain.tables.pojos.PPos,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PPos.class,vertx));

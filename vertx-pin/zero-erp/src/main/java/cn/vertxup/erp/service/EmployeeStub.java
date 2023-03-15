@@ -13,8 +13,6 @@ import java.util.Set;
  */
 public interface EmployeeStub {
 
-    String USER_ID = "userId";
-
     Future<JsonObject> createAsync(JsonObject data);
 
     Future<JsonObject> updateAsync(String key, JsonObject data);

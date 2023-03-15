@@ -2,9 +2,9 @@ package cn.originx.infix.oracle12;
 
 import cn.originx.infix.oracle12.cv.OracleStatement;
 import cn.originx.infix.oracle12.cv.OracleWord;
-import io.vertx.tp.atom.cv.em.KeyType;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AbstractReflector;
+import io.vertx.up.eon.em.atom.KeyType;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

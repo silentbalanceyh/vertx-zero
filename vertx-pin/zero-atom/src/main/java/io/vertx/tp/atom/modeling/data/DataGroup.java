@@ -2,6 +2,7 @@ package io.vertx.tp.atom.modeling.data;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 
 import java.util.Objects;
 

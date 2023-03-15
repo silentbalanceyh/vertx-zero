@@ -7,6 +7,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 
@@ -38,7 +39,9 @@ class AuthorizationCache {
                 final String requestKey = requestKey(context);
                 if (authorized.getBoolean(requestKey, Boolean.FALSE)) {
                     final String habitus = user.principal().getString(KName.HABITUS);
-                    LOGGER.info("[ Auth ]\u001b[0;32m 403 Authorized Cached successfully \u001b[m for ( {1}, {0} )", habitus, requestKey);
+                    if (Debugger.devAuthorized()) {
+                        LOGGER.info("[ Auth ]\u001b[0;32m 403 Authorized Cached successfully \u001b[m for ( {1}, {0} )", habitus, requestKey);
+                    }
                     context.next();
                 } else {
                     actuator.execute();

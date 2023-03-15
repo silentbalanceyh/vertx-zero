@@ -20,28 +20,28 @@ public class UiList implements VertxPojo, IUiList {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        identifier;
-    private String        vQuery;
-    private String        vSearch;
-    private String        vTable;
-    private String        vSegment;
-    private Boolean       dynamicColumn;
-    private Boolean       dynamicSwitch;
-    private String        optionsAjax;
-    private String        optionsSubmit;
-    private String        options;
-    private String        classCombiner;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String identifier;
+    private String vQuery;
+    private String vSearch;
+    private String vTable;
+    private String vSegment;
+    private Boolean dynamicColumn;
+    private Boolean dynamicSwitch;
+    private String optionsAjax;
+    private String optionsSubmit;
+    private String options;
+    private String classCombiner;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public UiList() {}
 
@@ -71,28 +71,28 @@ public class UiList implements VertxPojo, IUiList {
     }
 
     public UiList(
-        String        key,
-        String        name,
-        String        code,
-        String        identifier,
-        String        vQuery,
-        String        vSearch,
-        String        vTable,
-        String        vSegment,
-        Boolean       dynamicColumn,
-        Boolean       dynamicSwitch,
-        String        optionsAjax,
-        String        optionsSubmit,
-        String        options,
-        String        classCombiner,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String identifier,
+        String vQuery,
+        String vSearch,
+        String vTable,
+        String vSegment,
+        Boolean dynamicColumn,
+        Boolean dynamicSwitch,
+        String optionsAjax,
+        String optionsSubmit,
+        String options,
+        String classCombiner,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -515,6 +515,179 @@ public class UiList implements VertxPojo, IUiList {
     public UiList setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UiList other = (UiList) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.vQuery == null) {
+            if (other.vQuery != null)
+                return false;
+        }
+        else if (!this.vQuery.equals(other.vQuery))
+            return false;
+        if (this.vSearch == null) {
+            if (other.vSearch != null)
+                return false;
+        }
+        else if (!this.vSearch.equals(other.vSearch))
+            return false;
+        if (this.vTable == null) {
+            if (other.vTable != null)
+                return false;
+        }
+        else if (!this.vTable.equals(other.vTable))
+            return false;
+        if (this.vSegment == null) {
+            if (other.vSegment != null)
+                return false;
+        }
+        else if (!this.vSegment.equals(other.vSegment))
+            return false;
+        if (this.dynamicColumn == null) {
+            if (other.dynamicColumn != null)
+                return false;
+        }
+        else if (!this.dynamicColumn.equals(other.dynamicColumn))
+            return false;
+        if (this.dynamicSwitch == null) {
+            if (other.dynamicSwitch != null)
+                return false;
+        }
+        else if (!this.dynamicSwitch.equals(other.dynamicSwitch))
+            return false;
+        if (this.optionsAjax == null) {
+            if (other.optionsAjax != null)
+                return false;
+        }
+        else if (!this.optionsAjax.equals(other.optionsAjax))
+            return false;
+        if (this.optionsSubmit == null) {
+            if (other.optionsSubmit != null)
+                return false;
+        }
+        else if (!this.optionsSubmit.equals(other.optionsSubmit))
+            return false;
+        if (this.options == null) {
+            if (other.options != null)
+                return false;
+        }
+        else if (!this.options.equals(other.options))
+            return false;
+        if (this.classCombiner == null) {
+            if (other.classCombiner != null)
+                return false;
+        }
+        else if (!this.classCombiner.equals(other.classCombiner))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.vQuery == null) ? 0 : this.vQuery.hashCode());
+        result = prime * result + ((this.vSearch == null) ? 0 : this.vSearch.hashCode());
+        result = prime * result + ((this.vTable == null) ? 0 : this.vTable.hashCode());
+        result = prime * result + ((this.vSegment == null) ? 0 : this.vSegment.hashCode());
+        result = prime * result + ((this.dynamicColumn == null) ? 0 : this.dynamicColumn.hashCode());
+        result = prime * result + ((this.dynamicSwitch == null) ? 0 : this.dynamicSwitch.hashCode());
+        result = prime * result + ((this.optionsAjax == null) ? 0 : this.optionsAjax.hashCode());
+        result = prime * result + ((this.optionsSubmit == null) ? 0 : this.optionsSubmit.hashCode());
+        result = prime * result + ((this.options == null) ? 0 : this.options.hashCode());
+        result = prime * result + ((this.classCombiner == null) ? 0 : this.classCombiner.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

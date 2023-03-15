@@ -11,7 +11,7 @@ import java.util.zip.Inflater;
 class Compressor {
 
     static byte[] compress(final byte[] data, final CompressLevel level) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Deflater deflater = new Deflater();
             deflater.setLevel(level.getLevel());
             deflater.setInput(data);
@@ -31,7 +31,7 @@ class Compressor {
     }
 
     static byte[] decompress(final byte[] data) {
-        return Fn.getJvm(() -> {
+        return Fn.orJvm(() -> {
             final Inflater inflater = new Inflater();
             inflater.setInput(data);
 

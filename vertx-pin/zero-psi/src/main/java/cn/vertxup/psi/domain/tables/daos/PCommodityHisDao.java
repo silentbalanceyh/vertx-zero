@@ -28,7 +28,7 @@ public class PCommodityHisDao extends AbstractVertxDAO<PCommodityHisRecord, cn.v
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public PCommodityHisDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(PCommodityHis.P_COMMODITY_HIS, cn.vertxup.psi.domain.tables.pojos.PCommodityHis.class, new JDBCClassicQueryExecutor<PCommodityHisRecord,cn.vertxup.psi.domain.tables.pojos.PCommodityHis,String>(configuration,cn.vertxup.psi.domain.tables.pojos.PCommodityHis.class,vertx));

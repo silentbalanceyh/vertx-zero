@@ -98,6 +98,42 @@ public interface IETeam extends VertxPojo, Serializable {
     public String getComment();
 
     /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
+     * 绑定用户组ID,安全专用处理
+     */
+    public IETeam setBindId(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
+     * 绑定用户组ID,安全专用处理
+     */
+    public String getBindId();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
+     * 「bindComponent」- 绑定扩展组件
+     */
+    public IETeam setBindComponent(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
+     * 「bindComponent」- 绑定扩展组件
+     */
+    public String getBindComponent();
+
+    /**
+     * Setter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * 绑定JSON详细配置
+     */
+    public IETeam setBindConfig(String value);
+
+    /**
+     * Getter for <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * 绑定JSON详细配置
+     */
+    public String getBindConfig();
+
+    /**
      * Setter for <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
     public IETeam setMetadata(String value);
@@ -203,6 +239,9 @@ public interface IETeam extends VertxPojo, Serializable {
                 setOrThrow(this::setDeptId,json::getString,"DEPT_ID","java.lang.String");
                 setOrThrow(this::setTeamId,json::getString,"TEAM_ID","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
+                setOrThrow(this::setBindId,json::getString,"BIND_ID","java.lang.String");
+                setOrThrow(this::setBindComponent,json::getString,"BIND_COMPONENT","java.lang.String");
+                setOrThrow(this::setBindConfig,json::getString,"BIND_CONFIG","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
                 setOrThrow(this::setActive,json::getBoolean,"ACTIVE","java.lang.Boolean");
                 setOrThrow(this::setSigma,json::getString,"SIGMA","java.lang.String");
@@ -226,6 +265,9 @@ public interface IETeam extends VertxPojo, Serializable {
                 json.put("DEPT_ID",getDeptId());
                 json.put("TEAM_ID",getTeamId());
                 json.put("COMMENT",getComment());
+                json.put("BIND_ID",getBindId());
+                json.put("BIND_COMPONENT",getBindComponent());
+                json.put("BIND_CONFIG",getBindConfig());
                 json.put("METADATA",getMetadata());
                 json.put("ACTIVE",getActive());
                 json.put("SIGMA",getSigma());

@@ -7,6 +7,7 @@ package cn.vertxup.jet.domain.tables;
 import cn.vertxup.jet.domain.Db;
 import cn.vertxup.jet.domain.Keys;
 import cn.vertxup.jet.domain.tables.records.IApiRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -232,6 +233,11 @@ public class IApi extends TableImpl<IApiRecord> {
         return new IApi(alias, this);
     }
 
+    @Override
+    public IApi as(Table<?> alias) {
+        return new IApi(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -246,5 +252,13 @@ public class IApi extends TableImpl<IApiRecord> {
     @Override
     public IApi rename(Name name) {
         return new IApi(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public IApi rename(Table<?> name) {
+        return new IApi(name.getQualifiedName(), null);
     }
 }

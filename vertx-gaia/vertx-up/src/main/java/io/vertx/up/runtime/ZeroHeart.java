@@ -1,9 +1,7 @@
 package io.vertx.up.runtime;
 
-import io.vertx.core.Future;
-import io.vertx.core.Vertx;
+import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.em.ServerType;
@@ -13,48 +11,20 @@ import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
+/*
+ * ZeroHeart 移除掉原始的 init 初始化类函数，只保留 is 检测函数
+ * ZeroArcane 负责启动过程中生命周期管理以及组件初始化（新版）
+ */
 public class ZeroHeart {
 
     private static final Annal LOGGER = Annal.get(ZeroHeart.class);
-    private static final String INIT = "init";
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
-
-    public static void initExtension() {
-        initExtension(null).onComplete(res -> LOGGER.info("Extension Initialized {0}", res.result()));
-    }
-
-    /*
-     * Async initialized for extension
-     */
-    public static Future<Boolean> initExtension(final Vertx vertx) {
-        // inject configuration
-        final JsonObject config = VISITOR.read();
-        /*
-         * Check whether there exist `init` node for class
-         * Each `init` clazz must be configured as
-         * init:
-         * - clazz: XXXX
-         *   config:
-         *      key1:value1
-         *      key2:value2
-         */
-        if (config.containsKey(INIT)) {
-            /* Component initializing with native */
-            final JsonArray components = config.getJsonArray(INIT, new JsonArray());
-            LOGGER.info("Extension components initialized {0}", components.encode());
-            return Ux.nativeInit(components, vertx);
-        } else {
-            LOGGER.info("Extension configuration missing {0}", config);
-            return Future.succeededFuture(Boolean.TRUE);
-        }
-    }
 
     /*
      * Shared Map
@@ -103,5 +73,10 @@ public class ZeroHeart {
             apiScanned.addAll(visitor.visit(ServerType.API.toString()).keySet());
         }, LOGGER);
         return !apiScanned.isEmpty();
+    }
+
+    public static boolean isCluster() {
+        final ClusterOptions cluster = ZeroGrid.getClusterOption();
+        return cluster.isEnabled();
     }
 }

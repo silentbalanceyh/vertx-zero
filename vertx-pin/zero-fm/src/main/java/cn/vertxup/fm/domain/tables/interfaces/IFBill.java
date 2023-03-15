@@ -258,7 +258,7 @@ public interface IFBill extends VertxPojo, Serializable {
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
                 setOrThrow(this::setType,json::getString,"TYPE","java.lang.String");
                 setOrThrow(this::setCategory,json::getString,"CATEGORY","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setIncome,json::getBoolean,"INCOME","java.lang.Boolean");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
                 setOrThrow(this::setOrderId,json::getString,"ORDER_ID","java.lang.String");
@@ -286,7 +286,7 @@ public interface IFBill extends VertxPojo, Serializable {
                 json.put("SERIAL",getSerial());
                 json.put("TYPE",getType());
                 json.put("CATEGORY",getCategory());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("INCOME",getIncome());
                 json.put("COMMENT",getComment());
                 json.put("ORDER_ID",getOrderId());

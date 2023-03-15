@@ -20,35 +20,43 @@ public class SVisitant implements VertxPojo, ISVisitant {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        viewId;
-    private String        phase;
-    private String        type;
-    private String        identifier;
-    private String        configKey;
-    private String        aclVisible;
-    private String        aclView;
-    private String        aclVariety;
-    private String        aclVow;
-    private String        aclVerge;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String viewId;
+    private String mode;
+    private String phase;
+    private String type;
+    private String identifier;
+    private String seekKey;
+    private String dmRow;
+    private String dmQr;
+    private String dmColumn;
+    private String aclVisible;
+    private String aclView;
+    private String aclVariety;
+    private String aclVow;
+    private String aclVerge;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public SVisitant() {}
 
     public SVisitant(ISVisitant value) {
         this.key = value.getKey();
         this.viewId = value.getViewId();
+        this.mode = value.getMode();
         this.phase = value.getPhase();
         this.type = value.getType();
         this.identifier = value.getIdentifier();
-        this.configKey = value.getConfigKey();
+        this.seekKey = value.getSeekKey();
+        this.dmRow = value.getDmRow();
+        this.dmQr = value.getDmQr();
+        this.dmColumn = value.getDmColumn();
         this.aclVisible = value.getAclVisible();
         this.aclView = value.getAclView();
         this.aclVariety = value.getAclVariety();
@@ -65,32 +73,40 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     public SVisitant(
-        String        key,
-        String        viewId,
-        String        phase,
-        String        type,
-        String        identifier,
-        String        configKey,
-        String        aclVisible,
-        String        aclView,
-        String        aclVariety,
-        String        aclVow,
-        String        aclVerge,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String viewId,
+        String mode,
+        String phase,
+        String type,
+        String identifier,
+        String seekKey,
+        String dmRow,
+        String dmQr,
+        String dmColumn,
+        String aclVisible,
+        String aclView,
+        String aclVariety,
+        String aclVow,
+        String aclVerge,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.viewId = viewId;
+        this.mode = mode;
         this.phase = phase;
         this.type = type;
         this.identifier = identifier;
-        this.configKey = configKey;
+        this.seekKey = seekKey;
+        this.dmRow = dmRow;
+        this.dmQr = dmQr;
+        this.dmColumn = dmColumn;
         this.aclVisible = aclVisible;
         this.aclView = aclView;
         this.aclVariety = aclVariety;
@@ -148,6 +164,25 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    @Override
+    public String getMode() {
+        return this.mode;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.MODE</code>. 「mode」-
+     * 模式，资源访问者继承于资源，可`替换/扩展`两种模式
+     */
+    @Override
+    public SVisitant setMode(String mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    /**
      * Getter for <code>DB_ETERNAL.S_VISITANT.PHASE</code>. 「phase」- 作用周期
      */
     @Override
@@ -201,21 +236,76 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     /**
-     * Getter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Getter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
     @Override
-    public String getConfigKey() {
-        return this.configKey;
+    public String getSeekKey() {
+        return this.seekKey;
     }
 
     /**
-     * Setter for <code>DB_ETERNAL.S_VISITANT.CONFIG_KEY</code>. 「configKey」-
-     * 模型下记录对应的ID，一般是配置的ID
+     * Setter for <code>DB_ETERNAL.S_VISITANT.SEEK_KEY</code>. 「seekKey」-
+     * 资源检索的唯一键
      */
     @Override
-    public SVisitant setConfigKey(String configKey) {
-        this.configKey = configKey;
+    public SVisitant setSeekKey(String seekKey) {
+        this.seekKey = seekKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    @Override
+    public String getDmRow() {
+        return this.dmRow;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_ROW</code>. 「dmRow」对应视图中 Rows
+     */
+    @Override
+    public SVisitant setDmRow(String dmRow) {
+        this.dmRow = dmRow;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    @Override
+    public String getDmQr() {
+        return this.dmQr;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_QR</code>. 「dmQr」对应视图中的
+     * Criteria
+     */
+    @Override
+    public SVisitant setDmQr(String dmQr) {
+        this.dmQr = dmQr;
+        return this;
+    }
+
+    /**
+     * Getter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    @Override
+    public String getDmColumn() {
+        return this.dmColumn;
+    }
+
+    /**
+     * Setter for <code>DB_ETERNAL.S_VISITANT.DM_COLUMN</code>. 「dmColumn」对应视图中的
+     * Projection
+     */
+    @Override
+    public SVisitant setDmColumn(String dmColumn) {
+        this.dmColumn = dmColumn;
         return this;
     }
 
@@ -457,15 +547,199 @@ public class SVisitant implements VertxPojo, ISVisitant {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SVisitant other = (SVisitant) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.viewId == null) {
+            if (other.viewId != null)
+                return false;
+        }
+        else if (!this.viewId.equals(other.viewId))
+            return false;
+        if (this.mode == null) {
+            if (other.mode != null)
+                return false;
+        }
+        else if (!this.mode.equals(other.mode))
+            return false;
+        if (this.phase == null) {
+            if (other.phase != null)
+                return false;
+        }
+        else if (!this.phase.equals(other.phase))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!this.identifier.equals(other.identifier))
+            return false;
+        if (this.seekKey == null) {
+            if (other.seekKey != null)
+                return false;
+        }
+        else if (!this.seekKey.equals(other.seekKey))
+            return false;
+        if (this.dmRow == null) {
+            if (other.dmRow != null)
+                return false;
+        }
+        else if (!this.dmRow.equals(other.dmRow))
+            return false;
+        if (this.dmQr == null) {
+            if (other.dmQr != null)
+                return false;
+        }
+        else if (!this.dmQr.equals(other.dmQr))
+            return false;
+        if (this.dmColumn == null) {
+            if (other.dmColumn != null)
+                return false;
+        }
+        else if (!this.dmColumn.equals(other.dmColumn))
+            return false;
+        if (this.aclVisible == null) {
+            if (other.aclVisible != null)
+                return false;
+        }
+        else if (!this.aclVisible.equals(other.aclVisible))
+            return false;
+        if (this.aclView == null) {
+            if (other.aclView != null)
+                return false;
+        }
+        else if (!this.aclView.equals(other.aclView))
+            return false;
+        if (this.aclVariety == null) {
+            if (other.aclVariety != null)
+                return false;
+        }
+        else if (!this.aclVariety.equals(other.aclVariety))
+            return false;
+        if (this.aclVow == null) {
+            if (other.aclVow != null)
+                return false;
+        }
+        else if (!this.aclVow.equals(other.aclVow))
+            return false;
+        if (this.aclVerge == null) {
+            if (other.aclVerge != null)
+                return false;
+        }
+        else if (!this.aclVerge.equals(other.aclVerge))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.viewId == null) ? 0 : this.viewId.hashCode());
+        result = prime * result + ((this.mode == null) ? 0 : this.mode.hashCode());
+        result = prime * result + ((this.phase == null) ? 0 : this.phase.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+        result = prime * result + ((this.seekKey == null) ? 0 : this.seekKey.hashCode());
+        result = prime * result + ((this.dmRow == null) ? 0 : this.dmRow.hashCode());
+        result = prime * result + ((this.dmQr == null) ? 0 : this.dmQr.hashCode());
+        result = prime * result + ((this.dmColumn == null) ? 0 : this.dmColumn.hashCode());
+        result = prime * result + ((this.aclVisible == null) ? 0 : this.aclVisible.hashCode());
+        result = prime * result + ((this.aclView == null) ? 0 : this.aclView.hashCode());
+        result = prime * result + ((this.aclVariety == null) ? 0 : this.aclVariety.hashCode());
+        result = prime * result + ((this.aclVow == null) ? 0 : this.aclVow.hashCode());
+        result = prime * result + ((this.aclVerge == null) ? 0 : this.aclVerge.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("SVisitant (");
 
         sb.append(key);
         sb.append(", ").append(viewId);
+        sb.append(", ").append(mode);
         sb.append(", ").append(phase);
         sb.append(", ").append(type);
         sb.append(", ").append(identifier);
-        sb.append(", ").append(configKey);
+        sb.append(", ").append(seekKey);
+        sb.append(", ").append(dmRow);
+        sb.append(", ").append(dmQr);
+        sb.append(", ").append(dmColumn);
         sb.append(", ").append(aclVisible);
         sb.append(", ").append(aclView);
         sb.append(", ").append(aclVariety);
@@ -492,10 +766,14 @@ public class SVisitant implements VertxPojo, ISVisitant {
     public void from(ISVisitant from) {
         setKey(from.getKey());
         setViewId(from.getViewId());
+        setMode(from.getMode());
         setPhase(from.getPhase());
         setType(from.getType());
         setIdentifier(from.getIdentifier());
-        setConfigKey(from.getConfigKey());
+        setSeekKey(from.getSeekKey());
+        setDmRow(from.getDmRow());
+        setDmQr(from.getDmQr());
+        setDmColumn(from.getDmColumn());
         setAclVisible(from.getAclVisible());
         setAclView(from.getAclView());
         setAclVariety(from.getAclVariety());

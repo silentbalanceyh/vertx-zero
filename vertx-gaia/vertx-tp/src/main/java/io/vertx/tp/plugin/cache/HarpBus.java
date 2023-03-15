@@ -6,8 +6,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -21,6 +21,8 @@ public class HarpBus {
     private static final String KEY_L1 = "l1";
     private static final ConcurrentMap<String, L1Cache> POOL_L1
         = new ConcurrentHashMap<>();
+
+    private static final Cc<String, L1Cache> CC_L1 = Cc.openThread();
     private final transient Vertx vertx;
     private L1Config l1Config;
 
@@ -69,10 +71,14 @@ public class HarpBus {
              * L1 cache here
              */
             final Class<?> cacheClass = this.l1Config.getComponent();
-            cache = Fn.poolThread(POOL_L1, () -> {
+            cache = CC_L1.pick(() -> {
                 final L1Cache created = Ut.instance(cacheClass);
                 return created.bind(this.vertx).bind(this.l1Config.copy());
             });
+            //            cache = Fn.po?lThread(POOL_L1, () -> {
+            //                final L1Cache created = Ut.instance(cacheClass);
+            //                return created.bind(this.vertx).bind(this.l1Config.copy());
+            //            });
         }
         return cache;
     }

@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.Pagination;
+import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ class Complex {
                     pageSet.stream()
                         .map(each -> pageConsumer.apply(each).compose(responseBuilder))
                         .forEach(futures::add);
-                    return Ux.thenCombineT(futures).compose(list -> {
+                    return Fn.combineT(futures).compose(list -> {
                         final R result = list.stream().reduce(fnReduce).orElse(null);
                         final R firstRef = firstResult.get();
                         return Ux.future(fnReduce.apply(firstRef, result));

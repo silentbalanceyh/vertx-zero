@@ -88,7 +88,7 @@ import java.util.function.BiPredicate;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class QrAnalyzer implements QrDo {
-    private final transient JsonObject raw = new JsonObject();
+    private final JsonObject raw = new JsonObject();
 
     QrAnalyzer(final JsonObject input) {
         this.raw.mergeIn(input, true);

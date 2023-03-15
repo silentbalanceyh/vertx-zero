@@ -8,6 +8,7 @@ import cn.vertxup.rbac.domain.Db;
 import cn.vertxup.rbac.domain.Indexes;
 import cn.vertxup.rbac.domain.Keys;
 import cn.vertxup.rbac.domain.tables.records.OUserRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -15,6 +16,7 @@ import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -146,6 +148,11 @@ public class OUser extends TableImpl<OUserRecord> {
         return new OUser(alias, this);
     }
 
+    @Override
+    public OUser as(Table<?> alias) {
+        return new OUser(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -162,6 +169,14 @@ public class OUser extends TableImpl<OUserRecord> {
         return new OUser(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public OUser rename(Table<?> name) {
+        return new OUser(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row11 type methods
     // -------------------------------------------------------------------------
@@ -169,5 +184,20 @@ public class OUser extends TableImpl<OUserRecord> {
     @Override
     public Row11<String, String, String, String, String, String, String, String, String, Boolean, String> fieldsRow() {
         return (Row11) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function11<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

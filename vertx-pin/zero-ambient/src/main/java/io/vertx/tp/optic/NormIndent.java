@@ -6,11 +6,12 @@ import io.vertx.core.Future;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.web._400SigmaMissingException;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
-import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -22,7 +23,7 @@ public class NormIndent implements Indent {
     @Override
     public Future<String> indent(final String code, final String sigma) {
         if (Ut.isNil(sigma)) {
-            return Ux.thenError(_400SigmaMissingException.class, this.getClass());
+            return Fn.error(_400SigmaMissingException.class, this.getClass());
         }
         return stub.numberSigma(sigma, code, 1).compose(item -> {
             if (item.isEmpty()) {
@@ -36,7 +37,7 @@ public class NormIndent implements Indent {
     @Override
     public Future<Boolean> reset(final String code, final String sigma, final Long defaultValue) {
         if (Ut.isNil(sigma)) {
-            return Ux.thenError(_400SigmaMissingException.class, this.getClass());
+            return Fn.error(_400SigmaMissingException.class, this.getClass());
         }
         return stub.numberSigmaR(sigma, code, defaultValue);
     }
@@ -45,13 +46,13 @@ public class NormIndent implements Indent {
     @SuppressWarnings("all")
     public Future<Queue<String>> indent(final String code, final String sigma, final int size) {
         if (Ut.isNil(sigma)) {
-            return Ux.thenError(_400SigmaMissingException.class, getClass());
+            return Fn.error(_400SigmaMissingException.class, getClass());
         }
         return stub.numberSigma(sigma, code, size).compose(item -> {
             if (item.isEmpty()) {
-                return Ux.future(new PriorityQueue<>());
+                return Ux.future(new ConcurrentLinkedQueue<>());
             } else {
-                return Ux.future(new PriorityQueue<>(item.getList()));
+                return Ux.future(new ConcurrentLinkedQueue<>(item.getList()));
             }
         });
     }

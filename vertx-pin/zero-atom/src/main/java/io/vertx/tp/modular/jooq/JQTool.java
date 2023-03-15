@@ -9,8 +9,8 @@ import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;
-import org.jooq.Record;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

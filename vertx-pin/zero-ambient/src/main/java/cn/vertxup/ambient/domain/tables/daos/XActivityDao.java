@@ -27,7 +27,7 @@ public class XActivityDao extends AbstractVertxDAO<XActivityRecord, cn.vertxup.a
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public XActivityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(XActivity.X_ACTIVITY, cn.vertxup.ambient.domain.tables.pojos.XActivity.class, new JDBCClassicQueryExecutor<XActivityRecord,cn.vertxup.ambient.domain.tables.pojos.XActivity,String>(configuration,cn.vertxup.ambient.domain.tables.pojos.XActivity.class,vertx));
@@ -112,6 +112,53 @@ public class XActivityDao extends AbstractVertxDAO<XActivityRecord, cn.vertxup.a
      */
         public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByModelKey(Collection<String> values, int limit) {
                 return findManyByCondition(XActivity.X_ACTIVITY.MODEL_KEY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>MODEL_CATEGORY IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByModelCategory(Collection<String> values) {
+                return findManyByCondition(XActivity.X_ACTIVITY.MODEL_CATEGORY.in(values));
+        }
+
+        /**
+     * Find records that have <code>MODEL_CATEGORY IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByModelCategory(Collection<String> values, int limit) {
+                return findManyByCondition(XActivity.X_ACTIVITY.MODEL_CATEGORY.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TASK_NAME IN (values)</code> asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByTaskName(Collection<String> values) {
+                return findManyByCondition(XActivity.X_ACTIVITY.TASK_NAME.in(values));
+        }
+
+        /**
+     * Find records that have <code>TASK_NAME IN (values)</code> asynchronously
+     * limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByTaskName(Collection<String> values, int limit) {
+                return findManyByCondition(XActivity.X_ACTIVITY.TASK_NAME.in(values),limit);
+        }
+
+        /**
+     * Find records that have <code>TASK_SERIAL IN (values)</code>
+     * asynchronously
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByTaskSerial(Collection<String> values) {
+                return findManyByCondition(XActivity.X_ACTIVITY.TASK_SERIAL.in(values));
+        }
+
+        /**
+     * Find records that have <code>TASK_SERIAL IN (values)</code>
+     * asynchronously limited by the given limit
+     */
+        public Future<List<cn.vertxup.ambient.domain.tables.pojos.XActivity>> findManyByTaskSerial(Collection<String> values, int limit) {
+                return findManyByCondition(XActivity.X_ACTIVITY.TASK_SERIAL.in(values),limit);
         }
 
         /**

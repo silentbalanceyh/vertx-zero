@@ -359,7 +359,7 @@ public interface IPOutTicket extends VertxPojo, Serializable {
                 setOrThrow(this::setOpDept,json::getString,"OP_DEPT","java.lang.String");
                 setOrThrow(this::setTags,json::getString,"TAGS","java.lang.String");
                 setOrThrow(this::setComment,json::getString,"COMMENT","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
                 setOrThrow(this::setApprovedBy,json::getString,"APPROVED_BY","java.lang.String");
                 setOrThrow(this::setApprovedAt,key -> {String s = json.getString(key); return s==null?null:java.time.LocalDateTime.parse(s);},"APPROVED_AT","java.time.LocalDateTime");
                 setOrThrow(this::setToId,json::getString,"TO_ID","java.lang.String");
@@ -394,7 +394,7 @@ public interface IPOutTicket extends VertxPojo, Serializable {
                 json.put("OP_DEPT",getOpDept());
                 json.put("TAGS",getTags());
                 json.put("COMMENT",getComment());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
                 json.put("APPROVED_BY",getApprovedBy());
                 json.put("APPROVED_AT",getApprovedAt()==null?null:getApprovedAt().toString());
                 json.put("TO_ID",getToId());

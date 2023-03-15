@@ -5,7 +5,7 @@ import io.vertx.ext.web.Route;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.Strings;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Set;
 
 /**

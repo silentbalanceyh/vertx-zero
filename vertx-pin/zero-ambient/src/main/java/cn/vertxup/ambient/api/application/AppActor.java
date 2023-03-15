@@ -1,5 +1,7 @@
 package cn.vertxup.ambient.api.application;
 
+import cn.vertxup.ambient.domain.tables.daos.XNoticeDao;
+import cn.vertxup.ambient.domain.tables.pojos.XNotice;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.MenuStub;
 import io.vertx.core.Future;
@@ -9,10 +11,13 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.Database;
+import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.function.Function;
 
 @Queue
@@ -30,7 +35,7 @@ public class AppActor {
     }
 
     @Address(Addr.App.BY_ID)
-    public Future<JsonObject> byId(final String appId) {
+    public Future<JsonObject> byId(final String appId, final XHeader header) {
         return this.appStub.fetchById(appId);
     }
 
@@ -77,6 +82,30 @@ public class AppActor {
             response.put("workflow", consumer.apply(workflow.toJson()));
             response.put("atom", consumer.apply(atom));
             return Ux.future(response);
+        });
+    }
+
+    /*
+     * Fix: https://github.com/silentbalanceyh/ox-engine/issues/1196
+     * New interface for expired notices updating
+     */
+    @Address(Addr.Init.NOTICE)
+    public Future<JsonArray> notice(final String appId, final JsonObject criteria) {
+        // ExpiredAt Updating first
+        final JsonObject expiredQr = Ux.whereAnd();
+        expiredQr.put("expiredAt,<", Instant.now());
+        expiredQr.put(KName.APP_ID, appId);
+        final UxJooq jq = Ux.Jooq.on(XNoticeDao.class);
+        return jq.<XNotice>fetchAsync(expiredQr).compose(notices -> {
+            // Turn Off the expired notices
+            notices.forEach(notice -> notice.setStatus("FINISHED"));
+            return jq.updateAsync(notices);
+        }).compose(nil -> {
+            // Query again
+            final JsonObject dashboardQr = Ux.whereAnd();
+            dashboardQr.put(KName.APP_ID, appId);
+            dashboardQr.put("$IN$", criteria);
+            return jq.fetchJAsync(dashboardQr);
         });
     }
 }

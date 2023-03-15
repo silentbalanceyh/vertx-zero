@@ -6,39 +6,70 @@ DROP TABLE IF EXISTS S_VISITANT;
 CREATE TABLE IF NOT EXISTS S_VISITANT
 (
     `KEY`         VARCHAR(36) COMMENT '「key」- 限定记录ID',
-
-    -- 视图ID
-    `VIEW_ID`     VARCHAR(36) COMMENT '「viewId」- 视图访问者的读ID',
     /*
+     * 视图ID，当前资源访问者绑定的视图ID，当视图本身出现了 visitant = true 时，则执行
+     * 资源访问者操作提取视图相关信息，和管理部分的 Seeker 相对应，管理部分当资源是 virtual = true 时
+     * 则启用 Seeker 模式查找真实资源，而 Visitant 就是对真实资源的视图查询同步执行操作
+     * View -> 绑定Resource -> ( virtual = true ) -> 查找对应资源访问者，执行资源访问
+     * 1) 执行逻辑：
+     * View -> seekSyntax / seekConfig / seekComponent
+     * 模式支持：Replace / Extend
+     * 2）作用阶段：
      * 作用周期包含三个：
-     * 1）EAGER：该 ACL 直接控制当前请求资源（立即生效）
-     * 2）DELAY：该 ACL 会读取成为配置项，作用于其他资源（在当前请求中不执行 ACL 流程）
+     * 2.1) EAGER：该 ACL 直接控制当前请求资源（立即生效）
+     * 2.2) DELAY：该 ACL 会读取成为配置项，作用于其他资源（在当前请求中不执行 ACL 流程）
      * -- 一般读取配置数据和元数据时使用 DELAY
      * -- 而读取当前数据时则直接使用 EAGER
      * 处于 DELAY 状态时，VIEW 中的 DataRegion 依旧生效
      */
+    `VIEW_ID`     VARCHAR(36) COMMENT '「viewId」- 视图访问者的读ID',
+    `MODE`        VARCHAR(36) COMMENT '「mode」- 模式，资源访问者继承于资源，可`替换/扩展`两种模式',
     `PHASE`       VARCHAR(64) COMMENT '「phase」- 作用周期',
-    /*
-     * 查询条件
-     * 1）VIEW_ID：角色/资源定位视图
-     * 2）TYPE：FORM/LIST/OP 三大类（抽象资源分类）
-     * 3）RELATED_KEY：定位唯一记录专用，FORM 和 LIST 为 controlId
-     */
 
     /*
      * 访问者类型决定了当前访问者如何处理视图相关信息
      * FORM: 表单访问者（字段属性访问）
-     * LIST：列表访问者（深度列过滤）
+     * LIST: 列表访问者（深度列过滤）
      * OP：操作访问者（操作处理）
-     * 1）关于 configKey
-     * -- 在配置模式下，configKey 描述的配置的 control 记录
-     * -- 在记录读取下，configKey 描述的是模型的 category 的主键
+     * VIEW: 视图访问者
+     * 1）关于 seekKey
+     * -- 在配置模式下，seekKey 描述的配置的 control 记录
+     * -- 在记录读取下，seekKey 描述的是模型的 category 的主键
      **/
     `TYPE`        VARCHAR(128) COMMENT '「type」- 访问者类型',
     `IDENTIFIER`  VARCHAR(255) COMMENT '「identifier」- 动态类型中的模型ID',
-    `CONFIG_KEY`  VARCHAR(36) COMMENT '「configKey」- 模型下记录对应的ID，一般是配置的ID',
+    /*
+     * 关于 seekKey
+     * 1) 动态建模中，通常资源访问会牵涉到 controlId
+     *    {
+     *        "type": "LIST / FORM / OP",
+     *        "controlId": "由于UI_CONTROL中定义了模型标识符，所以此处模型标识符可省略"
+     *    }
+     * 2) 静态建模中，通常资源访问主要会牵涉其他内容
+     *    {
+     *        "type": "LIST / FORM / OP",
+     *        "workflow": "工作流"
+     *    }
+     * 关于Seek的整体结构
+     * 管理端              消费端             定义端
+     * S_PACKET           S_VISITANT        S_RESOURCE
+     * SEEK_CONFIG                          SEEK_CONFIG
+     * SEEK_SYNTAX        SEEK_KEY          SEEK_SYNTAX
+     *                                      SEEK_COMPONENT
+     * 抽象资源的提取，S_VIEW --> S_RESOURCE ( virtual = true ) --> S_VISITANT --> 计算最终的过滤部分内容 DM_ / ACL_
+     * 抽象资源的定义，S_PATH --> webBind ( resource = packet ) --> S_PACKET -->
+     * --- S_PATH绑定的资源操作（视图）
+     * --- S_PATH绑定的资源操作（视图 + 资源访问者）
+     * --- 上述分支出现在 resource 中的 virtual = true
+     */
+    `SEEK_KEY`    VARCHAR(255) COMMENT '「seekKey」- 资源检索的唯一键',
 
-    -- 访问者的访问信息
+    -- 访问者的访问信息（列表）
+    `DM_ROW`      TEXT COMMENT '「dmRow」对应视图中 Rows',
+    `DM_QR`       TEXT COMMENT '「dmQr」对应视图中的 Criteria',
+    `DM_COLUMN`   TEXT COMMENT '「dmColumn」对应视图中的 Projection',
+
+    -- 访问者的访问信息（表单）
     /*
      * 1）可见性：属性是否可访问，不可访问的数据直接在数据层滤掉
      * 2）只读：属性是否只读
@@ -70,7 +101,7 @@ CREATE TABLE IF NOT EXISTS S_VISITANT
 
 -- changeset Lang:ox-visitant-2
 ALTER TABLE S_VISITANT
-    ADD UNIQUE (`VIEW_ID`, `TYPE`, `CONFIG_KEY`) USING BTREE;
+    ADD UNIQUE (`VIEW_ID`, `TYPE`, `SEEK_KEY`) USING BTREE;
 /*
  * 关于唯一性描述
  * 1）读取配置，如表单读取
@@ -90,7 +121,7 @@ ALTER TABLE S_VISITANT
  */
 ALTER TABLE S_VISITANT
     ADD INDEX
-        IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`, `TYPE`, `CONFIG_KEY`) USING BTREE;
+        IDXM_S_VISITANT_VIEW_ID_TYPE_CONFIG (`VIEW_ID`, `TYPE`, `SEEK_KEY`);
 ALTER TABLE S_VISITANT
     ADD INDEX
-        IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`, `TYPE`, `IDENTIFIER`) USING BTREE;
+        IDXM_S_VISITANT_VIEW_ID_TYPE_IDENTIFIER (`VIEW_ID`, `TYPE`, `IDENTIFIER`);

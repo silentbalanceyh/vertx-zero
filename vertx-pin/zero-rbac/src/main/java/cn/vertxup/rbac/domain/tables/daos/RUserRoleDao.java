@@ -27,7 +27,7 @@ public class RUserRoleDao extends AbstractVertxDAO<RUserRoleRecord, cn.vertxup.r
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public RUserRoleDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(RUserRole.R_USER_ROLE, cn.vertxup.rbac.domain.tables.pojos.RUserRole.class, new JDBCClassicQueryExecutor<RUserRoleRecord,cn.vertxup.rbac.domain.tables.pojos.RUserRole,Record2<String, String>>(configuration,cn.vertxup.rbac.domain.tables.pojos.RUserRole.class,vertx));

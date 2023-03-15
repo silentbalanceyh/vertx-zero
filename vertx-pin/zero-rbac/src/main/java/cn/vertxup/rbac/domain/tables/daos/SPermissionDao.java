@@ -27,7 +27,7 @@ public class SPermissionDao extends AbstractVertxDAO<SPermissionRecord, cn.vertx
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SPermissionDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SPermission.S_PERMISSION, cn.vertxup.rbac.domain.tables.pojos.SPermission.class, new JDBCClassicQueryExecutor<SPermissionRecord,cn.vertxup.rbac.domain.tables.pojos.SPermission,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SPermission.class,vertx));

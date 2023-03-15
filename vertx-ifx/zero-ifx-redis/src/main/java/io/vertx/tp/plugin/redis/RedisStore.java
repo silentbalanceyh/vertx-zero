@@ -1,9 +1,6 @@
 package io.vertx.tp.plugin.redis;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.LocalMap;
@@ -74,10 +71,17 @@ public class RedisStore implements SessionStore {
     }
 
     @Override
-    public void clear(final Handler<AsyncResult<Void>> handler) {
+    public SessionStore clear(final Handler<AsyncResult<Void>> handler) {
+        handler.handle(this.clear());
+        return this;
+    }
+
+    @Override
+    public Future<Void> clear() {
         /*
          * To avoid: java.util.ConcurrentModificationException
          */
+        final Promise<Void> promise = Promise.promise();
         final Set<String> idSet = new HashSet<>(this.sessionIds);
         idSet.forEach(sessionId -> this.client.send(Request.cmd(Command.DEL), res -> {
             if (res.succeeded()) {
@@ -85,17 +89,24 @@ public class RedisStore implements SessionStore {
                  * This sessionId should be removed
                  */
                 this.sessionIds.remove(sessionId);
+                promise.complete();
             }
         }));
-        handler.handle(Future.succeededFuture());
+        return promise.future();
     }
 
     @Override
-    public void size(final Handler<AsyncResult<Integer>> handler) {
+    public SessionStore size(final Handler<AsyncResult<Integer>> handler) {
         /*
          * Session IDs
          */
-        handler.handle(Future.succeededFuture(this.sessionIds.size()));
+        handler.handle(this.size());
+        return this;
+    }
+
+    @Override
+    public Future<Integer> size() {
+        return Future.succeededFuture(this.sessionIds.size());
     }
 
     @Override
@@ -107,7 +118,14 @@ public class RedisStore implements SessionStore {
     }
 
     @Override
-    public void delete(final String id, final Handler<AsyncResult<Void>> handler) {
+    public SessionStore delete(final String id, final Handler<AsyncResult<Void>> handler) {
+        handler.handle(this.delete(id));
+        return this;
+    }
+
+    @Override
+    public Future<Void> delete(final String id) {
+        final Promise<Void> promise = Promise.promise();
         LOGGER.debug(RedisMsg.RS_MESSAGE, id, "delete(String)");
         this.client.send(Request.cmd(Command.DEL), res -> {
             if (res.succeeded()) {
@@ -117,22 +135,30 @@ public class RedisStore implements SessionStore {
                 this.sessionIds.remove(id);
 
                 LOGGER.info(RedisMsg.RD_CLEAR, id);
-                handler.handle(Future.succeededFuture());
+                promise.complete();
             } else {
                 /*
                  * ERROR throw out
                  */
                 res.cause().printStackTrace();
-                handler.handle(Future.failedFuture(res.cause()));
+                promise.fail(res.cause());
             }
         });
+        return promise.future();
     }
 
     @Override
-    public void get(final String id, final Handler<AsyncResult<Session>> handler) {
+    public SessionStore get(final String id, final Handler<AsyncResult<Session>> handler) {
+        handler.handle(this.get(id));
+        return this;
+    }
+
+    @Override
+    public Future<Session> get(final String id) {
         LOGGER.debug(RedisMsg.RS_MESSAGE, id, "get(String)");
         final Request request = Request.cmd(Command.GETBIT);
         request.arg(id);
+        final Promise<Session> promise = Promise.promise();
         this.client.send(request, res -> {
             /*
              * Whether get buffer data after read data from redis.
@@ -146,30 +172,41 @@ public class RedisStore implements SessionStore {
                     if (0 < buffer.length()) {
                         session.readFromBuffer(0, buffer);
                     }
-                    handler.handle(Future.succeededFuture(session));
+                    promise.complete(session);
+                    // handler.handle(Future.succeededFuture(session));
                 } else {
                     /*
                      * LocalMap of vertx-web.sessions
                      */
-                    handler.handle(Future.succeededFuture(this.localMap.get(id)));
+                    promise.complete(this.localMap.get(id));
+                    // handler.handle(Future.succeededFuture(this.localMap.get(id)));
                 }
             } else {
                 /*
                  * ERROR throw out
                  */
                 res.cause().printStackTrace();
-                handler.handle(Future.failedFuture(res.cause()));
+                promise.fail(res.cause());
+                // handler.handle(Future.failedFuture(res.cause()));
             }
         });
+        return promise.future();
+    }
+
+    @Override
+    public SessionStore put(final Session session, final Handler<AsyncResult<Void>> handler) {
+        handler.handle(this.put(session));
+        return this;
     }
 
     @Override
     @SuppressWarnings("all")
-    public void put(final Session session, final Handler<AsyncResult<Void>> handler) {
+    public Future<Void> put(final Session session) {
         final String id = session.id();
         LOGGER.debug(RedisMsg.RS_MESSAGE, id, "put(Session)");
         final Request request = Request.cmd(Command.SET);
         request.arg(id);
+        final Promise<Void> promise = Promise.promise();
         client.send(request, res -> {
             if (res.succeeded()) {
                 final Response response = res.result();
@@ -194,7 +231,8 @@ public class RedisStore implements SessionStore {
                     if (oldSession.version() != newSession.version()) {
                         final WebException error = new _409SessionVersionException(getClass(),
                             oldSession.version(), newSession.version());
-                        handler.handle(Future.failedFuture(error));
+                        promise.fail(error);
+                        // handler.handle(Future.failedFuture(error));
                         return;
                     }
                     finalSession = newSession;
@@ -214,6 +252,7 @@ public class RedisStore implements SessionStore {
                              * Append data into localMap to cache
                              */
                             localMap.put(added, session);
+                            promise.complete();
                         }
                         LOGGER.info(RedisMsg.RS_AFTER, finalSession.id(),
                             null == oldSession ? null : oldSession.id());
@@ -222,7 +261,8 @@ public class RedisStore implements SessionStore {
                          * ERROR throw out
                          */
                         res2.cause().printStackTrace();
-                        handler.handle(Future.failedFuture(res.cause()));
+                        promise.fail(res.cause());
+                        // handler.handle(Future.failedFuture(res.cause()));
                     }
                 });
             } else {
@@ -230,9 +270,11 @@ public class RedisStore implements SessionStore {
                  * ERROR throw out
                  */
                 res.cause().printStackTrace();
-                handler.handle(Future.failedFuture(res.cause()));
+                promise.fail(res.cause());
+                // handler.handle(Future.failedFuture(res.cause()));
             }
         });
+        return promise.future();
     }
 
     private void writeSession(final Session session, final Handler<AsyncResult<String>> handler) {

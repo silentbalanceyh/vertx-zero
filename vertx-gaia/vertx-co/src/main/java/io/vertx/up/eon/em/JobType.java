@@ -1,8 +1,7 @@
 package io.vertx.up.eon.em;
 
 public enum JobType {
-    FIXED,      // Run at timestamp
-    PLAN,       // Scheduled
-    ONCE,       // Run once
-    CONTAINER,  // Task container
+    ONCE,       // 「Development」Run once
+    FIXED,      // runAt,    Run at timestamp based on simple configuration.
+    FORMULA,    // runExpr,  Run Formula  ( Support Multi )
 }

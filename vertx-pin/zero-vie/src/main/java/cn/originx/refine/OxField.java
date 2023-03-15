@@ -3,9 +3,10 @@ package cn.originx.refine;
 import cn.originx.cv.OxCv;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.modeling.data.DataAtom;
-import io.vertx.up.commune.rule.RuleUnique;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
+import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -86,28 +87,28 @@ final class OxField {
      * 2. 拉取数据过程中准入禁用的字段：syncIn = false
      */
     static Set<String> ignorePull(final DataAtom atom) {
-        final Set<String> fieldSet = toIgnores(atom.falseTrack());
-        fieldSet.addAll(atom.falseIn());
+        final Set<String> fieldSet = toIgnores(atom.marker().offTrack());
+        fieldSet.addAll(atom.marker().offIn());
         return fieldSet;
     }
 
     static Set<String> ignorePush(final DataAtom atom) {
-        return atom.falseOut();
+        return atom.marker().offOut();
     }
 
     /*
      * compareEdit比对流程专用
      */
     static Set<String> ignoreIn(final DataAtom atom) {
-        return toIgnores(atom.falseIn());
+        return toIgnores(atom.marker().offIn());
     }
 
     static Set<String> ignorePure(final DataAtom atom) {
-        return toIgnores(atom.falseTrack());
+        return toIgnores(atom.marker().offTrack());
     }
 
     static Set<String> ignoreApi(final DataAtom atom) {
-        final RuleUnique unique = atom.rule();
+        final RuleUnique unique = atom.ruleAtom();
         final Set<String> fieldSet = new HashSet<>(IGNORE_API);
         if (Objects.nonNull(unique)) {
             unique.rulePure().stream()
@@ -133,7 +134,7 @@ final class OxField {
     static JsonArray metadata(final JsonArray input) {
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(input)
-            .map(item -> Ut.ifJObject(item, KName.METADATA))
+            .map(item -> Fn.ifJObject(item, KName.METADATA))
             .filter(item -> {
                 final JsonObject metadata = item.getJsonObject(KName.METADATA);
                 if (Ut.notNil(metadata)) {
@@ -142,7 +143,7 @@ final class OxField {
                     return true;
                 }
             })
-            .map(item -> Ut.ifString(item, KName.Ui.COLUMNS))
+            .map(item -> Fn.ifString(item, KName.Ui.COLUMNS))
             .forEach(normalized::add);
         return normalized;
     }

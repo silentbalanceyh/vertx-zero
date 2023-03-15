@@ -2,7 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.exchange.BiTree;
+import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.ID;
 import io.vertx.up.util.Ut;
@@ -86,7 +86,7 @@ class ActJArray extends ActMapping implements Serializable {
         }
     }
 
-    Record[] getRecords(final Record definition, final BiTree mapping) {
+    Record[] getRecords(final Record definition, final BTree mapping) {
         /* Record Init */
         final int size = this.data.size();
         final Record[] records = new Record[size];
@@ -102,7 +102,7 @@ class ActJArray extends ActMapping implements Serializable {
         return records;
     }
 
-    JsonArray getJson(final BiTree mapping) {
+    JsonArray getJson(final BTree mapping) {
         if (this.isBefore(mapping)) {
             final JsonArray normalized = new JsonArray();
             Ut.itJArray(this.data)

@@ -7,6 +7,7 @@ package cn.vertxup.psi.domain.tables;
 import cn.vertxup.psi.domain.Db;
 import cn.vertxup.psi.domain.Keys;
 import cn.vertxup.psi.domain.tables.records.PInTicketRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -254,6 +255,11 @@ public class PInTicket extends TableImpl<PInTicketRecord> {
         return new PInTicket(alias, this);
     }
 
+    @Override
+    public PInTicket as(Table<?> alias) {
+        return new PInTicket(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -268,5 +274,13 @@ public class PInTicket extends TableImpl<PInTicketRecord> {
     @Override
     public PInTicket rename(Name name) {
         return new PInTicket(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public PInTicket rename(Table<?> name) {
+        return new PInTicket(name.getQualifiedName(), null);
     }
 }

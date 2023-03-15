@@ -108,6 +108,7 @@ public abstract class AbstractLee implements LeeBuiltIn {
     }
 
     // --------------------------- Sub class only
+    protected abstract <T extends AuthenticationProvider> T providerInternal(Vertx vertx, Aegis config);
 
     protected <T> T option(final Aegis aegis, final String key) {
         final AegisItem item = aegis.item();

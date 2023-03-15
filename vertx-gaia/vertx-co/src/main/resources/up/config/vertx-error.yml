@@ -1,5 +1,9 @@
+# ----------- (DemonException) Checked, Standard Zero Configuration Failed --------------------
+# 30001 - 39999
 # Core configuration Error
 E30001: Vert.x zero server config is missing in current data "{0}"
+
+# ----------- (UpException) Runtime, Zero Container Internal Error --------------------
 # Configuration validation Error
 E10001: (V) - This rule require all elements of array is JsonObject, Now the index = {0} does not match, it''s {1}
 E10002: (V) - The data object {0} missed required field "{1}"
@@ -9,6 +13,8 @@ E10005: (V) - The dynamic key "{0}" missing in uniform extension configuration d
 E10006: (V) - The data object {0} contains unsupported/forbidden field "{1}"
 E10007: (V) - The dynamic key "{0}" data type must be JsonObject instead of others, but now "{1}"
 
+# ----------- Zero Infix ( vertx-ifx ) Exception --------------------
+# 20001 - 29999
 # Thirt part error for different integration
 E20001: (401) - Qiy interface of "/iqiyi/authorize" met errors, code = {0}, message = {1}
 E20002: (401) - Qiy token record does not contain "access_token", client_id = {0}
@@ -16,11 +22,13 @@ E20003: (424) - Ali Acs Client profile met error when it''s initializing, detail
 E20004: (424) - Ali Acs Client send request met error, details = {0}
 E20005: "(500) - You selected mode = `DEFINED`, but there missed `store` key in config"
 
-#ElasticSearch
+# ElasticSearch
 E20006: (404) - the Configuration of ElasticSearch is missinng, please check vertx-es.yml.
 E20007: (404) - parameter (index) is required, you must provide it when using full text search.
 E20008: (404) - parameter (searchText) is required, you must provide it when using full text search.
 
+# ----------- Zero Standard Runtime Exception --------------------
+# 40001 - 49999
 # (Runtime) Vertx start up error
 E40001: Vert.x zero boot class should not be null, please provide the entry of this application
 E40002: Vert.x zero boot class must be marked with annotation "Up", but ( name= {0} ) it''s missing
@@ -88,8 +96,6 @@ E40064: "(Act) Act specification is invalid, you could not call this api when is
 E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq"
 E40066: "(Jooq) The input `clazz` is not implemented from VertxDAO, clazz is invalid: {0}"
 E40067: "(Jooq) There is no `Clause` for field = \"{0}\" and type = \"{1}\", original field = \"{2}\""
-E40068: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
-E40069: "(415) - The declared type {0} is not match to MIME {1}"
 
 # Console exception
 E40070: "The default launcher key mustn''t be overwrite. ( config )"
@@ -100,10 +106,16 @@ E40074: "The command `{0}` plugin is null or could not be found, please check yo
 E40075: "The wall type is invalid `{0}` in `{1}`, please use `extension` instead when you want to define"
 E40076: "You have selected the wall `{0}`, the expected size should `{1}`"
 E40077: "The provider {0} is conflict because it''s invalid AuthenticateProvider"
-
 # RxJava
 E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique element, but current reduced is "{2}"
 
+# ----------- Zero Aeon Cloud Runtime Exception --------------------
+# 50001 - 59999
+E50001: "( Aeon ) Aeon System has be enabled, but configuration missing, please check `aeon/` folder"
+# E50002: "( Aeon ) Aeon System require your `vertx` running in cluster mode instead, but now the cluster has been Disabled"
+E50003: "( Aeon ) Aeon System require the environment variable `ZERO_AEON`, but now it's not configured"
+# ----------- Zero Web Runtime Exception --------------------
+# 60000 - 60001
 # (Web) Exception for web
 E60000: (400) - Request validation failure, class = {0}, method = {1}, message = {2}
 E60001: (400) - The input content could not be converted into valid resource user {0}
@@ -146,13 +158,13 @@ E60032: "(500) - (Jwt) Jwt runtime met errors, please check details = {0}"
 E60033: "(401) - (Jwt) Jwt executor result is false, authorization token = {0}"
 
 # (Web) Exception for standard third part
-E60034: "(500) - (Shared) SharedMap Error happened when do operation: {0}"
+E60034: "(500) - (Shared) SharedMap Error happened when do operation：{0}"
 E60035: "(500) - (Shared) Your map {0} processing met issue when execute method {1}"
 
 # Excel exception
-E60037: "(404) - (EXCEL) The file that you provided ( filename = `{0}` ) is missing or null"
-E60038: "(404) - (EXCEL) The configuration of ( table = `{0}` ) is missing, please check your excel config"
-E60039: "(500) - (EXCEL) The exporting met error, detail = {0}"
+E60037: "(404) - (Excel) The file that you provided ( filename = `{0}` ) is missing or null"
+E60038: "(404) - (Excel) The configuration of ( table = `{0}` ) is missing, please check your excel config"
+E60039: "(500) - (Excel) The exporting met error, detail = {0}"
 E60040: "(412) - The field of type `{0}` must be declared only once in target `{1}` with annotation @Contract, now it occurs {2} times"
 E60041: "(417) - The job `{0}` method parameter definitions are wrong"
 E60042: "(501) - The class `{0}` does not define any method annotated with @On"
@@ -165,7 +177,23 @@ E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, 
 E60049: "({0}) HttpException: {1}"
 E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
 E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`"
+E60058: "(409) - You `runComponent` has not been configured, but the scDim = `{0}`, they are conflict"
 
+# File attachment
+E60052: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
+E60053: "(415) - The declared type {0} is not match to MIME {1}"
+E60054: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
+
+# Git Exception
+E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message = {1}"
+E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
+E60057: "(400) - (Git) You are executing command `{0}` but met error, message = {1}"
+
+# Program Exception
+E60059: "(400) - (Progma) Detected Null Value = `{0}`"
+
+# ----------- Zero Extension Module Exception --------------------
+# 80001 - 89999
 # CRUD Module
 E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
 E80101: "(404) - (CRUD) You missed `column` configuration and instance is null. access module = {0}"
@@ -192,6 +220,12 @@ E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please 
 E80221: "(401) - (RBAC) Your wrong password typing exceed `{0}` times, please wait around `{1}` mins and try again"
 E80222: "(401) - (RBAC) Image code ( {0} ) that you provided is wrong"
 
+# RBAC Module - New for Management Platform
+E80223: "(409) - (RBAC) The `uiType` defined should not be NONE, please check your configuration of code = `{0}` in Admin Panel"
+E80224: "(409) - (RBAC) The `phase` of ui part must be EAGER, but not it''s {0}"
+E80225: "(404) - (RBAC) The `uiType` defined {0} could not detect correct HAdminCompiler component"
+E80226: "(404) - (RBAC) You have defined type to \"DAO\", but the `dao` attribute is not valid class: {0}"
+
 # Kernel Module
 E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
 E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this channel, please check your configuration"
@@ -201,13 +235,15 @@ E80219: "(403) - (Ke) You have no access to create cross `application` account t
 
 E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
 E80543: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
-E80544: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
+E80548: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
 
 # Ambient Module
 E80300: "(500) - (Ambient) The application environment error, could not get app data"
 E80301: "(500) - (Ambient) The application ( name = `{0}` ) could not be initialized"
 E80302: "(500) - (Ambient) The Init implementation class = {0} does not `implement` interface Init"
 E80303: "(500) - (Ambient) The Prerequisite class = {0} does not satisfy specification"
+E80304: "(409) - (Atom) The atom (`{0}`) could not generate `Activity` record because trackable is FALSE"
+E80305: "(501) - (Atom) The `indent` field of configuration missing, config =`{0}`"
 
 # Jet
 E80400: "(500) - (Jet) The container try to connect App/Source, but `UnityApp` is null and could not start up"
@@ -271,11 +307,22 @@ E80541: "(409) - (Ref) The model `{0}` defined static references, but found more
 E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "
 E80545: "(400) - (Mod) Because both new and old record(s) are null/empty, could not be valid to generate history"
 E80546: "(500) - (Excel) Read the excel file met null file issue, please check your code"
+E80547: "(409) - (Mod) The input identifier = `{0}` is confict with configured identifier = `{1}`, check your configuration"
 
 # Workflow Module
 E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by code = `{0}`"
 E80601: "(501) - (Workflow) Your BPMN file has no `StartEvent`, please check by id = `{0}`"
 E80602: "(409) - (Workflow) This api could be called when unique `StartEvent`, but not the size is `{0}`, id = `{1}`"
+E80603: "(404) - (Workflow) The system could not find workflow record by definitionKey = `{0}`"
+E80604: "(409) - (Workflow) The workflow of definitionKey = `{0}` has already been started ! Invalid Call MoveOn"
+E80605: "(404) - (Workflow) The workflow of instanceId = `{0}` has been not found in your workflow engine"
+E80606: "(500) - (Workflow) The workflow engine could not parsed task type of `{0}`"
+E80607: "(404) - (Workflow) The supplier of event type = `{0}` could not be found"
+E80608: "(501) - (Workflow) Your BPMN file has no `EndEvent`, please check by id = `{0}`"
+E80609: "(409) - (Workflow) This api could be called when unique `EndEvent`, but not the size is `{0}`, id = `{1}`"
+E80610: "(409) - (Workflow) This api could not be called because of NodeType conflict, input = {0} and expected = {1}"
+
 # Extension Vie Platform
 E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."
 E81001: "(501) - (Vie) Sorry the command of development could not be used on production environment."
+E81002: "(400) - (Vie) The filename is invalid because it contains special characters. "

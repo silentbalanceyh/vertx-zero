@@ -15,6 +15,7 @@ import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -157,6 +158,10 @@ public class Envelop implements Serializable {
         return Rib.getBody(this.data);
     }
 
+    public JsonObject request() {
+        return this.assist.requestSmart();
+    }
+
     /* Get `data` part by type */
     public <T> T data(final Class<T> clazz) {
         return Rib.get(this.data, clazz);
@@ -176,12 +181,6 @@ public class Envelop implements Serializable {
     /* Set value in `data` part ( with Index ) */
     public void value(final Integer argIndex, final String field, final Object value) {
         Rib.set(this.data, field, value, argIndex);
-    }
-
-    public void valueOn(final String field, final Object value) {
-        if (Objects.nonNull(this.data)) {
-            this.data.put(field, value);
-        }
     }
 
     // ------------------ Below are response Part -------------------
@@ -240,29 +239,47 @@ public class Envelop implements Serializable {
     }
 
     /* JqTool Part for projection */
-    public void onProjection(final JsonArray projection) {
-        this.reference(reference -> Rib.projection(reference, projection, false));
+    public void onV(final JsonArray projection) {
+        this.reference(reference -> Ux.irQV(reference, projection, false));
     }
 
-    public void inProjection(final JsonArray projection) {
-        this.reference(reference -> Rib.projection(reference, projection, true));
+    public void inV(final JsonArray projection) {
+        this.reference(reference -> Ux.irQV(reference, projection, true));
     }
 
     /* JqTool Part for criteria */
-    public void onCriteria(final JsonObject criteria) {
-        this.reference(reference -> Rib.criteria(reference, criteria, false));
+    public void onH(final JsonObject criteria) {
+        this.reference(reference -> Ux.irAndQH(reference, criteria, false));
     }
 
-    public void inCriteria(final JsonObject criteria) {
-        this.reference(reference -> Rib.criteria(reference, criteria, true));
+    public void inH(final JsonObject criteria) {
+        this.reference(reference -> Ux.irAndQH(reference, criteria, true));
     }
 
-    public void onMe(final boolean active) {
+    public void onMe(final BoolStatus active, final boolean app) {
         final JsonObject headerX = this.headersX();
         this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
-        this.value(KName.ACTIVE, active);
+        if (BoolStatus.IGNORE != active) {
+            this.value(KName.ACTIVE, BoolStatus.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
+        }
+        // this.value(KName.ACTIVE, active);
         if (headerX.containsKey(KName.LANGUAGE)) {
             this.value(KName.LANGUAGE, headerX.getValue(KName.LANGUAGE));
+        }
+        if (app) {
+            this.value(KName.APP_ID, headerX.getValue(KName.APP_ID));
+            this.value(KName.APP_KEY, headerX.getValue(KName.APP_KEY));
+        }
+    }
+
+
+    public void onAcl(final Acl acl) {
+        if (Objects.isNull(this.data) || Objects.isNull(acl)) {
+            return;
+        }
+        final JsonObject aclData = acl.acl();
+        if (Ut.notNil(aclData)) {
+            this.data.put(KName.Rbac.ACL, aclData);
         }
     }
 

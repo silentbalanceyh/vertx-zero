@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zero-crud</artifactId>
-    <name>Extension:「zero-crud」Ix - CRUD Normalization</name>
+    <name>Extension: Ix「zero-crud」CRUD Normalization</name>
     <dependencies>
         <!-- Kern -->
         <dependency>

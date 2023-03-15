@@ -27,7 +27,7 @@ public class GClusterDao extends AbstractVertxDAO<GClusterRecord, cn.vertxup.gra
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public GClusterDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(GCluster.G_CLUSTER, cn.vertxup.graphic.domain.tables.pojos.GCluster.class, new JDBCClassicQueryExecutor<GClusterRecord,cn.vertxup.graphic.domain.tables.pojos.GCluster,String>(configuration,cn.vertxup.graphic.domain.tables.pojos.GCluster.class,vertx));

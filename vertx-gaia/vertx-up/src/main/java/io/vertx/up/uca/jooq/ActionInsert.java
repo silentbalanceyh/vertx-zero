@@ -48,6 +48,7 @@ class ActionInsert extends AbstractAction {
     <T> Future<List<T>> insertAsync(final List<T> list) {
         Objects.requireNonNull(list);
         if (list.isEmpty()) {
+            this.logging("[ Jq ] insertAsync(List<T>) executed empty: 0");
             return Future.succeededFuture(new ArrayList<>());
         }
         final List<T> inserted = this.uuid(list);
@@ -66,6 +67,7 @@ class ActionInsert extends AbstractAction {
     <T> List<T> insert(final List<T> list) {
         Objects.requireNonNull(list);
         if (list.isEmpty()) {
+            this.logging("[ Jq ] insert(List<T>) executed empty: 0");
             return list;
         }
         final List<T> inserted = this.uuid(list);

@@ -1,7 +1,7 @@
 # D10012 - Zero JSR311, @StreamParam...Parameters
 
 Zero system provide simple parameter annotation for up.god.file uploading, this kind of parameters must be annotated
-with `javax.ws.rs.StreamParam` here, it should support following type conversion automatically.
+with `jakarta.ws.rs.StreamParam` here, it should support following type conversion automatically.
 
 * `byte[]`
 * `io.vertx.core.buffer.Buffer`
@@ -24,7 +24,7 @@ import io.vertx.up.annotations.EndPoint;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.StreamParam;
+import jakarta.ws.rs.StreamParam;
 import java.nio.charset.Charset;
 
 @EndPoint

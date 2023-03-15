@@ -1,0 +1,89 @@
+{
+    "config": {
+        "query": {
+            "sourceType": "w.ticket",
+            "targetType": "ci.device"
+        }
+    },
+    "message": {
+        "window": "选择关联资产",
+        "add": "添加关联资产",
+        "search": "搜索资产：",
+        "tip": "（默认所有资产都可以被选择关联，若要添加关联限制，请联系管理员。）",
+        "failure": "请选择您要添加的资产信息，您未选择任何资产！",
+        "success": "您的关联资产信息已成功保存！"
+    },
+    "editor": {
+        "selection": {
+            "status": [
+                "Pending",
+                "Discard",
+                "Issued",
+                "Destroy",
+                "Stored",
+                "InUse"
+            ]
+        },
+        "tree": {
+            "type": "ci.type",
+            "title": "资产分类",
+            "config": {
+                "parent": "parentId",
+                "title": "name",
+                "text": "name",
+                "root": 2
+            },
+            "condition": "categoryThird,i"
+        },
+        "initial": {
+            "alias": "资产关联记录",
+            "type": "TICKET",
+            "linkType": "TICKET-ASSERT",
+            "sourceType": "w.ticket",
+            "targetType": "ci.device"
+        },
+        "search": {
+            "condition": [
+                "code,c",
+                "name,c"
+            ],
+            "placeholder": "资产编号/名称"
+        },
+        "ajax": {
+            "uri": "/api/xc/ci.device/search",
+            "method": "POST",
+            "error": {
+                "message": "资产模块未启用",
+                "description": [
+                    "对不起，您的系统并未启用`资产库`模块，所以无法执行资产关联操作。",
+                    "如果想要使用`资产库`，则您需要联系实施人员配置该模块。",
+                    "关联资产是所有工单所需的核心模块，为流程专用的统一配置模块。"
+                ]
+            }
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "metadata": "code,资产编号"
+            },
+            "name,资产名称",
+            {
+                "metadata": "categorySecond,资产分类,DATUM",
+                "$datum": "source=data.category,value=key,display=name"
+            },
+            {
+                "metadata": "categoryThird,资产子类,DATUM",
+                "$datum": "source=data.category,value=key,display=name"
+            },
+            {
+                "metadata": "status,资产状态,DATUM",
+                "$datum": "source=ci.status,value=code,display=name"
+            },
+            {
+                "metadata": "level,资产等级,DATUM",
+                "$datum": "source=ci.level,value=code,display=name"
+            }
+        ]
+    }
+}

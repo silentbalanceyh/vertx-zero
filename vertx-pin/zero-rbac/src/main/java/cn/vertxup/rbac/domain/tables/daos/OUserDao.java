@@ -26,7 +26,7 @@ public class OUserDao extends AbstractVertxDAO<OUserRecord, cn.vertxup.rbac.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public OUserDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(OUser.O_USER, cn.vertxup.rbac.domain.tables.pojos.OUser.class, new JDBCClassicQueryExecutor<OUserRecord,cn.vertxup.rbac.domain.tables.pojos.OUser,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.OUser.class,vertx));

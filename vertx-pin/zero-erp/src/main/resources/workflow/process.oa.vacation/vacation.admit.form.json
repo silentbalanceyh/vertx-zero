@@ -1,0 +1,155 @@
+{
+    "hidden": [
+        "requestBy"
+    ],
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "requestName,休假人,8,,aiUserSelector,placeholder=（谁申请休假）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "requestBy",
+                            "realname": "requestName",
+                            "workNumber": "requestNo",
+                            "mobile": "requestMobile"
+                        },
+                        "user": "休假申请人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写休假申请人！"
+                    ]
+                },
+                "requestNo,休假人工号,8,,,readOnly=true",
+                "requestMobile,休假人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "startAt,开始时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写休假开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,结束时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写休假结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "classification,休假类型,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.vacation.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择休假类型！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "reason,休假原因,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,请填写休假原因！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "workContent,工作交接内容,24,,aiTextArea,rows=3"
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "RUN_TICKET": "RUN_APPROVE",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "closeCode": [
+                    "required,提交后工单会自动关闭，请选择关闭代码。"
+                ],
+                "confirmedOk": [
+                    "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
+                ]
+            },
+            "indicator": "confirmedOk",
+            "data": {
+                "YES": {
+                    "confirmed": true,
+                    "phase": "END",
+                    "commentApproval": "FORM:confirmedDesc"
+                },
+                "NO": {
+                    "confirmed": false,
+                    "phase": "REJECTED",
+                    "commentReject": "FORM:confirmedDesc"
+                },
+                "BACK": {
+                    "confirmed": false,
+                    "phase": "REDO",
+                    "commentReject": "FORM:confirmedDesc"
+                }
+            }
+        }
+    }
+}

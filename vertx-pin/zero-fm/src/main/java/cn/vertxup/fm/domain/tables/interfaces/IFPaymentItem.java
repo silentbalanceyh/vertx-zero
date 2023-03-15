@@ -268,8 +268,8 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
                 setOrThrow(this::setName,json::getString,"NAME","java.lang.String");
                 setOrThrow(this::setCode,json::getString,"CODE","java.lang.String");
                 setOrThrow(this::setSerial,json::getString,"SERIAL","java.lang.String");
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PRE!
+                setOrThrow(this::setAmount,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT","java.math.BigDecimal");
+                setOrThrow(this::setAmountPre,key -> {String s = json.getString(key); return s==null?null:new java.math.BigDecimal(s);},"AMOUNT_PRE","java.math.BigDecimal");
                 setOrThrow(this::setSettlementId,json::getString,"SETTLEMENT_ID","java.lang.String");
                 setOrThrow(this::setPaymentId,json::getString,"PAYMENT_ID","java.lang.String");
                 setOrThrow(this::setPayName,json::getString,"PAY_NAME","java.lang.String");
@@ -295,8 +295,8 @@ public interface IFPaymentItem extends VertxPojo, Serializable {
                 json.put("NAME",getName());
                 json.put("CODE",getCode());
                 json.put("SERIAL",getSerial());
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT!
-                // Omitting unrecognized type java.math.BigDecimal for column AMOUNT_PRE!
+                json.put("AMOUNT",getAmount()==null?null:getAmount().toString());
+                json.put("AMOUNT_PRE",getAmountPre()==null?null:getAmountPre().toString());
                 json.put("SETTLEMENT_ID",getSettlementId());
                 json.put("PAYMENT_ID",getPaymentId());
                 json.put("PAY_NAME",getPayName());

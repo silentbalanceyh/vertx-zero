@@ -27,7 +27,7 @@ public class UiLayoutDao extends AbstractVertxDAO<UiLayoutRecord, cn.vertxup.ui.
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public UiLayoutDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(UiLayout.UI_LAYOUT, cn.vertxup.ui.domain.tables.pojos.UiLayout.class, new JDBCClassicQueryExecutor<UiLayoutRecord,cn.vertxup.ui.domain.tables.pojos.UiLayout,String>(configuration,cn.vertxup.ui.domain.tables.pojos.UiLayout.class,vertx));

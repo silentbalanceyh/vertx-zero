@@ -27,7 +27,7 @@ public class LYardDao extends AbstractVertxDAO<LYardRecord, cn.vertxup.lbs.domai
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public LYardDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(LYard.L_YARD, cn.vertxup.lbs.domain.tables.pojos.LYard.class, new JDBCClassicQueryExecutor<LYardRecord,cn.vertxup.lbs.domain.tables.pojos.LYard,String>(configuration,cn.vertxup.lbs.domain.tables.pojos.LYard.class,vertx));

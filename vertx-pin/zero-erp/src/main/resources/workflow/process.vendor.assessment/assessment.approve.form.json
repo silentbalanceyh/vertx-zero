@@ -1,0 +1,183 @@
+{
+    "synonym": {
+        "toUserNo": "领导工号",
+        "toUserName": "领导",
+        "toUserEmail": "领导邮箱",
+        "toUserMobile": "领导电话",
+        "toUserDept": "领导部门",
+        "toUserTeam": "领导工作组"
+    },
+    "hidden": [
+        "assessOn"
+    ],
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "startAt,入场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写入场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,离场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写离场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,累积天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "assessOnName,被评价人,8,,aiUserSelector,placeholder=（谁将被评价）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "assessOn",
+                            "realname": "assessOnName",
+                            "workNumber": "assessOnNo",
+                            "mobile": "assessOnMobile"
+                        },
+                        "user": "被评价人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写被评价人！"
+                    ]
+                },
+                "assessOnNo,被评价人工号,8,,,readOnly=true",
+                "assessOnMobile,被评价人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "classification,类型,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.customer.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择入场类型！"
+                    ]
+                },
+                {
+                    "metadata": "assessScore,评价分数,8,,aiInputNumber,precision=0,min=1,max=100",
+                    "optionJsx.depend.impact": {
+                        "evaluate": {
+                            "input": {
+                                "value": "VALUE"
+                            },
+                            "range": {
+                                "[0,60)": "bad",
+                                "[60,75)": "common",
+                                "[75,90)": "better",
+                                "[90,100]": "best"
+                            },
+                            "target": "assessValue"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写评价分数！"
+                    ]
+                },
+                {
+                    "metadata": "assessValue,评价结果,8,,aiSelect,readOnly=true",
+                    "optionJsx.config.datum": "source=oa.customer.rank,key=code,label=name"
+                }
+            ],
+            [
+                "commentDept,部门改进建议,24,,aiTextArea,rows=2,placeholder=使用部门对评价人的改进建议。"
+            ],
+            [
+                "commentAssess,被评价人意见,24,,aiTextArea,rows=2,placeholder=被评价人意见反馈以及相关说明。"
+            ],
+            [
+                "commentLeader,项目经理意见,24,,aiTextArea,rows=2,placeholder=项目经理整改意见以及相关说明。"
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "RUN_TICKET": "RUN_APPROVE",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，必须指定下一处理人。"
+                ],
+                "confirmedOk": [
+                    "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
+                ]
+            },
+            "indicator": "confirmedOk",
+            "data": {
+                "YES": {
+                    "confirmed": true,
+                    "phase": "ADMIT",
+                    "commentApproval": "FORM:confirmedDesc"
+                },
+                "NO": {
+                    "confirmed": false,
+                    "phase": "REJECTED",
+                    "commentReject": "FORM:confirmedDesc"
+                },
+                "BACK": {
+                    "confirmed": false,
+                    "phase": "REDO",
+                    "commentReject": "FORM:confirmedDesc"
+                }
+            }
+        }
+    }
+}

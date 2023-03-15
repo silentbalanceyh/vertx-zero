@@ -21,31 +21,31 @@ public class FBook implements VertxPojo, IFBook {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        serial;
-    private String        type;
-    private String        status;
-    private Boolean       major;
-    private BigDecimal    amount;
-    private String        comment;
-    private Boolean       checked;
-    private String        checkedDesc;
-    private Boolean       exceed;
-    private String        exceedDesc;
-    private String        modelId;
-    private String        modelKey;
-    private String        parentId;
-    private String        orderId;
-    private String        sigma;
-    private String        language;
-    private Boolean       active;
-    private String        metadata;
+    private String key;
+    private String name;
+    private String code;
+    private String serial;
+    private String type;
+    private String status;
+    private Boolean major;
+    private BigDecimal amount;
+    private String comment;
+    private Boolean checked;
+    private String checkedDesc;
+    private Boolean exceed;
+    private String exceedDesc;
+    private String modelId;
+    private String modelKey;
+    private String parentId;
+    private String orderId;
+    private String sigma;
+    private String language;
+    private Boolean active;
+    private String metadata;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public FBook() {}
 
@@ -78,31 +78,31 @@ public class FBook implements VertxPojo, IFBook {
     }
 
     public FBook(
-        String        key,
-        String        name,
-        String        code,
-        String        serial,
-        String        type,
-        String        status,
-        Boolean       major,
-        BigDecimal    amount,
-        String        comment,
-        Boolean       checked,
-        String        checkedDesc,
-        Boolean       exceed,
-        String        exceedDesc,
-        String        modelId,
-        String        modelKey,
-        String        parentId,
-        String        orderId,
-        String        sigma,
-        String        language,
-        Boolean       active,
-        String        metadata,
+        String key,
+        String name,
+        String code,
+        String serial,
+        String type,
+        String status,
+        Boolean major,
+        BigDecimal amount,
+        String comment,
+        Boolean checked,
+        String checkedDesc,
+        Boolean exceed,
+        String exceedDesc,
+        String modelId,
+        String modelKey,
+        String parentId,
+        String orderId,
+        String sigma,
+        String language,
+        Boolean active,
+        String metadata,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -571,6 +571,200 @@ public class FBook implements VertxPojo, IFBook {
     public FBook setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final FBook other = (FBook) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.serial == null) {
+            if (other.serial != null)
+                return false;
+        }
+        else if (!this.serial.equals(other.serial))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.major == null) {
+            if (other.major != null)
+                return false;
+        }
+        else if (!this.major.equals(other.major))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.checked == null) {
+            if (other.checked != null)
+                return false;
+        }
+        else if (!this.checked.equals(other.checked))
+            return false;
+        if (this.checkedDesc == null) {
+            if (other.checkedDesc != null)
+                return false;
+        }
+        else if (!this.checkedDesc.equals(other.checkedDesc))
+            return false;
+        if (this.exceed == null) {
+            if (other.exceed != null)
+                return false;
+        }
+        else if (!this.exceed.equals(other.exceed))
+            return false;
+        if (this.exceedDesc == null) {
+            if (other.exceedDesc != null)
+                return false;
+        }
+        else if (!this.exceedDesc.equals(other.exceedDesc))
+            return false;
+        if (this.modelId == null) {
+            if (other.modelId != null)
+                return false;
+        }
+        else if (!this.modelId.equals(other.modelId))
+            return false;
+        if (this.modelKey == null) {
+            if (other.modelKey != null)
+                return false;
+        }
+        else if (!this.modelKey.equals(other.modelKey))
+            return false;
+        if (this.parentId == null) {
+            if (other.parentId != null)
+                return false;
+        }
+        else if (!this.parentId.equals(other.parentId))
+            return false;
+        if (this.orderId == null) {
+            if (other.orderId != null)
+                return false;
+        }
+        else if (!this.orderId.equals(other.orderId))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.serial == null) ? 0 : this.serial.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.major == null) ? 0 : this.major.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.checked == null) ? 0 : this.checked.hashCode());
+        result = prime * result + ((this.checkedDesc == null) ? 0 : this.checkedDesc.hashCode());
+        result = prime * result + ((this.exceed == null) ? 0 : this.exceed.hashCode());
+        result = prime * result + ((this.exceedDesc == null) ? 0 : this.exceedDesc.hashCode());
+        result = prime * result + ((this.modelId == null) ? 0 : this.modelId.hashCode());
+        result = prime * result + ((this.modelKey == null) ? 0 : this.modelKey.hashCode());
+        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
+        result = prime * result + ((this.orderId == null) ? 0 : this.orderId.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override

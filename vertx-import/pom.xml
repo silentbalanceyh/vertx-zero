@@ -10,10 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vertx-import</artifactId>
     <packaging>pom</packaging>
-    <name>「vertx-import」Zero Entrance</name>
+    <name>Focus:「vertx-import」( Zero Stack )</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <encoding>UTF-8</encoding>
         <zero.version>0.9.0-SNAPSHOT</zero.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
@@ -133,11 +133,6 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>zero-zeus</artifactId>
-                <version>${zero.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.vertxup</groupId>
                 <artifactId>zero-fm</artifactId>
                 <version>${zero.version}</version>
             </dependency>
@@ -159,6 +154,11 @@
             <dependency>
                 <groupId>cn.vertxup</groupId>
                 <artifactId>zero-battery</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>zero-tpl</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <!-- Zero Infix -->
@@ -219,6 +219,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.vertxup</groupId>
+                <artifactId>zero-ifx-liquibase</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
                 <artifactId>zero-ifx-shell</artifactId>
                 <version>${zero.version}</version>
             </dependency>
@@ -227,10 +232,9 @@
                 <artifactId>zero-ifx-auth</artifactId>
                 <version>${zero.version}</version>
             </dependency>
-            <!-- Isito -->
             <dependency>
                 <groupId>cn.vertxup</groupId>
-                <artifactId>zero-iproxy</artifactId>
+                <artifactId>zero-ifx-stomp</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <!-- Business Scaffold -->

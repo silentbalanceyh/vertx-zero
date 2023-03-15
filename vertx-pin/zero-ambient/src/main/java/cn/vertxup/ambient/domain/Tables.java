@@ -6,18 +6,19 @@ package cn.vertxup.ambient.domain;
 
 import cn.vertxup.ambient.domain.tables.XActivity;
 import cn.vertxup.ambient.domain.tables.XActivityChange;
+import cn.vertxup.ambient.domain.tables.XActivityRule;
 import cn.vertxup.ambient.domain.tables.XApp;
 import cn.vertxup.ambient.domain.tables.XAttachment;
 import cn.vertxup.ambient.domain.tables.XCategory;
 import cn.vertxup.ambient.domain.tables.XLinkage;
 import cn.vertxup.ambient.domain.tables.XLog;
 import cn.vertxup.ambient.domain.tables.XMenu;
-import cn.vertxup.ambient.domain.tables.XMenuMy;
 import cn.vertxup.ambient.domain.tables.XModule;
 import cn.vertxup.ambient.domain.tables.XNotice;
 import cn.vertxup.ambient.domain.tables.XNumber;
 import cn.vertxup.ambient.domain.tables.XSource;
 import cn.vertxup.ambient.domain.tables.XTabular;
+import cn.vertxup.ambient.domain.tables.XTag;
 
 
 /**
@@ -35,6 +36,11 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_ACTIVITY_CHANGE</code>.
      */
     public static final XActivityChange X_ACTIVITY_CHANGE = XActivityChange.X_ACTIVITY_CHANGE;
+
+    /**
+     * The table <code>DB_ETERNAL.X_ACTIVITY_RULE</code>.
+     */
+    public static final XActivityRule X_ACTIVITY_RULE = XActivityRule.X_ACTIVITY_RULE;
 
     /**
      * The table <code>DB_ETERNAL.X_APP</code>.
@@ -67,11 +73,6 @@ public class Tables {
     public static final XMenu X_MENU = XMenu.X_MENU;
 
     /**
-     * The table <code>DB_ETERNAL.X_MENU_MY</code>.
-     */
-    public static final XMenuMy X_MENU_MY = XMenuMy.X_MENU_MY;
-
-    /**
      * The table <code>DB_ETERNAL.X_MODULE</code>.
      */
     public static final XModule X_MODULE = XModule.X_MODULE;
@@ -95,4 +96,9 @@ public class Tables {
      * The table <code>DB_ETERNAL.X_TABULAR</code>.
      */
     public static final XTabular X_TABULAR = XTabular.X_TABULAR;
+
+    /**
+     * The table <code>DB_ETERNAL.X_TAG</code>.
+     */
+    public static final XTag X_TAG = XTag.X_TAG;
 }

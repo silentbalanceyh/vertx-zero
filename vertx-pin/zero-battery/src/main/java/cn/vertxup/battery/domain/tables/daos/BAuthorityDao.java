@@ -26,7 +26,7 @@ public class BAuthorityDao extends AbstractVertxDAO<BAuthorityRecord, cn.vertxup
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public BAuthorityDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(BAuthority.B_AUTHORITY, cn.vertxup.battery.domain.tables.pojos.BAuthority.class, new JDBCClassicQueryExecutor<BAuthorityRecord,cn.vertxup.battery.domain.tables.pojos.BAuthority,String>(configuration,cn.vertxup.battery.domain.tables.pojos.BAuthority.class,vertx));

@@ -8,6 +8,7 @@ import cn.vertxup.ambient.domain.Db;
 import cn.vertxup.ambient.domain.Indexes;
 import cn.vertxup.ambient.domain.Keys;
 import cn.vertxup.ambient.domain.tables.records.XAppRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -198,6 +199,11 @@ public class XApp extends TableImpl<XAppRecord> {
         return new XApp(alias, this);
     }
 
+    @Override
+    public XApp as(Table<?> alias) {
+        return new XApp(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -212,5 +218,13 @@ public class XApp extends TableImpl<XAppRecord> {
     @Override
     public XApp rename(Name name) {
         return new XApp(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public XApp rename(Table<?> name) {
+        return new XApp(name.getQualifiedName(), null);
     }
 }

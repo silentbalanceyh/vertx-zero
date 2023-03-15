@@ -3,10 +3,10 @@ package io.vertx.tp.crud.uca.input;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.atom.specification.KJoin;
-import io.vertx.tp.ke.atom.specification.KModule;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.experiment.specification.KJoin;
+import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -28,7 +28,7 @@ class RWholePre implements Pre {
             final KJoin join = in.module().getConnect();
             final String targetIndent = join.getTargetIndent();
             final KModule connect = in.connect();
-            data.put(targetIndent, connect.getIdentifier());
+            data.put(targetIndent, connect.identifier());
         }
         return Ux.future(data);
     }

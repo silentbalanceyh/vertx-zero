@@ -8,6 +8,7 @@ import cn.vertxup.erp.domain.Db;
 import cn.vertxup.erp.domain.Indexes;
 import cn.vertxup.erp.domain.Keys;
 import cn.vertxup.erp.domain.tables.records.ETeamRecord;
+import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -16,6 +17,7 @@ import org.jooq.impl.TableImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -61,6 +63,21 @@ public class ETeam extends TableImpl<ETeamRecord> {
      * The column <code>DB_ETERNAL.E_TEAM.COMMENT</code>. 「comment」- 组备注
      */
     public final TableField<ETeamRecord, String> COMMENT = createField(DSL.name("COMMENT"), SQLDataType.CLOB, this, "「comment」- 组备注");
+    /**
+     * The column <code>DB_ETERNAL.E_TEAM.BIND_ID</code>. 「bindId」-
+     * 绑定用户组ID,安全专用处理
+     */
+    public final TableField<ETeamRecord, String> BIND_ID = createField(DSL.name("BIND_ID"), SQLDataType.VARCHAR(36), this, "「bindId」- 绑定用户组ID,安全专用处理");
+    /**
+     * The column <code>DB_ETERNAL.E_TEAM.BIND_COMPONENT</code>.
+     * 「bindComponent」- 绑定扩展组件
+     */
+    public final TableField<ETeamRecord, String> BIND_COMPONENT = createField(DSL.name("BIND_COMPONENT"), SQLDataType.VARCHAR(255), this, "「bindComponent」- 绑定扩展组件");
+    /**
+     * The column <code>DB_ETERNAL.E_TEAM.BIND_CONFIG</code>. 「bindConfig」-
+     * 绑定JSON详细配置
+     */
+    public final TableField<ETeamRecord, String> BIND_CONFIG = createField(DSL.name("BIND_CONFIG"), SQLDataType.CLOB, this, "「bindConfig」- 绑定JSON详细配置");
     /**
      * The column <code>DB_ETERNAL.E_TEAM.METADATA</code>. 「metadata」- 附加配置
      */
@@ -165,6 +182,11 @@ public class ETeam extends TableImpl<ETeamRecord> {
         return new ETeam(alias, this);
     }
 
+    @Override
+    public ETeam as(Table<?> alias) {
+        return new ETeam(alias.getQualifiedName(), this);
+    }
+
     /**
      * Rename this table
      */
@@ -181,12 +203,35 @@ public class ETeam extends TableImpl<ETeamRecord> {
         return new ETeam(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ETeam rename(Table<?> name) {
+        return new ETeam(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<String, String, String, String, String, String, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row19<String, String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function19<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

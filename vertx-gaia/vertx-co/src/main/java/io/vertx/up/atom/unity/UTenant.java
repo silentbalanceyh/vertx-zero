@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -25,27 +26,27 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class UTenant implements Serializable, Copyable<UTenant> {
     @JsonIgnore
-    private final transient ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
     @JsonIgnore
-    private final transient ConcurrentMap<String, String> vendorMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, String> vendorMap = new ConcurrentHashMap<>();
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject global;
+    private JsonObject global;
     @JsonSerialize(using = JsonArraySerializer.class)
     @JsonDeserialize(using = JsonArrayDeserializer.class)
-    private transient JsonArray source;
-    private transient ConcurrentMap<String, JsonObject> mapping = new ConcurrentHashMap<>();
+    private JsonArray source;
+    private ConcurrentMap<String, JsonObject> mapping = new ConcurrentHashMap<>();
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject application;
+    private JsonObject application;
 
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
-    private transient JsonObject integration;
+    private JsonObject integration;
 
-    private transient ConcurrentMap<String, JsonObject> forbidden = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JsonObject> forbidden = new ConcurrentHashMap<>();
 
-    private transient ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JsonObject> dictionary = new ConcurrentHashMap<>();
 
     public ConcurrentMap<String, JsonObject> getDictionary() {
         return this.dictionary;
@@ -123,9 +124,9 @@ public class UTenant implements Serializable, Copyable<UTenant> {
         if (Objects.isNull(this.global)) {
             return application;
         } else {
-            return Ut.ifJAssign(this.global,
+            return Fn.ifCopies(application, this.global,
                 KName.APP_ID, KName.SIGMA, KName.APP_KEY
-            ).apply(application);
+            );
         }
     }
 

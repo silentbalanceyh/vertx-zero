@@ -27,7 +27,7 @@ public class SUserDao extends AbstractVertxDAO<SUserRecord, cn.vertxup.rbac.doma
         /**
      * @param configuration The Configuration used for rendering and query
      * execution.
-     *      * @param vertx the vertx instance
+     * @param vertx the vertx instance
      */
         public SUserDao(Configuration configuration, io.vertx.core.Vertx vertx) {
                 super(SUser.S_USER, cn.vertxup.rbac.domain.tables.pojos.SUser.class, new JDBCClassicQueryExecutor<SUserRecord,cn.vertxup.rbac.domain.tables.pojos.SUser,String>(configuration,cn.vertxup.rbac.domain.tables.pojos.SUser.class,vertx));

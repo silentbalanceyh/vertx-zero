@@ -20,34 +20,34 @@ public class WFlow implements VertxPojo, IWFlow {
 
     private static final long serialVersionUID = 1L;
 
-    private String        key;
-    private String        name;
-    private String        code;
-    private String        type;
-    private String        definitionKey;
-    private String        authorizedComponent;
-    private String        authorizedConfig;
-    private String        generateComponent;
-    private String        generateConfig;
-    private String        runComponent;
-    private String        runConfig;
-    private String        startComponent;
-    private String        startConfig;
-    private String        endComponent;
-    private String        endConfig;
-    private String        uiComponent;
-    private String        uiConfig;
-    private String        uiAssist;
-    private String        uiLinkage;
-    private String        comment;
-    private Boolean       active;
-    private String        sigma;
-    private String        metadata;
-    private String        language;
+    private String key;
+    private String name;
+    private String code;
+    private String type;
+    private String definitionKey;
+    private String authorizedComponent;
+    private String authorizedConfig;
+    private String generateComponent;
+    private String generateConfig;
+    private String runComponent;
+    private String runConfig;
+    private String startComponent;
+    private String startConfig;
+    private String endComponent;
+    private String endConfig;
+    private String uiComponent;
+    private String uiConfig;
+    private String uiAssist;
+    private String uiLinkage;
+    private String comment;
+    private Boolean active;
+    private String sigma;
+    private String metadata;
+    private String language;
     private LocalDateTime createdAt;
-    private String        createdBy;
+    private String createdBy;
     private LocalDateTime updatedAt;
-    private String        updatedBy;
+    private String updatedBy;
 
     public WFlow() {}
 
@@ -83,34 +83,34 @@ public class WFlow implements VertxPojo, IWFlow {
     }
 
     public WFlow(
-        String        key,
-        String        name,
-        String        code,
-        String        type,
-        String        definitionKey,
-        String        authorizedComponent,
-        String        authorizedConfig,
-        String        generateComponent,
-        String        generateConfig,
-        String        runComponent,
-        String        runConfig,
-        String        startComponent,
-        String        startConfig,
-        String        endComponent,
-        String        endConfig,
-        String        uiComponent,
-        String        uiConfig,
-        String        uiAssist,
-        String        uiLinkage,
-        String        comment,
-        Boolean       active,
-        String        sigma,
-        String        metadata,
-        String        language,
+        String key,
+        String name,
+        String code,
+        String type,
+        String definitionKey,
+        String authorizedComponent,
+        String authorizedConfig,
+        String generateComponent,
+        String generateConfig,
+        String runComponent,
+        String runConfig,
+        String startComponent,
+        String startConfig,
+        String endComponent,
+        String endConfig,
+        String uiComponent,
+        String uiConfig,
+        String uiAssist,
+        String uiLinkage,
+        String comment,
+        Boolean active,
+        String sigma,
+        String metadata,
+        String language,
         LocalDateTime createdAt,
-        String        createdBy,
+        String createdBy,
         LocalDateTime updatedAt,
-        String        updatedBy
+        String updatedBy
     ) {
         this.key = key;
         this.name = name;
@@ -647,6 +647,221 @@ public class WFlow implements VertxPojo, IWFlow {
     public WFlow setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final WFlow other = (WFlow) obj;
+        if (this.key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!this.key.equals(other.key))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.type == null) {
+            if (other.type != null)
+                return false;
+        }
+        else if (!this.type.equals(other.type))
+            return false;
+        if (this.definitionKey == null) {
+            if (other.definitionKey != null)
+                return false;
+        }
+        else if (!this.definitionKey.equals(other.definitionKey))
+            return false;
+        if (this.authorizedComponent == null) {
+            if (other.authorizedComponent != null)
+                return false;
+        }
+        else if (!this.authorizedComponent.equals(other.authorizedComponent))
+            return false;
+        if (this.authorizedConfig == null) {
+            if (other.authorizedConfig != null)
+                return false;
+        }
+        else if (!this.authorizedConfig.equals(other.authorizedConfig))
+            return false;
+        if (this.generateComponent == null) {
+            if (other.generateComponent != null)
+                return false;
+        }
+        else if (!this.generateComponent.equals(other.generateComponent))
+            return false;
+        if (this.generateConfig == null) {
+            if (other.generateConfig != null)
+                return false;
+        }
+        else if (!this.generateConfig.equals(other.generateConfig))
+            return false;
+        if (this.runComponent == null) {
+            if (other.runComponent != null)
+                return false;
+        }
+        else if (!this.runComponent.equals(other.runComponent))
+            return false;
+        if (this.runConfig == null) {
+            if (other.runConfig != null)
+                return false;
+        }
+        else if (!this.runConfig.equals(other.runConfig))
+            return false;
+        if (this.startComponent == null) {
+            if (other.startComponent != null)
+                return false;
+        }
+        else if (!this.startComponent.equals(other.startComponent))
+            return false;
+        if (this.startConfig == null) {
+            if (other.startConfig != null)
+                return false;
+        }
+        else if (!this.startConfig.equals(other.startConfig))
+            return false;
+        if (this.endComponent == null) {
+            if (other.endComponent != null)
+                return false;
+        }
+        else if (!this.endComponent.equals(other.endComponent))
+            return false;
+        if (this.endConfig == null) {
+            if (other.endConfig != null)
+                return false;
+        }
+        else if (!this.endConfig.equals(other.endConfig))
+            return false;
+        if (this.uiComponent == null) {
+            if (other.uiComponent != null)
+                return false;
+        }
+        else if (!this.uiComponent.equals(other.uiComponent))
+            return false;
+        if (this.uiConfig == null) {
+            if (other.uiConfig != null)
+                return false;
+        }
+        else if (!this.uiConfig.equals(other.uiConfig))
+            return false;
+        if (this.uiAssist == null) {
+            if (other.uiAssist != null)
+                return false;
+        }
+        else if (!this.uiAssist.equals(other.uiAssist))
+            return false;
+        if (this.uiLinkage == null) {
+            if (other.uiLinkage != null)
+                return false;
+        }
+        else if (!this.uiLinkage.equals(other.uiLinkage))
+            return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
+        if (this.active == null) {
+            if (other.active != null)
+                return false;
+        }
+        else if (!this.active.equals(other.active))
+            return false;
+        if (this.sigma == null) {
+            if (other.sigma != null)
+                return false;
+        }
+        else if (!this.sigma.equals(other.sigma))
+            return false;
+        if (this.metadata == null) {
+            if (other.metadata != null)
+                return false;
+        }
+        else if (!this.metadata.equals(other.metadata))
+            return false;
+        if (this.language == null) {
+            if (other.language != null)
+                return false;
+        }
+        else if (!this.language.equals(other.language))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        }
+        else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.key == null) ? 0 : this.key.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.definitionKey == null) ? 0 : this.definitionKey.hashCode());
+        result = prime * result + ((this.authorizedComponent == null) ? 0 : this.authorizedComponent.hashCode());
+        result = prime * result + ((this.authorizedConfig == null) ? 0 : this.authorizedConfig.hashCode());
+        result = prime * result + ((this.generateComponent == null) ? 0 : this.generateComponent.hashCode());
+        result = prime * result + ((this.generateConfig == null) ? 0 : this.generateConfig.hashCode());
+        result = prime * result + ((this.runComponent == null) ? 0 : this.runComponent.hashCode());
+        result = prime * result + ((this.runConfig == null) ? 0 : this.runConfig.hashCode());
+        result = prime * result + ((this.startComponent == null) ? 0 : this.startComponent.hashCode());
+        result = prime * result + ((this.startConfig == null) ? 0 : this.startConfig.hashCode());
+        result = prime * result + ((this.endComponent == null) ? 0 : this.endComponent.hashCode());
+        result = prime * result + ((this.endConfig == null) ? 0 : this.endConfig.hashCode());
+        result = prime * result + ((this.uiComponent == null) ? 0 : this.uiComponent.hashCode());
+        result = prime * result + ((this.uiConfig == null) ? 0 : this.uiConfig.hashCode());
+        result = prime * result + ((this.uiAssist == null) ? 0 : this.uiAssist.hashCode());
+        result = prime * result + ((this.uiLinkage == null) ? 0 : this.uiLinkage.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
+        result = prime * result + ((this.active == null) ? 0 : this.active.hashCode());
+        result = prime * result + ((this.sigma == null) ? 0 : this.sigma.hashCode());
+        result = prime * result + ((this.metadata == null) ? 0 : this.metadata.hashCode());
+        result = prime * result + ((this.language == null) ? 0 : this.language.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        return result;
     }
 
     @Override
