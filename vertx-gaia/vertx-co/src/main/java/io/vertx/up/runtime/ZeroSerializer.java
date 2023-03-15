@@ -4,6 +4,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.secure.Vis;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.serialization.*;
 import io.vertx.up.util.Ut;
 
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 
 /**
  * ZeroSerializer the request by different type.
@@ -25,54 +27,59 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ZeroSerializer {
 
-    private static final ConcurrentMap<Class<?>, Saber> SABERS =
+    private static final Cc<String, Saber> CC_SABER = Cc.openThread();
+    private static final ConcurrentMap<Class<?>, Supplier<Saber>> SABERS =
         new ConcurrentHashMap<>() {
             {
-                this.put(int.class, Ut.singleton(IntegerSaber.class));
-                this.put(Integer.class, Ut.singleton(IntegerSaber.class));
-                this.put(short.class, Ut.singleton(ShortSaber.class));
-                this.put(Short.class, Ut.singleton(ShortSaber.class));
-                this.put(long.class, Ut.singleton(LongSaber.class));
-                this.put(Long.class, Ut.singleton(LongSaber.class));
+                this.put(int.class, supplier(IntegerSaber.class));
+                this.put(Integer.class, supplier(IntegerSaber.class));
+                this.put(short.class, supplier(ShortSaber.class));
+                this.put(Short.class, supplier(ShortSaber.class));
+                this.put(long.class, supplier(LongSaber.class));
+                this.put(Long.class, supplier(LongSaber.class));
 
-                this.put(double.class, Ut.singleton(DoubleSaber.class));
-                this.put(Double.class, Ut.singleton(DoubleSaber.class));
+                this.put(double.class, supplier(DoubleSaber.class));
+                this.put(Double.class, supplier(DoubleSaber.class));
 
-                this.put(LocalDate.class, Ut.singleton(Java8DataTimeSaber.class));
-                this.put(LocalDateTime.class, Ut.singleton(Java8DataTimeSaber.class));
-                this.put(LocalTime.class, Ut.singleton(Java8DataTimeSaber.class));
+                this.put(LocalDate.class, supplier(Java8DataTimeSaber.class));
+                this.put(LocalDateTime.class, supplier(Java8DataTimeSaber.class));
+                this.put(LocalTime.class, supplier(Java8DataTimeSaber.class));
 
-                this.put(float.class, Ut.singleton(FloatSaber.class));
-                this.put(Float.class, Ut.singleton(FloatSaber.class));
-                this.put(BigDecimal.class, Ut.singleton(BigDecimalSaber.class));
+                this.put(float.class, supplier(FloatSaber.class));
+                this.put(Float.class, supplier(FloatSaber.class));
+                this.put(BigDecimal.class, supplier(BigDecimalSaber.class));
 
-                this.put(Enum.class, Ut.singleton(EnumSaber.class));
+                this.put(Enum.class, supplier(EnumSaber.class));
 
-                this.put(boolean.class, Ut.singleton(BooleanSaber.class));
-                this.put(Boolean.class, Ut.singleton(BooleanSaber.class));
+                this.put(boolean.class, supplier(BooleanSaber.class));
+                this.put(Boolean.class, supplier(BooleanSaber.class));
 
-                this.put(Date.class, Ut.singleton(DateSaber.class));
-                this.put(Calendar.class, Ut.singleton(DateSaber.class));
+                this.put(Date.class, supplier(DateSaber.class));
+                this.put(Calendar.class, supplier(DateSaber.class));
 
-                this.put(JsonObject.class, Ut.singleton(JsonObjectSaber.class));
-                this.put(JsonArray.class, Ut.singleton(JsonArraySaber.class));
+                this.put(JsonObject.class, supplier(JsonObjectSaber.class));
+                this.put(JsonArray.class, supplier(JsonArraySaber.class));
 
-                this.put(String.class, Ut.singleton(StringSaber.class));
-                this.put(StringBuffer.class, Ut.singleton(StringBufferSaber.class));
-                this.put(StringBuilder.class, Ut.singleton(StringBufferSaber.class));
+                this.put(String.class, supplier(StringSaber.class));
+                this.put(StringBuffer.class, supplier(StringBufferSaber.class));
+                this.put(StringBuilder.class, supplier(StringBufferSaber.class));
 
-                this.put(Buffer.class, Ut.singleton(BufferSaber.class));
-                this.put(Set.class, Ut.singleton(CollectionSaber.class));
-                this.put(List.class, Ut.singleton(CollectionSaber.class));
-                this.put(Collection.class, Ut.singleton(CollectionSaber.class));
+                this.put(Buffer.class, supplier(BufferSaber.class));
+                this.put(Set.class, supplier(CollectionSaber.class));
+                this.put(List.class, supplier(CollectionSaber.class));
+                this.put(Collection.class, supplier(CollectionSaber.class));
 
-                this.put(byte[].class, Ut.singleton(ByteArraySaber.class));
-                this.put(Byte[].class, Ut.singleton(ByteArraySaber.class));
+                this.put(byte[].class, supplier(ByteArraySaber.class));
+                this.put(Byte[].class, supplier(ByteArraySaber.class));
 
-                this.put(File.class, Ut.singleton(FileSaber.class));
-                this.put(Vis.class, Ut.singleton(VisSaber.class));
+                this.put(File.class, supplier(FileSaber.class));
+                this.put(Vis.class, supplier(VisSaber.class));
             }
         };
+
+    private static Supplier<Saber> supplier(final Class<?> clazz) {
+        return () -> CC_SABER.pick(() -> Ut.instance(clazz), clazz.getName());
+    }
 
     /**
      * String -> T
@@ -88,14 +95,17 @@ public class ZeroSerializer {
         if (null != literal) {
             Saber saber;
             if (paramType.isEnum()) {
-                saber = SABERS.get(Enum.class);
+                final Supplier<Saber> supplier = SABERS.get(Enum.class);
+                saber = supplier.get();
             } else if (Collection.class.isAssignableFrom(paramType)) {
-                saber = SABERS.get(Collection.class);
+                final Supplier<Saber> supplier = SABERS.get(Collection.class);
+                saber = supplier.get();
             } else {
-                saber = SABERS.get(paramType);
+                final Supplier<Saber> supplier = SABERS.get(paramType);
+                saber = supplier.get();
             }
             if (null == saber) {
-                saber = Ut.singleton(CommonSaber.class);
+                saber = supplier(CommonSaber.class).get();
             }
             reference = saber.from(paramType, literal);
         }
@@ -134,25 +144,32 @@ public class ZeroSerializer {
                 Saber saber;
                 final Class<?> cls = input.getClass();
                 if (cls.isEnum()) {
-                    saber = SABERS.get(Enum.class);
+                    final Supplier<Saber> supplier = SABERS.get(Enum.class);
+                    saber = supplier.get();
                 } else if (Calendar.class.isAssignableFrom(cls)) {
-                    saber = SABERS.get(Date.class);
+                    final Supplier<Saber> supplier = SABERS.get(Date.class);
+                    saber = supplier.get();
                 } else if (Collection.class.isAssignableFrom(cls)) {
-                    saber = SABERS.get(Collection.class);
+                    final Supplier<Saber> supplier = SABERS.get(Collection.class);
+                    saber = supplier.get();
                 } else if (Buffer.class.isAssignableFrom(cls)) {
-                    saber = SABERS.get(Buffer.class);
+                    final Supplier<Saber> supplier = SABERS.get(Buffer.class);
+                    saber = supplier.get();
                 } else if (cls.isArray()) {
                     final Class<?> type = cls.getComponentType();
                     if (byte.class == type || Byte.class == type) {
-                        saber = SABERS.get(byte[].class);
+                        final Supplier<Saber> supplier = SABERS.get(byte[].class);
+                        saber = supplier.get();
                     } else {
-                        saber = SABERS.get(Collection.class);
+                        final Supplier<Saber> supplier = SABERS.get(Collection.class);
+                        saber = supplier.get(); //  SABERS.get(Collection.class);
                     }
                 } else {
-                    saber = SABERS.get(cls);
+                    final Supplier<Saber> supplier = SABERS.get(cls);
+                    saber = supplier.get();
                 }
                 if (null == saber) {
-                    saber = Ut.singleton(CommonSaber.class);
+                    saber = supplier(CommonSaber.class).get();
                 }
                 reference = saber.from(input);
             }
