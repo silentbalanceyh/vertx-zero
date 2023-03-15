@@ -5,28 +5,22 @@ import io.vertx.tp.error._417ConditionWhereException;
 import io.vertx.up.fn.Fn;
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.impl.DSL;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class IWhere {
-    static Condition unique(final DataMatrix matrix) {
-        final Iterator<String> it = matrix.getAttributes().iterator();
-        Condition condition = IWhere.Cond.eq(it.next(), matrix);
-        while (it.hasNext()) {
-            condition = condition.and(IWhere.Cond.eq(it.next(), matrix));
-        }
-        return condition;
-    }
 
     static Condition key(final DataMatrix matrix) {
-        final Iterator<String> it = matrix.getKeys().iterator();
-        Fn.outWeb(!it.hasNext(), _417ConditionWhereException.class, IWhere.class);
-        Condition condition = IWhere.Cond.eq(it.next(), matrix);
-        while (it.hasNext()) {
-            condition = condition.and(IWhere.Cond.eq(it.next(), matrix));
-        }
-        return condition;
+        final Set<String> keys = matrix.getKeys();
+        Fn.outWeb(keys.isEmpty(), _417ConditionWhereException.class, IWhere.class);
+        final Set<Condition> conditions = keys.stream()
+            .map(field -> IWhere.Cond.eq(field, matrix))
+            .collect(Collectors.toSet());
+        return DSL.and(conditions);
     }
 
     static Condition keys(final List<DataMatrix> matrixList) {
