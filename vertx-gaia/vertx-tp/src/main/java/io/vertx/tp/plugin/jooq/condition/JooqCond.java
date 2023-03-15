@@ -163,7 +163,7 @@ public class JooqCond {
     private static Condition transformTree(final JsonObject filters,
                                            final Function<String, Field> fnAnalyze,
                                            final Function<String, String> fnTable) {
-        Condition condition;
+        final Condition condition;
         // Calc operator in this level
         final Operator operator = calcOperator(filters);
         // Calc liner
@@ -180,23 +180,19 @@ public class JooqCond {
         if (1 == tree.size()) {
             condition = tree.get(Values.IDX);
         } else {
-            condition = tree.get(Values.IDX);
-            for (int idx = Values.ONE; idx < tree.size(); idx++) {
-                final Condition right = tree.get(idx);
-                condition = opCond(condition, right, operator);
-            }
+            condition = (Operator.AND == operator) ? DSL.and(tree) : DSL.or(tree);
         }
         return condition;
     }
 
     private static List<Condition> transformTreeSet(
-        final JsonObject filters,
+        final JsonObject tree,
         final Function<String, Field> fnAnalyze,
         final Function<String, String> fnTable) {
         final List<Condition> conditions = new ArrayList<>();
-        final JsonObject tree = filters.copy();
+        // final JsonObject tree = filters.copy();
         if (!tree.isEmpty()) {
-            for (final String field : filters.fieldNames()) {
+            for (final String field : tree.fieldNames()) {
                 if (Ut.isJObject(tree.getValue(field))) {
                     conditions.add(transformTree(tree.getJsonObject(field), fnAnalyze, fnTable));
                 }
@@ -232,7 +228,8 @@ public class JooqCond {
         final Operator operator,
         final Function<String, Field> fnAnalyze,
         final Function<String, String> fnTable) {
-        Condition condition = null;
+        final List<Condition> conditions = new ArrayList<>();
+        // Condition condition = null;
         for (final String field : filters.fieldNames()) {
             /*
              * field analyzing first
@@ -332,26 +329,33 @@ public class JooqCond {
                 switchedField = applyField(targetField, fnTable);
                 item = clause.where(null, switchedField, op, value);
             }
-            condition = opCond(condition, item, operator);
+            conditions.add(item);
+            // condition = opCond(condition, item, operator);
         }
-        return condition;
+        return (Operator.AND == operator) ? DSL.and(conditions) : DSL.or(conditions);
+        //        if(Operator.AND == operator){
+        //            return DSL.and(conditions);
+        //        }else{
+        //            return DSL.or()
+        //        }
+        //        return condition;
     }
 
-    private static Condition opCond(final Condition left,
-                                    final Condition right,
-                                    final Operator operator) {
-        if (null == left || null == right) {
-            if (null == left && null != right) {
-                return right;
-            } else {
-                return null;
-            }
-        } else {
-            if (Operator.AND == operator) {
-                return left.and(right);
-            } else {
-                return left.or(right);
-            }
-        }
-    }
+    //    private static Condition opCond(final Condition left,
+    //                                    final Condition right,
+    //                                    final Operator operator) {
+    //        if (null == left || null == right) {
+    //            if (null == left && null != right) {
+    //                return right;
+    //            } else {
+    //                return null;
+    //            }
+    //        } else {
+    //            if (Operator.AND == operator) {
+    //                return left.and(right);
+    //            } else {
+    //                return left.or(right);
+    //            }
+    //        }
+    //    }
 }

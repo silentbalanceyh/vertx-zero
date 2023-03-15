@@ -85,6 +85,12 @@ public abstract class AbstractRegion implements PlugRegion {
             return true;                // 启用流程 criteria
         }
         // 最后检查 seeker 流程
-        return Ut.notNil(Ut.valueJObject(matrix, KName.SEEKER));
+        final boolean seeker = Ut.notNil(Ut.valueJObject(matrix, KName.SEEKER));
+        if (seeker) {
+            // seeker = true, 检查 view 是否存在
+            final JsonObject viewJ = Ut.valueJObject(matrix, KName.VIEW);
+            return Ut.notNil(viewJ);
+        }
+        return false;
     }
 }

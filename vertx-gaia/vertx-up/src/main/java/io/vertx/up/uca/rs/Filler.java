@@ -1,6 +1,7 @@
 package io.vertx.up.uca.rs;
 
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.rs.argument.*;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.*;
@@ -10,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 
 /**
  * 「Co」Zero for JSR311 Arguments
@@ -25,26 +27,27 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Filler {
+    Cc<String, Filler> CC_FILLTER = Cc.openThread();
     /**
      * JSR311 Standard mapping from annotation to `Filler` component
      */
-    ConcurrentMap<Class<? extends Annotation>, Filler> PARAMS =
-        new ConcurrentHashMap<Class<? extends Annotation>, Filler>() {
+    ConcurrentMap<Class<? extends Annotation>, Supplier<Filler>> PARAMS =
+        new ConcurrentHashMap<>() {
             {
                 // JSR311 Provided
-                this.put(QueryParam.class, Ut.singleton(QueryFiller.class));
-                this.put(FormParam.class, Ut.singleton(FormFiller.class));
-                this.put(PathParam.class, Ut.singleton(PathFiller.class));
-                this.put(HeaderParam.class, Ut.singleton(HeaderFiller.class));
-                this.put(CookieParam.class, Ut.singleton(CookieFiller.class));
+                this.put(QueryParam.class, supplier(QueryFiller.class));
+                this.put(FormParam.class, supplier(FormFiller.class));
+                this.put(PathParam.class, supplier(PathFiller.class));
+                this.put(HeaderParam.class, supplier(HeaderFiller.class));
+                this.put(CookieParam.class, supplier(CookieFiller.class));
 
                 // Extension
-                this.put(BodyParam.class, Ut.singleton(EmptyFiller.class));
-                this.put(StreamParam.class, Ut.singleton(EmptyFiller.class));
+                this.put(BodyParam.class, supplier(EmptyFiller.class));
+                this.put(StreamParam.class, supplier(EmptyFiller.class));
 
-                this.put(SessionParam.class, Ut.singleton(SessionFiller.class));
-                this.put(ContextParam.class, Ut.singleton(ContextFiller.class));
-                this.put(PointParam.class, Ut.singleton(PointFiller.class));
+                this.put(SessionParam.class, supplier(SessionFiller.class));
+                this.put(ContextParam.class, supplier(ContextFiller.class));
+                this.put(PointParam.class, supplier(PointFiller.class));
             }
         };
     /**
@@ -57,6 +60,10 @@ public interface Filler {
                 this.add(StreamParam.class);
             }
         };
+
+    static Supplier<Filler> supplier(final Class<?> clazz) {
+        return () -> CC_FILLTER.pick(() -> Ut.instance(clazz), clazz.getName());
+    }
 
     /**
      * The major code logic to get the value of input field name here.
