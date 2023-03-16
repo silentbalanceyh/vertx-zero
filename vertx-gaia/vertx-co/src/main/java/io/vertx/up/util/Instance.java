@@ -4,6 +4,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.UpException;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._500InvokeErrorException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
@@ -53,6 +55,19 @@ final class Instance {
         final Object created = Fn.orJvm(
             () -> construct(clazz, params), clazz);
         return Fn.orJvm(() -> (T) created, created);
+    }
+
+    static WebException errorWeb(final Throwable ex) {
+        if (ex instanceof WebException) {
+            return (WebException) ex;
+        } else {
+            final Throwable target = ex.getCause();
+            if (Objects.isNull(target)) {
+                return new _500InvokeErrorException(Instance.class, ex);
+            } else {
+                return errorWeb(target);
+            }
+        }
     }
 
     /**
