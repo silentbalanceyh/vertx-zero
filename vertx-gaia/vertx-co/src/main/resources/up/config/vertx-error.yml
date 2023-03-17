@@ -139,7 +139,7 @@ E60018: "(501) - The micro service could not find method by address = {0}, error
 E60019: "(500) - Unexpected error found when communitting, details {0}"
 E60020: "(424) - This call dependency Rpc remote service ( name = {0}, address = {1} ) could not be found now"
 E60021: "(400) - File uploading to {0} met errors, please check"
-
+E60060: "(500) - Method invoking met exception, but could not find WebException, ex = {0}"
 # Query, Search, Connect
 E60022: "(400) - (Ir) You''ll try to parse Ir key = \"{0}\", the expected type is {1} but now it''s {2}"
 E60023: "(400) - (Ir) You''ll try to build \"pager\", the key \"{0}\" of pager missing."

@@ -4,6 +4,8 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
+import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.exception.zero.InvokingSpecException;
 import io.vertx.up.fn.Fn;
 
@@ -42,45 +44,67 @@ final class Invoker {
         return (T) Fn.orJvm(null, () -> invoker.invoke(null, args));
     }
 
+    private static Method methodSeek(final Object instance, final String name, final Object... args) {
+        // Direct invoke, multi overwrite for unbox/box issue still existing.
+        if (Ut.isNil(name) || Objects.isNull(instance)) {
+            throw new _412NullValueException(Invoker.class, "name | instance");
+        }
+        final Class<?> clazz = instance.getClass();
+        final List<Class<?>> types = new ArrayList<>();
+        for (final Object arg : args) {
+            if (Objects.isNull(arg)) {
+                types.add(null);
+            } else {
+                types.add(Ut.toPrimary(arg.getClass()));
+            }
+        }
+        final Class<?>[] arguments = types.toArray(new Class<?>[]{});
+        final Method[] methods = clazz.getMethods();
+        Method method = null;
+        for (final Method hit : methods) {
+            if (isMatch(hit, name, arguments)) {
+                method = hit;
+                break;
+            }
+        }
+        return method;
+    }
+
     static <T> T invokeObject(
         final Object instance,
         final String name,
         final Object... args) {
-        return Fn.orNull(() -> {
-            // Direct invoke, multi overwrite for unbox/box issue still existing.
-            final Class<?> clazz = instance.getClass();
-            final List<Class<?>> types = new ArrayList<>();
-            for (final Object arg : args) {
-                if (Objects.isNull(arg)) {
-                    types.add(null);
-                } else {
-                    types.add(Ut.toPrimary(arg.getClass()));
-                }
-            }
-            Object result;
-            try {
-                final Class<?>[] arguments = types.toArray(new Class<?>[]{});
-                final Method[] methods = clazz.getMethods();
-                Method method = null;
-                for (final Method hit : methods) {
-                    if (isMatch(hit, name, arguments)) {
-                        method = hit;
-                        break;
-                    }
-                }
-                if (Objects.isNull(method)) {
-                    result = null;
-                } else {
-                    result = method.invoke(instance, args);
-                }
-            } catch (final Throwable ex) {
-                ex.printStackTrace();
-                // Could not call, re-find the method by index
-                // Search method by argument index because could not call directly
+
+        /* Method Extracting */
+        Method method = null;
+        try {
+            method = methodSeek(instance, name, args);
+        } catch (final Throwable ex) {
+            ex.printStackTrace();
+        }
+
+        /* Method checking */
+        if (Objects.isNull(method)) {
+            throw new _412NullValueException(Invoker.class, "method: " + name + " is null");
+        }
+
+        final Class<?> returnType = method.getReturnType();
+        // Sync Calling
+        Object result;
+        try {
+            result = method.invoke(instance, args);
+        } catch (final Throwable ex) {
+            ex.printStackTrace();
+            if (Future.class.isAssignableFrom(returnType)) {
+                // Async Calling
+                final WebException error = Instance.errorWeb(ex);
+                result = Future.failedFuture(error);
+            } else {
+                // Sync Calling
                 result = null;
             }
-            return (T) result;
-        }, instance, name);
+        }
+        return (T) result;
     }
 
     static <T> Future<T> invokeAsync(final Object instance,
