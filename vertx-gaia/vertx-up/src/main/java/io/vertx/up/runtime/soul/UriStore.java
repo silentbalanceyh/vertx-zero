@@ -48,14 +48,19 @@ class UriStore {
              */
             final Method method = event.getAction();
             final Annotation annotation = method.getDeclaredAnnotation(Address.class);
-            final String address = Ut.invoke(annotation, "value");
-            if (Objects.nonNull(address) && receiptMap.containsKey(address)) {
+            if(Objects.nonNull(annotation)) {
                 /*
-                 * Worker Build
+                 * Worker Address Injection
                  */
-                final Receipt receipt = receiptMap.get(address);
-                uriMeta.setAddress(address);
-                uriMeta.setWorkerMethod(receipt.getMethod());
+                final String address = Ut.invoke(annotation, "value");
+                if (Objects.nonNull(address) && receiptMap.containsKey(address)) {
+                    /*
+                     * Worker Build
+                     */
+                    final Receipt receipt = receiptMap.get(address);
+                    uriMeta.setAddress(address);
+                    uriMeta.setWorkerMethod(receipt.getMethod());
+                }
             }
             /*
              * Cache Key calculation
