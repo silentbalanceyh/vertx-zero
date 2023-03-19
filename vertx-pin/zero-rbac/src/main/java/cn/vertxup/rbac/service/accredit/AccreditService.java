@@ -54,23 +54,25 @@ public class AccreditService implements AccreditStub {
         final ScResource request = ScResource.create(requestData);
         // First Phase
         final ScConfig config = ScPin.getConfig();
-        return Rapid.<String, JsonObject>t(config.getPoolResource()).cached(request.key(), () -> {
-            /* Fetch Action */
-            final Refer actionHod = new Refer();
-            // Action Checking
-            return this.fetchAction(request)
-                .compose(action -> this.inspectAction(request, action))
-                .compose(actionHod::future)
-                // Resource Checking
-                .compose(action -> this.stub.fetchResource(action.getResourceId()))
-                .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
-                // Level Checking
-                .compose(resource -> this.inspectLevel(resource, actionHod.get()))
-                // Resource Data Processing
-                .compose(resource -> this.inspectData(resource, actionHod.get()));
-        }).compose(stored -> this.inspectView(requestData, request, stored)
+        return Rapid.<String, JsonObject>t(config.getPoolResource())
+            .cached(request.key(), () -> {
+                /* Fetch Action */
+                final Refer actionHod = new Refer();
+                // Action Checking
+                return this.fetchAction(request)
+                    .compose(action -> this.inspectAction(request, action))
+                    .compose(actionHod::future)
+                    // Resource Checking
+                    .compose(action -> this.stub.fetchResource(action.getResourceId()))
+                    .compose(resource -> this.inspectResource(request, actionHod.get(), resource))
+                    // Level Checking
+                    .compose(resource -> this.inspectLevel(resource, actionHod.get()))
+                    // Resource Data Processing
+                    .compose(resource -> this.inspectData(resource, actionHod.get()));
+            })
+            .compose(stored -> this.inspectView(requestData, request, stored))
             // Extract `data` node
-        ).compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));
+            .compose(stored -> Ux.future(stored.getJsonObject(KName.DATA)));
     }
 
     private Future<JsonObject> inspectView(final JsonObject requestData, final ScResource resource,

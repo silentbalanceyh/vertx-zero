@@ -237,7 +237,7 @@ is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is 
 
 You can send request to me: `445191171` to contact with the author team of zero.
 
-![](/doc/_image/chat.png)
+![](/doc/_image/chat.jpg)
 
 ## DESIGNED IN CHINA（中国设计）
 

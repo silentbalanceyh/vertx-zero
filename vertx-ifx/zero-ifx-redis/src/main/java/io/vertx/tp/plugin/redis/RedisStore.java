@@ -18,7 +18,7 @@ import java.util.*;
 public class RedisStore implements SessionStore {
 
     private static final Annal LOGGER = Annal.get(RedisStore.class);
-    private static final String MAP_NAME = "vertx-web.sessions";
+    private static final String MAP_NAME = "vertx-web.session";
     private static transient PRNG random;
     /* Local Map */
     private final transient List<String> sessionIds = new Vector<>();
