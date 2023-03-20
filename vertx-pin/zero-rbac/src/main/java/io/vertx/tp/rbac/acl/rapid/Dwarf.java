@@ -2,9 +2,11 @@ package io.vertx.tp.rbac.acl.rapid;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500DwarfInstanceNullException;
+import io.vertx.tp.rbac.acl.rapid.addon.DwarfAddOn;
 import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.util.Ut;
 
 /*
  * Dwarf
@@ -27,6 +29,14 @@ public interface Dwarf {
             Fn.out(true, _500DwarfInstanceNullException.class, Dwarf.class, type);
             return null;
         }
+    }
+
+    static Dwarf create() {
+        return create(DwarfAddOn.class);
+    }
+
+    static Dwarf create(final Class<?> clazz) {
+        return Pool.CC_ADDON.pick(() -> Ut.instance(clazz), clazz.getName());
     }
 
     void minimize(JsonObject dataReference, JsonObject matrix, Acl acl);

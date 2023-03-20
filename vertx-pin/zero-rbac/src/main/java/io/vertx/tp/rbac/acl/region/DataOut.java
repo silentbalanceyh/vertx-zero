@@ -65,6 +65,13 @@ class DataOut {
         }, (responseJson, type) -> Dwarf.create(type).minimize(responseJson, matrix, envelop.acl()));
     }
 
+    static void dwarfAddon(final Envelop envelop, final JsonObject matrix) {
+        final JsonObject responseJson = envelop.outJson();
+        // Qr
+        Dwarf.create().minimize(responseJson, matrix, envelop.acl());
+    }
+
+    // --------------------------- Analyze Region ----------------------------
     /*
      * Uniform called by static method for different workflow of region type
      */

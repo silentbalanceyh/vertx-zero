@@ -8,6 +8,7 @@ import java.util.Set;
 public interface KName {
     String QBE = "QBE";                          /* QBE = ? */
     String ENV = "ENV";                          /* ENV */
+    String QR = "qr";                            /* qr */
 
     String PLOT = "plot";                        /* Plot Configuration */
     String CLOUD = "cloud";                      /* Plot Cloud Attribute */
@@ -298,6 +299,7 @@ public interface KName {
         String USER = "__" + KName.USER;             /* __user for user extraction */
         String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
         String ACL = "__" + Flow.ACL;                /* __acl */
+        String QR = "__" + KName.QR;                 /* __qr */
     }
 
 

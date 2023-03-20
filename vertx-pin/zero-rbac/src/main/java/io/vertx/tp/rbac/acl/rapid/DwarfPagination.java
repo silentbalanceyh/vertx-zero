@@ -56,6 +56,7 @@ class DwarfPagination implements Dwarf {
          *      "list": []
          * }
          * */
-        T.qr(dataReference, matrix);
+        Dwarf.create().minimize(dataReference, matrix, acl);
+        // T.qr(dataReference, matrix);
     }
 }

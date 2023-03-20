@@ -80,6 +80,9 @@ public class SeekCosmo implements Cosmo {
                 /* Projection For Array */
                 DataOut.dwarfCollection(processed, matrix);
 
+                /* AddOn for */
+                DataOut.dwarfAddon(processed, matrix);
+
                 return Ux.future(processed);
             })
         ).otherwise(Ux.otherwise());

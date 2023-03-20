@@ -196,7 +196,7 @@
         <log4j2.version>2.20.0</log4j2.version>
         <logback.version>1.4.6</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
-        <slf4j.version>2.0.6</slf4j.version>
+        <slf4j.version>2.0.7</slf4j.version>
 
         <!-- Cloud -->
         <eclipse.git.version>6.5.0.202303070854-r</eclipse.git.version>
