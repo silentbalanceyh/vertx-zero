@@ -15,6 +15,7 @@
         <module>vertx-semper</module>
         <module>vertx-pin</module>
         <module>vertx-import</module>
+        <module>vertx-pin/zero-vista/infix-hed</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->

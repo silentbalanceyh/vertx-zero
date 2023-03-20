@@ -54,6 +54,7 @@ cp pom-update.xml ./vertx-pin/zero-vie/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-mysql/pom-update.xml
 cp pom-update.xml ./vertx-pin/zero-vista/infix-oracle/pom-update.xml
+cp pom-update.xml ./vertx-pin/zero-vista/infix-hed/pom-update.xml
 
 # =======================================================================
 # 微服务 / 原生云
@@ -70,5 +71,3 @@ cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-inlet/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-istio/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-k8s/pom-update.xml
 cp pom-update.xml ./vertx-semper/aeon-eternal/aeon-up/pom-update.xml
-cp pom-update.xml ./vertx-semper/aeon-iac/pom-update.xml
-cp pom-update.xml ./vertx-semper/aeon-iac/aeon-kit-loader/pom-update.xml
