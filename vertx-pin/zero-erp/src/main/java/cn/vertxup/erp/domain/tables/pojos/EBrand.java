@@ -27,7 +27,7 @@ public class EBrand implements VertxPojo, IEBrand {
     private String companyName;
     private String categoryCode;
     private String categoryName;
-    private Integer area;
+    private String area;
     private String areaName;
     private String areaCategory;
     private String metadata;
@@ -70,7 +70,7 @@ public class EBrand implements VertxPojo, IEBrand {
         String companyName,
         String categoryCode,
         String categoryName,
-        Integer area,
+        String area,
         String areaName,
         String areaCategory,
         String metadata,
@@ -237,7 +237,7 @@ public class EBrand implements VertxPojo, IEBrand {
      * GB/T2659-2000国际标准区域码
      */
     @Override
-    public Integer getArea() {
+    public String getArea() {
         return this.area;
     }
 
@@ -246,7 +246,7 @@ public class EBrand implements VertxPojo, IEBrand {
      * GB/T2659-2000国际标准区域码
      */
     @Override
-    public EBrand setArea(Integer area) {
+    public EBrand setArea(String area) {
         this.area = area;
         return this;
     }
