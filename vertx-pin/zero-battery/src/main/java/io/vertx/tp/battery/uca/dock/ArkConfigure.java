@@ -20,7 +20,13 @@ class ArkConfigure extends AbstractArk {
     @Override
     public Future<ClusterSerializable> modularize(final String appId, final TypeBy by) {
         final JsonObject condition = this.buildQr(appId, TypeBag.EXTENSION, by);
-        condition.put(KName.PARENT_ID + ",n", null);
+        /*
+         * 新路由中，BAG直接提取 EXTENSION 类型的模型即可
+         * parentId IS NULL 在旧版本中是可行的，旧版本没有入口根包的概念
+         * 新版本中多了入口根包概念，所以就不可以使用这个条件了，否则会导致BLOCK
+         * 为空。
+         */
+        // condition.put(KName.PARENT_ID + ",n", null);
         Bk.Log.infoChannel(this.getClass(), "Modulat condition = {0}", condition.encode());
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchAsync(condition).compose(bags -> {
             final ConcurrentMap<String, Future<JsonObject>> futures = new ConcurrentHashMap<>();

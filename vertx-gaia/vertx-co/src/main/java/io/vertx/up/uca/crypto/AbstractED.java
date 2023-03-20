@@ -56,7 +56,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
          */
         final String hedCls = Ut.envWith(Macrocosm.HED_COMPONENT, Strings.EMPTY);
         HED hed = null;
-        
+
 
         // Z_HED
         if (Ut.notNil(hedCls)) {
@@ -68,10 +68,12 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
         if (Objects.isNull(hed)) {
             hed = Pocket.lookup(HED.class);
         }
+        final Annal logger = Annal.get(this.getClass());
         if (Objects.isNull(hed)) {
-            final Annal logger = Annal.get(this.getClass());
             logger.warn("[ HED ] Missed `HED` component in service loader: META-INF/services/{0}", HED.class.getName());
             return source;
+        } else {
+            logger.info("[ HED ] `HED` component: {0}", hed.getClass().getName());
         }
         return executor.apply(hed);
     }

@@ -134,7 +134,7 @@ public class EBrandDao extends AbstractVertxDAO<EBrandRecord, cn.vertxup.erp.dom
         /**
      * Find records that have <code>AREA IN (values)</code> asynchronously
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EBrand>> findManyByArea(Collection<Integer> values) {
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EBrand>> findManyByArea(Collection<String> values) {
                 return findManyByCondition(EBrand.E_BRAND.AREA.in(values));
         }
 
@@ -142,7 +142,7 @@ public class EBrandDao extends AbstractVertxDAO<EBrandRecord, cn.vertxup.erp.dom
      * Find records that have <code>AREA IN (values)</code> asynchronously
      * limited by the given limit
      */
-        public Future<List<cn.vertxup.erp.domain.tables.pojos.EBrand>> findManyByArea(Collection<Integer> values, int limit) {
+        public Future<List<cn.vertxup.erp.domain.tables.pojos.EBrand>> findManyByArea(Collection<String> values, int limit) {
                 return findManyByCondition(EBrand.E_BRAND.AREA.in(values),limit);
         }
 

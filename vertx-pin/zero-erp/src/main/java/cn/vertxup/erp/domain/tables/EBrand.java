@@ -66,7 +66,7 @@ public class EBrand extends TableImpl<EBrandRecord> {
      * The column <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
-    public final TableField<EBrandRecord, Integer> AREA = createField(DSL.name("AREA"), SQLDataType.INTEGER, this, "「area」- GB/T2659-2000国际标准区域码");
+    public final TableField<EBrandRecord, String> AREA = createField(DSL.name("AREA"), SQLDataType.VARCHAR(128), this, "「area」- GB/T2659-2000国际标准区域码");
     /**
      * The column <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
      */
@@ -214,14 +214,14 @@ public class EBrand extends TableImpl<EBrandRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<String, String, String, String, String, String, String, Integer, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
+    public Row18<String, String, String, String, String, String, String, String, String, String, String, Boolean, String, String, LocalDateTime, String, LocalDateTime, String> fieldsRow() {
         return (Row18) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -229,7 +229,7 @@ public class EBrand extends TableImpl<EBrandRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Boolean, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

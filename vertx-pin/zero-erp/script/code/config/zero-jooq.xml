@@ -5,8 +5,8 @@
         <url>
             <![CDATA[ jdbc:mysql://ox.engine.cn:3306/DB_ETERNAL?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true ]]>
         </url>
-        <username>root</username>
-        <password>pl,okmijn123</password>
+        <username>zero</username>
+        <password>pl,okm123YH</password>
     </jdbc>
     <generator>
         <name>io.github.jklingsporn.vertx.jooq.generate.classic.ClassicJDBCVertxGenerator</name>

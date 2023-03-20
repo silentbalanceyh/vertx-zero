@@ -19,7 +19,7 @@ CREATE TABLE `E_BRAND`
     -- 品牌基础信息
     `CATEGORY_CODE` VARCHAR(16) COMMENT '「categoryCode」- 类别代码',
     `CATEGORY_NAME` VARCHAR(128) COMMENT '「categoryName」- 类别名称',
-    `AREA`          INT COMMENT '「area」- GB/T2659-2000国际标准区域码',
+    `AREA`          VARCHAR(128) COMMENT '「area」- GB/T2659-2000国际标准区域码',
     `AREA_NAME`     VARCHAR(128) COMMENT '「areaName」- 区域名称',
     `AREA_CATEGORY` VARCHAR(16) COMMENT '「areaCategory」- 区域类别码',
 

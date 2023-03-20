@@ -97,13 +97,13 @@ public interface IEBrand extends VertxPojo, Serializable {
      * Setter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
-    public IEBrand setArea(Integer value);
+    public IEBrand setArea(String value);
 
     /**
      * Getter for <code>DB_ETERNAL.E_BRAND.AREA</code>. 「area」-
      * GB/T2659-2000国际标准区域码
      */
-    public Integer getArea();
+    public String getArea();
 
     /**
      * Setter for <code>DB_ETERNAL.E_BRAND.AREA_NAME</code>. 「areaName」- 区域名称
@@ -232,7 +232,7 @@ public interface IEBrand extends VertxPojo, Serializable {
                 setOrThrow(this::setCompanyName,json::getString,"COMPANY_NAME","java.lang.String");
                 setOrThrow(this::setCategoryCode,json::getString,"CATEGORY_CODE","java.lang.String");
                 setOrThrow(this::setCategoryName,json::getString,"CATEGORY_NAME","java.lang.String");
-                setOrThrow(this::setArea,json::getInteger,"AREA","java.lang.Integer");
+                setOrThrow(this::setArea,json::getString,"AREA","java.lang.String");
                 setOrThrow(this::setAreaName,json::getString,"AREA_NAME","java.lang.String");
                 setOrThrow(this::setAreaCategory,json::getString,"AREA_CATEGORY","java.lang.String");
                 setOrThrow(this::setMetadata,json::getString,"METADATA","java.lang.String");
