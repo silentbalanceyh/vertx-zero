@@ -30,9 +30,13 @@ public class PowerApp implements Serializable {
         // key compared
         final String key = normalized.getString(KName.KEY);
         if (appId.equals(key)) {
-            final JsonObject module = normalized.copy();
-            module.remove(KName.KEY);
-            Ut.<JsonObject>itJObject(module,
+            /*
+             * 此处由于后期加入了 `bags` 导致下边遍历会失败，bags 不在 PowerApp 中执行
+             * 所以要将 bags 移除，同时移除 `key`
+             */
+            normalized.remove(KName.KEY);
+            normalized.remove(KName.App.BAGS);
+            Ut.<JsonObject>itJObject(normalized,
                 (value, name) -> this.blocks.put(name, new PowerBlock(name, value)));
         }
     }

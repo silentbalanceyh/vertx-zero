@@ -37,6 +37,8 @@ public class ExModulat implements Modulat {
     public Future<JsonObject> extension(final String appId) {
         Objects.requireNonNull(appId);
         final JsonObject appJ = new JsonObject();
+        // 解决无法连接导致AppId为空的问题
+        appJ.put(KName.KEY, appId);
         return this.moduleAdmin(appId)
             .compose(moduleJ -> {
                 appJ.mergeIn(moduleJ, true);
