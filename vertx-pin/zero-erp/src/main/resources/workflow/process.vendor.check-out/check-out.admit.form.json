@@ -3,7 +3,7 @@
         "TICKET": [
             [
                 {
-                    "metadata": "startAt,离场时间,8,,aiDatePicker",
+                    "metadata": "startAt,入场时间,8,,aiDatePicker",
                     "optionJsx.format": "YYYY-MM-DD",
                     "optionJsx.disabledDate": "propFromNow",
                     "optionJsx.depend.impact": {
@@ -17,7 +17,7 @@
                         }
                     },
                     "optionConfig.rules": [
-                        "required,请填写离场时间！"
+                        "required,请填写入场时间！"
                     ],
                     "moment": true
                 },
