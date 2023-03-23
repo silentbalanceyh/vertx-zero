@@ -100,7 +100,7 @@
         <guava.version>31.1-jre</guava.version>
         <scala.version>2.13.11-M1</scala.version>
         <feign.version>8.18.0</feign.version>
-        <joda.version>2.12.2</joda.version>
+        <joda.version>2.12.3</joda.version>
         <codehaus.janino.version>3.1.9</codehaus.janino.version>
         <codehaus.mojo.version>1.22</codehaus.mojo.version>
         <ignite.version>2.14.0</ignite.version>
@@ -947,8 +947,8 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
                 <exclusions>
                     <exclusion>
