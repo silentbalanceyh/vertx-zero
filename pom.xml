@@ -119,7 +119,7 @@
         <neo4j.version>5.6.0</neo4j.version>
 
         <!-- Apache Common -->
-        <common.jexl.version>3.2.1</common.jexl.version>
+        <common.jexl.version>3.3</common.jexl.version>
         <common.lang3.version>3.12.0</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.9.0</common.net.version>
