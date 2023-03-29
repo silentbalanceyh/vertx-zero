@@ -32,8 +32,6 @@ class UnityAsker {
      * use `Ux.Jooq.on(Dao.class)` mode to get Dao reference.
      */
     static Future<Boolean> init(final Vertx vertx) {
-        /* JooqInfix for future usage */
-        JooqInfix.init(vertx);
         /* All app here */
         final Configuration configuration = Ke.getConfiguration();
         final XAppDao appDao = new XAppDao(configuration, vertx);

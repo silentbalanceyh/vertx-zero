@@ -35,8 +35,8 @@ public class RespectFile extends AbstractRespect {
         final JsonObject condition = this.queryTpl(ticket);
         condition.put(KName.MODEL_KEY, ticket.getKey());
 
-        final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
-        condition.put("key,!i", keys);
+        // final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
+        // condition.put("key,!i", keys);
         return Ux.channelA(Attachment.class, Ux::futureA, file ->
             file.saveAsync(condition, dataArray, params));
         // Attachment Removing / Create
