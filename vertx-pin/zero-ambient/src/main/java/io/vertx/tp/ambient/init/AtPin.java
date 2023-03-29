@@ -1,5 +1,7 @@
 package io.vertx.tp.ambient.init;
 
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.error._500InitSpecificationException;
@@ -9,6 +11,7 @@ import io.vertx.tp.optic.extension.Init;
 import io.vertx.tp.optic.extension.Prerequisite;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -49,10 +52,15 @@ public class AtPin {
     /**
      * 「Booting」This method must be defined and it will be called when zero container booting up.
      */
-    public static void init() {
+    public static Future<Boolean> init(final Vertx vertx) {
         Ke.banner("「περιβάλλων」- Ambient ( At )");
         At.infoInit(LOGGER, "AtConfiguration...");
         AtConfiguration.init();
+        return Ux.futureT();
+    }
+
+    public static Future<Boolean> initDocument(final String appId){
+        return AtConfiguration.initDoc(appId);
     }
 
     /**

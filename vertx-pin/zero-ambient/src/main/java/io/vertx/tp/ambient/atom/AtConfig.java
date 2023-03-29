@@ -63,6 +63,8 @@ public class AtConfig implements Serializable {
      * Attachment configuration: language property, fixed in current version.
      */
     private String fileLanguage;
+
+    private String fileIntegration;
     /**
      * Standard data folder for data loading, Required for excel client, Loading data into database by excel client.
      */
@@ -100,6 +102,14 @@ public class AtConfig implements Serializable {
      */
     public void setFileLanguage(final String fileLanguage) {
         this.fileLanguage = fileLanguage;
+    }
+
+    public String getFileIntegration() {
+        return fileIntegration;
+    }
+
+    public void setFileIntegration(String fileIntegration) {
+        this.fileIntegration = fileIntegration;
     }
 
     /**
@@ -199,6 +209,7 @@ public class AtConfig implements Serializable {
             ", loader=" + this.loader +
             ", fileStorage='" + this.fileStorage + '\'' +
             ", fileLanguage='" + this.fileLanguage + '\'' +
+            ", fileIntegration='" + this.fileIntegration + '\'' +
             ", dataFolder='" + this.dataFolder + '\'' +
             ", storePath='" + this.storePath + '\'' +
             '}';

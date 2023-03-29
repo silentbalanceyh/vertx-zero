@@ -9,6 +9,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
+import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
@@ -31,6 +32,8 @@ class UnityAsker {
      * use `Ux.Jooq.on(Dao.class)` mode to get Dao reference.
      */
     static Future<Boolean> init(final Vertx vertx) {
+        /* JooqInfix for future usage */
+        JooqInfix.init(vertx);
         /* All app here */
         final Configuration configuration = Ke.getConfiguration();
         final XAppDao appDao = new XAppDao(configuration, vertx);

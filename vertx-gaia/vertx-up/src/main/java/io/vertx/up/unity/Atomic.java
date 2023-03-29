@@ -62,17 +62,29 @@ class Atomic {
             final String className = json.getString("component");
             final Class<?> clazz = Ut.clazz(className, null);
             if (Objects.nonNull(clazz)) {
-                final boolean isAsync = json.getBoolean("async", Boolean.FALSE);
-                if (isAsync) {
-                    // Async:  Future<Boolean> init(Vertx vertx) | init()
-                    final Future<Boolean> ret = (Future<Boolean>) invoke(clazz, vertx);
-                    if (Objects.nonNull(ret)) {
-                        async.add(ret);
+                /*
+                 * Re-Calc the workflow by `init` method
+                 * 1. init(Vertx) first
+                 * 2. init() Secondary
+                 */
+                final Method[] methods = clazz.getDeclaredMethods();
+                final Method methodInit = Arrays.asList(methods)
+                    .stream().filter(method -> "init".equals(method.getName()))
+                    .findFirst().orElse(null);
+                if(Objects.nonNull(methodInit)){
+                    final int counter = methodInit.getParameterTypes().length;
+                    final boolean isAsync = 0 < counter;
+                    if (isAsync) {
+                        // Async:  Future<Boolean> init(Vertx vertx) | init()
+                        final Future<Boolean> ret = (Future<Boolean>) invoke(clazz, vertx);
+                        if (Objects.nonNull(ret)) {
+                            async.add(ret);
+                        }
+                    } else {
+                        // Sync:   void init(Vertx vertx) | init()
+                        async.add(invokeSync(clazz, vertx));
+                        // sync.add(clazz);
                     }
-                } else {
-                    // Sync:   void init(Vertx vertx) | init()
-                    async.add(invokeSync(clazz, vertx));
-                    // sync.add(clazz);
                 }
             }
         });

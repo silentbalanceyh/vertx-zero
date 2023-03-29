@@ -28,6 +28,10 @@ public class At {
         AtLog.info(logger, "Init", pattern, args);
     }
 
+    public static void warnInit(final Annal logger, final String pattern, final Object... args) {
+        AtLog.warn(logger, "Init", pattern, args);
+    }
+
     public static void infoFile(final Annal logger, final String pattern, final Object... args) {
         AtLog.info(logger, "File", pattern, args);
     }
