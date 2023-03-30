@@ -315,6 +315,14 @@ public interface KName {
         String R = "r";
     }
 
+    // 「Uca」Life Cycle
+    interface LifeCycle{
+        String CONFIGURE = "configure";              /* Setup for configuration */
+        String COMPILE = "compile";                  /* After `configure`, processing the compile with data */
+
+        String SYNCHRO = "synchro";                  /* Update when usage */
+    }
+
 
     // 「Micro Service」
     interface Micro {

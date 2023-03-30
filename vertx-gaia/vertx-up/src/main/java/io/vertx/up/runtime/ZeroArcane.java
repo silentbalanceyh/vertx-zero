@@ -9,6 +9,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shared.MapInfix;
+import io.vertx.up.eon.KName;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;
@@ -115,10 +116,35 @@ public class ZeroArcane {
          *      key2:value2
          */
         if (config.containsKey(INIT)) {
-            /* Component initializing with native */
-            final JsonArray components = config.getJsonArray(INIT, new JsonArray());
-            HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, components.encode());
-            return Ux.nativeInit(components, vertx);
+            /*
+             * Component initializing with native
+             **/
+            final Object init = config.getValue(INIT);
+            if(init instanceof final JsonArray components){
+                /*
+                 * 1. 遗留模式：
+                 * init:
+                 *    - component: xxx
+                 */
+                HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, components.encode());
+                final JsonObject initConfig = new JsonObject().put(KName.COMPONENT, components);
+                return Ux.nativeInit(initConfig, vertx);
+            }else if(init instanceof final JsonObject initConfig){
+                /*
+                 * 2. 新模式：
+                 * init:
+                 *    extension:
+                 *    - component: xxx
+                 *    bridge:
+                 *    - component: xxx
+                 *      order: 1
+                 */
+                HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, initConfig.encode());
+                return Ux.nativeInit(initConfig, vertx);
+            }else{
+                // Nothing triggered when the configuration data format is invalid
+                return Future.succeededFuture(Boolean.TRUE);
+            }
         } else {
             HLog.infoEnv(ZeroArcane.class, MSG_EXT_CONFIGURATION, config);
             return Future.succeededFuture(Boolean.TRUE);
