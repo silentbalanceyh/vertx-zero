@@ -51,7 +51,16 @@ public class ZeroAnno {
     private final static Set<Mission> JOBS = new HashSet<>();
     private final static Set<Remind> SOCKS = new HashSet<>();
     private static final Cc<String, Set<Aegis>> CC_WALL = Cc.open();
-    private static Injector DI;
+
+    private static final Set<Class<?>> CLASS_SET;
+    private static final Injector DI;
+
+    static{
+        CLASS_SET = ZeroPack.getClasses();
+        final Inquirer<Injector> guice = Ut.singleton(GuiceInquirer.class);
+        DI = guice.scan(CLASS_SET);
+        LOGGER.info("Zero Zone DI Environment.... {0}, size= {1}", DI, String.valueOf(CLASS_SET.size()));
+    }
 
     /*
      * Move to main thread to do init instead of static block initialization
@@ -65,25 +74,19 @@ public class ZeroAnno {
          * -- Class<?> Seeking ( EndPoint, Queue, HQueue )
          */
         final long start = System.currentTimeMillis();
-        final Set<Class<?>> clazzes = ZeroPack.getClasses();
         final long end = System.currentTimeMillis();
         LOGGER.info("Zero Timer: Scanning = {0} ms",
             String.valueOf(end - start));
         Runner.run("meditate-class",
-            // DI Environment
-            () -> {
-                final Inquirer<Injector> guice = Ut.singleton(GuiceInquirer.class);
-                DI = guice.scan(clazzes);
-            },
             // @EndPoint
             () -> {
                 final Inquirer<Set<Class<?>>> inquirer = Ut.singleton(EndPointInquirer.class);
-                ENDPOINTS.addAll(inquirer.scan(clazzes));
+                ENDPOINTS.addAll(inquirer.scan(CLASS_SET));
             },
             // @Queue
             () -> {
                 final Inquirer<Set<Class<?>>> inquirer = Ut.singleton(QueueInquirer.class);
-                QUEUES.addAll(inquirer.scan(clazzes));
+                QUEUES.addAll(inquirer.scan(CLASS_SET));
             },
             // @QaS
             () -> {
@@ -92,18 +95,18 @@ public class ZeroAnno {
                 if (Objects.nonNull(aeon)) {
                     /* Aeon System Enabled */
                     final Inquirer<ConcurrentMap<String, Method>> inquirer = Ut.singleton(HQaSInquirer.class);
-                    QAS.putAll(inquirer.scan(clazzes));
+                    QAS.putAll(inquirer.scan(CLASS_SET));
                 }
             },
             // TpClients Plugins
             () -> {
                 final Inquirer<Set<Class<?>>> tps = Ut.singleton(PluginInquirer.class);
-                TPS.addAll(tps.scan(clazzes));
+                TPS.addAll(tps.scan(CLASS_SET));
             },
             // Worker Class
             () -> {
                 final Inquirer<Set<Class<?>>> worker = Ut.singleton(WorkerInquirer.class);
-                WORKERS.addAll(worker.scan(clazzes));
+                WORKERS.addAll(worker.scan(CLASS_SET));
             }
         );
 
@@ -135,12 +138,12 @@ public class ZeroAnno {
             // @Wall -> Authenticate, Authorize
             () -> {
                 final Inquirer<Set<Aegis>> walls = Ut.singleton(WallInquirer.class);
-                WALLS.addAll(walls.scan(clazzes));
+                WALLS.addAll(walls.scan(CLASS_SET));
             },
             // @WebFilter -> JSR340
             () -> {
                 final Inquirer<ConcurrentMap<String, Set<Event>>> filters = Ut.singleton(FilterInquirer.class);
-                FILTERS.putAll(filters.scan(clazzes));
+                FILTERS.putAll(filters.scan(CLASS_SET));
             },
             // @Queue/@QaS -> Receipt
             () -> Fn.safeSemi(!QUEUES.isEmpty(), LOGGER, () -> {
@@ -150,22 +153,22 @@ public class ZeroAnno {
             // @Ipc -> IPC Only
             () -> {
                 final Inquirer<ConcurrentMap<String, Method>> ipc = Ut.singleton(IpcInquirer.class);
-                IPCS.putAll(ipc.scan(clazzes));
+                IPCS.putAll(ipc.scan(CLASS_SET));
             },
             // Agent Component
             () -> {
                 final Inquirer<ConcurrentMap<ServerType, List<Class<?>>>> agent = Ut.singleton(AgentInquirer.class);
-                AGENTS.putAll(agent.scan(clazzes));
+                AGENTS.putAll(agent.scan(CLASS_SET));
             },
             // @WebSock
             () -> {
                 final Inquirer<Set<Remind>> socks = Ut.singleton(SockInquirer.class);
-                SOCKS.addAll(socks.scan(clazzes));
+                SOCKS.addAll(socks.scan(CLASS_SET));
             },
             // @Job
             () -> {
                 final Inquirer<Set<Mission>> jobs = Ut.singleton(JobInquirer.class);
-                JOBS.addAll(jobs.scan(clazzes));
+                JOBS.addAll(jobs.scan(CLASS_SET));
             }
         );
         LOGGER.info("Zero Timer: Meditate = {0} ms", String.valueOf(System.currentTimeMillis() - end));
