@@ -4,6 +4,7 @@ import io.vertx.core.*;
 import io.vertx.core.eventbus.EnvelopCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -68,7 +69,13 @@ class Atomic {
             .compose(nil -> {
                 // 2. nativeBridge first
                 final JsonArray bridges = Ut.valueJArray(initConfig, KName.LifeCycle.COMPILE);
-                return nativeBridge(bridges, vertx);
+                if(0 < bridges.size()) {
+                    // JooqConfigurationException
+                    JooqInfix.init(vertx);
+                    return nativeBridge(bridges, vertx);
+                }else{
+                    return Ux.futureT();
+                }
             });
     }
 
@@ -170,44 +177,17 @@ class Atomic {
             final boolean isAsync = 0 < counter;
             if (isAsync) {
                 // Async:  Future<Boolean> init(Vertx vertx) | init()
-                return (Future<Boolean>) invokeAsync(clazz, vertx);
+                return Fn.orJvm(() -> (Future<Boolean>) methodInit.invoke(null, vertx));
             } else {
                 // Sync:   void init(Vertx vertx) | init()
-                return invoke(clazz, vertx);
+                return Fn.orJvm(() -> {
+                    methodInit.invoke(null);
+                    return Future.succeededFuture(Boolean.TRUE);
+                });
             }
         } else {
-            // Empty Body
+            // Empty Body ( Not invoking happened )
             return Ux.futureT();
         }
-    }
-
-    private static Future<Boolean> invoke(final Class<?> clazz, final Vertx vertx) {
-        invokeAsync(clazz, vertx);
-        return Future.succeededFuture(Boolean.TRUE);
-    }
-
-    @SuppressWarnings("all")
-    private static Object invokeAsync(final Class<?> clazz, final Vertx vertx) {
-        return Fn.orJvm(() -> {
-            final Method initMethod = Arrays.asList(clazz.getDeclaredMethods())
-                .stream().filter(method -> "init".equals(method.getName()))
-                .findFirst().orElse(null);
-            if (Objects.isNull(initMethod)) {
-                // No method
-                return null;
-            }
-            final int counter = initMethod.getParameterTypes().length;
-            if (0 == counter) {
-                // public static void init()
-                return initMethod.invoke(null);
-            } else {
-                // public static Future<Boolean> init(Vertx vertx)
-                if (Objects.isNull(vertx)) {
-                    return null;
-                } else {
-                    return initMethod.invoke(null, vertx);
-                }
-            }
-        });
     }
 }

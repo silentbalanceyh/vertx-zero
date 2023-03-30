@@ -80,6 +80,7 @@ public class UnityAmbient implements UnityApp {
              * appId - Inner ambient environment to identify application.
              * appKey - Ox engine used as dynamic identifier here.
              */
+            normalized.put(KName.KEY, app.getKey());        // `key` fixed when `api` and `non-api` configuration
             normalized.put(KName.APP_ID, app.getKey());
             normalized.put(KName.APP_KEY, app.getAppKey());
             normalized.put(KName.SIGMA, app.getSigma());
