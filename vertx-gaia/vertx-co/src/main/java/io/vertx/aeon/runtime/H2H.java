@@ -1,5 +1,6 @@
 package io.vertx.aeon.runtime;
 
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.uca.cache.Cc;
@@ -27,5 +28,6 @@ public interface H2H {
      * 「应用模块集」
      * 用于存储 BBag + BBlock 等应用模块配置集
      */
-    Cc<String, JsonArray> CC_META_BAG = Cc.open();
+    Cc<String, Future<JsonArray>> CCA_META_ENTRY = Cc.openA();
+    Cc<String, Future<JsonObject>> CCA_DATA_MODULE = Cc.openA();
 }

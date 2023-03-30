@@ -27,6 +27,7 @@ public class AtInit {
             final boolean fileIs = Ut.isNil(config.getFileIntegration());
             if(!fileIs){
                 At.infoInit(LOGGER, "Document Platform Disabled !!");
+                return Ux.futureF();
             }
             // 此处提前调用 initialize 方法，此方法保证无副作用的多次调用即可
             final DocBStub docStub = PLUGIN.createComponent(DocBuilder.class);

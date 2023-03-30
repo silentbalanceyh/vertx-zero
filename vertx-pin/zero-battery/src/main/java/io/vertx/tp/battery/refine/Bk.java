@@ -13,6 +13,11 @@ public class Bk {
             BkLog.info(logger, "Init", message, args);
         }
 
+        public static void warnInit(final Class<?> clazz, final String message, final Object... args) {
+            final Annal logger = Annal.get(clazz);
+            BkLog.warn(logger, "Init", message, args);
+        }
+
         public static void infoChannel(final Class<?> clazz, final String message, final Object... args) {
             final Annal logger = Annal.get(clazz);
             BkLog.info(logger, "Service Loader", message, args);

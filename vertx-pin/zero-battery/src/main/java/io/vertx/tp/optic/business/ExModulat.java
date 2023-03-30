@@ -1,5 +1,6 @@
 package io.vertx.tp.optic.business;
 
+import io.vertx.aeon.runtime.H2H;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -59,9 +60,11 @@ public class ExModulat implements Modulat {
      * "mXXX" = configuration json that stored into B_BLOCK ( Multi tables )
      */
     private Future<JsonObject> moduleAdmin(final String appId) {
-        final Ark ark = Ark.configure();
-        return ark.modularize(appId)
-            .compose(data -> Ux.future((JsonObject) data));
+        return H2H.CCA_DATA_MODULE.pick(() -> {
+            final Ark ark = Ark.configure();
+            return ark.modularize(appId)
+                .compose(data -> Ux.future((JsonObject) data));
+        }, appId);
     }
 
     /*
@@ -73,10 +76,14 @@ public class ExModulat implements Modulat {
      * All the configuration page will be built in above `moduleAdmin` method for detail configuration.
      */
     private Future<JsonObject> moduleBag(final String appId) {
-        final Ark ark = Ark.bag();
-        return ark.modularize(appId).compose(data -> {
-            final JsonArray bags = (JsonArray) data;
-            return Ux.future(new JsonObject().put(KName.App.BAGS, bags));
+        return H2H.CCA_META_ENTRY.pick(() -> {
+            final Ark ark = Ark.bag();
+            return ark.modularize(appId)
+                .compose(data -> Ux.future((JsonArray)data));
+        }, appId).compose(bags -> {
+            final JsonObject response = new JsonObject();
+            response.put(KName.App.BAGS, bags);
+            return Ux.future(response);
         });
     }
 }
