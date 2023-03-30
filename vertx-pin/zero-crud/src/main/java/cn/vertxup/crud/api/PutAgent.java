@@ -9,7 +9,6 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
-
 import jakarta.ws.rs.*;
 
 /*

@@ -13,7 +13,6 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Orders;
 import io.vertx.up.unity.Ux;
-
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 

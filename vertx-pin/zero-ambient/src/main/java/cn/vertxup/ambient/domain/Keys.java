@@ -4,37 +4,8 @@
 package cn.vertxup.ambient.domain;
 
 
-import cn.vertxup.ambient.domain.tables.XActivity;
-import cn.vertxup.ambient.domain.tables.XActivityChange;
-import cn.vertxup.ambient.domain.tables.XActivityRule;
-import cn.vertxup.ambient.domain.tables.XApp;
-import cn.vertxup.ambient.domain.tables.XAttachment;
-import cn.vertxup.ambient.domain.tables.XCategory;
-import cn.vertxup.ambient.domain.tables.XLinkage;
-import cn.vertxup.ambient.domain.tables.XLog;
-import cn.vertxup.ambient.domain.tables.XMenu;
-import cn.vertxup.ambient.domain.tables.XModule;
-import cn.vertxup.ambient.domain.tables.XNotice;
-import cn.vertxup.ambient.domain.tables.XNumber;
-import cn.vertxup.ambient.domain.tables.XSource;
-import cn.vertxup.ambient.domain.tables.XTabular;
-import cn.vertxup.ambient.domain.tables.XTag;
-import cn.vertxup.ambient.domain.tables.records.XActivityChangeRecord;
-import cn.vertxup.ambient.domain.tables.records.XActivityRecord;
-import cn.vertxup.ambient.domain.tables.records.XActivityRuleRecord;
-import cn.vertxup.ambient.domain.tables.records.XAppRecord;
-import cn.vertxup.ambient.domain.tables.records.XAttachmentRecord;
-import cn.vertxup.ambient.domain.tables.records.XCategoryRecord;
-import cn.vertxup.ambient.domain.tables.records.XLinkageRecord;
-import cn.vertxup.ambient.domain.tables.records.XLogRecord;
-import cn.vertxup.ambient.domain.tables.records.XMenuRecord;
-import cn.vertxup.ambient.domain.tables.records.XModuleRecord;
-import cn.vertxup.ambient.domain.tables.records.XNoticeRecord;
-import cn.vertxup.ambient.domain.tables.records.XNumberRecord;
-import cn.vertxup.ambient.domain.tables.records.XSourceRecord;
-import cn.vertxup.ambient.domain.tables.records.XTabularRecord;
-import cn.vertxup.ambient.domain.tables.records.XTagRecord;
-
+import cn.vertxup.ambient.domain.tables.*;
+import cn.vertxup.ambient.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

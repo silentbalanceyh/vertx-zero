@@ -10,8 +10,8 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
-import org.jooq.*;
 import org.jooq.Record;
+import org.jooq.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

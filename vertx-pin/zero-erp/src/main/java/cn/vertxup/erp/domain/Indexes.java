@@ -8,7 +8,6 @@ import cn.vertxup.erp.domain.tables.EBrand;
 import cn.vertxup.erp.domain.tables.EDept;
 import cn.vertxup.erp.domain.tables.EEmployee;
 import cn.vertxup.erp.domain.tables.ETeam;
-
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

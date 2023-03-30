@@ -4,15 +4,7 @@
 package cn.vertxup.rbac.domain;
 
 
-import cn.vertxup.rbac.domain.tables.OUser;
-import cn.vertxup.rbac.domain.tables.RUserGroup;
-import cn.vertxup.rbac.domain.tables.RUserRole;
-import cn.vertxup.rbac.domain.tables.SAction;
-import cn.vertxup.rbac.domain.tables.SPacket;
-import cn.vertxup.rbac.domain.tables.SPath;
-import cn.vertxup.rbac.domain.tables.SUser;
-import cn.vertxup.rbac.domain.tables.SVisitant;
-
+import cn.vertxup.rbac.domain.tables.*;
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

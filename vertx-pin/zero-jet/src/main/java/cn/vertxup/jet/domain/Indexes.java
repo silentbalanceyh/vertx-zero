@@ -5,7 +5,6 @@ package cn.vertxup.jet.domain;
 
 
 import cn.vertxup.jet.domain.tables.IJob;
-
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

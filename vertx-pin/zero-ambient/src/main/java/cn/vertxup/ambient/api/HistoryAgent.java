@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-
 import jakarta.ws.rs.*;
 
 /**

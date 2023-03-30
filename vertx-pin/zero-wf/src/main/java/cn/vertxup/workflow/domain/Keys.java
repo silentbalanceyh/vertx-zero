@@ -10,7 +10,6 @@ import cn.vertxup.workflow.domain.tables.WTodo;
 import cn.vertxup.workflow.domain.tables.records.WFlowRecord;
 import cn.vertxup.workflow.domain.tables.records.WTicketRecord;
 import cn.vertxup.workflow.domain.tables.records.WTodoRecord;
-
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

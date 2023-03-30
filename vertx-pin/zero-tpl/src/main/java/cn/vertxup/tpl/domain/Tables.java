@@ -4,15 +4,7 @@
 package cn.vertxup.tpl.domain;
 
 
-import cn.vertxup.tpl.domain.tables.MyBag;
-import cn.vertxup.tpl.domain.tables.MyDesktop;
-import cn.vertxup.tpl.domain.tables.MyFavor;
-import cn.vertxup.tpl.domain.tables.MyMenu;
-import cn.vertxup.tpl.domain.tables.MySetting;
-import cn.vertxup.tpl.domain.tables.MyTpl;
-import cn.vertxup.tpl.domain.tables.TplMessage;
-import cn.vertxup.tpl.domain.tables.TplModel;
-import cn.vertxup.tpl.domain.tables.TplTicket;
+import cn.vertxup.tpl.domain.tables.*;
 
 
 /**

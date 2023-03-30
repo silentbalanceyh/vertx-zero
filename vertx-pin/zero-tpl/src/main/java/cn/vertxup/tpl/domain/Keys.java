@@ -4,25 +4,8 @@
 package cn.vertxup.tpl.domain;
 
 
-import cn.vertxup.tpl.domain.tables.MyBag;
-import cn.vertxup.tpl.domain.tables.MyDesktop;
-import cn.vertxup.tpl.domain.tables.MyFavor;
-import cn.vertxup.tpl.domain.tables.MyMenu;
-import cn.vertxup.tpl.domain.tables.MySetting;
-import cn.vertxup.tpl.domain.tables.MyTpl;
-import cn.vertxup.tpl.domain.tables.TplMessage;
-import cn.vertxup.tpl.domain.tables.TplModel;
-import cn.vertxup.tpl.domain.tables.TplTicket;
-import cn.vertxup.tpl.domain.tables.records.MyBagRecord;
-import cn.vertxup.tpl.domain.tables.records.MyDesktopRecord;
-import cn.vertxup.tpl.domain.tables.records.MyFavorRecord;
-import cn.vertxup.tpl.domain.tables.records.MyMenuRecord;
-import cn.vertxup.tpl.domain.tables.records.MySettingRecord;
-import cn.vertxup.tpl.domain.tables.records.MyTplRecord;
-import cn.vertxup.tpl.domain.tables.records.TplMessageRecord;
-import cn.vertxup.tpl.domain.tables.records.TplModelRecord;
-import cn.vertxup.tpl.domain.tables.records.TplTicketRecord;
-
+import cn.vertxup.tpl.domain.tables.*;
+import cn.vertxup.tpl.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

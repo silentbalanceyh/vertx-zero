@@ -4,17 +4,8 @@
 package cn.vertxup.battery.domain;
 
 
-import cn.vertxup.battery.domain.tables.BAuthority;
-import cn.vertxup.battery.domain.tables.BBag;
-import cn.vertxup.battery.domain.tables.BBlock;
-import cn.vertxup.battery.domain.tables.BComponent;
-import cn.vertxup.battery.domain.tables.BWeb;
-import cn.vertxup.battery.domain.tables.records.BAuthorityRecord;
-import cn.vertxup.battery.domain.tables.records.BBagRecord;
-import cn.vertxup.battery.domain.tables.records.BBlockRecord;
-import cn.vertxup.battery.domain.tables.records.BComponentRecord;
-import cn.vertxup.battery.domain.tables.records.BWebRecord;
-
+import cn.vertxup.battery.domain.tables.*;
+import cn.vertxup.battery.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
