@@ -1100,6 +1100,10 @@ public final class Ux {
         return Atomic.nativeWorker(name, 10);
     }
 
+    public static WorkerExecutor nativeWorker(final String name, final Integer mins){
+        return Atomic.nativeWorker(name, mins);
+    }
+
     public static <T> Future<T> nativeWorker(final String name, final Handler<Promise<T>> handler) {
         return Atomic.nativeWorker(name, handler);
     }

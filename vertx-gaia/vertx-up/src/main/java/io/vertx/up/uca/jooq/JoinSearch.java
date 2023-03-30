@@ -9,7 +9,6 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.List;

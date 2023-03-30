@@ -1,7 +1,6 @@
 package io.vertx.quiz.example;
 
 import io.vertx.up.annotations.EndPoint;
-
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 

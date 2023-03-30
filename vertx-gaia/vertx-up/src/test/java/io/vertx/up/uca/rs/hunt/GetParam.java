@@ -1,7 +1,6 @@
 package io.vertx.up.uca.rs.hunt;
 
 import io.vertx.up.annotations.EndPoint;
-
 import jakarta.ws.rs.*;
 
 @EndPoint

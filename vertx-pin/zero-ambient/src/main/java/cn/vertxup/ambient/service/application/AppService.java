@@ -6,7 +6,6 @@ import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.business.ExApp;
 import io.vertx.tp.optic.feature.Attachment;
@@ -53,9 +52,9 @@ public class AppService implements AppStub {
             /* ExApp Processing, options for application */
             .compose(appJ -> Ux.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
             /* Modulat Processing */
-            .compose(appJ -> Ux.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)))
+            .compose(appJ -> Ux.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)));
             /* Document Platform Initialized */
-            .compose(appJ -> AtPin.initDocument(appId).compose(nil -> Ux.future(appJ)));
+            // .compose(appJ -> AtPin.?nitDocument(appId).compose(nil -> Ux.future(appJ)));
     }
 
     @Override

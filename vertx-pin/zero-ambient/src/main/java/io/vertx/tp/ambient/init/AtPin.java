@@ -59,10 +59,6 @@ public class AtPin {
         return Ux.futureT();
     }
 
-    public static Future<Boolean> initDocument(final String appId){
-        return AtConfiguration.initDoc(appId);
-    }
-
     /**
      * Return to reference of {@link io.vertx.tp.ambient.atom.AtConfig} instance.
      *

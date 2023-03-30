@@ -9,11 +9,13 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.plugin.jooq.JooqInfix;
+import io.vertx.up.atom.Refer;
 import io.vertx.up.log.Annal;
+import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -50,6 +52,27 @@ class UnityAsker {
             SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
             return Future.succeededFuture(Boolean.TRUE);
         });
+    }
+
+    static Future<Boolean> synchro(final String appId) {
+        /* All app here, default configuration when runtime */
+        final Refer refer = new Refer();
+        return Ux.Jooq.on(XAppDao.class).<XApp>fetchByIdAsync(appId)
+            .compose(app -> {
+                Objects.requireNonNull(app);
+                refer.add(app.getName());
+                At.infoApp(LOGGER, AtMsg.SYNC_UNITY_APP, refer.get());
+                APP_POOL.put(appId, app);
+                return Ux.future(app);
+            })
+            .compose(app -> Ux.Jooq.on(XSourceDao.class).<XSource>fetchByIdAsync(app.getKey()))
+            .compose(source -> {
+                if(Objects.nonNull(source)){
+                    At.infoApp(LOGGER, AtMsg.SYNC_UNITY_SOURCE, refer.get());
+                    SOURCE_POOL.put(appId, source);
+                };
+                return Ux.futureT();
+            });
     }
 
     static ConcurrentMap<String, XApp> getApps() {

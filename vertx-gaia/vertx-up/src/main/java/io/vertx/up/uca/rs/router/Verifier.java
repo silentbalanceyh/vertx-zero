@@ -8,9 +8,9 @@ import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AnnotationRepeatException;
 import io.vertx.zero.exception.EventActionNoneException;
 import io.vertx.zero.exception.ParamAnnotationException;
-
 import jakarta.ws.rs.BodyParam;
 import jakarta.ws.rs.StreamParam;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;

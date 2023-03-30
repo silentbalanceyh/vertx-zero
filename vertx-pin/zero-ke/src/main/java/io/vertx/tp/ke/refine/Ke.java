@@ -13,6 +13,7 @@ import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -73,6 +74,10 @@ public class Ke {
     public static Function<JsonObject, Future<JsonObject>> mapFn(final ConcurrentMap<String, JsonObject> fieldConfig,
                                                                  final BiFunction<JsonObject, JsonArray, Future<JsonArray>> fileFn) {
         return data -> KeTool.map(data, KName.KEY, fieldConfig, fileFn);
+    }
+
+    public static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner){
+        return KeTool.mapApp(executor, combiner);
     }
 
 

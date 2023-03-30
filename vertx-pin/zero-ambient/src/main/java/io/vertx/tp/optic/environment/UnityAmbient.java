@@ -2,29 +2,51 @@ package io.vertx.tp.optic.environment;
 
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
 import cn.vertxup.ambient.domain.tables.pojos.XSource;
+import io.vertx.aeon.runtime.H2H;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /*
  * Read ambient here for data initialization
  */
 public class UnityAmbient implements UnityApp {
-    private static final ConcurrentMap<String, JsonObject> UNITY_POOL = new ConcurrentHashMap<>();
+
+    @Override
+    public Future<JsonObject> synchro(String appId) {
+        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        return UnityAsker.synchro(appId).compose(nil -> {
+            final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
+            final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
+            final XApp app = apps.get(appId);
+            final XSource source = sources.get(appId);
+            final JsonObject updated = this.connect(app, source);
+            stored.data(appId, updated);
+            return Future.succeededFuture(updated);
+        });
+    }
 
     @Override
     public Future<Boolean> initialize(final Vertx vertx) {
         /*
          * Initialize Unity Pool, Checking for Environment
          */
+        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        if(!stored.isEmpty()){
+            /*
+             * 截断运行，如果加载过就不再运行一次 initialize 方法，若要刷新则可调用
+             * synchro接口针对单系统执行调用
+             */
+            return Ux.futureT();
+        }
         return UnityAsker.init(vertx).compose(nil -> {
             /*
              * JsonObject initialization for configuration here
@@ -37,14 +59,15 @@ public class UnityAmbient implements UnityApp {
                 // .filter(appId -> Objects.nonNull(sources.get(appId)))
                 /* JsonObject converted here for app & source data */
                 .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
-                .forEach(item -> UNITY_POOL.put(item.getString(KName.APP_ID), item));
+                .forEach(item -> stored.data(item.getString(KName.APP_ID), item));
             return Future.succeededFuture(Boolean.TRUE);
         });
     }
 
     @Override
     public ConcurrentMap<String, JsonObject> connect() {
-        return UnityAmbient.UNITY_POOL;
+        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        return stored.data();
     }
 
     private JsonObject connect(final XApp app, final XSource source) {

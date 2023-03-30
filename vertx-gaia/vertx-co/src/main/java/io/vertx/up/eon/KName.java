@@ -250,6 +250,7 @@ public interface KName {
     String DIRECTORY_ID = "directoryId";         /* File Management, directory id */
     String DIRECTORY = "directory";              /* File Management, directory field, two means */
     String INITIALIZE = "initialize";            /* File Management, initialize field */
+    String INIT = "init";                        /* Engine for init */
 
     String PARENT_ID = "parentId";               /* Tree for parent id */
     String LEVEL = "level";                      /* Tree for level */

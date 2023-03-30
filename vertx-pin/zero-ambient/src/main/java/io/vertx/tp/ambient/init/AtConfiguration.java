@@ -1,15 +1,10 @@
 package io.vertx.tp.ambient.init;
 
-import cn.vertxup.ambient.service.file.DocBStub;
-import cn.vertxup.ambient.service.file.DocBuilder;
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtFolder;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.di.DiPlugin;
-import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 /**
@@ -51,8 +46,6 @@ final class AtConfiguration {
      * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(AtConfiguration.class);
-
-    private static final DiPlugin PLUGIN = DiPlugin.create(AtConfiguration.class);
     /**
      * The singleton instance of {@link io.vertx.tp.ambient.atom.AtConfig} to store configuration data.
      */
@@ -84,18 +77,5 @@ final class AtConfiguration {
      */
     static AtConfig getConfig() {
         return CONFIG;
-    }
-
-    static Future<Boolean> initDoc(final String appId){
-        final boolean fileIs = Ut.isNil(CONFIG.getFileIntegration());
-        if(!fileIs){
-            At.infoInit(LOGGER, "Document Platform Disabled !!");
-        }
-        // 此处提前调用 initialize 方法，此方法保证无副作用的多次调用即可
-        final DocBStub docStub = PLUGIN.createComponent(DocBuilder.class);
-        return docStub.initialize(appId, CONFIG.getFileIntegration()).compose(initialized -> {
-            At.infoInit(LOGGER, "AppId = {0}, Directory Size = {1}", appId, String.valueOf(initialized.size()));
-            return Ux.futureT();
-        });
     }
 }

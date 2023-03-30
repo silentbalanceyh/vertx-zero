@@ -13,9 +13,9 @@ import io.vertx.up.uca.rs.mime.resolver.SolveResolver;
 import io.vertx.up.uca.rs.mime.resolver.UnsetResolver;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
-
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
+
 import java.lang.annotation.Annotation;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
