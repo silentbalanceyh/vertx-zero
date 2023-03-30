@@ -71,5 +71,11 @@ public interface HighWay {
         String TICKET_LIST = KeIpc.Workflow.EVENT + "REPORT/LIST";
         String TICKET_ACTIVITY = KeIpc.Workflow.EVENT + "REPORT/ACTIVITY";
         String ASSETS_LIST = KeIpc.Workflow.EVENT + "REPORT/ASSETS/LIST";
+
+        String SUBMIT_WF_STATISTICS = KeIpc.Workflow.EVENT + "REPORT/WF/SUBMIT";
+        String HAND_WF_STATISTICS = KeIpc.Workflow.EVENT + "REPORT/WF/HAND";
+        String HAVE_ASSETS_STATISTICS = KeIpc.Workflow.EVENT + "REPORT/ASSETS/HAVE";
+        String USE_ASSETS_STATISTICS = KeIpc.Workflow.EVENT + "REPORT/ASSETS/USE";
+        String LOG_STATISTICS = KeIpc.Workflow.EVENT + "REPORT/LOG/STATISTICS";
     }
 }
