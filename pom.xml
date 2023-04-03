@@ -94,7 +94,7 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
 
-        <jwt.version>4.3.0</jwt.version>
+        <jwt.version>4.4.0</jwt.version>
         <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
@@ -116,7 +116,7 @@
         <elasticsearch.client.version>7.17.9</elasticsearch.client.version>
 
         <!-- neo4j search -->
-        <neo4j.version>5.6.0</neo4j.version>
+        <neo4j.version>5.7.0</neo4j.version>
 
         <!-- Apache Common -->
         <common.jexl.version>3.3</common.jexl.version>
