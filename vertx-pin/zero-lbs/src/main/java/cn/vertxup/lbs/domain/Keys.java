@@ -4,23 +4,8 @@
 package cn.vertxup.lbs.domain;
 
 
-import cn.vertxup.lbs.domain.tables.LCity;
-import cn.vertxup.lbs.domain.tables.LCountry;
-import cn.vertxup.lbs.domain.tables.LFloor;
-import cn.vertxup.lbs.domain.tables.LLocation;
-import cn.vertxup.lbs.domain.tables.LRegion;
-import cn.vertxup.lbs.domain.tables.LState;
-import cn.vertxup.lbs.domain.tables.LTent;
-import cn.vertxup.lbs.domain.tables.LYard;
-import cn.vertxup.lbs.domain.tables.records.LCityRecord;
-import cn.vertxup.lbs.domain.tables.records.LCountryRecord;
-import cn.vertxup.lbs.domain.tables.records.LFloorRecord;
-import cn.vertxup.lbs.domain.tables.records.LLocationRecord;
-import cn.vertxup.lbs.domain.tables.records.LRegionRecord;
-import cn.vertxup.lbs.domain.tables.records.LStateRecord;
-import cn.vertxup.lbs.domain.tables.records.LTentRecord;
-import cn.vertxup.lbs.domain.tables.records.LYardRecord;
-
+import cn.vertxup.lbs.domain.tables.*;
+import cn.vertxup.lbs.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

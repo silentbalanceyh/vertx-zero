@@ -10,7 +10,6 @@ import cn.vertxup.jet.domain.tables.IService;
 import cn.vertxup.jet.domain.tables.records.IApiRecord;
 import cn.vertxup.jet.domain.tables.records.IJobRecord;
 import cn.vertxup.jet.domain.tables.records.IServiceRecord;
-
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

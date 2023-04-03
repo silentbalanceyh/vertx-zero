@@ -4,13 +4,7 @@
 package cn.vertxup.atom.domain;
 
 
-import cn.vertxup.atom.domain.tables.MAttribute;
-import cn.vertxup.atom.domain.tables.MField;
-import cn.vertxup.atom.domain.tables.MIndex;
-import cn.vertxup.atom.domain.tables.MJoin;
-import cn.vertxup.atom.domain.tables.MKey;
-import cn.vertxup.atom.domain.tables.MRelation;
-
+import cn.vertxup.atom.domain.tables.*;
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

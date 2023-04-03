@@ -6,7 +6,6 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
-
 import jakarta.ws.rs.*;
 
 @EndPoint

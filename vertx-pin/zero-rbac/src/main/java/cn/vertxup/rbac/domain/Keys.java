@@ -4,41 +4,8 @@
 package cn.vertxup.rbac.domain;
 
 
-import cn.vertxup.rbac.domain.tables.OAccessToken;
-import cn.vertxup.rbac.domain.tables.OUser;
-import cn.vertxup.rbac.domain.tables.RGroupRole;
-import cn.vertxup.rbac.domain.tables.RRolePerm;
-import cn.vertxup.rbac.domain.tables.RUserGroup;
-import cn.vertxup.rbac.domain.tables.RUserRole;
-import cn.vertxup.rbac.domain.tables.SAction;
-import cn.vertxup.rbac.domain.tables.SGroup;
-import cn.vertxup.rbac.domain.tables.SPacket;
-import cn.vertxup.rbac.domain.tables.SPath;
-import cn.vertxup.rbac.domain.tables.SPermSet;
-import cn.vertxup.rbac.domain.tables.SPermission;
-import cn.vertxup.rbac.domain.tables.SResource;
-import cn.vertxup.rbac.domain.tables.SRole;
-import cn.vertxup.rbac.domain.tables.SUser;
-import cn.vertxup.rbac.domain.tables.SView;
-import cn.vertxup.rbac.domain.tables.SVisitant;
-import cn.vertxup.rbac.domain.tables.records.OAccessTokenRecord;
-import cn.vertxup.rbac.domain.tables.records.OUserRecord;
-import cn.vertxup.rbac.domain.tables.records.RGroupRoleRecord;
-import cn.vertxup.rbac.domain.tables.records.RRolePermRecord;
-import cn.vertxup.rbac.domain.tables.records.RUserGroupRecord;
-import cn.vertxup.rbac.domain.tables.records.RUserRoleRecord;
-import cn.vertxup.rbac.domain.tables.records.SActionRecord;
-import cn.vertxup.rbac.domain.tables.records.SGroupRecord;
-import cn.vertxup.rbac.domain.tables.records.SPacketRecord;
-import cn.vertxup.rbac.domain.tables.records.SPathRecord;
-import cn.vertxup.rbac.domain.tables.records.SPermSetRecord;
-import cn.vertxup.rbac.domain.tables.records.SPermissionRecord;
-import cn.vertxup.rbac.domain.tables.records.SResourceRecord;
-import cn.vertxup.rbac.domain.tables.records.SRoleRecord;
-import cn.vertxup.rbac.domain.tables.records.SUserRecord;
-import cn.vertxup.rbac.domain.tables.records.SViewRecord;
-import cn.vertxup.rbac.domain.tables.records.SVisitantRecord;
-
+import cn.vertxup.rbac.domain.tables.*;
+import cn.vertxup.rbac.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

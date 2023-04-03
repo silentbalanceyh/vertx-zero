@@ -15,7 +15,6 @@
         <module>vertx-semper</module>
         <module>vertx-pin</module>
         <module>vertx-import</module>
-        <module>vertx-pin/zero-vista/infix-hed</module>
     </modules>
     <packaging>pom</packaging>
     <!-- License -->
@@ -69,8 +68,8 @@
         <encoding>UTF-8</encoding>
 
         <!-- Vertx Framework Version -->
-        <vertx.version>4.4.0</vertx.version>
-        <stack.version>4.4.0</stack.version>
+        <vertx.version>4.4.1</vertx.version>
+        <stack.version>4.4.1</stack.version>
 
         <jcabi.version>0.24.1</jcabi.version>
         <jersey.version>3.1.1</jersey.version>
@@ -78,14 +77,14 @@
 
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.18.0</jooq.version>
+        <jooq.version>3.18.2</jooq.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.32</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
         <lombok.version>1.18.26</lombok.version>
-        <asm.version>9.4</asm.version>
+        <asm.version>9.5</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <reflection.version>0.10.2</reflection.version>
 
@@ -95,15 +94,15 @@
         <!-- Bean Validation -->
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
 
-        <jwt.version>4.3.0</jwt.version>
+        <jwt.version>4.4.0</jwt.version>
         <jetbrains.version>23.1.0</jetbrains.version>
         <guice.version>5.1.0</guice.version>
         <guava.version>31.1-jre</guava.version>
         <scala.version>2.13.11-M1</scala.version>
         <feign.version>8.18.0</feign.version>
-        <joda.version>2.12.2</joda.version>
+        <joda.version>2.12.5</joda.version>
         <codehaus.janino.version>3.1.9</codehaus.janino.version>
-        <codehaus.mojo.version>1.22</codehaus.mojo.version>
+        <codehaus.mojo.version>1.23</codehaus.mojo.version>
         <ignite.version>2.14.0</ignite.version>
         <mongodb.async.version>3.12.12</mongodb.async.version>
         <poi.version>5.2.3</poi.version>
@@ -113,14 +112,14 @@
         <checker.version>3.32.0</checker.version>
 
         <!-- elasticsearch version -->
-        <elasticsearch.version>8.6.2</elasticsearch.version>
+        <elasticsearch.version>8.7.0</elasticsearch.version>
         <elasticsearch.client.version>7.17.9</elasticsearch.client.version>
 
         <!-- neo4j search -->
-        <neo4j.version>5.6.0</neo4j.version>
+        <neo4j.version>5.7.0</neo4j.version>
 
         <!-- Apache Common -->
-        <common.jexl.version>3.2.1</common.jexl.version>
+        <common.jexl.version>3.3</common.jexl.version>
         <common.lang3.version>3.12.0</common.lang3.version>
         <common.logging.version>1.2</common.logging.version>
         <common.net.version>3.9.0</common.net.version>
@@ -141,7 +140,7 @@
 
         <!-- Rpc -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.53.0</grpc.version>
+        <grpc.version>1.54.0</grpc.version>
         <protobuf.version>3.22.2</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.10.1</gson.version>
@@ -158,7 +157,7 @@
         <io.termd.version>1.1.9</io.termd.version>
 
         <!-- Upload Issue -->
-        <hazelcast.version>5.2.2</hazelcast.version>
+        <hazelcast.version>5.2.3</hazelcast.version>
         <swagger.version>1.6.0</swagger.version>
         <error.prone.version>2.18.0</error.prone.version>
         <reactive.streams.version>1.0.4</reactive.streams.version>
@@ -237,7 +236,7 @@
 
         <!-- Camunda -->
         <camunda.version>7.18.0</camunda.version>
-        <camunda.spin.version>1.18.1</camunda.spin.version>
+        <camunda.spin.version>1.19.0</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.6</camunda.connect.version>
         <camunda.util.version>1.12.0</camunda.util.version>
@@ -948,8 +947,8 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
                 <exclusions>
                     <exclusion>

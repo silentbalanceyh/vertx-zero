@@ -250,6 +250,7 @@ public interface KName {
     String DIRECTORY_ID = "directoryId";         /* File Management, directory id */
     String DIRECTORY = "directory";              /* File Management, directory field, two means */
     String INITIALIZE = "initialize";            /* File Management, initialize field */
+    String INIT = "init";                        /* Engine for init */
 
     String PARENT_ID = "parentId";               /* Tree for parent id */
     String LEVEL = "level";                      /* Tree for level */
@@ -313,6 +314,14 @@ public interface KName {
         String X = "x";
         String W = "w";
         String R = "r";
+    }
+
+    // 「Uca」Life Cycle
+    interface LifeCycle{
+        String CONFIGURE = "configure";              /* Setup for configuration */
+        String COMPILE = "compile";                  /* After `configure`, processing the compile with data */
+
+        String SYNCHRO = "synchro";                  /* Update when usage */
     }
 
 

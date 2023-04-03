@@ -4,16 +4,7 @@
 package cn.vertxup.ambient.domain;
 
 
-import cn.vertxup.ambient.domain.tables.XActivity;
-import cn.vertxup.ambient.domain.tables.XActivityChange;
-import cn.vertxup.ambient.domain.tables.XActivityRule;
-import cn.vertxup.ambient.domain.tables.XApp;
-import cn.vertxup.ambient.domain.tables.XCategory;
-import cn.vertxup.ambient.domain.tables.XLinkage;
-import cn.vertxup.ambient.domain.tables.XLog;
-import cn.vertxup.ambient.domain.tables.XMenu;
-import cn.vertxup.ambient.domain.tables.XTabular;
-
+import cn.vertxup.ambient.domain.tables.*;
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

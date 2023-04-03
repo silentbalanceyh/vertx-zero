@@ -8,7 +8,6 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-
 import jakarta.ws.rs.*;
 
 /**

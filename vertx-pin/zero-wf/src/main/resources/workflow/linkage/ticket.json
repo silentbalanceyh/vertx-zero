@@ -16,8 +16,7 @@
     "editor": {
         "selection": {
             "phase": [
-                "FINISHED",
-                "CANCELED"
+                "END"
             ]
         },
         "tree": {

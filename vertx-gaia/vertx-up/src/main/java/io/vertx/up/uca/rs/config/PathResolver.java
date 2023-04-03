@@ -7,8 +7,8 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.PathAnnoEmptyException;
-
 import jakarta.ws.rs.Path;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -8,7 +8,6 @@ import cn.vertxup.ui.domain.tables.UiColumn;
 import cn.vertxup.ui.domain.tables.UiField;
 import cn.vertxup.ui.domain.tables.UiOp;
 import cn.vertxup.ui.domain.tables.UiPage;
-
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

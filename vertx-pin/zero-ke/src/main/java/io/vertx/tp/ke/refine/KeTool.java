@@ -3,6 +3,7 @@ package io.vertx.tp.ke.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.optic.environment.UnityApp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
@@ -14,10 +15,13 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 class KeTool {
 
@@ -36,6 +40,21 @@ class KeTool {
         final Database database = Database.getCurrent();
         final DataPool pool = DataPool.create(database);
         return pool.getExecutor().configuration();
+    }
+
+    /*
+     * 针对每一个App做的执行操作，内置环境借用通道会直接提取App信息
+     */
+    static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner){
+        return Ux.channelS(UnityApp.class, (appKit) -> {
+            final ConcurrentMap<String, JsonObject> appAll = appKit.connect();
+            final ConcurrentMap<String, Future<T>> appFuture = new ConcurrentHashMap<>();
+            appAll.forEach((appId, appJ) -> appFuture.put(appId, executor.apply(appJ)));
+            return Fn.combineM(appFuture).compose(map -> {
+                final Set<T> resultT = new HashSet<>(map.values());
+                return combiner.apply(resultT);
+            });
+        });
     }
 
     static Future<JsonObject> map(final JsonObject data, final String field,

@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
 import io.vertx.up.log.Annal;
-
 import jakarta.ws.rs.core.MediaType;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;

@@ -1,5 +1,6 @@
 package io.vertx.up.uca.cache;
 
+import io.vertx.core.Future;
 import io.vertx.up.eon.em.CcMode;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
@@ -44,6 +45,13 @@ public interface Cc<K, V> {
         return open(CcMode.STANDARD);
     }
 
+    static <K, V> Cc<K, Future<V>> openA(){
+        return new CcAsync<>(CcMode.STANDARD);
+    }
+
+    static <K, V> Cc<K, Future<V>> openThreadA(){
+        return new CcAsync<>(CcMode.THREAD);
+    }
 
     @SuppressWarnings("unchecked")
     private static <K, V> Cc<K, V> open(final CcMode mode) {

@@ -12,7 +12,6 @@ import cn.vertxup.graphic.domain.tables.records.GClusterRecord;
 import cn.vertxup.graphic.domain.tables.records.GEdgeRecord;
 import cn.vertxup.graphic.domain.tables.records.GGraphicRecord;
 import cn.vertxup.graphic.domain.tables.records.GNodeRecord;
-
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

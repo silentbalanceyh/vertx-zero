@@ -8,7 +8,6 @@ import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
-import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -35,8 +34,8 @@ public class RespectFile extends AbstractRespect {
         final JsonObject condition = this.queryTpl(ticket);
         condition.put(KName.MODEL_KEY, ticket.getKey());
 
-        final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
-        condition.put("key,!i", keys);
+        // final JsonArray keys = Ut.valueJArray(dataArray, KName.KEY);
+        // condition.put("key,!i", keys);
         return Ux.channelA(Attachment.class, Ux::futureA, file ->
             file.saveAsync(condition, dataArray, params));
         // Attachment Removing / Create

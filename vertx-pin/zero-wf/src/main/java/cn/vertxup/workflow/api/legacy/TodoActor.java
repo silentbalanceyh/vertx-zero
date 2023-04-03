@@ -1,7 +1,7 @@
 package cn.vertxup.workflow.api.legacy;
 
-import cn.vertxup.workflow.service.TodoStub;
 import cn.vertxup.workflow.cv.HighWay;
+import cn.vertxup.workflow.service.TodoStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Address;

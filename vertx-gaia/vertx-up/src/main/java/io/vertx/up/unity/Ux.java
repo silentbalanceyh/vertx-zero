@@ -1056,7 +1056,21 @@ public final class Ux {
      *   - component: "[ComponentName2]"
      * // </code></pre>
      * ```
+     * </p>
+     * new mode as
      * <p>
+     * ```yml
+     * // <pre><code>
+     * init:
+     *    extension:
+     *     - component: "[ComponentName1]"
+     *     - component: "[ComponentName2]"
+     *    bridge:
+     *     - component: "xxxx"
+     *     - order: 1
+     * // </code></pre>
+     * ```
+     * </p>
      * All components here will be called when container starting, the component must declare the init method as
      * <p>
      * ```java
@@ -1069,13 +1083,13 @@ public final class Ux {
      * }
      * // </code></pre>
      * ```
-     * <p>
+     * </p>
      * This method should be used when you want to develop zero extension module for business requirement.
      *
      * @param init The configuration data came from `init` node in file
      */
-    public static Future<Boolean> nativeInit(final JsonArray components, final Vertx vertx) {
-        return Atomic.nativeInit(components, vertx);
+    public static Future<Boolean> nativeInit(final JsonObject initConfig, final Vertx vertx) {
+        return Atomic.nativeInit(initConfig, vertx);
     }
 
     public static Vertx nativeVertx() {
@@ -1084,6 +1098,10 @@ public final class Ux {
 
     public static WorkerExecutor nativeWorker(final String name) {
         return Atomic.nativeWorker(name, 10);
+    }
+
+    public static WorkerExecutor nativeWorker(final String name, final Integer mins){
+        return Atomic.nativeWorker(name, mins);
     }
 
     public static <T> Future<T> nativeWorker(final String name, final Handler<Promise<T>> handler) {

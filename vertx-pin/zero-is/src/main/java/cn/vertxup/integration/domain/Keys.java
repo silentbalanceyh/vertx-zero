@@ -12,7 +12,6 @@ import cn.vertxup.integration.domain.tables.records.IDirectoryRecord;
 import cn.vertxup.integration.domain.tables.records.IIntegrationRecord;
 import cn.vertxup.integration.domain.tables.records.IMessageRecord;
 import cn.vertxup.integration.domain.tables.records.IPortfolioRecord;
-
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

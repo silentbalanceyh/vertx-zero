@@ -4,35 +4,8 @@
 package cn.vertxup.ui.domain;
 
 
-import cn.vertxup.ui.domain.tables.UiColumn;
-import cn.vertxup.ui.domain.tables.UiControl;
-import cn.vertxup.ui.domain.tables.UiField;
-import cn.vertxup.ui.domain.tables.UiForm;
-import cn.vertxup.ui.domain.tables.UiLayout;
-import cn.vertxup.ui.domain.tables.UiList;
-import cn.vertxup.ui.domain.tables.UiOp;
-import cn.vertxup.ui.domain.tables.UiPage;
-import cn.vertxup.ui.domain.tables.UiView;
-import cn.vertxup.ui.domain.tables.UiVisitor;
-import cn.vertxup.ui.domain.tables.VFragment;
-import cn.vertxup.ui.domain.tables.VQuery;
-import cn.vertxup.ui.domain.tables.VSearch;
-import cn.vertxup.ui.domain.tables.VTable;
-import cn.vertxup.ui.domain.tables.records.UiColumnRecord;
-import cn.vertxup.ui.domain.tables.records.UiControlRecord;
-import cn.vertxup.ui.domain.tables.records.UiFieldRecord;
-import cn.vertxup.ui.domain.tables.records.UiFormRecord;
-import cn.vertxup.ui.domain.tables.records.UiLayoutRecord;
-import cn.vertxup.ui.domain.tables.records.UiListRecord;
-import cn.vertxup.ui.domain.tables.records.UiOpRecord;
-import cn.vertxup.ui.domain.tables.records.UiPageRecord;
-import cn.vertxup.ui.domain.tables.records.UiViewRecord;
-import cn.vertxup.ui.domain.tables.records.UiVisitorRecord;
-import cn.vertxup.ui.domain.tables.records.VFragmentRecord;
-import cn.vertxup.ui.domain.tables.records.VQueryRecord;
-import cn.vertxup.ui.domain.tables.records.VSearchRecord;
-import cn.vertxup.ui.domain.tables.records.VTableRecord;
-
+import cn.vertxup.ui.domain.tables.*;
+import cn.vertxup.ui.domain.tables.records.*;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;

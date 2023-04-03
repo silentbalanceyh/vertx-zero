@@ -5,7 +5,6 @@ import io.vertx.tp.jet.cv.JtAddr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.ID;
-
 import jakarta.ws.rs.*;
 
 @Path("/api")

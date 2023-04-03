@@ -24,4 +24,7 @@ public interface AtMsg {
 
     String UNITY_SOURCE = "{0} Data source have been initialized successfully!";
 
+    String SYNC_UNITY_APP = "Application ( name = {0} ) has been synced successfully!";
+
+    String SYNC_UNITY_SOURCE = "Data Source ( name = {0} ) has been synced successfully!";
 }

@@ -4,27 +4,7 @@
 package cn.vertxup.erp.domain;
 
 
-import cn.vertxup.erp.domain.tables.EAsset;
-import cn.vertxup.erp.domain.tables.EBrand;
-import cn.vertxup.erp.domain.tables.ECompany;
-import cn.vertxup.erp.domain.tables.EContract;
-import cn.vertxup.erp.domain.tables.ECustomer;
-import cn.vertxup.erp.domain.tables.EDept;
-import cn.vertxup.erp.domain.tables.EEmployee;
-import cn.vertxup.erp.domain.tables.EIdentity;
-import cn.vertxup.erp.domain.tables.EProject;
-import cn.vertxup.erp.domain.tables.ETeam;
-import cn.vertxup.erp.domain.tables.RAssetShare;
-import cn.vertxup.erp.domain.tables.RCompanyCustomer;
-import cn.vertxup.erp.domain.tables.RTeamEmployee;
-import cn.vertxup.erp.domain.tables.TOaAssignment;
-import cn.vertxup.erp.domain.tables.TOaTraining;
-import cn.vertxup.erp.domain.tables.TOaTrip;
-import cn.vertxup.erp.domain.tables.TOaVacation;
-import cn.vertxup.erp.domain.tables.TVendorAssessment;
-import cn.vertxup.erp.domain.tables.TVendorCheckIn;
-import cn.vertxup.erp.domain.tables.TVendorCheckOut;
-import cn.vertxup.erp.domain.tables.TVendorHour;
+import cn.vertxup.erp.domain.tables.*;
 
 
 /**

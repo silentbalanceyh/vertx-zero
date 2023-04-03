@@ -4,7 +4,6 @@ import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import org.jooq.*;
-import org.jooq.Record;
 
 import java.util.ArrayList;
 import java.util.Arrays;

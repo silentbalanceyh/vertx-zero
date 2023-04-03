@@ -15,4 +15,8 @@ public interface UnityApp {
     Future<Boolean> initialize(final Vertx vertx);
 
     ConcurrentMap<String, JsonObject> connect();
+    /*
+     * 新接口做配置刷新（按应用对配置执行刷新操作）
+     */
+    Future<JsonObject> synchro(String appId);
 }
