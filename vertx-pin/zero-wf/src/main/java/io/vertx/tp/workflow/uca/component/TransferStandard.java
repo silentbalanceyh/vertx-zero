@@ -9,7 +9,7 @@ import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
-import io.vertx.tp.workflow.uca.toolkit.UData;
+import io.vertx.tp.workflow.uca.toolkit.URequest;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -81,7 +81,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          *     - If End, put the data of closeAt/closeBy and status
          *     - If Not, do not modify the main ticket record status/phase etc.
          */
-        final JsonObject closeJ = UData.closeJ(normalized, wTransition);
+        final JsonObject closeJ = URequest.closeJ(normalized, wTransition);
 
         return this.saveAsync(closeJ, wTransition).compose(record -> {
             /*

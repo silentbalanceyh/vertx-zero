@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class TubeAtom extends AbstractTube {
+public class TubeAtom extends AbstractTube {
     @Override
     public Future<JsonObject> traceAsync(final JsonObject data, final XActivityRule rule) {
         final String field = rule.getRuleField();

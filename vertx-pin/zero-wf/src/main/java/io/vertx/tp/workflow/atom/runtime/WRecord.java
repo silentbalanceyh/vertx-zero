@@ -183,6 +183,10 @@ public class WRecord implements Serializable {
         }
     }
 
+    public PassWay way() {
+        return this.type;
+    }
+
     public WTicket ticket() {
         return this.ticket;
     }
@@ -534,6 +538,7 @@ public class WRecord implements Serializable {
         // taskSerial <- serial
         response.put(KName.Flow.TASK_CODE, todo.getCode());
         response.put(KName.Flow.TASK_SERIAL, todo.getSerial());
+        // WTodo ( Approval Workflow )
     }
 
     private void onChild(final JsonObject result) {
