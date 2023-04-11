@@ -1,7 +1,6 @@
 package io.vertx.tp.workflow.uca.conformity;
 
 import cn.vertxup.workflow.cv.em.PassWay;
-import cn.vertxup.workflow.cv.em.TodoStatus;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
@@ -17,14 +16,12 @@ import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
-interface GearSupplier {
+interface Gateway {
     ConcurrentMap<PassWay, Kv<String, Supplier<Gear>>> SUPPLIERS = new ConcurrentHashMap<>() {
         {
             this.put(PassWay.Standard, Kv.create(GearStandard.class.getName(), GearStandard::new));
@@ -81,39 +78,7 @@ public abstract class AbstractGear implements Gear {
         });
     }
 
-    protected WTodo todoGenerate(final JsonObject parameters, final WTicket ticket, final Task task, final WTodo todo) {
-        // 1. Generate new WTodo
-        final WTodo generated = this.todoGenerate(parameters);
-
-        // 2. Set relation between WTodo and Camunda Task
-        this.todoTask(generated, task, todo.getTraceId());
-
-        // 3. traceOrder = original + 1 and generate serial/code
-        generated.setTraceOrder(todo.getTraceOrder() + 1);
-
-        // 4. Set todo auditor information
-        this.todoAuditor(generated, todo);
-        return generated;
-    }
-
-    protected WTodo todoStart(final JsonObject parameters, final WTicket ticket, final Task task) {
-        // 0. Keep the same acceptedBy / toUser value and do nothing
-        // 1. Deserialize new WTodo
-        final WTodo todo = Ux.fromJson(parameters, WTodo.class);
-
-        // 2. Set relation between WTodo and Camunda Task
-        this.todoTask(todo, task, ticket.getKey());
-
-        // 3. traceOrder = 1 and generate serial/code
-        todo.setTraceOrder(1);
-
-        return todo;
-    }
-
-    /*
-     * Start Serial generation here
-     */
-    protected void todoSerial(final WTodo todo, final WTicket ticket, final Integer sequence) {
+    protected void buildSerial(final WTodo todo, final WTicket ticket, final Integer sequence) {
         // Based On SerialFork
         final String serialFork = todo.getSerialFork();
         final StringBuilder serialBuf = new StringBuilder();
@@ -137,50 +102,5 @@ public abstract class AbstractGear implements Gear {
 
         todo.setCode(serialBuf.toString());
         todo.setSerial(todo.getCode());
-    }
-
-    // --------------- Private Method ------------------
-    private void todoTask(final WTodo todo, final Task task,
-                          final String traceId) {
-        todo.setTraceId(traceId);
-        /*
-         *  Connect WTodo and ProcessInstance
-         *  1. taskId = Task, getId
-         *  2. taskKey = Task, getTaskDefinitionKey
-         */
-        // Camunda Engine
-        todo.setTaskId(task.getId());
-        todo.setTaskKey(task.getTaskDefinitionKey());        // Task Key/Id
-    }
-
-    private WTodo todoGenerate(final JsonObject parameters) {
-
-        final WTodo generated = Ux.fromJson(parameters, WTodo.class);
-        // Key Remove ( Comment Clear )
-        generated.setKey(UUID.randomUUID().toString());
-
-        // Comment Clear
-        generated.setComment(null);
-        generated.setCommentApproval(null);
-        generated.setCommentReject(null);
-
-        // Status Force to PENDING
-        generated.setStatus(TodoStatus.PENDING.name());
-
-        // Auditor Processing
-        generated.setFinishedAt(null);
-        generated.setFinishedBy(null);
-
-        // Escalate Null
-        generated.setEscalate(null);
-        generated.setEscalateData(null);
-        return generated;
-    }
-
-    private void todoAuditor(final WTodo todo, final WTodo input) {
-        todo.setCreatedAt(LocalDateTime.now());
-        todo.setCreatedBy(input.getUpdatedBy());
-        todo.setUpdatedAt(LocalDateTime.now());
-        todo.setUpdatedBy(input.getUpdatedBy());
     }
 }

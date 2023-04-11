@@ -46,7 +46,7 @@ public class UTL {
         }
     }
 
-    public static Future<WRecord> beforeUpdatePre(final WRecord record, final WRecord generated) {
+    public static Future<WRecord> beforeGenerate(final WRecord record, final WRecord generated) {
         /*
          * Fix $zo has no value here
          * Here the bind must happen on matrix:
@@ -125,7 +125,7 @@ public class UTL {
     public static Future<WRecord> beforeUpdate(final WTodo todoIn, final WRecord record) {
         Objects.requireNonNull(todoIn);
         final WRecord prev = record.prev();
-        if (Objects.nonNull(prev) && Objects.isNull(prev.todo())) {
+        if (Objects.nonNull(prev) && Objects.isNull(prev.task())) {
             /*
              * 「Record」Bind Original
              *  Prev Record Binding need copy of previous version
@@ -158,5 +158,9 @@ public class UTL {
         // 「Record」Bind Updated
         current.task(todos);
         return Ux.future(current);
+    }
+
+    public static Future<WRecord> afterGenerate(final List<WTodo> todos, final WRecord current) {
+        return afterUpdate(todos, current);
     }
 }

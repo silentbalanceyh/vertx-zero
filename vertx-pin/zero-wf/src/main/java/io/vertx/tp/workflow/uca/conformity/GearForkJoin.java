@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -34,9 +35,11 @@ public class GearForkJoin extends AbstractGear {
         if (taskMap.isEmpty()) {
             return Ux.futureL();
         }
-        final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskMap, false);
-        final List<WTodo> todos = new ArrayList<>();
-        final AtomicInteger seed = new AtomicInteger(1);
+        final ConcurrentMap<String, JsonObject> assignMap = this.buildAssign(parameters, taskMap, false);
+        final List<Future<WTodo>> queue = new ArrayList<>();
+
+        // Gain
+        final Gain starter = Gain.starter(ticket);
         taskMap.forEach((taskKey, task) -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
@@ -44,17 +47,22 @@ public class GearForkJoin extends AbstractGear {
             eachData.mergeIn(assignData, true);
 
             // 1. Deserialize new WTodo
-            final WTodo todo = this.todoStart(eachData, ticket, task);
-            // Duplicate entry 'da89a198-a9fb-40f8-a3cc-6a77df8cea22' for key 'PRIMARY'
-            todo.setKey(UUID.randomUUID().toString());
-
-            // 2. Serial Generation
-            todo.setSerialFork(String.valueOf(seed.getAndIncrement()));
-            this.todoSerial(todo, ticket, null);
-
-            todos.add(todo);
+            queue.add(starter.buildAsync(eachData, task, null));
         });
-        return Ux.future(todos);
+
+        return Fn.combineT(queue).compose(generatedQ -> {
+            final AtomicInteger seed = new AtomicInteger(1);
+            generatedQ.forEach(generated -> {
+                // Duplicate entry 'da89a198-a9fb-40f8-a3cc-6a77df8cea22' for key 'PRIMARY'
+                generated.setKey(UUID.randomUUID().toString());
+
+                // 2. Serial Generation
+                generated.setSerialFork(String.valueOf(seed.getAndIncrement()));
+                this.buildSerial(generated, ticket, null);
+            });
+
+            return Ux.future(generatedQ);
+        });
     }
 
     @Override
@@ -63,9 +71,11 @@ public class GearForkJoin extends AbstractGear {
         if (taskMap.isEmpty()) {
             return Ux.futureL();
         }
-        final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskMap, true);
-        final List<WTodo> todos = new ArrayList<>();
-        final AtomicInteger seed = new AtomicInteger(1);
+        final ConcurrentMap<String, JsonObject> assignMap = this.buildAssign(parameters, taskMap, true);
+        final List<Future<WTodo>> queue = new ArrayList<>();
+
+        // Gain
+        final Gain generator = Gain.generator(ticket);
         taskMap.forEach((taskKey, task) -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
@@ -73,21 +83,23 @@ public class GearForkJoin extends AbstractGear {
             eachData.mergeIn(assignData, true);
 
             // 1. Deserialize new WTodo
-            final WTodo generated = this.todoGenerate(eachData, ticket, task, todo);
-
-            // 2. Serial Generation
-            final String serialFork = todo.getSerialFork();
-            if (Ut.isNil(serialFork)) {
-                generated.setSerialFork(String.valueOf(seed.getAndIncrement()));
-            } else {
-                generated.setSerialFork(serialFork);
-            }
-            this.todoSerial(generated, ticket, null);
-
-            // 2. Select Method to set serial
-            todos.add(generated);
+            queue.add(generator.buildAsync(eachData, task, todo));
         });
-        return Ux.future(todos);
+        return Fn.combineT(queue).compose(generatedQ -> {
+            
+            final AtomicInteger seed = new AtomicInteger(1);
+            generatedQ.forEach(generated -> {
+                // 2. Serial Generation
+                final String serialFork = todo.getSerialFork();
+                if (Ut.isNil(serialFork)) {
+                    generated.setSerialFork(String.valueOf(seed.getAndIncrement()));
+                } else {
+                    generated.setSerialFork(serialFork);
+                }
+                this.buildSerial(generated, ticket, null);
+            });
+            return Ux.future(generatedQ);
+        });
     }
 
     /*
@@ -116,7 +128,7 @@ public class GearForkJoin extends AbstractGear {
      * }
      * Also this method should remove `accepted` and `toUser` from parameters
      */
-    private ConcurrentMap<String, JsonObject> todoAssign(final JsonObject parameters, final ConcurrentMap<String, Task> taskMap, final boolean generation) {
+    private ConcurrentMap<String, JsonObject> buildAssign(final JsonObject parameters, final ConcurrentMap<String, Task> taskMap, final boolean generation) {
         // 1. Iterator to build the response
         final ConcurrentMap<String, JsonObject> response = new ConcurrentHashMap<>();
         taskMap.forEach((taskKey, task) -> {

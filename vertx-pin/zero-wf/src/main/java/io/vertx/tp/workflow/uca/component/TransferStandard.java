@@ -28,7 +28,8 @@ public class TransferStandard extends AbstractMovement implements Transfer {
         final JsonObject requestJ = request.request();
         return this.inputAsync(requestJ, wTransition)
             .compose(normalized -> Ux.future(wTransition.moveTicket(normalized)))
-
+            /* __move field data processing for next ( Modify WRequest ) */
+            .compose(request::movement)
             /*
              * Entity / Extension Ticket Record Execution, ( Update )
              * Todo Updated with normalized
@@ -97,18 +98,23 @@ public class TransferStandard extends AbstractMovement implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            JsonObject request = normalized.copy();
-            request.mergeIn(record.data());
+            JsonObject parameterRegister = normalized.copy();
+            /*
+             * Here are some background data under generation process.
+             * GenerateComponent contains `rule` movement to apply the data such as `status` instead of
+             * original record here
+             */
+            parameterRegister.mergeIn(record.data(), true);
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             if (TodoStatus.PENDING == status) {
                 /* Move Rules: moveRecord Calling */
-                request = wTransition.moveRecord(request);
+                parameterRegister = wTransition.moveRecord(parameterRegister);
             }
             /*
              * Contains record modification, do update on record.
              */
-            final Register register = Register.instance(request);
-            return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
+            final Register register = Register.instance(parameterRegister);
+            return register.saveAsync(parameterRegister, metadataOut).compose(nil -> Ux.future(record));
         });
     }
 }

@@ -35,7 +35,7 @@ public class UTicket {
         final WRecord generatedNew = UTL.recordU(wTransition);
 
         // Aop/Before
-        return UTL.beforeUpdatePre(record, generatedNew).compose(generated -> Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(ticket.getKey())
+        return UTL.beforeGenerate(record, generatedNew).compose(generated -> Ux.Jooq.on(WTicketDao.class).<WTicket>fetchByIdAsync(ticket.getKey())
 
             // Sync Ticket
             .compose(processed -> Sync.ticket(this.metadata).treatAsync(requestJ, generated, processed))
@@ -44,11 +44,11 @@ public class UTicket {
             .compose(recordRef -> Sync.extension(this.metadata).treatAsync(requestJ, recordRef))
 
             // Aop/Before
-            .compose(nil -> UTL.beforeUpdate(generated, record.todo(), requestJ))
+            .compose(nil -> UTL.beforeUpdate(generated, record.task(), requestJ))
 
             // Sync
             .compose(nil -> {
-                final WTodo todo = record.todo();
+                final WTodo todo = record.task();
                 /*
                  * Generation based data should be
                  * Original WTodo Json + Input RequestJ here to combine

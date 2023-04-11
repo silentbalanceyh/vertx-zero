@@ -28,7 +28,7 @@ public class AclService implements AclStub {
             return Ux.future(new JsonObject().put(KName.EDITION, Boolean.FALSE));
         } else {
             /* Sample Rule Here ( Here are no definition ) */
-            final WTodo todo = record.todo();
+            final WTodo todo = record.task();
             final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
             final JsonObject edition = new JsonObject();
 
