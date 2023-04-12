@@ -144,7 +144,7 @@
         <protobuf.version>3.22.2</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.10.1</gson.version>
-        <picoli.version>4.7.1</picoli.version>
+        <picoli.version>4.7.2</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>2.0</yaml.version>
@@ -235,7 +235,7 @@
         <maven.plugin.docker>0.40.2</maven.plugin.docker>
 
         <!-- Camunda -->
-        <camunda.version>7.18.0</camunda.version>
+        <camunda.version>7.19.0</camunda.version>
         <camunda.spin.version>1.19.1</camunda.spin.version>
         <camunda.bpm.version>1.2.0</camunda.bpm.version>
         <camunda.connect.version>1.5.6</camunda.connect.version>
@@ -326,6 +326,12 @@
                         <artifactId>slf4j-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-xml-dom-jakarta -->
+            <dependency>
+                <groupId>org.camunda.spin</groupId>
+                <artifactId>camunda-spin-dataformat-xml-dom-jakarta</artifactId>
+                <version>${camunda.spin.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.camunda.spin/camunda-spin-dataformat-all -->
             <dependency>

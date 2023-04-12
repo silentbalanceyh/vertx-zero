@@ -59,7 +59,7 @@ public class TaskService implements TaskStub {
         // Read Todo Record
         // Extract traceId from WTodo
         return this.readTodo(key, record).compose(processed -> {
-            final WTodo todo = processed.todo();
+            final WTodo todo = processed.task();
             if (Objects.isNull(todo)) {
                 Wf.Log.infoWeb(this.getClass(), "Ticket Status Conflict, key = {0}", key);
                 return Ux.futureJ();

@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.up.eon.KName;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -33,9 +34,12 @@ public class GearMulti extends AbstractGear {
             return Ux.futureL();
         }
 
-        final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskList, false);
-        final List<WTodo> todos = new ArrayList<>();
-        final AtomicInteger seed = new AtomicInteger(1);
+        // Assign Map
+        final ConcurrentMap<String, JsonObject> assignMap = this.buildAssign(parameters, taskList, false);
+        final List<Future<WTodo>> queue = new ArrayList<>();
+
+        // Gain
+        final Gain starter = Gain.starter(ticket);
         taskList.forEach(task -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
@@ -43,14 +47,19 @@ public class GearMulti extends AbstractGear {
             eachData.mergeIn(assignData, true);
 
             // 1. Deserialize new WTodo
-            final WTodo todo = this.todoStart(parameters, ticket, task);
-
-            // 2. Select Method to Set Serial
-            todo.setSerialFork(null);
-            this.todoSerial(todo, ticket, seed.getAndIncrement());
-            todos.add(todo);
+            queue.add(starter.buildAsync(eachData, task, null));
         });
-        return Ux.future(todos);
+
+        return Fn.combineT(queue).compose(generatedQ -> {
+
+            final AtomicInteger seed = new AtomicInteger(1);
+            generatedQ.forEach(generated -> {
+                // 2. Select Method to Set Serial
+                generated.setSerialFork(null);
+                this.buildSerial(generated, ticket, seed.getAndIncrement());
+            });
+            return Ux.future(generatedQ);
+        });
     }
 
     @Override
@@ -59,9 +68,11 @@ public class GearMulti extends AbstractGear {
         if (taskList.isEmpty()) {
             return Ux.futureL();
         }
-        final ConcurrentMap<String, JsonObject> assignMap = this.todoAssign(parameters, taskList, true);
-        final List<WTodo> todos = new ArrayList<>();
-        final AtomicInteger seed = new AtomicInteger(1);
+        final ConcurrentMap<String, JsonObject> assignMap = this.buildAssign(parameters, taskList, true);
+        final List<Future<WTodo>> queue = new ArrayList<>();
+
+        // Gain
+        final Gain generator = Gain.generator(ticket);
         taskList.forEach(task -> {
             // 0. Calculate the acceptedBy / toUser
             final JsonObject eachData = parameters.copy();
@@ -69,14 +80,18 @@ public class GearMulti extends AbstractGear {
             eachData.mergeIn(assignData, true);
 
             // 1. Deserialize new WTodo
-            final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
-
-            // 2. Select Method to Set Serial
-            generated.setSerialFork(todo.getSerialFork());
-            this.todoSerial(generated, ticket, seed.getAndIncrement());
-            todos.add(generated);
+            queue.add(generator.buildAsync(eachData, task, todo));
         });
-        return Ux.future(todos);
+        return Fn.combineT(queue).compose(generatedQ -> {
+
+            final AtomicInteger seed = new AtomicInteger(1);
+            generatedQ.forEach(generated -> {
+                // 2. Select Method to Set Serial
+                generated.setSerialFork(todo.getSerialFork());
+                this.buildSerial(generated, ticket, seed.getAndIncrement());
+            });
+            return Ux.future(generatedQ);
+        });
     }
 
     /*
@@ -99,7 +114,7 @@ public class GearMulti extends AbstractGear {
      * }
      * Also this method should remove `accepted` and `toUser` from parameters
      */
-    private ConcurrentMap<String, JsonObject> todoAssign(final JsonObject parameters, final List<Task> tasks, final boolean generation) {
+    private ConcurrentMap<String, JsonObject> buildAssign(final JsonObject parameters, final List<Task> tasks, final boolean generation) {
         // 1. Iterator to build the response
         final ConcurrentMap<String, JsonObject> response = new ConcurrentHashMap<>();
         final JsonArray toUser = Ut.valueJArray(parameters, KName.Auditor.TO_USER);

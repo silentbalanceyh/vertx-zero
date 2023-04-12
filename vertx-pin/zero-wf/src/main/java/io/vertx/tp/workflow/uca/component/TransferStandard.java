@@ -9,7 +9,7 @@ import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.uca.central.AbstractMovement;
 import io.vertx.tp.workflow.uca.modeling.Register;
-import io.vertx.tp.workflow.uca.toolkit.UData;
+import io.vertx.tp.workflow.uca.toolkit.URequest;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -28,7 +28,8 @@ public class TransferStandard extends AbstractMovement implements Transfer {
         final JsonObject requestJ = request.request();
         return this.inputAsync(requestJ, wTransition)
             .compose(normalized -> Ux.future(wTransition.moveTicket(normalized)))
-
+            /* __move field data processing for next ( Modify WRequest ) */
+            .compose(request::movement)
             /*
              * Entity / Extension Ticket Record Execution, ( Update )
              * Todo Updated with normalized
@@ -81,7 +82,7 @@ public class TransferStandard extends AbstractMovement implements Transfer {
          *     - If End, put the data of closeAt/closeBy and status
          *     - If Not, do not modify the main ticket record status/phase etc.
          */
-        final JsonObject closeJ = UData.closeJ(normalized, wTransition);
+        final JsonObject closeJ = URequest.closeJ(normalized, wTransition);
 
         return this.saveAsync(closeJ, wTransition).compose(record -> {
             /*
@@ -97,18 +98,23 @@ public class TransferStandard extends AbstractMovement implements Transfer {
              * - UPDATE -> Original Stored Status
              */
             final TodoStatus status = record.status();
-            JsonObject request = normalized.copy();
-            request.mergeIn(record.data());
+            JsonObject parameterRegister = normalized.copy();
+            /*
+             * Here are some background data under generation process.
+             * GenerateComponent contains `rule` movement to apply the data such as `status` instead of
+             * original record here
+             */
+            parameterRegister.mergeIn(record.data(), true);
             final MetaInstance metadataOut = MetaInstance.output(record, this.metadataIn());
             if (TodoStatus.PENDING == status) {
                 /* Move Rules: moveRecord Calling */
-                request = wTransition.moveRecord(request);
+                parameterRegister = wTransition.moveRecord(parameterRegister);
             }
             /*
              * Contains record modification, do update on record.
              */
-            final Register register = Register.instance(request);
-            return register.saveAsync(request, metadataOut).compose(nil -> Ux.future(record));
+            final Register register = Register.instance(parameterRegister);
+            return register.saveAsync(parameterRegister, metadataOut).compose(nil -> Ux.future(record));
         });
     }
 }

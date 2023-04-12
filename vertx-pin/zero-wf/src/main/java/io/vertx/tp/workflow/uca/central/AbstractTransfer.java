@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.tp.workflow.uca.toolkit.UData;
+import io.vertx.tp.workflow.uca.toolkit.URequest;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -31,7 +31,7 @@ public abstract class AbstractTransfer extends BehaviourStandard {
     protected Future<JsonObject> inputAsync(final JsonObject params, final WTransition wTransition) {
         return wTransition.start().compose(started -> {
             // Prepare for Todo
-            final JsonObject inputJ = UData.inputJ(params);
+            final JsonObject inputJ = URequest.inputJ(params);
             // Prepare for Record
             return Ux.future(this.recordInput(inputJ));
         });
@@ -43,13 +43,13 @@ public abstract class AbstractTransfer extends BehaviourStandard {
             if (record instanceof JsonObject) {
                 // Record is JsonObject
                 final JsonObject recordJ = (JsonObject) record;
-                UData.inputJ(requestJ, recordJ, true);
+                URequest.inputJ(requestJ, recordJ, true);
             } else if (record instanceof JsonArray) {
                 // Record is JsonArray ( Each Json )
                 final JsonArray recordA = (JsonArray) record;
                 final JsonArray modelChild = new JsonArray();
                 Ut.itJArray(recordA)
-                    .map(json -> UData.inputJ(requestJ, json, false))
+                    .map(json -> URequest.inputJ(requestJ, json, false))
                     .forEach(modelChild::add);
                 requestJ.put(KName.MODEL_CHILD, modelChild.encode());         // String Format for `modelChild`
             }

@@ -64,14 +64,14 @@ public interface Gear {
      */
     static Gear instance(final PassWay type) {
         final Gear gear;
-        if (Objects.isNull(type) || !GearSupplier.SUPPLIERS.containsKey(type)) {
+        if (Objects.isNull(type) || !Gateway.SUPPLIERS.containsKey(type)) {
             // MoveMode is null;
             gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());
             Wf.Log.infoMove(Gear.class,
                 "( Gear ) <NodeType Null> Component Initialized: {0}", gear.getClass());
             return gear;
         }
-        final Kv<String, Supplier<Gear>> kv = GearSupplier.SUPPLIERS.get(type);
+        final Kv<String, Supplier<Gear>> kv = Gateway.SUPPLIERS.get(type);
         gear = CC_GEAR.pick(kv.getValue(), kv.getKey());
         Wf.Log.infoMove(Gear.class,
             "( Gear ) Component Initialized: {0}, Mode = {1}", gear.getClass(), type);

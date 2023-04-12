@@ -26,7 +26,7 @@ public class MoveOnNext extends AbstractMoveOn {
             return Fn.error(_409InValidInstanceException.class, this.getClass(), instanceId);
         }
         return wTransition.start().compose(started -> {
-            final JsonObject parameters = wTransition.moveParameter(request.request());
+            final JsonObject parameters = wTransition.moveParameter(request);
             final RunOn runOn = RunOn.get();
             return runOn.moveAsync(parameters, wTransition);
         }).compose(wTransition::end);

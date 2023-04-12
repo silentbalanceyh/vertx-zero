@@ -6,8 +6,29 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.uca.cache.Cc;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+
+interface Pool {
+    ConcurrentMap<TubeType, Class<?>> TUBE_CLS = new ConcurrentHashMap<>() {
+        {
+            // type = ATOM
+            this.put(TubeType.ATOM, TubeAtom.class);
+            // type = PHASE
+            this.put(TubeType.PHASE, TubePhase.class);
+            // type = EXPRESSION
+            this.put(TubeType.EXPRESSION, TubeExpression.class);
+            // type = APPROVAL
+            this.put(TubeType.APPROVAL, TubeApprove.class);
+            // type = ATTACHMENT
+            this.put(TubeType.ATTACHMENT, TubeAttachment.class);
+        }
+    };
+}
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -21,23 +42,13 @@ public interface Tube {
             // Empty Tube
             return CC_TUBE.pick(TubeEmpty::new, TubeEmpty.class.getName());
         }
-
-
-        // type = ATOM
-        if (TubeType.ATOM == type) {
-            return CC_TUBE.pick(TubeAtom::new, TubeAtom.class.getName());
+        // Supplier for Tube
+        final Class<?> instanceCls = Pool.TUBE_CLS.get(type);
+        if (Objects.isNull(instanceCls)) {
+            // Empty
+            throw new _501NotSupportException(Tube.class);
         }
-        // type = PHASE
-        if (TubeType.PHASE == type) {
-            return CC_TUBE.pick(TubePhase::new, TubePhase.class.getName());
-        }
-        // type = EXPRESSION
-        if (TubeType.EXPRESSION == type) {
-            return CC_TUBE.pick(TubeExpression::new, TubeExpression.class.getName());
-        }
-
-
-        throw new _501NotSupportException(Tube.class);
+        return CC_TUBE.pick(() -> Ut.instance(instanceCls), instanceCls.getName());
     }
 
     Future<JsonObject> traceAsync(JsonObject data, XActivityRule rule);

@@ -169,18 +169,22 @@ public class WRecord implements Serializable {
     // ------------- Field Get
     /*
      * Different Field for usage here
-     * - todo()                         WTodo instance
+     * - task()                         WTodo instance
      * - ticket()                       WTicket instance
      * - identifier()                   WTicket ( modelId field ) for uniform model identifier
      * - key()                          WTicket ( modelKey field ) for model record primary key
      * - status()                       Todo Status ( Original Status stored in database )
      */
-    public WTodo todo() {
+    public WTodo task() {
         if (this.todo.isEmpty() || Values.ONE < this.todo.size()) {
             return null;
         } else {
             return this.todo.get(Values.IDX);
         }
+    }
+
+    public PassWay way() {
+        return this.type;
     }
 
     public WTicket ticket() {
@@ -210,7 +214,7 @@ public class WRecord implements Serializable {
         if (Objects.isNull(this.prev) || Objects.isNull(this.prev.todo)) {
             return null;
         }
-        final WTodo todo = this.prev.todo();
+        final WTodo todo = this.prev.task();
         return Ut.toEnum(todo::getStatus, TodoStatus.class, null);
     }
 
@@ -287,7 +291,7 @@ public class WRecord implements Serializable {
         final Io<JsonObject> ioFlow = Io.ioFlow();
         if (!history) {
             // Task must not be null
-            final WTodo todo = this.todo();
+            final WTodo todo = this.task();
             Objects.requireNonNull(todo);
             final Io<Task> ioTask = Io.ioTask();
             final String taskId = todo.getTaskId();
@@ -424,7 +428,7 @@ public class WRecord implements Serializable {
              *  - taskSerial -> WTodo -> serial
              *  - key        -> WTodo -> key
              */
-            final WTodo todo = this.todo();
+            final WTodo todo = this.task();
             if (Objects.nonNull(todo)) {
                 this.onTodo(response, todo);
             }
@@ -534,6 +538,7 @@ public class WRecord implements Serializable {
         // taskSerial <- serial
         response.put(KName.Flow.TASK_CODE, todo.getCode());
         response.put(KName.Flow.TASK_SERIAL, todo.getSerial());
+        // WTodo ( Approval Workflow )
     }
 
     private void onChild(final JsonObject result) {
