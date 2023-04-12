@@ -58,8 +58,10 @@ public final class GVm {
 
     public static void finish(final JsonObject params, final WTransition wTransition) {
         final String status = Ut.valueString(params, KName.STATUS);
-        // If Null, status -> Move
-        if (Ut.isNil(status)) {
+        /*
+         * 状态改动成 FINISHED 的基础条件设置
+         */
+        if (Ut.isNil(status) || TodoStatus.PENDING.name().equals(status)) {
             params.put(KName.STATUS, TodoStatus.FINISHED.name());
         }
     }

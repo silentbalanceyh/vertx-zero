@@ -143,7 +143,7 @@ public class URequest {
         final JsonObject updatedData = params.copy();
         // updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
         // Vm processing
-        GVm.finish(params, wTransition);
+        GVm.finish(updatedData, wTransition);
 
         final String user = params.getString(KName.UPDATED_BY);
         updatedData.put(KName.Auditor.FINISHED_AT, Instant.now());
