@@ -30,8 +30,6 @@ public class TransferStart extends AbstractMovement implements Transfer {
                 requestJ = wTransition.moveRecord(requestJ);
                 return Ux.future(requestJ);
             })
-            /* __move field data processing for next ( Modify WRequest ) */
-            .compose(request::movement)
 
 
             /* Entity / Extension Ticket Record Execution, ( Insert or Update ) */

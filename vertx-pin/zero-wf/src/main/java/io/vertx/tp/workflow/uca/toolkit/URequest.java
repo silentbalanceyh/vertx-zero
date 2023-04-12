@@ -4,6 +4,7 @@ import cn.vertxup.workflow.cv.em.TodoStatus;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
+import io.vertx.tp.workflow.uca.conformity.GVm;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -140,7 +141,10 @@ public class URequest {
      */
     public static JsonObject closeJ(final JsonObject params, final WTransition wTransition) {
         final JsonObject updatedData = params.copy();
-        updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
+        // updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
+        // Vm processing
+        GVm.finish(params, wTransition);
+
         final String user = params.getString(KName.UPDATED_BY);
         updatedData.put(KName.Auditor.FINISHED_AT, Instant.now());
         updatedData.put(KName.Auditor.FINISHED_BY, user);

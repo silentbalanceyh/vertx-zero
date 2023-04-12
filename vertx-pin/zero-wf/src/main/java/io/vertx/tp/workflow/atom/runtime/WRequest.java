@@ -73,13 +73,4 @@ public class WRequest implements Serializable {
         this.request.mergeIn(params, true);
         return this;
     }
-
-    @Fluent
-    public Future<JsonObject> movement(final JsonObject moveData) {
-        final JsonObject moveJ = Ut.valueJObject(moveData, KName.__.MOVE);
-        if (Ut.notNil(moveJ)) {
-            this.request.put(KName.__.MOVE, moveJ);
-        }
-        return Ux.future(moveData);
-    }
 }
