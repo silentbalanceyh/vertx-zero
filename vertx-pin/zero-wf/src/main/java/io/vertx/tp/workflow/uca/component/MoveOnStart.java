@@ -51,7 +51,7 @@ public class MoveOnStart extends AbstractMoveOn {
              *     }
              * }
              */
-            final JsonObject parameters = wTransition.moveParameter(request.request());
+            final JsonObject parameters = wTransition.moveParameter(request);
             final RunOn runOn = RunOn.get();
             return runOn.startAsync(parameters, wTransition);
         }).compose(wTransition::end);

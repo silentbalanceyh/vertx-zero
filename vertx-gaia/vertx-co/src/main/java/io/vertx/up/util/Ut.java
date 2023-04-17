@@ -192,6 +192,10 @@ public final class Ut {
         return ArrayJ.find(input, field, value);
     }
 
+    public static JsonObject elementFind(final JsonArray input, final JsonObject subsetQ) {
+        return ArrayJ.find(input, subsetQ);
+    }
+
     public static <T> T elementFind(final List<T> list, final Predicate<T> fnFilter) {
         return ArrayL.find(list, fnFilter);
     }
@@ -1219,6 +1223,38 @@ public final class Ut {
 
     public static boolean isDiff(final String left, final String right) {
         return !isEqual(left, right);
+    }
+
+    public static boolean isDiff(final JsonArray left, final JsonArray right, final Set<String> fields) {
+        return !ArrayJ.isSame(left, right, fields, false);
+    }
+
+    public static boolean isSame(final JsonArray left, final JsonArray right, final Set<String> fields) {
+        return ArrayJ.isSame(left, right, fields, false);
+    }
+
+    public static boolean isDiff(final JsonArray left, final JsonArray right) {
+        return isDiff(left, right, new HashSet<>());
+    }
+
+    public static boolean isSame(final JsonArray left, final JsonArray right) {
+        return isSame(left, right, new HashSet<>());
+    }
+
+    public static boolean isSameStrict(final JsonArray left, final JsonArray right, final Set<String> fields) {
+        return ArrayJ.isSame(left, right, fields, true);
+    }
+
+    public static boolean isSameStrict(final JsonArray left, final JsonArray right) {
+        return isSameStrict(left, right, new HashSet<>());
+    }
+
+    public static boolean isDiffStrict(final JsonArray left, final JsonArray right, final Set<String> fields) {
+        return !ArrayJ.isSame(left, right, fields, true);
+    }
+
+    public static boolean isDiffStrict(final JsonArray left, final JsonArray right) {
+        return isDiffStrict(left, right, new HashSet<>());
     }
 
     public static boolean notNil(final String input) {

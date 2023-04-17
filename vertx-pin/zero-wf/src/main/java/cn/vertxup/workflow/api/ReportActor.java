@@ -1,13 +1,13 @@
 package cn.vertxup.workflow.api;
 
 import cn.vertxup.workflow.cv.HighWay;
-import cn.vertxup.workflow.cv.em.TodoStatus;
 import cn.vertxup.workflow.service.ReportStub;
 import cn.vertxup.workflow.service.TaskStub;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
+import io.vertx.tp.workflow.uca.conformity.GVm;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
@@ -79,11 +79,7 @@ public class ReportActor {
         // -- DRAFT
         // -- ACCEPTED
         final JsonObject qrStatus = Ux.whereAnd();
-        qrStatus.put(KName.STATUS + ",i", new JsonArray()
-            .add(TodoStatus.PENDING.name())
-            .add(TodoStatus.ACCEPTED.name())    // Accepted, Accepted for long term ticket
-            .add(TodoStatus.DRAFT.name())       // Draft,  Edit the draft for redo submitting
-        );
+        qrStatus.put(KName.STATUS + ",i", GVm.Status.QUEUE);
         final JsonObject qrCombine = Ux.irAndQH(qr, "$Q$", qrStatus);
         Wf.Log.initQueue(this.getClass(), "Qr Report Combined: {0}", qrCombine.encode());
         return this.taskStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)

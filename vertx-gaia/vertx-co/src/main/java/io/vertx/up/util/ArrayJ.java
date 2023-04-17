@@ -8,6 +8,7 @@ import io.vertx.up.fn.Fn;
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -130,15 +131,21 @@ final class ArrayJ {
     }
 
     static JsonObject find(final JsonArray array, final String field, final Object value) {
-        return It.itJArray(array)
-            .filter(item -> {
-                if (Objects.isNull(value)) {
-                    return Objects.isNull(item.getValue(field));
-                } else {
-                    return value.equals(item.getValue(field));
-                }
-            })
-            .findAny().orElse(null);
+        return It.itJArray(array).filter(item -> {
+            if (Objects.isNull(value)) {
+                return Objects.isNull(item.getValue(field));
+            } else {
+                return value.equals(item.getValue(field));
+            }
+        }).findAny().orElse(null);
+    }
+
+    static JsonObject find(final JsonArray array, final JsonObject subsetQ) {
+        return It.itJArray(array).filter(item -> {
+            final Set<String> keys = subsetQ.fieldNames();
+            final JsonObject subset = ArrayL.subset(item, keys);
+            return subset.equals(subsetQ);
+        }).findAny().orElse(new JsonObject());
     }
 
     static JsonArray save(final JsonArray array, final JsonArray input, final String field) {
@@ -256,6 +263,24 @@ final class ArrayJ {
                     }
                 }
             }
+        }
+    }
+
+    static boolean isSame(final JsonArray dataO, final JsonArray dataN,
+                          final Set<String> fields, final boolean sequence) {
+        final JsonArray arrOld = Ut.valueJArray(dataO);
+        final JsonArray arrNew = Ut.valueJArray(dataN);
+        if (arrOld.size() != arrNew.size()) {
+            return false;
+        }
+        final JsonArray subOld = Ut.elementSubset(arrOld, fields);
+        final JsonArray subNew = Ut.elementSubset(arrNew, fields);
+        if (sequence) {
+            return subOld.equals(subNew);
+        } else {
+            return Ut.itJArray(subOld).allMatch(jsonOld ->
+                Ut.itJArray(subNew).anyMatch(jsonNew -> jsonNew.equals(jsonOld))
+            );
         }
     }
 }

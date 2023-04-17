@@ -1,8 +1,10 @@
 package io.vertx.tp.workflow.uca.toolkit;
 
 import cn.vertxup.workflow.cv.em.TodoStatus;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
+import io.vertx.tp.workflow.uca.conformity.GVm;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.task.Task;
@@ -16,7 +18,57 @@ import java.util.UUID;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class UData {
+public class URequest {
+    public static void reduceJ(final JsonObject dataJ) {
+        // Uniform Fields
+        dataJ.remove(KName.KEY);
+        dataJ.remove(KName.SERIAL);
+        dataJ.remove(KName.CODE);
+        dataJ.remove(KName.CREATED_BY);
+        dataJ.remove(KName.CREATED_AT);
+        dataJ.remove(KName.SIGMA);
+        dataJ.remove(KName.LANGUAGE);
+        dataJ.remove(KName.METADATA);
+
+        // Workflow
+        dataJ.remove(KName.Flow.FLOW_DEFINITION_KEY);
+        dataJ.remove(KName.Flow.FLOW_DEFINITION_ID);
+        dataJ.remove(KName.Flow.FLOW_INSTANCE_ID);
+
+        // Task Part
+        dataJ.remove(KName.Flow.TASK_KEY);
+        dataJ.remove(KName.Flow.TASK_ID);
+
+        /*
+         * Fix issue: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
+         * through reference chain: cn.vertxup.workflow.domain.tables.pojos.WTodo["toUser"]
+         *
+         * Because there are three data format of `toUser`
+         * 1) String
+         * 2) JsonObject
+         * 3) JsonArray
+         *
+         * Because the 2 and 3 are calculated by `MoveOn` component before updating, it means that
+         * all these kind of fields will not be updated on `WTodo` record, here provide the situations:
+         *
+         * 1) When the user click `Saving` button instead of `Submit`
+         * -- 1.1) Based on configuration these kind of situation, the `toUser` could not be JsonObject / JsonArray
+         * -- 1.2) When the `toUser` is String format, it also could be updated in code logical
+         * 2) When the user click `Submit` button
+         * -- In this kind of situation, this field is not needed to be updated here because the `toUser` stored the
+         *    previous field value here.
+         *
+         * Final:
+         *
+         *      When the `toUser` data is `String`, it could be updated ( Single ), if other situations ( JsonObject
+         * / JsonArray ), ignored this situation.
+         */
+        final Object toUser = dataJ.getValue(KName.Auditor.TO_USER);
+        if (toUser instanceof JsonArray || toUser instanceof JsonObject) {
+            // Removed for Todo Part
+            dataJ.remove(KName.Auditor.TO_USER);
+        }
+    }
 
     // ---------------------- Input Data --------------------------------
     public static JsonObject inputJ(final JsonObject params) {
@@ -89,7 +141,10 @@ public class UData {
      */
     public static JsonObject closeJ(final JsonObject params, final WTransition wTransition) {
         final JsonObject updatedData = params.copy();
-        updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
+        // updatedData.put(KName.STATUS, TodoStatus.FINISHED.name());
+        // Vm processing
+        GVm.finish(updatedData, wTransition);
+
         final String user = params.getString(KName.UPDATED_BY);
         updatedData.put(KName.Auditor.FINISHED_AT, Instant.now());
         updatedData.put(KName.Auditor.FINISHED_BY, user);

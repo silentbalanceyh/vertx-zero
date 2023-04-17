@@ -29,13 +29,14 @@ public class GearStandard extends AbstractGear {
             return Ux.futureL();
         }
         // 0. Keep the same acceptedBy / toUser value and do nothing
-        final WTodo todo = this.todoStart(parameters, ticket, task);
+        final Gain starter = Gain.starter(ticket);
+        return starter.buildAsync(parameters, task, null).compose(generated -> {
+            // 1. Select Method to set Serial
+            generated.setSerialFork(null);
+            this.buildSerial(generated, ticket, null);
 
-        // 1. Select Method to set Serial
-        todo.setSerialFork(null);
-        this.todoSerial(todo, ticket, null);
-
-        return Ux.futureL(todo);
+            return Ux.futureL(generated);
+        });
     }
 
     @Override
@@ -47,19 +48,20 @@ public class GearStandard extends AbstractGear {
         }
 
         // 0. Pre-Assignment: toUser -> acceptedBy
-        this.todoAssign(parameters);
+        this.buildAssign(parameters);
 
         // 1. Generate new WTodo
-        final WTodo generated = this.todoGenerate(parameters, ticket, task, todo);
+        final Gain generator = Gain.generator(ticket);
+        return generator.buildAsync(parameters, task, todo).compose(generated -> {
+            // 2. Select Method to set Serial
+            generated.setSerialFork(todo.getSerialFork());
+            this.buildSerial(generated, ticket, null);
 
-        // 2. Select Method to set Serial
-        generated.setSerialFork(todo.getSerialFork());
-        this.todoSerial(generated, ticket, null);
-
-        return Ux.futureL(generated);
+            return Ux.futureL(generated);
+        });
     }
 
-    private void todoAssign(final JsonObject parameters) {
+    private void buildAssign(final JsonObject parameters) {
         // toUser -> acceptedBy
         final String toUser = parameters.getString(KName.Auditor.TO_USER);
         parameters.put(KName.Auditor.ACCEPTED_BY, toUser);

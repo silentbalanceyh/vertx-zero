@@ -106,7 +106,8 @@ public class WTransition {
     }
     // --------------------- Move Rule Processing ------------------
 
-    public JsonObject moveParameter(final JsonObject requestJ) {
+    public JsonObject moveParameter(final WRequest request) {
+        final JsonObject requestJ = request.request();
         if (Objects.isNull(this.move)) {
             return new JsonObject();
         }
@@ -116,8 +117,10 @@ public class WTransition {
     }
 
     public JsonObject moveTicket(final JsonObject requestJ) {
-        // WTodo, WTicket, Extension
-        requestJ.mergeIn(Ut.fromExpression(this.rule.getTodo(), requestJ), true);
+        // WTodo will be used in generation workflow
+        final JsonObject todoJ = Ut.fromExpression(this.rule.getTodo(), requestJ);
+        requestJ.mergeIn(todoJ, true);
+        // WTicket, Extension
         requestJ.mergeIn(Ut.fromExpression(this.rule.getTicket(), requestJ), true);
         requestJ.mergeIn(Ut.fromExpression(this.rule.getExtension(), requestJ), true);
 
@@ -125,6 +128,7 @@ public class WTransition {
         return this.moveRecord(requestJ);
     }
 
+    @SuppressWarnings("all")
     public JsonObject moveRecord(final JsonObject requestJ) {
 
         // Record Processing

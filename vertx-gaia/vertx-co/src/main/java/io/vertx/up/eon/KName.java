@@ -289,6 +289,8 @@ public interface KName {
     String OWNER_ID = "ownerId";
     String RUN_TYPE = "runType";
     String PATH = "path";
+    String MOVE = "move";
+    String MESSAGE = "message";
 
     // 「Specification Definition」
     interface __ {
@@ -299,6 +301,7 @@ public interface KName {
         String INPUT = "__" + KName.INPUT;           /* __input for input original data */
         String USER = "__" + KName.USER;             /* __user for user extraction */
         String REFERENCE = "__" + KName.REFERENCE;   /* __reference for dict/assist etc */
+        String MESSAGE = "__" + KName.MESSAGE;       /* __message for workflow */
         String ACL = "__" + Flow.ACL;                /* __acl */
         String QR = "__" + KName.QR;                 /* __qr */
     }
@@ -317,7 +320,7 @@ public interface KName {
     }
 
     // 「Uca」Life Cycle
-    interface LifeCycle{
+    interface LifeCycle {
         String CONFIGURE = "configure";              /* Setup for configuration */
         String COMPILE = "compile";                  /* After `configure`, processing the compile with data */
 

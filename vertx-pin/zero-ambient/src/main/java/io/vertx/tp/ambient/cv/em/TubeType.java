@@ -39,6 +39,9 @@ public enum TubeType {
      */
     EXPRESSION,
 
+    APPROVAL,       // Approval Workflow
+    ATTACHMENT,     // Attachment Workflow
+
     NOTIFY,             // Notification Tube
     SCHEDULER,          // Scheduler Task Tube
     JOB,                // Job Tube

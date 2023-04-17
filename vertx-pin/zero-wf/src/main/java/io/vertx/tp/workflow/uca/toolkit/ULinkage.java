@@ -65,6 +65,21 @@ public class ULinkage {
 
     public Future<WRecord> syncAsync(final JsonObject params, final WRecord record) {
         /*
+         * Old Processing
+         */
+        final WRecord prev = record.prev();
+        if (Objects.nonNull(prev)&&prev.data().size()>0) {
+            return this.fetchAsync(prev).compose(prevRecord -> {
+                record.prev(prevRecord);
+                return this.syncAsyncInternal(params, record);
+            });
+        } else {
+            return this.syncAsyncInternal(params, record);
+        }
+    }
+
+    private Future<WRecord> syncAsyncInternal(final JsonObject params, final WRecord record) {
+        /*
          * Linkage Sync based on configuration
          */
         final WTicket ticket = record.ticket();
@@ -79,10 +94,8 @@ public class ULinkage {
              * Data Array extract from `params` based on `field`
              */
             final JsonArray linkageData = Ut.valueJArray(params, field);
-            if (Ut.notNil(linkageData)) {
-                final Respect respect = this.metadata.linkRespect(field);
-                futures.put(field, respect.syncAsync(linkageData, params, record));
-            }
+            final Respect respect = this.metadata.linkRespect(field);
+            futures.put(field, respect.syncAsync(linkageData, params, record));
         });
         return Fn.combineM(futures).compose(dataMap -> {
             dataMap.forEach(record::linkage);
