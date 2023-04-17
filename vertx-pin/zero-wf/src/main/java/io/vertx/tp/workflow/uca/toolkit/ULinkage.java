@@ -68,7 +68,7 @@ public class ULinkage {
          * Old Processing
          */
         final WRecord prev = record.prev();
-        if (Objects.nonNull(prev)) {
+        if (Objects.nonNull(prev)&&prev.data().size()>0) {
             return this.fetchAsync(prev).compose(prevRecord -> {
                 record.prev(prevRecord);
                 return this.syncAsyncInternal(params, record);
