@@ -74,13 +74,23 @@ class ExcelHelper {
         if (Objects.isNull(this.tenant)) {
             return Ux.future(dataArray);
         } else {
-            // Append Global
-            Ut.itJArray(dataArray)
-                .forEach(json -> json.mergeIn(this.tenant.valueDefault(), true));
+            /*
+             * Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6VR89
+             */
+            final JsonArray normalized;
+            final JsonObject valueDefault = this.tenant.valueDefault();
+            if(Ut.notNil(valueDefault)){
+                normalized = new JsonArray();
+                // Append Global
+                Ut.itJArray(dataArray).forEach(json -> normalized.add(valueDefault.copy().mergeIn(json, true)));
+            }else{
+                normalized = dataArray.copy();
+            }
+
             // Extract Mapping
             final ConcurrentMap<String, String> first = this.tenant.dictionaryDefinition(name);
             if (first.isEmpty()) {
-                return Ux.future(dataArray);
+                return Ux.future(normalized);
             } else {
                 // Directory
                 return this.tenant.dictionary().compose(dataMap -> {
@@ -97,7 +107,7 @@ class ExcelHelper {
                         final ConcurrentMap<String, JsonObject> combine
                             = Ut.elementZip(first, dataMap);
 
-                        combine.forEach((key, value) -> Ut.itJArray(dataArray).forEach(json -> {
+                        combine.forEach((key, value) -> Ut.itJArray(normalized).forEach(json -> {
                             final String fromValue = json.getString(key);
                             if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
                                 final Object toValue = value.getValue(fromValue);
@@ -106,7 +116,7 @@ class ExcelHelper {
                             }
                         }));
                     }
-                    return Ux.future(dataArray);
+                    return Ux.future(normalized);
                 });
             }
         }
@@ -189,7 +199,7 @@ class ExcelHelper {
                         // JsonObject ( user = employeeId )
                         table.get().forEach(record -> {
                             // Mount Global Data
-                            record.put(normalized);
+                            record.putOr(normalized);
                             // EmployeeId Replacement for `lang.yu` or other developer account
                             final String username = record.get(KName.USERNAME);
                             if (developer.containsKey(username)) {
@@ -198,7 +208,7 @@ class ExcelHelper {
                         });
                     } else {
                         // Mount Global Data into the ingest data.
-                        table.get().forEach(record -> record.put(normalized));
+                        table.get().forEach(record -> record.putOr(normalized));
                     }
                 });
             }
