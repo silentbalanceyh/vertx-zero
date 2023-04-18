@@ -29,7 +29,7 @@ class GainGenerate extends AbstractGain {
             generated.setCommentReject(null);
 
             // Status by VM
-            Vm.generate(generated, this.ticket, params);
+            GVm.generate(generated, wTask, this.ticket);
 
             // Auditor Processing
             generated.setFinishedAt(null);

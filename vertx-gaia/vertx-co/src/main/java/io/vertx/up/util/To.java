@@ -256,7 +256,6 @@ final class To {
         return Types.UNBOXES.getOrDefault(source, source);
     }
 
-
     static WebException toError(
         final Class<? extends WebException> clazz,
         final Object... args

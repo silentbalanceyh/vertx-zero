@@ -28,8 +28,6 @@ public class TransferStandard extends AbstractMovement implements Transfer {
         final JsonObject requestJ = request.request();
         return this.inputAsync(requestJ, wTransition)
             .compose(normalized -> Ux.future(wTransition.moveTicket(normalized)))
-            /* __move field data processing for next ( Modify WRequest ) */
-            .compose(request::movement)
             /*
              * Entity / Extension Ticket Record Execution, ( Update )
              * Todo Updated with normalized

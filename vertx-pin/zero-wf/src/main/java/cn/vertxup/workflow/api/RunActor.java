@@ -200,6 +200,6 @@ public class RunActor {
         return movement.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
             // Callback
-            .compose(WRecord::futureJ);
+            .compose(wData -> wData.futureJ(true));
     }
 }

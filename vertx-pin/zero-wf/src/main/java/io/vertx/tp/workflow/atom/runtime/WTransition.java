@@ -119,10 +119,7 @@ public class WTransition {
     public JsonObject moveTicket(final JsonObject requestJ) {
         // WTodo will be used in generation workflow
         final JsonObject todoJ = Ut.fromExpression(this.rule.getTodo(), requestJ);
-        if (Ut.notNil(todoJ)) {
-            requestJ.mergeIn(todoJ, true);
-            requestJ.put(KName.__.MOVE, todoJ);
-        }
+        requestJ.mergeIn(todoJ, true);
         // WTicket, Extension
         requestJ.mergeIn(Ut.fromExpression(this.rule.getTicket(), requestJ), true);
         requestJ.mergeIn(Ut.fromExpression(this.rule.getExtension(), requestJ), true);
