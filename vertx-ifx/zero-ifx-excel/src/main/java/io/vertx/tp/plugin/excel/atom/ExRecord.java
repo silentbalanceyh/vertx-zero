@@ -41,6 +41,15 @@ public class ExRecord implements Serializable, Json {
         data.fieldNames().forEach(field -> this.data.put(field, data.getValue(field)));
     }
 
+    // Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6VR89
+    public void putOr(final JsonObject data){
+        data.fieldNames().forEach(field -> {
+            if(!this.data.containsKey(field)){
+                this.data.put(field, data.getValue(field));
+            }
+        });
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T get(final String field) {
         final Object value = this.data.get(field);

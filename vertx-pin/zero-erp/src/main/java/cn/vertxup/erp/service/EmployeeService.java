@@ -158,14 +158,26 @@ public class EmployeeService implements EmployeeStub {
     }
 
     private Future<JsonObject> fetchRef(final JsonObject input) {
-        return this.switchJ(input, ExUser::rapport).compose(Fn.ofJObject(response -> {
+        return this.switchJ(input, ExUser::rapport).compose(userJ -> {
+            // Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6W2KQ
+            if(Ut.notNil(userJ)){
+                final String userId = Ut.valueString(userJ, KName.KEY);
+                if(Ut.notNil(userId)){
+                    input.put(KName.USER_ID, userId);
+                }
+            }
+            return Ux.future(input);
+            /*
+             Fn.ofJObject(response -> {
             final String userId = response.getString(KName.KEY);
             if (Ut.notNil(userId)) {
                 return Ux.future(input.put(KName.USER_ID, userId));
             } else {
                 return Ux.future(input);
             }
-        }));
+        })
+             */
+        });
     }
 
     private Future<JsonArray> fetchRef(final JsonArray input) {
