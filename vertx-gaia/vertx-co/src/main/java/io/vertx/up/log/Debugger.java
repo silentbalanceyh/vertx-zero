@@ -38,7 +38,7 @@ public class Debugger {
         final JsonObject configuration = VISITOR.read();
         if (configuration.containsKey(KName.DEVELOPMENT)) {
             final JsonObject envJ = Ut.visitJObject(configuration, KName.DEVELOPMENT, KName.ENV);
-            OPTION = Ut.deserialize(envJ, DiagnosisOption.class);
+            OPTION = Ut.deserialize(envJ, DiagnosisOption.class,false);
         } else {
             OPTION = new DiagnosisOption();
         }
