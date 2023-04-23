@@ -79,7 +79,7 @@
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.18.3</jooq.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
-        <mysql.version>8.0.32</mysql.version>
+        <mysql.version>8.0.33</mysql.version>
 
         <!-- Java Reflection -->
         <reflect.asm.version>1.11.9</reflect.asm.version>
@@ -144,7 +144,7 @@
         <protobuf.version>3.22.3</protobuf.version>
         <annotation.api.version>6.0.53</annotation.api.version>
         <gson.version>2.10.1</gson.version>
-        <picoli.version>4.7.2</picoli.version>
+        <picoli.version>4.7.3</picoli.version>
 
         <!-- Yaml -->
         <yaml.version>2.0</yaml.version>
@@ -194,7 +194,7 @@
 
         <!-- Logging -->
         <log4j2.version>2.20.0</log4j2.version>
-        <logback.version>1.4.6</logback.version>
+        <logback.version>1.4.7</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>2.0.7</slf4j.version>
 
