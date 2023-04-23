@@ -194,7 +194,11 @@ public class EmployeeService implements EmployeeStub {
                                        final BiFunction<ExUser, JsonObject, Future<JsonObject>> executor) {
         return Ux.channel(ExUser.class, JsonObject::new, user -> {
             if (Ut.isNil(input)) {
-                return Ux.future(new JsonObject());
+                // fix issue: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6W2L9
+                final JsonObject filters = new JsonObject();
+                filters.put(KName.IDENTIFIER, BizInternal.TypeUser.employee.name());
+                return executor.apply(user, filters);
+                //return Ux.future(new JsonObject());
             } else {
                 final JsonObject filters = new JsonObject();
                 filters.put(KName.IDENTIFIER, BizInternal.TypeUser.employee.name());
