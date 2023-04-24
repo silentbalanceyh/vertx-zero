@@ -7,7 +7,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.rs.announce.Rigor;

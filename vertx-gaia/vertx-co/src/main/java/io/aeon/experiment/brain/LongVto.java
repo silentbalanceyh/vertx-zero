@@ -1,6 +1,6 @@
 package io.aeon.experiment.brain;
 
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;

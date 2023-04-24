@@ -12,7 +12,7 @@ import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

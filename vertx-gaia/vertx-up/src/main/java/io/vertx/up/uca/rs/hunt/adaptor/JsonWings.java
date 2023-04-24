@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.hunt.adaptor;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.util.Objects;
 

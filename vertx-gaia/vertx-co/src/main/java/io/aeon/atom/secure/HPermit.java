@@ -4,7 +4,7 @@ import io.horizon.eon.em.cloud.ScDim;
 import io.horizon.eon.em.cloud.ScIn;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.up.util.Ut;
 

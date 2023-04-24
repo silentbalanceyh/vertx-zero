@@ -1,14 +1,14 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.em.container.MessageModel;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.em.Etat;
-import io.horizon.eon.em.container.MessageModel;
-import io.vertx.up.eon.web.ID;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
@@ -30,7 +30,7 @@ public class ZeroHttpRegistry extends AbstractVerticle {
     @Override
     public void start() {
         final EventBus bus = this.vertx.eventBus();
-        bus.<JsonObject>consumer(ID.Addr.REGISTRY_START, result -> {
+        bus.<JsonObject>consumer(KWeb.ADDR.EBS_REGISTRY_START, result -> {
             final JsonObject data = result.body();
             final String name = data.getString(Registry.NAME);
             final HttpServerOptions options =
@@ -43,7 +43,7 @@ public class ZeroHttpRegistry extends AbstractVerticle {
             this.registry.registryRoute(name, options, uriData);
 
             LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
-                name, ID.Addr.REGISTRY_START);
+                name, KWeb.ADDR.EBS_REGISTRY_START);
         });
     }
 }

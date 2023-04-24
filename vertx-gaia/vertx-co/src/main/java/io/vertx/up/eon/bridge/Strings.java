@@ -1,4 +1,4 @@
-package io.vertx.up.eon;
+package io.vertx.up.eon.bridge;
 
 import io.horizon.eon.VString;
 

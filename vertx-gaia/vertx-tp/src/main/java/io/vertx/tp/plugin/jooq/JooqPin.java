@@ -1,16 +1,16 @@
 package io.vertx.tp.plugin.jooq;
 
+import io.horizon.eon.ZeroYml;
+import io.horizon.eon.em.DSMode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.em.DSMode;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.util.Ut;
-import io.horizon.eon.configure.YML;
 import org.jooq.Configuration;
 import org.jooq.Table;
 
@@ -45,7 +45,7 @@ public class JooqPin {
         final ConcurrentMap<String, Configuration> configurationMap =
             new ConcurrentHashMap<>();
 
-        Fn.outUp(Ut.isNil(config) || !config.containsKey(YML.lime.jooq.provider),
+        Fn.outUp(Ut.isNil(config) || !config.containsKey(ZeroYml.lime.jooq.provider),
             LOGGER, JooqConfigurationException.class, JooqPin.class);
 
         if (Ut.notNil(config)) {

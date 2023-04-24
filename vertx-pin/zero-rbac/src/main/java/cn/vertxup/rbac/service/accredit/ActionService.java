@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.web.Routine;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.runtime.soul.UriAeon;
 import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;

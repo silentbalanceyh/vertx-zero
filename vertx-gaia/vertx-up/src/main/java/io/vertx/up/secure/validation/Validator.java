@@ -7,8 +7,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
 import io.vertx.up.util.Ut;
@@ -84,7 +84,7 @@ public class Validator {
         final ConcurrentMap<String, Class<? extends Annotation>>
             annotions = depot.getAnnotations();
         Observable.fromIterable(annotions.keySet())
-            .filter(ID.DIRECT::equals)
+            .filter(KWeb.ARGS.MIME_DIRECT::equals)
             .map(annotions::get)
             // 1. Check whether contains @BodyParam
             .any(item -> BodyParam.class == item)

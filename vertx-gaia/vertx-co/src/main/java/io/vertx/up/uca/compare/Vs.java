@@ -3,8 +3,8 @@ package io.vertx.up.uca.compare;
 import io.horizon.specification.modeler.TypeField;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
@@ -194,7 +194,7 @@ public class Vs implements Serializable {
 
     public boolean isChange(final JsonObject twins) {
         final JsonObject secure = Ut.valueJObject(twins);
-        return this.isChange(secure.getJsonObject(Values.VS.OLD), secure.getJsonObject(Values.VS.NEW));
+        return this.isChange(secure.getJsonObject(KName.__.OLD), secure.getJsonObject(KName.__.NEW));
     }
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {

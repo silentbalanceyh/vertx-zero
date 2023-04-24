@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.tp.modular.query.Ingest;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.DSLContext;

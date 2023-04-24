@@ -3,7 +3,7 @@ package io.vertx.tp.modular.io;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.error._417EventTypeConflictException;
 import io.vertx.tp.modular.plugin.IoHub;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 
 public class IoSingle extends AbstractIo {

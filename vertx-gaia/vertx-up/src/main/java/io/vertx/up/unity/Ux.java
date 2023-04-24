@@ -1,7 +1,8 @@
 package io.vertx.up.unity;
 
 import io.aeon.experiment.rule.RuleTerm;
-import io.horizon.eon.configure.YML;
+import io.horizon.eon.ZeroYml;
+import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.*;
@@ -29,8 +30,7 @@ import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.horizon.eon.em.ChangeFlag;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.Lee;
@@ -1186,7 +1186,7 @@ public final class Ux {
          * @return UxJooq reference that has been initialized
          */
         public static UxJooq ons(final Class<?> clazz) {
-            final JooqDsl dsl = JooqInfix.getDao(clazz, YML.lime.jooq.orbit);
+            final JooqDsl dsl = JooqInfix.getDao(clazz, ZeroYml.lime.jooq.orbit);
             return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), "HIS-" + dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }

@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

@@ -18,7 +18,7 @@ import io.vertx.tp.optic.environment.AmbientEnvironment;
 import io.vertx.tp.optic.jet.JtChannel;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.yaml.Node;

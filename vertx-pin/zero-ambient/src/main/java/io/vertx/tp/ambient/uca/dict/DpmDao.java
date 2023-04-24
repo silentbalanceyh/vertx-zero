@@ -5,8 +5,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.DSource;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -27,7 +27,7 @@ public class DpmDao implements Dpm {
         if (Objects.isNull(jooq) || Ut.isNil(source.getKey())) {
             return Ux.future(new ConcurrentHashMap<>());
         } else {
-            return Rapid.<String, JsonArray>t(RapidKey.DIRECTORY, Constants.DEFAULT_EXPIRED_DATA)
+            return Rapid.<String, JsonArray>t(RapidKey.DIRECTORY, KWeb.ARGS.V_DATA_EXPIRED)
                 .cached(source.getKey(), () -> jooq.fetchJAsync(this.condition(params)))
                 .compose(result -> {
                     final ConcurrentMap<String, JsonArray> uniqueMap = new ConcurrentHashMap<>();

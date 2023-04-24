@@ -6,8 +6,8 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.ext.web.handler.ChainAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
 import io.vertx.up.uca.cache.Cc;
@@ -90,7 +90,7 @@ public class WallAxis implements Axis<Router> {
             resultHandler = handler;
         }
         if (Objects.nonNull(resultHandler)) {
-            router.route(path).order(Orders.SECURE)
+            router.route(path).order(KWeb.ORDER.SECURE)
                 .handler(resultHandler)
                 .failureHandler(AuthenticateEndurer.create());
         }
@@ -110,7 +110,7 @@ public class WallAxis implements Axis<Router> {
             resultHandler = this.bolt.authorization(this.vertx, aegis);
         }
         if (Objects.nonNull(resultHandler)) {
-            router.route(path).order(Orders.SECURE_AUTHORIZATION)
+            router.route(path).order(KWeb.ORDER.SECURE_AUTHORIZATION)
                 .handler(resultHandler)
                 .failureHandler(AuthenticateEndurer.create());
         }

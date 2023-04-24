@@ -13,7 +13,7 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.tp.rbac.ruler.AdmitValve;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

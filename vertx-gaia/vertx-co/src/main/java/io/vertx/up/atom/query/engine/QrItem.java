@@ -1,7 +1,7 @@
 package io.vertx.up.atom.query.engine;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._400OpUnsupportException;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;

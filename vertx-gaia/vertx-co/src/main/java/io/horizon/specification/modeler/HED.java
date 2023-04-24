@@ -1,7 +1,7 @@
 package io.horizon.specification.modeler;
 
 import io.aeon.experiment.specification.KPair;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

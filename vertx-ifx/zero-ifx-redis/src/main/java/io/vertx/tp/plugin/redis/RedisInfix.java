@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.redis;
 
+import io.horizon.eon.ZeroYml;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.KPlugin;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.util.Ut;
@@ -30,7 +30,7 @@ public class RedisInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        final RedisOptions options = Infix.init(KPlugin.Infix.REDIS,
+        final RedisOptions options = Infix.init(ZeroYml.inject.redis,
             /*
              * Two parts for
              * - Redis reference

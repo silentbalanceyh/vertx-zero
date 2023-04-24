@@ -52,4 +52,16 @@ public interface VPath {
 
         String JAR = "jar";
     }
+
+    interface SERVER {
+        
+        String EXPORT = "file-exported";
+        String INTERNAL_UP = "up";
+
+        String INTERNAL_RULE = INTERNAL_UP + "/rules/{0}.yml";
+        String INTERNAL_FILE = INTERNAL_UP + "/config/";
+        String INTERNAL_PACKAGE = INTERNAL_FILE + "vertx-package-filter.json";
+        // Aeon系统专用
+        String INTERNAL_AEON = "aeon/contained/";
+    }
 }

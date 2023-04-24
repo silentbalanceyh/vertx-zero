@@ -12,7 +12,7 @@ import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.tp.optic.feature.Modulat;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

@@ -1,6 +1,6 @@
 package io.aeon.experiment.mu;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

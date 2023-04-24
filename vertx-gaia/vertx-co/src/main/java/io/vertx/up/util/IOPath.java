@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.util.ArrayList;
 import java.util.List;

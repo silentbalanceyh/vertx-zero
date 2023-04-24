@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.exception.web._409JobFormulaErrorException;

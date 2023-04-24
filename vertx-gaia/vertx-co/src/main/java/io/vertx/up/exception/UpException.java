@@ -1,6 +1,6 @@
 package io.vertx.up.exception;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Errors;
 import io.horizon.exception.ZeroRunException;
 

@@ -1,7 +1,7 @@
 package io.vertx.up.eon;
 
-import io.vertx.up.atom.query.engine.Qr;
 import io.horizon.eon.VName;
+import io.vertx.up.atom.query.engine.Qr;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +20,9 @@ public interface KName extends VName {
         String MESSAGE = "__" + KName.MESSAGE;       /* __message for workflow */
         String ACL = "__" + Flow.ACL;                /* __acl */
         String QR = "__" + KName.QR;                 /* __qr */
+        String CLASS = "__" + KName.CLASS;           /* __class */
+        String OLD = "__OLD__";
+        String NEW = "__NEW__";
     }
 
 

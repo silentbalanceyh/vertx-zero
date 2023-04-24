@@ -1,15 +1,15 @@
 package io.vertx.up.runtime.env;
 
+import io.horizon.eon.em.DSMode;
 import io.horizon.specification.runtime.Macrocosm;
 import io.horizon.specification.runtime.Mature;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.AttrSet;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.horizon.eon.em.DSMode;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -32,7 +32,7 @@ public class MatureOn implements Macrocosm {
             .save(KName.CHILD, AEON_APP)                                    // AEON_APP
             .save(KName.NAME, Z_APP)                                        // Z_APP
             .save(KName.NAMESPACE, Z_NS)                                    // Z_NS
-            .saveWith(KName.LANGUAGE, Z_LANG, Constants.DEFAULT_LANGUAGE)   // Z_LANG
+            .saveWith(KName.LANGUAGE, Z_LANG, KWeb.ARGS.V_LANGUAGE)   // Z_LANG
             .save(KName.SIGMA, Z_SIGMA);                                    // Z_SIGMA
         // 创建拷贝
         final JsonObject plotJ = Ut.valueJObject(plot, true);
@@ -130,7 +130,7 @@ public class MatureOn implements Macrocosm {
             envPort = API_PORT + index;
         }
         return AttrSet.of()
-            .saveWith(KName.HOST, envHost, Constants.DEFAULT_HOST)             // Z_API_HOSTX
+            .saveWith(KName.HOST, envHost, KWeb.DEPLOY.HOST)       // Z_API_HOSTX
             .save(KName.PORT, envPort, Integer.class);                     // Z_API_PORTX
     }
 }

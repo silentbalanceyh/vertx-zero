@@ -48,7 +48,7 @@ public interface VValue {
      * 默认值清单
      * 1 - 不带前缀为系统级默认值
      * 2 - V_ 为视图专用常量
-     * 3 - W_ 为容器专用常量
+     * 3 - M_ 为建模专用常量
      */
     interface DFT {
         /** 默认 byte[] 数组的构造尺寸 8192 字节 */
@@ -56,6 +56,7 @@ public interface VValue {
         /** 系统默认编码方式 */
         Charset CHARSET = StandardCharsets.UTF_8;
 
+        String ALGORITHM_RSA = "RSA";
         // ================= 视图专用常量
         /**
          * 默认视图名称 / 视图位置
@@ -64,6 +65,6 @@ public interface VValue {
         String V_VIEW = VValue.DEFAULT;
         String V_POSITION = VValue.DEFAULT;
 
-        // ================= 容器专用常量
+        String M_IDENTIFIER_NULL = "(`identifier` null)";
     }
 }

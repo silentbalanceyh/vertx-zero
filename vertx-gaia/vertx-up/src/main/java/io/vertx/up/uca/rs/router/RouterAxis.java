@@ -11,7 +11,7 @@ import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
 import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.secure.config.CorsConfig;
 import io.vertx.up.uca.rs.Axis;
@@ -51,8 +51,8 @@ public class RouterAxis implements Axis<Router> {
         /*
          * Body, Content
          */
-        router.route().order(Orders.BODY).handler(BodyHandler.create().setBodyLimit(32 * MB));
-        router.route().order(Orders.CONTENT).handler(ResponseContentTypeHandler.create());
+        router.route().order(KWeb.ORDER.BODY).handler(BodyHandler.create().setBodyLimit(32 * MB));
+        router.route().order(KWeb.ORDER.CONTENT).handler(ResponseContentTypeHandler.create());
         // 3. Cors data here
         this.mountCors(router);
     }
@@ -61,7 +61,7 @@ public class RouterAxis implements Axis<Router> {
         /*
          * 10s time out issue
          */
-        router.route().order(Orders.TIMEOUT).handler(TimeoutHandler.create(10000L));
+        router.route().order(KWeb.ORDER.TIMEOUT).handler(TimeoutHandler.create(10000L));
     }
 
     private void mountSession(final Router router) {
@@ -72,7 +72,7 @@ public class RouterAxis implements Axis<Router> {
              * by configuration information instead of create it directly.
              */
             final SessionClient client = SessionInfix.getOrCreate(this.vertx);
-            router.route().order(Orders.SESSION).handler(client.getHandler());
+            router.route().order(KWeb.ORDER.SESSION).handler(client.getHandler());
         } else {
             /*
              * Default Session Handler here for public domain
@@ -90,7 +90,7 @@ public class RouterAxis implements Axis<Router> {
                  */
                 store = LocalSessionStore.create(this.vertx);
             }
-            router.route().order(Orders.SESSION).handler(SessionHandler.create(store));
+            router.route().order(KWeb.ORDER.SESSION).handler(SessionHandler.create(store));
         }
     }
 
@@ -111,7 +111,7 @@ public class RouterAxis implements Axis<Router> {
                 handler.addOrigin(value);
             }
         });
-        router.route().order(Orders.CORS).handler(handler);
+        router.route().order(KWeb.ORDER.CORS).handler(handler);
     }
 
     private Set<String> getAllowedHeaders(final JsonArray array) {

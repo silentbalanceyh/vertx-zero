@@ -1,6 +1,6 @@
 package javax.io.filter;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.io.File;
 

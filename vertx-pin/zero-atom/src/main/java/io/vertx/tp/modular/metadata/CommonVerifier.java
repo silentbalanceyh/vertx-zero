@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.metadata;
 
 import io.vertx.tp.modular.jdbc.AoConnection;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 
 public class CommonVerifier implements AoVerifier {
 

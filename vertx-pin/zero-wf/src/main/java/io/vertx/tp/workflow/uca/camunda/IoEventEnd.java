@@ -6,7 +6,7 @@ import io.vertx.tp.error._409EventEndUniqueException;
 import io.vertx.tp.error._501EventEndMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

@@ -2,7 +2,7 @@ package io.vertx.up.atom.secure;
 
 import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.zero.object.TCopy;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jetbrains.annotations.NotNull;

@@ -2,7 +2,7 @@ package io.vertx.core.eventbus;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 /**

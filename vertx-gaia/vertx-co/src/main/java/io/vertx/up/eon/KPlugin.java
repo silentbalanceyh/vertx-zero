@@ -1,5 +1,7 @@
 package io.vertx.up.eon;
 
+import io.horizon.eon.ZeroYml;
+
 import javax.inject.Inject;
 import javax.inject.infix.*;
 import java.lang.annotation.Annotation;
@@ -13,26 +15,20 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface KPlugin {
 
-    String INJECT = "inject";
-
-    String SERVER = "server";
-
-    String ERROR = "error";
-
-    String RESOLVER = "resolver";
-
-    String[] DATA = new String[]{
-        INJECT, ERROR, SERVER,
-        RESOLVER
+    String[] FILES = new String[]{
+        ZeroYml._inject,
+        ZeroYml._error,
+        ZeroYml._server,
+        ZeroYml._resolver,
     };
     ConcurrentMap<Class<? extends Annotation>, String> INFIX_MAP =
         new ConcurrentHashMap<Class<? extends Annotation>, String>() {
             {
-                this.put(Mongo.class, Infix.MONGO);
-                this.put(MySql.class, Infix.MYSQL);
-                this.put(Jooq.class, Infix.JOOQ);
-                this.put(Rpc.class, Infix.RPC);
-                this.put(Redis.class, Infix.REDIS);
+                this.put(Mongo.class, ZeroYml.inject.mongo);
+                this.put(MySql.class, ZeroYml.inject.mysql);
+                this.put(Jooq.class, ZeroYml.inject.jooq);
+                this.put(Rpc.class, ZeroYml.inject.rpc);
+                this.put(Redis.class, ZeroYml.inject.redis);
             }
         };
     Set<Class<? extends Annotation>> INJECT_ANNOTATIONS = new HashSet<Class<? extends Annotation>>() {
@@ -50,47 +46,14 @@ public interface KPlugin {
      * vertx-rpc.yml: RpcClient ( Zero Provided )
      * vertx-redis.yml: RedisClient ( Native )
      */
-    interface Infix {
-
-        String MONGO = "mongo";
-
-        String MYSQL = "mysql";
-
-        String REDIS = "redis";
-
-        String SESSION = "session";
-
-        String SHARED = "shared";
-
-
-        String JOOQ = "jooq";
-
-        String RPC = "rpc";
-
-        String SECURE = "secure";
-
-        String LOGGER = "logger";
-        /*
-         *
-         */
-        Set<String> STANDAND = new HashSet<String>() {
-            {
-                this.add(MONGO);
-                this.add(MYSQL);
-                this.add(REDIS);
-                // Could not put session  / shared in to standard
-                // this.add(SESSION);
-                // this.add(SHARED);
-                this.add(RPC);
-                this.add(JOOQ);
-                this.add(LOGGER);
-            }
-        };
-    }
-
-    interface Default {
-        String WALL_MONGO = "io.vertx.tp.plugin.mongo.MongoWall";
-        String AGENT_RPC = "io.vertx.up.verticle.ZeroRpcAgent";
-        String AGENT_API = "io.vertx.up.verticle.ZeroApiAgent";
-    }
+    Set<String> INJECT_STANDARD = new HashSet<String>() {
+        {
+            this.add(ZeroYml.inject.mongo);
+            this.add(ZeroYml.inject.mysql);
+            this.add(ZeroYml.inject.redis);
+            this.add(ZeroYml.inject.rpc);
+            this.add(ZeroYml.inject.jooq);
+            this.add(ZeroYml.inject.logger);
+        }
+    };
 }

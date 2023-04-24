@@ -3,7 +3,7 @@ package io.vertx.up.uca.monitor.meansure;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -39,9 +39,9 @@ public class QuotaConnect {
             REGISTRY_CLS.put("instance", VerticleQuota::new);
             final String secure = Ut.visitString(config, "monitor", "secure");
             if (Ut.isNil(secure)) {
-                PATH = ID.Addr.MONITOR_PATH;
+                PATH = KWeb.ADDR.API_MONITOR;
             } else {
-                PATH = secure + ID.Addr.MONITOR_PATH;
+                PATH = secure + KWeb.ADDR.API_MONITOR;
             }
             final JsonArray quotas = Ut.visitJArray(config, "monitor", "quota");
 

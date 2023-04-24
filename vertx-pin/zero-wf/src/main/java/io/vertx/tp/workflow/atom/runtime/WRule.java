@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.io.Serializable;
 import java.util.Objects;

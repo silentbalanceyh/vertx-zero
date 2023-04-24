@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.eon.VPath;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -9,9 +10,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -153,8 +153,8 @@ class SheetExport {
             /*
              * This file object refer to created temp file and output to buffer
              */
-            Ut.ioOut(Constants.DEFAULT_EXPORT);
-            final String filename = Constants.DEFAULT_EXPORT + "/" + identifier + Strings.DOT + UUID.randomUUID() +
+            Ut.ioOut(VPath.SERVER.EXPORT);
+            final String filename = VPath.SERVER.EXPORT + "/" + identifier + Strings.DOT + UUID.randomUUID() +
                 Strings.DOT + FileSuffix.EXCEL_2007;
             final OutputStream out = new FileOutputStream(filename);
             workbook.write(out);

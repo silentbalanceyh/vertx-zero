@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
 

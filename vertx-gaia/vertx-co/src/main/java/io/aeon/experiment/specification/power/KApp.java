@@ -5,7 +5,7 @@ import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

@@ -10,8 +10,8 @@ import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlTypeProvider;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

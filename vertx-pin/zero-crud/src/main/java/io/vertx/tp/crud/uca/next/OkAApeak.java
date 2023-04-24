@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -43,7 +43,7 @@ class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
                 // Continue for current loop
                 continue;
             }
-            if (Constants.DEFAULT_HOLDER.equals(value)) {
+            if (KWeb.ARGS.V_HOLDER.equals(value)) {
                 // HOLDER Collection
                 linked.forEach(item -> this.add(filtered, item, majorSet));
                 append = false;

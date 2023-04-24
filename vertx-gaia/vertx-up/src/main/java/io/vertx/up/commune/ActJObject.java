@@ -4,8 +4,7 @@ import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -35,7 +34,7 @@ class ActJObject extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                .filter(Constants.INDEXES::containsValue)
+                .filter(KWeb.MULTI.INDEXES::containsValue)
                 .count();
             final JsonObject body;
             if (0 < counter) {
@@ -69,7 +68,7 @@ class ActJObject extends ActMapping implements Serializable {
                  * Cross reference
                  */
                 JsonObject cross = new JsonObject();
-                if (body.containsKey(ID.PARAM_BODY)) {
+                if (body.containsKey(KWeb.ARGS.PARAM_BODY)) {
                     /*
                      * Common style
                      * {
@@ -79,12 +78,12 @@ class ActJObject extends ActMapping implements Serializable {
                      */
                     final JsonObject inputData = body.copy();
                     body.fieldNames().stream()
-                        .filter(field -> !ID.PARAM_BODY.equals(field))
+                        .filter(field -> !KWeb.ARGS.PARAM_BODY.equals(field))
                         /*
                          * NON, $$__BODY__$$
                          */
                         .forEach(field -> this.data.put(field, inputData.getValue(field)));
-                    final Object bodyData = body.getValue(ID.PARAM_BODY);
+                    final Object bodyData = body.getValue(KWeb.ARGS.PARAM_BODY);
                     if (bodyData instanceof JsonObject) {
                         cross = (JsonObject) bodyData;
                     } else {

@@ -4,7 +4,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.up.atom.worker.Remind;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.invoker.Invoker;

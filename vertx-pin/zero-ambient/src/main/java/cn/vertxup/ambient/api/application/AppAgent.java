@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 @EndPoint
@@ -42,7 +42,7 @@ public interface AppAgent {
     @Path("/api/menus")
     @GET
     @Address(Addr.Menu.BY_APP_ID)
-    JsonObject fetchMenus(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonObject fetchMenus(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * Get Application Information by Id ( Logged required )
@@ -50,7 +50,7 @@ public interface AppAgent {
     @Path("/api/app")
     @GET
     @Address(Addr.App.BY_ID)
-    JsonObject byId(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonObject byId(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * RESTful Api to Update Basic X_APP information
@@ -58,7 +58,7 @@ public interface AppAgent {
     @Path("/api/app")
     @PUT
     @Address(Addr.App.UP_BY_ID)
-    JsonObject updateBy(@HeaderParam(ID.Header.X_APP_ID) String appId,
+    JsonObject updateBy(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId,
                         @BodyParam JsonObject data);
 
     /*
@@ -73,7 +73,7 @@ public interface AppAgent {
     @GET
     @Path("/api/database")
     @Address(Addr.Init.SOURCE)
-    JsonObject database(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonObject database(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * 1. Step 1: Update the Notice by `expiredAt` first
@@ -82,6 +82,6 @@ public interface AppAgent {
     @POST
     @Path("/api/notice-dashboard")
     @Address(Addr.Init.NOTICE)
-    JsonArray notice(@HeaderParam(ID.Header.X_APP_ID) String appId,
+    JsonArray notice(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId,
                      @BodyParam JsonObject condition);
 }

@@ -7,8 +7,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import io.vertx.up.atom.worker.Remind;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.extension.router.AresGrid;
 
@@ -41,8 +40,8 @@ public class AresSockJs extends AbstractAres {
              * define following way to enable websocket
              */
             final Route route = router.route();
-            final String path = Constants.DEFAULT_WEBSOCKET + "/*";
-            route.path(path).order(Orders.SOCK);
+            final String path = KWeb.ADDR.API_WEBSOCKET + "/*";
+            route.path(path).order(KWeb.ORDER.SOCK);
 
             // config -> SockJsHandlerOptions
             final SockJSHandlerOptions options = new SockJSHandlerOptions(config);

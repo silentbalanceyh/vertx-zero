@@ -3,7 +3,7 @@ package io.vertx.tp.ambient.uca.dict;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.horizon.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
 

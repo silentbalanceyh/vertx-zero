@@ -25,7 +25,7 @@ public class ZeroUniform implements Node<JsonObject> {
         final JsonObject data = new JsonObject();
         final ConcurrentMap<String, String> keys = node.read();
         final Set<String> skipped = Arrays
-            .stream(KPlugin.DATA).collect(Collectors.toSet());
+            .stream(KPlugin.FILES).collect(Collectors.toSet());
         keys.keySet().stream()
             .filter(item -> !skipped.contains(item))
             .map(key -> ZeroTool.CC_STORAGE.pick(

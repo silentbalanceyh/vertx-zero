@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -91,10 +91,10 @@ public class QRequest implements Serializable {
      */
     public void mount(final JtUri uri, final JtApp app) {
         /* XHeaders */
-        this.mount(ID.Header.X_APP_ID, app::getAppId);
-        this.mount(ID.Header.X_APP_KEY, app::getAppKey);
-        this.mount(ID.Header.X_LANG, app::getLanguage);
-        this.mount(ID.Header.X_SIGMA, app::getSigma);
+        this.mount(KWeb.HEADER.X_APP_ID, app::getAppId);
+        this.mount(KWeb.HEADER.X_APP_KEY, app::getAppKey);
+        this.mount(KWeb.HEADER.X_LANG, app::getLanguage);
+        this.mount(KWeb.HEADER.X_SIGMA, app::getSigma);
 
         /* Process Web */
         this.envelop.headers(this.headers);

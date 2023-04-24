@@ -18,7 +18,6 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.web.ID;
 import io.vertx.up.exception.web._417JobMethodException;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.BodyParam;
@@ -111,7 +110,7 @@ class Web {
              * Commercial specification
              */
             final JsonObject metadata = mission.getMetadata();
-            final String className = metadata.getString(ID.CLASS);
+            final String className = metadata.getString(KName.__.CLASS);
             if (Ut.notNil(className)) {
                 final Commercial commercial = Ut.instance(className);
                 commercial.fromJson(metadata);

@@ -9,8 +9,8 @@ import io.vertx.ext.web.Session;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
@@ -103,7 +103,7 @@ class Assist implements Serializable {
     }
 
     JsonObject requestSmart() {
-        final Object[] arguments = this.reference.get(ID.PARAMS_CONTENT);
+        final Object[] arguments = this.reference.get(KWeb.ARGS.REQUEST_CACHED);
         final JsonObject argumentJ = new JsonObject();
         // Path + Query ( Low Priority )
         // 如果出现 view 参数，则需要被 Vis 覆盖

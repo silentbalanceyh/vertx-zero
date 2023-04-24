@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.BodyParam;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
@@ -33,7 +33,7 @@ public interface ActionAgent {
     @POST
     @Path("action/seek")
     @Address(Addr.Authority.ACTION_SEEK)
-    JsonArray searchAuthorized(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonArray searchAuthorized(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                                @BodyParam JsonObject params);
 
     /*
@@ -52,6 +52,6 @@ public interface ActionAgent {
     @POST
     @Path("action/ready")
     @Address(Addr.Authority.ACTION_READY)
-    JsonArray searchAll(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonArray searchAll(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                         @BodyParam JsonObject params);
 }

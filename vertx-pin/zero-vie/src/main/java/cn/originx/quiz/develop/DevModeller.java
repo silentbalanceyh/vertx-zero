@@ -12,7 +12,7 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.ExcelReader;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.horizon.eon.em.Environment;
 import io.vertx.up.unity.Ux;

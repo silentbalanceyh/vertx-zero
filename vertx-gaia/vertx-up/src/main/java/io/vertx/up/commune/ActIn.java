@@ -5,7 +5,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.zero.exception.ActSpecificationException;
 
@@ -51,8 +51,8 @@ public class ActIn extends ActMapping implements Serializable {
          * 2) JsonArray
          * */
         final JsonObject data = envelop.data();
-        if (data.containsKey(ID.PARAM_BODY)) {
-            final Object value = data.getValue(ID.PARAM_BODY);
+        if (data.containsKey(KWeb.ARGS.PARAM_BODY)) {
+            final Object value = data.getValue(KWeb.ARGS.PARAM_BODY);
             if (value instanceof JsonArray) {
                 this.jarray = new ActJArray(envelop);
                 this.isBatch = true;        // Batch
@@ -67,7 +67,7 @@ public class ActIn extends ActMapping implements Serializable {
         /*
          * Optional to stored file here
          */
-        final JsonArray stream = data.getJsonArray(ID.PARAM_STREAM);
+        final JsonArray stream = data.getJsonArray(KWeb.ARGS.PARAM_STREAM);
         this.file = new ActFile(stream);
     }
 
@@ -124,12 +124,12 @@ public class ActIn extends ActMapping implements Serializable {
      */
     public String appId() {
         final MultiMap paramMap = this.envelop.headers();
-        return paramMap.get(ID.Header.X_APP_ID);
+        return paramMap.get(KWeb.HEADER.X_APP_ID);
     }
 
     public String sigma() {
         final MultiMap paramMap = this.envelop.headers();
-        return paramMap.get(ID.Header.X_SIGMA);
+        return paramMap.get(KWeb.HEADER.X_SIGMA);
     }
 
     public String userId() {

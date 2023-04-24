@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.etcd.center.EtcdData;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.eon.em.EtcdPath;
 import io.vertx.up.exception.zero.EtcdNetworkException;

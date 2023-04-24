@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtAddr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 @Path("/api")
@@ -33,7 +33,7 @@ public interface JobApi {
     @Path("/job/info/by/sigma")
     @POST
     @Address(JtAddr.Job.BY_SIGMA)
-    String fetchJobs(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    String fetchJobs(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                      @BodyParam JsonObject body,
                      @QueryParam("group") @DefaultValue("false") Boolean grouped);
 

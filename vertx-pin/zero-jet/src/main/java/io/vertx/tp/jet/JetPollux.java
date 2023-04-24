@@ -10,7 +10,7 @@ import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.uca.aim.*;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroJet;
 import io.vertx.up.uca.web.failure.CommonEndurer;
@@ -62,7 +62,7 @@ public class JetPollux extends AbstractAres {
                 /*
                  * Start up and bind `order` and `config`
                  */
-                .map(uri -> uri.bind(Orders.DYNAMIC)
+                .map(uri -> uri.bind(KWeb.ORDER.DYNAMIC)
                     .<JtUri>bind(Ut.deserialize(config.copy(), JtConfig.class)))
                 /*
                  * Routing deployment

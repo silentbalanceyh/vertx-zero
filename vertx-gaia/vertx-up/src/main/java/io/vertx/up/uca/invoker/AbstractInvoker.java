@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiClient;

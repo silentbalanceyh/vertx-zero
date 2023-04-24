@@ -2,10 +2,10 @@ package io.vertx.up.uca.crypto;
 
 import io.aeon.experiment.channel.Pocket;
 import io.aeon.experiment.specification.KPair;
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.HED;
 import io.horizon.specification.runtime.Macrocosm;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -34,7 +34,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     @SuppressWarnings("unchecked")
     public KPair generate(final int size) {
         return Fn.orJvm(() -> {
-            final KeyPairGenerator generate = KeyPairGenerator.getInstance(Constants.ALGORITHM_RSA);
+            final KeyPairGenerator generate = KeyPairGenerator.getInstance(VValue.DFT.ALGORITHM_RSA);
             generate.initialize(size);
             final KeyPair pair = generate.generateKeyPair();
             final P publicKey = (P) pair.getPublic();

@@ -4,9 +4,9 @@ import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.AsyncMap;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -16,7 +16,7 @@ class Meansure {
     }
 
     static void add(final Vertx vertx, final String name, final DeploymentOptions options, final String id) {
-        vertx.sharedData().<String, Object>getAsyncMap(Constants.Pool.DEPLOYMENT, mapped -> {
+        vertx.sharedData().<String, Object>getAsyncMap(KWeb.SHARED.DEPLOYMENT, mapped -> {
             if (mapped.succeeded()) {
                 final JsonObject instance = new JsonObject();
                 instance.put(KName.DEPLOY_ID, id);
@@ -38,7 +38,7 @@ class Meansure {
     }
 
     static void remove(final Vertx vertx, final String name, final DeploymentOptions options) {
-        vertx.sharedData().<String, Object>getAsyncMap(Constants.Pool.DEPLOYMENT, mapped -> {
+        vertx.sharedData().<String, Object>getAsyncMap(KWeb.SHARED.DEPLOYMENT, mapped -> {
             if (mapped.succeeded()) {
                 final AsyncMap<String, Object> data = mapped.result();
                 data.remove(name, result -> {

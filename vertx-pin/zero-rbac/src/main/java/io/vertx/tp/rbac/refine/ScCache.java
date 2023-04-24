@@ -18,10 +18,10 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.logged.ScUser;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -60,7 +60,7 @@ class ScCache {
     }
 
     static Future<OUser> valueAuth(final SUser user, final JsonObject inputJ) {
-        final String language = inputJ.getString(KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        final String language = inputJ.getString(KName.LANGUAGE, KWeb.ARGS.V_LANGUAGE);
         final JsonObject initializeJ = CONFIG.getInitialize();
         final OUser oUser = Ux.fromJson(initializeJ, OUser.class);
         oUser.setClientId(user.getKey())
@@ -81,7 +81,7 @@ class ScCache {
             user.setPassword(initPwd);
             user.setSigma(sigma);
             if (Objects.isNull(user.getLanguage())) {
-                user.setLanguage(Constants.DEFAULT_LANGUAGE);
+                user.setLanguage(KWeb.ARGS.V_LANGUAGE);
             }
         });
         return Ux.future(users);

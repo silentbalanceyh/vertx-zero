@@ -15,7 +15,7 @@ import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -309,9 +309,9 @@ public class Envelop implements Serializable {
         final JsonObject headerData = new JsonObject();
         this.assist.headers().names().stream()
             /* Up case is OK */
-            .filter(field -> field.startsWith(ID.Header.PREFIX)
+            .filter(field -> field.startsWith(KWeb.HEADER.PREFIX)
                 /* Lower case is also Ok */
-                || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+                || field.startsWith(KWeb.HEADER.PREFIX.toLowerCase(Locale.getDefault())))
             /*
              * Data for header
              * X-App-Id -> appId
@@ -322,9 +322,9 @@ public class Envelop implements Serializable {
                 /*
                  * Lower / Upper are both Ok
                  */
-                final String found = ID.Header.PARAM_MAP.keySet()
+                final String found = KWeb.HEADER.PARAM_MAP.keySet()
                     .stream().filter(field::equalsIgnoreCase)
-                    .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
+                    .findFirst().map(KWeb.HEADER.PARAM_MAP::get).orElse(null);
                 if (Ut.notNil(found)) {
                     headerData.put(found, this.assist.headers().get(field));
                 }

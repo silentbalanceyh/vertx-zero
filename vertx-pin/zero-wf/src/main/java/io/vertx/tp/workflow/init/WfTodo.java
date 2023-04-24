@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.init;
 import cn.vertxup.workflow.cv.WfCv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.util.Ut;
 

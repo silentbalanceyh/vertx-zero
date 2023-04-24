@@ -1,6 +1,6 @@
 package io.vertx.up.log.internal;
 
-import io.horizon.eon.info.VLog;
+import io.horizon.eon.info.VMessage;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.vertx.core.impl.ConcurrentHashSet;
@@ -30,11 +30,11 @@ public class BridgeAnnal implements Annal {
     public BridgeAnnal(final Class<?> clazz) {
         Class<?> inject = ZeroAmbient.getPlugin("logger");
         if (null == inject) {
-            Log.debug(RECORD, VLog.ANNAL_INTERNAL, clazz);
+            Log.debug(RECORD, VMessage.ANNAL_INTERNAL, clazz);
             inject = Log4JAnnal.class;
         }
         if (!OUTED.contains(inject)) {
-            Log.debug(RECORD, VLog.ANNAL_CONFIGURED, inject, clazz);
+            Log.debug(RECORD, VMessage.ANNAL_CONFIGURED, inject, clazz);
             OUTED.add(inject);
         }
         this.logger = Ut.instance(inject, clazz);

@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 
 /**

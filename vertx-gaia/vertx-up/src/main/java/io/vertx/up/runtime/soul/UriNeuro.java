@@ -3,7 +3,7 @@ package io.vertx.up.runtime.soul;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -35,7 +35,7 @@ public class UriNeuro {
     public void addRoute(final JsonObject data) {
         final Route route = this.router.route();
         route.path(data.getString("uri"));
-        route.order(Orders.EVENT);
+        route.order(KWeb.ORDER.EVENT);
         route.handler(item -> {
             System.out.println("Hello World!");
         });

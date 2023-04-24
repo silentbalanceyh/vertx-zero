@@ -2,7 +2,7 @@ package io.vertx.up.atom.query.tree;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

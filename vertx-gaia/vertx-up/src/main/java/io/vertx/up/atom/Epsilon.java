@@ -1,7 +1,7 @@
 package io.vertx.up.atom;
 
 import io.horizon.eon.em.container.MimeFlow;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -25,9 +25,9 @@ public class Epsilon<T> implements Serializable {
     }
 
     public void setName(final String name) {
-        if (ID.DIRECT.equals(name)) {
+        if (KWeb.ARGS.MIME_DIRECT.equals(name)) {
             this.mime = MimeFlow.RESOLVER;
-        } else if (ID.IGNORE.equals(name)) {
+        } else if (KWeb.ARGS.MIME_IGNORE.equals(name)) {
             this.mime = MimeFlow.TYPED;
         } else {
             this.mime = MimeFlow.STANDARD;

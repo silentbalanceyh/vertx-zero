@@ -18,7 +18,7 @@ abstract class AbstractPixel implements Pixel {
         this.identifier = identifier;
         this.client = Neo4jInfix.getClient();
         if (this.client.connected()) {
-            this.client.connect(KWeb.DFT.VERTX_GROUP);
+            this.client.connect(KWeb.DEPLOY.VERTX_GROUP);
         }
     }
 

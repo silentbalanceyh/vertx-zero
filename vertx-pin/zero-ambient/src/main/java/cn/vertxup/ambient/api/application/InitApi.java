@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 @EndPoint
@@ -14,7 +14,7 @@ public interface InitApi {
     @Path("/app/init")
     @POST
     @Address(Addr.Init.INIT)
-    JsonObject init(@HeaderParam(ID.Header.X_APP_ID) String appId,
+    JsonObject init(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId,
                     @BodyParam JsonObject body);
 
     @Path("/app/prepare/{name}")

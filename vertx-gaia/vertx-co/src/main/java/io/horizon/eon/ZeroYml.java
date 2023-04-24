@@ -1,4 +1,4 @@
-package io.horizon.eon.configure;
+package io.horizon.eon;
 
 /**
  * 重新规划配置部分专用，针对文件部分形成梯度配置键值，完成类似 YAML 结构的配置文件
@@ -8,7 +8,19 @@ package io.horizon.eon.configure;
  *
  * @author lang : 2023/4/24
  */
-public interface YML {
+public interface ZeroYml {
+    String freedom = "freedom";
+    /*
+     * vertx-server.yml
+     * vertx-inject.yml
+     * vertx-error.yml
+     * vertx-resolver.yml
+     */
+    String _server = "server";
+    String _inject = "inject";
+    String _error = "error";
+    String _resolver = "resolver";
+
     /*
      * vertx.yml
      *   zero:
@@ -27,5 +39,27 @@ public interface YML {
             String orbit = "orbit";
             String provider = "provider";
         }
+    }
+
+    interface inject {
+
+        String mongo = "mongo";
+
+        String mysql = "mysql";
+
+        String redis = "redis";
+
+        String session = "session";
+
+        String shared = "shared";
+
+
+        String jooq = "jooq";
+
+        String rpc = "rpc";
+
+        String secure = "secure";
+
+        String logger = "logger";
     }
 }

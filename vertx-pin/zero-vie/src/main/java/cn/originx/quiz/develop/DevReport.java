@@ -6,7 +6,7 @@ import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.util.List;
 import java.util.Objects;

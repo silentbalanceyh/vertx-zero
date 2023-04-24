@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.Record;

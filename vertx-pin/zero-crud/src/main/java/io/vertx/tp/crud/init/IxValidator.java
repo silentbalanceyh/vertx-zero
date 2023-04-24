@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Rule;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.util.Ut;
 

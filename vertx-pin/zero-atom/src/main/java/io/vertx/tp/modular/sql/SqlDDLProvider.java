@@ -9,7 +9,7 @@ import io.vertx.tp.error.*;
 import io.vertx.tp.modular.metadata.AoReflector;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.metadata.FieldComparator;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

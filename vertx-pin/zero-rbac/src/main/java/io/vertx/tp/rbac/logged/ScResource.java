@@ -8,7 +8,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 
 /**
  * For annotation @AuthorizedResource to stored resource data structure
@@ -58,7 +58,7 @@ public class ScResource {
          */
         if (CONFIG.getSupportMultiApp()) {
             final JsonObject headers = data.getJsonObject(AuthKey.F_HEADERS);
-            this.sigma = headers.getString(ID.Header.X_SIGMA);
+            this.sigma = headers.getString(KWeb.HEADER.X_SIGMA);
         } else {
             this.sigma = null;
         }

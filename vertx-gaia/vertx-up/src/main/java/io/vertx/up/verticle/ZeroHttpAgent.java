@@ -8,9 +8,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.eon.web.ID;
 import io.vertx.up.extension.Ares;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
@@ -189,7 +189,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
             final JsonObject data = this.getMessage(name, options, tree);
             // Send Data to Event Bus
             final EventBus bus = this.vertx.eventBus();
-            final String address = ID.Addr.REGISTRY_START;
+            final String address = KWeb.ADDR.EBS_REGISTRY_START;
             ZeroHttpAgent.LOGGER.info(Info.MICRO_REGISTRY_SEND, this.getClass().getSimpleName(), name, address);
             bus.publish(address, data);
         }

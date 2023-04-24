@@ -7,7 +7,7 @@ import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 /*
@@ -22,7 +22,7 @@ public interface PostAgent {
     @POST
     @Path("/{actor}")
     @Address(Addr.Post.ADD)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     JsonObject create(@PathParam("actor") String actor,
                       @BodyParam JsonObject data);
 
@@ -32,7 +32,7 @@ public interface PostAgent {
     @POST
     @Path("/{actor}/search")
     @Address(Addr.Post.SEARCH)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     JsonObject search(@PathParam("actor") String actor,
                       @BodyParam JsonObject data,
                       @QueryParam(KName.MODULE) String module,
@@ -44,7 +44,7 @@ public interface PostAgent {
     @POST
     @Path("/{actor}/existing")
     @Address(Addr.Post.EXISTING)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     Boolean existing(@PathParam("actor") String actor,
                      @BodyParam JsonObject criteria,
                      @QueryParam(KName.MODULE) String module);
@@ -52,7 +52,7 @@ public interface PostAgent {
     @POST
     @Path("/{actor}/missing")
     @Address(Addr.Post.MISSING)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     Boolean missing(@PathParam("actor") String actor,
                     @BodyParam JsonObject criteria,
                     @QueryParam(KName.MODULE) String module);

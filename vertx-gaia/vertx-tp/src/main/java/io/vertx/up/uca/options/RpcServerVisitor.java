@@ -1,19 +1,19 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.ZeroYml;
+import io.horizon.eon.em.container.ServerType;
+import io.horizon.exception.ZeroException;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KPlugin;
-import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.marshal.RpcServerSetUp;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
-import io.horizon.exception.ZeroException;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class RpcServerVisitor implements ServerVisitor<RpcOptions> {
 
-    private transient final Node<JsonObject> node = Node.infix(KPlugin.SERVER);
+    private transient final Node<JsonObject> node = Node.infix(ZeroYml._server);
     private transient final JTransformer<RpcOptions>
         transformer = Ut.singleton(RpcServerSetUp.class);
 

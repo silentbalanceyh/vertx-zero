@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;
 import org.jooq.Field;

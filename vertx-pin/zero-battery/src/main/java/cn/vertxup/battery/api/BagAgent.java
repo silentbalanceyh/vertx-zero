@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 /**
@@ -20,7 +20,7 @@ public interface BagAgent {
     @GET
     @Path("/bag")
     @Address(Addr.Module.FETCH)
-    JsonArray bag(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonArray bag(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * Fetch all bags that type = "EXTENSION" only, it will show
@@ -30,7 +30,7 @@ public interface BagAgent {
     @GET
     @Path("/bag/extension")
     @Address(Addr.Module.BY_EXTENSION)
-    JsonArray bagByApp(@HeaderParam(ID.Header.X_APP_ID) String appId);
+    JsonArray bagByApp(@HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * {

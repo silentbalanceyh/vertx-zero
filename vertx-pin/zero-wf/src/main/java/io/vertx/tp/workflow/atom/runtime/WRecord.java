@@ -15,7 +15,7 @@ import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;

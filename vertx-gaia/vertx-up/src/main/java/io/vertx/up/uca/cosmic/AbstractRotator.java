@@ -3,8 +3,8 @@ package io.vertx.up.uca.cosmic;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.JexlExpressionException;
 import io.vertx.up.exception.web._500RequestConfigException;
 import io.vertx.up.exception.web._501HttpClientNullException;
@@ -113,7 +113,7 @@ public abstract class AbstractRotator implements Rotator {
          *  */
         final StringEntity body = new StringEntity(normalized.encode(), StandardCharsets.UTF_8);
         body.setContentEncoding(StandardCharsets.UTF_8.name());
-        body.setContentType(Values.CONTENT_TYPE);
+        body.setContentType(KWeb.ARGS.V_CONTENT_TYPE);
         return body;
     }
 

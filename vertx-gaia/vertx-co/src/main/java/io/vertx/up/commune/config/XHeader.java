@@ -3,7 +3,7 @@ package io.vertx.up.commune.config;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -78,12 +78,12 @@ public class XHeader implements Serializable, TJson {
 
     public void fromHeader(final MultiMap headers) {
         if (Objects.nonNull(headers)) {
-            this.appId = headers.get(ID.Header.X_APP_ID);
-            this.appKey = headers.get(ID.Header.X_APP_KEY);
-            this.sigma = headers.get(ID.Header.X_SIGMA);
-            this.language = headers.get(ID.Header.X_LANG);
-            this.session = headers.get(ID.Header.X_SESSION_ID);
-            this.tenantId = headers.get(ID.Header.X_TENANT_ID);
+            this.appId = headers.get(KWeb.HEADER.X_APP_ID);
+            this.appKey = headers.get(KWeb.HEADER.X_APP_KEY);
+            this.sigma = headers.get(KWeb.HEADER.X_SIGMA);
+            this.language = headers.get(KWeb.HEADER.X_LANG);
+            this.session = headers.get(KWeb.HEADER.X_SESSION_ID);
+            this.tenantId = headers.get(KWeb.HEADER.X_TENANT_ID);
         }
     }
 

@@ -2,7 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import org.junit.Assert;
 import org.junit.Test;
 

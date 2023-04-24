@@ -4,7 +4,7 @@ import io.aeon.runtime.H2H;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.log.Annal;

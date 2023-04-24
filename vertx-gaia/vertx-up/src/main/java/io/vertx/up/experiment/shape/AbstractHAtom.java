@@ -6,7 +6,7 @@ import io.aeon.experiment.specification.power.KApp;
 import io.horizon.specification.modeler.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;

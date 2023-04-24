@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.error._417RelationCounterException;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.modeler.KeyMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

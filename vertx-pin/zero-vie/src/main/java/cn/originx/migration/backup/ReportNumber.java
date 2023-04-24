@@ -8,7 +8,7 @@ import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.horizon.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;

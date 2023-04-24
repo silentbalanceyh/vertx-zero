@@ -1,10 +1,10 @@
 package io.vertx.up.atom;
 
+import io.horizon.eon.VPath;
+import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.horizon.exception.ZeroException;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -125,7 +125,7 @@ public class Ruler {
 
     private static JsonObject getRule(final String file) {
         // Cached rule into memory pool
-        final String filename = MessageFormat.format(Values.CONFIG_INTERNAL_RULE, file);
+        final String filename = MessageFormat.format(VPath.SERVER.INTERNAL_RULE, file);
         final ConcurrentMap<String, JsonObject> data = CC_RULE.store();
         if (data.containsKey(filename)) {
             LOGGER.debug(Info.RULE_CACHED_FILE, filename);

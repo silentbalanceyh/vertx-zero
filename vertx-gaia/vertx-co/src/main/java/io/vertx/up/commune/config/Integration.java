@@ -9,7 +9,7 @@ import io.horizon.specification.zero.object.TCopy;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.DConsumer;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

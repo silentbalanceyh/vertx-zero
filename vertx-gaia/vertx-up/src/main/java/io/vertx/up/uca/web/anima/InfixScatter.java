@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.error.PluginSpecificationException;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.KPlugin;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;
@@ -55,7 +55,7 @@ public class InfixScatter implements Scatter<Vertx> {
         });
         /* Scan all extension Infix **/
         Observable.fromIterable(wholeInjections.keySet())
-            .filter(key -> !KPlugin.Infix.STANDAND.contains(key))
+            .filter(key -> !KPlugin.INJECT_STANDARD.contains(key))
             .map(wholeInjections::get)
             .filter(Objects::nonNull)
             .filter(item -> item.isAnnotationPresent(Plugin.class))

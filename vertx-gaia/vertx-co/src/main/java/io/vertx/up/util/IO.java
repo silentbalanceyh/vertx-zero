@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.horizon.eon.em.typed.YamlType;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.JsonFormatException;

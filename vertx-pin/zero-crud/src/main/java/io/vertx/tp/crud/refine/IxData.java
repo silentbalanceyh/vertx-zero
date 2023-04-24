@@ -10,8 +10,8 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
@@ -57,7 +57,7 @@ class IxData {
     }
 
     static Kv<String, String> field(final Object value) {
-        if (Constants.DEFAULT_HOLDER.equals(value)) {
+        if (KWeb.ARGS.V_HOLDER.equals(value)) {
             return null;
         }
         final String field;

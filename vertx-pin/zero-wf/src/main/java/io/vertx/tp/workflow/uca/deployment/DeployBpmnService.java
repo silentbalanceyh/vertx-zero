@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.plugin.FlowSequenceListener;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
@@ -38,7 +38,7 @@ class DeployBpmnService implements DeployOn {
         this.builder = repository.createDeployment();
         // Set Deployment Name
         this.builder.name(workflow);
-        this.builder.source(Constants.DEFAULT_WORKFLOW_SOURCE);
+        this.builder.source(KWeb.ARGS.V_AUDITOR);
         // Avoid duplicated deployment when container started.
         this.builder.enableDuplicateFiltering(Boolean.TRUE);
         final List<String> files = Ut.ioFiles(workflow);

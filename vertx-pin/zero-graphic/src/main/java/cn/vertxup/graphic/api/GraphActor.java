@@ -25,7 +25,7 @@ public class GraphActor {
 
     @Address(Addr.GRAPH_ANALYZE)
     public Future<JsonObject> analyze(final String key, final String graph, final Integer level) {
-        final String graphName = Ut.isNil(graph) ? KWeb.DFT.VERTX_GROUP : graph;
+        final String graphName = Ut.isNil(graph) ? KWeb.DEPLOY.VERTX_GROUP : graph;
         if (Ut.isNil(key)) {
             return Ux.future(new JsonObject());
         } else {

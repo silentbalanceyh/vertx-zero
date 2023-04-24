@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 @EndPoint
@@ -14,7 +14,7 @@ public interface RightsAgent {
     @Path("/api/groups")
     @GET
     @Address(Addr.Group.GROUP_SIGMA)
-    JsonObject fetchGroups(@HeaderParam(ID.Header.X_SIGMA) String sigma);
+    JsonObject fetchGroups(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma);
 
     @Path("/role-perm/{roleId}")
     @PUT

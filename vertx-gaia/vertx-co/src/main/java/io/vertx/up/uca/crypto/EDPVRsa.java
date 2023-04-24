@@ -1,7 +1,7 @@
 package io.vertx.up.uca.crypto;
 
-import io.vertx.up.eon.Constants;
 import io.aeon.experiment.specification.KPair;
+import io.horizon.eon.VValue;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -15,7 +15,7 @@ import java.security.interfaces.RSAPublicKey;
 public class EDPVRsa extends AbstractED<RSAPublicKey, RSAPrivateKey> {
 
     public EDPVRsa() {
-        super(Constants.ALGORITHM_RSA);
+        super(VValue.DFT.ALGORITHM_RSA);
     }
 
     @Override

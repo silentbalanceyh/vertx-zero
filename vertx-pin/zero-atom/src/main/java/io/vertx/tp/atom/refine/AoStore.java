@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.util.Ut;

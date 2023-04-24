@@ -1,11 +1,11 @@
 package io.vertx.up.unity;
 
+import io.aeon.experiment.rule.RuleTerm;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.eon.Values;
-import io.horizon.eon.em.ChangeFlag;
-import io.aeon.experiment.rule.RuleTerm;
+import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.util.Collection;
@@ -62,8 +62,8 @@ class Unique {
 
     static JsonObject ruleTwins(final JsonObject recordO, final JsonObject recordN) {
         final JsonObject data = new JsonObject();
-        data.put(Values.VS.OLD, recordO);
-        data.put(Values.VS.NEW, recordN);
+        data.put(KName.__.OLD, recordO);
+        data.put(KName.__.NEW, recordN);
         return data;
     }
 
@@ -73,8 +73,8 @@ class Unique {
         final JsonArray updatedQueue = new JsonArray();
         final JsonArray addQueue = new JsonArray();
         Ut.itJArray(twins).forEach(json -> {
-            final JsonObject oldRecord = json.getJsonObject(Values.VS.OLD);
-            final JsonObject newRecord = json.getJsonObject(Values.VS.NEW);
+            final JsonObject oldRecord = json.getJsonObject(KName.__.OLD);
+            final JsonObject newRecord = json.getJsonObject(KName.__.NEW);
             /*
              * 新旧任意一个不为空
              */
@@ -130,8 +130,8 @@ class Unique {
     }
 
     static JsonObject ruleNil(final JsonObject twins, final ChangeFlag flag) {
-        final JsonObject oldRecord = twins.getJsonObject(Values.VS.OLD);
-        final JsonObject newRecord = twins.getJsonObject(Values.VS.NEW);
+        final JsonObject oldRecord = twins.getJsonObject(KName.__.OLD);
+        final JsonObject newRecord = twins.getJsonObject(KName.__.NEW);
         final JsonObject normalized = new JsonObject();
         if (ChangeFlag.ADD == flag) {
             normalized.mergeIn(Objects.isNull(newRecord) ? oldRecord : newRecord, true);

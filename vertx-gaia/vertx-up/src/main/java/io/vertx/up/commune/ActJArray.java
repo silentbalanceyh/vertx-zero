@@ -4,8 +4,7 @@ import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ class ActJArray extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                .filter(Constants.INDEXES::containsValue)
+                .filter(KWeb.MULTI.INDEXES::containsValue)
                 .count();
             final JsonArray body;
             if (0 < counter) {
@@ -60,7 +59,7 @@ class ActJArray extends ActMapping implements Serializable {
                  * rawJson could not be JsonArray
                  */
                 JsonArray inputData = new JsonArray();
-                if (rawJson.containsKey(ID.PARAM_BODY)) {
+                if (rawJson.containsKey(KWeb.ARGS.PARAM_BODY)) {
                     /*
                      * Common Style
                      * {
@@ -68,7 +67,7 @@ class ActJArray extends ActMapping implements Serializable {
                      *      "$$__BODY__$$": "body"
                      * }
                      */
-                    inputData = rawJson.getJsonArray(ID.PARAM_BODY);
+                    inputData = rawJson.getJsonArray(KWeb.ARGS.PARAM_BODY);
                     if (Objects.nonNull(inputData)) {
                         /*
                          * Copy the json array data and it will be passed

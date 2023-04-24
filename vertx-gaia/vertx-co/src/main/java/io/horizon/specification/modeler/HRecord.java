@@ -2,7 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -137,7 +137,7 @@ interface Meta {
      * Model identifier
      */
     default String identifier() {
-        return Values.EMPTY_IDENTIFIER;
+        return Values.DFT.M_IDENTIFIER_NULL;
     }
 
     /*

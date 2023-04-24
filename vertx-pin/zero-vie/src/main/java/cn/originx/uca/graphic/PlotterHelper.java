@@ -20,7 +20,7 @@ class PlotterHelper {
         Ox.Log.infoUca(PlotterHelper.class, "节点数量：{0}, 关系数量：{1}",
             String.valueOf(nodes.size()), String.valueOf(edges.size()));
         /* 默认分组：__VERTX_ZERO__ */
-        final Neo4jClient client = Neo4jInfix.getClient().connect(KWeb.DFT.VERTX_GROUP);
+        final Neo4jClient client = Neo4jInfix.getClient().connect(KWeb.DEPLOY.VERTX_GROUP);
         /* 图库推送 */
         final JsonArray nodeArray = Ox.toNode(nodes);
         final JsonArray edgeArray = Ox.toEdge(edges);

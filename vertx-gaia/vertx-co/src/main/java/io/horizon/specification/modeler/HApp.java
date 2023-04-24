@@ -1,8 +1,8 @@
 package io.horizon.specification.modeler;
 
-import io.horizon.eon.VEnv;
+import io.horizon.eon.runtime.VEnv;
 import io.horizon.specification.zero.object.TJson;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

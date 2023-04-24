@@ -4,7 +4,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.function.Supplier;

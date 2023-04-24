@@ -7,7 +7,7 @@ import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 /*
@@ -19,7 +19,7 @@ public interface ViewAgent {
     @GET
     @Path("/columns/{actor}/full")
     @Address(Addr.Get.COLUMN_FULL)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     JsonArray getFull(@PathParam(KName.ACTOR) String actor,
                       @QueryParam(KName.MODULE) String module,
                       @PointParam(KName.VIEW) Vis view);
@@ -27,7 +27,7 @@ public interface ViewAgent {
     @GET
     @Path("/columns/{actor}/my")
     @Address(Addr.Get.COLUMN_MY)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     JsonArray getMy(@PathParam(KName.ACTOR) String actor,
                     @QueryParam(KName.MODULE) String module,
                     @PointParam(KName.VIEW) Vis view);

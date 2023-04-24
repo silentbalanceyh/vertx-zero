@@ -14,7 +14,7 @@ import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

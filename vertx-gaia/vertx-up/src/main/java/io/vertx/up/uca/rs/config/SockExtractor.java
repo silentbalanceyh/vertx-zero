@@ -5,7 +5,7 @@ import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;

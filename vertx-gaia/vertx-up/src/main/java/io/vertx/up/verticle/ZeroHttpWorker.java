@@ -6,7 +6,7 @@ import io.vertx.up.annotations.Ipc;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;

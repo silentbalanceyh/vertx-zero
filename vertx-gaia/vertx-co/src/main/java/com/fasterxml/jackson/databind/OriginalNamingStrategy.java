@@ -2,7 +2,7 @@ package com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 
 import java.util.Locale;
 

@@ -161,6 +161,7 @@ public interface VName {
     String TARGET_KEY = "targetKey";
     String TARGET_DATA = "targetData";
     String SOURCE_KEY = "sourceKey";
+    String CLASS = "class";
 
 
     String EPSILON = "epsilon";                  /* Dictionary Consumer */

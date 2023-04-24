@@ -8,7 +8,7 @@ import io.vertx.tp.error._500AmbientConnectException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.init.JtPin;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.eon.web.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -84,20 +84,20 @@ public class Ambient {
         /*
          * 1. First search X-App-Id
          */
-        final String appId = headers.get(ID.Header.X_APP_ID);
+        final String appId = headers.get(KWeb.HEADER.X_APP_ID);
         if (Ut.notNil(appId)) {
             return APPS.get(appId);
         } else {
             /*
              * 2. Then lookup X-Sigma
              */
-            final String sigma = headers.get(ID.Header.X_SIGMA);
+            final String sigma = headers.get(KWeb.HEADER.X_SIGMA);
             JtApp app = null;
             if (Ut.notNil(sigma)) {
                 app = searchApp(sigma, JtApp::getSigma);
             }
             if (Objects.isNull(app)) {
-                final String appKey = headers.get(ID.Header.X_APP_KEY);
+                final String appKey = headers.get(KWeb.HEADER.X_APP_KEY);
                 if (Ut.notNil(appKey)) {
                     app = searchApp(sigma, JtApp::getAppKey);
                 }

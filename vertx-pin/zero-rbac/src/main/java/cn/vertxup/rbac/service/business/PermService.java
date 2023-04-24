@@ -15,7 +15,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScRole;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

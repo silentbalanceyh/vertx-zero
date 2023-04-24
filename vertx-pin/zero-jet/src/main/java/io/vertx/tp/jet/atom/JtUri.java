@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.cv.em.ParamMode;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.eon.web.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
 
@@ -66,7 +66,7 @@ public class JtUri extends JtCommercial implements Api {
      * Uri, Order, Path
      */
     public Integer order() {
-        return Objects.nonNull(this.order) ? this.order : Orders.DYNAMIC;
+        return Objects.nonNull(this.order) ? this.order : KWeb.ORDER.DYNAMIC;
     }
 
     /*

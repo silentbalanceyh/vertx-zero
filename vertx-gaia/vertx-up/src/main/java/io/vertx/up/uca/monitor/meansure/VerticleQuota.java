@@ -6,7 +6,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.ext.healthchecks.Status;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 
 import java.util.Set;
@@ -24,7 +24,7 @@ class VerticleQuota extends AbstractQuota {
     @Override
     public void handle(final Promise<Status> event) {
         // Context reference
-        this.mapAsync(Constants.Pool.DEPLOYMENT, map -> {
+        this.mapAsync(KWeb.SHARED.DEPLOYMENT, map -> {
             /*
              * map calculated
              */

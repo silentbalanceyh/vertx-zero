@@ -5,7 +5,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.aeon.experiment.channel.Pocket;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

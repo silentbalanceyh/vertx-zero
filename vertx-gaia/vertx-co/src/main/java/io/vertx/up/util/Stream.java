@@ -5,7 +5,7 @@ import io.horizon.eon.VValue;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
