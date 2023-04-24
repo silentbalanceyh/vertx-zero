@@ -74,6 +74,11 @@
                 <artifactId>vertx-rx</artifactId>
                 <version>${zero.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.zero</groupId>
+                <artifactId>vertx-ams</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
 
             <!-- Zero Extension -->
             <dependency>
