@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 
@@ -21,7 +21,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return new UFlush();
     }
 
-    public Record insert(final Record record) {
+    public HRecord insert(final HRecord record) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record)");
         // Input
         final DataEvent input = this.uuid(record);
@@ -29,7 +29,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return this.output(input, this.jooq::insert, false);
     }
 
-    public Record[] insert(final Record... records) {
+    public HRecord[] insert(final HRecord... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record...)");
         // Input
         final DataEvent input = this.uuids(records);
@@ -37,7 +37,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return this.output(input, this.jooq::insertBatch, true);
     }
 
-    public Record update(final Record record) {
+    public HRecord update(final HRecord record) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record)");
         // Input
         final DataEvent input = this.record(record);
@@ -45,7 +45,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return this.output(input, this.jooq::update, false);
     }
 
-    public Record[] update(final Record... records) {
+    public HRecord[] update(final HRecord... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record...)");
         // Input
         final DataEvent input = this.records(records);
@@ -53,7 +53,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return this.output(input, this.jooq::updateBatch, true);
     }
 
-    public Boolean delete(final Record record) {
+    public Boolean delete(final HRecord record) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record)");
         // Input
         final DataEvent input = this.key(record);
@@ -61,7 +61,7 @@ public class UFlush extends AbstractUtil<UFlush> {
         return this.jooq.delete(input).succeed();
     }
 
-    public Boolean delete(final Record... records) {
+    public Boolean delete(final HRecord... records) {
         Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record...)");
         /* Input 解析参数，生成 Arguments */
         final DataEvent input = this.keys(records);
@@ -73,36 +73,36 @@ public class UFlush extends AbstractUtil<UFlush> {
     /*
      * 更新专用，原始拷贝
      */
-    private DataEvent record(final Record record) {
+    private DataEvent record(final HRecord record) {
         return this.event().records(record);
     }
 
-    private DataEvent records(final Record... records) {
+    private DataEvent records(final HRecord... records) {
         return this.events().records(records);
     }
 
     /*
      * 起点：为当前 DataEvent 中绑定的 Record
      */
-    private DataEvent uuid(final Record records) {
+    private DataEvent uuid(final HRecord records) {
         return this.event().records(records).uuid();
     }
 
-    private DataEvent uuids(final Record... records) {
+    private DataEvent uuids(final HRecord... records) {
         return this.events().records(records).uuid();
     }
 
     /*
      * 起点：通过传入的 Record 列表生成带有主键的 DataEvent
      */
-    private DataEvent key(final Record record) {
+    private DataEvent key(final HRecord record) {
         final Object[] ids = new Object[]{record.key()};
         return this.event().keys(ids);
     }
 
-    private DataEvent keys(final Record... records) {
+    private DataEvent keys(final HRecord... records) {
         final Object[] ids = Arrays.stream(records)
-            .map(Record::key).toArray();
+            .map(HRecord::key).toArray();
         return this.events().keys(ids);
     }
 }

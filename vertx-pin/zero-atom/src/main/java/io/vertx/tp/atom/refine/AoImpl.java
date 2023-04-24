@@ -3,7 +3,7 @@ package io.vertx.tp.atom.refine;
 import io.aeon.experiment.specification.power.KApp;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -145,12 +145,12 @@ class AoImpl {
         }
     }
 
-    static Record toRecord(final String identifier, final JsonObject data) {
+    static HRecord toRecord(final String identifier, final JsonObject data) {
         final DataAtom atom = toAtom(identifier);
         if (Objects.isNull(atom)) {
             return null;
         }
-        final Record record = new DataRecord();
+        final HRecord record = new DataRecord();
         Ut.contract(record, DataAtom.class, atom);
         return Ux.updateR(record, data);
     }

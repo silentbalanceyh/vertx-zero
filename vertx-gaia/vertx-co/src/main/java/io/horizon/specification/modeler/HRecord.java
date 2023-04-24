@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  *  2.1 ) namespace + identifier should be unique ( Business Scope )
  *  2.2 ) Above format should be global id of one defined model.
  */
-public interface Record extends Serializable, Meta, Check, Clone, TJson {
+public interface HRecord extends Serializable, Meta, Check, Clone, TJson {
     /*
      * Provide attribute name and get related value
      * 1) field -> single field value
@@ -35,29 +35,29 @@ public interface Record extends Serializable, Meta, Check, Clone, TJson {
      * 1) Single field = value set
      * 2) JsonObject set into current record
      */
-    <V> Record set(String field, V value);
+    <V> HRecord set(String field, V value);
 
-    Record set(JsonObject data);
+    HRecord set(JsonObject data);
 
     /*
      * 「Append Mode」
      * Set data or missing, if existing do not set the value
      */
-    <V> Record add(String field, V value);
+    <V> HRecord add(String field, V value);
 
-    Record add(JsonObject data);
+    HRecord add(JsonObject data);
 
     /*
      * 「Add Virtual Mode」
      */
-    <V> Record attach(String field, V value);
+    <V> HRecord attach(String field, V value);
 
     /*
      * Remove by field / field
      */
-    Record remove(String field);
+    HRecord remove(String field);
 
-    Record remove(String... fields);
+    HRecord remove(String... fields);
 }
 
 /*
@@ -91,17 +91,17 @@ interface Clone {
     /*
      * Create new record with `attributes`, the subset of current record.
      */
-    Record createSubset(String... attributes);
+    HRecord createSubset(String... attributes);
 
     /*
      * Create new record
      */
-    Record createNew();
+    HRecord createNew();
 
     /*
      * Create new record based on current
      */
-    Record createCopy();
+    HRecord createCopy();
 }
 
 /*

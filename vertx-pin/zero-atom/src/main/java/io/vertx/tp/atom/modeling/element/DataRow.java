@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.modeling.element;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
@@ -39,7 +39,7 @@ public class DataRow implements Serializable {
     private final transient DataTpl tpl;
     private final transient DataKey key;
 
-    private final transient Record record;
+    private final transient HRecord record;
     private transient Object id;
 
     public DataRow(final DataTpl tpl) {
@@ -93,7 +93,7 @@ public class DataRow implements Serializable {
         return this.id;
     }
 
-    public Record getRecord() {
+    public HRecord getRecord() {
         /*
          * 响应结果，会返回 null
          */
@@ -112,11 +112,11 @@ public class DataRow implements Serializable {
     /**
      * Request Data Processing
      *
-     * @param record {@link Record} Input new record or existing data record here.
+     * @param record {@link HRecord} Input new record or existing data record here.
      *
      * @return {@link DataRow}
      */
-    public DataRow request(final Record record) {
+    public DataRow request(final HRecord record) {
         // 同步当前行的 id 信息
         this.id = record.key();
         /*
@@ -134,7 +134,7 @@ public class DataRow implements Serializable {
      * Response Data Processing
      *
      * @param table      {@link java.lang.String} Input table name to build record ( include Joined multi tables )
-     * @param record     {@link Record} Output data record
+     * @param record     {@link HRecord} Output data record
      * @param projection {@link java.util.Set}
      *
      * @return

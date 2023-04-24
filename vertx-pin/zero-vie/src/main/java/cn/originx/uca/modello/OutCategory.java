@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
@@ -19,7 +19,7 @@ public class OutCategory extends OutDpmExpr implements OComponent {
     ConcurrentMap<String, ConcurrentHashMap<String, JsonObject>> index = new ConcurrentHashMap<>();
 
     @Override
-    public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final Object translated = this.translateTo(kv.getValue(), combineData);
         final Object expressed = this.express(Kv.create(kv.getKey(), translated), record, combineData);
         return this.normalize(Kv.create(kv.getKey(), expressed), record, combineData);
@@ -30,7 +30,7 @@ public class OutCategory extends OutDpmExpr implements OComponent {
      * 2. 根据identifier级别链找寻适当的sourceNorm映射
      * 3. 返回映射结果
      */
-    Object normalize(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    Object normalize(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final String cat3Key;
         final String cat2Key;
         final String cat3Identifier;

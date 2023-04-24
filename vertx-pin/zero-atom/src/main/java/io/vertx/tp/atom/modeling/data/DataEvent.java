@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
 import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -108,7 +108,7 @@ public class DataEvent implements Serializable {
      * 直接设置为 Record 的值
      * 起点：创建新的 DataRow
      */
-    public DataEvent records(final Record... records) {
+    public DataEvent records(final HRecord... records) {
         this.io.records(records);
         return this;
     }
@@ -231,14 +231,14 @@ public class DataEvent implements Serializable {
      * 对于 Record 的读取而言，不能抛出 getRow 中的核心异常，所以这里需要重写
      * IoHub Output Single
      */
-    public Record dataR() {
-        final Record record = this.record();
+    public HRecord dataR() {
+        final HRecord record = this.record();
         final IoHub hub = IoHub.instance();
         return hub.out(record, this.tpl);
     }
 
-    public Future<Record> dataRAsync() {
-        final Record record = this.record();
+    public Future<HRecord> dataRAsync() {
+        final HRecord record = this.record();
         final IoHub hub = IoHub.instance();
         return hub.outAsync(record, this.tpl);
     }
@@ -247,14 +247,14 @@ public class DataEvent implements Serializable {
      * 获取记录集合，批量操作：第二层
      * IoHub Output Batch
      */
-    public Record[] dataA() {
-        final Record[] response = this.records();
+    public HRecord[] dataA() {
+        final HRecord[] response = this.records();
         final IoHub hub = IoHub.instance();
         return hub.out(response, this.tpl);
     }
 
-    public Future<Record[]> dataAAsync() {
-        final Record[] response = this.records();
+    public Future<HRecord[]> dataAAsync() {
+        final HRecord[] response = this.records();
         final IoHub hub = IoHub.instance();
         return hub.outAsync(response, this.tpl);
     }
@@ -267,7 +267,7 @@ public class DataEvent implements Serializable {
      * }
      */
     public JsonObject dataP() {
-        final Record[] records = this.dataA();
+        final HRecord[] records = this.dataA();
         return this.dataP(records);
     }
 
@@ -277,9 +277,9 @@ public class DataEvent implements Serializable {
     }
 
     // Private ----------------------
-    private Record record() {
+    private HRecord record() {
         final List<DataRow> rows = this.io.getRows();
-        Record record = Ao.record(this.atom);
+        HRecord record = Ao.record(this.atom);
         if (null != rows && !rows.isEmpty()) {
             final DataRow row = rows.get(Values.IDX);
             if (null != row) {
@@ -289,18 +289,18 @@ public class DataEvent implements Serializable {
         return record;
     }
 
-    private Record[] records() {
+    private HRecord[] records() {
         final List<DataRow> rows = this.dataRows();
         return rows.stream()
             .map(DataRow::getRecord)
             .filter(Objects::nonNull)
             .collect(Collectors.toList())
-            .toArray(new Record[]{});
+            .toArray(new HRecord[]{});
     }
 
-    private JsonObject dataP(final Record[] records) {
+    private JsonObject dataP(final HRecord[] records) {
         final JsonArray list = new JsonArray();
-        Arrays.stream(records).map(Record::toJson).forEach(list::add);
+        Arrays.stream(records).map(HRecord::toJson).forEach(list::add);
         return Ux.pageData(list, this.counter);
     }
     // ------------ 事件执行结果处理 --------------

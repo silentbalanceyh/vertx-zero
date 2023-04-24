@@ -2,7 +2,7 @@ package io.vertx.tp.modular.dao;
 
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.dao.internal.*;
@@ -176,26 +176,26 @@ public abstract class AbstractDao implements HDao {
      *         「DAO」数据访问操作遇到了问题，请联系管理员，检查后台数据，错误详情：...
      */
     @Override
-    public Future<Record> insertAsync(final Record record) {
+    public Future<HRecord> insertAsync(final HRecord record) {
         return Ux.future(this.insert(record));
         // return Fn.getNull(Ux.future(), () -> this.flush.insertAsync(record), record);
     }
 
     @Override
-    public Record insert(final Record record) {
+    public HRecord insert(final HRecord record) {
         return Fn.orNull(null, () -> this.flush.insert(record), record);
     }
 
     @Override
-    public Record[] insert(final Record... records) {
+    public HRecord[] insert(final HRecord... records) {
         if (Objects.isNull(records)) {
-            return new Record[]{};
+            return new HRecord[]{};
         }
         return this.flush.insert(records);
     }
 
     @Override
-    public Future<Record[]> insertAsync(final Record... records) {
+    public Future<HRecord[]> insertAsync(final HRecord... records) {
         return Ux.future(this.insert(records));
 /*        if (Objects.isNull(records)) {
             return Ux.future(new Record[]{});
@@ -230,7 +230,7 @@ public abstract class AbstractDao implements HDao {
      */
 
     @Override
-    public Future<Record[]> updateAsync(final Record... records) {
+    public Future<HRecord[]> updateAsync(final HRecord... records) {
         return Ux.future(this.update(records));
         /*if (Objects.isNull(records)) {
             return Ux.future(new Record[]{});
@@ -239,21 +239,21 @@ public abstract class AbstractDao implements HDao {
     }
 
     @Override
-    public Record[] update(final Record... records) {
+    public HRecord[] update(final HRecord... records) {
         if (Objects.isNull(records)) {
-            return new Record[]{};
+            return new HRecord[]{};
         }
         return this.flush.update(records);
     }
 
     @Override
-    public Future<Record> updateAsync(final Record record) {
+    public Future<HRecord> updateAsync(final HRecord record) {
         return Ux.future(this.update(record));
         // return Fn.getNull(Ux.future(), () -> this.flush.updateAsync(record), record);
     }
 
     @Override
-    public Record update(final Record record) {
+    public HRecord update(final HRecord record) {
         return Fn.orNull(null, () -> this.flush.update(record), record);
     }
 
@@ -276,28 +276,28 @@ public abstract class AbstractDao implements HDao {
      *     （无），如果查询不到则直接返回空记录 {}。
      */
     @Override
-    public <ID> Record fetchById(final ID id) {
+    public <ID> HRecord fetchById(final ID id) {
         return Fn.orNull(null, () -> this.unique.fetchById(id), id);
     }
 
     @Override
-    public <ID> Future<Record> fetchByIdAsync(final ID id) {
+    public <ID> Future<HRecord> fetchByIdAsync(final ID id) {
         return Ux.future(this.fetchById(id));
         // return Fn.getNull(Ux.future(), () -> this.unique.fetchByIdAsync(id), id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Record[] fetchById(final ID... ids) {
+    public <ID> HRecord[] fetchById(final ID... ids) {
         if (Objects.isNull(ids)) {
-            return new Record[]{};
+            return new HRecord[]{};
         }
         return this.list.fetchByIds(ids);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> Future<Record[]> fetchByIdAsync(final ID... ids) {
+    public <ID> Future<HRecord[]> fetchByIdAsync(final ID... ids) {
         return Ux.future(this.fetchById(ids));
 /*        if (Objects.isNull(ids)) {
             return Ux.future(new Record[]{});
@@ -306,12 +306,12 @@ public abstract class AbstractDao implements HDao {
     }
 
     @Override
-    public Record[] fetchAll() {
+    public HRecord[] fetchAll() {
         return this.list.fetchAll();
     }
 
     @Override
-    public Future<Record[]> fetchAllAsync() {
+    public Future<HRecord[]> fetchAllAsync() {
         return Ux.future(this.fetchAll());
         // return this.list.fetchAllAsync();
     }
@@ -335,23 +335,23 @@ public abstract class AbstractDao implements HDao {
      *     （无），如果查询不到则直接返回空记录 {}。
      */
     @Override
-    public Record fetchOne(final Criteria criteria) {
+    public HRecord fetchOne(final Criteria criteria) {
         return Fn.orNull(null, () -> this.unique.fetchOne(criteria), criteria);
     }
 
     @Override
-    public Future<Record> fetchOneAsync(final Criteria criteria) {
+    public Future<HRecord> fetchOneAsync(final Criteria criteria) {
         return Ux.future(this.fetchOne(criteria));
         // return Fn.getNull(Ux.future(), () -> this.unique.fetchOneAsync(criteria), criteria);
     }
 
     @Override
-    public Future<Record> fetchOneAsync(final JsonObject criteria) {
+    public Future<HRecord> fetchOneAsync(final JsonObject criteria) {
         return this.fetchOneAsync(Criteria.create(criteria));
     }
 
     @Override
-    public Record fetchOne(final JsonObject criteria) {
+    public HRecord fetchOne(final JsonObject criteria) {
         return this.fetchOne(Criteria.create(criteria));
     }
 
@@ -361,8 +361,8 @@ public abstract class AbstractDao implements HDao {
     }
 
     @Override
-    public Record[] fetch(final JsonObject criteria) {
-        return Fn.orNull(new Record[]{}, () -> this.search.query(criteria), criteria);
+    public HRecord[] fetch(final JsonObject criteria) {
+        return Fn.orNull(new HRecord[]{}, () -> this.search.query(criteria), criteria);
     }
 
 
@@ -373,7 +373,7 @@ public abstract class AbstractDao implements HDao {
     }
 
     @Override
-    public Future<Record[]> fetchAsync(final JsonObject criteria) {
+    public Future<HRecord[]> fetchAsync(final JsonObject criteria) {
         return Ux.future(this.fetch(criteria));
         // return Fn.getNull(Ux.future(new Record[]{}), () -> this.search.queryAsync(criteria), criteria);
     }
@@ -397,18 +397,18 @@ public abstract class AbstractDao implements HDao {
      *     （无），无副作用的方法，即使删除的记录不存在，也会返回 Boolean 中的 TRUE
      */
     @Override
-    public Future<Boolean> deleteAsync(final Record record) {
+    public Future<Boolean> deleteAsync(final HRecord record) {
         return Ux.future(this.delete(record));
         // return Fn.getNull(Ux.future(Boolean.FALSE), () -> this.flush.deleteAsync(record), record);
     }
 
     @Override
-    public boolean delete(final Record record) {
+    public boolean delete(final HRecord record) {
         return Fn.orNull(Boolean.FALSE, () -> this.flush.delete(record), record);
     }
 
     @Override
-    public Future<Boolean> deleteAsync(final Record... records) {
+    public Future<Boolean> deleteAsync(final HRecord... records) {
         return Ux.future(this.delete(records));
 /*        if (Objects.isNull(records)) {
             return Ux.future(Boolean.FALSE);
@@ -417,7 +417,7 @@ public abstract class AbstractDao implements HDao {
     }
 
     @Override
-    public Boolean delete(final Record... records) {
+    public Boolean delete(final HRecord... records) {
         if (Objects.isNull(records)) {
             return Boolean.FALSE;
         }

@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BTree;
@@ -145,7 +145,7 @@ class ActJObject extends ActMapping implements Serializable {
     /*
      * JsonObject -> Record
      */
-    Record getRecord(final Record definition, final BTree mapping) {
+    HRecord getRecord(final HRecord definition, final BTree mapping) {
         return this.getRecord(this.data, definition, mapping);
     }
 

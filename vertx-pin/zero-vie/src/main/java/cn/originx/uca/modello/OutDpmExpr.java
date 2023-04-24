@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
@@ -24,13 +24,13 @@ public class OutDpmExpr extends ExAttributeComponent implements OComponent {
      * 3. 执行sourceNorm内容
      */
     @Override
-    public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final Object translated = this.translateTo(kv.getValue(), combineData);
         return this.express(Kv.create(kv.getKey(), translated), record, combineData);
     }
 
 
-    public Object express(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    public Object express(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final List<OExpression> exprChain = new ArrayList<>();
         final String field = kv.getKey();
         final JsonArray sourceExpressionChain = Ut.valueJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));

@@ -2,7 +2,7 @@ package cn.originx.uca.plugin.semi;
 
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.plugin.AbstractBefore;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -33,7 +33,7 @@ public class BeforePk extends AbstractBefore {
     @Override
     public Future<JsonObject> beforeAsync(final JsonObject record, final JsonObject options) {
         final ConcurrentMap<String, JsonObject> config = this.configField(options);
-        final ConcurrentMap<String, Future<Record>> futures = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, Future<HRecord>> futures = new ConcurrentHashMap<>();
         config.forEach((field, fieldConfig) -> {
             final Object viValue = record.getValue(fieldConfig.getString(field));
             if (Objects.nonNull(viValue)) {
@@ -44,7 +44,7 @@ public class BeforePk extends AbstractBefore {
         });
         return Fn.combineM(futures).compose(map -> {
             config.keySet().forEach(field -> {
-                final Record ref = map.getOrDefault(field, null);
+                final HRecord ref = map.getOrDefault(field, null);
                 final Object value = this.extractValue(ref, config.getOrDefault(field, new JsonObject()));
                 if (Objects.nonNull(value)) {
                     record.put(field, value);
@@ -57,7 +57,7 @@ public class BeforePk extends AbstractBefore {
     @Override
     public Future<JsonArray> beforeAsync(final JsonArray records, final JsonObject options) {
         final ConcurrentMap<String, JsonObject> config = this.configField(options);
-        final ConcurrentMap<String, Future<ConcurrentMap<String, Record>>> futures = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, Future<ConcurrentMap<String, HRecord>>> futures = new ConcurrentHashMap<>();
         config.forEach((field, fieldConfig) -> {
             final Set<String> values = Ut.valueSetString(records, field);
             if (Objects.nonNull(values) && !values.isEmpty()) {
@@ -75,7 +75,7 @@ public class BeforePk extends AbstractBefore {
                  * 2. 从 recordRef 抽取值
                  */
                 if (Ut.notNil(record.getString(field))) {
-                    final Record ref = valueMap.get(record.getString(field));
+                    final HRecord ref = valueMap.get(record.getString(field));
                     final Object value = this.extractValue(ref, config.getOrDefault(field, new JsonObject()));
                     if (Objects.nonNull(value)) {
                         record.put(field, value);
@@ -88,7 +88,7 @@ public class BeforePk extends AbstractBefore {
         });
     }
 
-    private Object extractValue(final Record ref, final JsonObject config) {
+    private Object extractValue(final HRecord ref, final JsonObject config) {
         if (Objects.nonNull(ref)) {
             final String targetField = config.getString("target");
             return ref.get(targetField);

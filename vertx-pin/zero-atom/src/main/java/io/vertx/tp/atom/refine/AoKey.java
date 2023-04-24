@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.refine;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -32,7 +32,7 @@ class AoKey {
      * 读取主键数据信息
      */
     static ConcurrentMap<String, Object> joinKeys(final Model model,
-                                                  final Record record) {
+                                                  final HRecord record) {
         // 1. 读取 join 部分的信息
         final Set<MJoin> joins = model.dbJoins();
         // 2. 返回 join 中的主键部分的值
@@ -62,20 +62,20 @@ class AoKey {
      * 根据数据转换成 ID
      */
     static <ID> ID toKey(final JsonObject data, final DataAtom atom) {
-        final Record record = toData(data, atom);
+        final HRecord record = toData(data, atom);
         return record.key();
     }
 
     static <ID> void toKey(final JsonObject data, final DataAtom atom, final ID defaultKey) {
         if (Objects.nonNull(defaultKey)) {
-            final Record record = toData(data, atom);
+            final HRecord record = toData(data, atom);
             record.key(defaultKey);
             data.mergeIn(record.toJson());
         }
     }
 
-    private static Record toData(final JsonObject data, final DataAtom atom) {
-        final Record record = new DataRecord();
+    private static HRecord toData(final JsonObject data, final DataAtom atom) {
+        final HRecord record = new DataRecord();
         Ut.contract(record, DataAtom.class, atom);
         record.set(data);
         return record;

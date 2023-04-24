@@ -8,7 +8,7 @@ import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -78,24 +78,24 @@ public final class Ox {
         Numeration.preprocess(NUM_MAP);
     }
 
-    public static Future<Record> viGet(final DataAtom atom, final String identifier,
-                                       final String field, final Object value) {
+    public static Future<HRecord> viGet(final DataAtom atom, final String identifier,
+                                        final String field, final Object value) {
         return OxLinker.viGet(atom, identifier, field, value);
     }
 
-    public static Future<Record[]> viGet(final DataAtom atom, final String identifier,
-                                         final String field, final JsonArray values) {
+    public static Future<HRecord[]> viGet(final DataAtom atom, final String identifier,
+                                          final String field, final JsonArray values) {
         return OxLinker.viGet(atom, identifier, field, values);
     }
 
-    public static Future<ConcurrentMap<String, Record>> viGetMap(final DataAtom atom, final String identifier,
-                                                                 final String field, final JsonArray values) {
+    public static Future<ConcurrentMap<String, HRecord>> viGetMap(final DataAtom atom, final String identifier,
+                                                                  final String field, final JsonArray values) {
         return OxLinker.viGetMap(atom, identifier, field, values, field);
     }
 
-    public static Future<ConcurrentMap<String, Record>> viGetMap(final DataAtom atom, final String identifier,
-                                                                 final String field, final JsonArray values,
-                                                                 final String fieldGroup) {
+    public static Future<ConcurrentMap<String, HRecord>> viGetMap(final DataAtom atom, final String identifier,
+                                                                  final String field, final JsonArray values,
+                                                                  final String fieldGroup) {
         return OxLinker.viGetMap(atom, identifier, field, values, fieldGroup);
     }
 

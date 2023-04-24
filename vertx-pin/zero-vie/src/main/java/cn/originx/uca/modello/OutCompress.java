@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.up.atom.Kv;
@@ -12,7 +12,7 @@ import io.vertx.up.util.Ut;
  */
 public class OutCompress implements OComponent {
     @Override
-    public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         /*
          * {
          *     "name": "当前属性名称",

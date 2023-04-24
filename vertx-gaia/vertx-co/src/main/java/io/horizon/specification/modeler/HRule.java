@@ -214,11 +214,11 @@ public class HRule implements Serializable {
     /**
      * Build criteria condition based on data record.
      *
-     * @param record {@link Record} Input data record
+     * @param record {@link HRecord} Input data record
      *
      * @return {@link io.vertx.core.json.JsonObject}
      */
-    public JsonObject condition(final Record record) {
+    public JsonObject condition(final HRecord record) {
         final JsonObject tpl = new JsonObject();
         this.condition(this.condition).forEach(field -> {
             // Target field
@@ -242,11 +242,11 @@ public class HRule implements Serializable {
     /**
      * Build criteria condition based on data records.
      *
-     * @param records {@link Record}[] Input data records.
+     * @param records {@link HRecord}[] Input data records.
      *
      * @return {@link io.vertx.core.json.JsonObject}
      */
-    public JsonObject condition(final Record[] records) {
+    public JsonObject condition(final HRecord[] records) {
         final JsonObject tpl = new JsonObject();
         this.condition(this.conditions).forEach(field -> {
             final String target = this.conditions.getString(field);

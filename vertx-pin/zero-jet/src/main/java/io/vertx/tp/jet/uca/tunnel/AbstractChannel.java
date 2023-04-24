@@ -1,6 +1,6 @@
 package io.vertx.tp.jet.uca.tunnel;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.zero.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -137,7 +137,7 @@ public abstract class AbstractChannel implements JtChannel {
         /*
          * Data object, could not be singleton
          *  */
-        final Record definition = Ut.instance(recordClass);
+        final HRecord definition = Ut.instance(recordClass);
         /*
          * First step for channel
          * Initialize the `ActIn` object and reference

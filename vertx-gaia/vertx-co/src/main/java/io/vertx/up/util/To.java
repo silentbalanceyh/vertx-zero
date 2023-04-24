@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
@@ -147,10 +147,10 @@ final class To {
         return array;
     }
 
-    static JsonArray toJArray(final Record[] records) {
+    static JsonArray toJArray(final HRecord[] records) {
         final JsonArray result = new JsonArray();
         if (Objects.nonNull(records)) {
-            Arrays.stream(records).map(Record::toJson)
+            Arrays.stream(records).map(HRecord::toJson)
                 .forEach(result::add);
         }
         return result;

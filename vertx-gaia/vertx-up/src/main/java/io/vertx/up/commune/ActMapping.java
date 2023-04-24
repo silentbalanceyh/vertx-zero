@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
 import io.horizon.eon.em.MappingMode;
@@ -18,8 +18,8 @@ public abstract class ActMapping implements Serializable {
     /*
      * ActIn
      */
-    protected Record getRecord(final Object input, final Record definition, final BTree mapping) {
-        final Record record = definition.createNew();
+    protected HRecord getRecord(final Object input, final HRecord definition, final BTree mapping) {
+        final HRecord record = definition.createNew();
         if (input instanceof String) {
             final String key = (String) input;
             record.key(key);

@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.io;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.modular.plugin.IoHub;
 
@@ -22,9 +22,9 @@ public class IoBatch extends AbstractIo {
     }
 
     @Override
-    public AoIo records(final Record... records) {
+    public AoIo records(final HRecord... records) {
         final IoHub hub = IoHub.instance();
-        final Record[] processed = hub.in(records, this.tpl());
+        final HRecord[] processed = hub.in(records, this.tpl());
 
         return this.saveRows(() -> {
             final List<DataRow> rows = new ArrayList<>();

@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OExpression;
@@ -19,8 +19,8 @@ import java.util.function.BiFunction;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class IoHelper {
-    private static final ConcurrentMap<String, BiFunction<Record, JsonObject, JsonObject>> RULES =
-        new ConcurrentHashMap<String, BiFunction<Record, JsonObject, JsonObject>>() {
+    private static final ConcurrentMap<String, BiFunction<HRecord, JsonObject, JsonObject>> RULES =
+        new ConcurrentHashMap<String, BiFunction<HRecord, JsonObject, JsonObject>>() {
             {
                 this.put("PREFIX", FnRule::doPrefix);
             }
@@ -93,7 +93,7 @@ class IoHelper {
      *
      * @return {@link BiFunction}
      */
-    static BiFunction<Record, JsonObject, JsonObject> compressFn(final String ruleKey) {
+    static BiFunction<HRecord, JsonObject, JsonObject> compressFn(final String ruleKey) {
         if (Ut.isNil(ruleKey)) {
             return (r, j) -> null;
         } else {
@@ -120,7 +120,7 @@ class IoHelper {
 
     private static class FnRule {
 
-        static JsonObject doPrefix(final Record record, final JsonObject config) {
+        static JsonObject doPrefix(final HRecord record, final JsonObject config) {
             final String prefix = config.getString(KName.NAME);
             final JsonObject data = new JsonObject();
             final Set<String> removedSet = new HashSet<>();

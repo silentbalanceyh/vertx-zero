@@ -3,7 +3,7 @@ package io.vertx.up.unity;
 import io.aeon.experiment.rule.RuleTerm;
 import io.horizon.eon.configure.YML;
 import io.horizon.eon.em.secure.AuthWall;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
@@ -132,17 +132,17 @@ public final class Ux {
         return Compare.updateJ(query, params, field);
     }
 
-    public static Record updateR(final Record record, final JsonObject params) {
+    public static HRecord updateR(final HRecord record, final JsonObject params) {
         return Compare.updateR(record, params, () -> UUID.randomUUID().toString());
     }
 
-    public static Record[] updateR(final Record[] record, final JsonArray array) {
+    public static HRecord[] updateR(final HRecord[] record, final JsonArray array) {
         return updateR(record, array, KName.KEY);
     }
 
-    public static Record[] updateR(final Record[] record, final JsonArray array, final String field) {
-        final List<Record> recordList = Arrays.asList(record);
-        return Compare.updateR(recordList, array, field).toArray(new Record[]{});
+    public static HRecord[] updateR(final HRecord[] record, final JsonArray array, final String field) {
+        final List<HRecord> recordList = Arrays.asList(record);
+        return Compare.updateR(recordList, array, field).toArray(new HRecord[]{});
     }
 
     /*
@@ -666,11 +666,11 @@ public final class Ux {
 
     // --------------- Record processing -----------------
 
-    public static Future<JsonObject> futureJ(final Record record) {
+    public static Future<JsonObject> futureJ(final HRecord record) {
         return Fn.orNull(futureJ(), () -> To.future(record.toJson()), record);
     }
 
-    public static Future<JsonArray> futureA(final Record[] records) {
+    public static Future<JsonArray> futureA(final HRecord[] records) {
         return Fn.orNull(futureA(), () -> To.future(Ut.toJArray(records)), records);
     }
 

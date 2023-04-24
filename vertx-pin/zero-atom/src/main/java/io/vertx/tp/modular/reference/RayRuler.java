@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.reference;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
@@ -72,7 +72,7 @@ class RayRuler {
         return key.toString();
     }
 
-    static String joinedKey(final Record record, final List<Kv<String, String>> joined) {
+    static String joinedKey(final HRecord record, final List<Kv<String, String>> joined) {
         final StringBuilder key = new StringBuilder();
         joined.forEach(kv -> {
             final Object value = record.get(kv.getValue());

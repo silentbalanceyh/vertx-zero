@@ -1,6 +1,6 @@
 package cn.originx.uca.concrete;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class AgileFind extends AbstractAgile {
     @Override
     public Future<JsonObject> processAsync(final JsonObject record) {
-        final Record recordRef = this.record(record);
+        final HRecord recordRef = this.record(record);
         final String key = recordRef.key();
         Ao.infoUca(this.getClass(), "（单）读取数据：identifier = {0}, key = {1}, data = {2}",
             this.identifier(), key, record.encode());
@@ -28,7 +28,7 @@ public class AgileFind extends AbstractAgile {
 
     @Override
     public Future<JsonArray> processAsync(final JsonArray records) {
-        final Record[] recordsRef = this.records(records);
+        final HRecord[] recordsRef = this.records(records);
         final List<String> keyList = Arrays.stream(recordsRef)
             .filter(Objects::nonNull)
             .map(record -> (String) record.key())

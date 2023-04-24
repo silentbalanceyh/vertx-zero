@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
@@ -39,7 +39,7 @@ public class USearch extends AbstractUtil<USearch> {
         return output.dataP();
     }
 
-    public Record[] query(final JsonObject qr) {
+    public HRecord[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.valueJObject(qr);
         Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.query: {0}", criteria.encode());
         // Input

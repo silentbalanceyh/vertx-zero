@@ -7,7 +7,7 @@ import io.horizon.eon.VEnv;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.cloud.TypeOs;
 import io.horizon.fn.Actuator;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -1417,7 +1417,7 @@ public final class Ut {
         return To.toJArray(list);
     }
 
-    public static JsonArray toJArray(final Record[] records) {
+    public static JsonArray toJArray(final HRecord[] records) {
         return To.toJArray(records);
     }
 

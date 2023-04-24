@@ -33,19 +33,19 @@ public interface HDao extends
  */
 interface HWriter {
     /* 插入单条记录 identifier已经包含在了Record中 */
-    Future<Record> insertAsync(Record record);
+    Future<HRecord> insertAsync(HRecord record);
 
-    Record insert(Record record);
+    HRecord insert(HRecord record);
 
     /* 删除记录集 */
-    Future<Boolean> deleteAsync(Record record);
+    Future<Boolean> deleteAsync(HRecord record);
 
-    boolean delete(Record record);
+    boolean delete(HRecord record);
     /* 更新单条记录集 */
 
-    Future<Record> updateAsync(Record record);
+    Future<HRecord> updateAsync(HRecord record);
 
-    Record update(Record record);
+    HRecord update(HRecord record);
 }
 
 /**
@@ -54,29 +54,29 @@ interface HWriter {
 @SuppressWarnings("unchecked")
 interface HBatch {
     /* 批量插入 */
-    Future<Record[]> insertAsync(Record... records);
+    Future<HRecord[]> insertAsync(HRecord... records);
 
-    Record[] insert(Record... records);
+    HRecord[] insert(HRecord... records);
 
     /* 按主键批量读取 */
-    <ID> Future<Record[]> fetchByIdAsync(ID... ids);
+    <ID> Future<HRecord[]> fetchByIdAsync(ID... ids);
 
-    <ID> Record[] fetchById(ID... ids);
+    <ID> HRecord[] fetchById(ID... ids);
 
     /* 批量删除 */
-    Future<Boolean> deleteAsync(Record... records);
+    Future<Boolean> deleteAsync(HRecord... records);
 
-    Boolean delete(Record... records);
+    Boolean delete(HRecord... records);
 
     /* 批量更新 */
-    Future<Record[]> updateAsync(Record... records);
+    Future<HRecord[]> updateAsync(HRecord... records);
 
-    Record[] update(Record... records);
+    HRecord[] update(HRecord... records);
 
     /* 批量读取 */
-    Future<Record[]> fetchAllAsync();
+    Future<HRecord[]> fetchAllAsync();
 
-    Record[] fetchAll();
+    HRecord[] fetchAll();
 }
 
 /**
@@ -98,18 +98,18 @@ interface HAggregator {
  */
 interface HReader {
     /* 根据ID查找某条记录 */
-    <ID> Future<Record> fetchByIdAsync(ID id);
+    <ID> Future<HRecord> fetchByIdAsync(ID id);
 
-    <ID> Record fetchById(ID id);
+    <ID> HRecord fetchById(ID id);
 
     /* 根据ID查找某条记录（多个ID）*/
-    Future<Record> fetchOneAsync(Criteria criteria);
+    Future<HRecord> fetchOneAsync(Criteria criteria);
 
-    Record fetchOne(Criteria criteria);
+    HRecord fetchOne(Criteria criteria);
 
-    Future<Record> fetchOneAsync(JsonObject criteria);
+    Future<HRecord> fetchOneAsync(JsonObject criteria);
 
-    Record fetchOne(JsonObject criteria);
+    HRecord fetchOne(JsonObject criteria);
 }
 
 /**
@@ -145,7 +145,7 @@ interface HSearcher {
     JsonObject search(final JsonObject filters);
 
     /* 直接搜索读取 */
-    Future<Record[]> fetchAsync(final JsonObject criteria);
+    Future<HRecord[]> fetchAsync(final JsonObject criteria);
 
-    Record[] fetch(final JsonObject criteria);
+    HRecord[] fetch(final JsonObject criteria);
 }

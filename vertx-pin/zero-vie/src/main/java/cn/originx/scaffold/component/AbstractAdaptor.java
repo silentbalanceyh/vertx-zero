@@ -3,7 +3,7 @@ package cn.originx.scaffold.component;
 import cn.originx.refine.Ox;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -264,35 +264,35 @@ public abstract class AbstractAdaptor extends AbstractComponent {
 
 
     /**
-     * 「单量」使用{@link ActIn}输入对象构造{@link Record}数据记录。
+     * 「单量」使用{@link ActIn}输入对象构造{@link HRecord}数据记录。
      *
      * > 内部合约{@link Contract}调用注入{@link DataAtom}模型定义实例。
      *
      * @param request {@link ActIn} 通道专用的请求对象。
      *
-     * @return {@link Record} 动态构造数据记录对象
+     * @return {@link HRecord} 动态构造数据记录对象
      */
-    protected Record activeRecord(final ActIn request) {
-        final Record definition = request.getDefinition();
+    protected HRecord activeRecord(final ActIn request) {
+        final HRecord definition = request.getDefinition();
         Ut.contract(definition, DataAtom.class, this.atom());
         return request.getRecord();
     }
 
     /**
-     * 「批量」使用{@link ActIn}输入对象构造{@link Record}[]数据记录。
+     * 「批量」使用{@link ActIn}输入对象构造{@link HRecord}[]数据记录。
      *
      * @param request {@link ActIn} 通道专用的请求对象。
      *
-     * @return {@link Record}[] 动态构造数据记录对象
+     * @return {@link HRecord}[] 动态构造数据记录对象
      */
-    protected Record[] activeRecords(final ActIn request) {
-        final Record definition = request.getDefinition();
+    protected HRecord[] activeRecords(final ActIn request) {
+        final HRecord definition = request.getDefinition();
         Ut.contract(definition, DataAtom.class, this.atom());
         return request.getRecords();
     }
 
     /**
-     * 「单量」使用{@link ActIn}输入对象构造{@link Record}数据记录的主键。
+     * 「单量」使用{@link ActIn}输入对象构造{@link HRecord}数据记录的主键。
      *
      * @param request {@link ActIn} 通道专用的请求对象。
      * @param <ID>    泛型对象，主键类型。
@@ -304,7 +304,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
     }
 
     /**
-     * 「批量」使用{@link ActIn}输入对象构造{@link Record}[]数据记录的主键集。
+     * 「批量」使用{@link ActIn}输入对象构造{@link HRecord}[]数据记录的主键集。
      *
      * 若定义长度有问题，则抛出`-80527`异常{@link _400KeyLengthException}。
      *
@@ -316,18 +316,18 @@ public abstract class AbstractAdaptor extends AbstractComponent {
     @SuppressWarnings("unchecked")
     protected <ID> ID[] activeKeys(final ActIn request) {
         /* 解决 Bug：java.lang.ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljava.lang.String; */
-        final Record[] records = this.activeRecords(request);
+        final HRecord[] records = this.activeRecords(request);
         final int length = records.length;
         if (0 == length) {
             /* 无主键异常`io.vertx.tp.error._400KeyLengthException`抛出。*/
             throw new _400KeyLengthException(this.getClass());
         } else {
-            final Record record = records[0];
+            final HRecord record = records[0];
             final ID key = record.key();
             final ID[] keys = (ID[]) Array.newInstance(key.getClass(), length);
             /* 构造主键集 */
             for (int idx = 0; idx < length; idx++) {
-                final Record found = records[idx];
+                final HRecord found = records[idx];
                 keys[idx] = found.key();
             }
             return keys;

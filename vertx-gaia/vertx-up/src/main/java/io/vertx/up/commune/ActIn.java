@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -38,7 +38,7 @@ public class ActIn extends ActMapping implements Serializable {
 
     private transient ActJObject json;
     private transient ActJArray jarray;
-    private transient Record definition;
+    private transient HRecord definition;
 
     private transient BTree mapping;
 
@@ -101,7 +101,7 @@ public class ActIn extends ActMapping implements Serializable {
         return this.json.getQuery();
     }
 
-    public Record getRecord() {
+    public HRecord getRecord() {
         Fn.outUp(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.json.getRecord(this.definition, this.mapping);
     }
@@ -110,12 +110,12 @@ public class ActIn extends ActMapping implements Serializable {
         return this.file.getFiles();
     }
 
-    public Record[] getRecords() {
+    public HRecord[] getRecords() {
         Fn.outUp(!this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.jarray.getRecords(this.definition, this.mapping);
     }
 
-    public Record getDefinition() {
+    public HRecord getDefinition() {
         return this.definition;
     }
 
@@ -139,7 +139,7 @@ public class ActIn extends ActMapping implements Serializable {
     /*
      * 1) Set input data to Record object ( reference here )
      */
-    public void connect(final Record definition) {
+    public void connect(final HRecord definition) {
         this.definition = definition;
     }
 }

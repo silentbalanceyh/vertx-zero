@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.reference;
 
 import io.aeon.experiment.reference.RResult;
+import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.modeler.HReference;
 import io.horizon.specification.modeler.HRule;
-import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -81,11 +81,11 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     }
 
     /**
-     * This method will modify the input {@link Record} element(s).
+     * This method will modify the input {@link HRecord} element(s).
      *
      * Here contains `shorten` code logical when the hash map is EMPTY, skip reference calculator.
      *
-     * @param input Input element of {@link Record} for single/multi
+     * @param input Input element of {@link HRecord} for single/multi
      *
      * @return Return the modified data record(s).
      */
@@ -110,7 +110,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     /**
      * This method must be inherit by all sub-classes, it provide reference data mounting.
      *
-     * @param input Input element of {@link Record} for single/multi
+     * @param input Input element of {@link HRecord} for single/multi
      *
      * @return Return the modified data record(s).
      */

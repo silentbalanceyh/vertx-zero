@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpStatusCode;
@@ -82,19 +82,19 @@ public class ActOut extends ActMapping implements Serializable {
         return Ux.future(Act.response(dataArray).bind(identifier));
     }
 
-    public static Future<ActOut> future(final Record[] records) {
+    public static Future<ActOut> future(final HRecord[] records) {
         return Ux.future(Act.response(records));
     }
 
-    public static Future<ActOut> future(final Record[] records, final String identifier) {
+    public static Future<ActOut> future(final HRecord[] records, final String identifier) {
         return Ux.future(Act.response(records).bind(identifier));
     }
 
-    public static Future<ActOut> future(final Record record) {
+    public static Future<ActOut> future(final HRecord record) {
         return Ux.future(Act.response(record));
     }
 
-    public static Future<ActOut> future(final Record record, final String identifier) {
+    public static Future<ActOut> future(final HRecord record, final String identifier) {
         return Ux.future(Act.response(record).bind(identifier));
     }
 

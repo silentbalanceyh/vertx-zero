@@ -5,7 +5,7 @@ import cn.originx.scaffold.console.AbstractInstruction;
 import cn.originx.stellaris.Ok;
 import cn.originx.stellaris.vendor.OkB;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -61,7 +61,7 @@ public class IndexInstruction extends AbstractInstruction {
                     .compose(fabric -> {
 
                         /* 引用提取 */
-                        final Record[] records = recordRef.get();
+                        final HRecord[] records = recordRef.get();
 
                         /* 创建Es索引信息 */
                         Sl.output("准备创建索引：identifier = {0}, size = {1}",

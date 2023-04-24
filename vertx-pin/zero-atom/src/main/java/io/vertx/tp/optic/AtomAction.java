@@ -1,7 +1,7 @@
 package io.vertx.tp.optic;
 
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -20,7 +20,7 @@ public class AtomAction implements Atom {
 
     @Override
     public Future<JsonObject> createAsync(final String identifier, final JsonObject data) {
-        final Record record = Ao.toRecord(identifier, data);
+        final HRecord record = Ao.toRecord(identifier, data);
         final HDao dao = Ao.toDao(identifier);
         return dao.insertAsync(record).compose(Ux::futureJ)
             // Normalized Data
@@ -48,7 +48,7 @@ public class AtomAction implements Atom {
         return this.fetchRecord(identifier, key).compose(Ux::futureJ);
     }
 
-    private Future<Record> fetchRecord(final String identifier, final String key) {
+    private Future<HRecord> fetchRecord(final String identifier, final String key) {
         Objects.requireNonNull(key);
         final HDao dao = Ao.toDao(identifier);
         return dao.fetchByIdAsync(key);
@@ -56,7 +56,7 @@ public class AtomAction implements Atom {
 
     @Override
     public Future<JsonArray> createAsync(final String identifier, final JsonArray data) {
-        final Record[] record = Ao.toRecord(identifier, data);
+        final HRecord[] record = Ao.toRecord(identifier, data);
         final HDao dao = Ao.toDao(identifier);
         return dao.insertAsync(record).compose(Ux::futureA)
             // Normalized Data
@@ -68,7 +68,7 @@ public class AtomAction implements Atom {
         return this.fetchRecord(identifier, keys).compose(records -> {
             // Updated
             final JsonArray original = Ut.toJArray(records);
-            final Record[] recordList = Ux.updateR(records, data);
+            final HRecord[] recordList = Ux.updateR(records, data);
             final HDao dao = Ao.toDao(identifier);
             return dao.updateAsync(recordList).compose(Ux::futureA)
                 // Normalized Data
@@ -81,7 +81,7 @@ public class AtomAction implements Atom {
         return this.fetchRecord(identifier, keys).compose(Ux::futureA);
     }
 
-    private Future<Record[]> fetchRecord(final String identifier, final Set<String> key) {
+    private Future<HRecord[]> fetchRecord(final String identifier, final Set<String> key) {
         Objects.requireNonNull(key);
         final HDao dao = Ao.toDao(identifier);
         return dao.fetchByIdAsync(key.toArray(new String[]{}));

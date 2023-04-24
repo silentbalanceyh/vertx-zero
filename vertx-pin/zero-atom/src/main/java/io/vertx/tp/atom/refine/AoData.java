@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.refine;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -37,7 +37,7 @@ class AoData {
      * 1. 从 Record 中提取主键信息
      * 2. 同步数据到 keyMatrix
      */
-    static void connect(final Record record,
+    static void connect(final HRecord record,
                         final ConcurrentMap<String, DataMatrix> keyMatrix,
                         final ConcurrentMap<String, DataMatrix> dataMatrix,
                         final Set<String> joins) {
@@ -67,23 +67,23 @@ class AoData {
     }
 
 
-    static Record record(final DataAtom atom) {
-        final Record record = new DataRecord();
+    static HRecord record(final DataAtom atom) {
+        final HRecord record = new DataRecord();
         Ut.contract(record, DataAtom.class, atom);
         return record;
     }
 
-    static List<Record> records(final DataAtom atom, final ExTable table) {
+    static List<HRecord> records(final DataAtom atom, final ExTable table) {
         /*
          * 构造 记录集
          */
         final List<ExRecord> records = table.get();
-        final List<Record> results = new ArrayList<>();
+        final List<HRecord> results = new ArrayList<>();
         records.forEach(each -> {
             /*
              * 构造记录集
              */
-            final Record record = new DataRecord();
+            final HRecord record = new DataRecord();
             Ut.contract(record, DataAtom.class, atom);
             /*
              * 记录数据
@@ -96,15 +96,15 @@ class AoData {
     }
 
 
-    static Record[] records(final JsonArray data, final DataAtom atom) {
-        final List<Record> recordList = new ArrayList<>();
+    static HRecord[] records(final JsonArray data, final DataAtom atom) {
+        final List<HRecord> recordList = new ArrayList<>();
         Ut.itJArray(data).map(each -> record(each, atom))
             .forEach(recordList::add);
-        return recordList.toArray(new Record[]{});
+        return recordList.toArray(new HRecord[]{});
     }
 
-    static Record record(final JsonObject data, final DataAtom atom) {
-        final Record record = new DataRecord();
+    static HRecord record(final JsonObject data, final DataAtom atom) {
+        final HRecord record = new DataRecord();
         Ut.contract(record, DataAtom.class, atom);
         record.fromJson(data);
         return record;

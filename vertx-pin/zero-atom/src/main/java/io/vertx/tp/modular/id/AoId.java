@@ -2,7 +2,7 @@ package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.horizon.eon.em.modeler.KeyMode;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 
@@ -41,19 +41,19 @@ public interface AoId {
      * 读取主键信息，这个接口是为 Record 中读取主键量身定制的
      * 直接从 Record 中读取主键信息
      */
-    <ID> ID key(Record record, Model model);
+    <ID> ID key(HRecord record, Model model);
 
     /*
      * 设置记录中的主键信息
      */
-    <ID> void key(Record record, Model model, ID id);
+    <ID> void key(HRecord record, Model model, ID id);
 
     /*
      * 同步数据
      * 1. 将 Record 的数据写入到 keys 中（由于牵涉主键策略，所以需要使用 Sole）
      * 2. 将 Record 的数据写入到 matrix 中（牵涉主键策略，所以需要使用 Sole）
      */
-    void connect(Record record,
+    void connect(HRecord record,
                  ConcurrentMap<String, DataMatrix> keys,
                  ConcurrentMap<String, DataMatrix> matrix,
                  Set<MJoin> joins);

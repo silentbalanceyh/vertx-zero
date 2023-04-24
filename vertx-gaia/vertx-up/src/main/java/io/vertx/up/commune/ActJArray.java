@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
@@ -87,10 +87,10 @@ class ActJArray extends ActMapping implements Serializable {
         }
     }
 
-    Record[] getRecords(final Record definition, final BTree mapping) {
+    HRecord[] getRecords(final HRecord definition, final BTree mapping) {
         /* Record Init */
         final int size = this.data.size();
-        final Record[] records = new Record[size];
+        final HRecord[] records = new HRecord[size];
         for (int idx = 0; idx < size; idx++) {
             /*
              * 两种格式

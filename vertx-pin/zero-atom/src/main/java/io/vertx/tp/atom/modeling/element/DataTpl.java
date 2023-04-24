@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -61,7 +61,7 @@ public class DataTpl implements Serializable {
     }
 
     /* 创建一个新的记录 */
-    Record createRecord() {
+    HRecord createRecord() {
         return Ao.record(this.atom);
     }
 

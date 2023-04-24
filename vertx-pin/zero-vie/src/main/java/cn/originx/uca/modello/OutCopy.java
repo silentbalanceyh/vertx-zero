@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
@@ -21,7 +21,7 @@ public class OutCopy implements OComponent {
     private static final Annal LOGGER = Annal.get(OutCopy.class);
 
     @Override
-    public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));
         if (Ut.notNil(sourceNorm)) {
             /*

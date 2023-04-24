@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataKey;
@@ -26,7 +26,7 @@ public class DataRecord extends ActiveRecord {
      * 创建一个新记录
      */
     @Override
-    public Record createNew() {
+    public HRecord createNew() {
         return Ao.record(this.atom);
     }
 

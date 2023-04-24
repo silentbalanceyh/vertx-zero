@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  * Provide abstract record to avoid more writing method of record
  * Each extension record could inherit from this
  */
-public abstract class ActiveRecord implements Record {
+public abstract class ActiveRecord implements HRecord {
     /*
      * The core data structure to store data in json format
      */
@@ -95,7 +95,7 @@ public abstract class ActiveRecord implements Record {
      * Set single pair `field = value`
      */
     @Override
-    public <V> Record set(final String field, final V value) {
+    public <V> HRecord set(final String field, final V value) {
         if (this.declaredFields().contains(field)) {
             final Class<?> type = this.types().get(field);
             this.data.put(field, Ut.aiJValue(value, type));
@@ -107,7 +107,7 @@ public abstract class ActiveRecord implements Record {
     }
 
     @Override
-    public <V> Record attach(final String field, final V value) {
+    public <V> HRecord attach(final String field, final V value) {
         this.data.put(field, value);
         return this;
     }
@@ -116,7 +116,7 @@ public abstract class ActiveRecord implements Record {
      * Set all data from `JsonObject`
      */
     @Override
-    public Record set(final JsonObject data) {
+    public HRecord set(final JsonObject data) {
         if (!Ut.isNil(data)) {
             data.stream().filter(Objects::nonNull)
                 .forEach(entry -> this.set(entry.getKey(), entry.getValue()));
@@ -128,7 +128,7 @@ public abstract class ActiveRecord implements Record {
      * Add `field = value` when the original data value of field is `null`
      */
     @Override
-    public <V> Record add(final String field, final V value) {
+    public <V> HRecord add(final String field, final V value) {
         if (null == this.data.getValue(field)) {
             this.set(field, value);
         }
@@ -139,7 +139,7 @@ public abstract class ActiveRecord implements Record {
      * Add `JsonObject` with add
      */
     @Override
-    public Record add(final JsonObject data) {
+    public HRecord add(final JsonObject data) {
         if (Ut.notNil(data)) {
             data.stream().filter(Objects::nonNull)
                 .forEach(entry -> this.add(entry.getKey(), entry.getValue()));
@@ -151,7 +151,7 @@ public abstract class ActiveRecord implements Record {
      * Remove by `field`
      */
     @Override
-    public Record remove(final String field) {
+    public HRecord remove(final String field) {
         if (this.data.containsKey(field)) {
             this.data.remove(field);
         }
@@ -162,7 +162,7 @@ public abstract class ActiveRecord implements Record {
      * Remove by `fields`
      */
     @Override
-    public Record remove(final String... fields) {
+    public HRecord remove(final String... fields) {
         Arrays.stream(fields).forEach(this::remove);
         return this;
     }
@@ -172,12 +172,12 @@ public abstract class ActiveRecord implements Record {
      * Clone subset of current `record`
      */
     @Override
-    public Record createSubset(final String... fields) {
+    public HRecord createSubset(final String... fields) {
         /*
          * Call createNew() record here, you must set new record created instead of other
          * method. Different record has different creation methods.
          * */
-        final Record record = this.createNew();
+        final HRecord record = this.createNew();
         Arrays.stream(fields).forEach(field -> record.set(field, this.get(field)));
         return record;
     }
@@ -186,8 +186,8 @@ public abstract class ActiveRecord implements Record {
      * Clone current record
      */
     @Override
-    public Record createCopy() {
-        final Record record = this.createNew();
+    public HRecord createCopy() {
+        final HRecord record = this.createNew();
         record.set(this.data);
         return record;
     }

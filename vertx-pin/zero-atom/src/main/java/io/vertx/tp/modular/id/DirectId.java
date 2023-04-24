@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.specification.modeler.Record;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417PrimaryKeyResultException;
@@ -19,7 +19,7 @@ class DirectId extends AbstractId {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ID> ID key(final Record record,
+    public <ID> ID key(final HRecord record,
                        final Model model) {
         // 检查定义
         this.ensure(model);
@@ -32,7 +32,7 @@ class DirectId extends AbstractId {
     }
 
     @Override
-    public <ID> void key(final Record record,
+    public <ID> void key(final HRecord record,
                          final Model model,
                          final ID id) {
         // 检查定义
