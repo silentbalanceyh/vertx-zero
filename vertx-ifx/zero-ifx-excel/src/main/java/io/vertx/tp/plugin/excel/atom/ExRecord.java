@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.atom;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.cell.ExValue;
-import io.vertx.up.commune.Json;
+import io.zero.spec.common.HJson;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class ExRecord implements Serializable, Json {
+public class ExRecord implements Serializable, HJson {
 
     private final transient Map<String, Object> data
         = new HashMap<>();

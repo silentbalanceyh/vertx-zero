@@ -57,9 +57,9 @@
     </distributionManagement>
     <properties>
         <!-- RC Version Ok -->
-        <jackson.version>2.14.2</jackson.version>
-        <jackson.databind.version>2.14.2</jackson.databind.version>
-        <jackson.extension.version>2.14.2</jackson.extension.version>
+        <jackson.version>2.15.0</jackson.version>
+        <jackson.databind.version>2.15.0</jackson.databind.version>
+        <jackson.extension.version>2.15.0</jackson.extension.version>
 
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -407,6 +407,12 @@
                 <version>${camunda.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- Zero Specification -->
+            <dependency>
+                <groupId>io.zero</groupId>
+                <artifactId>vertx-ams</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <!-- Zero -->
             <dependency>

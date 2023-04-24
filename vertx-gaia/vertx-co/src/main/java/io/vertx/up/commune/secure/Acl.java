@@ -1,7 +1,7 @@
 package io.vertx.up.commune.secure;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.run.ActPhase;
+import io.zero.em.acl.ActPhase;
 
 import java.io.Serializable;
 import java.util.Set;

@@ -4,6 +4,7 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.experiment.rule.RuleUnique;
+import io.zero.spec.common.HJson;
 
 /*
  * Underway communication channel between
@@ -14,7 +15,7 @@ import io.vertx.up.experiment.rule.RuleUnique;
  * 1) Request-Response, from Api to Service
  * 2) Publish-Subscribe, from Task to Service
  */
-public interface Commercial extends Application, ServiceDefinition, Json {
+public interface Commercial extends Application, ServiceDefinition, HJson {
     /*
      * Get channel type of definition ( 1 of 4 )
      * The channel class is fixed in current version, mapped to channel type.

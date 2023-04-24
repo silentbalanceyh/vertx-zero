@@ -1,6 +1,6 @@
 package io.vertx.up.atom.secure;
 
-import io.vertx.up.commune.Copyable;
+import io.zero.spec.common.HCopyable;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.log.Annal;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Secure class container for special class extraction.
  * Scanned ( Metadata ) for each @Wall.
  */
-public class Aegis implements Serializable, Comparable<Aegis>, Copyable<Aegis> {
+public class Aegis implements Serializable, Comparable<Aegis>, HCopyable<Aegis> {
     private static final Annal LOGGER = Annal.get(Aegis.class);
     /**
      * defined = false

@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Copyable;
-import io.vertx.up.commune.Json;
+import io.zero.spec.common.HCopyable;
+import io.zero.spec.common.HJson;
 import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentMap;
  *      }
  * }
  */
-public class Integration implements Json, Serializable, Copyable<Integration> {
+public class Integration implements HJson, Serializable, HCopyable<Integration> {
 
     private final ConcurrentMap<String, IntegrationRequest> apis
         = new ConcurrentHashMap<>();

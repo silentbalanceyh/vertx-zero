@@ -2,6 +2,7 @@ package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
+import io.zero.spec.common.HJson;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  *  2.1 ) namespace + identifier should be unique ( Business Scope )
  *  2.2 ) Above format should be global id of one defined model.
  */
-public interface Record extends Serializable, Meta, Check, Clone, Json {
+public interface Record extends Serializable, Meta, Check, Clone, HJson {
     /*
      * Provide attribute name and get related value
      * 1) field -> single field value
