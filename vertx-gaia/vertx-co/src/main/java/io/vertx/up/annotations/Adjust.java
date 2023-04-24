@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 
 import java.lang.annotation.*;
 

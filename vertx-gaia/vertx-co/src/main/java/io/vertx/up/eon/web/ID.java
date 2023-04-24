@@ -1,4 +1,6 @@
-package io.vertx.up.eon;
+package io.vertx.up.eon.web;
+
+import io.vertx.up.eon.KName;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

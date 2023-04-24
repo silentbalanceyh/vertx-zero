@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.router;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiJet;
 import io.vertx.up.uca.rs.Axis;

@@ -7,7 +7,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;

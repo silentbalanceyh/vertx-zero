@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

@@ -3,7 +3,7 @@ package io.vertx.up.runtime.soul;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

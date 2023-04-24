@@ -8,7 +8,7 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.extension.router.AresGrid;
 

@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.HealthChecks;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import io.vertx.up.uca.monitor.meansure.Quota;
 import io.vertx.up.uca.monitor.meansure.QuotaConnect;
 import io.vertx.up.uca.rs.Axis;

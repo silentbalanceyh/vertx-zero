@@ -3,7 +3,7 @@ package io.vertx.up.uca.monitor.meansure;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;

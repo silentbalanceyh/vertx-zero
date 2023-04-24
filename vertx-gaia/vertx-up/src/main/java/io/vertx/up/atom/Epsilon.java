@@ -1,7 +1,7 @@
 package io.vertx.up.atom;
 
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.MimeFlow;
+import io.vertx.up.eon.web.ID;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;

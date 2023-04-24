@@ -1,13 +1,13 @@
 package io.vertx.tp.atom.refine;
 
+import io.aeon.experiment.mixture.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
-import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.aeon.experiment.mixture.HApp;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

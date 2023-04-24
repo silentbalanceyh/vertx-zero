@@ -8,7 +8,7 @@ import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.cv.em.ParamMode;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.commune.Api;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
 

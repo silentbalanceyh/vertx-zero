@@ -11,7 +11,7 @@ import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
 import io.vertx.tp.plugin.session.SessionClient;
 import io.vertx.tp.plugin.session.SessionInfix;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.web.Orders;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.secure.config.CorsConfig;
 import io.vertx.up.uca.rs.Axis;
@@ -99,9 +99,9 @@ public class RouterAxis implements Axis<Router> {
      */
     private void mountCors(final Router router) {
         final CorsHandler handler = CorsHandler.create()
-                .allowCredentials(CONFIG.getCredentials())
-                .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
-                .allowedMethods(this.getAllowedMethods(CONFIG.getMethods()));
+            .allowCredentials(CONFIG.getCredentials())
+            .allowedHeaders(this.getAllowedHeaders(CONFIG.getHeaders()))
+            .allowedMethods(this.getAllowedMethods(CONFIG.getMethods()));
         /*
          * Allowed Multi origin in origin list
          */
@@ -117,19 +117,19 @@ public class RouterAxis implements Axis<Router> {
     private Set<String> getAllowedHeaders(final JsonArray array) {
         final Set<String> headerSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .forEach(headerSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .forEach(headerSet::add);
         return headerSet;
     }
 
     private Set<HttpMethod> getAllowedMethods(final JsonArray array) {
         final Set<HttpMethod> methodSet = new HashSet<>();
         array.stream()
-                .filter(Objects::nonNull)
-                .map(item -> (String) item)
-                .map(Ut::toMethod)
-                .forEach(methodSet::add);
+            .filter(Objects::nonNull)
+            .map(item -> (String) item)
+            .map(Ut::toMethod)
+            .forEach(methodSet::add);
         return methodSet;
     }
 }

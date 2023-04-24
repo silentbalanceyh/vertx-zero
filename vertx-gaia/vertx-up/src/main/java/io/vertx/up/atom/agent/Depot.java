@@ -1,6 +1,6 @@
 package io.vertx.up.atom.agent;
 
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 

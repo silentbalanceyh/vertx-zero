@@ -8,9 +8,9 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.envelop.Rib;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;

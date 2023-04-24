@@ -1,4 +1,4 @@
-package io.vertx.up.eon;
+package io.vertx.up.eon.web;
 
 /**
  * Default order for manage standard request flow

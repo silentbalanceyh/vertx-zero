@@ -7,8 +7,8 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.web.ID;
 
 /**
  * For annotation @AuthorizedResource to stored resource data structure

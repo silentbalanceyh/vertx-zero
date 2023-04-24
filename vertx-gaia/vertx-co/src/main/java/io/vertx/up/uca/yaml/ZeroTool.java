@@ -1,9 +1,9 @@
 package io.vertx.up.uca.yaml;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

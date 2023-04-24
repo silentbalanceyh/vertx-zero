@@ -6,8 +6,8 @@ import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.web.ID;
 import jakarta.ws.rs.*;
 
 @EndPoint

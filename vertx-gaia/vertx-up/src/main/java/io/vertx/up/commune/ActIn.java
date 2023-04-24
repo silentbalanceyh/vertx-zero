@@ -4,7 +4,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.fn.Fn;
 import io.vertx.zero.exception.ActSpecificationException;
 

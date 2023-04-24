@@ -8,5 +8,5 @@ package io.zero.cv;
  * @author lang : 2023/4/24
  */
 public interface VYml {
-
+    
 }

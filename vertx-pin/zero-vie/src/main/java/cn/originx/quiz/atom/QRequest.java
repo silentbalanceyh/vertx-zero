@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

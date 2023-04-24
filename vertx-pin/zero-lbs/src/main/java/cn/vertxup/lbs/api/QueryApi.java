@@ -3,7 +3,7 @@ package cn.vertxup.lbs.api;
 import io.vertx.tp.lbs.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;

@@ -6,7 +6,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.optic.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 
 @Deprecated
 class HeaderIngest implements JtIngest {

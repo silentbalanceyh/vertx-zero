@@ -2,7 +2,7 @@ package io.vertx.tp.rbac.refine;
 
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

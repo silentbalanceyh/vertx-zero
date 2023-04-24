@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;

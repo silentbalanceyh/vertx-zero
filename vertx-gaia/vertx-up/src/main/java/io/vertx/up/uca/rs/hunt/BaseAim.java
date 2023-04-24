@@ -10,7 +10,7 @@ import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.web.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;

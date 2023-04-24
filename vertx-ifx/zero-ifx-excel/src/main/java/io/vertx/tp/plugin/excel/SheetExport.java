@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
+import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -9,11 +10,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.xssf.usermodel.XSSFSheet;

@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -12,10 +13,9 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
-import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.aeon.experiment.mixture.HTAtom;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -79,11 +79,11 @@ class ExcelHelper {
              */
             final JsonArray normalized;
             final JsonObject valueDefault = this.tenant.valueDefault();
-            if(Ut.notNil(valueDefault)){
+            if (Ut.notNil(valueDefault)) {
                 normalized = new JsonArray();
                 // Append Global
                 Ut.itJArray(dataArray).forEach(json -> normalized.add(valueDefault.copy().mergeIn(json, true)));
-            }else{
+            } else {
                 normalized = dataArray.copy();
             }
 
