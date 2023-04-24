@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

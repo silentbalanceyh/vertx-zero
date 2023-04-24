@@ -6,7 +6,7 @@ import io.vertx.up.eon.Protocols;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import io.vertx.up.runtime.env.Macrocosm;
@@ -281,7 +281,7 @@ final class Stream {
         return Fn.orJvm(() -> loader.getResourceAsStream(filename), filename);
     }
 
-    private static void ioDebug(final Actuator executor) {
+    private static void ioDebug(final RunActuator executor) {
         /* 底层防止循环调用，此处不走 DiagnosisOption */
         final boolean ioDebug = Env.readBool(Macrocosm.DEV_IO);
         if (ioDebug) {

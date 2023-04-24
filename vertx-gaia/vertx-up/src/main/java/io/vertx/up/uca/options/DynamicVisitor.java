@@ -8,7 +8,7 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

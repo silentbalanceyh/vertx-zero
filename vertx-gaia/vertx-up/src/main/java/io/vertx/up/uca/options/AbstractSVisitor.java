@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Plugins;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

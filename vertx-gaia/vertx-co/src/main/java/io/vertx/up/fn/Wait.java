@@ -4,9 +4,11 @@ package io.vertx.up.fn;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
+import io.zero.spec.function.ErrorSupplier;
+import io.zero.spec.function.ZeroActuator;
 
 import java.util.function.Consumer;
 
@@ -36,7 +38,7 @@ final class Wait {
     /*
      * JvmSupplier -> Supplier
      */
-    static <T> T wrapper(final RunSupplier<T> supplier, final T defaultValue) {
+    static <T> T wrapper(final ErrorSupplier<T> supplier, final T defaultValue) {
         try {
             return supplier.get();
         } catch (final Throwable ex) {
@@ -47,7 +49,7 @@ final class Wait {
         }
     }
 
-    static <T> Future<T> wrapperAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+    static <T> Future<T> wrapperAsync(final ErrorSupplier<Future<T>> supplier, final T defaultValue) {
         try {
             return supplier.get();
         } catch (final Throwable ex) {

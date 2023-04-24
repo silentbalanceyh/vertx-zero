@@ -1,11 +1,13 @@
 package io.vertx.up.fn;
 
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
+import io.zero.spec.function.ExceptionSupplier;
+import io.zero.spec.function.ZeroActuator;
 
 import java.net.ConnectException;
 import java.time.format.DateTimeParseException;
@@ -26,7 +28,7 @@ final class Zero {
         }
     }
 
-    static void exec(final Actuator actuator, final Object... input) {
+    static void exec(final RunActuator actuator, final Object... input) {
         if (Zero.isSatisfy(input)) {
             actuator.execute();
         }
@@ -39,7 +41,7 @@ final class Zero {
         }
     }
 
-    static <T> T getJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
+    static <T> T getJvm(final T defaultValue, final ExceptionSupplier<T> supplier, final Object... input) {
         T ret = null;
         try {
             if (Arrays.stream(input).allMatch(Objects::nonNull)) {

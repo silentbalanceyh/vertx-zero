@@ -10,7 +10,7 @@ import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
 import io.aeon.experiment.mixture.HAttribute;
-import io.zero.fn.TiConsumer;
+import io.zero.spec.function.RunTiConsumer;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -360,7 +360,7 @@ class IoArranger {
     /* Top Run */
     private static <T> void run(final T input, final ConcurrentMap<String, JComponent> inMap,
                                 final Class<?> interfaceCls,
-                                final TiConsumer<T, JComponent, JsonObject> consumer) {
+                                final RunTiConsumer<T, JComponent, JsonObject> consumer) {
         if (!inMap.isEmpty()) {
             final JsonObject dataMap = sourceData(inMap, interfaceCls);
             inMap.forEach((field, component) -> {

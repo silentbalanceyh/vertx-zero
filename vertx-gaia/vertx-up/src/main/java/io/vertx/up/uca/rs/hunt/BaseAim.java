@@ -14,7 +14,7 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.cache.Cc;
@@ -145,7 +145,7 @@ public abstract class BaseAim {
         }
     }
 
-    protected void exec(final Actuator consumer,
+    protected void exec(final RunActuator consumer,
                         final RoutingContext context,
                         final Event event) {
         try {

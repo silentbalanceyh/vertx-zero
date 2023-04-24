@@ -2,12 +2,12 @@ package io.vertx.up.fn;
 
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -15,9 +15,9 @@ import java.util.function.Supplier;
 /**
  * Announce means tell every one of Zero system that there occurs error, the error contains
  * 1. java.lang.Exception ( Checked )
- * 2. io.vertx.up.exception.ZeroException ( Checked )
+ * 2. io.zero.exception.ZeroException ( Checked )
  * 3. java.lang.Throwable ( Runtime )
- * 4. io.vertx.up.exception.ZeroRunException ( Runtime )
+ * 4. io.zero.exception.ZeroRunException ( Runtime )
  */
 final class Warning {
     private Warning() {
@@ -141,7 +141,7 @@ final class Warning {
      * @param actuator Executor of zero defined interface
      * @param logger   Zero logger
      */
-    static void outRun(final Actuator actuator, final Annal logger) {
+    static void outRun(final RunActuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {

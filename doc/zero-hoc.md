@@ -12,12 +12,12 @@ Zero system extend function interface system based on java8.
 
 Extension by zero for specifical usage.
 
-* `io.zero.fn.Actuator`：`void execute()`；
-* `io.vertx.up.fn.JvmSupplier<T>`：`T get() throws Exception`；
-* `io.vertx.up.fn.JvmActuator`：`void execute() throws Exception`；
-* `io.vertx.up.fn.ZeroActuator`：`void execute() throws ZeroException`；
-* `io.vertx.up.fn.ZeroSupplier<T>`：`T get() throws ZeroException`；
-* `io.vertx.up.fn.ZeroBiConsumer<T,R>`: `void accept(T input, R second) throws ZeroException`
+* `io.zero.spec.function.RunActuator`：`void execute()`；
+* `io.zero.spec.function.ExceptionSupplier<T>`：`T get() throws Exception`；
+* `io.zero.spec.function.ExceptionActuator`：`void execute() throws Exception`；
+* `io.zero.spec.function.ZeroActuator`：`void execute() throws ZeroException`；
+* `io.zero.spec.function.ZeroSupplier<T>`：`T get() throws ZeroException`；
+* `io.zero.spec.function.ZeroBiConsumer<T,R>`: `void accept(T input, R second) throws ZeroException`
 
 ## 2. Fn
 

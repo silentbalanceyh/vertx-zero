@@ -22,7 +22,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
 import io.aeon.experiment.specification.KPair;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;
@@ -539,7 +539,7 @@ public final class Ut {
         Congregation.exec(firsts, seconds, consumer, predicate);
     }
 
-    public static void itRepeat(final Integer times, final Actuator actuator) {
+    public static void itRepeat(final Integer times, final RunActuator actuator) {
         Congregation.exec(times, actuator);
     }
 

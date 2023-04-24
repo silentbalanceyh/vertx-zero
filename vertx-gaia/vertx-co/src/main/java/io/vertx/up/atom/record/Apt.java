@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.heart.AptParameterException;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -308,7 +308,7 @@ public class Apt {
 
     // --------------------- Private Method --------------------
 
-    private void doBatch(final Actuator actuator, final String method) {
+    private void doBatch(final RunActuator actuator, final String method) {
         this.doBatch(() -> {
             actuator.execute();
             return null;

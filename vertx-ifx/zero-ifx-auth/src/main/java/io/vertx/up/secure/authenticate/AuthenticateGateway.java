@@ -8,7 +8,7 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.eon.KName;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
@@ -25,7 +25,7 @@ public class AuthenticateGateway {
 
     private static final Annal LOGGER = Annal.get(AuthenticateGateway.class);
 
-    public static void userCached(final JsonObject credentials, final Actuator actuator, final Actuator fnCache) {
+    public static void userCached(final JsonObject credentials, final RunActuator actuator, final RunActuator fnCache) {
         final String habitus = credentials.getString(KName.HABITUS);
         final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
         rapid.read(RapidKey.User.AUTHENTICATE).onComplete(res -> {
@@ -43,7 +43,7 @@ public class AuthenticateGateway {
         });
     }
 
-    public static void userCached(final JsonObject credentials, final Actuator actuator) {
+    public static void userCached(final JsonObject credentials, final RunActuator actuator) {
         final String habitus = credentials.getString(KName.HABITUS);
         final Rapid<String, JsonObject> rapid = Rapid.t(habitus);
         rapid.write(RapidKey.User.AUTHENTICATE, credentials).onComplete(next -> actuator.execute());

@@ -1,16 +1,16 @@
 package io.vertx.up.uca.web.parallel;
 
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 
 import java.util.concurrent.CountDownLatch;
 
 public class ThreadAtom extends Thread {
 
     private final transient CountDownLatch counter;
-    private final transient Actuator consumer;
+    private final transient RunActuator consumer;
 
     ThreadAtom(final CountDownLatch counter,
-               final Actuator consumer) {
+               final RunActuator consumer) {
         this.counter = counter;
         this.consumer = consumer;
     }

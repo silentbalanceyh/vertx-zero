@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.parallel;
 
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class ThreadQueue {
         this.counter = new CountDownLatch(size);
     }
 
-    public void add(final Actuator runnable,
+    public void add(final RunActuator runnable,
                     final String name) {
         final Thread thread = new ThreadAtom(this.counter, runnable);
         thread.setName(name);

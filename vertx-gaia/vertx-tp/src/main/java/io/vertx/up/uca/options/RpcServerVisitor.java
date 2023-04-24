@@ -8,7 +8,7 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Plugins;
 import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.marshal.RpcServerSetUp;

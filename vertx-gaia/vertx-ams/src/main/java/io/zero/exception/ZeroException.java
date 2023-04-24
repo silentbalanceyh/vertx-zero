@@ -1,7 +1,7 @@
-package io.vertx.up.exception;
+package io.zero.exception;
 
 /**
- * Top exception for this project
+ * 顶层异常
  */
 public abstract class ZeroException extends Exception {
 

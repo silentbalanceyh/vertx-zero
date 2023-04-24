@@ -1,13 +1,9 @@
-package io.vertx.up.exception;
-
-import io.vertx.core.VertxException;
+package io.zero.exception;
 
 /**
  * Extend from vert.x exception
- *
- * @see io.vertx.core.VertxException
  */
-public abstract class ZeroRunException extends VertxException {
+public abstract class ZeroRunException extends RuntimeException {
     public ZeroRunException(final String message) {
         super(message);
     }

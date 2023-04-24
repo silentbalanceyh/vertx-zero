@@ -3,8 +3,8 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
-import io.vertx.up.exception.ZeroException;
-import io.zero.fn.Actuator;
+import io.zero.exception.ZeroException;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -81,7 +81,7 @@ final class Congregation {
             .forEach(second -> consumer.accept(first, second)));
     }
 
-    static void exec(final Integer times, final Actuator actuator) {
+    static void exec(final Integer times, final RunActuator actuator) {
         int start = 0;
         while (start < times) {
             actuator.execute();

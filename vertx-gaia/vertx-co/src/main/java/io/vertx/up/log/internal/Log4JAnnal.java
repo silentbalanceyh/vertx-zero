@@ -1,7 +1,7 @@
 package io.vertx.up.log.internal;
 
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Log;
 import org.slf4j.Logger;

@@ -2,6 +2,7 @@ package io.vertx.up.exception;
 
 import io.vertx.up.eon.Strings;
 import io.vertx.up.log.Errors;
+import io.zero.exception.ZeroRunException;
 
 /**
  * Top Exception for error code mapping ( Runtime )

@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.exception.heart.LimeFileException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.internal.Log4JAnnal;

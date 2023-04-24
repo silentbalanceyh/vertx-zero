@@ -2,7 +2,7 @@ package io.vertx.up.uca.job.phase;
 
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobType;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.job.plugin.JobIncome;
@@ -39,7 +39,7 @@ class Element {
         return outcome;
     }
 
-    static void onceLog(final Mission mission, final Actuator actuator) {
+    static void onceLog(final Mission mission, final RunActuator actuator) {
         if (JobType.ONCE == mission.getType()) {
             Runner.run(actuator::execute, "once-logger-debug");
         }

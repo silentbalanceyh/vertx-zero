@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.ClusterSetUp;

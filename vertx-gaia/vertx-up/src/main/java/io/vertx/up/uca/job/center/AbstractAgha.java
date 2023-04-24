@@ -9,7 +9,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.job.store.JobConfig;
@@ -149,7 +149,7 @@ public abstract class AbstractAgha implements Agha {
             .compose(phase::callbackAsync);
     }
 
-    void working(final Mission mission, final Actuator actuator) {
+    void working(final Mission mission, final RunActuator actuator) {
         if (JobStatus.READY == mission.getStatus()) {
             /*
              * READY -> RUNNING

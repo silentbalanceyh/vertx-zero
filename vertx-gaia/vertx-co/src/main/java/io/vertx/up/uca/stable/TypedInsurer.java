@@ -2,7 +2,7 @@ package io.vertx.up.uca.stable;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.JsonType;
-import io.vertx.up.exception.ZeroException;
+import io.zero.exception.ZeroException;
 import io.vertx.up.exception.demon.DataTypeWrongException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

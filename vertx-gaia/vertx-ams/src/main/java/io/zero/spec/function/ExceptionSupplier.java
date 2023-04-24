@@ -1,4 +1,6 @@
-package io.vertx.up.fn;
+package io.zero.spec.function;
+
+import io.zero.fn.error.ESupplier;
 
 /**
  * Supplier function interface, this interface could throw out
@@ -7,7 +9,6 @@ package io.vertx.up.fn;
  * @param <T>
  */
 @FunctionalInterface
-public interface JvmSupplier<T> {
+public interface ExceptionSupplier<T> extends ESupplier<T, Exception> {
 
-    T get() throws Exception;
 }

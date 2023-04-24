@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.KName;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
@@ -27,7 +27,7 @@ class AuthorizationCache {
         return request.method() + " " + request.path();
     }
 
-    static void userAuthorized(final RoutingContext context, final Actuator actuator) {
+    static void userAuthorized(final RoutingContext context, final RunActuator actuator) {
         final User user = context.user();
         final Rapid<String, JsonObject> rapid = Rapid.user(user);
         rapid.read(RapidKey.User.AUTHORIZATION).onComplete(res -> {
@@ -50,7 +50,7 @@ class AuthorizationCache {
         });
     }
 
-    static void userAuthorize(final RoutingContext context, final Actuator actuator) {
+    static void userAuthorize(final RoutingContext context, final RunActuator actuator) {
         final User user = context.user();
         final Rapid<String, JsonObject> rapid = Rapid.user(user);
         rapid.read(RapidKey.User.AUTHORIZATION).onComplete(res -> {

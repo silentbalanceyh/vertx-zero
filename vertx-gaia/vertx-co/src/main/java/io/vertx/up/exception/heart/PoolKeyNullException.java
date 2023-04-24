@@ -1,6 +1,6 @@
 package io.vertx.up.exception.heart;
 
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroRunException;
 
 public class PoolKeyNullException extends ZeroRunException {
     public PoolKeyNullException() {

@@ -1,17 +1,16 @@
 package io.vertx.up.fn;
 
-import io.vertx.core.VertxException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.vertx.up.exception.heart.ArgumentException;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
-import io.zero.fn.Actuator;
+import io.zero.spec.function.*;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -32,7 +31,7 @@ final class Wall {
      * @param actuator Jvm Executor
      * @param logger   Zero logger
      */
-    static void jvmVoid(final JvmActuator actuator, final Annal logger) {
+    static void jvmVoid(final ExceptionActuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final Throwable ex) {
@@ -51,7 +50,7 @@ final class Wall {
      *
      * @return T supplier or null
      */
-    static <T> T jvmReturn(final JvmSupplier<T> supplier, final Annal logger) {
+    static <T> T jvmReturn(final ExceptionSupplier<T> supplier, final Annal logger) {
         T reference = null;
         try {
             reference = supplier.get();
@@ -113,7 +112,7 @@ final class Wall {
         return null == ret ? defaultValue : ret;
     }
 
-    static void exec(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
+    static void exec(final boolean condition, final Annal logger, final RunActuator tSupplier, final RunActuator fSupplier) {
         Wall.zeroVoid(() -> execZero(condition,
             () -> {
                 if (null != tSupplier) {
