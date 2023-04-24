@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.Info;
 import io.vertx.up.log.Annal;
 
 import java.util.Set;
@@ -19,7 +19,7 @@ public class EndPointInquirer implements Inquirer<Set<Class<?>>> {
         final Set<Class<?>> endpoints = clazzes.stream()
             .filter((item) -> item.isAnnotationPresent(EndPoint.class))
             .collect(Collectors.toSet());
-        LOGGER.info(Info.SCANED_ENDPOINT, endpoints.size());
+        LOGGER.info(VMessage.INQUIRER_ENDPOINT, endpoints.size());
         return endpoints;
     }
 }

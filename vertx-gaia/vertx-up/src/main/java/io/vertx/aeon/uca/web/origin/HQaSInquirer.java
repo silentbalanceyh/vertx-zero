@@ -1,8 +1,8 @@
 package io.vertx.aeon.uca.web.origin;
 
 import io.aeon.annotations.QaS;
+import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.Address;
-import io.vertx.up.eon.Info;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.web.origin.Inquirer;
@@ -31,7 +31,7 @@ public class HQaSInquirer implements Inquirer<ConcurrentMap<String, Method>> {
         // address = Method
         final ConcurrentMap<String, Method> result = new ConcurrentHashMap<>();
         Runner.run(qas, clazz -> result.putAll(this.scan(clazz)));
-        LOGGER.info(Info.H_SCANED_QAS, qas.size(), result.keySet());
+        LOGGER.info(VMessage.INQUIRER_HQAS, qas.size(), result.keySet());
         return result;
     }
 

@@ -1,11 +1,11 @@
 package io.vertx.up.uca.web.anima;
 
 import io.aeon.runtime.H2H;
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Info;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -21,7 +21,7 @@ public class CodexScatter implements Scatter<Vertx> {
     public void connect(final Vertx vertx) {
         // 1. Load rules
         final List<String> rules = Ut.ioFiles("codex", FileSuffix.YML);
-        LOGGER.info(Info.SCANED_RULE, rules.size());
+        LOGGER.info(VMessage.SCATTER_CODEX, rules.size());
         // 2. Load request from rules
         for (final String rule : rules) {
             try {

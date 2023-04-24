@@ -1,21 +1,29 @@
 package io.vertx.up.log;
 
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.AsyncMap;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
 
 /**
- * @author <a href="http://www.origin-x.cn">Lang</a>
+ * @author lang : 2023/4/25
  */
-class Meansure {
-    private Meansure() {
+public class DevOps {
+    private final transient Vertx vertx;
+
+    private DevOps(final Vertx vertx) {
+        this.vertx = vertx;
     }
 
-    static void add(final Vertx vertx, final String name, final DeploymentOptions options, final String id) {
+    public static DevOps on(final Vertx vertx) {
+        return new DevOps(vertx);
+    }
+
+
+    private static void add(final Vertx vertx, final String name, final DeploymentOptions options, final String id) {
         vertx.sharedData().<String, Object>getAsyncMap(KWeb.SHARED.DEPLOYMENT, mapped -> {
             if (mapped.succeeded()) {
                 final JsonObject instance = new JsonObject();
@@ -28,8 +36,8 @@ class Meansure {
                 final AsyncMap<String, Object> data = mapped.result();
                 data.put(name, instance, result -> {
                     if (result.succeeded()) {
-                        final Annal logger = Annal.get(Meansure.class);
-                        logger.info(Info.MEANSURE_ADD, name,
+                        final Annal logger = Annal.get(DevOps.class);
+                        logger.info(VMessage.MEANSURE_ADD, name,
                             String.valueOf(options.getInstances()), options.isWorker());
                     }
                 });
@@ -37,17 +45,29 @@ class Meansure {
         });
     }
 
-    static void remove(final Vertx vertx, final String name, final DeploymentOptions options) {
+    private static void remove(final Vertx vertx, final String name, final DeploymentOptions options) {
         vertx.sharedData().<String, Object>getAsyncMap(KWeb.SHARED.DEPLOYMENT, mapped -> {
             if (mapped.succeeded()) {
                 final AsyncMap<String, Object> data = mapped.result();
                 data.remove(name, result -> {
                     if (result.succeeded()) {
-                        final Annal logger = Annal.get(Meansure.class);
-                        logger.info(Info.MEANSURE_REMOVE, name, String.valueOf(options.getInstances()));
+                        final Annal logger = Annal.get(DevOps.class);
+                        logger.info(VMessage.MEANSURE_REMOVE, name, String.valueOf(options.getInstances()));
                     }
                 });
             }
         });
+    }
+
+    public void add(final Class<?> clazz, final DeploymentOptions options, final String id) {
+        add(this.vertx, clazz.getName(), options, id);
+    }
+
+    public void add(final String name, final DeploymentOptions options, final String id) {
+        add(this.vertx, name, options, id);
+    }
+
+    public void remove(final Class<?> clazz, final DeploymentOptions options) {
+        remove(this.vertx, clazz.getName(), options);
     }
 }

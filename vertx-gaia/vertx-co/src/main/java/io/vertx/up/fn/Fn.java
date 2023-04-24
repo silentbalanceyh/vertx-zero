@@ -1,19 +1,19 @@
 package io.vertx.up.fn;
 
+import io.horizon.eon.info.VMessage;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
 import io.horizon.fn.*;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
@@ -109,11 +109,11 @@ public final class Fn {
     }
 
     public static <T> void outOr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, Info.PROGRAM_NULL);
+        outOr(condition, clazz, VMessage.PROGRAM_NULL);
     }
 
     public static <T> void outQr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, Info.PROGRAM_QR);
+        outOr(condition, clazz, VMessage.PROGRAM_QR);
     }
     // ------ Jvm Safe
 
@@ -215,20 +215,6 @@ public final class Fn {
     // ------ Specification for JsonFormat
     public static <T> T outRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {
         return Warning.execRun(supplier, runCls, args);
-    }
-
-    /*
-     * Ensure method for some spec
-     * 1) verifyLenEq:
-     * 2) verifyLenMin:
-     * To be sure arguments here
-     */
-    public static void verifyLenEq(final Class<?> clazz, final int expected, final Object... args) {
-        Wall.verifyEqLength(clazz, expected, args);
-    }
-
-    public static void verifyLenMin(final Class<?> clazz, final int min, final Object... args) {
-        Wall.verifyEtLength(clazz, min, args);
     }
 
     public static <T> void verifyJObject(final JsonObject data, final ZeroBiConsumer<T, String> fnIt) throws ZeroException {

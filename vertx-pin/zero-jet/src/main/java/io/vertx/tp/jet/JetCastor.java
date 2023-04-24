@@ -10,7 +10,7 @@ import io.vertx.tp.jet.cv.em.WorkerType;
 import io.vertx.tp.jet.init.JtPin;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.log.Log;
+import io.vertx.up.log.DevOps;
 
 import java.util.Objects;
 import java.util.Set;
@@ -92,7 +92,7 @@ public class JetCastor {
                     if (handler.succeeded()) {
                         this.monitor.workerDeployed(options.getInstances(), name);
                         // LOG
-                        Log.Health.on(this.vertx).add(name, options, handler.result());
+                        DevOps.on(this.vertx).add(name, options, handler.result());
                     } else {
                         if (Objects.nonNull(handler.cause())) {
                             handler.cause().printStackTrace();

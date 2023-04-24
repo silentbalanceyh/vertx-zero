@@ -7,17 +7,17 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.aeon.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.eon.em.scheduler.JobType;
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.bridge.Values;
-import io.horizon.eon.em.scheduler.JobStatus;
-import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.experiment.specification.sch.KTimer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
@@ -302,7 +302,7 @@ public class Mission implements Serializable {
                 }
             }
             if (Debugger.devJobBoot()) {
-                LOGGER.info(Info.JOB_OFF, this.getCode());
+                LOGGER.info(VMessage.MISSION_JOB_OFF, this.getCode());
             }
         }
         return this;

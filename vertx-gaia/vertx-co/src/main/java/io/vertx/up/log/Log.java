@@ -1,7 +1,5 @@
 package io.vertx.up.log;
 
-import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Vertx;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.vertx.up.fn.Fn;
@@ -91,30 +89,6 @@ public final class Log {
                 formatted = BOLD_FLAG + " " + message;
             }
             fnLog.accept(formatted, null);
-        }
-    }
-
-    public static class Health {
-        private final transient Vertx vertx;
-
-        private Health(final Vertx vertx) {
-            this.vertx = vertx;
-        }
-
-        public static Health on(final Vertx vertx) {
-            return new Health(vertx);
-        }
-
-        public void add(final Class<?> clazz, final DeploymentOptions options, final String id) {
-            Meansure.add(this.vertx, clazz.getName(), options, id);
-        }
-
-        public void add(final String name, final DeploymentOptions options, final String id) {
-            Meansure.add(this.vertx, name, options, id);
-        }
-
-        public void remove(final Class<?> clazz, final DeploymentOptions options) {
-            Meansure.remove(this.vertx, clazz.getName(), options);
         }
     }
 }

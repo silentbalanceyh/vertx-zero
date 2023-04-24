@@ -1,12 +1,12 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.info.VMessage;
+import io.horizon.exception.ZeroException;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.eon.Info;
-import io.horizon.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.marshal.ClusterSetUp;
@@ -36,12 +36,12 @@ public class VertxVisitor implements NodeVisitor {
     public ConcurrentMap<String, VertxOptions> visit(final String... keys)
         throws ZeroException {
         // 1. Must be the first line, fixed position.
-        Fn.verifyLenEq(this.getClass(), 0, (Object[]) keys);
+        //        Fn.verifyLenEq(this.getClass(), 0, (Object[]) keys);
         // 2. Visit the node for vertx
         final JsonObject data = this.NODE.read();
         // 3. Vertx node validation.
         final JsonObject vertxData = data.getJsonObject(KEY);
-        LOGGER.info(Info.INF_B_VERIFY, KEY, this.getClass().getSimpleName(), vertxData);
+        LOGGER.info(VMessage.VISITOR_V_BEFORE, KEY, this.getClass().getSimpleName(), vertxData);
         Fn.safeZero(() -> Ruler.verify(KEY, vertxData), vertxData);
         // 4. Set cluster options
         this.clusterOptions = this.clusterTransformer.transform(vertxData.getJsonObject(YKEY_CLUSTERED));

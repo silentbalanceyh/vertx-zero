@@ -1,16 +1,14 @@
 package io.vertx.up.fn;
 
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
 import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.bridge.Values;
-import io.vertx.up.exception.heart.ArgumentException;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -154,20 +152,6 @@ final class Wall {
             }
         }
         return ret;
-    }
-
-    static void verifyEqLength(final Class<?> clazz, final int expected, final Object... args) {
-        if (expected != args.length) {
-            final String method = Errors.method(Wall.class, "eqLength");
-            throw new ArgumentException(clazz, method, expected, "=");
-        }
-    }
-
-    static void verifyEtLength(final Class<?> clazz, final int min, final Object... args) {
-        if (min >= args.length) {
-            final String method = Errors.method(Wall.class, "gtLength");
-            throw new ArgumentException(clazz, method, min, ">");
-        }
     }
 
     @SuppressWarnings("all")

@@ -3,10 +3,10 @@ package io.vertx.up.uca.rs.config;
 import io.aeon.experiment.specification.sch.KTimer;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.bridge.FileSuffix;
@@ -83,7 +83,7 @@ public class JobExtractor implements Extractor<Mission> {
         mission.connect(clazz);
         /* on method must existing */
         if (Objects.isNull(mission.getOn())) {
-            LOGGER.warn(Info.JOB_IGNORE, clazz.getName());
+            LOGGER.warn(VMessage.EXTRACTOR_JOB_IGNORE, clazz.getName());
             return null;
         }
         return mission;
