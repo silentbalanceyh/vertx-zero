@@ -2,7 +2,7 @@ package io.vertx.up.commune.element;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

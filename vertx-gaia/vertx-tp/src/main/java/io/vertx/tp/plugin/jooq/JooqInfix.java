@@ -9,7 +9,7 @@ import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
-import io.horizon.constant.configure.YML;
+import io.horizon.eon.configure.YML;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 

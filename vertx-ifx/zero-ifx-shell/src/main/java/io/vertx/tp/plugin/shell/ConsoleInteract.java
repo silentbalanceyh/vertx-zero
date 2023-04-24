@@ -6,7 +6,7 @@ import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.Terminal;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 
 import java.util.List;
 import java.util.function.Consumer;

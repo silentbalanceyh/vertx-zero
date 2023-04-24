@@ -12,7 +12,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

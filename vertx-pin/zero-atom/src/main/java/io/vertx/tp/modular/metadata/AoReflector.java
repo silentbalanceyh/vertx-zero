@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.metadata;
 
-import io.horizon.constant.em.modeler.KeyType;
+import io.horizon.eon.em.modeler.KeyType;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;

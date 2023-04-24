@@ -3,7 +3,7 @@ package io.vertx.up.uca.job.center;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.em.JobStatus;
+import io.horizon.eon.em.scheduler.JobStatus;
 import io.aeon.experiment.specification.sch.KTimer;
 import io.vertx.up.uca.job.timer.Interval;
 

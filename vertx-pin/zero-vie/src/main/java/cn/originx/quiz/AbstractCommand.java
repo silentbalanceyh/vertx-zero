@@ -7,7 +7,7 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.util.Ut;
 import org.junit.BeforeClass;
 

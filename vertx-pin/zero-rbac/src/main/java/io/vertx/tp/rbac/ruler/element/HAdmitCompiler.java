@@ -1,7 +1,7 @@
 package io.vertx.tp.rbac.ruler.element;
 
 import io.aeon.atom.secure.HPermit;
-import io.horizon.constant.em.cloud.ScIn;
+import io.horizon.eon.em.cloud.ScIn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

@@ -6,7 +6,7 @@ import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
-import io.horizon.constant.VPath;
+import io.horizon.eon.VPath;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;

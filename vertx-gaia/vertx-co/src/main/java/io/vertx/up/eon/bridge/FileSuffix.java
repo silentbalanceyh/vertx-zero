@@ -1,6 +1,6 @@
 package io.vertx.up.eon.bridge;
 
-import io.horizon.constant.VPath;
+import io.horizon.eon.VPath;
 
 public interface FileSuffix extends VPath.SUFFIX {
     //

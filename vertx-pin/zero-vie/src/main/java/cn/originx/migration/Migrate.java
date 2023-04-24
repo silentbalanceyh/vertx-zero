@@ -3,7 +3,7 @@ package cn.originx.migration;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 
 /*
  * 升级专用接口，一次性升级

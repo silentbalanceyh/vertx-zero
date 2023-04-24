@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;

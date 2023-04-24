@@ -3,7 +3,7 @@ package io.vertx.tp.atom.modeling.element;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;

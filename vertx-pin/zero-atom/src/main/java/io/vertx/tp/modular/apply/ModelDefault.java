@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.apply;
 
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;

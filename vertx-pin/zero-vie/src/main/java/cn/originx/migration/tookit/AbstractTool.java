@@ -9,7 +9,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;

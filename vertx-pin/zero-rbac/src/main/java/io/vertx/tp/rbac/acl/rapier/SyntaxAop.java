@@ -2,7 +2,7 @@ package io.vertx.tp.rbac.acl.rapier;
 
 import cn.vertxup.rbac.domain.tables.daos.SVisitantDao;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -15,7 +15,7 @@ import io.vertx.tp.rbac.acl.rapid.DmxRow;
 import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ActPhase;
+import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

@@ -7,7 +7,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;

@@ -2,7 +2,7 @@ package io.vertx.tp.modular.metadata;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
-import io.horizon.constant.em.modeler.KeyType;
+import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;

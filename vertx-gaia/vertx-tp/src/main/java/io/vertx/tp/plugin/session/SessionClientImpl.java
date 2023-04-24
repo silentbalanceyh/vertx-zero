@@ -9,7 +9,7 @@ import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
-import io.vertx.up.eon.em.StoreType;
+import io.horizon.eon.em.StoreType;
 import io.vertx.up.exception.web._500SessionClientInitException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

@@ -11,7 +11,7 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.MappingMode;
+import io.horizon.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

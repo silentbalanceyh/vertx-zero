@@ -1,6 +1,6 @@
 package io.vertx.tp.rbac.ruler.element;
 
-import io.horizon.constant.em.cloud.ScIn;
+import io.horizon.eon.em.cloud.ScIn;
 import io.vertx.tp.rbac.cv.em.PackType;
 
 import java.util.concurrent.ConcurrentHashMap;

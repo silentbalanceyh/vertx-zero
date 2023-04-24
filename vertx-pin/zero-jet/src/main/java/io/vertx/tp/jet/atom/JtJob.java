@@ -7,7 +7,7 @@ import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.em.JobType;
+import io.horizon.eon.em.scheduler.JobType;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.sch.KTimer;
 import io.vertx.up.util.Ut;

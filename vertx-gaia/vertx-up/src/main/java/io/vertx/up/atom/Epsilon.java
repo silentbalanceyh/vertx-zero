@@ -1,6 +1,6 @@
 package io.vertx.up.atom;
 
-import io.vertx.up.eon.em.MimeFlow;
+import io.horizon.eon.em.container.MimeFlow;
 import io.vertx.up.eon.web.ID;
 
 import java.io.Serializable;

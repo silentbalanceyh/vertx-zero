@@ -4,7 +4,7 @@ import cn.originx.infix.oracle12.cv.OracleStatement;
 import cn.originx.infix.oracle12.cv.OracleWord;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AbstractReflector;
-import io.horizon.constant.em.modeler.KeyType;
+import io.horizon.eon.em.modeler.KeyType;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

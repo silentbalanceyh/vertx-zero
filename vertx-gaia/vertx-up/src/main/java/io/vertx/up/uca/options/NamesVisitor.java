@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.horizon.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

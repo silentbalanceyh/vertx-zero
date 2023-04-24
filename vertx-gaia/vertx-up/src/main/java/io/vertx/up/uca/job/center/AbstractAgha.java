@@ -8,7 +8,7 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.JobStatus;
+import io.horizon.eon.em.scheduler.JobStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.job.store.JobConfig;
@@ -16,7 +16,7 @@ import io.vertx.up.uca.job.store.JobPin;
 import io.vertx.up.uca.job.store.JobStore;
 import io.vertx.up.uca.job.timer.Interval;
 import io.vertx.up.util.Ut;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;

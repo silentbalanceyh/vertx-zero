@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;

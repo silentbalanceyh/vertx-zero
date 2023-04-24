@@ -7,7 +7,7 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;

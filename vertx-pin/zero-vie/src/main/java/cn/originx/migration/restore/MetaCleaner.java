@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

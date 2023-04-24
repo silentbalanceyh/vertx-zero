@@ -6,7 +6,7 @@ import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HReference;
 import io.vertx.core.json.JsonArray;

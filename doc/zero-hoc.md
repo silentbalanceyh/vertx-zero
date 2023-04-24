@@ -12,12 +12,12 @@ Zero system extend function interface system based on java8.
 
 Extension by zero for specifical usage.
 
-* `io.horizon.function.Actuator`：`void execute()`；
-* `io.horizon.function.ExceptionSupplier<T>`：`T get() throws Exception`；
-* `io.horizon.function.ExceptionActuator`：`void execute() throws Exception`；
-* `io.horizon.function.ZeroActuator`：`void execute() throws ZeroException`；
-* `io.horizon.function.ZeroSupplier<T>`：`T get() throws ZeroException`；
-* `io.horizon.function.ZeroBiConsumer<T,R>`: `void accept(T input, R second) throws ZeroException`
+* `io.horizon.fn.Actuator`：`void execute()`；
+* `io.horizon.fn.ExceptionSupplier<T>`：`T get() throws Exception`；
+* `io.horizon.fn.ExceptionActuator`：`void execute() throws Exception`；
+* `io.horizon.fn.ZeroActuator`：`void execute() throws ZeroException`；
+* `io.horizon.fn.ZeroSupplier<T>`：`T get() throws ZeroException`；
+* `io.horizon.fn.ZeroBiConsumer<T,R>`: `void accept(T input, R second) throws ZeroException`
 
 ## 2. Fn
 

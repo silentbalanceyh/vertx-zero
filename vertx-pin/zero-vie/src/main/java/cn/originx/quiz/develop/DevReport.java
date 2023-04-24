@@ -4,7 +4,7 @@ import cn.originx.refine.Ox;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;
 import io.vertx.up.eon.Strings;
 

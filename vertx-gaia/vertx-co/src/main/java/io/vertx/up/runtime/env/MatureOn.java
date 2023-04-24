@@ -9,7 +9,7 @@ import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.DSMode;
+import io.horizon.eon.em.DSMode;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 

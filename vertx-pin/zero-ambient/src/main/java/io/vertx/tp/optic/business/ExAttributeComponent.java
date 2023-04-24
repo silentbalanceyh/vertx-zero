@@ -7,7 +7,7 @@ import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.GlossaryType;
+import io.horizon.eon.em.GlossaryType;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

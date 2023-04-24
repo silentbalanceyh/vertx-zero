@@ -6,7 +6,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;

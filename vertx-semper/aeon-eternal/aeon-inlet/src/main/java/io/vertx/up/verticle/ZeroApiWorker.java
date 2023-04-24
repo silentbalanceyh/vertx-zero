@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.up.annotations.Worker;
-import io.vertx.up.eon.em.MessageModel;
+import io.horizon.eon.em.container.MessageModel;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;

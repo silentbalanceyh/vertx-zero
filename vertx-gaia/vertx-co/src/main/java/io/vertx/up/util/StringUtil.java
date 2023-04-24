@@ -3,7 +3,7 @@ package io.vertx.up.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import org.apache.commons.jexl3.*;

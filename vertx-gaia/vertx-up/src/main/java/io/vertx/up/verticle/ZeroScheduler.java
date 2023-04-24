@@ -6,7 +6,7 @@ import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.JobType;
+import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;

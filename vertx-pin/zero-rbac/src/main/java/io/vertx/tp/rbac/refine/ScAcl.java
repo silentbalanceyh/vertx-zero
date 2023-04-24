@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.refine;
 import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.ActPhase;
+import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

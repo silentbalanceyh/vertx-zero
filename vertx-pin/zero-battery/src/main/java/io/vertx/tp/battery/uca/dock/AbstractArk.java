@@ -4,7 +4,7 @@ import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import cn.vertxup.battery.service.BagArgService;
 import cn.vertxup.battery.service.BagArgStub;
-import io.horizon.constant.em.cloud.TypeBy;
+import io.horizon.eon.em.cloud.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.uca.configure.Combiner;

@@ -15,7 +15,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

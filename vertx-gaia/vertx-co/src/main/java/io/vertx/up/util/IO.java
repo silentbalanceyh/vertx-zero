@@ -7,12 +7,12 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.YamlType;
+import io.horizon.eon.em.typed.YamlType;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.JsonFormatException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

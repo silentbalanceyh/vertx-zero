@@ -4,7 +4,7 @@ import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KPlugin;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.DynamicVisitor;

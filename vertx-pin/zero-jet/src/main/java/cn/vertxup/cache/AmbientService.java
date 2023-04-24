@@ -13,7 +13,7 @@ import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.tp.optic.environment.AmbientEnvironment;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.em.JobStatus;
+import io.horizon.eon.em.scheduler.JobStatus;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;

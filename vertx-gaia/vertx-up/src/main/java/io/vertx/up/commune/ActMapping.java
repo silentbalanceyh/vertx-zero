@@ -3,7 +3,7 @@ package io.vertx.up.commune;
 import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.em.MappingMode;
+import io.horizon.eon.em.MappingMode;
 import io.vertx.up.uca.adminicle.FieldMapper;
 import io.vertx.up.uca.adminicle.Mapper;
 import io.vertx.up.util.Ut;

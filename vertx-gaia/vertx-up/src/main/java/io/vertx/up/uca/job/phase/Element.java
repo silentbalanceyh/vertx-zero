@@ -1,13 +1,13 @@
 package io.vertx.up.uca.job.phase;
 
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.em.JobType;
+import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.job.plugin.JobIncome;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.util.Ut;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 
 import java.util.Objects;
 

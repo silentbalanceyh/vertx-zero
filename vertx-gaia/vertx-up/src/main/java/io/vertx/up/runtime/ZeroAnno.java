@@ -10,7 +10,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.atom.worker.Remind;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;

@@ -2,7 +2,7 @@ package io.vertx.up.atom.record;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;

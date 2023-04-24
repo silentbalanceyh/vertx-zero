@@ -13,7 +13,7 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;

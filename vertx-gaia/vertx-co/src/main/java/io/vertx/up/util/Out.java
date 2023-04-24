@@ -4,9 +4,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.config.HugeFile;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.CompressLevel;
+import io.horizon.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 
 import java.io.File;
 import java.io.FileOutputStream;

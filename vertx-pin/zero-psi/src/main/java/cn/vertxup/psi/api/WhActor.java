@@ -8,7 +8,7 @@ import io.vertx.tp.psi.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.horizon.constant.em.ValueBool;
+import io.horizon.eon.em.ValueBool;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.unity.Ux;
 

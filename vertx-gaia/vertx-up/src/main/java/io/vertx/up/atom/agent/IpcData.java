@@ -2,7 +2,7 @@ package io.vertx.up.atom.agent;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.IpcType;
+import io.horizon.eon.em.container.IpcType;
 
 import java.io.Serializable;
 

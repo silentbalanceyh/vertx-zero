@@ -2,7 +2,7 @@ package io.vertx.up.uca.job.center;
 
 import io.vertx.core.Future;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.em.JobType;
+import io.horizon.eon.em.scheduler.JobType;
 
 /**
  * Job manager to manage each job here.

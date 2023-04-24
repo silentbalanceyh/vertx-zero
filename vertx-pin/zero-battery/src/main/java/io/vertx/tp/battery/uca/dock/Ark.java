@@ -1,6 +1,6 @@
 package io.vertx.tp.battery.uca.dock;
 
-import io.horizon.constant.em.cloud.TypeBy;
+import io.horizon.eon.em.cloud.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.uca.cache.Cc;

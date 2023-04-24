@@ -3,7 +3,7 @@ package io.horizon.specification.modeler;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 
 import java.util.Set;
 

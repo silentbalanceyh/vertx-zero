@@ -2,7 +2,7 @@ package io.vertx.up.annotations;
 
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 
 import java.lang.annotation.*;
 

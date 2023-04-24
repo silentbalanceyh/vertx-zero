@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

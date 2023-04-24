@@ -4,7 +4,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.constant.VPath;
+import io.horizon.eon.VPath;
 
 import java.io.File;
 import java.io.InputStream;

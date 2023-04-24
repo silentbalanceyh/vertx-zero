@@ -11,7 +11,7 @@ import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.uca.sectio.Aspect;

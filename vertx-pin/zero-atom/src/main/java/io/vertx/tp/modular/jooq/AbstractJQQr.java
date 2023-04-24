@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;

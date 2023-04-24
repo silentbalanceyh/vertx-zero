@@ -9,7 +9,7 @@ import io.vertx.tp.ipc.service.VertxUnityServiceGrpc;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.em.IpcType;
+import io.horizon.eon.em.container.IpcType;
 import io.vertx.up.exception.web._501RpcMethodMissingException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.micro.ipc.DataEncap;

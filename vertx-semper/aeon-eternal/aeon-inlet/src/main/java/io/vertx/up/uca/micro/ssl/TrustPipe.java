@@ -3,7 +3,7 @@ package io.vertx.up.uca.micro.ssl;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.ClientOptionsBase;
-import io.horizon.constant.em.secure.CertType;
+import io.horizon.eon.em.secure.CertType;
 import io.vertx.up.uca.micro.ssl.client.JksTrust;
 import io.vertx.up.uca.micro.ssl.client.PemTrust;
 import io.vertx.up.uca.micro.ssl.client.PfxTrust;

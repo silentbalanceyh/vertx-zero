@@ -14,7 +14,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;

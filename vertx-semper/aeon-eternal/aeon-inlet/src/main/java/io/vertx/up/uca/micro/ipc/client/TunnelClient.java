@@ -6,7 +6,7 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.em.IpcType;
+import io.horizon.eon.em.container.IpcType;
 import io.vertx.up.exception.web._501RpcAddressWrongException;
 import io.vertx.up.exception.web._501RpcImplementException;
 import io.vertx.up.fn.Fn;

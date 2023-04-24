@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.modeling.data;
 
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

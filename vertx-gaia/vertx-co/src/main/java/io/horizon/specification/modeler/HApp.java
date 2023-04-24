@@ -1,6 +1,6 @@
 package io.horizon.specification.modeler;
 
-import io.horizon.constant.VEnv;
+import io.horizon.eon.VEnv;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;

@@ -7,8 +7,8 @@ import io.vertx.core.Promise;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
-import io.horizon.function.ErrorSupplier;
-import io.horizon.function.ZeroActuator;
+import io.horizon.fn.ErrorSupplier;
+import io.horizon.fn.ZeroActuator;
 
 import java.util.function.Consumer;
 

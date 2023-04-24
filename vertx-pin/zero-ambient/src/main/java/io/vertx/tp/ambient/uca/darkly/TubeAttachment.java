@@ -8,7 +8,7 @@ import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

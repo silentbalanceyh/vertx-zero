@@ -2,7 +2,7 @@ package io.vertx.up.log;
 
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 import io.vertx.up.log.internal.BridgeAnnal;
 
 /**

@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.horizon.function.*;
+import io.horizon.fn.*;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;

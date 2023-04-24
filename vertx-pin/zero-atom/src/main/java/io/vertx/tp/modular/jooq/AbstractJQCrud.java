@@ -11,7 +11,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;

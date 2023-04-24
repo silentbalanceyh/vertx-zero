@@ -15,7 +15,7 @@ import io.vertx.tp.optic.jet.JtChannel;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.em.ChannelType;
+import io.horizon.eon.em.container.ChannelType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

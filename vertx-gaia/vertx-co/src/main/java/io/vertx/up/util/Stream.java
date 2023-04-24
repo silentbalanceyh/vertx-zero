@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
-import io.horizon.constant.VPath;
-import io.horizon.constant.VValue;
-import io.horizon.function.Actuator;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VValue;
+import io.horizon.fn.Actuator;
 import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.up.eon.Strings;

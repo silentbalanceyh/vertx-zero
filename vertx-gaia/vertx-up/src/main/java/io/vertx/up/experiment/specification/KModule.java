@@ -13,7 +13,7 @@ import io.aeon.experiment.specification.KPoint;
 import io.aeon.experiment.specification.KTransform;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqPin;
-import io.vertx.up.eon.em.DSMode;
+import io.horizon.eon.em.DSMode;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

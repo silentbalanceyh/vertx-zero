@@ -1,7 +1,7 @@
 package io.vertx.aeon.specification.app;
 
 import io.aeon.atom.secure.Hoi;
-import io.horizon.constant.em.cloud.ModeApp;
+import io.horizon.eon.em.cloud.ModeApp;
 import io.horizon.specification.cloud.app.HET;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

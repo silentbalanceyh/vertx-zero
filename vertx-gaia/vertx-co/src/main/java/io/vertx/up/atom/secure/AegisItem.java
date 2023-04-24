@@ -2,7 +2,7 @@ package io.vertx.up.atom.secure;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;

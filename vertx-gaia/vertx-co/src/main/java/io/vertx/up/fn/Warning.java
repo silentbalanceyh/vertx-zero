@@ -7,7 +7,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 
 import java.util.Objects;
 import java.util.function.Supplier;

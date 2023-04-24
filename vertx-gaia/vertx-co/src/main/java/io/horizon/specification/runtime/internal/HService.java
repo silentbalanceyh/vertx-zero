@@ -1,7 +1,7 @@
 package io.horizon.specification.runtime.internal;
 
 import io.aeon.runtime.H1H;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 import io.vertx.up.util.Ut;
 
 import java.io.BufferedReader;

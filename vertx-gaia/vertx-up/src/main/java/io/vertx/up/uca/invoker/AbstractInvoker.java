@@ -1,6 +1,6 @@
 package io.vertx.up.uca.invoker;
 
-import io.horizon.constant.em.ValueBool;
+import io.horizon.eon.em.ValueBool;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;

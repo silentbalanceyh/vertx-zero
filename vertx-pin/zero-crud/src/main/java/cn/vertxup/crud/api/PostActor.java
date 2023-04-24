@@ -13,7 +13,7 @@ import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 
 /*
  * Create new Record that defined in zero system.

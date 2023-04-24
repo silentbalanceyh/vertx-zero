@@ -2,7 +2,7 @@ package io.vertx.up.uca.web.anima;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.AgentExtractor;

@@ -10,7 +10,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.secure.LeeExtension;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;

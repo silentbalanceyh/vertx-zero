@@ -10,7 +10,7 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.aeon.experiment.specification.KField;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;

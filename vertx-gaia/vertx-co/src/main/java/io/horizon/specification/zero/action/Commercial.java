@@ -4,7 +4,7 @@ import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.eon.em.ChannelType;
+import io.horizon.eon.em.container.ChannelType;
 
 /*
  * Underway communication channel between

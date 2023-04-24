@@ -7,7 +7,7 @@ import cn.vertxup.ambient.service.application.InitService;
 import cn.vertxup.ambient.service.application.InitStub;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;

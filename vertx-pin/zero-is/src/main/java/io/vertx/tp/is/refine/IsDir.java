@@ -11,7 +11,7 @@ import io.vertx.tp.is.uca.command.FsReadOnly;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

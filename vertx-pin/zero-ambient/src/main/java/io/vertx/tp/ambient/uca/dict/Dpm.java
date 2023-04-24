@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.commune.exchange.DSource;
-import io.vertx.up.eon.em.GlossaryType;
+import io.horizon.eon.em.GlossaryType;
 
 import java.util.concurrent.ConcurrentMap;
 

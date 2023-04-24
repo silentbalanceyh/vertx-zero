@@ -3,7 +3,7 @@ package io.vertx.up.commune.exchange;
 import io.horizon.specification.zero.object.TCopy;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.GlossaryType;
+import io.horizon.eon.em.GlossaryType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

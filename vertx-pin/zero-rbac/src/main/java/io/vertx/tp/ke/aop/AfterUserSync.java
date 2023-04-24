@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.acl.relation.IdcStub;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.uca.sectio.After;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

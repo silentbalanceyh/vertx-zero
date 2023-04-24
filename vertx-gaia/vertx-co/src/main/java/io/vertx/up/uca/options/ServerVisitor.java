@@ -3,7 +3,7 @@ package io.vertx.up.uca.options;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.log.Annal;
 
 import java.util.concurrent.ConcurrentMap;

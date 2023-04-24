@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.eon.em.MessageModel;
+import io.horizon.eon.em.container.MessageModel;
 import io.vertx.up.eon.web.ID;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;

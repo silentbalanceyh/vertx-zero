@@ -7,7 +7,7 @@ import cn.vertxup.rbac.domain.tables.daos.SRoleDao;
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 
 public class RestoreUser extends AbstractStatic {

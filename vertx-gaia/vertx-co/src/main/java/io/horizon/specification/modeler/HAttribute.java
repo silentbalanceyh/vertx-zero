@@ -1,7 +1,7 @@
 package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KTag;
-import io.vertx.up.eon.em.DataFormat;
+import io.horizon.eon.em.typed.DataFormat;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package cn.originx.refine;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Log;
 

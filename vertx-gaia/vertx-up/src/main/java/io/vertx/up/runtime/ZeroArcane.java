@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
 import io.aeon.eon.HPath;
-import io.horizon.constant.em.cloud.TypeOs;
+import io.horizon.eon.em.cloud.TypeOs;
 import io.aeon.refine.HLog;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;

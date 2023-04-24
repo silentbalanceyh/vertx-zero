@@ -9,7 +9,7 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DSource;
-import io.vertx.up.eon.em.GlossaryType;
+import io.horizon.eon.em.GlossaryType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

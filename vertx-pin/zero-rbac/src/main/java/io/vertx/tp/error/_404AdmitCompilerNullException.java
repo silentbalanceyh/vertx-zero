@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.horizon.constant.em.cloud.ScIn;
+import io.horizon.eon.em.cloud.ScIn;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 

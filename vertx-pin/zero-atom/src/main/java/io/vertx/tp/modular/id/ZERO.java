@@ -6,7 +6,7 @@ import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.error._417PrimaryKeyResultException;
 import io.vertx.tp.error._417PrimaryKeySizeException;
-import io.horizon.constant.em.modeler.KeyMode;
+import io.horizon.eon.em.modeler.KeyMode;
 import io.vertx.up.fn.Fn;
 
 import java.util.HashSet;

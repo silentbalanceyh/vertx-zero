@@ -1,6 +1,6 @@
 package io.vertx.up.exception.demon;
 
-import io.vertx.up.eon.em.JsonType;
+import io.horizon.eon.em.typed.JsonType;
 import io.vertx.up.exception.DemonException;
 
 public class DataTypeWrongException extends DemonException {

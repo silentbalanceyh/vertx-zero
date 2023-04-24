@@ -2,8 +2,8 @@ package io.vertx.up.uca.job.store;
 
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.eon.em.JobType;
+import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;

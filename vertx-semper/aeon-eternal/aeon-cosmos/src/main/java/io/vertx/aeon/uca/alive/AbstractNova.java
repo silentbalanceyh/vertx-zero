@@ -3,7 +3,7 @@ package io.vertx.aeon.uca.alive;
 import io.aeon.atom.iras.HRepo;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
-import io.horizon.constant.em.cloud.RTEAeon;
+import io.horizon.eon.em.cloud.RTEAeon;
 import io.horizon.specification.cloud.app.HFS;
 import io.horizon.specification.cloud.program.HNova;
 import io.horizon.specification.runtime.Macrocosm;

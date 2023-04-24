@@ -10,7 +10,7 @@ import io.vertx.rx.rs.router.EventAxis;
 import io.vertx.rx.rs.router.RouterAxis;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.cache.Cc;

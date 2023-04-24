@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OExpression;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.DataFormat;
+import io.horizon.eon.em.typed.DataFormat;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

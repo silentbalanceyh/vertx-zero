@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.example.AnnoAgent;
 import io.vertx.quiz.example.AnnoExceAgent;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.up.verticle.ZeroHttpAgent;

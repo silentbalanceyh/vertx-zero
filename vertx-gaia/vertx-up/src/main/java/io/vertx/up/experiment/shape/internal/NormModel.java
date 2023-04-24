@@ -2,7 +2,7 @@ package io.vertx.up.experiment.shape.internal;
 
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
-import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._501NotSupportException;

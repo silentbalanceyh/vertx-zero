@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.vertx.up.eon.em.Environment;
+import io.horizon.eon.em.Environment;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

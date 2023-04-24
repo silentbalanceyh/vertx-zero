@@ -9,7 +9,7 @@ import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 

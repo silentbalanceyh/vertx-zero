@@ -1,6 +1,6 @@
 package io.vertx.up.atom.secure;
 
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.zero.object.TCopy;
 import io.vertx.up.eon.Values;
 import io.vertx.up.log.Annal;

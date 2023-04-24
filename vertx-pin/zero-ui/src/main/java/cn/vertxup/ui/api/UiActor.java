@@ -14,10 +14,10 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ViewType;
+import io.horizon.eon.em.container.ViewType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 
 import javax.inject.Inject;
 import java.util.Objects;

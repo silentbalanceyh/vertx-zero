@@ -3,7 +3,7 @@ package io.vertx.up.secure.authenticate;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

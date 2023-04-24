@@ -12,7 +12,7 @@ import io.vertx.tp.ipc.eon.em.Format;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.atom.container.VUser;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.em.IpcType;
+import io.horizon.eon.em.container.IpcType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;

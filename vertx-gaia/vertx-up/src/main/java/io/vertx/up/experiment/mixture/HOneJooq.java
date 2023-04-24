@@ -2,7 +2,7 @@ package io.vertx.up.experiment.mixture;
 
 import io.vertx.core.MultiMap;
 import io.vertx.tp.plugin.database.DS;
-import io.vertx.up.eon.em.DSMode;
+import io.horizon.eon.em.DSMode;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

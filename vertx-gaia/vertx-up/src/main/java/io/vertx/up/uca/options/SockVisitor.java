@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.horizon.exception.ZeroException;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.marshal.SockSetUp;

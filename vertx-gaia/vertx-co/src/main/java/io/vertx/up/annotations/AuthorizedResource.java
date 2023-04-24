@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.em.AuthWord;
+import io.horizon.eon.em.secure.AuthWord;
 
 import java.lang.annotation.*;
 

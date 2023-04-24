@@ -1,6 +1,6 @@
 package io.vertx.up.log.internal;
 
-import io.horizon.constant.info.VLog;
+import io.horizon.eon.info.VLog;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.vertx.core.impl.ConcurrentHashSet;

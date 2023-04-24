@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.horizon.function.*;
+import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Values;

@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
-import io.horizon.constant.VValue;
+import io.horizon.eon.VValue;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

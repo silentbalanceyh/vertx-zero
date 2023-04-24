@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.horizon.constant.em.secure.AuthWall;
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.exception.UpException;
 
 public class WallItemSizeException extends UpException {

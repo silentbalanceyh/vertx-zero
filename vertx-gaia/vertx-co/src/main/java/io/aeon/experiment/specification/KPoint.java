@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.eon.em.JoinMode;
+import io.horizon.eon.em.scheduler.JoinMode;
 import io.vertx.up.exception.web._409JoinTargetException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

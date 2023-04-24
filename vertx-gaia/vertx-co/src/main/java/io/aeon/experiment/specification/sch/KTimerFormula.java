@@ -2,7 +2,7 @@ package io.aeon.experiment.specification.sch;
 
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.PerMode;
+import io.horizon.eon.em.typed.PerMode;
 import io.vertx.up.uca.job.plan.JobAt;
 import io.vertx.up.util.Ut;
 

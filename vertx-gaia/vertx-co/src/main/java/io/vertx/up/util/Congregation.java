@@ -6,7 +6,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.horizon.exception.ZeroException;
-import io.horizon.function.Actuator;
+import io.horizon.fn.Actuator;
 
 import java.util.Collection;
 import java.util.List;

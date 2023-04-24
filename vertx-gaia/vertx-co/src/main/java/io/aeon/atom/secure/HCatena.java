@@ -2,15 +2,15 @@ package io.aeon.atom.secure;
 
 import io.aeon.runtime.H1H;
 import io.aeon.runtime.H3H;
-import io.horizon.constant.em.cloud.ScDim;
-import io.horizon.constant.em.cloud.ScIn;
+import io.horizon.eon.em.cloud.ScDim;
+import io.horizon.eon.em.cloud.ScIn;
 import io.horizon.specification.cloud.secure.HAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ActPhase;
+import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

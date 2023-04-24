@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.mime.parse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.eon.em.MimeFlow;
+import io.horizon.eon.em.container.MimeFlow;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;

@@ -3,7 +3,7 @@ package io.vertx.tp.modular.apply;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
-import io.horizon.constant.em.modeler.AttributeType;
+import io.horizon.eon.em.modeler.AttributeType;
 
 class AttributeDefault implements AoDefault {
 
