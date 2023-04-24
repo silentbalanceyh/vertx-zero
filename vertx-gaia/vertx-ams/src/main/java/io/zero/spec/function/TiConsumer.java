@@ -6,7 +6,7 @@ package io.zero.spec.function;
  * TiConsumer：三参（Zero扩展）
  */
 @FunctionalInterface
-public interface RunTiConsumer<F, S, T> {
+public interface TiConsumer<F, S, T> {
 
     void accept(F f, S s, T t);
 }

@@ -1,11 +1,11 @@
 package io.vertx.up.fn;
 
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.RunActuator;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
+import io.zero.spec.function.Actuator;
 import io.zero.spec.function.ExceptionSupplier;
 import io.zero.spec.function.ZeroActuator;
 
@@ -28,7 +28,7 @@ final class Zero {
         }
     }
 
-    static void exec(final RunActuator actuator, final Object... input) {
+    static void exec(final Actuator actuator, final Object... input) {
         if (Zero.isSatisfy(input)) {
             actuator.execute();
         }

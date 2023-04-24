@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.eon.em.TypeOs;
+import io.aeon.experiment.specification.KPair;
 import io.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -21,9 +22,8 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
-import io.aeon.experiment.specification.KPair;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.uca.crypto.ED;
+import io.zero.spec.function.Actuator;
 
 import java.io.File;
 import java.io.InputStream;
@@ -539,7 +539,7 @@ public final class Ut {
         Congregation.exec(firsts, seconds, consumer, predicate);
     }
 
-    public static void itRepeat(final Integer times, final RunActuator actuator) {
+    public static void itRepeat(final Integer times, final Actuator actuator) {
         Congregation.exec(times, actuator);
     }
 

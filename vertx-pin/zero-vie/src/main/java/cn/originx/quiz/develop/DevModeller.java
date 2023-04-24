@@ -15,10 +15,10 @@ import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.Environment;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;
+import io.zero.spec.function.Actuator;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -56,7 +56,7 @@ public class DevModeller {
         this.preprocess(null);
     }
 
-    public void preprocess(final RunActuator actuator) {
+    public void preprocess(final Actuator actuator) {
         Ok.on(handler -> {
             final OkA partyA = handler.result();
             final JtApp app = partyA.configApp();
@@ -103,7 +103,7 @@ public class DevModeller {
         this.initialize(null);
     }
 
-    public void initialize(final RunActuator actuator) {
+    public void initialize(final Actuator actuator) {
         Ok.on(handler -> {
             final OkA partyA = handler.result();
             final JtApp app = partyA.configApp();

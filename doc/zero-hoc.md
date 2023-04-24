@@ -12,7 +12,7 @@ Zero system extend function interface system based on java8.
 
 Extension by zero for specifical usage.
 
-* `io.zero.spec.function.RunActuator`：`void execute()`；
+* `io.zero.spec.function.Actuator`：`void execute()`；
 * `io.zero.spec.function.ExceptionSupplier<T>`：`T get() throws Exception`；
 * `io.zero.spec.function.ExceptionActuator`：`void execute() throws Exception`；
 * `io.zero.spec.function.ZeroActuator`：`void execute() throws ZeroException`；

@@ -2,14 +2,14 @@ package io.vertx.up.util;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Protocols;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import io.vertx.up.runtime.env.Macrocosm;
+import io.zero.cv.VPath;
+import io.zero.cv.VValue;
+import io.zero.spec.function.Actuator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,9 +95,9 @@ final class Stream {
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
         return Fn.orJvm(() -> {
-            final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
+            final ByteArrayOutputStream out = new ByteArrayOutputStream(VValue.DFT.SIZE_BYTE_ARRAY);
 
-            final byte[] temp = new byte[Values.CACHE_SIZE];
+            final byte[] temp = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
             int size;
             while ((size = in.read(temp)) != -1) {
                 out.write(temp, 0, size);
@@ -210,7 +210,7 @@ final class Stream {
             try {
                 final URL url = new URL(filename);
                 final String protocol = url.getProtocol();
-                if (Protocols.JAR.equals(protocol)) {
+                if (VPath.Protocol.JAR.equals(protocol)) {
                     final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
                     return jarCon.getInputStream();
                 } else {
@@ -281,7 +281,7 @@ final class Stream {
         return Fn.orJvm(() -> loader.getResourceAsStream(filename), filename);
     }
 
-    private static void ioDebug(final RunActuator executor) {
+    private static void ioDebug(final Actuator executor) {
         /* 底层防止循环调用，此处不走 DiagnosisOption */
         final boolean ioDebug = Env.readBool(Macrocosm.DEV_IO);
         if (ioDebug) {

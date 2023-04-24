@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
@@ -17,6 +16,7 @@ import javax.net.ssl.SSLContext;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 class LegacyEmitter extends AbstractEmitter {
@@ -83,7 +83,7 @@ class LegacyEmitter extends AbstractEmitter {
 
             /* Convert to content */
             final String response = Ut.ioString(conn.getInputStream());
-            final String normalized = new String(response.getBytes(), Values.ENCODING);
+            final String normalized = new String(response.getBytes(), StandardCharsets.UTF_8);
             this.logger().info(Message.HTTP_RESPONSE, normalized);
             return normalized;
         }, uri, method, content);

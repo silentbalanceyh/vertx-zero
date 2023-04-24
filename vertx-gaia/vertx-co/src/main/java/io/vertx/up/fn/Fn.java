@@ -9,10 +9,10 @@ import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
 import io.zero.spec.function.*;
 
 import java.util.*;
@@ -151,7 +151,7 @@ public final class Fn {
     }
 
     // ------ Null Safe
-    public static void safeNull(final RunActuator actuator, final Object... input) {
+    public static void safeNull(final Actuator actuator, final Object... input) {
         Zero.exec(actuator, input);
     }
 
@@ -184,15 +184,15 @@ public final class Fn {
     }
 
     // ------ Semi Safe
-    public static void safeSemi(final boolean condition, final Annal logger, final RunActuator tSupplier, final RunActuator fSupplier) {
+    public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Wall.exec(condition, logger, tSupplier, fSupplier);
     }
 
-    public static void safeSemi(final boolean condition, final Annal logger, final RunActuator tSupplier) {
+    public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier) {
         Wall.exec(condition, logger, tSupplier, null);
     }
 
-    public static void safeSemi(final boolean condition, final RunActuator tSupplier) {
+    public static void safeSemi(final boolean condition, final Actuator tSupplier) {
         Wall.exec(condition, null, tSupplier, null);
     }
 
@@ -244,7 +244,7 @@ public final class Fn {
     }
 
     // ------ Must throw out exception in these two methods
-    public static void safeRun(final RunActuator actuator, final Annal logger) {
+    public static void safeRun(final Actuator actuator, final Annal logger) {
         Warning.outRun(actuator, logger);
     }
 

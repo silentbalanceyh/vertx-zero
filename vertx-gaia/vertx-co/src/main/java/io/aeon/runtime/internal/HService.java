@@ -1,8 +1,8 @@
 package io.aeon.runtime.internal;
 
 import io.aeon.runtime.H1H;
-import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -177,7 +177,7 @@ public class HService {
             final URLConnection uc = u.openConnection();
             uc.setUseCaches(false);
             try (final InputStream in = uc.getInputStream();
-                 final BufferedReader r = new BufferedReader(new InputStreamReader(in, Values.DEFAULT_CHARSET))) {
+                 final BufferedReader r = new BufferedReader(new InputStreamReader(in, VValue.DFT.CHARSET))) {
                 int lc = 1;
                 while ((lc = this.aeonParseLine(u, r, lc, names)) >= 0) {
                     ;

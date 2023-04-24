@@ -1,12 +1,12 @@
 package io.vertx.up.log;
 
 import io.vertx.core.impl.ConcurrentHashSet;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
 import io.vertx.up.log.internal.Log4JAnnal;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.RunActuator;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
+import io.zero.spec.function.Actuator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public interface Annal {
      * Re-invoked logging for executing, here are logger sure to
      * Avoid Null Pointer exception
      */
-    static <T> void sure(final Annal logger, final RunActuator actuator) {
+    static <T> void sure(final Annal logger, final Actuator actuator) {
         if (null != logger) {
             actuator.execute();
         }

@@ -4,9 +4,9 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.Protocols;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VPath;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -38,9 +38,9 @@ class StandardEmitter extends AbstractEmitter {
          * RegistryBuilder
          */
         final RegistryBuilder<ConnectionSocketFactory> registry = RegistryBuilder.create();
-        registry.register(Protocols.HTTP, PlainConnectionSocketFactory.INSTANCE);
+        registry.register(VPath.Protocol.HTTP, PlainConnectionSocketFactory.INSTANCE);
         if (Objects.nonNull(sslcontext)) {
-            registry.register(Protocols.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
+            registry.register(VPath.Protocol.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
         }
 
         /*

@@ -24,6 +24,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public abstract class AbstractRotator implements Rotator {
@@ -110,8 +111,8 @@ public abstract class AbstractRotator implements Rotator {
          *  Here the secondary argument will be in Chinese ??? confused characters.
          *  We must provide "utf8" as default encoding method of body
          *  */
-        final StringEntity body = new StringEntity(normalized.encode(), Values.ENCODING);
-        body.setContentEncoding(Values.ENCODING);
+        final StringEntity body = new StringEntity(normalized.encode(), StandardCharsets.UTF_8);
+        body.setContentEncoding(StandardCharsets.UTF_8.name());
         body.setContentType(Values.CONTENT_TYPE);
         return body;
     }

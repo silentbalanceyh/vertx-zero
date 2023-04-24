@@ -14,7 +14,6 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.cache.Cc;
@@ -22,6 +21,7 @@ import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
 import io.vertx.up.util.Ut;
+import io.zero.spec.function.Actuator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -145,7 +145,7 @@ public abstract class BaseAim {
         }
     }
 
-    protected void exec(final RunActuator consumer,
+    protected void exec(final Actuator consumer,
                         final RoutingContext context,
                         final Event event) {
         try {

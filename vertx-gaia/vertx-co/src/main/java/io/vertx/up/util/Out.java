@@ -6,6 +6,7 @@ import io.vertx.up.atom.config.HugeFile;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
+import io.zero.cv.VValue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,7 +66,7 @@ final class Out {
     }
 
     static void writeCompress(final String path, final String data) {
-        final byte[] dataBytes = data.getBytes(Values.DEFAULT_CHARSET);
+        final byte[] dataBytes = data.getBytes(VValue.DFT.CHARSET);
         final byte[] output = Compressor.compress(dataBytes, CompressLevel.BEST_COMPRESSION);
         Fn.safeJvm(() -> {
             final FileOutputStream fos = new FileOutputStream(path);

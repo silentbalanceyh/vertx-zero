@@ -9,9 +9,9 @@ import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.WebException;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
+import io.zero.spec.function.Actuator;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;
@@ -124,7 +124,7 @@ abstract class AbstractJQCrud {
 
     private <T> void output(final T expected,
                             final Predicate<T> predicate,
-                            final RunActuator actuator,
+                            final Actuator actuator,
                             final Supplier<WebException> supplier/* 使用函数为延迟调用 */) {
         if (Objects.isNull(predicate)) {            /* 不关心执行结果影响多少行 */
             actuator.execute();

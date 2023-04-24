@@ -7,11 +7,11 @@ import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.tp.plugin.shared.MapInfix;
-import io.zero.spec.function.RunActuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
+import io.zero.spec.function.Actuator;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -78,9 +78,9 @@ class OInfix {
      * 内部调用初始化日志器，出错时输出异常信息
      *
      * @param label    {@link String} 日志显示标签
-     * @param actuator {@link RunActuator} 「函数接口」同步执行函数
+     * @param actuator {@link Actuator} 「函数接口」同步执行函数
      */
-    private static void on(final String label, final RunActuator actuator) {
+    private static void on(final String label, final Actuator actuator) {
         try {
             actuator.execute();
         } catch (final Throwable ex) {

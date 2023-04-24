@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.plugin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.aeon.experiment.mixture.HAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -9,9 +10,8 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HAttribute;
-import io.zero.spec.function.RunTiConsumer;
 import io.vertx.up.util.Ut;
+import io.zero.spec.function.TiConsumer;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -360,7 +360,7 @@ class IoArranger {
     /* Top Run */
     private static <T> void run(final T input, final ConcurrentMap<String, JComponent> inMap,
                                 final Class<?> interfaceCls,
-                                final RunTiConsumer<T, JComponent, JsonObject> consumer) {
+                                final TiConsumer<T, JComponent, JsonObject> consumer) {
         if (!inMap.isEmpty()) {
             final JsonObject dataMap = sourceData(inMap, interfaceCls);
             inMap.forEach((field, component) -> {

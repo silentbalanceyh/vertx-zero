@@ -2,12 +2,12 @@ package io.vertx.up.fn;
 
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.RunActuator;
+import io.zero.exception.ZeroException;
+import io.zero.exception.ZeroRunException;
+import io.zero.spec.function.Actuator;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -29,6 +29,7 @@ final class Warning {
      * @param logger    Zero Logger
      * @param zeroClass ZeroException class
      * @param args      Arguments of zero
+     *
      * @throws ZeroException Whether throw out exception of zero defined.
      */
     static void outZero(final Annal logger,
@@ -111,12 +112,12 @@ final class Warning {
     }
 
     static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
-        if (condition instanceof Boolean check) {
+        if (condition instanceof final Boolean check) {
             // If boolean, condition = true, throw Error
             if (check) {
                 outWeb(_412NullValueException.class, clazz, message);
             }
-        } else if (condition instanceof String check) {
+        } else if (condition instanceof final String check) {
             // If string, condition = empty or null, throw Error
             if (Ut.isNil(check)) {
                 outWeb(_412NullValueException.class, clazz, message);
@@ -141,7 +142,7 @@ final class Warning {
      * @param actuator Executor of zero defined interface
      * @param logger   Zero logger
      */
-    static void outRun(final RunActuator actuator, final Annal logger) {
+    static void outRun(final Actuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {
@@ -158,6 +159,7 @@ final class Warning {
      * @param supplier T supplier function
      * @param runCls   ZeroRunException definition
      * @param <T>      T type of object
+     *
      * @return Final T or throw our exception
      */
     static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {

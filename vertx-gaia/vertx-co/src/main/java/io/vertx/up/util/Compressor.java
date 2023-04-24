@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
+import io.zero.cv.VValue;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
@@ -19,7 +19,7 @@ class Compressor {
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
 
             deflater.finish();
-            final byte[] buffer = new byte[Values.CACHE_SIZE];
+            final byte[] buffer = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
             while (!deflater.finished()) {
                 final int count = deflater.deflate(buffer);
                 outputStream.write(buffer, 0, count);
@@ -37,7 +37,7 @@ class Compressor {
 
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(
                 data.length);
-            final byte[] buffer = new byte[Values.CACHE_SIZE];
+            final byte[] buffer = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
             while (!inflater.finished()) {
                 final int count = inflater.inflate(buffer);
                 outputStream.write(buffer, 0, count);

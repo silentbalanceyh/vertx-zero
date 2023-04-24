@@ -6,7 +6,7 @@ package io.zero.spec.function;
  * 不带任何参数执行且不带任何返回值，类似于发射型函数
  */
 @FunctionalInterface
-public interface RunActuator {
+public interface Actuator {
 
     void execute();
 }

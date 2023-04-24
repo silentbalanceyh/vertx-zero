@@ -6,8 +6,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.eon.Values;
 import io.vertx.up.unity.Ux;
+import io.zero.cv.VValue;
 
 /*
  * Jwt Token Service for:
@@ -54,7 +54,7 @@ public class JwtService implements JwtStub {
     @Override
     public Future<Boolean> verify(final String userKey, final String token) {
         return Ux.Jooq.on(OAccessTokenDao.class)
-            .<OAccessToken>fetchAsync("token", token.getBytes(Values.DEFAULT_CHARSET))
+            .<OAccessToken>fetchAsync("token", token.getBytes(VValue.DFT.CHARSET))
             .compose(tokens -> Sc.jwtToken(tokens, userKey));
     }
 }
