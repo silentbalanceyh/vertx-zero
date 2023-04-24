@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.parallel;
 
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.util.concurrent.CountDownLatch;
 

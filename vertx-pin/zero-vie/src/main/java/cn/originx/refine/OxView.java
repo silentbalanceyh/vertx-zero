@@ -15,7 +15,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.text.MessageFormat;
 import java.util.Objects;

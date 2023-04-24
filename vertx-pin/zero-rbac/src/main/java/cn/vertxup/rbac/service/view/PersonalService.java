@@ -10,7 +10,7 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,6 +1,7 @@
 package io.vertx.up.annotations;
 
 import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.MessageModel;
 
 import java.lang.annotation.*;
@@ -37,7 +38,7 @@ public @interface Worker {
      *
      * @return default vert.x group
      */
-    String group() default Constants.DEFAULT_GROUP;
+    String group() default KWeb.DFT.VERTX_GROUP;
 
     /**
      * @return whether support HA feature for current worker.

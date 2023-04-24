@@ -8,8 +8,8 @@ import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -25,7 +25,7 @@ public class GraphActor {
 
     @Address(Addr.GRAPH_ANALYZE)
     public Future<JsonObject> analyze(final String key, final String graph, final Integer level) {
-        final String graphName = Ut.isNil(graph) ? Constants.DEFAULT_GROUP : graph;
+        final String graphName = Ut.isNil(graph) ? KWeb.DFT.VERTX_GROUP : graph;
         if (Ut.isNil(key)) {
             return Ux.future(new JsonObject());
         } else {

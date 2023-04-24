@@ -16,7 +16,7 @@ import io.vertx.up.uca.job.store.JobPin;
 import io.vertx.up.uca.job.store.JobStore;
 import io.vertx.up.uca.job.timer.Interval;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;

@@ -13,13 +13,7 @@ public interface Constants {
 
     boolean DEFAULT_HA = true;
 
-    String DEFAULT_JOB = "jobs";
-
     String DEFAULT_JOB_NAMESPACE = "zero.vertx.jobs";
-
-    String DEFAULT_JOOQ_HISTORY = "orbit";
-
-    String DEFAULT_JOOQ = "provider";
 
     String DEFAULT_FREEDOM = "freedom";
 

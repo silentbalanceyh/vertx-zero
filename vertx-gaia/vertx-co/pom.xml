@@ -11,10 +11,14 @@
     <artifactId>vertx-co</artifactId>
     <name>Kernel:「vertx-co」Infrastructure</name>
     <dependencies>
-        <!-- Zero 规范连接 -->
+        <!-- Logging -->
         <dependency>
-            <groupId>io.zero</groupId>
-            <artifactId>vertx-ams</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
         <!-- Code Gen -->
         <dependency>

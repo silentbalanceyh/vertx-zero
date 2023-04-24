@@ -2,7 +2,7 @@ package io.aeon.runtime.internal;
 
 import io.aeon.runtime.H1H;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;

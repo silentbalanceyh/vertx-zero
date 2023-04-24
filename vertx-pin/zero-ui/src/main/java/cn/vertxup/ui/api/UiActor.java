@@ -17,7 +17,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ViewType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import javax.inject.Inject;
 import java.util.Objects;

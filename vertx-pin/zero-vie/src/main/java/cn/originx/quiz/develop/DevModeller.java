@@ -18,7 +18,7 @@ import io.vertx.up.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.util.HashSet;
 import java.util.Objects;

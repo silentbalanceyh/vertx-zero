@@ -1,7 +1,7 @@
 package io.vertx.up.uca.serialization;
 
 import io.vertx.up.fn.Fn;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 public class ByteArraySaber extends BaseSaber {
 

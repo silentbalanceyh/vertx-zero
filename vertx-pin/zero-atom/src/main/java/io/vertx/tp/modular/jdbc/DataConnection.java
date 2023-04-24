@@ -9,7 +9,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 import org.jooq.Record;
 import org.jooq.*;
 

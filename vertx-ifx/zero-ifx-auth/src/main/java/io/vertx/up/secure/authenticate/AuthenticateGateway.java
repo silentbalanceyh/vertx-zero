@@ -13,7 +13,7 @@ import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

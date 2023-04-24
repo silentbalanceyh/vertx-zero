@@ -1,7 +1,7 @@
 package io.vertx.up.uca.options;
 
 import io.vertx.core.json.JsonObject;
-import io.zero.exception.ZeroException;
+import io.horizon.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroVertx;

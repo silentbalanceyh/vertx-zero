@@ -7,9 +7,9 @@ import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import io.vertx.up.runtime.env.Macrocosm;
-import io.zero.cv.VPath;
-import io.zero.cv.VValue;
-import io.zero.spec.function.Actuator;
+import io.horizon.constant.VPath;
+import io.horizon.constant.VValue;
+import io.horizon.function.Actuator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,10 +4,8 @@ import io.aeon.experiment.specification.sch.KTimer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Info;
-import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.*;
 import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.eon.em.JobStatus;
 import io.vertx.up.eon.em.JobType;
@@ -136,7 +134,7 @@ public class JobExtractor implements Extractor<Mission> {
     }
 
     private String resolve(final String config) {
-        final StringBuilder file = new StringBuilder(Constants.DEFAULT_JOB);
+        final StringBuilder file = new StringBuilder(KWeb.JOB_PREFIX);
         if (config.startsWith(Strings.SLASH)) {
             /* config contains `/` prefix */
             file.append(config);

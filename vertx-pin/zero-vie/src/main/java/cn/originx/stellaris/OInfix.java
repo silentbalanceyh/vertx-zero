@@ -11,7 +11,7 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

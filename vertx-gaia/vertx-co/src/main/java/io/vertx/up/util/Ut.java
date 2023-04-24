@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.eon.em.TypeOs;
 import io.aeon.experiment.specification.KPair;
 import io.aeon.runtime.internal.HService;
+import io.horizon.constant.VEnv;
+import io.horizon.constant.VString;
+import io.horizon.function.Actuator;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -22,9 +25,6 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
-import io.zero.cv.VEnv;
-import io.zero.cv.VString;
-import io.zero.spec.function.Actuator;
 
 import java.io.File;
 import java.io.InputStream;
@@ -48,6 +48,14 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public final class Ut {
     private Ut() {
+    }
+
+    public static String messageJava(final String pattern, final Object... args) {
+        return HFormat.format(pattern, args);
+    }
+
+    public static String messageSlf4j(final String pattern, final Object... args) {
+        return HFormat.formatter(pattern, args);
     }
 
     public static JsonMapper mapper() {

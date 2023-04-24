@@ -1,5 +1,6 @@
 package io.vertx.up.fn;
 
+import io.horizon.function.*;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -11,9 +12,8 @@ import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
-import io.zero.spec.function.*;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;

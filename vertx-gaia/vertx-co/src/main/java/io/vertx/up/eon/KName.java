@@ -1,7 +1,7 @@
 package io.vertx.up.eon;
 
 import io.vertx.up.atom.query.engine.Qr;
-import io.zero.cv.VName;
+import io.horizon.constant.VName;
 
 import java.util.HashSet;
 import java.util.Set;

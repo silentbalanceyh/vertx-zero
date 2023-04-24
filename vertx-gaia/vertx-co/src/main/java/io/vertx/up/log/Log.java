@@ -2,8 +2,8 @@ package io.vertx.up.log;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
 import io.vertx.up.fn.Fn;
 import org.slf4j.Logger;
 

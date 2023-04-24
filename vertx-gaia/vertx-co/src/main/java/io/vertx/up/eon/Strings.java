@@ -1,6 +1,6 @@
 package io.vertx.up.eon;
 
-import io.zero.cv.VString;
+import io.horizon.constant.VString;
 
 /**
  * 此类需保留

@@ -4,12 +4,12 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KPlugin;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
+import io.horizon.constant.configure.YML;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 
@@ -64,7 +64,7 @@ public class JooqInfix implements Infix {
     }
 
     public static <T> JooqDsl getDao(final Class<T> clazz) {
-        final Configuration configuration = configSafe(Constants.DEFAULT_JOOQ);
+        final Configuration configuration = configSafe(YML.lime.jooq.provider);
         return JooqDsl.init(vertxRef, configuration, clazz);
     }
 
@@ -85,13 +85,13 @@ public class JooqInfix implements Infix {
      * 2. Static/Configured: vertx-jooq.yml -> ( by Key )
      */
     public static DSLContext contextTrash() {
-        return configSafe(Constants.DEFAULT_JOOQ_HISTORY).dsl();
+        return configSafe(YML.lime.jooq.orbit).dsl();
     }
 
 
     @Override
     public Configuration get() {
-        return this.get(Constants.DEFAULT_JOOQ);
+        return this.get(YML.lime.jooq.provider);
     }
 
     public Configuration get(final String key) {

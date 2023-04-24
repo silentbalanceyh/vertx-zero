@@ -5,9 +5,9 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.zero.exception.ZeroException;
-import io.zero.exception.ZeroRunException;
-import io.zero.spec.function.Actuator;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.function.Actuator;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -15,9 +15,9 @@ import java.util.function.Supplier;
 /**
  * Announce means tell every one of Zero system that there occurs error, the error contains
  * 1. java.lang.Exception ( Checked )
- * 2. io.zero.exception.ZeroException ( Checked )
+ * 2. io.horizon.exception.ZeroException ( Checked )
  * 3. java.lang.Throwable ( Runtime )
- * 4. io.zero.exception.ZeroRunException ( Runtime )
+ * 4. io.horizon.exception.ZeroRunException ( Runtime )
  */
 final class Warning {
     private Warning() {

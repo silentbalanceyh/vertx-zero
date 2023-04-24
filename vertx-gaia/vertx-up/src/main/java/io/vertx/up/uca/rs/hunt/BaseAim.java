@@ -21,7 +21,7 @@ import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;
 import io.vertx.up.util.Ut;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

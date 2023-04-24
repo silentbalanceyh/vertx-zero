@@ -13,7 +13,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.marshal.RpcServerSetUp;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
-import io.zero.exception.ZeroException;
+import io.horizon.exception.ZeroException;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

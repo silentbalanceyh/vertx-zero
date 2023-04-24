@@ -9,7 +9,7 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
-import io.zero.exception.ZeroException;
+import io.horizon.exception.ZeroException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

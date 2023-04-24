@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.parallel;
 
 import io.vertx.up.log.Annal;
-import io.zero.spec.function.Actuator;
+import io.horizon.function.Actuator;
 
 import java.util.ArrayList;
 import java.util.List;

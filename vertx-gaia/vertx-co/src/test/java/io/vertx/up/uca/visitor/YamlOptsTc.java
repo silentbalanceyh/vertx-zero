@@ -2,7 +2,7 @@ package io.vertx.up.uca.visitor;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.zero.exception.ZeroException;
+import io.horizon.exception.ZeroException;
 import io.vertx.up.exception.heart.LimeFileException;
 import io.vertx.up.uca.options.Opts;
 import org.junit.Ignore;

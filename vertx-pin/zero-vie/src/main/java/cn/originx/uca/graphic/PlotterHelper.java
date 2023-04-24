@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -20,7 +20,7 @@ class PlotterHelper {
         Ox.Log.infoUca(PlotterHelper.class, "节点数量：{0}, 关系数量：{1}",
             String.valueOf(nodes.size()), String.valueOf(edges.size()));
         /* 默认分组：__VERTX_ZERO__ */
-        final Neo4jClient client = Neo4jInfix.getClient().connect(Constants.DEFAULT_GROUP);
+        final Neo4jClient client = Neo4jInfix.getClient().connect(KWeb.DFT.VERTX_GROUP);
         /* 图库推送 */
         final JsonArray nodeArray = Ox.toNode(nodes);
         final JsonArray edgeArray = Ox.toEdge(edges);

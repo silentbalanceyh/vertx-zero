@@ -6,7 +6,7 @@ import io.vertx.up.atom.config.HugeFile;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.io.File;
 import java.io.FileOutputStream;

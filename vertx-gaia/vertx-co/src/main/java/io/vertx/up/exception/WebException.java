@@ -6,7 +6,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
-import io.zero.exception.ZeroRunException;
+import io.horizon.exception.ZeroRunException;
 
 import java.text.MessageFormat;
 

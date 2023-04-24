@@ -9,8 +9,8 @@
  * This package also defined checked exception code flow such as invoke
  * 1) io.vertx.zero.io.vertx.zero.io.zero.spec.function.JvmActuator
  * 2) io.vertx.zero.io.vertx.zero.io.zero.spec.function.JvmSupplier
- * 3) io.vertx.zero.io.vertx.zero.io.zero.spec.function.ZeroActuator
- * 4) io.vertx.zero.io.vertx.zero.io.zero.spec.function.ZeroBiConsumer
- * 5) io.vertx.zero.io.vertx.zero.io.zero.spec.function.ZeroSupplier
+ * 3) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroActuator
+ * 4) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroBiConsumer
+ * 5) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroSupplier
  */
 package io.vertx.up.fn;

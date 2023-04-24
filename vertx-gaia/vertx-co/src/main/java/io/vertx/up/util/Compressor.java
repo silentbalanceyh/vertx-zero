@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.vertx.up.eon.em.CompressLevel;
 import io.vertx.up.fn.Fn;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;

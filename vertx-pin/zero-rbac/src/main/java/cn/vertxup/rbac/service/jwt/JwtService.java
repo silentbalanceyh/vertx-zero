@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.unity.Ux;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 /*
  * Jwt Token Service for:

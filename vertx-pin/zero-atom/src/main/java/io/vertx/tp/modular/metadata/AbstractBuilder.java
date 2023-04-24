@@ -12,7 +12,7 @@ import io.vertx.tp.modular.sql.SqlDDLProvider;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.util.ArrayList;
 import java.util.List;

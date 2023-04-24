@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.zero.cv.VString;
+import io.horizon.constant.VString;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

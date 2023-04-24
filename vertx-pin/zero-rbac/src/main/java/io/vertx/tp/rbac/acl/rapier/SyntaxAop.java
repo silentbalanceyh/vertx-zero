@@ -18,7 +18,7 @@ import io.vertx.up.eon.em.ActPhase;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 import java.util.Objects;
 

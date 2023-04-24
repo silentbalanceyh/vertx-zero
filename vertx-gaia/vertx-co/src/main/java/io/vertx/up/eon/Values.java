@@ -1,6 +1,6 @@
 package io.vertx.up.eon;
 
-import io.zero.cv.VValue;
+import io.horizon.constant.VValue;
 
 /**
  * Value constants

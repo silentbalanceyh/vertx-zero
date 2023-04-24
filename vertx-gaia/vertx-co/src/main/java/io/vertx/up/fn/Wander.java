@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
-import io.zero.cv.em.Result;
+import io.horizon.constant.em.Result;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
