@@ -3,12 +3,12 @@ package io.vertx.up.experiment.shape.internal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.experiment.mixture.HAttribute;
+import io.aeon.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mu.KClass;
 import io.vertx.up.experiment.mu.KHybrid;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.vertx.up.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.power.KApp;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;

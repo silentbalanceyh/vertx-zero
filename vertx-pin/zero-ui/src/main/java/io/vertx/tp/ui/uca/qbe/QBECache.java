@@ -1,7 +1,7 @@
 package io.vertx.tp.ui.uca.qbe;
 
 import cn.vertxup.ui.domain.tables.pojos.UiView;
-import io.vertx.aeon.specification.query.HCond;
+import io.aeon.specification.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.UiCv;

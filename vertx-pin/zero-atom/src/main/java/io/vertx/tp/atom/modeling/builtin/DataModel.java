@@ -12,11 +12,11 @@ import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.atom.ModelType;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.mixture.HReference;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.mixture.HAttribute;
+import io.aeon.experiment.mixture.HReference;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.vertx.up.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 

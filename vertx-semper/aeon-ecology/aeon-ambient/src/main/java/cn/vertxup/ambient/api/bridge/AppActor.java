@@ -1,6 +1,6 @@
 package cn.vertxup.ambient.api.bridge;
 
-import io.vertx.aeon.annotations.QaS;
+import io.aeon.annotations.QaS;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;

@@ -6,10 +6,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.mixture.HAtom;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.mu.KMarker;
+import io.aeon.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAttribute;
+import io.aeon.experiment.mixture.HTField;
+import io.aeon.experiment.mu.KMarker;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 

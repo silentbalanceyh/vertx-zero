@@ -8,7 +8,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.extension.*;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.crypto;
 
 import io.vertx.up.eon.Constants;
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.specification.KPair;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;

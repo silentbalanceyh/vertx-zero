@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.refine.Fm;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KNaming;
+import io.aeon.experiment.specification.KNaming;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

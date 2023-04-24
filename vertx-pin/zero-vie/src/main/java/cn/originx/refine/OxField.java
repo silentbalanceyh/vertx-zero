@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

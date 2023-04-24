@@ -1,7 +1,7 @@
 package io.vertx.aeon.runtime;
 
-import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.refine.HLog;
+import io.aeon.atom.iras.HAeon;
+import io.aeon.refine.HLog;
 import io.vertx.up.runtime.env.Macrocosm;
 
 /**

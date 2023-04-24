@@ -1,12 +1,12 @@
 package io.vertx.up.experiment.shape;
 
+import io.aeon.experiment.mixture.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.mixture.*;
-import io.vertx.up.experiment.mu.KMarker;
-import io.vertx.up.experiment.rule.RuleUnique;
-import io.vertx.up.experiment.specification.power.KApp;
+import io.aeon.experiment.mu.KMarker;
+import io.aeon.experiment.rule.RuleUnique;
+import io.aeon.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;

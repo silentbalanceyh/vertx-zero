@@ -1,11 +1,13 @@
 package io.vertx.up.experiment.mixture;
 
+import io.aeon.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HModel;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.shape.internal.NormAtom;
 import io.vertx.up.experiment.shape.internal.NormModel;
-import io.vertx.up.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
 
 /**

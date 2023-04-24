@@ -14,7 +14,7 @@ import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.ID;
 import io.vertx.up.eon.em.ChannelType;
 import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

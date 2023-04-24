@@ -2,8 +2,8 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.vertx.aeon.eon.em.TypeOs;
-import io.vertx.aeon.runtime.internal.HService;
+import io.aeon.eon.em.TypeOs;
+import io.aeon.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -21,7 +21,7 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.specification.KPair;
 import io.vertx.up.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
 

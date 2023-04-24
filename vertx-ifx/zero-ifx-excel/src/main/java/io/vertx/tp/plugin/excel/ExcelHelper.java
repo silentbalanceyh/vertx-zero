@@ -15,7 +15,7 @@ import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;

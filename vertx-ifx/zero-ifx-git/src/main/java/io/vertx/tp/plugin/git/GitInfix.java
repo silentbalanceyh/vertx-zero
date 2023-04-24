@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.git;
 
-import io.vertx.aeon.atom.iras.HRepo;
+import io.aeon.atom.iras.HRepo;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.uca.cache.Cc;

@@ -7,7 +7,7 @@ import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

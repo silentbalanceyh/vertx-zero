@@ -1,7 +1,7 @@
 package io.vertx.up.fn;
 
-import io.vertx.aeon.runtime.H3H;
-import io.vertx.aeon.specification.action.HCombiner;
+import io.aeon.runtime.H3H;
+import io.aeon.specification.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

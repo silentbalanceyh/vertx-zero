@@ -1,6 +1,6 @@
 package io.vertx.up.extension.pointer;
 
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.experiment.mixture.HLoad;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

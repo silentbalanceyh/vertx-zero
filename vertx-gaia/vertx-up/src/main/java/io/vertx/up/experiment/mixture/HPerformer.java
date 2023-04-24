@@ -1,5 +1,6 @@
 package io.vertx.up.experiment.mixture;
 
+import io.aeon.experiment.mixture.HModel;
 import io.vertx.core.Future;
 import io.vertx.up.unity.Ux;
 

@@ -2,7 +2,7 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 
 /**
  * 绑定接口

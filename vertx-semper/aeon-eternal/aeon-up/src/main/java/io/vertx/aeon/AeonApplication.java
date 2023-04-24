@@ -1,12 +1,12 @@
 package io.vertx.aeon;
 
-import io.vertx.aeon.atom.HSwitcher;
-import io.vertx.aeon.atom.config.HPlot;
-import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.atom.iras.HBoot;
-import io.vertx.aeon.exception.heart.AeonConfigureException;
-import io.vertx.aeon.exception.heart.AeonEnvironmentException;
-import io.vertx.aeon.specification.boot.HOn;
+import io.aeon.atom.HSwitcher;
+import io.aeon.atom.config.HPlot;
+import io.aeon.atom.iras.HAeon;
+import io.aeon.atom.iras.HBoot;
+import io.aeon.exception.heart.AeonConfigureException;
+import io.aeon.exception.heart.AeonEnvironmentException;
+import io.aeon.specification.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;

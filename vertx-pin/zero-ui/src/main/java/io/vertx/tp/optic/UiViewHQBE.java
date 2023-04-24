@@ -2,7 +2,7 @@ package io.vertx.tp.optic;
 
 import cn.vertxup.ui.domain.tables.daos.UiViewDao;
 import cn.vertxup.ui.domain.tables.pojos.UiView;
-import io.vertx.aeon.specification.query.HCond;
+import io.aeon.specification.query.HCond;
 import io.vertx.aeon.specification.query.HQBE;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

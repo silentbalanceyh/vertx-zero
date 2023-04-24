@@ -3,7 +3,7 @@ package io.vertx.up.commune;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.em.ChannelType;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 
 /*
  * Underway communication channel between

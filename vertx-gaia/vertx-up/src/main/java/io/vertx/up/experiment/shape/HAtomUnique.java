@@ -1,7 +1,7 @@
 package io.vertx.up.experiment.shape;
 
-import io.vertx.up.experiment.mixture.HModel;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.mixture.HModel;
+import io.aeon.experiment.rule.RuleUnique;
 
 import java.util.Objects;
 

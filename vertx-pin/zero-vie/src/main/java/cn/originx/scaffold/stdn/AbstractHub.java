@@ -17,7 +17,7 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HDao;
+import io.aeon.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

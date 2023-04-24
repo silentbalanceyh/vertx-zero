@@ -1,8 +1,8 @@
 package io.vertx.tp.ke.secure;
 
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HED;
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.mixture.HED;
+import io.aeon.experiment.specification.KPair;
 import io.vertx.up.util.Ut;
 
 import java.util.Properties;

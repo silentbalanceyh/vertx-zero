@@ -10,7 +10,7 @@ import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

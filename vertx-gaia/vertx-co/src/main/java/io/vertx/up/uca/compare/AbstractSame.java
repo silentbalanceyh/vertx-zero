@@ -2,7 +2,7 @@ package io.vertx.up.uca.compare;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.experiment.mixture.HTField;
+import io.aeon.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;

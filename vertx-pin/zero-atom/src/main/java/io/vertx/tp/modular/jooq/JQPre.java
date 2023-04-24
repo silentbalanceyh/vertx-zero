@@ -8,7 +8,7 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HReference;
+import io.aeon.experiment.mixture.HReference;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.HashSet;

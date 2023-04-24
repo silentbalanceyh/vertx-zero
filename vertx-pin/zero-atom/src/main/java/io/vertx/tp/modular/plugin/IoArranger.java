@@ -9,7 +9,7 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HAttribute;
+import io.aeon.experiment.mixture.HAttribute;
 import io.vertx.up.fn.TiConsumer;
 import io.vertx.up.util.Ut;
 

@@ -1,6 +1,6 @@
 package io.vertx.tp.rbac.ruler.element;
 
-import io.vertx.aeon.eon.em.ScIn;
+import io.aeon.eon.em.ScIn;
 import io.vertx.tp.rbac.cv.em.PackType;
 
 import java.util.concurrent.ConcurrentHashMap;

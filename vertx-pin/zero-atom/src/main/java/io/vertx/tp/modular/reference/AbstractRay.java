@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._501AnonymousAtomException;
-import io.vertx.up.experiment.mixture.HReference;
-import io.vertx.up.experiment.mixture.HRule;
-import io.vertx.up.experiment.reference.RResult;
+import io.aeon.experiment.mixture.HReference;
+import io.aeon.experiment.mixture.HRule;
+import io.aeon.experiment.reference.RResult;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

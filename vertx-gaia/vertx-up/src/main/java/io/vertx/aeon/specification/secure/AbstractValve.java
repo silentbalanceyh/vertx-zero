@@ -1,10 +1,11 @@
 package io.vertx.aeon.specification.secure;
 
-import io.vertx.aeon.atom.secure.HCatena;
-import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.atom.secure.HSemi;
-import io.vertx.aeon.eon.em.ScDim;
-import io.vertx.aeon.eon.em.ScIn;
+import io.aeon.atom.secure.HCatena;
+import io.aeon.atom.secure.HPermit;
+import io.aeon.atom.secure.HSemi;
+import io.aeon.eon.em.ScDim;
+import io.aeon.eon.em.ScIn;
+import io.aeon.specification.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.em.ActPhase;

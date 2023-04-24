@@ -16,7 +16,7 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;

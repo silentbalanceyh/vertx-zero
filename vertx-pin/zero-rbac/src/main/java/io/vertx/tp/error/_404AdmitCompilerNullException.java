@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.vertx.aeon.eon.em.ScIn;
+import io.aeon.eon.em.ScIn;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 

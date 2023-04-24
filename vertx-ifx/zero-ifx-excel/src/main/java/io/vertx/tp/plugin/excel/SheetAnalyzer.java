@@ -6,7 +6,7 @@ import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;

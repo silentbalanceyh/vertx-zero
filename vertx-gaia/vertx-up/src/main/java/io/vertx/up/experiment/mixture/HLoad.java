@@ -1,5 +1,7 @@
 package io.vertx.up.experiment.mixture;
 
+import io.aeon.experiment.mixture.HAtom;
+
 /**
  * Mix Atom Load for different HAtom Loading
  *

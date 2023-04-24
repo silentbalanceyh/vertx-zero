@@ -8,7 +8,7 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 

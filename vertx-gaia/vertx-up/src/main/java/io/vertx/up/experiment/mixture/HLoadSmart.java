@@ -1,5 +1,6 @@
 package io.vertx.up.experiment.mixture;
 
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.uca.cache.Cc;
 

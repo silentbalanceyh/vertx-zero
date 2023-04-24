@@ -7,7 +7,7 @@ import io.vertx.tp.atom.modeling.builtin.DataSchema;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.experiment.mixture.HApp;
+import io.aeon.experiment.mixture.HApp;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

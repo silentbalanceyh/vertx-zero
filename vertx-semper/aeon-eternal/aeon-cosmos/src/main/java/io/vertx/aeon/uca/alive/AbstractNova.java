@@ -1,11 +1,11 @@
 package io.vertx.aeon.uca.alive;
 
-import io.vertx.aeon.atom.iras.HRepo;
-import io.vertx.aeon.eon.HName;
-import io.vertx.aeon.eon.HPath;
-import io.vertx.aeon.eon.em.RTEAeon;
-import io.vertx.aeon.specification.app.HFS;
-import io.vertx.aeon.specification.program.HNova;
+import io.aeon.atom.iras.HRepo;
+import io.aeon.eon.HName;
+import io.aeon.eon.HPath;
+import io.aeon.eon.em.RTEAeon;
+import io.aeon.specification.app.HFS;
+import io.aeon.specification.program.HNova;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.eon.Constants;

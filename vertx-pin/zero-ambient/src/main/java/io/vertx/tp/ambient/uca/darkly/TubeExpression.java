@@ -4,7 +4,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.uca.differ.Schism;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

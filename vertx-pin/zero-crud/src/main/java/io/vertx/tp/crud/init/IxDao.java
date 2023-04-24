@@ -10,7 +10,7 @@ import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.specification.KColumn;
-import io.vertx.up.experiment.specification.KField;
+import io.aeon.experiment.specification.KField;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;

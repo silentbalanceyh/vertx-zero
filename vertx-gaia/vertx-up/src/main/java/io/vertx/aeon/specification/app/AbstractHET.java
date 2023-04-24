@@ -1,11 +1,12 @@
 package io.vertx.aeon.specification.app;
 
-import io.vertx.aeon.atom.secure.Hoi;
-import io.vertx.aeon.eon.em.ModeApp;
+import io.aeon.atom.secure.Hoi;
+import io.aeon.eon.em.ModeApp;
+import io.aeon.specification.app.HET;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.power.KApp;
-import io.vertx.up.experiment.specification.power.KTenant;
+import io.aeon.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.power.KTenant;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

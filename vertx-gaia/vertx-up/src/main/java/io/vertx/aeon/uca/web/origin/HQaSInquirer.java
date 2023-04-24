@@ -1,6 +1,6 @@
 package io.vertx.aeon.uca.web.origin;
 
-import io.vertx.aeon.annotations.QaS;
+import io.aeon.annotations.QaS;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.eon.Info;
 import io.vertx.up.log.Annal;

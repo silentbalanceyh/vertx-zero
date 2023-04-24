@@ -4,7 +4,7 @@ import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.power.KFlow;
+import io.aeon.experiment.specification.power.KFlow;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

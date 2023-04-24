@@ -1,9 +1,9 @@
 package io.vertx.up.experiment.shape;
 
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.mixture.HModel;
-import io.vertx.up.experiment.mixture.HTAtom;
-import io.vertx.up.experiment.mixture.HTField;
+import io.aeon.experiment.mixture.HAttribute;
+import io.aeon.experiment.mixture.HModel;
+import io.aeon.experiment.mixture.HTAtom;
+import io.aeon.experiment.mixture.HTField;
 
 import java.util.Objects;
 import java.util.Set;

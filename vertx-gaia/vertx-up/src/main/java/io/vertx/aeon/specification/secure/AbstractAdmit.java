@@ -1,13 +1,14 @@
 package io.vertx.aeon.specification.secure;
 
-import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.atom.secure.Hoi;
+import io.aeon.atom.secure.HPermit;
+import io.aeon.atom.secure.Hoi;
+import io.aeon.specification.secure.HAdmit;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HAtom;
+import io.aeon.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

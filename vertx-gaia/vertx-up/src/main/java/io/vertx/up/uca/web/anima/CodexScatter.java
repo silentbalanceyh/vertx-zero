@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.anima;
 
-import io.vertx.aeon.runtime.H2H;
+import io.aeon.runtime.H2H;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.FileSuffix;

@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.rule.RuleTerm;
+import io.aeon.experiment.rule.RuleTerm;
 import io.vertx.up.util.Ut;
 
 import java.util.Collection;

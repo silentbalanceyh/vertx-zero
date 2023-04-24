@@ -1,7 +1,7 @@
 package io.vertx.up.secure.validation;
 
 import io.reactivex.Observable;
-import io.vertx.aeon.runtime.H2H;
+import io.aeon.runtime.H2H;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Rule;

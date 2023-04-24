@@ -10,8 +10,8 @@ import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.jet.uca.business.AbstractJob;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.mixture.HDao;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
 

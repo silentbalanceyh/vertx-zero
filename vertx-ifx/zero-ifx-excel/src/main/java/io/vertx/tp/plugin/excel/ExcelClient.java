@@ -9,7 +9,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.plugin.TpClient;
 
 import java.io.InputStream;

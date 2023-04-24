@@ -1,8 +1,8 @@
 package io.vertx.up.runtime;
 
-import io.vertx.aeon.eon.HPath;
-import io.vertx.aeon.eon.em.TypeOs;
-import io.vertx.aeon.refine.HLog;
+import io.aeon.eon.HPath;
+import io.aeon.eon.em.TypeOs;
+import io.aeon.refine.HLog;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;

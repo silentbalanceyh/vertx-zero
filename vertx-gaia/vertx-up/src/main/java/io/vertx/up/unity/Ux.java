@@ -31,7 +31,7 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.experiment.rule.RuleTerm;
+import io.aeon.experiment.rule.RuleTerm;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;

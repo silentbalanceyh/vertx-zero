@@ -1,6 +1,6 @@
 package io.vertx.up.uca.crypto;
 
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.specification.KPair;
 import io.vertx.up.uca.cache.Cc;
 
 /**

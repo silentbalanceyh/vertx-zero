@@ -3,8 +3,8 @@ package io.vertx.tp.atom.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
-import io.vertx.up.experiment.mixture.HApp;
-import io.vertx.up.experiment.mixture.HLinkage;
+import io.aeon.experiment.mixture.HApp;
+import io.aeon.experiment.mixture.HLinkage;
 
 import java.util.List;
 import java.util.Set;

@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.data.DataGroup;
 import io.vertx.tp.optic.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DS;
 import io.vertx.tp.plugin.database.DataPool;
-import io.vertx.up.experiment.channel.Pocket;
+import io.aeon.experiment.channel.Pocket;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;

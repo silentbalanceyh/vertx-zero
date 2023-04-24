@@ -1,8 +1,8 @@
 package io.vertx.up.runtime;
 
 import com.google.inject.Injector;
-import io.vertx.aeon.atom.HSwitcher;
-import io.vertx.aeon.atom.iras.HAeon;
+import io.aeon.atom.HSwitcher;
+import io.aeon.atom.iras.HAeon;
 import io.vertx.aeon.uca.web.origin.HQaSInquirer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;

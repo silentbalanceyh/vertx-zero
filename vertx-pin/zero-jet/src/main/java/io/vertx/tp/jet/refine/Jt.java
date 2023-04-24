@@ -17,7 +17,7 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.ChannelType;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.log.Annal;
 import jakarta.ws.rs.core.MediaType;
 

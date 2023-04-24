@@ -6,7 +6,7 @@ import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.specification.KNaming;
+import io.aeon.experiment.specification.KNaming;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
