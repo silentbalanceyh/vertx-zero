@@ -1,11 +1,11 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.Record;
 import io.vertx.up.util.Ut;
 
 /**

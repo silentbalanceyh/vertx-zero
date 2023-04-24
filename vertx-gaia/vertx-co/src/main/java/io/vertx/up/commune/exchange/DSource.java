@@ -1,8 +1,8 @@
 package io.vertx.up.commune.exchange;
 
+import io.horizon.specification.zero.object.TCopy;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Copyable;
 import io.vertx.up.eon.em.GlossaryType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -21,7 +21,7 @@ import java.util.Set;
  * 3) Assist ->
  * A little complex
  */
-public class DSource implements Serializable, Copyable<DSource> {
+public class DSource implements Serializable, TCopy<DSource> {
     private static final Annal LOGGER = Annal.get(DSource.class);
     private final Set<String> types = new HashSet<>();
     /*

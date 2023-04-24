@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.aeon.experiment.mixture.HTAtom;
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -258,7 +258,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final HTAtom HTAtom) {
+    Set<ExTable> getExTables(final Workbook workbook, final TypeAtom MetaAtom) {
         return Fn.orNull(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -301,7 +301,7 @@ class ExcelHelper {
 
                 final SheetAnalyzer exSheet = new SheetAnalyzer(sheet).on(evaluator);
                 /* Build Set */
-                final Set<ExTable> dataSet = exSheet.analyzed(range, HTAtom);
+                final Set<ExTable> dataSet = exSheet.analyzed(range, MetaAtom);
                 /*
                  * Here for critical injection, mount the data of
                  * {
@@ -316,10 +316,10 @@ class ExcelHelper {
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet, final HTAtom HTAtom) {
+    void brush(final Workbook workbook, final Sheet sheet, final TypeAtom MetaAtom) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
-            this.tpl.applyStyle(sheet, HTAtom);
+            this.tpl.applyStyle(sheet, MetaAtom);
         }
     }
 

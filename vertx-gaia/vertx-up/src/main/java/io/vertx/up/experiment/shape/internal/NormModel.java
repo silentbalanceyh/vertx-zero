@@ -1,14 +1,14 @@
 package io.vertx.up.experiment.shape.internal;
 
+import io.aeon.experiment.rule.RuleUnique;
+import io.aeon.experiment.specification.power.KApp;
+import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.specification.modeler.HAttribute;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.exception.web._501NotSupportException;
-import io.aeon.experiment.mixture.HAttribute;
 import io.vertx.up.experiment.mu.KClass;
 import io.vertx.up.experiment.mu.KHybrid;
-import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.experiment.shape.AbstractHModel;
-import io.aeon.experiment.specification.power.KApp;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;

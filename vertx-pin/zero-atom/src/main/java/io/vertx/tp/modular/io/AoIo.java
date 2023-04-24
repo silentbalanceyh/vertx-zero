@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.io;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.cv.em.EventType;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.commune.Record;
 
 import java.util.List;
 

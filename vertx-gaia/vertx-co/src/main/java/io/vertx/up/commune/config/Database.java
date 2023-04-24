@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.specification.zero.object.TCopy;
+import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Copyable;
-import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.eon.em.DatabaseType;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -43,7 +43,7 @@ import java.util.Objects;
  * workflow:
  *    database:         // WORKFLOW
  */
-public class Database implements Serializable, Json, Copyable<Database> {
+public class Database implements Serializable, TJson, TCopy<Database> {
 
     public static final String CURRENT = "provider";
     public static final String HISTORY = "orbit";

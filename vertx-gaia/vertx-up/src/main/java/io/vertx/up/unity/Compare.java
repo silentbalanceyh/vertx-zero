@@ -1,9 +1,9 @@
 package io.vertx.up.unity;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Record;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;

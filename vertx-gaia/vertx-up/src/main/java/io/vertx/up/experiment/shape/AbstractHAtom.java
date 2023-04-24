@@ -1,12 +1,12 @@
 package io.vertx.up.experiment.shape;
 
-import io.aeon.experiment.mixture.*;
-import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
+import io.horizon.specification.modeler.*;
+import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.Strings;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
@@ -113,13 +113,13 @@ public abstract class AbstractHAtom implements HAtom {
 
     @Override
     public Class<?> type(final String field) {
-        final HTField attribute = this.metadata.type(field);
+        final TypeField attribute = this.metadata.type(field);
         return Objects.isNull(attribute) ? String.class : attribute.type();
     }
 
     /** 返回 Shape 对象 */
     @Override
-    public HTAtom shape() {
+    public TypeAtom shape() {
         return this.metadata.shape();
     }
 

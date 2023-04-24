@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.excel.tool;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
-import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -208,8 +208,8 @@ public class ExFn {
     }
 
     public static boolean generateHeader(final Sheet sheet, final String identifier,
-                                         final JsonArray tableData, final HTAtom HTAtom) {
-        return ExData.generateHeader(sheet, identifier, tableData, HTAtom);
+                                         final JsonArray tableData, final TypeAtom MetaAtom) {
+        return ExData.generateHeader(sheet, identifier, tableData, MetaAtom);
     }
 
     public static void generateHeader(final Sheet sheet, final Integer index,

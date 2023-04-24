@@ -1,6 +1,6 @@
 package io.vertx.up.exception.web;
 
-import io.aeon.eon.em.ScDim;
+import io.horizon.constant.em.cloud.ScDim;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 

@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.agent.IpcData;
-import io.vertx.up.eon.em.CertType;
+import io.horizon.constant.em.secure.CertType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;

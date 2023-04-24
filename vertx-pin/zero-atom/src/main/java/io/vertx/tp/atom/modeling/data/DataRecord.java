@@ -1,6 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataKey;
@@ -8,7 +9,6 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.id.AoId;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActiveRecord;
-import io.vertx.up.commune.Record;
 
 import java.util.Objects;
 import java.util.Set;

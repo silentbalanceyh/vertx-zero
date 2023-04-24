@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.element;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.commune.Record;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 

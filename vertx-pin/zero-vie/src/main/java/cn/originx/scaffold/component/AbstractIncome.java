@@ -2,8 +2,8 @@ package cn.originx.scaffold.component;
 
 import cn.originx.refine.Ox;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.mixture.HDao;
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;

@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.io;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.error._417EventTypeConflictException;
 import io.vertx.tp.modular.plugin.IoHub;
-import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 

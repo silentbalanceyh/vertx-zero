@@ -1,15 +1,15 @@
 package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.aeon.experiment.mu.KReference;
+import io.aeon.experiment.specification.power.KApp;
+import io.horizon.constant.em.modeler.AttributeType;
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.em.atom.AttributeType;
-import io.aeon.experiment.mixture.HAtom;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HDao;
-import io.aeon.experiment.mu.KReference;
 import io.vertx.up.experiment.shape.HAtomReference;
-import io.aeon.experiment.specification.power.KApp;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.reference;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.commune.Record;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * ## Single Reference Processor
  *
- * It's the sub-class of {@link io.vertx.tp.modular.reference.AbstractRay} with {@link io.vertx.up.commune.Record} element.
+ * It's the sub-class of {@link io.vertx.tp.modular.reference.AbstractRay} with {@link Record} element.
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -21,7 +21,7 @@ public class RaySingle extends AbstractRay<Record> {
     /**
      * Critical code logical
      *
-     * @param input Input element of {@link io.vertx.up.commune.Record} for single
+     * @param input Input element of {@link Record} for single
      *
      * @return Processed Return the modified data record.
      */

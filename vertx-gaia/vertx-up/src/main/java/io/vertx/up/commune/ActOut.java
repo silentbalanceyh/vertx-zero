@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpStatusCode;

@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.em.BoolStatus;
+import io.horizon.constant.em.ValueBool;
 
 import java.lang.annotation.*;
 
@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface Me {
-    BoolStatus active() default BoolStatus.TRUE;
+    ValueBool active() default ValueBool.TRUE;
 
     boolean app() default false;
 }

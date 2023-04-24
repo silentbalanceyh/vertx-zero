@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.constant.em.modeler.KeyMode;
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.em.atom.KeyMode;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;

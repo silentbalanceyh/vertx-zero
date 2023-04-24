@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.refine;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -9,7 +10,6 @@ import io.vertx.tp.modular.jooq.convert.JsonArraySider;
 import io.vertx.tp.modular.jooq.convert.JsonObjectSider;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;

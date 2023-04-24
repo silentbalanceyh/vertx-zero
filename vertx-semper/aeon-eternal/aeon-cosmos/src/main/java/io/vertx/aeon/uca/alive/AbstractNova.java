@@ -3,13 +3,13 @@ package io.vertx.aeon.uca.alive;
 import io.aeon.atom.iras.HRepo;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
-import io.aeon.eon.em.RTEAeon;
-import io.aeon.specification.app.HFS;
-import io.aeon.specification.program.HNova;
+import io.horizon.constant.em.cloud.RTEAeon;
+import io.horizon.specification.cloud.app.HFS;
+import io.horizon.specification.cloud.program.HNova;
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

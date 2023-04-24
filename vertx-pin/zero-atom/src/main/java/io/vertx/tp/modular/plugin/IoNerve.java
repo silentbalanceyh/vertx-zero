@@ -1,11 +1,11 @@
 package io.vertx.tp.modular.plugin;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.modular.reference.AoRay;
 import io.vertx.tp.modular.reference.RayBatch;
 import io.vertx.tp.modular.reference.RaySingle;
-import io.vertx.up.commune.Record;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;

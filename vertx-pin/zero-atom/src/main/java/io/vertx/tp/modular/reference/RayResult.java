@@ -1,12 +1,12 @@
 package io.vertx.tp.modular.reference;
 
+import io.aeon.experiment.reference.RResult;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.eon.em.DataFormat;
-import io.aeon.experiment.reference.RResult;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -30,11 +30,11 @@ class RayResult {
     /**
      * Combine single record based on defined code logical
      *
-     * @param record     {@link io.vertx.up.commune.Record} Result records
+     * @param record     {@link Record} Result records
      * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
      * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
-     * @return {@link io.vertx.up.commune.Record}
+     * @return {@link Record}
      */
     static Record combine(final Record record, final ConcurrentMap<String, JsonArray> joinData,
                           final ConcurrentMap<String, RResult> joinResult) {
@@ -51,11 +51,11 @@ class RayResult {
     /**
      * Combine multi record based on defined code logical
      *
-     * @param records    {@link io.vertx.up.commune.Record}[] Result records
+     * @param records    {@link Record}[] Result records
      * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
      * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
-     * @return {@link io.vertx.up.commune.Record}[]
+     * @return {@link Record}[]
      */
     static Record[] combine(final Record[] records,
                             final ConcurrentMap<String, JsonArray> joinData,

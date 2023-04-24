@@ -2,17 +2,17 @@ package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
+import io.aeon.experiment.mu.KAttribute;
+import io.aeon.experiment.mu.KTag;
+import io.horizon.constant.em.modeler.AttributeType;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HRule;
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.DataFormat;
-import io.vertx.up.eon.em.atom.AttributeType;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HRule;
-import io.aeon.experiment.mixture.HTField;
-import io.aeon.experiment.mu.KAttribute;
-import io.aeon.experiment.mu.KTag;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -178,7 +178,7 @@ class AtomAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public HTField field() {
+    public TypeField field() {
         return this.attribute.field();
     }
 
@@ -188,7 +188,7 @@ class AtomAttribute implements HAttribute, Serializable {
      * @return {@link List}
      */
     @Override
-    public List<HTField> fields() {
+    public List<TypeField> fields() {
         return this.attribute.fields();
     }
 

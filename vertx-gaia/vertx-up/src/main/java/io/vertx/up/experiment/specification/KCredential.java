@@ -1,7 +1,7 @@
 package io.vertx.up.experiment.specification;
 
+import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
 /*
  * Idc information for interface `Credential` specific
  */
-public class KCredential implements Serializable, Json {
+public class KCredential implements Serializable, TJson {
     private transient String appId;
     private transient String sigma;
     private transient String language;

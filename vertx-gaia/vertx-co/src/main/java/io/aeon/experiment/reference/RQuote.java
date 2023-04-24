@@ -1,9 +1,9 @@
 package io.aeon.experiment.reference;
 
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HRule;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HRule;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

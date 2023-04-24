@@ -2,7 +2,7 @@ package io.vertx.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.refine.HLog;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.horizon.specification.runtime.Macrocosm;
 
 /**
  * 「环境变量选择器」

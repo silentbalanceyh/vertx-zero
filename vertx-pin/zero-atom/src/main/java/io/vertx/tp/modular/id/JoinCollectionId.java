@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.id;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.commune.Record;
 
 class JoinCollectionId extends AbstractId {
 

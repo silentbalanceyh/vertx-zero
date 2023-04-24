@@ -1,6 +1,6 @@
 package io.vertx.tp.ambient.refine;
 
-import io.aeon.specification.app.HFS;
+import io.horizon.specification.cloud.app.HFS;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;

@@ -1,12 +1,12 @@
 package io.aeon.experiment.mu;
 
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HRule;
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HRule;
-import io.aeon.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -19,9 +19,9 @@ import java.util.List;
 public class KAttribute implements HAttribute, Serializable {
     private final DataFormat format;
 
-    private final List<HTField> shapes = new ArrayList<>();
+    private final List<TypeField> shapes = new ArrayList<>();
 
-    private final HTField type;
+    private final TypeField type;
     private final KTag tag;
     private HRule rule;
 
@@ -63,7 +63,7 @@ public class KAttribute implements HAttribute, Serializable {
         final Class<?> type = Ut.clazz(config.getString(KName.TYPE), String.class);
         final String name = config.getString(KName.NAME);
         final String alias = config.getString(KName.ALIAS);
-        this.type = HTField.create(name, alias, type);
+        this.type = TypeField.create(name, alias, type);
 
         /*
          * Format is not elementary, expand the `fields` lookup range
@@ -76,7 +76,7 @@ public class KAttribute implements HAttribute, Serializable {
                 if (Ut.notNil(field)) {
                     final String fieldAlias = item.getString(KName.ALIAS, null);
                     final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
-                    this.shapes.add(HTField.create(field, fieldAlias, subType));
+                    this.shapes.add(TypeField.create(field, fieldAlias, subType));
                 }
             });
             this.type.add(this.shapes);
@@ -111,12 +111,12 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public HTField field() {
+    public TypeField field() {
         return this.type;
     }
 
     @Override
-    public List<HTField> fields() {
+    public List<TypeField> fields() {
         return this.shapes;
     }
 }

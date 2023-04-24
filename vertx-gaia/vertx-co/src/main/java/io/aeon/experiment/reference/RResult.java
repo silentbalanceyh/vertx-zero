@@ -1,12 +1,12 @@
 package io.aeon.experiment.reference;
 
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HRule;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DataFormat;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HRule;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

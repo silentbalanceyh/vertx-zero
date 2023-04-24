@@ -1,13 +1,13 @@
 package io.vertx.up.experiment.shape;
 
-import io.vertx.core.json.JsonObject;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HModel;
-import io.aeon.experiment.mixture.HReference;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HModel;
+import io.horizon.specification.modeler.HReference;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

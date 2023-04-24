@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417PrimaryKeySizeException;
-import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;

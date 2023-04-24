@@ -1,6 +1,6 @@
 package io.vertx.up.uca.compare;
 
-import io.aeon.experiment.mixture.HTField;
+import io.horizon.specification.modeler.TypeField;
 
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ interface VsSame {
         return Objects.isNull(type) ? null : Pool.POOL_SAME.getOrDefault(type, null);
     }
 
-    static VsSame get(final HTField type) {
+    static VsSame get(final TypeField type) {
         final VsSame same = get(type.type());
         if (Objects.isNull(same)) {
             return null;

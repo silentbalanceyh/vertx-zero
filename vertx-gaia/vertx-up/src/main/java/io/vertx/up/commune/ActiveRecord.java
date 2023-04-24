@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;

@@ -6,6 +6,7 @@ import cn.originx.scaffold.component.AbstractActor;
 import cn.originx.uca.commerce.Completer;
 import cn.originx.uca.commerce.CompleterDefault;
 import cn.originx.uca.log.TrackIo;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -17,7 +18,6 @@ import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

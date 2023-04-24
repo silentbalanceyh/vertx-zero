@@ -1,6 +1,7 @@
 package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -9,7 +10,6 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.optic.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HDao;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

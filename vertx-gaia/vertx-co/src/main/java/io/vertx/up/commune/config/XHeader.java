@@ -1,15 +1,15 @@
 package io.vertx.up.commune.config;
 
+import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Json;
 import io.vertx.up.eon.web.ID;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class XHeader implements Serializable, Json {
+public class XHeader implements Serializable, TJson {
 
     private String sigma;
     private String appId;

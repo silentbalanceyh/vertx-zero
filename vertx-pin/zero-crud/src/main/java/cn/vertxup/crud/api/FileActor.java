@@ -1,5 +1,6 @@
 package cn.vertxup.crud.api;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -21,7 +22,6 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HTAtom;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -103,7 +103,7 @@ public class FileActor {
                         /*
                          * The system will calculate the type definition of static module
                          */
-                        final HTAtom atom = Ix.onAtom(active, (JsonArray) columns);
+                        final TypeAtom atom = Ix.onAtom(active, (JsonArray) columns);
                         return this.client.exportAsync(in.getTable(), (JsonArray) data, atom);
                     } else {
                         return Ux.future(Buffer.buffer());

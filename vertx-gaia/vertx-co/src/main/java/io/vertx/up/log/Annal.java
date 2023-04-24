@@ -1,16 +1,9 @@
 package io.vertx.up.log;
 
-import io.vertx.core.impl.ConcurrentHashSet;
-import io.vertx.up.log.internal.Log4JAnnal;
-import io.vertx.up.runtime.ZeroAmbient;
-import io.vertx.up.util.Ut;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.horizon.function.Actuator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Set;
+import io.vertx.up.log.internal.BridgeAnnal;
 
 /**
  * Unite Logging system connect to vert.x, io.vertx.zero.io.vertx.zero.io.vertx.up.io.vertx.up.io.vertx.up.util kit of Vertx-Zero
@@ -18,7 +11,7 @@ import java.util.Set;
 public interface Annal {
 
     static Annal get(final Class<?> clazz) {
-        return new CommonAnnal(clazz);
+        return new BridgeAnnal(clazz);
     }
 
     /*
@@ -46,71 +39,4 @@ public interface Annal {
     void info(boolean condition, String key, Object... args);
 
     void debug(String key, Object... args);
-}
-
-class CommonAnnal implements Annal {
-    /*
-     * LoggerFactory.getLogger
-     * Default implementation for Logger here, the logger of zero framework is
-     * logback instead of log4j / log4j2, this is common usage.
-     */
-    private static final Logger RECORD = LoggerFactory.getLogger(CommonAnnal.class);
-    private static final Set<Class<?>> OUTED = new ConcurrentHashSet<>();
-
-    private transient final Annal logger;
-
-    CommonAnnal(final Class<?> clazz) {
-        Class<?> inject = ZeroAmbient.getPlugin("logger");
-        if (null == inject) {
-            Log.debug(RECORD, Info.INF_INJECT, clazz);
-            inject = Log4JAnnal.class;
-        }
-        if (!OUTED.contains(inject)) {
-            Log.debug(RECORD, Info.INF_ANNAL, inject, clazz);
-            OUTED.add(inject);
-        }
-        this.logger = Ut.instance(inject, clazz);
-    }
-
-    @Override
-    public void warn(final String key, final Object... args) {
-        this.logger.warn(key, args);
-    }
-
-    @Override
-    public void error(final String key, final Object... args) {
-        this.logger.error(key, args);
-    }
-
-    @Override
-    public void runtime(final ZeroRunException ex) {
-        this.logger.runtime(ex);
-    }
-
-    @Override
-    public void checked(final ZeroException ex) {
-        this.logger.checked(ex);
-    }
-
-    @Override
-    public void jvm(final Throwable ex) {
-        this.logger.jvm(ex);
-    }
-
-    @Override
-    public void info(final String key, final Object... args) {
-        this.logger.info(key, args);
-    }
-
-    @Override
-    public void info(final boolean condition, final String key, final Object... args) {
-        if (condition) {
-            this.info(key, args);
-        }
-    }
-
-    @Override
-    public void debug(final String key, final Object... args) {
-        this.logger.debug(key, args);
-    }
 }

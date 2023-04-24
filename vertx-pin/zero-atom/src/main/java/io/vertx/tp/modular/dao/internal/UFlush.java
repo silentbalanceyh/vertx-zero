@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.commune.Record;
 
 import java.util.Arrays;
 

@@ -1,13 +1,13 @@
 package io.vertx.up.uca.crypto;
 
 import io.aeon.experiment.channel.Pocket;
-import io.aeon.experiment.mixture.HED;
 import io.aeon.experiment.specification.KPair;
+import io.horizon.specification.modeler.HED;
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.util.Ut;
 import org.apache.commons.codec.binary.Base64;
 

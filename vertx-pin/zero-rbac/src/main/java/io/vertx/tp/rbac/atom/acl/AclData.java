@@ -1,11 +1,11 @@
 package io.vertx.tp.rbac.atom.acl;
 
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
+import io.horizon.specification.zero.secure.Acl;
+import io.horizon.specification.zero.secure.AclView;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.AclType;
-import io.vertx.up.commune.secure.Acl;
-import io.vertx.up.commune.secure.AclView;
 import io.vertx.up.eon.em.ActPhase;
 import io.vertx.up.util.Ut;
 

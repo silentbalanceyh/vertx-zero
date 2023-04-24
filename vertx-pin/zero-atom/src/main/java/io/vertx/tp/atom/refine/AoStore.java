@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.refine;
 
-import io.aeon.experiment.mixture.HApp;
+import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;

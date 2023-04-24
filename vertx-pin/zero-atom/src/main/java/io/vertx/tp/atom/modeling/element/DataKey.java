@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.modeling.element;
 
-import io.vertx.up.eon.em.atom.KeyMode;
+import io.horizon.constant.em.modeler.KeyMode;
 import io.vertx.up.uca.cache.Cc;
 
 import java.io.Serializable;

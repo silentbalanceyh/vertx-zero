@@ -1,5 +1,8 @@
 package io.vertx.tp.crud.refine;
 
+import io.aeon.experiment.specification.KField;
+import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,9 +12,6 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HTAtom;
-import io.aeon.experiment.mixture.HTField;
-import io.aeon.experiment.specification.KField;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
@@ -124,7 +124,7 @@ class IxData {
         return parameters;
     }
 
-    static HTAtom atom(final IxMod active, final JsonArray columns) {
+    static TypeAtom atom(final IxMod active, final JsonArray columns) {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
@@ -133,9 +133,9 @@ class IxData {
         /*
          * First module for calculation
          */
-        final HTAtom atom = HTAtom.create();
+        final TypeAtom atom = TypeAtom.create();
         final KModule module = active.module();
-        final List<HTField> fieldList = new ArrayList<>();
+        final List<TypeField> fieldList = new ArrayList<>();
 
         final KModule connect = active.connect();
         if (Objects.nonNull(connect)) {
@@ -147,18 +147,18 @@ class IxData {
         return atom;
     }
 
-    private static List<HTField> field(final KModule module, final Envelop envelop,
-                                       final ConcurrentMap<String, String> headerMap) {
+    private static List<TypeField> field(final KModule module, final Envelop envelop,
+                                         final ConcurrentMap<String, String> headerMap) {
         final UxJooq jooq = IxPin.jooq(module, envelop);
         final JqAnalyzer analyzer = jooq.analyzer();
         final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
         /*
          * Processing for TypeField list building
          */
-        final List<HTField> fieldList = new ArrayList<>();
+        final List<TypeField> fieldList = new ArrayList<>();
         headerMap.forEach((field, alias) -> {
             final Class<?> type = typeMap.getOrDefault(field, String.class);
-            fieldList.add(HTField.create(field, alias, type));
+            fieldList.add(TypeField.create(field, alias, type));
         });
         return fieldList;
     }

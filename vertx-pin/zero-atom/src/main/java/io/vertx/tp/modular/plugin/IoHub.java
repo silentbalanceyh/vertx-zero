@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.plugin;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.commune.Record;
 import io.vertx.up.uca.cache.Cc;
 
 /**

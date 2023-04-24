@@ -1,5 +1,8 @@
 package io.vertx.tp.atom.refine;
 
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -9,13 +12,10 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
 import io.vertx.up.eon.em.ChangeFlag;
-import io.aeon.experiment.mixture.HAtom;
-import io.aeon.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;

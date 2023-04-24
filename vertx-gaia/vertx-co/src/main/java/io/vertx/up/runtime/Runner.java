@@ -1,5 +1,6 @@
 package io.vertx.up.runtime;
 
+import io.horizon.specification.runtime.MeanThread;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -56,11 +57,11 @@ public final class Runner {
         });
     }
 
-    public static <T> void run(final List<Routine<T>> routines,
+    public static <T> void run(final List<MeanThread<T>> meanThreads,
                                final ConcurrentMap<String, T> result) {
         final List<Thread> references = new ArrayList<>();
-        for (final Routine<T> routine : routines) {
-            final Thread thread = new Thread(routine);
+        for (final MeanThread<T> meanThread : meanThreads) {
+            final Thread thread = new Thread(meanThread);
             references.add(thread);
             thread.start();
         }
@@ -71,9 +72,9 @@ public final class Runner {
                 LOGGER.jvm(ex);
             }
         });
-        for (final Routine<T> routine : routines) {
-            final String key = routine.getKey();
-            final T value = routine.get();
+        for (final MeanThread<T> meanThread : meanThreads) {
+            final String key = meanThread.getKey();
+            final T value = meanThread.get();
             Fn.safeNull(() -> {
                 result.put(key, value);
             }, key, value);

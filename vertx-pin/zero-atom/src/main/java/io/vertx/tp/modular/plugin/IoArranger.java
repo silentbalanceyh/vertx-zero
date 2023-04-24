@@ -1,17 +1,17 @@
 package io.vertx.tp.modular.plugin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.aeon.experiment.mixture.HAttribute;
+import io.horizon.function.TiConsumer;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
-import io.horizon.function.TiConsumer;
 
 import java.util.Arrays;
 import java.util.Objects;

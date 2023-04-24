@@ -1,7 +1,7 @@
 package io.aeon.atom.secure;
 
-import io.aeon.eon.em.ScDim;
-import io.aeon.eon.em.ScIn;
+import io.horizon.constant.em.cloud.ScDim;
+import io.horizon.constant.em.cloud.ScIn;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;

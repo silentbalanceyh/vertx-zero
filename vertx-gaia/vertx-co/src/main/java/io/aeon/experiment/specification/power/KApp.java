@@ -1,11 +1,11 @@
 package io.aeon.experiment.specification.power;
 
 import io.aeon.runtime.H3H;
+import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
-import io.aeon.experiment.mixture.HApp;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -94,7 +94,7 @@ public class KApp implements Serializable {
         Objects.requireNonNull(namespace);
         if (!namespace.equals(this.ns)) {
             final ConcurrentMap<String, KApp> store = H3H.CC_APP.store();
-//            store.clear(this.ns);
+            //            store.clear(this.ns);
             store.remove(this.ns);
             this.ns = namespace;
             // synchro() to replace the whole cache data

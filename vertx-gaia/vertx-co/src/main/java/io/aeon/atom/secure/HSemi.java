@@ -1,7 +1,7 @@
 package io.aeon.atom.secure;
 
 import io.aeon.runtime.H3H;
-import io.aeon.specification.secure.HAdmit;
+import io.horizon.specification.cloud.secure.HAdmit;
 import io.vertx.core.Future;
 import io.vertx.up.eon.em.ActPhase;
 import io.vertx.up.exception.web._409DmComponentException;

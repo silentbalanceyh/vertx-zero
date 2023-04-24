@@ -2,8 +2,8 @@ package io.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
-import io.aeon.specification.action.HEvent;
-import io.aeon.specification.app.HFS;
+import io.horizon.specification.cloud.action.HEvent;
+import io.horizon.specification.cloud.app.HFS;
 import io.vertx.up.uca.cache.Cc;
 
 /**

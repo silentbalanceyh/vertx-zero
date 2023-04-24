@@ -3,13 +3,13 @@ package io.vertx.tp.atom.modeling.element;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.specification.modeler.Record;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.uca.cache.Cc;
 
 import java.io.Serializable;

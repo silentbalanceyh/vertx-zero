@@ -1,5 +1,7 @@
 package io.vertx.up.commune;
 
+import io.horizon.constant.em.ValueBool;
+import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -12,9 +14,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
-import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.BoolStatus;
 import io.vertx.up.eon.web.ID;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
@@ -256,11 +256,11 @@ public class Envelop implements Serializable {
         this.reference(reference -> Ux.irAndQH(reference, criteria, true));
     }
 
-    public void onMe(final BoolStatus active, final boolean app) {
+    public void onMe(final ValueBool active, final boolean app) {
         final JsonObject headerX = this.headersX();
         this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
-        if (BoolStatus.IGNORE != active) {
-            this.value(KName.ACTIVE, BoolStatus.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
+        if (ValueBool.IGNORE != active) {
+            this.value(KName.ACTIVE, ValueBool.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
         }
         // this.value(KName.ACTIVE, active);
         if (headerX.containsKey(KName.LANGUAGE)) {

@@ -1,8 +1,8 @@
 package io.vertx.up.experiment.shape.internal;
 
-import io.aeon.experiment.mixture.HModel;
-import io.vertx.up.experiment.shape.AbstractHAtom;
 import io.aeon.experiment.specification.power.KApp;
+import io.horizon.specification.modeler.HModel;
+import io.vertx.up.experiment.shape.AbstractHAtom;
 
 /**
  * This atom is a standard implementation because of all the attributes is static and fixed, you can not configure

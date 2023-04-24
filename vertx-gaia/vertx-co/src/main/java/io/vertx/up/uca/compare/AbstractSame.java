@@ -1,8 +1,8 @@
 package io.vertx.up.uca.compare;
 
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.aeon.experiment.mixture.HTField;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -38,7 +38,7 @@ interface Pool {
  */
 public abstract class AbstractSame implements VsSame {
     protected transient final Class<?> type;
-    protected transient HTField fieldType;
+    protected transient TypeField fieldType;
     private transient VsExtension found;
 
     public AbstractSame(final Class<?> type) {
@@ -52,7 +52,7 @@ public abstract class AbstractSame implements VsSame {
         }
     }
 
-    public VsSame bind(final HTField fieldType) {
+    public VsSame bind(final TypeField fieldType) {
         if (Objects.nonNull(fieldType)) {
             this.fieldType = fieldType;
         }

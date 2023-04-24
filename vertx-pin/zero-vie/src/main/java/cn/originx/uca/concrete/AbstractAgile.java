@@ -1,12 +1,12 @@
 package cn.originx.uca.concrete;
 
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.commune.Record;
-import io.aeon.experiment.mixture.HDao;
 
 import java.util.Objects;
 

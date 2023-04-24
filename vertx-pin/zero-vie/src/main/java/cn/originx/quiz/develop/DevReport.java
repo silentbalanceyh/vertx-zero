@@ -1,12 +1,12 @@
 package cn.originx.quiz.develop;
 
 import cn.originx.refine.Ox;
-import io.aeon.experiment.mixture.*;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.specification.modeler.*;
+import io.vertx.up.eon.Strings;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,8 +29,8 @@ class DevReport {
         builder.append("identifier: ").append(atom.identifier()).append(Strings.NEW_LINE);
         builder.append("sigma: ").append(atom.sigma()).append(Strings.NEW_LINE);
         builder.append("language: ").append(atom.language()).append(Strings.NEW_LINE);
-        final HTAtom htAtom = atom.shape();
-        builder.append("Complex? ").append(htAtom.isComplex()).append(Strings.NEW_LINE);
+        final TypeAtom metaAtom = atom.shape();
+        builder.append("Complex? ").append(metaAtom.isComplex()).append(Strings.NEW_LINE);
 
         // Atom -> Model
         if (Objects.nonNull(model)) {
@@ -79,7 +79,7 @@ class DevReport {
 
     private static String outAttribute(final HAttribute attribute, final KReference reference) {
         final StringBuilder builder = new StringBuilder();
-        final HTField attr = attribute.field();
+        final TypeField attr = attribute.field();
 
         final KTag tag = attribute.tag();
 
@@ -101,7 +101,7 @@ class DevReport {
         }
         if (attr.isComplex()) {
             builder.append("\t").append("isComplex = ").append(attr.isComplex()).append(" children = ").append(Strings.NEW_LINE);
-            final List<HTField> children = attr.children();
+            final List<TypeField> children = attr.children();
             children.forEach(field -> {
                 builder.append("\t\t").append(Strings.LEFT_BRACKET).append(field.name())
                     .append(",").append(field.alias()).append(Strings.RIGHT_BRACKET).append(Strings.COMMA);

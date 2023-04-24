@@ -1,12 +1,12 @@
 package io.vertx.tp.optic;
 
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.optic.feature.Atom;
-import io.vertx.up.commune.Record;
-import io.aeon.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

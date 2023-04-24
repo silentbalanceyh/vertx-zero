@@ -1,8 +1,8 @@
 package io.aeon.atom.iras;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.aeon.eon.em.TypeRepo;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.horizon.constant.em.cloud.TypeRepo;
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

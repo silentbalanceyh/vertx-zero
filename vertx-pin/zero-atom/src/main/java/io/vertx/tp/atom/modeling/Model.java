@@ -3,10 +3,10 @@ package io.vertx.tp.atom.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
+import io.horizon.specification.modeler.HApp;
+import io.horizon.specification.modeler.HLinkage;
+import io.horizon.specification.modeler.HModel;
 import io.vertx.tp.atom.modeling.element.DataKey;
-import io.aeon.experiment.mixture.HApp;
-import io.aeon.experiment.mixture.HLinkage;
-import io.aeon.experiment.mixture.HModel;
 
 import java.util.Set;
 

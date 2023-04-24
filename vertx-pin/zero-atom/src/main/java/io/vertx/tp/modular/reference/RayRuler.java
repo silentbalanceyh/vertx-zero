@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.reference;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

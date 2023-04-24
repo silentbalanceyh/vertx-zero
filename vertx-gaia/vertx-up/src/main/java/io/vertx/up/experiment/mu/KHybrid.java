@@ -4,11 +4,11 @@ import io.aeon.experiment.mu.KAttribute;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
+import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.specification.modeler.HAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

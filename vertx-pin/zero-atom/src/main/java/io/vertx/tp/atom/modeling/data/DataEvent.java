@@ -1,5 +1,7 @@
 package io.vertx.tp.atom.modeling.data;
 
+import io.horizon.constant.em.modeler.ModelType;
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -17,9 +19,7 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.Record;
 import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;

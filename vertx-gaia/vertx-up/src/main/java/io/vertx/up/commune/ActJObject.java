@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.Record;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BTree;

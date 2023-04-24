@@ -1,9 +1,9 @@
 package io.vertx.up.experiment.shape;
 
-import io.aeon.experiment.mixture.HAttribute;
-import io.aeon.experiment.mixture.HModel;
-import io.aeon.experiment.mixture.HTAtom;
-import io.aeon.experiment.mixture.HTField;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HModel;
+import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.specification.modeler.TypeField;
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +17,7 @@ public class HAtomMetadata {
 
     private transient final HModel modelRef;
     private transient final String identifier;
-    private transient final HTAtom htAtom = HTAtom.create();
+    private transient final TypeAtom metaAtom = TypeAtom.create();
 
 
     public HAtomMetadata(final HModel modelRef) {
@@ -33,7 +33,7 @@ public class HAtomMetadata {
              * Why ?
              */
             Objects.requireNonNull(attr);
-            final HTField field = attr.field();
+            final TypeField field = attr.field();
 /*            if (Objects.isNull(attr)) {
                 if (Objects.isNull(this.htFieldFn)) {
                     field = null;
@@ -44,7 +44,7 @@ public class HAtomMetadata {
                 field = attr.field();
             }*/
             if (Objects.nonNull(field)) {
-                this.htAtom.add(field);
+                this.metaAtom.add(field);
             }
         });
     }
@@ -71,16 +71,16 @@ public class HAtomMetadata {
     // ==================== HtAtom Information ==================
     // name = alias
     public ConcurrentMap<String, String> alias() {
-        return this.htAtom.alias();
+        return this.metaAtom.alias();
     }
 
-    public HTAtom shape() {
-        return this.htAtom;
+    public TypeAtom shape() {
+        return this.metaAtom;
     }
 
     // ==================== HtField Information ==================
-    public ConcurrentMap<String, HTField> types() {
-        final ConcurrentMap<String, HTField> typeMap = new ConcurrentHashMap<>();
+    public ConcurrentMap<String, TypeField> types() {
+        final ConcurrentMap<String, TypeField> typeMap = new ConcurrentHashMap<>();
         this.modelRef.attribute().forEach((name) -> {
             final HAttribute attribute = this.modelRef.attribute(name);
             typeMap.put(name, attribute.field());
@@ -88,7 +88,7 @@ public class HAtomMetadata {
         return typeMap;
     }
 
-    public HTField type(final String field) {
+    public TypeField type(final String field) {
         final HAttribute attribute = this.modelRef.attribute(field);
         if (Objects.isNull(attribute)) {
             return null;
