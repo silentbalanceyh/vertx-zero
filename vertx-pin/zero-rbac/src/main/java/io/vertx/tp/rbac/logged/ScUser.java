@@ -264,7 +264,7 @@ public class ScUser {
          * Remove reference pool first
          */
         // USERS.remove(this.habitus);
-        CC_USER.store().clear(this.habitus);
+        CC_USER.store().remove(this.habitus);
         return this.rapid.clear(this.habitus)
             .compose(nil -> Ux.future(Boolean.TRUE));
     }

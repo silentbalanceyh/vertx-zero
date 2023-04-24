@@ -8,7 +8,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,14 +21,14 @@ public class UnityAmbient implements UnityApp {
 
     @Override
     public Future<JsonObject> synchro(String appId) {
-        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        final ConcurrentMap<String, JsonObject> stored = H2H.CC_META_APP.store();
         return UnityAsker.synchro(appId).compose(nil -> {
             final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
             final ConcurrentMap<String, XSource> sources = UnityAsker.getSources();
             final XApp app = apps.get(appId);
             final XSource source = sources.get(appId);
             final JsonObject updated = this.connect(app, source);
-            stored.data(appId, updated);
+            stored.put(appId, updated);
             return Future.succeededFuture(updated);
         });
     }
@@ -39,7 +38,7 @@ public class UnityAmbient implements UnityApp {
         /*
          * Initialize Unity Pool, Checking for Environment
          */
-        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        final ConcurrentMap<String, JsonObject> stored = H2H.CC_META_APP.store();
         if(!stored.isEmpty()){
             /*
              * 截断运行，如果加载过就不再运行一次 initialize 方法，若要刷新则可调用
@@ -59,15 +58,15 @@ public class UnityAmbient implements UnityApp {
                 // .filter(appId -> Objects.nonNull(sources.get(appId)))
                 /* JsonObject converted here for app & source data */
                 .map(appId -> this.connect(apps.get(appId), sources.get(appId)))
-                .forEach(item -> stored.data(item.getString(KName.APP_ID), item));
+                .forEach(item -> stored.put(item.getString(KName.APP_ID), item));
             return Future.succeededFuture(Boolean.TRUE);
         });
     }
 
     @Override
     public ConcurrentMap<String, JsonObject> connect() {
-        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
-        return stored.data();
+//        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        return H2H.CC_META_APP.store(); // stored.data();
     }
 
     private JsonObject connect(final XApp app, final XSource source) {

@@ -3,10 +3,10 @@ package io.vertx.up.runtime.soul;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -40,7 +40,7 @@ public class UriAeon {
         /*
          * Create new routing on `original` route object
          */
-        final Cd<String, UriNeuro> store = CC_NEURO.store();
+        final ConcurrentMap<String, UriNeuro> store = CC_NEURO.store();
         store.values().forEach(neuro -> neuro.addRoute(config));
     }
 

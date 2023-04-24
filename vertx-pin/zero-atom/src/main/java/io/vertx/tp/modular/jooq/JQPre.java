@@ -102,7 +102,7 @@ class JQPre {
         /*
          * Replace qrItem
          */
-        ccRemoved.store().data().forEach((levelKey, removedMap) -> {
+        ccRemoved.store().forEach((levelKey, removedMap) -> {
             final ConcurrentMap<String, QrItem> replacedMap = ccReplaced.store(levelKey);
             final JsonObject jsonRef = referenceData.get(levelKey);
             if (Objects.nonNull(replacedMap) && Objects.nonNull(removedMap)) {

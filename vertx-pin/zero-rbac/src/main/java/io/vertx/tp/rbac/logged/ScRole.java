@@ -55,7 +55,7 @@ public class ScRole {
 
     // ------------------------- Initialized Method ------------------------
     public Future<JsonArray> clear() {
-        CC_ROLE.store().clear(this.roleId);
+        CC_ROLE.store().remove(this.roleId);
         // ROLES.remove(this.roleId);
         return this.cache.clear(this.roleId);
     }

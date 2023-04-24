@@ -10,7 +10,6 @@ import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -138,11 +138,11 @@ final class Instance {
                  * getJvm will throw out exception here. in current method, we should
                  * catch `ClassNotFoundException` and return null directly.
                  */
-                final Cd<String, Class<?>> cData = CC_CLASSES.store();
-                Class<?> clazz = cData.data(name);
+                final ConcurrentMap<String, Class<?>> cData = CC_CLASSES.store();
+                Class<?> clazz = cData.get(name);
                 if (Objects.isNull(clazz)) {
                     clazz = Thread.currentThread().getContextClassLoader().loadClass(name);
-                    cData.data(name, clazz);
+                    cData.put(name, clazz);
                 }
                 /*
                  * Result checking

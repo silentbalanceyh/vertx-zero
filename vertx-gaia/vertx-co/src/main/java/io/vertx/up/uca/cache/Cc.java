@@ -103,7 +103,7 @@ public interface Cc<K, V> {
         };
     }
 
-    Cd<K, V> store();
+    ConcurrentMap<K, V> store();
 
     V store(K key);
 

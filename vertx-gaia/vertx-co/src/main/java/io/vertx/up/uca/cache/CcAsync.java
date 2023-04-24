@@ -5,6 +5,8 @@ import io.vertx.up.eon.em.CcMode;
 import io.vertx.up.exception.web._501NotSupportException;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 class CcAsync<K, V> implements Cc<K, Future<V>> {
@@ -25,10 +27,10 @@ class CcAsync<K, V> implements Cc<K, Future<V>> {
     }
 
     @Override
-    public Cd<K, Future<V>> store() {
-        final Cd<K, Future<V>> cdAsync = new CdMap<>();
-        final Cd<K, V> stored = this.cc.store();
-        stored.data().forEach((k, v) -> cdAsync.data(k, Future.succeededFuture(v)));
+    public ConcurrentMap<K, Future<V>> store() {
+        final ConcurrentMap<K, Future<V>> cdAsync = new ConcurrentHashMap<>();
+        final ConcurrentMap<K, V> stored = this.cc.store();
+        stored.forEach((k, v) -> cdAsync.put(k, Future.succeededFuture(v)));
         return cdAsync;
     }
 

@@ -19,7 +19,6 @@ import io.vertx.up.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KPoint;
 import io.vertx.up.experiment.specification.power.KApp;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -120,20 +119,20 @@ public class HAtomReference implements HReference {
     // ======================= Overwrite Api ==========================
     @Override
     public ConcurrentMap<String, RQuote> refInput() {
-        final Cd<String, RQuote> store = this.ccReference.store();
-        return store.data();
+//        final ConcurrentMap<String, RQuote> store = this.ccReference.store();
+        return this.ccReference.store();
     }
 
     @Override
     public ConcurrentMap<String, RQuery> refQr() {
-        final Cd<String, RQuery> store = this.ccQuery.store();
-        return store.data();
+//        final Cd<String, RQuery> store = this.ccQuery.store();
+        return this.ccQuery.store();
     }
 
     @Override
     public ConcurrentMap<String, RResult> refOutput() {
-        final Cd<String, RResult> store = this.ccResult.store();
-        return store.data();
+//        final Cd<String, RResult> store = this.ccResult.store();
+        return this.ccResult.store();
     }
 
     @Override

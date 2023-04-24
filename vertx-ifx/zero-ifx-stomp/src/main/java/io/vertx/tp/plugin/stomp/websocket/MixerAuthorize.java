@@ -36,7 +36,7 @@ public class MixerAuthorize extends AbstractMixer {
         // Stomp Path Find
         final String stomp = option.getWebsocketPath();
         final AtomicReference<Aegis> reference = new AtomicReference<>();
-        CC_WALLS.store().data().forEach((path, aegisSet) -> {
+        CC_WALLS.store().forEach((path, aegisSet) -> {
             /*
              * Stomp:   /api/web-socket/stomp
              * Path:    /api/

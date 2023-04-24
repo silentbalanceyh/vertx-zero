@@ -16,6 +16,7 @@
         <module>vertx-tp</module>
         <module>vertx-up</module>
         <module>vertx-rx</module>
+        <module>vertx-ams</module>
     </modules>
     <build>
         <plugins>

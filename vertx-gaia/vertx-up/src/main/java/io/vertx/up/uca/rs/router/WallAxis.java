@@ -11,7 +11,6 @@ import io.vertx.up.eon.Values;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 
@@ -19,6 +18,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Secure mount
@@ -49,8 +49,8 @@ public class WallAxis implements Axis<Router> {
          *      0                0                  0
          *      1                1                  1
          */
-        final Cd<String, Set<Aegis>> store = CC_WALLS.store();
-        store.data().forEach((path, aegisSet) -> {
+        final ConcurrentMap<String, Set<Aegis>> store = CC_WALLS.store();
+        store.forEach((path, aegisSet) -> {
             if (!aegisSet.isEmpty()) {
                 /*
                  * The handler of 401 of each group should be

@@ -6,11 +6,12 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.experiment.mixture.HApp;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -92,8 +93,9 @@ public class KApp implements Serializable {
          * */
         Objects.requireNonNull(namespace);
         if (!namespace.equals(this.ns)) {
-            final Cd<String, KApp> store = H3H.CC_APP.store();
-            store.clear(this.ns);
+            final ConcurrentMap<String, KApp> store = H3H.CC_APP.store();
+//            store.clear(this.ns);
+            store.remove(this.ns);
             this.ns = namespace;
             // synchro() to replace the whole cache data
             this.synchro();
@@ -109,12 +111,12 @@ public class KApp implements Serializable {
 
     /* 必须是完整同步才执行填充 */
     public KApp synchro() {
-        final Cd<String, KApp> store = H3H.CC_APP.store();
-        store.data(this.ns, this);
-        store.data(this.appKey, this);
-        store.data(this.appId, this);
-        store.data(this.code, this);
-        store.data(this.sigma, this);
+        final Map<String, KApp> store = H3H.CC_APP.store();
+        store.put(this.ns, this);
+        store.put(this.appKey, this);
+        store.put(this.appId, this);
+        store.put(this.code, this);
+        store.put(this.sigma, this);
         // Old Code is as following
         // Fix Issue: https://e.gitee.com/szzw/dashboard?issue=I5P1Y1
         //        H3H.CC_APP.pick(() -> this, this.ns);

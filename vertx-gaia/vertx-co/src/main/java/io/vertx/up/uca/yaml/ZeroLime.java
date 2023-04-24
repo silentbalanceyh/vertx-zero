@@ -7,7 +7,6 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -23,11 +22,11 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
     private static final Cc<String, String> CC_INTERNAL = Cc.open();
 
     static {
-        final Cd<String, String> dataRef = CC_INTERNAL.store();
-        dataRef.data(KName.Internal.ERROR, ZeroTool.nameZero(KName.Internal.ERROR));
-        dataRef.data(KName.Internal.INJECT, ZeroTool.nameZero(KName.Internal.INJECT));
-        dataRef.data(KName.Internal.SERVER, ZeroTool.nameZero(KName.Internal.SERVER));
-        dataRef.data(KName.Internal.RESOLVER, ZeroTool.nameZero(KName.Internal.RESOLVER));
+        final ConcurrentMap<String, String> dataRef = CC_INTERNAL.store();
+        dataRef.put(KName.Internal.ERROR, ZeroTool.nameZero(KName.Internal.ERROR));
+        dataRef.put(KName.Internal.INJECT, ZeroTool.nameZero(KName.Internal.INJECT));
+        dataRef.put(KName.Internal.SERVER, ZeroTool.nameZero(KName.Internal.SERVER));
+        dataRef.put(KName.Internal.RESOLVER, ZeroTool.nameZero(KName.Internal.RESOLVER));
     }
 
     private transient final Node<JsonObject> node
@@ -48,6 +47,6 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
             .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.nameZero(item), item)
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);
-        return CC_INTERNAL.store().data();
+        return CC_INTERNAL.store();
     }
 }

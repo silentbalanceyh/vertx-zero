@@ -6,10 +6,10 @@ import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 public class ZeroTool {
@@ -84,9 +84,9 @@ public class ZeroTool {
 
     private static JsonObject readDirect(final String filename) {
         // Fix Docker issue
-        final Cd<String, JsonObject> dataRef = CC_STORAGE.store();
-        if (dataRef.is(filename)) {
-            return dataRef.data(filename);
+        final ConcurrentMap<String, JsonObject> dataRef = CC_STORAGE.store();
+        if (dataRef.containsKey(filename)) {
+            return dataRef.get(filename);
         } else {
             // Fix issue of deployment
             /*
@@ -105,7 +105,7 @@ public class ZeroTool {
                 // ex.printStackTrace();
             }
             if (!data.isEmpty()) {
-                dataRef.data(filename, data);
+                dataRef.put(filename, data);
             }
             return data;
         }

@@ -14,7 +14,6 @@ import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.uca.web.origin.*;
 import io.vertx.up.util.Ut;
 
@@ -264,9 +263,9 @@ public class ZeroAnno {
         if (CC_WALL.isEmpty()) {
             // To Avoid Filling the value more than once
             WALLS.forEach(wall -> {
-                final Cd<String, Set<Aegis>> store = CC_WALL.store();
-                if (!store.is(wall.getPath())) {
-                    store.data(wall.getPath(), new TreeSet<>());
+                final ConcurrentMap<String, Set<Aegis>> store = CC_WALL.store();
+                if (!store.containsKey(wall.getPath())) {
+                    store.put(wall.getPath(), new TreeSet<>());
                 }
                 /*
                  * 1. group by `path`, when you define more than one wall in one path, you can collect
@@ -274,7 +273,7 @@ public class ZeroAnno {
                  * 2. The order will be re-calculated by each group
                  * 3. But you could not define `path + order` duplicated wall
                  */
-                store.data(wall.getPath()).add(wall);
+                store.get(wall.getPath()).add(wall);
             });
         }
         return CC_WALL;
