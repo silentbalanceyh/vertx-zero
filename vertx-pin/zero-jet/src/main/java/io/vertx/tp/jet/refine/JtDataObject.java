@@ -3,6 +3,7 @@ package io.vertx.tp.jet.refine;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
@@ -12,7 +13,6 @@ import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

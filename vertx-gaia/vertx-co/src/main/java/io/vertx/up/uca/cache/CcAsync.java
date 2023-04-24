@@ -1,7 +1,7 @@
 package io.vertx.up.uca.cache;
 
-import io.vertx.core.Future;
 import io.horizon.eon.em.CcMode;
+import io.vertx.core.Future;
 import io.vertx.up.exception.web._501NotSupportException;
 
 import java.util.Objects;

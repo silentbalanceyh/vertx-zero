@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.refine;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
@@ -15,7 +16,6 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
-import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;

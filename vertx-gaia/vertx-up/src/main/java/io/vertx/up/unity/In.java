@@ -1,12 +1,12 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.commune.Envelop;
-import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;

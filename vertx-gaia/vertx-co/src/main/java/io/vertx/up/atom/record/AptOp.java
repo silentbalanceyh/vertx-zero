@@ -1,7 +1,7 @@
 package io.vertx.up.atom.record;
 
-import io.vertx.core.json.JsonObject;
 import io.horizon.eon.em.ChangeFlag;
+import io.vertx.core.json.JsonObject;
 
 /*
  * Package scope

@@ -1,6 +1,7 @@
 package cn.originx.uca.plugin;
 
 import cn.originx.refine.Ox;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,6 @@ import io.vertx.tp.optic.environment.Identifier;
 import io.vertx.tp.optic.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

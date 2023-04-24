@@ -2,6 +2,7 @@ package io.vertx.tp.optic.business;
 
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
+import io.horizon.eon.em.GlossaryType;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +10,6 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.tp.optic.component.Dictionary;
 import io.vertx.up.commune.exchange.DSource;
-import io.horizon.eon.em.GlossaryType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

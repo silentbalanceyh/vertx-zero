@@ -5,9 +5,9 @@ import cn.vertxup.rbac.domain.tables.daos.OUserDao;
 import cn.vertxup.rbac.domain.tables.daos.RUserRoleDao;
 import cn.vertxup.rbac.domain.tables.daos.SRoleDao;
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 
 public class BackupUser extends AbstractStatic {

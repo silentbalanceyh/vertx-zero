@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.shell.refine;
 
+import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
-import io.horizon.eon.em.Environment;
 import io.vertx.up.log.Log;
 
 /**

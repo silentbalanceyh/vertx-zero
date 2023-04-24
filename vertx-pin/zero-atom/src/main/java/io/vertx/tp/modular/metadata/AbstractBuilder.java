@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.metadata;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.CheckResult;
@@ -12,7 +13,6 @@ import io.vertx.tp.modular.sql.SqlDDLProvider;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
-import io.horizon.eon.VValue;
 
 import java.util.ArrayList;
 import java.util.List;

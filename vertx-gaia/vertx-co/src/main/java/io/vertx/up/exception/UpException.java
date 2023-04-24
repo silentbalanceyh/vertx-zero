@@ -1,8 +1,8 @@
 package io.vertx.up.exception;
 
+import io.horizon.exception.ZeroRunException;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Errors;
-import io.horizon.exception.ZeroRunException;
 
 /**
  * Top Exception for error code mapping ( Runtime )

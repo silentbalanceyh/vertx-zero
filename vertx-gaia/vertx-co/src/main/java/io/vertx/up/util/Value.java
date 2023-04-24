@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.aeon.experiment.brain.V;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
-import io.aeon.experiment.brain.V;
 
 import java.math.BigDecimal;
 import java.time.Instant;

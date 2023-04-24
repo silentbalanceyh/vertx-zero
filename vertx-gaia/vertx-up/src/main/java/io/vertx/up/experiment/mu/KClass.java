@@ -1,13 +1,13 @@
 package io.vertx.up.experiment.mu;
 
+import io.aeon.experiment.specification.KPoint;
+import io.aeon.experiment.specification.power.KApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 import io.vertx.up.experiment.mixture.HOne;
 import io.vertx.up.experiment.specification.KModule;
-import io.aeon.experiment.specification.KPoint;
-import io.aeon.experiment.specification.power.KApp;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

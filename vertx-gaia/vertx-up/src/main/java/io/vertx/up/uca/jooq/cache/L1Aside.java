@@ -1,12 +1,12 @@
 package io.vertx.up.uca.jooq.cache;
 
+import io.horizon.fn.ErrorSupplier;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.util.CacheAside;
 import io.vertx.up.fn.Fn;
-import io.horizon.fn.ErrorSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
 import java.util.List;

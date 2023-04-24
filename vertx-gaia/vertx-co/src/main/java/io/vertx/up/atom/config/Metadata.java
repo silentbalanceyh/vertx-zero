@@ -1,7 +1,7 @@
 package io.vertx.up.atom.config;
 
-import io.vertx.core.json.JsonObject;
 import io.horizon.eon.em.modeler.MetaSource;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.job.plugin;
 
+import io.horizon.eon.em.scheduler.JobStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.em.scheduler.JobStatus;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

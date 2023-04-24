@@ -1,8 +1,8 @@
 package io.vertx.up.uca.stable;
 
+import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.exception.ZeroException;
 
 /**
  * Insure to be configuration correct.

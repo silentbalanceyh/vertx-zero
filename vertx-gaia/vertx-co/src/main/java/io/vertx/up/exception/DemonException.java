@@ -1,7 +1,7 @@
 package io.vertx.up.exception;
 
-import io.vertx.up.log.Errors;
 import io.horizon.exception.ZeroException;
+import io.vertx.up.log.Errors;
 
 /**
  * Top Exception for error code mapping.

@@ -1,10 +1,10 @@
 package io.vertx.tp.rbac.atom;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.util.Ut;
-import io.horizon.eon.VValue;
 
 import java.io.Serializable;
 import java.util.HashSet;

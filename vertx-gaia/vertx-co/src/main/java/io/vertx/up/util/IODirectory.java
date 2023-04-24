@@ -1,10 +1,10 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VPath;
 import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.eon.VPath;
 
 import java.io.File;
 import java.io.InputStream;

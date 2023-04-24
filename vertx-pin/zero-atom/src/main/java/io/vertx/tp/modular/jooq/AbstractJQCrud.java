@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.fn.Actuator;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
@@ -11,7 +12,6 @@ import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.fn.Actuator;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;

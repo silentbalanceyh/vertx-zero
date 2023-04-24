@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.origin;
 
-import io.vertx.up.annotations.Agent;
 import io.horizon.eon.em.container.ServerType;
+import io.vertx.up.annotations.Agent;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.up.util.Ut;
 

@@ -1,10 +1,10 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

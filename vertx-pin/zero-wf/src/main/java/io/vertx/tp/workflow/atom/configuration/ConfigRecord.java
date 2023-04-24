@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.atom.configuration;
 
 import cn.vertxup.workflow.cv.em.RecordMode;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.em.ChangeFlag;
 
 import java.io.Serializable;
 import java.util.Objects;

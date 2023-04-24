@@ -1,12 +1,12 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.bridge.Values;
-import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;

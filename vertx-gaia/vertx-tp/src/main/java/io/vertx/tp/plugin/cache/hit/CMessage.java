@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.cache.hit;
 
-import io.vertx.core.buffer.Buffer;
 import io.horizon.eon.em.ChangeFlag;
+import io.vertx.core.buffer.Buffer;
 
 import java.util.TreeSet;
 

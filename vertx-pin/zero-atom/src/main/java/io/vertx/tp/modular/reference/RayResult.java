@@ -1,12 +1,12 @@
 package io.vertx.tp.modular.reference;
 
 import io.aeon.experiment.reference.RResult;
+import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.JAmb;
-import io.horizon.eon.em.typed.DataFormat;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 

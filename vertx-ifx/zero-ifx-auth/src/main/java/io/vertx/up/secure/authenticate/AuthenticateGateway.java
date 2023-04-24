@@ -1,5 +1,6 @@
 package io.vertx.up.secure.authenticate;
 
+import io.horizon.fn.Actuator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -13,7 +14,6 @@ import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.util.Ut;
-import io.horizon.fn.Actuator;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.shell;
 
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.InternalConflictException;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.horizon.eon.em.Environment;
 import io.vertx.up.log.Annal;
 
 import java.util.Objects;

@@ -3,16 +3,16 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import io.horizon.eon.VValue;
+import io.horizon.eon.em.typed.YamlType;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.bridge.Strings;
-import io.horizon.eon.em.typed.YamlType;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.JsonFormatException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.horizon.eon.VValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

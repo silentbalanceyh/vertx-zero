@@ -2,12 +2,12 @@ package cn.vertxup.rbac.service.jwt;
 
 import cn.vertxup.rbac.domain.tables.daos.OAccessTokenDao;
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.unity.Ux;
-import io.horizon.eon.VValue;
 
 /*
  * Jwt Token Service for:

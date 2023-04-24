@@ -1,7 +1,7 @@
 package io.horizon.specification.zero.secure;
 
-import io.vertx.core.json.JsonObject;
 import io.horizon.eon.em.secure.ActPhase;
+import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
 import java.util.Set;

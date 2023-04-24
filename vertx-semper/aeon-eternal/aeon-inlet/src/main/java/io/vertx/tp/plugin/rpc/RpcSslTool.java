@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.rpc;
 
 import io.grpc.ManagedChannel;
+import io.horizon.eon.em.secure.CertType;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.agent.IpcData;
-import io.horizon.eon.em.secure.CertType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;

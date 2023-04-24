@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.bridge.Strings;
-import io.horizon.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Debugger;
 import org.apache.commons.jexl3.*;

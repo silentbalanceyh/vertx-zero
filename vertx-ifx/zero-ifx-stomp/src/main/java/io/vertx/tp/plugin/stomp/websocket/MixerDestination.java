@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.stomp.websocket;
 
+import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.core.Vertx;
 import io.vertx.ext.stomp.Destination;
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.ext.stomp.impl.RemindDestination;
-import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.extension.router.AresGrid;
 
 import java.util.Objects;

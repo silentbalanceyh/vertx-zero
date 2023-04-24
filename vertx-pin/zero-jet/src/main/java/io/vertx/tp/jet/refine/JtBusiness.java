@@ -1,6 +1,7 @@
 package io.vertx.tp.jet.refine;
 
 import cn.vertxup.jet.domain.tables.pojos.IService;
+import io.horizon.eon.em.MappingMode;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
@@ -11,7 +12,6 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.em.MappingMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;

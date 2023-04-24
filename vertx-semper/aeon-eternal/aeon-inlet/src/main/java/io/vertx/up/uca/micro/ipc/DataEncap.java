@@ -1,5 +1,6 @@
 package io.vertx.up.uca.micro.ipc;
 
+import io.horizon.eon.em.container.IpcType;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +13,6 @@ import io.vertx.tp.ipc.eon.em.Format;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.atom.container.VUser;
 import io.vertx.up.commune.Envelop;
-import io.horizon.eon.em.container.IpcType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;

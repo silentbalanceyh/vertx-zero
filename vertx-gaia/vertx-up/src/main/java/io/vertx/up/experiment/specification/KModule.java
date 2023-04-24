@@ -11,9 +11,9 @@ import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KPoint;
 import io.aeon.experiment.specification.KTransform;
+import io.horizon.eon.em.DSMode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqPin;
-import io.horizon.eon.em.DSMode;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

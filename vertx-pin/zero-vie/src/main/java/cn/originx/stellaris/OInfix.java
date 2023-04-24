@@ -1,5 +1,6 @@
 package cn.originx.stellaris;
 
+import io.horizon.fn.Actuator;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
@@ -11,7 +12,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
-import io.horizon.fn.Actuator;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

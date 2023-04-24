@@ -1,5 +1,6 @@
 package cn.vertxup.crud.api;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;
@@ -13,7 +14,6 @@ import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
-import io.horizon.eon.em.ChangeFlag;
 
 /*
  * Create new Record that defined in zero system.

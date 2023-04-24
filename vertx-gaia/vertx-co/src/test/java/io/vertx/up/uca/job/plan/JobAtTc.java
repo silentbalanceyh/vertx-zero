@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.plan;
 
-import io.horizon.eon.em.typed.PerMode;
 import io.aeon.experiment.specification.sch.KTimerFormula;
+import io.horizon.eon.em.typed.PerMode;
 import io.vertx.up.util.Ut;
 import org.junit.Test;
 

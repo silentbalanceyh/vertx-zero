@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.timer;
 
-import io.vertx.core.Handler;
 import io.aeon.experiment.specification.sch.KTimer;
+import io.vertx.core.Handler;
 
 import java.util.function.Consumer;
 

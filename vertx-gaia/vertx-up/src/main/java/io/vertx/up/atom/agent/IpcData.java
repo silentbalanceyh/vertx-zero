@@ -1,8 +1,8 @@
 package io.vertx.up.atom.agent;
 
+import io.horizon.eon.em.container.IpcType;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.horizon.eon.em.container.IpcType;
 
 import java.io.Serializable;
 

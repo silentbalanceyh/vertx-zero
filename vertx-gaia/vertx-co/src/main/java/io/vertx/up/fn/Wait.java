@@ -1,14 +1,14 @@
 package io.vertx.up.fn;
 
 
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.ErrorSupplier;
+import io.horizon.fn.ZeroActuator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
-import io.horizon.fn.ErrorSupplier;
-import io.horizon.fn.ZeroActuator;
 
 import java.util.function.Consumer;
 

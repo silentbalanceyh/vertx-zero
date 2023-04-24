@@ -1,10 +1,10 @@
 package io.horizon.specification.zero.action;
 
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.eon.em.container.ChannelType;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
-import io.horizon.eon.em.container.ChannelType;
 
 /*
  * Underway communication channel between

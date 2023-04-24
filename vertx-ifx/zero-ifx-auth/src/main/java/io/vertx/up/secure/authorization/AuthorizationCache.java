@@ -1,5 +1,6 @@
 package io.vertx.up.secure.authorization;
 
+import io.horizon.fn.Actuator;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
@@ -9,7 +10,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
-import io.horizon.fn.Actuator;
 
 import java.util.Objects;
 

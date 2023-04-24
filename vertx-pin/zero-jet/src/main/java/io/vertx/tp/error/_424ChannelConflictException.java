@@ -1,7 +1,7 @@
 package io.vertx.tp.error;
 
-import io.vertx.core.http.HttpStatusCode;
 import io.horizon.eon.em.container.ChannelType;
+import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.exception.WebException;
 
 /*

@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.session;
 
+import io.horizon.eon.em.StoreType;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -9,7 +10,6 @@ import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
-import io.horizon.eon.em.StoreType;
 import io.vertx.up.exception.web._500SessionClientInitException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

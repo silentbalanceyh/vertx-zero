@@ -2,6 +2,7 @@ package io.vertx.tp.optic.business;
 
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +10,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.optic.feature.Attachment;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;

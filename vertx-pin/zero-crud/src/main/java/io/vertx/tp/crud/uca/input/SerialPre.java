@@ -1,5 +1,6 @@
 package io.vertx.tp.crud.uca.input;
 
+import io.aeon.experiment.specification.KField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -7,7 +8,6 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.optic.environment.Indent;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.specification.KField;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;

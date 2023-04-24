@@ -1,5 +1,7 @@
 package io.vertx.tp.crud.uca.op;
 
+import io.aeon.experiment.specification.KField;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.crud.cv.em.QrType;
@@ -7,8 +9,6 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.horizon.eon.em.ChangeFlag;
-import io.aeon.experiment.specification.KField;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

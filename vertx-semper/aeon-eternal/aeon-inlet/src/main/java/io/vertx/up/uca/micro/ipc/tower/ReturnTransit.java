@@ -1,9 +1,9 @@
 package io.vertx.up.uca.micro.ipc.tower;
 
+import io.horizon.fn.ExceptionSupplier;
 import io.vertx.core.Future;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._500RpcTransitInvokeException;
-import io.horizon.fn.ExceptionSupplier;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 

@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jdbc;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.error._500EmptySQLException;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
@@ -9,7 +10,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
-import io.horizon.eon.VValue;
 import org.jooq.Record;
 import org.jooq.*;
 

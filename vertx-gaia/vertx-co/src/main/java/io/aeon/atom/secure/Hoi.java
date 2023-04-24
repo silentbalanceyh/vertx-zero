@@ -1,10 +1,10 @@
 package io.aeon.atom.secure;
 
+import io.aeon.experiment.specification.power.KApp;
+import io.aeon.experiment.specification.power.KTenant;
 import io.horizon.eon.em.cloud.ModeApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.experiment.specification.power.KTenant;
 
 import java.io.Serializable;
 import java.util.Objects;

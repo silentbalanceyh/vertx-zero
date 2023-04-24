@@ -1,10 +1,10 @@
 package io.vertx.up.experiment.mixture;
 
+import io.aeon.experiment.specification.KJoin;
+import io.aeon.experiment.specification.KPoint;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.aeon.experiment.specification.KJoin;
 import io.vertx.up.experiment.specification.KModule;
-import io.aeon.experiment.specification.KPoint;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;

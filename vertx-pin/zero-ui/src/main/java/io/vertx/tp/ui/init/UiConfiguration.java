@@ -7,9 +7,9 @@ import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.Values;
-import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

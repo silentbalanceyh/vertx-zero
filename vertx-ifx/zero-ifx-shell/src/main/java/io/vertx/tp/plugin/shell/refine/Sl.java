@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.shell.refine;
 
+import io.horizon.eon.em.Environment;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.horizon.eon.em.Environment;
 
 import java.util.List;
 import java.util.function.Supplier;

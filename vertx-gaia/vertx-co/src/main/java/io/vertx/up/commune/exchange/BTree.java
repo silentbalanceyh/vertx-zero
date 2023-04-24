@@ -1,8 +1,8 @@
 package io.vertx.up.commune.exchange;
 
+import io.horizon.eon.em.MappingMode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.eon.em.MappingMode;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

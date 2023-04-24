@@ -1,8 +1,8 @@
 package io.aeon.experiment.specification.sch;
 
+import io.horizon.eon.em.typed.PerMode;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.bridge.Values;
-import io.horizon.eon.em.typed.PerMode;
 import io.vertx.up.uca.job.plan.JobAt;
 import io.vertx.up.util.Ut;
 

@@ -2,13 +2,13 @@ package cn.vertxup.psi.api;
 
 import cn.vertxup.psi.domain.tables.daos.PPosDao;
 import cn.vertxup.psi.domain.tables.daos.PWhDao;
+import io.horizon.eon.em.ValueBool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.psi.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.horizon.eon.em.ValueBool;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.unity.Ux;
 

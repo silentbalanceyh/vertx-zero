@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.anima;
 
+import io.horizon.eon.em.container.MessageModel;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
-import io.horizon.eon.em.container.MessageModel;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.ZeroHeart;

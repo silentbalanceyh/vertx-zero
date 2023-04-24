@@ -1,11 +1,11 @@
 package io.vertx.up.atom.secure;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
-import io.horizon.eon.VValue;
 
 /**
  * Vis means `View`, the spelling is Denmark language instead of English

@@ -1,9 +1,9 @@
 package io.vertx.rx.web.anima;
 
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.rx.web.limit.RxFactor;
-import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.AgentExtractor;

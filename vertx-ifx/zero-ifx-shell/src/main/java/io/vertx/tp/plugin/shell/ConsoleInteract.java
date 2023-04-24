@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.shell;
 
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.Terminal;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.horizon.eon.em.Environment;
 
 import java.util.List;
 import java.util.function.Consumer;

@@ -1,5 +1,6 @@
 package io.vertx.rx.micro;
 
+import io.horizon.eon.em.container.ServerType;
 import io.reactivex.Single;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.reactivex.core.AbstractVerticle;
@@ -10,7 +11,6 @@ import io.vertx.rx.rs.router.EventAxis;
 import io.vertx.rx.rs.router.RouterAxis;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.bridge.Values;
-import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.cache.Cc;
