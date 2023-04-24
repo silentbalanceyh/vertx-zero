@@ -3,19 +3,19 @@ package io.vertx.up.uca.options;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Plugins;
-import io.zero.exception.ZeroException;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;
+import io.zero.exception.ZeroException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public abstract class AbstractSVisitor {
-    private transient final Node<JsonObject> NODE = Node.infix(Plugins.SERVER);
+    private transient final Node<JsonObject> NODE = Node.infix(KPlugin.SERVER);
 
     protected JsonArray serverPre(final int expected, final String... key)
         throws ZeroException {

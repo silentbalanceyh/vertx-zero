@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.rpc;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Plugins;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.uca.cache.Cc;
 
@@ -20,7 +20,7 @@ public class RpcInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        CC_CLIENT.pick(() -> Infix.init(Plugins.Infix.RPC,
+        CC_CLIENT.pick(() -> Infix.init(KPlugin.Infix.RPC,
             (config) -> RpcClient.createShared(vertx, config, name),
             RpcInfix.class), name);
     }

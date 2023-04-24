@@ -5,7 +5,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Plugins;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -41,7 +41,7 @@ public class JooqInfix implements Infix {
          * Here initialize the static jooq configuration only
          * If there exist dynamic pool, it will process in `delay` loading processing
          */
-        CONFIGURATION.putAll(Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class));
+        CONFIGURATION.putAll(Infix.init(KPlugin.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class));
     }
 
     private static Configuration configDelay(final DataPool pool) {

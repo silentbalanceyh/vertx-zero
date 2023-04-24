@@ -4,7 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.PluginSpecificationException;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Plugins;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -43,7 +43,7 @@ public class InfixScatter implements Scatter<Vertx> {
         // final ConcurrentMap<String, Class<?>> enabled = Ut.reduce(LIME.read().keySet(), wholeInjections);
         /* Scan all Infix **/
         final ConcurrentMap<Class<? extends Annotation>, Class<?>> injections =
-            Ut.reduce(Plugins.INFIX_MAP, wholeInjections);
+            Ut.reduce(KPlugin.INFIX_MAP, wholeInjections);
         injections.values().forEach(item -> {
             if (null != item && item.isAnnotationPresent(Plugin.class)) {
                 final Method method = findInit(item);
@@ -55,7 +55,7 @@ public class InfixScatter implements Scatter<Vertx> {
         });
         /* Scan all extension Infix **/
         Observable.fromIterable(wholeInjections.keySet())
-            .filter(key -> !Plugins.Infix.STANDAND.contains(key))
+            .filter(key -> !KPlugin.Infix.STANDAND.contains(key))
             .map(wholeInjections::get)
             .filter(Objects::nonNull)
             .filter(item -> item.isAnnotationPresent(Plugin.class))

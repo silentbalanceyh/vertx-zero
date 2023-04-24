@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Default plugin applied to vertx
  */
-public interface Plugins {
+public interface KPlugin {
 
     String INJECT = "inject";
 

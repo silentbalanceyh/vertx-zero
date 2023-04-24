@@ -3,7 +3,7 @@ package io.vertx.up.uca.yaml;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Plugins;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
@@ -37,7 +37,7 @@ public class ZeroVertx implements Node<JsonObject> {
              * server, inject, error, resolver
              * RxJava2
              */
-            Observable.fromArray(Plugins.DATA)
+            Observable.fromArray(KPlugin.DATA)
                 .map(item -> item)
                 .subscribe(sets::add).dispose();
             data.put(KName.Internal.LIME, Ut.fromJoin(sets));
