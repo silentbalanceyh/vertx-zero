@@ -11,6 +11,7 @@ import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
+import io.zero.fn.Actuator;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -70,9 +71,9 @@ final class Wall {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
-        } catch (final VertxException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
+            Annal.sure(logger, () -> logger.checked(ex));
+        } catch (final ZeroRunException ex) {
+            Annal.sure(logger, () -> logger.runtime(ex));
         } catch (final Throwable ex) {
             Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
@@ -92,15 +93,13 @@ final class Wall {
         try {
             ret = supplier.get();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
+            Annal.sure(logger, () -> logger.checked(ex));
         } catch (final ZeroRunException ex) {
             Annal.sure(logger, () -> {
-                logger.vertx(ex);
+                logger.runtime(ex);
                 throw ex;
             });
-        } catch (final VertxException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
-        } catch (final Throwable ex) {
+        }catch (final Throwable ex) {
             Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();

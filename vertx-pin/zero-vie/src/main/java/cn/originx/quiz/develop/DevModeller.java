@@ -15,7 +15,7 @@ import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.up.eon.FileSuffix;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.em.Environment;
-import io.vertx.up.fn.Actuator;
+import io.zero.fn.Actuator;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;

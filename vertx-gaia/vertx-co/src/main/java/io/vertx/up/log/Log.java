@@ -2,8 +2,8 @@ package io.vertx.up.log;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxException;
 import io.vertx.up.exception.ZeroException;
+import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.fn.Fn;
 import org.slf4j.Logger;
 
@@ -55,11 +55,11 @@ public final class Log {
         }
     }
 
-    public static void zero(final Logger logger, final ZeroException ex) {
+    public static void checked(final Logger logger, final ZeroException ex) {
         Fn.safeNull(error -> logger.warn("", error), ex);
     }
 
-    public static void vertx(final Logger logger, final VertxException ex) {
+    public static void runtime(final Logger logger, final ZeroRunException ex) {
         Fn.safeNull(error -> logger.warn("", error), ex);
     }
 

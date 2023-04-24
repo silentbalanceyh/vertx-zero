@@ -7,6 +7,7 @@ import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import io.zero.fn.Actuator;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -36,7 +37,7 @@ final class Warning {
         throws ZeroException {
         final ZeroException error = Ut.instance(zeroClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.zero(error));
+            Annal.sure(logger, () -> logger.checked(error));
             throw error;
         }
     }
@@ -53,7 +54,7 @@ final class Warning {
                       final Object... args) {
         final ZeroRunException error = Ut.instance(upClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.vertx(error));
+            Annal.sure(logger, () -> logger.runtime(error));
             throw error;
         }
     }
@@ -144,7 +145,7 @@ final class Warning {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
+            Annal.sure(logger, () -> logger.runtime(ex));
             throw ex;
         } catch (final Throwable ex) {
             ex.printStackTrace();

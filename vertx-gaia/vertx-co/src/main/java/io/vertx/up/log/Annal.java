@@ -1,12 +1,12 @@
 package io.vertx.up.log;
 
-import io.vertx.core.VertxException;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.up.exception.ZeroException;
-import io.vertx.up.fn.Actuator;
+import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.internal.Log4JAnnal;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.util.Ut;
+import io.zero.fn.Actuator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,9 +31,9 @@ public interface Annal {
         }
     }
 
-    void vertx(VertxException ex);
+    void runtime(ZeroRunException ex);
 
-    void zero(ZeroException ex);
+    void checked(ZeroException ex);
 
     void jvm(Throwable ex);
 
@@ -83,13 +83,13 @@ class CommonAnnal implements Annal {
     }
 
     @Override
-    public void vertx(final VertxException ex) {
-        this.logger.vertx(ex);
+    public void runtime(final ZeroRunException ex) {
+        this.logger.runtime(ex);
     }
 
     @Override
-    public void zero(final ZeroException ex) {
-        this.logger.zero(ex);
+    public void checked(final ZeroException ex) {
+        this.logger.checked(ex);
     }
 
     @Override

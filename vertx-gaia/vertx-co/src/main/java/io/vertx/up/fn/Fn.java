@@ -13,6 +13,7 @@ import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+import io.zero.fn.Actuator;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;

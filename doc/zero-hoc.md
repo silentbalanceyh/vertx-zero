@@ -12,7 +12,7 @@ Zero system extend function interface system based on java8.
 
 Extension by zero for specifical usage.
 
-* `io.vertx.up.fn.Actuator`：`void execute()`；
+* `io.zero.fn.Actuator`：`void execute()`；
 * `io.vertx.up.fn.JvmSupplier<T>`：`T get() throws Exception`；
 * `io.vertx.up.fn.JvmActuator`：`void execute() throws Exception`；
 * `io.vertx.up.fn.ZeroActuator`：`void execute() throws ZeroException`；

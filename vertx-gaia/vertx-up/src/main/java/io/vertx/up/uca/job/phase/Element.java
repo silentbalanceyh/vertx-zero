@@ -2,7 +2,7 @@ package io.vertx.up.uca.job.phase;
 
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.em.JobType;
-import io.vertx.up.fn.Actuator;
+import io.zero.fn.Actuator;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.job.plugin.JobIncome;

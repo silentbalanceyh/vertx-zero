@@ -7,7 +7,7 @@ import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.tp.plugin.shared.MapInfix;
-import io.vertx.up.fn.Actuator;
+import io.zero.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;

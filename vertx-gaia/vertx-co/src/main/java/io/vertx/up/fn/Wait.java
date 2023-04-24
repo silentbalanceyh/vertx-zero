@@ -62,7 +62,7 @@ final class Wait {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
+            Annal.sure(logger, () -> logger.checked(ex));
             throw new ZeroRunException(ex.getMessage()) {
             };
         } catch (final Throwable ex) {

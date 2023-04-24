@@ -1,7 +1,7 @@
 package io.vertx.up.log.internal;
 
-import io.vertx.core.VertxException;
 import io.vertx.up.exception.ZeroException;
+import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Log;
 import org.slf4j.Logger;
@@ -20,8 +20,8 @@ public class Log4JAnnal implements Annal {
     }
 
     @Override
-    public void zero(final ZeroException ex) {
-        Log.zero(this.logger, ex);
+    public void checked(final ZeroException ex) {
+        Log.checked(this.logger, ex);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class Log4JAnnal implements Annal {
     }
 
     @Override
-    public void vertx(final VertxException ex) {
-        Log.vertx(this.logger, ex);
+    public void runtime(final ZeroRunException ex) {
+        Log.runtime(this.logger, ex);
     }
 
     @Override

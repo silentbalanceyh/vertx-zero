@@ -22,7 +22,7 @@ import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
 import io.aeon.experiment.specification.KPair;
-import io.vertx.up.fn.Actuator;
+import io.zero.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;

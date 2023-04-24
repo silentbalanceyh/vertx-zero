@@ -9,7 +9,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.Info;
 import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.fn.Actuator;
+import io.zero.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.job.store.JobConfig;

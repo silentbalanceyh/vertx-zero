@@ -5,6 +5,7 @@ import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.Debugger;
 import io.vertx.up.util.Ut;
+import io.zero.fn.Actuator;
 
 import java.net.ConnectException;
 import java.time.format.DateTimeParseException;
@@ -45,7 +46,7 @@ final class Zero {
                 ret = supplier.get();
             }
         } catch (final ZeroException ex) {
-            Zero.LOGGER.zero(ex);
+            Zero.LOGGER.checked(ex);
             // TODO: Debug Trace for JVM
             ex.printStackTrace();
         } catch (final ZeroRunException ex) {
