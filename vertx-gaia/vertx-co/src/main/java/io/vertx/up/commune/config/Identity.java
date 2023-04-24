@@ -1,6 +1,6 @@
 package io.vertx.up.commune.config;
 
-import io.zero.spec.common.HCopyable;
+import io.vertx.up.commune.Copyable;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
  * 1) static identifier: the definition of direct
  * 2) dynamic identifier: the identifier came from identifierComponent
  */
-public class Identity implements Serializable, HCopyable<Identity> {
+public class Identity implements Serializable, Copyable<Identity> {
     private String identifier;
     private String sigma;
     private Class<?> identifierComponent;

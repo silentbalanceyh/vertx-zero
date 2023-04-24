@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.zero.spec.common.HCopyable;
-import io.zero.spec.common.HJson;
+import io.vertx.up.commune.Copyable;
+import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DSMode;
 import io.vertx.up.eon.em.DatabaseType;
@@ -43,7 +43,7 @@ import java.util.Objects;
  * workflow:
  *    database:         // WORKFLOW
  */
-public class Database implements Serializable, HJson, HCopyable<Database> {
+public class Database implements Serializable, Json, Copyable<Database> {
 
     public static final String CURRENT = "provider";
     public static final String HISTORY = "orbit";

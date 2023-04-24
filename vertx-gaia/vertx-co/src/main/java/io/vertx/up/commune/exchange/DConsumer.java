@@ -1,8 +1,8 @@
 package io.vertx.up.commune.exchange;
 
 import io.vertx.core.json.JsonObject;
-import io.zero.spec.common.HCopyable;
-import io.zero.spec.common.HJson;
+import io.vertx.up.commune.Copyable;
+import io.vertx.up.commune.Json;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class DConsumer implements Serializable, HJson, HCopyable<DConsumer> {
+public class DConsumer implements Serializable, Json, Copyable<DConsumer> {
 
     private String source;
     private String in;

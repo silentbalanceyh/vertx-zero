@@ -1,4 +1,4 @@
-package io.zero.spec.common;
+package io.vertx.up.commune;
 
 /**
  * 对象拷贝包专用封装接口，不同于 clone() 方法是该接口支持泛型拷贝，您可提供自定义的拷贝实现
@@ -10,6 +10,6 @@ package io.zero.spec.common;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HCopyable<T> {
+public interface Copyable<T> {
     T copy();
 }

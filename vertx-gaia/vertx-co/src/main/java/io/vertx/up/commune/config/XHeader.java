@@ -2,14 +2,14 @@ package io.vertx.up.commune.config;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.zero.spec.common.HJson;
+import io.vertx.up.commune.Json;
 import io.vertx.up.eon.ID;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class XHeader implements Serializable, HJson {
+public class XHeader implements Serializable, Json {
 
     private String sigma;
     private String appId;

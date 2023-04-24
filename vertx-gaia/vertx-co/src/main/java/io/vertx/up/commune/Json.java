@@ -1,4 +1,4 @@
-package io.zero.spec.common;
+package io.vertx.up.commune;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
@@ -9,7 +9,7 @@ import io.vertx.up.util.Ut;
  * 2) Json File to T
  * 3) T to Json
  */
-public interface HJson {
+public interface Json {
     /**
      * T to Json
      *

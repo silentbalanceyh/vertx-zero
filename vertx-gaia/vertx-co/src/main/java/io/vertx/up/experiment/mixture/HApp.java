@@ -1,6 +1,6 @@
 package io.vertx.up.experiment.mixture;
 
-import io.zero.spec.common.HJson;
+import io.vertx.up.commune.Json;
 import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.util.Ut;
@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HApp extends Serializable, HJson {
+public interface HApp extends Serializable, Json {
     /*
      * Default namespace value based on appName
      * Modular belong to `Origin X Engine`

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonObject;
-import io.zero.spec.common.HCopyable;
+import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 
@@ -14,7 +14,7 @@ import java.io.Serializable;
 /*
  * XHeader for current jet here.
  */
-public class JtApp implements Serializable, HCopyable<JtApp> {
+public class JtApp implements Serializable, Copyable<JtApp> {
     /* appId, appKey, sigma */
     private transient String appId;
     private transient String appKey;
