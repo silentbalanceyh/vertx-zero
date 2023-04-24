@@ -120,12 +120,12 @@ final class IODirectory {
                  * Whether it's jar path or common path.
                  */
                 final String protocol = url.getProtocol();
-                if (VPath.Protocol.FILE.equals(protocol)) {
+                if (VPath.PROTOCOL.FILE.equals(protocol)) {
                     /*
                      * Common file
                      */
                     retSet.addAll(getFiles(url, extension, isDirectory));
-                } else if (VPath.Protocol.JAR.equals(protocol)) {
+                } else if (VPath.PROTOCOL.JAR.equals(protocol)) {
                     /*
                      * Jar File
                      */

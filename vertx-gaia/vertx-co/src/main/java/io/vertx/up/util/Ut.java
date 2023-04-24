@@ -16,13 +16,14 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Strings;
 import io.vertx.up.eon.Values;
 import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.eon.em.Environment;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
+import io.zero.cv.VEnv;
+import io.zero.cv.VString;
 import io.zero.spec.function.Actuator;
 
 import java.io.File;
@@ -1133,7 +1134,7 @@ public final class Ut {
 
     // isFileName
     public static boolean isFileName(final String original) {
-        return StringUtil.isMatch(KValue.Regex.FILENAME, original);
+        return StringUtil.isMatch(VString.REGEX.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {
@@ -1932,7 +1933,7 @@ public final class Ut {
      */
     public static TypeOs envOs() {
         // os.name
-        return TypeOs.from(System.getProperty(KValue.NS.KEY_OS));
+        return TypeOs.from(System.getProperty(VEnv.PROP.OS_NAME));
     }
 
     public static String env(final String name) {

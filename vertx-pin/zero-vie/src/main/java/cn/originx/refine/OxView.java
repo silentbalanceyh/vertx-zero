@@ -13,9 +13,9 @@ import io.vertx.tp.optic.ui.Apeak;
 import io.vertx.tp.optic.web.Seeker;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VValue;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -88,7 +88,7 @@ final class OxView {
         final JsonObject params = new JsonObject();
         params.put(KName.IDENTIFIER, identifier);
         params.put(KName.DYNAMIC, Boolean.TRUE);
-        params.put(KName.VIEW, KValue.View.VIEW_DEFAULT);          // 默认使用 DEFAULT
+        params.put(KName.VIEW, VValue.DFT.V_VIEW);          // 默认使用 DEFAULT
 
         /* 构造Header数据 */
         final JsonObject header = envelop.headersX();
@@ -159,7 +159,7 @@ final class OxView {
             /*
              * 4. 构造参数
              */
-            item.put(KName.VIEW, Objects.isNull(view) ? KValue.View.VIEW_DEFAULT : view);
+            item.put(KName.VIEW, Objects.isNull(view) ? VValue.DFT.V_VIEW : view);
             /*
              * 5. 填充用户数据
              */

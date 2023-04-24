@@ -1,35 +1,11 @@
 package io.vertx.up.eon;
 
+import io.zero.cv.VValue;
+
 /**
  * Value constants
  */
-public interface Values {
-
-    int UNSET = -1;
-
-    int CODECS = UNSET;
-
-    int ZERO = 0;
-
-    int IDX = 0;
-    int IDX_1 = 1;
-    int IDX_2 = 2;
-
-    int RANGE = -1;
-
-    int ONE = 1;
-
-    int SINGLE = ONE;
-
-    int TWO = 2;
-
-    int THREE = 3;
-
-    int FOUR = 4;
-
-    String TRUE = "true";
-
-    String FALSE = "false";
+public interface Values extends VValue {
 
     String EMPTY_IDENTIFIER = "(`identifier` null)";
 
@@ -42,7 +18,6 @@ public interface Values {
     String CONFIG_INTERNAL_PACKAGE = CONFIG_INTERNAL_FILE + "vertx-package-filter.json";
     // Aeon系统专用
     String CONFIG_INTERNAL_CLOUD = "aeon/contained/";
-    char[] HEX_ARR = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     interface VS {
         String OLD = "__OLD__";

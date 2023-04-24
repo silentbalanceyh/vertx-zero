@@ -38,9 +38,9 @@ class StandardEmitter extends AbstractEmitter {
          * RegistryBuilder
          */
         final RegistryBuilder<ConnectionSocketFactory> registry = RegistryBuilder.create();
-        registry.register(VPath.Protocol.HTTP, PlainConnectionSocketFactory.INSTANCE);
+        registry.register(VPath.PROTOCOL.HTTP, PlainConnectionSocketFactory.INSTANCE);
         if (Objects.nonNull(sslcontext)) {
-            registry.register(VPath.Protocol.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
+            registry.register(VPath.PROTOCOL.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
         }
 
         /*

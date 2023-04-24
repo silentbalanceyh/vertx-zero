@@ -3,9 +3,9 @@ package io.vertx.up.atom.secure;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.Values;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VValue;
 
 /**
  * Vis means `View`, the spelling is Denmark language instead of English
@@ -46,16 +46,16 @@ public class Vis extends JsonObject {
         final String position;
         if (Ut.isNil(input)) {
             /* Empty */
-            view = KValue.View.VIEW_DEFAULT;
-            position = KValue.View.POSITION_DEFAULT;
+            view = VValue.DFT.V_VIEW;
+            position = VValue.DFT.V_POSITION;
         } else {
             final String v = input.getString(Values.IDX);
-            view = Ut.isNil(v) ? KValue.View.VIEW_DEFAULT : v;
+            view = Ut.isNil(v) ? VValue.DFT.V_VIEW : v;
             if (1 < input.size()) {
                 final String p = input.getString(Values.ONE);
-                position = Ut.isNil(p) ? KValue.View.POSITION_DEFAULT : p;
+                position = Ut.isNil(p) ? VValue.DFT.V_POSITION : p;
             } else {
-                position = KValue.View.POSITION_DEFAULT;
+                position = VValue.DFT.V_POSITION;
             }
         }
         return new Vis(view, position);
@@ -107,22 +107,22 @@ public class Vis extends JsonObject {
                 return create(viewJson);
             } else {
                 // Single view with default position
-                return new Vis((String) json, KValue.View.POSITION_DEFAULT);
+                return new Vis((String) json, VValue.DFT.V_POSITION);
             }
         } else if (json instanceof final JsonArray jsonArray) {
             // JsonArray
             return create(jsonArray);
         } else {
             // Default value
-            return new Vis(KValue.View.VIEW_DEFAULT, KValue.View.POSITION_DEFAULT);
+            return new Vis(VValue.DFT.V_VIEW, VValue.DFT.V_POSITION);
         }
     }
 
     public String view() {
-        return this.getString(KName.VIEW, KValue.View.VIEW_DEFAULT);
+        return this.getString(KName.VIEW, VValue.DFT.V_VIEW);
     }
 
     public String position() {
-        return this.getString(KName.POSITION, KValue.View.POSITION_DEFAULT);
+        return this.getString(KName.POSITION, VValue.DFT.V_POSITION);
     }
 }

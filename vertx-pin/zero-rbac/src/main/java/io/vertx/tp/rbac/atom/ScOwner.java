@@ -3,8 +3,8 @@ package io.vertx.tp.rbac.atom;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VValue;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,8 +20,8 @@ public class ScOwner implements Serializable {
     private final String owner;
     private final Set<String> roles = new HashSet<>();
     private final OwnerType type;
-    private String view = KValue.View.VIEW_DEFAULT;
-    private String position = KValue.View.POSITION_DEFAULT;
+    private String view = VValue.DFT.V_VIEW;
+    private String position = VValue.DFT.V_POSITION;
 
     public ScOwner(final String owner, final String typeStr) {
         final OwnerType ownerType = Ut.toEnum(() -> typeStr, OwnerType.class, OwnerType.ROLE);

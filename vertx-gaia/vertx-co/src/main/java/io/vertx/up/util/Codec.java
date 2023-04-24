@@ -35,8 +35,8 @@ final class Codec {
             int position = 0;
             for (int idx = 0; idx < 16; idx++) {
                 final byte byte0 = middle[idx];
-                middleStr[position++] = Values.HEX_ARR[byte0 >>> 4 & 0xF];
-                middleStr[position++] = Values.HEX_ARR[byte0 & 0xF];
+                middleStr[position++] = Values.ARR_HEX[byte0 >>> 4 & 0xF];
+                middleStr[position++] = Values.ARR_HEX[byte0 & 0xF];
             }
             return new String(middleStr);
         }, input);

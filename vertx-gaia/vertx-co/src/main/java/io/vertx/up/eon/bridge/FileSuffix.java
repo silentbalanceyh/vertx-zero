@@ -2,7 +2,7 @@ package io.vertx.up.eon.bridge;
 
 import io.zero.cv.VPath;
 
-public interface FileSuffix extends VPath.Suffix {
+public interface FileSuffix extends VPath.SUFFIX {
     //
     //    String ZIP = "zip";
     //

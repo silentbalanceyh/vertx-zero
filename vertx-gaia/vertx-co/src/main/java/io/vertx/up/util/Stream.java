@@ -210,7 +210,7 @@ final class Stream {
             try {
                 final URL url = new URL(filename);
                 final String protocol = url.getProtocol();
-                if (VPath.Protocol.JAR.equals(protocol)) {
+                if (VPath.PROTOCOL.JAR.equals(protocol)) {
                     final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
                     return jarCon.getInputStream();
                 } else {

@@ -14,11 +14,11 @@ import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.eon.em.ActPhase;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+import io.zero.cv.VValue;
 
 import java.util.Objects;
 
@@ -74,8 +74,8 @@ class SyntaxAop {
         final JsonObject viewData = Ut.valueJObject(matrixJ, KName.VIEW);
         requestJ.put(KName.RESOURCE_ID, viewData.getString(KName.RESOURCE_ID));
         requestJ.put(KName.VIEW_ID, viewData.getString(KName.KEY));
-        requestJ.put(KName.VIEW, viewData.getString(KName.NAME, KValue.View.VIEW_DEFAULT));
-        requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, KValue.View.POSITION_DEFAULT));
+        requestJ.put(KName.VIEW, viewData.getString(KName.NAME, VValue.DFT.V_VIEW));
+        requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, VValue.DFT.V_POSITION));
         Sc.infoVisit(SyntaxAop.class, "Confine component input: {0}", requestJ.encode());
         final Confine confine = CC_FINITY.pick(() -> Ut.instance(confineCls), confineCls.getName());
         return confine.restrict(requestJ, syntaxJ);

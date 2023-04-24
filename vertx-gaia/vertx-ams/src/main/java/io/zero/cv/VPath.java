@@ -10,7 +10,7 @@ public interface VPath {
     /**
      * 文件扩展名
      */
-    interface Suffix {
+    interface SUFFIX {
 
         String ZIP = "zip";
 
@@ -42,7 +42,7 @@ public interface VPath {
     /**
      * 路径中的协议常量
      */
-    interface Protocol {
+    interface PROTOCOL {
 
         String FILE = "file";
 

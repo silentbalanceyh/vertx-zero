@@ -7,8 +7,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.util.Ut;
+import io.zero.cv.em.Result;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,7 +66,7 @@ class Wander {
      * key = SUCCESS | FAILURE
      */
     static JsonObject wrapJ(final String key, final boolean checked) {
-        final KValue.Bool response = checked ? KValue.Bool.SUCCESS : KValue.Bool.FAILURE;
+        final Result response = checked ? Result.SUCCESS : Result.FAILURE;
         return new JsonObject().put(key, response.name());
     }
 
@@ -80,8 +80,8 @@ class Wander {
     static Boolean wrapB(final String key, final JsonObject input) {
         final JsonObject inputJ = Ut.valueJObject(input);
         final String literal = inputJ.getString(key);
-        final KValue.Bool resultValue = Ut.toEnum(() -> literal, KValue.Bool.class, KValue.Bool.FAILURE);
-        return KValue.Bool.SUCCESS == resultValue;
+        final Result resultValue = Ut.toEnum(() -> literal, Result.class, Result.FAILURE);
+        return Result.SUCCESS == resultValue;
     }
 
     /*
