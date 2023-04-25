@@ -1,10 +1,10 @@
 package io.vertx.up.extension.router;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.extension.Ares;
 import io.vertx.up.fn.Fn;
@@ -52,13 +52,13 @@ class AresDynamic extends AbstractAres {
         final String name = this.getClass().getSimpleName();
         // Extract class that are implemented
         final Class<?> clazz = ZeroAmbient.getPlugin(KName.ROUTER);
-        if (Values.ZERO == LOG_FLAG_START.getAndIncrement()) {
+        if (VValue.ZERO == LOG_FLAG_START.getAndIncrement()) {
             this.logger().info(Info.DYNAMIC_DETECT, name);
         }
         // The condition for skip
         if (Objects.nonNull(clazz) && Ut.isImplement(clazz, Ares.class)) {
             final JsonObject configRouter = this.configuration.copy();
-            if (Values.ONE == LOG_FLAG_END.getAndIncrement()) {
+            if (VValue.ONE == LOG_FLAG_END.getAndIncrement()) {
                 this.logger().info(Info.DYNAMIC_FOUND, name, clazz.getName(), configRouter.encode());
             }
 
@@ -68,7 +68,7 @@ class AresDynamic extends AbstractAres {
             dynamic.bind(this.server, this.options);
             dynamic.mount(router, configRouter);
         } else {
-            if (Values.ONE == LOG_FLAG_END.getAndIncrement()) {
+            if (VValue.ONE == LOG_FLAG_END.getAndIncrement()) {
                 final String className = Fn.orNull(null, () -> null == clazz ? null : clazz.getName(), clazz);
                 this.logger().info(Info.DYNAMIC_SKIP, name, className);
             }

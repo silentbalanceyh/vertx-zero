@@ -1,6 +1,7 @@
 package io.vertx.tp.atom.refine;
 
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -8,7 +9,6 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -453,8 +453,8 @@ class AoCompare {
     private static Kv<ChangeFlag, JsonObject> updateKv(final ConcurrentMap<ChangeFlag, JsonArray> processed) {
         final Kv<ChangeFlag, JsonObject> changed = Kv.create();
         processed.forEach((flag, items) -> {
-            if (Values.ONE == items.size()) {
-                changed.set(flag, items.getJsonObject(Values.IDX));
+            if (VValue.ONE == items.size()) {
+                changed.set(flag, items.getJsonObject(VValue.IDX));
             }
         });
         return changed;

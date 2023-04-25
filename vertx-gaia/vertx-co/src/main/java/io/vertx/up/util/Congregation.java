@@ -1,10 +1,10 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.horizon.exception.ZeroException;
 import io.horizon.fn.Actuator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -47,7 +47,7 @@ final class Congregation {
      */
     static <V> void exec(final List<V> list, final BiConsumer<V, Integer> consumer) {
         final int size = list.size();
-        for (int idx = Values.IDX; idx < size; idx++) {
+        for (int idx = VValue.IDX; idx < size; idx++) {
             final V item = list.get(idx);
             if (null != item) {
                 consumer.accept(item, idx);

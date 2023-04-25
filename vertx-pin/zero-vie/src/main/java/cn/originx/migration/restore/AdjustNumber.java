@@ -4,13 +4,13 @@ import cn.originx.migration.AbstractStep;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -42,7 +42,7 @@ public class AdjustNumber extends AbstractStep {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         Ut.itJArray(numberData)
             .filter(item -> Objects.nonNull(item.getValue(ADJUST)))
-            .filter(item -> Values.RANGE < item.getInteger(ADJUST))
+            .filter(item -> VValue.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
         return Fn.combineA(futures).compose(processed -> {
             Ox.LOG.infoShell(this.getClass(), "修正序号完成！");
@@ -54,7 +54,7 @@ public class AdjustNumber extends AbstractStep {
         final JsonObject filters = new JsonObject();
         filters.put(KName.SIGMA, this.app.getSigma());
         filters.put(KName.IDENTIFIER, item.getString(KName.IDENTIFIER));
-        filters.put(Strings.EMPTY, Boolean.TRUE);
+        filters.put(VString.EMPTY, Boolean.TRUE);
         return Ux.Jooq.on(XNumberDao.class).<XNumber>fetchOneAsync(filters).compose(number -> {
             final int adjust = item.getInteger(ADJUST);
             number.setCurrent((long) adjust);
@@ -78,7 +78,7 @@ public class AdjustNumber extends AbstractStep {
             content.append(Ut.fromAdjust("修正值", 12)).append("\n");
             Ut.itJArray(numberData).forEach(item -> {
                 final Integer adjust = item.getInteger(ADJUST);
-                if (Objects.nonNull(adjust) && Values.RANGE != adjust) {
+                if (Objects.nonNull(adjust) && VValue.RANGE != adjust) {
                     content.append(Ut.fromAdjust(item.getString(KName.IDENTIFIER), 32)).append(width);
                     content.append(Ut.fromAdjust(item.getInteger(KName.CODE), 15, ' ')).append(width);
                     content.append(Ut.fromAdjust(item.getInteger("current"), 15, ' ')).append(width);

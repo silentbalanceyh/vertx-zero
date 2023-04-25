@@ -2,6 +2,7 @@ package io.vertx.tp.modular.sql;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.tp.atom.cv.em.CheckResult;
@@ -10,7 +11,6 @@ import io.vertx.tp.error.*;
 import io.vertx.tp.modular.metadata.AoReflector;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.metadata.FieldComparator;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -129,7 +129,7 @@ public final class SqlDDLProvider {
         columns.forEach(column -> {
             final MField field = schema.getFieldByColumn(column);
             // NOT NULL，系统中有数据，不可添加非空字段
-            Fn.outWeb(Values.ZERO < rows && !field.getIsNullable(), _500NullableAddException.class, this.getClass(),
+            Fn.outWeb(VValue.ZERO < rows && !field.getIsNullable(), _500NullableAddException.class, this.getClass(),
                 /* ARG1：被修改的表名 */ table,
                 /* ARG2：被修改的列名 */ column);
             final String sql = this.sentence.columnAdd(table, field);
@@ -159,9 +159,9 @@ public final class SqlDDLProvider {
                 }
 
                 // 已存在NULL数据时，字段不可变更为 NOT NULL
-                if (Values.ZERO < rows) {
+                if (VValue.ZERO < rows) {
                     final long nullRows = this.reflector.getNullRows(table, this.sentence.columnDdl(column));
-                    Fn.outWeb(Values.ZERO < nullRows && !field.getIsNullable(), _500NullableAlterException.class, this.getClass(),
+                    Fn.outWeb(VValue.ZERO < nullRows && !field.getIsNullable(), _500NullableAlterException.class, this.getClass(),
                         /* ARG1：被修改的表名 */ table,
                         /* ARG2：被修改的列名 */ column);
                 }

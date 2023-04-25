@@ -1,8 +1,8 @@
 package io.vertx.up.uca.wffs.script;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.commons.jexl3.JexlContext;
 
@@ -48,7 +48,7 @@ class InletUser extends AbstractInlet {
          *      at io.vertx.up.uca.wffs.Playbook.format(Playbook.java:86)
          */
         user.fieldNames().forEach(field -> {
-            final String childKey = name + Strings.DOT + field;
+            final String childKey = name + VString.DOT + field;
             final JsonObject childJ = Ut.valueJObject(user, field);
 
             context.set(childKey, Ut.toMapExpr(childJ));

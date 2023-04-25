@@ -3,11 +3,11 @@ package cn.originx.quiz.develop;
 import cn.originx.cv.em.MenuType;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -53,7 +53,7 @@ class DevMenu {
             // SIDE-MENU root
             final JsonArray root = new JsonArray();
             Ut.itJArray(calculate)
-                .filter(json -> Values.ONE == json.getInteger("level"))
+                .filter(json -> VValue.ONE == json.getInteger("level"))
                 .filter(json -> Objects.isNull(json.getString("parentId")))
                 .forEach(root::add);
             return Ux.future(buildTree(root, result));

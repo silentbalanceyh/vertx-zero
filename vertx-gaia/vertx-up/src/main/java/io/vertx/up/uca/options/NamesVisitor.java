@@ -1,11 +1,11 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -22,7 +22,7 @@ public class NamesVisitor extends AbstractSVisitor implements ServerVisitor<Stri
     public ConcurrentMap<Integer, String> visit(final String... key)
         throws ZeroException {
         final JsonArray serverData = this.serverPre(1, key);
-        this.type = ServerType.valueOf(key[Values.IDX]);
+        this.type = ServerType.valueOf(key[VValue.IDX]);
         return this.extract(serverData);
     }
 

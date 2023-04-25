@@ -1,9 +1,9 @@
 package io.vertx.up.uca.stable;
 
+import io.horizon.eon.VValue;
 import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.demon.JObjectElementException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -21,7 +21,7 @@ public abstract class AbstractInsurer implements Insurer {
         Fn.safeZero(() -> {
             // 1. Verify the element must be json object for each
             final int size = array.size();
-            for (int idx = Values.IDX; idx < size; idx++) {
+            for (int idx = VValue.IDX; idx < size; idx++) {
                 final Object value = array.getValue(idx);
                 // 2. Call check method to confirm JsonObject
                 Fn.outZero(!Ut.isJObject(value), this.getLogger(),

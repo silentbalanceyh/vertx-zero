@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,12 @@ final class IOPath {
         if (Ut.isNil(path)) {
             return new ArrayList<>();
         }
-        final String[] splitArr = path.split(Strings.SLASH);
+        final String[] splitArr = path.split(VString.SLASH);
         final List<String> itemList = new ArrayList<>();
         for (int idx = 0; idx < splitArr.length; idx++) {
             final StringBuilder item = new StringBuilder();
             for (int jdx = 0; jdx < idx; jdx++) {
-                item.append(splitArr[jdx]).append(Strings.SLASH);
+                item.append(splitArr[jdx]).append(VString.SLASH);
             }
             item.append(splitArr[idx]);
             final String itemStr = item.toString();

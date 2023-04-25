@@ -1,11 +1,11 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -44,8 +44,8 @@ final class Query {
             return ir(originalJ, (JsonObject) value, Qr.Connector.AND, kv);
         } else {
             // 直接合并（加 And）
-            if (!originalJ.containsKey(Strings.EMPTY)) {
-                originalJ.put(Strings.EMPTY, Boolean.TRUE);
+            if (!originalJ.containsKey(VString.EMPTY)) {
+                originalJ.put(VString.EMPTY, Boolean.TRUE);
             }
             originalJ.put(field, value);
             return originalJ;
@@ -102,7 +102,7 @@ final class Query {
     private static JsonObject ir(final JsonObject originalJ, final JsonObject criteriaJ,
                                  final Qr.Connector connectorL, final Kv<String, String> kv) {
         // 在 originalJ 中追加条件：AND
-        originalJ.put(Strings.EMPTY, Qr.Connector.AND == connectorL);
+        originalJ.put(VString.EMPTY, Qr.Connector.AND == connectorL);
         if (irOne(criteriaJ)) {
             // 单条件，直接将条件追加（此时不论符号）
             criteriaJ.fieldNames()
@@ -110,7 +110,7 @@ final class Query {
             return originalJ;
         } else {
             // 多条件，需检查对端符号
-            final Boolean isAnd = criteriaJ.getBoolean(Strings.EMPTY, Boolean.FALSE);
+            final Boolean isAnd = criteriaJ.getBoolean(VString.EMPTY, Boolean.FALSE);
             final Qr.Connector connectorR = isAnd ? Qr.Connector.AND : Qr.Connector.OR;
             if (connectorL == connectorR) {
                 // 两边符号相同，Linear合并
@@ -122,7 +122,7 @@ final class Query {
                 // 符号不同，Tree合并
                 // L AND R
                 final JsonObject result = new JsonObject();
-                result.put(Strings.EMPTY, Boolean.TRUE);
+                result.put(VString.EMPTY, Boolean.TRUE);
                 result.put(kv.getKey(), originalJ);
                 result.put(kv.getValue(), criteriaJ);
                 return result;
@@ -169,7 +169,7 @@ final class Query {
 
     static boolean irOne(final JsonObject condition) {
         final JsonObject normalized = condition.copy();
-        normalized.remove(Strings.EMPTY);
+        normalized.remove(VString.EMPTY);
         return 1 == normalized.fieldNames().size();
     }
 
@@ -178,18 +178,18 @@ final class Query {
             return true;
         } else {
             final JsonObject normalized = condition.copy();
-            normalized.remove(Strings.EMPTY);
+            normalized.remove(VString.EMPTY);
             return Ut.isNil(normalized);
         }
     }
 
     static boolean irAnd(final JsonObject condition) {
-        if (!condition.containsKey(Strings.EMPTY)) {
+        if (!condition.containsKey(VString.EMPTY)) {
             // Default: OR
             return false;
         }
         // true for AND
         // false for OR
-        return condition.getBoolean(Strings.EMPTY, Boolean.FALSE);
+        return condition.getBoolean(VString.EMPTY, Boolean.FALSE);
     }
 }

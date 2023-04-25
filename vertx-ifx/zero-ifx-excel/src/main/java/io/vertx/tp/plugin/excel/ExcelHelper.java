@@ -1,6 +1,8 @@
 package io.vertx.tp.plugin.excel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -14,8 +16,6 @@ import io.vertx.tp.plugin.excel.atom.ExTenant;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -33,6 +33,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+;
 
 /*
  * Excel Helper to help ExcelClient to do some object building
@@ -229,7 +231,7 @@ class ExcelHelper {
         final InputStream in = Ut.ioStreamN(filename, getClass());
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
-        if (filename.endsWith(FileSuffix.EXCEL_2003)) {
+        if (filename.endsWith(VPath.SUFFIX.EXCEL_2003)) {
             workbook = CC_WORKBOOK.pick(() -> Fn.orJvm(() -> new HSSFWorkbook(in)), filename);
             // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
@@ -374,7 +376,7 @@ class ExcelHelper {
          */
         if (each.containsKey(KName.ALIAS)) {
             final JsonArray alias = each.getJsonArray(KName.ALIAS);
-            final File current = new File(Strings.EMPTY);
+            final File current = new File(VString.EMPTY);
             Ut.itJArray(alias, String.class, (item, index) -> {
                 final String filename = current.getAbsolutePath() + item;
                 final File file = new File(filename);

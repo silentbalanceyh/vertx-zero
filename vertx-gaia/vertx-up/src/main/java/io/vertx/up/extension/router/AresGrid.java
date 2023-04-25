@@ -1,11 +1,11 @@
 package io.vertx.up.extension.router;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.up.atom.worker.Remind;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.invoker.Invoker;
 import io.vertx.up.uca.invoker.JetSelector;
@@ -58,7 +58,7 @@ public class AresGrid {
             final Method method = remind.getMethod();
             final Class<?> returnType = method.getReturnType();
             final Class<?>[] params = method.getParameterTypes();
-            final Class<?> param = 0 == params.length ? null : params[Values.IDX];
+            final Class<?> param = 0 == params.length ? null : params[VValue.IDX];
             final Invoker invoker = JetSelector.invoker(returnType, param);
             invoker.handle(remind.getProxy(), method, body, handler);
         }

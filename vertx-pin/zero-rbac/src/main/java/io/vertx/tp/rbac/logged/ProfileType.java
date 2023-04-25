@@ -1,8 +1,8 @@
 package io.vertx.tp.rbac.logged;
 
+import io.horizon.eon.VString;
 import io.vertx.tp.rbac.cv.em.SeekGroup;
 import io.vertx.tp.rbac.cv.em.SeekRole;
-import io.vertx.up.eon.bridge.Strings;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -121,9 +121,9 @@ public class ProfileType implements Serializable {
     public String getKey() {
         /* Group,User - Role */
         if (null == this.group) {
-            return "USER" + Strings.UNDERLINE + this.role.name();
+            return "USER" + VString.UNDERLINE + this.role.name();
         } else {
-            return this.group.name() + Strings.UNDERLINE + this.role.name();
+            return this.group.name() + VString.UNDERLINE + this.role.name();
         }
     }
 

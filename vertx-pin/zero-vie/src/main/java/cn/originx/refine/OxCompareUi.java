@@ -1,12 +1,12 @@
 package cn.originx.refine;
 
 import cn.originx.uca.ui.FieldReport;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -129,8 +129,8 @@ final class OxCompareUi {
 
         formMap.keySet().forEach(item -> {
             final String key;
-            if (item.contains(Strings.ACCENT_SIGN)) {
-                key = item.split(Strings.ACCENT_SIGN)[0];
+            if (item.contains(VString.ACCENT_SIGN)) {
+                key = item.split(VString.ACCENT_SIGN)[0];
             } else {
                 key = item;
             }

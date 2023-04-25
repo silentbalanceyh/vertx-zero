@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.change;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.Date;
@@ -68,8 +68,8 @@ public abstract class AbstractAdjuster implements Adjuster {
              */
             return fnCompare.get();
         } else {
-            final String oldStr = Objects.isNull(oldValue) ? Strings.EMPTY : oldValue.toString().trim();
-            final String newStr = Objects.isNull(newValue) ? Strings.EMPTY : newValue.toString().trim();
+            final String oldStr = Objects.isNull(oldValue) ? VString.EMPTY : oldValue.toString().trim();
+            final String newStr = Objects.isNull(newValue) ? VString.EMPTY : newValue.toString().trim();
             return oldStr.equals(newStr);
         }
     }

@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
@@ -96,7 +96,7 @@ public class SheetAnalyzer implements Serializable {
             hashCodes.add(cell.hashCode());
         });
         indexes.add(this.sheet.getLastRowNum());
-        indexes.remove(Values.IDX);
+        indexes.remove(VValue.IDX);
         final ConcurrentMap<Integer, Integer> indexMap = new ConcurrentHashMap<>();
         for (int idx = 0; idx < hashCodes.size(); idx++) {
             final Integer key = hashCodes.get(idx);

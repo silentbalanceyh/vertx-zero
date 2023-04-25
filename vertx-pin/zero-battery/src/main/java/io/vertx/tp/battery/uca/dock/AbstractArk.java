@@ -4,13 +4,13 @@ import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import cn.vertxup.battery.service.BagArgService;
 import cn.vertxup.battery.service.BagArgStub;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.cloud.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.tp.ke.cv.em.TypeBag;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -40,7 +40,7 @@ public abstract class AbstractArk implements Ark {
             case BY_TENANT -> conditionJ.put(KName.Tenant.ID, input);
             default -> conditionJ.put(KName.APP_ID, input);
         }
-        if (Values.ONE == bags.size()) {
+        if (VValue.ONE == bags.size()) {
             final TypeBag bag = bags.iterator().next();
             conditionJ.put(KName.TYPE, bag.key());
         } else {

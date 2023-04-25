@@ -1,8 +1,8 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import org.jooq.Query;
 import org.jooq.UpdateConditionStep;
 
@@ -60,7 +60,7 @@ class ActionUpdate extends AbstractAction {
         final List<Query> batchOps = new ArrayList<>();
         list.stream().map(this::editRecord).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
-        final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
+        final long updated = Arrays.stream(rows).filter(value -> VValue.ONE == value).count();
         this.logging("[ Jq ] update(List<T>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return list;

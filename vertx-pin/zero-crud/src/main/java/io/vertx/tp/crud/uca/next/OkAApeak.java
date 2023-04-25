@@ -1,12 +1,12 @@
 package io.vertx.tp.crud.uca.next;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,7 +37,7 @@ class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
         // Duplicated Column Parsing
         final Set<String> fieldSet = new HashSet<>();
         boolean append = true;
-        for (int idx = Values.IDX; idx < columns.size(); idx++) {
+        for (int idx = VValue.IDX; idx < columns.size(); idx++) {
             final Object value = columns.getValue(idx);
             if (Objects.isNull(value)) {
                 // Continue for current loop

@@ -1,6 +1,7 @@
 package cn.vertxup.ui.api;
 
 import cn.vertxup.ui.service.*;
+import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ViewType;
 import io.vertx.core.Future;
@@ -15,7 +16,6 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -164,7 +164,7 @@ public class UiActor {
             request.put(KName.SIGMA, params.getString(KName.SIGMA));
             request.put(KName.IDENTIFIER, identifier);
             request.put(KName.Ui.PAGE, page);
-            final String path = view + Strings.SLASH + position + Strings.SLASH + alias;
+            final String path = view + VString.SLASH + position + VString.SLASH + alias;
             request.put(KName.App.PATH, path);
             /*
              * data

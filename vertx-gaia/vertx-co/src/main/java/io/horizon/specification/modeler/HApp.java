@@ -1,8 +1,8 @@
 package io.horizon.specification.modeler;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.runtime.VEnv;
 import io.horizon.specification.zero.object.TJson;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -22,7 +22,7 @@ public interface HApp extends Serializable, TJson {
     }
 
     static String ns(final String appName, final String identifier) {
-        return ns(appName) + Strings.DASH + identifier;
+        return ns(appName) + VString.DASH + identifier;
     }
 
     /* Uniform Model identifier */

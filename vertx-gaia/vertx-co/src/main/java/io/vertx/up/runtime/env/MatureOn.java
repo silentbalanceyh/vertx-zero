@@ -1,5 +1,7 @@
 package io.vertx.up.runtime.env;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.DSMode;
 import io.horizon.specification.runtime.Macrocosm;
 import io.horizon.specification.runtime.Mature;
@@ -8,8 +10,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.AttrSet;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -84,7 +84,7 @@ public class MatureOn implements Macrocosm {
         // JdbcUrl
         final String jdbcUrl = Ut.valueString(normJ, "jdbcUrl");
         final String replaced;
-        if (jdbcUrl.contains(Strings.DOLLAR)) {
+        if (jdbcUrl.contains(VString.DOLLAR)) {
             final JsonObject parameters = normJ.copy();
             replaced = Ut.fromExpression("`" + jdbcUrl + "`", parameters);
         } else {
@@ -100,7 +100,7 @@ public class MatureOn implements Macrocosm {
         if (Ut.isNil(domain)) {
             return domainA;
         }
-        final String[] domainL = domain.split(Strings.COMMA);
+        final String[] domainL = domain.split(VString.COMMA);
         if (0 == domainL.length) {
             return domainA;
         }
@@ -120,7 +120,7 @@ public class MatureOn implements Macrocosm {
     private static AttrSet envServer(final String host, final String port, final Integer index) {
         final String envHost;
         final String envPort;
-        if (Objects.isNull(index) || Values.IDX == index) {
+        if (Objects.isNull(index) || VValue.IDX == index) {
             envHost = host;
             envPort = port;
         } else {

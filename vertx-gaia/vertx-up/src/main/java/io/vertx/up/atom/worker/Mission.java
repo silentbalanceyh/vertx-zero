@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
 import io.horizon.eon.info.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.fn.Fn;
@@ -73,7 +73,7 @@ public class Mission implements Serializable {
      * or the worker will use default parameters.
      **/
     @JsonIgnore
-    private long threshold = Values.RANGE;
+    private long threshold = VValue.RANGE;
     /* Job configuration */
     @JsonSerialize(using = JsonObjectSerializer.class)
     @JsonDeserialize(using = JsonObjectDeserializer.class)
@@ -325,7 +325,7 @@ public class Mission implements Serializable {
 
     public Mission timeout(final Integer input, final TimeUnit unit) {
         if (Objects.isNull(input)) {
-            this.threshold = Values.RANGE;
+            this.threshold = VValue.RANGE;
             return this;
         } else {
             this.threshold = unit.toNanos(input);
@@ -334,7 +334,7 @@ public class Mission implements Serializable {
     }
 
     public long timeout() {
-        if (Values.RANGE == this.threshold) {
+        if (VValue.RANGE == this.threshold) {
             // The default timeout is 15 min
             return TimeUnit.MINUTES.toNanos(15);
         } else {

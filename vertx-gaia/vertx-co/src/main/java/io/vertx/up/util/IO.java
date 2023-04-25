@@ -3,12 +3,12 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.YamlType;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.JsonFormatException;
 import io.vertx.up.fn.Fn;
@@ -165,7 +165,7 @@ final class IO {
     private static YamlType getYamlType(final String filename) {
         final String content = IO.getString(filename);
         return Fn.orNull(YamlType.OBJECT, () -> {
-            if (content.trim().startsWith(Strings.DASH)) {
+            if (content.trim().startsWith(VString.DASH)) {
                 return YamlType.ARRAY;
             } else {
                 return YamlType.OBJECT;

@@ -3,6 +3,8 @@ package cn.originx.uca.console;
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.console.AbstractInstruction;
 import cn.originx.stellaris.Ok;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -12,13 +14,13 @@ import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
+
+;
 
 /**
  * （专用建模工具）
@@ -74,6 +76,6 @@ public class JsonInstruction extends AbstractInstruction {
 
     private String outPath(final String folder, final String identifier) {
         final String absolutePath = this.inFolder(this.path(folder));
-        return absolutePath + "/" + identifier + Strings.DOT + FileSuffix.JSON;
+        return absolutePath + "/" + identifier + VString.DOT + VPath.SUFFIX.JSON;
     }
 }

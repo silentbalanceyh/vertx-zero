@@ -1,11 +1,11 @@
 package io.aeon.experiment.specification.power;
 
 import io.aeon.runtime.H3H;
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -186,7 +186,7 @@ public class KApp implements Serializable {
      * <namespace>/<identifier>
      */
     public String keyUnique(final String identifier) {
-        return this.ns + Strings.DASH + identifier;
+        return this.ns + VString.DASH + identifier;
     }
 
     @Override

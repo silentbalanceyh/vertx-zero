@@ -1,7 +1,7 @@
 package io.horizon.spi.cloud;
 
 import io.aeon.experiment.specification.KPair;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -53,14 +53,14 @@ class T {
         // PRIVATE_KEY
         final List<String> source = new ArrayList<>();
         source.add("package cn.vertxup.uca.extension;");
-        source.add(Strings.EMPTY);
+        source.add(VString.EMPTY);
         source.add("import io.vertx.up.experiment.mixture.HED;");
         source.add("import io.vertx.up.experiment.specification.KPair;");
-        source.add(Strings.EMPTY);
+        source.add(VString.EMPTY);
         source.add(MessageFormat.format("public class {0} implements HED", className) + " {");
         {
             // PUBLIC_KEY
-            source.add(Strings.EMPTY);
+            source.add(VString.EMPTY);
             final StringBuilder strPub = new StringBuilder();
             strPub.append("    private static final String PUBLIC_KEY = \"");
             final String region = pair.getPublicKey();
@@ -72,7 +72,7 @@ class T {
         }
         {
             // PRIVATE_KEY
-            source.add(Strings.EMPTY);
+            source.add(VString.EMPTY);
             final StringBuilder strPri = new StringBuilder();
             strPri.append("    private static final String PRIVATE_KEY = \"");
             final String region = pair.getPrivateKey();
@@ -82,7 +82,7 @@ class T {
             // start = end, 30 -> adjust
             source.addAll(sourceNorm(region, 30));
         }
-        source.add(Strings.EMPTY);
+        source.add(VString.EMPTY);
         source.add("    @Override");
         source.add("    public KPair loadRSA() {");
         source.add("        return new KPair(PUBLIC_KEY, PRIVATE_KEY);");

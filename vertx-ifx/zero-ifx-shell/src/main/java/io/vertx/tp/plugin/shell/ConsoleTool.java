@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.shell;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.tp.error.CommandParseException;
 import io.vertx.tp.error.CommandUnknownException;
@@ -9,7 +10,6 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.util.Ut;
 import org.apache.commons.cli.CommandLine;
@@ -58,7 +58,7 @@ class ConsoleTool {
          * Found command inner run method, double check for CommandAtom
          */
         final List<String> args = parsed.getArgList();
-        return findAsync(args.get(Values.IDX), commands).compose(command -> {
+        return findAsync(args.get(VValue.IDX), commands).compose(command -> {
             /*
              * Create CommandArgs
              */

@@ -1,11 +1,11 @@
 package io.vertx.tp.workflow.atom.configuration;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -66,7 +66,7 @@ class ConfigLinkage implements Serializable {
                  */
                 if (this.respectMap.containsKey(field)) {
                     final JsonObject query = Ut.valueJObject(config, KName.QUERY);
-                    query.put(Strings.EMPTY, Boolean.TRUE);
+                    query.put(VString.EMPTY, Boolean.TRUE);
                     this.queryMap.put(field, query);
                 }
             }

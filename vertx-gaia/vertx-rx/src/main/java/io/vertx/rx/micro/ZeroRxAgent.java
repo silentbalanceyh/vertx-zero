@@ -1,5 +1,6 @@
 package io.vertx.rx.micro;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.reactivex.Single;
 import io.vertx.core.http.HttpServerOptions;
@@ -10,7 +11,6 @@ import io.vertx.reactivex.ext.web.Router;
 import io.vertx.rx.rs.router.EventAxis;
 import io.vertx.rx.rs.router.RouterAxis;
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.cache.Cc;
@@ -67,7 +67,7 @@ public class ZeroRxAgent extends AbstractVerticle {
                               final Router router) {
         final Integer port = options.getPort();
         final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
-        if (Values.ZERO == out.getAndIncrement()) {
+        if (VValue.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
             LOGGER.info(Info.RX_SERVERS, this.NAME, this.deploymentID(),

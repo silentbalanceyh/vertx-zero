@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.eon.VValue;
 import io.horizon.fn.Actuator;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
@@ -8,7 +9,6 @@ import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataTransactionException;
 import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -138,7 +138,7 @@ abstract class AbstractJQCrud {
     }
 
     private void output(final String table, final List<DataRow> rows, final Record[] records) {
-        for (int idx = Values.IDX; idx < rows.size(); idx++) {              /* 两个数据集按索引合并 */
+        for (int idx = VValue.IDX; idx < rows.size(); idx++) {              /* 两个数据集按索引合并 */
             final DataRow row = rows.get(idx);
             if (null != row) {
                 if (idx < records.length) {

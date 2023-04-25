@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.bridge.Values;
+import io.horizon.eon.VValue;
 
 import java.lang.annotation.*;
 
@@ -57,7 +57,7 @@ public @interface Wall {
      *
      * @return handler order value that will be built into security chain.
      */
-    int order() default Values.ZERO;
+    int order() default VValue.ZERO;
 
     /*
      * Use AuthType.EXTENSION instead

@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VString;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
 
@@ -35,7 +35,7 @@ class Env {
      * 想要的数据类型对应的值，主要针对 boolean, int, double 等
      */
     static <T> T readEnv(final String name, final T defaultValue, final Class<T> clazz) {
-        final String literal = readEnv(name, Strings.EMPTY);
+        final String literal = readEnv(name, VString.EMPTY);
         if (Ut.isNil(literal)) {
             return defaultValue;
         }

@@ -10,7 +10,7 @@ import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ke.cv.em.BizInternal;
 import io.horizon.spi.business.ExIo;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.unity.Ux;
@@ -132,7 +132,7 @@ class AtFsDir {
         final AtConfig config = AtPin.getConfig();
         final String rootPath = config.getStorePath();
 
-        String name = storePath.replace(rootPath, Strings.EMPTY);
+        String name = storePath.replace(rootPath, VString.EMPTY);
         name = Ut.ioPathRoot(name);
         At.infoFile(LOGGER, "Zero will re-initialize directory try to process {0}", storePath);
         At.infoFile(LOGGER, "The builder parameters: name = {0}, type = {1}, appId = {2}",

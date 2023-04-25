@@ -1,10 +1,10 @@
 package io.vertx.up.uca.compare;
 
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.TypeField;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
@@ -120,8 +120,8 @@ public class Vs implements Serializable {
              * */
             final VsSame same = supplier.get();
             if (Objects.isNull(same)) {
-                final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : Strings.EMPTY;
-                final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : Strings.EMPTY;
+                final String strOld = Objects.nonNull(valueOld) ? valueOld.toString() : VString.EMPTY;
+                final String strNew = Objects.nonNull(valueNew) ? valueNew.toString() : VString.EMPTY;
                 return strOld.equals(strNew);
             } else {
                 if (Objects.nonNull(valueOld) && Objects.nonNull(valueNew)) {

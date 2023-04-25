@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.git;
 
 import io.aeon.atom.iras.HRepo;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.plugin.TpClient;
@@ -79,7 +79,7 @@ public interface GitClient extends TpClient<GitClient> {
     }
 
     default DirCache add(final Git git) {
-        return this.add(git, Strings.DOT);
+        return this.add(git, VString.DOT);
     }
 
     DirCache add(Git git, String pattern);

@@ -1,10 +1,10 @@
 package io.vertx.up.atom;
 
 import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -46,7 +46,7 @@ public class Ruler {
                 final Object value = data.getValue(field);
                 Fn.safeZero(() -> {
                     if (Ut.isJObject(value) || Ut.isJArray(value)) {
-                        final String filename = file + Strings.DOT + field;
+                        final String filename = file + VString.DOT + field;
                         if (Ut.isJObject(value)) {
                             // 3.1.2 Json array child
                             verify(filename, (JsonObject) value);
@@ -76,7 +76,7 @@ public class Ruler {
             // 2. For json item
             Fn.verifyJArray(data, (value, field) -> {
                 // 3. Value = JsonObject, identify if extension.
-                final String filename = file + Strings.DOT + field;
+                final String filename = file + VString.DOT + field;
                 if (Ut.isJObject(value)) {
                     // JsonObject
                     verify(filename, (JsonObject) value);

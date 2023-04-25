@@ -1,6 +1,7 @@
 package io.vertx.tp.ambient.uca.darkly;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -64,7 +64,7 @@ public class TubeAttachment extends AbstractTube {
             final String prefix = Ut.valueString(ruleConfig, ChangeFlag.ADD.name());
             this.messageFormat(message, added, prefix);
         }
-        message.append(Strings.COMMA);
+        message.append(VString.COMMA);
         final JsonArray deleted = diffMap.get(ChangeFlag.DELETE);
         if (Ut.notNil(deleted)) {
             final String prefix = Ut.valueString(ruleConfig, ChangeFlag.DELETE.name());
@@ -84,7 +84,7 @@ public class TubeAttachment extends AbstractTube {
                 }
             });
             if (!files.isEmpty()) {
-                message.append(prefix).append(Strings.COLON).append(Ut.fromJoin(files, Strings.COMMA));
+                message.append(prefix).append(VString.COLON).append(Ut.fromJoin(files, VString.COMMA));
             }
         }
     }

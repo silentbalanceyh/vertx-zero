@@ -1,5 +1,6 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.em.container.MessageModel;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
@@ -7,7 +8,6 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
@@ -36,7 +36,7 @@ public class ZeroHttpRegistry extends AbstractVerticle {
             final HttpServerOptions options =
                 new HttpServerOptions(data.getJsonObject(Registry.OPTIONS));
             final String[] uris =
-                data.getString(Registry.URIS).split(Strings.COMMA);
+                data.getString(Registry.URIS).split(VString.COMMA);
             final Set<String> uriData = new TreeSet<>(Arrays.asList(uris));
             // Write the data to registry.
             this.registry.registryHttp(name, options, Etat.RUNNING);

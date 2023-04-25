@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.apply;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.EntityType;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
@@ -29,7 +29,7 @@ class EntityDefault implements AoDefault {
     }
 
     private String getTable(final String identifier) {
-        return Ut.isNil(identifier) ? Strings.EMPTY :
+        return Ut.isNil(identifier) ? VString.EMPTY :
             identifier.replace('.', '_')
                 .toUpperCase(Locale.getDefault());
     }

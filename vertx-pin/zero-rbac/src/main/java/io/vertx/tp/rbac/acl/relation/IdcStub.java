@@ -1,9 +1,9 @@
 package io.vertx.tp.rbac.acl.relation;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -37,6 +37,6 @@ public interface IdcStub {
     default Future<JsonObject> saveAsync(final JsonObject user, final String by) {
         final JsonArray users = new JsonArray();
         users.add(user);
-        return this.saveAsync(users, by).compose(array -> Ux.future(array.getJsonObject(Values.IDX)));
+        return this.saveAsync(users, by).compose(array -> Ux.future(array.getJsonObject(VValue.IDX)));
     }
 }

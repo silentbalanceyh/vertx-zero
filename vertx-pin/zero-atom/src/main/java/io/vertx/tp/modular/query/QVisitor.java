@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.query;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.plugin.jooq.condition.Clause;
 import io.vertx.up.atom.query.tree.*;
-import io.vertx.up.eon.bridge.Values;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
@@ -63,7 +63,7 @@ class QVisitor {
         if (Objects.isNull(column)) {
             /*
              * Fix: java.lang.NullPointerException
-	                at cn.vertxup.tp.modular.query.QVisitor.analyze(QVisitor.java:63)
+                    at cn.vertxup.tp.modular.query.QVisitor.analyze(QVisitor.java:63)
              */
             return null;
         } else {
@@ -84,7 +84,7 @@ class QVisitor {
              */
             return null;
         } else if (1 == conditions.size()) {
-            return conditions.get(Values.IDX);
+            return conditions.get(VValue.IDX);
         } else {
             return (QOp.AND == op) ? DSL.and(conditions) : DSL.or(conditions);
         }

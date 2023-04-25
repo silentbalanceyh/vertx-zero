@@ -1,11 +1,11 @@
 package io.vertx.up.uca.invoker;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ValueBool;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiClient;
@@ -38,7 +38,7 @@ public abstract class AbstractInvoker implements Invoker {
         // Preparing Method
         invokePre(method, envelop);
         final Object reference = envelop.data();
-        final Class<?> argType = method.getParameterTypes()[Values.IDX];
+        final Class<?> argType = method.getParameterTypes()[VValue.IDX];
         final Object arguments = Ut.deserialize(Ut.toString(reference), argType);
         return InvokerUtil.invoke(proxy, method, arguments);
     }

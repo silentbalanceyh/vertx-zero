@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.DevEnv;
 import org.apache.commons.jexl3.*;
@@ -30,11 +30,11 @@ final class StringUtil {
     }
 
     static String from(final Object value) {
-        return null == value ? Strings.EMPTY : value.toString();
+        return null == value ? VString.EMPTY : value.toString();
     }
 
     static String from(final JsonObject value) {
-        return null == value ? Strings.EMPTY : value.toString();
+        return null == value ? VString.EMPTY : value.toString();
     }
 
     static Set<String> split(final String input, final String separator) {
@@ -60,7 +60,7 @@ final class StringUtil {
     }
 
     static String join(final Collection<String> input, final String separator) {
-        final String connector = (null == separator) ? Strings.COMMA : separator;
+        final String connector = (null == separator) ? VString.COMMA : separator;
         return Fn.orJvm(() -> {
             final StringBuilder builder = new StringBuilder();
             final int size = input.size();
@@ -271,7 +271,7 @@ final class StringUtil {
     static JsonObject prefix(final JsonObject data, final String prefix) {
         // Add prefix to each key to build new JsonObject
         final JsonObject resultJ = new JsonObject();
-        data.fieldNames().forEach(k -> resultJ.put(prefix + Strings.DOT + k, data.getValue(k)));
+        data.fieldNames().forEach(k -> resultJ.put(prefix + VString.DOT + k, data.getValue(k)));
         return resultJ;
     }
 
@@ -317,7 +317,7 @@ final class StringUtil {
     }
 
     static String path(final String path, final Environment environment) {
-        if (Ut.isNil(path) || path.startsWith(Strings.SLASH)) {
+        if (Ut.isNil(path) || path.startsWith(VString.SLASH)) {
             return path;
         }
         if (Environment.Production == environment) {

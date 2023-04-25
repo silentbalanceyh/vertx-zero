@@ -1,11 +1,11 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 
@@ -37,8 +37,8 @@ class ActionSearch extends AbstractAction {
 
             return CompositeFuture.join(dataFuture, countFuture).compose(result -> {
                 // Processing result
-                final JsonArray list = result.resultAt(Values.IDX);
-                final Long count = result.resultAt(Values.ONE);
+                final JsonArray list = result.resultAt(VValue.IDX);
+                final Long count = result.resultAt(VValue.ONE);
                 // Result here
                 return Future.succeededFuture(Ux.pageData(list, count));
             });

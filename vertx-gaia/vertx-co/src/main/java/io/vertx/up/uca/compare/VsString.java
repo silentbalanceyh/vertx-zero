@@ -1,7 +1,7 @@
 package io.vertx.up.uca.compare;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
@@ -32,8 +32,8 @@ final class VsString extends AbstractSame {
         if (!(valueSelect instanceof String)) {
             return false;
         }
-        final String oldStr = Objects.isNull(valueOld) ? Strings.EMPTY : valueOld.toString().trim();
-        final String newStr = Objects.isNull(valueNew) ? Strings.EMPTY : valueNew.toString().trim();
+        final String oldStr = Objects.isNull(valueOld) ? VString.EMPTY : valueOld.toString().trim();
+        final String newStr = Objects.isNull(valueNew) ? VString.EMPTY : valueNew.toString().trim();
         return oldStr.equals(newStr);
     }
 }

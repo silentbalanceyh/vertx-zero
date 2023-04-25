@@ -1,12 +1,12 @@
 package io.vertx.tp.crud.uca.op;
 
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -18,8 +18,8 @@ import java.util.function.Function;
 class AgonicCount implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
-        if (!input.containsKey(Strings.EMPTY)) {
-            input.put(Strings.EMPTY, Boolean.TRUE);
+        if (!input.containsKey(VString.EMPTY)) {
+            input.put(VString.EMPTY, Boolean.TRUE);
         }
         Ix.Log.filters(this.getClass(), "( Count ) Condition: {0}", input);
         final Function<Long, Future<JsonObject>> outFn =

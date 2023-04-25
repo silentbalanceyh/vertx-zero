@@ -11,13 +11,13 @@ import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.spi.plugin.AfterPlugin;
+import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.horizon.spi.plugin.AfterPlugin;
-import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.up.commune.Envelop;
@@ -865,17 +865,6 @@ public final class Ox {
         LogExtension Plugin = Log.extension(MODULE).configure("Plugin");
         LogExtension Web = Log.extension(MODULE).configure("Web");
         LogExtension CRT = Log.extension(MODULE).configure("CRT");
-
-        /**
-         * Info级别，模型日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoAtom(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "Atom", pattern, args);
-        }
 
         static void infoAtom(final Class<?> clazz, final String pattern, final Object... args) {
             final Annal logger = Annal.get(clazz);

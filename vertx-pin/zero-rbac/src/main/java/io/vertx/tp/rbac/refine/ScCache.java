@@ -4,6 +4,9 @@ import cn.vertxup.rbac.domain.tables.pojos.OUser;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
+import io.horizon.spi.web.Credential;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -13,15 +16,12 @@ import io.vertx.tp.error._401ImageCodeWrongException;
 import io.vertx.tp.error._401MaximumTimesException;
 import io.vertx.tp.error._403TokenGenerationException;
 import io.vertx.tp.ke.refine.Ke;
-import io.horizon.spi.web.Credential;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.logged.ScUser;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -95,7 +95,7 @@ class ScCache {
 
         // sigma 值聚集
         final Set<String> sigmaSet = Ut.valueSetString(users, SUser::getSigma);
-        if (Values.ONE != sigmaSet.size()) {
+        if (VValue.ONE != sigmaSet.size()) {
             return Future.failedFuture(new _403TokenGenerationException(ScCache.class, sigmaSet.size()));
         }
         /*
@@ -197,7 +197,7 @@ class ScCache {
             // Cache Enabled for Default
             final String admitPool = CONFIG.getPoolAdmit();
             // Each sigma has been mapped to single pool
-            final String poolName = admitPool + Strings.SLASH + path.getSigma() + Strings.SLASH + suffix;
+            final String poolName = admitPool + VString.SLASH + path.getSigma() + VString.SLASH + suffix;
             final Rapid<String, R> rapid = Rapid.t(poolName, 3600);
             return rapid.cached(path.getKey(), () -> executor.apply(path));
         } else {

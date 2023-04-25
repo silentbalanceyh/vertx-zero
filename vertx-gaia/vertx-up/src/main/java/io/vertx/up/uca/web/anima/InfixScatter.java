@@ -1,11 +1,11 @@
 package io.vertx.up.uca.web.anima;
 
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.PluginSpecificationException;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.KPlugin;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.Runner;
@@ -86,7 +86,7 @@ public class InfixScatter implements Scatter<Vertx> {
             final List<Method> found = Arrays.stream(methods)
                 .filter(item -> "init".equals(item.getName()) && this.validMethod(item))
                 .collect(Collectors.toList());
-            return Values.ONE == found.size() ? found.get(Values.IDX) : null;
+            return VValue.ONE == found.size() ? found.get(VValue.IDX) : null;
         }, clazz);
     }
 

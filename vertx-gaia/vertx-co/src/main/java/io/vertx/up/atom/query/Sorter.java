@@ -1,8 +1,8 @@
 package io.vertx.up.atom.query;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -42,9 +42,9 @@ public class Sorter implements Serializable {
         // Sorter Parsing
         final Sorter target = Sorter.create();
         Ut.itJArray(sorter, String.class, (field, index) -> {
-            if (field.contains(Strings.COMMA)) {
-                final String sortField = field.split(Strings.COMMA)[0];
-                final boolean asc = field.split(Strings.COMMA)[1].equalsIgnoreCase("asc");
+            if (field.contains(VString.COMMA)) {
+                final String sortField = field.split(VString.COMMA)[0];
+                final boolean asc = field.split(VString.COMMA)[1].equalsIgnoreCase("asc");
                 target.add(sortField, asc);
             } else {
                 target.add(field, true);
@@ -59,7 +59,7 @@ public class Sorter implements Serializable {
         }
         final Sorter sorter = create();
         Ut.<Boolean>itJObject(sorterJ, (mode, field) ->
-                sorter.add(field, mode));
+            sorter.add(field, mode));
         return sorter;
     }
 
@@ -105,9 +105,9 @@ public class Sorter implements Serializable {
     public String toString() {
         final List<String> kv = new ArrayList<>();
         for (int idx = 0; idx < this.field.size(); idx++) {
-            kv.add(Strings.LEFT_BRACKET + this.field.get(idx) +
-                    Strings.COMMA + this.asc.get(idx) + Strings.RIGHT_BRACKET);
+            kv.add(VString.LEFT_BRACKET + this.field.get(idx) +
+                VString.COMMA + this.asc.get(idx) + VString.RIGHT_BRACKET);
         }
-        return Strings.LEFT_SQUARE + Ut.fromJoin(kv) + Strings.RIGHT_SQUARE;
+        return VString.LEFT_SQUARE + Ut.fromJoin(kv) + VString.RIGHT_SQUARE;
     }
 }

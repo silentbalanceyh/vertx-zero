@@ -1,7 +1,9 @@
 package io.vertx.tp.crud.uca.trans;
 
+import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KTransform;
 import io.aeon.experiment.specification.KTree;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,8 +11,6 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.bridge.Strings;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -89,7 +89,7 @@ class TreeTran implements Tran {
         final JsonObject criteria = tree.region(in.parameters());
         final String keyField = keyValue.getKey();
         criteria.put(keyField + ",i", values);
-        criteria.put(Strings.EMPTY, Boolean.TRUE);
+        criteria.put(VString.EMPTY, Boolean.TRUE);
         Ix.Log.web(this.getClass(), "Tree Transform Condition: {0}", criteria.encode());
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchJAsync(criteria).compose(source -> Ux.future(this.tree(source, keyValue)));

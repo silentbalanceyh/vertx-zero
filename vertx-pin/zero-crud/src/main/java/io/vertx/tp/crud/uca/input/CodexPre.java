@@ -1,5 +1,7 @@
 package io.vertx.tp.crud.uca.input;
 
+import io.aeon.experiment.specification.KModule;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
@@ -7,9 +9,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.rs.announce.Rigor;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -61,7 +61,7 @@ class CodexPre implements Pre {
         }
         /* 3.Final Rule */
         return uri.toLowerCase(Locale.getDefault()).replace('/', '.')
-            .substring(1) + Strings.DOT
+            .substring(1) + VString.DOT
             + method.toLowerCase(Locale.getDefault());
     }
 }

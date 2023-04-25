@@ -12,7 +12,6 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.unity.UObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -46,9 +45,9 @@ class ScToken {
                 Sc.infoAuth(LOGGER, AuthMsg.TOKEN_SIZE_MULTI, item, userId);
                 error = new _401TokenCounterException(ScToken.class, item.size(), userId);
             } else {
-                final OAccessToken token = item.get(Values.IDX);
-                final String tokenString = new String(token.getToken(), VValue.DFT.CHARSET);
-                final byte[] authBytes = userId.getBytes(VValue.DFT.CHARSET);
+                final OAccessToken token = item.get(VValue.IDX);
+                final String tokenString = new String(token.getToken(), io.horizon.eon.VValue.DFT.CHARSET);
+                final byte[] authBytes = userId.getBytes(io.horizon.eon.VValue.DFT.CHARSET);
                 if (Arrays.equals(authBytes, token.getAuth())) {
                     // Token expired
                     final long currentTime = new Date().getTime();
@@ -95,13 +94,13 @@ class ScToken {
 
     static OAccessToken jwtToken(final JsonObject jwt, final String userKey) {
         /* Token byte[] */
-        final byte[] token = jwt.getString(AuthKey.ACCESS_TOKEN).getBytes(VValue.DFT.CHARSET);
+        final byte[] token = jwt.getString(AuthKey.ACCESS_TOKEN).getBytes(io.horizon.eon.VValue.DFT.CHARSET);
         /* Refresh Token byte[] */
-        final byte[] refreshToken = jwt.getString(AuthKey.REFRESH_TOKEN).getBytes(VValue.DFT.CHARSET);
+        final byte[] refreshToken = jwt.getString(AuthKey.REFRESH_TOKEN).getBytes(io.horizon.eon.VValue.DFT.CHARSET);
         final Long iat = jwt.getLong(AuthKey.IAT);
         return new OAccessToken()
             .setKey(UUID.randomUUID().toString())
-            .setAuth(userKey.getBytes(VValue.DFT.CHARSET))
+            .setAuth(userKey.getBytes(io.horizon.eon.VValue.DFT.CHARSET))
 
             /* Created Auditor */
             .setCreatedBy(userKey)

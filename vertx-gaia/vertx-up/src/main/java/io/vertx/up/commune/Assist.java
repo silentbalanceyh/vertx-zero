@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.horizon.eon.VString;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,6 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 
 import java.io.Serializable;
@@ -41,11 +41,11 @@ class Assist implements Serializable {
 
     @SuppressWarnings("all")
     String principal(final String field) {
-        return Fn.orJvm(Strings.EMPTY, () -> {
+        return Fn.orJvm(VString.EMPTY, () -> {
             final JsonObject credential = this.user.principal();
             return Fn.orSemi(null != credential && credential.containsKey(field),
                 () -> credential.getString(field),
-                () -> Strings.EMPTY);
+                () -> VString.EMPTY);
         }, this.user);
     }
 

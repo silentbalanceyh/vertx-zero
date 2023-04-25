@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.router;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -7,7 +8,6 @@ import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.ext.web.handler.ChainAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
 import io.vertx.up.uca.cache.Cc;
@@ -76,7 +76,7 @@ public class WallAxis implements Axis<Router> {
 
     private void mountAuthenticate(final Router router, final String path, final Set<Aegis> aegisSet) {
         final AuthenticationHandler resultHandler;
-        if (Values.ONE == aegisSet.size()) {
+        if (VValue.ONE == aegisSet.size()) {
             // 1 = handler
             final Aegis aegis = aegisSet.iterator().next();
             resultHandler = this.bolt.authenticate(this.vertx, aegis);
@@ -98,7 +98,7 @@ public class WallAxis implements Axis<Router> {
 
     private void mountAuthorization(final Router router, final String path, final Set<Aegis> aegisSet) {
         final AuthorizationHandler resultHandler;
-        if (Values.ONE == aegisSet.size()) {
+        if (VValue.ONE == aegisSet.size()) {
             // 1 = handler
             final Aegis aegis = aegisSet
                 .iterator().next();

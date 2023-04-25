@@ -1,8 +1,8 @@
 package io.vertx.core.eventbus;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 /**
@@ -34,6 +34,6 @@ public final class EnvelopCodec implements MessageCodec<Envelop, Envelop> {
 
     @Override
     public byte systemCodecID() {
-        return Values.CODECS;
+        return VValue.CODECS;
     }
 }

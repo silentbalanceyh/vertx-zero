@@ -1,12 +1,12 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -206,7 +206,7 @@ final class To {
 
     static <T> JsonArray toJArray(final T entity, final int repeat) {
         final JsonArray array = new JsonArray();
-        for (int idx = Values.IDX; idx < repeat; idx++) {
+        for (int idx = VValue.IDX; idx < repeat; idx++) {
             array.add(entity);
         }
         return array;

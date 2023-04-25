@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.excel.tool;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExPos;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
@@ -39,7 +39,7 @@ class ExData {
         final Row row = sheet.createRow(index);
         /* Data Filling */
         final int size = rowData.size();
-        for (int colIdx = Values.IDX; colIdx < size; colIdx++) {
+        for (int colIdx = VValue.IDX; colIdx < size; colIdx++) {
             /* Processing for ExPos */
             final ExPos pos = ExPos.index(index, colIdx);
             /*
@@ -63,7 +63,7 @@ class ExData {
              * Row creation
              * The header must be the first row
              */
-            final Row row = sheet.createRow(Values.IDX);
+            final Row row = sheet.createRow(VValue.IDX);
             /*
              * First cell
              */
@@ -89,24 +89,24 @@ class ExData {
             /*
              * Complex workflow processing
              */
-            if (Values.FOUR <= tableData.size()) {
+            if (VValue.FOUR <= tableData.size()) {
                 /*
                  * 1, 3 processing
                  */
-                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(Values.ONE));
-                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.THREE));
+                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(VValue.ONE));
+                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(VValue.THREE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
             } else {
                 return false; // Header generation failure
             }
         } else {
-            if (Values.TWO <= tableData.size()) {
+            if (VValue.TWO <= tableData.size()) {
                 /*
                  * 0, 1 processing
                  */
-                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(Values.IDX));
-                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(Values.ONE));
+                final JsonArray labelHeader = Ut.valueJArray(tableData.getJsonArray(VValue.IDX));
+                final JsonArray fieldHeader = Ut.valueJArray(tableData.getJsonArray(VValue.ONE));
                 consumer.accept(Math.max(labelHeader.size(), fieldHeader.size()));
                 return true;
             } else {
@@ -163,7 +163,7 @@ class ExData {
             /* Cell create */
             final Cell cell = row.createCell(index);
             /* null filling */
-            cell.setCellValue(Strings.EMPTY);
+            cell.setCellValue(VString.EMPTY);
         } else {
             /* Type analyzed */
             final Class<?> type;

@@ -4,13 +4,13 @@ package io.vertx.tp.atom.modeling.builtin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.modeler.KeyMode;
 import io.horizon.eon.em.modeler.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.error._417RelationCounterException;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.jooq.tools.StringUtils;
@@ -69,7 +69,7 @@ class Bridge {
          * 2.另外一个是模型类型为DIRECT
          */
         final ModelType type = Ut.toEnum(ModelType.class, model.dbModel().getType());
-        if (Values.ONE == schemata.size() && ModelType.DIRECT == type) {
+        if (VValue.ONE == schemata.size() && ModelType.DIRECT == type) {
             // 判断模型的类型
             final Schema schema = schemata.iterator().next();
             // 设置对应的 source

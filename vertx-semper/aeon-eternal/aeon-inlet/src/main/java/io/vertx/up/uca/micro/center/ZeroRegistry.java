@@ -1,12 +1,12 @@
 package io.vertx.up.uca.micro.center;
 
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.etcd.center.EtcdData;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.eon.em.EtcdPath;
 import io.vertx.up.exception.zero.EtcdNetworkException;
@@ -114,7 +114,7 @@ public class ZeroRegistry implements UddiRegistry {
             path.toString().toLowerCase(), name,
             host, String.valueOf(port));
         this.logger.info(Info.ETCD_CLEAN, name, path);
-        this.etcd.write(target, Etat.STOPPED, Values.ZERO);
+        this.etcd.write(target, Etat.STOPPED, VValue.ZERO);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class ZeroRegistry implements UddiRegistry {
             EtcdPath.ENDPOINT.toString().toLowerCase(), service,
             Ut.netIPv4(), String.valueOf(options.getPort()));
         this.logger.info(Info.ETCD_STATUS, service, etat, path);
-        this.etcd.write(path, etat, Values.ZERO);
+        this.etcd.write(path, etat, VValue.ZERO);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ZeroRegistry implements UddiRegistry {
             EtcdPath.IPC.toString().toLowerCase(), options.getName(),
             Ut.netIPv4(), String.valueOf(options.getPort()));
         this.logger.info(Info.ETCD_STATUS, options.getName(), etat, path);
-        this.etcd.write(path, etat, Values.ZERO);
+        this.etcd.write(path, etat, VValue.ZERO);
     }
 
     public void registryIpcs(final RpcOptions options, final Set<String> ipcs) {
@@ -164,7 +164,7 @@ public class ZeroRegistry implements UddiRegistry {
         final JsonArray routeData = new JsonArray();
         Observable.fromIterable(ipcs)
             .subscribe(routeData::add).dispose();
-        this.etcd.write(path, routeData, Values.ZERO);
+        this.etcd.write(path, routeData, VValue.ZERO);
     }
 
     @Override
@@ -205,6 +205,6 @@ public class ZeroRegistry implements UddiRegistry {
         final JsonArray routeData = new JsonArray();
         Observable.fromIterable(processed)
             .subscribe(routeData::add).dispose();
-        this.etcd.write(path, routeData, Values.ZERO);
+        this.etcd.write(path, routeData, VValue.ZERO);
     }
 }

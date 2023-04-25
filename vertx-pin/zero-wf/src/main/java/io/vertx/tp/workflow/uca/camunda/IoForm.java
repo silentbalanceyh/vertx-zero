@@ -1,11 +1,11 @@
 package io.vertx.tp.workflow.uca.camunda;
 
 import cn.vertxup.workflow.cv.WfCv;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.FormService;
@@ -46,7 +46,7 @@ class IoForm extends AbstractIo<JsonObject> {
          */
         final String formKey = startForm.getFormKey();
         Objects.requireNonNull(formKey);
-        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
+        final String code = formKey.substring(formKey.lastIndexOf(VString.COLON) + 1);
         return Ux.future(this.formInput(code, definition));
     }
 
@@ -56,7 +56,7 @@ class IoForm extends AbstractIo<JsonObject> {
         Objects.requireNonNull(definition);
         final String formKey = task.getFormKey();
         Objects.requireNonNull(formKey);
-        final String code = formKey.substring(formKey.lastIndexOf(Strings.COLON) + 1);
+        final String code = formKey.substring(formKey.lastIndexOf(VString.COLON) + 1);
         return Ux.future(this.formInput(code, definition));
     }
 

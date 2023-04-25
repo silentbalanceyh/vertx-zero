@@ -2,10 +2,10 @@ package cn.originx.quiz.oclick;
 
 import cn.originx.quiz.develop.DevModeller;
 import cn.originx.quiz.develop.DevSite;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.Environment;
 import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._400BadRequestException;
 import io.vertx.up.util.Ut;
 
@@ -40,7 +40,7 @@ public class InstClick {
          */
         final String path = Ut.ioPath(inputPath, Environment.Production);
         Ke.infoKe(this.target, "加载路径：{0}, 开启OOB：{1}", inputPath, isOob);
-        Bt.init(path, Strings.EMPTY, isOob);
+        Bt.init(path, VString.EMPTY, isOob);
     }
 
     public void runAtom(final String[] args) {

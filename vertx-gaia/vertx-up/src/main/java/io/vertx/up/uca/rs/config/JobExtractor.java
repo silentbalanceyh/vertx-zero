@@ -1,6 +1,8 @@
 package io.vertx.up.uca.rs.config;
 
 import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
 import io.horizon.eon.info.VMessage;
@@ -9,8 +11,6 @@ import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
@@ -18,6 +18,8 @@ import io.vertx.up.util.Ut;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -78,7 +80,7 @@ public class JobExtractor implements Extractor<Mission> {
 
         /* code sync */
         if (Ut.isNil(mission.getCode())) {
-            mission.setCode(KWeb.JOB.NS + Strings.DASH + mission.getName());
+            mission.setCode(KWeb.JOB.NS + VString.DASH + mission.getName());
         }
         mission.connect(clazz);
         /* on method must existing */
@@ -137,14 +139,14 @@ public class JobExtractor implements Extractor<Mission> {
 
     private String resolve(final String config) {
         final StringBuilder file = new StringBuilder(KWeb.JOB.PREFIX);
-        if (config.startsWith(Strings.SLASH)) {
+        if (config.startsWith(VString.SLASH)) {
             /* config contains `/` prefix */
             file.append(config);
         } else {
-            file.append(Strings.SLASH).append(config);
+            file.append(VString.SLASH).append(config);
         }
-        if (!config.endsWith(Strings.DOT + FileSuffix.JSON)) {
-            file.append(Strings.DOT).append(FileSuffix.JSON);
+        if (!config.endsWith(VString.DOT + VPath.SUFFIX.JSON)) {
+            file.append(VString.DOT).append(VPath.SUFFIX.JSON);
         }
         return file.toString().replace("//", "/");
     }

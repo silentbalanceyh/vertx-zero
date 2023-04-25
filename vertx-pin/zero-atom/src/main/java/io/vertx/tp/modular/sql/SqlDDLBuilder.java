@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.sql;
 
+import io.horizon.eon.VString;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -30,7 +30,7 @@ public final class SqlDDLBuilder implements SqlStatement {
     public String buildCreateTable(final String tableName,
                                    final List<String> lines) {
         return MessageFormat.format(SqlStatement.TB_CREATE, tableName,
-            Ut.fromJoin(lines, Strings.COMMA));
+            Ut.fromJoin(lines, VString.COMMA));
     }
 
     /* 表删除 */

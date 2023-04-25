@@ -2,11 +2,11 @@ package io.vertx.tp.fm.refine;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.aeon.experiment.specification.KNaming;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -119,7 +119,7 @@ class FmBook {
          * https://github.com/silentbalanceyh/hotel/issues/320
          * Here missed the condition of book fetching
          */
-        condition.put(Strings.EMPTY, Boolean.TRUE);
+        condition.put(VString.EMPTY, Boolean.TRUE);
         return condition;
     }
 }

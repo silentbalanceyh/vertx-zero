@@ -1,8 +1,10 @@
 package javax.io.filter;
 
-import io.vertx.up.eon.bridge.FileSuffix;
+import io.horizon.eon.VPath;
 
 import java.io.FileFilter;
+
+;
 
 /**
  * # 「Tp」Java Io Extension
@@ -35,6 +37,6 @@ public class ClassFileFilter extends BaseFilter
     implements FileFilter {
     @Override
     public String getFileExtension() {
-        return FileSuffix.CLASS;
+        return VPath.SUFFIX.CLASS;
     }
 }

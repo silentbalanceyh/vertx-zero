@@ -4,6 +4,7 @@ import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.container.ChannelType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -17,7 +18,6 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import jakarta.ws.rs.core.MediaType;
 
@@ -53,7 +53,7 @@ public class Jt {
     }
 
     public static String jobCode(final IJob job) {
-        return job.getNamespace() + Strings.DASH + job.getCode();
+        return job.getNamespace() + VString.DASH + job.getCode();
     }
 
     /*
@@ -75,7 +75,7 @@ public class Jt {
 
     public static Set<String> toMimeString(final Supplier<String> supplier) {
         return toMime(supplier).stream()
-            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .map(type -> type.getType() + VString.SLASH + type.getSubtype())
             .collect(Collectors.toSet());
     }
 

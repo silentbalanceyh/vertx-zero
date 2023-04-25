@@ -1,5 +1,7 @@
 package io.vertx.tp.plugin.excel.ranger;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -7,8 +9,6 @@ import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -94,7 +94,7 @@ public class ComplexIn extends AbstractExIn {
             /*
              * The first line is major record
              */
-            final Row row = rowList.get(Values.IDX);
+            final Row row = rowList.get(VValue.IDX);
             /*
              * In first iterator for first row, the system should build `complexMap`
              */
@@ -132,7 +132,7 @@ public class ComplexIn extends AbstractExIn {
             final String field = table.field(cellIndex);
             if (Objects.nonNull(field)) {
                 /* Different value processing */
-                if (field.contains(Strings.DOT)) {
+                if (field.contains(VString.DOT)) {
                     /*
                      * Do Processing
                      */
@@ -155,7 +155,7 @@ public class ComplexIn extends AbstractExIn {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
             if (Objects.nonNull(field)) {
-                if (field.contains(Strings.DOT)) {
+                if (field.contains(VString.DOT)) {
                     /*
                      * Data Structure for complex data
                      */

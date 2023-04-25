@@ -1,11 +1,11 @@
 package io.vertx.tp.workflow.plugin.query;
 
 import io.horizon.cloud.query.HCond;
+import io.horizon.eon.VString;
+import io.horizon.spi.business.ExUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.business.ExUser;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -24,8 +24,8 @@ public class HQrStandard implements HCond {
         final String userKey = Ut.valueString(data, KName.USER);
         // 默认条件:  openGroup is null AND acceptedGroup is null
         final JsonObject defaultQr = Ux.whereAnd()
-                .put("openGroup,n", Strings.EMPTY)
-                .put("acceptedGroup,n", Strings.EMPTY);
+            .put("openGroup,n", VString.EMPTY)
+            .put("acceptedGroup,n", VString.EMPTY);
 
         return Ux.channel(ExUser.class, () -> defaultQr, stub -> stub.userGroup(userKey).compose(groups -> {
             // groups information

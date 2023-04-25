@@ -1,12 +1,12 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.up.annotations.Ordered;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.filter.Filter;
@@ -104,8 +104,8 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
             .subscribe(methods::add)
             .dispose();
         // No overwritting
-        if (Values.ONE == methods.size()) {
-            return methods.get(Values.IDX);
+        if (VValue.ONE == methods.size()) {
+            return methods.get(VValue.IDX);
         } else {
             // Search for correct signature
             return Observable.fromIterable(methods)
@@ -117,9 +117,9 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
     private boolean isValidFilter(final Method method) {
         final Class<?>[] parameters = method.getParameterTypes();
         boolean valid = false;
-        if (Values.TWO == parameters.length) {
-            final Class<?> requestCls = parameters[Values.IDX];
-            final Class<?> responseCls = parameters[Values.ONE];
+        if (VValue.TWO == parameters.length) {
+            final Class<?> requestCls = parameters[VValue.IDX];
+            final Class<?> responseCls = parameters[VValue.ONE];
             if (HttpServerRequest.class == requestCls && HttpServerResponse.class == responseCls) {
                 valid = true;
             }

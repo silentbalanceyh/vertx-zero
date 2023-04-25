@@ -1,11 +1,11 @@
 package io.vertx.up.commune.secure;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -127,7 +127,7 @@ public class DataBound implements Serializable {
         array.stream().filter(Objects::nonNull)
             .map(item -> (String) item)
             .map(literal -> literal.split(" "))
-            .filter(splitted -> Values.TWO == splitted.length)
+            .filter(splitted -> VValue.TWO == splitted.length)
             .map(splitted -> new JsonObject()
                 .put(KName.METHOD, splitted[0])
                 .put(KName.URI, splitted[1])
@@ -153,7 +153,7 @@ public class DataBound implements Serializable {
                 /*
                  * Existing data here.
                  */
-                this.criteria.put(Strings.EMPTY, Boolean.FALSE);
+                this.criteria.put(VString.EMPTY, Boolean.FALSE);
                 final String key = "$" + this.criteria.size();
                 this.criteria.put(key, criteria);
             }

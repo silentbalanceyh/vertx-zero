@@ -1,12 +1,12 @@
 package io.vertx.tp.crud.uca.input;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -29,12 +29,12 @@ class RUkPre implements Pre {
 
     private JsonObject condition(final JsonObject data, final JsonArray unique) {
         final JsonObject filters = new JsonObject();
-        if (Values.ONE == unique.size()) {
-            final JsonArray fields = unique.getJsonArray(Values.IDX);
+        if (VValue.ONE == unique.size()) {
+            final JsonArray fields = unique.getJsonArray(VValue.IDX);
             final Set<String> fieldSet = Ut.toSet(fields);
             filters.mergeIn(this.condition(data, fieldSet));
         } else {
-            filters.put(Strings.EMPTY, Boolean.FALSE);
+            filters.put(VString.EMPTY, Boolean.FALSE);
             Ut.itJArray(unique, JsonArray.class,
                 (each, index) -> filters.put("$" + index, this.condition(data, Ut.toSet(each))));
         }
@@ -43,7 +43,7 @@ class RUkPre implements Pre {
 
     private JsonObject condition(final JsonObject data, final Set<String> fieldSet) {
         final JsonObject filters = new JsonObject();
-        filters.put(Strings.EMPTY, Boolean.TRUE);
+        filters.put(VString.EMPTY, Boolean.TRUE);
         fieldSet.forEach(field -> {
             final Object value = data.getValue(field);
             filters.put(field, value);

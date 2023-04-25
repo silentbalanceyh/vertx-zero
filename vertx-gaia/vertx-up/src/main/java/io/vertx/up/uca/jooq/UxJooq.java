@@ -1,14 +1,15 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.Format;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
+import io.vertx.up.uca.jooq.util.JqCond;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;
 
@@ -79,6 +80,13 @@ public final class UxJooq {
         return this;
     }
 
+    /**
+     * 条件压缩器
+     */
+    public JsonObject compress(final JsonObject criteria) {
+        return JqCond.compress(criteria);
+    }
+
     public UxJooq on(final Format format) {
         this.format = format;
         return this;
@@ -97,8 +105,8 @@ public final class UxJooq {
     }
 
     private JsonObject andOr(final JsonObject criteria) {
-        if (!criteria.containsKey(Strings.EMPTY)) {
-            criteria.put(Strings.EMPTY, Boolean.TRUE);
+        if (!criteria.containsKey(VString.EMPTY)) {
+            criteria.put(VString.EMPTY, Boolean.TRUE);
         }
         return criteria;
     }
@@ -425,11 +433,11 @@ public final class UxJooq {
     }
 
     public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE));
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE));
     }
 
     public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE));
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE));
     }
 
     public Future<JsonArray> fetchJAsync(final JsonObject criteria) {
@@ -437,11 +445,11 @@ public final class UxJooq {
     }
 
     public Future<JsonArray> fetchJAndAsync(final JsonObject criteria) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE)).compose(this.workflow::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE)).compose(this.workflow::outputAsync);
     }
 
     public Future<JsonArray> fetchJOrAsync(final JsonObject criteria) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE)).compose(this.workflow::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE)).compose(this.workflow::outputAsync);
     }
 
     public <T> Future<List<T>> fetchAsync(final JsonObject criteria, final Sorter sorter) {
@@ -450,11 +458,11 @@ public final class UxJooq {
 
 
     public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria, final Sorter sorter) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE), sorter);
     }
 
     public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria, final Sorter sorter) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE), sorter);
     }
 
     public Future<JsonArray> fetchJAsync(final JsonObject criteria, final Sorter sorter) {
@@ -462,11 +470,11 @@ public final class UxJooq {
     }
 
     public Future<JsonArray> fetchJAndAsync(final JsonObject criteria, final Sorter sorter) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter).compose(this.workflow::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE), sorter).compose(this.workflow::outputAsync);
     }
 
     public Future<JsonArray> fetchJOrAsync(final JsonObject criteria, final Sorter sorter) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter).compose(this.workflow::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE), sorter).compose(this.workflow::outputAsync);
     }
 
     /* fetch(JsonObject)
@@ -477,11 +485,11 @@ public final class UxJooq {
     }
 
     public <T> List<T> fetchAnd(final JsonObject criteria) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE));
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE));
     }
 
     public <T> List<T> fetchOr(final JsonObject criteria) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE));
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE));
     }
 
     public JsonArray fetchJ(final JsonObject criteria) {
@@ -489,11 +497,11 @@ public final class UxJooq {
     }
 
     public JsonArray fetchJAnd(final JsonObject criteria) {
-        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE)));
+        return this.workflow.output(this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE)));
     }
 
     public JsonArray fetchJOr(final JsonObject criteria) {
-        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE)));
+        return this.workflow.output(this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE)));
     }
 
     public <T> List<T> fetch(final JsonObject criteria, final Sorter sorter) {
@@ -501,11 +509,11 @@ public final class UxJooq {
     }
 
     public <T> List<T> fetchAnd(final JsonObject criteria, final Sorter sorter) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter);
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE), sorter);
     }
 
     public <T> List<T> fetchOr(final JsonObject criteria, final Sorter sorter) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter);
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE), sorter);
     }
 
     public JsonArray fetchJ(final JsonObject criteria, final Sorter sorter) {
@@ -513,11 +521,11 @@ public final class UxJooq {
     }
 
     public JsonArray fetchJAnd(final JsonObject criteria, final Sorter sorter) {
-        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), sorter));
+        return this.workflow.output(this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE), sorter));
     }
 
     public JsonArray fetchJOr(final JsonObject criteria, final Sorter sorter) {
-        return this.workflow.output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), sorter));
+        return this.workflow.output(this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE), sorter));
     }
 
     /* fetchAsync(JsonObject, pojo) */
@@ -526,11 +534,11 @@ public final class UxJooq {
     }
 
     public <T> Future<List<T>> fetchAndAsync(final JsonObject criteria, final String pojo) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE), pojo);
     }
 
     public <T> Future<List<T>> fetchOrAsync(final JsonObject criteria, final String pojo) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE), pojo);
     }
 
     public Future<JsonArray> fetchJAsync(final JsonObject criteria, final String pojo) {
@@ -538,11 +546,11 @@ public final class UxJooq {
     }
 
     public Future<JsonArray> fetchJAndAsync(final JsonObject criteria, final String pojo) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.TRUE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
     }
 
     public Future<JsonArray> fetchJOrAsync(final JsonObject criteria, final String pojo) {
-        return this.fetchAsync(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
+        return this.fetchAsync(criteria.put(VString.EMPTY, Boolean.FALSE), pojo).compose(JqFlow.create(this.analyzer, pojo)::outputAsync);
     }
 
     /* fetch(JsonObject, pojo) */
@@ -551,11 +559,11 @@ public final class UxJooq {
     }
 
     public <T> List<T> fetchAnd(final JsonObject criteria, final String pojo) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo);
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE), pojo);
     }
 
     public <T> List<T> fetchOr(final JsonObject criteria, final String pojo) {
-        return this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo);
+        return this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE), pojo);
     }
 
     public JsonArray fetchJ(final JsonObject criteria, final String pojo) {
@@ -563,12 +571,12 @@ public final class UxJooq {
     }
 
     public JsonArray fetchJAnd(final JsonObject criteria, final String pojo) {
-        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(Strings.EMPTY, Boolean.TRUE), pojo));
+        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(VString.EMPTY, Boolean.TRUE), pojo));
     }
     // -------------------- Fetch One/All --------------------
 
     public JsonArray fetchJOr(final JsonObject criteria, final String pojo) {
-        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(Strings.EMPTY, Boolean.FALSE), pojo));
+        return JqFlow.create(this.analyzer, pojo).output(this.fetch(criteria.put(VString.EMPTY, Boolean.FALSE), pojo));
     }
 
     /*
@@ -629,7 +637,7 @@ public final class UxJooq {
     }
 
     public <T> Future<T> fetchOneAsync(final JsonObject criteria) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
     }
 
@@ -638,7 +646,7 @@ public final class UxJooq {
     }
 
     public <T> T fetchOne(final JsonObject criteria) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.reader.fetchOne(this.workflow.inputQrJ(criteria));
     }
 
@@ -647,7 +655,7 @@ public final class UxJooq {
     }
 
     public <T> Future<T> fetchOneAsync(final JsonObject criteria, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(this.reader::fetchOneAsync);
     }
 
@@ -656,7 +664,7 @@ public final class UxJooq {
     }
 
     public <T> T fetchOne(final JsonObject criteria, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.reader.fetchOne(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria));
     }
 
@@ -874,7 +882,7 @@ public final class UxJooq {
      *      <-- updateJ(criteria, JsonObject, pojo)
      */
     public <T> T update(final JsonObject criteria, final T updated) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.update(this.workflow.inputQrJ(criteria), updated);
     }
 
@@ -891,7 +899,7 @@ public final class UxJooq {
     }
 
     public <T> T update(final JsonObject criteria, final T updated, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.update(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), updated);
     }
 
@@ -919,13 +927,13 @@ public final class UxJooq {
      *      <-- updateJAsync(criteria, JsonObject, pojo)
      */
     public <T> Future<T> updateAsync(final JsonObject criteria, final T updated) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+            .compose(response -> this.updateAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE)));
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final T updated) {
@@ -934,18 +942,18 @@ public final class UxJooq {
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+            .compose(response -> this.updateAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE)))
             .compose(this.workflow::outputAsync);
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final T updated, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.updateAsync(normalized, updated));
     }
 
     public <T> Future<T> updateAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
+            .compose(response -> this.updateAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE), pojo));
     }
 
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -955,7 +963,7 @@ public final class UxJooq {
     public <T> Future<JsonObject> updateJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-            .compose(response -> this.updateAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
+            .compose(response -> this.updateAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE), pojo))
             .compose(flow::outputAsync);
     }
 
@@ -1038,7 +1046,7 @@ public final class UxJooq {
      *      <-- upsertJ(criteria, JsonObject, pojo)
      */
     public <T> T upsert(final JsonObject criteria, final T updated) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.upsert(this.workflow.inputQrJ(criteria), updated);
     }
 
@@ -1055,7 +1063,7 @@ public final class UxJooq {
     }
 
     public <T> T upsert(final JsonObject criteria, final T updated, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.writer.upsert(JqFlow.create(this.analyzer, pojo).inputQrJ(criteria), updated);
     }
 
@@ -1083,13 +1091,13 @@ public final class UxJooq {
      *      <-- upsertJAsync(criteria, JsonObject, pojo)
      */
     public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return this.workflow.inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
     }
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)));
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE)));
     }
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated) {
@@ -1098,18 +1106,18 @@ public final class UxJooq {
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE)))
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE)))
             .compose(this.workflow::outputAsync);
     }
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final T updated, final String pojo) {
-        criteria.put(Strings.EMPTY, Boolean.TRUE);                                                  // Unique Forced
+        criteria.put(VString.EMPTY, Boolean.TRUE);                                                  // Unique Forced
         return JqFlow.create(this.analyzer, pojo).inputQrJAsync(criteria).compose(normalized -> this.writer.upsertAsync(normalized, updated));
     }
 
     public <T> Future<T> upsertAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo));
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE), pojo));
     }
 
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final T updated, final String pojo) {
@@ -1119,7 +1127,7 @@ public final class UxJooq {
     public <T> Future<JsonObject> upsertJAsync(final JsonObject criteria, final JsonObject data, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (T) response.resultAt(Values.ONE), pojo))
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (T) response.resultAt(VValue.ONE), pojo))
             .compose(flow::outputAsync);
     }
 
@@ -1182,7 +1190,7 @@ public final class UxJooq {
 
     public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder));
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (List<T>) response.resultAt(VValue.ONE), finder));
     }
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder) {
@@ -1191,7 +1199,7 @@ public final class UxJooq {
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder) {
         return JqTool.joinAsync(criteria, data, this.workflow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder))
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (List<T>) response.resultAt(VValue.ONE), finder))
             .compose(this.workflow::outputAsync);
     }
 
@@ -1201,7 +1209,7 @@ public final class UxJooq {
 
     public <T> Future<List<T>> upsertAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
         return JqTool.joinAsync(criteria, data, JqFlow.create(this.analyzer, pojo))
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo));
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (List<T>) response.resultAt(VValue.ONE), finder, pojo));
     }
 
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final List<T> list, final BiPredicate<T, T> finder, final String pojo) {
@@ -1211,7 +1219,7 @@ public final class UxJooq {
     public <T> Future<JsonArray> upsertJAsync(final JsonObject criteria, final JsonArray data, final BiPredicate<T, T> finder, final String pojo) {
         final JqFlow flow = JqFlow.create(this.analyzer, pojo);
         return JqTool.joinAsync(criteria, data, flow)
-            .compose(response -> this.upsertAsync(response.resultAt(Values.IDX), (List<T>) response.resultAt(Values.ONE), finder, pojo))
+            .compose(response -> this.upsertAsync(response.resultAt(VValue.IDX), (List<T>) response.resultAt(VValue.ONE), finder, pojo))
             .compose(flow::outputAsync);
     }
 

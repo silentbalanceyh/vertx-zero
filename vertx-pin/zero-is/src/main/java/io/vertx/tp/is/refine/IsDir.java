@@ -2,6 +2,7 @@ package io.vertx.tp.is.refine;
 
 import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -11,7 +12,6 @@ import io.vertx.tp.is.uca.command.FsDefault;
 import io.vertx.tp.is.uca.command.FsReadOnly;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -336,7 +336,7 @@ class IsDir {
 
                 // name / code / storePath
                 final String storePath = params.getString(KName.STORE_PATH);
-                String name = storePath.replace(parent.getStorePath(), Strings.EMPTY);
+                String name = storePath.replace(parent.getStorePath(), VString.EMPTY);
                 if (name.startsWith("/")) {
                     // Adjustment for name to avoid `/xxxx` format
                     name = name.substring(1);

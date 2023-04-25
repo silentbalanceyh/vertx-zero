@@ -1,12 +1,11 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
@@ -18,6 +17,8 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Objects;
 import java.util.function.Supplier;
+
+;
 
 /**
  * Stream read class.
@@ -85,7 +86,7 @@ final class Stream {
     static String root() {
         final URL rootUrl = Stream.class.getResource("/");
         if (Objects.isNull(rootUrl)) {
-            return Strings.EMPTY;
+            return VString.EMPTY;
         } else {
             final File rootFile = new File(rootUrl.getFile());
             return rootFile.getAbsolutePath() + "/";
@@ -190,7 +191,7 @@ final class Stream {
          * Jar reading
          * Firstly, check whether it contains jar flag
          */
-        if (Objects.isNull(in) && filename.contains(FileSuffix.JAR_DIVIDER)) {
+        if (Objects.isNull(in) && filename.contains(VPath.SUFFIX.JAR_DIVIDER)) {
 
 
             /*

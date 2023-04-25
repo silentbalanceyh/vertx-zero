@@ -59,6 +59,11 @@ public class LogExtension {
         Annal.get(clazz).error(this.format(pattern), args);
     }
 
+    public void info(final Annal logger, final String pattern, final Object... args) {
+        final Annal annal = Log.logger(logger);
+        annal.info(this.format(pattern), args);
+    }
+
     public void debug(final Annal logger, final String pattern, final Object... args) {
         final Annal annal = Log.logger(logger);
         annal.debug(this.format(pattern), args);

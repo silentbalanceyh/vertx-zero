@@ -1,5 +1,8 @@
 package io.vertx.tp.ui.init;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.booting.KBoot;
@@ -7,9 +10,6 @@ import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -18,6 +18,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+;
 
 /*
  * Configuration class initialization
@@ -67,9 +69,9 @@ class UiConfiguration {
         }
         /* Re-Calculate `mapping` configuration */
         final String configPath = config.getDefinition();
-        final List<String> files = Ut.ioFiles(configPath, Strings.DOT + FileSuffix.JSON);
+        final List<String> files = Ut.ioFiles(configPath, VString.DOT + VPath.SUFFIX.JSON);
         files.forEach(file -> {
-            final String identifier = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
+            final String identifier = file.replace(VString.DOT + VPath.SUFFIX.JSON, VString.EMPTY);
             combine.put(identifier, file);
         });
         /* Combine File Processing */
@@ -124,8 +126,8 @@ class UiConfiguration {
                     final String unparsed = json.getString(KName.METADATA);
                     final String[] parsed = unparsed.split(",");
                     if (2 < parsed.length) {
-                        final String name = parsed[Values.IDX];
-                        final String alias = parsed[Values.ONE];
+                        final String name = parsed[VValue.IDX];
+                        final String alias = parsed[VValue.ONE];
                         if (!Ut.isNil(name, alias)) {
                             attributeMap.put(name, alias);
                         }

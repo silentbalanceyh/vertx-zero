@@ -1,11 +1,11 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.Record;
@@ -135,11 +135,11 @@ private static TableOnConditionStep<Record> joinCondition(
          * T1 Field构造
          */
         final Name fromName = DSL.name(fromField);
-        final Field from = DSL.field(fromTable + Strings.DOT + fromField);
+        final Field from = DSL.field(fromTable + VString.DOT + fromField);
         /*
          * T2 Field构造
          */
-        final Field to = DSL.field(toTable + Strings.DOT + toField);
+        final Field to = DSL.field(toTable + VString.DOT + toField);
         return from.eq(to);
     }
 

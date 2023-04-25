@@ -2,11 +2,11 @@ package io.vertx.tp.ui.uca.qbe;
 
 import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.horizon.cloud.query.HCond;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
@@ -27,8 +27,8 @@ public class QBECache {
         final List<Future<Boolean>> futures = new ArrayList<>();
         listQr.forEach(qr -> {
             // <sigma> / <code> / <name>
-            final String key = qr.getSigma() + Strings.SLASH +
-                qr.getCode() + Strings.SLASH +
+            final String key = qr.getSigma() + VString.SLASH +
+                qr.getCode() + VString.SLASH +
                 qr.getName();
             futures.add(RAPID.write(key, qr).compose(v -> Ux.futureT()));
         });
@@ -36,8 +36,8 @@ public class QBECache {
     }
 
     public static Future<UiView> cached(final JsonObject qr, final Supplier<Future<UiView>> executor) {
-        final String key = qr.getString(KName.SIGMA) + Strings.SLASH +
-            qr.getString(KName.CODE) + Strings.SLASH +
+        final String key = qr.getString(KName.SIGMA) + VString.SLASH +
+            qr.getString(KName.CODE) + VString.SLASH +
             qr.getString(KName.NAME);
         return RAPID.cached(key, executor);
     }

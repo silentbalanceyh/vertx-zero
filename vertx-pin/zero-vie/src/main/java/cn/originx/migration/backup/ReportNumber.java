@@ -4,12 +4,12 @@ import cn.originx.migration.AbstractStep;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -110,7 +110,7 @@ public class ReportNumber extends AbstractStep {
                 if (codeNum > number.getCurrent()) {
                     report.put("adjust", codeNum + 1);
                 } else {
-                    report.put("adjust", Values.RANGE);
+                    report.put("adjust", VValue.RANGE);
                 }
                 return Ux.future(report);
             }

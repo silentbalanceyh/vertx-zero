@@ -1,8 +1,8 @@
 package io.aeon.experiment.specification.sch;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.PerMode;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.job.plan.JobAt;
 import io.vertx.up.util.Ut;
 
@@ -41,15 +41,15 @@ public class KTimerFormula {
     }
 
     private void initComplex(final String runFormula) {
-        final String[] split = runFormula.split(Strings.COMMA);
-        for (int idx = Values.ONE; idx < split.length; idx++) {
+        final String[] split = runFormula.split(VString.COMMA);
+        for (int idx = VValue.ONE; idx < split.length; idx++) {
             // Skip the first flag
             final String formula = split[idx];
             if (Ut.notNil(formula)) {
                 this.formulas.add(formula);
             }
         }
-        this.mode = Ut.toEnum(() -> split[Values.IDX], PerMode.class, PerMode.D);
+        this.mode = Ut.toEnum(() -> split[VValue.IDX], PerMode.class, PerMode.D);
     }
 
     // Parsing for Formula to calculate the result

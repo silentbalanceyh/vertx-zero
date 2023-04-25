@@ -2,13 +2,13 @@ package cn.vertxup.ui.service.column;
 
 import cn.vertxup.ui.domain.tables.daos.UiColumnDao;
 import cn.vertxup.ui.domain.tables.pojos.UiColumn;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -29,7 +29,7 @@ class StoreValve implements UiValve {
          */
         final String controlId = vis.view() + "-" + identifier;
         final JsonObject filters = new JsonObject();
-        filters.put(Strings.EMPTY, Boolean.TRUE);
+        filters.put(VString.EMPTY, Boolean.TRUE);
         filters.put("controlId", controlId);
         filters.put(KName.SIGMA, sigma);
         Ui.infoUi(LOGGER, "The condition for column fetching: {0}", filters.encode());

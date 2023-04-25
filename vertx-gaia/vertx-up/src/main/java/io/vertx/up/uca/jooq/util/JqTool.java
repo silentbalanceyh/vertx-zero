@@ -1,5 +1,6 @@
 package io.vertx.up.uca.jooq.util;
 
+import io.horizon.eon.VString;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -7,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -81,11 +81,11 @@ public class JqTool {
         final ConcurrentMap<String, String> mapping = joinMapping(mojo, ignoreSet);
         for (final String field : criteria.fieldNames()) {
             // Filter processed
-            final String key = field.contains(Strings.COMMA) ? field.split(Strings.COMMA)[0] : field;
+            final String key = field.contains(VString.COMMA) ? field.split(VString.COMMA)[0] : field;
             final String targetField;
             if (mapping.containsKey(key)) {
-                if (field.contains(Strings.COMMA)) {
-                    targetField = mapping.get(key) + Strings.COMMA + field.split(Strings.COMMA)[1];
+                if (field.contains(VString.COMMA)) {
+                    targetField = mapping.get(key) + VString.COMMA + field.split(VString.COMMA)[1];
                 } else {
                     targetField = mapping.get(key);
                 }
@@ -93,7 +93,7 @@ public class JqTool {
                 condition.put(targetField, criteria.getValue(field));
             } else {
                 // JqTool Engine Needed, Support Tree
-                if (Ut.isJObject(criteria.getValue(field)) || field.equals(Strings.EMPTY)) {
+                if (Ut.isJObject(criteria.getValue(field)) || field.equals(VString.EMPTY)) {
                     if (Ut.isJObject(criteria.getValue(field))) {
                         final JsonObject valueJson = criteria.getJsonObject(field);
                         condition.put(field, criteria(valueJson, mojo, ignoreSet));
@@ -121,13 +121,13 @@ public class JqTool {
         final JsonArray sorters = new JsonArray();
         final ConcurrentMap<String, String> mapping = joinMapping(mojo, ignoreSet);
         Ut.itJArray(sorter, String.class, (item, index) -> {
-            final String key = item.contains(Strings.COMMA) ? item.split(Strings.COMMA)[0] : item;
+            final String key = item.contains(VString.COMMA) ? item.split(VString.COMMA)[0] : item;
             if (mapping.containsKey(key)) {
                 final String targetField = mapping.get(key);
-                if (item.contains(Strings.COMMA)) {
-                    sorters.add(targetField + Strings.COMMA + item.split(Strings.COMMA)[1]);
+                if (item.contains(VString.COMMA)) {
+                    sorters.add(targetField + VString.COMMA + item.split(VString.COMMA)[1]);
                 } else {
-                    sorters.add(targetField + Strings.COMMA + "ASC");
+                    sorters.add(targetField + VString.COMMA + "ASC");
                 }
             } else {
                 sorters.add(item);

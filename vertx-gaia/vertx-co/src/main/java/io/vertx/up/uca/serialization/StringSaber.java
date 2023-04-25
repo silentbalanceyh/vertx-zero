@@ -1,6 +1,6 @@
 package io.vertx.up.uca.serialization;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -13,7 +13,7 @@ public class StringSaber extends BaseSaber {
                        final String literal) {
         return Fn.orNull(() ->
                 Fn.orSemi(String.class == paramType, this.getLogger(),
-                    () -> literal, () -> Strings.EMPTY),
+                    () -> literal, () -> VString.EMPTY),
             paramType, literal);
     }
 }

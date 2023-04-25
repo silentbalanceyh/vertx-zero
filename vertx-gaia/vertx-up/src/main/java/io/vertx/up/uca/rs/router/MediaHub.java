@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.router;
 import io.reactivex.Observable;
 import io.vertx.ext.web.Route;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;
@@ -21,12 +21,12 @@ public class MediaHub implements Hub<Route> {
         // produces
         final Set<MediaType> produces = event.getProduces();
         Observable.fromIterable(produces)
-            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .map(type -> type.getType() + VString.SLASH + type.getSubtype())
             .subscribe(route::produces).dispose();
         // consumes
         final Set<MediaType> consumes = event.getProduces();
         Observable.fromIterable(consumes)
-            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .map(type -> type.getType() + VString.SLASH + type.getSubtype())
             .subscribe(route::consumes).dispose();
     }
 }

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.rs.regular;
 
+import io.horizon.eon.VValue;
 import io.vertx.up.atom.Rule;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 
 /**
@@ -20,10 +20,10 @@ class MaxLengthRuler extends BaseRuler {
                                final Object value,
                                final Rule rule) {
         WebException error = null;
-        final int length = null == value ? Values.ZERO : value.toString().length();
+        final int length = null == value ? VValue.ZERO : value.toString().length();
         final int max = rule.getConfig().getInteger("max");
         if (length > max) {
-            error = failure(field, value, rule);
+            error = this.failure(field, value, rule);
         }
         return error;
     }

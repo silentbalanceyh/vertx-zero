@@ -6,6 +6,8 @@ import cn.originx.refine.Ox;
 import cn.originx.stellaris.Ok;
 import cn.originx.stellaris.OkA;
 import cn.vertxup.ambient.service.application.InitStub;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.Environment;
 import io.horizon.fn.Actuator;
 import io.vertx.core.json.JsonObject;
@@ -14,8 +16,6 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.ExcelReader;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 import io.vertx.up.util.Ut;
@@ -23,6 +23,10 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static cn.originx.refine.Ox.LOG;
+
+;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -42,10 +46,10 @@ public class DevModeller {
 
     private String slashPath(final String literal) {
         if (Objects.nonNull(literal)) {
-            if (literal.endsWith(Strings.SLASH)) {
+            if (literal.endsWith(VString.SLASH)) {
                 return literal;
             } else {
-                return literal + Strings.SLASH;
+                return literal + VString.SLASH;
             }
         } else {
             return null;
@@ -73,7 +77,7 @@ public class DevModeller {
              */
             models.forEach(model -> {
                 final JsonObject modelJson = model.toJson();
-                final String resolved = this.output + "model/" + model.identifier() + Strings.DOT + FileSuffix.JSON;
+                final String resolved = this.output + "model/" + model.identifier() + VString.DOT + VPath.SUFFIX.JSON;
                 Ox.LOG.infoHub(this.getClass(), "Writing Model: {0} -> {1}", model.identifier(), resolved);
                 /*
                  * Flush data to output path
@@ -83,7 +87,7 @@ public class DevModeller {
             });
             schemata.forEach(schema -> {
                 final JsonObject schemaJson = schema.toJson();
-                final String resolved = this.output + "schema/" + schema.identifier() + Strings.DOT + FileSuffix.JSON;
+                final String resolved = this.output + "schema/" + schema.identifier() + VString.DOT + VPath.SUFFIX.JSON;
                 Ox.LOG.infoHub(this.getClass(), "Writing Entity: {0} -> {1}", schema.identifier(), resolved);
                 Ut.ioOut(resolved, schemaJson);
             });
@@ -114,7 +118,8 @@ public class DevModeller {
              */
             final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
             stub.initModeling(app.getName(), this.output).compose(initialized -> {
-                Ox.LOG.infoAtom(this.getClass(), "Modeling Environment has been initialized!");
+                // #NEW_LOG
+                LOG.Atom.info(this.getClass(), "Modeling Environment has been initialized!");
                 final MigrateStep step = new MetaLimit(Environment.Development);
                 return step.bind(app).procAsync(new JsonObject());
             }).onSuccess(result -> {
@@ -122,7 +127,8 @@ public class DevModeller {
                  * Timer end
                  */
                 timer.end(System.currentTimeMillis());
-                Ox.LOG.infoAtom(this.getClass(), "Modeling Adjustment has been finished: {0}", timer.value());
+                // #NEW_LOG
+                LOG.Atom.info(this.getClass(), "Modeling Adjustment has been finished: {0}", timer.value());
                 if (Objects.isNull(actuator)) {
                     System.exit(0);
                 }

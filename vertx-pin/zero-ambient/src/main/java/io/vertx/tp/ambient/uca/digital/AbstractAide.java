@@ -1,11 +1,11 @@
 package io.vertx.tp.ambient.uca.digital;
 
 import cn.vertxup.ambient.domain.tables.daos.XTabularDao;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -54,8 +54,8 @@ public abstract class AbstractAide implements Aide {
         Objects.requireNonNull(criteria);
         final JsonArray typeArray = Ut.valueJArray(types);
         criteria.put(KName.ACTIVE, Boolean.TRUE);
-        if (Values.ONE == typeArray.size()) {
-            final String firstArg = typeArray.getString(Values.IDX);
+        if (VValue.ONE == typeArray.size()) {
+            final String firstArg = typeArray.getString(VValue.IDX);
             // ACTIVE = TRUE AND TYPE = ?
             criteria.put(KName.TYPE, firstArg);
             if (Ut.notNil(code)) {

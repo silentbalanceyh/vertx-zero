@@ -1,11 +1,11 @@
 package io.vertx.up.fn;
 
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -134,7 +134,7 @@ class War {
              */
             final int size = list.size();
             final ConcurrentMap<K, T> resultMap = new ConcurrentHashMap<>();
-            for (int idx = Values.IDX; idx < size; idx++) {
+            for (int idx = VValue.IDX; idx < size; idx++) {
                 final K key = keys.get(idx);
                 final T result = list.get(idx);
                 if (Objects.nonNull(key) && Objects.nonNull(result)) {

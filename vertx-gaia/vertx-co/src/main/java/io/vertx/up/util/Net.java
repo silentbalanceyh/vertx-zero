@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.net.IPHost;
 
@@ -84,8 +84,8 @@ final class Net {
         }
         final String[] splitted = line.split(" ");
         if (2 == splitted.length) {
-            final String method = splitted[Values.IDX].trim().toUpperCase(Locale.getDefault());
-            final String uri = splitted[Values.ONE].trim();
+            final String method = splitted[VValue.IDX].trim().toUpperCase(Locale.getDefault());
+            final String uri = splitted[VValue.ONE].trim();
             return new JsonObject().put("method", method).put("uri", uri);
         } else {
             return new JsonObject();

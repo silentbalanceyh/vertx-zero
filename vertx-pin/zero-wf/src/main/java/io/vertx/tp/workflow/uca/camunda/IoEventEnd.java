@@ -1,12 +1,12 @@
 package io.vertx.tp.workflow.uca.camunda;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409EventEndUniqueException;
 import io.vertx.tp.error._501EventEndMissingException;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -44,8 +44,8 @@ class IoEventEnd extends AbstractIo<EndEvent> {
     public Future<EndEvent> child(final String definitionId) {
         return this.children(definitionId).compose(list -> {
             final int size = list.size();
-            if (Values.ONE == size) {
-                return Ux.future(list.get(Values.IDX));
+            if (VValue.ONE == size) {
+                return Ux.future(list.get(VValue.IDX));
             } else {
                 return Fn.error(_409EventEndUniqueException.class, this.getClass(), size, definitionId);
             }
@@ -55,7 +55,7 @@ class IoEventEnd extends AbstractIo<EndEvent> {
     @Override
     public Future<JsonObject> out(final JsonObject workflow, final List<EndEvent> ends) {
         if (1 == ends.size()) {
-            final EndEvent event = ends.get(Values.IDX);
+            final EndEvent event = ends.get(VValue.IDX);
             /*
              * task:        id
              * taskName:    name

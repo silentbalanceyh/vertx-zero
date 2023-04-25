@@ -1,10 +1,10 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -45,7 +45,7 @@ class Epsilon {
 
     static String vString(final JsonArray array, final String field) {
         final Set<String> set = new HashSet<>();
-        Ut.itJArray(array).map(json -> json.getString(field))
+        It.itJArray(array).map(json -> json.getString(field))
             .filter(Objects::nonNull)
             .forEach(set::add);
         if (1 == set.size()) {
@@ -92,7 +92,7 @@ class Epsilon {
     }
 
     static String vQrField(final String field, final String strOp) {
-        return Ut.isNil(strOp) ? field : field + Strings.COMMA + strOp;
+        return Ut.isNil(strOp) ? field : field + VString.COMMA + strOp;
     }
 
     static Class<?> vClass(final JsonObject json, final String field,
@@ -229,7 +229,7 @@ class Epsilon {
         final BMapping bMapping;
         if (smart) {
             final Object value = mapping.getValue(KName.MAPPING);
-            if (value instanceof JsonObject stored) {
+            if (value instanceof final JsonObject stored) {
                 bMapping = new BMapping(stored);
             } else {
                 bMapping = new BMapping(mapping);

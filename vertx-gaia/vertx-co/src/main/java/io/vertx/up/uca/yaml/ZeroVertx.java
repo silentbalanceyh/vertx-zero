@@ -1,10 +1,10 @@
 package io.vertx.up.uca.yaml;
 
+import io.horizon.eon.VString;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KPlugin;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -32,7 +32,7 @@ public class ZeroVertx implements Node<JsonObject> {
     private void processLime(final JsonObject data) {
         Fn.safeNull(() -> {
             final String limeStr = data.getString(KName.Internal.LIME);
-            final Set<String> sets = Ut.toSet(limeStr, Strings.COMMA);
+            final Set<String> sets = Ut.toSet(limeStr, VString.COMMA);
             /*
              * server, inject, error, resolver
              * RxJava2

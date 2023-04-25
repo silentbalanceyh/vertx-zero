@@ -2,12 +2,12 @@ package io.vertx.tp.rbac.ruler;
 
 import io.aeon.atom.secure.HPermit;
 import io.aeon.experiment.specification.secure.AbstractAdmit;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -83,15 +83,15 @@ public class HSDimNorm extends AbstractAdmit {
     private Future<JsonArray> normalize(final JsonArray itemA) {
         final JsonArray data = new JsonArray();
         Ut.itJArray(itemA, String.class, (itemStr, index) -> {
-            final String[] split = itemStr.split(Strings.COMMA);
-            if (Values.TWO <= split.length) {
+            final String[] split = itemStr.split(VString.COMMA);
+            if (VValue.TWO <= split.length) {
                 // 2 == length
                 final JsonObject itemJ = new JsonObject();
-                itemJ.put(KName.VALUE, split[Values.IDX]);
-                itemJ.put(KName.LABEL, split[Values.IDX_1]);
+                itemJ.put(KName.VALUE, split[VValue.IDX]);
+                itemJ.put(KName.LABEL, split[VValue.IDX_1]);
                 // 3 == length
-                if (Values.TWO < split.length) {
-                    itemJ.put(KName.KEY, split[Values.IDX_2]);
+                if (VValue.TWO < split.length) {
+                    itemJ.put(KName.KEY, split[VValue.IDX_2]);
                 } else {
                     itemJ.put(KName.KEY, itemJ.getValue(KName.VALUE));
                 }

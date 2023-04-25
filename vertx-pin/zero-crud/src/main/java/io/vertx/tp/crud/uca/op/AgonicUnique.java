@@ -1,5 +1,6 @@
 package io.vertx.tp.crud.uca.op;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.em.QrType;
@@ -7,7 +8,6 @@ import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -52,7 +52,7 @@ class AgonicUnique implements Agonic {
         if (0 == executors.length) {
             return Ux.future(new JsonObject());
         }
-        Future<JsonObject> first = executors[Values.IDX].apply(data, in);
+        Future<JsonObject> first = executors[VValue.IDX].apply(data, in);
         for (int start = 1; start < executors.length; start++) {
             final int current = start;
             first = first.compose(queried -> {

@@ -6,6 +6,7 @@ import cn.vertxup.atom.domain.tables.daos.MModelDao;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -13,7 +14,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -79,14 +79,14 @@ class ModelRefine implements AoRefine {
             final JsonObject filters = new JsonObject();
             filters.put(KName.NAME, attribute.getName());
             filters.put(KName.MODEL_ID, attribute.getModelId());
-            filters.put(Strings.EMPTY, Boolean.TRUE);
+            filters.put(VString.EMPTY, Boolean.TRUE);
             return filters;
         };
         // 1. 构造属性专用条件
         final JsonObject criteria = new JsonObject();
         model.dbAttributes().stream().map(fnQuery)
             .forEach(each -> criteria.put("$" + each.hashCode(), each));
-        criteria.put(Strings.EMPTY, Boolean.FALSE);
+        criteria.put(VString.EMPTY, Boolean.FALSE);
         // 2. 从数据库中读取原始属性
         final UxJooq jooqAttr = Ux.Jooq.on(MAttributeDao.class);
         return jooqAttr.<MAttribute>fetchAsync(criteria).compose(original -> {

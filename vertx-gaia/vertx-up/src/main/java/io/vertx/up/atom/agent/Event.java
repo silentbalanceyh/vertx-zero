@@ -1,8 +1,8 @@
 package io.vertx.up.atom.agent;
 
+import io.horizon.eon.VString;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import jakarta.ws.rs.core.MediaType;
 
 import java.io.Serializable;
@@ -51,7 +51,7 @@ public class Event implements Serializable {
     public void setPath(final String path) {
         if (null != path) {
             final String literal = path.trim();
-            if (literal.endsWith(Strings.SLASH)) {
+            if (literal.endsWith(VString.SLASH)) {
                 this.path = literal.substring(0, literal.length() - 1);
             } else {
                 this.path = literal;

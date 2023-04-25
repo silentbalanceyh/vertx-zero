@@ -1,6 +1,6 @@
 package io.vertx.up.uca.jooq;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 
@@ -64,7 +64,7 @@ class JoinAlias {
     }
 
     String table(final String field) {
-        return this.fieldTable.getOrDefault(field, Strings.EMPTY);
+        return this.fieldTable.getOrDefault(field, VString.EMPTY);
     }
 
     ConcurrentMap<String, Set<String>> mapColumn() {

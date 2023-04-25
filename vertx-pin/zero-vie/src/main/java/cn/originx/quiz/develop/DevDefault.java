@@ -1,8 +1,8 @@
 package cn.originx.quiz.develop;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,7 +45,7 @@ class DevDefault {
     // Private
     private static final String ROOT_MENU_ROLE = "init/permission/ui.menu/role/";
     private static final String ROOT_MENU = "init/permission/ui.menu/";
-    private static final String JSON_EXTENSION = Strings.DOT + FileSuffix.JSON;
+    private static final String JSON_EXTENSION = VString.DOT + VPath.SUFFIX.JSON;
     /*
      * 0. Root Folder
      *
@@ -170,7 +172,7 @@ class DevDefault {
         final List<String> files = Ut.ioFiles(ROOT_MENU_ROLE);
         final Set<String> roleSet = new HashSet<>();
         files.forEach(file -> {
-            final String role = file.replace(".json", Strings.EMPTY);
+            final String role = file.replace(".json", VString.EMPTY);
             roleSet.add(role);
         });
         return roleSet;

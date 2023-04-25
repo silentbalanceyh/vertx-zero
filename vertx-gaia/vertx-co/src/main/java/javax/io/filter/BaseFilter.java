@@ -1,6 +1,6 @@
 package javax.io.filter;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 
 import java.io.File;
 
@@ -41,7 +41,7 @@ abstract class BaseFilter {
 
     public boolean accept(final File file) {
         return (this.recursive && file.isDirectory())
-            || (file.getName().endsWith(Strings.DOT + this.getFileExtension()));
+            || (file.getName().endsWith(VString.DOT + this.getFileExtension()));
     }
 
     public abstract String getFileExtension();

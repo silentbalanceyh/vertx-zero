@@ -1,5 +1,6 @@
 package io.vertx.tp.workflow.uca.toolkit;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -11,7 +12,6 @@ import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.sectio.Around;
 import io.vertx.up.uca.sectio.Aspect;
@@ -104,8 +104,8 @@ public class UTracker {
         if (Ut.isNil(todo)) {
             return Ux.future(record);
         }
-        if (Values.ONE == todo.size()) {
-            final JsonObject input = todo.getJsonObject(Values.IDX);
+        if (VValue.ONE == todo.size()) {
+            final JsonObject input = todo.getJsonObject(VValue.IDX);
             final Task task = transition.from();
             return aspect.wrapJAfter(Around.TYPE_ALL.toArray(new ChangeFlag[0]))
                 .apply(aspectParameter(input, task))

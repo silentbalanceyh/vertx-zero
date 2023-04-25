@@ -3,11 +3,11 @@ package cn.originx.uca.graphic;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import cn.vertxup.ambient.domain.tables.pojos.XCategory;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -41,7 +41,7 @@ public class TopologyPlotter extends AbstractPlotter {
             final JsonObject condition = new JsonObject();
             condition.put("identifier,i", Ut.toJArray(ignores));
             condition.put(KName.SIGMA, sigma);
-            condition.put(Strings.EMPTY, Boolean.TRUE);
+            condition.put(VString.EMPTY, Boolean.TRUE);
             return Ux.Jooq.on(XCategoryDao.class).<XCategory>fetchAndAsync(condition).compose(categories -> {
                 /* 读取不为 key 的 */
                 final Set<String> keys = categories.stream().map(XCategory::getKey).collect(Collectors.toSet());

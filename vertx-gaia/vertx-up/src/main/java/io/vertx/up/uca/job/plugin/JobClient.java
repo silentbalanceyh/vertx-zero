@@ -1,5 +1,6 @@
 package io.vertx.up.uca.job.plugin;
 
+import io.horizon.eon.VString;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -8,7 +9,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +31,7 @@ public interface JobClient {
     }
 
     static String code(final String name) {
-        return KWeb.JOB.NS + Strings.DASH + name;
+        return KWeb.JOB.NS + VString.DASH + name;
     }
 
     // ========================== UxJob mount

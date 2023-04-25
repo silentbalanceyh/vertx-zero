@@ -1,7 +1,7 @@
 package io.vertx.up.uca.rs.config;
 
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.DevEnv;
@@ -52,7 +52,7 @@ class PathResolver {
                 final String api = calculate(root);
                 final String contextPath = calculate(path.value());
                 // If api has been calculated to
-                return Values.ONE == api.length() ?
+                return VValue.ONE == api.length() ?
                     path(contextPath) : path(api + contextPath);
             });
     }
@@ -95,15 +95,15 @@ class PathResolver {
     private static String calculate(final String path) {
         String uri = path;
         // 1. Shift the SLASH: Multi -> Single one.
-        uri = uri.replaceAll("\\/+", Strings.SLASH);
+        uri = uri.replaceAll("\\/+", VString.SLASH);
         // 1. Remove the last SLASH
-        if (uri.endsWith(Strings.SLASH)) {
-            uri = uri.substring(0, uri.lastIndexOf(Strings.SLASH));
+        if (uri.endsWith(VString.SLASH)) {
+            uri = uri.substring(0, uri.lastIndexOf(VString.SLASH));
         }
         // Uri must begin with SLASH
         final String processed = uri;
-        final String finalUri = Fn.orNull(() -> processed.startsWith(Strings.SLASH)
-            ? processed : Strings.SLASH + processed, uri);
+        final String finalUri = Fn.orNull(() -> processed.startsWith(VString.SLASH)
+            ? processed : VString.SLASH + processed, uri);
         if (!path.equals(finalUri) && DevEnv.devWebUri()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);
         }

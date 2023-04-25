@@ -1,11 +1,11 @@
 package io.vertx.up.uca.rs.dispatch;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.eventbus.Message;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.worker.Receipt;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
@@ -75,7 +75,7 @@ class EventDiffer implements Differ<RoutingContext> {
     private boolean isAsync(final Method method) {
         boolean async = false;
         final Class<?>[] paramTypes = method.getParameterTypes();
-        if (Values.ONE == paramTypes.length) {
+        if (VValue.ONE == paramTypes.length) {
             final Class<?> argumentCls = paramTypes[0];
             if (Message.class == argumentCls) {
                 async = true;

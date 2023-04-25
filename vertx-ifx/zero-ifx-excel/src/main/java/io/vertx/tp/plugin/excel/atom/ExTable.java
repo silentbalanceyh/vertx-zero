@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.excel.atom;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConnectMissingException;
 import io.vertx.tp.plugin.booting.KConnect;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -136,7 +136,7 @@ public class ExTable implements Serializable {
             filters = Ux.whereOr();
             Ut.itJArray(data, JsonObject.class, (item, index) -> {
                 final String indexKey = "$" + index;
-                filters.put(indexKey, this.whereUnique(item).put(Strings.EMPTY, Boolean.TRUE));
+                filters.put(indexKey, this.whereUnique(item).put(VString.EMPTY, Boolean.TRUE));
             });
         }
         return filters;
@@ -170,7 +170,7 @@ public class ExTable implements Serializable {
 
     public void add(final String field, final String child) {
         if (Ut.notNil(field) && Ut.notNil(child)) {
-            final String combine = field + Strings.DOT + child;
+            final String combine = field + VString.DOT + child;
             if (!this.fields.contains(combine)) {
                 this.fields.add(combine);
             }

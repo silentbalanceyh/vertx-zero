@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.booting;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -63,7 +63,7 @@ public abstract class AbstractBoot implements KBoot {
     @Override
     public List<String> oob(final String prefix) {
         // Fix Issue of Null Pointer
-        final String prefixFile = Objects.isNull(prefix) ? Strings.EMPTY : prefix;
+        final String prefixFile = Objects.isNull(prefix) ? VString.EMPTY : prefix;
         return this.files.stream()
             .filter(item -> item.contains(prefixFile))
             .collect(Collectors.toList());

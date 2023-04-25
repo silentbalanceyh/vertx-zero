@@ -2,11 +2,11 @@ package cn.vertxup.tpl.service;
 
 import cn.vertxup.tpl.domain.tables.daos.MyMenuDao;
 import cn.vertxup.tpl.domain.tables.pojos.MyMenu;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.tpl.refine.Tl;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
@@ -19,7 +19,7 @@ public class MenuService implements MenuStub {
 
     @Override
     public Future<JsonArray> fetchMy(final JsonObject condition) {
-        condition.put(Strings.EMPTY, Boolean.TRUE);
+        condition.put(VString.EMPTY, Boolean.TRUE);
         Tl.infoFlow(this.getClass(), "My menu condition: {0}", condition.encode());
         return Ux.Jooq.on(MyMenuDao.class).fetchJAsync(condition);
     }

@@ -1,11 +1,11 @@
 package io.vertx.up.fn;
 
+import io.horizon.eon.VValue;
 import io.horizon.exception.ZeroException;
 import io.horizon.exception.ZeroRunException;
 import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -192,7 +192,7 @@ final class Wall {
     static <T> void execZero(final JsonArray dataArray, final Class<T> clazz, final ZeroBiConsumer<T, Integer> fnIt)
         throws ZeroException {
         final int size = dataArray.size();
-        for (int idx = Values.IDX; idx < size; idx++) {
+        for (int idx = VValue.IDX; idx < size; idx++) {
             final Object value = dataArray.getValue(idx);
             if (null != value) {
                 if (clazz == value.getClass()) {

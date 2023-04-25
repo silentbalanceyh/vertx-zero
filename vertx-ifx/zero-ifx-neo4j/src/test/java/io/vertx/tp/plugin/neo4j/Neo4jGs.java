@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.neo4j;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class Neo4jGs implements Serializable {
     }
 
     public JsonObject getNode() {
-        return Objects.isNull(this.nodes) ? new JsonObject() : this.nodes.getJsonObject(Values.IDX);
+        return Objects.isNull(this.nodes) ? new JsonObject() : this.nodes.getJsonObject(VValue.IDX);
     }
 
     public JsonArray getEdges() {
@@ -38,7 +38,7 @@ public class Neo4jGs implements Serializable {
     }
 
     public JsonObject getEdge() {
-        return Objects.isNull(this.edges) ? new JsonObject() : this.edges.getJsonObject(Values.IDX);
+        return Objects.isNull(this.edges) ? new JsonObject() : this.edges.getJsonObject(VValue.IDX);
     }
 
     @Override

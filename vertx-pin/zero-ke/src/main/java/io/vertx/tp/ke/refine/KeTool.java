@@ -1,13 +1,13 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.eon.VString;
+import io.horizon.spi.environment.UnityApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.environment.UnityApp;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -45,7 +45,7 @@ class KeTool {
     /*
      * 针对每一个App做的执行操作，内置环境借用通道会直接提取App信息
      */
-    static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner){
+    static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner) {
         return Ux.channelS(UnityApp.class, (appKit) -> {
             final ConcurrentMap<String, JsonObject> appAll = appKit.connect();
             final ConcurrentMap<String, Future<T>> appFuture = new ConcurrentHashMap<>();
@@ -72,7 +72,7 @@ class KeTool {
              */
             final JsonObject criteria = condition.copy();
             if (Ut.notNil(criteria)) {
-                criteria.put(Strings.EMPTY, Boolean.TRUE);
+                criteria.put(VString.EMPTY, Boolean.TRUE);
                 criteria.put(KName.MODEL_KEY, key);
                 /*
                  * JsonArray normalize
