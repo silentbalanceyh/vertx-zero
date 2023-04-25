@@ -1,6 +1,5 @@
 package io.vertx.up.log.internal;
 
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.util.Ut;
@@ -26,7 +25,7 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
             inject = Log4JAnnal.class;
         }
         final Class<?> cacheKey = inject;
-        this.logger = Fn.pool(OUTED, inject, () -> Ut.instance(cacheKey, clazz));
+        this.logger = OUTED.computeIfAbsent(clazz, (key) -> Ut.instance(cacheKey, key));
     }
 
     public BridgeAnnal(final Annal logger) {
