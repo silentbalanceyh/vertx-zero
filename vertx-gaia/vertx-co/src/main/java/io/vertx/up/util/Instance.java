@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @SuppressWarnings({"unchecked"})
 final class Instance {
@@ -257,7 +256,7 @@ final class Instance {
             final List<Class<?>> filtered = classes.stream()
                 .filter(item -> interfaceCls.isAssignableFrom(item)
                     && item != interfaceCls)
-                .collect(Collectors.toList());
+                .toList();
             final int size = filtered.size();
             // Non-Unique throw error out.
             if (Values.ONE < size) {

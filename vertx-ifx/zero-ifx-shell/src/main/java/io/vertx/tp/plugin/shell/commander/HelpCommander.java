@@ -7,7 +7,6 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.log.Log;
 import io.vertx.up.util.Ut;
 import org.apache.commons.cli.HelpFormatter;
 
@@ -77,15 +76,15 @@ public class HelpCommander extends AbstractCommander {
         final StringBuilder content = new StringBuilder();
         content.append(Sl.message("help", () -> "Command List: ")).append("\n");
         content.append("------------------------------------------------------\n");
-        content.append(String.format("%-32s", " " + Log.color(name, Log.COLOR_YELLOW, true)));
-        content.append(String.format("%-26s", Log.color(simple, Log.COLOR_YELLOW, true)));
-        content.append(String.format("%-16s", Log.color(description, Log.COLOR_YELLOW, true))).append("\n");
+        content.append(Ut.flagBYellow("%-32s", name));
+        content.append(Ut.flagBYellow("%-26s", simple));
+        content.append(Ut.flagBYellow("%-16s", description)).append("\n");
         content.append("------------------------------------------------------\n");
 
         /* Defined Map */
         this.printContent(content, atoms, " ");
         content.append("------------------------------------------------------");
-        System.out.println(content.toString());
+        System.out.println(content);
     }
 
     private void printContent(final StringBuilder content, final List<CommandAtom> atoms, final String prefix) {
@@ -109,8 +108,8 @@ public class HelpCommander extends AbstractCommander {
             "\tCommand Name: {0}, Command Type: {1}" +
             "\tOptions Format: [-opt1 value1 -opt2 value2]");
         usage = MessageFormat.format(usage,
-            Log.color(atom.getName(), Log.COLOR_CYAN, true),
-            Log.color(atom.getType().name(), Log.COLOR_CYAN, true));
+            Ut.flagBCyan(atom.getName()),
+            Ut.flagBCyan(atom.getType().name()));
 
         /* Help */
         final HelpFormatter formatter = new HelpFormatter();

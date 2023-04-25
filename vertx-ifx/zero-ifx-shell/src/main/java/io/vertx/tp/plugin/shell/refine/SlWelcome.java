@@ -3,7 +3,7 @@ package io.vertx.tp.plugin.shell.refine;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.atom.CommandAtom;
-import io.vertx.up.log.Log;
+import io.vertx.up.util.Ut;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -16,7 +16,7 @@ class SlWelcome {
         final String version = WELCOME.getString("version");
         System.out.println("----------------------------------------------------------------");
         System.out.println("|                                                              |");
-        System.out.println("|         " + Log.color(banner, Log.COLOR_CYAN, true) + "              |");
+        System.out.println("|         " + Ut.flagBCyan(banner) + "              |");
         System.out.println("|                                                              |");
         System.out.println("----------------------------------------------------------------");
         System.out.println("                                   ---- Version." + version + "   ");
@@ -24,15 +24,15 @@ class SlWelcome {
 
     static void welcomeCommand(final Environment environment) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.output("------------->>>> " + Log.color("Command Begin", Log.COLOR_BLUE));
-        SlLog.output(Log.color(message.getString("environment"), Log.COLOR_BLANK, true) + " " + message.getString("wait"), environment);
+        SlLog.output("------------->>>> " + Ut.flagNBlue("Command Begin"));
+        SlLog.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
     static void welcomeSub(final Environment environment, final CommandAtom option) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.outputOpt("------>>>> " + Log.color("Sub System", Log.COLOR_GREEN) + ": {0}", option.getName(), option.getDescription());
-        SlLog.output(Log.color(message.getString("environment"), Log.COLOR_BLANK, true) + " " + message.getString("wait"), environment);
+        SlLog.outputOpt("------>>>> " + Ut.flagNGreen("Sub System") + ": {0}", option.getName(), option.getDescription());
+        SlLog.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 

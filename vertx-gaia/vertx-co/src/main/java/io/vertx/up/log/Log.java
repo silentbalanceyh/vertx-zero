@@ -33,15 +33,6 @@ public final class Log {
         return PREFIX + NORMAL + SEPARATOR + COLOR_GREEN + SUFFIX + "[ " + flag + " ] " + END_COLOUR;
     }
 
-    public static String color(final String flag, final int color) {
-        return PREFIX + NORMAL + SEPARATOR + color + SUFFIX + flag + END_COLOUR;
-    }
-
-    public static String color(final String flag, final int color, final boolean bold) {
-        final int weight = bold ? WEIGHT : NORMAL;
-        return PREFIX + weight + SEPARATOR + color + SUFFIX + flag + END_COLOUR;
-    }
-
     // -------------- 快速日志，比如传入首参 Logger
     /*
      * 三种日志处理

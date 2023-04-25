@@ -78,7 +78,6 @@
         <!-- Database Needed -->
         <hikari.cp.version>5.0.1</hikari.cp.version>
         <jooq.version>3.18.3</jooq.version>
-        <joor.version>0.9.4</joor.version>
         <vertx.jooq.version>6.5.5</vertx.jooq.version>
         <mysql.version>8.0.33</mysql.version>
 
@@ -249,12 +248,6 @@
     </prerequisites>
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.jooq/joor -->
-            <dependency>
-                <groupId>org.jooq</groupId>
-                <artifactId>joor</artifactId>
-                <version>${joor.version}</version>
-            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.sshd/sshd-core -->
             <dependency>
                 <groupId>org.apache.sshd</groupId>

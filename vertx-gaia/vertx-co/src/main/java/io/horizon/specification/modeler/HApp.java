@@ -18,7 +18,7 @@ public interface HApp extends Serializable, TJson {
      * Also you could provide your only implementation to replace some configuration.
      */
     static String ns(final String appName) {
-        return Ut.isNil(appName) ? null : Ut.messageJava(VEnv.APP.NS, appName);
+        return Ut.isNil(appName) ? null : Ut.fromMessage(VEnv.APP.NS, appName);
     }
 
     static String ns(final String appName, final String identifier) {

@@ -16,7 +16,7 @@ public abstract class AbstractAnnal implements Annal {
                        final String message,
                        final Object... rest) {
         if (fnPre.get()) {
-            final String formatted = Ut.messageBold(message, rest);
+            final String formatted = Ut.fromMessageB(message, rest);
             fnLog.accept(formatted, null);
         }
     }

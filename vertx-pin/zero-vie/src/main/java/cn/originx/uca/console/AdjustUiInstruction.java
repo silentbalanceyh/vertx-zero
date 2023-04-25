@@ -23,7 +23,6 @@ import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Log;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -59,13 +58,13 @@ public class AdjustUiInstruction extends AbstractInstruction {
 
         /* Format Table */
         content.append(this.atom.getConfig().getString("identifier")).append(" : ");
-        content.append(Log.color(identifier, Log.COLOR_CYAN, true)).append("\n");
+        content.append(Ut.flagBCyan(identifier));
         content.append("--------------------------------------------------");
         content.append("----------------------------------------------------------\n");
-        content.append(String.format("%-40s", " " + Log.color(config.getString("control"), Log.COLOR_BLANK, true)));
-        content.append(String.format("%-26s", Log.color(config.getString("status"), Log.COLOR_BLANK, true)));
-        content.append(String.format("%-32s", Log.color(config.getString("expected"), Log.COLOR_BLANK, true)));
-        content.append(String.format("%-32s", Log.color(config.getString("actual"), Log.COLOR_BLANK, true))).append("\n");
+        content.append(Ut.flagBBlank("%-40s", config.getString("control")));
+        content.append(Ut.flagBBlank("%-26s", config.getString("status")));
+        content.append(Ut.flagBBlank("%-32s", config.getString("expected")));
+        content.append(Ut.flagBBlank("%-32s", config.getString("actual"))).append("\n");
         content.append("--------------------------------------------------");
         content.append("----------------------------------------------------------\n");
     }
@@ -74,9 +73,9 @@ public class AdjustUiInstruction extends AbstractInstruction {
         final String status = item.getString(KName.STATUS);
         content.append(String.format("%-32s", item.getString("control")));
         if ("INVALID".equals(status)) {
-            content.append(String.format("%-28s", Log.color(item.getString("status"), Log.COLOR_RED, true)));
+            content.append(Ut.flagBRed("%-28s", status));
         } else {
-            content.append(String.format("%-28s", Log.color(item.getString("status"), Log.COLOR_YELLOW, true)));
+            content.append(Ut.flagBYellow("%-28s", status));
         }
         content.append(String.format("%-24s", item.getString("attribute")));
         content.append(String.format("%-32s", item.getString("uiField")));
@@ -143,7 +142,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
         });
         if (noError.get()) {
             Sl.output("所有的表单和列表配置都正确！Form / List，--> {0}",
-                Log.color("Successfully", Log.COLOR_GREEN, true));
+                Ut.flagBGreen("Successfully"));
         }
         System.out.println(content.toString());
     }
