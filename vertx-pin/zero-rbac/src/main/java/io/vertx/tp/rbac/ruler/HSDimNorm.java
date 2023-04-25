@@ -1,7 +1,7 @@
 package io.vertx.tp.rbac.ruler;
 
 import io.aeon.atom.secure.HPermit;
-import io.aeon.specification.secure.AbstractAdmit;
+import io.aeon.experiment.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

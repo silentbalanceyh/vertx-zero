@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KQr;
+import io.aeon.experiment.specification.KQr;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

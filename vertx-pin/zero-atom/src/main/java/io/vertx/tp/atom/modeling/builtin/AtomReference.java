@@ -9,7 +9,7 @@ import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.experiment.shape.HAtomReference;
+import io.aeon.experiment.shape.HAtomReference;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

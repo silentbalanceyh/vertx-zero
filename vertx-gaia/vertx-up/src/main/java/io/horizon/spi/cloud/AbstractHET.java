@@ -1,9 +1,9 @@
 package io.horizon.spi.cloud;
 
 import io.aeon.atom.secure.Hoi;
+import io.aeon.experiment.specification.app.HES;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.power.KTenant;
-import io.aeon.specification.app.HES;
 import io.horizon.eon.em.cloud.ModeApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

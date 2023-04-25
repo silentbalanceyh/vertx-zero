@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.experiment.specification.KModule;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

@@ -22,7 +22,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KModule;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

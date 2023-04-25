@@ -13,7 +13,7 @@ import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KQr;
+import io.aeon.experiment.specification.KQr;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;

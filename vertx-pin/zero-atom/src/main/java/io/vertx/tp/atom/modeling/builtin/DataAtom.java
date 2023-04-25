@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.aeon.experiment.specification.power.KApp;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.experiment.shape.AbstractHAtom;
+import io.aeon.experiment.shape.AbstractHAtom;
 
 /**
  * 内部使用的元数据分析工具，提供

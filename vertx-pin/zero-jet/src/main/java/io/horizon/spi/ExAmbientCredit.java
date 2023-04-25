@@ -6,7 +6,7 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.horizon.spi.environment.Ambient;
 import io.horizon.spi.web.Credential;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KCredential;
+import io.aeon.experiment.specification.KCredential;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
