@@ -283,8 +283,7 @@ public final class Fn {
     // ------- War ( New Version )
 
 
-    public static <T> Future<T> unbox(
-        final Consumer<Promise<T>> consumer) {
+    public static <T> Future<T> unbox(final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }
 

@@ -96,7 +96,7 @@ abstract class AbstractJQCrud {
                 consumer.accept(rows);
             }
         } catch (final DataAccessException ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             final WebException error = new _417DataTransactionException(getClass(), ex);
             event.failure(error);
         } catch (final Throwable ex) {

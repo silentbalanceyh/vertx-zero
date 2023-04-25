@@ -84,7 +84,7 @@ class SheetImport {
                     table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
                 ex.printStackTrace();
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
             }
         }
         return resultSet;

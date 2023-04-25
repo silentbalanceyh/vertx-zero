@@ -25,7 +25,7 @@ import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -193,7 +193,7 @@ class ScCache {
     }
 
     static <R> Future<R> admitPath(final SPath path, final Function<SPath, Future<R>> executor, final String suffix) {
-        if (Debugger.cacheAdmit()) {
+        if (DevEnv.cacheAdmit()) {
             // Cache Enabled for Default
             final String admitPool = CONFIG.getPoolAdmit();
             // Each sigma has been mapped to single pool

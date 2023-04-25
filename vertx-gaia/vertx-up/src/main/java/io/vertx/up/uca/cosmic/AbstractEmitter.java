@@ -49,7 +49,7 @@ public abstract class AbstractEmitter implements Emitter {
             context.init(null, trustCerts, new SecureRandom());
             return context;
         } catch (final NoSuchAlgorithmException | KeyManagementException ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             return null;
         }
     }

@@ -9,7 +9,7 @@ import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.store.JobConfig;
 import io.vertx.up.uca.job.store.JobPin;
@@ -83,7 +83,7 @@ public class ZeroScheduler extends AbstractVerticle {
             /*
              * Invoke here to provide input
              */
-            if (Debugger.devJobBoot()) {
+            if (DevEnv.devJobBoot()) {
                 LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
             }
             /*

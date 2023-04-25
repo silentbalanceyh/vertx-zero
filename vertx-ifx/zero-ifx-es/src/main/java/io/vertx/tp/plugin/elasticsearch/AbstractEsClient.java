@@ -64,7 +64,7 @@ public abstract class AbstractEsClient {
                     result = true;
                 }
             } catch (final IOException ioe) {
-                this.logger().jvm(ioe);
+                this.logger().fatal(ioe);
                 result = false;
             }
             this.helper.closeClient(client);

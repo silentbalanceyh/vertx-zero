@@ -10,7 +10,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.util.Ut;
@@ -34,7 +34,7 @@ public class AuthenticateGateway {
                 if (Objects.isNull(cached)) {
                     actuator.execute();
                 } else {
-                    if (Debugger.devAuthorized()) {
+                    if (DevEnv.devAuthorized()) {
                         LOGGER.info("[ Auth ]\u001b[0;32m 401 Authenticated Cached successfully!\u001b[m");
                     }
                     fnCache.execute();

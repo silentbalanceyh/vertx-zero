@@ -126,14 +126,14 @@ class UiConfiguration {
                     if (2 < parsed.length) {
                         final String name = parsed[Values.IDX];
                         final String alias = parsed[Values.ONE];
-                        if (!Ut.isNilOr(name, alias)) {
+                        if (!Ut.isNil(name, alias)) {
                             attributeMap.put(name, alias);
                         }
                     }
                 } else {
                     final String name = json.getString("dataIndex");
                     final String alias = json.getString("title");
-                    if (!Ut.isNilOr(name, alias)) {
+                    if (!Ut.isNil(name, alias)) {
                         attributeMap.put(name, alias);
                     }
                 }

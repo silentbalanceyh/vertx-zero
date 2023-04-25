@@ -67,7 +67,7 @@ class DStore {
     }
 
     boolean itemExist(final String dictName, final String value, final String keyField) {
-        if (Ut.isNilOr(keyField, value)) {
+        if (Ut.isNil(keyField, value)) {
             return false;
         } else {
             final JsonArray original = this.item(dictName);

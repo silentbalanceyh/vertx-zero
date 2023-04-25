@@ -128,7 +128,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
                 result.put("data", response.getSource());
             }
         } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
+            LOGGER.fatal(ioe);
         }
 
         this.helper.closeClient(client);

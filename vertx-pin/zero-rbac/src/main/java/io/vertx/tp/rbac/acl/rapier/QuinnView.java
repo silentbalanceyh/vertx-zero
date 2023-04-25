@@ -9,7 +9,7 @@ import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -100,7 +100,7 @@ public class QuinnView implements Quinn {
         // OWNER = ?, OWNER_TYPE = ? --- ownerType 从 ScOwner 中提取
         condition.put(KName.OWNER, owner.owner());
         condition.put(KName.OWNER_TYPE, owner.type().name());
-        if (Debugger.devAuthorized()) {
+        if (DevEnv.devAuthorized()) {
             Sc.infoResource(this.getClass(), AuthMsg.VIEW_PROCESS, "fetchAsync", condition.encode());
         }
         return Ux.Jooq.on(SViewDao.class).fetchOneAsync(condition);

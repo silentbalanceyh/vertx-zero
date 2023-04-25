@@ -56,7 +56,7 @@ class ElasticQr {
              */
             this.getHitsAndAggregationsFromResponse(response, result);
         } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
+            LOGGER.fatal(ioe);
         }
         this.helper.closeClient(client);
         return result;

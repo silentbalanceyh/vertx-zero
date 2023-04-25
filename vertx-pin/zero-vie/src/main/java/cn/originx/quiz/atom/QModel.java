@@ -109,7 +109,7 @@ public class QModel implements Serializable {
             record = Ao.record(atom);
             record.fromJson(data);
         } catch (final WebException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             record = null;
         }
         return record;

@@ -38,7 +38,7 @@ public class EsAmbitAdd extends AbstractEsClient implements EsAmbit {
             result.put("index", response.getIndex()).put("id", response.getId())
                 .put("result", response.getResult() == DocWriteResponse.Result.CREATED);
         } catch (final IOException ioe) {
-            this.logger().jvm(ioe);
+            this.logger().fatal(ioe);
         }
 
         this.helper.closeClient(client);

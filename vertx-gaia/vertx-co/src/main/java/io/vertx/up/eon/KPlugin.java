@@ -1,6 +1,6 @@
 package io.vertx.up.eon;
 
-import io.horizon.eon.ZeroYml;
+import io.vertx.up.runtime.ZeroYml;
 
 import javax.inject.Inject;
 import javax.inject.infix.*;

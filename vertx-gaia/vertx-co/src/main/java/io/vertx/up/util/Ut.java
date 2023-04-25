@@ -51,11 +51,15 @@ public final class Ut {
     }
 
     public static String messageJava(final String pattern, final Object... args) {
-        return HFormat.format(pattern, args);
+        return Format.format(pattern, args);
     }
 
     public static String messageSlf4j(final String pattern, final Object... args) {
-        return HFormat.formatter(pattern, args);
+        return Format.formatter(pattern, args);
+    }
+
+    public static String messageBold(final String pattern, final Object... args) {
+        return Format.formatBold(pattern, args);
     }
 
     public static JsonMapper mapper() {
@@ -1202,12 +1206,16 @@ public final class Ut {
         return Types.isPrimary(clazz);
     }
 
+    public static boolean isNull(final Object... args) {
+        return 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
+    }
+
     public static boolean isNil(final String input) {
         return StringUtil.isNil(input);
     }
 
-    public static boolean isNilOr(final String... inputs) {
-        return StringUtil.isNilOr(inputs);
+    public static boolean isNil(final String... inputs) {
+        return StringUtil.isNil(inputs);
     }
 
     public static boolean isNil(final JsonObject json) {
@@ -1278,7 +1286,11 @@ public final class Ut {
         return !isNil(jsonArray);
     }
 
-    public static void notNull(final Object... objects) {
+    public static boolean notNull(final Object... objects) {
+        return !isNull(objects);
+    }
+
+    public static void checkNull(final Object... objects) {
         Arrays.stream(objects).forEach(Objects::requireNonNull);
     }
 

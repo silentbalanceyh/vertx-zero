@@ -38,7 +38,8 @@ final class Warning {
         throws ZeroException {
         final ZeroException error = Ut.instance(zeroClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.checked(error));
+            logger.fatal(error);
+            //            Annal.sure(logger, () -> logger.checked(error));
             throw error;
         }
     }
@@ -55,7 +56,8 @@ final class Warning {
                       final Object... args) {
         final ZeroRunException error = Ut.instance(upClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.runtime(error));
+            logger.fatal(error);
+            //            Annal.sure(logger, () -> logger.runtime(error));
             throw error;
         }
     }
@@ -65,7 +67,8 @@ final class Warning {
                        final Object... args) {
         final WebException error = Ut.instance(webClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.warn(error.getMessage()));
+            logger.warn(error.getMessage());
+            //            Annal.sure(logger, () -> logger.warn(error.getMessage()));
             throw error;
         }
     }
@@ -146,11 +149,13 @@ final class Warning {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> logger.runtime(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.runtime(ex));
             throw ex;
         } catch (final Throwable ex) {
+            logger.fatal(ex);
             ex.printStackTrace();
-            Annal.sure(logger, () -> logger.jvm(ex));
+            //            Annal.sure(logger, () -> logger.jvm(ex));
         }
     }
 

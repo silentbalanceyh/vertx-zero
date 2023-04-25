@@ -1,9 +1,9 @@
 package io.vertx.up.uca.yaml;
 
-import io.horizon.eon.ZeroYml;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.ZeroBase;
+import io.vertx.up.runtime.ZeroYml;
 import org.junit.Test;
 
 public class ZeroErrorTc extends ZeroBase {

@@ -99,7 +99,7 @@ final class Congregation {
         try {
             Fn.verifyJObject(data, consumer::accept);
         } catch (final ZeroException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
         }
     }
 
@@ -138,7 +138,7 @@ final class Congregation {
         try {
             Fn.verifyJArray(dataArray, clazz, consumer::accept);
         } catch (final ZeroException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
         }
     }
 }

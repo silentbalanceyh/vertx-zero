@@ -40,7 +40,7 @@ public class EsAmbitDelete extends AbstractEsClient implements EsAmbit {
                 .put("id", response.getId())
                 .put("result", response.getResult() == DocWriteResponse.Result.DELETED);
         } catch (final IOException ioe) {
-            this.logger().jvm(ioe);
+            this.logger().fatal(ioe);
         }
         this.helper.closeClient(client);
         return result;

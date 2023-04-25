@@ -1,6 +1,5 @@
 package io.vertx.up.runtime;
 
-import io.horizon.eon.ZeroYml;
 import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;

@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -46,7 +46,7 @@ abstract class AbstractAction {
 
     protected void logging(final String pattern, final Object... args) {
         final Annal logger = Annal.get(getClass());
-        if (Debugger.devJooqCond()) {
+        if (DevEnv.devJooqCond()) {
             logger.info(pattern, args);
         }
     }

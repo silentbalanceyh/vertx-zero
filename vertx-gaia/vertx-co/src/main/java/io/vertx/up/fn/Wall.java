@@ -33,7 +33,8 @@ final class Wall {
         try {
             actuator.execute();
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -53,7 +54,8 @@ final class Wall {
         try {
             reference = supplier.get();
         } catch (final Exception ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -68,11 +70,14 @@ final class Wall {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.checked(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.checked(ex));
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> logger.runtime(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.runtime(ex));
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -90,14 +95,14 @@ final class Wall {
         try {
             ret = supplier.get();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.checked(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.checked(ex));
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> {
-                logger.runtime(ex);
-                throw ex;
-            });
+            logger.fatal(ex);
+            throw ex;
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }

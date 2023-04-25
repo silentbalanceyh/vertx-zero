@@ -43,7 +43,7 @@ final class Wait {
             return supplier.get();
         } catch (final Throwable ex) {
             // TODO: For Debug
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             ex.printStackTrace();
             return defaultValue;
         }
@@ -54,7 +54,7 @@ final class Wait {
             return supplier.get();
         } catch (final Throwable ex) {
             // TODO: For Debug
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             ex.printStackTrace();
             return Future.succeededFuture(defaultValue);
         }
@@ -64,11 +64,13 @@ final class Wait {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.checked(ex));
+            logger.fatal(ex);
+            //            Annal.?ure(logger, () -> logger.checked(ex));
             throw new ZeroRunException(ex.getMessage()) {
             };
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.?ure(logger, () -> logger.jvm(ex));
         }
     }
 }

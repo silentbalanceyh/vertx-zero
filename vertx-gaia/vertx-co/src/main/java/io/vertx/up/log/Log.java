@@ -1,13 +1,10 @@
 package io.vertx.up.log;
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.log.internal.BridgeAnnal;
+import io.vertx.up.log.internal.Log4JAnnal;
 import org.slf4j.Logger;
 
-import java.text.MessageFormat;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
+import java.util.Objects;
 
 public final class Log {
     /*
@@ -45,50 +42,50 @@ public final class Log {
         return PREFIX + weight + SEPARATOR + color + SUFFIX + flag + END_COLOUR;
     }
 
-    public static void jvm(final Logger logger, final Throwable ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
-        if (Debugger.devJvmStack()) {
-            /* Default to false */
-            ex.printStackTrace();
-        }
+    // -------------- 快速日志，比如传入首参 Logger
+    /*
+     * 三种日志处理
+     * 1. Logger 传入 -> Log4JAnnal(Logger)
+     * 2. Annal 传入  -> BridgeAnnal(Annal)
+     * 4. Class<?> 传入 -> BridgeAnnal(Class<?>) -> Log4JAnnal(Class<?>)
+     */
+    public static <I> void fatal(final I input, final Throwable ex) {
+        final Annal annal = logger(input);
+        annal.fatal(ex);
     }
 
-    public static void checked(final Logger logger, final ZeroException ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
+    public static <I> void info(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.info(message, args);
     }
 
-    public static void runtime(final Logger logger, final ZeroRunException ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
+    public static <I> void warn(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.warn(message, args);
     }
 
-    public static void info(final Logger logger, final String pattern, final Object... rest) {
-        log(logger::isInfoEnabled, logger::info, pattern, rest);
+    public static <I> void error(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.error(message, args);
     }
 
-    public static void debug(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::debug, pattern, rest);
+    public static <I> void debug(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.debug(message, args);
     }
 
-    public static void warn(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::warn, pattern, rest);
-    }
-
-    public static void error(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::error, pattern, rest);
-    }
-
-    private static void log(final Supplier<Boolean> fnPre,
-                            final BiConsumer<String, Object> fnLog,
-                            final String message,
-                            final Object... rest) {
-        if (fnPre.get()) {
-            final String formatted;
-            if (0 < rest.length) {
-                formatted = BOLD_FLAG + " " + MessageFormat.format(message, rest);
-            } else {
-                formatted = BOLD_FLAG + " " + message;
-            }
-            fnLog.accept(formatted, null);
+    private static <I> Annal logger(final I input) {
+        if (input instanceof Logger) {
+            Objects.requireNonNull(input);
+            // 确保不重复创建
+            return Annal.CC_ANNAL_INTERNAL.pick(() -> new Log4JAnnal((Logger) input), input.hashCode());
+        } else if (input instanceof Annal) {
+            Objects.requireNonNull(input);
+            // 确保不重复创建
+            return Annal.CC_ANNAL_INTERNAL.pick(() -> new BridgeAnnal((Annal) input), input.hashCode());
+        } else {
+            // 内部方法自带缓存
+            return Annal.get((Class<?>) input);
         }
     }
 }

@@ -1,35 +1,30 @@
 package io.vertx.up.log;
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
-import io.horizon.fn.Actuator;
 import io.vertx.up.log.internal.BridgeAnnal;
+import io.vertx.up.log.internal.Log4JAnnal;
+import io.vertx.up.uca.cache.Cc;
+
+import java.util.Objects;
 
 /**
  * Unite Logging system connect to vert.x, io.vertx.zero.io.vertx.zero.io.vertx.up.io.vertx.up.io.vertx.up.util kit of Vertx-Zero
  */
 public interface Annal {
 
+    Cc<Class<?>, Annal> CC_ANNAL = Cc.open();
+    Cc<Integer, Annal> CC_ANNAL_INTERNAL = Cc.open();
+
     static Annal get(final Class<?> clazz) {
-        return new BridgeAnnal(clazz);
+        final Class<?> cacheKey = Objects.isNull(clazz) ? Log4JAnnal.class : clazz;
+        return CC_ANNAL.pick(() -> new BridgeAnnal(clazz), cacheKey);
     }
 
-    /*
-     * Re-invoked logging for executing, here are logger sure to
-     * Avoid Null Pointer exception
-     */
-    static <T> void sure(final Annal logger, final Actuator actuator) {
-        if (null != logger) {
-            actuator.execute();
-        }
-    }
 
-    void runtime(ZeroRunException ex);
+    // -------------- 异常专用日志方法
 
-    void checked(ZeroException ex);
+    void fatal(Throwable ex);
 
-    void jvm(Throwable ex);
-
+    // -------------- 通用日志方法
     void warn(String key, Object... args);
 
     void error(String key, Object... args);

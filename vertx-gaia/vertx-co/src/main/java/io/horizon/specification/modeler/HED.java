@@ -50,8 +50,6 @@ class T {
 
     static String generate(final String className, final int length) {
         final KPair pair = Ut.randomRsa(length);
-        // PUBLIC_KEY
-        final StringBuilder content = new StringBuilder();
         // PRIVATE_KEY
         final List<String> source = new ArrayList<>();
         source.add("package cn.vertxup.uca.extension;");

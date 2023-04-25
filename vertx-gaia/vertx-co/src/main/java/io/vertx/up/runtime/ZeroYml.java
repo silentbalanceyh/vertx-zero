@@ -1,4 +1,4 @@
-package io.horizon.eon;
+package io.vertx.up.runtime;
 
 /**
  * 重新规划配置部分专用，针对文件部分形成梯度配置键值，完成类似 YAML 结构的配置文件
@@ -42,6 +42,7 @@ public interface ZeroYml {
     }
 
     interface inject {
+        String V = _inject;
 
         String mongo = "mongo";
 

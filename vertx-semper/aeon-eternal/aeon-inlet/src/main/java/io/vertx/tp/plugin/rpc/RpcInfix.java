@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.rpc;
 
-import io.horizon.eon.ZeroYml;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.cache.Cc;
 
 /**

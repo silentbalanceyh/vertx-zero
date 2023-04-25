@@ -13,7 +13,7 @@ import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.experiment.specification.KColumn;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -81,7 +81,7 @@ class IxDao {
         CONFIG_MAP.put(config.getName(), config);
         ALIAS_MAP.put(identifier, config.getName());
         /* 5. Logger */
-        if (Debugger.devDaoBind()) {
+        if (DevEnv.devDaoBind()) {
             Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
         }
     }

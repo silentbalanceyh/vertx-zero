@@ -41,7 +41,7 @@ public abstract class AbstractExIn implements ExIn {
             /* Cell value extraction based on shape */
             result = ExValue.getValue(dataCell, type, this.evaluator);
         } catch (final Throwable ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             // For debug
             ex.printStackTrace();
             result = null;

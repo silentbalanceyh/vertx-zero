@@ -217,7 +217,7 @@ final class Stream {
                     return null; // Jar Error
                 }
             } catch (final IOException e) {
-                Log.jvm(LOGGER, e);
+                Log.fatal(Stream.class, e);
                 return null;
             }
         }, filename);
@@ -283,7 +283,7 @@ final class Stream {
 
     private static void ioDebug(final Actuator executor) {
         /* 底层防止循环调用，此处不走 DiagnosisOption */
-        final boolean ioDebug = Env.readBool(Macrocosm.DEV_IO);
+        final boolean ioDebug = Ut.envWith(Macrocosm.DEV_IO, Boolean.FALSE, Boolean.class);
         if (ioDebug) {
             executor.execute();
         }

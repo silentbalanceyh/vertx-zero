@@ -17,12 +17,14 @@ final class Wide {
     }
 
     /*
-     * Workflow:
+     * 串行编排器，Workflow:
      * -> Input:        T
      * -> Index 0:      T -> Future<T>
      * -> Index 1:      T -> Future<T>
      * -> ...
      * -> Output:       Future<T>
+     * 整体流程：input -> executor1 -> executor2 -> output
+     * 执行流程中函数输入输出不发生任何变化，都是 T
      */
     @SuppressWarnings("all")
     static <T> Future<T> passion(final T input, final List<Function<T, Future<T>>> executors) {
@@ -37,12 +39,15 @@ final class Wide {
     }
 
     /*
-     * Workflow:
+     * 并行编排器，Workflow，返回值为输入
      * -> Input:        T
      * -> T -> Future<T>
      *    T -> Future<T>
      *    ...
      * -> Output:       T ( Input )
+     * 整体流程：input -> executor1  ->  output
+     *                -> executor2
+     *
      */
     @SuppressWarnings("all")
     static <T> Future<T> parallel(final T input, final Set<Function<T, Future<T>>> executors) {

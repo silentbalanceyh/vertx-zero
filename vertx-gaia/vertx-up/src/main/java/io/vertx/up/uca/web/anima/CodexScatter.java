@@ -34,7 +34,7 @@ public class CodexScatter implements Scatter<Vertx> {
                     // ZeroCodex.getCodex().put(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
                 }
             } catch (final EmptyStreamException ex) {
-                LOGGER.runtime(ex);
+                LOGGER.fatal(ex);
             }
         }
     }

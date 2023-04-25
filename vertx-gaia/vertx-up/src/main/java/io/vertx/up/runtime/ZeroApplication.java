@@ -93,7 +93,7 @@ public abstract class ZeroApplication {
             .onFailure(error -> {
                 // Error Happened
                 error.printStackTrace();
-                this.logger().jvm(error);
+                this.logger().fatal(error);
             });
     }
 

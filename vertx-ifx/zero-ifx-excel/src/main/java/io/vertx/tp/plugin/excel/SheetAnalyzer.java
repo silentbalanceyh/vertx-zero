@@ -8,7 +8,7 @@ import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;
 
@@ -40,7 +40,7 @@ public class SheetAnalyzer implements Serializable {
      * Scan sheet to find all the data and definition part
      */
     public Set<ExTable> analyzed(final ExBound bound, final TypeAtom typeAtom) {
-        if (Debugger.devExcelRange()) {
+        if (DevEnv.devExcelRange()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
         try {
@@ -63,7 +63,7 @@ public class SheetAnalyzer implements Serializable {
             });
             /* analyzedBounds */
             if (!tableCell.isEmpty()) {
-                if (Debugger.devExcelRange()) {
+                if (DevEnv.devExcelRange()) {
                     LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
                         this.sheet.getSheetName(), String.valueOf(tableCell.size()));
                 }
@@ -81,7 +81,7 @@ public class SheetAnalyzer implements Serializable {
             }
             return tables;
         } catch (final Throwable ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             return new HashSet<>();
         }
     }

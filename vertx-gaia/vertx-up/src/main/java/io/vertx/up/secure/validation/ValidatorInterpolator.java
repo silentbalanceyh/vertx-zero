@@ -74,7 +74,7 @@ public class ValidatorInterpolator extends ValidatorMessager {
                 }
             } catch (final Throwable var6) {
                 //throw LOG.getUnableToInitializeELExpressionFactoryException(var6);
-                LOGGER.jvm(var6);
+                LOGGER.fatal(var6);
                 throw var6;
             } finally {
                 run(SetContextClassLoader.action(originalContextClassLoader));

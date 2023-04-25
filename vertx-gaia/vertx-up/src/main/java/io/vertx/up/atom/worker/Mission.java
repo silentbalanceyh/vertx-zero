@@ -20,7 +20,7 @@ import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -301,7 +301,7 @@ public class Mission implements Serializable {
                     this.outcomeAddress = null;
                 }
             }
-            if (Debugger.devJobBoot()) {
+            if (DevEnv.devJobBoot()) {
                 LOGGER.info(VMessage.MISSION_JOB_OFF, this.getCode());
             }
         }

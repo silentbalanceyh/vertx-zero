@@ -69,7 +69,7 @@ public final class Runner {
             try {
                 item.join();
             } catch (final InterruptedException ex) {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
             }
         });
         for (final MeanThread<T> meanThread : meanThreads) {

@@ -109,7 +109,7 @@ public class HCatena implements Serializable {
         // Build Cache Key Based on `sigma / code`
         final String sigma = Ut.valueString(requestJ, KName.SIGMA);
         final String code = Ut.valueString(requestJ, KName.CODE);
-        Ut.notNull(sigma, code);
+        Ut.checkNull(sigma, code);
         // Store KApp information
         return H3H.CC_PERMIT.pick(() -> permit(requestJ), sigma + Strings.SLASH + code);
     }

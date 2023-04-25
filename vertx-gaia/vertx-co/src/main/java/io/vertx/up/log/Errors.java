@@ -1,9 +1,9 @@
 package io.vertx.up.log;
 
-import io.horizon.eon.ZeroYml;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.heart.ErrorMissingException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
 
 import java.text.MessageFormat;

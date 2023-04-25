@@ -1,6 +1,5 @@
 package io.vertx.tp.plugin.redis;
 
-import io.horizon.eon.ZeroYml;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Redis;
@@ -9,6 +8,7 @@ import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.util.Ut;
 import redis.clients.jedis.Jedis;
 
@@ -62,7 +62,7 @@ public class RedisInfix implements Infix {
             } else {
                 final Throwable ex = handler.cause();
                 if (Objects.nonNull(ex)) {
-                    LOGGER.jvm(ex);
+                    LOGGER.fatal(ex);
                 }
                 CLIENTS.remove(name);
             }
@@ -92,7 +92,7 @@ public class RedisInfix implements Infix {
                 client.ping();
                 CLIENTS_SYNC.put(name, client);
             } catch (final Throwable ex) {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
             }
         }
         return options;

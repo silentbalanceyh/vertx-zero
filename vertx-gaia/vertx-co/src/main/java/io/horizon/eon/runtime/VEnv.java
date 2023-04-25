@@ -8,8 +8,6 @@ public interface VEnv {
     interface APP {
         // Modeler Namespace of DEFAULT
         String NS = "cn.originx.{0}";
-        // Job Namespace
-        String NS_JOB = "zero.vertx.jobs";
     }
 
     interface PROP {

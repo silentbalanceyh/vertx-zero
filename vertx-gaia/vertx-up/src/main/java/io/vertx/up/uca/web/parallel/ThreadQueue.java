@@ -29,7 +29,7 @@ public class ThreadQueue {
         try {
             this.counter.await();
         } catch (final InterruptedException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
         }
     }
 

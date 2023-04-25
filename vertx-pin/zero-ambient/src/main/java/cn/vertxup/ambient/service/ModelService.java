@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.environment.Modeling;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -54,14 +54,14 @@ public class ModelService implements ModelStub {
     private Future<JsonObject> fetchModule(final JsonObject condition, final Supplier<Future<JsonObject>> executor) {
         final String appId = condition.getString("appId");
         final String entry = condition.getString("entry");
-        if (Ut.isNilOr(appId, entry)) {
+        if (Ut.isNil(appId, entry)) {
             return Ux.futureJ();
         } else {
             final String cacheKey = appId + ":" + entry;
             /*
              * Ui Cache Enabled for this processing
              */
-            if (Debugger.cacheUi()) {
+            if (DevEnv.cacheUi()) {
                 // Cache enabled
                 final JsonObject cachedData = CACHE_MODULE.getOrDefault(cacheKey, null);
                 if (Objects.isNull(cachedData)) {

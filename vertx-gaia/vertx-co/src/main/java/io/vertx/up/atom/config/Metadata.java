@@ -69,7 +69,7 @@ public class Metadata implements Serializable {
             try {
                 return Ut.ioJObject(path);
             } catch (final Throwable ex) {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 return new JsonObject();
             }
         }

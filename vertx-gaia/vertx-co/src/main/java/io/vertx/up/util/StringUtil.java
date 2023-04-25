@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import org.apache.commons.jexl3.*;
 
 import java.util.*;
@@ -260,7 +260,7 @@ final class StringUtil {
             }
         } catch (final JexlException ex) {
             // ex.printStackTrace();    // For Debug
-            if (Debugger.devJvmStack()) {
+            if (DevEnv.devJvmStack()) {
                 ex.printStackTrace();
             }
             return null;                // Get null
@@ -296,7 +296,7 @@ final class StringUtil {
         return null == input || 0 == input.trim().length();
     }
 
-    static boolean isNilOr(final String... inputs) {
+    static boolean isNil(final String... inputs) {
         final long counter = Arrays.stream(inputs).filter(StringUtil::isNil).count();
         return counter != 0L;
     }

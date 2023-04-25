@@ -6,7 +6,7 @@ import io.horizon.fn.Actuator;
 import io.horizon.fn.ExceptionSupplier;
 import io.horizon.fn.ZeroActuator;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.net.ConnectException;
@@ -48,7 +48,7 @@ final class Zero {
                 ret = supplier.get();
             }
         } catch (final ZeroException ex) {
-            Zero.LOGGER.checked(ex);
+            Zero.LOGGER.fatal(ex);
             // TODO: Debug Trace for JVM
             ex.printStackTrace();
         } catch (final ZeroRunException ex) {
@@ -62,11 +62,11 @@ final class Zero {
              * Others here.
              */
             if (!(ex instanceof ConnectException)) {
-                Zero.LOGGER.jvm(ex);
+                Zero.LOGGER.fatal(ex);
             }
             if (!(ex instanceof DateTimeParseException)) {
                 // TODO: Debug Trace for JVM
-                if (Debugger.devJvmStack()) {
+                if (DevEnv.devJvmStack()) {
                     ex.printStackTrace();
                 }
             }

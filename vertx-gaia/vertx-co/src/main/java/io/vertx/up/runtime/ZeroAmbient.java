@@ -17,8 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang
  */
 public final class ZeroAmbient {
-
-    private static final String KEY = "inject";
+    private static final String KEY = ZeroYml.inject.V;
     /**
      * Avoid dead lock, use internal Log only.
      **/

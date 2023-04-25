@@ -1,6 +1,5 @@
 package io.vertx.tp.plugin.jooq;
 
-import io.horizon.eon.ZeroYml;
 import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
@@ -9,6 +8,7 @@ import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 

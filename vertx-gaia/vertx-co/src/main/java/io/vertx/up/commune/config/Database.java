@@ -82,7 +82,7 @@ public class Database implements Serializable, TJson, TCopy<Database> {
         } catch (final SQLException ex) {
             // Debug for database connection
             ex.printStackTrace();
-            Database.LOGGER.jvm(ex);
+            Database.LOGGER.fatal(ex);
             return false;
         }
     }

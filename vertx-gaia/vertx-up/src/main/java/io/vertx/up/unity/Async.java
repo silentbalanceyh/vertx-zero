@@ -117,7 +117,7 @@ class Async {
                 () -> future.complete(new JsonObject()),
                 () -> future.complete(To.toJObject(item, pojo))
             )).exceptionally((ex) -> {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 future.fail(ex);
                 return null;
             }));
@@ -137,7 +137,7 @@ class Async {
                 () -> future.complete(new JsonArray()),
                 () -> future.complete(To.toJArray(item, pojo))
             )).exceptionally((ex) -> {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 future.fail(ex);
                 return null;
             }));
