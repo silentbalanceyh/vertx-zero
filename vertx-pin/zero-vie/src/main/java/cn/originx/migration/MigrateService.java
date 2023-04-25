@@ -26,7 +26,7 @@ public class MigrateService implements Migrate {
     private Future<JsonObject> timerAsync(final JsonObject config, final long start) {
         final long end = System.nanoTime();
         final long ms = (end - start) / 1000 / 1000;
-        Ox.Log.infoShell(this.getClass(), "合计消耗时间：{0} ms", String.valueOf(ms));
+        Ox.LOG.infoShell(this.getClass(), "合计消耗时间：{0} ms", String.valueOf(ms));
         return Ux.future(config);
     }
 

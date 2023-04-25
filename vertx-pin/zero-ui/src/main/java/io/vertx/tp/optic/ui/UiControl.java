@@ -1,6 +1,6 @@
 package io.vertx.tp.optic.ui;
 
-import io.horizon.specification.cloud.action.HCombiner;
+import io.horizon.cloud.action.HCombiner;
 import io.vertx.core.json.JsonObject;
 
 /*

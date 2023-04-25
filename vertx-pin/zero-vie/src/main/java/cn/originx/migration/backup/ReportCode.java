@@ -36,7 +36,7 @@ public class ReportCode extends AbstractStep {
             filters.put(KName.CODE + ",n", Boolean.TRUE);
             return dao.fetchAsync(filters).compose(Ux::futureA);
         }).compose(ready -> {
-            Ox.Log.infoShell(this.getClass(), "非法数据数量：{0}", String.valueOf(ready.size()));
+            Ox.LOG.infoShell(this.getClass(), "非法数据数量：{0}", String.valueOf(ready.size()));
             this.report(ready);
             /*
              * 处理结构
@@ -61,7 +61,7 @@ public class ReportCode extends AbstractStep {
                 content.append(item.getString("confirmStatus")).append(width);
                 content.append(item.getString("lifecycle")).append("\n");
             });
-            Ox.Log.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
+            Ox.LOG.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
         }
     }
 }

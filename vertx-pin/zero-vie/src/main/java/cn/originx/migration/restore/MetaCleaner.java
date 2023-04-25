@@ -44,7 +44,7 @@ public class MetaCleaner extends AbstractStatic {
             /*
              * 执行
              */
-            Ox.Log.infoShell(this.getClass(), "表数据清除完成，数量：{0}", String.valueOf(tables.size()));
+            Ox.LOG.infoShell(this.getClass(), "表数据清除完成，数量：{0}", String.valueOf(tables.size()));
             return Ux.future(config);
         });
     }

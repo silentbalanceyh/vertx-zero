@@ -4,7 +4,7 @@ import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.power.KTenant;
 import io.horizon.eon.em.cloud.ModeApp;
-import io.horizon.specification.cloud.app.HET;
+import io.horizon.cloud.app.HET;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;

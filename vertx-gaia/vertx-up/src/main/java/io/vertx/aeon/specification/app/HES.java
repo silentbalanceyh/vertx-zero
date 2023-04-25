@@ -3,7 +3,7 @@ package io.vertx.aeon.specification.app;
 import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.runtime.H3H;
-import io.horizon.specification.cloud.app.HET;
+import io.horizon.cloud.app.HET;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

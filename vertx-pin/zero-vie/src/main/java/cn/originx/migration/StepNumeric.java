@@ -27,7 +27,7 @@ public class StepNumeric extends AbstractStep {
     @Override
     public Future<JsonObject> procAsync(final JsonObject config) {
 
-        Ox.Log.infoShell(this.getClass(), "执行 Number 还原");
+        Ox.LOG.infoShell(this.getClass(), "执行 Number 还原");
         return Ux.future(config)
             /* 001 - 容器环境初始化 */
             .compose(Actor.environment(this.environment).bind(this.app)::procAsync)

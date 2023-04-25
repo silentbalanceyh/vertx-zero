@@ -401,7 +401,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      */
     protected <T> Future<T> transferFailure() {
         final WebException error = new _501NotSupportException(this.getClass());
-        Ox.Log.infoPlugin(this.getClass(), "[ Plugin ] Do not support api: {0}", error.getMessage());
+        Ox.LOG.infoPlugin(this.getClass(), "[ Plugin ] Do not support api: {0}", error.getMessage());
         return Future.failedFuture(error);
     }
 

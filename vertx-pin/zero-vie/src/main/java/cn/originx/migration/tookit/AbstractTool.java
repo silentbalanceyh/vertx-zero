@@ -39,7 +39,7 @@ public abstract class AbstractTool extends AbstractStep {
         final String targetFolder = root + "backup/" + folder + "/" + this.folder + "/" + table;
         final boolean created = Ut.ioOut(targetFolder);
         if (created) {
-            Ox.Log.infoShell(this.getClass(), "目录创建结果：{0}, 目录：{1}",
+            Ox.LOG.infoShell(this.getClass(), "目录创建结果：{0}, 目录：{1}",
                 created, targetFolder);
         }
         return targetFolder;
@@ -87,7 +87,7 @@ public abstract class AbstractTool extends AbstractStep {
          * 写入文件
          */
         final JsonArray result = Ut.valueJArray(data.getJsonArray("list"));
-        Ox.Log.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
+        Ox.LOG.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
             String.valueOf(result.size()), file, String.valueOf(page));
         Ut.ioOutCompress(file, result);
         return Ux.future(data);

@@ -27,13 +27,13 @@ public class KeyIndent implements Identifier {
         final JsonObject data = Ut.valueJObject(input.getJsonObject(KName.DATA));
         final String hitKey = this.key(data, config);
         if (Ut.isNil(data) || Ut.isNil(hitKey)) {
-            Ox.Log.warnPlugin(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",
+            Ox.LOG.warnPlugin(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",
                 data.encode(), config.encode());
             return Ux.future(null);
         } else {
             return Ux.Jooq.on(XCategoryDao.class).<XCategory>fetchByIdAsync(hitKey).compose(category -> {
                 final String identifier = this.identifier(category);
-                Ox.Log.infoPlugin(this.getClass(), "标识选择：key = `{0}`, identifier = `{1}`, data = `{2}`",
+                Ox.LOG.infoPlugin(this.getClass(), "标识选择：key = `{0}`, identifier = `{1}`, data = `{2}`",
                     hitKey, identifier, data.encode());
                 return Ux.future(identifier);
             });
@@ -46,7 +46,7 @@ public class KeyIndent implements Identifier {
         if (Ut.isNil(dataArray)) {
             return Ux.future(new ConcurrentHashMap<>());
         } else {
-            Ox.Log.infoPlugin(this.getClass(), "标识选择输入数据（批量）：data = `{0}`", dataArray.encode());
+            Ox.LOG.infoPlugin(this.getClass(), "标识选择输入数据（批量）：data = `{0}`", dataArray.encode());
             final ConcurrentMap<String, JsonArray> sourceMap = Ut.elementGroup(dataArray, (json) -> this.key(json, config));
             // `key` field collect into array
             final JsonArray values = Ut.toJArray(sourceMap.keySet());

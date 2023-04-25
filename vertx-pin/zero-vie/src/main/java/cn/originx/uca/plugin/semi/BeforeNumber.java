@@ -37,7 +37,7 @@ public class BeforeNumber implements BeforePlugin {
 
         // Code 没有，执行编号生成
         return this.numberAsync(config).compose(number -> {
-            Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
+            Ox.LOG.infoHub(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
             return Ux.future(record.put(fieldName, number));
         });
     }
@@ -79,7 +79,7 @@ public class BeforeNumber implements BeforePlugin {
         }
         // 根据数量生成序号
         return this.numberAsync(config, fields.size()).compose(numberQueue -> {
-            Ox.Log.infoHub(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
+            Ox.LOG.infoHub(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
             Ut.itJArray(records).forEach(record -> {
                 // 双重检查，为没有 field 值的记录填充序号
                 final String fieldName = this.beforeField(record, config);

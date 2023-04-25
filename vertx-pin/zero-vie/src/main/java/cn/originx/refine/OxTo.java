@@ -40,7 +40,7 @@ final class OxTo {
     static DataAtom toAtom(final String key, final String identifier) {
         final JtApp app = Ambient.getApp(key);
         if (Objects.isNull(app)) {
-            Ox.Log.warnUca(OxTo.class, "应用为空！key = {0}, identifier = {1}", key, identifier);
+            Ox.LOG.warnUca(OxTo.class, "应用为空！key = {0}, identifier = {1}", key, identifier);
             return null;
         } else {
             final String appName = app.getName();
@@ -82,7 +82,7 @@ final class OxTo {
                 globalIds.add(item.getString(KName.GLOBAL_ID));
                 return item;
             } else {
-                Ox.Log.warnUca(OxTo.class, "忽略记录：key = {0}, id = {1}, data = {2}",
+                Ox.LOG.warnUca(OxTo.class, "忽略记录：key = {0}, id = {1}, data = {2}",
                     item.getString(KName.KEY), item.getString(KName.GLOBAL_ID), item.encode());
                 return null;
             }

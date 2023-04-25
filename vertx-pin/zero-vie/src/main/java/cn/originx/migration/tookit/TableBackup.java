@@ -47,7 +47,7 @@ public class TableBackup extends AbstractStatic {
             /*
              * 表数据和参数
              */
-            Ox.Log.infoShell(this.getClass(), "访问表：{0}, 条件：{1}",
+            Ox.LOG.infoShell(this.getClass(), "访问表：{0}, 条件：{1}",
                 this.jooq.table(), condition.encode());
             return this.jooq.searchAsync(condition)
                 .compose(data -> this.ioAsync(data, config, eachPage.getPage()));

@@ -121,7 +121,7 @@ public class Arms {
                 /*
                  * 处理不同类型的数据
                  */
-                Ox.Log.infoReport(this.getClass(), map);
+                Ox.LOG.infoReport(this.getClass(), map);
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 /*
                  * 只执行操作类型

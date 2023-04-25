@@ -2,7 +2,7 @@ package io.vertx.up.fn;
 
 import io.aeon.runtime.H3H;
 import io.horizon.eon.em.Result;
-import io.horizon.specification.cloud.action.HCombiner;
+import io.horizon.cloud.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

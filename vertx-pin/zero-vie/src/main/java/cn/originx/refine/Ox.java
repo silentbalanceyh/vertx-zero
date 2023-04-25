@@ -24,6 +24,8 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogExtension;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -61,6 +63,23 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("all")
 public final class Ox {
+    /**
+     * ## 日志器
+     *
+     * ### 1. 基本介绍
+     *
+     * Ox平台专用内部日志器，外部日志器。
+     *
+     * ### 2. 日志器种类
+     *
+     * - Atom模型日志器
+     * - UCA日志器
+     * - Shell日志器
+     * - 插件Plugin日志器
+     * - Hub总线日志器
+     * - Web流程日志器
+     * - 状态日志器
+     */
     private static ConcurrentMap<Class<?>, String> NUM_MAP = new ConcurrentHashMap<Class<?>, String>() {
         {
             this.put(XActivity.class, "NUM.ACTIVITY");
@@ -602,7 +621,6 @@ public final class Ox {
         return OxTo.toLinker(source);
     }
 
-
     /**
      * 构造比对报表
      *
@@ -708,11 +726,10 @@ public final class Ox {
      */
     public static <T> Function<T[], Future<T[]>> toArray(final Class<?> clazz) {
         return result -> {
-            Log.infoUca(clazz, "结果数组数量：{0}", result.length);
+            LOG.infoUca(clazz, "结果数组数量：{0}", result.length);
             return Ux.future(result);
         };
     }
-
 
     /**
      * 为记录主键赋值，内置调用`UUID.randomUUID().toString()`。
@@ -837,24 +854,17 @@ public final class Ox {
         }
     }
 
-    /**
-     * ## 日志器
-     *
-     * ### 1. 基本介绍
-     *
-     * Ox平台专用内部日志器，外部日志器。
-     *
-     * ### 2. 日志器种类
-     *
-     * - Atom模型日志器
-     * - UCA日志器
-     * - Shell日志器
-     * - 插件Plugin日志器
-     * - Hub总线日志器
-     * - Web流程日志器
-     * - 状态日志器
-     */
-    public interface Log {
+    public interface LOG {
+
+        String MODULE = "Προέλευση Χ";
+
+        LogExtension Atom = Log.extension(MODULE).configure("Atom");
+        LogExtension Uca = Log.extension(MODULE).configure("Uca");
+        LogExtension Hub = Log.extension(MODULE).configure("Hub");
+        LogExtension Shell = Log.extension(MODULE).configure("Shell");
+        LogExtension Plugin = Log.extension(MODULE).configure("Plugin");
+        LogExtension Web = Log.extension(MODULE).configure("Web");
+        LogExtension CRT = Log.extension(MODULE).configure("CRT");
 
         /**
          * Info级别，模型日志器

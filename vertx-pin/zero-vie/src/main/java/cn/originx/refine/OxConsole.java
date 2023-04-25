@@ -81,7 +81,7 @@ final class OxConsole {
                 System.err.println(content.replaceAll("at ", "\n\tat "));
             }
         } catch (final Exception ex) {
-            Ox.Log.warnShell(LOGGER, "执行出错！ex = {0}", ex.getMessage());
+            Ox.LOG.warnShell(LOGGER, "执行出错！ex = {0}", ex.getMessage());
         }
     }
 }

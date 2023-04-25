@@ -54,7 +54,7 @@ public class MetaLimit extends AbstractStep {
             /* MAttribute 修正 */
             .compose(this::procAttributes)
             .compose(adjust -> {
-                Ox.Log.infoShell(this.getClass(), "数据修正成功完成！Successfully");
+                Ox.LOG.infoShell(this.getClass(), "数据修正成功完成！Successfully");
                 return Ux.future(config);
             });
     }

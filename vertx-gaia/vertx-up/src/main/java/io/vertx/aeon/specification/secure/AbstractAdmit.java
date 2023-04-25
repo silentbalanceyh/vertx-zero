@@ -2,7 +2,7 @@ package io.vertx.aeon.specification.secure;
 
 import io.aeon.atom.secure.HPermit;
 import io.aeon.atom.secure.Hoi;
-import io.horizon.specification.cloud.secure.HAdmit;
+import io.horizon.cloud.secure.HAdmit;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.aeon.specification.app.HES;
 import io.vertx.core.Future;

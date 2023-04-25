@@ -32,7 +32,7 @@ public class ReportNumber extends AbstractStep {
          */
         this.banner("002.1. 执行 Number 报表");
         if (Objects.isNull(this.app)) {
-            Ox.Log.infoShell(this.getClass(), "无法读取应用信息！");
+            Ox.LOG.infoShell(this.getClass(), "无法读取应用信息！");
             return Ux.future(config);
         } else {
             return Ux.Jooq.on(XNumberDao.class).<XNumber>fetchAsync(KName.SIGMA, this.app.getSigma())
@@ -73,7 +73,7 @@ public class ReportNumber extends AbstractStep {
 
     private Future<JsonObject> procAsync(final XNumber number) {
         final String identifier = number.getIdentifier();
-        Ox.Log.infoShell(this.getClass(), "读取该标识下所有序号：identifier = {0}", identifier);
+        Ox.LOG.infoShell(this.getClass(), "读取该标识下所有序号：identifier = {0}", identifier);
         final HDao dao = this.ioDao(identifier);
 
         return dao.fetchAllAsync().compose(Ux::futureA).compose(records -> {
@@ -95,7 +95,7 @@ public class ReportNumber extends AbstractStep {
                  */
                 final String[] codes = code.split("-");
                 final Integer codeNum = Integer.parseInt(codes[codes.length - 1]);
-                Ox.Log.infoShell(this.getClass(), "序号标识：{0}，当前值：{1}, 实际值：{2}",
+                Ox.LOG.infoShell(this.getClass(), "序号标识：{0}，当前值：{1}, 实际值：{2}",
                     number.getIdentifier(), String.valueOf(number.getCurrent()), String.valueOf(codeNum));
                 /*
                  * 结果

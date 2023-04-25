@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.ruler;
 import io.aeon.atom.secure.HCatena;
 import io.aeon.atom.secure.HPermit;
 import io.aeon.atom.secure.HSemi;
-import io.horizon.specification.cloud.secure.HValve;
+import io.horizon.cloud.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

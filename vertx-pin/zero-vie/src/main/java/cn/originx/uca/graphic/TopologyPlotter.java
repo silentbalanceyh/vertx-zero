@@ -62,7 +62,7 @@ public class TopologyPlotter extends AbstractPlotter {
         final String recordId, final String relationId,
         final Supplier<Future<JsonObject>> consumer) {
         if (Ut.isNil(recordId) || Ut.isNil(relationId)) {
-            Ox.Log.warnUca(this.getClass(), "传入模型ID有问题：node = {0}, edge = {1}",
+            Ox.LOG.warnUca(this.getClass(), "传入模型ID有问题：node = {0}, edge = {1}",
                 recordId, relationId);
             return Ux.future(new JsonObject());
         } else {

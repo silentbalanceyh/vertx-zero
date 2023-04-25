@@ -39,7 +39,7 @@ public abstract class AbstractRevision implements Revision {
     @Override
     public Future<ConcurrentMap<String, JsonObject>> captureAsync(final ConcurrentMap<String, String> keyMap) {
         final ConcurrentMap<String, JsonObject> resultMap = new ConcurrentHashMap<>();
-        Ox.Log.infoShell(this.getClass(), "修正总数量：{0}", String.valueOf(keyMap.size()));
+        Ox.LOG.infoShell(this.getClass(), "修正总数量：{0}", String.valueOf(keyMap.size()));
         keyMap.forEach((key, field) -> {
             /*
              * Build JsonObject
@@ -49,7 +49,7 @@ public abstract class AbstractRevision implements Revision {
             metadata.put("deletion", !this.deletion.contains(field));
             metadata.put("visible", !this.visible.contains(field));
             metadata.put("relation", !this.relation.contains(field));
-            Ox.Log.infoShell(this.getClass(), "修正数据：{0}, metadata: {1}", field, metadata.encode());
+            Ox.LOG.infoShell(this.getClass(), "修正数据：{0}, metadata: {1}", field, metadata.encode());
             resultMap.put(key, metadata);
         });
         return Ux.future(resultMap);

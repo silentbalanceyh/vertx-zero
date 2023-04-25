@@ -1,7 +1,7 @@
 package io.vertx.up.uca.fs;
 
 import io.aeon.refine.HLog;
-import io.horizon.specification.cloud.app.HFS;
+import io.horizon.cloud.app.HFS;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.commons.io.FileUtils;

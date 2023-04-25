@@ -17,7 +17,7 @@ public class MetaLoader extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         this.banner("002.2. 配置升级");
         return Bt.loadAsync("init/oob/").compose(nil -> {
-            Ox.Log.infoShell(this.getClass(), "新配置已经成功导入到系统！Successfully");
+            Ox.LOG.infoShell(this.getClass(), "新配置已经成功导入到系统！Successfully");
             return Ux.future(config);
         });
     }

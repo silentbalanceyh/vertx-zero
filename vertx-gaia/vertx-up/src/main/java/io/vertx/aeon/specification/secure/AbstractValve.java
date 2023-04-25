@@ -6,7 +6,7 @@ import io.aeon.atom.secure.HSemi;
 import io.horizon.eon.em.cloud.ScDim;
 import io.horizon.eon.em.cloud.ScIn;
 import io.horizon.eon.em.secure.ActPhase;
-import io.horizon.specification.cloud.secure.HValve;
+import io.horizon.cloud.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.web._409UiPhaseEagerException;

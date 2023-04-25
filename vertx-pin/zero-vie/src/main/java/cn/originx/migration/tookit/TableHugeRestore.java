@@ -31,7 +31,7 @@ public class TableHugeRestore extends AbstractStatic {
          */
         final String file = targetFolder + "/" + this.jooq.table() + ".sql";
         final boolean done = this.restoreTo(file);
-        Ox.Log.infoShell(this.getClass(), "数据还原文件：{0}，执行结果：{1}",
+        Ox.LOG.infoShell(this.getClass(), "数据还原文件：{0}，执行结果：{1}",
             file, done);
         return Ux.future(config);
     }
@@ -49,7 +49,7 @@ public class TableHugeRestore extends AbstractStatic {
             final File fileObj = Ut.ioFile(file);
             final BasicFileAttributes fileAttributes = Files.readAttributes(fileObj.toPath(), BasicFileAttributes.class);
             if (fileObj.exists() && fileAttributes.isRegularFile()) {
-                Ox.Log.infoShell(this.getClass(), "文件名：{2}，执行命令：{0}，" +
+                Ox.LOG.infoShell(this.getClass(), "文件名：{2}，执行命令：{0}，" +
                         "文件长度：{1} MB",
                     cmd.toString(), String.valueOf(fileAttributes.size() / 1024 / 1024), file);
                 final Process process = Runtime.getRuntime().exec(cmd.toString());
@@ -63,11 +63,11 @@ public class TableHugeRestore extends AbstractStatic {
                 final long end = System.nanoTime();
                 /* 纳秒 -> 毫秒 */
                 final long spend = (end - start) / 1000 / 1000;
-                Ox.Log.infoShell(this.getClass(), "执行完成，耗时 {0} ms！ Successfully",
+                Ox.LOG.infoShell(this.getClass(), "执行完成，耗时 {0} ms！ Successfully",
                     String.valueOf(spend));
                 return true;
             } else {
-                Ox.Log.infoShell(this.getClass(), "文件不存在！file = {0}", file);
+                Ox.LOG.infoShell(this.getClass(), "文件不存在！file = {0}", file);
                 return false;
             }
         });

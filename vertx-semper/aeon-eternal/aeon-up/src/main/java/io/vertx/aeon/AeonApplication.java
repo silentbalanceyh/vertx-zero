@@ -6,7 +6,7 @@ import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
 import io.aeon.exception.heart.AeonConfigureException;
 import io.aeon.exception.heart.AeonEnvironmentException;
-import io.horizon.specification.cloud.boot.HOn;
+import io.horizon.cloud.boot.HOn;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;

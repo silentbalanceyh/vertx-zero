@@ -4,7 +4,7 @@ import io.aeon.atom.secure.HPermit;
 import io.aeon.atom.secure.HSemi;
 import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.power.KApp;
-import io.horizon.specification.cloud.action.HCombiner;
+import io.horizon.cloud.action.HCombiner;
 import io.vertx.up.uca.cache.Cc;
 
 /**

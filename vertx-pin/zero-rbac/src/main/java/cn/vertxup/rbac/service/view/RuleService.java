@@ -4,7 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.SPacketDao;
 import cn.vertxup.rbac.domain.tables.daos.SPathDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
-import io.horizon.specification.cloud.secure.HValve;
+import io.horizon.cloud.secure.HValve;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

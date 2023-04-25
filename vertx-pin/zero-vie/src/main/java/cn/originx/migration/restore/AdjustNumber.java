@@ -30,7 +30,7 @@ public class AdjustNumber extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         final String folder = this.ioRoot(config);
         final String file = folder + "report/numbers/data.json";
-        Ox.Log.infoShell(this.getClass(), "读取修正文件：{0}", file);
+        Ox.LOG.infoShell(this.getClass(), "读取修正文件：{0}", file);
         /*
          * 修正文件专用数据
          */
@@ -45,7 +45,7 @@ public class AdjustNumber extends AbstractStep {
             .filter(item -> Values.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
         return Fn.combineA(futures).compose(processed -> {
-            Ox.Log.infoShell(this.getClass(), "修正序号完成！");
+            Ox.LOG.infoShell(this.getClass(), "修正序号完成！");
             return Ux.future(config);
         });
     }
@@ -85,7 +85,7 @@ public class AdjustNumber extends AbstractStep {
                     content.append(Ut.fromAdjust(item.getInteger(ADJUST), 15, ' ')).append("\n");
                 }
             });
-            Ox.Log.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
+            Ox.LOG.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
         }
     }
 }

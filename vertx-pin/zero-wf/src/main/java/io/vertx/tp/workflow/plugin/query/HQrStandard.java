@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.plugin.query;
 
-import io.horizon.specification.cloud.query.HCond;
+import io.horizon.cloud.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.optic.business.ExUser;

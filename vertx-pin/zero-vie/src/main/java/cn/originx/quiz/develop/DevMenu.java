@@ -94,7 +94,7 @@ class DevMenu {
                                       final String root) {
         menuMap.forEach((role, data) -> {
             final String outFile = DevDefault.pathMenu(root, role);
-            Ox.Log.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
+            Ox.LOG.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
             final JsonObject dataRole = new JsonObject();
             dataRole.put(KName.NAME, data);
             Ut.ioOut(outFile, dataRole);

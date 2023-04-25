@@ -74,7 +74,7 @@ class DevReport {
             builder.append(outAttribute(attribute, refData));
         });
         builder.append("Attribute Size = ").append(treeSet.size()).append(Strings.NEW_LINE);
-        Ox.Log.infoAtom(DevReport.class, "\n" + builder);
+        Ox.LOG.infoAtom(DevReport.class, "\n" + builder);
     }
 
     private static String outAttribute(final HAttribute attribute, final KReference reference) {

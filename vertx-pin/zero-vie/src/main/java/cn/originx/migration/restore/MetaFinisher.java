@@ -25,7 +25,7 @@ public class MetaFinisher extends AbstractStep {
         this.banner("002.3. 重新建模");
         /* XApp */
         return Bt.loadAsync(Ao.Path.PATH_EXCEL + "schema/").compose(nil -> {
-            Ox.Log.infoShell(this.getClass(), "建模数据已经成功导入到系统！Successfully");
+            Ox.LOG.infoShell(this.getClass(), "建模数据已经成功导入到系统！Successfully");
             return Ux.future(config)
                 /* Meta 专用报表 */
                 .compose(this.report.bind(this.app)::procAsync)

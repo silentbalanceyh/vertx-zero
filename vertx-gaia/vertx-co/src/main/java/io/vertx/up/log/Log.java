@@ -33,6 +33,11 @@ public final class Log {
         return PREFIX + NORMAL + SEPARATOR + COLOR_GREEN + SUFFIX + "[ " + flag + " ] " + END_COLOUR;
     }
 
+    // -------------- 扩展日志
+    public static LogFactory extension(final String module) {
+        return LogFactory.create(module);
+    }
+
     // -------------- 快速日志，比如传入首参 Logger
     /*
      * 三种日志处理
@@ -65,7 +70,7 @@ public final class Log {
         annal.debug(message, args);
     }
 
-    private static <I> Annal logger(final I input) {
+    static <I> Annal logger(final I input) {
         if (input instanceof Logger) {
             Objects.requireNonNull(input);
             // 确保不重复创建

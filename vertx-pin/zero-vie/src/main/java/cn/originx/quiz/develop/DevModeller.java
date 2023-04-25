@@ -74,7 +74,7 @@ public class DevModeller {
             models.forEach(model -> {
                 final JsonObject modelJson = model.toJson();
                 final String resolved = this.output + "model/" + model.identifier() + Strings.DOT + FileSuffix.JSON;
-                Ox.Log.infoHub(this.getClass(), "Writing Model: {0} -> {1}", model.identifier(), resolved);
+                Ox.LOG.infoHub(this.getClass(), "Writing Model: {0} -> {1}", model.identifier(), resolved);
                 /*
                  * Flush data to output path
                  */
@@ -84,14 +84,14 @@ public class DevModeller {
             schemata.forEach(schema -> {
                 final JsonObject schemaJson = schema.toJson();
                 final String resolved = this.output + "schema/" + schema.identifier() + Strings.DOT + FileSuffix.JSON;
-                Ox.Log.infoHub(this.getClass(), "Writing Entity: {0} -> {1}", schema.identifier(), resolved);
+                Ox.LOG.infoHub(this.getClass(), "Writing Entity: {0} -> {1}", schema.identifier(), resolved);
                 Ut.ioOut(resolved, schemaJson);
             });
             /*
              * Timer end
              */
             timer.end(System.currentTimeMillis());
-            Ox.Log.infoHub(this.getClass(), "Successfully generation: {0}", timer.value());
+            Ox.LOG.infoHub(this.getClass(), "Successfully generation: {0}", timer.value());
             if (Objects.isNull(actuator)) {
                 System.exit(0);
             }
@@ -114,7 +114,7 @@ public class DevModeller {
              */
             final UxTimer timer = Ux.Timer.on().start(System.currentTimeMillis());
             stub.initModeling(app.getName(), this.output).compose(initialized -> {
-                Ox.Log.infoAtom(this.getClass(), "Modeling Environment has been initialized!");
+                Ox.LOG.infoAtom(this.getClass(), "Modeling Environment has been initialized!");
                 final MigrateStep step = new MetaLimit(Environment.Development);
                 return step.bind(app).procAsync(new JsonObject());
             }).onSuccess(result -> {
@@ -122,7 +122,7 @@ public class DevModeller {
                  * Timer end
                  */
                 timer.end(System.currentTimeMillis());
-                Ox.Log.infoAtom(this.getClass(), "Modeling Adjustment has been finished: {0}", timer.value());
+                Ox.LOG.infoAtom(this.getClass(), "Modeling Adjustment has been finished: {0}", timer.value());
                 if (Objects.isNull(actuator)) {
                     System.exit(0);
                 }
