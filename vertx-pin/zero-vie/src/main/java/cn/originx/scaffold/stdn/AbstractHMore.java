@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;

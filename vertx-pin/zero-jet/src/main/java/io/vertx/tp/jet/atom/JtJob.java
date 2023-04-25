@@ -8,7 +8,7 @@ import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.optic.environment.Ambient;
+import io.horizon.spi.environment.Ambient;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.util.Ut;
 

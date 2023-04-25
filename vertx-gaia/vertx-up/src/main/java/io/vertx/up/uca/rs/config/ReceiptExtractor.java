@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.config;
 
-import io.vertx.aeon.refine.AeonBridge;
+import io.aeon.refine.AeonBridge;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.fn.Fn;

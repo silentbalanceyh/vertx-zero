@@ -11,8 +11,8 @@ import io.vertx.tp.error._500EnvironmentException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
-import io.vertx.tp.optic.environment.Ambient;
-import io.vertx.tp.optic.environment.AmbientEnvironment;
+import io.horizon.spi.environment.Ambient;
+import io.horizon.spi.environment.AmbientEnvironment;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.job.plugin.JobClient;
@@ -28,7 +28,7 @@ public class AmbientService implements AmbientStub {
         /*
          * `io.vertx.tp.jet.atom.JtApp`
          * -- reference extracted from
-         *    `io.vertx.tp.optic.environment.Ambient`
+         *    `io.horizon.spi.environment.Ambient`
          */
         final String sigma = job.getSigma();
         final JtApp app = Ambient.getApp(sigma);
@@ -67,7 +67,7 @@ public class AmbientService implements AmbientStub {
         /*
          * `io.vertx.tp.jet.atom.JtApp`
          * -- reference extracted from
-         *    `io.vertx.tp.optic.environment.Ambient`
+         *    `io.horizon.spi.environment.Ambient`
          */
         final String sigma = api.getSigma();
         final JtApp app = Ambient.getApp(sigma);

@@ -5,7 +5,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
-import io.vertx.tp.optic.jet.JtIngest;
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.runtime.ZeroJet;
 

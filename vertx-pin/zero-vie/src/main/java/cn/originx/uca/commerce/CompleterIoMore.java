@@ -8,7 +8,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.up.unity.Ux;
 
 import java.util.HashSet;

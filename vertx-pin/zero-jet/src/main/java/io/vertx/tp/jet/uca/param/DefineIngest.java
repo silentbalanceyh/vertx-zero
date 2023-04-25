@@ -5,7 +5,7 @@ import io.vertx.tp.error._501IngestMissingException;
 import io.vertx.tp.error._501IngestSpecException;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.cv.JtConstant;
-import io.vertx.tp.optic.jet.JtIngest;
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.util.Ut;

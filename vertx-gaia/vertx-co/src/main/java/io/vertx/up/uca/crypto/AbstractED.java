@@ -3,7 +3,7 @@ package io.vertx.up.uca.crypto;
 import io.aeon.experiment.channel.Pocket;
 import io.aeon.experiment.specification.KPair;
 import io.horizon.eon.VValue;
-import io.horizon.specification.modeler.HED;
+import io.horizon.spi.cloud.HED;
 import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;

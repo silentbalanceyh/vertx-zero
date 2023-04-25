@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._417DataAtomNullException;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.tp.optic.environment.Ambient;
+import io.horizon.spi.environment.Ambient;
 import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;

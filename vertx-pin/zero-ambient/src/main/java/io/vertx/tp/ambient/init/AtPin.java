@@ -7,8 +7,8 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.error._500InitSpecificationException;
 import io.vertx.tp.error._500PrerequisiteSpecException;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.extension.Init;
-import io.vertx.tp.optic.extension.Prerequisite;
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -72,7 +72,7 @@ public class AtPin {
     /**
      * Configuration initialization phase.
      *
-     * @return {@link io.vertx.tp.optic.extension.Init}
+     * @return {@link Init}
      */
     public static Init getInit() {
         return getInit(getConfig().getInitializer());
@@ -81,7 +81,7 @@ public class AtPin {
     /**
      * Data initialization phase.
      *
-     * @return {@link io.vertx.tp.optic.extension.Init}
+     * @return {@link Init}
      */
     public static Init getLoader() {
         return getInit(getConfig().getLoader());
@@ -92,7 +92,7 @@ public class AtPin {
      *
      * @param initClass {@link java.lang.Class} Input class type that will be reflect to `Init`
      *
-     * @return {@link io.vertx.tp.optic.extension.Init}
+     * @return {@link Init}
      * @throws io.vertx.tp.error._500InitSpecificationException Failure then configuration missing.
      */
     private static Init getInit(final Class<?> initClass) {
@@ -108,7 +108,7 @@ public class AtPin {
     /**
      * Return to `Pre-` component that defined in zero extension modules.
      *
-     * @return {@link io.vertx.tp.optic.extension.Prerequisite}
+     * @return {@link Prerequisite}
      * @throws io.vertx.tp.error._500PrerequisiteSpecException Failure then configuration missing.
      */
     public static Prerequisite getPrerequisite() {

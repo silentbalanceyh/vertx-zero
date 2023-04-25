@@ -8,7 +8,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.tp.optic.feature.Trash;
+import io.horizon.spi.feature.Trash;
 import io.vertx.up.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;

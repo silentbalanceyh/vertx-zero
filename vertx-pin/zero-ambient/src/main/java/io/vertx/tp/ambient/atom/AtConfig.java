@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 
 import java.io.Serializable;
 
@@ -20,9 +22,9 @@ import java.io.Serializable;
  *
  * |Name|Interface|Comments|
  * |---|---:|:---|
- * |prerequisite|{@link io.vertx.tp.optic.extension.Prerequisite}|The first phase before all, assist for Front-End app.|
- * |initializer|{@link io.vertx.tp.optic.extension.Init}|After `X_APP, X_SOURCE` processed.|
- * |loader|{@link io.vertx.tp.optic.extension.Init}|After configuration data, this phase will be call for data loading.|
+ * |prerequisite|{@link Prerequisite}|The first phase before all, assist for Front-End app.|
+ * |initializer|{@link Init}|After `X_APP, X_SOURCE` processed.|
+ * |loader|{@link Init}|After configuration data, this phase will be call for data loading.|
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */

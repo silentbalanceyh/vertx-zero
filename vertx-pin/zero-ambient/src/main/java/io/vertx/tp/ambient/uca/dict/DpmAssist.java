@@ -1,9 +1,9 @@
 package io.vertx.tp.ambient.uca.dict;
 
+import io.horizon.spi.component.DictionaryPlugin;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.optic.component.DictionaryPlugin;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;

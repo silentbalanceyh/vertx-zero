@@ -9,7 +9,7 @@ import io.vertx.tp.jet.atom.JtWorker;
 import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.jet.cv.em.WorkerType;
 import io.vertx.tp.jet.uca.tunnel.AdaptorChannel;
-import io.vertx.tp.optic.jet.JtConsumer;
+import io.horizon.spi.jet.JtConsumer;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

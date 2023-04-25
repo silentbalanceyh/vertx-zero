@@ -3,8 +3,8 @@ package io.vertx.up.runtime;
 import com.google.inject.Injector;
 import io.aeon.atom.HSwitcher;
 import io.aeon.atom.iras.HAeon;
+import io.aeon.uca.web.origin.HQaSInquirer;
 import io.horizon.eon.em.container.ServerType;
-import io.vertx.aeon.uca.web.origin.HQaSInquirer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.secure.Aegis;
@@ -54,7 +54,7 @@ public class ZeroAnno {
     private static final Set<Class<?>> CLASS_SET;
     private static final Injector DI;
 
-    static{
+    static {
         CLASS_SET = ZeroPack.getClasses();
         final Inquirer<Injector> guice = Ut.singleton(GuiceInquirer.class);
         DI = guice.scan(CLASS_SET);

@@ -7,7 +7,7 @@ import io.vertx.tp.jet.JetThanatos;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.optic.jet.JtConsumer;
+import io.horizon.spi.jet.JtConsumer;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;

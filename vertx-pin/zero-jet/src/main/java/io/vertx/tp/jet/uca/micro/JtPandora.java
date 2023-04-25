@@ -12,7 +12,7 @@ import io.vertx.tp.jet.uca.tunnel.ActorChannel;
 import io.vertx.tp.jet.uca.tunnel.AdaptorChannel;
 import io.vertx.tp.jet.uca.tunnel.ConnectorChannel;
 import io.vertx.tp.jet.uca.tunnel.DirectorChannel;
-import io.vertx.tp.optic.jet.JtChannel;
+import io.horizon.spi.jet.JtChannel;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;

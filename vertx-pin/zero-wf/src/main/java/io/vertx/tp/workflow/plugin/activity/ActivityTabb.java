@@ -4,7 +4,7 @@ import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.feature.Valve;
+import io.horizon.spi.feature.Valve;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;

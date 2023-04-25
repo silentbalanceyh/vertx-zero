@@ -11,7 +11,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._400KeyLengthException;
 import io.vertx.tp.jet.uca.business.AbstractComponent;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.config.Database;

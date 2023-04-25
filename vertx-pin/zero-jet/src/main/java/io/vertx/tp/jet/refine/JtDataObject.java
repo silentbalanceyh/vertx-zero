@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
 import io.vertx.tp.jet.cv.em.WorkerType;
-import io.vertx.tp.optic.environment.Ambient;
+import io.horizon.spi.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.DSetting;

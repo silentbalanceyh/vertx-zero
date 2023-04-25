@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.plugin.AspectPlugin;
+import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.fn.Fn;

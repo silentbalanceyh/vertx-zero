@@ -4,7 +4,7 @@ import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.zero.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.jet.JtComponent;
+import io.horizon.spi.jet.JtComponent;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;

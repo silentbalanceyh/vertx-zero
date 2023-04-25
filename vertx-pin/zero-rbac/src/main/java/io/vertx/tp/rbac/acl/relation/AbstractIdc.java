@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.relation;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.environment.Modeling;
+import io.horizon.spi.environment.Modeling;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._400BadRequestException;
 import io.vertx.up.exception.web._400SigmaMissingException;

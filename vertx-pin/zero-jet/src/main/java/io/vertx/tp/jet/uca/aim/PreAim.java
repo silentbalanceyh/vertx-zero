@@ -3,7 +3,7 @@ package io.vertx.tp.jet.uca.aim;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
-import io.vertx.tp.optic.jet.JtIngest;
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.rs.hunt.Answer;
 

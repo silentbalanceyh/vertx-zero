@@ -1,6 +1,6 @@
 package cn.originx.scaffold.plugin;
 
-import io.vertx.tp.optic.plugin.AfterPlugin;
+import io.horizon.spi.plugin.AfterPlugin;
 
 /*
  * DataAtom模型定义

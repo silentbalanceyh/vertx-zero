@@ -3,7 +3,7 @@ package io.vertx.tp.workflow.plugin.query;
 import io.horizon.cloud.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.optic.business.ExUser;
+import io.horizon.spi.business.ExUser;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;

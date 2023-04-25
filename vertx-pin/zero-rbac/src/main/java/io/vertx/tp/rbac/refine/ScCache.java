@@ -13,7 +13,7 @@ import io.vertx.tp.error._401ImageCodeWrongException;
 import io.vertx.tp.error._401MaximumTimesException;
 import io.vertx.tp.error._403TokenGenerationException;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.optic.web.Credential;
+import io.horizon.spi.web.Credential;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;

@@ -12,8 +12,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.tp.optic.feature.Trash;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.feature.Trash;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.config.Integration;
@@ -193,7 +193,7 @@ public class AbstractHub extends AbstractActor {
      *      import io.vertx.core.Future;
      *      import io.vertx.core.json.JsonArray;
      *      import io.vertx.core.json.JsonObject;
-     *      import io.vertx.tp.optic.feature.Trash;
+     *      import io.horizon.spi.feature.Trash;
      *      import io.vertx.tp.plugin.history.TrashInfix;
      *      import io.vertx.tp.plugin.history.TrashPlatform;
      *      import io.vertx.up.unity.Ux;
@@ -223,7 +223,7 @@ public class AbstractHub extends AbstractActor {
      *
      * 2. 然后在您的项目创建 ServiceLoader相关配置：
      * - 配置目录位于 src/main/resources/META-INF/services/
-     * - 文件名为接口名：io.vertx.tp.optic.feature.Trash
+     * - 文件名为接口名：io.horizon.spi.feature.Trash
      * - 文件内容为上述类名：cn.originx.channel.TrashTunnel
      *
      * 3. 上述配置完成后，就开启了"历史记录"专用功能。

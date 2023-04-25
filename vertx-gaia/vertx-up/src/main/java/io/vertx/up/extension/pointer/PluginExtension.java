@@ -1,7 +1,7 @@
 package io.vertx.up.extension.pointer;
 
 import io.horizon.specification.modeler.HAtom;
-import io.vertx.aeon.specification.query.HQBE;
+import io.horizon.spi.cloud.query.HQBE;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpStatusCode;
