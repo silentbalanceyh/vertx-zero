@@ -1,13 +1,13 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.em.container.ServerType;
+import io.horizon.eon.info.VMessage;
+import io.horizon.exception.ZeroException;
 import io.vertx.core.SockOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.ServerType;
-import io.vertx.up.exception.ZeroException;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.uca.marshal.SockSetUp;
 import io.vertx.up.util.Ut;
@@ -20,19 +20,19 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockOptions> {
     protected transient final JTransformer<SockOptions>
-            transformer = Ut.singleton(SockSetUp.class);
+        transformer = Ut.singleton(SockSetUp.class);
 
     @Override
     public ConcurrentMap<Integer, SockOptions> visit(final String... key)
-            throws ZeroException {
+        throws ZeroException {
         final JsonArray serverData = this.serverPre(0, key);
-        this.logger().info(Info.INF_B_VERIFY, KName.SERVER, this.serverType(), serverData.encode());
+        this.logger().info(VMessage.VISITOR_V_BEFORE, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, SockOptions> map =
-                new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
         this.extract(serverData, map);
         if (!map.isEmpty()) {
-            this.logger().info(Info.INF_A_VERIFY, KName.SERVER, this.serverType(), map.keySet());
+            this.logger().info(VMessage.VISITOR_V_AFTER, KName.SERVER, this.serverType(), map.keySet());
         }
         return map;
     }

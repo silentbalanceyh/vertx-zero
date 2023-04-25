@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.KWeb;
 
 import java.lang.annotation.*;
 
@@ -16,5 +16,5 @@ public @interface Adjust {
     /**
      * Annotated on Api method only
      */
-    int value() default Orders.EVENT;
+    int value() default KWeb.ORDER.EVENT;
 }

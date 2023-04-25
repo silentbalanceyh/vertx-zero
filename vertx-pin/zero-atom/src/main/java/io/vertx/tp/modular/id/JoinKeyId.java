@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417PrimaryKeySizeException;
-import io.vertx.up.commune.Record;
 import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ class JoinKeyId extends AbstractId {
 
     @Override
     @SuppressWarnings("all")
-    public <ID> ID key(final Record record,
+    public <ID> ID key(final HRecord record,
                        final Model model) {
         // 检查定义
         this.ensure(model);
@@ -26,7 +26,7 @@ class JoinKeyId extends AbstractId {
     }
 
     @Override
-    public <ID> void key(final Record record,
+    public <ID> void key(final HRecord record,
                          final Model model,
                          final ID id) {
         // 检查定义

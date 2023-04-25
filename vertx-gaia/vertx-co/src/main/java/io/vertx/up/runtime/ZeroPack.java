@@ -2,10 +2,10 @@ package io.vertx.up.runtime;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
+import io.horizon.eon.VPath;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -34,7 +34,7 @@ public final class ZeroPack {
         /*
          * Read configuration to fill FILTERS;
          */
-        final JsonObject filter = Ut.ioJObject(Values.CONFIG_INTERNAL_PACKAGE);
+        final JsonObject filter = Ut.ioJObject(VPath.SERVER.INTERNAL_PACKAGE);
         if (filter.containsKey("skip")) {
             final JsonArray skiped = filter.getJsonArray("skip");
             if (Objects.nonNull(skiped)) {

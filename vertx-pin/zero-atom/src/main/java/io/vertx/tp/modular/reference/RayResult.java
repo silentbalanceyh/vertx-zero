@@ -1,12 +1,12 @@
 package io.vertx.tp.modular.reference;
 
+import io.aeon.experiment.reference.RResult;
+import io.horizon.eon.em.typed.DataFormat;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JAmb;
-import io.vertx.up.eon.em.DataFormat;
-import io.vertx.up.experiment.reference.RResult;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -30,14 +30,14 @@ class RayResult {
     /**
      * Combine single record based on defined code logical
      *
-     * @param record     {@link io.vertx.up.commune.Record} Result records
+     * @param record     {@link HRecord} Result records
      * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
      * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
-     * @return {@link io.vertx.up.commune.Record}
+     * @return {@link HRecord}
      */
-    static Record combine(final Record record, final ConcurrentMap<String, JsonArray> joinData,
-                          final ConcurrentMap<String, RResult> joinResult) {
+    static HRecord combine(final HRecord record, final ConcurrentMap<String, JsonArray> joinData,
+                           final ConcurrentMap<String, RResult> joinResult) {
         compressData(joinData, joinResult).forEach((field, processed) -> {
             final RResult result = joinResult.get(field);
             /* JAmb */
@@ -51,15 +51,15 @@ class RayResult {
     /**
      * Combine multi record based on defined code logical
      *
-     * @param records    {@link io.vertx.up.commune.Record}[] Result records
+     * @param records    {@link HRecord}[] Result records
      * @param joinData   {@link java.util.concurrent.ConcurrentMap} Reference data map
      * @param joinResult {@link java.util.concurrent.ConcurrentMap} Reference rule map
      *
-     * @return {@link io.vertx.up.commune.Record}[]
+     * @return {@link HRecord}[]
      */
-    static Record[] combine(final Record[] records,
-                            final ConcurrentMap<String, JsonArray> joinData,
-                            final ConcurrentMap<String, RResult> joinResult) {
+    static HRecord[] combine(final HRecord[] records,
+                             final ConcurrentMap<String, JsonArray> joinData,
+                             final ConcurrentMap<String, RResult> joinResult) {
         compressData(joinData, joinResult).forEach((field, processed) -> {
             final RResult result = joinResult.get(field);
             /* JAmb */
@@ -70,7 +70,7 @@ class RayResult {
         return records;
     }
 
-    private static void combine(final Record record, final String field, final ConcurrentMap<String, JAmb> groupData, final RResult result) {
+    private static void combine(final HRecord record, final String field, final ConcurrentMap<String, JAmb> groupData, final RResult result) {
         /* Key */
         final String keyRecord = keyRecord(record, result.joined());
         /* Combined */
@@ -95,7 +95,7 @@ class RayResult {
         }
     }
 
-    private static void combine(final Record record, final String field, final JAmb amb, final RResult result) {
+    private static void combine(final HRecord record, final String field, final JAmb amb, final RResult result) {
         /* Amb */
         final DataFormat format = result.format();
         if (DataFormat.JsonArray == format) {
@@ -167,7 +167,7 @@ class RayResult {
         return keyJoin(item::getValue, Kv::getKey, joined);
     }
 
-    private static String keyRecord(final Record record, final List<Kv<String, String>> joined) {
+    private static String keyRecord(final HRecord record, final List<Kv<String, String>> joined) {
         return keyJoin(record::get, Kv::getValue, joined);
     }
 

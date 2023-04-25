@@ -1,15 +1,15 @@
 package io.vertx.aeon.uca.alive;
 
-import io.vertx.aeon.atom.iras.HRepo;
-import io.vertx.aeon.eon.HName;
-import io.vertx.aeon.eon.HPath;
-import io.vertx.aeon.eon.em.RTEAeon;
-import io.vertx.aeon.specification.app.HFS;
-import io.vertx.aeon.specification.program.HNova;
+import io.aeon.atom.iras.HRepo;
+import io.aeon.eon.HName;
+import io.aeon.eon.HPath;
+import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.cloud.app.HFS;
+import io.horizon.cloud.program.HNova;
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.runtime.env.Macrocosm;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +35,7 @@ public class AbstractNova implements HNova {
         final HRepo kinectP = repoMap.get(RTEAeon.kinect);
 
         final HFS fs = HFS.common();
-        final String language = Ut.envWith(Macrocosm.Z_LANG, Constants.DEFAULT_LANGUAGE);
+        final String language = Ut.envWith(Macrocosm.Z_LANG, KWeb.ARGS.V_LANGUAGE);
         // kzero -> kinect:  /kzero 配置拷贝
         final String zeroS = Ut.ioPath(kzeroP.inWS(), MessageFormat.format(HPath.SOURCE_ZERO, language));
         final String zeroT = Ut.ioPath(kinectP.getPath(), HName.KZERO);

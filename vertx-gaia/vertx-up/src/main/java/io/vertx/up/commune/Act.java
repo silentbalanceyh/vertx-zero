@@ -1,5 +1,6 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
@@ -42,12 +43,12 @@ class Act {
         }
     }
 
-    static ActOut response(final Record[] records) {
+    static ActOut response(final HRecord[] records) {
         final JsonArray result = Ut.toJArray(records);
         return response(result);
     }
 
-    static ActOut response(final Record record) {
+    static ActOut response(final HRecord record) {
         if (Objects.isNull(record)) {
             return empty();
         } else {

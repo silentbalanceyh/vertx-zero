@@ -74,7 +74,7 @@ public class ElasticIndexer extends AbstractEsClient {
 
             result.put("isAcknowledged", response.isAcknowledged());
         } catch (final IOException ioe) {
-            this.logger().jvm(ioe);
+            this.logger().fatal(ioe);
         }
 
         this.helper.closeClient(client);
@@ -95,7 +95,7 @@ public class ElasticIndexer extends AbstractEsClient {
 
             result.put("isAcknowledged", response.isAcknowledged());
         } catch (final IOException ioe) {
-            this.logger().jvm(ioe);
+            this.logger().fatal(ioe);
         }
 
         this.helper.closeClient(client);
@@ -113,7 +113,7 @@ public class ElasticIndexer extends AbstractEsClient {
 
             result.put("isAcknowledged", response.isAcknowledged());
         } catch (final IOException | ElasticsearchException ioe) {
-            this.logger().jvm(ioe);
+            this.logger().fatal(ioe);
         }
 
         this.helper.closeClient(client);

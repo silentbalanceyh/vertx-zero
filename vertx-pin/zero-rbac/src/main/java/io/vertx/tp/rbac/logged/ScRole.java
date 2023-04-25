@@ -9,7 +9,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
@@ -55,7 +55,7 @@ public class ScRole {
 
     // ------------------------- Initialized Method ------------------------
     public Future<JsonArray> clear() {
-        CC_ROLE.store().clear(this.roleId);
+        CC_ROLE.store().remove(this.roleId);
         // ROLES.remove(this.roleId);
         return this.cache.clear(this.roleId);
     }
@@ -76,7 +76,7 @@ public class ScRole {
             if (Objects.isNull(permissions)) {
                 return this.fetch().compose(this::permission);
             } else {
-                if (Debugger.devAuthorized()) {
+                if (DevEnv.devAuthorized()) {
                     Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
                 }
                 /* Authorities fill from cache ( Sync the authorities ) */

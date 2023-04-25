@@ -1,19 +1,19 @@
 package io.vertx.tp.crud.init;
 
+import io.aeon.experiment.specification.KField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.plugin.booting.KBoot;
-import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.experiment.specification.KColumn;
-import io.vertx.up.experiment.specification.KField;
-import io.vertx.up.experiment.specification.KModule;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
+import io.aeon.experiment.specification.KColumn;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -81,7 +81,7 @@ class IxDao {
         CONFIG_MAP.put(config.getName(), config);
         ALIAS_MAP.put(identifier, config.getName());
         /* 5. Logger */
-        if (Debugger.devDaoBind()) {
+        if (DevEnv.devDaoBind()) {
             Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
         }
     }
@@ -115,10 +115,10 @@ class IxDao {
         final JsonObject header = Ut.valueJObject(module.getHeader());
         /* sigma -> X-Sigma */
         Fn.safeSemi(!header.containsKey(KName.SIGMA),
-            () -> header.put(KName.SIGMA, ID.Header.X_SIGMA));
+            () -> header.put(KName.SIGMA, KWeb.HEADER.X_SIGMA));
         /* language -> X-Lang */
         Fn.safeSemi(!header.containsKey(KName.LANGUAGE),
-            () -> header.put(KName.LANGUAGE, ID.Header.X_LANG));
+            () -> header.put(KName.LANGUAGE, KWeb.HEADER.X_LANG));
         module.setHeader(header);
 
         /* Auditor Processing */

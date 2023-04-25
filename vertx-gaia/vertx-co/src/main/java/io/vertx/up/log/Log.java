@@ -1,15 +1,10 @@
 package io.vertx.up.log;
 
-import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxException;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.fn.Fn;
+import io.vertx.up.log.internal.BridgeAnnal;
+import io.vertx.up.log.internal.Log4JAnnal;
 import org.slf4j.Logger;
 
-import java.text.MessageFormat;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
+import java.util.Objects;
 
 public final class Log {
     /*
@@ -38,83 +33,55 @@ public final class Log {
         return PREFIX + NORMAL + SEPARATOR + COLOR_GREEN + SUFFIX + "[ " + flag + " ] " + END_COLOUR;
     }
 
-    public static String color(final String flag, final int color) {
-        return PREFIX + NORMAL + SEPARATOR + color + SUFFIX + flag + END_COLOUR;
+    // -------------- 扩展日志
+    public static LogFactory extension(final String module) {
+        return LogFactory.create(module);
     }
 
-    public static String color(final String flag, final int color, final boolean bold) {
-        final int weight = bold ? WEIGHT : NORMAL;
-        return PREFIX + weight + SEPARATOR + color + SUFFIX + flag + END_COLOUR;
+    // -------------- 快速日志，比如传入首参 Logger
+    /*
+     * 三种日志处理
+     * 1. Logger 传入 -> Log4JAnnal(Logger)
+     * 2. Annal 传入  -> BridgeAnnal(Annal)
+     * 4. Class<?> 传入 -> BridgeAnnal(Class<?>) -> Log4JAnnal(Class<?>)
+     */
+    public static <I> void fatal(final I input, final Throwable ex) {
+        final Annal annal = logger(input);
+        annal.fatal(ex);
     }
 
-    public static void jvm(final Logger logger, final Throwable ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
-        if (Debugger.devJvmStack()) {
-            /* Default to false */
-            ex.printStackTrace();
-        }
+    public static <I> void info(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.info(message, args);
     }
 
-    public static void zero(final Logger logger, final ZeroException ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
+    public static <I> void warn(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.warn(message, args);
     }
 
-    public static void vertx(final Logger logger, final VertxException ex) {
-        Fn.safeNull(error -> logger.warn("", error), ex);
+    public static <I> void error(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.error(message, args);
     }
 
-    public static void info(final Logger logger, final String pattern, final Object... rest) {
-        log(logger::isInfoEnabled, logger::info, pattern, rest);
+    public static <I> void debug(final I input, final String message, final Object... args) {
+        final Annal annal = logger(input);
+        annal.debug(message, args);
     }
 
-    public static void debug(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::debug, pattern, rest);
-    }
-
-    public static void warn(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::warn, pattern, rest);
-    }
-
-    public static void error(final Logger logger, final String pattern, final Object... rest) {
-        log(() -> true, logger::error, pattern, rest);
-    }
-
-    private static void log(final Supplier<Boolean> fnPre,
-                            final BiConsumer<String, Object> fnLog,
-                            final String message,
-                            final Object... rest) {
-        if (fnPre.get()) {
-            final String formatted;
-            if (0 < rest.length) {
-                formatted = BOLD_FLAG + " " + MessageFormat.format(message, rest);
-            } else {
-                formatted = BOLD_FLAG + " " + message;
-            }
-            fnLog.accept(formatted, null);
-        }
-    }
-
-    public static class Health {
-        private final transient Vertx vertx;
-
-        private Health(final Vertx vertx) {
-            this.vertx = vertx;
-        }
-
-        public static Health on(final Vertx vertx) {
-            return new Health(vertx);
-        }
-
-        public void add(final Class<?> clazz, final DeploymentOptions options, final String id) {
-            Meansure.add(this.vertx, clazz.getName(), options, id);
-        }
-
-        public void add(final String name, final DeploymentOptions options, final String id) {
-            Meansure.add(this.vertx, name, options, id);
-        }
-
-        public void remove(final Class<?> clazz, final DeploymentOptions options) {
-            Meansure.remove(this.vertx, clazz.getName(), options);
+    static <I> Annal logger(final I input) {
+        if (input instanceof Logger) {
+            Objects.requireNonNull(input);
+            // 确保不重复创建
+            return Annal.CC_ANNAL_INTERNAL.pick(() -> new Log4JAnnal((Logger) input), input.hashCode());
+        } else if (input instanceof Annal) {
+            Objects.requireNonNull(input);
+            // 确保不重复创建
+            return Annal.CC_ANNAL_INTERNAL.pick(() -> new BridgeAnnal((Annal) input), input.hashCode());
+        } else {
+            // 内部方法自带缓存
+            return Annal.get((Class<?>) input);
         }
     }
 }

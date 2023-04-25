@@ -7,7 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -94,7 +94,7 @@ class DevMenu {
                                       final String root) {
         menuMap.forEach((role, data) -> {
             final String outFile = DevDefault.pathMenu(root, role);
-            Ox.Log.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
+            Ox.LOG.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
             final JsonObject dataRole = new JsonObject();
             dataRole.put(KName.NAME, data);
             Ut.ioOut(outFile, dataRole);

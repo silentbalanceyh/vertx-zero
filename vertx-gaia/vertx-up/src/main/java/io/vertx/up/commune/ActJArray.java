@@ -1,10 +1,10 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ class ActJArray extends ActMapping implements Serializable {
         final JsonObject rawJson = envelop.data();
         if (!Ut.isNil(rawJson)) {
             final long counter = rawJson.fieldNames().stream()
-                .filter(Constants.INDEXES::containsValue)
+                .filter(KWeb.MULTI.INDEXES::containsValue)
                 .count();
             final JsonArray body;
             if (0 < counter) {
@@ -59,7 +59,7 @@ class ActJArray extends ActMapping implements Serializable {
                  * rawJson could not be JsonArray
                  */
                 JsonArray inputData = new JsonArray();
-                if (rawJson.containsKey(ID.PARAM_BODY)) {
+                if (rawJson.containsKey(KWeb.ARGS.PARAM_BODY)) {
                     /*
                      * Common Style
                      * {
@@ -67,7 +67,7 @@ class ActJArray extends ActMapping implements Serializable {
                      *      "$$__BODY__$$": "body"
                      * }
                      */
-                    inputData = rawJson.getJsonArray(ID.PARAM_BODY);
+                    inputData = rawJson.getJsonArray(KWeb.ARGS.PARAM_BODY);
                     if (Objects.nonNull(inputData)) {
                         /*
                          * Copy the json array data and it will be passed
@@ -86,10 +86,10 @@ class ActJArray extends ActMapping implements Serializable {
         }
     }
 
-    Record[] getRecords(final Record definition, final BTree mapping) {
+    HRecord[] getRecords(final HRecord definition, final BTree mapping) {
         /* Record Init */
         final int size = this.data.size();
-        final Record[] records = new Record[size];
+        final HRecord[] records = new HRecord[size];
         for (int idx = 0; idx < size; idx++) {
             /*
              * 两种格式

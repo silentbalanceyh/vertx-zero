@@ -1,13 +1,15 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.Objects;
@@ -26,15 +28,15 @@ final class Codec {
     static String md5(final String input) {
         return Fn.orJvm(() -> {
             final MessageDigest digest = MessageDigest.getInstance("MD5");
-            final byte[] source = input.getBytes(Values.DEFAULT_CHARSET);
+            final byte[] source = input.getBytes(VValue.DFT.CHARSET);
             digest.update(source);
             final byte[] middle = digest.digest();
             final char[] middleStr = new char[16 * 2];
             int position = 0;
             for (int idx = 0; idx < 16; idx++) {
                 final byte byte0 = middle[idx];
-                middleStr[position++] = Values.HEX_ARR[byte0 >>> 4 & 0xF];
-                middleStr[position++] = Values.HEX_ARR[byte0 & 0xF];
+                middleStr[position++] = Values.ARR_HEX[byte0 >>> 4 & 0xF];
+                middleStr[position++] = Values.ARR_HEX[byte0 & 0xF];
             }
             return new String(middleStr);
         }, input);
@@ -88,7 +90,7 @@ final class Codec {
             if (encript) {
                 return Base64.getEncoder().encodeToString(input.getBytes());
             } else {
-                return new String(Base64.getDecoder().decode(input.getBytes()), Values.DEFAULT_CHARSET);
+                return new String(Base64.getDecoder().decode(input.getBytes()), VValue.DFT.CHARSET);
             }
         }, input);
     }
@@ -96,9 +98,9 @@ final class Codec {
     static String url(final String input, final boolean encript) {
         return Fn.orJvm(null, () -> {
             if (encript) {
-                return URLEncoder.encode(input, Values.ENCODING);
+                return URLEncoder.encode(input, StandardCharsets.UTF_8);
             } else {
-                return URLDecoder.decode(input, Values.ENCODING);
+                return URLDecoder.decode(input, StandardCharsets.UTF_8);
             }
         }, input);
     }

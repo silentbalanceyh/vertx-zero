@@ -1,10 +1,10 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.eon.info.VMessage;
 import io.reactivex.Observable;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.eon.Info;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.zero.exception.WorkerConflictException;
@@ -25,7 +25,7 @@ public class QueueInquirer implements Inquirer<Set<Class<?>>> {
         final Set<Class<?>> queues = classes.stream()
             .filter((item) -> item.isAnnotationPresent(Queue.class))
             .collect(Collectors.toSet());
-        LOGGER.info(Info.SCANED_QUEUE, queues.size());
+        LOGGER.info(VMessage.INQUIRER_QUEUE, queues.size());
         this.ensure(queues);
         return queues;
     }

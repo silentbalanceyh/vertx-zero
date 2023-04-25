@@ -1,8 +1,8 @@
 package io.vertx.up.atom.agent;
 
 import io.vertx.core.http.HttpMethod;
-import io.vertx.up.eon.Orders;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import jakarta.ws.rs.core.MediaType;
 
 import java.io.Serializable;
@@ -22,7 +22,7 @@ public class Event implements Serializable {
      * order for current Event
      * It could be modified in latest version by @Adjust
      */
-    private int order = Orders.EVENT;
+    private int order = KWeb.ORDER.EVENT;
     /**
      * consume mime
      */

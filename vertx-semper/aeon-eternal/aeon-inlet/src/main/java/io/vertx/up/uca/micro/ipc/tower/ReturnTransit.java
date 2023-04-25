@@ -1,9 +1,9 @@
 package io.vertx.up.uca.micro.ipc.tower;
 
+import io.horizon.fn.ExceptionSupplier;
 import io.vertx.core.Future;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._500RpcTransitInvokeException;
-import io.vertx.up.fn.JvmSupplier;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
@@ -16,7 +16,7 @@ class ReturnTransit {
 
     private static final Annal LOGGER = Annal.get(ReturnTransit.class);
 
-    private static Object invoke(final JvmSupplier<Object> invokedSupplier,
+    private static Object invoke(final ExceptionSupplier<Object> invokedSupplier,
                                  final Class<?> target,
                                  final Method method) {
         final Object returnValue;
@@ -30,7 +30,7 @@ class ReturnTransit {
     }
 
     @SuppressWarnings("unchecked")
-    static Future<Envelop> build(final JvmSupplier<Object> supplier,
+    static Future<Envelop> build(final ExceptionSupplier<Object> supplier,
                                  final Class<?> target,
                                  final Method method) {
         final Object returnValue = invoke(supplier, target, method);

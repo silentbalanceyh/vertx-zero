@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.neo4j;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 
 import java.io.Serializable;
 import java.util.Objects;

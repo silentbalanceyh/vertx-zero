@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.store;
 
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Info;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -12,8 +12,8 @@ public class JobPin {
     private static final Annal LOGGER = Annal.get(JobPin.class);
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
     private static final String JOB = "job";
-    private static transient JobConfig CONFIG;
-    private static transient JobStore STORE;
+    private static JobConfig CONFIG;
+    private static JobStore STORE;
 
     static {
         final JsonObject config = VISITOR.read();
@@ -25,7 +25,7 @@ public class JobPin {
             } else {
                 CONFIG = new JobConfig();
             }
-            LOGGER.info(Info.JOB_CONFIG, CONFIG);
+            LOGGER.info(VMessage.JOB_PIN_CONFIG, CONFIG);
         }
     }
 

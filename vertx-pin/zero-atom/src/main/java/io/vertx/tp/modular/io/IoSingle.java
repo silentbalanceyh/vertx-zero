@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.io;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.error._417EventTypeConflictException;
 import io.vertx.tp.modular.plugin.IoHub;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 
 public class IoSingle extends AbstractIo {
@@ -22,13 +22,13 @@ public class IoSingle extends AbstractIo {
     }
 
     @Override
-    public AoIo records(final Record... records) {
+    public AoIo records(final HRecord... records) {
         /* records长度 */
         this.ensure(records.length);
         /* Record */
-        final Record record = records[Values.IDX];
+        final HRecord record = records[Values.IDX];
         final IoHub hub = IoHub.instance();
-        final Record processed = hub.in(record, this.tpl());
+        final HRecord processed = hub.in(record, this.tpl());
         return this.saveRow(() -> this.newRow().request(processed));
     }
 }

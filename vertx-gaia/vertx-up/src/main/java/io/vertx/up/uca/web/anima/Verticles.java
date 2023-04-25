@@ -1,11 +1,11 @@
 package io.vertx.up.uca.web.anima;
 
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.vertx.up.eon.Info;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Log;
+import io.vertx.up.log.DevOps;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -29,16 +29,16 @@ class Verticles {
         vertx.deployVerticle(name, option, (result) -> {
             // Success or Failed.
             if (result.succeeded()) {
-                logger.info(Info.VTC_END,
+                logger.info(VMessage.VERTX_END,
                     name, option.getInstances(), result.result(),
                     flag);
                 INSTANCES.put(clazz, result.result());
-                Log.Health.on(vertx).add(name, option, result.result());
+                DevOps.on(vertx).add(name, option, result.result());
             } else {
                 if (null != result.cause()) {
                     result.cause().printStackTrace();
                 }
-                logger.warn(Info.VTC_FAIL,
+                logger.warn(VMessage.VERTX_FAIL,
                     name, option.getInstances(), result.result(),
                     null == result.cause() ? null : result.cause().getMessage(), flag);
             }
@@ -55,8 +55,8 @@ class Verticles {
         final String id = INSTANCES.get(clazz);
         Fn.safeNull(() -> vertx.undeploy(id, result -> {
             if (result.succeeded()) {
-                logger.info(Info.VTC_STOPPED, name, id, flag);
-                Log.Health.on(vertx).remove(clazz, option);
+                logger.info(VMessage.VERTX_STOPPED, name, id, flag);
+                DevOps.on(vertx).remove(clazz, option);
             }
         }), id);
     }

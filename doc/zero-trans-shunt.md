@@ -56,9 +56,9 @@
 
 1. The function body executed first.
 2. Once the body met exception, the system will record with `LOGGER` and catch.
-3. But when the body met `io.vertx.up.exception.ZeroRunException`, this kind of exception will throw out.
+3. But when the body met `io.horizon.exception.ZeroRunException`, this kind of exception will throw out.
 
 ### 2.3. shuntZero
 
-The code flow is the same as `shuntRun`, but exception type is `io.vertx.up.exception.ZeroException` ( Checked ).
+The code flow is the same as `shuntRun`, but exception type is `io.horizon.exception.ZeroException` ( Checked ).
 

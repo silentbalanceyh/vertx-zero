@@ -13,8 +13,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -80,7 +80,7 @@ public class FileActor {
                  * Required: username, mobile, email
                  */
                 if (Ut.isIn(record, KName.USERNAME)) {
-                    record.put(KName.LANGUAGE, Constants.DEFAULT_LANGUAGE);
+                    record.put(KName.LANGUAGE, KWeb.ARGS.V_LANGUAGE);
                     prepared.add(record);
                 } else {
                     Sc.warnWeb(this.getClass(), "Ignored record: {0}", record.encode());

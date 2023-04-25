@@ -1,13 +1,13 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.em.container.MessageModel;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.eon.em.MessageModel;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
@@ -25,7 +25,7 @@ public class ZeroRpcRegistry extends AbstractVerticle {
     @Override
     public void start() {
         final EventBus bus = this.vertx.eventBus();
-        bus.<JsonObject>consumer(ID.Addr.IPC_START, result -> {
+        bus.<JsonObject>consumer(KWeb.ADDR.EBS_IPC_START, result -> {
             final JsonObject data = result.body();
             final RpcOptions options = new RpcOptions(data);
             // Write the data to registry.
@@ -33,7 +33,7 @@ public class ZeroRpcRegistry extends AbstractVerticle {
             this.registry.registryIpcs(options, Tunnel.IPCS.keySet());
 
             LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
-                options.getName(), ID.Addr.IPC_START);
+                options.getName(), KWeb.ADDR.EBS_IPC_START);
         });
     }
 }

@@ -2,7 +2,7 @@ package io.vertx.up.uca.wffs.script;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.commons.jexl3.JexlContext;
 

@@ -1,16 +1,16 @@
 package cn.originx.uca.plugin;
 
 import cn.originx.refine.Ox;
+import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.environment.Identifier;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.environment.Identifier;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.rule.RuleUnique;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -84,7 +84,7 @@ public class AtomSwitcher implements Switcher {
         } else {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
-            Ox.Log.debugUca(this.getClass(), " Identifier 选择器：{0}", this.indent.getClass());
+            Ox.LOG.debugUca(this.getClass(), " Identifier 选择器：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
             return this.indent.resolve(input, config).compose(Fn.ifNil(
 
@@ -108,12 +108,12 @@ public class AtomSwitcher implements Switcher {
     @Override
     public Future<Set<DataGroup>> atom(final JsonArray data, final DataAtom atom) {
         if (Objects.isNull(this.indent)) {
-            Ox.Log.warnUca(this.getClass(), " Identifier 选择器未配置，请检查，数据：{0}", data.encode());
+            Ox.LOG.warnUca(this.getClass(), " Identifier 选择器未配置，请检查，数据：{0}", data.encode());
             return Ux.future(Ox.toGroup(atom, data));
         } else {
             final JsonObject input = this.options.copy();
             input.put(KName.DATA, data);
-            Ox.Log.debugUca(this.getClass(), " Identifier 选择器（批量）：{0}", this.indent.getClass());
+            Ox.LOG.debugUca(this.getClass(), " Identifier 选择器（批量）：{0}", this.indent.getClass());
             final JsonObject config = Ox.pluginOptions(this.indent.getClass(), input);
             return this.indent.resolve(input, atom.identifier(), config).compose(Fn.ifNil(
                 /* 默认值，配置优先 */
@@ -157,7 +157,7 @@ public class AtomSwitcher implements Switcher {
         identifiers.forEach((identifier, dataArray) -> {
             final DataAtom atom = this.connect(Ox.toAtom(sigma, identifier), unique);
             final DataGroup group = DataGroup.create(atom);
-            Ox.Log.infoUca(this.getClass(), "最终选择的（批量） identifier = {0}, sigma = {1}", identifier, sigma);
+            Ox.LOG.infoUca(this.getClass(), "最终选择的（批量） identifier = {0}, sigma = {1}", identifier, sigma);
             group.add(dataArray);
             resultSet.add(group);
         });
@@ -167,7 +167,7 @@ public class AtomSwitcher implements Switcher {
     private Future<DataAtom> atom(final String identifier,
                                   final RuleUnique unique) {
         final String sigma = this.identity.getSigma();
-        Ox.Log.infoUca(this.getClass(), "最终选择的 identifier = {0}, sigma = {1}", identifier, sigma);
+        Ox.LOG.infoUca(this.getClass(), "最终选择的 identifier = {0}, sigma = {1}", identifier, sigma);
         return Ux.future(this.connect(Ox.toAtom(sigma, identifier), unique));
     }
 }

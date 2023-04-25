@@ -1,9 +1,9 @@
 package io.vertx.up.runtime;
 
-import io.vertx.aeon.eon.HPath;
-import io.vertx.aeon.eon.em.TypeOs;
-import io.vertx.aeon.refine.HLog;
-import io.vertx.aeon.specification.app.HES;
+import io.aeon.eon.HPath;
+import io.aeon.experiment.specification.app.HES;
+import io.aeon.refine.HLog;
+import io.horizon.eon.em.cloud.TypeOs;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -100,7 +100,7 @@ public class ZeroArcane {
      */
     public static void startEdge() {
         startEdge(null)
-                .onComplete(res -> HLog.infoEnv(ZeroArcane.class, "Extension Initialized {0}", res.result()));
+            .onComplete(res -> HLog.infoEnv(ZeroArcane.class, "Extension Initialized {0}", res.result()));
     }
 
     public static Future<Boolean> startEdge(final Vertx vertx) {
@@ -120,7 +120,7 @@ public class ZeroArcane {
              * Component initializing with native
              **/
             final Object init = config.getValue(INIT);
-            if(init instanceof final JsonArray components){
+            if (init instanceof final JsonArray components) {
                 /*
                  * 1. 遗留模式：
                  * init:
@@ -129,7 +129,7 @@ public class ZeroArcane {
                 HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, components.encode());
                 final JsonObject initConfig = new JsonObject().put(KName.COMPONENT, components);
                 return Ux.nativeInit(initConfig, vertx);
-            }else if(init instanceof final JsonObject initConfig){
+            } else if (init instanceof final JsonObject initConfig) {
                 /*
                  * 2. 新模式：
                  * init:
@@ -141,7 +141,7 @@ public class ZeroArcane {
                  */
                 HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, initConfig.encode());
                 return Ux.nativeInit(initConfig, vertx);
-            }else{
+            } else {
                 // Nothing triggered when the configuration data format is invalid
                 return Future.succeededFuture(Boolean.TRUE);
             }
@@ -161,6 +161,6 @@ public class ZeroArcane {
      */
     public static Future<Boolean> startEnroll(final Vertx vertx) {
         return HES.configure()
-                .compose(initialized -> Future.succeededFuture(Boolean.TRUE));
+            .compose(initialized -> Future.succeededFuture(Boolean.TRUE));
     }
 }

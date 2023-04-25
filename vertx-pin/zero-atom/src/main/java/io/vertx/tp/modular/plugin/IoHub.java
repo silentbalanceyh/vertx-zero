@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.plugin;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.commune.Record;
 import io.vertx.up.uca.cache.Cc;
 
 /**
@@ -39,44 +39,44 @@ public interface IoHub {
     /**
      * Processing input data record
      *
-     * @param record {@link Record} Input data record
+     * @param record {@link HRecord} Input data record
      * @param tpl    {@link DataTpl} The model template definition
      *
-     * @return {@link Record}
+     * @return {@link HRecord}
      */
-    Record in(Record record, DataTpl tpl);
+    HRecord in(HRecord record, DataTpl tpl);
 
     /**
      * Processing input data records
      *
-     * @param records {@link Record}[] Input data record
+     * @param records {@link HRecord}[] Input data record
      * @param tpl     {@link DataTpl} The model template definition
      *
-     * @return {@link Record}[]
+     * @return {@link HRecord}[]
      */
-    Record[] in(Record[] records, DataTpl tpl);
+    HRecord[] in(HRecord[] records, DataTpl tpl);
 
     /**
      * Processing output data record in response
      *
-     * @param record {@link Record} Input data record
+     * @param record {@link HRecord} Input data record
      * @param tpl    {@link DataTpl} The model template definition
      *
-     * @return {@link Record}
+     * @return {@link HRecord}
      */
-    Record out(Record record, DataTpl tpl);
+    HRecord out(HRecord record, DataTpl tpl);
 
-    Future<Record> outAsync(Record record, DataTpl tpl);
+    Future<HRecord> outAsync(HRecord record, DataTpl tpl);
 
     /**
      * Processing output data records in response
      *
-     * @param records {@link Record}[] Input data record
+     * @param records {@link HRecord}[] Input data record
      * @param tpl     {@link DataTpl} The model template definition
      *
-     * @return {@link Record}[]
+     * @return {@link HRecord}[]
      */
-    Record[] out(Record[] records, DataTpl tpl);
+    HRecord[] out(HRecord[] records, DataTpl tpl);
 
-    Future<Record[]> outAsync(Record[] records, DataTpl tpl);
+    Future<HRecord[]> outAsync(HRecord[] records, DataTpl tpl);
 }

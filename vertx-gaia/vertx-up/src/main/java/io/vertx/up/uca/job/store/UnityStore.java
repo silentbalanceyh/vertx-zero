@@ -1,9 +1,9 @@
 package io.vertx.up.uca.job.store;
 
+import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.eon.em.scheduler.JobType;
+import io.horizon.eon.info.VMessage;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.eon.em.JobType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;
@@ -40,13 +40,13 @@ class UnityStore implements JobStore {
             .stream()
             .filter(Mission::isReadOnly)
             .collect(Collectors.toSet());
-        LOGGER.info(Info.JOB_SCANNED, missions.size(), "Programming");
+        LOGGER.info(VMessage.JOB_STORE_SCANNED, missions.size(), "Programming");
 
         final Set<Mission> storage = this.store.fetch()
             .stream()
             .filter(mission -> !mission.isReadOnly())
             .collect(Collectors.toSet());
-        LOGGER.info(Info.JOB_SCANNED, storage.size(), "Dynamic/Stored");
+        LOGGER.info(VMessage.JOB_STORE_SCANNED, storage.size(), "Dynamic/Stored");
 
         /* Merged */
         final Set<Mission> result = new HashSet<>();

@@ -1,12 +1,12 @@
 package io.vertx.up.util;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -147,10 +147,10 @@ final class To {
         return array;
     }
 
-    static JsonArray toJArray(final Record[] records) {
+    static JsonArray toJArray(final HRecord[] records) {
         final JsonArray result = new JsonArray();
         if (Objects.nonNull(records)) {
-            Arrays.stream(records).map(Record::toJson)
+            Arrays.stream(records).map(HRecord::toJson)
                 .forEach(result::add);
         }
         return result;

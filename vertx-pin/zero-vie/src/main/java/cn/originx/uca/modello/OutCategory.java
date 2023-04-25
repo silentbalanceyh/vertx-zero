@@ -1,10 +1,10 @@
 package cn.originx.uca.modello;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -19,9 +19,9 @@ public class OutCategory extends OutDpmExpr implements OComponent {
     ConcurrentMap<String, ConcurrentHashMap<String, JsonObject>> index = new ConcurrentHashMap<>();
 
     @Override
-    public Object after(Kv<String, Object> kv, Record record, JsonObject combineData) {
-        Object translated = this.translateTo(kv.getValue(), combineData);
-        Object expressed = this.express(Kv.create(kv.getKey(), translated), record, combineData);
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
+        final Object translated = this.translateTo(kv.getValue(), combineData);
+        final Object expressed = this.express(Kv.create(kv.getKey(), translated), record, combineData);
         return this.normalize(Kv.create(kv.getKey(), expressed), record, combineData);
     }
 
@@ -30,15 +30,19 @@ public class OutCategory extends OutDpmExpr implements OComponent {
      * 2. 根据identifier级别链找寻适当的sourceNorm映射
      * 3. 返回映射结果
      */
-    Object normalize(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
-        String cat3Key, cat2Key, cat3Identifier, cat2Identifier;
-        JsonObject cat3Record, cat2Record;
+    Object normalize(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
+        final String cat3Key;
+        final String cat2Key;
+        final String cat3Identifier;
+        final String cat2Identifier;
+        final JsonObject cat3Record;
+        final JsonObject cat2Record;
         String normalized;
-        Object value0 = kv.getValue(); //category key
+        final Object value0 = kv.getValue(); //category key
         if (Objects.nonNull(value0)) {
             cat3Key = (String) value0;
-            JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));
-            JsonArray records2Index = Ut.visitJArray(combineData, KName.SOURCE_DATA, "ci.type");
+            final JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));
+            final JsonArray records2Index = Ut.visitJArray(combineData, KName.SOURCE_DATA, "ci.type");
             this.createIndexes(records2Index);
 
             // 找寻identifier链
@@ -64,21 +68,21 @@ public class OutCategory extends OutDpmExpr implements OComponent {
         return value0;
     }
 
-    void createIndexes(JsonArray records2Index) {
+    void createIndexes(final JsonArray records2Index) {
         this.createIndexKey(records2Index);
     }
 
-    void createIndex(JsonArray records2Index, String field) {
+    void createIndex(final JsonArray records2Index, final String field) {
         JsonObject category;
         if (Objects.isNull(this.index.get(field))) {
-            for (Object o : records2Index) {
+            for (final Object o : records2Index) {
                 category = (JsonObject) o;
                 this.index.get(field).putIfAbsent(category.getString(field), category);
             }
         }
     }
 
-    void createIndexKey(JsonArray records2Index) {
+    void createIndexKey(final JsonArray records2Index) {
         this.createIndex(records2Index, KName.KEY);
     }
 }

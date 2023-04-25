@@ -1,15 +1,15 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VValue;
+import io.horizon.fn.Actuator;
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Protocols;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
-import io.vertx.up.runtime.env.Macrocosm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,9 +95,9 @@ final class Stream {
     static byte[] readBytes(final String filename) {
         final InputStream in = read(filename);
         return Fn.orJvm(() -> {
-            final ByteArrayOutputStream out = new ByteArrayOutputStream(Values.CACHE_SIZE);
+            final ByteArrayOutputStream out = new ByteArrayOutputStream(VValue.DFT.SIZE_BYTE_ARRAY);
 
-            final byte[] temp = new byte[Values.CACHE_SIZE];
+            final byte[] temp = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
             int size;
             while ((size = in.read(temp)) != -1) {
                 out.write(temp, 0, size);
@@ -210,14 +210,14 @@ final class Stream {
             try {
                 final URL url = new URL(filename);
                 final String protocol = url.getProtocol();
-                if (Protocols.JAR.equals(protocol)) {
+                if (VPath.PROTOCOL.JAR.equals(protocol)) {
                     final JarURLConnection jarCon = (JarURLConnection) url.openConnection();
                     return jarCon.getInputStream();
                 } else {
                     return null; // Jar Error
                 }
             } catch (final IOException e) {
-                Log.jvm(LOGGER, e);
+                Log.fatal(Stream.class, e);
                 return null;
             }
         }, filename);
@@ -283,7 +283,7 @@ final class Stream {
 
     private static void ioDebug(final Actuator executor) {
         /* 底层防止循环调用，此处不走 DiagnosisOption */
-        final boolean ioDebug = Env.readBool(Macrocosm.DEV_IO);
+        final boolean ioDebug = Ut.envWith(Macrocosm.DEV_IO, Boolean.FALSE, Boolean.class);
         if (ioDebug) {
             executor.execute();
         }

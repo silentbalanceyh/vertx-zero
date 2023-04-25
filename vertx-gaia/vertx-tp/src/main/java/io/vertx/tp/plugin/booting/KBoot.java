@@ -29,7 +29,7 @@ public interface KBoot {
      */
     static Set<KBoot> initialize() {
         /* Boot processing */
-        final ConcurrentMap<Class<?>, KBoot> data = Pool.CC_BOOTS.store().data();
+        final ConcurrentMap<Class<?>, KBoot> data = Pool.CC_BOOTS.store();
         if (data.isEmpty()) {
             final Node<JsonObject> node = Ut.singleton(ZeroUniform.class);
             final JsonArray boots = node.read().getJsonArray("boot", new JsonArray());

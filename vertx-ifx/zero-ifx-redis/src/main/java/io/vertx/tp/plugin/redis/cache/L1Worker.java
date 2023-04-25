@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.redis.cache;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
@@ -8,7 +9,6 @@ import io.vertx.tp.plugin.cache.hit.AlgorithmCollection;
 import io.vertx.tp.plugin.cache.hit.AlgorithmRecord;
 import io.vertx.tp.plugin.cache.hit.L1Algorithm;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.excel.ranger;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.experiment.mixture.HTAtom;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -36,7 +36,7 @@ public class PureIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final HTAtom HTAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final TypeAtom MetaAtom) {
         /* Data Range */
         ExFn.itSheet(this.sheet, dataRange, (dataRow, rowIndex) -> {
             /* Build Data Col Range */
@@ -49,7 +49,7 @@ public class PureIn extends AbstractExIn {
                 /* Field / Value */
                 final String field = table.field(cellIndex);
                 if (Objects.nonNull(field)) {
-                    final Class<?> type = HTAtom.type(field);
+                    final Class<?> type = MetaAtom.type(field);
                     final Object value = this.extractValue(dataCell, type);
 
                     /* Stored into record */

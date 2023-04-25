@@ -7,23 +7,25 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.Environment;
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.vertx.tp.optic.plugin.AfterPlugin;
-import io.vertx.tp.optic.plugin.AspectPlugin;
+import io.horizon.spi.plugin.AfterPlugin;
+import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogExtension;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -61,6 +63,23 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("all")
 public final class Ox {
+    /**
+     * ## 日志器
+     *
+     * ### 1. 基本介绍
+     *
+     * Ox平台专用内部日志器，外部日志器。
+     *
+     * ### 2. 日志器种类
+     *
+     * - Atom模型日志器
+     * - UCA日志器
+     * - Shell日志器
+     * - 插件Plugin日志器
+     * - Hub总线日志器
+     * - Web流程日志器
+     * - 状态日志器
+     */
     private static ConcurrentMap<Class<?>, String> NUM_MAP = new ConcurrentHashMap<Class<?>, String>() {
         {
             this.put(XActivity.class, "NUM.ACTIVITY");
@@ -78,24 +97,24 @@ public final class Ox {
         Numeration.preprocess(NUM_MAP);
     }
 
-    public static Future<Record> viGet(final DataAtom atom, final String identifier,
-                                       final String field, final Object value) {
+    public static Future<HRecord> viGet(final DataAtom atom, final String identifier,
+                                        final String field, final Object value) {
         return OxLinker.viGet(atom, identifier, field, value);
     }
 
-    public static Future<Record[]> viGet(final DataAtom atom, final String identifier,
-                                         final String field, final JsonArray values) {
+    public static Future<HRecord[]> viGet(final DataAtom atom, final String identifier,
+                                          final String field, final JsonArray values) {
         return OxLinker.viGet(atom, identifier, field, values);
     }
 
-    public static Future<ConcurrentMap<String, Record>> viGetMap(final DataAtom atom, final String identifier,
-                                                                 final String field, final JsonArray values) {
+    public static Future<ConcurrentMap<String, HRecord>> viGetMap(final DataAtom atom, final String identifier,
+                                                                  final String field, final JsonArray values) {
         return OxLinker.viGetMap(atom, identifier, field, values, field);
     }
 
-    public static Future<ConcurrentMap<String, Record>> viGetMap(final DataAtom atom, final String identifier,
-                                                                 final String field, final JsonArray values,
-                                                                 final String fieldGroup) {
+    public static Future<ConcurrentMap<String, HRecord>> viGetMap(final DataAtom atom, final String identifier,
+                                                                  final String field, final JsonArray values,
+                                                                  final String fieldGroup) {
         return OxLinker.viGetMap(atom, identifier, field, values, fieldGroup);
     }
 
@@ -602,7 +621,6 @@ public final class Ox {
         return OxTo.toLinker(source);
     }
 
-
     /**
      * 构造比对报表
      *
@@ -708,11 +726,10 @@ public final class Ox {
      */
     public static <T> Function<T[], Future<T[]>> toArray(final Class<?> clazz) {
         return result -> {
-            Log.infoUca(clazz, "结果数组数量：{0}", result.length);
+            LOG.infoUca(clazz, "结果数组数量：{0}", result.length);
             return Ux.future(result);
         };
     }
-
 
     /**
      * 为记录主键赋值，内置调用`UUID.randomUUID().toString()`。
@@ -837,24 +854,17 @@ public final class Ox {
         }
     }
 
-    /**
-     * ## 日志器
-     *
-     * ### 1. 基本介绍
-     *
-     * Ox平台专用内部日志器，外部日志器。
-     *
-     * ### 2. 日志器种类
-     *
-     * - Atom模型日志器
-     * - UCA日志器
-     * - Shell日志器
-     * - 插件Plugin日志器
-     * - Hub总线日志器
-     * - Web流程日志器
-     * - 状态日志器
-     */
-    public interface Log {
+    public interface LOG {
+
+        String MODULE = "Προέλευση Χ";
+
+        LogExtension Atom = Log.extension(MODULE).configure("Atom");
+        LogExtension Uca = Log.extension(MODULE).configure("Uca");
+        LogExtension Hub = Log.extension(MODULE).configure("Hub");
+        LogExtension Shell = Log.extension(MODULE).configure("Shell");
+        LogExtension Plugin = Log.extension(MODULE).configure("Plugin");
+        LogExtension Web = Log.extension(MODULE).configure("Web");
+        LogExtension CRT = Log.extension(MODULE).configure("CRT");
 
         /**
          * Info级别，模型日志器

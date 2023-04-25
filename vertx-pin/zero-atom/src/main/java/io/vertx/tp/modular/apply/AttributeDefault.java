@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.apply;
 
 import cn.vertxup.atom.domain.tables.pojos.MModel;
+import io.horizon.eon.em.modeler.AttributeType;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.eon.em.atom.AttributeType;
 
 class AttributeDefault implements AoDefault {
 

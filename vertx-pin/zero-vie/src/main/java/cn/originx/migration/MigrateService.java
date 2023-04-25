@@ -1,10 +1,10 @@
 package cn.originx.migration;
 
 import cn.originx.refine.Ox;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 
 public class MigrateService implements Migrate {
@@ -26,7 +26,7 @@ public class MigrateService implements Migrate {
     private Future<JsonObject> timerAsync(final JsonObject config, final long start) {
         final long end = System.nanoTime();
         final long ms = (end - start) / 1000 / 1000;
-        Ox.Log.infoShell(this.getClass(), "合计消耗时间：{0} ms", String.valueOf(ms));
+        Ox.LOG.infoShell(this.getClass(), "合计消耗时间：{0} ms", String.valueOf(ms));
         return Ux.future(config);
     }
 

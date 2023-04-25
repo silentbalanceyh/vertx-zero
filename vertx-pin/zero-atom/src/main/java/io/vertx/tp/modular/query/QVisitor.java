@@ -4,7 +4,7 @@ import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.plugin.jooq.condition.Clause;
 import io.vertx.up.atom.query.tree.*;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.impl.DSL;

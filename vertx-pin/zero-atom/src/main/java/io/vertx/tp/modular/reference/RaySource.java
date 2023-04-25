@@ -1,15 +1,15 @@
 package io.vertx.tp.modular.reference;
 
+import io.aeon.experiment.reference.RDao;
+import io.aeon.experiment.reference.RQuote;
+import io.horizon.specification.modeler.HRecord;
+import io.horizon.specification.modeler.HRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.experiment.mixture.HRule;
-import io.vertx.up.experiment.reference.RDao;
-import io.vertx.up.experiment.reference.RQuote;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
@@ -42,22 +42,22 @@ class RaySource {
      * field1 -> DataQRule
      * field2 -> DataQRule
      */
-    public ConcurrentMap<String, JsonArray> single(final Record record) {
+    public ConcurrentMap<String, JsonArray> single(final HRecord record) {
         return this.data(rule -> rule.condition(record));
     }
 
-    public Future<ConcurrentMap<String, JsonArray>> singleAsync(final Record record) {
+    public Future<ConcurrentMap<String, JsonArray>> singleAsync(final HRecord record) {
         return this.dataAsync(rule -> rule.condition(record));
     }
 
     /*
      * 批量运算
      */
-    public ConcurrentMap<String, JsonArray> batch(final Record[] records) {
+    public ConcurrentMap<String, JsonArray> batch(final HRecord[] records) {
         return this.data(rule -> rule.condition(records));
     }
 
-    public Future<ConcurrentMap<String, JsonArray>> batchAsync(final Record[] records) {
+    public Future<ConcurrentMap<String, JsonArray>> batchAsync(final HRecord[] records) {
         return this.dataAsync(rule -> rule.condition(records));
     }
 
@@ -69,7 +69,7 @@ class RaySource {
                 final JsonObject condition = kv.getKey();
                 final RDao dao = kv.getValue();
                 futureMap.put(hashCode,
-                    Rapid.<String, JsonArray>t(RapidKey.REFERENCE, Constants.DEFAULT_EXPIRED_DATA)
+                    Rapid.<String, JsonArray>t(RapidKey.REFERENCE, KWeb.ARGS.V_DATA_EXPIRED)
                         .cached(String.valueOf(hashCode), () -> {
                             Ao.infoUca(this.getClass(), "Async Batch condition building: {0}", condition.encode());
                             return dao.fetchByAsync(condition);

@@ -1,6 +1,6 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.util.Ut;
 

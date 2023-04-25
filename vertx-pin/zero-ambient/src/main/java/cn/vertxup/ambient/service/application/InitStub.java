@@ -1,5 +1,7 @@
 package cn.vertxup.ambient.service.application;
 
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
@@ -36,7 +38,7 @@ public interface InitStub {
     /**
      * 「Async」( Creation ) This api is for application initialization at first time.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     * Related Interface: {@link Init}
      *
      * @param appId {@link java.lang.String} The application primary key that stored in `KEY` field of `X_APP`.
      * @param data  {@link io.vertx.core.json.JsonObject} The data that will create application instance.
@@ -49,7 +51,7 @@ public interface InitStub {
     /**
      * 「Async」( Edition ) This api is for application initialization at any time after 1st.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     * Related Interface: {@link Init}
      *
      * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
      *
@@ -60,7 +62,7 @@ public interface InitStub {
     /**
      * 「Async」( Modeling Only ) This api is new for modeling initialization.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     * Related Interface: {@link Init}
      *
      * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
      *
@@ -73,7 +75,7 @@ public interface InitStub {
     /**
      * 「Async」Pre-Workflow before initialization when call this method.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Prerequisite}
+     * Related Interface: {@link Prerequisite}
      *
      * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
      *

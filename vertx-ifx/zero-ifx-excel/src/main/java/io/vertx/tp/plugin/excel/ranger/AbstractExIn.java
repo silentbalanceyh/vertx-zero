@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.excel.ranger;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.cell.ExValue;
-import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -41,7 +41,7 @@ public abstract class AbstractExIn implements ExIn {
             /* Cell value extraction based on shape */
             result = ExValue.getValue(dataCell, type, this.evaluator);
         } catch (final Throwable ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             // For debug
             ex.printStackTrace();
             result = null;
@@ -68,8 +68,8 @@ public abstract class AbstractExIn implements ExIn {
         rowMap.clear();
     }
 
-    protected BiConsumer<Cell, HTAtom> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
-                                                    final String field) {
+    protected BiConsumer<Cell, TypeAtom> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
+                                                      final String field) {
         return (dataCell, shape) -> {
             /*
              * Calculated

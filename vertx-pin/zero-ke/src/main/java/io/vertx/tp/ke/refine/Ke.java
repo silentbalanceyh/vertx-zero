@@ -1,5 +1,6 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -7,7 +8,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
@@ -58,8 +58,8 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final HTAtom HTAtom) {
-        return KeCompare.combineAsync(data, headers, columns, HTAtom);
+                                                 final TypeAtom MetaAtom) {
+        return KeCompare.combineAsync(data, headers, columns, MetaAtom);
     }
 
     /*
@@ -76,7 +76,7 @@ public class Ke {
         return data -> KeTool.map(data, KName.KEY, fieldConfig, fileFn);
     }
 
-    public static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner){
+    public static <T, R> Future<R> mapApp(final Function<JsonObject, Future<T>> executor, final Function<Set<T>, Future<R>> combiner) {
         return KeTool.mapApp(executor, combiner);
     }
 

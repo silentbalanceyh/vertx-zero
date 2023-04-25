@@ -1,14 +1,14 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.specification.modeler.HReference;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HReference;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.HashSet;
@@ -102,7 +102,7 @@ class JQPre {
         /*
          * Replace qrItem
          */
-        ccRemoved.store().data().forEach((levelKey, removedMap) -> {
+        ccRemoved.store().forEach((levelKey, removedMap) -> {
             final ConcurrentMap<String, QrItem> replacedMap = ccReplaced.store(levelKey);
             final JsonObject jsonRef = referenceData.get(levelKey);
             if (Objects.nonNull(replacedMap) && Objects.nonNull(removedMap)) {

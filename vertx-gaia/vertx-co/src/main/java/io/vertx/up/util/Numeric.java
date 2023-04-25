@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -44,7 +44,7 @@ final class Numeric {
     }
 
     static boolean isPositive(final String original) {
-        return StringUtil.isMatch(KValue.Regex.POSITIVE, original);
+        return StringUtil.isMatch(VString.REGEX.POSITIVE, original);
     }
 
     static boolean isPositive(final int number) {
@@ -66,15 +66,15 @@ final class Numeric {
     }
 
     static boolean isNegative(final String original) {
-        return StringUtil.isMatch(KValue.Regex.NEGATIVE, original);
+        return StringUtil.isMatch(VString.REGEX.NEGATIVE, original);
     }
 
     static boolean isInteger(final String original) {
-        return StringUtil.isMatch(KValue.Regex.INTEGER, original) || isPositive(original) || isNegative(original);
+        return StringUtil.isMatch(VString.REGEX.INTEGER, original) || isPositive(original) || isNegative(original);
     }
 
     static boolean isDecimal(final String original) {
-        return StringUtil.isMatch(KValue.Regex.DECIMAL, original);
+        return StringUtil.isMatch(VString.REGEX.DECIMAL, original);
     }
 
     static boolean isReal(final String original) {
@@ -113,11 +113,11 @@ final class Numeric {
     static class Decimal {
 
         static boolean isPositive(final String original) {
-            return StringUtil.isMatch(KValue.Regex.DECIMAL_POSITIVE, original);
+            return StringUtil.isMatch(VString.REGEX.DECIMAL_POSITIVE, original);
         }
 
         static boolean isNegative(final String original) {
-            return StringUtil.isMatch(KValue.Regex.DECIMAL_NEGATIVE, original);
+            return StringUtil.isMatch(VString.REGEX.DECIMAL_NEGATIVE, original);
         }
     }
 }

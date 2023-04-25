@@ -49,7 +49,7 @@ public class AresHub extends AbstractAres {
          *       instances: 64
          *    agent:
          *       instances: 32
-         *    unity: io.vertx.tp.optic.environment.UnityAmbient
+         *    unity: io.horizon.spi.environment.UnityAmbient
          *
          * In file: vertx-inject.yml
          * router: io.vertx.tp.jet.JetPollux # ( zero-atom module )

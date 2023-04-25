@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.reference;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 
@@ -20,8 +21,8 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
  *
  * The `T` type should be two common object such as:
  *
- * - {@link io.vertx.core.json.JsonObject} content of Json Record, the core type is {@link io.vertx.up.commune.Record}.
- * - {@link io.vertx.core.json.JsonArray} content of Json Record[], the core type is {@link io.vertx.up.commune.Record}[].
+ * - {@link io.vertx.core.json.JsonObject} content of Json Record, the core type is {@link HRecord}.
+ * - {@link io.vertx.core.json.JsonArray} content of Json Record[], the core type is {@link HRecord}[].
  *
  * ### 3. Standard Mode
  *
@@ -53,9 +54,9 @@ public interface AoRay<T> {
     AoRay<T> on(DataTpl tpl);
 
     /**
-     * This method will modify the input {@link io.vertx.up.commune.Record} element(s).
+     * This method will modify the input {@link HRecord} element(s).
      *
-     * @param input Input element of {@link io.vertx.up.commune.Record} for single/multi
+     * @param input Input element of {@link HRecord} for single/multi
      *
      * @return Return the modified data record(s).
      */

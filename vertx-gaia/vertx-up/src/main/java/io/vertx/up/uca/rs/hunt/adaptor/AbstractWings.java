@@ -2,8 +2,8 @@ package io.vertx.up.uca.rs.hunt.adaptor;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Constants;
 import io.vertx.up.log.Annal;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroVertx;
 import io.vertx.up.util.Ut;
@@ -26,9 +26,11 @@ public abstract class AbstractWings implements Wings {
 
     protected boolean isFreedom() {
         final JsonObject options = NODE.read();
-        if (options.containsKey(Constants.DEFAULT_FREEDOM)) {
-            return options.getBoolean(Constants.DEFAULT_FREEDOM);
-        } else return false;        // Default is non freedom
+        if (options.containsKey(ZeroYml.freedom)) {
+            return options.getBoolean(ZeroYml.freedom);
+        } else {
+            return false;        // Default is non freedom
+        }
     }
 
     protected String toFreedom(final Envelop envelop) {

@@ -1,7 +1,7 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.em.MessageModel;
+import io.horizon.eon.em.container.MessageModel;
+import io.vertx.up.eon.KWeb;
 
 import java.lang.annotation.*;
 
@@ -29,7 +29,7 @@ public @interface Worker {
      *
      * @return default instance number
      */
-    int instances() default Constants.DEFAULT_INSTANCES;
+    int instances() default KWeb.DEPLOY.INSTANCES;
 
     /**
      * Isolation Group
@@ -37,10 +37,10 @@ public @interface Worker {
      *
      * @return default vert.x group
      */
-    String group() default Constants.DEFAULT_GROUP;
+    String group() default KWeb.DEPLOY.VERTX_GROUP;
 
     /**
      * @return whether support HA feature for current worker.
      */
-    boolean ha() default Constants.DEFAULT_HA;
+    boolean ha() default KWeb.DEPLOY.HA;
 }

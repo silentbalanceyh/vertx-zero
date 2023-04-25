@@ -1,11 +1,11 @@
 package io.vertx.tp.modular.query;
 
+import io.horizon.eon.em.modeler.ModelType;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._501IngestImplementException;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.eon.em.atom.ModelType;
 import io.vertx.up.fn.Fn;
 import org.jooq.Condition;
 import org.jooq.OrderField;

@@ -20,7 +20,6 @@ public interface Node<T> {
      */
     static Node<JsonObject> infix(final String key) {
         return CC_REFERENCE.pick(() -> new ZeroInfix(key), key);
-        // Fn.po?l(ZeroInfix.REFERENCES, key, () -> new ZeroInfix(key));
     }
 
     T read();

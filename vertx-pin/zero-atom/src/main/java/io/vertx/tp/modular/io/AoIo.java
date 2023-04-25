@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.io;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.cv.em.EventType;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.commune.Record;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public interface AoIo {
     <ID> AoIo keys(ID... keys);
 
     /* 新创建：填充多记录 */
-    AoIo records(Record... records);
+    AoIo records(HRecord... records);
 
     // -------------- 追加 -----------------------
     /*

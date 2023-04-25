@@ -5,9 +5,9 @@ import cn.vertxup.ambient.service.application.AppService;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitService;
 import cn.vertxup.ambient.service.application.InitStub;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -91,10 +91,10 @@ final class OxAmbient {
             final Class<?> clazz = Ut.clazz(className, null);
             final int current = index + 1;
             if (Objects.nonNull(clazz)) {
-                Ox.Log.infoPlugin(OxAmbient.class, "{0}. 插件类: {1}", current, className);
+                Ox.LOG.infoPlugin(OxAmbient.class, "{0}. 插件类: {1}", current, className);
                 queue.add(clazz);
             } else {
-                Ox.Log.infoPlugin(OxAmbient.class, "{0}. 插件类异常（null）: {1}", current, className);
+                Ox.LOG.infoPlugin(OxAmbient.class, "{0}. 插件类异常（null）: {1}", current, className);
             }
         });
         return queue;

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.di;
 
 import com.google.inject.Injector;
+import io.horizon.eon.info.VMessage;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Info;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
@@ -67,10 +67,10 @@ public class DiPlugin {
                         final String fieldName = field.getName();
                         Ut.field(proxy, fieldName, tpRef);
                     } else {
-                        logger.warn(Info.INFIX_IMPL, infixCls.getName(), Infix.class.getName());
+                        logger.warn(VMessage.DI_PLUGIN_IMPL, infixCls.getName(), Infix.class.getName());
                     }
                 } else {
-                    logger.warn(Info.INFIX_NULL, field.getType().getName(), field.getName(), type.getName());
+                    logger.warn(VMessage.DI_PLUGIN_NULL, field.getType().getName(), field.getName(), type.getName());
                 }
             })
             .dispose();

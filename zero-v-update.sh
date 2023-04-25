@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 拷贝核心框架
 cp pom-update.xml ./vertx-gaia/pom-update.xml
+cp pom-update.xml ./vertx-gaia/vertx-ams/pom-update.xml
 cp pom-update.xml ./vertx-gaia/vertx-co/pom-update.xml
 cp pom-update.xml ./vertx-gaia/vertx-rx/pom-update.xml
 cp pom-update.xml ./vertx-gaia/vertx-tp/pom-update.xml

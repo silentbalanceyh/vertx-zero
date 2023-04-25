@@ -1,15 +1,15 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.JobType;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.store.JobConfig;
 import io.vertx.up.uca.job.store.JobPin;
@@ -83,7 +83,7 @@ public class ZeroScheduler extends AbstractVerticle {
             /*
              * Invoke here to provide input
              */
-            if (Debugger.devJobBoot()) {
+            if (DevEnv.devJobBoot()) {
                 LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
             }
             /*

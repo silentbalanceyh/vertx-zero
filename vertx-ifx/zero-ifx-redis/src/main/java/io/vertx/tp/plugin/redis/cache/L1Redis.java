@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.redis.cache;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -10,7 +11,6 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
 import io.vertx.tp.plugin.redis.RedisInfix;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;

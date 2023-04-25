@@ -6,7 +6,7 @@ import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -50,7 +50,7 @@ final class OxConsole {
             client.deleteIndex(identifier);
             client.createIndex(identifier, atom.type());
         } catch (final Throwable ex) {
-            if (Debugger.devJvmStack()) {
+            if (DevEnv.devJvmStack()) {
                 ex.printStackTrace();
             }
             Sl.failWarn("当前索引不存在：identifier = {0}, details", identifier, ex.getMessage());
@@ -81,7 +81,7 @@ final class OxConsole {
                 System.err.println(content.replaceAll("at ", "\n\tat "));
             }
         } catch (final Exception ex) {
-            Ox.Log.warnShell(LOGGER, "执行出错！ex = {0}", ex.getMessage());
+            Ox.LOG.warnShell(LOGGER, "执行出错！ex = {0}", ex.getMessage());
         }
     }
 }

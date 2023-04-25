@@ -1,18 +1,18 @@
 package io.vertx.up.uca.crypto;
 
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.channel.Pocket;
-import io.vertx.up.experiment.mixture.HED;
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.channel.Pocket;
+import io.aeon.experiment.specification.KPair;
+import io.horizon.eon.VValue;
+import io.horizon.spi.cloud.HED;
+import io.horizon.specification.runtime.Macrocosm;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.util.Ut;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -34,7 +34,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     @SuppressWarnings("unchecked")
     public KPair generate(final int size) {
         return Fn.orJvm(() -> {
-            final KeyPairGenerator generate = KeyPairGenerator.getInstance(Constants.ALGORITHM_RSA);
+            final KeyPairGenerator generate = KeyPairGenerator.getInstance(VValue.DFT.ALGORITHM_RSA);
             generate.initialize(size);
             final KeyPair pair = generate.generateKeyPair();
             final P publicKey = (P) pair.getPublic();
@@ -97,7 +97,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
             final Cipher cipher = Cipher.getInstance(this.algorithm);
             cipher.init(Cipher.DECRYPT_MODE, key);
 
-            final byte[] inputBytes = Base64.decodeBase64(source.getBytes(Values.ENCODING));
+            final byte[] inputBytes = Base64.decodeBase64(source.getBytes(StandardCharsets.UTF_8));
             final int inputLength = inputBytes.length;
             // The Max Block Bytes of decrypt
             final int MAX_ENCRYPT_BLOCK = 128;

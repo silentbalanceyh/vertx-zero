@@ -1,10 +1,10 @@
 package io.vertx.tp.rbac.acl.rapid;
 
+import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

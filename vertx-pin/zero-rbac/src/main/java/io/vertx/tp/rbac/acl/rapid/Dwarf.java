@@ -1,10 +1,10 @@
 package io.vertx.tp.rbac.acl.rapid;
 
+import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500DwarfInstanceNullException;
 import io.vertx.tp.rbac.acl.rapid.addon.DwarfAddOn;
 import io.vertx.tp.rbac.cv.em.RegionType;
-import io.vertx.up.commune.secure.Acl;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

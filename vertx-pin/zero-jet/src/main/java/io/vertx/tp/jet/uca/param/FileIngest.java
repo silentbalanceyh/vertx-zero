@@ -6,9 +6,9 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.cv.em.ParamMode;
-import io.vertx.tp.optic.jet.JtIngest;
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +48,7 @@ class FileIngest implements JtIngest {
                 return item;
             }).forEach(files::add);
         }
-        envelop.value(ID.PARAM_STREAM, files);
+        envelop.value(KWeb.ARGS.PARAM_STREAM, files);
         return envelop;
     }
 }

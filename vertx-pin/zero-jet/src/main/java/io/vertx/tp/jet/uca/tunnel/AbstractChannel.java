@@ -1,16 +1,19 @@
 package io.vertx.tp.jet.uca.tunnel;
 
+import io.horizon.specification.modeler.HRecord;
+import io.horizon.specification.zero.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._501ChannelErrorException;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.tp.optic.jet.JtChannel;
-import io.vertx.tp.optic.jet.JtComponent;
+import io.horizon.spi.jet.JtChannel;
+import io.horizon.spi.jet.JtComponent;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.commune.Record;
-import io.vertx.up.commune.*;
+import io.vertx.up.commune.ActIn;
+import io.vertx.up.commune.ActOut;
+import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.log.Annal;
@@ -134,7 +137,7 @@ public abstract class AbstractChannel implements JtChannel {
         /*
          * Data object, could not be singleton
          *  */
-        final Record definition = Ut.instance(recordClass);
+        final HRecord definition = Ut.instance(recordClass);
         /*
          * First step for channel
          * Initialize the `ActIn` object and reference

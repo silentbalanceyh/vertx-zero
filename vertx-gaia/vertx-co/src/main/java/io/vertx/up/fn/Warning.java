@@ -1,9 +1,10 @@
 package io.vertx.up.fn;
 
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.Actuator;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -14,9 +15,9 @@ import java.util.function.Supplier;
 /**
  * Announce means tell every one of Zero system that there occurs error, the error contains
  * 1. java.lang.Exception ( Checked )
- * 2. io.vertx.up.exception.ZeroException ( Checked )
+ * 2. io.horizon.exception.ZeroException ( Checked )
  * 3. java.lang.Throwable ( Runtime )
- * 4. io.vertx.up.exception.ZeroRunException ( Runtime )
+ * 4. io.horizon.exception.ZeroRunException ( Runtime )
  */
 final class Warning {
     private Warning() {
@@ -28,6 +29,7 @@ final class Warning {
      * @param logger    Zero Logger
      * @param zeroClass ZeroException class
      * @param args      Arguments of zero
+     *
      * @throws ZeroException Whether throw out exception of zero defined.
      */
     static void outZero(final Annal logger,
@@ -36,7 +38,8 @@ final class Warning {
         throws ZeroException {
         final ZeroException error = Ut.instance(zeroClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.zero(error));
+            logger.fatal(error);
+            //            Annal.sure(logger, () -> logger.checked(error));
             throw error;
         }
     }
@@ -53,7 +56,8 @@ final class Warning {
                       final Object... args) {
         final ZeroRunException error = Ut.instance(upClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.vertx(error));
+            logger.fatal(error);
+            //            Annal.sure(logger, () -> logger.runtime(error));
             throw error;
         }
     }
@@ -63,7 +67,8 @@ final class Warning {
                        final Object... args) {
         final WebException error = Ut.instance(webClass, args);
         if (null != error) {
-            Annal.sure(logger, () -> logger.warn(error.getMessage()));
+            logger.warn(error.getMessage());
+            //            Annal.sure(logger, () -> logger.warn(error.getMessage()));
             throw error;
         }
     }
@@ -110,12 +115,12 @@ final class Warning {
     }
 
     static <T> void outOr(final T condition, final Class<?> clazz, final String message) {
-        if (condition instanceof Boolean check) {
+        if (condition instanceof final Boolean check) {
             // If boolean, condition = true, throw Error
             if (check) {
                 outWeb(_412NullValueException.class, clazz, message);
             }
-        } else if (condition instanceof String check) {
+        } else if (condition instanceof final String check) {
             // If string, condition = empty or null, throw Error
             if (Ut.isNil(check)) {
                 outWeb(_412NullValueException.class, clazz, message);
@@ -144,11 +149,13 @@ final class Warning {
         try {
             actuator.execute();
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.runtime(ex));
             throw ex;
         } catch (final Throwable ex) {
+            logger.fatal(ex);
             ex.printStackTrace();
-            Annal.sure(logger, () -> logger.jvm(ex));
+            //            Annal.sure(logger, () -> logger.jvm(ex));
         }
     }
 
@@ -157,6 +164,7 @@ final class Warning {
      * @param supplier T supplier function
      * @param runCls   ZeroRunException definition
      * @param <T>      T type of object
+     *
      * @return Final T or throw our exception
      */
     static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {

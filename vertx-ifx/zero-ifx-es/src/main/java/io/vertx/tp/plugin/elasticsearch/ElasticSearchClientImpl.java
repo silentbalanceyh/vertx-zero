@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.elasticsearch;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -128,7 +128,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
                 result.put("data", response.getSource());
             }
         } catch (final IOException ioe) {
-            LOGGER.jvm(ioe);
+            LOGGER.fatal(ioe);
         }
 
         this.helper.closeClient(client);

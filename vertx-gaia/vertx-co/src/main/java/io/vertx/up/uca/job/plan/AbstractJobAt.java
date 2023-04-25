@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.plan;
 
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;

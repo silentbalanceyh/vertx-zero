@@ -16,7 +16,7 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

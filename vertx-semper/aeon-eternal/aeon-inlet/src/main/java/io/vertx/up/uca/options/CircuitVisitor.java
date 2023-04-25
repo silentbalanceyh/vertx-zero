@@ -1,10 +1,10 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.info.VMessage;
+import io.horizon.exception.ZeroException;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.eon.Info;
-import io.vertx.up.exception.ZeroException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
@@ -22,7 +22,7 @@ public class CircuitVisitor implements Visitor<CircuitBreakerOptions> {
     public CircuitBreakerOptions visit(final String... key)
         throws ZeroException {
         // 1. Must be the first line, fixed position.
-        Fn.verifyLenEq(this.getClass(), 0, key);
+        //        Fn.verifyLenEq(this.getClass(), 0, key);
         // 2. Read data
         final JsonObject data = this.node.read();
         // 3. CircuitBreakerOptions building.
@@ -37,7 +37,7 @@ public class CircuitVisitor implements Visitor<CircuitBreakerOptions> {
 
     private CircuitBreakerOptions visit(final JsonObject data)
         throws ZeroException {
-        LOGGER.info(Info.INF_B_VERIFY, CIRCUIT, "Circuit", data.encode());
+        LOGGER.info(VMessage.VISITOR_V_BEFORE, CIRCUIT, "Circuit", data.encode());
         Ruler.verify("circuit", data);
         return new CircuitBreakerOptions(data);
     }

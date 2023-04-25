@@ -1,10 +1,10 @@
 package io.vertx.tp.is.init;
 
+import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.atom.IsConfig;
 import io.vertx.tp.is.cv.IsFolder;
 import io.vertx.tp.is.refine.Is;
-import io.vertx.up.runtime.env.Macrocosm;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

@@ -1,11 +1,13 @@
 package io.vertx.up.fn;
 
 
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.ErrorSupplier;
+import io.horizon.fn.ZeroActuator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 
 import java.util.function.Consumer;
@@ -36,23 +38,23 @@ final class Wait {
     /*
      * JvmSupplier -> Supplier
      */
-    static <T> T wrapper(final RunSupplier<T> supplier, final T defaultValue) {
+    static <T> T wrapper(final ErrorSupplier<T> supplier, final T defaultValue) {
         try {
             return supplier.get();
         } catch (final Throwable ex) {
             // TODO: For Debug
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             ex.printStackTrace();
             return defaultValue;
         }
     }
 
-    static <T> Future<T> wrapperAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+    static <T> Future<T> wrapperAsync(final ErrorSupplier<Future<T>> supplier, final T defaultValue) {
         try {
             return supplier.get();
         } catch (final Throwable ex) {
             // TODO: For Debug
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             ex.printStackTrace();
             return Future.succeededFuture(defaultValue);
         }
@@ -62,11 +64,13 @@ final class Wait {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
+            logger.fatal(ex);
+            //            Annal.?ure(logger, () -> logger.checked(ex));
             throw new ZeroRunException(ex.getMessage()) {
             };
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.?ure(logger, () -> logger.jvm(ex));
         }
     }
 }

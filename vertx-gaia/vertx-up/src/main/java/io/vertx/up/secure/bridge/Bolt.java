@@ -1,11 +1,11 @@
 package io.vertx.up.secure.bridge;
 
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.secure.Lee;
 import io.vertx.up.secure.LeeBuiltIn;
 import io.vertx.up.secure.LeeExtension;

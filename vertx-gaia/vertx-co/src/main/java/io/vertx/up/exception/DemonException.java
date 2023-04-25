@@ -1,5 +1,6 @@
 package io.vertx.up.exception;
 
+import io.horizon.exception.ZeroException;
 import io.vertx.up.log.Errors;
 
 /**

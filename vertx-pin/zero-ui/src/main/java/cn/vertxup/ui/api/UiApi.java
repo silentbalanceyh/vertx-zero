@@ -6,8 +6,8 @@ import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 @EndPoint
@@ -26,7 +26,7 @@ public interface UiApi {
     @Path("/ui/page")
     @POST
     @Address(Addr.Page.FETCH_AMP)
-    JsonObject fetchPage(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonObject fetchPage(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                          @BodyParam JsonObject body);
 
     /*
@@ -86,7 +86,7 @@ public interface UiApi {
     @Path("/ui/form/:code")
     @GET
     @Address(Addr.Control.FETCH_FORM_BY_CODE)
-    JsonObject fetchForm(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonObject fetchForm(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                          @PathParam(KName.CODE) String name);
 
     /*
@@ -96,7 +96,7 @@ public interface UiApi {
     @Path("/ui/forms/:identifier")
     @GET
     @Address(Addr.Control.FETCH_FORM_BY_IDENTIFIER)
-    JsonArray fetchForms(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonArray fetchForms(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                          @PathParam(KName.IDENTIFIER) String identifier);
 
     /*
@@ -106,7 +106,7 @@ public interface UiApi {
     @Path("/ui/lists/:identifier")
     @GET
     @Address(Addr.Control.FETCH_LIST_BY_IDENTIFIER)
-    JsonArray fetchLists(@HeaderParam(ID.Header.X_SIGMA) String sigma,
+    JsonArray fetchLists(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma,
                          @PathParam(KName.IDENTIFIER) String identifier);
 
     /*

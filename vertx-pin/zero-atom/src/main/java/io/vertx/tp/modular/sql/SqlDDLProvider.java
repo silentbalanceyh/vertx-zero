@@ -2,15 +2,15 @@ package io.vertx.tp.modular.sql;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.error.*;
 import io.vertx.tp.modular.metadata.AoReflector;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.metadata.FieldComparator;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.eon.em.atom.KeyType;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

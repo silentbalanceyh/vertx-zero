@@ -1,11 +1,11 @@
 package cn.originx.migration.tookit;
 
 import cn.originx.refine.Ox;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -37,7 +37,7 @@ public class TableRestore extends AbstractStatic {
             files.stream().map(file -> targetFolder + "/" + file)
                 .map(this::ioAsync).forEach(inserted::add);
             return Fn.compressA(inserted).compose(nil -> {
-                Ox.Log.infoShell(this.getClass(), "表名：{0} 数据还原完成！记录数：{1}",
+                Ox.LOG.infoShell(this.getClass(), "表名：{0} 数据还原完成！记录数：{1}",
                     this.jooq.table(), String.valueOf(nil.size()));
                 /*
                  * 再执行 upsert 将 original 中的数据回写到系统中
@@ -45,7 +45,7 @@ public class TableRestore extends AbstractStatic {
                 final List<Future<JsonObject>> upgrade = new ArrayList<>();
                 Ut.itJArray(original).map(this::upsertAsync).forEach(upgrade::add);
                 return Fn.combineA(upgrade).compose(up -> {
-                    Ox.Log.infoShell(this.getClass(), "表名：{0} 数据还原完成！升级记录：{1}",
+                    Ox.LOG.infoShell(this.getClass(), "表名：{0} 数据还原完成！升级记录：{1}",
                         this.jooq.table(), String.valueOf(up.size()));
                     return Ux.future(config);
                 });

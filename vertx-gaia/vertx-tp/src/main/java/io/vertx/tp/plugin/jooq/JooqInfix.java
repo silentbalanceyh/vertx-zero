@@ -4,12 +4,11 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 
@@ -41,7 +40,7 @@ public class JooqInfix implements Infix {
          * Here initialize the static jooq configuration only
          * If there exist dynamic pool, it will process in `delay` loading processing
          */
-        CONFIGURATION.putAll(Infix.init(Plugins.Infix.JOOQ, JooqPin::initConfiguration, JooqInfix.class));
+        CONFIGURATION.putAll(Infix.init(ZeroYml.inject.jooq, JooqPin::initConfiguration, JooqInfix.class));
     }
 
     private static Configuration configDelay(final DataPool pool) {
@@ -64,7 +63,7 @@ public class JooqInfix implements Infix {
     }
 
     public static <T> JooqDsl getDao(final Class<T> clazz) {
-        final Configuration configuration = configSafe(Constants.DEFAULT_JOOQ);
+        final Configuration configuration = configSafe(ZeroYml.lime.jooq.provider);
         return JooqDsl.init(vertxRef, configuration, clazz);
     }
 
@@ -85,13 +84,13 @@ public class JooqInfix implements Infix {
      * 2. Static/Configured: vertx-jooq.yml -> ( by Key )
      */
     public static DSLContext contextTrash() {
-        return configSafe(Constants.DEFAULT_JOOQ_HISTORY).dsl();
+        return configSafe(ZeroYml.lime.jooq.orbit).dsl();
     }
 
 
     @Override
     public Configuration get() {
-        return this.get(Constants.DEFAULT_JOOQ);
+        return this.get(ZeroYml.lime.jooq.provider);
     }
 
     public Configuration get(final String key) {

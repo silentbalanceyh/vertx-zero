@@ -1,12 +1,12 @@
 package io.vertx.up.uca.jooq.cache;
 
+import io.horizon.fn.ErrorSupplier;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.tp.plugin.cache.hit.CMessage;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.util.CacheAside;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.fn.RunSupplier;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public class L1Aside {
      *    deleteAsync
      * Delete cache information
      */
-    <T> T delete(final List<CMessage> messages, final RunSupplier<T> actualSupplier) {
+    <T> T delete(final List<CMessage> messages, final ErrorSupplier<T> actualSupplier) {
         /* Actual Supplier */
         final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
 
@@ -100,7 +100,7 @@ public class L1Aside {
         return CacheAside.after(wrapActual, ret -> this.deleteCache(messages));
     }
 
-    <T> Future<T> deleteAsync(final List<CMessage> messages, final RunSupplier<Future<T>> actualSupplier) {
+    <T> Future<T> deleteAsync(final List<CMessage> messages, final ErrorSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
         final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
 
@@ -113,7 +113,7 @@ public class L1Aside {
      *    readAsync
      * Read information such as T & List<T> returned from cache here
      */
-    <T> T read(final CMessage message, final RunSupplier<T> actualSupplier) {
+    <T> T read(final CMessage message, final ErrorSupplier<T> actualSupplier) {
         /* Actual Supplier */
         final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
 
@@ -124,7 +124,7 @@ public class L1Aside {
         return CacheAside.before(wrapCache, wrapActual, entity -> this.writeCache(message.data(entity)));
     }
 
-    <T> Future<T> readAsync(final CMessage message, final RunSupplier<Future<T>> actualSupplier) {
+    <T> Future<T> readAsync(final CMessage message, final ErrorSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
         final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
 
@@ -141,7 +141,7 @@ public class L1Aside {
      *    existAsync
      * Exist such as T & List<T>, the different point is returned type is Boolean
      */
-    Boolean exist(final CMessage message, final RunSupplier<Boolean> actualSupplier) {
+    Boolean exist(final CMessage message, final ErrorSupplier<Boolean> actualSupplier) {
         /* Actual Supplier */
         final Supplier<Boolean> wrapActual = () -> Fn.wrap(actualSupplier, Boolean.FALSE);
 
@@ -152,7 +152,7 @@ public class L1Aside {
         return CacheAside.check(wrapCache, wrapActual);
     }
 
-    Future<Boolean> existAsync(final CMessage message, final RunSupplier<Future<Boolean>> actualSupplier) {
+    Future<Boolean> existAsync(final CMessage message, final ErrorSupplier<Future<Boolean>> actualSupplier) {
         /* Build to supplier */
         final Supplier<Future<Boolean>> wrapActual = () -> Fn.wrapAsync(actualSupplier, Boolean.FALSE);
 

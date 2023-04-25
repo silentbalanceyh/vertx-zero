@@ -16,7 +16,7 @@
         <queueSize>512</queueSize>
         <appender-ref ref="COM"/>
     </appender>
-    <logger name="cn.originx.optic" level="INFO">
+    <logger name="cn.originx.spi" level="INFO">
         <appender-ref ref="ASYNC_COM"/>
     </logger>
 </included>

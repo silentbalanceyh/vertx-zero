@@ -3,12 +3,12 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import io.horizon.eon.VValue;
+import io.horizon.eon.em.typed.YamlType;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.YamlType;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.exception.heart.JsonFormatException;
 import io.vertx.up.fn.Fn;
@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
@@ -81,9 +82,9 @@ final class IO {
     }
 
     static String getString(final InputStream in, final String joined) {
-        final StringBuilder buffer = new StringBuilder(Values.BUFFER_SIZE);
+        final StringBuilder buffer = new StringBuilder();
         return Fn.orJvm(() -> {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(in, Values.ENCODING));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             // Character stream
             String line;
             while (null != (line = reader.readLine())) {
@@ -281,7 +282,7 @@ final class IO {
     static String getCompress(final String file) {
         final byte[] bytes = Stream.readBytes(file);
         final byte[] compressed = Compressor.decompress(bytes);
-        return new String(compressed, Values.DEFAULT_CHARSET);
+        return new String(compressed, VValue.DFT.CHARSET);
     }
 
     static Buffer zip(final Set<String> fileSet) {
@@ -291,7 +292,7 @@ final class IO {
             final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
 
             // Buffer Size
-            final byte[] buffers = new byte[Values.CACHE_SIZE];
+            final byte[] buffers = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
             fileSet.forEach(filename -> Fn.safeJvm(() -> {
                 // create .zip and put file here
                 final File file = new File(filename);
@@ -300,9 +301,9 @@ final class IO {
 
                 // Read File content and put them in the zip
                 final FileInputStream fis = new FileInputStream(file);
-                final BufferedInputStream bis = new BufferedInputStream(fis, Values.CACHE_SIZE);
+                final BufferedInputStream bis = new BufferedInputStream(fis, VValue.DFT.SIZE_BYTE_ARRAY);
                 int read;
-                while ((read = bis.read(buffers, 0, Values.CACHE_SIZE)) != -1) {
+                while ((read = bis.read(buffers, 0, VValue.DFT.SIZE_BYTE_ARRAY)) != -1) {
                     zos.write(buffers, 0, read);
                 }
                 bis.close();

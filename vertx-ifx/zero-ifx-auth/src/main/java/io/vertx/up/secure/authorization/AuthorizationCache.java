@@ -1,13 +1,13 @@
 package io.vertx.up.secure.authorization;
 
+import io.horizon.fn.Actuator;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 
@@ -39,7 +39,7 @@ class AuthorizationCache {
                 final String requestKey = requestKey(context);
                 if (authorized.getBoolean(requestKey, Boolean.FALSE)) {
                     final String habitus = user.principal().getString(KName.HABITUS);
-                    if (Debugger.devAuthorized()) {
+                    if (DevEnv.devAuthorized()) {
                         LOGGER.info("[ Auth ]\u001b[0;32m 403 Authorized Cached successfully \u001b[m for ( {1}, {0} )", habitus, requestKey);
                     }
                     context.next();

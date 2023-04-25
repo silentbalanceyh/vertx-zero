@@ -1,6 +1,6 @@
 package io.vertx.quiz.example;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import jakarta.ws.rs.GET;
 
 public class RMethod1 {

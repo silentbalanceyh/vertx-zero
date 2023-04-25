@@ -1,5 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.eon.VPath;
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -8,12 +10,10 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.experiment.mixture.HTAtom;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -43,7 +43,7 @@ class SheetExport {
     }
 
     void exportData(final String identifier, final JsonArray data,
-                    final HTAtom HTAtom, final Handler<AsyncResult<Buffer>> handler) {
+                    final TypeAtom MetaAtom, final Handler<AsyncResult<Buffer>> handler) {
         /*
          * 1. Workbook created first
          * Each time if you want to export the data to excel file, here you must create
@@ -74,7 +74,7 @@ class SheetExport {
          * 1) When shape is null, the data type of each cell is detected by data literal
          * 2) When shape contains value, the data type of each cell is defined by Shape
          * */
-        final boolean headed = ExFn.generateHeader(sheet, identifier, data, HTAtom);
+        final boolean headed = ExFn.generateHeader(sheet, identifier, data, MetaAtom);
 
         /*
          * 4. Data Part of current excel file
@@ -83,8 +83,8 @@ class SheetExport {
         /*
          * Type processing
          */
-        if (Objects.nonNull(HTAtom)) {
-            HTAtom.analyzed(data);
+        if (Objects.nonNull(MetaAtom)) {
+            MetaAtom.analyzed(data);
         }
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
             /*
@@ -96,7 +96,7 @@ class SheetExport {
             /*
              * Generate banner of title for usage
              */
-            if (HTAtom.isComplex()) {
+            if (MetaAtom.isComplex()) {
                 /*
                  * 1,2,3,4
                  */
@@ -110,7 +110,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, HTAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, MetaAtom.types());
                 }
             } else {
                 if (actualIdx <= 2) {
@@ -123,7 +123,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, HTAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, MetaAtom.types());
                 }
             }
 
@@ -133,7 +133,7 @@ class SheetExport {
         /*
          * 5. Apply for style based on Tpl extraction
          */
-        this.helper.brush(workbook, sheet, HTAtom);
+        this.helper.brush(workbook, sheet, MetaAtom);
 
         /*
          * 6. Adjust column width
@@ -153,8 +153,8 @@ class SheetExport {
             /*
              * This file object refer to created temp file and output to buffer
              */
-            Ut.ioOut(Constants.DEFAULT_EXPORT);
-            final String filename = Constants.DEFAULT_EXPORT + "/" + identifier + Strings.DOT + UUID.randomUUID() +
+            Ut.ioOut(VPath.SERVER.EXPORT);
+            final String filename = VPath.SERVER.EXPORT + "/" + identifier + Strings.DOT + UUID.randomUUID() +
                 Strings.DOT + FileSuffix.EXCEL_2007;
             final OutputStream out = new FileOutputStream(filename);
             workbook.write(out);
@@ -166,9 +166,9 @@ class SheetExport {
     }
 
     Future<Buffer> exportData(final String identifier, final JsonArray data,
-                              final HTAtom HTAtom) {
+                              final TypeAtom MetaAtom) {
         final Promise<Buffer> promise = Promise.promise();
-        this.exportData(identifier, data, HTAtom, this.callback(promise));
+        this.exportData(identifier, data, MetaAtom, this.callback(promise));
         return promise.future();
     }
 

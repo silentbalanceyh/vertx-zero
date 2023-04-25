@@ -6,7 +6,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.vertx.up.log.Log;
+import io.vertx.up.log.DevOps;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -53,7 +53,7 @@ public class HarpBus {
             workerOptions.setConfig(options.copy());
             vertx.deployVerticle(worker.getName(), workerOptions, result -> {
                 if (result.succeeded()) {
-                    Log.Health.on(vertx).add(worker.getName(), workerOptions, result.result());
+                    DevOps.on(vertx).add(worker.getName(), workerOptions, result.result());
                 } else {
                     if (null != result.cause()) {
                         result.cause().printStackTrace();

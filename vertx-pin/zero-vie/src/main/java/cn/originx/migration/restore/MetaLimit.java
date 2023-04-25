@@ -11,10 +11,10 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -54,7 +54,7 @@ public class MetaLimit extends AbstractStep {
             /* MAttribute 修正 */
             .compose(this::procAttributes)
             .compose(adjust -> {
-                Ox.Log.infoShell(this.getClass(), "数据修正成功完成！Successfully");
+                Ox.LOG.infoShell(this.getClass(), "数据修正成功完成！Successfully");
                 return Ux.future(config);
             });
     }

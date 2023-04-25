@@ -1,6 +1,7 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.OAccessToken;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401TokenCounterException;
@@ -11,7 +12,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.unity.UObject;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -46,8 +47,8 @@ class ScToken {
                 error = new _401TokenCounterException(ScToken.class, item.size(), userId);
             } else {
                 final OAccessToken token = item.get(Values.IDX);
-                final String tokenString = new String(token.getToken(), Values.DEFAULT_CHARSET);
-                final byte[] authBytes = userId.getBytes(Values.DEFAULT_CHARSET);
+                final String tokenString = new String(token.getToken(), VValue.DFT.CHARSET);
+                final byte[] authBytes = userId.getBytes(VValue.DFT.CHARSET);
                 if (Arrays.equals(authBytes, token.getAuth())) {
                     // Token expired
                     final long currentTime = new Date().getTime();
@@ -94,13 +95,13 @@ class ScToken {
 
     static OAccessToken jwtToken(final JsonObject jwt, final String userKey) {
         /* Token byte[] */
-        final byte[] token = jwt.getString(AuthKey.ACCESS_TOKEN).getBytes(Values.DEFAULT_CHARSET);
+        final byte[] token = jwt.getString(AuthKey.ACCESS_TOKEN).getBytes(VValue.DFT.CHARSET);
         /* Refresh Token byte[] */
-        final byte[] refreshToken = jwt.getString(AuthKey.REFRESH_TOKEN).getBytes(Values.DEFAULT_CHARSET);
+        final byte[] refreshToken = jwt.getString(AuthKey.REFRESH_TOKEN).getBytes(VValue.DFT.CHARSET);
         final Long iat = jwt.getLong(AuthKey.IAT);
         return new OAccessToken()
             .setKey(UUID.randomUUID().toString())
-            .setAuth(userKey.getBytes(Values.DEFAULT_CHARSET))
+            .setAuth(userKey.getBytes(VValue.DFT.CHARSET))
 
             /* Created Auditor */
             .setCreatedBy(userKey)

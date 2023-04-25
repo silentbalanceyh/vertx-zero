@@ -8,7 +8,7 @@ import io.vertx.ext.web.handler.BasicAuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.util.Ut;
 

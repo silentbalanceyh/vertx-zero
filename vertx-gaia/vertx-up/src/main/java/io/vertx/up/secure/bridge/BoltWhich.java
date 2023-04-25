@@ -1,5 +1,6 @@
 package io.vertx.up.secure.bridge;
 
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -8,7 +9,6 @@ import io.vertx.tp.error.WallItemSizeException;
 import io.vertx.tp.error.WallProviderConflictException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;

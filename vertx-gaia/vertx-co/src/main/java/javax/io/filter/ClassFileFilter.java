@@ -1,6 +1,6 @@
 package javax.io.filter;
 
-import io.vertx.up.eon.FileSuffix;
+import io.vertx.up.eon.bridge.FileSuffix;
 
 import java.io.FileFilter;
 

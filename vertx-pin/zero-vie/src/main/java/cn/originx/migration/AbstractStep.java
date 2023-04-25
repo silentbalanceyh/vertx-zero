@@ -3,14 +3,14 @@ package cn.originx.migration;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
+import io.horizon.eon.em.Environment;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
-import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -57,7 +57,7 @@ public abstract class AbstractStep implements MigrateStep {
     }
 
     protected Future<JsonArray> writeAsync(final JsonArray combined, final String file) {
-        Ox.Log.infoShell(this.getClass(), "写入数据（A)：{0}", file);
+        Ox.LOG.infoShell(this.getClass(), "写入数据（A)：{0}", file);
         /*
          * 过滤 null
          */
@@ -68,7 +68,7 @@ public abstract class AbstractStep implements MigrateStep {
     }
 
     protected Future<JsonArray> writeCompressAsync(final JsonArray combined, final String file) {
-        Ox.Log.infoShell(this.getClass(), "写入压缩数据（A)：{0}", file);
+        Ox.LOG.infoShell(this.getClass(), "写入压缩数据（A)：{0}", file);
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(combined).forEach(normalized::add);
         Ut.ioOutCompress(file, normalized);

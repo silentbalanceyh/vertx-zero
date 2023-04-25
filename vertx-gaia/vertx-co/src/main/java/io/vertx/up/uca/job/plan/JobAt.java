@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.plan;
 
-import io.vertx.up.eon.em.PerMode;
+import io.horizon.eon.em.typed.PerMode;
 import io.vertx.up.uca.cache.Cc;
 
 import java.time.Instant;

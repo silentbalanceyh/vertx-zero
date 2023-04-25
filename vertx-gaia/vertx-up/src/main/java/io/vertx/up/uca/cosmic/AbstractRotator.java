@@ -3,8 +3,8 @@ package io.vertx.up.uca.cosmic;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.JexlExpressionException;
 import io.vertx.up.exception.web._500RequestConfigException;
 import io.vertx.up.exception.web._501HttpClientNullException;
@@ -24,6 +24,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public abstract class AbstractRotator implements Rotator {
@@ -110,9 +111,9 @@ public abstract class AbstractRotator implements Rotator {
          *  Here the secondary argument will be in Chinese ??? confused characters.
          *  We must provide "utf8" as default encoding method of body
          *  */
-        final StringEntity body = new StringEntity(normalized.encode(), Values.ENCODING);
-        body.setContentEncoding(Values.ENCODING);
-        body.setContentType(Values.CONTENT_TYPE);
+        final StringEntity body = new StringEntity(normalized.encode(), StandardCharsets.UTF_8);
+        body.setContentEncoding(StandardCharsets.UTF_8.name());
+        body.setContentType(KWeb.ARGS.V_CONTENT_TYPE);
         return body;
     }
 

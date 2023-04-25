@@ -12,7 +12,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -150,7 +150,7 @@ public class FanService implements FanStub {
                         each.setBillId(bill.getKey());
 
                         // Issue: https://github.com/silentbalanceyh/hotel/issues/348
-                        each.setComment(Strings.FROM_TO + comment);
+                        each.setComment(Strings.ARROW_RIGHT + comment);
                     });
                     return Ux.Jooq.on(FBillItemDao.class).insertAsync(newItem)
                         .compose(items -> this.accountStub.inBook(bill, items));
@@ -162,9 +162,9 @@ public class FanService implements FanStub {
                     oldItem.forEach(each -> {
                         final String previous = each.getComment();
                         if (Ut.isNil(previous)) {
-                            each.setComment(comment + Strings.FROM_TO);
+                            each.setComment(comment + Strings.ARROW_RIGHT);
                         } else {
-                            each.setComment(previous + Strings.FROM_TO + comment);
+                            each.setComment(previous + Strings.ARROW_RIGHT + comment);
                         }
                     });
                     return Ux.Jooq.on(FBillItemDao.class).updateAsync(oldItem);

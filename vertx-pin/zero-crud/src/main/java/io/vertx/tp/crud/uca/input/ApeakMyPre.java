@@ -7,8 +7,8 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.specification.KColumn;
-import io.vertx.up.experiment.specification.KModule;
+import io.aeon.experiment.specification.KColumn;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.unity.Ux;
 
 /**

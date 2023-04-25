@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.limit;
 
-import io.vertx.up.eon.Plugins;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -20,7 +20,7 @@ public class ApiFactor extends AbstractFactor {
     private static final ConcurrentMap<ServerType, Class<?>> INTERNALS = new ConcurrentHashMap<>();
 
     static {
-        Ut.clazzIf(Plugins.Default.AGENT_API, clazz -> {
+        Ut.clazzIf(KWeb.COMPONENTS.AGENT_API, clazz -> {
             /*
              * Plugin In
              */

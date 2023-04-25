@@ -1,7 +1,7 @@
 package io.vertx.tp.ke.booter;
 
 import io.vertx.core.Future;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 

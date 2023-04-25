@@ -1,9 +1,9 @@
 package io.vertx.tp.rbac.refine;
 
+import io.horizon.eon.em.secure.ActPhase;
+import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.secure.Acl;
-import io.vertx.up.eon.em.run.ActPhase;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

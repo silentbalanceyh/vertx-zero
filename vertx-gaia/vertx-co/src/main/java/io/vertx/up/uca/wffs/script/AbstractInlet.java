@@ -1,7 +1,7 @@
 package io.vertx.up.uca.wffs.script;
 
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,7 +23,7 @@ public abstract class AbstractInlet implements Inlet {
     }
 
     protected void console(final String message, final Object... args) {
-        if (Debugger.devExprBind()) {
+        if (DevEnv.devExprBind()) {
             final Annal logger = Annal.get(this.getClass());
             logger.info(message, args);
         }

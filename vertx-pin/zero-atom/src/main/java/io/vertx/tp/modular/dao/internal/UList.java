@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.commune.Record;
 
 /**
  * 工具类
@@ -21,7 +21,7 @@ public class UList extends AbstractUtil<UList> {
     }
 
     @SuppressWarnings("unchecked")
-    public <ID> Record[] fetchByIds(final ID... ids) {
+    public <ID> HRecord[] fetchByIds(final ID... ids) {
         Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchByIds");
         // Input
         final DataEvent input = this.irIDs(ids);
@@ -29,7 +29,7 @@ public class UList extends AbstractUtil<UList> {
         return this.output(input, this.jooq::fetchByIds, true);
     }
 
-    public Record[] fetchAll() {
+    public HRecord[] fetchAll() {
         Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchAll");
         // Input
         final DataEvent input = this.events();

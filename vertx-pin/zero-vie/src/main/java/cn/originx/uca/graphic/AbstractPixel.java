@@ -4,7 +4,7 @@ import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.log.Annal;
 
 import java.util.function.Function;
@@ -18,7 +18,7 @@ abstract class AbstractPixel implements Pixel {
         this.identifier = identifier;
         this.client = Neo4jInfix.getClient();
         if (this.client.connected()) {
-            this.client.connect(Constants.DEFAULT_GROUP);
+            this.client.connect(KWeb.DEPLOY.VERTX_GROUP);
         }
     }
 

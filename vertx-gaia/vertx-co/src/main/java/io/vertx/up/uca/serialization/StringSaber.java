@@ -1,6 +1,6 @@
 package io.vertx.up.uca.serialization;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 
 /**

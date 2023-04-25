@@ -1,15 +1,13 @@
 package io.vertx.up.fn;
 
-import io.vertx.core.VertxException;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Values;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
-import io.vertx.up.exception.heart.ArgumentException;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -31,11 +29,12 @@ final class Wall {
      * @param actuator Jvm Executor
      * @param logger   Zero logger
      */
-    static void jvmVoid(final JvmActuator actuator, final Annal logger) {
+    static void jvmVoid(final ExceptionActuator actuator, final Annal logger) {
         try {
             actuator.execute();
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -50,12 +49,13 @@ final class Wall {
      *
      * @return T supplier or null
      */
-    static <T> T jvmReturn(final JvmSupplier<T> supplier, final Annal logger) {
+    static <T> T jvmReturn(final ExceptionSupplier<T> supplier, final Annal logger) {
         T reference = null;
         try {
             reference = supplier.get();
         } catch (final Exception ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -70,11 +70,14 @@ final class Wall {
         try {
             actuator.execute();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
-        } catch (final VertxException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.checked(ex));
+        } catch (final ZeroRunException ex) {
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.runtime(ex));
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -92,16 +95,14 @@ final class Wall {
         try {
             ret = supplier.get();
         } catch (final ZeroException ex) {
-            Annal.sure(logger, () -> logger.zero(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.checked(ex));
         } catch (final ZeroRunException ex) {
-            Annal.sure(logger, () -> {
-                logger.vertx(ex);
-                throw ex;
-            });
-        } catch (final VertxException ex) {
-            Annal.sure(logger, () -> logger.vertx(ex));
+            logger.fatal(ex);
+            throw ex;
         } catch (final Throwable ex) {
-            Annal.sure(logger, () -> logger.jvm(ex));
+            logger.fatal(ex);
+            //            Annal.sure(logger, () -> logger.jvm(ex));
             // TODO: Debug for JVM
             ex.printStackTrace();
         }
@@ -156,20 +157,6 @@ final class Wall {
             }
         }
         return ret;
-    }
-
-    static void verifyEqLength(final Class<?> clazz, final int expected, final Object... args) {
-        if (expected != args.length) {
-            final String method = Errors.method(Wall.class, "eqLength");
-            throw new ArgumentException(clazz, method, expected, "=");
-        }
-    }
-
-    static void verifyEtLength(final Class<?> clazz, final int min, final Object... args) {
-        if (min >= args.length) {
-            final String method = Errors.method(Wall.class, "gtLength");
-            throw new ArgumentException(clazz, method, min, ">");
-        }
     }
 
     @SuppressWarnings("all")

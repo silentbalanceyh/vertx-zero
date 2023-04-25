@@ -1,16 +1,16 @@
 package io.vertx.tp.modular.plugin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
+import io.horizon.fn.TiConsumer;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.element.JComponent;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.fn.TiConsumer;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -285,56 +285,56 @@ class IoArranger {
         return sourceData;
     }
 
-    static void runNorm(final Record[] records, final ConcurrentMap<String, JComponent> inMap) {
+    static void runNorm(final HRecord[] records, final ConcurrentMap<String, JComponent> inMap) {
         run(records, inMap, null, (processed, component, config) -> {
             final INormalizer reference = component.instance(INormalizer.class);
             Arrays.stream(records).forEach(record -> run(record, component, reference::before));
         });
     }
 
-    static void runNorm(final Record record, final ConcurrentMap<String, JComponent> normalizeMap) {
+    static void runNorm(final HRecord record, final ConcurrentMap<String, JComponent> normalizeMap) {
         run(record, normalizeMap, null, (processed, component, config) -> {
             final INormalizer reference = component.instance(INormalizer.class);
             run(record, component, reference::before);
         });
     }
 
-    static void runExpr(final Record[] records, final ConcurrentMap<String, JComponent> inMap) {
+    static void runExpr(final HRecord[] records, final ConcurrentMap<String, JComponent> inMap) {
         run(records, inMap, null, (processed, component, config) -> {
             final OExpression reference = component.instance(OExpression.class);
             Arrays.stream(records).forEach(record -> run(record, component, reference::after));
         });
     }
 
-    static void runExpr(final Record record, final ConcurrentMap<String, JComponent> normalizeMap) {
+    static void runExpr(final HRecord record, final ConcurrentMap<String, JComponent> normalizeMap) {
         run(record, normalizeMap, null, (processed, component, config) -> {
             final OExpression reference = component.instance(OExpression.class);
             run(record, component, reference::after);
         });
     }
 
-    static void runIn(final Record record, final ConcurrentMap<String, JComponent> inMap) {
+    static void runIn(final HRecord record, final ConcurrentMap<String, JComponent> inMap) {
         run(record, inMap, IComponent.class, (processed, component, config) -> {
             final IComponent reference = component.instance(IComponent.class);
             run(record, component, kv -> reference.before(kv, record, config));
         });
     }
 
-    static void runIn(final Record[] records, final ConcurrentMap<String, JComponent> inMap) {
+    static void runIn(final HRecord[] records, final ConcurrentMap<String, JComponent> inMap) {
         run(records, inMap, IComponent.class, (processed, component, config) -> {
             final IComponent reference = component.instance(IComponent.class);
             Arrays.stream(records).forEach(record -> run(record, component, kv -> reference.before(kv, record, config)));
         });
     }
 
-    static void runOut(final Record record, final ConcurrentMap<String, JComponent> inMap) {
+    static void runOut(final HRecord record, final ConcurrentMap<String, JComponent> inMap) {
         run(record, inMap, OComponent.class, (processed, component, config) -> {
             final OComponent reference = component.instance(OComponent.class);
             run(record, component, kv -> reference.after(kv, record, config));
         });
     }
 
-    static void runOut(final Record[] records, final ConcurrentMap<String, JComponent> inMap) {
+    static void runOut(final HRecord[] records, final ConcurrentMap<String, JComponent> inMap) {
         run(records, inMap, OComponent.class, (processed, component, config) -> {
             final OComponent reference = component.instance(OComponent.class);
             Arrays.stream(records).forEach(record -> run(record, component, kv -> reference.after(kv, record, config)));
@@ -342,7 +342,7 @@ class IoArranger {
     }
 
     /* Post Run */
-    private static void run(final Record record, final JComponent component,
+    private static void run(final HRecord record, final JComponent component,
                             final Function<Kv<String, Object>, Object> executor) {
         final String field = component.key();
         final Kv<String, Object> kv = Kv.create(field, record.get(field));

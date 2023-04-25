@@ -10,8 +10,8 @@ import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Vis;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.runtime.ZeroAnno;
 
 import java.util.Objects;
@@ -77,7 +77,7 @@ public interface AuthorizationResource {
         final MultiMap inputHeaders = request.headers();
         final JsonObject headers = new JsonObject();
         inputHeaders.forEach(entry -> {
-            if (ID.Header.PARAM_MAP.containsKey(entry.getKey())) {
+            if (KWeb.HEADER.PARAM_MAP.containsKey(entry.getKey())) {
                 headers.put(entry.getKey(), entry.getValue());
             }
         });

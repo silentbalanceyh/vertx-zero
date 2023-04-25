@@ -4,13 +4,13 @@ import cn.originx.migration.AbstractStep;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.Environment;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -30,7 +30,7 @@ public class AdjustNumber extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         final String folder = this.ioRoot(config);
         final String file = folder + "report/numbers/data.json";
-        Ox.Log.infoShell(this.getClass(), "读取修正文件：{0}", file);
+        Ox.LOG.infoShell(this.getClass(), "读取修正文件：{0}", file);
         /*
          * 修正文件专用数据
          */
@@ -45,7 +45,7 @@ public class AdjustNumber extends AbstractStep {
             .filter(item -> Values.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
         return Fn.combineA(futures).compose(processed -> {
-            Ox.Log.infoShell(this.getClass(), "修正序号完成！");
+            Ox.LOG.infoShell(this.getClass(), "修正序号完成！");
             return Ux.future(config);
         });
     }
@@ -85,7 +85,7 @@ public class AdjustNumber extends AbstractStep {
                     content.append(Ut.fromAdjust(item.getInteger(ADJUST), 15, ' ')).append("\n");
                 }
             });
-            Ox.Log.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
+            Ox.LOG.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
         }
     }
 }

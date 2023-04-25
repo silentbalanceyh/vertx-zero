@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.excel.atom;
 
+import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.cell.ExValue;
-import io.vertx.up.commune.Json;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class ExRecord implements Serializable, Json {
+public class ExRecord implements Serializable, TJson {
 
     private final transient Map<String, Object> data
         = new HashMap<>();
@@ -42,9 +42,9 @@ public class ExRecord implements Serializable, Json {
     }
 
     // Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6VR89
-    public void putOr(final JsonObject data){
+    public void putOr(final JsonObject data) {
         data.fieldNames().forEach(field -> {
-            if(!this.data.containsKey(field)){
+            if (!this.data.containsKey(field)) {
                 this.data.put(field, data.getValue(field));
             }
         });

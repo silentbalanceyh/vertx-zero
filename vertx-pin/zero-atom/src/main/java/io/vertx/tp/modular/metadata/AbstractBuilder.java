@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.metadata;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.CheckResult;
@@ -10,7 +11,6 @@ import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlDDLProvider;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -68,13 +68,13 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         }
         final String[] segments = sql.split(";");
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KValue.RC_SUCCESS;
+        int respCode = VValue.RC_SUCCESS;
         for (final String segment : segments) {
             if (Ut.notNil(segment)) {
                 respCode = this.conn.execute(segment);
             }
         }
-        return KValue.RC_SUCCESS == respCode;
+        return VValue.RC_SUCCESS == respCode;
     }
 
     @Override
@@ -126,11 +126,11 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
             return Boolean.TRUE;
         }
         this.getLogger().info("[ Ox ] sql: {0}", sql);
-        int respCode = KValue.RC_SUCCESS;
+        int respCode = VValue.RC_SUCCESS;
         if (Ut.notNil(sql)) {
             respCode = this.conn.execute(sql);
         }
-        return KValue.RC_SUCCESS == respCode;
+        return VValue.RC_SUCCESS == respCode;
     }
 
     @Override

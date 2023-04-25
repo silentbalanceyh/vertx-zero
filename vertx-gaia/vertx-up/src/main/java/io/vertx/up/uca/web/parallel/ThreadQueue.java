@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.parallel;
 
-import io.vertx.up.fn.Actuator;
+import io.horizon.fn.Actuator;
 import io.vertx.up.log.Annal;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class ThreadQueue {
         try {
             this.counter.await();
         } catch (final InterruptedException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
         }
     }
 

@@ -1,5 +1,6 @@
 package io.vertx.up.secure.authorization;
 
+import io.horizon.eon.em.secure.AuthWord;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -10,7 +11,6 @@ import io.vertx.ext.auth.authorization.OrAuthorization;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.eon.em.AuthWord;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.profile.PermissionAuthorization;
 import io.vertx.up.util.Ut;

@@ -1,10 +1,10 @@
 package cn.originx.quiz.atom;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
-import io.vertx.up.commune.Record;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -21,8 +21,8 @@ import java.util.List;
  * 构造Ox平台模型专用的测试输入对象，它提供如下功能
  *
  * - 存储{@link DataAtom}模型定义，引用某一类模型。
- * - 根据模型定义和JsonObject数据，构造{@link Record}记录。
- * - 根据模型定义和JsonArray数据，构造`{@link Record}[]`记录数组（批量）。
+ * - 根据模型定义和JsonObject数据，构造{@link HRecord}记录。
+ * - 根据模型定义和JsonArray数据，构造`{@link HRecord}[]`记录数组（批量）。
  *
  * ### 2. 模拟数据格式
  *
@@ -53,13 +53,13 @@ public class QModel implements Serializable {
      */
     private transient String key;
     /**
-     * {@link Record}数据记录（单记录）。
+     * {@link HRecord}数据记录（单记录）。
      */
-    private transient Record record;
+    private transient HRecord record;
     /**
-     * {@link Record}[]数据记录（批量）。
+     * {@link HRecord}[]数据记录（批量）。
      */
-    private transient Record[] records;
+    private transient HRecord[] records;
 
     /**
      * 单记录构造函数
@@ -89,27 +89,27 @@ public class QModel implements Serializable {
      */
     public QModel(final DataAtom atom, final JsonArray data) {
         this.atom = atom;
-        final List<Record> recordList = new ArrayList<>();
+        final List<HRecord> recordList = new ArrayList<>();
         Ut.itJArray(data).map(json -> newRecord(atom, json))
             .forEach(recordList::add);
-        this.records = recordList.toArray(new Record[]{});
+        this.records = recordList.toArray(new HRecord[]{});
     }
 
     /**
-     * 单记录构造器，直接根据{@link JsonObject}对象构造{@link Record}记录对象。
+     * 单记录构造器，直接根据{@link JsonObject}对象构造{@link HRecord}记录对象。
      *
      * @param atom {@link DataAtom} 模型定义引用
      * @param data {@link JsonObject} Json对象数据
      *
-     * @return {@link Record}
+     * @return {@link HRecord}
      */
-    public static Record newRecord(final DataAtom atom, final JsonObject data) {
-        Record record;
+    public static HRecord newRecord(final DataAtom atom, final JsonObject data) {
+        HRecord record;
         try {
             record = Ao.record(atom);
             record.fromJson(data);
         } catch (final WebException ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             record = null;
         }
         return record;
@@ -145,18 +145,18 @@ public class QModel implements Serializable {
     /**
      * 获取单记录对象
      *
-     * @return {@link Record}
+     * @return {@link HRecord}
      */
-    public Record dataR() {
+    public HRecord dataR() {
         return this.record;
     }
 
     /**
      * 获取单记录数组对象
      *
-     * @return {@link Record}[]
+     * @return {@link HRecord}[]
      */
-    public Record[] dataRs() {
+    public HRecord[] dataRs() {
         return this.records;
     }
 

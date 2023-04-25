@@ -1,16 +1,17 @@
 package io.vertx.up.fn;
 
+import io.horizon.eon.info.VMessage;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.*;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Info;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -108,35 +109,35 @@ public final class Fn {
     }
 
     public static <T> void outOr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, Info.PROGRAM_NULL);
+        outOr(condition, clazz, VMessage.PROGRAM_NULL);
     }
 
     public static <T> void outQr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, Info.PROGRAM_QR);
+        outOr(condition, clazz, VMessage.PROGRAM_QR);
     }
     // ------ Jvm Safe
 
-    public static void safeJvm(final JvmActuator actuator, final Annal logger) {
+    public static void safeJvm(final ExceptionActuator actuator, final Annal logger) {
         Wall.jvmVoid(actuator, logger);
     }
 
-    public static void safeJvm(final JvmActuator actuator) {
+    public static void safeJvm(final ExceptionActuator actuator) {
         Wall.jvmVoid(actuator, null);
     }
 
-    public static <T> T safeJvm(final JvmSupplier<T> supplier, final Annal logger) {
+    public static <T> T safeJvm(final ExceptionSupplier<T> supplier, final Annal logger) {
         return Wall.jvmReturn(supplier, logger);
     }
 
-    public static <T> T safeJvm(final JvmSupplier<T> supplier) {
+    public static <T> T safeJvm(final ExceptionSupplier<T> supplier) {
         return Wall.jvmReturn(supplier, null);
     }
 
-    public static <T> T orJvm(final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final ExceptionSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(null, supplier, input);
     }
 
-    public static <T> T orJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
+    public static <T> T orJvm(final T defaultValue, final ExceptionSupplier<T> supplier, final Object... input) {
         return Zero.getJvm(defaultValue, supplier, input);
     }
 
@@ -216,20 +217,6 @@ public final class Fn {
         return Warning.execRun(supplier, runCls, args);
     }
 
-    /*
-     * Ensure method for some spec
-     * 1) verifyLenEq:
-     * 2) verifyLenMin:
-     * To be sure arguments here
-     */
-    public static void verifyLenEq(final Class<?> clazz, final int expected, final Object... args) {
-        Wall.verifyEqLength(clazz, expected, args);
-    }
-
-    public static void verifyLenMin(final Class<?> clazz, final int min, final Object... args) {
-        Wall.verifyEtLength(clazz, min, args);
-    }
-
     public static <T> void verifyJObject(final JsonObject data, final ZeroBiConsumer<T, String> fnIt) throws ZeroException {
         Wall.execZero(data, fnIt);
     }
@@ -296,8 +283,7 @@ public final class Fn {
     // ------- War ( New Version )
 
 
-    public static <T> Future<T> unbox(
-        final Consumer<Promise<T>> consumer) {
+    public static <T> Future<T> unbox(final Consumer<Promise<T>> consumer) {
         return Wait.then(consumer);
     }
 
@@ -808,11 +794,11 @@ public final class Fn {
      * To:  T -> mount( field = T )
      * On:  T -> T ( field = mount )
      */
-    public static <T> T wrap(final RunSupplier<T> supplier, final T defaultValue) {
+    public static <T> T wrap(final ErrorSupplier<T> supplier, final T defaultValue) {
         return Wait.wrapper(supplier, defaultValue);
     }
 
-    public static <T> Future<T> wrapAsync(final RunSupplier<Future<T>> supplier, final T defaultValue) {
+    public static <T> Future<T> wrapAsync(final ErrorSupplier<Future<T>> supplier, final T defaultValue) {
         return Wait.wrapperAsync(supplier, defaultValue);
     }
 

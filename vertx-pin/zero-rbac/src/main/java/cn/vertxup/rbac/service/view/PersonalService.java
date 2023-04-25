@@ -2,12 +2,12 @@ package cn.vertxup.rbac.service.view;
 
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -28,7 +28,7 @@ public class PersonalService implements PersonalStub {
         criteria.put("ownerType", OwnerType.USER.name());
         criteria.put("owner", ownerId);
         criteria.put(KName.RESOURCE_ID, resourceId);
-        criteria.put(KName.POSITION, Objects.isNull(position) ? KValue.View.POSITION_DEFAULT : position);
+        criteria.put(KName.POSITION, Objects.isNull(position) ? VValue.DFT.V_POSITION : position);
         return Ux.Jooq.on(SViewDao.class).fetchAsync(criteria);
     }
 

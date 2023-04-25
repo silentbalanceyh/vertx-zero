@@ -21,9 +21,9 @@ public interface Revision {
         Revision revision = Pool.POOL.get(daoCls);
         if (Objects.isNull(revision)) {
             revision = Ut.singleton(EmptyRevision.class);
-            Ox.Log.warnUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
+            Ox.LOG.warnUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
         } else {
-            Ox.Log.infoUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
+            Ox.LOG.infoUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
         }
         return revision;
     }

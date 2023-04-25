@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.horizon.specification.modeler.HAtom;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.experiment.mixture.HAtom;
 
 /**
  * 绑定接口

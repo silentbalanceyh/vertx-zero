@@ -1,12 +1,12 @@
 package cn.originx.uca.concrete;
 
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.commune.Record;
-import io.vertx.up.experiment.mixture.HDao;
 
 import java.util.Objects;
 
@@ -45,11 +45,11 @@ public abstract class AbstractAgile implements Arrow {
     /*
      * 记录构造专用（对子类隐藏 DataAtom）
      */
-    protected Record record(final JsonObject recordJson) {
+    protected HRecord record(final JsonObject recordJson) {
         return Ao.record(recordJson, this.atom);
     }
 
-    protected Record[] records(final JsonArray recordJson) {
+    protected HRecord[] records(final JsonArray recordJson) {
         return Ao.records(recordJson, this.atom);
     }
 }

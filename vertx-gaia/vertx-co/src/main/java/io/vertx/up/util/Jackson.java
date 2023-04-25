@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.OriginalNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
+import io.horizon.eon.em.ChangeFlag;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -72,7 +72,6 @@ final class Jackson {
         final String... keys
     ) {
 
-        Fn.verifyLenMin(Jackson.class, 0, keys);
         final JsonObject visited = Jackson.searchData(item, JsonObject.class, keys);
         if (Objects.isNull(visited)) {
             return new JsonObject();
@@ -85,7 +84,6 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.verifyLenMin(Jackson.class, 0, keys);
         return (T) Jackson.searchData(item, null, keys);
     }
 
@@ -93,7 +91,6 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.verifyLenMin(Jackson.class, 0, keys);
         final JsonArray visited = Jackson.searchData(item, JsonArray.class, keys);
         if (Objects.isNull(visited)) {
             return new JsonArray();
@@ -106,7 +103,6 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.verifyLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, Integer.class, keys);
     }
 
@@ -114,7 +110,6 @@ final class Jackson {
         final JsonObject item,
         final String... keys
     ) {
-        Fn.verifyLenMin(Jackson.class, 0, keys);
         return Jackson.searchData(item, String.class, keys);
     }
 

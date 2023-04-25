@@ -8,13 +8,13 @@ import io.vertx.tp.error.CommandMissingException;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -59,7 +59,7 @@ public class Terminal {
                  * handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
                  * When click terminal operation here
                  */
-                final Cd<Integer, Scanner> cdScanner = CC_SCANNER.store();
+                final ConcurrentMap<Integer, Scanner> cdScanner = CC_SCANNER.store();
                 cdScanner.values().forEach(scanner -> Fn.safeJvm(scanner::close));
                 System.exit(0);
                 // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));

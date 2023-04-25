@@ -2,9 +2,9 @@ package cn.originx.infix.mysql5;
 
 import cn.originx.infix.mysql5.cv.MySqlStatement;
 import cn.originx.infix.mysql5.cv.MySqlWord;
+import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AbstractReflector;
-import io.vertx.up.eon.em.atom.KeyType;
 
 import java.text.MessageFormat;
 import java.util.List;

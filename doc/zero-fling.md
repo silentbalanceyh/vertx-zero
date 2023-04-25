@@ -56,5 +56,5 @@ public static void flingUp(
 
 The method `flingUp` code flow is the same as `flingZero` except the exception type.
 
-* `flingZero`: Throw out `io.vertx.up.exception.ZeroException` ( Checked )
-* `flingUp`：Throw out `io.vertx.up.exception.ZeroRunException` ( Runtime )
+* `flingZero`: Throw out `io.horizon.exception.ZeroException` ( Checked )
+* `flingUp`：Throw out `io.horizon.exception.ZeroRunException` ( Runtime )

@@ -1,19 +1,19 @@
 package io.vertx.tp.modular.id;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.Model;
-import io.vertx.up.commune.Record;
 
 class CollectionId extends AbstractId {
 
     @Override
-    public <ID> ID key(final Record record,
+    public <ID> ID key(final HRecord record,
                        final Model model) {
 
         return null;
     }
 
     @Override
-    public <ID> void key(final Record record,
+    public <ID> void key(final HRecord record,
                          final Model model,
                          final ID id) {
 

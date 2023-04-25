@@ -5,8 +5,8 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.up.annotations.Ordered;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.eon.Orders;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.web.filter.Filter;
@@ -73,7 +73,7 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
         final Event event = new Event();
         event.setPath(path);
         final Annotation annotation = clazz.getAnnotation(Ordered.class);
-        int order = Orders.FILTER;
+        int order = KWeb.ORDER.FILTER;
         if (null != annotation) {
             final Integer setted = Ut.invoke(annotation, "value");
             // Order specification

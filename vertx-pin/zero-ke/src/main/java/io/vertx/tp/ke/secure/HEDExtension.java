@@ -1,7 +1,7 @@
 package io.vertx.tp.ke.secure;
 
-import io.vertx.up.experiment.mixture.HED;
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.specification.KPair;
+import io.horizon.spi.cloud.HED;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

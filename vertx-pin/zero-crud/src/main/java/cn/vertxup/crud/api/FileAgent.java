@@ -11,7 +11,7 @@ import io.vertx.up.annotations.Codex;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.unity.Ux;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -26,7 +26,7 @@ public class FileAgent {
     @Path("/{actor}/import")
     @POST
     @Address(Addr.File.IMPORT)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     public JsonObject importFile(@PathParam("actor") final String actor,
                                  @QueryParam(KName.MODULE) final String module,
                                  @StreamParam @Codex final FileUpload fileUpload,
@@ -42,7 +42,7 @@ public class FileAgent {
     @Path("/{actor}/export")
     @POST
     @Address(Addr.File.EXPORT)
-    @Adjust(Orders.MODULE)
+    @Adjust(KWeb.ORDER.MODULE)
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public JsonObject exportFile(@PathParam("actor") final String actor,

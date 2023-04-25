@@ -4,12 +4,12 @@ import cn.originx.migration.AbstractStep;
 import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
+import io.horizon.eon.em.Environment;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -32,7 +32,7 @@ public class ReportNumber extends AbstractStep {
          */
         this.banner("002.1. 执行 Number 报表");
         if (Objects.isNull(this.app)) {
-            Ox.Log.infoShell(this.getClass(), "无法读取应用信息！");
+            Ox.LOG.infoShell(this.getClass(), "无法读取应用信息！");
             return Ux.future(config);
         } else {
             return Ux.Jooq.on(XNumberDao.class).<XNumber>fetchAsync(KName.SIGMA, this.app.getSigma())
@@ -73,7 +73,7 @@ public class ReportNumber extends AbstractStep {
 
     private Future<JsonObject> procAsync(final XNumber number) {
         final String identifier = number.getIdentifier();
-        Ox.Log.infoShell(this.getClass(), "读取该标识下所有序号：identifier = {0}", identifier);
+        Ox.LOG.infoShell(this.getClass(), "读取该标识下所有序号：identifier = {0}", identifier);
         final HDao dao = this.ioDao(identifier);
 
         return dao.fetchAllAsync().compose(Ux::futureA).compose(records -> {
@@ -95,7 +95,7 @@ public class ReportNumber extends AbstractStep {
                  */
                 final String[] codes = code.split("-");
                 final Integer codeNum = Integer.parseInt(codes[codes.length - 1]);
-                Ox.Log.infoShell(this.getClass(), "序号标识：{0}，当前值：{1}, 实际值：{2}",
+                Ox.LOG.infoShell(this.getClass(), "序号标识：{0}，当前值：{1}, 实际值：{2}",
                     number.getIdentifier(), String.valueOf(number.getCurrent()), String.valueOf(codeNum));
                 /*
                  * 结果

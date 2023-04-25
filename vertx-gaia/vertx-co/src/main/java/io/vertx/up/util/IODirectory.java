@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
-import io.vertx.up.eon.FileSuffix;
-import io.vertx.up.eon.Protocols;
-import io.vertx.up.eon.Strings;
+import io.horizon.eon.VPath;
+import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -120,12 +120,12 @@ final class IODirectory {
                  * Whether it's jar path or common path.
                  */
                 final String protocol = url.getProtocol();
-                if (Protocols.FILE.equals(protocol)) {
+                if (VPath.PROTOCOL.FILE.equals(protocol)) {
                     /*
                      * Common file
                      */
                     retSet.addAll(getFiles(url, extension, isDirectory));
-                } else if (Protocols.JAR.equals(protocol)) {
+                } else if (VPath.PROTOCOL.JAR.equals(protocol)) {
                     /*
                      * Jar File
                      */

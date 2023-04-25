@@ -1,5 +1,6 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.RpcOptions;
@@ -7,10 +8,9 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.ID;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
@@ -90,7 +90,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
     private void startRegistry(final RpcOptions options) {
         // Rpc Agent is only valid in Micro mode
         final EventBus bus = this.vertx.eventBus();
-        final String address = ID.Addr.IPC_START;
+        final String address = KWeb.ADDR.EBS_IPC_START;
         LOGGER.info(Info.IPC_REGISTRY_SEND, this.getClass().getSimpleName(), options.getName(), address);
         bus.publish(address, options.toJson());
     }

@@ -1,5 +1,8 @@
 package io.vertx.up.uca.job.center;
 
+import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.eon.info.VMessage;
+import io.horizon.fn.Actuator;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
@@ -7,9 +10,6 @@ import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.job.store.JobConfig;
@@ -89,7 +89,7 @@ public abstract class AbstractAgha implements Agha {
 
         if (SELECTED.getAndSet(Boolean.FALSE)) {
             /* Be sure the log only provide once */
-            this.getLogger().info(Info.JOB_COMPONENT_SELECTED, "Interval", interval.getClass().getName());
+            this.getLogger().info(VMessage.IO_JOB_COMPONENT, "Interval", interval.getClass().getName());
         }
         if (Objects.nonNull(consumer)) {
             interval.bind(consumer);
@@ -172,7 +172,7 @@ public abstract class AbstractAgha implements Agha {
             final String code = mission.getCode();
             final WorkerExecutor executor =
                 this.vertx.createSharedWorkerExecutor(code, 1, threshold);
-            this.getLogger().info(Info.JOB_WORKER_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
+            this.getLogger().info(VMessage.AGHA_WORKER_START, code, String.valueOf(TimeUnit.NANOSECONDS.toSeconds(threshold)));
             /*
              * The executor start to process the workers here.
              */
@@ -182,7 +182,7 @@ public abstract class AbstractAgha implements Agha {
                      * The job is executing successfully and then stopped
                      */
                     actuator.execute();
-                    this.getLogger().info(Info.JOB_WORKER_END, code);
+                    this.getLogger().info(VMessage.AGHA_WORKER_END, code);
                     return Future.succeededFuture(result);
                 })
                 .otherwise(error -> {
@@ -233,7 +233,7 @@ public abstract class AbstractAgha implements Agha {
                 /*
                  * Log and update cache
                  */
-                this.getLogger().info(Info.JOB_MOVED, mission.getType(), mission.getCode(), original, moved);
+                this.getLogger().info(VMessage.AGHA_MOVED, mission.getType(), mission.getCode(), original, moved);
                 this.store().update(mission);
             }
         } else {
@@ -242,7 +242,7 @@ public abstract class AbstractAgha implements Agha {
              */
             if (JobStatus.RUNNING == mission.getStatus()) {
                 mission.setStatus(JobStatus.ERROR);
-                this.getLogger().info(Info.JOB_TERMINAL, mission.getType(), mission.getCode());
+                this.getLogger().info(VMessage.AGHA_TERMINAL, mission.getType(), mission.getCode());
                 this.store().update(mission);
             }
         }

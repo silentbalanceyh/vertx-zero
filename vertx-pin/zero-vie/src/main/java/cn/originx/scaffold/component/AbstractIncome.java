@@ -2,6 +2,8 @@ package cn.originx.scaffold.component;
 
 import cn.originx.refine.Ox;
 import cn.vertxup.jet.domain.tables.pojos.IService;
+import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -14,9 +16,7 @@ import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
-import io.vertx.up.experiment.mixture.HDao;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.uca.job.plugin.JobIncome;
 import io.vertx.up.unity.Ux;
 
@@ -76,7 +76,7 @@ public abstract class AbstractIncome extends AbstractJob implements JobIncome {
      */
     protected Future<Envelop> output(final JsonArray array, final Envelop request) {
         final JsonObject data = new JsonObject();
-        data.put(ID.PARAM_BODY, array);
+        data.put(KWeb.ARGS.PARAM_BODY, array);
         return Ux.future(Envelop.success(data).from(request));
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractIncome extends AbstractJob implements JobIncome {
      */
     protected Future<Envelop> output(final JsonObject json, final Envelop request) {
         final JsonObject data = new JsonObject();
-        data.put(ID.PARAM_BODY, json);
+        data.put(KWeb.ARGS.PARAM_BODY, json);
         return Ux.future(Envelop.success(data).from(request));
     }
 

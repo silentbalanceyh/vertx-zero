@@ -1,6 +1,6 @@
 package cn.originx.uca.hed;
 
-import io.vertx.up.experiment.specification.KPair;
+import io.aeon.experiment.specification.KPair;
 import io.vertx.up.util.Ut;
 
 public class KeyGenerator {

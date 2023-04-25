@@ -4,26 +4,26 @@ option java_multiple_files = true;
 option java_package = "io.vertx.tp.ipc.service";
 option java_outer_classname = "UpIpcService";
 
+package io.vertx.tp.ipc.service;
+
 import "zero.envelop.proto";
 import "zero.stream.proto";
 
-package io.vertx.tp.ipc.service;
-
 service UnityService {
-  // Direct: Client -> Server -> Client
-  rpc UnityCall (io.vertx.tp.ipc.eon.IpcRequest) returns (io.vertx.tp.ipc.eon.IpcResponse) {}
+    // Direct: Client -> Server -> Client
+    rpc UnityCall (io.vertx.tp.ipc.eon.IpcRequest) returns (io.vertx.tp.ipc.eon.IpcResponse) {}
 }
 service ConsumeService {
-  // Server -> Client
-  rpc OutputCall (stream io.vertx.tp.ipc.eon.StreamServerRequest) returns (stream io.vertx.tp.ipc.eon.StreamServerResponse) {}
+    // Server -> Client
+    rpc OutputCall (stream io.vertx.tp.ipc.eon.StreamServerRequest) returns (stream io.vertx.tp.ipc.eon.StreamServerResponse) {}
 }
 
 service ProduceService {
-  // Client -> Server
-  rpc InputCall (stream io.vertx.tp.ipc.eon.StreamClientRequest) returns (stream io.vertx.tp.ipc.eon.StreamClientResponse) {}
+    // Client -> Server
+    rpc InputCall (stream io.vertx.tp.ipc.eon.StreamClientRequest) returns (stream io.vertx.tp.ipc.eon.StreamClientResponse) {}
 }
 
 service DupliexService {
-  // Full: Client -> Server -> Client
-  rpc DupliexCall (stream io.vertx.tp.ipc.eon.StreamClientRequest) returns (stream io.vertx.tp.ipc.eon.StreamServerResponse) {}
+    // Full: Client -> Server -> Client
+    rpc DupliexCall (stream io.vertx.tp.ipc.eon.StreamClientRequest) returns (stream io.vertx.tp.ipc.eon.StreamServerResponse) {}
 }

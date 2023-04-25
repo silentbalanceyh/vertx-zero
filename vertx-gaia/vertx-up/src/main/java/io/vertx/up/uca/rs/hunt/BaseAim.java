@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.horizon.fn.Actuator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.Cookie;
@@ -10,11 +11,10 @@ import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.cache.Cc;
@@ -51,10 +51,10 @@ public abstract class BaseAim {
      */
     protected Object[] buildArgs(final RoutingContext context,
                                  final Event event) {
-        Object[] cached = context.get(ID.PARAMS_CONTENT);
+        Object[] cached = context.get(KWeb.ARGS.REQUEST_CACHED);
         if (null == cached) {
             cached = this.analyzer.in(context, event);
-            context.put(ID.PARAMS_CONTENT, cached);
+            context.put(KWeb.ARGS.REQUEST_CACHED, cached);
         }
         // Validation handler has been getNull the parameters.
         return cached;

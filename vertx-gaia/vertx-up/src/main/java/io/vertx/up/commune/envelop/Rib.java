@@ -2,7 +2,7 @@ package io.vertx.up.commune.envelop;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.exception.WebException;
 
 public class Rib {
@@ -48,6 +48,6 @@ public class Rib {
     }
 
     public static boolean isIndex(final Integer argIndex) {
-        return Constants.INDEXES.containsKey(argIndex);
+        return KWeb.MULTI.INDEXES.containsKey(argIndex);
     }
 }

@@ -20,39 +20,39 @@ public class Ko {
      */
     public static XLog db(final Class<?> clazz, final DataAtom atom, final Throwable ex) {
         final XLog log = KoData.database(clazz, atom, ex);
-        Ox.Log.warnHub(Ko.class, "数据库异常：{0}", ex.getMessage());
+        Ox.LOG.warnHub(Ko.class, "数据库异常：{0}", ex.getMessage());
         return KoTool.log(log);
     }
 
     public static XLog integration(final Class<?> clazz, final DataAtom atom, final Throwable ex) {
         final XLog log = KoData.integration(clazz, atom, ex);
-        Ox.Log.warnHub(Ko.class, "集成异常：{0}", ex.getMessage());
+        Ox.LOG.warnHub(Ko.class, "集成异常：{0}", ex.getMessage());
         return KoTool.log(log);
     }
 
     public static List<XLog> ongoing(final Class<?> clazz, final DataAtom atom, final JsonArray records) {
         final List<XLog> logs = KoData.ongoing(clazz, atom, records);
-        Ox.Log.warnHub(Ko.class, "忽略记录异常：size = {0}", String.valueOf(logs.size()));
+        Ox.LOG.warnHub(Ko.class, "忽略记录异常：size = {0}", String.valueOf(logs.size()));
         return KoTool.log(logs);
     }
     // ------------------- 单数据异步日志 ---------------------
 
     public static Future<XLog> pending(final Class<?> clazz, final DataAtom atom, final JsonObject input) {
         final XLog log = KoData.pending(clazz, atom, input);
-        Ox.Log.infoHub(Ko.class, "数据未推送：{0}", input.encode());
+        Ox.LOG.infoHub(Ko.class, "数据未推送：{0}", input.encode());
         return KoTool.logAsync(log);
     }
 
     public static Future<XLog> push(final Class<?> clazz, final DataAtom atom, final JsonObject input, final Throwable ex) {
         final XLog log = KoData.push(clazz, atom, input);
-        Ox.Log.infoHub(Ko.class, "推送失败：{0}，异常：{1}", input.encode(), ex.getMessage());
+        Ox.LOG.infoHub(Ko.class, "推送失败：{0}，异常：{1}", input.encode(), ex.getMessage());
         log.setInfoStack(ex.getMessage());
         return KoTool.logAsync(log);
     }
 
     public static Future<XLog> push(final Class<?> clazz, final DataAtom atom, final JsonArray input, final Throwable ex) {
         final XLog log = KoData.push(clazz, atom, ex);
-        Ox.Log.infoHub(Ko.class, "推送失败：{0}，数据量：{1}", ex.getMessage(), String.valueOf(input.size()));
+        Ox.LOG.infoHub(Ko.class, "推送失败：{0}，数据量：{1}", ex.getMessage(), String.valueOf(input.size()));
         log.setInfoStack(ex.getMessage());
         return KoTool.logAsync(log);
     }
@@ -60,7 +60,7 @@ public class Ko {
     // ------------------- 多数据日志 ---------------------
     public static Future<List<XLog>> pendingBatch(final Class<?> clazz, final DataAtom atom, final JsonArray data) {
         final List<XLog> logs = KoData.pending(clazz, atom, data);
-        Ox.Log.warnHub(Ko.class, "数据未推送：size = {0}", String.valueOf(logs.size()));
+        Ox.LOG.warnHub(Ko.class, "数据未推送：size = {0}", String.valueOf(logs.size()));
         return KoTool.logAsync(logs);
     }
 
@@ -70,7 +70,7 @@ public class Ko {
      */
     public static Future<List<XLog>> uniqueBatch(final Class<?> clazz, final DataAtom atom, final JsonArray data) {
         final List<XLog> logs = KoData.unique(clazz, atom, data);
-        Ox.Log.warnHub(Ko.class, "标识规则验证异常：size = {0}", String.valueOf(logs.size()));
+        Ox.LOG.warnHub(Ko.class, "标识规则验证异常：size = {0}", String.valueOf(logs.size()));
         return KoTool.logAsync(logs);
     }
 }

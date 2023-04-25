@@ -2,13 +2,13 @@ package io.vertx.tp.jet.atom;
 
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IService;
+import io.horizon.specification.zero.action.Api;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.cv.em.ParamMode;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.commune.Api;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
 
@@ -66,7 +66,7 @@ public class JtUri extends JtCommercial implements Api {
      * Uri, Order, Path
      */
     public Integer order() {
-        return Objects.nonNull(this.order) ? this.order : Orders.DYNAMIC;
+        return Objects.nonNull(this.order) ? this.order : KWeb.ORDER.DYNAMIC;
     }
 
     /*

@@ -1,10 +1,10 @@
 package io.vertx.up.uca.cosmic;
 
+import io.horizon.eon.em.container.HttpsType;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.eon.em.HttpsType;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -49,7 +49,7 @@ public abstract class AbstractEmitter implements Emitter {
             context.init(null, trustCerts, new SecureRandom());
             return context;
         } catch (final NoSuchAlgorithmException | KeyManagementException ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             return null;
         }
     }

@@ -1,7 +1,7 @@
 package io.vertx.tp.jet.uca.param;
 
 import io.vertx.tp.jet.cv.em.ParamMode;
-import io.vertx.tp.optic.jet.JtIngest;
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.concurrent.ConcurrentHashMap;

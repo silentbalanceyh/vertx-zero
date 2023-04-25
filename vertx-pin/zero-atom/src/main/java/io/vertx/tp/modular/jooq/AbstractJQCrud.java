@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.fn.Actuator;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
@@ -7,9 +8,8 @@ import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataTransactionException;
 import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.DSLContext;
@@ -96,7 +96,7 @@ abstract class AbstractJQCrud {
                 consumer.accept(rows);
             }
         } catch (final DataAccessException ex) {
-            this.logger().jvm(ex);
+            this.logger().fatal(ex);
             final WebException error = new _417DataTransactionException(getClass(), ex);
             event.failure(error);
         } catch (final Throwable ex) {

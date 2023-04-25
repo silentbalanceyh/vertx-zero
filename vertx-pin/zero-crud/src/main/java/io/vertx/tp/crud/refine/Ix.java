@@ -1,14 +1,14 @@
 package io.vertx.tp.crud.refine;
 
+import io.aeon.experiment.specification.KField;
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.experiment.mixture.HTAtom;
-import io.vertx.up.experiment.specification.KField;
-import io.vertx.up.experiment.specification.KModule;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
@@ -60,7 +60,7 @@ public class Ix {
         return IxData.parameters(in);
     }
 
-    public static HTAtom onAtom(final IxMod active, final JsonArray columns) {
+    public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
         return IxData.atom(active, columns);
     }
 

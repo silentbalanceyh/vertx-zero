@@ -5,13 +5,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.zero.JooqCondClauseException;
 import io.vertx.up.exception.zero.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -148,7 +148,7 @@ public class JooqCond {
             }
             condition = transformTree(filters, fnAnalyze, fnTable);
         }
-        if (null != condition && Debugger.devJooqCond()) {
+        if (null != condition && DevEnv.devJooqCond()) {
             LOGGER.info(Info.JOOQ_PARSE, condition);
         }
         return condition; // cached(filters, operator, condition);

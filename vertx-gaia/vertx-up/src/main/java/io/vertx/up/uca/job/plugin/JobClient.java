@@ -7,8 +7,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +31,7 @@ public interface JobClient {
     }
 
     static String code(final String name) {
-        return Constants.DEFAULT_JOB_NAMESPACE + Strings.DASH + name;
+        return KWeb.JOB.NS + Strings.DASH + name;
     }
 
     // ========================== UxJob mount

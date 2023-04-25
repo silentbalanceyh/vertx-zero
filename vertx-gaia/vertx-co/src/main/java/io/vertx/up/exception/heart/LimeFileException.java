@@ -1,6 +1,6 @@
 package io.vertx.up.exception.heart;
 
-import io.vertx.up.exception.ZeroRunException;
+import io.horizon.exception.ZeroRunException;
 
 import java.text.MessageFormat;
 

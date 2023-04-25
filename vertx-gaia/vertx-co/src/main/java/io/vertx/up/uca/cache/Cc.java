@@ -1,7 +1,7 @@
 package io.vertx.up.uca.cache;
 
+import io.horizon.eon.em.CcMode;
 import io.vertx.core.Future;
-import io.vertx.up.eon.em.CcMode;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
@@ -103,7 +103,7 @@ public interface Cc<K, V> {
         };
     }
 
-    Cd<K, V> store();
+    ConcurrentMap<K, V> store();
 
     V store(K key);
 

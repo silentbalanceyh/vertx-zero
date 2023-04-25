@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500ExportingErrorException;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -84,7 +84,7 @@ class SheetImport {
                     table.getName(), String.valueOf(total), String.valueOf(batchInsert.size()), String.valueOf(batchUpdate.size()));
             } catch (final Throwable ex) {
                 ex.printStackTrace();
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
             }
         }
         return resultSet;

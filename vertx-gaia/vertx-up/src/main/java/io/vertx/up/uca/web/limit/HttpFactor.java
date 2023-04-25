@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.limit;
 
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Plugins;
-import io.vertx.up.eon.em.ServerType;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -34,7 +34,7 @@ public class HttpFactor extends AbstractFactor {
     static {
         final JsonObject data = VISITOR.read();
         if (data.containsKey(KName.Micro.ETCD)) {
-            Ut.clazzIf(Plugins.Default.AGENT_RPC, clazz -> {
+            Ut.clazzIf(KWeb.COMPONENTS.AGENT_RPC, clazz -> {
                 /*
                  * Plugin In ( gRpc Environment )
                  */

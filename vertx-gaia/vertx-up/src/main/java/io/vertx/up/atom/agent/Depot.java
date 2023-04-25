@@ -1,6 +1,6 @@
 package io.vertx.up.atom.agent;
 
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 
@@ -52,13 +52,13 @@ public class Depot implements Serializable {
             // Check names
             if (null != annoCls) {
                 if (Filler.NO_VALUE.contains(annoCls)) {
-                    this.paramNames.add(ID.DIRECT);
+                    this.paramNames.add(KWeb.ARGS.MIME_DIRECT);
                 } else {
                     final String name = Ut.invoke(annotation, "value");
                     this.paramNames.add(name);
                 }
             } else {
-                this.paramNames.add(ID.IGNORE);
+                this.paramNames.add(KWeb.ARGS.MIME_IGNORE);
             }
             // Besure the params are length match others.
             this.paramValues.add(null);

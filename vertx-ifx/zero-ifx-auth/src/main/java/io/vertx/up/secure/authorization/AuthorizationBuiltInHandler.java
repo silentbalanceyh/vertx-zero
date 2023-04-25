@@ -145,7 +145,7 @@ public class AuthorizationBuiltInHandler implements AuthorizationHandler {
                 provider.getAuthorizations(user, result -> {
                     if (result.failed()) {
                         LOGGER.warn("[ Auth ] Error occurs when getting authorization - providerId: {0}", provider.getId());
-                        LOGGER.jvm(result.cause());
+                        LOGGER.fatal(result.cause());
                     }
                     this.checkOrFetchAuthorizations(routingContext, resource, authorizationContext, providers);
                 });

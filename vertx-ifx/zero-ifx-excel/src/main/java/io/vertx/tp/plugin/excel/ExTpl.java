@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.horizon.specification.modeler.TypeAtom;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -13,5 +13,5 @@ public interface ExTpl {
      */
     ExTpl bind(Workbook workbook);
 
-    void applyStyle(Sheet sheet, HTAtom HTAtom);
+    void applyStyle(Sheet sheet, TypeAtom MetaAtom);
 }

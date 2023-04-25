@@ -1,13 +1,13 @@
 package io.vertx.up.runtime;
 
+import io.horizon.eon.em.container.ServerType;
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EnvelopCodec;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.Info;
-import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -43,7 +43,7 @@ public final class ZeroMotor {
 
             // 2.1. Clustered
             final ClusterManager manager = cluster.getManager();
-            logger.info(Info.APP_CLUSTERD, manager.getClass().getName(),
+            logger.info(VMessage.MOTOR_APP_CLUSTERD, manager.getClass().getName(),
                 manager.getNodeId(), manager.isActive());
             fnCluster.accept(manager, consumer);
         } else {
@@ -100,7 +100,7 @@ public final class ZeroMotor {
                     final Class<?> found = Ut.elementFind(list,
                         (item) -> internals.get(type) == item);
                     if (null != found) {
-                        LOGGER.info(Info.AGENT_DEFINED, found, type);
+                        LOGGER.info(VMessage.MOTOR_AGENT_DEFINED, found, type);
                         ret.put(type, found);
                     }
                 });
@@ -115,7 +115,7 @@ public final class ZeroMotor {
         if (ZeroGrid.getRpcOptions().isEmpty()) {
             agents.remove(ServerType.IPC);
         } else {
-            LOGGER.info(Info.RPC_ENABLED);
+            LOGGER.info(VMessage.MOTOR_RPC_ENABLED);
         }
         return agents;
     }

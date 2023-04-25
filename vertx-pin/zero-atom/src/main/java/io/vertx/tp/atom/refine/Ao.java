@@ -1,21 +1,21 @@
 package io.vertx.tp.atom.refine;
 
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.specification.modeler.HDao;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.optic.robin.Switcher;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.mixture.HAtom;
-import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
@@ -231,14 +231,14 @@ public class Ao {
         return AoImpl.toDao(identifier);
     }
 
-    public static Record toRecord(final String identifier, final JsonObject data) {
+    public static HRecord toRecord(final String identifier, final JsonObject data) {
         return AoImpl.toRecord(identifier, data);
     }
 
-    public static Record[] toRecord(final String identifier, final JsonArray data) {
-        final List<Record> recordList = new ArrayList<>();
+    public static HRecord[] toRecord(final String identifier, final JsonArray data) {
+        final List<HRecord> recordList = new ArrayList<>();
         Ut.itJArray(data).forEach(json -> recordList.add(toRecord(identifier, json)));
-        return recordList.toArray(new Record[]{});
+        return recordList.toArray(new HRecord[]{});
     }
 
     // ------------------- Other Information -----------------
@@ -247,7 +247,7 @@ public class Ao {
         return AoKey.joinKey(model);
     }
 
-    public static ConcurrentMap<String, Object> joinKeys(final Model model, final Record record) {
+    public static ConcurrentMap<String, Object> joinKeys(final Model model, final HRecord record) {
         return AoKey.joinKeys(model, record);
     }
 
@@ -273,7 +273,7 @@ public class Ao {
         return AoStore.clazzPin();
     }
 
-    public static void connect(final Record record, final ConcurrentMap<String, DataMatrix> keyMatrix, final ConcurrentMap<String, DataMatrix> dataMatrix, final Set<String> joins) {
+    public static void connect(final HRecord record, final ConcurrentMap<String, DataMatrix> keyMatrix, final ConcurrentMap<String, DataMatrix> dataMatrix, final Set<String> joins) {
         AoData.connect(record, keyMatrix, dataMatrix, joins);
     }
 
@@ -281,19 +281,19 @@ public class Ao {
     /*
      * Record Building
      */
-    public static Record record(final DataAtom atom) {
+    public static HRecord record(final DataAtom atom) {
         return AoData.record(atom);
     }
 
-    public static List<Record> records(final DataAtom atom, final ExTable table) {
+    public static List<HRecord> records(final DataAtom atom, final ExTable table) {
         return AoData.records(atom, table);
     }
 
-    public static Record record(final JsonObject data, final DataAtom atom) {
+    public static HRecord record(final JsonObject data, final DataAtom atom) {
         return AoData.record(data, atom);
     }
 
-    public static Record[] records(final JsonArray data, final DataAtom atom) {
+    public static HRecord[] records(final JsonArray data, final DataAtom atom) {
         return AoData.records(data, atom);
     }
 

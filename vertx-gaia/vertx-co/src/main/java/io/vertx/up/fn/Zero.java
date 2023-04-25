@@ -1,10 +1,15 @@
 package io.vertx.up.fn;
 
-import io.vertx.up.exception.ZeroException;
-import io.vertx.up.exception.ZeroRunException;
-import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.horizon.exception.ZeroException;
+import io.horizon.exception.ZeroRunException;
+import io.horizon.fn.Actuator;
+import io.horizon.fn.ExceptionSupplier;
+import io.horizon.fn.ZeroActuator;
+import io.vertx.up.log.DevEnv;
+import io.vertx.up.log.Log;
 import io.vertx.up.util.Ut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
 import java.time.format.DateTimeParseException;
@@ -14,7 +19,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 final class Zero {
-    private static final Annal LOGGER = Annal.get(Zero.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Zero.class);
 
     private Zero() {
     }
@@ -38,14 +43,15 @@ final class Zero {
         }
     }
 
-    static <T> T getJvm(final T defaultValue, final JvmSupplier<T> supplier, final Object... input) {
+    static <T> T getJvm(final T defaultValue, final ExceptionSupplier<T> supplier, final Object... input) {
         T ret = null;
         try {
             if (Arrays.stream(input).allMatch(Objects::nonNull)) {
                 ret = supplier.get();
             }
         } catch (final ZeroException ex) {
-            Zero.LOGGER.zero(ex);
+            Log.fatal(LOGGER, ex);
+            //            Zero.LOGGER.fatal(ex);
             // TODO: Debug Trace for JVM
             ex.printStackTrace();
         } catch (final ZeroRunException ex) {
@@ -59,11 +65,12 @@ final class Zero {
              * Others here.
              */
             if (!(ex instanceof ConnectException)) {
-                Zero.LOGGER.jvm(ex);
+                Log.fatal(LOGGER, ex);
+                //                Zero.LOGGER.fatal(ex);
             }
             if (!(ex instanceof DateTimeParseException)) {
                 // TODO: Debug Trace for JVM
-                if (Debugger.devJvmStack()) {
+                if (DevEnv.devJvmStack()) {
                     ex.printStackTrace();
                 }
             }

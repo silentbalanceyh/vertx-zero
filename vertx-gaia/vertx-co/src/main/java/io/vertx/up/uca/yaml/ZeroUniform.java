@@ -1,7 +1,7 @@
 package io.vertx.up.uca.yaml;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Plugins;
+import io.vertx.up.eon.KPlugin;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -25,7 +25,7 @@ public class ZeroUniform implements Node<JsonObject> {
         final JsonObject data = new JsonObject();
         final ConcurrentMap<String, String> keys = node.read();
         final Set<String> skipped = Arrays
-            .stream(Plugins.DATA).collect(Collectors.toSet());
+            .stream(KPlugin.FILES).collect(Collectors.toSet());
         keys.keySet().stream()
             .filter(item -> !skipped.contains(item))
             .map(key -> ZeroTool.CC_STORAGE.pick(

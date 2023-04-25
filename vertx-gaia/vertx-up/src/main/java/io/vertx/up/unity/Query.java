@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.ID;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -40,7 +40,7 @@ final class Query {
         // 如果 value 本身是 JsonObject
         if (value instanceof JsonObject) {
             // 左右合并
-            final Kv<String, String> kv = Kv.create(ID.TREE_L, field);
+            final Kv<String, String> kv = Kv.create(KWeb.ARGS.TREE_L, field);
             return ir(originalJ, (JsonObject) value, Qr.Connector.AND, kv);
         } else {
             // 直接合并（加 And）
@@ -71,7 +71,7 @@ final class Query {
             return result.mergeIn(originalJ, true);
         }
         // 新旧都不为空
-        final Kv<String, String> kv = Kv.create(ID.TREE_L, ID.TREE_R);
+        final Kv<String, String> kv = Kv.create(KWeb.ARGS.TREE_L, KWeb.ARGS.TREE_R);
         return irAnd(originalJ, criteriaJ, kv);
     }
 

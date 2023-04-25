@@ -1,7 +1,7 @@
 package io.vertx.tp.jet.uca.tunnel;
 
 import io.vertx.core.Future;
-import io.vertx.tp.optic.jet.JtComponent;
+import io.horizon.spi.jet.JtComponent;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;

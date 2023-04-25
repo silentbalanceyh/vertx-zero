@@ -1,6 +1,6 @@
 package io.vertx.up.uca.options;
 
-import io.vertx.up.exception.ZeroException;
+import io.horizon.exception.ZeroException;
 
 public interface Visitor<T> {
     /**

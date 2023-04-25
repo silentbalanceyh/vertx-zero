@@ -3,6 +3,8 @@ package cn.originx.uca.commerce;
 import cn.originx.refine.Ox;
 import cn.originx.scaffold.plugin.AspectSwitcher;
 import cn.originx.uca.log.TrackIo;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -11,8 +13,6 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.mixture.HDao;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -121,7 +121,7 @@ public class Arms {
                 /*
                  * 处理不同类型的数据
                  */
-                Ox.Log.infoReport(this.getClass(), map);
+                Ox.LOG.infoReport(this.getClass(), map);
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 /*
                  * 只执行操作类型

@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.vertx.tp.optic.extension.Init;
-import io.vertx.tp.optic.extension.Prerequisite;
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -38,7 +38,7 @@ public class InitService implements InitStub {
     /**
      * 「Async」( Creation ) This api is for application initialization at first time.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     * Related Interface: {@link Init}
      *
      * @param appId {@link java.lang.String} The application primary key that stored in `KEY` field of `X_APP`.
      * @param data  {@link io.vertx.core.json.JsonObject} The data that will create application instance.
@@ -67,7 +67,7 @@ public class InitService implements InitStub {
     /**
      * 「Async」( Edition ) This api is for application initialization at any time after 1st.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Init}
+     * Related Interface: {@link Init}
      *
      * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
      *
@@ -83,7 +83,7 @@ public class InitService implements InitStub {
     /**
      * 「Async」Pre-Workflow before initialization when call this method.
      *
-     * Related Interface: {@link io.vertx.tp.optic.extension.Prerequisite}
+     * Related Interface: {@link Prerequisite}
      *
      * @param appName {@link java.lang.String} The application name that stored in `NAME` field of `X_APP`.
      *
@@ -154,7 +154,7 @@ public class InitService implements InitStub {
     /**
      * 「Async」Call `initializer` that defined in our configuration file.
      *
-     * @param input {@link io.vertx.core.json.JsonObject} Input parameters related to {@link io.vertx.tp.optic.extension.Init}
+     * @param input {@link io.vertx.core.json.JsonObject} Input parameters related to {@link Init}
      *
      * @return {@link io.vertx.core.Future}<{@link io.vertx.core.json.JsonObject}>
      */

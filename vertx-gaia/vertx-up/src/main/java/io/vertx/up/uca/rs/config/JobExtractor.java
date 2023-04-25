@@ -1,13 +1,16 @@
 package io.vertx.up.uca.rs.config;
 
+import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.eon.em.scheduler.JobType;
+import io.horizon.eon.info.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.Info;
-import io.vertx.up.eon.*;
-import io.vertx.up.eon.em.JobStatus;
-import io.vertx.up.eon.em.JobType;
-import io.vertx.up.experiment.specification.sch.KTimer;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.FileSuffix;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
@@ -75,12 +78,12 @@ public class JobExtractor implements Extractor<Mission> {
 
         /* code sync */
         if (Ut.isNil(mission.getCode())) {
-            mission.setCode(Constants.DEFAULT_JOB_NAMESPACE + Strings.DASH + mission.getName());
+            mission.setCode(KWeb.JOB.NS + Strings.DASH + mission.getName());
         }
         mission.connect(clazz);
         /* on method must existing */
         if (Objects.isNull(mission.getOn())) {
-            LOGGER.warn(Info.JOB_IGNORE, clazz.getName());
+            LOGGER.warn(VMessage.EXTRACTOR_JOB_IGNORE, clazz.getName());
             return null;
         }
         return mission;
@@ -133,7 +136,7 @@ public class JobExtractor implements Extractor<Mission> {
     }
 
     private String resolve(final String config) {
-        final StringBuilder file = new StringBuilder(Constants.DEFAULT_JOB);
+        final StringBuilder file = new StringBuilder(KWeb.JOB.PREFIX);
         if (config.startsWith(Strings.SLASH)) {
             /* config contains `/` prefix */
             file.append(config);

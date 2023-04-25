@@ -1,6 +1,7 @@
 package io.vertx.up.extension.pointer;
 
-import io.vertx.aeon.specification.query.HQBE;
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.spi.cloud.query.HQBE;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpStatusCode;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
-import io.vertx.up.experiment.mixture.HAtom;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

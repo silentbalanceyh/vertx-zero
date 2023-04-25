@@ -1,7 +1,7 @@
 package io.vertx.up.annotations;
 
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.em.ServerType;
+import io.horizon.eon.em.container.ServerType;
+import io.vertx.up.eon.KWeb;
 
 import java.lang.annotation.*;
 
@@ -26,7 +26,7 @@ public @interface Agent {
      *
      * @return deployment instance number
      */
-    int instances() default Constants.DEFAULT_INSTANCES;
+    int instances() default KWeb.DEPLOY.INSTANCES;
 
     /**
      * Isolation Group
@@ -34,12 +34,12 @@ public @interface Agent {
      *
      * @return deployment group
      */
-    String group() default Constants.DEFAULT_GROUP;
+    String group() default KWeb.DEPLOY.VERTX_GROUP;
 
     /**
      * @return Whether enable HA
      */
-    boolean ha() default Constants.DEFAULT_HA;
+    boolean ha() default KWeb.DEPLOY.HA;
 
     /**
      * Default server type: http

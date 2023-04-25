@@ -1,5 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
@@ -11,7 +12,6 @@ import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;

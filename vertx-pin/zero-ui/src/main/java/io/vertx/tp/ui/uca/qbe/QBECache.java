@@ -1,12 +1,12 @@
 package io.vertx.tp.ui.uca.qbe;
 
 import cn.vertxup.ui.domain.tables.pojos.UiView;
-import io.vertx.aeon.specification.query.HCond;
+import io.horizon.cloud.query.HCond;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;

@@ -2,6 +2,7 @@ package io.vertx.tp.modular.metadata;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
@@ -9,9 +10,8 @@ import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlTypeProvider;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.atom.KeyType;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -64,10 +64,10 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         columns.forEach(column -> columnList.add("`" + column + "`"));
         final String columnStr = Ut.fromJoin(columnList, Strings.COMMA);
         // 类型处理
-        final KeyType keyType = Ut.toEnum(KeyType.class, key.getType());
-        if (KeyType.PRIMARY == keyType) {
+        final KeyType typeKey = Ut.toEnum(KeyType.class, key.getType());
+        if (KeyType.PRIMARY == typeKey) {
             segment.append(MessageFormat.format(SqlStatement.CONSTRAINT_PK, key.getName(), columnStr));
-        } else if (KeyType.UNIQUE == keyType) {
+        } else if (KeyType.UNIQUE == typeKey) {
             segment.append(MessageFormat.format(SqlStatement.CONSTRAINT_UK, key.getName(), columnStr));
         }
         return segment.toString();

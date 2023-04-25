@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
+import io.horizon.exception.ZeroException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.ZeroException;
 import io.vertx.up.exception.heart.LimeFileException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.internal.Log4JAnnal;
@@ -17,8 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang
  */
 public final class ZeroAmbient {
-
-    private static final String KEY = "inject";
+    private static final String KEY = ZeroYml.inject.V;
     /**
      * Avoid dead lock, use internal Log only.
      **/

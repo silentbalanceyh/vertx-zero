@@ -1,12 +1,12 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.RemindType;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;

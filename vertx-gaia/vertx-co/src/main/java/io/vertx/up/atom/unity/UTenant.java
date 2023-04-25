@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.horizon.specification.zero.object.TCopy;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Copyable;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class UTenant implements Serializable, Copyable<UTenant> {
+public class UTenant implements Serializable, TCopy<UTenant> {
     @JsonIgnore
     private final ConcurrentMap<String, Integration> integrationMap = new ConcurrentHashMap<>();
     @JsonIgnore

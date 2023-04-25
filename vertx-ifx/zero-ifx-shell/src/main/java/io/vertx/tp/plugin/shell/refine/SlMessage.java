@@ -2,7 +2,6 @@ package io.vertx.tp.plugin.shell.refine;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.vertx.up.log.Log;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -27,8 +26,7 @@ class SlMessage {
     static TermStatus failError(final Throwable ex) {
         final String error = Objects.isNull(ex) ? "Error" : ex.getMessage();
         Sl.output(message("error",
-            () -> Log.color("[ ERROR ]", Log.COLOR_RED, true) + " "
-                + Log.color(" {0} ", Log.COLOR_RED)), error);
+            () -> Ut.flagBRed("[ ERROR ]") + " " + Ut.flagNRed(" {0} ")), error);
         if (SlConfig.isDebug()) {
             ex.printStackTrace();
         }
@@ -36,8 +34,7 @@ class SlMessage {
     }
 
     static void failWarn(final String message, final Object... args) {
-        Sl.output(Log.color("[ WARN  ]", Log.COLOR_YELLOW, true) + " " +
-            Log.color(message, Log.COLOR_GRAY), args);
+        Sl.output(Ut.flagBYellow("[ WARN  ]") + " " + Ut.flagNGray(message), args);
     }
 
     static String message(final String key, final Supplier<String> defaultSupplier) {

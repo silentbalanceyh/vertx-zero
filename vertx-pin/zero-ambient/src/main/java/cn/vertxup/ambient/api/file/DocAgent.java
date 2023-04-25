@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.*;
 
 /**
@@ -44,7 +44,7 @@ public interface DocAgent {
     @GET
     @Address(Addr.Doc.DOCUMENT)
     JsonArray start(@PathParam(KName.TYPE) String type,
-                    @HeaderParam(ID.Header.X_APP_ID) String appId);
+                    @HeaderParam(KWeb.HEADER.X_APP_ID) String appId);
 
     /*
      * Following Operation Api Data Structure for each is as following

@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.router;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.up.eon.Orders;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiJet;
 import io.vertx.up.uca.rs.Axis;
@@ -26,7 +26,7 @@ public class PointAxis implements Axis<Router> {
     public void mount(final Router router) {
         /* Breaker and Dispatch **/
         final UddiJet jet = Uddi.discovery(this.getClass());
-        router.route("/*").order(Orders.EVENT).handler(
+        router.route("/*").order(KWeb.ORDER.EVENT).handler(
             jet.bind(this.vertx).bind(this.options).handler()
         );
     }

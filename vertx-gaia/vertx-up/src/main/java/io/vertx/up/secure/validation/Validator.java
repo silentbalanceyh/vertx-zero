@@ -1,17 +1,16 @@
 package io.vertx.up.secure.validation;
 
+import io.aeon.runtime.H2H;
 import io.reactivex.Observable;
-import io.vertx.aeon.runtime.H2H;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.eon.ID;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
-import io.vertx.up.uca.cache.Cd;
 import io.vertx.up.util.Ut;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -33,7 +32,7 @@ public class Validator {
 
     private static final ConcurrentMap<String, Map<String, List<Rule>>>
         RULERS = new ConcurrentHashMap<>();
-    private static final Cd<String, JsonObject> STORED = H2H.CC_CODEX.store();
+    private static final ConcurrentMap<String, JsonObject> STORED = H2H.CC_CODEX.store();
 
     /**
      * Validate the method parameters based on javax.validation: Hibernate Validator.
@@ -85,7 +84,7 @@ public class Validator {
         final ConcurrentMap<String, Class<? extends Annotation>>
             annotions = depot.getAnnotations();
         Observable.fromIterable(annotions.keySet())
-            .filter(ID.DIRECT::equals)
+            .filter(KWeb.ARGS.MIME_DIRECT::equals)
             .map(annotions::get)
             // 1. Check whether contains @BodyParam
             .any(item -> BodyParam.class == item)
@@ -100,7 +99,7 @@ public class Validator {
         if (RULERS.containsKey(key)) {
             return RULERS.get(key);
         } else {
-            final JsonObject rule = STORED.data(key); // ZeroCodex.getCodex(key);
+            final JsonObject rule = STORED.get(key); // ZeroCodex.getCodex(key);
             final Map<String, List<Rule>> ruler
                 = new LinkedHashMap<>();
             if (null != rule) {

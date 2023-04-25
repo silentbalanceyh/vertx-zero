@@ -1,13 +1,13 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HTAtom;
-import io.vertx.up.experiment.mixture.HTField;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -75,13 +75,13 @@ class KeCompare {
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                           final List<String> columns,
-                                          final HTAtom HTAtom) {
+                                          final TypeAtom MetaAtom) {
         final JsonArray combined = new JsonArray();
         final boolean complex;
-        if (HTAtom == null) {
+        if (MetaAtom == null) {
             complex = false;
         } else {
-            complex = HTAtom.isComplex();
+            complex = MetaAtom.isComplex();
         }
         /*
          * Header
@@ -107,15 +107,15 @@ class KeCompare {
                 /*
                  * New Data Structure
                  */
-                if (HTAtom.isComplex(column)) {
+                if (MetaAtom.isComplex(column)) {
                     complexField.add(column);
                     // Complex that belong to data array
-                    final int columnSize = HTAtom.size(column);
+                    final int columnSize = MetaAtom.size(column);
                     firstCnHeader.add(itemColumn(headers.get(column), columnSize));
                     firstEnHeader.add(itemColumn(column, columnSize));
 
                     // Children column here
-                    final HTField item = HTAtom.item(column);
+                    final TypeField item = MetaAtom.item(column);
                     if (Objects.nonNull(item)) {
                         /*
                          * Adjust
@@ -152,13 +152,13 @@ class KeCompare {
                 /* Data Part */
                 final JsonArray row = new JsonArray();
                 columns.forEach(column -> {
-                    if (HTAtom.isComplex(column)) {
+                    if (MetaAtom.isComplex(column)) {
                         /* If complex */
                         final JsonArray columnValue = each.getJsonArray(column);
                         /*
                          * children field
                          */
-                        final HTField item = HTAtom.item(column);
+                        final TypeField item = MetaAtom.item(column);
                         /*
                          * Only pick first
                          */
@@ -196,8 +196,8 @@ class KeCompare {
                     final JsonArray addOn = new JsonArray();
                     final int maxIdx = idx;
                     columns.forEach(column -> {
-                        if (HTAtom.isComplex(column)) {
-                            final HTField item = HTAtom.item(column);
+                        if (MetaAtom.isComplex(column)) {
+                            final TypeField item = MetaAtom.item(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
                             if (Ut.notNil(columnValue) && 1 < columnValue.size()) {
@@ -265,7 +265,7 @@ class KeCompare {
         return itemString;
     }
 
-    private static void rowChild(final HTField item, final JsonObject value, final JsonArray row) {
+    private static void rowChild(final TypeField item, final JsonObject value, final JsonArray row) {
         /*
          * children field
          */

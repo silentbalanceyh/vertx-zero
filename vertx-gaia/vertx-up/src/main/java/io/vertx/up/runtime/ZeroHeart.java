@@ -1,10 +1,9 @@
 package io.vertx.up.runtime;
 
+import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Plugins;
-import io.vertx.up.eon.em.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.options.DynamicVisitor;
@@ -31,7 +30,7 @@ public class ZeroHeart {
      */
     public static boolean isShared() {
         final ConcurrentMap<String, Class<?>> injections = ZeroAmbient.getInjections();
-        return injections.containsKey(Plugins.Infix.SHARED);
+        return injections.containsKey(ZeroYml.inject.shared);
     }
 
     /*
@@ -39,7 +38,7 @@ public class ZeroHeart {
      */
     public static boolean isSession() {
         final JsonObject options = VISITOR.read();
-        return options.containsKey(Plugins.Infix.SESSION);
+        return options.containsKey(ZeroYml.inject.session);
     }
 
     /*

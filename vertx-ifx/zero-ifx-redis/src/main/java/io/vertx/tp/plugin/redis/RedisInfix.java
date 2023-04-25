@@ -6,9 +6,9 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.util.Ut;
 import redis.clients.jedis.Jedis;
 
@@ -30,7 +30,7 @@ public class RedisInfix implements Infix {
 
     private static void initInternal(final Vertx vertx,
                                      final String name) {
-        final RedisOptions options = Infix.init(Plugins.Infix.REDIS,
+        final RedisOptions options = Infix.init(ZeroYml.inject.redis,
             /*
              * Two parts for
              * - Redis reference
@@ -62,7 +62,7 @@ public class RedisInfix implements Infix {
             } else {
                 final Throwable ex = handler.cause();
                 if (Objects.nonNull(ex)) {
-                    LOGGER.jvm(ex);
+                    LOGGER.fatal(ex);
                 }
                 CLIENTS.remove(name);
             }
@@ -92,7 +92,7 @@ public class RedisInfix implements Infix {
                 client.ping();
                 CLIENTS_SYNC.put(name, client);
             } catch (final Throwable ex) {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
             }
         }
         return options;

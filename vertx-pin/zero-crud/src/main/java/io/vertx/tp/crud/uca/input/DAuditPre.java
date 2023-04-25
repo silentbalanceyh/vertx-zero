@@ -1,11 +1,11 @@
 package io.vertx.tp.crud.uca.input;
 
+import io.aeon.experiment.specification.KField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.optic.business.ExUser;
-import io.vertx.up.experiment.specification.KField;
-import io.vertx.up.experiment.specification.KModule;
+import io.horizon.spi.business.ExUser;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

@@ -1,10 +1,10 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.Record;
-import io.vertx.up.eon.em.ChangeFlag;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -175,8 +175,8 @@ class Compare {
         return (T) From.fromJson(original, clazz, "");
     }
 
-    static <ID> Record updateR(final Record record, final JsonObject data,
-                               final Supplier<ID> supplier) {
+    static <ID> HRecord updateR(final HRecord record, final JsonObject data,
+                                final Supplier<ID> supplier) {
         Objects.requireNonNull(record);
         record.set(data);
         final ID key = record.key();
@@ -186,7 +186,7 @@ class Compare {
         return record;
     }
 
-    static List<Record> updateR(final List<Record> recordList, final JsonArray array, final String field) {
+    static List<HRecord> updateR(final List<HRecord> recordList, final JsonArray array, final String field) {
         final ConcurrentMap<String, JsonObject> dataMap = Ut.elementMap(array, field);
         recordList.forEach(record -> {
             final String key = record.key();

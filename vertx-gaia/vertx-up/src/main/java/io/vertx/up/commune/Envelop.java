@@ -1,5 +1,7 @@
 package io.vertx.up.commune;
 
+import io.horizon.eon.em.ValueBool;
+import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
@@ -12,10 +14,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
-import io.vertx.up.commune.secure.Acl;
-import io.vertx.up.eon.ID;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.em.BoolStatus;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
@@ -256,11 +256,11 @@ public class Envelop implements Serializable {
         this.reference(reference -> Ux.irAndQH(reference, criteria, true));
     }
 
-    public void onMe(final BoolStatus active, final boolean app) {
+    public void onMe(final ValueBool active, final boolean app) {
         final JsonObject headerX = this.headersX();
         this.value(KName.SIGMA, headerX.getValue(KName.SIGMA));
-        if (BoolStatus.IGNORE != active) {
-            this.value(KName.ACTIVE, BoolStatus.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
+        if (ValueBool.IGNORE != active) {
+            this.value(KName.ACTIVE, ValueBool.TRUE == active ? Boolean.TRUE : Boolean.FALSE);
         }
         // this.value(KName.ACTIVE, active);
         if (headerX.containsKey(KName.LANGUAGE)) {
@@ -309,9 +309,9 @@ public class Envelop implements Serializable {
         final JsonObject headerData = new JsonObject();
         this.assist.headers().names().stream()
             /* Up case is OK */
-            .filter(field -> field.startsWith(ID.Header.PREFIX)
+            .filter(field -> field.startsWith(KWeb.HEADER.PREFIX)
                 /* Lower case is also Ok */
-                || field.startsWith(ID.Header.PREFIX.toLowerCase(Locale.getDefault())))
+                || field.startsWith(KWeb.HEADER.PREFIX.toLowerCase(Locale.getDefault())))
             /*
              * Data for header
              * X-App-Id -> appId
@@ -322,9 +322,9 @@ public class Envelop implements Serializable {
                 /*
                  * Lower / Upper are both Ok
                  */
-                final String found = ID.Header.PARAM_MAP.keySet()
+                final String found = KWeb.HEADER.PARAM_MAP.keySet()
                     .stream().filter(field::equalsIgnoreCase)
-                    .findFirst().map(ID.Header.PARAM_MAP::get).orElse(null);
+                    .findFirst().map(KWeb.HEADER.PARAM_MAP::get).orElse(null);
                 if (Ut.notNil(found)) {
                     headerData.put(found, this.assist.headers().get(field));
                 }

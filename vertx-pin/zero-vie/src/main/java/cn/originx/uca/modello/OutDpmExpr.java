@@ -1,12 +1,12 @@
 package cn.originx.uca.modello;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.tp.modular.plugin.OExpression;
-import io.vertx.tp.optic.business.ExAttributeComponent;
+import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.commune.Record;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -24,22 +24,22 @@ public class OutDpmExpr extends ExAttributeComponent implements OComponent {
      * 3. 执行sourceNorm内容
      */
     @Override
-    public Object after(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
-        Object translated = this.translateTo(kv.getValue(), combineData);
+    public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
+        final Object translated = this.translateTo(kv.getValue(), combineData);
         return this.express(Kv.create(kv.getKey(), translated), record, combineData);
     }
 
 
-    public Object express(final Kv<String, Object> kv, final Record record, final JsonObject combineData) {
-        List<OExpression> exprChain = new ArrayList<>();
-        String field = kv.getKey();
-        JsonArray sourceExpressionChain = Ut.valueJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));
+    public Object express(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
+        final List<OExpression> exprChain = new ArrayList<>();
+        final String field = kv.getKey();
+        final JsonArray sourceExpressionChain = Ut.valueJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));
         sourceExpressionChain.forEach(o -> {
-            String sourceExpr = (String) o;
+            final String sourceExpr = (String) o;
             exprChain.add(Ut.singleton(sourceExpr));
         });
         Object expressed = kv.getValue();
-        for (OExpression expression : exprChain) {
+        for (final OExpression expression : exprChain) {
             expressed = expression.after(Kv.create(field, expressed));
             record.attach(field, expressed);
         }

@@ -1,5 +1,6 @@
 package io.vertx.up.secure;
 
+import io.horizon.eon.em.secure.AuthWall;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
@@ -7,7 +8,6 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.vertx.up.eon.em.AuthWall;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;

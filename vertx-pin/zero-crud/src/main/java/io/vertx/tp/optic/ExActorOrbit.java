@@ -2,7 +2,7 @@ package io.vertx.tp.optic;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.optic.web.Orbit;
+import io.horizon.spi.web.Orbit;
 
 import java.util.Set;
 

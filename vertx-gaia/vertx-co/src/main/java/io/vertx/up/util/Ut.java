@@ -2,8 +2,15 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.vertx.aeon.eon.em.TypeOs;
-import io.vertx.aeon.runtime.internal.HService;
+import io.aeon.experiment.specification.KPair;
+import io.horizon.eon.VString;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.Environment;
+import io.horizon.eon.em.cloud.TypeOs;
+import io.horizon.eon.runtime.VEnv;
+import io.horizon.fn.Actuator;
+import io.horizon.specification.modeler.HRecord;
+import io.horizon.specification.runtime.internal.HService;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -13,16 +20,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.commune.Record;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.eon.KValue;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.eon.em.Environment;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.experiment.specification.KPair;
-import io.vertx.up.fn.Actuator;
 import io.vertx.up.uca.crypto.ED;
 
 import java.io.File;
@@ -47,6 +48,132 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public final class Ut {
     private Ut() {
+    }
+
+    /*
+     * flag(N|B)(Color)       String.format （只支持单参）
+     */
+    // color = blank
+    public static String flagBBlank(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_BLANK, true);
+    }
+
+    public static String flagBBlank(final String flag) {
+        return Format.color(null, flag, Format.COLOR_BLANK, true);
+    }
+
+    public static String flagNBlank(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_BLANK, false);
+    }
+
+    public static String flagNBlank(final String flag) {
+        return Format.color(null, flag, Format.COLOR_BLANK, false);
+    }
+
+    // color = blue
+    public static String flagBBlue(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_BLUE, true);
+    }
+
+    public static String flagBBlue(final String flag) {
+        return Format.color(null, flag, Format.COLOR_BLUE, true);
+    }
+
+    public static String flagNBlue(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_BLUE, false);
+    }
+
+    public static String flagNBlue(final String flag) {
+        return Format.color(null, flag, Format.COLOR_BLUE, false);
+    }
+
+    // color = red
+    public static String flagBRed(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_RED, true);
+    }
+
+    public static String flagBRed(final String flag) {
+        return Format.color(null, flag, Format.COLOR_RED, true);
+    }
+
+    public static String flagNRed(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_RED, false);
+    }
+
+    public static String flagNRed(final String flag) {
+        return Format.color(null, flag, Format.COLOR_RED, false);
+    }
+
+    // color = green
+
+    public static String flagBGreen(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_GREEN, true);
+    }
+
+    public static String flagBGreen(final String flag) {
+        return Format.color(null, flag, Format.COLOR_GREEN, true);
+    }
+
+    public static String flagNGreen(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_GREEN, false);
+    }
+
+    public static String flagNGreen(final String flag) {
+        return Format.color(null, flag, Format.COLOR_GREEN, false);
+    }
+
+    // color = yellow
+
+    public static String flagBYellow(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_YELLOW, true);
+    }
+
+    public static String flagBYellow(final String flag) {
+        return Format.color(null, flag, Format.COLOR_YELLOW, true);
+    }
+
+    public static String flagNYellow(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_YELLOW, false);
+    }
+
+    public static String flagNYellow(final String flag) {
+        return Format.color(null, flag, Format.COLOR_YELLOW, false);
+    }
+
+    // color = cyan
+
+    public static String flagBCyan(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_CYAN, true);
+    }
+
+    public static String flagBCyan(final String flag) {
+        return Format.color(null, flag, Format.COLOR_CYAN, true);
+    }
+
+    public static String flagNCyan(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_CYAN, false);
+    }
+
+    public static String flagNCyan(final String flag) {
+        return Format.color(null, flag, Format.COLOR_CYAN, false);
+    }
+
+    // color = gray
+
+    public static String flagBGray(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_GRAY, true);
+    }
+
+    public static String flagBGray(final String flag) {
+        return Format.color(null, flag, Format.COLOR_GRAY, true);
+    }
+
+    public static String flagNGray(final String pattern, final String flag) {
+        return Format.color(pattern, flag, Format.COLOR_GRAY, false);
+    }
+
+    public static String flagNGray(final String flag) {
+        return Format.color(null, flag, Format.COLOR_GRAY, false);
     }
 
     public static JsonMapper mapper() {
@@ -1133,7 +1260,7 @@ public final class Ut {
 
     // isFileName
     public static boolean isFileName(final String original) {
-        return StringUtil.isMatch(KValue.Regex.FILENAME, original);
+        return StringUtil.isMatch(VString.REGEX.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {
@@ -1193,12 +1320,16 @@ public final class Ut {
         return Types.isPrimary(clazz);
     }
 
+    public static boolean isNull(final Object... args) {
+        return 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
+    }
+
     public static boolean isNil(final String input) {
         return StringUtil.isNil(input);
     }
 
-    public static boolean isNilOr(final String... inputs) {
-        return StringUtil.isNilOr(inputs);
+    public static boolean isNil(final String... inputs) {
+        return StringUtil.isNil(inputs);
     }
 
     public static boolean isNil(final JsonObject json) {
@@ -1269,7 +1400,11 @@ public final class Ut {
         return !isNil(jsonArray);
     }
 
-    public static void notNull(final Object... objects) {
+    public static boolean notNull(final Object... objects) {
+        return !isNull(objects);
+    }
+
+    public static void checkNull(final Object... objects) {
         Arrays.stream(objects).forEach(Objects::requireNonNull);
     }
 
@@ -1408,7 +1543,7 @@ public final class Ut {
         return To.toJArray(list);
     }
 
-    public static JsonArray toJArray(final Record[] records) {
+    public static JsonArray toJArray(final HRecord[] records) {
         return To.toJArray(records);
     }
 
@@ -1708,6 +1843,14 @@ public final class Ut {
         return StringUtil.adjust(seed, width, '0');
     }
 
+    public static String fromMessageB(final String pattern, final Object... args) {
+        return Format.formatBold(pattern, args);
+    }
+
+    public static String fromMessage(final String pattern, final Object... args) {
+        return Format.message(pattern, args);
+    }
+
     public static <T> T fromExpressionT(final String expr, final JsonObject params) {
         return StringUtil.expressionT(expr, params);
     }
@@ -1932,7 +2075,7 @@ public final class Ut {
      */
     public static TypeOs envOs() {
         // os.name
-        return TypeOs.from(System.getProperty(KValue.NS.KEY_OS));
+        return TypeOs.from(System.getProperty(VEnv.PROP.OS_NAME));
     }
 
     public static String env(final String name) {

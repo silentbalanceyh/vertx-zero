@@ -1,11 +1,11 @@
 package io.vertx.up.uca.cosmic;
 
+import io.horizon.eon.VPath;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.Protocols;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -38,9 +38,9 @@ class StandardEmitter extends AbstractEmitter {
          * RegistryBuilder
          */
         final RegistryBuilder<ConnectionSocketFactory> registry = RegistryBuilder.create();
-        registry.register(Protocols.HTTP, PlainConnectionSocketFactory.INSTANCE);
+        registry.register(VPath.PROTOCOL.HTTP, PlainConnectionSocketFactory.INSTANCE);
         if (Objects.nonNull(sslcontext)) {
-            registry.register(Protocols.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
+            registry.register(VPath.PROTOCOL.HTTPS, new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE));
         }
 
         /*

@@ -1,6 +1,6 @@
 package io.vertx.up.uca.jooq;
 
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 

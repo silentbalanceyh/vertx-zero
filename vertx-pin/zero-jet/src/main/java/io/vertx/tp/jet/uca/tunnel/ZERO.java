@@ -1,6 +1,6 @@
 package io.vertx.tp.jet.uca.tunnel;
 
-import io.vertx.tp.optic.component.Dictionary;
+import io.horizon.spi.component.Dictionary;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

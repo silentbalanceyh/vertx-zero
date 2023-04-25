@@ -4,7 +4,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.servicediscovery.Record;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.matcher.RegexPath;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.util.Ut;

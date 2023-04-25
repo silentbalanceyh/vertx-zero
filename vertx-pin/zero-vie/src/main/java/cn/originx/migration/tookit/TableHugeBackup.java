@@ -1,10 +1,10 @@
 package cn.originx.migration.tookit;
 
 import cn.originx.refine.Ox;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -25,7 +25,7 @@ public class TableHugeBackup extends AbstractStatic {
          */
         final String file = targetFolder + "/" + this.jooq.table() + ".sql";
         final boolean done = this.backupTo(file, this.jooq.table());
-        Ox.Log.infoShell(this.getClass(), "备份数据位置：{0}，执行结果：{1}",
+        Ox.LOG.infoShell(this.getClass(), "备份数据位置：{0}，执行结果：{1}",
             file, done);
         return Ux.future(config);
     }
@@ -53,7 +53,7 @@ public class TableHugeBackup extends AbstractStatic {
             .append(" --skip-comments")
             .append(" --default-character-set=utf8 ");
         return Fn.orJvm(() -> {
-            Ox.Log.infoShell(this.getClass(), "执行命令：{0}", cmd.toString());
+            Ox.LOG.infoShell(this.getClass(), "执行命令：{0}", cmd.toString());
             final Process process = Runtime.getRuntime().exec(cmd.toString());
             return process.waitFor() == 0;
         });

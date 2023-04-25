@@ -2,11 +2,11 @@ package cn.originx.migration.restore;
 
 import cn.originx.migration.tookit.AbstractStatic;
 import cn.originx.refine.Ox;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -44,7 +44,7 @@ public class MetaCleaner extends AbstractStatic {
             /*
              * 执行
              */
-            Ox.Log.infoShell(this.getClass(), "表数据清除完成，数量：{0}", String.valueOf(tables.size()));
+            Ox.LOG.infoShell(this.getClass(), "表数据清除完成，数量：{0}", String.valueOf(tables.size()));
             return Ux.future(config);
         });
     }

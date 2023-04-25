@@ -13,7 +13,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
@@ -197,7 +197,7 @@ public class ScUser {
     public Future<JsonObject> view(final String viewKey) {
         return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)))
             .compose(view -> {
-                if (Ut.notNil(view) && Debugger.devAuthorized()) {
+                if (Ut.notNil(view) && DevEnv.devAuthorized()) {
                     Sc.infoAuth(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
                         viewKey, view.encode());
                 }
@@ -264,7 +264,7 @@ public class ScUser {
          * Remove reference pool first
          */
         // USERS.remove(this.habitus);
-        CC_USER.store().clear(this.habitus);
+        CC_USER.store().remove(this.habitus);
         return this.rapid.clear(this.habitus)
             .compose(nil -> Ux.future(Boolean.TRUE));
     }

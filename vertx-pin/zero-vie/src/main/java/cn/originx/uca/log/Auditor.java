@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._501NotSupportException;
 
 import java.util.Queue;
@@ -34,7 +34,7 @@ public interface Auditor {
     default Future<JsonObject> trackAsync(final JsonObject twins,
                                           final String serial, final Set<String> ignoreSet) {
         return this.trackAsync(
-            twins.getJsonObject(Values.VS.NEW), twins.getJsonObject(Values.VS.OLD),
+            twins.getJsonObject(KName.__.NEW), twins.getJsonObject(KName.__.OLD),
             serial, ignoreSet
         );
     }

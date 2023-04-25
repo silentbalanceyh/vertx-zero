@@ -2,8 +2,8 @@ package io.vertx.tp.plugin.session;
 
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.plugin.Infix;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class SessionInfix implements Infix {
         final SessionClient client = CC_CLIENTS.store(name);
         if (Objects.isNull(client)) {
             /* Null will create new */
-            return CC_CLIENTS.pick(() -> Infix.init(Plugins.Infix.SESSION,
+            return CC_CLIENTS.pick(() -> Infix.init(ZeroYml.inject.session,
                 (config) -> SessionClient.createShared(vertx, config),
                 SessionInfix.class
             ), name);

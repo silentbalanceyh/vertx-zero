@@ -1,7 +1,7 @@
 package io.vertx.up.atom.config;
 
+import io.horizon.eon.em.modeler.MetaSource;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.em.MetaSource;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -69,7 +69,7 @@ public class Metadata implements Serializable {
             try {
                 return Ut.ioJObject(path);
             } catch (final Throwable ex) {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 return new JsonObject();
             }
         }

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.yaml;
 
-import io.vertx.aeon.atom.iras.HAeon;
-import io.vertx.aeon.atom.iras.HBoot;
-import io.vertx.aeon.eon.HName;
-import io.vertx.aeon.eon.HPath;
+import io.aeon.atom.iras.HAeon;
+import io.aeon.atom.iras.HBoot;
+import io.aeon.eon.HName;
+import io.aeon.eon.HPath;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 

@@ -1,13 +1,13 @@
 package io.vertx.tp.rbac.ruler;
 
-import io.vertx.aeon.atom.secure.HPermit;
-import io.vertx.aeon.specification.secure.AbstractAdmit;
+import io.aeon.atom.secure.HPermit;
+import io.aeon.experiment.specification.secure.AbstractAdmit;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

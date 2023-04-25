@@ -1,5 +1,6 @@
 package io.vertx.tp.crud.uca.op;
 
+import io.aeon.experiment.specification.KPoint;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -8,8 +9,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.up.experiment.specification.KModule;
-import io.vertx.up.experiment.specification.KPoint;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;

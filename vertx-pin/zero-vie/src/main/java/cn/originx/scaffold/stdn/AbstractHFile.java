@@ -69,7 +69,7 @@ public abstract class AbstractHFile extends AbstractHMore {
                  */
                 final long counter = tables.stream().filter(table -> !table.getName().equals(identifier)).count();
                 if (0 < counter) {
-                    Ox.Log.warnUca(this.getClass(), "文件规范错误，期望 identifier = {0}", identifier);
+                    Ox.LOG.warnUca(this.getClass(), "文件规范错误，期望 identifier = {0}", identifier);
                     return Future.failedFuture(new _409IdentifierConflictException(this.getClass(), identifier));
                 } else {
                     final JsonArray data = new JsonArray();

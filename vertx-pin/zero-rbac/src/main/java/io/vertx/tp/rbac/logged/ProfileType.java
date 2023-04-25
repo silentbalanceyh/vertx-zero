@@ -2,7 +2,7 @@ package io.vertx.tp.rbac.logged;
 
 import io.vertx.tp.rbac.cv.em.SeekGroup;
 import io.vertx.tp.rbac.cv.em.SeekRole;
-import io.vertx.up.eon.Strings;
+import io.vertx.up.eon.bridge.Strings;
 
 import java.io.Serializable;
 import java.util.Objects;

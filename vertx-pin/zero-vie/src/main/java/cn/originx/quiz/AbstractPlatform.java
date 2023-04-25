@@ -9,6 +9,9 @@ import cn.originx.stellaris.OkA;
 import cn.originx.uca.elasticsearch.EsIndex;
 import cn.originx.uca.graphic.Plotter;
 import cn.originx.uca.graphic.TopologyPlotter;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.Environment;
+import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -25,10 +28,7 @@ import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.Constants;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.eon.em.Environment;
-import io.vertx.up.experiment.mixture.HDao;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.quiz.JooqBase;
 import io.vertx.up.util.Ut;
 import org.junit.Before;
@@ -125,7 +125,7 @@ public abstract class AbstractPlatform extends JooqBase {
 
     // Neo4J 原生客户端
     protected Neo4jClient neo4j() {
-        return Neo4jInfix.getClient().connect(Constants.DEFAULT_GROUP);
+        return Neo4jInfix.getClient().connect(KWeb.DEPLOY.VERTX_GROUP);
     }
 
     // Es 原生客户端

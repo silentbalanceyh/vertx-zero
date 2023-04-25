@@ -3,8 +3,8 @@ package io.vertx.up.uca.rs.mime.parse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.eon.ID;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -59,11 +59,11 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
     @SuppressWarnings("all")
     private String getName(final Annotation annotation) {
         return Fn.orSemi(null == annotation, LOGGER,
-            () -> ID.IGNORE,
+            () -> KWeb.ARGS.MIME_IGNORE,
             () -> Fn.orSemi(!Filler.NO_VALUE.contains(annotation.annotationType()),
                 LOGGER,
                 () -> Ut.invoke(annotation, "value"),
-                () -> ID.DIRECT));
+                () -> KWeb.ARGS.MIME_DIRECT));
     }
 
     private Annotation getAnnotation(final Annotation[] annotations) {

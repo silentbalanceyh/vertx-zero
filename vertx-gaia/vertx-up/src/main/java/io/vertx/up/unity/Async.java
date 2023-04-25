@@ -1,12 +1,12 @@
 package io.vertx.up.unity;
 
+import io.aeon.experiment.channel.Pocket;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.channel.Pocket;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -117,7 +117,7 @@ class Async {
                 () -> future.complete(new JsonObject()),
                 () -> future.complete(To.toJObject(item, pojo))
             )).exceptionally((ex) -> {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 future.fail(ex);
                 return null;
             }));
@@ -137,7 +137,7 @@ class Async {
                 () -> future.complete(new JsonArray()),
                 () -> future.complete(To.toJArray(item, pojo))
             )).exceptionally((ex) -> {
-                LOGGER.jvm(ex);
+                LOGGER.fatal(ex);
                 future.fail(ex);
                 return null;
             }));

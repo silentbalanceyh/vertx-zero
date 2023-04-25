@@ -1,9 +1,9 @@
 package io.vertx.up.log;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Plugins;
 import io.vertx.up.exception.heart.ErrorMissingException;
 import io.vertx.up.fn.Fn;
+import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
 
 import java.text.MessageFormat;
@@ -34,7 +34,7 @@ public final class Errors {
                                     final Object... args) {
         return Fn.orJvm(() -> {
             final String key = ("E" + Math.abs(code)).intern();
-            final Node<JsonObject> node = Node.infix(Plugins.ERROR);
+            final Node<JsonObject> node = Node.infix(ZeroYml._error);
             final JsonObject data = node.read();
             if (null != data && data.containsKey(key)) {
                 // 1. Read pattern

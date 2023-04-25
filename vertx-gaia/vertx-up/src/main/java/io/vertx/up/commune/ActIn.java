@@ -1,10 +1,11 @@
 package io.vertx.up.commune;
 
+import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.zero.exception.ActSpecificationException;
 
@@ -37,7 +38,7 @@ public class ActIn extends ActMapping implements Serializable {
 
     private transient ActJObject json;
     private transient ActJArray jarray;
-    private transient Record definition;
+    private transient HRecord definition;
 
     private transient BTree mapping;
 
@@ -50,8 +51,8 @@ public class ActIn extends ActMapping implements Serializable {
          * 2) JsonArray
          * */
         final JsonObject data = envelop.data();
-        if (data.containsKey(ID.PARAM_BODY)) {
-            final Object value = data.getValue(ID.PARAM_BODY);
+        if (data.containsKey(KWeb.ARGS.PARAM_BODY)) {
+            final Object value = data.getValue(KWeb.ARGS.PARAM_BODY);
             if (value instanceof JsonArray) {
                 this.jarray = new ActJArray(envelop);
                 this.isBatch = true;        // Batch
@@ -66,7 +67,7 @@ public class ActIn extends ActMapping implements Serializable {
         /*
          * Optional to stored file here
          */
-        final JsonArray stream = data.getJsonArray(ID.PARAM_STREAM);
+        final JsonArray stream = data.getJsonArray(KWeb.ARGS.PARAM_STREAM);
         this.file = new ActFile(stream);
     }
 
@@ -100,7 +101,7 @@ public class ActIn extends ActMapping implements Serializable {
         return this.json.getQuery();
     }
 
-    public Record getRecord() {
+    public HRecord getRecord() {
         Fn.outUp(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.json.getRecord(this.definition, this.mapping);
     }
@@ -109,12 +110,12 @@ public class ActIn extends ActMapping implements Serializable {
         return this.file.getFiles();
     }
 
-    public Record[] getRecords() {
+    public HRecord[] getRecords() {
         Fn.outUp(!this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.jarray.getRecords(this.definition, this.mapping);
     }
 
-    public Record getDefinition() {
+    public HRecord getDefinition() {
         return this.definition;
     }
 
@@ -123,12 +124,12 @@ public class ActIn extends ActMapping implements Serializable {
      */
     public String appId() {
         final MultiMap paramMap = this.envelop.headers();
-        return paramMap.get(ID.Header.X_APP_ID);
+        return paramMap.get(KWeb.HEADER.X_APP_ID);
     }
 
     public String sigma() {
         final MultiMap paramMap = this.envelop.headers();
-        return paramMap.get(ID.Header.X_SIGMA);
+        return paramMap.get(KWeb.HEADER.X_SIGMA);
     }
 
     public String userId() {
@@ -138,7 +139,7 @@ public class ActIn extends ActMapping implements Serializable {
     /*
      * 1) Set input data to Record object ( reference here )
      */
-    public void connect(final Record definition) {
+    public void connect(final HRecord definition) {
         this.definition = definition;
     }
 }

@@ -1,14 +1,14 @@
 package io.vertx.tp.ambient.uca.darkly;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ChangeFlag;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

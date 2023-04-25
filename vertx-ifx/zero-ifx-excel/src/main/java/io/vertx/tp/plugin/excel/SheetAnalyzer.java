@@ -1,14 +1,14 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;
 
@@ -39,8 +39,8 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet to find all the data and definition part
      */
-    public Set<ExTable> analyzed(final ExBound bound, final HTAtom HTAtom) {
-        if (Debugger.devExcelRange()) {
+    public Set<ExTable> analyzed(final ExBound bound, final TypeAtom typeAtom) {
+        if (DevEnv.devExcelRange()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
         try {
@@ -63,7 +63,7 @@ public class SheetAnalyzer implements Serializable {
             });
             /* analyzedBounds */
             if (!tableCell.isEmpty()) {
-                if (Debugger.devExcelRange()) {
+                if (DevEnv.devExcelRange()) {
                     LOGGER.info("[ Έξοδος ] Scanned sheet: {0}, tableCell = {1}",
                         this.sheet.getSheetName(), String.valueOf(tableCell.size()));
                 }
@@ -75,13 +75,13 @@ public class SheetAnalyzer implements Serializable {
                         return null;
                     } else {
                         final Integer limit = range.get(cell.hashCode());
-                        return this.analyzed(row, cell, limit, HTAtom);
+                        return this.analyzed(row, cell, limit, typeAtom);
                     }
                 }).filter(Objects::nonNull).forEach(tables::add);
             }
             return tables;
         } catch (final Throwable ex) {
-            LOGGER.jvm(ex);
+            LOGGER.fatal(ex);
             return new HashSet<>();
         }
     }
@@ -109,13 +109,13 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet from row to cell to build each table.
      */
-    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final HTAtom HTAtom) {
+    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final TypeAtom typeAtom) {
         /* Build ExTable */
         final ExTable table = this.create(row, cell);
 
         /* ExIn build */
         final ExIn in;
-        if (Objects.nonNull(HTAtom) && HTAtom.isComplex()) {
+        if (Objects.nonNull(typeAtom) && typeAtom.isComplex()) {
             in = new ComplexIn(this.sheet).bind(this.evaluator);
         } else {
             in = new PureIn(this.sheet).bind(this.evaluator);
@@ -127,7 +127,7 @@ public class SheetAnalyzer implements Serializable {
         /*
          * Data processing
          */
-        return in.applyData(table, dataRange, cell, HTAtom);
+        return in.applyData(table, dataRange, cell, typeAtom);
     }
 
     private ExTable create(final Row row, final Cell cell) {

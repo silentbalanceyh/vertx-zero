@@ -7,10 +7,10 @@
  * 3) Vertx unexpected exception
  * 4) Zero runtime exception / Zero exception
  * This package also defined checked exception code flow such as invoke
- * 1) io.vertx.zero.io.vertx.zero.io.vertx.up.fn.JvmActuator
- * 2) io.vertx.zero.io.vertx.zero.io.vertx.up.fn.JvmSupplier
- * 3) io.vertx.zero.io.vertx.zero.io.vertx.up.fn.ZeroActuator
- * 4) io.vertx.zero.io.vertx.zero.io.vertx.up.fn.ZeroBiConsumer
- * 5) io.vertx.zero.io.vertx.zero.io.vertx.up.fn.ZeroSupplier
+ * 1) io.vertx.zero.io.vertx.zero.io.zero.spec.function.JvmActuator
+ * 2) io.vertx.zero.io.vertx.zero.io.zero.spec.function.JvmSupplier
+ * 3) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroActuator
+ * 4) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroBiConsumer
+ * 5) io.vertx.zero.io.vertx.zero.io.horizon.function.ZeroSupplier
  */
 package io.vertx.up.fn;

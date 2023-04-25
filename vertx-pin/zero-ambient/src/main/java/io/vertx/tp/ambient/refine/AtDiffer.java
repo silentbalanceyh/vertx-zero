@@ -2,14 +2,14 @@ package io.vertx.tp.ambient.refine;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
+import io.aeon.experiment.mu.KMarker;
+import io.horizon.eon.em.ChangeFlag;
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.mixture.HAtom;
-import io.vertx.up.experiment.mixture.HAttribute;
-import io.vertx.up.experiment.mixture.HTField;
-import io.vertx.up.experiment.mu.KMarker;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
 
@@ -94,7 +94,7 @@ class AtDiffer {
     private static XActivityChange createChange(final HAttribute attribute) {
         final XActivityChange change = new XActivityChange();
         change.setKey(UUID.randomUUID().toString());
-        final HTField field = attribute.field();
+        final TypeField field = attribute.field();
         Objects.requireNonNull(field);
         change.setFieldName(field.name());
         change.setFieldAlias(field.alias());

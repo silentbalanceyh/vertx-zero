@@ -2,6 +2,7 @@ package cn.originx.migration.tookit;
 
 import cn.originx.migration.AbstractStep;
 import cn.originx.refine.Ox;
+import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +10,6 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.eon.em.Environment;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;
@@ -39,7 +39,7 @@ public abstract class AbstractTool extends AbstractStep {
         final String targetFolder = root + "backup/" + folder + "/" + this.folder + "/" + table;
         final boolean created = Ut.ioOut(targetFolder);
         if (created) {
-            Ox.Log.infoShell(this.getClass(), "目录创建结果：{0}, 目录：{1}",
+            Ox.LOG.infoShell(this.getClass(), "目录创建结果：{0}, 目录：{1}",
                 created, targetFolder);
         }
         return targetFolder;
@@ -87,7 +87,7 @@ public abstract class AbstractTool extends AbstractStep {
          * 写入文件
          */
         final JsonArray result = Ut.valueJArray(data.getJsonArray("list"));
-        Ox.Log.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
+        Ox.LOG.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
             String.valueOf(result.size()), file, String.valueOf(page));
         Ut.ioOutCompress(file, result);
         return Ux.future(data);

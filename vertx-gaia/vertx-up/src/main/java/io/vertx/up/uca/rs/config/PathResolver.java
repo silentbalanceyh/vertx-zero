@@ -1,10 +1,10 @@
 package io.vertx.up.uca.rs.config;
 
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.log.Debugger;
+import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.PathAnnoEmptyException;
 import jakarta.ws.rs.Path;
@@ -104,7 +104,7 @@ class PathResolver {
         final String processed = uri;
         final String finalUri = Fn.orNull(() -> processed.startsWith(Strings.SLASH)
             ? processed : Strings.SLASH + processed, uri);
-        if (!path.equals(finalUri) && Debugger.devWebUri()) {
+        if (!path.equals(finalUri) && DevEnv.devWebUri()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);
         }
         return finalUri;

@@ -1,13 +1,14 @@
 package io.vertx.tp.atom.refine;
 
+import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Apt;
-import io.vertx.up.eon.Values;
-import io.vertx.up.eon.em.ChangeFlag;
-import io.vertx.up.experiment.rule.RuleUnique;
+import io.vertx.up.eon.KName;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -334,8 +335,8 @@ class AoCompare {
                              * 强连接失效，弱连接生效，那么需要针对新旧数据执行替换
                              * 强连接字段不执行替换（按弱连接不更新强连接）
                              */
-                            final JsonObject newRef = foundWeak.getJsonObject(Values.VS.NEW);
-                            final JsonObject oldRef = foundWeak.getJsonObject(Values.VS.OLD);
+                            final JsonObject newRef = foundWeak.getJsonObject(KName.__.NEW);
+                            final JsonObject oldRef = foundWeak.getJsonObject(KName.__.OLD);
                             rules.getStrong().forEach(rule -> rule.getFields().forEach(field -> {
                                 /*
                                  * 以旧数据中的强连接字段为主
@@ -390,13 +391,13 @@ class AoCompare {
                      * 反向（新旧交换）
                      */
                     final JsonObject revert = new JsonObject();
-                    revert.put(Values.VS.NEW, weakFound.getValue(Values.VS.OLD));
-                    revert.put(Values.VS.OLD, weakFound.getValue(Values.VS.NEW));
+                    revert.put(KName.__.NEW, weakFound.getValue(KName.__.OLD));
+                    revert.put(KName.__.OLD, weakFound.getValue(KName.__.NEW));
                     if (queueD.contains(revert)) {
                         /*
                          * 弱连接可以找到，但原始的被删除了，添加新的
                          */
-                        revert.remove(Values.VS.OLD);
+                        revert.remove(KName.__.OLD);
                         return revert;
                     } else {
                         /*

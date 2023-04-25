@@ -3,7 +3,7 @@ package cn.vertxup.lbs.api;
 import io.vertx.tp.lbs.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.ID;
+import io.vertx.up.eon.KWeb;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
@@ -55,10 +55,10 @@ public interface QueryApi {
     @Path("/tents")
     @GET
     @Address(Addr.PickUp.TENT_BY_SIGMA)
-    String getTents(@HeaderParam(ID.Header.X_SIGMA) String sigma);
+    String getTents(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma);
 
     @Path("/floors")
     @GET
     @Address(Addr.PickUp.FLOOR_BY_SIGMA)
-    String getFloors(@HeaderParam(ID.Header.X_SIGMA) String sigma);
+    String getFloors(@HeaderParam(KWeb.HEADER.X_SIGMA) String sigma);
 }

@@ -1,6 +1,8 @@
 package cn.vertxup.ui.api;
 
 import cn.vertxup.ui.service.*;
+import io.horizon.eon.VValue;
+import io.horizon.eon.em.container.ViewType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -13,9 +15,7 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.KValue;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.em.ViewType;
+import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -150,9 +150,9 @@ public class UiActor {
             /*
              * calculate the `path` based on `view` and `position`
              */
-            final String view = params.getString(KName.VIEW, KValue.View.VIEW_DEFAULT);
-            final String position = params.getString(KName.POSITION, KValue.View.POSITION_DEFAULT);
-            final String alias = params.getString(KName.ALIAS, KValue.View.VIEW_DEFAULT);
+            final String view = params.getString(KName.VIEW, VValue.DFT.V_VIEW);
+            final String alias = params.getString(KName.ALIAS, VValue.DFT.V_VIEW);
+            final String position = params.getString(KName.POSITION, VValue.DFT.V_POSITION);
 
             /*
              * Build Parameters

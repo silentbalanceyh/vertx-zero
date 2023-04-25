@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.excel.tool;
 
+import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExPos;
-import io.vertx.up.eon.Strings;
-import io.vertx.up.eon.Values;
-import io.vertx.up.experiment.mixture.HTAtom;
+import io.vertx.up.eon.bridge.Strings;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
@@ -57,7 +57,7 @@ class ExData {
     }
 
     static boolean generateHeader(final Sheet sheet, final String identifier,
-                                  final JsonArray tableData, final HTAtom HTAtom) {
+                                  final JsonArray tableData, final TypeAtom MetaAtom) {
         final Consumer<Integer> consumer = width -> {
             /*
              * Row creation
@@ -85,7 +85,7 @@ class ExData {
                 Fn.safeJvm(() -> sheet.addMergedRegion(region));
             }
         };
-        if (HTAtom.isComplex()) {
+        if (MetaAtom.isComplex()) {
             /*
              * Complex workflow processing
              */

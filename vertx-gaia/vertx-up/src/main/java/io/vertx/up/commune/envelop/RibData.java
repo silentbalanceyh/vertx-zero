@@ -3,7 +3,7 @@ package io.vertx.up.commune.envelop;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Constants;
+import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -76,7 +76,7 @@ class RibData {
                     return null;
                 }
                 /* Key */
-                final String key = Constants.INDEXES.get(index);
+                final String key = KWeb.MULTI.INDEXES.get(index);
                 /* Index Checking */
                 if (raw.containsKey(key)) {
                     /* Interface Style */
@@ -192,7 +192,7 @@ class RibData {
          *
          * Here argIndex should not be null
          */
-        return itPart.getValue(Constants.INDEXES.get(argIndex));
+        return itPart.getValue(KWeb.MULTI.INDEXES.get(argIndex));
     }
 
     private static Object findSmart(final JsonObject itPart) {
@@ -202,14 +202,14 @@ class RibData {
          * 2. The first value of JsonArray
          */
         final Object body = itPart.fieldNames().stream()
-                .filter(Objects::nonNull)
-                .map(itPart::getValue)
-                /*
-                 * Predicate to test whether value is JsonObject
-                 * If JsonObject, then find the first JsonObject as body
-                 */
-                .filter(value -> value instanceof JsonObject || value instanceof JsonArray)
-                .findFirst().orElse(null);
+            .filter(Objects::nonNull)
+            .map(itPart::getValue)
+            /*
+             * Predicate to test whether value is JsonObject
+             * If JsonObject, then find the first JsonObject as body
+             */
+            .filter(value -> value instanceof JsonObject || value instanceof JsonArray)
+            .findFirst().orElse(null);
         if (Objects.nonNull(body)) {
             if (body instanceof JsonObject && Ut.isNil((JsonObject) body)) {
                 return null;

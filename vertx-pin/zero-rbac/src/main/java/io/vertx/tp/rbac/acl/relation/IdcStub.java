@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.relation;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.Values;
+import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
