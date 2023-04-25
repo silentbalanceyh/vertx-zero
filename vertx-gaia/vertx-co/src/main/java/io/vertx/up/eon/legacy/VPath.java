@@ -1,4 +1,4 @@
-package io.vertx.up.eon.bridge;
+package io.vertx.up.eon.legacy;
 
 @Deprecated
 public interface VPath extends io.horizon.eon.VPath.SUFFIX {

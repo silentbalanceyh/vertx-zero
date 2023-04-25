@@ -1,4 +1,4 @@
-package io.vertx.up.eon.bridge;
+package io.vertx.up.eon.legacy;
 
 /**
  * 此类需保留
