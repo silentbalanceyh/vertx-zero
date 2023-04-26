@@ -5,12 +5,13 @@ import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -23,7 +24,7 @@ class RUkPre implements Pre {
 
         /* Each Unique */
         final JsonObject filters = this.condition(data, unique);
-        Ix.Log.filters(this.getClass(), "{0}", filters.encode());
+        LOG.Filter.info(this.getClass(), "{0}", filters.encode());
         return Ux.future(filters);
     }
 

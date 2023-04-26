@@ -12,6 +12,8 @@ import io.vertx.up.unity.Ux;
 
 import java.util.function.Function;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -21,7 +23,7 @@ class AgonicCount implements Agonic {
         if (!input.containsKey(VString.EMPTY)) {
             input.put(VString.EMPTY, Boolean.TRUE);
         }
-        Ix.Log.filters(this.getClass(), "( Count ) Condition: {0}", input);
+        LOG.Filter.info(this.getClass(), "( Count ) Condition: {0}", input);
         final Function<Long, Future<JsonObject>> outFn =
             counter -> Ux.future(new JsonObject().put(KName.COUNT, counter));
         if (in.canJoin()) {

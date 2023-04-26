@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.desk;
 
 import io.aeon.experiment.specification.KJoin;
+import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
 import io.horizon.eon.em.scheduler.JoinMode;
 import io.vertx.core.Future;
@@ -14,13 +15,14 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /**
  * Wrap `envelop` here as request params
@@ -352,7 +354,7 @@ public class IxMod {
                 return null;
             }
             final KPoint point = join.point(this.connect.identifier());
-            Ix.Log.rest(this.getClass(), "Point = {0}, From = {1}, To = {2}",
+            LOG.Rest.info(this.getClass(), "Point = {0}, From = {1}, To = {2}",
                 point, this.module.identifier(), this.connect.identifier());
             return point;
         } else {

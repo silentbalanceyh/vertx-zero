@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._500AmbientConnectException;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.init.JtPin;
-import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -18,6 +17,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+
+import static io.vertx.tp.jet.refine.Jt.LOG;
 
 /*
  * The environment data, it's for multi-app deployment here
@@ -57,16 +58,16 @@ public class Ambient {
                  * - Service/Api -> Uri
                  * - Router -> Route of Vert.x
                  */
-                Jt.infoInit(LOGGER, "Ambient detect {0} applications in your environment.",
+                LOG.Init.info(LOGGER, "Ambient detect {0} applications in your environment.",
                     String.valueOf(APPS.keySet().size()));
                 if (APPS.isEmpty()) {
-                    Jt.warnInfo(LOGGER, "Ambient environment pool is Empty.");
+                    LOG.App.warn(LOGGER, "Ambient environment pool is Empty.");
                 }
                 final ConcurrentMap<String, Future<AmbientEnvironment>> futures = new ConcurrentHashMap<>();
                 APPS.forEach((appId, app) -> futures.put(appId, new AmbientEnvironment(app).init(vertx)));
                 return Fn.combineM(futures).compose(processed -> {
                     ENVIRONMENTS.putAll(processed);
-                    Jt.infoInit(LOGGER, "AmbientEnvironment initialized !!!");
+                    LOG.Init.info(LOGGER, "AmbientEnvironment initialized !!!");
                     return Ux.future(Boolean.TRUE);
                 });
             });
@@ -113,8 +114,8 @@ public class Ambient {
          * 2) sigma search ( Secondary priority )
          */
         if (Ut.isNil(key)) {
-            Jt.warnApp(LOGGER, "Input key of app is null, key = {0}", key);
-            Jt.warnApp(LOGGER, "You may missed the configuration of `io.vertx.tp.jet.init.JtPin` to on `init` node. ");
+            LOG.App.warn(LOGGER, "Input key of app is null, key = {0}", key);
+            LOG.App.warn(LOGGER, "You may missed the configuration of `io.vertx.tp.jet.init.JtPin` to on `init` node. ");
             return null;
         } else {
             JtApp app = APPS.get(key);
@@ -137,7 +138,7 @@ public class Ambient {
             .filter(appItem -> key.equals(executor.apply(appItem)))
             .findFirst().orElse(null);
         if (Objects.isNull(app)) {
-            Jt.warnApp(LOGGER, "Ambient -> JtApp = null, input key = {0}", key);
+            LOG.App.warn(LOGGER, "Ambient -> JtApp = null, input key = {0}", key);
         }
         return app;
     }

@@ -1,19 +1,20 @@
 package io.vertx.tp.jet.init;
 
+import io.horizon.spi.environment.Ambient;
+import io.horizon.spi.environment.UnityApp;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtConfig;
-import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.ke.refine.Ke;
-import io.horizon.spi.environment.Ambient;
-import io.horizon.spi.environment.UnityApp;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.jet.refine.Jt.LOG;
 
 /*
  * Configuration of zero here
@@ -31,19 +32,19 @@ public class JtPin {
             final JsonObject configData = VISITOR.read();
             if (configData.containsKey(KEY_ROUTER)) {
                 final JsonObject router = configData.getJsonObject(KEY_ROUTER);
-                Jt.infoInit(LOGGER, "Jt Router Json: {0}", router.encode());
+                LOG.Init.info(LOGGER, "Jt Router Json: {0}", router.encode());
                 CONFIG = Ut.deserialize(router, JtConfig.class);
-                Jt.infoInit(LOGGER, "Jt Configuration: {0}", CONFIG.toString());
-                Jt.infoInit(LOGGER, "---> Jt @Wall for `{0}`", CONFIG.getWall());
+                LOG.Init.info(LOGGER, "Jt Configuration: {0}", CONFIG.toString());
+                LOG.Init.info(LOGGER, "---> Jt @Wall for `{0}`", CONFIG.getWall());
             }
         }
     }
 
     public static Future<Boolean> init(final Vertx vertx) {
         Ke.banner("「Πίδακας δρομολογητή」- ( Api )");
-        Jt.infoInit(LOGGER, "JtConfiguration...");
+        LOG.Init.info(LOGGER, "JtConfiguration...");
         initializing();
-        Jt.infoInit(LOGGER, "Ambient Environment Start...");
+        LOG.Init.info(LOGGER, "Ambient Environment Start...");
         return Ambient.init(vertx);
     }
 

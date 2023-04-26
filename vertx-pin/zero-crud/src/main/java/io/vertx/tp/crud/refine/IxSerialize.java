@@ -1,10 +1,10 @@
 package io.vertx.tp.crud.refine;
 
 import io.aeon.experiment.specification.KField;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -13,6 +13,8 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 class IxSerialize {
 
@@ -72,7 +74,7 @@ class IxSerialize {
 
     @SuppressWarnings("all")
     static <T> T deserializeT(final JsonObject data, final KModule config) {
-        IxLog.infoDao(LOGGER, "Normalized: \u001b[0;37m{0}\u001b[m", data.encode());
+        LOG.Dao.info(LOGGER, "Normalized: \u001b[0;37m{0}\u001b[m", data.encode());
         {
             /*
              * JsonObject / JsonArray must be converted to string
@@ -88,7 +90,7 @@ class IxSerialize {
         final T reference = Ut.isNil(pojo) ?
             Ux.fromJson(data, (Class<T>) config.getPojoCls()) :
             Ux.fromJson(data, (Class<T>) config.getPojoCls(), config.getPojo());
-        IxLog.infoDao(LOGGER, "Deserialized: {0}", reference);
+        LOG.Dao.info(LOGGER, "Deserialized: {0}", reference);
         return reference;
     }
 

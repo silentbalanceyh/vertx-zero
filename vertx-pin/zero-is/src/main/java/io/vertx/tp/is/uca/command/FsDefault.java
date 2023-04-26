@@ -10,7 +10,6 @@ import io.vertx.tp.is.atom.IsConfig;
 import io.vertx.tp.is.cv.IsFolder;
 import io.vertx.tp.is.cv.em.TypeDirectory;
 import io.vertx.tp.is.init.IsPin;
-import io.vertx.tp.is.refine.Is;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -21,6 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
+
+import static io.vertx.tp.is.refine.Is.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -149,7 +150,7 @@ public class FsDefault extends AbstractFs {
         final IsConfig config = IsPin.getConfig();
         final String rootPath = config.getStoreRoot();
         if (Ut.isNil(rootPath)) {
-            Is.Log.warnPath(this.getClass(), "The `storeRoot` of integration service is null");
+            LOG.Path.warn(this.getClass(), "The `storeRoot` of integration service is null");
         }
         return rootPath;
     }

@@ -10,13 +10,15 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AgonicSearch implements Agonic {
     @Override
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
-        Ix.Log.filters(this.getClass(), "( Search ) Condition: {0}", input);
+        LOG.Filter.info(this.getClass(), "( Search ) Condition: {0}", input);
         if (in.canJoin()) {
             return Ix.searchFn(in).apply(input).compose(Fn.ifPage(KName.METADATA))
                 // Response Format

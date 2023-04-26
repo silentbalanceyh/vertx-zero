@@ -6,7 +6,6 @@ import io.horizon.eon.em.cloud.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
-import io.vertx.tp.battery.refine.Bk;
 import io.vertx.tp.ke.cv.em.TypeBag;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -15,6 +14,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.battery.refine.Bk.LOG;
 
 class ArkConfigure extends AbstractArk {
     @Override
@@ -27,7 +28,7 @@ class ArkConfigure extends AbstractArk {
          * 为空。
          */
         condition.put(KName.PARENT_ID + ",n", null);
-        Bk.Log.infoChannel(this.getClass(), "Modulat condition = {0}", condition.encode());
+        LOG.Spi.info(this.getClass(), "Modulat condition = {0}", condition.encode());
         return Ux.Jooq.on(BBagDao.class).<BBag>fetchAsync(condition).compose(bags -> {
             final ConcurrentMap<String, Future<JsonObject>> futures = new ConcurrentHashMap<>();
             bags.forEach(bag -> {

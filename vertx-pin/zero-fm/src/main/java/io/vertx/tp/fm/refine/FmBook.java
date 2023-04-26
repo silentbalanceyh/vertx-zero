@@ -16,6 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.fm.refine.Fm.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -27,7 +29,7 @@ class FmBook {
         final FBook found = books.stream().filter(FBook::getMajor).findFirst().orElse(null);
         if (Objects.isNull(found)) {
             // The major book does not exist
-            Fm.Log.warnBook(FmBook.class, "Book major could not be found, check workflow! ");
+            LOG.Book.warn(FmBook.class, "Book major could not be found, check workflow! ");
             return new ArrayList<>();
         } else {
             // Sub Book Building

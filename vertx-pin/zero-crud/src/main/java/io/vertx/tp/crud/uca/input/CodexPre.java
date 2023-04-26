@@ -5,7 +5,6 @@ import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
@@ -18,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -27,7 +28,7 @@ class CodexPre implements Pre {
         /* 1.method, uri */
         final String key = this.getKey(data, in);
 
-        Ix.Log.verify(this.getClass(), "---> Rule: {0}", key);
+        LOG.Verify.info(this.getClass(), "---> Rule: {0}", key);
 
         final ConcurrentMap<String, List<Rule>> rules = IxPin.getRules(key);
         if (!rules.isEmpty()) {
@@ -37,7 +38,7 @@ class CodexPre implements Pre {
             final Rigor rigor = Rigor.get(JsonObject.class);
             final WebException error = rigor.verify(rules, data);
             if (null != error) {
-                Ix.Log.verify(this.getClass(), "---> Error Code: {0}", String.valueOf(error.getCode()));
+                LOG.Verify.info(this.getClass(), "---> Error Code: {0}", String.valueOf(error.getCode()));
                 return Future.failedFuture(error);
             }
         }

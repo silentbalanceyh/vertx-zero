@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static io.vertx.tp.is.refine.Is.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -145,7 +147,7 @@ public class DirService implements DirStub {
                  */
                 final StoreUp store = CC_UP.pick(StoreMigration::new, StoreMigration.class.getName());
                 // Fn.po?lThread(POOL_UP, StoreMigration::new, StoreMigration.class.getName());
-                Is.Log.infoWeb(this.getClass(), "Integration Changing: {0}", store.getClass());
+                LOG.Web.info(this.getClass(), "Integration Changing: {0}", store.getClass());
                 return store.migrate(directory, directoryJ);
             } else {
                 // StorePath
@@ -156,7 +158,7 @@ public class DirService implements DirStub {
                      * `rename` only
                      */
                     final StoreUp store = CC_UP.pick(StoreRename::new, StoreRename.class.getName());
-                    Is.Log.infoWeb(this.getClass(), "StorePath Changing: {0}", store.getClass());
+                    LOG.Web.info(this.getClass(), "StorePath Changing: {0}", store.getClass());
                     return store.migrate(directory, directoryJ);
                 }
             }

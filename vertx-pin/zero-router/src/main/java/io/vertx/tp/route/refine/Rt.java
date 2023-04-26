@@ -1,12 +1,13 @@
 package io.vertx.tp.route.refine;
 
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 public final class Rt {
-    /*
-     * Log information of gateway
-     */
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        RtLog.infoInit(logger, pattern, args);
+
+    public interface LOG {
+        String MODULE = "πύλη";
+
+        LogModule Init = Log.modulat(MODULE).program("Init");
     }
 }

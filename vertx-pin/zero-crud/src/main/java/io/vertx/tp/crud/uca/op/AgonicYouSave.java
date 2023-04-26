@@ -1,5 +1,6 @@
 package io.vertx.tp.crud.uca.op;
 
+import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,13 +10,14 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -79,7 +81,7 @@ public class AgonicYouSave extends AgonicUnique {
     @Override
     public Future<JsonArray> runAAsync(final JsonArray input, final IxMod in) {
         final JsonObject condition = this.module.dataCond(input);
-        Ix.Log.filters(this.getClass(), "( Batch ) By Joined: identifier: {0}, condition: {1}", in.module().identifier(), condition);
+        LOG.Filter.info(this.getClass(), "( Batch ) By Joined: identifier: {0}, condition: {1}", in.module().identifier(), condition);
         final KModule standBy = in.module();
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchJAsync(condition).compose(queried -> {

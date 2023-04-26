@@ -1,8 +1,7 @@
-package io.vertx.tp.optic;
+package io.horizon.spi.web;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
-import io.horizon.spi.web.Orbit;
 
 import java.util.Set;
 

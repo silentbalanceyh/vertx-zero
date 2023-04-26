@@ -3,7 +3,6 @@ package io.vertx.tp.battery.init;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.atom.PowerConfig;
 import io.vertx.tp.battery.cv.BkCv;
-import io.vertx.tp.battery.refine.Bk;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -11,6 +10,8 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static io.vertx.tp.battery.refine.Bk.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -26,7 +27,7 @@ class BkConfiguration {
         final JsonObject configJson = READER.read();
         if (configJson.containsKey(BkCv.FOLDER_MODULE)) {
             final JsonObject configuration = configJson.getJsonObject(BkCv.FOLDER_MODULE, new JsonObject());
-            Bk.Log.infoInit(BkConfiguration.class, "The Modulat Engine will be initialized!! `{0}`",
+            LOG.Init.info(BkConfiguration.class, "The Modulat Engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, PowerConfig.class);
         }

@@ -21,6 +21,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.jet.refine.Jt.LOG;
+
 public class JobService implements JobStub {
     private static final Annal LOGGER = Annal.get(JobService.class);
     @Inject
@@ -46,7 +48,7 @@ public class JobService implements JobStub {
                      */
                     .map(Jt::jobCode)
                     .collect(Collectors.toSet());
-                Jt.infoWeb(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
+                LOG.Web.info(LOGGER, "Job fetched from database: {0}, input sigma: {1}",
                     codes.size(), sigma);
                 return JobKit.fetchMission(codes).compose(normalized -> {
                     jobs.put("list", normalized);

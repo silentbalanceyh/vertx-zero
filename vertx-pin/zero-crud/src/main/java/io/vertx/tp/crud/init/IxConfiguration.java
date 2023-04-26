@@ -4,12 +4,13 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.atom.IxConfig;
 import io.vertx.tp.crud.cv.IxFolder;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /*
  * Configuration class initialization
@@ -29,9 +30,9 @@ class IxConfiguration {
          */
         if (null == CONFIG) {
             final JsonObject configData = Ut.ioJObject(IxFolder.CONFIG_FILE);
-            Ix.Log.init(IxConfiguration.class, "Ix Json Data: {0}", configData.encode());
+            LOG.Init.info(IxConfiguration.class, "Ix Json Data: {0}", configData.encode());
             CONFIG = Ut.deserialize(configData, IxConfig.class);
-            Ix.Log.init(IxConfiguration.class, "Ix Configuration: {0}", CONFIG.toString());
+            LOG.Init.info(IxConfiguration.class, "Ix Configuration: {0}", CONFIG.toString());
         }
     }
 

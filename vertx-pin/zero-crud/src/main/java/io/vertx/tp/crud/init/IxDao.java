@@ -8,7 +8,6 @@ import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
 import io.vertx.tp.crud.cv.IxMsg;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
@@ -21,6 +20,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 ;
 
@@ -69,7 +70,7 @@ class IxDao {
                 }
             });
         });
-        Ix.Log.init(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
+        LOG.Init.info(IxDao.class, "IxDao Finished ! Size = {0}, Uris = {0}",
             CONFIG_MAP.size(), IxConfiguration.getUris().size());
     }
 
@@ -84,7 +85,7 @@ class IxDao {
         ALIAS_MAP.put(identifier, config.getName());
         /* 5. Logger */
         if (DevEnv.devDaoBind()) {
-            Ix.Log.init(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
+            LOG.Init.info(IxDao.class, IxMsg.INIT_INFO, identifier, config.getName());
         }
     }
 
@@ -93,13 +94,13 @@ class IxDao {
         if (Objects.isNull(config)) {
             final String name = ALIAS_MAP.get(actor);
             if (Ut.notNil(name)) {
-                Ix.Log.rest(IxDao.class, "Actor: name = `{0}`, identifier = `{1}`", name, actor);
+                LOG.Rest.info(IxDao.class, "Actor: name = `{0}`, identifier = `{1}`", name, actor);
                 return CONFIG_MAP.get(name);
             } else {
                 return null;
             }
         } else {
-            Ix.Log.rest(IxDao.class, "Actor: name = `{0}`", actor);
+            LOG.Rest.info(IxDao.class, "Actor: name = `{0}`", actor);
             return config;
         }
     }

@@ -1,18 +1,19 @@
 package io.vertx.tp.crud.init;
 
-import io.vertx.tp.crud.refine.Ix;
+import io.aeon.experiment.mixture.HOne;
+import io.aeon.experiment.specification.KModule;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.commune.Envelop;
-import io.aeon.experiment.mixture.HOne;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /*
  * Init Plugin for `init` static life
@@ -22,15 +23,15 @@ public class IxPin {
     public static void init() {
         Ke.banner("「Εκδήλωση」- Crud ( Ix )");
 
-        Ix.Log.init(IxPin.class, "IxConfiguration...");
+        LOG.Init.info(IxPin.class, "IxConfiguration...");
         /* Configuration Init */
         IxConfiguration.init();
 
-        Ix.Log.init(IxPin.class, "IxDao...");
+        LOG.Init.info(IxPin.class, "IxDao...");
         /* Dao Init */
         IxDao.init();
 
-        Ix.Log.init(IxPin.class, "IxValidator...");
+        LOG.Init.info(IxPin.class, "IxValidator...");
         /* Validator Init */
         IxValidator.init();
     }
