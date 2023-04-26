@@ -4,7 +4,6 @@ import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import cn.vertxup.ambient.domain.tables.pojos.XMenu;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -14,6 +13,8 @@ import io.vertx.up.util.Ut;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 public class DevSite {
     private static final ConcurrentMap<Integer, Integer> SEQ_STORE = new ConcurrentHashMap<>() {
@@ -62,11 +63,11 @@ public class DevSite {
                 }
             });
             return jooq.updateAsync(updateQ).compose(updated -> {
-                Ke.infoKe(DevSite.class, "更新菜单数：{0}", String.valueOf(updated.size()));
+                LOG.Ke.info(DevSite.class, "更新菜单数：{0}", String.valueOf(updated.size()));
                 return Ux.future(removeSet);
             });
         }).compose(removeSet -> {
-            Ke.infoKe(DevSite.class, "移除菜单数量：{0}", String.valueOf(removeSet.size()));
+            LOG.Ke.info(DevSite.class, "移除菜单数量：{0}", String.valueOf(removeSet.size()));
             final JsonObject nameQr = Ux.whereAnd();
             nameQr.put(KName.NAME + ",i", Ut.toJArray(removeSet));
             return jooq.deleteByAsync(nameQr);

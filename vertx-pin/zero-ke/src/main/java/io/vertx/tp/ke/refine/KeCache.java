@@ -2,15 +2,17 @@ package io.vertx.tp.ke.refine;
 
 import io.aeon.experiment.channel.Income;
 import io.aeon.experiment.channel.Pocket;
+import io.horizon.spi.web.Orbit;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
-import io.horizon.spi.web.Orbit;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 /*
  * Key generated for uniform platform
@@ -59,7 +61,7 @@ class KeCache {
         final Vis vis = Vis.create(literal);
         final String cacheKey = keyView(request.method().name(), uri, vis);
         /* Cache Data */
-        Ke.debugKe(LOGGER, LOGGER_VIEW, cacheKey, literal, uri, request.method().name());
+        LOG.Ke.debug(LOGGER, LOGGER_VIEW, cacheKey, literal, uri, request.method().name());
         return cacheKey;
     }
 }

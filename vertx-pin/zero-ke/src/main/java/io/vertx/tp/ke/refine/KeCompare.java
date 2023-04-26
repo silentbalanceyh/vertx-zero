@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static io.vertx.tp.ke.refine.Ke.LOG;
+
 class KeCompare {
 
     /*
@@ -62,7 +64,7 @@ class KeCompare {
             final JsonArray updated = compared.comparedU();
 
             final Annal LOGGER = Annal.get(clazz);
-            KeLog.infoKe(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",
+            LOG.Ke.info(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",
                 String.valueOf(inserted.size()),
                 String.valueOf(updated.size()));
 

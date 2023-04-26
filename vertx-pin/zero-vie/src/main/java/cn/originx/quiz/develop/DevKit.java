@@ -6,7 +6,6 @@ import io.horizon.specification.modeler.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.booter.Bt;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -14,6 +13,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -157,7 +158,7 @@ public class DevKit {
     @SuppressWarnings("all")
     private static void doLoading(final String root, final String prefix, final boolean isOob) {
         final Annal logger = Annal.get(DevKit.class);
-        Ke.infoKe(logger, "Data Loading from `{0}`", root);
+        LOG.Ke.info(logger, "Data Loading from `{0}`", root);
         Bt.init(root, Objects.isNull(prefix) ? VString.EMPTY : prefix, isOob);
     }
 }

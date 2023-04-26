@@ -23,6 +23,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static io.vertx.tp.ke.refine.Ke.LOG;
+
 class KeTool {
 
     private static final Node<JsonObject> VISITOR = Ut.singleton(ZeroUniform.class);
@@ -84,7 +86,7 @@ class KeTool {
                 /*
                  * Log
                  */
-                KeLog.warnChannel(KeTool.class, "Criteria must be not empty");
+                LOG.Turnel.warn(KeTool.class, "Criteria must be not empty");
             }
         });
         return Fn.combineM(futures).compose(mapData -> {

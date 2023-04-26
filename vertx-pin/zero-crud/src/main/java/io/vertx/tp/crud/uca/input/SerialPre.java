@@ -1,14 +1,13 @@
 package io.vertx.tp.crud.uca.input;
 
 import io.aeon.experiment.specification.KField;
+import io.aeon.experiment.specification.KModule;
+import io.horizon.spi.environment.Indent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.tp.ke.refine.Ke;
-import io.horizon.spi.environment.Indent;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -22,6 +21,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -40,7 +41,7 @@ class SerialPre implements Pre {
 
         /* Number generation */
         return this.run(data, in, (numbers) -> Ux.channelA(Indent.class, () -> Ux.future(data), stub -> {
-            Ke.infoKe(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
+            LOG.Ke.info(LOGGER, "Table here {0}, Serial numbers {1}", in.module().getTable(), numbers.encode());
             /* Channel */
             final ConcurrentMap<String, Future<String>> numberMap = new ConcurrentHashMap<>();
             numbers.fieldNames().stream()
@@ -67,7 +68,7 @@ class SerialPre implements Pre {
         }
         /* Number generation */
         return this.run(data, in, (numbers) -> Ux.channelA(Indent.class, () -> Ux.future(data), stub -> {
-            Ke.infoKe(LOGGER, "Table here {0}, Size {1}, Serial numbers {2}", in.module().getTable(), data.size(), numbers.encode());
+            LOG.Ke.info(LOGGER, "Table here {0}, Size {1}, Serial numbers {2}", in.module().getTable(), data.size(), numbers.encode());
             /* Queue<String> */
             final ConcurrentMap<String, Future<Queue<String>>> numberMap = new ConcurrentHashMap<>();
             numbers.fieldNames().stream()
