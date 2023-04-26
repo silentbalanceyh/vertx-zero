@@ -7,13 +7,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 @Queue
 public class FormActor {
@@ -30,20 +31,20 @@ public class FormActor {
 
     @Address(Addr.Control.PUT_FORM_CASCADE)
     public Future<JsonObject> putFormCascade(final String key, final JsonObject body) {
-        final JsonArray fields = body.getJsonArray(FIELD_FIELDS);
-        final JsonArray ops = body.getJsonArray(FIELD_OPS);
+        final JsonArray fields = body.getJsonArray(this.FIELD_FIELDS);
+        final JsonArray ops = body.getJsonArray(this.FIELD_OPS);
 
-        Ui.infoUi(LOGGER, "putFormCascade updating data: {0}", body.encodePrettily());
+        LOG.Ui.info(LOGGER, "putFormCascade updating data: {0}", body.encodePrettily());
         return this.formStub.update(key, body)
             .compose(updatedForm -> this.fieldStub.updateA(key, fields))
             .compose(updatedFields -> {
                 // return with updated fields
-                body.put(FIELD_FIELDS, updatedFields);
+                body.put(this.FIELD_FIELDS, updatedFields);
                 return this.optionStub.updateA(key, ops);
             })
             .compose(updatedOps -> {
                 // return with updated ops
-                body.put(FIELD_OPS, updatedOps);
+                body.put(this.FIELD_OPS, updatedOps);
                 return Ux.future(body);
             });
     }

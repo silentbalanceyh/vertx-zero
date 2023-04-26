@@ -266,7 +266,7 @@ public class Ke {
 
     public interface LOG {
         String MODULE = "Εισόδημα";
-        LogModule Ke = Log.extension(MODULE).program("Ke");
-        LogModule Turnel = Log.extension(MODULE).program("Channel");
+        LogModule Ke = Log.modulat(MODULE).program("Ke");
+        LogModule Turnel = Log.modulat(MODULE).program("Channel");
     }
 }

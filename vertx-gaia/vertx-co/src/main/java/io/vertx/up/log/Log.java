@@ -34,7 +34,7 @@ public final class Log {
     }
 
     // -------------- 扩展日志
-    public static LogFactory extension(final String module) {
+    public static LogFactory modulat(final String module) {
         return LogFactory.create(module);
     }
 

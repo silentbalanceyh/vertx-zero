@@ -3,10 +3,11 @@ package io.horizon.spi.secure;
 import io.horizon.spi.modeler.Confine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -49,7 +50,7 @@ public class ConfineKind implements Confine {
             condition.mergeIn(Ut.fromExpression(exprJ, request), true);
         }
         Ut.elementCopy(condition, request, KName.VIEW_ID, KName.SIGMA);
-        Ui.infoView(this.getClass(), "( Kind ) Visitant unique query condition: {0}", condition);
+        LOG.View.info(this.getClass(), "( Kind ) Visitant unique query condition: {0}", condition);
         return Ux.future(condition);
     }
 }

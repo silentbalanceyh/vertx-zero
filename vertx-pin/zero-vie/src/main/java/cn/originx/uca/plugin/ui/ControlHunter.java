@@ -3,11 +3,10 @@ package cn.originx.uca.plugin.ui;
 import cn.originx.uca.plugin.indent.KeyIndent;
 import cn.vertxup.ui.domain.tables.daos.UiVisitorDao;
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
-import io.vertx.core.Future;
-import io.vertx.core.json.JsonObject;
 import io.horizon.spi.environment.Identifier;
 import io.horizon.spi.ui.UiHunter;
-import io.vertx.tp.ui.refine.Ui;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -15,6 +14,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -59,7 +60,7 @@ public class ControlHunter implements UiHunter {
             criteria.put(KName.App.PATH, visitor.getPath());
             criteria.put(KName.Ui.PAGE, visitor.getPage());
 
-            Ui.infoUi(LOGGER, "Dynamic Control,  condition = `{0}`", criteria.encode());
+            LOG.Ui.info(LOGGER, "Dynamic Control,  condition = `{0}`", criteria.encode());
             return Ux.Jooq.on(UiVisitorDao.class).<UiVisitor>fetchOneAsync(criteria);
         }).compose(searched -> {
             if (Objects.isNull(searched) || Ut.isNil(searched.getControlId())) {

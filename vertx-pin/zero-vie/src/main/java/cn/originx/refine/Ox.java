@@ -856,15 +856,15 @@ public final class Ox {
 
         String MODULE = "Προέλευση Χ";
 
-        LogModule Atom = Log.extension(MODULE).configure("Atom");
-        LogModule Uca = Log.extension(MODULE).configure("Uca");
-        LogModule Hub = Log.extension(MODULE).configure("Hub");
-        LogModule Shell = Log.extension(MODULE).configure("Shell");
-        LogModule Plugin = Log.extension(MODULE).configure("Plugin");
-        LogModule Web = Log.extension(MODULE).configure("Web");
-        LogModule Util = Log.extension(MODULE).configure("Util");
-        LogModule Report = Log.extension(MODULE).configure("Report");
-        LogModule Status = Log.extension(MODULE).configure("Status");
+        LogModule Atom = Log.modulat(MODULE).configure("Atom");
+        LogModule Uca = Log.modulat(MODULE).configure("Uca");
+        LogModule Hub = Log.modulat(MODULE).configure("Hub");
+        LogModule Shell = Log.modulat(MODULE).configure("Shell");
+        LogModule Plugin = Log.modulat(MODULE).configure("Plugin");
+        LogModule Web = Log.modulat(MODULE).configure("Web");
+        LogModule Util = Log.modulat(MODULE).configure("Util");
+        LogModule Report = Log.modulat(MODULE).configure("Report");
+        LogModule Status = Log.modulat(MODULE).configure("Status");
 
         /**
          * 比对报表日志器

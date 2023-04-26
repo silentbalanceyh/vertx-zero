@@ -4,12 +4,11 @@ import cn.vertxup.ui.domain.tables.daos.UiControlDao;
 import cn.vertxup.ui.domain.tables.daos.UiVisitorDao;
 import cn.vertxup.ui.domain.tables.pojos.UiControl;
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
+import io.horizon.spi.ui.UiHunter;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.ui.UiHunter;
 import io.vertx.tp.ui.cv.em.ControlType;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -18,6 +17,8 @@ import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 public class ControlService implements ControlStub {
 
@@ -79,7 +80,7 @@ public class ControlService implements ControlStub {
             KName.Ui.PAGE,
             KName.App.PATH
         );
-        Ui.infoUi(LOGGER, "Control ( type = {0} ) with parameters = `{1}`", controlType, criteria.encode());
+        LOG.Ui.info(LOGGER, "Control ( type = {0} ) with parameters = `{1}`", controlType, criteria.encode());
         return Ux.Jooq.on(UiVisitorDao.class).<UiVisitor>fetchOneAsync(criteria).compose(visitor -> {
             if (Objects.isNull(visitor)) {
                 /* 「空」无任何记录，直接返回空结果 */

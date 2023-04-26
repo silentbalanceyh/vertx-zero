@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiCv;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -19,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-;
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 /*
  * Configuration class initialization
@@ -47,12 +46,12 @@ class UiConfiguration {
     static void init() {
         if (null == CONFIG) {
             final JsonObject uiData = Ut.ioJObject(UiCv.CONFIG_FILE);
-            Ui.infoInit(LOGGER, "Ui Json Data: {0}", uiData.encode());
+            LOG.Init.info(LOGGER, "Ui Json Data: {0}", uiData.encode());
             CONFIG = Ut.deserialize(uiData, UiConfig.class);
-            Ui.infoInit(LOGGER, "Ui Configuration: {0}", CONFIG.toString());
+            LOG.Init.info(LOGGER, "Ui Configuration: {0}", CONFIG.toString());
             /* Static Loading */
             initColumn(CONFIG);
-            Ui.infoInit(LOGGER, "Ui Columns: Size = {0}", COLUMN_MAP.size());
+            LOG.Init.info(LOGGER, "Ui Columns: Size = {0}", COLUMN_MAP.size());
         }
     }
 
