@@ -3,12 +3,13 @@ package io.vertx.tp.rbac.acl.rapid;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,7 +44,7 @@ class SiftRow {
              */
             result.addAll(input);
         } else {
-            Sc.infoAuth(LOGGER, AuthMsg.REGION_ROWS, rowData.encode());
+            LOG.Auth.info(LOGGER, AuthMsg.REGION_ROWS, rowData.encode());
             input.stream().filter(Objects::nonNull)
                 .map(item -> (JsonObject) item)
                 .filter(item -> isMatch(item, rowData))

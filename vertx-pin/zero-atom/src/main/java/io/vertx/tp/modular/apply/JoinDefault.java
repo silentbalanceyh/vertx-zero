@@ -2,8 +2,9 @@ package io.vertx.tp.modular.apply;
 
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 class JoinDefault implements AoDefault {
 
@@ -28,9 +29,9 @@ class JoinDefault implements AoDefault {
              */
             AoDefault.apply(join, KName.MODEL, this.model.getIdentifier());
             AoDefault.apply(join, "entityKey", KName.KEY);
-            Ao.debugUca(this.getClass(), "「DFT」连接Join值: {0}", join.encode());
+            LOG.Uca.info(this.getClass(), "「DFT」连接Join值: {0}", join.encode());
         } else {
-            Ao.debugAtom(this.getClass(), "[OxE] 模型为空！");
+            LOG.Atom.debug(this.getClass(), "[OxE] 模型为空！");
         }
     }
 }

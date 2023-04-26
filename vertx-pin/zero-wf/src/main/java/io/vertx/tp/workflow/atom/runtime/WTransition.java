@@ -26,6 +26,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.workflow.refine.Wf.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -208,7 +210,7 @@ public class WTransition {
              * 2) The move = value ( Not be null, at least Empty )
              */
             final ProcessDefinition definition = this.definition();
-            Wf.Log.infoTransition(this.getClass(),
+            LOG.Move.info(this.getClass(),
                 "Flow Not Started, rule fetched by definition = {0}", definition.getId());
             final Io<StartEvent> io = Io.ioEventStart();
             return io.child(definition.getId()).compose(event -> {

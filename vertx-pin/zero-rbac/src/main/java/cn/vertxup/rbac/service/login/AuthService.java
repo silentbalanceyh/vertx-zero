@@ -9,7 +9,6 @@ import io.vertx.ext.web.Session;
 import io.vertx.tp.error._401CodeGenerationException;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -17,6 +16,8 @@ import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 public class AuthService implements AuthStub {
 
@@ -33,7 +34,7 @@ public class AuthService implements AuthStub {
     @Override
     @SuppressWarnings("all")
     public Future<JsonObject> authorize(final JsonObject filters) {
-        Sc.infoAuth(LOGGER, AuthMsg.CODE_FILTER, filters.encode());
+        LOG.Auth.info(LOGGER, AuthMsg.CODE_FILTER, filters.encode());
         return Ux.Jooq.on(OUserDao.class).<OUser>fetchOneAsync(filters).compose(item -> {
             if (Objects.isNull(item)) {
                 // Could not identify OUser record, error throw.
@@ -50,11 +51,11 @@ public class AuthService implements AuthStub {
     public Future<JsonObject> token(final JsonObject params, final Session session) {
         final String code = params.getString(AuthKey.AUTH_CODE);
         final String clientId = params.getString(AuthKey.CLIENT_ID);
-        Sc.infoAuth(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
+        LOG.Auth.info(LOGGER, AuthMsg.CODE_VERIFY, clientId, code);
         return this.tokenStub.execute(clientId, code, session).compose(data -> {
             // Store token information
             final String userKey = data.getString(KName.USER);
-            Sc.infoAuth(LOGGER, AuthMsg.TOKEN_STORE, userKey);
+            LOG.Auth.info(LOGGER, AuthMsg.TOKEN_STORE, userKey);
             return this.jwtStub.store(userKey, data);
         });
     }
@@ -64,7 +65,7 @@ public class AuthService implements AuthStub {
     public Future<JsonObject> login(final JsonObject params) {
         final String username = params.getString(AuthKey.USER_NAME);
         final String password = params.getString(AuthKey.PASSWORD);
-        Sc.infoAuth(LOGGER, AuthMsg.LOGIN_INPUT, username);
+        LOG.Auth.info(LOGGER, AuthMsg.LOGIN_INPUT, username);
         return this.loginStub.execute(username, password);
     }
 }

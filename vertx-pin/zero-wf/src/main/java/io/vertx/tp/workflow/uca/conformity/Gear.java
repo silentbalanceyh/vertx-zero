@@ -6,7 +6,6 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
@@ -17,6 +16,8 @@ import org.camunda.bpm.engine.task.Task;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * 1) Bind instance for Task seeking
@@ -67,13 +68,13 @@ public interface Gear {
         if (Objects.isNull(type) || !Gateway.SUPPLIERS.containsKey(type)) {
             // MoveMode is null;
             gear = CC_GEAR.pick(GearStandard::new, GearStandard.class.getName());
-            Wf.Log.infoMove(Gear.class,
+            LOG.Move.info(Gear.class,
                 "( Gear ) <NodeType Null> Component Initialized: {0}", gear.getClass());
             return gear;
         }
         final Kv<String, Supplier<Gear>> kv = Gateway.SUPPLIERS.get(type);
         gear = CC_GEAR.pick(kv.getValue(), kv.getKey());
-        Wf.Log.infoMove(Gear.class,
+        LOG.Move.info(Gear.class,
             "( Gear ) Component Initialized: {0}, Mode = {1}", gear.getClass(), type);
         return gear;
     }

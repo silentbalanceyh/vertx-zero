@@ -3,10 +3,11 @@ package io.vertx.tp.modular.dao.internal;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 工具类
@@ -31,7 +32,7 @@ public class USearch extends AbstractUtil<USearch> {
 
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.valueJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.search: {0}", criteria.encode());
+        LOG.SQL.info(Ut.notNil(qr), this.getLogger(), "执行方法：USearch.search: {0}", criteria.encode());
         // Input
         final DataEvent input = this.irQr(criteria);
         // Output
@@ -41,7 +42,7 @@ public class USearch extends AbstractUtil<USearch> {
 
     public HRecord[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.valueJObject(qr);
-        Ao.infoSQL(this.getLogger(), Ut.notNil(qr), "执行方法：USearch.query: {0}", criteria.encode());
+        LOG.SQL.info(Ut.notNil(qr), this.getLogger(), "执行方法：USearch.query: {0}", criteria.encode());
         // Input
         final DataEvent input = this.irCond(Criteria.create(criteria));
         // Output

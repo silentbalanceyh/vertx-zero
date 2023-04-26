@@ -3,7 +3,8 @@ package io.vertx.tp.modular.apply;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 class AttributeDefault implements AoDefault {
 
@@ -20,7 +21,7 @@ class AttributeDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject attribute) {
         if (null != this.model) {
-            Ao.debugUca(this.getClass(), "「DFT」模型属性输入值：{0}", attribute.encode());
+            LOG.Uca.info(this.getClass(), "「DFT」模型属性输入值：{0}", attribute.encode());
             /*
              * 默认值:
              * key

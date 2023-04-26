@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -63,7 +65,7 @@ class AoCompare {
         final DataAtom atom, final Set<String> ignoreSet
     ) {
         final RuleUnique rules = atom.ruleSmart();
-        Ao.infoUca(AoCompare.class, "（Pure）对比用标识规则：\n{0}", rules.toString());
+        LOG.Uca.info(AoCompare.class, "（Pure）对比用标识规则：\n{0}", rules.toString());
         final JsonArray queueA = new JsonArray();
         final JsonArray queueUTemp = new JsonArray();
         final JsonArray queueD = new JsonArray();
@@ -103,7 +105,7 @@ class AoCompare {
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPure(queueO, queueN, atom, ignoreSet);
         final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
         final ChangeFlag flag = changed.getKey();
-        Ao.infoUca(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.getValue());
+        LOG.Uca.info(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.getValue());
         if (ChangeFlag.UPDATE == flag) {
             return recordN;
         } else {
@@ -115,7 +117,7 @@ class AoCompare {
                         final Set<String> ignoreSet) {
         final JsonArray queueO = apt.dataO();
         final JsonArray queueN = apt.dataN();
-        Ao.infoUca(AoCompare.class, "（Pure）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
+        LOG.Uca.info(AoCompare.class, "（Pure）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
             queueO.encode(), queueN.encode(),
             String.valueOf(queueN.size()), String.valueOf(queueO.size()));
         /*
@@ -141,7 +143,7 @@ class AoCompare {
          * 2. 只有集成拉取数据会遇到 Strong / Weak 的强弱连接
          */
         final RuleUnique rules = atom.ruleSmart();
-        Ao.infoDiff(AoCompare.class, "（Pull）对比用标识规则：\n{0}", rules.toString());
+        LOG.Diff.info(AoCompare.class, "（Pull）对比用标识规则：\n{0}", rules.toString());
         final JsonArray queueA = new JsonArray();
         final JsonArray queueUTemp = new JsonArray();
         final JsonArray queueD = new JsonArray();
@@ -217,7 +219,7 @@ class AoCompare {
                      */
                     queueUTemp.add(draft);
                 } else {
-                    Ao.infoDiff(AoCompare.class, "旧数据不满足推送规则，并且无法在新队列中找到！{0}", recordO.encode());
+                    LOG.Diff.info(AoCompare.class, "旧数据不满足推送规则，并且无法在新队列中找到！{0}", recordO.encode());
                 }
             } else {
                 /*
@@ -284,7 +286,7 @@ class AoCompare {
                              * 新数据：有 name， 有 code
                              * 忽略：超小概率，直接忽略
                              */
-                            Ao.infoDiff(AoCompare.class, "第三方提供了 code，数据异常：{0}", recordO.encode());
+                            LOG.Diff.info(AoCompare.class, "第三方提供了 code，数据异常：{0}", recordO.encode());
                         }
                     }
                 } else {
@@ -428,7 +430,7 @@ class AoCompare {
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPull(queueO, queueN, atom, ignoreSet);
         final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
         final ChangeFlag flag = changed.getKey();
-        Ao.infoUca(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.getValue());
+        LOG.Uca.info(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.getValue());
         if (ChangeFlag.UPDATE == flag) {
             return recordN;
         } else {
@@ -440,7 +442,7 @@ class AoCompare {
                         final Set<String> ignoreSet) {
         final JsonArray queueO = apt.dataO();
         final JsonArray queueN = apt.dataN();
-        Ao.infoUca(AoCompare.class, "（Pull）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
+        LOG.Uca.info(AoCompare.class, "（Pull）新旧数量：（{2} vs {3}），新数据：{1}, 旧数据：{0}",
             queueO.encode(), queueN.encode(),
             String.valueOf(queueN.size()), String.valueOf(queueO.size()));
         /*

@@ -10,13 +10,14 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.tp.rbac.logged.ScUser;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
 
@@ -101,7 +102,7 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         updatedData.put(Qr.KEY_PROJECTION, updated.getJsonArray(Qr.KEY_PROJECTION));
         updatedData.put(Qr.KEY_CRITERIA, updated.getJsonObject(Qr.KEY_CRITERIA));
         return user.view(dataKey, updatedData).compose(nil -> {
-            Sc.infoAuth(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
+            LOG.Auth.info(this.getLogger(), AuthMsg.REGION_FLUSH, habitus, dataKey,
                 nil.getJsonObject(dataKey, new JsonObject()).encodePrettily());
             return Ux.future(updated);
         });

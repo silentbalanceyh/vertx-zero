@@ -7,7 +7,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -21,6 +20,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -89,7 +90,7 @@ class QuestAcl implements Quest {
             condition.put(KName.SIGMA, Ut.valueString(resourceData, KName.SIGMA));
             futureM.put(code, Ux.Jooq.on(SResourceDao.class).<SResource>fetchOneAsync(condition).compose(resource -> {
                 if (Objects.isNull(resource)) {
-                    Sc.infoView(this.getClass(), "Zero system could not find the resource: {0}", code);
+                    LOG.View.info(this.getClass(), "Zero system could not find the resource: {0}", code);
                     return Ux.future();
                 }
                 return this.syncViews(resource, resourceData);

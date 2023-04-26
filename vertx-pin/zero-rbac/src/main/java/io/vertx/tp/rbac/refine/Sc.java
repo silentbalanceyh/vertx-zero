@@ -7,78 +7,14 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Sc {
-    /*
-     * Log information with input Logger
-     */
-    public static void infoAuth(final Annal logger, final String pattern, final Object... args) {
-        ScLog.infoAuth(logger, pattern, args);
-    }
-
-    public static void warnAuth(final Annal logger, final String pattern, final Object... args) {
-        ScLog.warnAuth(logger, pattern, args);
-    }
-
-    public static void debugAuth(final Annal logger, final String pattern, final Object... args) {
-        ScLog.debugAuth(logger, pattern, args);
-    }
-
-    public static void infoAudit(final Annal logger, final String pattern, final Object... args) {
-        ScLog.infoAudit(logger, pattern, args);
-    }
-
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        ScLog.infoInit(logger, pattern, args);
-    }
-
-    public static void infoResource(final Annal logger, final String pattern, final Object... args) {
-        ScLog.infoResource(logger, pattern, args);
-    }
-
-    public static void infoResource(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        ScLog.infoResource(logger, pattern, args);
-    }
-
-    public static void debugCredit(final Annal logger, final String pattern, final Object... args) {
-        ScLog.debugCredit(logger, pattern, args);
-    }
-
-    public static void infoAuth(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.infoAuth(LOGGER, pattern, args);
-    }
-
-    public static void infoWeb(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.infoWeb(LOGGER, pattern, args);
-    }
-
-    public static void warnWeb(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.warnWeb(LOGGER, pattern, args);
-    }
-
-    public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.infoView(LOGGER, pattern, args);
-    }
-
-    public static void infoVisit(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.infoVisit(LOGGER, pattern, args);
-    }
-
-    public static void warnView(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal LOGGER = Annal.get(clazz);
-        ScLog.warnView(LOGGER, pattern, args);
-    }
 
     /*
      * cache information
@@ -105,7 +41,6 @@ public class Sc {
     public static Future<JsonObject> cacheView(final RoutingContext context, final String habitus) {
         return ScCache.view(context, habitus);
     }
-
 
     /*
      * Business logical
@@ -204,5 +139,18 @@ public class Sc {
 
     public static void aclRecord(final JsonObject record, final Acl acl) {
         ScAcl.aclRecord(record, acl);
+    }
+
+    public interface LOG {
+        String MODULE = "Ακριβώς";
+
+        LogModule Auth = Log.modulat(MODULE).program("Auth");
+        LogModule Web = Log.modulat(MODULE).program("Web");
+        LogModule View = Log.modulat(MODULE).program("View");
+        LogModule Visit = Log.modulat(MODULE).program("Visit");
+        LogModule Resource = Log.modulat(MODULE).program("Resource");
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Credit = Log.modulat(MODULE).program("Credit");
+        LogModule Audit = Log.modulat(MODULE).program("Audit");
     }
 }

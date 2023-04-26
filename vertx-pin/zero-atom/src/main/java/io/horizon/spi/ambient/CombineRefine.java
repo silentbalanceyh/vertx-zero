@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.FileReader;
 import io.vertx.up.eon.KName;
@@ -16,6 +15,8 @@ import io.vertx.up.util.Ut;
 import java.util.Set;
 import java.util.function.Function;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class CombineRefine implements AoRefine {
 
     private final transient AoFile marshal = Ut.singleton(FileReader.class);
@@ -24,7 +25,7 @@ class CombineRefine implements AoRefine {
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
             /* UCA日志 */
-            Ao.infoUca(this.getClass(), "1. AoRefine.combine(): {0}", appJson.encode());
+            LOG.Uca.info(this.getClass(), "1. AoRefine.combine(): {0}", appJson.encode());
             // 从响应信息中读取应用程序名称
             final String name = appJson.getString(KName.NAME);
             final AoPerformer performer = AoPerformer.getInstance(name);

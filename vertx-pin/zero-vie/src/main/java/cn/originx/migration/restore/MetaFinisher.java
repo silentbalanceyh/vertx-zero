@@ -25,7 +25,7 @@ public class MetaFinisher extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         this.banner("002.3. 重新建模");
         /* XApp */
-        return Bt.loadAsync(Ao.Path.PATH_EXCEL + "schema/").compose(nil -> {
+        return Bt.loadAsync(Ao.PATH.PATH_EXCEL + "schema/").compose(nil -> {
             LOG.Shell.info(this.getClass(), "建模数据已经成功导入到系统！Successfully");
             return Ux.future(config)
                 /* Meta 专用报表 */

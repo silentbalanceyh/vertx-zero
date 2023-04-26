@@ -50,7 +50,7 @@ public class FileReader implements AoFile {
     private Set<String> readFiles(final String folder, final String outPath) {
         final String filePath;
         if (Ut.isNil(outPath)) {
-            filePath = Ao.Path.PATH_JSON + folder;
+            filePath = Ao.PATH.PATH_JSON + folder;
         } else {
             filePath = outPath + folder;
         }

@@ -23,6 +23,8 @@ import io.vertx.up.util.Ut;
 import javax.inject.Inject;
 import java.util.Objects;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 public class LoginService implements LoginStub {
 
     private static final Annal LOGGER = Annal.get(LoginService.class);
@@ -36,13 +38,13 @@ public class LoginService implements LoginStub {
         return Sc.lockVerify(username, () -> Ux.Jooq.on(SUserDao.class).<SUser>fetchOneAsync(AuthKey.USER_NAME, username).compose(fetched -> {
             /* Not Found */
             if (Objects.isNull(fetched)) {
-                Sc.warnAuth(LOGGER, AuthMsg.LOGIN_USER, username);
+                LOG.Auth.warn(LOGGER, AuthMsg.LOGIN_USER, username);
                 return Fn.error(_449UserNotFoundException.class, this.getClass(), username);
             }
             /* Locked User */
             final Boolean isLock = Objects.isNull(fetched.getActive()) ? Boolean.FALSE : fetched.getActive();
             if (!isLock) {
-                Sc.warnAuth(LOGGER, AuthMsg.LOGIN_LOCKED, username);
+                LOG.Auth.warn(LOGGER, AuthMsg.LOGIN_LOCKED, username);
                 return Fn.error(_423UserDisabledException.class, this.getClass(), username);
             }
             /* Password Wrong */
@@ -50,14 +52,14 @@ public class LoginService implements LoginStub {
 
 
                 // Lock On when password invalid
-                Sc.warnAuth(LOGGER, AuthMsg.LOGIN_PWD, username);
+                LOG.Auth.warn(LOGGER, AuthMsg.LOGIN_PWD, username);
                 return Sc.lockOn(username)
                     .compose(nil -> Fn.error(_401PasswordWrongException.class, this.getClass(), username));
             }
 
 
             // Lock Off when login successfully
-            Sc.infoAudit(LOGGER, AuthMsg.LOGIN_SUCCESS, username);
+            LOG.Auth.info(LOGGER, AuthMsg.LOGIN_SUCCESS, username);
             return Sc.lockOff(username).compose(nil -> Ux.future(fetched));
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
             final JsonObject userJson = Ut.serializeJson(user);

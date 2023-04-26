@@ -13,6 +13,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 /*
  * Excel类型的 Marshal，用于读取数据
  */
@@ -20,14 +22,14 @@ public class ExcelReader implements AoFile {
     private final transient String rootPath;
 
     public ExcelReader() {
-        this(Ao.Path.PATH_EXCEL);
+        this(Ao.PATH.PATH_EXCEL);
     }
 
     public ExcelReader(final String rootPath) {
         final String normalized;
         if (Objects.isNull(rootPath)) {
             /* runtime/excel */
-            normalized = Ao.Path.PATH_EXCEL;
+            normalized = Ao.PATH.PATH_EXCEL;
         } else {
             /* End with '/' */
             if (!rootPath.endsWith("/")) {
@@ -54,13 +56,13 @@ public class ExcelReader implements AoFile {
         }
         final Set<String> files = this.readFiles(folder);
 
-        Ao.infoUca(this.getClass(), "找到符合条件的文件：{0}", String.valueOf(files.size()));
+        LOG.Uca.info(this.getClass(), "找到符合条件的文件：{0}", String.valueOf(files.size()));
         /*
          * 先构造 Schema 处理实体
          */
         final Set<Schema> schemas = ExModello.create(files)
             .on(appName).build();
-        Ao.infoUca(this.getClass(), "合计构造了模型：{0}", schemas.size());
+        LOG.Uca.info(this.getClass(), "合计构造了模型：{0}", schemas.size());
         /*
          * 将 Model 和 Schema 连接
          */

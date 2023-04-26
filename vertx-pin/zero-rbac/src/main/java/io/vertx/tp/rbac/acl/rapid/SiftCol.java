@@ -3,12 +3,13 @@ package io.vertx.tp.rbac.acl.rapid;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 class SiftCol {
     private static final Annal LOGGER = Annal.get(SiftCol.class);
@@ -23,7 +24,7 @@ class SiftCol {
          * If projection is empty, do nothing
          */
         if (!projection.isEmpty()) {
-            Sc.debugAuth(LOGGER, AuthMsg.REGION_PROJECTION, projection.encode());
+            LOG.Auth.info(LOGGER, AuthMsg.REGION_PROJECTION, projection.encode());
             /*
              * The method is the same as backend of Jooq
              * ( In new version, Jooq logical is synced with current logical ), the projection is columns that

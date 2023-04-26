@@ -2,10 +2,11 @@ package io.vertx.tp.modular.apply;
 
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 class FieldDefault implements AoDefault {
     private transient MEntity entity;
@@ -21,7 +22,7 @@ class FieldDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject field) {
         if (null != this.entity) {
-            Ao.debugUca(this.getClass(), "「DFT」实体字段输入值: {0}", field.encode());
+            LOG.Uca.info(this.getClass(), "「DFT」实体字段输入值: {0}", field.encode());
             /*
              * key
              * type

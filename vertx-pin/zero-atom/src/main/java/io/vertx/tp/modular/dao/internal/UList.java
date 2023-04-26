@@ -2,7 +2,8 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.refine.Ao;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 工具类
@@ -22,7 +23,7 @@ public class UList extends AbstractUtil<UList> {
 
     @SuppressWarnings("unchecked")
     public <ID> HRecord[] fetchByIds(final ID... ids) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchByIds");
+        LOG.SQL.info(this.getLogger(), "执行方法：UList.fetchByIds");
         // Input
         final DataEvent input = this.irIDs(ids);
         // Output
@@ -30,7 +31,7 @@ public class UList extends AbstractUtil<UList> {
     }
 
     public HRecord[] fetchAll() {
-        Ao.infoSQL(this.getLogger(), "执行方法：UList.fetchAll");
+        LOG.SQL.info(this.getLogger(), "执行方法：UList.fetchAll");
         // Input
         final DataEvent input = this.events();
         // Output

@@ -8,7 +8,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.configuration.MetaWorkflow;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -31,6 +30,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.workflow.refine.Wf.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -49,7 +50,7 @@ final class WfConfiguration {
         final JsonObject configJson = READER.read();
         if (configJson.containsKey(WfCv.FOLDER_ROOT)) {
             final JsonObject configuration = configJson.getJsonObject(WfCv.FOLDER_ROOT, new JsonObject());
-            Wf.Log.infoInit(WfConfiguration.class, "The Workflow Engine will be initialized!! `{0}`",
+            LOG.Init.info(WfConfiguration.class, "The Workflow Engine will be initialized!! `{0}`",
                 configuration.encode());
             CONFIG = Ut.deserialize(configuration, MetaWorkflow.class);
             ENABLED = true;
@@ -120,7 +121,7 @@ final class WfConfiguration {
         final Configuration configuration = Ke.getConfiguration();
         final WFlowDao flowDao = new WFlowDao(configuration, vertx);
         return flowDao.findAll().compose(flows -> {
-            Wf.Log.infoInit(WfConfiguration.class, "Flow definitions: {0}", flows.size());
+            LOG.Init.info(WfConfiguration.class, "Flow definitions: {0}", flows.size());
             FLOW_POOL.putAll(Ut.elementZip(flows, WFlow::getCode, flow -> flow));
             return Ux.futureT();
         });

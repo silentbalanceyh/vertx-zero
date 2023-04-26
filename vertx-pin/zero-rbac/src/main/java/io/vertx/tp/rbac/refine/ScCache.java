@@ -34,6 +34,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 class ScCache {
     private static final Annal LOGGER = Annal.get(ScCache.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
@@ -51,7 +53,7 @@ class ScCache {
     static String valueCode() {
         final Integer codeLength = CONFIG.getCodeLength();
         final String authCode = Ut.randomString(codeLength);
-        ScLog.infoAuth(LOGGER, "Generated Authorization Code: {0}", authCode);
+        LOG.Auth.info(LOGGER, "Generated Authorization Code: {0}", authCode);
         return authCode;
     }
 

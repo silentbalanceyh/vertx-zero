@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -14,6 +13,8 @@ import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -166,7 +167,7 @@ class ConfigTodo implements Serializable {
                 todoData.put(KName.MODEL_CHILD, modelChild.encode());
                 todoData.put(KName.QUANTITY, modelChild.size());
             } else {
-                Wf.Log.warnMove(this.getClass(), "`record` field type conflicts: {0}, type = {1}",
+                LOG.Move.warn(this.getClass(), "`record` field type conflicts: {0}, type = {1}",
                     recordObj, recordObj.getClass());
             }
         }

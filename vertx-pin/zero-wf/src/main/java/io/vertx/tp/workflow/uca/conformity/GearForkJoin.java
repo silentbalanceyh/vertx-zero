@@ -6,7 +6,6 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -19,6 +18,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -86,7 +87,7 @@ public class GearForkJoin extends AbstractGear {
             queue.add(generator.buildAsync(eachData, task, todo));
         });
         return Fn.combineT(queue).compose(generatedQ -> {
-            
+
             final AtomicInteger seed = new AtomicInteger(1);
             generatedQ.forEach(generated -> {
                 // 2. Serial Generation
@@ -134,7 +135,7 @@ public class GearForkJoin extends AbstractGear {
         taskMap.forEach((taskKey, task) -> {
             // 1.1. Path extract from configuration
             final String path = this.configuration.getString(taskKey);
-            Wf.Log.infoTransition(this.getClass(), "Task key = {0} will parse {1}", taskKey, path);
+            LOG.Move.info(this.getClass(), "Task key = {0} will parse {1}", taskKey, path);
             // 1.2. Data Building
             final JsonObject value = new JsonObject();
             final String toUser = Ut.visitTSmart(parameters, path);

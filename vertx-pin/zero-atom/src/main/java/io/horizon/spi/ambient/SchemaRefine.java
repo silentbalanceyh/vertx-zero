@@ -27,6 +27,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class SchemaRefine implements AoRefine {
 
     @Override
@@ -37,7 +39,7 @@ class SchemaRefine implements AoRefine {
             final JsonArray models = appJson.getJsonArray(KName.Modeling.MODELS);
             final String name = appJson.getString(KName.NAME);
             final Set<Schema> schemata = this.toSchemata(models, name);
-            Ao.infoUca(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
+            LOG.Uca.info(this.getClass(), "2. AoRefine.schema(): {0}", String.valueOf(schemata.size()));
 
             // 1. 处理 Schema 的同步
             final JsonObject source = appJson.getJsonObject(KName.SOURCE);
@@ -55,7 +57,7 @@ class SchemaRefine implements AoRefine {
     private void syncDatabase(final JsonObject source, final Set<Schema> schemata) {
         final Database database = new Database();
         database.fromJson(source);
-        Ao.infoUca(this.getClass(), "Database Extraction: {0}", database.toJson());
+        LOG.Uca.info(this.getClass(), "Database Extraction: {0}", database.toJson());
         final Pin pin = Pin.getInstance();
         final AoBuilder builder = pin.getBuilder(database);
 

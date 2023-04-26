@@ -20,6 +20,8 @@ import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.workflow.refine.Wf.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -172,7 +174,7 @@ class WfFlow {
         final BpmnModelInstance instance = service.getBpmnModelInstance(task.getProcessDefinitionId());
         final ModelElementInstance node = instance.getModelElementById(task.getTaskDefinitionKey());
         final Set<String> nextKeys = taskSearch(node, instance);
-        Wf.Log.infoMove(WfFlow.class, "[Outgoing] Keys = {0}", Ut.fromJoin(nextKeys));
+        LOG.Move.info(WfFlow.class, "[Outgoing] Keys = {0}", Ut.fromJoin(nextKeys));
         return source.stream()
             .filter(taskNext -> nextKeys.contains(taskNext.getTaskDefinitionKey()))
             .collect(Collectors.toList());

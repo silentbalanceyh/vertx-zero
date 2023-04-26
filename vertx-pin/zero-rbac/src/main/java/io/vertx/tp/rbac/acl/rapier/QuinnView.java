@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.DevEnv;
@@ -16,6 +15,8 @@ import io.vertx.up.util.Ut;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -101,7 +102,7 @@ public class QuinnView implements Quinn {
         condition.put(KName.OWNER, owner.owner());
         condition.put(KName.OWNER_TYPE, owner.type().name());
         if (DevEnv.devAuthorized()) {
-            Sc.infoResource(this.getClass(), AuthMsg.VIEW_PROCESS, "fetchAsync", condition.encode());
+            LOG.Resource.info(this.getClass(), AuthMsg.VIEW_PROCESS, "fetchAsync", condition.encode());
         }
         return Ux.Jooq.on(SViewDao.class).fetchOneAsync(condition);
     }

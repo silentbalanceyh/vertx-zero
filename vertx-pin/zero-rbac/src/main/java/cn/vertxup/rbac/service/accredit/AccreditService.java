@@ -30,6 +30,8 @@ import io.vertx.up.util.Ut;
 import javax.inject.Inject;
 import java.util.Objects;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 public class AccreditService implements AccreditStub {
     private final static Annal LOGGER = Annal.get(AccreditService.class);
 
@@ -158,7 +160,7 @@ public class AccreditService implements AccreditStub {
             final WebException error = new _403ActionDinnedException(this.getClass(), required, actual);
             return Future.failedFuture(error);
         } else {
-            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_LEVEL, action.getLevel(), resource.getLevel());
+            LOG.Credit.debug(LOGGER, AuthMsg.CREDIT_LEVEL, action.getLevel(), resource.getLevel());
             return Future.succeededFuture(resource);
         }
     }
@@ -173,7 +175,7 @@ public class AccreditService implements AccreditStub {
             final WebException error = new _404ActionMissingException(this.getClass(), requestUri);
             return Future.failedFuture(error);
         } else {
-            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_ACTION, request.uriRequest(), request.method(), request.uri());
+            LOG.Credit.debug(LOGGER, AuthMsg.CREDIT_ACTION, request.uriRequest(), request.method(), request.uri());
             return Future.succeededFuture(action);
         }
     }
@@ -188,7 +190,7 @@ public class AccreditService implements AccreditStub {
             final WebException error = new _404ResourceMissingException(this.getClass(), action.getResourceId(), requestUri);
             return Future.failedFuture(error);
         } else {
-            Sc.debugCredit(LOGGER, AuthMsg.CREDIT_RESOURCE, resource.getKey());
+            LOG.Credit.debug(LOGGER, AuthMsg.CREDIT_RESOURCE, resource.getKey());
             return Future.succeededFuture(resource);
         }
     }

@@ -8,7 +8,6 @@ import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.authorization.Align;
 import io.vertx.tp.rbac.authorization.ScDetent;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -23,6 +22,8 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * Data in Session for current user
@@ -52,7 +53,7 @@ public class ScUser {
      */
     @SuppressWarnings("all")
     private static Future<JsonObject> initRoles(final JsonObject profile, final JsonArray roles) {
-        Sc.infoAuth(LOGGER, "Roles : {0}", roles.encode());
+        LOG.Auth.info(LOGGER, "Roles : {0}", roles.encode());
         final List futures = new ArrayList<>();
         roles.stream().filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
@@ -68,7 +69,7 @@ public class ScUser {
 
     @SuppressWarnings("all")
     private static Future<JsonObject> initGroups(final JsonObject profile, final JsonArray groups) {
-        Sc.debugAuth(LOGGER, "Groups: {0}", groups.encode());
+        LOG.Auth.debug(LOGGER, "Groups: {0}", groups.encode());
         final List futures = new ArrayList();
         groups.stream().filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
@@ -198,7 +199,7 @@ public class ScUser {
         return this.view().compose(view -> Ux.future(view.getJsonObject(viewKey)))
             .compose(view -> {
                 if (Ut.notNil(view) && DevEnv.devAuthorized()) {
-                    Sc.infoAuth(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
+                    LOG.Auth.info(LOGGER, "ScUser \u001b[0;37m----> Cache key = {0}, Data = {1}\u001b[m.",
                         viewKey, view.encode());
                 }
                 return Ux.future(view);
@@ -237,7 +238,7 @@ public class ScUser {
 
     public Future<JsonArray> roles(final String profileName) {
         return this.profile(AuthKey.PROFILE_ROLE).compose(json -> {
-            Sc.infoAuth(LOGGER, "Profile Name: {0}", profileName);
+            LOG.Auth.info(LOGGER, "Profile Name: {0}", profileName);
             return Ux.future(json.getJsonArray(profileName, new JsonArray()));
         });
     }
@@ -270,7 +271,7 @@ public class ScUser {
     }
 
     private Future<JsonObject> report(final JsonObject result) {
-        Sc.infoAuth(LOGGER, "Permissions: {0}", result.encode());
+        LOG.Auth.info(LOGGER, "Permissions: {0}", result.encode());
         return Ux.future(result);
     }
 

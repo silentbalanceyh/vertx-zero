@@ -2,12 +2,13 @@ package io.vertx.tp.rbac.authorization;
 
 import io.vertx.tp.rbac.logged.ProfileGroup;
 import io.vertx.tp.rbac.logged.ProfileRole;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /*
  * Role Calculation
@@ -18,7 +19,7 @@ public class Amalgam {
     public static void logGroup(final Class<?> clazz,
                                 final List<ProfileRole> roles) {
         final Annal LOGGER = Annal.get(clazz);
-        Sc.debugAuth(LOGGER, "Group Selected: {0}, Size: {1}",
+        LOG.Auth.debug(LOGGER, "Group Selected: {0}, Size: {1}",
             Ut.fromJoin(getGroups(roles)), String.valueOf(roles.size()));
     }
 

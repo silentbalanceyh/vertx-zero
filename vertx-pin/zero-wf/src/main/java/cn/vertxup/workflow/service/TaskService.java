@@ -9,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.toolkit.ULinkage;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -18,6 +17,8 @@ import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -61,7 +62,7 @@ public class TaskService implements TaskStub {
         return this.readTodo(key, record).compose(processed -> {
             final WTodo todo = processed.task();
             if (Objects.isNull(todo)) {
-                Wf.Log.infoWeb(this.getClass(), "Ticket Status Conflict, key = {0}", key);
+                LOG.Web.info(this.getClass(), "Ticket Status Conflict, key = {0}", key);
                 return Ux.futureJ();
             } else {
                 return Ux.future(todo.getTraceId())

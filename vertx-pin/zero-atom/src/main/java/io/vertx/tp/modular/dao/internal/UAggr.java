@@ -1,8 +1,9 @@
 package io.vertx.tp.modular.dao.internal;
 
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.query.Criteria;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 工具类
@@ -19,23 +20,23 @@ public class UAggr extends AbstractUtil<UAggr> {
     }
 
     public Long count(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UAggr.count");
+        LOG.SQL.info(this.getLogger(), "执行方法：UAggr.count");
         final Long counter = this.countSInternal(criteria);
-        Ao.infoSQL(this.getLogger(), "结果集：{0}", counter);
+        LOG.SQL.info(this.getLogger(), "结果集：{0}", counter);
         return counter;
     }
 
     public Boolean existing(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UAggr.existing");
+        LOG.SQL.info(this.getLogger(), "执行方法：UAggr.existing");
         final Long counter = this.countSInternal(criteria);
-        Ao.infoSQL(this.getLogger(), "结果集：{0}", counter);
+        LOG.SQL.info(this.getLogger(), "结果集：{0}", counter);
         return 0 < counter; // 存在就 true， 不存在 false
     }
 
     public Boolean missing(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UAggr.missing");
+        LOG.SQL.info(this.getLogger(), "执行方法：UAggr.missing");
         final Long counter = this.countSInternal(criteria);
-        Ao.infoSQL(this.getLogger(), "结果集：{0}", counter);
+        LOG.SQL.info(this.getLogger(), "结果集：{0}", counter);
         return 0 == counter; // 不存在 true，存在 false
     }
 

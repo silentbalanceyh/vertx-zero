@@ -2,16 +2,17 @@ package cn.originx.uca.plugin;
 
 import cn.originx.uca.concrete.Arrow;
 import io.horizon.specification.modeler.HDao;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.vertx.tp.atom.refine.Ao;
-import io.horizon.spi.robin.Switcher;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Supplier;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -76,7 +77,7 @@ public class AgileSwitcher {
          */
         Ut.contract(arrow, DataAtom.class, atom);
         Ut.contract(arrow, HDao.class, dao);
-        Ao.infoUca(this.getClass(), "Arrow selected: {0} for {1}",
+        LOG.Uca.info(this.getClass(), "Arrow selected: {0} for {1}",
             arrow.getClass().getName(), atom.identifier());
         return arrow;
     }

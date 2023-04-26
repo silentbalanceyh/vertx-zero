@@ -3,7 +3,6 @@ package io.vertx.tp.workflow.atom.runtime;
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.sectio.AspectConfig;
 import io.vertx.up.unity.Ux;
@@ -16,6 +15,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -99,7 +100,7 @@ public class WMove implements Serializable {
             if (rule.valid()) {
                 this.rules.put(rule.key(), rule);
             } else {
-                Wf.Log.warnMove(this.getClass(), "Rule invalid: {0}", rule.toString());
+                LOG.Move.warn(this.getClass(), "Rule invalid: {0}", rule.toString());
             }
         });
 
@@ -162,7 +163,7 @@ public class WMove implements Serializable {
         final String key = Ut.fromJoin(keys);
         // Fix: java.lang.NullPointerException when `WRule` is null
         final WRule rule = this.rules.getOrDefault(key, RULE_EMPTY);
-        Wf.Log.infoMove(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
+        LOG.Move.info(this.getClass(), "[ Rule ] The node `{0}` rule processed: {1}", this.node, rule);
         return rule;
     }
 }

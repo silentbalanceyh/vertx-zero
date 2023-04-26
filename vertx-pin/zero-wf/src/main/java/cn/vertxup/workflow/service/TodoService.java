@@ -5,12 +5,11 @@ import cn.vertxup.workflow.cv.em.TodoStatus;
 import cn.vertxup.workflow.domain.tables.daos.WTodoDao;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.horizon.spi.feature.Todo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.feature.Todo;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -21,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 public class TodoService implements TodoStub {
 
@@ -168,7 +169,7 @@ public class TodoService implements TodoStub {
             .<WTodo>fetchByIdAsync(key)
             .compose(Ux::futureJ)
             .compose(Fn.ofJObject((todo) -> Ux.channel(Todo.class, () -> todo, channel -> {
-                Wf.Log.infoInit(this.getClass(), WfMsg.CHANNEL_TODO, channel.getClass().getName());
+                LOG.Init.info(this.getClass(), WfMsg.CHANNEL_TODO, channel.getClass().getName());
                 /*
                  * X_TODO channel and data merged.
                  */

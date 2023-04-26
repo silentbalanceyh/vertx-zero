@@ -3,8 +3,9 @@ package io.vertx.tp.workflow.uca.modeling;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -12,20 +13,20 @@ import io.vertx.up.unity.Ux;
 public class RegisterV extends AbstractRegister {
     @Override
     public Future<JsonObject> insertAsync(final JsonObject params, final MetaInstance metadata) {
-        Wf.Log.infoMove(this.getClass(), "`virtual` configured to true");
+        LOG.Move.info(this.getClass(), "`virtual` configured to true");
         return Ux.future(params);
     }
 
     @Override
     public Future<JsonObject> updateAsync(final JsonObject params, final MetaInstance metadata) {
-        Wf.Log.infoMove(this.getClass(), "`virtual` configured to true");
+        LOG.Move.info(this.getClass(), "`virtual` configured to true");
         final Register register = Register.instance(params);
         return register.updateAsync(params, metadata);
     }
 
     @Override
     public Future<JsonObject> saveAsync(final JsonObject params, final MetaInstance metadata) {
-        Wf.Log.infoMove(this.getClass(), "`virtual` configured to true");
+        LOG.Move.info(this.getClass(), "`virtual` configured to true");
         final Register register = Register.instance(params);
         return register.saveAsync(params, metadata);
     }

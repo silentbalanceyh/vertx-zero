@@ -5,7 +5,6 @@ import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.plugin.FlowSequenceListener;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -23,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 ;
 
@@ -51,7 +52,7 @@ class DeployBpmnService implements DeployOn {
 
         // BPMN Model Instance
         final String modelFile = workflow + "/" + bpmnFile;
-        Wf.Log.infoDeploy(this.getClass(), "Load BPMN model from `{0}`", modelFile);
+        LOG.Deploy.info(this.getClass(), "Load BPMN model from `{0}`", modelFile);
         final BpmnModelInstance instance = Bpmn.readModelFromStream(Ut.ioStream(modelFile));
         Objects.requireNonNull(instance);
 
@@ -91,7 +92,7 @@ class DeployBpmnService implements DeployOn {
         }
         return this.formStub.initialize().compose(nil -> {
             final Deployment deployment = this.builder.deployWithResult();
-            Wf.Log.infoDeploy(this.getClass(), "Workflow `{0}（id = {1}）` has been deployed successfully!",
+            LOG.Deploy.info(this.getClass(), "Workflow `{0}（id = {1}）` has been deployed successfully!",
                 deployment.getName(), deployment.getId());
             return Ux.futureT();
         });

@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -17,6 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -52,7 +53,7 @@ public class ULinkage {
         // ConcurrentMap
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
         final Set<String> fields = this.metadata.linkFields();
-        Wf.Log.infoWeb(this.getClass(), "( Fetch ) Linkage Definition Size: {0}", fields.size());
+        LOG.Web.info(this.getClass(), "( Fetch ) Linkage Definition Size: {0}", fields.size());
         fields.forEach(field -> {
             final Respect respect = this.metadata.linkRespect(field);
             futures.put(field, respect.fetchAsync(record));
@@ -68,7 +69,7 @@ public class ULinkage {
          * Old Processing
          */
         final WRecord prev = record.prev();
-        if (Objects.nonNull(prev)&&prev.data().size()>0) {
+        if (Objects.nonNull(prev) && prev.data().size() > 0) {
             return this.fetchAsync(prev).compose(prevRecord -> {
                 record.prev(prevRecord);
                 return this.syncAsyncInternal(params, record);
@@ -88,7 +89,7 @@ public class ULinkage {
         }
         final ConcurrentMap<String, Future<JsonArray>> futures = new ConcurrentHashMap<>();
         final Set<String> fields = this.metadata.linkFields();
-        Wf.Log.infoWeb(this.getClass(), "( Sync ) Linkage Definition Size: {0}", fields.size());
+        LOG.Web.info(this.getClass(), "( Sync ) Linkage Definition Size: {0}", fields.size());
         fields.forEach(field -> {
             /*
              * Data Array extract from `params` based on `field`

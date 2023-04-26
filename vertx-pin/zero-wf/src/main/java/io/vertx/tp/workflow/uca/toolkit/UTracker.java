@@ -10,7 +10,6 @@ import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.plugin.activity.ActivityTabb;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.sectio.Around;
@@ -23,6 +22,8 @@ import org.camunda.bpm.engine.task.Task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * Tracker for different component history record
@@ -156,7 +157,7 @@ public class UTracker {
             config.put(KName.AUDITOR, this.metadata.childAuditor());
             aspectConfig.config(ActivityTabb.class, config);
         }
-        Wf.Log.infoWeb(getClass(), "Aspect Config: {0}", aspectConfig.toString());
+        LOG.Web.info(getClass(), "Aspect Config: {0}", aspectConfig.toString());
         return Aspect.create(aspectConfig);
     }
 }

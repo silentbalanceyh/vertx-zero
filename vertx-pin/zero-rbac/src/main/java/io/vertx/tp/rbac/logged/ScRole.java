@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Cc;
@@ -20,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * Data in Global Shared Data for current role
@@ -77,7 +78,7 @@ public class ScRole {
                 return this.fetch().compose(this::permission);
             } else {
                 if (DevEnv.devAuthorized()) {
-                    Sc.infoAuth(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
+                    LOG.Auth.info(LOGGER, "ScRole \u001b[0;37m----> Cache key = {0}\u001b[m.", this.roleId);
                 }
                 /* Authorities fill from cache ( Sync the authorities ) */
                 permissions.stream().map(item -> (String) item)

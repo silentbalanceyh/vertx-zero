@@ -2,8 +2,9 @@ package io.vertx.tp.rbac.init;
 
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.atom.ScConfig;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.log.Annal;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /*
  * Init Plugin for `initAsync` static life
@@ -14,7 +15,7 @@ public class ScPin {
 
     public static void init() {
         Ke.banner("「Ακριβώς」- Rbac ( Sc )");
-        Sc.infoInit(LOGGER, "ScConfiguration...");
+        LOG.Init.info(LOGGER, "ScConfiguration...");
         ScConfiguration.init();
     }
 

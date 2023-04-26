@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
@@ -21,6 +20,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class JoinIngest implements Ingest {
 
     private static final Annal LOGGER = Annal.get(JoinIngest.class);
@@ -32,7 +33,7 @@ class JoinIngest implements Ingest {
                                  final ConcurrentMap<String, String> aliasMap) {
         /* 构造查询树 */
         final QTree tree = QTree.create(criteria);
-        Ao.infoSQL(LOGGER, tree.hasValue(), "（Join模式）查询分析树：\n{0}", tree.toString());
+        LOG.SQL.info(tree.hasValue(), LOGGER, "（Join模式）查询分析树：\n{0}", tree.toString());
         /* 抽取Tpl中的查询条件，Join模式考虑多表 */
         final ConcurrentMap<String, DataMatrix> matrixs = tpl.matrixData();
         final ConcurrentMap<String, String> prefixMap = this.calculatePrefix(matrixs, aliasMap);
@@ -72,7 +73,7 @@ class JoinIngest implements Ingest {
              * 直接使用自然连接
              * join 中的 priority 全部为 null 的情况，直接使用自然连接
              */
-            Ao.infoSQL(LOGGER, "连接模式: Nature（自然连接）");
+            LOG.SQL.info(LOGGER, "连接模式: Nature（自然连接）");
             return Jq.joinNature(aliasMap);
         } else {
             /*
@@ -108,7 +109,7 @@ class JoinIngest implements Ingest {
             /*
              * 列专用处理
              */
-            Ao.infoSQL(LOGGER, "连接模式: Left（左连接）");
+            LOG.SQL.info(LOGGER, "连接模式: Left（左连接）");
             return Jq.joinLeft(primary, joinedCols, aliasMap);
         }
     }
@@ -128,7 +129,7 @@ class JoinIngest implements Ingest {
                 orders.add(isAsc ? column.asc() : column.desc());
             }
         }
-        Ao.infoSQL(LOGGER, 0 < orders.size(), "（Join模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
+        LOG.SQL.info(0 < orders.size(), LOGGER, "（Join模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
         return orders;
     }
 

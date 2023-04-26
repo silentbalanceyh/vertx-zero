@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.*;
@@ -15,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static io.vertx.tp.workflow.refine.Wf.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -22,13 +23,13 @@ public class WfPin {
 
     public static Future<Boolean> init(final Vertx vertx) {
         Ke.banner("「Ροή εργασίας」- ( Workflow )");
-        Wf.Log.infoInit(WfPin.class, "WfConfiguration...");
+        LOG.Init.info(WfPin.class, "WfConfiguration...");
         WfConfiguration.init();
-        Wf.Log.infoInit(WfPin.class, "WfTodo...");
+        LOG.Init.info(WfPin.class, "WfTodo...");
         WfTodo.init();
-        Wf.Log.infoInit(WfPin.class, "Workflow Engine Start...");
+        LOG.Init.info(WfPin.class, "Workflow Engine Start...");
         final List<String> resources = WfConfiguration.camundaResources();
-        Wf.Log.infoInit(WfPin.class, "Here are {0} folder that will be waited for deployment...",
+        LOG.Init.info(WfPin.class, "Here are {0} folder that will be waited for deployment...",
             String.valueOf(resources.size()));
 
         final List<Future<Boolean>> futures = new ArrayList<>();

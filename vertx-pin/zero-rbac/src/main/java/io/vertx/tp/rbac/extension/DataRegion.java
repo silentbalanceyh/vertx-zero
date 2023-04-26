@@ -14,6 +14,8 @@ import io.vertx.up.extension.AbstractRegion;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 /*
  * Extension in RBAC module
  * 1) Region calculation
@@ -32,7 +34,7 @@ public class DataRegion extends AbstractRegion {
         /* Get Critical parameters */
         return Sc.cacheView(context, envelop.habitus()).compose(matrix -> {
             if (this.isRegion(matrix)) {
-                Sc.infoAuth(this.getLogger(), AuthMsg.REGION_BEFORE,
+                LOG.Auth.info(this.getLogger(), AuthMsg.REGION_BEFORE,
                     context.request().path(), matrix.encode());
                 /*
                  * Select cosmo by matrix
@@ -58,7 +60,7 @@ public class DataRegion extends AbstractRegion {
         /* Get Critical parameters */
         return Sc.cacheView(context, response.habitus()).compose(matrix -> {
             if (this.isRegion(matrix)) {
-                Sc.infoAuth(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
+                LOG.Auth.info(this.getLogger(), AuthMsg.REGION_AFTER, matrix.encode());
                 /*
                  * Select cosmo by matrix
                  */

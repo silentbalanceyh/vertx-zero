@@ -14,13 +14,14 @@ import io.vertx.tp.rbac.acl.rapid.DmxColumn;
 import io.vertx.tp.rbac.acl.rapid.DmxQr;
 import io.vertx.tp.rbac.acl.rapid.DmxRow;
 import io.vertx.tp.rbac.atom.acl.AclData;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -76,7 +77,7 @@ class SyntaxAop {
         requestJ.put(KName.VIEW_ID, viewData.getString(KName.KEY));
         requestJ.put(KName.VIEW, viewData.getString(KName.NAME, VValue.DFT.V_VIEW));
         requestJ.put(KName.POSITION, viewData.getString(KName.POSITION, VValue.DFT.V_POSITION));
-        Sc.infoVisit(SyntaxAop.class, "Confine component input: {0}", requestJ.encode());
+        LOG.Visit.info(SyntaxAop.class, "Confine component input: {0}", requestJ.encode());
         final Confine confine = CC_FINITY.pick(() -> Ut.instance(confineCls), confineCls.getName());
         return confine.restrict(requestJ, syntaxJ);
     }

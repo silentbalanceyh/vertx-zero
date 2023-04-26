@@ -2,7 +2,8 @@ package io.vertx.tp.workflow.refine;
 
 import cn.vertxup.workflow.cv.em.PassWay;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
 
@@ -42,60 +43,14 @@ public class Wf {
         return WfFlow.taskNext(task, source);
     }
 
-    public static class Log {
-        public static void infoInit(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Init", message, args);
-        }
+    public interface LOG {
+        String MODULE = "Ροή εργασίας";
 
-        public static void initQueue(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Queue", message, args);
-        }
-
-        public static void debugInit(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.debug(logger, "Init", message, args);
-        }
-
-        public static void infoDeploy(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Deploy", message, args);
-        }
-
-        public static void warnDeploy(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.warn(logger, "Deploy", message, args);
-        }
-
-        public static void warnMove(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.warn(logger, "Move", message, args);
-        }
-
-        public static void debugDeploy(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.debug(logger, "Deploy", message, args);
-        }
-
-        public static void infoMove(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Move", message, args);
-        }
-
-        public static void infoWeb(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Web", message, args);
-        }
-
-        public static void infoTransition(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.info(logger, "Transition", message, args);
-        }
-
-        public static void debugMove(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            WfLog.debug(logger, "Move", message, args);
-        }
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Queue = Log.modulat(MODULE).program("Queue");
+        LogModule Deploy = Log.modulat(MODULE).program("Deploy");
+        LogModule Move = Log.modulat(MODULE).program("Move");
+        LogModule Plugin = Log.modulat(MODULE).program("Plugin");
+        LogModule Web = Log.modulat(MODULE).program("Web");
     }
 }

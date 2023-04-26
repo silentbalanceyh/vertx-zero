@@ -3,7 +3,6 @@ package io.vertx.tp.modular.query;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
@@ -19,6 +18,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class DirectIngest implements Ingest {
 
     private static final Annal LOGGER = Annal.get(DirectIngest.class);
@@ -28,7 +29,7 @@ class DirectIngest implements Ingest {
                                  final Criteria criteria) {
         /* 构造查询树 */
         final QTree tree = QTree.create(criteria);
-        Ao.infoSQL(LOGGER, tree.hasValue(), "（Direct模式）查询分析树：\n{0}", tree.toString());
+        LOG.SQL.info(tree.hasValue(), LOGGER, "（Direct模式）查询分析树：\n{0}", tree.toString());
         final DataMatrix matrix = this.getMatrix(tpl);
         return QVisitor.analyze(tree, matrix);
     }
@@ -46,7 +47,7 @@ class DirectIngest implements Ingest {
                 orders.add(isAsc ? column.asc() : column.desc());
             }
         }
-        Ao.infoSQL(LOGGER, 0 < orders.size(), "（Direct模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
+        LOG.SQL.info(0 < orders.size(), LOGGER, "（Direct模式）排序条件：{0}, size = {1}", data.encode(), orders.size());
         return orders;
     }
 

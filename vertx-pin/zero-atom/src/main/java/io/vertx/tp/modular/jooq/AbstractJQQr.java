@@ -7,7 +7,6 @@ import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.fn.Fn;
@@ -21,6 +20,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -92,7 +93,7 @@ abstract class AbstractJQQr {
         final Ingest ingest = Ingest.create(type);
         final DataAtom atomRef = event.getTpl().atom();
         /* 3. 生成 Condition */
-        Ao.infoUca(this.getClass(), "查询解析器：{0}，操作模型：{1}", null == ingest ? null : ingest.getClass().getName(), atomRef.identifier());
+        LOG.Uca.info(this.getClass(), "查询解析器：{0}，操作模型：{1}", null == ingest ? null : ingest.getClass().getName(), atomRef.identifier());
         return ingest;
     }
 

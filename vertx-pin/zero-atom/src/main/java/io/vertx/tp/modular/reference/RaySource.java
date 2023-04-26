@@ -7,7 +7,6 @@ import io.horizon.specification.modeler.HRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
@@ -20,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * ## Data Fetcher
@@ -71,7 +72,7 @@ class RaySource {
                 futureMap.put(hashCode,
                     Rapid.<String, JsonArray>t(RapidKey.REFERENCE, KWeb.ARGS.V_DATA_EXPIRED)
                         .cached(String.valueOf(hashCode), () -> {
-                            Ao.infoUca(this.getClass(), "Async Batch condition building: {0}", condition.encode());
+                            LOG.Uca.info(this.getClass(), "Async Batch condition building: {0}", condition.encode());
                             return dao.fetchByAsync(condition);
                         }));
             });
@@ -97,7 +98,7 @@ class RaySource {
                 final RDao dao = kv.getValue();
                 final JsonArray queried = dao.fetchBy(condition);
                 /* 反向运算 */
-                Ao.infoUca(this.getClass(), "Batch condition building: {0}, size = {1}",
+                LOG.Uca.info(this.getClass(), "Batch condition building: {0}, size = {1}",
                     condition.encode(), String.valueOf(queried.size()));
                 fieldCodes.forEach((field, codeKey) -> {
                     if (Objects.equals(hashCode, codeKey)) {

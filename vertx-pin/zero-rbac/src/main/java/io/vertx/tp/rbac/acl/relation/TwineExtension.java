@@ -2,6 +2,7 @@ package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
+import io.aeon.experiment.specification.KQr;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,10 +11,8 @@ import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.specification.KQr;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -28,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /*
  * 关联关系：用户扩展组件
@@ -177,7 +178,7 @@ class TwineExtension implements Twine<SUser> {
     private Future<JsonObject> runSingle(final SUser user, final Function<KQr, Future<JsonObject>> executor) {
         if (Objects.isNull(user)) {
             /* Input SUser object is null, could not find S_USER record in your database */
-            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null SUser");
+            LOG.Web.info(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null SUser");
             return Ux.futureJ();
         }
 
@@ -187,7 +188,7 @@ class TwineExtension implements Twine<SUser> {
              * This branch means that MODEL_KEY is null, you could not do any Extension part.
              * Returned SUser json data format only.
              */
-            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null modelKey");
+            LOG.Web.info(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Null modelKey");
             return Ux.futureJ(user);
         }
 
@@ -198,7 +199,7 @@ class TwineExtension implements Twine<SUser> {
          */
         final KQr qr = CONFIG.category(user.getModelId());
         if (Objects.isNull(qr) || !qr.valid()) {
-            Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Extension {0} Null", user.getModelId());
+            LOG.Web.info(this.getClass(), AuthMsg.EXTENSION_EMPTY + " Extension {0} Null", user.getModelId());
             return Ux.futureJ(user);
         }
 
@@ -209,7 +210,7 @@ class TwineExtension implements Twine<SUser> {
          * 2. Zero extension provide the configuration part and do executor
          * 3. Returned data format is Json of Extension
          */
-        Sc.infoWeb(this.getClass(), AuthMsg.EXTENSION_BY_USER, user.getModelKey());
+        LOG.Web.info(this.getClass(), AuthMsg.EXTENSION_BY_USER, user.getModelKey());
         return executor.apply(qr).compose(extensionJ -> {
             final JsonObject userJ = Ux.toJson(user);
             if (Ut.isNil(extensionJ)) {

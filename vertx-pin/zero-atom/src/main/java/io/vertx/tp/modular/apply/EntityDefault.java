@@ -3,17 +3,18 @@ package io.vertx.tp.modular.apply;
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.em.EntityType;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class EntityDefault implements AoDefault {
 
     @Override
     public void applyJson(final JsonObject entity) {
-        Ao.debugUca(this.getClass(), "「DFT」实体输入值: {0}", entity.encode());
+        LOG.Uca.info(this.getClass(), "「DFT」实体输入值: {0}", entity.encode());
         /*
          * 默认值：
          * key

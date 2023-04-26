@@ -4,7 +4,6 @@ import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -17,6 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 读取元数据专用
@@ -172,7 +173,7 @@ private static TableOnConditionStep<Record> joinCondition(
          * Fn.outWeb(null == matrix, _500ConditionFieldException.class, Meta.class, field);
          */
         if (null == matrix) {
-            Ao.infoSQL(LOGGER, "模型中无法找到条件字段（INTERNAL）：`{0}`，省略……", field);
+            LOG.SQL.info(LOGGER, "模型中无法找到条件字段（INTERNAL）：`{0}`，省略……", field);
             return null;
         } else {
             final String column = matrix.getColumn(field);

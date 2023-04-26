@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.ke.cv.KeIpc;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.extension.PlugAuditor;
@@ -17,6 +16,8 @@ import io.vertx.up.unity.Ux;
 
 import java.time.Instant;
 import java.util.Objects;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 public class AuditorPin implements PlugAuditor {
     private final static Annal LOGGER = Annal.get(AuditorPin.class);
@@ -67,7 +68,7 @@ public class AuditorPin implements PlugAuditor {
                 envelop.value(KName.CREATED_AT, instant);
                 envelop.value(KName.UPDATED_BY, userId);
                 envelop.value(KName.UPDATED_AT, instant);
-                Sc.infoAudit(LOGGER, "Full auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
+                LOG.Audit.info(LOGGER, "Full auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             } else {
                 /*
                  * /api/xxx
@@ -76,10 +77,10 @@ public class AuditorPin implements PlugAuditor {
                  */
                 envelop.value(KName.UPDATED_BY, userId);
                 envelop.value(KName.UPDATED_AT, instant);
-                Sc.infoAudit(LOGGER, "Update auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
+                LOG.Audit.info(LOGGER, "Update auditing: userId = `{0}`, at = `{1}`", userId, instant.toString());
             }
         } else {
-            Sc.debugAuth(LOGGER, "Do not match: {0}", request.path());
+            LOG.Auth.debug(LOGGER, "Do not match: {0}", request.path());
         }
         return Ux.future(envelop);
     }

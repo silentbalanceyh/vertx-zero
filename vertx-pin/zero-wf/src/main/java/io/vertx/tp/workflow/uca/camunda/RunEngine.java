@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTransition;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RuntimeService;
@@ -16,6 +15,8 @@ import org.camunda.bpm.engine.runtime.ProcessInstantiationBuilder;
 import org.camunda.bpm.engine.task.Task;
 
 import java.util.Objects;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -28,7 +29,7 @@ class RunEngine implements RunOn {
         Objects.requireNonNull(task);
         service.complete(task.getId(), Ut.toMapExpr(params));
         final ProcessInstance instance = transition.instance();
-        Wf.Log.infoMove(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
+        LOG.Move.info(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
             instance.isEnded(), instance.getId(), params.encode());
         return Ux.future(instance);
     }
@@ -40,7 +41,7 @@ class RunEngine implements RunOn {
         final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definition.getKey());
         builder.setVariables(Ut.toMapExpr(params));
         final ProcessInstance instance = builder.execute();
-        Wf.Log.infoMove(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",
+        LOG.Move.info(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",
             instance.getId(), params.encode());
         return Ux.future(instance);
     }

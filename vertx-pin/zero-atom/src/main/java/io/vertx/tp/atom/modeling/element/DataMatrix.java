@@ -4,7 +4,6 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.atom.cv.AoMsg;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.util.Ut;
 
@@ -14,6 +13,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 每个项的矩阵信息，里面包含了几部分内容
@@ -58,7 +59,7 @@ public class DataMatrix implements Serializable {
                           final MAttribute attribute,
                           final Object value) {
         if (null == field || null == attribute) {
-            Ao.debugAtom(this.getClass(), AoMsg.DATA_ATOM);
+            LOG.Atom.debug(this.getClass(), AoMsg.DATA_ATOM);
         } else {
             final String columnName = this.wrapperColumn(field.getColumnName());
             final String name = attribute.getName();
@@ -91,7 +92,7 @@ public class DataMatrix implements Serializable {
 
     @Fluent
     public DataMatrix set(final String attribute, final Object value) {
-        Ao.debugAtom(this.getClass(), AoMsg.DATA_SET, attribute, value);
+        LOG.Atom.debug(this.getClass(), AoMsg.DATA_SET, attribute, value);
         if (Objects.nonNull(value) && this.attributeMap.containsKey(attribute)) {
             this.valueMap.put(attribute, value);
         }

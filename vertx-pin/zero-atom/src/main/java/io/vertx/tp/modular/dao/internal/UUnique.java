@@ -2,8 +2,9 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.atom.query.Criteria;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 工具类
@@ -26,7 +27,7 @@ public class UUnique extends AbstractUtil<UUnique> {
     }
 
     public <ID> HRecord fetchById(final ID id) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchById, {0}", id);
+        LOG.SQL.info(this.getLogger(), "执行方法：UUnique.fetchById, {0}", id);
         // Input
         final DataEvent input = this.idInput(id);
         // Output
@@ -34,7 +35,7 @@ public class UUnique extends AbstractUtil<UUnique> {
     }
 
     public HRecord fetchOne(final Criteria criteria) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UUnique.fetchOne");
+        LOG.SQL.info(this.getLogger(), "执行方法：UUnique.fetchOne");
         // Input
         final DataEvent input = this.irCond(criteria);
         // Output

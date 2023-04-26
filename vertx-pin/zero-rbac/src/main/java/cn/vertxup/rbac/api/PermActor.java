@@ -9,7 +9,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.cv.Addr;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
@@ -20,6 +19,8 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -89,7 +90,7 @@ public class PermActor {
     public Future<JsonObject> saveDefinition(final JsonObject processed,
                                              final XHeader header, final User user) {
         final String sigma = header.getSigma();
-        Sc.infoWeb(this.getClass(), "Permission Update: {0}, sigma = {1}",
+        LOG.Web.info(this.getClass(), "Permission Update: {0}, sigma = {1}",
             processed.encode(), sigma);
 
         // Permission Data

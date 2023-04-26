@@ -9,7 +9,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -19,19 +18,21 @@ import io.vertx.up.unity.Ux;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 public class GroupService implements GroupStub {
 
     private static final Annal LOGGER = Annal.get(GroupService.class);
 
     @Override
     public Future<JsonArray> fetchRoleIdsAsync(final String groupKey) {
-        Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Async");
+        LOG.Auth.info(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Async");
         return Ke.umALink(AuthKey.F_GROUP_ID, groupKey, RGroupRoleDao.class);
     }
 
     @Override
     public JsonArray fetchRoleIds(final String groupKey) {
-        Sc.infoAuth(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Sync");
+        LOG.Auth.info(LOGGER, AuthMsg.RELATION_GROUP_ROLE, groupKey, "Sync");
         final List<RGroupRole> relations = Ux.Jooq.on(RGroupRoleDao.class)
             .fetch(AuthKey.F_GROUP_ID, groupKey);
         return UArray.create(Ux.toJson(relations))

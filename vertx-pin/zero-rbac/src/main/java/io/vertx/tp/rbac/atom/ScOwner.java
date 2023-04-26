@@ -2,7 +2,6 @@ package io.vertx.tp.rbac.atom;
 
 import io.horizon.eon.VValue;
 import io.vertx.tp.rbac.cv.em.OwnerType;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.util.Ut;
 
@@ -10,6 +9,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /*
  * 打开多模式
@@ -54,7 +55,7 @@ public class ScOwner implements Serializable {
 
     public ScOwner bind(final Set<String> roles) {
         if (OwnerType.ROLE == this.type) {
-            Sc.warnView(this.getClass(), "Role / Roles is not supported, Owner is user. type = {0} and Ignored.", this.type.name());
+            LOG.View.warn(this.getClass(), "Role / Roles is not supported, Owner is user. type = {0} and Ignored.", this.type.name());
         } else {
             if (Objects.nonNull(roles)) {
                 this.roles.addAll(roles);

@@ -47,6 +47,20 @@ public class LogModule {
         Annal.get(clazz).info(this.format(pattern), args);
     }
 
+    public void info(final Annal logger, final String pattern, final Object... args) {
+        final Annal annal = Log.logger(logger);
+        annal.info(this.format(pattern), args);
+    }
+
+    public void info(final boolean condition, final Class<?> clazz, final String pattern, final Object... args) {
+        Annal.get(clazz).info(condition, this.format(pattern), args);
+    }
+
+    public void info(final boolean condition, final Annal logger, final String pattern, final Object... args) {
+        final Annal annal = Log.logger(logger);
+        annal.info(condition, this.format(pattern), args);
+    }
+
     public void debug(final Class<?> clazz, final String pattern, final Object... args) {
         Annal.get(clazz).debug(this.format(pattern), args);
     }
@@ -57,11 +71,6 @@ public class LogModule {
 
     public void error(final Class<?> clazz, final String pattern, final Object... args) {
         Annal.get(clazz).error(this.format(pattern), args);
-    }
-
-    public void info(final Annal logger, final String pattern, final Object... args) {
-        final Annal annal = Log.logger(logger);
-        annal.info(this.format(pattern), args);
     }
 
     public void debug(final Annal logger, final String pattern, final Object... args) {

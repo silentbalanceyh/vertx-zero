@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Authenticate;
 import io.vertx.up.annotations.Authorized;
 import io.vertx.up.annotations.AuthorizedResource;
@@ -15,6 +14,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 
 import javax.inject.Inject;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * Interface defined for component
@@ -32,7 +33,7 @@ public class RbacWall {
         final String token = data.getString(KName.ACCESS_TOKEN);
         final String user = data.getString(KName.USER);
         // No Cache
-        Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
+        LOG.Auth.info(LOGGER, AuthMsg.TOKEN_INPUT, token, user);
         return this.jwtStub.verify(user, token);
     }
 

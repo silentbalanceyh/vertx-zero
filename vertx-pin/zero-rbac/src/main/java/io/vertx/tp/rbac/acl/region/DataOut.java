@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 class DataOut {
 
     private static final Annal LOGGER = Annal.get(DataOut.class);
@@ -96,7 +98,7 @@ class DataOut {
                      * Analyze result for type here.
                      */
                     final RegionType type = analyzeRegion(responseJson);
-                    Sc.infoAuth(LOGGER, AuthMsg.REGION_TYPE, type, responseJson.encode());
+                    LOG.Auth.info(LOGGER, AuthMsg.REGION_TYPE, type, responseJson.encode());
                     if (expected.contains(type)) {
                         consumer.accept(responseJson, type);
                     }

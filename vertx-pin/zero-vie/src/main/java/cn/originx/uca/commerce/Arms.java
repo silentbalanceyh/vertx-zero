@@ -95,7 +95,7 @@ public class Arms {
     }
 
     public Future<JsonArray> saveAsync(final JsonObject criteria, final JsonArray recordData, final JsonObject options) {
-        Ao.infoUca(this.getClass(), "原始输入数据：{0}，原始配置：{1}", recordData.encode(), options.encode());
+        LOG.Uca.info(this.getClass(), "原始输入数据：{0}，原始配置：{1}", recordData.encode(), options.encode());
         /*
          * 构造 AoHex
          * {

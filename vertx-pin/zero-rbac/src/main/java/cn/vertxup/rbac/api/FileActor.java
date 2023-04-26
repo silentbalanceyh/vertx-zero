@@ -8,7 +8,6 @@ import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.rbac.acl.relation.IdcStub;
 import io.vertx.tp.rbac.cv.Addr;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
@@ -26,6 +25,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 @Queue
 public class FileActor {
@@ -65,7 +66,7 @@ public class FileActor {
                     .filter(Objects::nonNull)
                     .map(ExRecord::toJson)
                     .collect(Collectors.toList());
-                Sc.infoWeb(this.getClass(), "Table: {0}, Records: {1}", table.getName(), String.valueOf(records.size()));
+                LOG.Web.info(this.getClass(), "Table: {0}, Records: {1}", table.getName(), String.valueOf(records.size()));
                 return records.stream();
             }).forEach(record -> {
                 /*
@@ -83,7 +84,7 @@ public class FileActor {
                     record.put(KName.LANGUAGE, KWeb.ARGS.V_LANGUAGE);
                     prepared.add(record);
                 } else {
-                    Sc.warnWeb(this.getClass(), "Ignored record: {0}", record.encode());
+                    LOG.Web.warn(this.getClass(), "Ignored record: {0}", record.encode());
                 }
             });
             final String sigma = headers.getString(KName.SIGMA);

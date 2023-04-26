@@ -8,7 +8,6 @@ import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -16,6 +15,8 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+import static io.vertx.tp.rbac.refine.Sc.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -50,7 +51,7 @@ public class BinderGroup extends AbstractBind<SGroup> {
                     /*
                      * Building relation ship
                      */
-                    Sc.infoWeb(this.getClass(), "Will build username = {1}, group size = {0}",
+                    LOG.Web.info(this.getClass(), "Will build username = {1}, group size = {0}",
                         String.valueOf(groups.size()), user.getUsername());
                 });
                 return Ux.future(relationList);

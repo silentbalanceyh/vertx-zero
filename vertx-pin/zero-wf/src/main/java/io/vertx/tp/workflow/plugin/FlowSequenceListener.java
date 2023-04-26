@@ -2,7 +2,6 @@ package io.vertx.tp.workflow.plugin;
 
 import cn.vertxup.workflow.cv.WfCv;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.refine.Wf;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.impl.history.event.HistoricActivityInstanceEventEntity;
@@ -11,6 +10,8 @@ import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 import org.camunda.bpm.engine.impl.pvm.runtime.ActivityInstanceState;
 
 import java.util.Date;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -60,6 +61,6 @@ public class FlowSequenceListener implements JavaDelegate {
         instance.setParentActivityInstanceId(execution.getParentActivityInstanceId());
         final HistoryEventHandler handler = WfPin.camundaLogger();
         handler.handleEvent(instance);
-        Wf.Log.infoMove(this.getClass(), "[ History ] `{0}` history generated {1}", instance.getActivityType(), instance.getActivityId());
+        LOG.Plugin.info(this.getClass(), "[ History ] `{0}` history generated {1}", instance.getActivityType(), instance.getActivityId());
     }
 }

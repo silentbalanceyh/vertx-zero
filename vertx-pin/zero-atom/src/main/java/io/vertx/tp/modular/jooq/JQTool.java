@@ -3,7 +3,6 @@ package io.vertx.tp.modular.jooq;
 import io.horizon.eon.VValue;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.atom.query.Pager;
@@ -16,6 +15,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 @SuppressWarnings("all")
 class JQTerm {
@@ -153,12 +154,12 @@ class JQToolkit {
         if (map.isEmpty()) {
             condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()));
             if (Objects.nonNull(condition)) {
-                Ao.infoSQL(LOGGER, "单表, 最终条件：{0}", condition);
+                LOG.SQL.info(LOGGER, "单表, 最终条件：{0}", condition);
             }
         } else {
             condition = ingest.onCondition(tpl, JQPre.prepare(tpl.atom(), event.getCriteria()), map);
             if (Objects.nonNull(condition)) {
-                Ao.infoSQL(LOGGER, "多表, 最终条件：{0}", condition);
+                LOG.SQL.info(LOGGER, "多表, 最终条件：{0}", condition);
             }
         }
         return condition;

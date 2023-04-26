@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
+import static io.vertx.tp.workflow.refine.Wf.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -49,14 +51,14 @@ public interface MoveOn extends Behaviour {
             return Fn.error(_404RunOnSupplierException.class, MoveOn.class, eventType);
         }
         final MoveOn moveOn = supplier.get();
-        Wf.Log.infoWeb(MoveOn.class, "MoveOn {0} has been selected, type = {0}",
+        LOG.Web.info(MoveOn.class, "MoveOn {0} has been selected, type = {0}",
             moveOn.getClass(), eventType);
         return Ux.future(moveOn);
     }
 
     static MoveOn instance(final Class<?> moveOnCls) {
         final MoveOn moveOn = WfPool.CC_MOVE_ON.pick(() -> Ut.instance(moveOnCls), moveOnCls.getName());
-        Wf.Log.infoWeb(MoveOn.class, "MoveOn {0} has been selected", moveOn.getClass());
+        LOG.Web.info(MoveOn.class, "MoveOn {0} has been selected", moveOn.getClass());
         return moveOn;
     }
 

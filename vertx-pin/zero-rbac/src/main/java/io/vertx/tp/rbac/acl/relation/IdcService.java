@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 class IdcService extends AbstractIdc {
 
     IdcService(final String sigma) {
@@ -72,7 +74,7 @@ class IdcService extends AbstractIdc {
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.USERNAME + ",i", Ut.toJArray(Ut.valueSetString(compress, KName.USERNAME)));
         condition.put(KName.SIGMA, this.sigma);
-        Sc.infoWeb(this.getClass(), "Unique filters: {0}", condition.encode());
+        LOG.Web.info(this.getClass(), "Unique filters: {0}", condition.encode());
         return Ux.Jooq.on(SUserDao.class).fetchJAsync(condition);
     }
 
@@ -84,7 +86,7 @@ class IdcService extends AbstractIdc {
                 compressed.add(each);
                 nameSet.add(KName.USERNAME);
             } else {
-                Sc.infoWeb(this.getClass(), "User ( username = {0} ) duplicated and will be ignored: {1}",
+                LOG.Web.info(this.getClass(), "User ( username = {0} ) duplicated and will be ignored: {1}",
                     each.getString(KName.USERNAME), each.encode());
             }
         });

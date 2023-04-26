@@ -26,6 +26,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+import static io.vertx.tp.atom.refine.Ao.LOG;
+
 class ModelRefine implements AoRefine {
 
     @Override
@@ -37,7 +39,7 @@ class ModelRefine implements AoRefine {
             final Set<Model> models = new HashSet<>();
             Ut.itJArray(modelJson).map(data -> Ao.toModel(name, data))
                 .forEach(models::add);
-            Ao.infoUca(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
+            LOG.Uca.info(this.getClass(), "3. AoRefine.model(): {0}", String.valueOf(models.size()));
             // 1. 更新某一个模型
             final List<Future<JsonObject>> futures = new ArrayList<>();
             models.stream().map(this::saveModelAsync).forEach(futures::add);
@@ -61,7 +63,7 @@ class ModelRefine implements AoRefine {
             final JsonObject criteria = new JsonObject();
             criteria.put(KName.NAMESPACE, entity.getNamespace());
             criteria.put(KName.IDENTIFIER, entity.getIdentifier());
-            Ao.infoUca(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
+            LOG.Uca.info(this.getClass(), "3. AoRefine.model(): Model `{0}`, Upsert Criteria = `{1}`",
                 entity.getIdentifier(), criteria.encode());
             final Future<JsonObject> execute = Fn.compressA(futures)
                 .compose(nil -> Ux.Jooq.on(MModelDao.class).upsertAsync(criteria, model.dbModel()))

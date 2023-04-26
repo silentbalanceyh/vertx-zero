@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.EngineOn;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.coadjutor.Stay;
 import io.vertx.tp.workflow.uca.component.Movement;
 import io.vertx.tp.workflow.uca.component.Transfer;
@@ -14,6 +13,8 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.unity.Ux;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -75,7 +76,7 @@ public class RunActor {
         // Transfer Processing
         final Transfer transfer = engine.componentStart();
 
-        Wf.Log.infoWeb(this.getClass(), "Movement = {0}, Transfer = {1}",
+        LOG.Web.info(this.getClass(), "Movement = {0}, Transfer = {1}",
             movement.getClass(), transfer.getClass());
 
         return movement.moveAsync(request)
@@ -158,7 +159,7 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayCancel();
-        Wf.Log.infoWeb(this.getClass(), "( Cancel ) Stay = {0}", stay.getClass());
+        LOG.Web.info(this.getClass(), "( Cancel ) Stay = {0}", stay.getClass());
         final Movement movement = engine.stayMovement();
         return movement.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
@@ -176,7 +177,7 @@ public class RunActor {
         final EngineOn engine = EngineOn.connect(request);
         // ProcessDefinition
         final Stay stay = engine.stayClose();
-        Wf.Log.infoWeb(this.getClass(), "( Close ) Stay = {0}", stay.getClass());
+        LOG.Web.info(this.getClass(), "( Close ) Stay = {0}", stay.getClass());
         final Movement movement = engine.stayMovement();
         return movement.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))
@@ -195,7 +196,7 @@ public class RunActor {
 
         // Camunda Processing
         final Stay stay = engine.stayDraft();
-        Wf.Log.infoWeb(this.getClass(), "Stay = {0}", stay.getClass());
+        LOG.Web.info(this.getClass(), "Stay = {0}", stay.getClass());
         final Movement movement = engine.stayMovement();
         return movement.moveAsync(request)
             .compose(instance -> stay.keepAsync(request, instance))

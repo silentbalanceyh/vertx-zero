@@ -4,19 +4,20 @@ import io.horizon.eon.em.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
-import io.horizon.spi.robin.Switcher;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 
@@ -27,58 +28,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 public class Ao {
-    /*
-     * Logger
-     */
-    public static void infoInit(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.info(logger, "Init", pattern, args);
-    }
-
-    public static void debugAtom(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.debug(logger, "Atom", pattern, args);
-    }
-
-    public static void infoAtom(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.info(logger, "Atom", pattern, args);
-    }
-
-    public static void warnAtom(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.warn(logger, "Atom", pattern, args);
-    }
-
-    public static void debugUca(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.debug(logger, "UCA", pattern, args);
-    }
-
-    public static void infoUca(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.info(logger, "UCA", pattern, args);
-    }
-
-    public static void infoDiff(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.info(logger, "Diff", pattern, args);
-    }
-
-    public static void infoPlugin(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AoLog.info(logger, "Plugin", pattern, args);
-    }
-
-    public static void infoSQL(final Annal logger, final String pattern, final Object... args) {
-        AoLog.info(logger, "Sql", pattern, args);
-    }
-
-    public static void infoSQL(final Annal logger, final boolean condition, final String pattern, final Object... args) {
-        if (condition) {
-            infoSQL(logger, pattern, args);
-        }
-    }
 
     /*
      * Diff
@@ -241,11 +190,11 @@ public class Ao {
         return recordList.toArray(new HRecord[]{});
     }
 
-    // ------------------- Other Information -----------------
-
     public static String joinKey(final Model model) {
         return AoKey.joinKey(model);
     }
+
+    // ------------------- Other Information -----------------
 
     public static ConcurrentMap<String, Object> joinKeys(final Model model, final HRecord record) {
         return AoKey.joinKeys(model, record);
@@ -277,7 +226,6 @@ public class Ao {
         AoData.connect(record, keyMatrix, dataMatrix, joins);
     }
 
-
     /*
      * Record Building
      */
@@ -306,10 +254,20 @@ public class Ao {
         return AoData.bagSplit(bag, size);
     }
 
+    public interface LOG {
+        String MODULE = "διαμορφωτής";
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Atom = Log.modulat(MODULE).program("Atom");
+        LogModule Diff = Log.modulat(MODULE).program("Diff");
+        LogModule Plugin = Log.modulat(MODULE).program("Plugin");
+        LogModule SQL = Log.modulat(MODULE).program("SQL");
+        LogModule Uca = Log.modulat(MODULE).program("Uca");
+    }
+
     /*
      * 路径处理
      */
-    public interface Path {
+    public interface PATH {
         String PATH_EXCEL = AoStore.defineExcel();
         String PATH_JSON = AoStore.defineJson();
     }

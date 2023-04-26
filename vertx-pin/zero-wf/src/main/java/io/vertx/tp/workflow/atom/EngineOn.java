@@ -7,7 +7,6 @@ import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRequest;
 import io.vertx.tp.workflow.init.WfPin;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.central.Behaviour;
 import io.vertx.tp.workflow.uca.coadjutor.Stay;
 import io.vertx.tp.workflow.uca.coadjutor.StayCancel;
@@ -19,6 +18,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Supplier;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -39,7 +40,7 @@ public class EngineOn {
     public static EngineOn connect(final String definitionKey) {
         Objects.requireNonNull(definitionKey);
         /* Thread pool here. */
-        Wf.Log.infoWeb(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
+        LOG.Web.info(EngineOn.class, "The system will detect `{0}` workflow.", definitionKey);
         return WfPool.CC_ENGINE.pick(() -> {
             final WFlow flow = WfPin.getFlow(definitionKey);
             /* Defined Exception throw out because of configuration data */

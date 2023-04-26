@@ -8,7 +8,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.tp.error._404ProcessMissingException;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.conformity.GVm;
 import io.vertx.up.annotations.Address;
@@ -24,6 +23,8 @@ import org.camunda.bpm.engine.task.Task;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -108,7 +109,7 @@ public class QueueActor {
      */
     @Address(HighWay.Queue.TASK_QUEUE)
     public Future<JsonObject> fetchQueue(final JsonObject qr) {
-        Wf.Log.initQueue(this.getClass(), "Qr Queue Input: {0}", qr.encode());
+        LOG.Queue.info(this.getClass(), "Qr Queue Input: {0}", qr.encode());
         // Status Must be in following
         // -- PENDING
         // -- DRAFT
@@ -116,7 +117,7 @@ public class QueueActor {
         final JsonObject qrStatus = Ux.whereAnd();
         qrStatus.put(KName.STATUS + ",i", GVm.Status.QUEUE);
         final JsonObject qrCombine = Ux.irAndQH(qr, "$Q$", qrStatus);
-        Wf.Log.initQueue(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
+        LOG.Queue.info(this.getClass(), "Qr Queue Combined: {0}", qrCombine.encode());
         return this.taskStub.fetchQueue(qrCombine); // this.condStub.qrQueue(qr, userId)
     }
 

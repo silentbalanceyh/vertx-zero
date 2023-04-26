@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static io.vertx.tp.rbac.refine.Sc.LOG;
+
 class ScToken {
     private static final Annal LOGGER = Annal.get(ScToken.class);
     private static final ScConfig CONFIG = ScPin.getConfig();
@@ -33,16 +35,16 @@ class ScToken {
         WebException error = null;
         if (null == item) {
             // Token Size
-            Sc.infoAuth(LOGGER, AuthMsg.TOKEN_SIZE_NULL, item, userId);
+            LOG.Auth.info(LOGGER, AuthMsg.TOKEN_SIZE_NULL, item, userId);
             error = new _401TokenCounterException(ScToken.class, 0, userId);
         } else {
             if (item.isEmpty()) {
                 // Token Size
-                Sc.infoAuth(LOGGER, AuthMsg.TOKEN_SIZE_EMPTY, item, userId);
+                LOG.Auth.info(LOGGER, AuthMsg.TOKEN_SIZE_EMPTY, item, userId);
                 error = new _401TokenCounterException(ScToken.class, 0, userId);
             } else if (1 < item.size()) {
                 // Token Size
-                Sc.infoAuth(LOGGER, AuthMsg.TOKEN_SIZE_MULTI, item, userId);
+                LOG.Auth.info(LOGGER, AuthMsg.TOKEN_SIZE_MULTI, item, userId);
                 error = new _401TokenCounterException(ScToken.class, item.size(), userId);
             } else {
                 final OAccessToken token = item.get(VValue.IDX);
@@ -53,12 +55,12 @@ class ScToken {
                     final long currentTime = new Date().getTime();
                     final long tokenTime = token.getExpiredTime();
                     if (tokenTime < currentTime) {
-                        Sc.infoAuth(LOGGER, AuthMsg.TOKEN_EXPIRED, tokenString, tokenTime);
+                        LOG.Auth.info(LOGGER, AuthMsg.TOKEN_EXPIRED, tokenString, tokenTime);
                         error = new _401TokenExpiredException(ScToken.class, tokenString);
                     }
                 } else {
                     // Token invalid
-                    Sc.infoAuth(LOGGER, AuthMsg.TOKEN_INVALID, tokenString);
+                    LOG.Auth.info(LOGGER, AuthMsg.TOKEN_INVALID, tokenString);
                     error = new _401TokenInvalidException(ScToken.class, tokenString);
                 }
             }
@@ -74,7 +76,7 @@ class ScToken {
         /* Token Data Extract */
         final JsonObject tokenData = UObject.create(data.copy())
             .remove("role", "group").to();
-        Sc.infoAuth(LOGGER, AuthMsg.TOKEN_JWT, tokenData.encode());
+        LOG.Auth.info(LOGGER, AuthMsg.TOKEN_JWT, tokenData.encode());
         /* Token */
         final String token = Ux.Jwt.token(tokenData);
 

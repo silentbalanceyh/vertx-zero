@@ -2,9 +2,10 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.tp.atom.refine.Ao;
 
 import java.util.Arrays;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 /**
  * 工具类
@@ -22,7 +23,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public HRecord insert(final HRecord record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.insert(Record)");
         // Input
         final DataEvent input = this.uuid(record);
         // Output
@@ -30,7 +31,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public HRecord[] insert(final HRecord... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.insert(Record...)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.insert(Record...)");
         // Input
         final DataEvent input = this.uuids(records);
         // Output
@@ -38,7 +39,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public HRecord update(final HRecord record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.update(Record)");
         // Input
         final DataEvent input = this.record(record);
         // Output
@@ -46,7 +47,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public HRecord[] update(final HRecord... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.update(Record...)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.update(Record...)");
         // Input
         final DataEvent input = this.records(records);
         // Output
@@ -54,7 +55,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public Boolean delete(final HRecord record) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.delete(Record)");
         // Input
         final DataEvent input = this.key(record);
         // Output
@@ -62,7 +63,7 @@ public class UFlush extends AbstractUtil<UFlush> {
     }
 
     public Boolean delete(final HRecord... records) {
-        Ao.infoSQL(this.getLogger(), "执行方法：UFlush.delete(Record...)");
+        LOG.SQL.info(this.getLogger(), "执行方法：UFlush.delete(Record...)");
         /* Input 解析参数，生成 Arguments */
         final DataEvent input = this.keys(records);
 

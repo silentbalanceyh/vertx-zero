@@ -3,10 +3,11 @@ package io.vertx.tp.atom.init;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.cv.AoFolder;
 import io.vertx.tp.atom.modeling.config.AoConfig;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 class AoConfiguration {
 
@@ -18,9 +19,9 @@ class AoConfiguration {
          */
         if (null == CONFIG) {
             final JsonObject configData = Ut.ioJObject(AoFolder.CONFIG_FILE);
-            Ao.infoInit(AoConfiguration.class, "Ao Json Data: {0}", configData.encode());
+            LOG.Init.info(AoConfiguration.class, "Ao Json Data: {0}", configData.encode());
             CONFIG = Ut.deserialize(configData, AoConfig.class);
-            Ao.infoInit(AoConfiguration.class, "Ao Configuration: {0}", CONFIG.toString());
+            LOG.Init.info(AoConfiguration.class, "Ao Configuration: {0}", CONFIG.toString());
         }
     }
 

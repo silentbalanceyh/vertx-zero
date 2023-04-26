@@ -4,12 +4,13 @@ import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
+
+import static io.vertx.tp.atom.refine.Ao.LOG;
 
 class KeyDefault implements AoDefault {
     private transient MEntity entity;
@@ -25,7 +26,7 @@ class KeyDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject key) {
         if (null != this.entity) {
-            Ao.debugUca(this.getClass(), "「DFT」键输入值：{0}", key.encode());
+            LOG.Uca.info(this.getClass(), "「DFT」键输入值：{0}", key.encode());
             /*
              * 默认值:
              * key
@@ -44,7 +45,7 @@ class KeyDefault implements AoDefault {
             key.put("columns", columns.encode());
             AoDefault.apply(key);
         } else {
-            Ao.debugAtom(KeyDefault.class, "[OxE] key 传入的实体为空！");
+            LOG.Atom.debug(KeyDefault.class, "[OxE] key 传入的实体为空！");
         }
     }
 

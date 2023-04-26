@@ -1,7 +1,6 @@
 package io.vertx.tp.workflow.uca.deployment;
 
 import io.vertx.core.Future;
-import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
@@ -10,6 +9,8 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static io.vertx.tp.workflow.refine.Wf.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,7 +44,7 @@ class DeployFormService implements DeployOn {
             if (Objects.nonNull(istream)) {
                 this.builderRef.addInputStream(formFile, istream);
             } else {
-                Wf.Log.warnDeploy(this.getClass(), "Ignored: `{0}` does not exist.", filePath);
+                LOG.Deploy.warn(this.getClass(), "Ignored: `{0}` does not exist.", filePath);
             }
         });
         return Ux.futureT();
