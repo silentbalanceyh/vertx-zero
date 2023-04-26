@@ -3,7 +3,6 @@ package io.horizon.spi.extension;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
@@ -13,6 +12,8 @@ import io.vertx.up.unity.Ux;
 
 import java.util.function.Function;
 
+import static io.vertx.tp.ambient.refine.At.LOG;
+
 public class DatabaseInit implements Init {
 
     private static final Annal LOGGER = Annal.get(DatabaseInit.class);
@@ -20,7 +21,7 @@ public class DatabaseInit implements Init {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            At.infoApp(LOGGER, AtMsg.INIT_DATABASE, appJson.encode());
+            LOG.App.info(LOGGER, AtMsg.INIT_DATABASE, appJson.encode());
             /* Database Json */
             final JsonObject databaseJson = appJson.getJsonObject(KName.SOURCE);
             final Database database = new Database();
@@ -38,7 +39,7 @@ public class DatabaseInit implements Init {
     @Override
     public JsonObject result(final JsonObject input,
                              final JsonObject database) {
-        At.infoApp(LOGGER, AtMsg.INIT_DB_RT, database.encodePrettily());
+        LOG.App.info(LOGGER, AtMsg.INIT_DB_RT, database.encodePrettily());
         return input;
     }
 }

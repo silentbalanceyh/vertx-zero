@@ -2,14 +2,13 @@ package io.horizon.spi.feature;
 
 import cn.vertxup.ambient.domain.tables.daos.XActivityRuleDao;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityRule;
+import io.horizon.spi.environment.Indent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.TubeType;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.tp.error._501IndentMissingException;
 import io.vertx.tp.ke.refine.Ke;
-import io.horizon.spi.environment.Indent;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
@@ -28,6 +27,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+import static io.vertx.tp.ambient.refine.At.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -40,7 +41,7 @@ public class ValueRule implements Valve {
         if (Ux.irNil(criteria)) {
             return Ux.future(data);
         }
-        At.infoTabb(this.getClass(), "Qr condition for ActivityRule: {0}", criteria.encode());
+        LOG.Tabb.info(this.getClass(), "Qr condition for ActivityRule: {0}", criteria.encode());
         /* Not Skip */
         final Refer ruleRef = new Refer();
         final Refer inputRef = new Refer();

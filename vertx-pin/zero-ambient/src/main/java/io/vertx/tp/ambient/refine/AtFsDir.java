@@ -2,21 +2,23 @@ package io.vertx.tp.ambient.refine;
 
 import cn.vertxup.ambient.service.file.DocBStub;
 import cn.vertxup.ambient.service.file.DocBuilder;
+import io.horizon.eon.VString;
+import io.horizon.spi.business.ExIo;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ke.cv.em.BizInternal;
-import io.horizon.spi.business.ExIo;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.VString;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -134,8 +136,8 @@ class AtFsDir {
 
         String name = storePath.replace(rootPath, VString.EMPTY);
         name = Ut.ioPathRoot(name);
-        At.infoFile(LOGGER, "Zero will re-initialize directory try to process {0}", storePath);
-        At.infoFile(LOGGER, "The builder parameters: name = {0}, type = {1}, appId = {2}",
+        LOG.File.info(LOGGER, "Zero will re-initialize directory try to process {0}", storePath);
+        LOG.File.info(LOGGER, "The builder parameters: name = {0}, type = {1}, appId = {2}",
             name, type, appId);
         return builder.initialize(appId, type, name);
     }

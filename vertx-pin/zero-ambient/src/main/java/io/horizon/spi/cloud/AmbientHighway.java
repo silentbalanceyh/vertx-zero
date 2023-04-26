@@ -2,17 +2,17 @@ package io.horizon.spi.cloud;
 
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.runtime.H3H;
-import io.horizon.spi.cloud.AbstractHET;
 import io.horizon.spi.environment.UnityAmbient;
 import io.horizon.spi.environment.UnityApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -25,12 +25,12 @@ public class AmbientHighway extends AbstractHET {
         final UnityApp app = new UnityAmbient();
         // 读取初始化配置
         final ConcurrentMap<String, JsonObject> appMap = app.connect();
-        At.infoHES(this.getClass(), "Environment connecting..., size = {0}", String.valueOf(appMap.size()));
+        LOG.HES.info(this.getClass(), "Environment connecting..., size = {0}", String.valueOf(appMap.size()));
         // 遍历每一个应用配置数据，填充 H3H.CC_APP
         appMap.forEach((appId, appJson) -> {
             // KApp 打印日志
             final KApp env = this.buildApp(appJson);
-            At.infoHES(this.getClass(), "[HES] \tnamespace = {0}, name = {1}", env.ns(), env.name());
+            LOG.HES.info(this.getClass(), "[HES] \tnamespace = {0}, name = {1}", env.ns(), env.name());
         });
         return Ux.futureT();
     }

@@ -6,7 +6,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
@@ -16,6 +15,8 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 @Queue
 public class AttachActor {
@@ -38,7 +39,7 @@ public class AttachActor {
          * -- 2.2. Remove all the related attachment and files
          * -- 2.3. Update all the attachments
          */
-        At.infoFile(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
+        LOG.File.info(LOGGER, AtMsg.FILE_UPLOAD, content.encodePrettily());
         Fn.ifJObject(content, KName.METADATA);
         content.put(KName.SIGMA, header.getSigma());
         content.put(KName.ACTIVE, Boolean.TRUE);
@@ -59,7 +60,7 @@ public class AttachActor {
 
     @Address(Addr.File.DOWNLOAD)
     public Future<Buffer> download(final JsonObject filters) {
-        At.infoFile(LOGGER, AtMsg.FILE_DOWNLOAD, filters.encodePrettily());
+        LOG.File.info(LOGGER, AtMsg.FILE_DOWNLOAD, filters.encodePrettily());
         return this.reader.downloadDoc(filters.getString(KName.KEY));
     }
 }

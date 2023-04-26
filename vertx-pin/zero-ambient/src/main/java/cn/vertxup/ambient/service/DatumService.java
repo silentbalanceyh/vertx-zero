@@ -3,10 +3,11 @@ package cn.vertxup.ambient.service;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.digital.*;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.cache.Cc;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 public class DatumService implements DatumStub {
 
@@ -92,7 +93,7 @@ public class DatumService implements DatumStub {
     // ------------------------ Number Generation
     @Override
     public Future<JsonArray> numberApp(final String appId, final String code, final Integer count) {
-        At.infoFlow(this.getClass(), "Serial Gen: appId = {0}, code = {1}, count = {2}", appId, code, count);
+        LOG.Flow.info(this.getClass(), "Serial Gen: appId = {0}, code = {1}, count = {2}", appId, code, count);
         // APP_ID = ? AND CODE = ?
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.CODE, code);
@@ -104,7 +105,7 @@ public class DatumService implements DatumStub {
 
     @Override
     public Future<JsonArray> numberAppI(final String appId, final String identifier, final Integer count) {
-        At.infoFlow(this.getClass(), "Serial Gen: appId = {0}, identifier = {1}, count = {2}", appId, identifier, count);
+        LOG.Flow.info(this.getClass(), "Serial Gen: appId = {0}, identifier = {1}, count = {2}", appId, identifier, count);
         // APP_ID = ? AND IDENTIFIER = ?
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.IDENTIFIER, identifier);
@@ -115,7 +116,7 @@ public class DatumService implements DatumStub {
 
     @Override
     public Future<JsonArray> numberSigma(final String sigma, final String code, final Integer count) {
-        At.infoFlow(this.getClass(), "Serial Gen: sigma = {0}, code = {1}, count = {2}", sigma, code, count);
+        LOG.Flow.info(this.getClass(), "Serial Gen: sigma = {0}, code = {1}, count = {2}", sigma, code, count);
         // SIGMA = ? AND CODE = ?
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.CODE, code);
@@ -126,7 +127,7 @@ public class DatumService implements DatumStub {
 
     @Override
     public Future<JsonArray> numberSigmaI(final String sigma, final String identifier, final Integer count) {
-        At.infoFlow(this.getClass(), "Serial Gen: sigma = {0}, identifier = {1}, count = {2}", sigma, identifier, count);
+        LOG.Flow.info(this.getClass(), "Serial Gen: sigma = {0}, identifier = {1}, count = {2}", sigma, identifier, count);
         // SIGMA = ? AND IDENTIFIER = ?
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.IDENTIFIER, identifier);
@@ -137,7 +138,7 @@ public class DatumService implements DatumStub {
 
     @Override
     public Future<Boolean> numberAppR(final String appId, final String code, final Long defaultValue) {
-        At.infoFlow(this.getClass(), "Serial Reset: appId = {0}, code = {1}, default = {2}", appId, code, String.valueOf(defaultValue));
+        LOG.Flow.info(this.getClass(), "Serial Reset: appId = {0}, code = {1}, default = {2}", appId, code, String.valueOf(defaultValue));
 
         final JsonObject condition = new JsonObject();
         condition.put(KName.APP_ID, appId).put(KName.CODE, code);
@@ -148,7 +149,7 @@ public class DatumService implements DatumStub {
 
     @Override
     public Future<Boolean> numberSigmaR(final String sigma, final String code, final Long defaultValue) {
-        At.infoFlow(this.getClass(), "Serial Reset: sigma = {0}, code = {1}, default = {2}", sigma, code, String.valueOf(defaultValue));
+        LOG.Flow.info(this.getClass(), "Serial Reset: sigma = {0}, code = {1}, default = {2}", sigma, code, String.valueOf(defaultValue));
 
         final JsonObject condition = new JsonObject();
         condition.put(KName.SIGMA, sigma).put(KName.CODE, code);

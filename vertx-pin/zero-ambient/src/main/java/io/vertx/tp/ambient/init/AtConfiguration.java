@@ -3,9 +3,10 @@ package io.vertx.tp.ambient.init;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtFolder;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * ## 「Init」AtConfiguration
@@ -64,9 +65,9 @@ final class AtConfiguration {
         /* Read definition of ambient configuration of default */
         if (null == CONFIG) {
             final JsonObject configData = Ut.ioJObject(AtFolder.CONFIG_FILE);
-            At.infoInit(LOGGER, "At Json Data: {0}", configData.encode());
+            LOG.Init.info(LOGGER, "At Json Data: {0}", configData.encode());
             CONFIG = Ut.deserialize(configData, AtConfig.class);
-            At.infoInit(LOGGER, "At Configuration: {0}", CONFIG.toString());
+            LOG.Init.info(LOGGER, "At Configuration: {0}", CONFIG.toString());
         }
     }
 

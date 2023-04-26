@@ -4,13 +4,13 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.horizon.specification.modeler.HAtom;
-import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.*;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.extension.*;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
@@ -21,45 +21,6 @@ import java.util.List;
  */
 public class At {
     private static final Cc<String, Init> CC_INIT = Cc.open();
-
-    /*
-     * Log
-     */
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        AtLog.info(logger, "Init", pattern, args);
-    }
-
-    public static void warnInit(final Annal logger, final String pattern, final Object... args) {
-        AtLog.warn(logger, "Init", pattern, args);
-    }
-
-    public static void infoFile(final Annal logger, final String pattern, final Object... args) {
-        AtLog.info(logger, "File", pattern, args);
-    }
-
-    public static void infoApp(final Annal logger, final String pattern, final Object... args) {
-        AtLog.info(logger, "Application", pattern, args);
-    }
-
-    public static void infoApp(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AtLog.info(logger, "Application", pattern, args);
-    }
-
-    public static void infoFlow(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AtLog.info(logger, "Execution", pattern, args);
-    }
-
-    public static void infoTabb(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AtLog.info(logger, "Tabb", pattern, args);
-    }
-
-    public static void infoHES(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        AtLog.info(logger, "HES", pattern, args);
-    }
 
     public static Init initApp() {
         return CC_INIT.pick(AppInit::new, AppInit.class.getName());
@@ -123,5 +84,16 @@ public class At {
 
     public static List<XActivityChange> diffChange(final List<XActivityChange> changes, final XActivity activity) {
         return AtDiffer.diff(changes, activity);
+    }
+
+    public interface LOG {
+        String MODULE = "περιβάλλων";
+
+        LogModule App = Log.modulat(MODULE).program("App");
+        LogModule File = Log.modulat(MODULE).program("File");
+        LogModule Flow = Log.modulat(MODULE).program("Flow");
+        LogModule HES = Log.modulat(MODULE).program("HES");
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Tabb = Log.modulat(MODULE).program("Tabb");
     }
 }

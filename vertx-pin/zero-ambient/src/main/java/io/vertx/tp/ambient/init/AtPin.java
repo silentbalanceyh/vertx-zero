@@ -1,20 +1,21 @@
 package io.vertx.tp.ambient.init;
 
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.atom.AtConfig;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.error._500InitSpecificationException;
 import io.vertx.tp.error._500PrerequisiteSpecException;
 import io.vertx.tp.ke.refine.Ke;
-import io.horizon.spi.extension.Init;
-import io.horizon.spi.extension.Prerequisite;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * ## 「Init」AtPin
@@ -54,7 +55,7 @@ public class AtPin {
      */
     public static Future<Boolean> init(final Vertx vertx) {
         Ke.banner("「περιβάλλων」- Ambient ( At )");
-        At.infoInit(LOGGER, "AtConfiguration...");
+        LOG.Init.info(LOGGER, "AtConfiguration...");
         AtConfiguration.init();
         return Ux.futureT();
     }

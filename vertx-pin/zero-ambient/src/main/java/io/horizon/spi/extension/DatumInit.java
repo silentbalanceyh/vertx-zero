@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.unity.UObject;
@@ -20,6 +19,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.ambient.refine.At.LOG;
+
 public class DatumInit implements Init {
 
     private static final Annal LOGGER = Annal.get(DatumInit.class);
@@ -28,7 +29,7 @@ public class DatumInit implements Init {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            At.infoApp(LOGGER, AtMsg.INIT_DATUM, appJson.encode());
+            LOG.App.info(LOGGER, AtMsg.INIT_DATUM, appJson.encode());
             return this.doLoading(appJson)
                 /* Extension */
                 .compose(this::doExtension);
@@ -68,7 +69,7 @@ public class DatumInit implements Init {
             /* ExcelClient */
             final ExcelClient client = ExcelInfix.createClient();
             client.importAsync(filename, result -> {
-                At.infoApp(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
+                LOG.App.info(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                 if (result.succeeded()) {
                     pre.complete(Fn.wrapJS(filename, Boolean.TRUE));
                 } else {
