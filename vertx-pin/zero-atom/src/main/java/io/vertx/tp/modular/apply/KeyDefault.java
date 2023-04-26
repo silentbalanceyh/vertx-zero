@@ -26,7 +26,7 @@ class KeyDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject key) {
         if (null != this.entity) {
-            LOG.Uca.info(this.getClass(), "「DFT」键输入值：{0}", key.encode());
+            LOG.Uca.debug(this.getClass(), "「DFT」键输入值：{0}", key.encode());
             /*
              * 默认值:
              * key

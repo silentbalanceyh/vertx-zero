@@ -10,7 +10,7 @@ class ModelDefault implements AoDefault {
 
     @Override
     public void applyJson(final JsonObject model) {
-        LOG.Uca.info(this.getClass(), "「DFT」模型输入值: {0}", model.encode());
+        LOG.Uca.debug(this.getClass(), "「DFT」模型输入值: {0}", model.encode());
         /*
          * 默认值：
          * key

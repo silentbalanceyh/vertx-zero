@@ -22,7 +22,7 @@ class FieldDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject field) {
         if (null != this.entity) {
-            LOG.Uca.info(this.getClass(), "「DFT」实体字段输入值: {0}", field.encode());
+            LOG.Uca.debug(this.getClass(), "「DFT」实体字段输入值: {0}", field.encode());
             /*
              * key
              * type

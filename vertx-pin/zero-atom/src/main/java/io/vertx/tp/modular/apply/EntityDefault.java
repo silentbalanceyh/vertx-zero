@@ -14,7 +14,7 @@ class EntityDefault implements AoDefault {
 
     @Override
     public void applyJson(final JsonObject entity) {
-        LOG.Uca.info(this.getClass(), "「DFT」实体输入值: {0}", entity.encode());
+        LOG.Uca.debug(this.getClass(), "「DFT」实体输入值: {0}", entity.encode());
         /*
          * 默认值：
          * key

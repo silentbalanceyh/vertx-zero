@@ -29,7 +29,7 @@ class JoinDefault implements AoDefault {
              */
             AoDefault.apply(join, KName.MODEL, this.model.getIdentifier());
             AoDefault.apply(join, "entityKey", KName.KEY);
-            LOG.Uca.info(this.getClass(), "「DFT」连接Join值: {0}", join.encode());
+            LOG.Uca.debug(this.getClass(), "「DFT」连接Join值: {0}", join.encode());
         } else {
             LOG.Atom.debug(this.getClass(), "[OxE] 模型为空！");
         }
