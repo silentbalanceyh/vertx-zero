@@ -1959,10 +1959,10 @@
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.target.version}</target>
-                        <compilerArgs>
+                        <!--<compilerArgs>
                             <arg>-verbose</arg>
                             <arg>-Xlint:all,-options,-path</arg>
-                        </compilerArgs>
+                        </compilerArgs>-->
                     </configuration>
                 </plugin>
                 <!-- http://www.mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
