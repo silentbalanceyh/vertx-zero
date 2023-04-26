@@ -9,7 +9,7 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Log;
-import io.vertx.up.log.LogExtension;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
@@ -266,7 +266,7 @@ public class Ke {
 
     public interface LOG {
         String MODULE = "Εισόδημα";
-        LogExtension Ke = Log.extension(MODULE).program("Ke");
-        LogExtension Turnel = Log.extension(MODULE).program("Channel");
+        LogModule Ke = Log.extension(MODULE).program("Ke");
+        LogModule Turnel = Log.extension(MODULE).program("Channel");
     }
 }

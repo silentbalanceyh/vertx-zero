@@ -24,7 +24,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.log.Log;
-import io.vertx.up.log.LogExtension;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -856,15 +856,15 @@ public final class Ox {
 
         String MODULE = "Προέλευση Χ";
 
-        LogExtension Atom = Log.extension(MODULE).configure("Atom");
-        LogExtension Uca = Log.extension(MODULE).configure("Uca");
-        LogExtension Hub = Log.extension(MODULE).configure("Hub");
-        LogExtension Shell = Log.extension(MODULE).configure("Shell");
-        LogExtension Plugin = Log.extension(MODULE).configure("Plugin");
-        LogExtension Web = Log.extension(MODULE).configure("Web");
-        LogExtension Util = Log.extension(MODULE).configure("Util");
-        LogExtension Report = Log.extension(MODULE).configure("Report");
-        LogExtension Status = Log.extension(MODULE).configure("Status");
+        LogModule Atom = Log.extension(MODULE).configure("Atom");
+        LogModule Uca = Log.extension(MODULE).configure("Uca");
+        LogModule Hub = Log.extension(MODULE).configure("Hub");
+        LogModule Shell = Log.extension(MODULE).configure("Shell");
+        LogModule Plugin = Log.extension(MODULE).configure("Plugin");
+        LogModule Web = Log.extension(MODULE).configure("Web");
+        LogModule Util = Log.extension(MODULE).configure("Util");
+        LogModule Report = Log.extension(MODULE).configure("Report");
+        LogModule Status = Log.extension(MODULE).configure("Status");
 
         /**
          * 比对报表日志器

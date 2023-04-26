@@ -9,7 +9,7 @@ import io.vertx.up.util.Ut;
 public class LogFactory {
 
     private static final Cc<String, LogFactory> CC_LOG_FACTORY = Cc.openThread();
-    private static final Cc<String, LogExtension> CC_LOG_EXTENSION = Cc.open();
+    private static final Cc<String, LogModule> CC_LOG_EXTENSION = Cc.open();
 
     private final String module;
 
@@ -21,15 +21,15 @@ public class LogFactory {
         return CC_LOG_FACTORY.pick(() -> new LogFactory(module), module);
     }
 
-    public LogExtension program(final String type) {
+    public LogModule program(final String type) {
         return CC_LOG_EXTENSION.pick(
-            () -> new LogExtension(this.module).bind(type).bind(Ut::flagNBlue),
+            () -> new LogModule(this.module).bind(type).bind(Ut::flagNBlue),
             this.module + "/" + type);
     }
 
-    public LogExtension configure(final String type) {
+    public LogModule configure(final String type) {
         return CC_LOG_EXTENSION.pick(
-            () -> new LogExtension(this.module).bind(type).bind(Ut::flagNGreen),
+            () -> new LogModule(this.module).bind(type).bind(Ut::flagNGreen),
             this.module + "/" + type);
     }
 }

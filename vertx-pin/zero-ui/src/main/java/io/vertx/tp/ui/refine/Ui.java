@@ -58,4 +58,10 @@ public class Ui {
         return UiCache.cacheOps(body, executor);
     }
 
+    public interface LOG {
+        String MODULE = "διεπαφή χρήστη";
+
+
+    }
+
 }
