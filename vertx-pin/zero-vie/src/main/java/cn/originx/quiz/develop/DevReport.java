@@ -1,6 +1,5 @@
 package cn.originx.quiz.develop;
 
-import cn.originx.refine.Ox;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
@@ -12,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -74,7 +75,8 @@ class DevReport {
             builder.append(outAttribute(attribute, refData));
         });
         builder.append("Attribute Size = ").append(treeSet.size()).append(VString.NEW_LINE);
-        Ox.LOG.infoAtom(DevReport.class, "\n" + builder);
+        // #NEW_LOG
+        LOG.Atom.info(DevReport.class, "\n" + builder);
     }
 
     private static String outAttribute(final HAttribute attribute, final KReference reference) {

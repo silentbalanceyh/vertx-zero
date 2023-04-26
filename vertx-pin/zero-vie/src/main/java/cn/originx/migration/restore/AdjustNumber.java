@@ -1,7 +1,6 @@
 package cn.originx.migration.restore;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.horizon.eon.VString;
@@ -19,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static cn.originx.refine.Ox.LOG;
+
 public class AdjustNumber extends AbstractStep {
     private static final String ADJUST = "adjust";
 
@@ -30,7 +31,7 @@ public class AdjustNumber extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         final String folder = this.ioRoot(config);
         final String file = folder + "report/numbers/data.json";
-        Ox.LOG.infoShell(this.getClass(), "读取修正文件：{0}", file);
+        LOG.Shell.info(this.getClass(), "读取修正文件：{0}", file);
         /*
          * 修正文件专用数据
          */
@@ -45,7 +46,7 @@ public class AdjustNumber extends AbstractStep {
             .filter(item -> VValue.RANGE < item.getInteger(ADJUST))
             .map(this::saveNumber).forEach(futures::add);
         return Fn.combineA(futures).compose(processed -> {
-            Ox.LOG.infoShell(this.getClass(), "修正序号完成！");
+            LOG.Shell.info(this.getClass(), "修正序号完成！");
             return Ux.future(config);
         });
     }
@@ -85,7 +86,7 @@ public class AdjustNumber extends AbstractStep {
                     content.append(Ut.fromAdjust(item.getInteger(ADJUST), 15, ' ')).append("\n");
                 }
             });
-            Ox.LOG.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
+            LOG.Shell.info(this.getClass(), "完整报表：\n{0}", content.toString());
         }
     }
 }

@@ -23,7 +23,6 @@ import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.log.Annal;
 import io.vertx.up.log.Log;
 import io.vertx.up.log.LogExtension;
 import io.vertx.up.unity.Ux;
@@ -54,7 +53,6 @@ import java.util.function.Supplier;
  * |{@link OxTo}|数据工具|
  * |{@link OxField}|字段工具|
  * |{@link OxJson}|Json处理工具|
- * |{@link OxLog}|日志器|
  * |{@link OxMocker}|数据模拟工具|
  * |{@link OxPlugin}|插件工具|
  * |{@link OxView}|视图工具|
@@ -726,7 +724,7 @@ public final class Ox {
      */
     public static <T> Function<T[], Future<T[]>> toArray(final Class<?> clazz) {
         return result -> {
-            LOG.infoUca(clazz, "结果数组数量：{0}", result.length);
+            LOG.Util.info(clazz, "结果数组数量：{0}", result.length);
             return Ux.future(result);
         };
     }
@@ -864,262 +862,9 @@ public final class Ox {
         LogExtension Shell = Log.extension(MODULE).configure("Shell");
         LogExtension Plugin = Log.extension(MODULE).configure("Plugin");
         LogExtension Web = Log.extension(MODULE).configure("Web");
-        LogExtension CRT = Log.extension(MODULE).configure("CRT");
-
-        static void infoAtom(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            OxLog.info(logger, "Atom", pattern, args);
-        }
-
-        /**
-         * Debug级别，模型日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void debugAtom(final Annal logger, final String pattern, final Object... args) {
-            OxLog.debug(logger, "Atom", pattern, args);
-        }
-
-        /**
-         * Debug级别，UCA日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void debugUca(final Annal logger, final String pattern, final Object... args) {
-            OxLog.debug(logger, "UCA", pattern, args);
-        }
-
-        /**
-         * Debug级别，UCA日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void debugUca(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            debugUca(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，UCA日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoUca(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "UCA", pattern, args);
-        }
-
-        /**
-         * Info级别，UCA日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoUca(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            infoUca(logger, pattern, args);
-        }
-
-        /**
-         * Warn级别，UCA日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnUca(final Annal logger, final String pattern, final Object... args) {
-            OxLog.warn(logger, "UCA", pattern, args);
-        }
-
-        /**
-         * Warn级别，UCA日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnUca(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            warnUca(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，Shell日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoShell(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "Shell", pattern, args);
-        }
-
-        /**
-         * Info级别，Shell日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoShell(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            OxLog.info(logger, "Shell", pattern, args);
-        }
-
-        /**
-         * Warn级别，Shell日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnShell(final Annal logger, final String pattern, final Object... args) {
-            OxLog.warnShell(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，插件日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoPlugin(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "Plugin", pattern, args);
-        }
-
-        /**
-         * Info级别，插件日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoPlugin(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            infoPlugin(logger, pattern, args);
-        }
-
-        /**
-         * Warn级别，插件日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnPlugin(final Annal logger, final String pattern, final Object... args) {
-            OxLog.warn(logger, "Plugin", pattern, args);
-        }
-
-        /**
-         * Warn级别，插件日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnPlugin(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            warnPlugin(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，Hub日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoHub(final Annal logger, final String pattern, final Object... args) {
-            OxLog.infoHub(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，Hub日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoHub(final Class<?> clazz, final String pattern, final Object... args) {
-            OxLog.infoHub(clazz, pattern, args);
-        }
-
-        /**
-         * Warn级别，Hub日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnHub(final Annal logger, final String pattern, final Object... args) {
-            OxLog.warnHub(logger, pattern, args);
-        }
-
-        /**
-         * Warn级别，Hub日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void warnHub(final Class<?> clazz, final String pattern, final Object... args) {
-            OxLog.warnHub(clazz, pattern, args);
-        }
-
-        /**
-         * Info级别，Web流程日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoWeb(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "Web", pattern, args);
-        }
-
-        /**
-         * Info级别，Web流程日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoWeb(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            infoWeb(logger, pattern, args);
-        }
-
-        /**
-         * Info级别，状态日志器
-         *
-         * @param logger  {@link Annal} Zero专用日志器
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoStatus(final Annal logger, final String pattern, final Object... args) {
-            OxLog.info(logger, "Status", pattern, args);
-        }
-
-        /**
-         * Info级别，状态日志器
-         *
-         * @param clazz   {@link Class} 调用日志器的类
-         * @param pattern {@link String} 日志信息模式
-         * @param args    {@link Object...} 可变参数
-         */
-        static void infoStatus(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            infoStatus(logger, pattern, args);
-        }
+        LogExtension Util = Log.extension(MODULE).configure("Util");
+        LogExtension Report = Log.extension(MODULE).configure("Report");
+        LogExtension Status = Log.extension(MODULE).configure("Status");
 
         /**
          * 比对报表日志器
@@ -1127,8 +872,13 @@ public final class Ox {
          * @param clazz    {@link Class} 调用日志器的类
          * @param compared 比对结果
          */
-        static void infoReport(final Class<?> clazz, final ConcurrentMap<ChangeFlag, JsonArray> compared) {
-            OxLog.infoCompared(clazz, compared);
+        interface _I {
+            static void report(final Class<?> clazz, final ConcurrentMap<ChangeFlag, JsonArray> map) {
+                Report.info(clazz, "CRT", "Report Start ----- ");
+                map.forEach((type, data) -> Report.info(clazz, "CRT", "Type = {0}, Size = {2}, Data = {1}",
+                    type, data.encode(), String.valueOf(data.size())));
+                Report.info(clazz, "CRT", "Report End ----- ");
+            }
         }
     }
 }

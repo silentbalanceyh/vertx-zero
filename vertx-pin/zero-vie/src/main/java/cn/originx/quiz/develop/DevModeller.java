@@ -26,7 +26,6 @@ import java.util.Set;
 
 import static cn.originx.refine.Ox.LOG;
 
-;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -78,7 +77,7 @@ public class DevModeller {
             models.forEach(model -> {
                 final JsonObject modelJson = model.toJson();
                 final String resolved = this.output + "model/" + model.identifier() + VString.DOT + VPath.SUFFIX.JSON;
-                Ox.LOG.infoHub(this.getClass(), "Writing Model: {0} -> {1}", model.identifier(), resolved);
+                LOG.Hub.info(this.getClass(), "Writing Model: {0} -> {1}", model.identifier(), resolved);
                 /*
                  * Flush data to output path
                  */
@@ -88,14 +87,14 @@ public class DevModeller {
             schemata.forEach(schema -> {
                 final JsonObject schemaJson = schema.toJson();
                 final String resolved = this.output + "schema/" + schema.identifier() + VString.DOT + VPath.SUFFIX.JSON;
-                Ox.LOG.infoHub(this.getClass(), "Writing Entity: {0} -> {1}", schema.identifier(), resolved);
+                LOG.Hub.info(this.getClass(), "Writing Entity: {0} -> {1}", schema.identifier(), resolved);
                 Ut.ioOut(resolved, schemaJson);
             });
             /*
              * Timer end
              */
             timer.end(System.currentTimeMillis());
-            Ox.LOG.infoHub(this.getClass(), "Successfully generation: {0}", timer.value());
+            LOG.Hub.info(this.getClass(), "Successfully generation: {0}", timer.value());
             if (Objects.isNull(actuator)) {
                 System.exit(0);
             }

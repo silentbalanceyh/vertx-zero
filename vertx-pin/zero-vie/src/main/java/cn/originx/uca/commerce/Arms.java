@@ -23,6 +23,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static cn.originx.refine.Ox.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -121,7 +123,7 @@ public class Arms {
                 /*
                  * 处理不同类型的数据
                  */
-                Ox.LOG.infoReport(this.getClass(), map);
+                LOG._I.report(this.getClass(), map);
                 final List<Future<JsonArray>> futures = new ArrayList<>();
                 /*
                  * 只执行操作类型

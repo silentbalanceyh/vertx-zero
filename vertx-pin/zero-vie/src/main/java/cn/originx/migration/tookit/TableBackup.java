@@ -1,6 +1,5 @@
 package cn.originx.migration.tookit;
 
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -10,6 +9,8 @@ import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class TableBackup extends AbstractStatic {
     /*
@@ -47,7 +48,7 @@ public class TableBackup extends AbstractStatic {
             /*
              * 表数据和参数
              */
-            Ox.LOG.infoShell(this.getClass(), "访问表：{0}, 条件：{1}",
+            LOG.Shell.info(this.getClass(), "访问表：{0}, 条件：{1}",
                 this.jooq.table(), condition.encode());
             return this.jooq.searchAsync(condition)
                 .compose(data -> this.ioAsync(data, config, eachPage.getPage()));

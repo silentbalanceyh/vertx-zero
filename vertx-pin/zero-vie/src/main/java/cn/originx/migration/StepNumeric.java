@@ -2,11 +2,12 @@ package cn.originx.migration;
 
 import cn.originx.migration.backup.ReportNumber;
 import cn.originx.migration.restore.AdjustNumber;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.unity.Ux;
+
+import static cn.originx.refine.Ox.LOG;
 
 /*
  * 单命令专用类
@@ -27,7 +28,7 @@ public class StepNumeric extends AbstractStep {
     @Override
     public Future<JsonObject> procAsync(final JsonObject config) {
 
-        Ox.LOG.infoShell(this.getClass(), "执行 Number 还原");
+        LOG.Shell.info(this.getClass(), "执行 Number 还原");
         return Ux.future(config)
             /* 001 - 容器环境初始化 */
             .compose(Actor.environment(this.environment).bind(this.app)::procAsync)

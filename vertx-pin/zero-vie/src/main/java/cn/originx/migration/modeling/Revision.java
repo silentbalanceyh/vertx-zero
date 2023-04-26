@@ -1,12 +1,13 @@
 package cn.originx.migration.modeling;
 
-import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+
+import static cn.originx.refine.Ox.LOG;
 
 /*
  * 修正专用
@@ -21,9 +22,9 @@ public interface Revision {
         Revision revision = Pool.POOL.get(daoCls);
         if (Objects.isNull(revision)) {
             revision = Ut.singleton(EmptyRevision.class);
-            Ox.LOG.warnUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
+            LOG.Atom.warn(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
         } else {
-            Ox.LOG.infoUca(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
+            LOG.Atom.info(daoCls, "选择的 Revision: {0}", revision.getClass().getName());
         }
         return revision;
     }

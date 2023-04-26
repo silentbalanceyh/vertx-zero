@@ -1,6 +1,5 @@
 package cn.originx.migration.tookit;
 
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -13,6 +12,8 @@ import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class TableHugeRestore extends AbstractStatic {
     public TableHugeRestore(final Environment environment) {
@@ -31,7 +32,7 @@ public class TableHugeRestore extends AbstractStatic {
          */
         final String file = targetFolder + "/" + this.jooq.table() + ".sql";
         final boolean done = this.restoreTo(file);
-        Ox.LOG.infoShell(this.getClass(), "数据还原文件：{0}，执行结果：{1}",
+        LOG.Shell.info(this.getClass(), "数据还原文件：{0}，执行结果：{1}",
             file, done);
         return Ux.future(config);
     }
@@ -49,7 +50,7 @@ public class TableHugeRestore extends AbstractStatic {
             final File fileObj = Ut.ioFile(file);
             final BasicFileAttributes fileAttributes = Files.readAttributes(fileObj.toPath(), BasicFileAttributes.class);
             if (fileObj.exists() && fileAttributes.isRegularFile()) {
-                Ox.LOG.infoShell(this.getClass(), "文件名：{2}，执行命令：{0}，" +
+                LOG.Shell.info(this.getClass(), "文件名：{2}，执行命令：{0}，" +
                         "文件长度：{1} MB",
                     cmd.toString(), String.valueOf(fileAttributes.size() / 1024 / 1024), file);
                 final Process process = Runtime.getRuntime().exec(cmd.toString());
@@ -63,11 +64,11 @@ public class TableHugeRestore extends AbstractStatic {
                 final long end = System.nanoTime();
                 /* 纳秒 -> 毫秒 */
                 final long spend = (end - start) / 1000 / 1000;
-                Ox.LOG.infoShell(this.getClass(), "执行完成，耗时 {0} ms！ Successfully",
+                LOG.Shell.info(this.getClass(), "执行完成，耗时 {0} ms！ Successfully",
                     String.valueOf(spend));
                 return true;
             } else {
-                Ox.LOG.infoShell(this.getClass(), "文件不存在！file = {0}", file);
+                LOG.Shell.info(this.getClass(), "文件不存在！file = {0}", file);
                 return false;
             }
         });

@@ -13,6 +13,8 @@ import io.vertx.up.util.Ut;
 import java.io.InputStream;
 import java.util.List;
 
+import static cn.originx.refine.Ox.LOG;
+
 /**
  * ## Shell命令工具类
  *
@@ -81,7 +83,7 @@ final class OxConsole {
                 System.err.println(content.replaceAll("at ", "\n\tat "));
             }
         } catch (final Exception ex) {
-            Ox.LOG.warnShell(LOGGER, "执行出错！ex = {0}", ex.getMessage());
+            LOG.Shell.warn(LOGGER, "执行出错！ex = {0}", ex.getMessage());
         }
     }
 }

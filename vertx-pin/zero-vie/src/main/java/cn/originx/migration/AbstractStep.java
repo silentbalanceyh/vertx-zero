@@ -14,6 +14,8 @@ import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
+import static cn.originx.refine.Ox.LOG;
+
 public abstract class AbstractStep implements MigrateStep {
     /*
      * 子类共享（Development/Production）
@@ -57,7 +59,7 @@ public abstract class AbstractStep implements MigrateStep {
     }
 
     protected Future<JsonArray> writeAsync(final JsonArray combined, final String file) {
-        Ox.LOG.infoShell(this.getClass(), "写入数据（A)：{0}", file);
+        LOG.Shell.info(this.getClass(), "写入数据（A)：{0}", file);
         /*
          * 过滤 null
          */
@@ -68,7 +70,7 @@ public abstract class AbstractStep implements MigrateStep {
     }
 
     protected Future<JsonArray> writeCompressAsync(final JsonArray combined, final String file) {
-        Ox.LOG.infoShell(this.getClass(), "写入压缩数据（A)：{0}", file);
+        LOG.Shell.info(this.getClass(), "写入压缩数据（A)：{0}", file);
         final JsonArray normalized = new JsonArray();
         Ut.itJArray(combined).forEach(normalized::add);
         Ut.ioOutCompress(file, normalized);

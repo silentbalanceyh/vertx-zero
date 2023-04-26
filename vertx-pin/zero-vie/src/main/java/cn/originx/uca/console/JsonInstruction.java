@@ -1,6 +1,5 @@
 package cn.originx.uca.console;
 
-import cn.originx.refine.Ox;
 import cn.originx.scaffold.console.AbstractInstruction;
 import cn.originx.stellaris.Ok;
 import io.horizon.eon.VPath;
@@ -20,7 +19,7 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Set;
 
-;
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * （专用建模工具）
@@ -57,7 +56,7 @@ public class JsonInstruction extends AbstractInstruction {
         models.forEach(model -> {
             final JsonObject modelJson = model.toJson();
             final String resolved = this.outPath(outPath + "model", model.identifier());
-            Ox.LOG.infoHub(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
+            LOG.Hub.info(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
             Ut.ioOut(resolved, modelJson);
 
             schemata.addAll(model.schema());
@@ -68,7 +67,7 @@ public class JsonInstruction extends AbstractInstruction {
         schemata.forEach(schema -> {
             final JsonObject schemaJson = schema.toJson();
             final String resolved = this.outPath(outPath + "schema", schema.identifier());
-            Ox.LOG.infoHub(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
+            LOG.Hub.info(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
             Ut.ioOut(resolved, schemaJson);
         });
         return Ux.future(TermStatus.SUCCESS);

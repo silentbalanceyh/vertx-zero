@@ -1,7 +1,6 @@
 package cn.originx.migration.backup;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
@@ -10,6 +9,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class ReportCode extends AbstractStep {
 
@@ -36,7 +37,7 @@ public class ReportCode extends AbstractStep {
             filters.put(KName.CODE + ",n", Boolean.TRUE);
             return dao.fetchAsync(filters).compose(Ux::futureA);
         }).compose(ready -> {
-            Ox.LOG.infoShell(this.getClass(), "非法数据数量：{0}", String.valueOf(ready.size()));
+            LOG.Shell.info(this.getClass(), "非法数据数量：{0}", String.valueOf(ready.size()));
             this.report(ready);
             /*
              * 处理结构
@@ -61,7 +62,7 @@ public class ReportCode extends AbstractStep {
                 content.append(item.getString("confirmStatus")).append(width);
                 content.append(item.getString("lifecycle")).append("\n");
             });
-            Ox.LOG.infoShell(this.getClass(), "完整报表：\n{0}", content.toString());
+            LOG.Shell.info(this.getClass(), "完整报表：\n{0}", content.toString());
         }
     }
 }

@@ -1,12 +1,11 @@
 package cn.originx.uca.plugin.semi;
 
-import cn.originx.refine.Ox;
 import cn.originx.uca.code.Numeration;
+import io.horizon.spi.plugin.BeforePlugin;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.horizon.spi.plugin.BeforePlugin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -15,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.stream.Collectors;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class BeforeNumber implements BeforePlugin {
     private static final String PLUGIN_NUMBER_SINGLE = "生成配置项编号：{0}";
@@ -37,7 +38,7 @@ public class BeforeNumber implements BeforePlugin {
 
         // Code 没有，执行编号生成
         return this.numberAsync(config).compose(number -> {
-            Ox.LOG.infoHub(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
+            LOG.Plugin.info(this.getClass(), PLUGIN_NUMBER_SINGLE, number);
             return Ux.future(record.put(fieldName, number));
         });
     }
@@ -79,7 +80,7 @@ public class BeforeNumber implements BeforePlugin {
         }
         // 根据数量生成序号
         return this.numberAsync(config, fields.size()).compose(numberQueue -> {
-            Ox.LOG.infoHub(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
+            LOG.Plugin.info(this.getClass(), PLUGIN_NUMBER_BATCH, numberQueue.size());
             Ut.itJArray(records).forEach(record -> {
                 // 双重检查，为没有 field 值的记录填充序号
                 final String fieldName = this.beforeField(record, config);

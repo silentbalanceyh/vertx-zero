@@ -1,9 +1,9 @@
 package cn.originx.scaffold.component;
 
-import cn.originx.refine.Ox;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.spi.robin.Switcher;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -11,7 +11,6 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._400KeyLengthException;
 import io.vertx.tp.jet.uca.business.AbstractComponent;
-import io.horizon.spi.robin.Switcher;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.config.Database;
@@ -29,6 +28,8 @@ import io.vertx.up.util.Ut;
 import java.lang.reflect.Array;
 import java.util.Objects;
 import java.util.function.Function;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * ## 「Adaptor」顶层适配器
@@ -401,7 +402,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      */
     protected <T> Future<T> transferFailure() {
         final WebException error = new _501NotSupportException(this.getClass());
-        Ox.LOG.infoPlugin(this.getClass(), "[ Plugin ] Do not support api: {0}", error.getMessage());
+        LOG.Plugin.info(this.getClass(), "[ Plugin ] Do not support api: {0}", error.getMessage());
         return Future.failedFuture(error);
     }
 

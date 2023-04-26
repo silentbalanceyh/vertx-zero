@@ -1,7 +1,6 @@
 package cn.originx.quiz.develop;
 
 import cn.originx.cv.em.MenuType;
-import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import io.horizon.eon.VValue;
 import io.vertx.core.Future;
@@ -17,6 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -94,7 +95,7 @@ class DevMenu {
                                       final String root) {
         menuMap.forEach((role, data) -> {
             final String outFile = DevDefault.pathMenu(root, role);
-            Ox.LOG.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
+            LOG.Shell.info(DevKit.class, "[ Dev ] File output: {0}", outFile);
             final JsonObject dataRole = new JsonObject();
             dataRole.put(KName.NAME, data);
             Ut.ioOut(outFile, dataRole);

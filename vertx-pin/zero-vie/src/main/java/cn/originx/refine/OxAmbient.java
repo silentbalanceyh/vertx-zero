@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static cn.originx.refine.Ox.LOG;
+
 /**
  * ## 环境工具
  *
@@ -91,10 +93,10 @@ final class OxAmbient {
             final Class<?> clazz = Ut.clazz(className, null);
             final int current = index + 1;
             if (Objects.nonNull(clazz)) {
-                Ox.LOG.infoPlugin(OxAmbient.class, "{0}. 插件类: {1}", current, className);
+                LOG.Plugin.info(OxAmbient.class, "{0}. 插件类: {1}", current, className);
                 queue.add(clazz);
             } else {
-                Ox.LOG.infoPlugin(OxAmbient.class, "{0}. 插件类异常（null）: {1}", current, className);
+                LOG.Plugin.info(OxAmbient.class, "{0}. 插件类异常（null）: {1}", current, className);
             }
         });
         return queue;

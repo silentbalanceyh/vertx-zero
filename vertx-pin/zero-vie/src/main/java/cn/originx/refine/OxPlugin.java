@@ -2,16 +2,15 @@ package cn.originx.refine;
 
 import cn.originx.uca.log.Ko;
 import io.aeon.experiment.channel.Pocket;
+import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataGroup;
-import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.tp.plugin.database.DS;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -22,6 +21,8 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * ## 插件工具
@@ -114,8 +115,7 @@ final class OxPlugin {
      */
     private static <T> Future<T> runSafe(final Class<?> clazz, final T input, final Throwable ex) {
         // ex.printStackTrace();
-        final Annal logger = Annal.get(clazz);
-        OxLog.warn(logger, "plugin", ex.getMessage());
+        LOG.Plugin.warn(clazz, "plugin", ex.getMessage());
         /* 集成专用信息，这里不打印 ex 的 Stack 信息 */
         Ko.integration(clazz, null, ex);
         return Ux.future(input);
@@ -196,7 +196,7 @@ final class OxPlugin {
                  * - afterAsync
                  */
                 plugin.bind(atom);
-                OxLog.infoHub(OxPlugin.class, "插件选择：{0}", plugin.getClass());
+                LOG.Plugin.info(OxPlugin.class, "插件选择：{0}", plugin.getClass());
                 return plugin.beforeAsync(input, config)
                     /*
                      * 主逻辑

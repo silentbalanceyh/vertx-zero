@@ -1,7 +1,6 @@
 package cn.originx.migration.backup;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -15,6 +14,8 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Objects;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class DDLExecution extends AbstractStep {
 
@@ -36,7 +37,7 @@ public class DDLExecution extends AbstractStep {
         final String lockPath = root + "report/ddl/lock";
         final File lock = Ut.ioFile(lockPath);
         if (Objects.nonNull(lock)) {
-            Ox.LOG.infoShell(this.getClass(), "DDL只能执行一次！");
+            LOG.Shell.info(this.getClass(), "DDL只能执行一次！");
         } else {
             final File file = Ut.ioFile(ddl);
             if (Objects.nonNull(file)) {
@@ -54,7 +55,7 @@ public class DDLExecution extends AbstractStep {
                                 Fn.safeJvm(() -> {
                                     final PreparedStatement stmt = connection.prepareStatement(item);
                                     final boolean result = stmt.execute();
-                                    Ox.LOG.infoShell(this.getClass(), "执行语句：{0}，结果：{1}", item, result);
+                                    LOG.Shell.info(this.getClass(), "执行语句：{0}，结果：{1}", item, result);
                                 });
                             }
                         });
@@ -67,7 +68,7 @@ public class DDLExecution extends AbstractStep {
                 return created.createNewFile();
             });
             if (locked) {
-                Ox.LOG.infoShell(this.getClass(), "当前执行器 DDLExecution 完成，锁定结果：{0}", locked);
+                LOG.Shell.info(this.getClass(), "当前执行器 DDLExecution 完成，锁定结果：{0}", locked);
             }
         }
         return Ux.future(config);
