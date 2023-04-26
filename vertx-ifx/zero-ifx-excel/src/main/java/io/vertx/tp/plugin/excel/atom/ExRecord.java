@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.excel.atom;
 
+import io.horizon.eon.VString;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.cell.ExValue;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -63,7 +63,7 @@ public class ExRecord implements Serializable, TJson {
     @Override
     public String toString() {
         final StringBuilder content = new StringBuilder();
-        this.data.forEach((key, value) -> content.append(key).append(Strings.EQUAL).append(value).append(Strings.COMMA));
+        this.data.forEach((key, value) -> content.append(key).append(VString.EQUAL).append(value).append(VString.COMMA));
         return content.toString();
     }
 

@@ -1,8 +1,8 @@
 package io.vertx.up.atom.secure;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.zero.object.TCopy;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jetbrains.annotations.NotNull;
@@ -159,7 +159,7 @@ public class Aegis implements Serializable, Comparable<Aegis>, TCopy<Aegis> {
             return this.items.getOrDefault(wall.key(), null);
         } else {
             // Smart Analyzing
-            if (Values.ONE == this.items.size()) {
+            if (VValue.ONE == this.items.size()) {
                 // Size = 1, Return the unique one here
                 return this.items.values().iterator().next();
             } else {

@@ -1,8 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VPath;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -77,7 +76,7 @@ final class IODirectory {
             final String relatedPath = folderObj.getAbsolutePath().replace("\\", "/");
             Arrays.stream(folderList).forEach(folderS -> {
                 final String rootCopy = root.replace("\\", "/");
-                final String pathReplaced = relatedPath.replace(rootCopy, Strings.EMPTY);
+                final String pathReplaced = relatedPath.replace(rootCopy, VString.EMPTY);
                 folders.addAll(listDirectoriesN(pathReplaced + "/" + folderS, root));
             });
             LOGGER.info("Directories found: size = {0}", String.valueOf(folders.size()));
@@ -106,7 +105,7 @@ final class IODirectory {
                 /*
                  * Fix jar path issue here.
                  */
-                if (folder.contains(FileSuffix.JAR_DIVIDER)) {
+                if (folder.contains(VPath.SUFFIX.JAR_DIVIDER)) {
                     url = Fn.orJvm(() -> new URL(folder), folder);
                 }
             }

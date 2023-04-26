@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.plan;
 
+import io.horizon.eon.VString;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -23,7 +23,7 @@ public abstract class AbstractJobAt implements JobAt {
     public Queue<Instant> analyze(final List<String> formulas, final Instant instant) {
         final List<Instant> parsedList = new ArrayList<>();
         formulas.forEach(formula -> {
-            final String[] segments = formula.split(Strings.SLASH);
+            final String[] segments = formula.split(VString.SLASH);
             if (1 <= segments.length) {
                 String tmpTime = segments[0];
                 if (4 == tmpTime.length()) { // like 3:00, 9:00
@@ -85,9 +85,9 @@ public abstract class AbstractJobAt implements JobAt {
     }
 
     private Kv<Integer, Integer> parseSegment(final String segment) {
-        if (Ut.notNil(segment) && segment.contains(Strings.DASH)) {
+        if (Ut.notNil(segment) && segment.contains(VString.DASH)) {
             try {
-                final String[] split = segment.split(Strings.DASH);
+                final String[] split = segment.split(VString.DASH);
                 final Integer m = Integer.parseInt(split[0]);
                 final Integer d = Integer.parseInt(split[1]);
                 return Kv.create(m, d);

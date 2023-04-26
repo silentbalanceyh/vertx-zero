@@ -3,30 +3,12 @@ package io.vertx.tp.ui.refine;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 import java.util.function.Supplier;
 
 public class Ui {
-    /*
-     * Log
-     */
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        UiLog.infoInit(logger, pattern, args);
-    }
-
-    public static void infoUi(final Annal logger, final String pattern, final Object... args) {
-        UiLog.infoUi(logger, pattern, args);
-    }
-
-    public static void infoWarn(final Annal logger, final String pattern, final Object... args) {
-        UiLog.infoWarn(logger, pattern, args);
-    }
-
-    public static void infoView(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        UiLog.infoView(logger, pattern, args);
-    }
 
     /*
      * Search Option
@@ -58,4 +40,11 @@ public class Ui {
         return UiCache.cacheOps(body, executor);
     }
 
+    public interface LOG {
+        String MODULE = "διεπαφή χρήστη";
+
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Ui = Log.modulat(MODULE).program("Ui");
+        LogModule View = Log.modulat(MODULE).program("View");
+    }
 }

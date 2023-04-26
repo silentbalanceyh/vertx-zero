@@ -1,12 +1,12 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
@@ -61,7 +61,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
             // length = 1
             final Class<?>[] params = method.getParameterTypes();
             final Class<?> returnType = method.getReturnType();
-            final Class<?> paramCls = params[Values.IDX];
+            final Class<?> paramCls = params[VValue.IDX];
 
             // 6. Invoker select
             final Invoker invoker = JetSelector.invoker(returnType, paramCls);

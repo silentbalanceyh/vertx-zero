@@ -1,12 +1,12 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.eon.DefaultClass;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
@@ -55,8 +55,8 @@ public class SockExtractor implements Extractor<Set<Remind>> {
          *
          * job/notify       -> /job/notify
          */
-        if (!address.startsWith(Strings.SLASH)) {
-            address = Strings.SLASH + address;
+        if (!address.startsWith(VString.SLASH)) {
+            address = VString.SLASH + address;
         }
         final RemindType type = Ut.invoke(annotation, KName.TYPE);
         // 2. Build Remind

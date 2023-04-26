@@ -1,8 +1,9 @@
 package io.vertx.tp.route.init;
 
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.tp.route.refine.Rt;
 import io.vertx.up.log.Annal;
+
+import static io.vertx.tp.route.refine.Rt.LOG;
 
 public class RtPin {
 
@@ -10,7 +11,7 @@ public class RtPin {
 
     public static void init() {
         Ke.banner("「πύλη」- ( Gateway )");
-        Rt.infoInit(LOGGER, "RtConfiguration...");
+        LOG.Init.info(LOGGER, "RtConfiguration...");
         RtConfiguration.init();
     }
 

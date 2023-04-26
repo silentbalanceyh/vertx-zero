@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.jooq.condition;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.zero.JooqCondClauseException;
 import io.vertx.up.exception.zero.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
@@ -106,13 +106,13 @@ public class JooqCond {
                  * Re-calculate the operator AND / OR
                  * For complex normalize linear query tree.
                  */
-                if (inputFilters.containsKey(Strings.EMPTY)) {
-                    if (inputFilters.getBoolean(Strings.EMPTY)) {
+                if (inputFilters.containsKey(VString.EMPTY)) {
+                    if (inputFilters.getBoolean(VString.EMPTY)) {
                         operator = Operator.AND;
                     } else {
                         operator = Operator.OR;
                     }
-                    inputFilters.remove(Strings.EMPTY);
+                    inputFilters.remove(VString.EMPTY);
                 }
             } else {
                 /*
@@ -120,7 +120,7 @@ public class JooqCond {
                  * ignore the flag key = value. ( key = "", value = true )
                  * It's defined by zero.
                  */
-                inputFilters.remove(Strings.EMPTY);
+                inputFilters.remove(VString.EMPTY);
             }
             condition = transformLinear(inputFilters, operator, fnAnalyze, fnTable);
         } else {
@@ -137,12 +137,12 @@ public class JooqCond {
              *   - true: and
              */
             if (Objects.nonNull(operator)) {
-                if (!filters.containsKey(Strings.EMPTY)) {
+                if (!filters.containsKey(VString.EMPTY)) {
                     if (Operator.AND == operator) {
                         /*
                          * Fix for complex connector
                          */
-                        filters.put(Strings.EMPTY, Boolean.TRUE);
+                        filters.put(VString.EMPTY, Boolean.TRUE);
                     }
                 }
             }
@@ -168,7 +168,7 @@ public class JooqCond {
         final Operator operator = calcOperator(filters);
         // Calc liner
         final JsonObject cloned = filters.copy();
-        cloned.remove(Strings.EMPTY);
+        cloned.remove(VString.EMPTY);
         // Operator has been calculated, remove "" to set linear of current tree.
         final Condition linear = transformLinear(transformLinear(cloned), operator, fnAnalyze, fnTable);
         // Calc All Tree
@@ -178,7 +178,7 @@ public class JooqCond {
             tree.add(linear);
         }
         if (1 == tree.size()) {
-            condition = tree.get(Values.IDX);
+            condition = tree.get(VValue.IDX);
         } else {
             condition = (Operator.AND == operator) ? DSL.and(tree) : DSL.or(tree);
         }
@@ -214,10 +214,10 @@ public class JooqCond {
     @SuppressWarnings("all")
     private static Operator calcOperator(final JsonObject data) {
         final Operator operator;
-        if (!data.containsKey(Strings.EMPTY)) {
+        if (!data.containsKey(VString.EMPTY)) {
             operator = Operator.OR;
         } else {
-            final Boolean isAnd = Boolean.valueOf(data.getValue(Strings.EMPTY).toString());
+            final Boolean isAnd = Boolean.valueOf(data.getValue(VString.EMPTY).toString());
             operator = isAnd ? Operator.AND : Operator.OR;
         }
         return operator;
@@ -254,8 +254,8 @@ public class JooqCond {
                      * field = []
                      */
                     fields = new String[2];
-                    fields[Values.IDX] = field;
-                    fields[Values.ONE] = Qr.Op.IN;
+                    fields[VValue.IDX] = field;
+                    fields[VValue.ONE] = Qr.Op.IN;
                 }
             } else {
                 /*
@@ -280,7 +280,7 @@ public class JooqCond {
                     op = Qr.Op.EQ;
                 }
             } else {
-                final String extract = fields[Values.ONE];
+                final String extract = fields[VValue.ONE];
                 if (Objects.isNull(extract)) {
                     op = Qr.Op.EQ;
                 } else {
@@ -291,7 +291,7 @@ public class JooqCond {
              * Code flow 3
              * - Get `Field` definition for current field
              */
-            final String targetField = fields[Values.IDX];
+            final String targetField = fields[VValue.IDX];
             /*
              * Split code logical here
              */

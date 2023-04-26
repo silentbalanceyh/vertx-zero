@@ -5,6 +5,7 @@ import cn.vertxup.workflow.cv.em.PassWay;
 import cn.vertxup.workflow.cv.em.TodoStatus;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.spi.business.ExActivity;
 import io.horizon.spi.component.Dictionary;
@@ -16,7 +17,6 @@ import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -176,10 +176,10 @@ public class WRecord implements Serializable {
      * - status()                       Todo Status ( Original Status stored in database )
      */
     public WTodo task() {
-        if (this.todo.isEmpty() || Values.ONE < this.todo.size()) {
+        if (this.todo.isEmpty() || VValue.ONE < this.todo.size()) {
             return null;
         } else {
-            return this.todo.get(Values.IDX);
+            return this.todo.get(VValue.IDX);
         }
     }
 

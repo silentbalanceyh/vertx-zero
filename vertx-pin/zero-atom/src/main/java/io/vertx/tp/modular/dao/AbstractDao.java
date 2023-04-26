@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.dao;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
@@ -9,7 +10,6 @@ import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -89,7 +89,7 @@ public abstract class AbstractDao implements HDao {
     // AoAggregator / AoPredicate
     @Override
     public Long count(final Criteria criteria) {
-        return Fn.orNull((long) Values.RANGE, () -> this.aggr.count(criteria), criteria);
+        return Fn.orNull((long) VValue.RANGE, () -> this.aggr.count(criteria), criteria);
     }
 
     @Override

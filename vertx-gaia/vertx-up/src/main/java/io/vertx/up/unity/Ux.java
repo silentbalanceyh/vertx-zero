@@ -1,6 +1,7 @@
 package io.vertx.up.unity;
 
 import io.aeon.experiment.rule.RuleTerm;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.modeler.HRecord;
@@ -29,7 +30,6 @@ import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroYml;
@@ -423,7 +423,7 @@ public final class Ux {
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Function<T, R> fnValue) {
-        return Compare.compare(original, current, fnValue, Strings.EMPTY);
+        return Compare.compare(original, current, fnValue, VString.EMPTY);
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet, final String pojoFile) {
@@ -431,7 +431,7 @@ public final class Ux {
     }
 
     public static <T, R> ConcurrentMap<ChangeFlag, List<T>> compare(final List<T> original, final List<T> current, final Set<String> uniqueSet) {
-        return Compare.compare(original, current, uniqueSet, Strings.EMPTY);
+        return Compare.compare(original, current, uniqueSet, VString.EMPTY);
     }
 
     public static ConcurrentMap<ChangeFlag, JsonArray> compareJ(
@@ -606,7 +606,7 @@ public final class Ux {
     }
 
     public static Future<JsonArray> futureA() {
-        return futureA(new ArrayList<>(), Strings.EMPTY);
+        return futureA(new ArrayList<>(), VString.EMPTY);
     }
 
     public static Future<JsonArray> futureA(Throwable ex) {
@@ -614,7 +614,7 @@ public final class Ux {
     }
 
     public static <T> Future<JsonArray> futureA(final List<T> list) {
-        return futureA(list, Strings.EMPTY);
+        return futureA(list, VString.EMPTY);
     }
 
     public static <T> Function<List<T>, Future<JsonArray>> futureA(final String pojo) {
@@ -632,7 +632,7 @@ public final class Ux {
     }
 
     public static Future<JsonObject> futureJ() {
-        return futureJ(new JsonObject(), Strings.EMPTY);
+        return futureJ(new JsonObject(), VString.EMPTY);
     }
 
     public static Future<JsonObject> futureJ(Throwable ex) {
@@ -640,7 +640,7 @@ public final class Ux {
     }
 
     public static <T> Future<JsonObject> futureJ(final T entity) {
-        return futureJ(entity, Strings.EMPTY);
+        return futureJ(entity, VString.EMPTY);
     }
 
     public static <T> Function<T, Future<JsonObject>> futureJ(final String pojo) {
@@ -653,11 +653,11 @@ public final class Ux {
     }
 
     public static <T> Future<List<JsonObject>> futureLJ() {
-        return futureL(new ArrayList<>(), Strings.EMPTY);
+        return futureL(new ArrayList<>(), VString.EMPTY);
     }
 
     public static <T> Future<List<JsonObject>> futureL(final List<T> list) {
-        return futureL(list, Strings.EMPTY);
+        return futureL(list, VString.EMPTY);
     }
 
     public static <T> Function<List<T>, Future<List<JsonObject>>> futureL(final String pojo) {

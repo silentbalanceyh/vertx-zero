@@ -1,9 +1,9 @@
 package io.vertx.up.atom.query.engine;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -134,7 +134,7 @@ class QrAnalyzer implements QrDo {
      */
     @Override
     public QrDo save(final String fieldExpr, final Object value) {
-        if (Strings.EMPTY.equals(fieldExpr)) {
+        if (VString.EMPTY.equals(fieldExpr)) {
             /*
              * "" for AND / OR
              */
@@ -240,7 +240,7 @@ class QrAnalyzer implements QrDo {
         /*
          * Here the qrKey is the same between newItem and oldItem
          */
-        final Boolean isAnd = raw.getBoolean(Strings.EMPTY, Boolean.FALSE);
+        final Boolean isAnd = raw.getBoolean(VString.EMPTY, Boolean.FALSE);
         if (Qr.Op.EQ.equals(newItem.op())) {        // =
             // field,= or field
             raw.remove(newItem.qrKey());
@@ -274,12 +274,12 @@ class QrAnalyzer implements QrDo {
              */
             raw.put(item.qrKey(), item.value());
         } else {
-            if (Values.ONE == raw.size()) {
+            if (VValue.ONE == raw.size()) {
                 /*
                  * If raw size = 1, add the condition to let the size to be 3.
                  * Here the connector will be `AND` auto.
                  */
-                raw.put(Strings.EMPTY, Boolean.TRUE);
+                raw.put(VString.EMPTY, Boolean.TRUE);
                 raw.put(item.qrKey(), item.value());
             } else {
                 /*
@@ -287,7 +287,7 @@ class QrAnalyzer implements QrDo {
                  * 1. If And, add directly.
                  * 2. If Or, Convert the whole or condition to get the new one.
                  */
-                final Boolean isAnd = raw.getBoolean(Strings.EMPTY, Boolean.FALSE);
+                final Boolean isAnd = raw.getBoolean(VString.EMPTY, Boolean.FALSE);
                 if (isAnd) {
                     raw.put(item.qrKey(), item.value());
                 } else {
@@ -295,7 +295,7 @@ class QrAnalyzer implements QrDo {
                      * Or connector
                      */
                     final JsonObject replaced = new JsonObject();
-                    replaced.put(Strings.EMPTY, Boolean.TRUE);
+                    replaced.put(VString.EMPTY, Boolean.TRUE);
                     replaced.put(item.qrKey(), item.value());
                     replaced.put("$0", raw.copy());
                     /*
@@ -370,9 +370,9 @@ class QrAnalyzer implements QrDo {
          * This situation the `""` could not be removed because it will be calculated
          * in future ADD / APPEND etc.
          */
-        if (Values.ONE == source.size() && source.containsKey(Strings.EMPTY)) {
+        if (VValue.ONE == source.size() && source.containsKey(VString.EMPTY)) {
             /* Removed single "" condition */
-            source.remove(Strings.EMPTY);
+            source.remove(VString.EMPTY);
         }
     }
 }

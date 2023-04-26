@@ -3,14 +3,14 @@ package io.vertx.tp.workflow.uca.conformity;
 import cn.vertxup.workflow.cv.em.PassWay;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.camunda.Io;
 import io.vertx.up.atom.Kv;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -64,7 +64,7 @@ public abstract class AbstractGear implements Gear {
         final Io<Task> io = Io.ioTask();
         return io.children(instance.getId()).compose(taskList -> {
             final WTask wTask = new WTask(this.type);
-            if (Objects.isNull(from) || Values.ONE == taskList.size()) {
+            if (Objects.isNull(from) || VValue.ONE == taskList.size()) {
                 /*
                  * 1) Start Point
                  * 2) Single Task Fetch
@@ -82,13 +82,13 @@ public abstract class AbstractGear implements Gear {
         // Based On SerialFork
         final String serialFork = todo.getSerialFork();
         final StringBuilder serialBuf = new StringBuilder();
-        serialBuf.append(ticket.getSerial()).append(Strings.DASH);
+        serialBuf.append(ticket.getSerial()).append(VString.DASH);
         serialBuf.append(Ut.fromAdjust(todo.getTraceOrder(), 2));
         if (Ut.isNil(serialFork)) {
-            serialBuf.append(Values.ZERO);
+            serialBuf.append(VValue.ZERO);
             if (Objects.nonNull(sequence)) {
                 // XXX-010-01
-                serialBuf.append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
+                serialBuf.append(VString.DASH).append(Ut.fromAdjust(sequence, 2));
             } // else = XXX-010
         } else {
             if (Objects.isNull(sequence)) {
@@ -96,7 +96,7 @@ public abstract class AbstractGear implements Gear {
                 serialBuf.append(serialFork);
             } else {
                 // XXX-011-01
-                serialBuf.append(serialFork).append(Strings.DASH).append(Ut.fromAdjust(sequence, 2));
+                serialBuf.append(serialFork).append(VString.DASH).append(Ut.fromAdjust(sequence, 2));
             }
         }
 

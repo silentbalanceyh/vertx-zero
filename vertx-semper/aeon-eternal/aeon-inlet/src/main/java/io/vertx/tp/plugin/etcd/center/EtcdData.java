@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.etcd.center;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.zero.EtcdConfigEmptyException;
 import io.vertx.up.exception.zero.EtcdNetworkException;
 import io.vertx.up.fn.Fn;
@@ -60,7 +60,7 @@ public class EtcdData {
     private final transient EtcdClient client;
     private final transient Class<?> clazz;
     private transient long timeout = -1;
-    private transient String application = Strings.EMPTY;
+    private transient String application = VString.EMPTY;
 
     private EtcdData(final Class<?> clazz) {
         this.clazz = clazz;
@@ -158,7 +158,7 @@ public class EtcdData {
                 for (final EtcdKeysResponse.EtcdNode nodeItem : nodes) {
                     String key = nodeItem.getKey();
                     if (shiftted) {
-                        key = key.substring(key.lastIndexOf(Strings.SLASH) + Values.ONE);
+                        key = key.substring(key.lastIndexOf(VString.SLASH) + VValue.ONE);
                     }
                     result.put(key, nodeItem.getValue());
                 }
@@ -189,7 +189,7 @@ public class EtcdData {
     public String readData(
         final String path
     ) {
-        return Fn.orJvm(Strings.EMPTY,
+        return Fn.orJvm(VString.EMPTY,
             () -> this.readNode(path, this.client::get).getValue(), path);
     }
 
@@ -232,7 +232,7 @@ public class EtcdData {
                     LOGGER,
                     () -> Ut.invoke(data, "encode"),
                     data::toString));
-            if (Values.ZERO != ttl) {
+            if (VValue.ZERO != ttl) {
                 request.ttl(ttl);
             }
             /*

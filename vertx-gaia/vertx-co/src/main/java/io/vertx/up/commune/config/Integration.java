@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.horizon.eon.VString;
 import io.horizon.specification.zero.object.TCopy;
 import io.horizon.specification.zero.object.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.DConsumer;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -163,7 +163,7 @@ public class Integration implements TJson, Serializable, TCopy<Integration> {
 
     public String getPublicKey() {
         if (Ut.isNil(this.publicKeyFile)) {
-            return Strings.EMPTY;
+            return VString.EMPTY;
         }
         return Ut.ioString(this.publicKeyFile);
     }

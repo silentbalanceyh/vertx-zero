@@ -9,13 +9,13 @@ import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import cn.vertxup.rbac.service.accredit.ActionStub;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.logged.ScRole;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -139,7 +139,7 @@ public class PermService implements PermStub {
             final JsonObject criteria = new JsonObject();
             criteria.put(KName.SIGMA, sigma);
             criteria.put("code,!i", Ut.toJArray(codes));
-            criteria.put(Strings.EMPTY, Boolean.TRUE);
+            criteria.put(VString.EMPTY, Boolean.TRUE);
             if (Ut.notNil(criteriaRef)) {
                 criteria.put("$0", criteriaRef.copy());
             }

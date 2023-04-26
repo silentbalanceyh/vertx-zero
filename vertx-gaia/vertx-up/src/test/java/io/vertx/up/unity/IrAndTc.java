@@ -2,7 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class IrAndTc extends ZeroBase {
         final JsonObject combine = Ux.irAndH(left, right);
         final JsonObject expected = left.copy().mergeIn(right);
         Assert.assertFalse(combine.equals(expected));
-        expected.put(Strings.EMPTY, Boolean.TRUE);
+        expected.put(VString.EMPTY, Boolean.TRUE);
         Assert.assertTrue(combine.equals(expected));
     }
 }

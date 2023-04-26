@@ -1,12 +1,13 @@
 package cn.originx.migration.restore;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.booter.Bt;
 import io.vertx.up.unity.Ux;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class MetaLoader extends AbstractStep {
     public MetaLoader(final Environment environment) {
@@ -17,7 +18,7 @@ public class MetaLoader extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         this.banner("002.2. 配置升级");
         return Bt.loadAsync("init/oob/").compose(nil -> {
-            Ox.LOG.infoShell(this.getClass(), "新配置已经成功导入到系统！Successfully");
+            LOG.Shell.info(this.getClass(), "新配置已经成功导入到系统！Successfully");
             return Ux.future(config);
         });
     }

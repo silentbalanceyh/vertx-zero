@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.refine;
 
 import io.aeon.experiment.specification.KField;
+import io.aeon.experiment.specification.KModule;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
@@ -8,8 +9,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.up.atom.Kv;
-import io.aeon.experiment.specification.KModule;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
 import io.vertx.up.unity.Ux;
@@ -120,41 +121,15 @@ public class Ix {
     }
 
     // --------------------------------- Logger Part
-    public static class Log {
+    public interface LOG {
 
-        public static void filters(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoFilters(logger, pattern, args);
-        }
+        String MODULE = "Εκδήλωση";
 
-        public static void init(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoInit(logger, pattern, args);
-        }
-
-        public static void rest(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoRest(logger, pattern, args);
-        }
-
-        public static void web(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoWeb(logger, pattern, args);
-        }
-
-        public static void restW(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.warnRest(logger, pattern, args);
-        }
-
-        public static void dao(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoDao(logger, pattern, args);
-        }
-
-        public static void verify(final Class<?> clazz, final String pattern, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IxLog.infoVerify(logger, pattern, args);
-        }
+        LogModule Filter = Log.modulat(MODULE).program("Filter");
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Rest = Log.modulat(MODULE).program("Rest");
+        LogModule Web = Log.modulat(MODULE).program("Web");
+        LogModule Dao = Log.modulat(MODULE).program("Dao");
+        LogModule Verify = Log.modulat(MODULE).program("Verify");
     }
 }

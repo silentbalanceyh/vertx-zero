@@ -1,10 +1,10 @@
 package io.vertx.tp.ambient.uca.dict;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.em.GlossaryType;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -43,7 +43,7 @@ class DpmTool {
         /* Types */
         if (!typeSet.isEmpty()) {
             condition.put(KName.TYPE + ",i", Ut.toJArray(typeSet));
-            condition.put(Strings.EMPTY, Boolean.TRUE);
+            condition.put(VString.EMPTY, Boolean.TRUE);
         }
         return condition;
     }

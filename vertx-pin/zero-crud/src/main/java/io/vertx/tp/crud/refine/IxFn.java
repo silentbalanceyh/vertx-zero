@@ -2,16 +2,16 @@ package io.vertx.tp.crud.refine;
 
 import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KJoin;
+import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.uca.jooq.UxJoin;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
@@ -145,7 +145,7 @@ class IxFn {
                      */
                     final JsonArray records = (JsonArray) object;
                     final KPoint point;
-                    final JsonObject json = records.getJsonObject(Values.IDX);
+                    final JsonObject json = records.getJsonObject(VValue.IDX);
                     if (Ut.isNil(json)) {
                         // Error to call this Api
                         switchedJq = null;
@@ -165,7 +165,7 @@ class IxFn {
                         });
                     }
                     /* Multi Condition for Processing */
-                    filters.put(Strings.EMPTY, Boolean.FALSE);
+                    filters.put(VString.EMPTY, Boolean.FALSE);
                 }
                 return executor.apply(switchedJq, filters);
             }

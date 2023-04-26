@@ -6,13 +6,13 @@ import cn.vertxup.rbac.domain.tables.daos.SPermissionDao;
 import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -149,7 +149,7 @@ public class RightsService implements RightsStub {
         criteria.put("code,i", Ut.toJArray(
             permissions.stream().map(SPermission::getCode).collect(Collectors.toSet())
         ));
-        criteria.put(Strings.EMPTY, Boolean.TRUE);
+        criteria.put(VString.EMPTY, Boolean.TRUE);
         return Ux.Jooq.on(SPermSetDao.class).deleteByAsync(criteria).compose(nil -> Ux.future(new ArrayList<>()));
     }
 

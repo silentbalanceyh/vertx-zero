@@ -1,6 +1,6 @@
 package io.aeon.experiment.brain;
 
-import io.vertx.up.eon.bridge.Values;
+import io.horizon.eon.VValue;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ public class LongVto implements Vto<Long> {
             /*
              * -1 as default
              */
-            return (long) Values.RANGE;
+            return (long) VValue.RANGE;
         } else {
             if (Long.class == type) {
                 /*
@@ -27,7 +27,7 @@ public class LongVto implements Vto<Long> {
                  */
                 return Ut.isInteger(value.toString()) ?
                     Long.parseLong(value.toString()) :
-                    Values.RANGE;
+                    VValue.RANGE;
             } else if (Tool.isInteger(type)) {
                 /*
                  * Integer -> Long
@@ -50,9 +50,9 @@ public class LongVto implements Vto<Long> {
                  */
                 final Boolean normalized = (Boolean) value;
                 if (normalized) {
-                    return (long) Values.ONE;
+                    return (long) VValue.ONE;
                 } else {
-                    return (long) Values.ZERO;
+                    return (long) VValue.ZERO;
                 }
             }
         }

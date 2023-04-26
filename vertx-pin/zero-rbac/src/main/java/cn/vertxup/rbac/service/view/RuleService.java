@@ -5,6 +5,7 @@ import cn.vertxup.rbac.domain.tables.daos.SPathDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.horizon.cloud.secure.HValve;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -13,7 +14,6 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.tp.rbac.ruler.AdmitValve;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
@@ -47,7 +47,7 @@ public class RuleService implements RuleStub {
                 if (Objects.isNull(clazz)) {
                     return Ux.future();
                 }
-                final String cacheKey = path.getSigma() + Strings.SLASH + path.getCode();
+                final String cacheKey = path.getSigma() + VString.SLASH + path.getCode();
                 final HValve value = CC_VALVE.pick(() -> Ut.instance(clazz), cacheKey);
                 final JsonObject pathJ = Ux.toJson(path);
                 /*

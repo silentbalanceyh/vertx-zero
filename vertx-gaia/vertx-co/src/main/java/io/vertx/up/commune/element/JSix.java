@@ -1,8 +1,8 @@
 package io.vertx.up.commune.element;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -82,7 +82,7 @@ public class JSix implements Serializable {
         /*
          * 构造 key
          */
-        final String field = type.name() + Strings.DOT + batch;
+        final String field = type.name() + VString.DOT + batch;
         final JsonObject configData = Ut.valueJObject(this.rawData.getJsonObject(field));
         /*
          * configuration.operation

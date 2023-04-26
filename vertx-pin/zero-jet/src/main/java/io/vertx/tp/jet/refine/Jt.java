@@ -4,6 +4,7 @@ import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.container.ChannelType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -17,8 +18,8 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;
@@ -28,32 +29,8 @@ import java.util.stream.Collectors;
 
 public class Jt {
 
-    public static void infoInit(final Annal logger, final String pattern, final Object... args) {
-        JtLog.info(logger, "Init", pattern, args);
-    }
-
-    public static void infoRoute(final Annal logger, final String pattern, final Object... args) {
-        JtLog.info(logger, "Route", pattern, args);
-    }
-
-    public static void infoWorker(final Annal logger, final String pattern, final Object... args) {
-        JtLog.info(logger, "Worker", pattern, args);
-    }
-
-    public static void infoWeb(final Annal logger, final String pattern, final Object... args) {
-        JtLog.info(logger, "Wet", pattern, args);
-    }
-
-    public static void warnApp(final Annal logger, final String pattern, final Object... args) {
-        JtLog.warn(logger, "Ambient", pattern, args);
-    }
-
-    public static void warnInfo(final Annal logger, final String pattern, final Object... args) {
-        JtLog.warn(logger, "Init", pattern, args);
-    }
-
     public static String jobCode(final IJob job) {
-        return job.getNamespace() + Strings.DASH + job.getCode();
+        return job.getNamespace() + VString.DASH + job.getCode();
     }
 
     /*
@@ -75,7 +52,7 @@ public class Jt {
 
     public static Set<String> toMimeString(final Supplier<String> supplier) {
         return toMime(supplier).stream()
-            .map(type -> type.getType() + Strings.SLASH + type.getSubtype())
+            .map(type -> type.getType() + VString.SLASH + type.getSubtype())
             .collect(Collectors.toSet());
     }
 
@@ -172,5 +149,15 @@ public class Jt {
 
     public static Integration toIntegration(final IService service) {
         return JtDataObject.toIntegration(service);
+    }
+
+    public interface LOG {
+        String MODULE = "Πίδακας δρομολογητή";
+
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Route = Log.modulat(MODULE).program("Route");
+        LogModule Worker = Log.modulat(MODULE).program("Worker");
+        LogModule Web = Log.modulat(MODULE).program("Web");
+        LogModule App = Log.modulat(MODULE).program("App");
     }
 }

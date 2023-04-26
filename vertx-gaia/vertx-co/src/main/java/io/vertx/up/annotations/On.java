@@ -1,7 +1,7 @@
 package io.vertx.up.annotations;
 
+import io.horizon.eon.VString;
 import io.vertx.up.eon.DefaultClass;
-import io.vertx.up.eon.bridge.Strings;
 
 import java.lang.annotation.*;
 
@@ -15,7 +15,7 @@ public @interface On {
      * - value: EventBus address
      * - income: income Implement class defined by `JobIncome`
      */
-    String address() default Strings.EMPTY;
+    String address() default VString.EMPTY;
 
     Class<?> income() default DefaultClass.class;
 }

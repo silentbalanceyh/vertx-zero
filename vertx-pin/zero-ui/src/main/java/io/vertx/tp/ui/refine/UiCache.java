@@ -10,6 +10,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.function.Supplier;
 
+import static io.vertx.tp.ui.refine.Ui.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -36,7 +38,7 @@ class UiCache {
             final String uiKey = String.valueOf(body.hashCode());
             return Rapid.<String, T>t(keyPool).cached(uiKey, executor);
         } else {
-            Ui.infoUi(LOGGER, "Ui Cached has been disabled!");
+            LOG.Ui.info(LOGGER, "Ui Cached has been disabled!");
             return executor.get();
         }
     }

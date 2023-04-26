@@ -15,7 +15,7 @@ package up.god.micro.media;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.eon.bridge.Values;
+import io.vertx.up.eon.legacy.VValue;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

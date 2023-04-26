@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.OriginalNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -116,20 +116,20 @@ final class Jackson {
     private static <T> T searchData(final JsonObject data,
                                     final Class<T> clazz,
                                     final String... pathes) {
-        if (null == data || Values.ZERO == pathes.length) {
+        if (null == data || VValue.ZERO == pathes.length) {
             return null;
         }
         /* 1. Get current node  **/
         final JsonObject current = data.copy();
         /* 2. Extract current input key **/
-        final String path = pathes[Values.IDX];
+        final String path = pathes[VValue.IDX];
         /* 3. Continue searching if key existing, otherwise terminal. **/
         return Fn.orSemi(current.containsKey(path) && null != current.getValue(path),
             null,
             () -> {
                 final Object curVal = current.getValue(path);
                 T result = null;
-                if (Values.ONE == pathes.length) {
+                if (VValue.ONE == pathes.length) {
                     /* 3.1. Get the end node. **/
                     if (Objects.nonNull(clazz) && clazz == curVal.getClass()) {
                         // Strict Mode
@@ -145,7 +145,7 @@ final class Jackson {
                         /* 4.Extract new key **/
                         final String[] continueKeys =
                             Arrays.copyOfRange(pathes,
-                                Values.ONE,
+                                VValue.ONE,
                                 pathes.length);
                         result = Jackson.searchData(continueNode, clazz, continueKeys);
                     }
@@ -244,7 +244,7 @@ final class Jackson {
 
     static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
         final String content = Jackson.serialize(t);
-        return Fn.orJvm(null, () -> Fn.orSemi(content.trim().startsWith(Strings.LEFT_BRACE), null,
+        return Fn.orJvm(null, () -> Fn.orSemi(content.trim().startsWith(VString.LEFT_BRACE), null,
             /*
              * Switch to smart serialization on the object to avoid
              * issue when met {} or []
@@ -406,32 +406,32 @@ final class Jackson {
     }
 
     static String aiJArray(final String literal) {
-        if (literal.contains(Strings.QUOTE_DOUBLE)) {
+        if (literal.contains(VString.QUOTE_DOUBLE)) {
             return literal;
         } else {
             final StringBuilder buffer = new StringBuilder();
-            final String[] split = literal.split(Strings.COMMA);
+            final String[] split = literal.split(VString.COMMA);
             final List<String> elements = new ArrayList<>();
             Arrays.stream(split).forEach(each -> {
                 if (Objects.nonNull(each)) {
-                    if (each.trim().startsWith(Strings.LEFT_SQUARE)) {
-                        elements.add(Strings.QUOTE_DOUBLE +
+                    if (each.trim().startsWith(VString.LEFT_SQUARE)) {
+                        elements.add(VString.QUOTE_DOUBLE +
                             each.trim().substring(1)
-                            + Strings.QUOTE_DOUBLE);
-                    } else if (each.trim().endsWith(Strings.RIGHT_SQUARE)) {
-                        elements.add(Strings.QUOTE_DOUBLE +
+                            + VString.QUOTE_DOUBLE);
+                    } else if (each.trim().endsWith(VString.RIGHT_SQUARE)) {
+                        elements.add(VString.QUOTE_DOUBLE +
                             each.trim().substring(0, each.trim().length() - 1)
-                            + Strings.QUOTE_DOUBLE);
+                            + VString.QUOTE_DOUBLE);
                     } else {
-                        elements.add(Strings.QUOTE_DOUBLE +
+                        elements.add(VString.QUOTE_DOUBLE +
                             each.trim()
-                            + Strings.QUOTE_DOUBLE);
+                            + VString.QUOTE_DOUBLE);
                     }
                 }
             });
-            buffer.append(Strings.LEFT_SQUARE);
+            buffer.append(VString.LEFT_SQUARE);
             buffer.append(Ut.fromJoin(elements));
-            buffer.append(Strings.RIGHT_SQUARE);
+            buffer.append(VString.RIGHT_SQUARE);
             return buffer.toString();
         }
     }

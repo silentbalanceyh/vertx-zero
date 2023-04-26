@@ -2,9 +2,8 @@ package io.horizon.spi.environment;
 
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
-import io.horizon.spi.environment.Indent;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -29,7 +28,7 @@ public class NormIndent implements Indent {
             if (item.isEmpty()) {
                 return Ux.future(null);
             } else {
-                return Ux.future(item.getString(Values.IDX));
+                return Ux.future(item.getString(VValue.IDX));
             }
         });
     }

@@ -1,12 +1,12 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.scheduler.JobType;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.DevEnv;
@@ -28,7 +28,7 @@ import java.util.Set;
  * This worker must be SINGLE ( instances = 1 ) because multi worker with the same tasks may be
  * conflicts
  */
-@Worker(instances = Values.SINGLE)
+@Worker(instances = VValue.SINGLE)
 public class ZeroScheduler extends AbstractVerticle {
 
     private static final Annal LOGGER = Annal.get(ZeroScheduler.class);

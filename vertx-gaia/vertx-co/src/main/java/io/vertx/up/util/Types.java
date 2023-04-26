@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -227,9 +227,9 @@ final class Types {
                 boolean logical = false;
                 final String literal = value.toString();
                 // Multi true literal such as "true", "TRUE" or 1
-                if (Values.TRUE.equalsIgnoreCase(literal)
+                if (VValue.TRUE.equalsIgnoreCase(literal)
                     || Integer.valueOf(1).toString().equalsIgnoreCase(literal)
-                    || Values.FALSE.equalsIgnoreCase(literal)
+                    || VValue.FALSE.equalsIgnoreCase(literal)
                     || Integer.valueOf(0).toString().equalsIgnoreCase(literal)) {
                     logical = true;
                 }

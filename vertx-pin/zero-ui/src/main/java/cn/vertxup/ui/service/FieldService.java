@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.em.RowType;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -21,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+import static io.vertx.tp.ui.refine.Ui.LOG;
+
 public class FieldService implements FieldStub {
     private static final Annal LOGGER = Annal.get(FieldService.class);
 
@@ -30,7 +31,7 @@ public class FieldService implements FieldStub {
             .<UiField>fetchAsync(KName.Ui.CONTROL_ID, formId)
             .compose(ui -> {
                 if (Objects.isNull(ui) || ui.isEmpty()) {
-                    Ui.infoWarn(FieldService.LOGGER, " Field not configured.");
+                    LOG.Ui.warn(LOGGER, " Field not configured.");
                     return Ux.future(new JsonArray());
                 } else {
                     final JsonArray uiJson = Ut.serializeJson(ui);

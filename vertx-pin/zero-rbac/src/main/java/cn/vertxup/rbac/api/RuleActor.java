@@ -3,6 +3,7 @@ package cn.vertxup.rbac.api;
 import cn.vertxup.rbac.domain.tables.daos.SPathDao;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import cn.vertxup.rbac.service.view.RuleStub;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,7 +17,6 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,7 +37,7 @@ public class RuleActor {
         final JsonObject condition = Ux.whereAnd()
             .put(KName.RUN_TYPE, type)
             .put(KName.SIGMA, header.getSigma())
-            .put(KName.PARENT_ID + ",n", Strings.EMPTY);
+            .put(KName.PARENT_ID + ",n", VString.EMPTY);
 
         return Ux.Jooq.on(SPathDao.class)
             .<SPath>fetchAsync(condition, Sorter.create(KName.UI_SORT, true))

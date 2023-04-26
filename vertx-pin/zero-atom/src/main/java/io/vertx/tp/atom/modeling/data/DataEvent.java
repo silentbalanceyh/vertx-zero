@@ -1,5 +1,6 @@
 package io.vertx.tp.atom.modeling.data;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
@@ -19,7 +20,6 @@ import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -211,7 +211,7 @@ public class DataEvent implements Serializable {
         Fn.outWeb(null == rows || rows.isEmpty(), _417DataRowNullException.class, this.getClass(),
             /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
 
-        final DataRow row = rows.get(Values.IDX);
+        final DataRow row = rows.get(VValue.IDX);
 
         Fn.outWeb(null == row, _417DataRowNullException.class, this.getClass(),
             /* ARG1：当前 Model 的模型标识符 */ this.atom.identifier());
@@ -281,7 +281,7 @@ public class DataEvent implements Serializable {
         final List<DataRow> rows = this.io.getRows();
         HRecord record = Ao.record(this.atom);
         if (null != rows && !rows.isEmpty()) {
-            final DataRow row = rows.get(Values.IDX);
+            final DataRow row = rows.get(VValue.IDX);
             if (null != row) {
                 record = row.getRecord();
             }

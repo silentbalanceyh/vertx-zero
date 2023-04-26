@@ -5,7 +5,6 @@ import cn.vertxup.ui.domain.tables.pojos.UiForm;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -14,6 +13,8 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 public class FormService implements FormStub {
     private static final Annal LOGGER = Annal.get(FormService.class);
@@ -26,7 +27,7 @@ public class FormService implements FormStub {
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchByIdAsync(formId)
             .compose(form -> {
                 if (Objects.isNull(form)) {
-                    Ui.infoWarn(FormService.LOGGER, " Form not found, id = {0}", formId);
+                    LOG.Ui.warn(LOGGER, " Form not found, id = {0}", formId);
                     return Ux.future(new JsonObject());
                 } else {
                     /*
@@ -69,7 +70,7 @@ public class FormService implements FormStub {
             .<UiForm>fetchOneAsync(filters)
             .compose(form -> {
                 if (Objects.isNull(form)) {
-                    Ui.infoWarn(FormService.LOGGER, " Form not found, code = {0}, sigma = {1}", code, sigma);
+                    LOG.Ui.warn(LOGGER, " Form not found, code = {0}, sigma = {1}", code, sigma);
                     return Ux.future(new JsonObject());
                 } else {
                     /*

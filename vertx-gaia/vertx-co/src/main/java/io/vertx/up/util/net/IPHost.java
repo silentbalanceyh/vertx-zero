@@ -1,6 +1,6 @@
 package io.vertx.up.util.net;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -47,7 +47,7 @@ public class IPHost {
     }
 
     private String searchNetworkInterfaces(final IPFilter ipFilter) {
-        return Fn.orJvm(Strings.EMPTY, () -> {
+        return Fn.orJvm(VString.EMPTY, () -> {
             final Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
             while (enumeration.hasMoreElements()) {
                 final NetworkInterface networkInterface = enumeration.nextElement();
@@ -64,7 +64,7 @@ public class IPHost {
                     }
                 }
             }
-            return Strings.EMPTY;
+            return VString.EMPTY;
         }, ipFilter);
     }
 }

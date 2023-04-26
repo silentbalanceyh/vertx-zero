@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.metadata;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.modular.jdbc.AoConnection;
-import io.vertx.up.eon.bridge.Values;
 
 public class CommonVerifier implements AoVerifier {
 
@@ -17,7 +17,7 @@ public class CommonVerifier implements AoVerifier {
     public boolean verifyTable(final String tableName) {
         final String sql = this.sentence.expectTable(tableName);
         final Long counter = this.conn.count(sql);
-        return Values.ZERO < counter;
+        return VValue.ZERO < counter;
     }
 
     @Override

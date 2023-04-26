@@ -1,9 +1,9 @@
 package io.horizon.specification.modeler;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -95,7 +95,7 @@ public class TypeAtom implements Serializable {
         if (Objects.nonNull(typeItem)) {
             return typeItem.children().size();
         } else {
-            return Values.ZERO;
+            return VValue.ZERO;
         }
     }
 
@@ -158,9 +158,9 @@ public class TypeAtom implements Serializable {
         this.typeList.clear();
         if (this.complex) {
             // index = 2
-            final JsonArray fields = data.getJsonArray(Values.TWO);
+            final JsonArray fields = data.getJsonArray(VValue.TWO);
             // index = 3
-            final JsonArray secondary = data.getJsonArray(Values.THREE);
+            final JsonArray secondary = data.getJsonArray(VValue.THREE);
 
             if (Ut.notNil(fields) && Ut.notNil(secondary)) {
                 // parent processing
@@ -171,7 +171,7 @@ public class TypeAtom implements Serializable {
                  * Calculate region for `null`
                  * Should not be `null` value to avoid: java.lang.NullPointerException
                  */
-                String found = Strings.EMPTY;
+                String found = VString.EMPTY;
                 final int length = fields.size();
                 for (int idx = 0; idx < length; idx++) {
                     final Object item = fields.getValue(idx);
@@ -208,7 +208,7 @@ public class TypeAtom implements Serializable {
             }
         } else {
             // index = 2
-            final JsonArray fields = data.getJsonArray(Values.ONE);
+            final JsonArray fields = data.getJsonArray(VValue.ONE);
             if (Ut.notNil(fields)) {
                 fields.forEach(item -> {
                     final String field = this.typeField(item);

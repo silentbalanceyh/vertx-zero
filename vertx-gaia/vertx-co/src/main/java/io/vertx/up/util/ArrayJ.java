@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Array;
@@ -70,7 +70,7 @@ final class ArrayJ {
                          final JsonObject jsonObject,
                          final String field) {
         // counter
-        int targetIndex = Values.UNSET;
+        int targetIndex = VValue.UNSET;
         for (int idx = 0; idx < array.size(); idx++) {
             final JsonObject element = array.getJsonObject(idx);
             if (null != element) {
@@ -83,7 +83,7 @@ final class ArrayJ {
                 }
             }
         }
-        if (Values.ZERO < targetIndex) {
+        if (VValue.ZERO < targetIndex) {
             array.getJsonObject(targetIndex).clear().mergeIn(jsonObject);
         } else {
             array.add(jsonObject);

@@ -1,13 +1,12 @@
-package io.vertx.up.eon.bridge;
-
-import io.horizon.eon.VString;
+package io.vertx.up.eon.legacy;
 
 /**
  * 此类需保留
  *
  * @author lang
  */
-public interface Strings extends VString {
+@Deprecated
+public interface VString extends io.horizon.eon.VString {
     // 下边代码全部走常量继承，从规范中继承常量信息
     //    String COMMA = ",";
     //

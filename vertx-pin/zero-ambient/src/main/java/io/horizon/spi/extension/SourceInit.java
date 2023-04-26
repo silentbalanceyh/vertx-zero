@@ -5,7 +5,6 @@ import cn.vertxup.ambient.domain.tables.pojos.XSource;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -15,6 +14,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 
+import static io.vertx.tp.ambient.refine.At.LOG;
+
 public class SourceInit implements Init {
 
     private static final Annal LOGGER = Annal.get(SourceInit.class);
@@ -22,7 +23,7 @@ public class SourceInit implements Init {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            At.infoApp(LOGGER, AtMsg.INIT_SOURCE, appJson.encode());
+            LOG.App.info(LOGGER, AtMsg.INIT_SOURCE, appJson.encode());
             /* X_SOURCE initialization */
             final JsonObject sourceJson = appJson.getJsonObject(KName.SOURCE);
             final XSource source = this.init(sourceJson, appJson);

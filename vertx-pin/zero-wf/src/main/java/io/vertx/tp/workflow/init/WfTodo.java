@@ -1,16 +1,18 @@
 package io.vertx.tp.workflow.init;
 
 import cn.vertxup.workflow.cv.WfCv;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+;
 
 /**
  * ## 「Init」AtTodo
@@ -71,12 +73,12 @@ final class WfTodo {
      */
     static void init() {
         if (TODO_DEF.isEmpty()) {
-            final List<String> files = Ut.ioFiles(WfCv.FOLDER_TODO, FileSuffix.JSON);
+            final List<String> files = Ut.ioFiles(WfCv.FOLDER_TODO, VPath.SUFFIX.JSON);
             Wf.Log.infoInit(WfTodo.class, "At Todo Files: {0}", files.size());
             files.forEach(file -> {
                 final String path = WfCv.FOLDER_TODO + file;
                 final JsonObject todoDef = Ut.ioJObject(path);
-                final String key = file.replace(Strings.DOT + FileSuffix.JSON, Strings.EMPTY);
+                final String key = file.replace(VString.DOT + VPath.SUFFIX.JSON, VString.EMPTY);
                 TODO_DEF.put(key, todoDef);
             });
         }

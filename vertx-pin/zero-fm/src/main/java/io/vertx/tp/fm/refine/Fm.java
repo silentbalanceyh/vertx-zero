@@ -3,6 +3,8 @@ package io.vertx.tp.fm.refine;
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.aeon.experiment.specification.KNaming;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 import java.util.List;
 
@@ -25,13 +27,9 @@ public final class Fm {
         return FmBook.umBook(spec, books);
     }
 
-    public static class Log {
-        public static void infoBook(final Class<?> clazz, final String pattern, final Object... args) {
-            FmLog.info(clazz, "Book", pattern, args);
-        }
+    public interface LOG {
+        String MODULE = "χρηματοδότηση";
 
-        public static void warnBook(final Class<?> clazz, final String pattern, final Object... args) {
-            FmLog.warn(clazz, "Book", pattern, args);
-        }
+        LogModule Book = Log.modulat(MODULE).program("Book");
     }
 }

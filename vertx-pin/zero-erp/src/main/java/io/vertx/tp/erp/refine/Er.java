@@ -1,13 +1,16 @@
 package io.vertx.tp.erp.refine;
 
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 /*
  *
  */
 public class Er {
 
-    public static void infoWorker(final Annal logger, final String pattern, final Object... args) {
-        ErLog.infoWorker(logger, pattern, args);
+    public interface LOG {
+        String MODULE = "Επιχείρηση";
+
+        LogModule Worker = Log.modulat(MODULE).program("Worker");
     }
 }

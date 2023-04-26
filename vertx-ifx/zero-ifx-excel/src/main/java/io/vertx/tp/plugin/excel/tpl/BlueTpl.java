@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.excel.tpl;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
-import io.vertx.up.eon.bridge.Values;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -34,29 +34,29 @@ public class BlueTpl implements ExTpl {
             /*
              * 处理第一行
              */
-            final Row first = sheet.getRow(Values.IDX);
+            final Row first = sheet.getRow(VValue.IDX);
             this.applyFirst(first);
             final int dataStart;
             if (MetaAtom.isComplex()) {
                 /*
                  * 处理 Title 行
                  */
-                final Row cnHeader = sheet.getRow(Values.ONE);
-                final Row enHeader = sheet.getRow(Values.THREE);
+                final Row cnHeader = sheet.getRow(VValue.ONE);
+                final Row enHeader = sheet.getRow(VValue.THREE);
                 this.applyHeader(cnHeader, enHeader);
                 /*
                  * 处理第二 Title 行
                  */
-                final Row cnHeader1 = sheet.getRow(Values.TWO);
-                final Row enHeader1 = sheet.getRow(Values.FOUR);
+                final Row cnHeader1 = sheet.getRow(VValue.TWO);
+                final Row enHeader1 = sheet.getRow(VValue.FOUR);
                 this.applyHeader(cnHeader1, enHeader1);
                 dataStart = 5;
             } else {
                 /*
                  * 处理 Title 行
                  */
-                final Row cnHeader = sheet.getRow(Values.ONE);
-                final Row enHeader = sheet.getRow(Values.TWO);
+                final Row cnHeader = sheet.getRow(VValue.ONE);
+                final Row enHeader = sheet.getRow(VValue.TWO);
                 this.applyHeader(cnHeader, enHeader);
                 dataStart = 3;
             }
@@ -73,13 +73,13 @@ public class BlueTpl implements ExTpl {
 
     private void applyFirst(final Row row) {
         // {Table}
-        final Cell table = row.getCell(Values.IDX);
+        final Cell table = row.getCell(VValue.IDX);
         this.dye.onTable(table);
         // identifier
-        final Cell identifier = row.getCell(Values.ONE);
+        final Cell identifier = row.getCell(VValue.ONE);
         this.dye.onModel(identifier);
         // Empty
-        final Cell empty = row.getCell(Values.TWO);
+        final Cell empty = row.getCell(VValue.TWO);
         this.dye.onEmpty(empty);
     }
 

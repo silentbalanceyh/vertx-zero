@@ -1,11 +1,11 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.horizon.eon.VString;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.rs.hunt.adaptor.WingSelector;
 import io.vertx.up.uca.rs.hunt.adaptor.Wings;
 import jakarta.ws.rs.core.MediaType;
@@ -53,7 +53,7 @@ final class Outcome {
                         /*
                          * Type + SLASH + SubType
                          */
-                        final String content = type.getType() + Strings.SLASH + type.getSubtype();
+                        final String content = type.getType() + VString.SLASH + type.getSubtype();
                         response.putHeader(HttpHeaders.CONTENT_TYPE, content);
                     }
                 }
@@ -126,7 +126,7 @@ final class Outcome {
                      */
                     response.setStatusCode(HttpStatusCode.NO_CONTENT.code());
                     response.setStatusMessage(HttpStatusCode.NO_CONTENT.message());
-                    response.end(Strings.EMPTY);
+                    response.end(VString.EMPTY);
                 } else {
                     final String headerStr = response.headers().get(HttpHeaders.CONTENT_TYPE);
                     /*

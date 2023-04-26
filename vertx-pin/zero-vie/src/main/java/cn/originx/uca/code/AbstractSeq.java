@@ -2,11 +2,11 @@ package cn.originx.uca.code;
 
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -49,8 +49,8 @@ abstract class AbstractSeq<T> implements Seq<T> {
     // ---------------------- Response Building -------------------
     protected Future<String> single(final JsonArray numbers) {
         Objects.requireNonNull(numbers);
-        final Object result = numbers.getList().get(Values.IDX);
-        return Ux.future(Objects.isNull(result) ? Strings.EMPTY : result.toString());
+        final Object result = numbers.getList().get(VValue.IDX);
+        return Ux.future(Objects.isNull(result) ? VString.EMPTY : result.toString());
     }
 
     @SuppressWarnings("all")

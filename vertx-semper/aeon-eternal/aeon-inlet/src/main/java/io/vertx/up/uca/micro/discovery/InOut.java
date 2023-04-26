@@ -1,5 +1,7 @@
 package io.vertx.up.uca.micro.discovery;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
@@ -13,8 +15,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.servicediscovery.Record;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._404ServiceNotFoundException;
 import io.vertx.up.exception.web._405MethodForbiddenException;
@@ -157,7 +157,7 @@ public final class InOut {
             // No performance considering
             final byte[] bytes = new byte[in.available()];
             final int result = in.read(bytes);
-            if (Values.RANGE != result) {
+            if (VValue.RANGE != result) {
 
                 // Body data
                 final Buffer buffer = Buffer.buffer(bytes);
@@ -206,7 +206,7 @@ public final class InOut {
         final StringBuilder uri = new StringBuilder();
         uri.append(event.request().path());
         if (null != event.request().query()) {
-            uri.append(Strings.QUESTION).append(event.request().query());
+            uri.append(VString.QUESTION).append(event.request().query());
         }
         return uri.toString();
     }

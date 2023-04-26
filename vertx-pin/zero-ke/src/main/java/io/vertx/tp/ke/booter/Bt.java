@@ -1,7 +1,7 @@
 package io.vertx.tp.ke.booter;
 
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.unity.UxTimer;
 
@@ -53,11 +53,11 @@ public class Bt {
      * Data Loading Entry of Main
      */
     public static Future<Boolean> initAsync(final String folder) {
-        return BtBoot.initAsync(folder, Strings.EMPTY, Boolean.TRUE);
+        return BtBoot.initAsync(folder, VString.EMPTY, Boolean.TRUE);
     }
 
     public static Future<Boolean> initAsync(final String folder, final boolean isOob) {
-        return BtBoot.initAsync(folder, Strings.EMPTY, isOob);
+        return BtBoot.initAsync(folder, VString.EMPTY, isOob);
     }
 
     public static Future<Boolean> initAsync(final String folder, final String prefix) {

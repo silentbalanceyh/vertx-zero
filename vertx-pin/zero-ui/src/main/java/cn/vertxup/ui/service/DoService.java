@@ -6,12 +6,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.init.UiPin;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -42,7 +43,7 @@ public class DoService implements DoStub {
     @Override
     public Future<JsonArray> fetchWeb(final JsonObject params) {
         final String identifier = Ut.valueString(params, KName.IDENTIFIER);
-        Ui.infoUi(LOGGER, "The fixed identifier = `{0}`", identifier);
+        LOG.Ui.info(LOGGER, "The fixed identifier = `{0}`", identifier);
         return Ux.future(UiPin.getOp());
     }
 
@@ -53,7 +54,7 @@ public class DoService implements DoStub {
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.Ui.CONTROL_ID, workflow);
         condition.put(KName.EVENT, task);
-        Ui.infoUi(LOGGER, "The workflow condition = `{0}`", condition.encode());
+        LOG.Ui.info(LOGGER, "The workflow condition = `{0}`", condition.encode());
         return Ux.Jooq.on(UiOpDao.class)
             .<UiOp>fetchAsync(condition)
             .compose(Ux::futureA)

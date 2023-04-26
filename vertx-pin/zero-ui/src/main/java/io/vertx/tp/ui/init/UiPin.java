@@ -3,8 +3,9 @@ package io.vertx.tp.ui.init;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.atom.UiConfig;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.log.Annal;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 public class UiPin {
 
@@ -12,7 +13,7 @@ public class UiPin {
 
     public static void init() {
         Ke.banner("「Διασύνδεση χρήστη」- ( Ui )");
-        Ui.infoInit(LOGGER, "UiConfiguration...");
+        LOG.Init.info(LOGGER, "UiConfiguration...");
         UiConfiguration.init();
     }
 

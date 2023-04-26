@@ -4,7 +4,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
-import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.jooq.JooqInfix;
@@ -19,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 class BtLoader {
 
@@ -59,12 +60,12 @@ class BtKit {
         return handler -> {
             if (handler.succeeded()) {
                 if (Objects.isNull(prefix)) {
-                    Ke.infoKe(LOGGER, "The data folder `{0}` has been imported successfully!", folder);
+                    LOG.Ke.info(LOGGER, "The data folder `{0}` has been imported successfully!", folder);
                 } else {
-                    Ke.infoKe(LOGGER, "The data folder `{0}` with `{1}` has been imported successfully!", folder, prefix);
+                    LOG.Ke.info(LOGGER, "The data folder `{0}` with `{1}` has been imported successfully!", folder, prefix);
                 }
                 timer.end(System.currentTimeMillis());
-                Ke.infoKe(LOGGER, "TOTAL EXECUTION TIME = The total execution time = {0}!", timer.value());
+                LOG.Ke.info(LOGGER, "TOTAL EXECUTION TIME = The total execution time = {0}!", timer.value());
                 System.exit(0);
             } else {
                 handler.cause().printStackTrace();
@@ -75,7 +76,7 @@ class BtKit {
     static Future<String> complete(final String filename) {
         final Promise<String> promise = Promise.promise();
         execute(filename, handler -> {
-            Ke.infoKe(LOGGER, "Successfully to finish loading ! data file = {0}", filename);
+            LOG.Ke.info(LOGGER, "Successfully to finish loading ! data file = {0}", filename);
             promise.complete(handler.result());
         });
         return promise.future();
@@ -84,7 +85,7 @@ class BtKit {
     private static void execute(final String filename, final Handler<AsyncResult<String>> callback) {
         final Future<String> future = Ux.nativeWorker(filename, pre -> {
             final ExcelClient client = ExcelInfix.createClient();
-            Ke.infoKe(LOGGER, "Excel importing file = {0}", filename);
+            LOG.Ke.info(LOGGER, "Excel importing file = {0}", filename);
             client.importAsync(filename, handler -> {
                 if (handler.succeeded()) {
                     pre.complete(filename);

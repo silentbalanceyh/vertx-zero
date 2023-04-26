@@ -12,7 +12,6 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
-import io.vertx.tp.jet.refine.Jt;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
@@ -24,6 +23,8 @@ import java.sql.Connection;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.jet.refine.Jt.LOG;
 
 /*
  * Cross Data Object
@@ -87,7 +88,7 @@ public class AmbientEnvironment {
         final IServiceDao serviceDao = new IServiceDao(this.poolMeta.getExecutor().configuration(), vertx);
         return serviceDao.findManyBySigma(this.condition).compose(services -> {
             this.serviceMap.putAll(Ut.elementZip(services, IService::getKey, service -> service));
-            Jt.infoInit(LOGGER, "AE ( {0} ) Service initialized !!!",
+            LOG.Init.info(LOGGER, "AE ( {0} ) Service initialized !!!",
                 String.valueOf(this.serviceMap.keySet().size()));
             return Ux.future(Boolean.TRUE);
         });
@@ -110,7 +111,7 @@ public class AmbientEnvironment {
                         .<JtJob>bind(this.app.getAppId())
                     )
                     .forEach(entry -> this.jobs.put(entry.key(), entry));
-                Jt.infoInit(LOGGER, "AE ( {0} ) Jobs initialized !!!",
+                LOG.Init.info(LOGGER, "AE ( {0} ) Jobs initialized !!!",
                     String.valueOf(this.jobs.keySet().size()));
                 return Ux.future(Boolean.TRUE);
             });
@@ -135,7 +136,7 @@ public class AmbientEnvironment {
                         /* Job Bind app id directly */
                         .<JtUri>bind(this.app.getAppId()))
                     .forEach(entry -> this.uris.put(entry.key(), entry));
-                Jt.infoInit(LOGGER, "AE ( {0} ) Api initialized !!!",
+                LOG.Init.info(LOGGER, "AE ( {0} ) Api initialized !!!",
                     String.valueOf(this.uris.keySet().size()));
                 return Ux.future(Boolean.TRUE);
             });

@@ -1,5 +1,6 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
@@ -9,7 +10,6 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.extension.Ares;
 import io.vertx.up.log.Annal;
@@ -143,7 +143,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
                                 final Router router) {
         final Integer port = options.getPort();
         final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
-        if (Values.ZERO == out.getAndIncrement()) {
+        if (VValue.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
             ZeroHttpAgent.LOGGER.info(Info.HTTP_SERVERS, this.getClass().getSimpleName(), this.deploymentID(),

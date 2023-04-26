@@ -1,12 +1,12 @@
 package io.vertx.tp.workflow.uca.deployment;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.tp.workflow.init.WfPin;
 import io.vertx.tp.workflow.plugin.FlowSequenceListener;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.camunda.bpm.engine.RepositoryService;
@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,7 +45,7 @@ class DeployBpmnService implements DeployOn {
         this.builder.enableDuplicateFiltering(Boolean.TRUE);
         final List<String> files = Ut.ioFiles(workflow);
         final String bpmnFile = files.stream()
-            .filter(item -> item.endsWith(Strings.DOT + FileSuffix.BPMN))
+            .filter(item -> item.endsWith(VString.DOT + VPath.SUFFIX.BPMN))
             .findAny().orElse(null);
         Objects.requireNonNull(bpmnFile);
 
@@ -59,7 +61,7 @@ class DeployBpmnService implements DeployOn {
 
         // DeployStub ( Form Service )
         final Set<String> forms = files.stream()
-            .filter(item -> item.endsWith(Strings.DOT + FileSuffix.BPMN_FORM))
+            .filter(item -> item.endsWith(VString.DOT + VPath.SUFFIX.BPMN_FORM))
             .collect(Collectors.toSet());
         this.formStub = new DeployFormService(workflow, this.builder).forms(forms);
     }

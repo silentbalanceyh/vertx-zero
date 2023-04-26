@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.tp.crud.cv.Addr;
 import io.vertx.tp.crud.cv.IxMsg;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Adjust;
 import io.vertx.up.annotations.Codex;
@@ -15,6 +14,8 @@ import io.vertx.up.eon.KWeb;
 import io.vertx.up.unity.Ux;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /*
  * Export / Import file here for processing
@@ -34,7 +35,7 @@ public class FileAgent {
                                  @QueryParam(KName.TYPE) final String type) {
         /* File stored */
         final String filename = fileUpload.uploadedFileName();
-        Ix.Log.dao(this.getClass(), IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
+        LOG.Dao.info(this.getClass(), IxMsg.FILE_UPLOAD, fileUpload.fileName(), filename);
         final JsonObject parameters = new JsonObject();
         return Ux.toZip(actor, filename, module, parameters.put(KName.TYPE, type));
     }

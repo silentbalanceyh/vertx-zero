@@ -1,6 +1,6 @@
 package io.vertx.up.uca.serialization;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.fn.Fn;
 
 /**
@@ -19,7 +19,7 @@ public class StringBufferSaber extends BaseSaber {
                         } else {
                             return new StringBuilder(literal);
                         }
-                    }, () -> Strings.EMPTY),
+                    }, () -> VString.EMPTY),
             paramType, literal);
     }
 

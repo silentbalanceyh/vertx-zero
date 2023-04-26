@@ -1,5 +1,6 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -9,7 +10,6 @@ import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
@@ -74,7 +74,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
                                 final RpcOptions options) {
         final Integer port = options.getPort();
         final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
-        if (Values.ONE == out.getAndIncrement()) {
+        if (VValue.ONE == out.getAndIncrement()) {
             if (handler.succeeded()) {
                 LOGGER.info(Info.RPC_LISTEN, Ut.netIPv4(), String.valueOf(options.getPort()));
                 // Started to write data in etcd center.

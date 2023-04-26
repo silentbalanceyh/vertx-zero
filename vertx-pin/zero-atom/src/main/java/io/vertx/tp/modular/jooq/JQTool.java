@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
@@ -7,7 +8,6 @@ import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import org.jooq.Record;
 import org.jooq.*;
@@ -166,7 +166,7 @@ class JQToolkit {
 
     static ConcurrentMap<String, String> getMap(final Set<String> tables) {
         final ConcurrentMap<String, String> tableMap = new ConcurrentHashMap<>();
-        if (Values.ONE < tables.size()) {
+        if (VValue.ONE < tables.size()) {
             final String prefix = "T0";
             int index = 1;
             /*

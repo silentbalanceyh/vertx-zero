@@ -1,14 +1,15 @@
 package io.horizon.spi;
 
 import cn.vertxup.ui.service.column.UiValve;
+import io.horizon.spi.ui.Anchoret;
+import io.horizon.spi.ui.Apeak;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.ui.Anchoret;
-import io.horizon.spi.ui.Apeak;
 import io.vertx.tp.ui.cv.UiMsg;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.up.atom.secure.Vis;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 /*
  * Bridge design for call internal actual column service
@@ -19,7 +20,7 @@ public class ExColumnApeak extends Anchoret<Apeak> implements Apeak {
 
     @Override
     public Future<JsonArray> fetchFull(final JsonObject params) {
-        Ui.infoUi(this.getLogger(), UiMsg.COLUMN_FULL, params.encodePrettily());
+        LOG.Ui.info(this.getLogger(), UiMsg.COLUMN_FULL, params.encodePrettily());
         final Boolean dynamic = params.getBoolean(Apeak.ARG0);
         /* Ui valve initialization */
         final UiValve valve;

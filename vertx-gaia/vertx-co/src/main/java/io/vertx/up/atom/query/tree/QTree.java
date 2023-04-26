@@ -2,7 +2,7 @@ package io.vertx.up.atom.query.tree;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -77,8 +77,8 @@ public class QTree {
 
     private QNode init(final JsonObject content, final Integer level) {
         final QNode root;
-        if (content.containsKey(Strings.EMPTY)) {
-            final Boolean isAnd = content.getBoolean(Strings.EMPTY);
+        if (content.containsKey(VString.EMPTY)) {
+            final Boolean isAnd = content.getBoolean(VString.EMPTY);
             root = QTier.create(isAnd ? QOp.AND : QOp.OR).level(level);
         } else {
             root = QTier.create(QOp.AND).level(level);

@@ -5,7 +5,6 @@ import io.vertx.tp.error._500EmptySQLException;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
@@ -42,7 +41,7 @@ public class DataConnection implements AoConnection {
         final DSLContext context = this.getDSL();
         final Query query = context.query(sql);
         final int ret = query.execute();
-        return Values.ZERO <= ret ? ret : VValue.RC_FAILURE;
+        return VValue.ZERO <= ret ? ret : io.horizon.eon.VValue.RC_FAILURE;
     }
 
     @Override

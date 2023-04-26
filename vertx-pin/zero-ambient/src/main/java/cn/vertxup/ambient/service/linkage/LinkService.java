@@ -2,11 +2,11 @@ package cn.vertxup.ambient.service.linkage;
 
 import cn.vertxup.ambient.domain.tables.daos.XLinkageDao;
 import cn.vertxup.ambient.domain.tables.pojos.XLinkage;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -108,13 +108,13 @@ public class LinkService implements LinkStub {
             final List<String> keys = new ArrayList<>();
             keys.add(sourceKey);
             keys.add(targetKey);
-            seed = Ut.fromJoin(keys, Strings.DASH);
+            seed = Ut.fromJoin(keys, VString.DASH);
         } else {
             // Sorted ( No vector )
             final Set<String> keys = new TreeSet<>();
             keys.add(sourceKey);
             keys.add(targetKey);
-            seed = Ut.fromJoin(keys, Strings.DASH);
+            seed = Ut.fromJoin(keys, VString.DASH);
         }
         final String linkKey = Ut.encryptMD5(seed);
         json.put("linkKey", linkKey);

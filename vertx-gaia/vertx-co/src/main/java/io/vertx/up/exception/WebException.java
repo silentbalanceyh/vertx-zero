@@ -1,9 +1,9 @@
 package io.vertx.up.exception;
 
+import io.horizon.eon.VString;
 import io.horizon.exception.ZeroRunException;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Errors;
 import io.vertx.up.util.Ut;
@@ -32,7 +32,7 @@ public abstract class WebException extends ZeroRunException {
     }
 
     public WebException(final Class<?> clazz, final Object... args) {
-        super(Strings.EMPTY);
+        super(VString.EMPTY);
         message = Errors.normalizeWeb(clazz, getCode(), args);
         params = args;
         status = HttpStatusCode.BAD_REQUEST;

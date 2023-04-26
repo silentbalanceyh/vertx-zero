@@ -1,5 +1,6 @@
 package io.vertx.tp.rbac.acl.region;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.zero.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +10,6 @@ import io.vertx.tp.rbac.cv.em.RegionType;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -134,7 +134,7 @@ class DataOut {
                 /* Distinguish between Pagination / Object */
                 final JsonObject json = (JsonObject) value;
                 if (json.containsKey("list") && json.containsKey("count")
-                    && Values.TWO == json.size()) {
+                    && VValue.TWO == json.size()) {
                     return RegionType.PAGINATION;
                 } else {
                     return RegionType.RECORD;

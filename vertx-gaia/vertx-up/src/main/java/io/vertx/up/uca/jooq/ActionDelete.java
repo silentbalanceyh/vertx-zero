@@ -1,8 +1,8 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
@@ -59,7 +59,7 @@ class ActionDelete extends AbstractAction {
             return this.context().delete(this.analyzer.table()).where(condition);
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
-        final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
+        final long updated = Arrays.stream(rows).filter(value -> VValue.ONE == value).count();
         this.logging("[ Jq ] delete(List<T>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return entity;
@@ -78,7 +78,7 @@ class ActionDelete extends AbstractAction {
             return this.context().delete(this.analyzer.table()).where(condition);
         }).forEach(batchOps::add);
         final int rows[] = this.context().batch(batchOps).execute();
-        final long updated = Arrays.stream(rows).filter(value -> Values.ONE == value).count();
+        final long updated = Arrays.stream(rows).filter(value -> VValue.ONE == value).count();
         this.logging("[ Jq ] deleteById(Collection<ID>) executed rows: {0}/{1}",
             String.valueOf(updated), String.valueOf(rows.length));
         return Boolean.TRUE;

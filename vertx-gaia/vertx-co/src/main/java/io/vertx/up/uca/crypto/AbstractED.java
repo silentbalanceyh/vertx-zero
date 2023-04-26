@@ -2,10 +2,10 @@ package io.vertx.up.uca.crypto;
 
 import io.aeon.experiment.channel.Pocket;
 import io.aeon.experiment.specification.KPair;
+import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.spi.cloud.HED;
 import io.horizon.specification.runtime.Macrocosm;
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.spi.cloud.HED;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -54,7 +54,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
          * 2. Extract the default ( jar -> Service Loader )
          * 3. Extract the app ( Classpath )
          */
-        final String hedCls = Ut.envWith(Macrocosm.HED_COMPONENT, Strings.EMPTY);
+        final String hedCls = Ut.envWith(Macrocosm.HED_COMPONENT, VString.EMPTY);
         HED hed = null;
 
 

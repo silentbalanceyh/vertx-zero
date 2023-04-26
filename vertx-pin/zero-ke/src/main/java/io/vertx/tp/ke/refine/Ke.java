@@ -8,7 +8,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 
@@ -93,19 +94,6 @@ public class Ke {
         KeTool.banner(module);
     }
 
-    public static void infoKe(final Annal logger, final String pattern, final Object... args) {
-        KeLog.infoKe(logger, pattern, args);
-    }
-
-    public static void infoKe(final Class<?> target, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(target);
-        KeLog.infoKe(logger, pattern, args);
-    }
-
-    public static void debugKe(final Annal logger, final String pattern, final Object... args) {
-        KeLog.debugKe(logger, pattern, args);
-    }
-
     /*
      * Session key generation
      *
@@ -161,6 +149,10 @@ public class Ke {
         return KeCompare.atomyFn(clazz, compared);
     }
 
+    public static <T, I> void umCreated(final I output, final T input) {
+        KeEnv.audit(output, null, input, null, false);
+    }
+
     /*
      * Data Audit
      * - umCreated
@@ -183,10 +175,6 @@ public class Ke {
      *      - XNumber Generation
      *      - Support T and Json
      */
-
-    public static <T, I> void umCreated(final I output, final T input) {
-        KeEnv.audit(output, null, input, null, false);
-    }
 
     public static <T, I> void umCreated(final I output, final T input, final String pojo) {
         KeEnv.audit(output, null, input, pojo, false);
@@ -274,5 +262,11 @@ public class Ke {
     public static Future<JsonObject> umUser(final JsonObject input) {
         final JsonObject config = Ut.valueJObject(input, KName.__.USER);
         return KeUser.umUser(input, config);
+    }
+
+    public interface LOG {
+        String MODULE = "Εισόδημα";
+        LogModule Ke = Log.modulat(MODULE).program("Ke");
+        LogModule Turnel = Log.modulat(MODULE).program("Channel");
     }
 }

@@ -3,11 +3,9 @@ package io.horizon.spi.component;
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
 import io.horizon.eon.em.GlossaryType;
-import io.horizon.spi.component.Dictionary;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.fn.Fn;
@@ -19,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /*
  * Dictionary implementation class
@@ -61,7 +61,7 @@ public class ExAmbientDictionary implements Dictionary {
                 dict.forEach((key, array) -> report
                     .append("\n\tkey = ").append(key)
                     .append(", value size = ").append(array.size()));
-                At.infoFlow(this.getClass(), report.toString());
+                LOG.Flow.info(this.getClass(), report.toString());
                 return Ux.future(dict);
             });
         }

@@ -1,17 +1,19 @@
 package io.vertx.tp.atom.refine;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
 import java.util.Objects;
+
+;
 
 class AoStore {
     private static final String PATH_EXCEL = "runtime/excel/";
@@ -65,9 +67,9 @@ class AoStore {
          */
         final String name;
         if (modeling.endsWith("/")) {
-            name = modeling + filename + Strings.DOT + FileSuffix.JSON;
+            name = modeling + filename + VString.DOT + VPath.SUFFIX.JSON;
         } else {
-            name = modeling + "/" + filename + Strings.DOT + FileSuffix.JSON;
+            name = modeling + "/" + filename + VString.DOT + VPath.SUFFIX.JSON;
         }
         /*
          * Adjustment Processing

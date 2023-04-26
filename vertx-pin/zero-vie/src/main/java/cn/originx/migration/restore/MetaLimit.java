@@ -2,7 +2,6 @@ package cn.originx.migration.restore;
 
 import cn.originx.migration.AbstractStep;
 import cn.originx.migration.modeling.Revision;
-import cn.originx.refine.Ox;
 import cn.vertxup.atom.domain.tables.daos.MAttributeDao;
 import cn.vertxup.atom.domain.tables.daos.MEntityDao;
 import cn.vertxup.atom.domain.tables.daos.MFieldDao;
@@ -22,6 +21,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+
+import static cn.originx.refine.Ox.LOG;
 
 /*
  * 建模限制文件的读取导入，运行在 OxFinisher 之后
@@ -54,7 +55,7 @@ public class MetaLimit extends AbstractStep {
             /* MAttribute 修正 */
             .compose(this::procAttributes)
             .compose(adjust -> {
-                Ox.LOG.infoShell(this.getClass(), "数据修正成功完成！Successfully");
+                LOG.Shell.info(this.getClass(), "数据修正成功完成！Successfully");
                 return Ux.future(config);
             });
     }

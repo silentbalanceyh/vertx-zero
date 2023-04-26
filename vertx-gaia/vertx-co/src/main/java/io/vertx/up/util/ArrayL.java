@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
@@ -35,25 +35,25 @@ final class ArrayL {
             final List<T> filtered = list.stream().filter(fnFilter).toList();
             return Fn.orSemi(filtered.isEmpty(), LOGGER,
                 () -> null,
-                () -> filtered.get(Values.IDX));
+                () -> filtered.get(VValue.IDX));
         }, list, fnFilter);
     }
 
-    static <T, V> List<T> remove(final List<T> list, final T entity, final Function<T, V> keyFn){
-        if(Objects.isNull(entity)){
+    static <T, V> List<T> remove(final List<T> list, final T entity, final Function<T, V> keyFn) {
+        if (Objects.isNull(entity)) {
             return list;
         }
         final V keyAdd = keyFn.apply(entity);
-        if(Objects.isNull(keyAdd)){
+        if (Objects.isNull(keyAdd)) {
             return list;
         }
-        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+        for (int idx = VValue.IDX; idx < list.size(); idx++) {
             final T original = list.get(idx);
-            if(Objects.isNull(original)){
+            if (Objects.isNull(original)) {
                 continue;
             }
             final V keyOld = keyFn.apply(original);
-            if(keyAdd.equals(keyOld)){
+            if (keyAdd.equals(keyOld)) {
                 list.remove(original);
                 break;
             }
@@ -61,29 +61,29 @@ final class ArrayL {
         return list;
     }
 
-    static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn){
-        if(Objects.isNull(entity)){
+    static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn) {
+        if (Objects.isNull(entity)) {
             return list;
         }
         final V keyAdd = keyFn.apply(entity);
-        if(Objects.isNull(keyAdd)){
+        if (Objects.isNull(keyAdd)) {
             return list;
         }
-        int foundIdx = Values.RANGE;
-        for(int idx = Values.IDX; idx < list.size(); idx++ ){
+        int foundIdx = VValue.RANGE;
+        for (int idx = VValue.IDX; idx < list.size(); idx++) {
             final T original = list.get(idx);
-            if(Objects.isNull(original)){
+            if (Objects.isNull(original)) {
                 continue;
             }
             final V keyOld = keyFn.apply(original);
-            if(keyAdd.equals(keyOld)){
+            if (keyAdd.equals(keyOld)) {
                 foundIdx = idx;
                 break;
             }
         }
-        if(Values.RANGE == foundIdx){
+        if (VValue.RANGE == foundIdx) {
             list.add(entity);
-        }else{
+        } else {
             list.set(foundIdx, entity);
         }
         return list;

@@ -1,9 +1,9 @@
 package io.vertx.up.uca.invoker;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
@@ -32,8 +32,8 @@ public class InvokerUtil {
         Object returnValue;
         final Class<?>[] argTypes = method.getParameterTypes();
         final Class<?> returnType = method.getReturnType();
-        if (Values.ONE == method.getParameterCount()) {
-            final Class<?> firstArg = argTypes[Values.IDX];
+        if (VValue.ONE == method.getParameterCount()) {
+            final Class<?> firstArg = argTypes[VValue.IDX];
             if (Envelop.class == firstArg) {
                 // Input type is Envelop, input directly
                 returnValue = InvokerUtil.invoke(proxy, method, envelop);
@@ -89,7 +89,7 @@ public class InvokerUtil {
         final Class<?>[] params = method.getParameterTypes();
         final Annal logger = Annal.get(target);
         // 2. The parameters
-        Fn.outUp(Values.ZERO == params.length,
+        Fn.outUp(VValue.ZERO == params.length,
             logger, WorkerArgumentException.class,
             target, method);
     }
@@ -173,7 +173,7 @@ public class InvokerUtil {
                      * Input is null when type is not match, if type is JsonObject
                      * The result should be json instead of `null`
                      */
-                    if (JsonObject.class == type && Values.IDX == idx) {
+                    if (JsonObject.class == type && VValue.IDX == idx) {
                         /*
                          * Here are often the method as
                          * method(JsonObject, ...) format
@@ -203,7 +203,7 @@ public class InvokerUtil {
     static Object invokeSingle(final Object proxy,
                                final Method method,
                                final Envelop envelop) {
-        final Class<?> argType = method.getParameterTypes()[Values.IDX];
+        final Class<?> argType = method.getParameterTypes()[VValue.IDX];
         // Append single argument
         // Old TypedArgument.analyzeWorker
         final Object analyzed = Ux.toParameter(envelop, argType);
@@ -216,7 +216,7 @@ public class InvokerUtil {
                 final JsonObject json = (JsonObject) reference;
                 if (modeInterface(json)) {
                     // Proxy mode
-                    if (Values.ONE == json.fieldNames().size()) {
+                    if (VValue.ONE == json.fieldNames().size()) {
                         // New Mode for direct type
                         parameters = json.getValue("0");
                     }

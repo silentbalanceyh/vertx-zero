@@ -1,13 +1,12 @@
 package cn.vertxup.ambient.service.file;
 
 import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
+import io.horizon.spi.feature.Arbor;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
-import io.vertx.tp.ambient.refine.At;
-import io.horizon.spi.feature.Arbor;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -18,6 +17,8 @@ import io.vertx.up.util.Ut;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -115,7 +116,7 @@ public class DocBuilder implements DocBStub {
 
         final Arbor arbor = CC_ARBOR.pick(() -> Ut.instance(arborCls), arborCls.getName());
         // Fn.po?lThread(POOL_ARBOR, () -> Ut.instance(arborCls), arborCls.getName());
-        At.infoFile(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
+        LOG.File.info(LOGGER, "Arbor = {0}, Configuration = {1}", arborCls.getName(), configuration.encode());
         return arbor.generate(input, configuration);
     }
 }

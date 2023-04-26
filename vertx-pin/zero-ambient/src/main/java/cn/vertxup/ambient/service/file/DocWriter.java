@@ -2,13 +2,12 @@ package cn.vertxup.ambient.service.file;
 
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
+import io.horizon.spi.business.ExIo;
+import io.horizon.spi.feature.Attachment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.error._400FileNameInValidException;
-import io.horizon.spi.business.ExIo;
-import io.horizon.spi.feature.Attachment;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -21,6 +20,8 @@ import javax.inject.Inject;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -159,7 +160,7 @@ public class DocWriter implements DocWStub {
                 attachmentJ.add(item);
             }
         });
-        At.infoFile(LOGGER, "Split Running: Document = {0}, Directory = {1}", attachmentJ.size(), directoryJ.size());
+        LOG.File.info(LOGGER, "Split Running: Document = {0}, Directory = {1}", attachmentJ.size(), directoryJ.size());
         // XAttachment First
         if (Ut.notNil(directoryJ)) {
             return Ux.future(attachmentJ).compose(fnAttachment)

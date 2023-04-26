@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.experiment.specification.KPair;
 import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.Environment;
 import io.horizon.eon.em.cloud.TypeOs;
@@ -21,8 +22,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
 
@@ -887,7 +886,7 @@ public final class Ut {
     }
 
     public static String ioPathRoot(final String path) {
-        return IOPath.first(path, Strings.SLASH);
+        return IOPath.first(path, VString.SLASH);
     }
 
     public static String ioPathRoot(final String path, final String separator) {
@@ -895,7 +894,7 @@ public final class Ut {
     }
 
     public static String ioPathLeaf(final String path) {
-        return IOPath.last(path, Strings.SLASH);
+        return IOPath.last(path, VString.SLASH);
     }
 
     public static String ioPathLeaf(final String path, final String separator) {
@@ -1260,7 +1259,7 @@ public final class Ut {
 
     // isFileName
     public static boolean isFileName(final String original) {
-        return StringUtil.isMatch(VString.REGEX.FILENAME, original);
+        return StringUtil.isMatch(io.horizon.eon.VString.REGEX.FILENAME, original);
     }
 
     public static boolean isDate(final Object value) {
@@ -1957,7 +1956,7 @@ public final class Ut {
     }
 
     public static Integer valueInt(final JsonObject json, final String field) {
-        return Epsilon.vInt(json, field, Values.RANGE);
+        return Epsilon.vInt(json, field, VValue.RANGE);
     }
 
     public static String valueString(final JsonObject json, final String field, final String defaultValue) {
@@ -2079,7 +2078,7 @@ public final class Ut {
     }
 
     public static String env(final String name) {
-        return Env.readEnv(name, Strings.EMPTY);
+        return Env.readEnv(name, VString.EMPTY);
     }
 
     public static <T> T env(final String name, final Class<T> clazz) {

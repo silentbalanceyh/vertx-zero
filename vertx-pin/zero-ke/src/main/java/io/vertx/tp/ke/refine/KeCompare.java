@@ -1,5 +1,6 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.TypeAtom;
 import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.Future;
@@ -7,7 +8,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 class KeCompare {
 
@@ -62,7 +64,7 @@ class KeCompare {
             final JsonArray updated = compared.comparedU();
 
             final Annal LOGGER = Annal.get(clazz);
-            KeLog.infoKe(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",
+            LOG.Ke.info(LOGGER, "Result of calculated, Insert = {0}, Update = {1}",
                 String.valueOf(inserted.size()),
                 String.valueOf(updated.size()));
 
@@ -163,7 +165,7 @@ class KeCompare {
                          * Only pick first
                          */
                         if (Ut.notNil(columnValue)) {
-                            final JsonObject value = columnValue.getJsonObject(Values.IDX);
+                            final JsonObject value = columnValue.getJsonObject(VValue.IDX);
                             rowChild(item, value, row);
                         } else {
                             // Place holder

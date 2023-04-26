@@ -7,7 +7,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.uca.command.Fs;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 
 import java.util.List;
 import java.util.Objects;
@@ -125,26 +126,12 @@ public class Is {
         return IsFs.document(data, config);
     }
 
-    public static class Log {
+    public interface LOG {
+        String MODULE = "Ολοκλήρωση";
 
-        public static void infoInit(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IsLog.info(logger, "Init", message, args);
-        }
-
-        public static void infoWeb(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IsLog.info(logger, "Web", message, args);
-        }
-
-        public static void infoFile(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IsLog.warn(logger, "File/Directory", message, args);
-        }
-
-        public static void warnPath(final Class<?> clazz, final String message, final Object... args) {
-            final Annal logger = Annal.get(clazz);
-            IsLog.warn(logger, "Path", message, args);
-        }
+        LogModule Init = Log.modulat(MODULE).program("Init");
+        LogModule Web = Log.modulat(MODULE).program("Web");
+        LogModule File = Log.modulat(MODULE).program("File/Directory");
+        LogModule Path = Log.modulat(MODULE).program("Path");
     }
 }

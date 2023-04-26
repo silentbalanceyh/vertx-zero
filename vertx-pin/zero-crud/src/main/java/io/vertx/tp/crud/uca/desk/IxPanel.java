@@ -1,10 +1,10 @@
 package io.vertx.tp.crud.uca.desk;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -203,8 +203,8 @@ public class IxPanel {
         } else {
             return CompositeFuture.join(activeFn.apply(input), standFn.apply(input)).compose(composite -> {
                 final List result = composite.list();
-                final A firstR = (A) result.get(Values.IDX);
-                final S secondR = (S) result.get(Values.ONE);
+                final A firstR = (A) result.get(VValue.IDX);
+                final S secondR = (S) result.get(VValue.ONE);
                 /*
                  * Here the outputFn should not be null
                  */

@@ -2,7 +2,7 @@ package com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
-import io.vertx.up.eon.bridge.Values;
+import io.horizon.eon.VValue;
 
 import java.util.Locale;
 
@@ -35,7 +35,7 @@ public class OriginalNamingStrategy extends PropertyNamingStrategy {
         } else if (methodName.startsWith("is")) {
             fieldName = methodName.substring(2);
         }
-        final String firstLetter = String.valueOf(fieldName.charAt(Values.IDX));
+        final String firstLetter = String.valueOf(fieldName.charAt(VValue.IDX));
         return firstLetter.toLowerCase(Locale.getDefault()) + fieldName.substring(1);
     }
 }

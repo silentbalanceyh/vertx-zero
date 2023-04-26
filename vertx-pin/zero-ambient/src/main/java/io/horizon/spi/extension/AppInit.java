@@ -6,13 +6,14 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.function.Function;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /*
  * Application Initialization
@@ -23,7 +24,7 @@ public class AppInit implements Init {
     @Override
     public Function<JsonObject, Future<JsonObject>> apply() {
         return appJson -> {
-            At.infoApp(LOGGER, AtMsg.INIT_APP, appJson.encode());
+            LOG.App.info(LOGGER, AtMsg.INIT_APP, appJson.encode());
             /* Deserialization */
             final XApp app = this.init(appJson);
             return Ux.Jooq.on(XAppDao.class)

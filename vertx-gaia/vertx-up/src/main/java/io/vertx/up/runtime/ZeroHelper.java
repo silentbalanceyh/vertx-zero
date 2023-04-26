@@ -1,8 +1,8 @@
 package io.vertx.up.runtime;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.annotations.Agent;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -61,7 +61,7 @@ public class ZeroHelper {
                     .collect(Collectors.toSet()));
             // == 0 means undefined
             // == 1 means correct defined
-            defined.put(server, Values.ONE == size);
+            defined.put(server, VValue.ONE == size);
         }
         return defined;
     }

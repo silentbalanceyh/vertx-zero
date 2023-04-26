@@ -1,6 +1,7 @@
 package io.vertx.up.secure.validation;
 
 import io.aeon.runtime.H2H;
+import io.horizon.eon.VString;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -8,7 +9,6 @@ import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
 import io.vertx.up.util.Ut;
@@ -133,9 +133,9 @@ public class Validator {
 
     private String buildKey(final Event event) {
         String prefix = event.getPath().trim().substring(1);
-        prefix = prefix.replace(Strings.SLASH, Strings.DOT);
-        prefix = prefix.replace(Strings.COLON, Strings.DOLLAR);
+        prefix = prefix.replace(VString.SLASH, VString.DOT);
+        prefix = prefix.replace(VString.COLON, VString.DOLLAR);
         final String suffix = event.getMethod().name().toLowerCase(Locale.getDefault());
-        return prefix + Strings.DOT + suffix;
+        return prefix + VString.DOT + suffix;
     }
 }

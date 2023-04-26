@@ -1,11 +1,11 @@
 package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -41,7 +41,7 @@ public abstract class AbstractBind<T> implements IdcBinder<T> {
             Ut.itJArray(inputData).forEach(user -> {
                 final String literal = user.getString(field);
                 if (Ut.notNil(literal)) {
-                    final Set<String> validSet = Arrays.stream(literal.split(Strings.COMMA))
+                    final Set<String> validSet = Arrays.stream(literal.split(VString.COMMA))
                         .map(String::trim)
                         .filter(Ut::notNil)
                         .filter(vector::containsKey)

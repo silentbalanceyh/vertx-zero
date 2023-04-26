@@ -3,13 +3,14 @@ package io.vertx.tp.crud.uca.desk;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.em.ApiSpec;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
 
 /**
  * Here are the new data structure for input data
@@ -103,7 +104,7 @@ public class IxWeb {
                 this.standBy = this.active.connecting(module);
             }
         }
-        Ix.Log.web(this.getClass(), LOGGER_MOD,
+        LOG.Web.info(this.getClass(), LOGGER_MOD,
             this.active.module().identifier(),
             Objects.nonNull(this.standBy) ? this.standBy.module().identifier() : null,
             this.apiSpecification, this.view.view() + ":" + this.view.position());

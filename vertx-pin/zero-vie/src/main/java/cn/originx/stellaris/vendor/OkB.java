@@ -2,6 +2,7 @@ package cn.originx.stellaris.vendor;
 
 import cn.originx.stellaris.OkA;
 import cn.originx.stellaris.OkX;
+import io.horizon.eon.VString;
 import io.horizon.specification.zero.object.TCopy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +10,6 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 
 /**
@@ -144,7 +144,7 @@ public interface OkB extends OkX, TCopy<OkB> {
      * @return `{@link Future}<{@link DFabric}>`
      */
     default Future<DFabric> fabric() {
-        return this.fabric(Strings.EMPTY);
+        return this.fabric(VString.EMPTY);
     }
 
     /**

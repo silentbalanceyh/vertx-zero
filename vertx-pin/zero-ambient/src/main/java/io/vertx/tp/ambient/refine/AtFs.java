@@ -1,13 +1,13 @@
 package io.vertx.tp.ambient.refine;
 
 import io.horizon.cloud.app.HFS;
+import io.horizon.spi.business.ExIo;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
-import io.horizon.spi.business.ExIo;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * The directory data structure should be as following
@@ -101,7 +103,7 @@ class AtFs {
                 final Set<String> files = new HashSet<>();
                 Ut.itJArray(local).forEach(each -> files.add(each.getString(KName.Attachment.FILE_PATH)));
                 HFS.common().rm(files);
-                At.infoFile(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
+                LOG.File.info(LOGGER, "Deleted Local files: {0}", String.valueOf(files.size()));
                 return Ux.future(local);
             }, remote -> splitRun(remote, (directoryId, fileMap) -> Ux.channel(ExIo.class, () -> remote,
 
@@ -143,7 +145,7 @@ class AtFs {
                 dataR.add(item);
             }
         });
-        At.infoFile(LOGGER, "Split Running: Local = {0}, Remote = {1}", dataL.size(), dataR.size());
+        LOG.File.info(LOGGER, "Split Running: Local = {0}, Remote = {1}", dataL.size(), dataR.size());
         final List<Future<JsonArray>> futures = new ArrayList<>();
         if (Ut.notNil(dataL)) {
             futures.add(fnLocal.apply(dataL));

@@ -5,7 +5,6 @@ import io.horizon.eon.em.CompressLevel;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.config.HugeFile;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 
 import java.io.File;
@@ -66,7 +65,7 @@ final class Out {
     }
 
     static void writeCompress(final String path, final String data) {
-        final byte[] dataBytes = data.getBytes(VValue.DFT.CHARSET);
+        final byte[] dataBytes = data.getBytes(io.horizon.eon.VValue.DFT.CHARSET);
         final byte[] output = Compressor.compress(dataBytes, CompressLevel.BEST_COMPRESSION);
         Fn.safeJvm(() -> {
             final FileOutputStream fos = new FileOutputStream(path);
@@ -81,7 +80,7 @@ final class Out {
     static void writeBig(final String filename, final OutputStream output) {
         final HugeFile file = new HugeFile(filename);
         Fn.safeJvm(() -> {
-            while (file.read() != Values.RANGE) {
+            while (file.read() != VValue.RANGE) {
                 final byte[] bytes = file.getCurrentBytes();
                 output.write(bytes);
                 output.flush();

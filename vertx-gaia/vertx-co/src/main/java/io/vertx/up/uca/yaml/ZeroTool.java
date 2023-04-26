@@ -1,9 +1,8 @@
 package io.vertx.up.uca.yaml;
 
 import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
@@ -17,21 +16,21 @@ public class ZeroTool {
 
     public static String nameZero(final String key) {
         return Objects.isNull(key) ?
-            "vertx" + Strings.DOT + FileSuffix.YML :
-            "vertx" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
+            "vertx" + VString.DOT + VPath.SUFFIX.YML :
+            "vertx" + VString.DASH + key + VString.DOT + VPath.SUFFIX.YML;
     }
 
     public static String nameAeon(final String key, final boolean galaxy) {
         if (galaxy) {
             return Objects.isNull(key) ?
                 // Fix Issue: aeon/xxx -> aeon/contained/xxx
-                "zapp" + Strings.DOT + FileSuffix.YML :
-                "zapp" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
+                "zapp" + VString.DOT + VPath.SUFFIX.YML :
+                "zapp" + VString.DASH + key + VString.DOT + VPath.SUFFIX.YML;
         } else {
             return Objects.isNull(key) ?
                 // Fix Issue: aeon/xxx -> aeon/contained/xxx
-                "zcloud" + Strings.DOT + FileSuffix.YML :
-                "zcloud" + Strings.DASH + key + Strings.DOT + FileSuffix.YML;
+                "zcloud" + VString.DOT + VPath.SUFFIX.YML :
+                "zcloud" + VString.DASH + key + VString.DOT + VPath.SUFFIX.YML;
         }
     }
 
@@ -47,7 +46,7 @@ public class ZeroTool {
             ZeroTool::nameZero,
             // vertx-co
             // resources/up/config/vertx-xxx
-            extension ? name -> VPath.SERVER.INTERNAL_FILE + ZeroTool.nameZero(name) : null);
+            extension ? name -> io.horizon.eon.VPath.SERVER.INTERNAL_FILE + ZeroTool.nameZero(name) : null);
     }
 
     /*
@@ -60,7 +59,7 @@ public class ZeroTool {
             // resources/aeon/zapp-xxx, zcloud-xxx
             name -> "aeon/" + nameAeon(name, galaxy),
             // resources/aeon/contained/zapp-xxx, zcloud-xxx
-            name -> VPath.SERVER.INTERNAL_AEON + nameAeon(name, galaxy));
+            name -> io.horizon.eon.VPath.SERVER.INTERNAL_AEON + nameAeon(name, galaxy));
     }
 
     private static JsonObject read(final String fileSuffix,

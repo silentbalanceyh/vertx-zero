@@ -7,7 +7,6 @@ import cn.vertxup.ambient.domain.tables.pojos.XSource;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
-import io.vertx.tp.ambient.refine.At;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.log.Annal;
@@ -18,6 +17,8 @@ import org.jooq.Configuration;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 class UnityAsker {
 
@@ -38,7 +39,7 @@ class UnityAsker {
         final Configuration configuration = Ke.getConfiguration();
         final XAppDao appDao = new XAppDao(configuration, vertx);
         return appDao.findAll().compose(applications -> {
-            At.infoApp(LOGGER, AtMsg.UNITY_APP, applications.size());
+            LOG.App.info(LOGGER, AtMsg.UNITY_APP, applications.size());
             /* Data, use application key as key here. */
             APP_POOL.putAll(Ut.elementZip(applications, XApp::getKey, app -> app));
             return Future.succeededFuture(Boolean.TRUE);
@@ -47,7 +48,7 @@ class UnityAsker {
             return sourceDao.findAll();
         }).compose(sources -> {
             /* All data source here */
-            At.infoApp(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
+            LOG.App.info(LOGGER, AtMsg.UNITY_SOURCE, sources.size());
             /* Data, use application key as key here. */
             SOURCE_POOL.putAll(Ut.elementZip(sources, XSource::getAppId, source -> source));
             return Future.succeededFuture(Boolean.TRUE);
@@ -61,16 +62,17 @@ class UnityAsker {
             .compose(app -> {
                 Objects.requireNonNull(app);
                 refer.add(app.getName());
-                At.infoApp(LOGGER, AtMsg.SYNC_UNITY_APP, refer.get());
+                LOG.App.info(LOGGER, AtMsg.SYNC_UNITY_APP, refer.get());
                 APP_POOL.put(appId, app);
                 return Ux.future(app);
             })
             .compose(app -> Ux.Jooq.on(XSourceDao.class).<XSource>fetchByIdAsync(app.getKey()))
             .compose(source -> {
-                if(Objects.nonNull(source)){
-                    At.infoApp(LOGGER, AtMsg.SYNC_UNITY_SOURCE, refer.get());
+                if (Objects.nonNull(source)) {
+                    LOG.App.info(LOGGER, AtMsg.SYNC_UNITY_SOURCE, refer.get());
                     SOURCE_POOL.put(appId, source);
-                };
+                }
+                ;
                 return Ux.futureT();
             });
     }

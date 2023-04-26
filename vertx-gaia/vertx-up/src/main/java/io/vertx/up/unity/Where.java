@@ -1,9 +1,9 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.time.Instant;
@@ -30,18 +30,18 @@ class Where {
             final JsonObject condition = new JsonObject();
             condition.put(field + ",<", Ut.parse(end).toInstant());
             condition.put(field + ",>", Ut.parse(begin).toInstant());
-            condition.put(Strings.EMPTY, Boolean.TRUE);
+            condition.put(VString.EMPTY, Boolean.TRUE);
             filters.put("$" + field, condition);
         }
         return filters;
     }
 
     static JsonObject whereAnd() {
-        return new JsonObject().put(Strings.EMPTY, Boolean.TRUE);
+        return new JsonObject().put(VString.EMPTY, Boolean.TRUE);
     }
 
     static JsonObject whereOr() {
-        return new JsonObject().put(Strings.EMPTY, Boolean.FALSE);
+        return new JsonObject().put(VString.EMPTY, Boolean.FALSE);
     }
 
     static JsonObject whereKeys(final JsonArray keys) {

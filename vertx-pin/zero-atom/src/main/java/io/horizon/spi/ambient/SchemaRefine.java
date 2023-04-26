@@ -6,6 +6,7 @@ import cn.vertxup.atom.domain.tables.daos.MKeyDao;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -17,7 +18,6 @@ import io.vertx.tp.modular.jdbc.Pin;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -75,7 +75,7 @@ class SchemaRefine implements AoRefine {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAME, name);
         filters.put(KName.ENTITY_ID, entity.getKey());
-        filters.put(Strings.EMPTY, Boolean.TRUE);
+        filters.put(VString.EMPTY, Boolean.TRUE);
         return filters;
     }
 
@@ -92,7 +92,7 @@ class SchemaRefine implements AoRefine {
         final JsonObject filters = new JsonObject();
         filters.put(KName.NAMESPACE, entity.getNamespace());
         filters.put(KName.IDENTIFIER, entity.getIdentifier());
-        filters.put(Strings.EMPTY, Boolean.TRUE);
+        filters.put(VString.EMPTY, Boolean.TRUE);
         return filters;
     }
 

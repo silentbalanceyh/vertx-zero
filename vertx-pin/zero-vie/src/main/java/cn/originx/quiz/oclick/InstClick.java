@@ -2,12 +2,13 @@ package cn.originx.quiz.oclick;
 
 import cn.originx.quiz.develop.DevModeller;
 import cn.originx.quiz.develop.DevSite;
+import io.horizon.eon.VString;
 import io.horizon.eon.em.Environment;
 import io.vertx.tp.ke.booter.Bt;
-import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._400BadRequestException;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.ke.refine.Ke.LOG;
 
 public class InstClick {
     private final transient Class<?> target;
@@ -39,8 +40,8 @@ public class InstClick {
          *  如果此处使用开发路径会出现无法导入数据情况
          */
         final String path = Ut.ioPath(inputPath, Environment.Production);
-        Ke.infoKe(this.target, "加载路径：{0}, 开启OOB：{1}", inputPath, isOob);
-        Bt.init(path, Strings.EMPTY, isOob);
+        LOG.Ke.info(this.target, "加载路径：{0}, 开启OOB：{1}", inputPath, isOob);
+        Bt.init(path, VString.EMPTY, isOob);
     }
 
     public void runAtom(final String[] args) {
@@ -54,9 +55,9 @@ public class InstClick {
         final String modDir = path + "/app@runtime/@atom/" + module;
         final DevModeller modeller = DevModeller.instance(modDir, modDir);
         modeller.preprocess(() -> {
-            Ke.infoKe(this.target, "「Pre」建模预处理完成！");
+            LOG.Ke.info(this.target, "「Pre」建模预处理完成！");
             modeller.initialize(() -> {
-                Ke.infoKe(this.target, "「Init」模型初始化完成！");
+                LOG.Ke.info(this.target, "「Init」模型初始化完成！");
                 System.exit(0);
             });
         });
@@ -72,7 +73,7 @@ public class InstClick {
         final String path = Ut.ioPath(inputPath, Environment.Production);
         DevSite.planOn(path).onComplete(res -> {
             if (res.result()) {
-                Ke.infoKe(this.target, "「Menu」菜单规划完成！");
+                LOG.Ke.info(this.target, "「Menu」菜单规划完成！");
                 System.exit(0);
             } else {
                 res.cause().printStackTrace();

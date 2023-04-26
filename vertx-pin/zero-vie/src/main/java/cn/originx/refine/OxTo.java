@@ -2,12 +2,12 @@ package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
 import io.horizon.specification.modeler.HDao;
+import io.horizon.spi.environment.Ambient;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.jet.atom.JtApp;
-import io.horizon.spi.environment.Ambient;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
@@ -15,6 +15,8 @@ import io.vertx.up.util.Ut;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * ## 数据工具
@@ -40,7 +42,7 @@ final class OxTo {
     static DataAtom toAtom(final String key, final String identifier) {
         final JtApp app = Ambient.getApp(key);
         if (Objects.isNull(app)) {
-            Ox.LOG.warnUca(OxTo.class, "应用为空！key = {0}, identifier = {1}", key, identifier);
+            LOG.Uca.warn(OxTo.class, "应用为空！key = {0}, identifier = {1}", key, identifier);
             return null;
         } else {
             final String appName = app.getName();
@@ -82,7 +84,7 @@ final class OxTo {
                 globalIds.add(item.getString(KName.GLOBAL_ID));
                 return item;
             } else {
-                Ox.LOG.warnUca(OxTo.class, "忽略记录：key = {0}, id = {1}, data = {2}",
+                LOG.Uca.warn(OxTo.class, "忽略记录：key = {0}, id = {1}, data = {2}",
                     item.getString(KName.KEY), item.getString(KName.GLOBAL_ID), item.encode());
                 return null;
             }

@@ -1,13 +1,12 @@
 package cn.originx.uca.plugin.indent;
 
 import cn.originx.cv.OxCv;
-import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import cn.vertxup.ambient.domain.tables.pojos.XCategory;
+import io.horizon.spi.environment.Identifier;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.environment.Identifier;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -16,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -27,13 +28,13 @@ public class KeyIndent implements Identifier {
         final JsonObject data = Ut.valueJObject(input.getJsonObject(KName.DATA));
         final String hitKey = this.key(data, config);
         if (Ut.isNil(data) || Ut.isNil(hitKey)) {
-            Ox.LOG.warnPlugin(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",
+            LOG.Plugin.warn(this.getClass(), "未读取到标识信息：{0}, 配置：{1}",
                 data.encode(), config.encode());
             return Ux.future(null);
         } else {
             return Ux.Jooq.on(XCategoryDao.class).<XCategory>fetchByIdAsync(hitKey).compose(category -> {
                 final String identifier = this.identifier(category);
-                Ox.LOG.infoPlugin(this.getClass(), "标识选择：key = `{0}`, identifier = `{1}`, data = `{2}`",
+                LOG.Plugin.info(this.getClass(), "标识选择：key = `{0}`, identifier = `{1}`, data = `{2}`",
                     hitKey, identifier, data.encode());
                 return Ux.future(identifier);
             });
@@ -46,7 +47,7 @@ public class KeyIndent implements Identifier {
         if (Ut.isNil(dataArray)) {
             return Ux.future(new ConcurrentHashMap<>());
         } else {
-            Ox.LOG.infoPlugin(this.getClass(), "标识选择输入数据（批量）：data = `{0}`", dataArray.encode());
+            LOG.Plugin.info(this.getClass(), "标识选择输入数据（批量）：data = `{0}`", dataArray.encode());
             final ConcurrentMap<String, JsonArray> sourceMap = Ut.elementGroup(dataArray, (json) -> this.key(json, config));
             // `key` field collect into array
             final JsonArray values = Ut.toJArray(sourceMap.keySet());

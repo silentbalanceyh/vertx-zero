@@ -2,12 +2,12 @@ package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
 import cn.originx.cv.em.TypeLog;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -205,9 +205,9 @@ final class OxConfig {
      */
     static String toMessage(final TypeLog log) {
         if (Objects.isNull(log)) {
-            return Strings.EMPTY;
+            return VString.EMPTY;
         } else {
-            return MESSAGE.getOrDefault(log, Strings.EMPTY);
+            return MESSAGE.getOrDefault(log, VString.EMPTY);
         }
     }
 }

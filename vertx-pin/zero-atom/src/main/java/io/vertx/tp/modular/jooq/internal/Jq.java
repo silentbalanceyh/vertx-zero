@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.jooq.internal;
 
+import io.horizon.eon.VValue;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import org.jooq.Record;
 import org.jooq.*;
@@ -39,7 +39,7 @@ public class Jq {
         if (Objects.isNull(result) || result.isEmpty()) {
             return null;
         } else {
-            return result.get(Values.IDX);
+            return result.get(VValue.IDX);
         }
     }
 
@@ -53,7 +53,7 @@ public class Jq {
         if (Objects.isNull(result) || result.isEmpty()) {
             return 0L;
         } else {
-            final Record record = result.get(Values.IDX);
+            final Record record = result.get(VValue.IDX);
             if (Objects.isNull(record)) {
                 return 0L;
             } else {

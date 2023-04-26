@@ -1,7 +1,7 @@
 package io.aeon.experiment.specification.sch;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.info.VMessage;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -29,7 +29,7 @@ public class KTimer implements Serializable {
      */
     private TimeUnit durationUnit = TimeUnit.SECONDS;
     /* Default value should be 5 min, here the threshold means seconds */
-    private long duration = Values.RANGE;
+    private long duration = VValue.RANGE;
     private KTimerFormula formula;
 
     public KTimer(final String unique) {
@@ -86,7 +86,7 @@ public class KTimer implements Serializable {
 
     public long waitDuration() {
         // Default 5 mins
-        if (Values.RANGE == this.duration) {
+        if (VValue.RANGE == this.duration) {
             return TimeUnit.MINUTES.toMillis(5);
         } else {
             return this.duration;

@@ -3,11 +3,11 @@ package io.aeon.experiment.specification.app;
 import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.runtime.H3H;
+import io.horizon.eon.VValue;
 import io.horizon.spi.cloud.HET;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -143,7 +143,7 @@ public final class HES {
     public static KApp connect() {
         final Set<KApp> appSet = new HashSet<>(H3H.CC_APP.store().values());
         KApp env = null;
-        if (Values.ONE == appSet.size()) {
+        if (VValue.ONE == appSet.size()) {
             env = appSet.iterator().next();
         }
         return env;

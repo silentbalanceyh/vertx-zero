@@ -10,13 +10,15 @@ import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.up.uca.jooq.UxJooq;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 class AgonicFetch implements Agonic {
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
-        Ix.Log.filters(this.getClass(), "( All ) Condition: {0}", input);
+        LOG.Filter.info(this.getClass(), "( All ) Condition: {0}", input);
         if (in.canJoin()) {
             return Ix.fetchFn(in).apply(input);
         } else {

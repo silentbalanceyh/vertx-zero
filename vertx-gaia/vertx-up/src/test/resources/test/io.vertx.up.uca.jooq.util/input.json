@@ -1,0 +1,419 @@
+{
+    "criteria": {
+        "": false,
+        "$0": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$1": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$2": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$3": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$4": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$5": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$6": {
+            "rltPricecat": "1b48d2ca-5826-4b64-bd1e-21dc1e39b855",
+            "rRoomTypeId": "6aff136e-d37e-4ea5-8917-586b7333e63b",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$7": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$8": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$9": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$10": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$11": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$12": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$13": {
+            "rltPricecat": "1b48d2ca-5826-4b64-bd1e-21dc1e39b855",
+            "rRoomTypeId": "f64acc73-37ec-440a-ad93-e5830ed23308",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$14": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$15": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$16": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$17": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$18": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$19": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "0f926584-f92a-44c0-a7cc-7450e0e7f737",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$20": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$21": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$22": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$23": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$24": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$25": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "229a48f9-4116-4b2d-b08e-c789095ab8e6",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$26": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$27": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$28": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$29": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$30": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$31": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "c165692b-8420-41c8-86a1-4a6463a2e474",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$32": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$33": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$34": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$35": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$36": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$37": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "e4a88f54-2281-4ae4-8af7-3208d1c46b3f",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$38": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$39": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$40": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$41": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$42": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$43": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$44": {
+            "rltPricecat": "1b48d2ca-5826-4b64-bd1e-21dc1e39b855",
+            "rRoomTypeId": "b9a90806-8c32-4003-b655-bad0f4f25ec9",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$45": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$46": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$47": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$48": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$49": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$50": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "22bcbb10-3b93-4828-9efc-febc41d7e7ec",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$51": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$52": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$53": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$54": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$55": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$56": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "23678080-c9f4-4130-88f3-ad12ea5d0280",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$57": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$58": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$59": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$60": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$61": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$62": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "e4877dc4-03e9-4ddb-ac7a-020fbffc1f32",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$63": {
+            "rltPricecat": "3b2ffac4-fc76-41d3-935d-ab43fde86061",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$64": {
+            "rltPricecat": "1c54b428-1b58-4a71-ab77-fc1e262acc35",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$65": {
+            "rltPricecat": "dcfb3892-ead7-4cc9-9a1c-18f5a9625ca1",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$66": {
+            "rltPricecat": "5fd56c77-ead4-4899-aa8b-f54ec622588b",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$67": {
+            "rltPricecat": "936052be-7d46-41e8-a0dc-69b2db2fbe30",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        },
+        "$68": {
+            "rltPricecat": "70b7c755-1ff5-47eb-bad2-94b98b7be714",
+            "rRoomTypeId": "96bc9581-3ed7-440b-859c-fbd5c1cd77df",
+            "zSigma": "ENhwBAJPZuSgIAE5EDakR6yrIQbOoOPq",
+            "": true
+        }
+    }
+}

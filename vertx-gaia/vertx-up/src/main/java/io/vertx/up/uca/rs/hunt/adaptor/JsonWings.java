@@ -1,9 +1,9 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
+import io.horizon.eon.VString;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Strings;
 
 import java.util.Objects;
 
@@ -21,7 +21,7 @@ public class JsonWings extends AbstractWings {
                  */
                 response.setStatusCode(HttpStatusCode.NO_CONTENT.code());
                 response.setStatusMessage(HttpStatusCode.NO_CONTENT.message());
-                response.end(Strings.EMPTY);
+                response.end(VString.EMPTY);
             } else {
                 /*
                  * Freedom successful

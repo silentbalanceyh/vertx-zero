@@ -1,6 +1,5 @@
 package cn.originx.scaffold.stdn;
 
-import cn.originx.refine.Ox;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -21,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Set;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * ## 导入专用顶层通道
@@ -69,7 +70,7 @@ public abstract class AbstractHFile extends AbstractHMore {
                  */
                 final long counter = tables.stream().filter(table -> !table.getName().equals(identifier)).count();
                 if (0 < counter) {
-                    Ox.LOG.warnUca(this.getClass(), "文件规范错误，期望 identifier = {0}", identifier);
+                    LOG.Uca.warn(this.getClass(), "文件规范错误，期望 identifier = {0}", identifier);
                     return Future.failedFuture(new _409IdentifierConflictException(this.getClass(), identifier));
                 } else {
                     final JsonArray data = new JsonArray();

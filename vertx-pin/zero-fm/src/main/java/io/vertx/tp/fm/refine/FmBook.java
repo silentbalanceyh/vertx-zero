@@ -2,11 +2,11 @@ package io.vertx.tp.fm.refine;
 
 import cn.vertxup.fm.domain.tables.pojos.FBook;
 import io.aeon.experiment.specification.KNaming;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.fm.cv.FmCv;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.math.BigDecimal;
@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static io.vertx.tp.fm.refine.Fm.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -27,7 +29,7 @@ class FmBook {
         final FBook found = books.stream().filter(FBook::getMajor).findFirst().orElse(null);
         if (Objects.isNull(found)) {
             // The major book does not exist
-            Fm.Log.warnBook(FmBook.class, "Book major could not be found, check workflow! ");
+            LOG.Book.warn(FmBook.class, "Book major could not be found, check workflow! ");
             return new ArrayList<>();
         } else {
             // Sub Book Building
@@ -119,7 +121,7 @@ class FmBook {
          * https://github.com/silentbalanceyh/hotel/issues/320
          * Here missed the condition of book fetching
          */
-        condition.put(Strings.EMPTY, Boolean.TRUE);
+        condition.put(VString.EMPTY, Boolean.TRUE);
         return condition;
     }
 }

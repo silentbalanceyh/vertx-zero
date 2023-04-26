@@ -3,10 +3,10 @@ package io.aeon.experiment.shape;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.util.Ut;
@@ -65,7 +65,7 @@ public abstract class AbstractHAtom implements HAtom {
 
     @Override
     public String atomKey(final JsonObject options) {
-        final String hashCode = Ut.isNil(options) ? Strings.EMPTY : String.valueOf(options.hashCode());
+        final String hashCode = Ut.isNil(options) ? VString.EMPTY : String.valueOf(options.hashCode());
         return this.metadata.identifier() + "-" + hashCode;
     }
 
@@ -88,7 +88,7 @@ public abstract class AbstractHAtom implements HAtom {
 
     @Override
     public String alias(final String name) {
-        return this.metadata.alias().getOrDefault(name, Strings.EMPTY);
+        return this.metadata.alias().getOrDefault(name, VString.EMPTY);
     }
 
     @Override

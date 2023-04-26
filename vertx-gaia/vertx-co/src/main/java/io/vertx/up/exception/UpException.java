@@ -1,7 +1,7 @@
 package io.vertx.up.exception;
 
+import io.horizon.eon.VString;
 import io.horizon.exception.ZeroRunException;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Errors;
 
 /**
@@ -12,7 +12,7 @@ public abstract class UpException extends ZeroRunException {
     private final Class<?> target;
 
     public UpException(final Class<?> clazz, final Object... args) {
-        super(Strings.EMPTY);
+        super(VString.EMPTY);
         this.target = clazz;
         this.message = Errors.normalize(clazz, this.getCode(), args);
     }

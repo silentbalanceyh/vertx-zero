@@ -1,9 +1,9 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -301,7 +301,7 @@ abstract class AbstractAggregator extends AbstractAction {
          * Single aggregation here
          */
         if (1 == fetched.size()) {
-            final Map<String, Object> result = fetched.get(Values.IDX);
+            final Map<String, Object> result = fetched.get(VValue.IDX);
             /*
              * Get object result here
              */

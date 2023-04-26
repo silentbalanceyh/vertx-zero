@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.excel.atom;
 
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -7,7 +8,6 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.unity.UTenant;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -117,7 +117,7 @@ public class ExTenant implements Serializable {
                 return Ux.future(tableSet);
             }).compose(tableSet -> {
                 // Data, Criteria Function
-                final String condition = 5 < segments.length ? segments[5] : Strings.EMPTY;
+                final String condition = 5 < segments.length ? segments[5] : VString.EMPTY;
                 final String[] kv = condition.split("=");
                 final Predicate<JsonObject> condFn;
                 if (2 == kv.length && Objects.nonNull(kv[0])) {

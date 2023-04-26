@@ -8,21 +8,21 @@ import java.util.function.Function;
 /**
  * @author lang : 2023/4/25
  */
-public class LogExtension {
-    private static final Cc<String, LogExtension> CC_LOG_EXTENSION = Cc.openThread();
+public class LogModule {
+    private static final Cc<String, LogModule> CC_LOG_EXTENSION = Cc.openThread();
     private final String module;
     private String type;
     private Function<String, String> colorFn;
 
-    LogExtension(final String module) {
+    LogModule(final String module) {
         this.module = module;
     }
 
-    public static LogExtension instance(final String module) {
-        return CC_LOG_EXTENSION.pick(() -> new LogExtension(module), module);
+    public static LogModule instance(final String module) {
+        return CC_LOG_EXTENSION.pick(() -> new LogModule(module), module);
     }
 
-    public LogExtension bind(final Function<String, String> colorFn) {
+    public LogModule bind(final Function<String, String> colorFn) {
         this.colorFn = colorFn;
         return this;
     }
@@ -31,7 +31,7 @@ public class LogExtension {
      * DEFAULT ->
      * type -> module / type
      */
-    public LogExtension bind(final String type) {
+    public LogModule bind(final String type) {
         synchronized (this) {
             this.type = type;
         }
@@ -57,6 +57,11 @@ public class LogExtension {
 
     public void error(final Class<?> clazz, final String pattern, final Object... args) {
         Annal.get(clazz).error(this.format(pattern), args);
+    }
+
+    public void info(final Annal logger, final String pattern, final Object... args) {
+        final Annal annal = Log.logger(logger);
+        annal.info(this.format(pattern), args);
     }
 
     public void debug(final Annal logger, final String pattern, final Object... args) {

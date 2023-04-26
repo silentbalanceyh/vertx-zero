@@ -1,8 +1,9 @@
 package cn.originx.uca.console;
 
-import cn.originx.refine.Ox;
 import cn.originx.scaffold.console.AbstractInstruction;
 import cn.originx.stellaris.Ok;
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -12,13 +13,13 @@ import io.vertx.tp.modular.file.AoFile;
 import io.vertx.tp.modular.file.ExcelReader;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * （专用建模工具）
@@ -55,7 +56,7 @@ public class JsonInstruction extends AbstractInstruction {
         models.forEach(model -> {
             final JsonObject modelJson = model.toJson();
             final String resolved = this.outPath(outPath + "model", model.identifier());
-            Ox.LOG.infoHub(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
+            LOG.Hub.info(this.logger(), "写入模型（Model）：{0} -> {1}", model.identifier(), resolved);
             Ut.ioOut(resolved, modelJson);
 
             schemata.addAll(model.schema());
@@ -66,7 +67,7 @@ public class JsonInstruction extends AbstractInstruction {
         schemata.forEach(schema -> {
             final JsonObject schemaJson = schema.toJson();
             final String resolved = this.outPath(outPath + "schema", schema.identifier());
-            Ox.LOG.infoHub(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
+            LOG.Hub.info(this.logger(), "写入实体（Schema）：{0} -> {1}", schema.identifier(), resolved);
             Ut.ioOut(resolved, schemaJson);
         });
         return Ux.future(TermStatus.SUCCESS);
@@ -74,6 +75,6 @@ public class JsonInstruction extends AbstractInstruction {
 
     private String outPath(final String folder, final String identifier) {
         final String absolutePath = this.inFolder(this.path(folder));
-        return absolutePath + "/" + identifier + Strings.DOT + FileSuffix.JSON;
+        return absolutePath + "/" + identifier + VString.DOT + VPath.SUFFIX.JSON;
     }
 }

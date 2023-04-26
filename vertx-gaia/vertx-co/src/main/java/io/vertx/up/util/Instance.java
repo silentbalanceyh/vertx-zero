@@ -1,8 +1,8 @@
 package io.vertx.up.util;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.heart.OperationException;
@@ -109,7 +109,7 @@ final class Instance {
         if (Ut.isNil(extensionKey)) {
             return (T) CC_SINGLETON.pick(supplier::get, clazz.getName());
         } else {
-            return (T) CC_SINGLETON.pick(supplier::get, clazz.getName() + Strings.SLASH + extensionKey);
+            return (T) CC_SINGLETON.pick(supplier::get, clazz.getName() + VString.SLASH + extensionKey);
         }
     }
 
@@ -259,13 +259,13 @@ final class Instance {
                 .toList();
             final int size = filtered.size();
             // Non-Unique throw error out.
-            if (Values.ONE < size) {
+            if (VValue.ONE < size) {
                 final UpException error = new DuplicatedImplException(Instance.class, interfaceCls);
                 LOGGER.error("[T] Error occurs {}", error.getMessage());
                 throw error;
             }
             // Null means direct interface only.
-            return Values.ONE == size ? filtered.get(Values.IDX) : null;
+            return VValue.ONE == size ? filtered.get(VValue.IDX) : null;
         }, interfaceCls);
     }
 

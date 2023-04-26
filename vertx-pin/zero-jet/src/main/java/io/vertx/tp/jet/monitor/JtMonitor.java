@@ -4,10 +4,11 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.cv.JtMsg;
-import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
+
+import static io.vertx.tp.jet.refine.Jt.LOG;
 
 /*
  * The monitor of workflow here.
@@ -52,30 +53,30 @@ public class JtMonitor {
     }
 
     public void receiveData(final String identifier, final JtUri uri) {
-        Jt.infoWeb(this.logger, JtMsg.CONSUME_MESSAGE, identifier, uri.method(), uri.path());
-        Jt.infoWeb(this.logger, JtMsg.CONSUME_API, ((JsonObject) Ut.serializeJson(uri.api())).encode());
-        Jt.infoWeb(this.logger, JtMsg.CONSUME_SERVICE, ((JsonObject) Ut.serializeJson(uri.service())).encode());
-        Jt.infoWeb(this.logger, JtMsg.CONSUME_WORKER, ((JsonObject) Ut.serializeJson(uri.worker())).encode());
+        LOG.Web.info(this.logger, JtMsg.CONSUME_MESSAGE, identifier, uri.method(), uri.path());
+        LOG.Web.info(this.logger, JtMsg.CONSUME_API, ((JsonObject) Ut.serializeJson(uri.api())).encode());
+        LOG.Web.info(this.logger, JtMsg.CONSUME_SERVICE, ((JsonObject) Ut.serializeJson(uri.service())).encode());
+        LOG.Web.info(this.logger, JtMsg.CONSUME_WORKER, ((JsonObject) Ut.serializeJson(uri.worker())).encode());
     }
 
     // ---------------- Ingest
 
     // ---------------- Aim
     public void aimEngine(final HttpMethod method, final String path, final JsonObject data) {
-        Jt.infoWeb(this.logger, JtMsg.WEB_ENGINE, method, path, data.encode());
+        LOG.Web.info(this.logger, JtMsg.WEB_ENGINE, method, path, data.encode());
     }
 
     public void aimSend(final JsonObject data, final String address) {
-        Jt.infoWeb(this.logger, JtMsg.WEB_SEND, data.encode(), address);
+        LOG.Web.info(this.logger, JtMsg.WEB_SEND, data.encode(), address);
     }
 
     // ---------------- Channel
     public void channelHit(final Class<?> clazz) {
-        Jt.infoWeb(this.logger, JtMsg.CHANNEL_SELECT, null == clazz ? null : clazz.getName());
+        LOG.Web.info(this.logger, JtMsg.CHANNEL_SELECT, null == clazz ? null : clazz.getName());
     }
 
     public void componentHit(final Class<?> componentClass, final Class<?> recordClass) {
-        Jt.infoWeb(this.logger, JtMsg.COMPONENT_SELECT,
+        LOG.Web.info(this.logger, JtMsg.COMPONENT_SELECT,
             null == componentClass ? null : componentClass.getName(),
             null == recordClass ? null : recordClass.getName());
     }

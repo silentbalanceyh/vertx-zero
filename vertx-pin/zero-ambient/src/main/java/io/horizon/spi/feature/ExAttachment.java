@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.ambient.refine.At.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -163,7 +165,7 @@ public class ExAttachment implements Attachment {
     public Future<Buffer> downloadAsync(final String key) {
         final JsonObject condition = new JsonObject();
         condition.put(KName.KEY, key);
-        At.infoFile(LOGGER, "Fetch Operation, condition: {0}", condition);
+        LOG.File.info(LOGGER, "Fetch Operation, condition: {0}", condition);
         return Ux.Jooq.on(XAttachmentDao.class).fetchJOneAsync(condition)
 
             // ExIo -> Call ExIo to impact actual file system ( Store )
@@ -172,7 +174,7 @@ public class ExAttachment implements Attachment {
 
     // ----------------- Private Method Interface ----------------------
     private Future<JsonArray> fetchAsyncInternal(final JsonObject condition) {
-        At.infoFile(LOGGER, "Fetch Operation, condition: {0}", condition);
+        LOG.File.info(LOGGER, "Fetch Operation, condition: {0}", condition);
         return Ux.Jooq.on(XAttachmentDao.class).fetchJAsync(condition);
     }
 
@@ -215,7 +217,7 @@ public class ExAttachment implements Attachment {
     }
 
     private Future<JsonArray> removeAsyncInternal(final JsonObject condition, final JsonArray attachments) {
-        At.infoFile(LOGGER, "Remove Operation, condition: {0}", condition);
+        LOG.File.info(LOGGER, "Remove Operation, condition: {0}", condition);
         return Ux.Jooq.on(XAttachmentDao.class).deleteByAsync(condition)
 
             // ExIo -> Call ExIo to impact actual file system ( Store )

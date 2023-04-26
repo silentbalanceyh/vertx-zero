@@ -1,11 +1,11 @@
 package io.vertx.up.uca.cosmic;
 
 import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -65,7 +65,7 @@ class StandardEmitter extends AbstractEmitter {
          */
         final Function<Integration, Rotator> executor = Pool.POOL_ROTATOR_FN.get(request.getMethod());
         if (Objects.isNull(executor)) {
-            return Strings.EMPTY;
+            return VString.EMPTY;
         } else {
             /*
              * Cached rotator, the default is integration request definition.

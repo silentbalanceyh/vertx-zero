@@ -1,10 +1,10 @@
 package io.vertx.tp.ambient.uca.differ;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
+import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.function.Supplier;
@@ -20,8 +20,8 @@ public interface Schism {
     Cc<String, Schism> CC_SCHISM = Cc.openThread();
 
     static Schism diffJ(final HAtom atom) {
-        final String unique = atom.sigma() + Strings.SLASH +
-            atom.identifier() + Strings.SLASH +
+        final String unique = atom.sigma() + VString.SLASH +
+            atom.identifier() + VString.SLASH +
             SchismJ.class.getName();
         return CC_SCHISM.pick(SchismJ::new, unique).bind(atom);
     }

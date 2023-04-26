@@ -1,6 +1,6 @@
 package io.aeon.experiment.mu;
 
-import io.vertx.up.eon.bridge.Strings;
+import io.horizon.eon.VString;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class KTag implements Serializable {
     private final Boolean refer;
 
     public KTag() {
-        this(Strings.EMPTY);
+        this(VString.EMPTY);
     }
 
     public KTag(final String literal) {
@@ -61,7 +61,7 @@ public class KTag implements Serializable {
 
     private Boolean[] initialize(final String literal) {
         // Split
-        final String[] parsed = literal.split(Strings.COMMA);
+        final String[] parsed = literal.split(VString.COMMA);
         final Boolean[] result = new Boolean[8];
         final int actual = parsed.length;
         for (int i = 0; i < 8; i++) {

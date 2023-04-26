@@ -12,6 +12,8 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -24,7 +26,7 @@ class RVkPre implements Pre {
             impactUri.getKey(),
             Vis.smart(data.getValue(KName.VIEW))
         );
-        Ix.Log.dao(this.getClass(), IxMsg.CACHE_KEY_PROJECTION, sessionKey);
+        LOG.Dao.info(this.getClass(), IxMsg.CACHE_KEY_PROJECTION, sessionKey);
         data.put(KName.DATA_KEY, sessionKey);
         return Ux.future(data);
     }

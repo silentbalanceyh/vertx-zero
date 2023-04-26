@@ -1,8 +1,8 @@
 package io.vertx.tp.rbac.refine;
 
+import io.horizon.eon.VPath;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.eon.bridge.FileSuffix;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
+
+;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -38,7 +40,7 @@ class ScImage {
         // To InputStream
         return Fn.orJvm(() -> {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, FileSuffix.IMG_PNG, baos);
+            ImageIO.write(image, VPath.SUFFIX.IMG_PNG, baos);
             return Ux.future(Buffer.buffer(baos.toByteArray()));
         });
     }

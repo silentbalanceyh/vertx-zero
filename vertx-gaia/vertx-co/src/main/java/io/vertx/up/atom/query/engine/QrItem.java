@@ -1,7 +1,7 @@
 package io.vertx.up.atom.query.engine;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.web._400OpUnsupportException;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
@@ -37,9 +37,9 @@ public class QrItem implements Serializable {
         /* First checking for `fieldExpr` literal */
         Fn.out(Ut.isNil(fieldExpr), _500QueryMetaNullException.class, this.getClass());
         this.qrKey = fieldExpr;
-        if (fieldExpr.contains(Strings.COMMA)) {
-            this.field = fieldExpr.split(Strings.COMMA)[0];
-            this.op = fieldExpr.split(Strings.COMMA)[1];
+        if (fieldExpr.contains(VString.COMMA)) {
+            this.field = fieldExpr.split(VString.COMMA)[0];
+            this.op = fieldExpr.split(VString.COMMA)[1];
             /* op un support of query engine */
             Fn.out(!Qr.Op.VALUES.contains(this.op), _400OpUnsupportException.class, this.getClass(), this.op);
         } else {

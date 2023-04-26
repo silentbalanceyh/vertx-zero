@@ -1,12 +1,12 @@
 package io.vertx.up.uca.micro.discovery;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.HttpEndpoint;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.eon.em.EtcdPath;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.util.Ut;
@@ -76,15 +76,15 @@ public class ApiOrigin implements Origin {
     private Set<JsonObject> getItem(final String key, final JsonArray value) {
         // Build JsonObject with value array
         final Set<JsonObject> sets = new HashSet<>();
-        final String[] meta = key.split(Strings.COLON);
+        final String[] meta = key.split(VString.COLON);
         if (3 == meta.length) {
             Observable.fromIterable(value)
                 .filter(Objects::nonNull)
                 .map(Object::toString)
                 .map(item -> {
-                    final String name = meta[Values.ZERO];
-                    final String host = meta[Values.ONE];
-                    final String port = meta[Values.TWO];
+                    final String name = meta[VValue.ZERO];
+                    final String host = meta[VValue.ONE];
+                    final String port = meta[VValue.TWO];
                     final String id = Ut.encryptSHA256(key + item);
                     return new JsonObject()
                         .put(NAME, name)

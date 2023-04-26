@@ -2,6 +2,8 @@ package io.vertx.tp.modular.metadata;
 
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.cv.em.CheckResult;
@@ -10,8 +12,6 @@ import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlTypeProvider;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -49,9 +49,9 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         // 添加Comments部分
         segment.append(" ").append(SqlWord.Assistant.COMMENT).append(" '");
         if (Ut.notNil(field.getComments())) {
-            segment.append(field.getComments()).append(Strings.COMMA);
+            segment.append(field.getComments()).append(VString.COMMA);
         }
-        segment.append(field.getName()).append(Strings.COMMA).append(field.getColumnName()).append("'");
+        segment.append(field.getName()).append(VString.COMMA).append(field.getColumnName()).append("'");
         return segment.toString();
     }
 
@@ -62,7 +62,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         final JsonArray columns = new JsonArray(key.getColumns());
         final List<String> columnList = new ArrayList<>();
         columns.forEach(column -> columnList.add("`" + column + "`"));
-        final String columnStr = Ut.fromJoin(columnList, Strings.COMMA);
+        final String columnStr = Ut.fromJoin(columnList, VString.COMMA);
         // 类型处理
         final KeyType typeKey = Ut.toEnum(KeyType.class, key.getType());
         if (KeyType.PRIMARY == typeKey) {
@@ -130,7 +130,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         String actualType = rawType;
         // 虽然(MAX)是SQL必须的，但对其他数据库不会产生任何影响
         if (rawType.contains("(") && !rawType.contains("(MAX)")) {
-            actualType = rawType.split("\\(")[Values.IDX];
+            actualType = rawType.split("\\(")[VValue.IDX];
         }
         // 后缀处理 (12)，(12,2)的基本格式，包括长度
         type.append(this.defineSuffix(field, actualType));

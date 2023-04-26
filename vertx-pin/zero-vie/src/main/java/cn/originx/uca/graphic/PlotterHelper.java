@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static cn.originx.refine.Ox.LOG;
+
 class PlotterHelper {
     static Future<JsonObject> drawAsync(final JsonArray nodes, final JsonArray edges) {
-        Ox.LOG.infoUca(PlotterHelper.class, "节点数量：{0}, 关系数量：{1}",
+        LOG.Uca.info(PlotterHelper.class, "节点数量：{0}, 关系数量：{1}",
             String.valueOf(nodes.size()), String.valueOf(edges.size()));
         /* 默认分组：__VERTX_ZERO__ */
         final Neo4jClient client = Neo4jInfix.getClient().connect(KWeb.DEPLOY.VERTX_GROUP);
@@ -46,13 +48,13 @@ class PlotterHelper {
             final JsonObject each = nodes.getJsonObject(idx);
             pushNodes.add(each);
             if (0 == (idx + 1) % batch) {
-                Ox.LOG.infoUca(PlotterHelper.class, "处理记录数：{0}", String.valueOf(pushNodes.size()));
+                LOG.Uca.info(PlotterHelper.class, "处理记录数：{0}", String.valueOf(pushNodes.size()));
                 futures.add(consumer.apply(pushNodes.copy()));
                 pushNodes.clear();
             }
         }
         if (!pushNodes.isEmpty()) {
-            Ox.LOG.infoUca(PlotterHelper.class, "处理记录数：{0}", String.valueOf(pushNodes.size()));
+            LOG.Uca.info(PlotterHelper.class, "处理记录数：{0}", String.valueOf(pushNodes.size()));
             futures.add(consumer.apply(pushNodes.copy()));
             pushNodes.clear();
         }

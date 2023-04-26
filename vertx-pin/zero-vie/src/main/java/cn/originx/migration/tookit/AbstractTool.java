@@ -1,7 +1,6 @@
 package cn.originx.migration.tookit;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -15,6 +14,8 @@ import io.vertx.up.util.Ut;
 import org.jooq.DSLContext;
 
 import java.util.Objects;
+
+import static cn.originx.refine.Ox.LOG;
 
 @SuppressWarnings("all")
 public abstract class AbstractTool extends AbstractStep {
@@ -39,7 +40,7 @@ public abstract class AbstractTool extends AbstractStep {
         final String targetFolder = root + "backup/" + folder + "/" + this.folder + "/" + table;
         final boolean created = Ut.ioOut(targetFolder);
         if (created) {
-            Ox.LOG.infoShell(this.getClass(), "目录创建结果：{0}, 目录：{1}",
+            LOG.Shell.info(this.getClass(), "目录创建结果：{0}, 目录：{1}",
                 created, targetFolder);
         }
         return targetFolder;
@@ -87,7 +88,7 @@ public abstract class AbstractTool extends AbstractStep {
          * 写入文件
          */
         final JsonArray result = Ut.valueJArray(data.getJsonArray("list"));
-        Ox.LOG.infoShell(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
+        LOG.Shell.info(this.getClass(), "第 {2} 页，处理 {0} 条, 文件：{1}",
             String.valueOf(result.size()), file, String.valueOf(page));
         Ut.ioOutCompress(file, result);
         return Ux.future(data);

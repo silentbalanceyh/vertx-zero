@@ -1,10 +1,10 @@
 package io.aeon.experiment.reference;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -55,7 +55,7 @@ public class RQuery implements Serializable {
             final String operator = Ut.isNil(op) ? Qr.Op.EQ : op;
             condition.put(this.sourceField + "," + operator, value);
         }
-        condition.put(Strings.EMPTY, Boolean.TRUE);
+        condition.put(VString.EMPTY, Boolean.TRUE);
         return this.daoRef.fetchBy(condition);
     }
 

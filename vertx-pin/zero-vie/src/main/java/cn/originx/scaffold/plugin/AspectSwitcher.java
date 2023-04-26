@@ -1,11 +1,11 @@
 package cn.originx.scaffold.plugin;
 
 import cn.originx.refine.Ox;
+import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -13,6 +13,8 @@ import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Function;
+
+import static cn.originx.refine.Ox.LOG;
 
 /*
  * 横切专用处理，用于加载
@@ -54,7 +56,7 @@ public class AspectSwitcher {
                  */
                 this.plugin.bind(fabric.copy());
             }
-            Ox.LOG.infoHub(this.getClass(), "( plugin.component ) 核心插件: 模型 identifier = {0}, 插件：{1}，配置：{2}",
+            LOG.Hub.info(this.getClass(), "( plugin.component ) 核心插件: 模型 identifier = {0}, 插件：{1}，配置：{2}",
                 atom.identifier(), this.getClass().getName(), optionsInput.encode());
         }
     }

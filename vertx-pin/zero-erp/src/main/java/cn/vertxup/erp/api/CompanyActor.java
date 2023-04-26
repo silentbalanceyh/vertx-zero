@@ -5,12 +5,13 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.erp.cv.Addr;
 import io.vertx.tp.erp.cv.ErpMsg;
-import io.vertx.tp.erp.refine.Er;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.log.Annal;
 
 import javax.inject.Inject;
+
+import static io.vertx.tp.erp.refine.Er.LOG;
 
 @Queue
 public class CompanyActor {
@@ -22,7 +23,7 @@ public class CompanyActor {
 
     @Address(Addr.Company.INFORMATION)
     public Future<JsonObject> company(final String employeeId) {
-        Er.infoWorker(LOGGER, ErpMsg.COMPANY_INFO, employeeId);
+        LOG.Worker.info(LOGGER, ErpMsg.COMPANY_INFO, employeeId);
         return this.stub.fetchByEmployee(employeeId);
     }
 }

@@ -1,5 +1,6 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.eon.VValue;
 import io.horizon.eon.em.modeler.ModelType;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
@@ -9,7 +10,6 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.tp.modular.query.Ingest;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import org.jooq.DSLContext;
@@ -104,10 +104,10 @@ abstract class AbstractJQQr {
 
         if (ModelType.DIRECT == type) {
             /* 4.单表单映射 */
-            Fn.outWeb(Values.ONE != matrix.size(), _417TableCounterException.class, clazz, matrix.size());
+            Fn.outWeb(VValue.ONE != matrix.size(), _417TableCounterException.class, clazz, matrix.size());
         } else if (ModelType.JOINED == type) {
             /* 6.单表多映射 */
-            Fn.outWeb(Values.ONE >= matrix.size(), _417TableCounterException.class, clazz, matrix.size());
+            Fn.outWeb(VValue.ONE >= matrix.size(), _417TableCounterException.class, clazz, matrix.size());
         }
         return matrix;
     }

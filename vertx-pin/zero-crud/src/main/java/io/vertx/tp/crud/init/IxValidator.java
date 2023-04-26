@@ -1,18 +1,21 @@
 package io.vertx.tp.crud.init;
 
+import io.horizon.eon.VPath;
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.IxFolder;
-import io.vertx.tp.crud.refine.Ix;
 import io.vertx.up.atom.Rule;
-import io.vertx.up.eon.bridge.FileSuffix;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
+;
 
 /*
  * Post validation in worker here
@@ -29,7 +32,7 @@ class IxValidator {
         new ConcurrentHashMap<>();
 
     static void init() {
-        final List<String> files = Ut.ioFiles(IxFolder.VALIDATOR, FileSuffix.YML);
+        final List<String> files = Ut.ioFiles(IxFolder.VALIDATOR, VPath.SUFFIX.YML);
         files.forEach(file -> {
             /* 1. Validator file under classpath */
             final String path = IxFolder.VALIDATOR + file;
@@ -42,13 +45,13 @@ class IxValidator {
                 ruleMap.put(field, getRules(ruleArray));
             });
             /* 4. Append rules */
-            final String key = file.replace(Strings.DOT + FileSuffix.YML, Strings.EMPTY);
+            final String key = file.replace(VString.DOT + VPath.SUFFIX.YML, VString.EMPTY);
 
             /* 4. Logger */
-            Ix.Log.init(IxValidator.class, "--- file = {0}, key = {1}", path, key);
+            LOG.Init.info(IxValidator.class, "--- file = {0}, key = {1}", path, key);
             RULE_MAP.put(key, ruleMap);
         });
-        Ix.Log.init(IxValidator.class, "IxValidator Finished ! Size = {0}", RULE_MAP.size());
+        LOG.Init.info(IxValidator.class, "IxValidator Finished ! Size = {0}", RULE_MAP.size());
     }
 
     private static List<Rule> getRules(final JsonArray ruleArray) {

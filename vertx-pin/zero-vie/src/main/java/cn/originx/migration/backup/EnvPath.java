@@ -1,7 +1,6 @@
 package cn.originx.migration.backup;
 
 import cn.originx.migration.AbstractStep;
-import cn.originx.refine.Ox;
 import io.horizon.eon.em.Environment;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -11,6 +10,8 @@ import io.vertx.up.util.Ut;
 
 import java.io.File;
 import java.util.Objects;
+
+import static cn.originx.refine.Ox.LOG;
 
 public class EnvPath extends AbstractStep {
 
@@ -22,7 +23,7 @@ public class EnvPath extends AbstractStep {
     public Future<JsonObject> procAsync(final JsonObject config) {
         return Fn.orJvm(() -> {
             this.banner("001.2 初始化目录");
-            Ox.LOG.infoShell(this.getClass(), "输出目录参数：output = {0}", config.getString("output"));
+            LOG.Shell.info(this.getClass(), "输出目录参数：output = {0}", config.getString("output"));
             final String folder = this.ioRoot(config);
 
             Pool.FOLDERS.stream().map(each -> folder + each).forEach(this::mkdir);
@@ -35,10 +36,10 @@ public class EnvPath extends AbstractStep {
         if (Objects.isNull(file)) {
             final File created = new File(folder);
             final boolean isOk = created.mkdirs();
-            Ox.LOG.infoShell(this.getClass(), "创建目录：{0}, created = {1}",
+            LOG.Shell.info(this.getClass(), "创建目录：{0}, created = {1}",
                 created.getAbsolutePath(), isOk);
         } else {
-            Ox.LOG.infoShell(this.getClass(), "目录存在：{0}，跳过创建", folder);
+            LOG.Shell.info(this.getClass(), "目录存在：{0}，跳过创建", folder);
         }
     }
 }

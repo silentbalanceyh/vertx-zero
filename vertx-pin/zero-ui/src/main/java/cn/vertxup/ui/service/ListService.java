@@ -7,7 +7,6 @@ import cn.vertxup.ui.domain.tables.pojos.UiView;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tp.ui.refine.Ui;
 import io.vertx.tp.ui.uca.qbe.QBECache;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
@@ -19,6 +18,8 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.ui.refine.Ui.LOG;
 
 public class ListService implements ListStub {
     private static final Annal LOGGER = Annal.get(ListService.class);
@@ -32,7 +33,7 @@ public class ListService implements ListStub {
          */
         return Ux.Jooq.on(UiListDao.class).<UiList>fetchByIdAsync(listId).compose(list -> {
             if (Objects.isNull(list)) {
-                Ui.infoWarn(ListService.LOGGER, " Form not found, id = {0}", listId);
+                LOG.Ui.warn(LOGGER, " Form not found, id = {0}", listId);
                 return Ux.future(new JsonObject());
             } else {
                 /*

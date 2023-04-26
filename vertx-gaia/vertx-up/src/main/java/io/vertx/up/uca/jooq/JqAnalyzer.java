@@ -1,12 +1,12 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.eon.VString;
+import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.eon.bridge.Strings;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.zero.JooqFieldMissingException;
 import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
@@ -66,7 +66,7 @@ public class JqAnalyzer {
         final Field[] columns = this.table.fields();
 
         // Mapping building
-        for (int idx = Values.IDX; idx < columns.length; idx++) {
+        for (int idx = VValue.IDX; idx < columns.length; idx++) {
             final Field column = columns[idx];
             final java.lang.reflect.Field field = fields[idx];
             /*
@@ -380,7 +380,7 @@ public class JqAnalyzer {
                  * If current analyzer is null pojo
                  * return "" instead of other pojo file
                  */
-                return Strings.EMPTY;
+                return VString.EMPTY;
             } else {
                 return this.pojo.getPojoFile();
             }

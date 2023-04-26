@@ -1,7 +1,11 @@
 package cn.originx.quiz;
 
 import cn.originx.quiz.atom.QRequest;
+import io.horizon.eon.VString;
 import io.horizon.specification.zero.action.Commercial;
+import io.horizon.spi.environment.Ambient;
+import io.horizon.spi.environment.AmbientEnvironment;
+import io.horizon.spi.jet.JtChannel;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -13,12 +17,8 @@ import io.vertx.tp.jet.atom.JtCommercial;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.tp.jet.atom.JtUri;
-import io.horizon.spi.environment.Ambient;
-import io.horizon.spi.environment.AmbientEnvironment;
-import io.horizon.spi.jet.JtChannel;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.yaml.Node;
@@ -162,7 +162,7 @@ public class AbstractChannel extends AbstractPlatform {
 
     private <T> T channelJob(final String jobCode, final Function<JtJob, T> executor) {
         final String namespace = Ao.toNS(this.app().getName());
-        final String jobKey = namespace + Strings.DASH + jobCode;
+        final String jobKey = namespace + VString.DASH + jobCode;
         final JtJob job = JOBS.get(jobKey);
         Objects.requireNonNull(job);
         this.logger().info("[ Qz ] 读取通道使用的任务 key ：{0}", jobKey);

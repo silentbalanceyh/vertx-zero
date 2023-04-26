@@ -1,10 +1,10 @@
 package io.vertx.up.uca.rs.mime.parse;
 
+import io.horizon.eon.VValue;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -70,7 +70,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
         final List<Annotation> annotationList = Arrays.stream(annotations)
             .filter(item -> Filler.PARAMS.containsKey(item.annotationType()))
             .collect(Collectors.toList());
-        return annotationList.isEmpty() ? null : annotationList.get(Values.IDX);
+        return annotationList.isEmpty() ? null : annotationList.get(VValue.IDX);
     }
 
     private Object getDefault(final Annotation[] annotations,
@@ -81,7 +81,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
         return Fn.orSemi(annotationList.isEmpty(), LOGGER,
             () -> null,
             () -> {
-                final Annotation annotation = annotationList.get(Values.IDX);
+                final Annotation annotation = annotationList.get(VValue.IDX);
                 return ZeroSerializer.getValue(paramType,
                     Ut.invoke(annotation, "value"));
             });

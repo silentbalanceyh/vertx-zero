@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.excel.tool;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -170,7 +170,7 @@ public class ExOut {
          * Terminal for empty
          */
         if (Objects.isNull(value)) {
-            cell.setCellValue(Strings.EMPTY);
+            cell.setCellValue(VString.EMPTY);
             return;
         }
         final BiConsumer<Cell, Object> consumer = VALUE_MAP.getOrDefault(type, null);

@@ -1,12 +1,12 @@
 package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
+import io.horizon.spi.extension.Init;
+import io.horizon.spi.extension.Prerequisite;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ambient.refine.At;
-import io.horizon.spi.extension.Init;
-import io.horizon.spi.extension.Prerequisite;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -16,6 +16,8 @@ import io.vertx.up.util.Ut;
 
 import javax.inject.Inject;
 import java.util.Objects;
+
+import static io.vertx.tp.ambient.refine.At.LOG;
 
 /**
  * ## Application initializer Implementation
@@ -94,7 +96,7 @@ public class InitService implements InitStub {
         /* Prerequisite Extension */
         final Prerequisite prerequisite = AtPin.getPrerequisite();
         if (Objects.isNull(prerequisite)) {
-            At.infoInit(LOGGER, "`Prerequisite` configuration is null");
+            LOG.Init.info(LOGGER, "`Prerequisite` configuration is null");
             return Ux.future(new JsonObject());
         } else {
             /*
@@ -161,7 +163,7 @@ public class InitService implements InitStub {
     private Future<JsonObject> initDefined(final JsonObject input) {
         final Init initializer = AtPin.getInit();
         if (Objects.isNull(initializer)) {
-            At.infoInit(LOGGER, "`Init` configuration is null");
+            LOG.Init.info(LOGGER, "`Init` configuration is null");
             return Ux.future(input);
         } else {
             /*

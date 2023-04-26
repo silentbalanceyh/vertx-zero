@@ -1,10 +1,10 @@
 package io.vertx.up.uca.cosmic;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.exception.heart.JexlExpressionException;
 import io.vertx.up.exception.web._500RequestConfigException;
 import io.vertx.up.exception.web._501HttpClientNullException;
@@ -120,7 +120,7 @@ public abstract class AbstractRotator implements Rotator {
     protected String dataString(final HttpResponse response) throws IOException {
         if (Objects.isNull(response)) {
             this.logger().info("Empty Http Response");
-            return Strings.EMPTY;
+            return VString.EMPTY;
         } else {
             final int statusLine = response.getStatusLine().getStatusCode();
             if (HttpStatus.SC_OK == statusLine) {

@@ -5,13 +5,13 @@ import cn.vertxup.rbac.domain.tables.daos.SResourceDao;
 import cn.vertxup.rbac.domain.tables.pojos.SAction;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import cn.vertxup.rbac.domain.tables.pojos.SResource;
+import io.horizon.eon.VString;
+import io.horizon.spi.web.Routine;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.web.Routine;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.runtime.soul.UriAeon;
 import io.vertx.up.runtime.soul.UriMeta;
 import io.vertx.up.unity.Ux;
@@ -41,7 +41,7 @@ public class ActionService implements ActionStub {
                                        final HttpMethod method,
                                        final String sigma) {
         final JsonObject actionFilters = new JsonObject();
-        actionFilters.put(Strings.EMPTY, Boolean.TRUE);
+        actionFilters.put(VString.EMPTY, Boolean.TRUE);
         actionFilters.put(KName.URI, normalizedUri);
         if (Ut.notNil(sigma)) {
             actionFilters.put(KName.SIGMA, sigma);

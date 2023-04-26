@@ -1,10 +1,10 @@
 package io.vertx.up.uca.micro.matcher;
 
+import io.horizon.eon.VString;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.servicediscovery.Record;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.uca.matcher.RegexPath;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.util.Ut;
@@ -44,7 +44,7 @@ public class CommonArithmetic implements Arithmetic {
         boolean match = false;
         if (data.containsKey(Origin.PATH)) {
             final String path = data.getString(Origin.PATH);
-            if (!Ut.isNil(path) && path.contains(Strings.COLON)) {
+            if (!Ut.isNil(path) && path.contains(VString.COLON)) {
                 final Pattern pattern = RegexPath.createRegex(path);
                 match = pattern.matcher(uri).matches();
             } else {

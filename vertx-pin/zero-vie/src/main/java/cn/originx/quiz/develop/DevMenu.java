@@ -1,13 +1,12 @@
 package cn.originx.quiz.develop;
 
 import cn.originx.cv.em.MenuType;
-import cn.originx.refine.Ox;
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
+import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -17,6 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static cn.originx.refine.Ox.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -53,7 +54,7 @@ class DevMenu {
             // SIDE-MENU root
             final JsonArray root = new JsonArray();
             Ut.itJArray(calculate)
-                .filter(json -> Values.ONE == json.getInteger("level"))
+                .filter(json -> VValue.ONE == json.getInteger("level"))
                 .filter(json -> Objects.isNull(json.getString("parentId")))
                 .forEach(root::add);
             return Ux.future(buildTree(root, result));
@@ -94,7 +95,7 @@ class DevMenu {
                                       final String root) {
         menuMap.forEach((role, data) -> {
             final String outFile = DevDefault.pathMenu(root, role);
-            Ox.LOG.infoShell(DevKit.class, "[ Dev ] File output: {0}", outFile);
+            LOG.Shell.info(DevKit.class, "[ Dev ] File output: {0}", outFile);
             final JsonObject dataRole = new JsonObject();
             dataRole.put(KName.NAME, data);
             Ut.ioOut(outFile, dataRole);

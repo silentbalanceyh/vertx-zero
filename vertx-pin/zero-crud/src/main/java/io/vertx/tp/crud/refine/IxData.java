@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.refine;
 
 import io.aeon.experiment.specification.KField;
+import io.aeon.experiment.specification.KModule;
 import io.horizon.specification.modeler.TypeAtom;
 import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.http.HttpMethod;
@@ -12,7 +13,6 @@ import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.aeon.experiment.specification.KModule;
 import io.vertx.up.log.Annal;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -26,6 +26,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.vertx.tp.crud.refine.Ix.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -38,12 +40,12 @@ class IxData {
             final String by = config.getString(KName.BY);
             if (Ut.notNil(by)) {
                 /* Audit Process */
-                IxLog.infoDao(LOGGER, "( Audit ) By -> \"{0}\" = {1}", by, userId);
+                LOG.Dao.info(LOGGER, "( Audit ) By -> \"{0}\" = {1}", by, userId);
                 auditor.put(by, userId);
             }
             final String at = config.getString(KName.AT);
             if (Ut.notNil(at)) {
-                IxLog.infoDao(LOGGER, "( Audit ) At Field -> {0}", at);
+                LOG.Dao.info(LOGGER, "( Audit ) At Field -> {0}", at);
                 auditor.put(at, Instant.now());
             }
         }

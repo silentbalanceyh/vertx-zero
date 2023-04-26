@@ -1,9 +1,9 @@
 package io.vertx.up.atom.unity;
 
+import io.horizon.eon.VValue;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Values;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -96,7 +96,7 @@ class UArrayInternal {
     ) {
         final ConcurrentMap<Integer, Object> resultMap =
             new ConcurrentHashMap<>();
-        for (int idx = Values.IDX; idx < sources.size(); idx++) {
+        for (int idx = VValue.IDX; idx < sources.size(); idx++) {
             final JsonObject item = sources.getJsonObject(idx);
             final Object value = item.getValue(field);
             if (null != value) {

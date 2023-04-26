@@ -3,16 +3,16 @@ package cn.vertxup.ambient.service.application;
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
 import cn.vertxup.ambient.domain.tables.daos.XSourceDao;
 import cn.vertxup.ambient.domain.tables.pojos.XApp;
+import io.horizon.eon.VString;
+import io.horizon.spi.business.ExApp;
+import io.horizon.spi.feature.Attachment;
+import io.horizon.spi.modeler.Modulat;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
-import io.horizon.spi.business.ExApp;
-import io.horizon.spi.feature.Attachment;
-import io.horizon.spi.modeler.Modulat;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -53,8 +53,8 @@ public class AppService implements AppStub {
             .compose(appJ -> Ux.channel(ExApp.class, () -> appJ, stub -> stub.fetchOpts(appJ)))
             /* Modulat Processing */
             .compose(appJ -> Ux.channel(Modulat.class, () -> appJ, stub -> stub.extension(appJ)));
-            /* Document Platform Initialized */
-            // .compose(appJ -> AtPin.?nitDocument(appId).compose(nil -> Ux.future(appJ)));
+        /* Document Platform Initialized */
+        // .compose(appJ -> AtPin.?nitDocument(appId).compose(nil -> Ux.future(appJ)));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class AppService implements AppStub {
         condition.put(KName.MODEL_ID, "x.application");
         condition.put(KName.MODEL_CATEGORY, KName.App.LOGO);
         condition.put(KName.MODEL_KEY, appId);
-        condition.put(Strings.EMPTY, Boolean.TRUE);
+        condition.put(VString.EMPTY, Boolean.TRUE);
         return Ux.channel(Attachment.class, () -> data,
             // Sync Attachment with channel
             file -> file.saveAsync(condition, attachment).compose(saved -> {

@@ -1,11 +1,11 @@
 package io.vertx.up.uca.cosmic;
 
+import io.horizon.eon.VString;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
@@ -40,7 +40,7 @@ class LegacyEmitter extends AbstractEmitter {
 
     @Override
     public String request(final String apiKey, final JsonObject params, final MultiMap headers) {
-        return Fn.orNull(Strings.EMPTY, () -> {
+        return Fn.orNull(VString.EMPTY, () -> {
             /*
              * Read IntegrationRequest object
              */

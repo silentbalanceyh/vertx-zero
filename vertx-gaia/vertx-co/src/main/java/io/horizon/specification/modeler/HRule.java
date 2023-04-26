@@ -7,10 +7,10 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.horizon.eon.VString;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.bridge.Strings;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -235,7 +235,7 @@ public class HRule implements Serializable {
             LOGGER.info("[ EMF ] Single condition building: {0}", tpl.encode());
         }
         // If null of "", the AND operator will be set.
-        tpl.put(Strings.EMPTY, this.condition.getBoolean(Strings.EMPTY, Boolean.TRUE));
+        tpl.put(VString.EMPTY, this.condition.getBoolean(VString.EMPTY, Boolean.TRUE));
         return tpl;
     }
 
@@ -259,7 +259,7 @@ public class HRule implements Serializable {
             }
         });
         // If null of "", the AND operator will be set.
-        tpl.put(Strings.EMPTY, this.conditions.getBoolean(Strings.EMPTY, Boolean.TRUE));
+        tpl.put(VString.EMPTY, this.conditions.getBoolean(VString.EMPTY, Boolean.TRUE));
         return tpl;
     }
 
