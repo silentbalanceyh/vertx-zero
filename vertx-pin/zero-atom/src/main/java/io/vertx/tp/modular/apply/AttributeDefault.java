@@ -21,7 +21,7 @@ class AttributeDefault implements AoDefault {
     @Override
     public void applyJson(final JsonObject attribute) {
         if (null != this.model) {
-            LOG.Uca.info(this.getClass(), "「DFT」模型属性输入值：{0}", attribute.encode());
+            LOG.Uca.debug(this.getClass(), "「DFT」模型属性输入值：{0}", attribute.encode());
             /*
              * 默认值:
              * key
