@@ -1,8 +1,8 @@
 package io.vertx.up.atom.query.tree;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
-import io.horizon.eon.VString;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

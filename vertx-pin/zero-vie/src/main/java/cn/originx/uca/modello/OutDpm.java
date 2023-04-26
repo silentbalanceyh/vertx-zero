@@ -1,9 +1,9 @@
 package cn.originx.uca.modello;
 
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
-import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.up.atom.Kv;
 
 /**

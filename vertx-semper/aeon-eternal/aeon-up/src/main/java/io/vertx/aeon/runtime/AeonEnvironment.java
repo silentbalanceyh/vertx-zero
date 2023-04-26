@@ -1,8 +1,9 @@
 package io.vertx.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
-import io.aeon.refine.HLog;
 import io.horizon.specification.runtime.Macrocosm;
+
+import static io.aeon.refine.Ho.LOG;
 
 /**
  * 「环境变量选择器」
@@ -20,6 +21,6 @@ public class AeonEnvironment {
     public static void initialize(final HAeon aeon) {
         // 最终环境变量报表
         final String content = Macrocosm.envContent();
-        HLog.infoAeon(AeonEnvironment.class, "Aeon Environment Variables: {0}\n", content);
+        LOG.Aeon.info(AeonEnvironment.class, "Aeon Environment Variables: {0}\n", content);
     }
 }

@@ -1,11 +1,11 @@
 package cn.originx.uca.modello;
 
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.tp.modular.plugin.OExpression;
-import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;

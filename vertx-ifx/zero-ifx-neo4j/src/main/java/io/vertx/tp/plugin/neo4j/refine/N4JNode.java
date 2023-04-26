@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 /*
  * {
  *     "id": "xxx",
@@ -21,7 +23,7 @@ class N4JNode {
         final List<String> commands = new ArrayList<>();
         Ut.itJArray(node).map(item -> add(graph, item, alias)).forEach(commands::add);
         if (!commands.isEmpty()) {
-            N4J.infoCql(N4JNode.class, "Add Command: {0}", commands.get(0));
+            LOG.CQL.info(N4JNode.class, "Add Command: {0}", commands.get(0));
         }
         return commands;
     }
@@ -54,7 +56,7 @@ class N4JNode {
         Ut.itJArray(conditions, JsonObject.class, (item, index) ->
             commands.add(update(graph, item, data.getJsonObject(index), alias)));
         if (!commands.isEmpty()) {
-            N4J.infoCql(N4JNode.class, "Update Command: {0}", commands.get(0));
+            LOG.CQL.info(N4JNode.class, "Update Command: {0}", commands.get(0));
         }
         return commands;
     }
@@ -84,7 +86,7 @@ class N4JNode {
         final List<String> commands = new ArrayList<>();
         Ut.itJArray(conditions, JsonObject.class, (item, index) -> commands.add(delete(graph, item, alias)));
         if (!commands.isEmpty()) {
-            N4J.infoCql(N4JNode.class, "Delete Command: {0}", commands.get(0));
+            LOG.CQL.info(N4JNode.class, "Delete Command: {0}", commands.get(0));
         }
         return commands;
     }

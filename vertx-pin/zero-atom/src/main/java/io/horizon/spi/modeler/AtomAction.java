@@ -6,7 +6,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.refine.Ao;
-import io.horizon.spi.modeler.Atom;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

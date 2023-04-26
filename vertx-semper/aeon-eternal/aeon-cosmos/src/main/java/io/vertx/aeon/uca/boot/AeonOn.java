@@ -2,7 +2,6 @@ package io.vertx.aeon.uca.boot;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
-import io.aeon.refine.HLog;
 import io.horizon.cloud.boot.HOn;
 import io.horizon.cloud.program.HNovae;
 import io.vertx.core.Future;
@@ -10,6 +9,8 @@ import io.vertx.core.Vertx;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
+
+import static io.aeon.refine.Ho.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -43,7 +44,7 @@ public class AeonOn implements HOn {
         // HBoot -> HNovae
         final HNovae novae = boot.pick(HNovae.class, this.vertx);
         if (Objects.isNull(novae)) {
-            HLog.warnAeon(this.getClass(), "Alive components have not been defined, " +
+            LOG.Aeon.warn(this.getClass(), "Alive components have not been defined, " +
                 "Kidd/Kinect/KZero architecture has been Disabled.");
             return Ux.futureF();
         } else {

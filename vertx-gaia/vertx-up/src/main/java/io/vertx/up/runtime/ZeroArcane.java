@@ -2,7 +2,6 @@ package io.vertx.up.runtime;
 
 import io.aeon.eon.HPath;
 import io.aeon.experiment.specification.app.HES;
-import io.aeon.refine.HLog;
 import io.horizon.eon.em.cloud.TypeOs;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -19,6 +18,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.aeon.refine.Ho.LOG;
 
 /**
  * Arcane:神秘的，秘密的
@@ -53,7 +54,7 @@ public class ZeroArcane {
          */
         if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
             // 1. 设置环境变量
-            HLog.warnEnv(ZeroArcane.class, MSG_DEVELOPMENT, osType.name(), HPath.ENV_DEVELOPMENT);
+            LOG.Env.warn(ZeroArcane.class, MSG_DEVELOPMENT, osType.name(), HPath.ENV_DEVELOPMENT);
             final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
             final ConcurrentMap<String, String> written = Ut.envOut(properties);
             // 2. 打印环境变量
@@ -64,7 +65,7 @@ public class ZeroArcane {
                 final String value = written.get(name);
                 out.append(" = ").append(value);
             });
-            HLog.infoEnv(ZeroArcane.class, MSG_ENV, out.toString());
+            LOG.Env.info(ZeroArcane.class, MSG_ENV, out.toString());
         }
     }
 
@@ -100,7 +101,7 @@ public class ZeroArcane {
      */
     public static void startEdge() {
         startEdge(null)
-            .onComplete(res -> HLog.infoEnv(ZeroArcane.class, "Extension Initialized {0}", res.result()));
+            .onComplete(res -> LOG.Env.info(ZeroArcane.class, "Extension Initialized {0}", res.result()));
     }
 
     public static Future<Boolean> startEdge(final Vertx vertx) {
@@ -126,7 +127,7 @@ public class ZeroArcane {
                  * init:
                  *    - component: xxx
                  */
-                HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, components.encode());
+                LOG.Env.info(ZeroArcane.class, MSG_EXT_COMPONENT, components.encode());
                 final JsonObject initConfig = new JsonObject().put(KName.COMPONENT, components);
                 return Ux.nativeInit(initConfig, vertx);
             } else if (init instanceof final JsonObject initConfig) {
@@ -139,14 +140,14 @@ public class ZeroArcane {
                  *    - component: xxx
                  *      order: 1
                  */
-                HLog.infoEnv(ZeroArcane.class, MSG_EXT_COMPONENT, initConfig.encode());
+                LOG.Env.info(ZeroArcane.class, MSG_EXT_COMPONENT, initConfig.encode());
                 return Ux.nativeInit(initConfig, vertx);
             } else {
                 // Nothing triggered when the configuration data format is invalid
                 return Future.succeededFuture(Boolean.TRUE);
             }
         } else {
-            HLog.infoEnv(ZeroArcane.class, MSG_EXT_CONFIGURATION, config);
+            LOG.Env.info(ZeroArcane.class, MSG_EXT_CONFIGURATION, config);
             return Future.succeededFuture(Boolean.TRUE);
         }
     }

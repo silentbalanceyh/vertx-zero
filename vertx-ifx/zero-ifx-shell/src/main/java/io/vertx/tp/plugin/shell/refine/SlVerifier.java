@@ -22,7 +22,7 @@ class SlVerifier {
         boolean validated = false;
         if (0 == args.length || Objects.isNull(args[0])) {
             if (input.containsKey("required")) {
-                SlLog.output(input.getString("required"));
+                SlMessage.output(input.getString("required"));
             } else {
                 LOGGER.warn("Input no arguments, are you sure ?");
                 validated = true;
@@ -38,7 +38,7 @@ class SlVerifier {
                 validated = true;
             } else {
                 if (input.containsKey("existing")) {
-                    SlLog.output(input.getString("existing"),
+                    SlMessage.output(input.getString("existing"),
                         Ut.fromJoin(supported), argument);
                 } else {
                     LOGGER.warn("There are {0} supported commands {1}, but you provide none ?",

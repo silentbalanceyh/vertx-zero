@@ -1,8 +1,8 @@
 package io.vertx.tp.jet.uca.micro;
 
-import io.vertx.tp.jet.atom.JtJob;
 import io.horizon.spi.environment.Ambient;
 import io.horizon.spi.environment.AmbientEnvironment;
+import io.vertx.tp.jet.atom.JtJob;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.uca.job.store.JobStore;
 

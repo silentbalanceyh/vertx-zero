@@ -1,7 +1,6 @@
 package io.aeon.atom.iras;
 
 import io.aeon.eon.HName;
-import io.aeon.refine.HLog;
 import io.aeon.runtime.H1H;
 import io.horizon.cloud.action.HEvent;
 import io.horizon.cloud.boot.HOff;
@@ -19,6 +18,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
+
+import static io.aeon.refine.Ho.LOG;
 
 /**
  * 「启动组件」
@@ -65,7 +66,7 @@ public class HBoot implements Serializable {
                 this.store.put(interfaceCls, instanceCls);
             }
         });
-        HLog.infoAeon(this.getClass(),
+        LOG.Aeon.info(this.getClass(),
             "Aeon system detect ( size = {0} with keys = {1} ) components defined.",
             String.valueOf(this.store.size()),
             Ut.fromJoin(this.store.keySet().stream().map(Class::getName).collect(Collectors.toSet())));
@@ -93,7 +94,7 @@ public class HBoot implements Serializable {
             instance.bind(vertx);
             return instance;
         }, instanceCls.getName());
-        HLog.infoAeon(getClass(), "Pick instance class {0} of {1} from component cached/pool.",
+        LOG.Aeon.info(getClass(), "Pick instance class {0} of {1} from component cached/pool.",
             instanceCls, interfaceCls);
         return (C) event;
     }

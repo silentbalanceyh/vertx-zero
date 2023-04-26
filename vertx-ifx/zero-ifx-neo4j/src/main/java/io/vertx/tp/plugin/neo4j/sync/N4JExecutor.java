@@ -10,6 +10,8 @@ import org.neo4j.driver.exceptions.ClientException;
 
 import java.util.List;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 class N4JExecutor {
     private transient Session session;
 
@@ -71,7 +73,7 @@ class N4JExecutor {
         try {
             final Transaction transaction = this.session.beginTransaction();
             commands.forEach(command -> {
-                N4J.infoCql(N4JExecutor.class, "Each Command: {0}", command);
+                LOG.CQL.info(N4JExecutor.class, "Each Command: {0}", command);
                 transaction.run(command);
             });
             transaction.commit();
@@ -83,7 +85,7 @@ class N4JExecutor {
             /*
              * Existing, ignored
              */
-            N4J.warnCql(N4JExecutor.class, "ClientException: {0}", ex.getMessage());
+            LOG.CQL.warn(N4JExecutor.class, "ClientException: {0}", ex.getMessage());
         }
     }
 }

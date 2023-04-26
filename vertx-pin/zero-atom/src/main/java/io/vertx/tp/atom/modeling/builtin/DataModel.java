@@ -5,6 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.aeon.experiment.rule.RuleUnique;
+import io.aeon.experiment.shape.AbstractHModel;
 import io.aeon.experiment.specification.power.KApp;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HAttribute;
@@ -16,7 +17,6 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
-import io.aeon.experiment.shape.AbstractHModel;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 

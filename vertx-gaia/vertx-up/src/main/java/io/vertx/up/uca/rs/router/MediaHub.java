@@ -1,9 +1,9 @@
 package io.vertx.up.uca.rs.router;
 
+import io.horizon.eon.VString;
 import io.reactivex.Observable;
 import io.vertx.ext.web.Route;
 import io.vertx.up.atom.agent.Event;
-import io.horizon.eon.VString;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;

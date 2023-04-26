@@ -7,6 +7,8 @@ import io.vertx.tp.plugin.neo4j.refine.N4J;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 public class N4JOpNode extends AbstractN4JExecutor implements N4JOp {
     private final transient String graph;
     private final transient Driver driver;
@@ -65,17 +67,18 @@ public class N4JOpNode extends AbstractN4JExecutor implements N4JOp {
     private JsonObject unique(final JsonObject data) {
         /* Condition */
         final JsonObject condition = N4J.nodeUnique(data);
-        N4J.infoNode(this.getClass(), "Cond: {0}", condition.encode());
+        LOG.Node.info(this.getClass(), "Cond: {0}", condition.encode());
         return condition;
     }
 
     private JsonArray unique(final JsonArray data) {
         /* Condition */
         final JsonArray condition = N4J.nodeUnique(data);
-        N4J.infoNode(this.getClass(), "Cond: {0}", condition.encode());
+        LOG.Node.info(this.getClass(), "Cond: {0}", condition.encode());
         return condition;
     }
 
+    @Override
     protected Session session() {
         return this.driver.session();
     }

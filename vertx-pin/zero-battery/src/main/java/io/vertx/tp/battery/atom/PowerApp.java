@@ -1,8 +1,8 @@
 package io.vertx.tp.battery.atom;
 
+import io.horizon.spi.modeler.Modulat;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.modeler.Modulat;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

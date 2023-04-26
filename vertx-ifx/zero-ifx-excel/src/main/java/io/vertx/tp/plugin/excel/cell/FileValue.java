@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.excel.cell;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.eon.VString;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 

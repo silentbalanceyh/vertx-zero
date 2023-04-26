@@ -1,7 +1,7 @@
 package cn.originx.scaffold.plugin;
 
-import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.horizon.spi.plugin.AspectPlugin;
+import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.commune.exchange.DFabric;
 
 import java.util.Objects;

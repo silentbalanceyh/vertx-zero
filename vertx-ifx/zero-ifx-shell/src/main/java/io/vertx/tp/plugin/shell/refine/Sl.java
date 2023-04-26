@@ -79,15 +79,15 @@ public class Sl {
      * - message, Format message information with dynamic `args`
      */
     public static void output(final String message, final Object... args) {
-        SlLog.output(message, args);
+        SlMessage.output(message, args);
     }
 
     public static void outputOpt(final String message, final String name, final Object... args) {
-        SlLog.outputOpt(message, name, args);
+        SlMessage.outputOpt(message, name, args);
     }
 
     public static String message(final String message, final Object... args) {
-        return SlLog.message(message, args);
+        return SlMessage.message(message, args);
     }
 
     public static String message(final String key, final Supplier<String> defaultSupplier) {

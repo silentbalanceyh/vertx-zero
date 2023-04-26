@@ -15,6 +15,8 @@ import org.neo4j.driver.GraphDatabase;
 
 import java.util.Objects;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 public class Neo4jClientImpl implements Neo4jClient {
     private static final Annal LOGGER = Annal.get(Neo4jClientImpl.class);
     private transient final Vertx vertx;
@@ -67,6 +69,7 @@ public class Neo4jClientImpl implements Neo4jClient {
         return this;
     }
 
+    @Override
     public boolean connected() {
         try {
             this.driver.verifyConnectivity();
@@ -156,7 +159,7 @@ public class Neo4jClientImpl implements Neo4jClient {
         if (Objects.isNull(node)) {
             return Ux.future(N4J.graphicDefault());
         } else {
-            N4J.infoNode(this.getClass(), "Node found: {0}", node.encode());
+            LOG.Node.info(this.getClass(), "Node found: {0}", node.encode());
             return this.analyzer.searchAsync(node, level);
         }
     }

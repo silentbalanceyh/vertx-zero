@@ -2,7 +2,8 @@ package io.vertx.tp.plugin.neo4j.refine;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.vertx.up.log.Log;
+import io.vertx.up.log.LogModule;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Value;
 
@@ -11,47 +12,17 @@ import java.util.Set;
 
 public class N4J {
 
-    public static void infoNode(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.info(logger, "Node", pattern, args);
-    }
-
-    public static void infoEdge(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.info(logger, "Edge", pattern, args);
-    }
-
-    public static void debugEdge(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.debug(logger, "Edge", pattern, args);
-    }
-
-    public static void warnEdge(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.warn(logger, "Edge", pattern, args);
-    }
-
-    public static void infoCql(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.info(logger, "Cql", pattern, args);
-    }
-
-    public static void warnCql(final Class<?> clazz, final String pattern, final Object... args) {
-        final Annal logger = Annal.get(clazz);
-        N4JLog.warn(logger, "Cql", pattern, args);
-    }
-
-    // ------------ DDL
-
     public static List<String> constraint(final String graph, final Set<String> properties, final String alias) {
         return N4JNode.constraint(graph, properties, alias);
     }
 
-    // ------------ Node
+    // ------------ DDL
 
     public static String nodeAdd(final String graph, final JsonObject node, final String alias) {
         return N4JNode.add(graph, node, alias);
     }
+
+    // ------------ Node
 
     public static List<String> nodeAdd(final String graph, final JsonArray node, final String alias) {
         return N4JNode.add(graph, node, alias);
@@ -118,11 +89,11 @@ public class N4J {
     public static String graphicReset(final String graph) {
         return N4JApoc.graphicReset(graph);
     }
-    // -------------- Tools
 
     public static JsonObject nodeMarker(final JsonObject node) {
         return N4JInput.marker(node);
     }
+    // -------------- Tools
 
     public static JsonArray nodeMarker(final JsonArray node) {
         return N4JInput.marker(node);
@@ -146,6 +117,14 @@ public class N4J {
 
     public static JsonObject graphicDefault() {
         return new JsonObject().put("nodes", new JsonArray()).put("edges", new JsonArray());
+    }
+
+    public interface LOG {
+        String INFIX = "γραφικό";
+
+        LogModule CQL = Log.modulat(INFIX).infix("CQL");
+        LogModule Node = Log.modulat(INFIX).infix("Node");
+        LogModule Edge = Log.modulat(INFIX).infix("Edge");
     }
 
 }

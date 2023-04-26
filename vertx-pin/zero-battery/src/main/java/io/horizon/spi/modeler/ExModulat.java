@@ -1,7 +1,6 @@
 package io.horizon.spi.modeler;
 
 import io.aeon.runtime.H2H;
-import io.horizon.spi.modeler.Modulat;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

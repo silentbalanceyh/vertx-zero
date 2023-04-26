@@ -1,9 +1,9 @@
 package io.vertx.tp.workflow.uca.modeling;
 
+import io.horizon.spi.modeler.Atom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.modeler.Atom;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;

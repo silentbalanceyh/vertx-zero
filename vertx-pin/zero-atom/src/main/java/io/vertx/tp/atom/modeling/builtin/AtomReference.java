@@ -2,6 +2,7 @@ package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.aeon.experiment.mu.KReference;
+import io.aeon.experiment.shape.HAtomReference;
 import io.aeon.experiment.specification.power.KApp;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.specification.modeler.HAtom;
@@ -9,7 +10,6 @@ import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
-import io.aeon.experiment.shape.HAtomReference;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

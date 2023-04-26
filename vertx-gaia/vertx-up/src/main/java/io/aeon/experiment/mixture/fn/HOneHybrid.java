@@ -1,11 +1,11 @@
 package io.aeon.experiment.mixture.fn;
 
+import io.aeon.experiment.mixture.HOne;
 import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-import io.aeon.experiment.mixture.HOne;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

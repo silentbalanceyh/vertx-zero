@@ -3,7 +3,6 @@ package io.aeon.atom.iras;
 import io.aeon.atom.config.HPlot;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
-import io.aeon.refine.HLog;
 import io.aeon.runtime.H1H;
 import io.horizon.eon.em.cloud.ModeAeon;
 import io.horizon.eon.em.cloud.RTEAeon;
@@ -16,6 +15,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static io.aeon.refine.Ho.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -37,7 +38,7 @@ public class HAeon implements Serializable {
     /* 三种库 */
     private HAeon(final JsonObject configuration) {
         this.mode = Ut.toEnum(() -> Ut.valueString(configuration, KName.MODE),
-                ModeAeon.class, ModeAeon.MIN);
+            ModeAeon.class, ModeAeon.MIN);
         // 上层工作区
         this.name = Ut.valueString(configuration, HName.NAME);
         this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
@@ -56,7 +57,7 @@ public class HAeon implements Serializable {
         final JsonObject repoJ = Ut.valueJObject(configJ, HName.REPO);
         final JsonObject kiddJ = Ut.valueJObject(repoJ, HName.KIDD);
         if (Ut.isNil(kiddJ)) {
-            HLog.warnAeon(HAeon.class, "`kidd` configuration missing!!");
+            LOG.Aeon.warn(HAeon.class, "`kidd` configuration missing!!");
             return null;
         }
         // 初始化

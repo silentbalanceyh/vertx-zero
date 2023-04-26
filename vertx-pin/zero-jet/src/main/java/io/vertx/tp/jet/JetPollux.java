@@ -1,5 +1,7 @@
 package io.vertx.tp.jet;
 
+import io.horizon.spi.environment.Ambient;
+import io.horizon.spi.environment.AmbientEnvironment;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
@@ -8,8 +10,6 @@ import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.uca.aim.*;
-import io.horizon.spi.environment.Ambient;
-import io.horizon.spi.environment.AmbientEnvironment;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.extension.AbstractAres;
 import io.vertx.up.runtime.ZeroJet;

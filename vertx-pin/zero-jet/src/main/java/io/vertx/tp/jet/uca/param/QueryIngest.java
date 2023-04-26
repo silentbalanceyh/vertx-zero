@@ -1,10 +1,10 @@
 package io.vertx.tp.jet.uca.param;
 
+import io.horizon.spi.jet.JtIngest;
 import io.vertx.core.MultiMap;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.cv.em.ParamMode;
-import io.horizon.spi.jet.JtIngest;
 import io.vertx.up.commune.Envelop;
 
 import java.util.function.Supplier;

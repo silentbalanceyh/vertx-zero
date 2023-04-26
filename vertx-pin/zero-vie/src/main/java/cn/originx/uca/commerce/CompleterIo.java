@@ -1,7 +1,7 @@
 package cn.originx.uca.commerce;
 
-import io.vertx.core.Future;
 import io.horizon.spi.robin.Switcher;
+import io.vertx.core.Future;
 
 /*
  * 批量 / 单量分流器

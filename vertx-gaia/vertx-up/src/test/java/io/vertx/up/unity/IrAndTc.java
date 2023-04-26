@@ -1,8 +1,8 @@
 package io.vertx.up.unity;
 
+import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.horizon.eon.VString;
 import org.junit.Assert;
 import org.junit.Test;
 

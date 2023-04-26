@@ -1,8 +1,8 @@
 package io.horizon.spi.ambient;
 
+import io.horizon.spi.extension.Init;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.extension.Init;
 import io.vertx.up.unity.Ux;
 
 import java.util.function.Function;

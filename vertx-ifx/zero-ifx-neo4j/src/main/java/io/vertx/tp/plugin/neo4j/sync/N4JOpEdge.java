@@ -10,6 +10,8 @@ import org.neo4j.driver.Session;
 
 import java.util.Objects;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
     private final transient String graph;
     private final transient Driver driver;
@@ -25,7 +27,7 @@ public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
             if (Ut.isNil(result)) {
                 return this.doAsync(node, processed -> N4J.edgeAdd(this.graph, processed));
             } else {
-                N4J.warnEdge(this.getClass(), "Existing of {0}, Skip", node.encode());
+                LOG.Edge.warn(this.getClass(), "Existing of {0}, Skip", node.encode());
                 return Future.succeededFuture(node);
             }
         });
@@ -45,7 +47,7 @@ public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
                 }
             }
             if (!ignored.isEmpty()) {
-                N4J.warnEdge(this.getClass(), "Existing of {0}, Skip", ignored.encode());
+                LOG.Edge.warn(this.getClass(), "Existing of {0}, Skip", ignored.encode());
             }
             if (added.isEmpty()) {
                 return Future.succeededFuture(nodes);
@@ -78,6 +80,7 @@ public class N4JOpEdge extends AbstractN4JExecutor implements N4JOp {
         return this.doAsync(nodes, processed -> N4J.edgeDelete(this.graph, processed));
     }
 
+    @Override
     protected Session session() {
         return this.driver.session();
     }

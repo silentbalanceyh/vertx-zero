@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 
+import static io.vertx.tp.plugin.git.refine.Gt.LOG;
+
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -56,7 +58,7 @@ public class GitClientImpl implements GitClient {
     public Git clon() {
         final String uri = this.repo.getUri();
         final String path = this.repo.inWS();
-        GLog.infoRepo(this.getClass(), "Initialize from {0} to {1}", uri, path);
+        LOG.REPO.info(this.getClass(), "Initialize from {0} to {1}", uri, path);
 
         final CloneCommand command = Git.cloneRepository()
             .setURI(uri)
@@ -75,7 +77,7 @@ public class GitClientImpl implements GitClient {
     @Override
     public Git open() {
         final String path = this.repo.inWS();
-        GLog.infoRepo(this.getClass(), "Open the repository of {0}", path);
+        LOG.REPO.info(this.getClass(), "Open the repository of {0}", path);
         try {
             return Git.open(new File(path));
         } catch (final Exception ex) {
@@ -107,7 +109,7 @@ public class GitClientImpl implements GitClient {
             }
             final PullResult result = command.call();
             final MergeResult merged = result.getMergeResult();
-            GLog.infoCommand(this.getClass(), "Pull result: success = {1}, Merge Status = {0}",
+            LOG.COMMAND.info(this.getClass(), "Pull result: success = {1}, Merge Status = {0}",
                 merged.getMergeStatus(),
                 result.isSuccessful());
             return result;
@@ -121,7 +123,7 @@ public class GitClientImpl implements GitClient {
         final FileRepositoryBuilder builder = new FileRepositoryBuilder();
         try {
             final Repository repository = builder.findGitDir(new File(this.repo.getPath())).build();
-            GLog.infoRepo(this.getClass(), "Search the repository of {0}", this.repo.getPath());
+            LOG.REPO.info(this.getClass(), "Search the repository of {0}", this.repo.getPath());
             return new Git(repository);
         } catch (final Exception ex) {
             throw new _404RepoMissingException(this.getClass(), this.repo.getPath(), ex.getMessage());
@@ -164,7 +166,7 @@ public class GitClientImpl implements GitClient {
             final Set<String> remotes = repository.getRemoteNames();
             if (remotes.isEmpty()) {
                 // Empty and Ignore
-                GLog.infoCommand(this.getClass(), "Ignore remote push because of Non Remote related.");
+                LOG.COMMAND.info(this.getClass(), "Ignore remote push because of Non Remote related.");
                 return new ArrayList<>();
             } else {
                 final PushCommand command = git.push();

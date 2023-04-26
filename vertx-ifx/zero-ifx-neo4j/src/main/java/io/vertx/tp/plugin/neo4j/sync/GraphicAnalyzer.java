@@ -12,6 +12,8 @@ import org.neo4j.driver.Transaction;
 import java.util.HashSet;
 import java.util.Set;
 
+import static io.vertx.tp.plugin.neo4j.refine.N4J.LOG;
+
 public class GraphicAnalyzer extends AbstractN4JExecutor {
     private final transient String graph;
     private final transient Driver driver;
@@ -27,7 +29,7 @@ public class GraphicAnalyzer extends AbstractN4JExecutor {
 
     public Future<JsonObject> searchAsync(final JsonObject node, final Integer integer) {
         final String command = N4J.graphicByKey(this.graph, integer);
-        N4J.infoEdge(this.getClass(), "Command: {0}", command);
+        LOG.Edge.info(this.getClass(), "Command: {0}", command);
         final Session session = this.session();
         final Transaction transaction = session.beginTransaction();
         final Result result = transaction.run(command, N4J.parameters(node));

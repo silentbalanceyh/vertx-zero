@@ -1,8 +1,8 @@
 package io.horizon.spi.mixture;
 
+import io.aeon.experiment.mixture.HPerformer;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.Model;
-import io.aeon.experiment.mixture.HPerformer;
 import io.vertx.up.uca.cache.Cc;
 
 import java.util.Set;

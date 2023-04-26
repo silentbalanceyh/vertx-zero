@@ -1,9 +1,9 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.spi.business.ExUser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.spi.business.ExUser;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;

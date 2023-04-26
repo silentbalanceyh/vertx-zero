@@ -24,25 +24,25 @@ class SlWelcome {
 
     static void welcomeCommand(final Environment environment) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.output("------------->>>> " + Ut.flagNBlue("Command Begin"));
-        SlLog.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
+        SlMessage.output("------------->>>> " + Ut.flagNBlue("Command Begin"));
+        SlMessage.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
     static void welcomeSub(final Environment environment, final CommandAtom option) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlLog.outputOpt("------>>>> " + Ut.flagNGreen("Sub System") + ": {0}", option.getName(), option.getDescription());
-        SlLog.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
+        SlMessage.outputOpt("------>>>> " + Ut.flagNGreen("Sub System") + ": {0}", option.getName(), option.getDescription());
+        SlMessage.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
     static void welcomeCommand(final CommandAtom option) {
-        SlLog.output(SlMessage.message("previous",
+        SlMessage.output(SlMessage.message("previous",
             () -> "Previous: name = {0}, description = {1}"), option.getSimple(), option.getDescription());
     }
 
     static void goodbye() {
-        SlLog.output(SlMessage.message("quit",
+        SlMessage.output(SlMessage.message("quit",
             /* Default supplier for "quit" */
             () -> "You have quit Zero Console successfully!"));
     }
@@ -51,7 +51,7 @@ class SlWelcome {
         final String pattern = SlMessage.message("back",
             /* Default supplier for "quit" */
             () -> "You have quit current Sub System: {0} successfully!");
-        SlLog.outputOpt(pattern,
+        SlMessage.outputOpt(pattern,
             option.getName(), option.getDescription());
     }
 }
