@@ -132,7 +132,7 @@ final class Wall {
         final T input = supplier.get();
         if (Objects.nonNull(input)) {
             if (input instanceof String) {
-                if (Ut.notNil((String) input)) {
+                if (Ut.isNotNil((String) input)) {
                     consumer.accept(input);
                 }
             } else {

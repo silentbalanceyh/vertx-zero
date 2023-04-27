@@ -32,7 +32,7 @@ class TwineQr {
             final JsonObject condition;
             condition = Ux.whereAnd();
             condition.mergeIn(qr.getCondition());
-            if (Ut.notNil(normalizeJ)) {
+            if (Ut.isNotNil(normalizeJ)) {
                 // java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
                 // Sub Query Tree Must not be EMPTY
                 condition.put("$KQR$", normalizeJ);

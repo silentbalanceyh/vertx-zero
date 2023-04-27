@@ -34,7 +34,7 @@ class ArkConfigure extends AbstractArk {
             bags.forEach(bag -> {
                 final JsonObject uiConfig = Ut.toJObject(bag.getUiConfig());
                 final String configKey = Ut.valueString(uiConfig, KName.STORE);
-                if (Ut.notNil(configKey)) {
+                if (Ut.isNotNil(configKey)) {
                     futures.put(configKey, this.configureBag(bag));
                 }
             });

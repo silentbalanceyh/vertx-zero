@@ -19,7 +19,7 @@ public class GroupDict implements DictionaryPlugin {
     public Future<JsonArray> fetchAsync(final DSource source,
                                         final MultiMap paramMap) {
         final String sigma = paramMap.get(KName.SIGMA);
-        if (Ut.notNil(sigma)) {
+        if (Ut.isNotNil(sigma)) {
             return Ux.Jooq.on(SGroupDao.class)
                 .fetchAsync(KName.SIGMA, sigma)
                 .compose(Ux::futureA);

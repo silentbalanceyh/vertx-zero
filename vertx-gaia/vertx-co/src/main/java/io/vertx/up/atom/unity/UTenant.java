@@ -70,7 +70,7 @@ public class UTenant implements Serializable, TCopy<UTenant> {
 
     public void setIntegration(final JsonObject integration) {
         this.integration = integration;
-        if (Ut.notNil(integration)) {
+        if (Ut.isNotNil(integration)) {
             // Integration Configuration
             Ut.<JsonObject>itJObject(integration, (vendor, name) -> {
                 final String configFile = vendor.getString(KName.CONFIG, null);

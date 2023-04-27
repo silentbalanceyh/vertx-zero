@@ -113,7 +113,7 @@ public class JobExtractor implements Extractor<Mission> {
         /* Config */
         final String config = Ut.invoke(annotation, KName.CONFIG);
         final Mission mission;
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             final JsonObject json = Ut.ioJObject(this.resolve(config));
             /*
              * Removed

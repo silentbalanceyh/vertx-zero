@@ -74,7 +74,7 @@ class IoForm extends AbstractIo<JsonObject> {
      */
     @Override
     public Future<JsonObject> out(final JsonObject workflow, final JsonObject formData) {
-        if (Ut.notNil(formData)) {
+        if (Ut.isNotNil(formData)) {
             workflow.put(KName.FORM, formData);
         }
         return Ux.future(workflow);

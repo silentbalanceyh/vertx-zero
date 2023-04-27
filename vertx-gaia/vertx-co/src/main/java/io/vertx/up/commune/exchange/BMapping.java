@@ -42,7 +42,7 @@ public class BMapping implements Serializable {
     }
 
     void init(final JsonObject input) {
-        if (Ut.notNil(input)) {
+        if (Ut.isNotNil(input)) {
             input.fieldNames().stream()
                 /* Only stored string value here */
                 .filter(field -> input.getValue(field) instanceof String)

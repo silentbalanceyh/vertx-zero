@@ -73,7 +73,7 @@ public class SockExtractor implements Extractor<Set<Remind>> {
         // Input Part: input / inputAddress
         final Annotation annoAddr = method.getDeclaredAnnotation(Address.class);
         final String inputAddress = Ut.invoke(annoAddr, KName.VALUE);
-        if (Ut.notNil(inputAddress)) {
+        if (Ut.isNotNil(inputAddress)) {
             remind.setAddress(inputAddress);
             final Class<?> inputCls = Ut.invoke(annotation, "input");
             if (DefaultClass.class != inputCls) {

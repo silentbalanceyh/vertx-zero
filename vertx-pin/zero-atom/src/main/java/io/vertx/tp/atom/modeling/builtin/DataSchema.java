@@ -188,7 +188,7 @@ public class DataSchema implements Schema {
             // 设置key的默认值
             AoDefault.key().mount(this.entity).applyJson(key);
             final MKey keyObj = Ut.deserialize(key, MKey.class);
-            if (Ut.notNil(keyObj.getName())) {
+            if (Ut.isNotNil(keyObj.getName())) {
                 this.keys.put(keyObj.getName(), keyObj);
             }
         });
@@ -199,7 +199,7 @@ public class DataSchema implements Schema {
             // 设置field的默认值
             AoDefault.field().mount(this.entity).applyJson(field);
             final MField fieldObj = Ut.deserialize(field, MField.class);
-            if (Ut.notNil(fieldObj.getName())) {
+            if (Ut.isNotNil(fieldObj.getName())) {
                 this.fields.put(fieldObj.getName(), fieldObj);
             }
         });

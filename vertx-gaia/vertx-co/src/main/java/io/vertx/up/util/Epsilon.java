@@ -25,7 +25,7 @@ class Epsilon {
         return list.stream()
             .filter(Objects::nonNull)
             .map(supplier)
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .collect(Collectors.toSet());
     }
 
@@ -37,7 +37,7 @@ class Epsilon {
                 .map(item -> (JsonObject) item)
                 .filter(item -> item.getValue(field) instanceof String)
                 .map(item -> item.getString(field))
-                .filter(Ut::notNil)
+                .filter(Ut::isNotNil)
                 .collect(Collectors.toSet());
         }
         return set;

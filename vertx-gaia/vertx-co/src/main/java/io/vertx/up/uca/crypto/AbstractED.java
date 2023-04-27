@@ -59,7 +59,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
 
         // Z_HED
-        if (Ut.notNil(hedCls)) {
+        if (Ut.isNotNil(hedCls)) {
             hed = Ut.instance(hedCls);
         }
 

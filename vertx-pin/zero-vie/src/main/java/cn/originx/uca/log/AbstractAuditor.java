@@ -18,7 +18,7 @@ abstract class AbstractAuditor implements Auditor {
     protected transient DataAtom atom;
 
     public AbstractAuditor(final JsonObject options) {
-        if (Ut.notNil(options)) {
+        if (Ut.isNotNil(options)) {
             this.options.mergeIn(options, true);
         }
     }

@@ -87,7 +87,7 @@ class DeployBpmnService implements DeployOn {
     @Override
     public Future<Boolean> initialize() {
         Objects.requireNonNull(this.builder);
-        if (Ut.notNil(this.tenantId)) {
+        if (Ut.isNotNil(this.tenantId)) {
             this.builder.tenantId(this.tenantId);
         }
         return this.formStub.initialize().compose(nil -> {

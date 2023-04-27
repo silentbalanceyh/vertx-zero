@@ -124,7 +124,7 @@ public interface Macrocosm {
             DBW_HOST, DBW_PORT, DBW_INSTANCE,   // DB Workflow
             DBH_HOST, DBH_PORT, DBH_INSTANCE,   // DB History
         };
-        Arrays.stream(VARS).filter(Ut::notNil).forEach(name -> {
+        Arrays.stream(VARS).filter(Ut::isNotNil).forEach(name -> {
             final String value = System.getenv(name);
             content.append("\n\t").append(name).append(" = ").append(value);
         });

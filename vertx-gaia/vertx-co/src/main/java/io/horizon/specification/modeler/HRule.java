@@ -108,7 +108,7 @@ public class HRule implements Serializable {
      * @return {@link java.util.Set}
      */
     public Set<String> getUnique() {
-        if (Ut.notNil(this.unique)) {
+        if (Ut.isNotNil(this.unique)) {
             return Ut.toSet(this.unique);
         } else {
             return new HashSet<>();
@@ -154,7 +154,7 @@ public class HRule implements Serializable {
      * @return {@link java.util.Set}
      */
     public Set<String> getRequired() {
-        if (Ut.notNil(this.required)) {
+        if (Ut.isNotNil(this.required)) {
             return Ut.toSet(this.required);
         } else {
             return new HashSet<>();
@@ -226,12 +226,12 @@ public class HRule implements Serializable {
             if (Objects.nonNull(record)) {
                 // Null Pointer for record
                 final Object value = record.get(target);
-                if (Objects.nonNull(value) && Ut.notNil(value.toString())) {
+                if (Objects.nonNull(value) && Ut.isNotNil(value.toString())) {
                     tpl.put(field, value);
                 }
             }
         });
-        if (Ut.notNil(tpl)) {
+        if (Ut.isNotNil(tpl)) {
             LOGGER.info("[ EMF ] Single condition building: {0}", tpl.encode());
         }
         // If null of "", the AND operator will be set.
@@ -254,7 +254,7 @@ public class HRule implements Serializable {
                 .map(record -> record.get(target))
                 .filter(Objects::nonNull).collect(Collectors.toSet());
             final JsonArray valueArray = Ut.toJArray(values);
-            if (Ut.notNil(valueArray)) {
+            if (Ut.isNotNil(valueArray)) {
                 tpl.put(field, Ut.toJArray(values));
             }
         });
@@ -273,7 +273,7 @@ public class HRule implements Serializable {
     private Stream<String> condition(final JsonObject condition) {
         return condition.fieldNames().stream()
             // 过滤条件
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             // 过滤空
             .filter(field -> Objects.nonNull(condition.getValue(field)))
             // 过滤非String类型

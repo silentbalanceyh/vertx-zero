@@ -59,7 +59,7 @@ public class UiJson {
     public UiJson convertChild(final String from, final String prefix) {
         final JsonObject processed = this.input.copy();
         final JsonObject item = processed.getJsonObject(from);
-        if (Ut.notNil(item)) {
+        if (Ut.isNotNil(item)) {
             item.fieldNames().stream().filter(field -> field.startsWith(prefix))
                 .forEach(key -> this.input.put(key, item.getValue(key)));
         }

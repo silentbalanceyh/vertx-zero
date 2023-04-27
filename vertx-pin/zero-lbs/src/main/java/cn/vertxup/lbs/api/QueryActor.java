@@ -104,7 +104,7 @@ public class QueryActor {
         final Supplier<String> valueFun
     ) {
         final String value = valueFun.get();
-        if (Ut.notNil(value)) {
+        if (Ut.isNotNil(value)) {
             data.put(field, value);
         }
         return Ux.future(value);

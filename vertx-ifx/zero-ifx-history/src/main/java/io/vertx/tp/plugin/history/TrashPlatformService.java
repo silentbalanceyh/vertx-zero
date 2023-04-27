@@ -14,7 +14,7 @@ public class TrashPlatformService implements TrashPlatform {
 
     public TrashPlatformService(final Vertx vertxRef, final JsonObject options) {
         this.vertxRef = vertxRef;
-        if (Ut.notNil(options)) {
+        if (Ut.isNotNil(options)) {
             this.options.mergeIn(options);
         }
     }

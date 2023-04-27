@@ -234,7 +234,7 @@ public class Database implements Serializable, TJson, TCopy<Database> {
 
     @Override
     public void fromJson(final JsonObject data) {
-        if (Ut.notNil(data)) {
+        if (Ut.isNotNil(data)) {
             this.category = Ut.toEnum(() -> data.getString("category"),
                 DatabaseType.class, DatabaseType.MYSQL5);
             this.hostname = data.getString("hostname");
@@ -248,7 +248,7 @@ public class Database implements Serializable, TJson, TCopy<Database> {
              * options
              */
             final JsonObject options = Ut.valueJObject(data, KName.OPTIONS);
-            if (Ut.notNil(options)) {
+            if (Ut.isNotNil(options)) {
                 this.options.mergeIn(options);
                 LOGGER.info("Database Options: {0}", this.options.encode());
             }

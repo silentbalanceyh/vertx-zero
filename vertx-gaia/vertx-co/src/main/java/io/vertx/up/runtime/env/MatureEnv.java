@@ -27,7 +27,7 @@ class MatureEnv implements Mature {
             // 过滤 envName 为空的情况
             final Attr attribute = set.attribute(field);
             final String envName = attribute.alias();
-            return Ut.notNil(envName);
+            return Ut.isNotNil(envName);
         }).forEach(field -> {
             /*
              * 核心解析流程

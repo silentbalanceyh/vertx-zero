@@ -151,7 +151,7 @@ public class DataRow implements Serializable {
                 // 抽取字段名
                 final String attribute = matrix.getField(column);
                 // 抽取字段名为空
-                if (Ut.notNil(attribute)) {
+                if (Ut.isNotNil(attribute)) {
                     /*
                      * 这里的 projections 的语义和 Jooq 以及数据域中的语义是一致的
                      *

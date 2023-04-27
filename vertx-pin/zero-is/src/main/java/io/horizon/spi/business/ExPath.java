@@ -55,7 +55,7 @@ public class ExPath implements ExIo {
         final JsonObject condition = Ux.whereAnd();
         condition.put(KName.SIGMA, sigma);
         condition.put(KName.ACTIVE, Boolean.TRUE);
-        if (Ut.notNil(parentId)) {
+        if (Ut.isNotNil(parentId)) {
             condition.put(KName.PARENT_ID, parentId);
         }
         return Is.directoryQr(condition).compose(Ux::futureA).compose(Is::dataOut);
@@ -243,7 +243,7 @@ public class ExPath implements ExIo {
         final JsonObject children = Ux.whereOr();
         Ut.itJArray(directoryD).forEach(json -> {
             final String storePath = json.getString(KName.STORE_PATH);
-            if (Ut.notNil(storePath)) {
+            if (Ut.isNotNil(storePath)) {
                 final JsonObject child = Ux.whereAnd();
                 child.put(KName.STORE_PATH + ",s", json.getString(KName.STORE_PATH));
                 child.put(KName.ACTIVE, Boolean.FALSE);

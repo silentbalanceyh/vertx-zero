@@ -121,7 +121,7 @@ public class KJoin implements Serializable {
     public void dataIn(final JsonObject ds, final KPoint target, final JsonObject data) {
         this.dataRun(target, (source) -> {
             final String joinedValue = ds.getString(source.getKey());
-            if (Ut.notNil(joinedValue)) {
+            if (Ut.isNotNil(joinedValue)) {
                 data.put(target.getKeyJoin(), joinedValue);
             }
         });
@@ -136,7 +136,7 @@ public class KJoin implements Serializable {
                  */
                 joinedValue = ds.getString(target.getKeyJoin());
             }
-            if (Ut.notNil(joinedValue)) {
+            if (Ut.isNotNil(joinedValue)) {
                 data.put(target.getKeyJoin(), joinedValue);
             }
         });
@@ -148,7 +148,7 @@ public class KJoin implements Serializable {
     public void dataOut(final JsonObject ds, final KPoint target, final JsonObject data) {
         this.dataRun(target, (source) -> {
             final String joinedValue = ds.getString(target.getKeyJoin());
-            if (Ut.notNil(joinedValue)) {
+            if (Ut.isNotNil(joinedValue)) {
                 data.put(source.getKey(), joinedValue);
             }
         });

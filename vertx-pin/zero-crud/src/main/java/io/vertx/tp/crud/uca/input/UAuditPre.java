@@ -30,7 +30,7 @@ class UAuditPre implements Pre {
         final KModule module = in.module();
         if (Objects.nonNull(user)) {
             final String userId = Ux.keyUser(user);
-            if (Ut.notNil(userId)) {
+            if (Ut.isNotNil(userId)) {
                 final KField field = module.getField();
                 /* Created */
                 Ix.onAuditor(data, field.getUpdated(), userId);

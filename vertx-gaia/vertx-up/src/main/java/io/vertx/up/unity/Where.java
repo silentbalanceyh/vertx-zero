@@ -22,7 +22,7 @@ class Where {
         /*
          * field / instant
          */
-        if (Ut.notNil(field) && Objects.nonNull(instant)) {
+        if (Ut.isNotNil(field) && Objects.nonNull(instant)) {
             final LocalDateTime current = Ut.toDateTime(instant);
             /* Get today date */
             final LocalDateTime begin = LocalDateTime.of(current.toLocalDate(), LocalTime.MIN);

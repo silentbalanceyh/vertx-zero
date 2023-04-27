@@ -30,7 +30,7 @@ public class KTimerFormula {
     private PerMode mode;
 
     public KTimerFormula(final String runFormula, final Instant runAt) {
-        this.isComplex = Ut.notNil(runFormula);
+        this.isComplex = Ut.isNotNil(runFormula);
         if (this.isComplex) {
             // Advanced Formula Support
             this.initComplex(runFormula);
@@ -45,7 +45,7 @@ public class KTimerFormula {
         for (int idx = VValue.ONE; idx < split.length; idx++) {
             // Skip the first flag
             final String formula = split[idx];
-            if (Ut.notNil(formula)) {
+            if (Ut.isNotNil(formula)) {
                 this.formulas.add(formula);
             }
         }

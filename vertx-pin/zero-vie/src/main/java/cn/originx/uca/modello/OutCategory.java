@@ -53,13 +53,13 @@ public class OutCategory extends OutDpmExpr implements OComponent {
             cat2Identifier = cat2Record.getString(KName.IDENTIFIER);
 
             //找寻映射
-            if (Ut.notNil(sourceNorm)) {
+            if (Ut.isNotNil(sourceNorm)) {
                 normalized = sourceNorm.getString(cat3Identifier);
-                if (Ut.notNil(normalized)) {
+                if (Ut.isNotNil(normalized)) {
                     return normalized;
                 } else {
                     normalized = sourceNorm.getString(cat2Identifier);
-                    if (Ut.notNil(normalized)) {
+                    if (Ut.isNotNil(normalized)) {
                         return normalized;
                     }
                 }

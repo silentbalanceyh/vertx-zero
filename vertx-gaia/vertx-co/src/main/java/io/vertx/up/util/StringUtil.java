@@ -156,7 +156,7 @@ final class StringUtil {
     static JsonObject expression(final JsonObject exprObject, final JsonObject params) {
         // Iterator On Json Object
         final JsonObject parsed = new JsonObject();
-        if (Ut.notNil(exprObject)) {
+        if (Ut.isNotNil(exprObject)) {
             exprObject.fieldNames().forEach(k -> {
                 final Object value = exprObject.getValue(k);
                 if (value instanceof String) {
@@ -188,7 +188,7 @@ final class StringUtil {
 
     static JsonArray expression(final JsonArray exprArray, final JsonObject params) {
         final JsonArray normalized = new JsonArray();
-        if (Ut.notNil(exprArray)) {
+        if (Ut.isNotNil(exprArray)) {
             exprArray.forEach(valueElement -> {
                 if (valueElement instanceof String) {
 
@@ -219,7 +219,7 @@ final class StringUtil {
     }
 
     static Object expressionWith(final String valueExpr, final JsonObject params) {
-        if (Ut.notNil(valueExpr)) {
+        if (Ut.isNotNil(valueExpr)) {
             final Object valueResult;
             if (valueExpr.contains("`")) {
                 // Actual Parsing
@@ -292,18 +292,6 @@ final class StringUtil {
      * it could be parsed, other situations will be ignored.
      */
 
-    static boolean isNil(final String input) {
-        return null == input || 0 == input.trim().length();
-    }
-
-    static boolean isNil(final String... inputs) {
-        final long counter = Arrays.stream(inputs).filter(StringUtil::isNil).count();
-        return counter != 0L;
-    }
-
-    static boolean notNil(final String input) {
-        return !isNil(input);
-    }
 
     static Set<String> matched(final String input, final String regex) {
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);

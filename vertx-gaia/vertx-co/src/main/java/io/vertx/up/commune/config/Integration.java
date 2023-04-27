@@ -225,14 +225,14 @@ public class Integration implements TJson, Serializable, TCopy<Integration> {
          * Integration Request
          */
         final JsonObject apis = data.getJsonObject("apis");
-        if (Ut.notNil(apis)) {
+        if (Ut.isNotNil(apis)) {
             Ut.<JsonObject>itJObject(apis, (json, field) -> {
                 final IntegrationRequest request = Ut.deserialize(json, IntegrationRequest.class);
                 this.apis.put(field, request);
             });
         }
         final JsonObject options = data.getJsonObject("options");
-        if (Ut.notNil(options)) {
+        if (Ut.isNotNil(options)) {
             this.options = options.copy();
         }
     }

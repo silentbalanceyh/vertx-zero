@@ -109,7 +109,7 @@ class RayResult {
              * JsonObject extract.
              */
             final JsonObject extract = amb.dataT();
-            if (Ut.notNil(extract)) {
+            if (Ut.isNotNil(extract)) {
                 if (DataFormat.JsonObject == format) {
                     /* JsonObject */
                     record.add(field, extract);
@@ -145,7 +145,7 @@ class RayResult {
              */
             Ut.itJArray(data).forEach(json -> {
                 final String key = keyReference(json, result.joined());
-                if (Ut.notNil(key)) {
+                if (Ut.isNotNil(key)) {
                     Cc.pool(groupedData, key, () -> new JAmb().data(new JsonArray())).add(json);
                 }
             });
@@ -155,7 +155,7 @@ class RayResult {
              */
             Ut.itJArray(data).forEach(json -> {
                 final String key = keyReference(json, result.joined());
-                if (Ut.notNil(key)) {
+                if (Ut.isNotNil(key)) {
                     groupedData.put(key, new JAmb().data(json));
                 }
             });

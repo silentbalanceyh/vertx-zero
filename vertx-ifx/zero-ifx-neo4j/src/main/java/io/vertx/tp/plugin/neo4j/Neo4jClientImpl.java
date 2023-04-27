@@ -51,7 +51,7 @@ public class Neo4jClientImpl implements Neo4jClient {
 
     @Override
     public Neo4jClient connect(final String graph) {
-        if (Ut.notNil(graph)) {
+        if (Ut.isNotNil(graph)) {
             this.graph = graph;
         }
         /*
@@ -116,7 +116,7 @@ public class Neo4jClientImpl implements Neo4jClient {
 
     @Override
     public boolean nodeExisting(final String key) {
-        return Ut.notNil(this.session.findSync(new JsonObject().put("key", key)));
+        return Ut.isNotNil(this.session.findSync(new JsonObject().put("key", key)));
     }
 
     @Override

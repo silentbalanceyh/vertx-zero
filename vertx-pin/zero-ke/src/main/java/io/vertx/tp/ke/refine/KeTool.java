@@ -73,7 +73,7 @@ class KeTool {
              * Put `key` of data into `modelKey`
              */
             final JsonObject criteria = condition.copy();
-            if (Ut.notNil(criteria)) {
+            if (Ut.isNotNil(criteria)) {
                 criteria.put(VString.EMPTY, Boolean.TRUE);
                 criteria.put(KName.MODEL_KEY, key);
                 /*

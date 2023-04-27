@@ -25,7 +25,7 @@ public abstract class ActMapping implements Serializable {
             record.key(key);
         } else if (input instanceof JsonObject) {
             final JsonObject dataRef = (JsonObject) input;
-            if (Ut.notNil(dataRef)) {
+            if (Ut.isNotNil(dataRef)) {
                 /*
                  * Set current data to `Record` with `DualMapping`
                  * Check whether mount dual mapping first here

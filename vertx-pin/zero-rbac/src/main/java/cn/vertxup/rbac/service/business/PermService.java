@@ -140,7 +140,7 @@ public class PermService implements PermStub {
             criteria.put(KName.SIGMA, sigma);
             criteria.put("code,!i", Ut.toJArray(codes));
             criteria.put(VString.EMPTY, Boolean.TRUE);
-            if (Ut.notNil(criteriaRef)) {
+            if (Ut.isNotNil(criteriaRef)) {
                 criteria.put("$0", criteriaRef.copy());
             }
             /*

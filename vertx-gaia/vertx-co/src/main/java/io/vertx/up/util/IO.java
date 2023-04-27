@@ -89,7 +89,7 @@ final class IO {
             String line;
             while (null != (line = reader.readLine())) {
                 buffer.append(line);
-                if (Ut.notNil(joined)) {
+                if (Ut.isNotNil(joined)) {
                     buffer.append(joined);
                 }
             }

@@ -125,7 +125,7 @@ public class ExportComponent extends AbstractAdaptor {
                     /*
                      * 提取数据，形成 header / data 两部分
                      */
-                    if (Ut.notNil(key) && Ut.notNil(label)) {
+                    if (Ut.isNotNil(key) && Ut.isNotNil(label)) {
                         exported.put(key, label);
                         columnField.add(key);
                     }

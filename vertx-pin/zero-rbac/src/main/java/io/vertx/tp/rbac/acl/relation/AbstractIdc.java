@@ -26,7 +26,7 @@ public abstract class AbstractIdc implements IdcStub {
                 /* Fix issue of `modelKey` injection */
                 final String username = user.getString(KName.USERNAME);
                 final JsonObject data = keyMap.get(username);
-                if (Ut.notNil(data)) {
+                if (Ut.isNotNil(data)) {
                     /*
                      * Replace
                      * - modelKey

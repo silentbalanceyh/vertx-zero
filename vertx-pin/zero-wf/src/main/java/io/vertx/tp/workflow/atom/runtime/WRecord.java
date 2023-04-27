@@ -150,7 +150,7 @@ public class WRecord implements Serializable {
      * Child Bind
      */
     public WRecord ticket(final JsonObject child) {
-        if (Ut.notNil(child)) {
+        if (Ut.isNotNil(child)) {
             this.child.mergeIn(child.copy());
         }
         return this;
@@ -243,7 +243,7 @@ public class WRecord implements Serializable {
     }
 
     public Future<WRecord> futureAfter(final JsonObject dataAfter) {
-        if (Ut.notNil(dataAfter)) {
+        if (Ut.isNotNil(dataAfter)) {
             this.dataAfter.clear();
             this.dataAfter.mergeIn(dataAfter, true);
         }
@@ -490,7 +490,7 @@ public class WRecord implements Serializable {
         if (Objects.nonNull(this.prev)) {
             // Data Original, UPDATE Only
             final JsonObject dataPrev = this.prev.data();
-            if (Ut.notNil(dataPrev)) {
+            if (Ut.isNotNil(dataPrev)) {
                 /*
                  * Here are some calculation, the __data with `this.prev` must exist in
                  * Todo task generation here, in this kind of situation, here are the matrix
@@ -545,7 +545,7 @@ public class WRecord implements Serializable {
         // Linkage Data Put
         this.linkage.forEach(result::put);
         // Child
-        if (Ut.notNil(this.child)) {
+        if (Ut.isNotNil(this.child)) {
             /*
              * Switch `key` and `traceKey` instead of all records
              * - `key` field is W_TODO record primary key

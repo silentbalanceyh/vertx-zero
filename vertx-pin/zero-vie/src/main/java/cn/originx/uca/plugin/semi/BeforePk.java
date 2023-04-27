@@ -74,7 +74,7 @@ public class BeforePk extends AbstractBefore {
                  * -- 得到 deployDb 中存在的 recordRef
                  * 2. 从 recordRef 抽取值
                  */
-                if (Ut.notNil(record.getString(field))) {
+                if (Ut.isNotNil(record.getString(field))) {
                     final HRecord ref = valueMap.get(record.getString(field));
                     final Object value = this.extractValue(ref, config.getOrDefault(field, new JsonObject()));
                     if (Objects.nonNull(value)) {

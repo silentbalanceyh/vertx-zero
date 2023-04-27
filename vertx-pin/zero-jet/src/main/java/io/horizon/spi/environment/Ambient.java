@@ -86,7 +86,7 @@ public class Ambient {
          * 1. First search X-App-Id
          */
         final String appId = headers.get(KWeb.HEADER.X_APP_ID);
-        if (Ut.notNil(appId)) {
+        if (Ut.isNotNil(appId)) {
             return APPS.get(appId);
         } else {
             /*
@@ -94,12 +94,12 @@ public class Ambient {
              */
             final String sigma = headers.get(KWeb.HEADER.X_SIGMA);
             JtApp app = null;
-            if (Ut.notNil(sigma)) {
+            if (Ut.isNotNil(sigma)) {
                 app = searchApp(sigma, JtApp::getSigma);
             }
             if (Objects.isNull(app)) {
                 final String appKey = headers.get(KWeb.HEADER.X_APP_KEY);
-                if (Ut.notNil(appKey)) {
+                if (Ut.isNotNil(appKey)) {
                     app = searchApp(sigma, JtApp::getAppKey);
                 }
             }

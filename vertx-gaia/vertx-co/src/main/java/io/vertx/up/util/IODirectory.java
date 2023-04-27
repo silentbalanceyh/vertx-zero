@@ -179,7 +179,7 @@ final class IODirectory {
                  */
                 final String replaced = entryName.substring(0, entryName.lastIndexOf('/'));
                 final String found = replaced.substring(replaced.lastIndexOf('/') + 1);
-                if (Ut.notNil(found)) {
+                if (Ut.isNotNil(found)) {
                     retList.add(found);
                 }
             }
@@ -202,7 +202,7 @@ final class IODirectory {
                      * No Extension
                      */
                     final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
-                    if (Ut.notNil(foundFile)) {
+                    if (Ut.isNotNil(foundFile)) {
                         retList.add(foundFile);
                     }
                 } else {
@@ -211,7 +211,7 @@ final class IODirectory {
                          * Extension enabled
                          */
                         final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
-                        if (Ut.notNil(foundFile)) {
+                        if (Ut.isNotNil(foundFile)) {
                             retList.add(foundFile);
                         }
                     }

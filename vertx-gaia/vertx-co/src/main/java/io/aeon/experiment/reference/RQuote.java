@@ -131,7 +131,7 @@ public class RQuote implements Serializable {
         /*
          * sourceReference
          */
-        if (Ut.notNil(referenceConfig)) {
+        if (Ut.isNotNil(referenceConfig)) {
             final JsonObject sourceReference = referenceConfig.copy();
             this.sourceReference.put(name, sourceReference);
             /*

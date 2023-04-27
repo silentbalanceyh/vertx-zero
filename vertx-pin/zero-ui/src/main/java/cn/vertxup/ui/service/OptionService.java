@@ -69,7 +69,7 @@ public class OptionService implements OptionStub {
         // 1. mountIn fields, convert those into object from string
         final List<UiOp> ops = Ut.itJArray(data)
             // filter(deduplicate) by action
-            .filter(item -> Ut.notNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
+            .filter(item -> Ut.isNotNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
             .map(item -> Fn.ifString(item,
                 FIELD_OP_CONFIG,
                 FIELD_OP_PLUGIN,

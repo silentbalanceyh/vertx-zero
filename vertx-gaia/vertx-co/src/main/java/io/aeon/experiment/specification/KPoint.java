@@ -99,7 +99,7 @@ public class KPoint implements Serializable {
     }
 
     public void setKey(final String key) {
-        if (Ut.notNil(key)) {
+        if (Ut.isNotNil(key)) {
             this.key = key;
         }
     }
@@ -147,7 +147,7 @@ public class KPoint implements Serializable {
      */
     public JoinMode modeTarget() {
         /* P1: CRUD */
-        if (Ut.notNil(this.crud)) {
+        if (Ut.isNotNil(this.crud)) {
             return JoinMode.CRUD;
         }
         /* P2: classDao */

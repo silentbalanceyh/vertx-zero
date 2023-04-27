@@ -44,7 +44,7 @@ class TwineModel implements Twine<String> {
     @Override
     public Future<JsonObject> identAsync(final String key, final JsonObject updatedData) {
         return this.identAsync(key).compose(original -> {
-            if (Ut.notNil(original)) {
+            if (Ut.isNotNil(original)) {
                 /*
                  * 只更新引用，不更新数据，主要更新 S_USER 中的两个核心字段
                  * modelId, modelKey

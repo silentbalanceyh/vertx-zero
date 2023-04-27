@@ -122,7 +122,7 @@ class AtFs {
             if (json.containsKey(KName.DIRECTORY_ID)) {
                 final String filePath = json.getString(KName.Attachment.FILE_PATH);
                 final String storePath = json.getString(KName.STORE_PATH);
-                if (Ut.notNil(filePath) && Ut.notNil(storePath)) {
+                if (Ut.isNotNil(filePath) && Ut.isNotNil(storePath)) {
                     directorySet.add(json.getString(KName.DIRECTORY_ID));
                     fileMap.put(filePath, storePath);
                 }
@@ -147,10 +147,10 @@ class AtFs {
         });
         LOG.File.info(LOGGER, "Split Running: Local = {0}, Remote = {1}", dataL.size(), dataR.size());
         final List<Future<JsonArray>> futures = new ArrayList<>();
-        if (Ut.notNil(dataL)) {
+        if (Ut.isNotNil(dataL)) {
             futures.add(fnLocal.apply(dataL));
         }
-        if (Ut.notNil(dataR)) {
+        if (Ut.isNotNil(dataR)) {
             futures.add(fnRemote.apply(dataR));
         }
         return Fn.compressA(futures);

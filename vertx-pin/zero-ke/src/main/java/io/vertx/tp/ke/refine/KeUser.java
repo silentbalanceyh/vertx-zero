@@ -110,7 +110,7 @@ class KeUser {
                     final JsonArray userA = new JsonArray();
                     vSet.forEach(userKey -> {
                         final JsonObject userJ = userMap.getOrDefault(userKey, null);
-                        if (Ut.notNil(userJ)) {
+                        if (Ut.isNotNil(userJ)) {
                             userA.add(userJ);
                         }
                     });
@@ -118,7 +118,7 @@ class KeUser {
                 } else if (value instanceof String) {                   // Replace
                     final String userKey = (String) value;
                     final JsonObject userJ = userMap.getOrDefault(userKey, null);
-                    if (Ut.notNil(userJ)) {
+                    if (Ut.isNotNil(userJ)) {
                         normalized.put(field, userJ);
                     } else {
                         normalized.put(field, new JsonObject());        // Replace

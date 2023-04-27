@@ -41,7 +41,7 @@ class RpcHelper {
         // Lookup Record instance
         Observable.fromIterable(registryData.values())
             .filter(Objects::nonNull)
-            .filter(item -> Ut.notNil(item.getName()))
+            .filter(item -> Ut.isNotNil(item.getName()))
             .filter(item -> name.equals(item.getName()) &&
                 address.equals(item.getMetadata().getString(Key.PATH)))
             .subscribe(container::add)

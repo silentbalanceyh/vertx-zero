@@ -51,7 +51,7 @@ public class DatumInit implements Init {
         final List<String> files = Ut.ioFiles(dataFolder);
         /* List<Future> */
         final List<Future<JsonObject>> futures = files.stream()
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             /* Remove temp file of Excel */
             .filter(file -> !file.startsWith("~$"))
             .map(file -> dataFolder + file)

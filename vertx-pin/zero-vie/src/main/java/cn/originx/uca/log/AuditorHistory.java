@@ -57,7 +57,7 @@ class AuditorHistory extends AbstractAuditor {
                                         final Queue<String> serial, final Set<String> ignoreSet) {
         final List<Future<JsonObject>> futures = new ArrayList<>();
         if (Ut.isNil(recordN)) {
-            if (Ut.notNil(recordO)) {
+            if (Ut.isNotNil(recordO)) {
                 // DELETE
                 Ut.itJArray(recordO).forEach(item ->
                     futures.add(this.trackAsync(null, item, serial.poll(), ignoreSet)));

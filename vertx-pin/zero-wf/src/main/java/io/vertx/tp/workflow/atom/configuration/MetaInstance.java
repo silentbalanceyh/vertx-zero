@@ -84,7 +84,7 @@ public class MetaInstance {
         final StringBuilder componentKey = new StringBuilder();
         componentKey.append(componentCls.getName());
         componentKey.append(this.record.hashCode());
-        if (Ut.notNil(componentConfig)) {
+        if (Ut.isNotNil(componentConfig)) {
             componentKey.append(componentConfig.hashCode());
         }
         return componentKey.toString();

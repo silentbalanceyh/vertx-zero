@@ -25,7 +25,7 @@ class SeqClass extends AbstractSeq<Class<?>> {
     }
 
     static void bindStatic(final Class<?> clazz, final String code) {
-        if (Ut.notNil(code) && Objects.nonNull(clazz)) {
+        if (Ut.isNotNil(code) && Objects.nonNull(clazz)) {
             POOL_CLASS.put(clazz, code);
         }
     }
@@ -45,7 +45,7 @@ class SeqClass extends AbstractSeq<Class<?>> {
         numbers.fieldNames().forEach(className -> {
             final Class<?> clazz = Ut.clazz(className, null);
             final String code = numbers.getString(className);
-            if (Objects.nonNull(clazz) && Ut.notNil(code)) {
+            if (Objects.nonNull(clazz) && Ut.isNotNil(code)) {
                 this.bind(clazz, code);
             }
         });

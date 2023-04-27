@@ -19,7 +19,7 @@ public class FileValue implements ExValue {
         String literal = value.toString();
         if (2 == pathArr.length) {
             final String path = pathArr[1];
-            if (Ut.notNil(path)) {
+            if (Ut.isNotNil(path)) {
                 final JsonObject valueJ = new JsonObject();
                 valueJ.put(Literal.K_TYPE, Literal.Prefix.FILE);
 

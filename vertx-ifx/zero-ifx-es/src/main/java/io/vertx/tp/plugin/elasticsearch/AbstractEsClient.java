@@ -24,7 +24,7 @@ public abstract class AbstractEsClient {
     private final transient JsonObject options = new JsonObject();
 
     AbstractEsClient(final JsonObject options) {
-        if (Ut.notNil(options)) {
+        if (Ut.isNotNil(options)) {
             this.options.mergeIn(options.copy());
         }
     }

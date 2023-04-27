@@ -34,7 +34,7 @@ class UiCache {
         final JsonObject body,
         final Supplier<Future<T>> executor) {
         final String keyPool = poolFn.get();
-        if (Ut.notNil(keyPool)) {
+        if (Ut.isNotNil(keyPool)) {
             final String uiKey = String.valueOf(body.hashCode());
             return Rapid.<String, T>t(keyPool).cached(uiKey, executor);
         } else {

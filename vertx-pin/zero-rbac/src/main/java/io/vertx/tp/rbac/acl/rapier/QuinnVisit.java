@@ -38,7 +38,7 @@ public class QuinnVisit implements Quinn {
         final JsonArray visitantData = Ut.valueJArray(data, KName.Rbac.VISITANT);
         final JsonObject viewData = data.copy();
         // Set visitant = true when Data Not Empty
-        viewData.put(KName.Rbac.VISITANT, Ut.notNil(visitantData));
+        viewData.put(KName.Rbac.VISITANT, Ut.isNotNil(visitantData));
         Ut.itJArray(visitantData).forEach(visitantJ -> Ut.elementCopy(visitantJ, viewData,
             KName.SIGMA, KName.LANGUAGE, KName.UPDATED_BY
         ));

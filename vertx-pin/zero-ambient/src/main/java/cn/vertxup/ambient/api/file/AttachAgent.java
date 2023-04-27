@@ -33,7 +33,7 @@ public class AttachAgent {
                              @StreamParam final FileUpload fileUpload) {
         final JsonObject uploaded = new JsonObject();
         final String originalFile = fileUpload.fileName();
-        if (Ut.notNil(originalFile) && originalFile.contains(".")) {
+        if (Ut.isNotNil(originalFile) && originalFile.contains(".")) {
             // Config Read
             final AtConfig config = AtPin.getConfig();
             final int lastIndex = originalFile.lastIndexOf('.');

@@ -49,7 +49,7 @@ public class DwarfQr implements Dwarf {
             return;
         }
         final JsonObject query = matrix.getJsonObject(Qr.KEY_CRITERIA);
-        if (Ut.notNil(query)) {
+        if (Ut.isNotNil(query)) {
             dataReference.put(KName.__.QR, query);
         }
     }

@@ -93,7 +93,7 @@ class IxDao {
         final KModule config = CONFIG_MAP.get(actor);
         if (Objects.isNull(config)) {
             final String name = ALIAS_MAP.get(actor);
-            if (Ut.notNil(name)) {
+            if (Ut.isNotNil(name)) {
                 LOG.Rest.info(IxDao.class, "Actor: name = `{0}`, identifier = `{1}`", name, actor);
                 return CONFIG_MAP.get(name);
             } else {

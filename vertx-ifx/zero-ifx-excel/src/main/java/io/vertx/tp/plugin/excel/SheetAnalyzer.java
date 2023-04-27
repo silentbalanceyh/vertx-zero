@@ -57,7 +57,7 @@ public class SheetAnalyzer implements Serializable {
                     /* Predicate Here */
                     cell -> CellType.STRING == cell.getCellType()
                         /* Do not check blank / empty cell here */
-                        && Ut.notNil(cell.getStringCellValue())
+                        && Ut.isNotNil(cell.getStringCellValue())
                         /* Fix issue of {TABLE} here for BLANK CELL */
                         && cell.getStringCellValue().equals(ExKey.EXPR_TABLE));
             });

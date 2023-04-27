@@ -92,7 +92,7 @@ final class ZeroErr {
     }
 
     static <T> T getEmpty(final T defaultValue, final Supplier<T> fnGet, final String... reference) {
-        if (Arrays.stream(reference).allMatch(Ut::notNil)) {
+        if (Arrays.stream(reference).allMatch(Ut::isNotNil)) {
             final T ret = fnGet.get();
             return (null == ret) ? defaultValue : ret;
         } else {

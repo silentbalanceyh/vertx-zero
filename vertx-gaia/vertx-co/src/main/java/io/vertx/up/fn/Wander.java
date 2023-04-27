@@ -123,7 +123,7 @@ class Wander {
             }
             // Function Processing
             return executor.apply(value).compose(data -> {
-                if (Ut.notNil(data)) {
+                if (Ut.isNotNil(data)) {
                     mount.put(field, data);
                 }
                 return Future.succeededFuture(mount);
@@ -169,7 +169,7 @@ class Wander {
             final Object vSegment = mount.getValue(field);
             if (vSegment instanceof final JsonObject tree) {
                 return wrapTree(tree, deeply, executor).compose(segmentData -> {
-                    if (Ut.notNil(segmentData)) {
+                    if (Ut.isNotNil(segmentData)) {
                         mount.put(field, segmentData);
                     }
                     return Future.succeededFuture(mount);

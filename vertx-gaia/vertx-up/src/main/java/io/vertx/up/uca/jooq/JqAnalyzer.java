@@ -278,7 +278,7 @@ public class JqAnalyzer {
             } else {
                 this.fieldMap.forEach((name, field) -> {
                     final String fieldName = this.pojo.getOut(name);
-                    if (Ut.notNil(fieldName)) {
+                    if (Ut.isNotNil(fieldName)) {
                         this.typeMap.put(fieldName, field.getType());
                     }
                 });

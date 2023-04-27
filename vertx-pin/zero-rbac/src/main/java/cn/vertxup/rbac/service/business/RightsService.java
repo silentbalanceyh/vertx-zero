@@ -34,7 +34,7 @@ public class RightsService implements RightsStub {
     public Future<JsonArray> saveRoles(final String roleId, final JsonArray data) {
         // 1. make up role-perm entity
         final List<RRolePerm> rolePerms = Ut.itJString(data)
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .map(perm -> new JsonObject().put(KName.Rbac.PERM_ID, perm).put(KName.Rbac.ROLE_ID, roleId))
             .map(rolePerm -> Ux.fromJson(rolePerm, RRolePerm.class))
             .collect(Collectors.toList());

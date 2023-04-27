@@ -92,7 +92,7 @@ public abstract class AbstractRotator implements Rotator {
         if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
             request.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
         }
-        if (Ut.notNil(headers)) {
+        if (Ut.isNotNil(headers)) {
             headers.stream()
                 .filter(item -> Objects.nonNull(item.getValue()))
                 .forEach(item -> request.addHeader(item.getKey(), item.getValue().toString()));

@@ -51,7 +51,7 @@ public class UiActor {
         return Ui.cacheControl(body, () -> {
             final String control = body.getString("control");
             final ControlType type = Ut.toEnum(() -> body.getString("type"), ControlType.class, ControlType.NONE);
-            if (Ut.notNil(control)) {
+            if (Ut.isNotNil(control)) {
                 if (ControlType.LIST == type) {
                     return this.listStub.fetchById(control);
                 } else {

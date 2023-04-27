@@ -34,7 +34,7 @@ public class KPair implements Serializable {
     }
 
     public boolean valid() {
-        return Ut.notNil(this.privateKey) && Ut.notNil(this.publicKey);
+        return Ut.isNotNil(this.privateKey) && Ut.isNotNil(this.publicKey);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class WRequest implements Serializable {
         }
         if (!request.containsKey(KName.CREATED_BY)) {
             final String user = request.getString(KName.UPDATED_BY, null);
-            if (Ut.notNil(user)) {
+            if (Ut.isNotNil(user)) {
                 request.put(KName.CREATED_BY, user);
             }
         }

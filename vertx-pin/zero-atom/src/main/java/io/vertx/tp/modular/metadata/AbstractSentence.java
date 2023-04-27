@@ -48,7 +48,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         }
         // 添加Comments部分
         segment.append(" ").append(SqlWord.Assistant.COMMENT).append(" '");
-        if (Ut.notNil(field.getComments())) {
+        if (Ut.isNotNil(field.getComments())) {
             segment.append(field.getComments()).append(VString.COMMA);
         }
         segment.append(field.getName()).append(VString.COMMA).append(field.getColumnName()).append("'");

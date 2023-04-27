@@ -47,7 +47,7 @@ public class FieldService implements FieldStub {
         final List<UiField> fields = Ut.itJArray(data)
             // filter(deduplicate) by name
             .filter(item -> (!item.containsKey(KName.NAME)) ||
-                (Ut.notNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
+                (Ut.isNotNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
             .map(item -> Fn.ifString(item,
                 FieldStub.OPTION_JSX,
                 FieldStub.OPTION_CONFIG,
@@ -171,9 +171,9 @@ public class FieldService implements FieldStub {
                      */
                     final JsonObject optionJsx = cell.getJsonObject(FieldStub.OPTION_JSX);
 
-                    if (Ut.notNil(optionJsx)) {
+                    if (Ut.isNotNil(optionJsx)) {
                         final JsonObject config = optionJsx.getJsonObject("config");
-                        if (Ut.notNil(config) && config.containsKey("format")) {
+                        if (Ut.isNotNil(config) && config.containsKey("format")) {
                             /*
                              * Date here for moment = true
                              * Here are some difference between two components

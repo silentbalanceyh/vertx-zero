@@ -85,14 +85,14 @@ public class EmployeeService implements EmployeeStub {
                      * Relation keep
                      */
                     return this.updateEmployee(key, data);
-                } else if (Ut.isNil(userId) && Ut.notNil(current)) {
+                } else if (Ut.isNil(userId) && Ut.isNotNil(current)) {
                     /*
                      * Old null, new <value>
                      * Create relation with new
                      */
                     return this.updateEmployee(key, data)
                         .compose(response -> this.updateReference(current, response));
-                } else if (Ut.notNil(userId) && Ut.isNil(current)) {
+                } else if (Ut.isNotNil(userId) && Ut.isNil(current)) {
                     /*
                      * Old <value>, new <null>
                      * Clear relation with old
@@ -160,9 +160,9 @@ public class EmployeeService implements EmployeeStub {
     private Future<JsonObject> fetchRef(final JsonObject input) {
         return this.switchJ(input, ExUser::rapport).compose(userJ -> {
             // Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6W2KQ
-            if(Ut.notNil(userJ)){
+            if(Ut.isNotNil(userJ)){
                 final String userId = Ut.valueString(userJ, KName.KEY);
-                if(Ut.notNil(userId)){
+                if(Ut.isNotNil(userId)){
                     input.put(KName.USER_ID, userId);
                 }
             }

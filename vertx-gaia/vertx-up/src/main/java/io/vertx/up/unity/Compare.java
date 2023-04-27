@@ -192,7 +192,7 @@ class Compare {
             final String key = record.key();
             if (Objects.nonNull(key)) {
                 final JsonObject dataJ = dataMap.getOrDefault(key, new JsonObject());
-                if (Ut.notNil(dataJ)) {
+                if (Ut.isNotNil(dataJ)) {
                     dataJ.remove(field);
                     record.set(dataJ);
                 }

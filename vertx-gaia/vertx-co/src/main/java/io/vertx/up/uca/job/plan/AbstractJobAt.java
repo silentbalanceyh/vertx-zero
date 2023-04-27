@@ -85,7 +85,7 @@ public abstract class AbstractJobAt implements JobAt {
     }
 
     private Kv<Integer, Integer> parseSegment(final String segment) {
-        if (Ut.notNil(segment) && segment.contains(VString.DASH)) {
+        if (Ut.isNotNil(segment) && segment.contains(VString.DASH)) {
             try {
                 final String[] split = segment.split(VString.DASH);
                 final Integer m = Integer.parseInt(split[0]);

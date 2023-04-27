@@ -87,7 +87,7 @@ public class QrService implements QrStub {
                     // Payment Information
                     final Set<String> paymentIds = items.stream()
                         .map(FPaymentItem::getPaymentId)
-                        .filter(Ut::notNil)
+                        .filter(Ut::isNotNil)
                         .collect(Collectors.toSet());
                     // List<Payment>
                     return Ux.Jooq.on(FPaymentDao.class)

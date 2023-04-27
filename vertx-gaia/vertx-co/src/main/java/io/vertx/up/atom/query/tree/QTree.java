@@ -64,7 +64,7 @@ public class QTree {
         final QNode root = this.init(content, level);
 
         /* 2. Then initialize children nodes */
-        content.fieldNames().stream().filter(Ut::notNil).forEach(field -> {
+        content.fieldNames().stream().filter(Ut::isNotNil).forEach(field -> {
 
             /* 3. Each */
             final QNode tier = this.initTier(field, content.getValue(field), level + 1);

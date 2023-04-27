@@ -96,7 +96,7 @@ public abstract class AbstractCMessage implements CMessage {
          * Overite Part
          */
         final JsonObject overite = this.dataOverwrite();
-        if (Ut.notNil(overite)) {
+        if (Ut.isNotNil(overite)) {
             delivery.mergeIn(overite, true);
         }
         return delivery.toBuffer();

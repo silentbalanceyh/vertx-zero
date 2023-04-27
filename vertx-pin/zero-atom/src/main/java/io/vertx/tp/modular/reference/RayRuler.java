@@ -33,7 +33,7 @@ class RayRuler {
              */
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
-                if (Ut.notNil(key)) {
+                if (Ut.isNotNil(key)) {
                     grouped.put(key, new JAmb().data(json));
                 }
             });
@@ -44,7 +44,7 @@ class RayRuler {
             final ConcurrentMap<String, JsonArray> groupedArray = new ConcurrentHashMap<>();
             Ut.itJArray(source).forEach(json -> {
                 final String key = joinedKey(json, joined);
-                if (Ut.notNil(key)) {
+                if (Ut.isNotNil(key)) {
                     final JsonArray group = Cc.pool(groupedArray, key, JsonArray::new);
                     group.add(json);
                 }

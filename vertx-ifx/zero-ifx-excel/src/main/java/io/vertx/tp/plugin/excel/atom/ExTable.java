@@ -160,7 +160,7 @@ public class ExTable implements Serializable {
      * ( No Bean ) Iterator row of Add operation
      */
     public void add(final String field) {
-        if (Ut.notNil(field)) {
+        if (Ut.isNotNil(field)) {
             final int index = this.indexMap.size();
             this.fields.add(field);
             // index map
@@ -169,7 +169,7 @@ public class ExTable implements Serializable {
     }
 
     public void add(final String field, final String child) {
-        if (Ut.notNil(field) && Ut.notNil(child)) {
+        if (Ut.isNotNil(field) && Ut.isNotNil(child)) {
             final String combine = field + VString.DOT + child;
             if (!this.fields.contains(combine)) {
                 this.fields.add(combine);

@@ -35,16 +35,16 @@ class IxData {
     private static final Annal LOGGER = Annal.get(IxData.class);
 
     static void audit(final JsonObject auditor, final JsonObject config, final String userId) {
-        if (Objects.nonNull(config) && Ut.notNil(userId)) {
+        if (Objects.nonNull(config) && Ut.isNotNil(userId)) {
             /* User By */
             final String by = config.getString(KName.BY);
-            if (Ut.notNil(by)) {
+            if (Ut.isNotNil(by)) {
                 /* Audit Process */
                 LOG.Dao.info(LOGGER, "( Audit ) By -> \"{0}\" = {1}", by, userId);
                 auditor.put(by, userId);
             }
             final String at = config.getString(KName.AT);
-            if (Ut.notNil(at)) {
+            if (Ut.isNotNil(at)) {
                 LOG.Dao.info(LOGGER, "( Audit ) At Field -> {0}", at);
                 auditor.put(at, Instant.now());
             }
@@ -73,7 +73,7 @@ class IxData {
             if (column.containsKey(KName.METADATA)) {
                 // metadata
                 final String metadata = column.getString(KName.METADATA);
-                if (Ut.notNil(metadata)) {
+                if (Ut.isNotNil(metadata)) {
                     field = metadata.split(",")[0];
                     fieldValue = value.toString().split(",")[1];
                 } else {

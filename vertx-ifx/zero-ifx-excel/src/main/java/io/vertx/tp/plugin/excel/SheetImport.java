@@ -193,7 +193,7 @@ class SheetImport {
         final UxJooq jooq = Ux.Jooq.on(table.classDao());
         if (null != jooq) {
             final String pojoFile = table.filePojo();
-            if (Ut.notNil(pojoFile)) {
+            if (Ut.isNotNil(pojoFile)) {
                 jooq.on(pojoFile);
             }
         }

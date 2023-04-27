@@ -66,7 +66,7 @@ public class DocBuilder implements DocBStub {
         condition.put(KName.APP_ID, appId);
         condition.put(KName.TYPE, type);
         condition.put(KName.ACTIVE, Boolean.TRUE);
-        if (Ut.notNil(name)) {
+        if (Ut.isNotNil(name)) {
             condition.put(KName.NAME, name);
         }
         return condition;

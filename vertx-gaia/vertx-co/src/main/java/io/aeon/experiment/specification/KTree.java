@@ -57,7 +57,7 @@ public class KTree implements Serializable {
         final JsonObject regionData = new JsonObject();
         Ut.<String>itJObject(this.region, (expr, field) -> {
             final String parsed = Ut.fromExpression(expr, parameters);
-            if (Ut.notNil(parsed)) {
+            if (Ut.isNotNil(parsed)) {
                 regionData.put(field, parsed);
             }
         });

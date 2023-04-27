@@ -55,7 +55,7 @@ public class QuotaConnect {
                 Ut.itJArray(quotas).forEach(item -> {
                     final String path = item.getString("path", null);
                     final String componentName = item.getString("component");
-                    if (Ut.notNil(path) && !REGISTRY_CLS.containsKey(path)) {
+                    if (Ut.isNotNil(path) && !REGISTRY_CLS.containsKey(path)) {
                         final Class<?> componentCls = Ut.clazz(componentName, null);
                         if (Objects.nonNull(componentCls)) {
                             REGISTRY_CLS.put(path, (vertx) -> Ut.instance(componentCls, vertx));

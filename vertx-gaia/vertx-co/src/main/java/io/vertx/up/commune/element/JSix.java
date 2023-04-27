@@ -58,7 +58,7 @@ public class JSix implements Serializable {
     private JSix(final JsonObject options) {
         final JsonObject configuration = Ut.valueJObject(options);
         final JsonObject pluginComponent = configuration.getJsonObject("components");
-        if (Ut.notNil(pluginComponent)) {
+        if (Ut.isNotNil(pluginComponent)) {
             this.rawData.mergeIn(pluginComponent, true);
         }
     }

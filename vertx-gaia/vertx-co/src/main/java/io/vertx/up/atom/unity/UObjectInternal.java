@@ -39,7 +39,7 @@ class UObjectInternal {
     ) {
         final JsonObject result = immutable ? entity.copy() : entity;
         Observable.fromArray(keys)
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .filter(result::containsKey)
             .map(result::remove)
             .subscribe().dispose();
@@ -52,7 +52,7 @@ class UObjectInternal {
     ) {
         final JsonObject result = new JsonObject();
         Observable.fromArray(keys)
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .subscribe(key -> {
                 final Object value = entity.getValue(key);
                 result.put(key, value);
@@ -83,7 +83,7 @@ class UObjectInternal {
         final boolean immutable
     ) {
         final JsonObject result = immutable ? entity.copy() : entity;
-        if (Ut.notNil(to) && entity.containsKey(from)) {
+        if (Ut.isNotNil(to) && entity.containsKey(from)) {
             result.put(to, entity.getValue(from));
         }
         return result;

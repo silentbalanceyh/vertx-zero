@@ -108,7 +108,7 @@ public class IxMod {
         final JsonObject headers = envelop.headersX();
         this.parameters.mergeIn(headers, true);
         final JsonObject parameters = envelop.body();
-        if (Ut.notNil(parameters)) {
+        if (Ut.isNotNil(parameters)) {
             this.parameters.mergeIn(parameters, true);
         }
         return this;
@@ -340,7 +340,7 @@ public class IxMod {
         final JsonObject condition = new JsonObject();
         Ut.itJArray(active, (item, index) -> {
             final JsonObject condEach = this.dataCond(item);
-            if (Ut.notNil(condEach)) {
+            if (Ut.isNotNil(condEach)) {
                 condition.put("$" + index, condEach);
             }
         });

@@ -21,7 +21,7 @@ class SiftRow {
     static JsonObject onAcl(final JsonObject rows, final Set<String> visible) {
         final JsonObject result = new JsonObject();
         final JsonArray fields = Ut.valueJArray(rows.getJsonArray("condition"));
-        if (Ut.notNil(fields)) {
+        if (Ut.isNotNil(fields)) {
             Ut.itJArray(fields, String.class, (field, index) -> {
                 final JsonArray visibleFields = Ut.toJArray(visible);
                 result.put(field, visibleFields);

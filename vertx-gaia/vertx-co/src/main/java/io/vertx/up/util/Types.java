@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.util.HH;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -68,7 +69,7 @@ final class Types {
     }
 
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
-        if (isEmpty(record)) {
+        if (HH.isNil(record)) {
             /*
              * If record is null or empty, return `false`
              */
@@ -153,18 +154,6 @@ final class Types {
         }, literal);
     }
 
-    static boolean isEmpty(final JsonObject json) {
-        return Fn.orNull(Boolean.TRUE, () -> 0 == json.fieldNames().size(), json);
-    }
-
-    static boolean isEmpty(final JsonArray jsonArray) {
-        if (Objects.isNull(jsonArray) || jsonArray.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     static boolean isJObject(final Object value) {
         return Fn.orSemi(null == value, LOGGER,
             () -> false,
@@ -186,7 +175,7 @@ final class Types {
                 .map(input::getValue)
                 .filter(item -> item instanceof String)
                 .map(item -> (String) item)
-                .filter(Ut::notNil)
+                .filter(Ut::isNotNil)
                 .count();
             return counter == fields.length;
         }

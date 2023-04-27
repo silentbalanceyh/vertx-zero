@@ -129,7 +129,7 @@ public class DocWriter implements DocWStub {
         final JsonObject children = Ux.whereOr();
         Ut.itJArray(directory).forEach(json -> {
             final String storePath = json.getString(KName.STORE_PATH);
-            if (Ut.notNil(storePath)) {
+            if (Ut.isNotNil(storePath)) {
                 final JsonObject child = Ux.whereAnd();
                 child.put(KName.STORE_PATH + ",s", json.getString(KName.STORE_PATH));
                 child.put(KName.ACTIVE, Boolean.FALSE);
@@ -162,7 +162,7 @@ public class DocWriter implements DocWStub {
         });
         LOG.File.info(LOGGER, "Split Running: Document = {0}, Directory = {1}", attachmentJ.size(), directoryJ.size());
         // XAttachment First
-        if (Ut.notNil(directoryJ)) {
+        if (Ut.isNotNil(directoryJ)) {
             return Ux.future(attachmentJ).compose(fnAttachment)
                 // Then IDirectory
                 .compose(processed -> fnDirectory.apply(directoryJ, processed).compose(directory -> {

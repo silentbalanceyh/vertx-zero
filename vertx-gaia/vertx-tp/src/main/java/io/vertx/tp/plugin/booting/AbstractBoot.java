@@ -76,7 +76,7 @@ public abstract class AbstractBoot implements KBoot {
             modules.forEach(item -> {
                 final String moduleJson = this.root + "module/crud/" + item + ".json";
                 final JsonObject module = Ut.ioJObject(moduleJson);
-                if (Ut.notNil(module)) {
+                if (Ut.isNotNil(module)) {
                     this.modules.put(item, module);
                 }
             });
@@ -91,7 +91,7 @@ public abstract class AbstractBoot implements KBoot {
             modules.forEach(item -> {
                 final String moduleJson = this.root + "module/ui/" + item + ".json";
                 final JsonArray module = Ut.ioJArray(moduleJson);
-                if (Ut.notNil(module)) {
+                if (Ut.isNotNil(module)) {
                     this.columns.put(item, module);
                 }
             });

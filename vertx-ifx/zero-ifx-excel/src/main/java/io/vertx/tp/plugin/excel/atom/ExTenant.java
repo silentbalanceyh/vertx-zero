@@ -40,11 +40,11 @@ public class ExTenant implements Serializable {
 
     public ConcurrentMap<String, Set<String>> valueCriteria(final String tableName) {
         final JsonObject criteria = this.tenant.getForbidden().getOrDefault(tableName, new JsonObject());
-        if (Ut.notNil(criteria)) {
+        if (Ut.isNotNil(criteria)) {
             final ConcurrentMap<String, Set<String>> conditionMap = new ConcurrentHashMap<>();
             criteria.fieldNames().forEach(field -> {
                 final JsonArray values = criteria.getJsonArray(field, new JsonArray());
-                if (Ut.notNil(values)) {
+                if (Ut.isNotNil(values)) {
                     conditionMap.put(field, Ut.toSet(values));
                 }
             });
@@ -108,7 +108,7 @@ public class ExTenant implements Serializable {
                 // Table filter
                 final String table = segments[1];
                 final Set<ExTable> tableSet = new HashSet<>();
-                if (Ut.notNil(table)) {
+                if (Ut.isNotNil(table)) {
                     tableSet.addAll(tables.stream()
                         .filter(Objects::nonNull)
                         .filter(each -> table.equals(each.getName()))

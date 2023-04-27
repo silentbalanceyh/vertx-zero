@@ -49,7 +49,7 @@ public class ReportCode extends AbstractStep {
     }
 
     private void report(final JsonArray invalidData) {
-        if (Ut.notNil(invalidData)) {
+        if (Ut.isNotNil(invalidData)) {
             final StringBuilder content = new StringBuilder();
             final String width = "\t\t\t\t\t\t";
             content.append(Ut.fromAdjust("配置项名称", 45)).append(width);

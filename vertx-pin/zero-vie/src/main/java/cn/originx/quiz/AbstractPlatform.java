@@ -172,7 +172,7 @@ public abstract class AbstractPlatform extends JooqBase {
         } else if (dataPart instanceof JsonObject) {
             input = new QModel(this.atom(identifier), (JsonObject) dataPart);
         } else {
-            if (Ut.notNil(key)) {
+            if (Ut.isNotNil(key)) {
                 input = new QModel(this.atom(identifier), key);
             } else {
                 throw new RuntimeException("构造 QModel 异常，检查测试相关配置！");
@@ -206,7 +206,7 @@ public abstract class AbstractPlatform extends JooqBase {
      * 写文件
      */
     protected void ioOut(final String filename, final JsonObject content) {
-        if (Ut.notNil(filename)) {
+        if (Ut.isNotNil(filename)) {
             final String resolved = Ox.toRoot(filename, this.environment);
             Ut.ioOut(resolved, content);
         }

@@ -84,7 +84,7 @@ public class BeforeNumber implements BeforePlugin {
             Ut.itJArray(records).forEach(record -> {
                 // 双重检查，为没有 field 值的记录填充序号
                 final String fieldName = this.beforeField(record, config);
-                if (Ut.notNil(fieldName)) {
+                if (Ut.isNotNil(fieldName)) {
                     record.put(fieldName, numberQueue.poll());
                 }
             });

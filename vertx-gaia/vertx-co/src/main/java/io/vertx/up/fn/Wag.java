@@ -23,7 +23,7 @@ class Wag {
      * to:      String ( encode() )
      */
     static void ifString(final JsonObject json, final String field) {
-        if (Ut.notNil(json)) {
+        if (Ut.isNotNil(json)) {
             final Object value = json.getValue(field);
             if (Objects.nonNull(value)) {
                 if (value instanceof final JsonObject valueJ) {
@@ -47,7 +47,7 @@ class Wag {
         if (json instanceof final JsonArray array) {
             Ut.itJArray(array).forEach(item -> ifJson(item, field));
         } else if (json instanceof final JsonObject object) {
-            if (Ut.notNil(object)) {
+            if (Ut.isNotNil(object)) {
                 final Object value = object.getValue(field);
                 if (value instanceof final String literal) {
                     // String Literal

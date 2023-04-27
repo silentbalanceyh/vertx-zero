@@ -173,7 +173,7 @@ public final class InOut {
                 {
                     final HttpServerRequest request = context.request();
                     final String origin = request.getHeader(HttpHeaders.ORIGIN);
-                    if (Ut.notNil(origin)) {
+                    if (Ut.isNotNil(origin)) {
                         // No 'Access-Control-Allow-Origin' header is present on the requested resource.
                         headers.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
                     }

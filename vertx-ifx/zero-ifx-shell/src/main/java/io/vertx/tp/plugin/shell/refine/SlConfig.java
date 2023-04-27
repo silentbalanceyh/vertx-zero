@@ -29,11 +29,11 @@ class SlConfig {
              */
             final JsonObject commandsJson = new JsonObject();
             final String defaultFile = commands.getString(FIELD_DEFAULT);
-            if (Ut.notNil(defaultFile)) {
+            if (Ut.isNotNil(defaultFile)) {
                 commandsJson.put(FIELD_DEFAULT, Ut.ioJArray(defaultFile));
             }
             final String definedFile = commands.getString(FIELD_DEFINED);
-            if (Ut.notNil(definedFile)) {
+            if (Ut.isNotNil(definedFile)) {
                 commandsJson.put(FIELD_DEFINED, Ut.ioJArray(definedFile));
             }
             config.put(FIELD_COMMANDS, commandsJson);

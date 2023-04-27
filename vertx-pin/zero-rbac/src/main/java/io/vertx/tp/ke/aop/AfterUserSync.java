@@ -46,7 +46,7 @@ public class AfterUserSync implements After {
                 // Input Extracting
                 userJ.put(KName.USERNAME, inputJ.getValue(KName.USERNAME));
                 final String roles = inputJ.getString("roles", null);
-                if (Ut.notNil(roles)) {
+                if (Ut.isNotNil(roles)) {
                     userJ.put("roles", roles);
                 }
                 userJ.put(KName.MODEL_KEY, employee.getValue(KName.KEY));

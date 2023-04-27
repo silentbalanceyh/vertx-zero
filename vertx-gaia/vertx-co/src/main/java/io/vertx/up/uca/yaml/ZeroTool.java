@@ -95,7 +95,7 @@ public class ZeroTool {
             final JsonObject data = new JsonObject();
             try {
                 final JsonObject yamlData = Ut.ioYaml(filename);
-                if (Ut.notNil(yamlData)) {
+                if (Ut.isNotNil(yamlData)) {
                     data.mergeIn(yamlData);
                 }
             } catch (final EmptyIoException ex) {

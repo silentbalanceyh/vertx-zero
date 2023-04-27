@@ -19,7 +19,7 @@ public abstract class AbstractWings implements Wings {
 
     static {
         final JsonObject initialized = NODE.read();
-        if (Ut.notNil(initialized)) {
+        if (Ut.isNotNil(initialized)) {
             environment.mergeIn(initialized, true);
         }
     }

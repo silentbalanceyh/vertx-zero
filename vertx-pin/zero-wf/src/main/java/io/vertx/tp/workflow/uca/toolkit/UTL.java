@@ -39,7 +39,7 @@ public class UTL {
         if (Objects.nonNull(prev)) {
             prev.task(todo);
         }
-        if (Ut.notNil(requestJ)) {
+        if (Ut.isNotNil(requestJ)) {
             return generated.futureAfter(requestJ);
         } else {
             return Ux.future(generated);

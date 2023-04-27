@@ -92,7 +92,7 @@ final class OxView {
 
         /* 构造Header数据 */
         final JsonObject header = envelop.headersX();
-        if (Ut.notNil(header)) {
+        if (Ut.isNotNil(header)) {
             params.mergeIn(header, true);
         }
         /* Apeak found */

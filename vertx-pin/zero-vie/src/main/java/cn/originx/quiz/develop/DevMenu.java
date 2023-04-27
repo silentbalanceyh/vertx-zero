@@ -39,7 +39,7 @@ class DevMenu {
             final JsonArray source = pageData.getJsonArray(KName.LIST);
             // Filter by required
             JsonArray filtered = new JsonArray();
-            if (Ut.notNil(required)) {
+            if (Ut.isNotNil(required)) {
                 Ut.itJArray(source).filter(json -> required.contains(json.getValue("text")))
                     .forEach(filtered::add);
             } else {
@@ -128,7 +128,7 @@ class DevMenu {
             csv.add(content);
         }
         final JsonArray children = json.getJsonArray(KName.CHILDREN);
-        if (Ut.notNil(children)) {
+        if (Ut.isNotNil(children)) {
             Ut.itJArray(children).forEach(child -> buildDisplay(child, csv, mode));
         }
     }
@@ -139,7 +139,7 @@ class DevMenu {
             // Fetch Children
             final JsonObject current = node.copy();
             final JsonArray children = findChildren(node, source);
-            if (Ut.notNil(children)) {
+            if (Ut.isNotNil(children)) {
                 final JsonArray childrenTree = buildTree(children, source);
                 current.put(KName.CHILDREN, childrenTree);
             }

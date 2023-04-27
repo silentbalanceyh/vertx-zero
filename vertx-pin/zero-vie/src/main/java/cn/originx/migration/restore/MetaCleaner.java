@@ -60,7 +60,7 @@ public class MetaCleaner extends AbstractStatic {
         final Set<String> tableNames = new HashSet<>();
         while (res.next()) {
             final String name = res.getString("TABLE_NAME");
-            if (Ut.notNil(name)) {
+            if (Ut.isNotNil(name)) {
                 tableNames.add(name);
             }
         }

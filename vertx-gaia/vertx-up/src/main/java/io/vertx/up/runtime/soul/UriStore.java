@@ -66,7 +66,7 @@ class UriStore {
              * Cache Key calculation
              */
             final String cacheKey = uriMeta.getCacheKey();
-            if (Ut.notNil(cacheKey)) {
+            if (Ut.isNotNil(cacheKey)) {
                 URIS.put(cacheKey, uriMeta);
             }
         }
@@ -91,7 +91,7 @@ class UriStore {
      */
     UriStore add(final UriMeta meta) {
         final String cacheKey = meta.getCacheKey();
-        if (Ut.notNil(cacheKey)) {
+        if (Ut.isNotNil(cacheKey)) {
             URIS.put(cacheKey, meta);
         }
         return this;

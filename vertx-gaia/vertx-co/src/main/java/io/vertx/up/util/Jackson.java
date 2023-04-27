@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
+import io.horizon.util.HH;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -437,15 +438,15 @@ final class Jackson {
     }
 
     static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
-        if (Types.isEmpty(recordO)) {
-            if (Types.isEmpty(recordN)) {
+        if (HH.isNil(recordO)) {
+            if (HH.isNil(recordN)) {
                 return ChangeFlag.NONE;
             } else {
                 /* Old = null, New = not null, ADD */
                 return ChangeFlag.ADD;
             }
         } else {
-            if (Types.isEmpty(recordN)) {
+            if (HH.isNil(recordN)) {
                 /* Old = not null, New = null, DELETE */
                 return ChangeFlag.DELETE;
             } else {

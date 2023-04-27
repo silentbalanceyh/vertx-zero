@@ -93,9 +93,9 @@ public class JobKit {
     public static JsonObject toJson(final Mission mission) {
         final JsonObject serialized = Ut.serializeJson(mission);
         final JsonObject metadata = serialized.getJsonObject(KName.METADATA);
-        if (Ut.notNil(metadata)) {
+        if (Ut.isNotNil(metadata)) {
             final JsonObject service = metadata.getJsonObject(KName.SERVICE);
-            if (Ut.notNil(service)) {
+            if (Ut.isNotNil(service)) {
                 Fn.ifJObject(service,
                     KName.METADATA,
                     KName.RULE_UNIQUE,

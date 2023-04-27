@@ -28,7 +28,7 @@ class RPkPre implements Pre {
             } else if (item instanceof JsonObject) {
                 /* Key Value */
                 final String value = ((JsonObject) item).getString(keyField);
-                if (Ut.notNil(value)) {
+                if (Ut.isNotNil(value)) {
                     keyArray.add(value);
                 }
             }

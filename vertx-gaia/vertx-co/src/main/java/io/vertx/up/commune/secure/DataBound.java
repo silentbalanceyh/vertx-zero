@@ -72,7 +72,7 @@ public class DataBound implements Serializable {
 
         /* Advanced, Impact, Seeker */
         json.put(KName.Rbac.CREDIT, credit);
-        if (Ut.notNil(this.seeker)) {
+        if (Ut.isNotNil(this.seeker)) {
             json.put(KName.SEEKER, this.seeker);
             json.put(KName.VIEW, this.viewData);
         }

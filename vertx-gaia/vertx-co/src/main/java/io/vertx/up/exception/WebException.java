@@ -77,7 +77,7 @@ public abstract class WebException extends AbstractException {
         final JsonObject data = new JsonObject();
         data.put(CODE, getCode());
         data.put(MESSAGE, getMessage());
-        if (Ut.notNil(readible)) {
+        if (Ut.isNotNil(readible)) {
             data.put(INFO, readible);
         }
         return data;

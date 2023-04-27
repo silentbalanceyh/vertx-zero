@@ -26,7 +26,7 @@ class UuidPre implements Pre {
         final KField field = module.getField();
         /* Primary Key Add */
         final String keyField = field.getKey();
-        if (Ut.notNil(keyField)) {
+        if (Ut.isNotNil(keyField)) {
             /* Value Extract */
             final String keyValue = data.getString(keyField);
             if (Ut.isNil(keyValue)) {

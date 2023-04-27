@@ -38,7 +38,7 @@ class UiOption {
             .convert("buttonGroup", "buttons")
             .to();
         final JsonObject config = input.getJsonObject("config");
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             fragment.mergeIn(config.copy(), true);
         }
         return fragment;

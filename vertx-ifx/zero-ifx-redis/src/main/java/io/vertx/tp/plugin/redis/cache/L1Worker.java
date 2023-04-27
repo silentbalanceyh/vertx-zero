@@ -22,7 +22,7 @@ public class L1Worker extends AbstractVerticle {
     @Override
     public void start() {
         final L1Config config = Ut.deserialize(this.config(), L1Config.class);
-        if (Ut.notNil(config.getAddress())) {
+        if (Ut.isNotNil(config.getAddress())) {
             /*
              * EventBus processing
              */

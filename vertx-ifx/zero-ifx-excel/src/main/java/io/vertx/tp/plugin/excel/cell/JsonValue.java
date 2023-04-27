@@ -20,9 +20,9 @@ public class JsonValue implements ExValue {
         String literal = value.toString();
         if (2 == pathArr.length) {
             final String path = pathArr[1];
-            if (Ut.notNil(path)) {
+            if (Ut.isNotNil(path)) {
                 final String content = Ut.ioString(path.trim());
-                if (Ut.notNil(content)) {
+                if (Ut.isNotNil(content)) {
                     // 日志级别调整
                     if (DevEnv.devExcelRange()) {
                         LOGGER.info("[ Έξοδος ] （ExJson）File = {0}, Json Value captured `{1}`",

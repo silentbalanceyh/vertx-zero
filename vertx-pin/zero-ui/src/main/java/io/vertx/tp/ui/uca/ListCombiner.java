@@ -19,7 +19,7 @@ public class ListCombiner implements UiControl {
          * query processing
          */
         final JsonObject query = input.getJsonObject(ListStub.FIELD_V_QUERY);
-        if (Ut.notNil(query)) {
+        if (Ut.isNotNil(query)) {
             normalized.put("query", Ui.optQuery(query));
         }
         /*
@@ -27,7 +27,7 @@ public class ListCombiner implements UiControl {
          */
         final JsonObject options = new JsonObject();
         final JsonObject search = input.getJsonObject(ListStub.FIELD_V_SEARCH);
-        if (Ut.notNil(search)) {
+        if (Ut.isNotNil(search)) {
             final JsonObject processed = Ui.optSearch(search);
             options.mergeIn(processed, true);
         }
@@ -41,15 +41,15 @@ public class ListCombiner implements UiControl {
          * Merged
          */
         final JsonObject commonOpts = input.getJsonObject("options");
-        if (Ut.notNil(commonOpts)) {
+        if (Ut.isNotNil(commonOpts)) {
             options.mergeIn(commonOpts.copy(), true);
         }
         final JsonObject optionAjax = input.getJsonObject("optionsAjax");
-        if (Ut.notNil(optionAjax)) {
+        if (Ut.isNotNil(optionAjax)) {
             options.mergeIn(optionAjax.copy(), true);
         }
         final JsonObject optionSubmit = input.getJsonObject("optionsSubmit");
-        if (Ut.notNil(optionSubmit)) {
+        if (Ut.isNotNil(optionSubmit)) {
             options.mergeIn(optionSubmit.copy(), true);
         }
         /*
@@ -62,7 +62,7 @@ public class ListCombiner implements UiControl {
              * fragment
              */
             final JsonObject fragmentJson = fragment.getJsonObject(field);
-            if (Ut.notNil(fragmentJson)) {
+            if (Ut.isNotNil(fragmentJson)) {
                 final JsonObject config = Ui.optFragment(fragmentJson);
                 /*
                  * options, window + field
@@ -82,7 +82,7 @@ public class ListCombiner implements UiControl {
          * table calculate
          */
         final JsonObject table = input.getJsonObject(ListStub.FIELD_V_TABLE);
-        if (Ut.notNil(table)) {
+        if (Ut.isNotNil(table)) {
             normalized.put("table", Ui.optTable(table));
         }
         return Ux.future(normalized);

@@ -123,11 +123,11 @@ public final class HES {
          * 3. 都找不到时读取当前
          */
         KApp app = null;
-        if (Ut.notNil(sigma)) {
+        if (Ut.isNotNil(sigma)) {
             // 按sigma查找
             app = H3H.CC_APP.store(sigma);
         }
-        if (Ut.notNil(key) && Objects.isNull(app)) {
+        if (Ut.isNotNil(key) && Objects.isNull(app)) {
             // 按key查找
             app = H3H.CC_APP.store(key);
         }

@@ -131,7 +131,7 @@ class AtomAttribute implements HAttribute, Serializable {
 
         // Expand the `fields` lookup range
         final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
-        if (Ut.notNil(fields)) {
+        if (Ut.isNotNil(fields)) {
             attributeJ.put(KName.FIELDS, fields);
         }
 

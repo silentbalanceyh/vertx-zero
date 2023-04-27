@@ -35,7 +35,7 @@ public class ResourceService implements ResourceStub {
             .compose(Ux::futureJ)
             .compose(resource -> {
                 // handle action node if present
-                if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
+                if (params.containsKey("action") && Ut.isNotNil(params.getJsonObject("action"))) {
                     final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
                     // verify important fields
                     sAction.setKey(Optional.ofNullable(sAction.getKey()).orElse(UUID.randomUUID().toString()))
@@ -63,7 +63,7 @@ public class ResourceService implements ResourceStub {
             .compose(Ux::futureJ)
             .compose(resource -> {
                 // handle action node if present
-                if (params.containsKey("action") && Ut.notNil(params.getJsonObject("action"))) {
+                if (params.containsKey("action") && Ut.isNotNil(params.getJsonObject("action"))) {
                     final SAction sAction = Ux.fromJson(params.getJsonObject("action"), SAction.class);
                     return Ux.Jooq.on(SActionDao.class)
                         .upsertAsync(new JsonObject().put(KName.RESOURCE_ID, resourceId), sAction)

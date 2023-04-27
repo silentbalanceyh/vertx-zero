@@ -62,7 +62,7 @@ class HOneJooq implements HOne<UxJooq> {
         // =========== Where existing pojo.yml =================
         // ( Zero support yml file to define mapping )
         final String pojo = module.getPojo();
-        if (Ut.notNil(pojo)) {
+        if (Ut.isNotNil(pojo)) {
             dao.on(pojo);
         }
         return dao;

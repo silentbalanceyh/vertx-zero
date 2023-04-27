@@ -31,7 +31,7 @@ class CombinerBag implements Combiner<BBag, ConcurrentMap<String, BBag>> {
         map.forEach((code, itemBag) -> {
             final JsonObject itemJ = Ut.toJObject(itemBag.getUiConfig());
             final JsonArray itemUi = Ut.visitJArray(itemJ, KName.CONFIG, "_form", "ui");
-            if (Ut.notNil(itemUi)) {
+            if (Ut.isNotNil(itemUi)) {
                 mapJ.put(code, itemUi);
             }
         });

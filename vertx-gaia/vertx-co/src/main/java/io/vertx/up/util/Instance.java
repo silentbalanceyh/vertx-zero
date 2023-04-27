@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.exception.internal.OperationException;
+import io.horizon.util.HH;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
@@ -175,14 +176,14 @@ final class Instance {
      * 2) Initialize the `key` string ( class name ) with interfaceCls
      */
     static <T> T plugin(final JsonObject options, final String key, final Class<?> interfaceCls) {
-        if (Types.isEmpty(options) || StringUtil.isNil(key)) {
+        if (HH.isNil(options) || HH.isNil(key)) {
             /*
              * options or key are either invalid
              */
             return null;
         } else {
             final String pluginClsName = options.getString(key);
-            if (StringUtil.isNil(pluginClsName)) {
+            if (HH.isNil(pluginClsName)) {
                 /*
                  * class name is "" or null
                  */

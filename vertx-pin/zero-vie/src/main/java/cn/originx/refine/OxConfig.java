@@ -100,10 +100,10 @@ final class OxConfig {
          * 日志
          */
         final JsonObject koJson = configuration.getJsonObject("ko");
-        if (Ut.notNil(koJson)) {
+        if (Ut.isNotNil(koJson)) {
             koJson.fieldNames().forEach(field -> {
                 final String message = koJson.getString(field);
-                if (Ut.notNil(message)) {
+                if (Ut.isNotNil(message)) {
                     final TypeLog logKey = Ut.toEnum(TypeLog.class, field);
                     if (Objects.nonNull(logKey)) {
                         MESSAGE.put(logKey, message);

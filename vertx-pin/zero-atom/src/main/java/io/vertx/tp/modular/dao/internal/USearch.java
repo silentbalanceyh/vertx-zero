@@ -32,7 +32,7 @@ public class USearch extends AbstractUtil<USearch> {
 
     public JsonObject search(final JsonObject qr) {
         final JsonObject criteria = Ut.valueJObject(qr);
-        LOG.SQL.info(Ut.notNil(qr), this.getLogger(), "执行方法：USearch.search: {0}", criteria.encode());
+        LOG.SQL.info(Ut.isNotNil(qr), this.getLogger(), "执行方法：USearch.search: {0}", criteria.encode());
         // Input
         final DataEvent input = this.irQr(criteria);
         // Output
@@ -42,7 +42,7 @@ public class USearch extends AbstractUtil<USearch> {
 
     public HRecord[] query(final JsonObject qr) {
         final JsonObject criteria = Ut.valueJObject(qr);
-        LOG.SQL.info(Ut.notNil(qr), this.getLogger(), "执行方法：USearch.query: {0}", criteria.encode());
+        LOG.SQL.info(Ut.isNotNil(qr), this.getLogger(), "执行方法：USearch.query: {0}", criteria.encode());
         // Input
         final DataEvent input = this.irCond(Criteria.create(criteria));
         // Output

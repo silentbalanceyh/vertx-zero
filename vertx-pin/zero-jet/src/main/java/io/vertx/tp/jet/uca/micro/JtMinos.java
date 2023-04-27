@@ -99,7 +99,7 @@ public class JtMinos extends AbstractVerticle {
              */
             final JtConsumer consumer = CC_CONSUMER.pick(() -> Ut.instance(consumerCls));
             // Fn.po?lThread(Pool.CONSUMER_CLS, () -> Ut.instance(consumerCls));
-            if (Ut.notNil(address) && Objects.nonNull(consumer)) {
+            if (Ut.isNotNil(address) && Objects.nonNull(consumer)) {
                 consumers.put(address, consumer);
             }
         });

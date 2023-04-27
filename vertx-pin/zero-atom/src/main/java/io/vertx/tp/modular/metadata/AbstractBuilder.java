@@ -70,7 +70,7 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         this.getLogger().info("[ Ox ] sql: {0}", sql);
         int respCode = VValue.RC_SUCCESS;
         for (final String segment : segments) {
-            if (Ut.notNil(segment)) {
+            if (Ut.isNotNil(segment)) {
                 respCode = this.conn.execute(segment);
             }
         }
@@ -127,7 +127,7 @@ public abstract class AbstractBuilder implements AoBuilder, SqlStatement {
         }
         this.getLogger().info("[ Ox ] sql: {0}", sql);
         int respCode = VValue.RC_SUCCESS;
-        if (Ut.notNil(sql)) {
+        if (Ut.isNotNil(sql)) {
             respCode = this.conn.execute(sql);
         }
         return VValue.RC_SUCCESS == respCode;

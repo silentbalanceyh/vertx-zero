@@ -40,7 +40,7 @@ class AtSerial {
             final JsonObject paramMap = params.copy();
             /* time */
             final String time = getTime(number);
-            if (Ut.notNil(time)) {
+            if (Ut.isNotNil(time)) {
                 paramMap.put("time", time);
             }
             /* seed */

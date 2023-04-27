@@ -88,7 +88,7 @@ public class JComponent implements Serializable {
     }
 
     public void setConfig(final JsonObject config) {
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             this.config.mergeIn(config, true);
         }
     }

@@ -48,7 +48,7 @@ public abstract class ExAttributeComponent {
     public ConcurrentMap<String, JsonArray> source(final JsonObject definition) {
         final JsonObject sourceDictJson = definition.getJsonObject(KName.SOURCE_DICT);
         final ConcurrentMap<String, JsonArray> sourceData = new ConcurrentHashMap<>();
-        if (Ut.notNil(sourceDictJson)) {
+        if (Ut.isNotNil(sourceDictJson)) {
             /*
              * Parameters
              */
@@ -64,7 +64,7 @@ public abstract class ExAttributeComponent {
                  */
                 final MultiMap paramMap = MultiMap.caseInsensitiveMultiMap();
                 final JsonObject sourceParams = definition.getJsonObject(KName.SOURCE_PARAMS);
-                if (Ut.notNil(sourceParams)) {
+                if (Ut.isNotNil(sourceParams)) {
                     sourceParams.stream()
                         .filter(Objects::nonNull)
                         .filter(entry -> Objects.nonNull(entry.getValue()))
@@ -103,13 +103,13 @@ public abstract class ExAttributeComponent {
         /* Data */
         final JsonObject dictData = Ut.valueJObject(definition.getJsonObject(KName.SOURCE_DATA));
         final String key = epsilon.getSource();
-        final JsonArray data = Ut.notNil(key) ? dictData.getJsonArray(key) : new JsonArray();
+        final JsonArray data = Ut.isNotNil(key) ? dictData.getJsonArray(key) : new JsonArray();
         final JsonObject result = new JsonObject();
         if (epsilon.isValid()) {
             Ut.itJArray(data).forEach(item -> {
                 final String inValue = item.getString(epsilon.getIn());
                 final String outValue = item.getString(epsilon.getOut());
-                if (Ut.notNil(inValue) && Ut.notNil(outValue)) {
+                if (Ut.isNotNil(inValue) && Ut.isNotNil(outValue)) {
                     if (isFrom) {
                         /*
                          * in -> out

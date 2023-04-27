@@ -86,10 +86,10 @@ public class JqOut {
             }
         };
         String resultField = field;
-        if (Ut.notNil(resultField) && !data.containsKey(resultField)) {
+        if (Ut.isNotNil(resultField) && !data.containsKey(resultField)) {
             if (Objects.nonNull(mojo)) {
                 final String hitField = mojo.getOut().get(resultField);
-                if (Ut.notNil(hitField)) {
+                if (Ut.isNotNil(hitField)) {
                     resultField = hitField;
                 }
             }

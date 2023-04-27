@@ -49,7 +49,7 @@ public class KReference implements Serializable {
 
     public KReference sourceReference(final String sourceReference) {
         final JsonObject config = Ut.toJObject(sourceReference);
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             this.sourceReference(config);
         }
         return this;
@@ -60,7 +60,7 @@ public class KReference implements Serializable {
     }
 
     public boolean isReference() {
-        return Ut.notNil(this.sourceReference);
+        return Ut.isNotNil(this.sourceReference);
     }
 
     @Override

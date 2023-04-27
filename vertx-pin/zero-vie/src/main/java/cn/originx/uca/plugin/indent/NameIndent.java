@@ -65,7 +65,7 @@ public class NameIndent implements Identifier {
     }
 
     private void resolveData(final JsonObject data, final ConcurrentMap<String, String> dict, final String field) {
-        if (Ut.notNil(field) && data.containsKey(field)) {
+        if (Ut.isNotNil(field) && data.containsKey(field)) {
             // Replace the field value with input source here.
             final String replaced = dict.get(data.getString(field));
             if (Objects.nonNull(replaced)) {

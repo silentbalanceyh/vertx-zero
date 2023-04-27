@@ -88,7 +88,7 @@ public abstract class AbstractL1 implements L1Cache {
     // ------------------ Private Method -------------------------
     private void publish(final ChangeFlag flag, final CMessage... messages) {
         final String address = this.config.getAddress();
-        if (Ut.notNil(address)) {
+        if (Ut.isNotNil(address)) {
             final EventBus eventBus = this.vertx.eventBus();
             /*
              * Delivery Message extraction

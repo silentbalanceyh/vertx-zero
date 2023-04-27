@@ -196,7 +196,7 @@ public class PayService implements PayStub {
     private Future<List<FDebt>> fetchDebt(final List<FPaymentItem> items) {
         final Set<String> settlementIds = items.stream()
             .map(FPaymentItem::getSettlementId)
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .collect(Collectors.toSet());
         final UxJooq jq = Ux.Jooq.on(FDebtDao.class);
         return jq.fetchInAsync("settlementId", Ut.toJArray(settlementIds));

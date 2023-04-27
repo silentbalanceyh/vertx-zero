@@ -19,14 +19,14 @@ class KeyPre implements Pre {
         final KModule module = in.module();
         final KField field = module.getField();
         /* Primary Key Add */
-        if (Ut.notNil(field.getKey())) {
+        if (Ut.isNotNil(field.getKey())) {
             final String originalKey = data.getString(field.getKey());
             /*
              * null for set key
              */
             if (Ut.isNil(originalKey)) {
                 final String keyValue = Ux.getString1(request);
-                if (Ut.notNil(keyValue)) {
+                if (Ut.isNotNil(keyValue)) {
                     data.put(field.getKey(), keyValue);
                 }
             }

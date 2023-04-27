@@ -50,7 +50,7 @@ class In {
 
     static String requestToken(final String tokenString, final String field) {
         String result = null;
-        if (Ut.notNil(tokenString)) {
+        if (Ut.isNotNil(tokenString)) {
             final Lee lee = Ut.service(LeeBuiltIn.class);
             final JsonObject token = lee.decode(tokenString, AegisItem.configMap(AuthWall.JWT));
             if (Objects.nonNull(token)) {

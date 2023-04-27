@@ -164,7 +164,7 @@ class KeCompare {
                         /*
                          * Only pick first
                          */
-                        if (Ut.notNil(columnValue)) {
+                        if (Ut.isNotNil(columnValue)) {
                             final JsonObject value = columnValue.getJsonObject(VValue.IDX);
                             rowChild(item, value, row);
                         } else {
@@ -202,7 +202,7 @@ class KeCompare {
                             final TypeField item = MetaAtom.item(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
-                            if (Ut.notNil(columnValue) && 1 < columnValue.size()) {
+                            if (Ut.isNotNil(columnValue) && 1 < columnValue.size()) {
                                 if (maxIdx < valueLength) {
                                     final JsonObject value = columnValue.getJsonObject(maxIdx);
                                     /*

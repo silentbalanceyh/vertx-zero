@@ -43,7 +43,7 @@ public class DDLExecution extends AbstractStep {
             if (Objects.nonNull(file)) {
                 final JsonObject data = Ut.ioJObject(ddl);
                 final JsonArray statements = Ut.valueJArray(data.getJsonArray("sql"));
-                if (Ut.notNil(statements)) {
+                if (Ut.isNotNil(statements)) {
                     /*
                      * 执行 DDL 语句
                      */
@@ -51,7 +51,7 @@ public class DDLExecution extends AbstractStep {
                         final DataPool pool = DataPool.create();
                         final Connection connection = pool.getDataSource().getConnection();
                         Ut.itJArray(statements, String.class, (item, index) -> {
-                            if (Ut.notNil(item)) {
+                            if (Ut.isNotNil(item)) {
                                 Fn.safeJvm(() -> {
                                     final PreparedStatement stmt = connection.prepareStatement(item);
                                     final boolean result = stmt.execute();

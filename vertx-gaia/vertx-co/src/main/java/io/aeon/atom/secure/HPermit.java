@@ -190,7 +190,7 @@ public class HPermit implements Serializable {
     // ===================== 子节点
     public HPermit child(final HPermit child) {
         final String code = child.code;
-        if (Ut.notNil(code)) {
+        if (Ut.isNotNil(code)) {
             this.children.put(code, child);
         }
         return this;

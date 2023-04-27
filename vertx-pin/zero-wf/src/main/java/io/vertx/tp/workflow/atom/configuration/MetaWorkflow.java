@@ -81,7 +81,7 @@ public class MetaWorkflow {
     }
 
     public Database camundaDatabase() {
-        if (Ut.notNil(this.database) && Objects.isNull(this.camundaDatabase)) {
+        if (Ut.isNotNil(this.database) && Objects.isNull(this.camundaDatabase)) {
             // Database Environment Connected
             final JsonObject databaseJ = MatureOn.envDatabase(this.database, DSMode.WORKFLOW);
             this.camundaDatabase = Database.configure(databaseJ);

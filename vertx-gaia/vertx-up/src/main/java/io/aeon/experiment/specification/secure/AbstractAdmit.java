@@ -87,7 +87,7 @@ public abstract class AbstractAdmit implements HAdmit {
          * children 为前后端统一的接口
          */
         final JsonArray childrenA = Ut.valueJArray(requestJ, KName.CHILDREN);
-        if (Ut.notNil(childrenA)) {
+        if (Ut.isNotNil(childrenA)) {
             final JsonObject childrenJ = this.valueChildren(permit, childrenA, supplierJ);
             normalizedJ.put(KName.CHILDREN, childrenJ);
         }
@@ -177,7 +177,7 @@ public abstract class AbstractAdmit implements HAdmit {
         Ut.itJArray(childrenA).forEach(childJ -> {
             // code -> permit ( Child )
             final String code = Ut.valueString(childJ, KName.CODE);
-            if (Ut.notNil(code)) {
+            if (Ut.isNotNil(code)) {
                 final HPermit child = input.child(code);
                 /*
                  * 数据结构重新处理

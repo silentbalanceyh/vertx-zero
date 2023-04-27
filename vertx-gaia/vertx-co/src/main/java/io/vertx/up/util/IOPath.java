@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VString;
+import io.horizon.util.HH;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ final class IOPath {
             }
             item.append(splitArr[idx]);
             final String itemStr = item.toString();
-            if (Ut.notNil(itemStr)) {
+            if (Ut.isNotNil(itemStr)) {
                 itemList.add(itemStr);
             }
         }
@@ -38,7 +39,7 @@ final class IOPath {
         final String[] names = path.split(separator);
         String result = null;
         for (final String found : names) {
-            if (StringUtil.notNil(found)) {
+            if (HH.isNotNil(found)) {
                 result = found;
                 break;
             }
@@ -52,7 +53,7 @@ final class IOPath {
         String result = null;
         for (int idx = names.length - 1; idx < names.length; idx--) {
             final String found = names[idx];
-            if (StringUtil.notNil(found)) {
+            if (HH.isNotNil(found)) {
                 result = found;
                 break;
             }

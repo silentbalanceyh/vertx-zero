@@ -27,7 +27,7 @@ public class MappingInstruction extends AbstractInstruction {
         files.forEach(file -> {
             final String filePath = source + "/" + file;
             final JsonObject fileData = Ut.ioJObject(filePath);
-            if (Ut.notNil(fileData)) {
+            if (Ut.isNotNil(fileData)) {
                 data.put(file.replace(".json", ""), fileData);
             } else {
                 Sl.output("忽略文件：{0}", filePath);

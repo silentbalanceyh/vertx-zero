@@ -94,7 +94,7 @@ public class DataModel extends AbstractHModel implements Model {
     @Override
     protected RuleUnique loadRule() {
         final String content = this.model.getRuleUnique();
-        if (Ut.notNil(content)) {
+        if (Ut.isNotNil(content)) {
             return Ut.deserialize(content, RuleUnique.class);
         } else {
             return null;
@@ -212,7 +212,7 @@ public class DataModel extends AbstractHModel implements Model {
             // 设置attribute的默认值
             AoDefault.attribute().mount(this.model).applyJson(attribute);
             final MAttribute attributeObj = Ut.deserialize(attribute, MAttribute.class);
-            if (Ut.notNil(attributeObj.getName())) {
+            if (Ut.isNotNil(attributeObj.getName())) {
                 this.attributes.put(attributeObj.getName(), attributeObj);
             }
         });

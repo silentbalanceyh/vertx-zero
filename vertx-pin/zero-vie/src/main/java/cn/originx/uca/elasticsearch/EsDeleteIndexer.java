@@ -29,7 +29,7 @@ public class EsDeleteIndexer extends AbstractEsIndex {
         return this.runBatch(response,
             () -> this.client.deleteDocuments(this.identifier, Ut.itJArray(response)
                 .map(item -> item.getString(KName.KEY))
-                .filter(Ut::notNil)
+                .filter(Ut::isNotNil)
                 .collect(Collectors.toSet())));
     }
 }

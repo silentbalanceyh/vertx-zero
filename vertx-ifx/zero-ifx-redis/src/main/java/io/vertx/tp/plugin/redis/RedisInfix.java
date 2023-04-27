@@ -80,7 +80,7 @@ public class RedisInfix implements Infix {
             final Jedis client = new Jedis(host, port);
             // Auth
             final String password = options.getString("password");
-            if (Ut.notNil(password)) {
+            if (Ut.isNotNil(password)) {
                 final String username = options.getString("username");
                 if (Ut.isNil(username)) {
                     client.auth(password);

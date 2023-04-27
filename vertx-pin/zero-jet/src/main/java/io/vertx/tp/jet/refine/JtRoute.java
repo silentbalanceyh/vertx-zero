@@ -24,7 +24,7 @@ class JtRoute {
     static Set<String> toSet(final Supplier<String> supplier) {
         final String inputRequired = supplier.get();
         final Set<String> result = new HashSet<>();
-        if (Ut.notNil(inputRequired) && Ut.isJArray(inputRequired)) {
+        if (Ut.isNotNil(inputRequired) && Ut.isJArray(inputRequired)) {
             final JsonArray mimeArr = new JsonArray(inputRequired);
             mimeArr.stream().map(item -> (String) item).forEach(result::add);
         }
@@ -59,12 +59,12 @@ class JtRoute {
         }
         /* Read root of current route */
         final String root = routeSupplier.get();
-        if (Ut.notNil(root)) {
+        if (Ut.isNotNil(root)) {
             uri.append(root).append(root.endsWith("/") ? "" : "/");
         }
         /* Read real Api */
         final String path = uriSupplier.get();
-        if (Ut.notNil(path)) {
+        if (Ut.isNotNil(path)) {
             uri.append(path);
         }
         /* replace duplicated // -> /, normalized  */
@@ -75,7 +75,7 @@ class JtRoute {
         /* Convert to MediaType of Rs */
         final String mime = supplier.get();
         final Set<MediaType> mimeSet = new HashSet<>();
-        if (Ut.notNil(mime) && Ut.isJArray(mime)) {
+        if (Ut.isNotNil(mime) && Ut.isJArray(mime)) {
             final JsonArray mimeArr = new JsonArray(mime);
             mimeArr.stream().map(item -> (String) item)
                 .map(MediaType::valueOf).forEach(mimeSet::add);

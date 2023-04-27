@@ -61,7 +61,7 @@ public class BillService implements BillStub {
             final JsonObject condition = Ux.whereAnd();
             condition.put(KName.KEY, Ut.toJArray(items.stream()
                 .map(FBillItem::getSettlementId)
-                .filter(Ut::notNil)
+                .filter(Ut::isNotNil)
                 .collect(Collectors.toSet())
             ));
             return Ux.Jooq.on(FSettlementDao.class).fetchAsync(condition);

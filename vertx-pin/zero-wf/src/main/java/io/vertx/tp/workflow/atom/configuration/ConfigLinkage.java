@@ -47,7 +47,7 @@ class ConfigLinkage implements Serializable {
         Ut.<JsonObject>itJObject(parsedJ, (json, field) -> {
             final JsonObject config = Ut.valueJObject(json, KName.CONFIG);
 
-            if (Ut.notNil(config)) {
+            if (Ut.isNotNil(config)) {
                 /*
                  * First Map
                  *

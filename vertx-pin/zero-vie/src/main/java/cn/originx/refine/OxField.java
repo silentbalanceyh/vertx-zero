@@ -137,7 +137,7 @@ final class OxField {
             .map(item -> Fn.ifJObject(item, KName.METADATA))
             .filter(item -> {
                 final JsonObject metadata = item.getJsonObject(KName.METADATA);
-                if (Ut.notNil(metadata)) {
+                if (Ut.isNotNil(metadata)) {
                     return metadata.getBoolean("visible", Boolean.TRUE);
                 } else {
                     return true;

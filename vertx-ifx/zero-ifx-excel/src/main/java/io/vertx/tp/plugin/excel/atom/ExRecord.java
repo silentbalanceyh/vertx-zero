@@ -27,7 +27,7 @@ public class ExRecord implements Serializable, TJson {
              */
             final long counter = recordRef.fieldNames().stream()
                 .filter(field -> Objects.nonNull(recordRef.getValue(field)))
-                .filter(field -> Ut.notNil(recordRef.getValue(field).toString()))
+                .filter(field -> Ut.isNotNil(recordRef.getValue(field).toString()))
                 .count();
             return 0 == counter;
         }

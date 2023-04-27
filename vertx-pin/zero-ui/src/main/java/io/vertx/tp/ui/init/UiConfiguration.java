@@ -63,7 +63,7 @@ class UiConfiguration {
         /* Original `mapping` read */
         final JsonObject mapping = config.getMapping();
         final JsonObject combine = new JsonObject();
-        if (Ut.notNil(mapping)) {
+        if (Ut.isNotNil(mapping)) {
             combine.mergeIn(mapping, true);
         }
         /* Re-Calculate `mapping` configuration */
@@ -115,7 +115,7 @@ class UiConfiguration {
 
     static JsonArray attributes(final String key) {
         final JsonArray columns = getColumn(key);
-        if (Ut.notNil(columns)) {
+        if (Ut.isNotNil(columns)) {
             /*
              * column transfer to
              */

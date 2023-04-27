@@ -121,7 +121,7 @@ public abstract class AbstractFs implements Fs {
             directoryJ.put(KName.VISIT_ROLE, parentD.getVisitRole());
             directoryJ.put(KName.VISIT_GROUP, parentD.getVisitGroup());
             directoryJ.put(KName.VISIT_COMPONENT, parentD.getVisitComponent());
-        } else if (Ut.notNil(parentJ)) {
+        } else if (Ut.isNotNil(parentJ)) {
             directoryJ.put(KName.PARENT_ID, parentJ.getValue(KName.KEY));
             if (!directoryJ.containsKey(KName.Component.RUN_COMPONENT)) {
                 directoryJ.put(KName.Component.RUN_COMPONENT, parentJ.getString(KName.Component.RUN_COMPONENT));

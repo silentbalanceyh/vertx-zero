@@ -57,7 +57,7 @@ class CodexPre implements Pre {
         /* 2.uri 中处理 key 相关的情况 */
         final String keyField = module.getField().getKey();
         final String keyValue = data.getString(keyField);
-        if (Ut.notNil(keyValue)) {
+        if (Ut.isNotNil(keyValue)) {
             uri = uri.replace(keyValue, "$" + keyField);
         }
         /* 3.Final Rule */

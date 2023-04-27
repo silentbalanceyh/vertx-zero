@@ -81,7 +81,7 @@ class ExcelHelper {
              */
             final JsonArray normalized;
             final JsonObject valueDefault = this.tenant.valueDefault();
-            if (Ut.notNil(valueDefault)) {
+            if (Ut.isNotNil(valueDefault)) {
                 normalized = new JsonArray();
                 // Append Global
                 Ut.itJArray(dataArray).forEach(json -> normalized.add(valueDefault.copy().mergeIn(json, true)));
@@ -111,7 +111,7 @@ class ExcelHelper {
 
                         combine.forEach((key, value) -> Ut.itJArray(normalized).forEach(json -> {
                             final String fromValue = json.getString(key);
-                            if (Ut.notNil(fromValue) && value.containsKey(fromValue)) {
+                            if (Ut.isNotNil(fromValue) && value.containsKey(fromValue)) {
                                 final Object toValue = value.getValue(fromValue);
                                 // Replace
                                 json.put(key, toValue);
@@ -184,7 +184,7 @@ class ExcelHelper {
     private void extractIngest(final Set<ExTable> dataSet) {
         if (Objects.nonNull(this.tenant)) {
             final JsonObject dataGlobal = this.tenant.valueDefault();
-            if (Ut.notNil(dataGlobal)) {
+            if (Ut.isNotNil(dataGlobal)) {
                 /*
                  * New for developer account importing cross different
                  * apps
@@ -197,7 +197,7 @@ class ExcelHelper {
                 normalized.remove(KName.DEVELOPER);
                 dataSet.forEach(table -> {
                     // Developer Checking
-                    if ("S_USER".equals(table.getName()) && Ut.notNil(developer)) {
+                    if ("S_USER".equals(table.getName()) && Ut.isNotNil(developer)) {
                         // JsonObject ( user = employeeId )
                         table.get().forEach(record -> {
                             // Mount Global Data
@@ -326,7 +326,7 @@ class ExcelHelper {
     }
 
     void initPen(final String componentStr) {
-        if (Ut.notNil(componentStr)) {
+        if (Ut.isNotNil(componentStr)) {
             final Class<?> tplCls = Ut.clazz(componentStr, null);
             if (Ut.isImplement(tplCls, ExTpl.class)) {
                 this.tpl = Ut.singleton(componentStr);

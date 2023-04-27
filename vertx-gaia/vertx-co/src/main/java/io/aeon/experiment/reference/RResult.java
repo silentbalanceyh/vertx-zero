@@ -165,7 +165,7 @@ final class RRuler {
 
     public static JsonArray required(final JsonArray source, final HRule rule) {
         /* required fields */
-        return rulerAnd(source, rule.getRequired(), value -> Ut.notNil(value.toString()));
+        return rulerAnd(source, rule.getRequired(), value -> Ut.isNotNil(value.toString()));
     }
 
     public static JsonArray duplicated(final JsonArray source, final HRule rule) {

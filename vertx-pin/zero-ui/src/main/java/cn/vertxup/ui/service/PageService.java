@@ -57,7 +57,7 @@ public class PageService implements PageStub {
                     /*
                      * Page Existing in current system
                      */
-                    if (Ut.notNil(page.getLayoutId())) {
+                    if (Ut.isNotNil(page.getLayoutId())) {
                         /*
                          * Continue to extract layout Data here
                          */

@@ -135,7 +135,7 @@ public class InitService implements InitStub {
     }
 
     private Future<JsonObject> initOutput(final JsonObject combined, final String outPath) {
-        if (Ut.notNil(outPath)) {
+        if (Ut.isNotNil(outPath)) {
             combined.put(KName.OUTPUT, outPath);
         }
         return Ux.future(combined);

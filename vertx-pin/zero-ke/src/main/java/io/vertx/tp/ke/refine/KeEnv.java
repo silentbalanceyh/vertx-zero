@@ -209,7 +209,7 @@ class KeEnv {
         }
         final UxJooq jq = Ux.Jooq.on(daoCls);
         final String pojo = safeJ.getString("pojo", null);
-        if (Ut.notNil(pojo)) {
+        if (Ut.isNotNil(pojo)) {
             jq.on(pojo);
         }
         return executor.apply(jq);

@@ -52,7 +52,7 @@ public class DConsumer implements Serializable, TJson, TCopy<DConsumer> {
 
     public static ConcurrentMap<String, DConsumer> mapEpsilon(final JsonObject epsilonJson) {
         final ConcurrentMap<String, DConsumer> epsilonMap = new ConcurrentHashMap<>();
-        if (Ut.notNil(epsilonJson)) {
+        if (Ut.isNotNil(epsilonJson)) {
             epsilonJson.fieldNames().stream()
                 .filter(field -> epsilonJson.getValue(field) instanceof JsonObject)
                 .forEach(field -> {
@@ -114,7 +114,7 @@ public class DConsumer implements Serializable, TJson, TCopy<DConsumer> {
 
     @Override
     public void fromJson(final JsonObject json) {
-        if (Ut.notNil(json)) {
+        if (Ut.isNotNil(json)) {
             this.source = json.getString("source");
             this.in = json.getString("in");
             this.out = json.getString("out");
@@ -138,6 +138,6 @@ public class DConsumer implements Serializable, TJson, TCopy<DConsumer> {
     }
 
     public boolean isValid() {
-        return Ut.notNil(this.in) && Ut.notNil(this.out) && Ut.notNil(this.source);
+        return Ut.isNotNil(this.in) && Ut.isNotNil(this.out) && Ut.isNotNil(this.source);
     }
 }

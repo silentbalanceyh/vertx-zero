@@ -16,12 +16,12 @@ class JqEdge {
 
     void setFrom(final String table, final String field) {
         this.fromTable = table;
-        this.fromField = Ut.notNil(field) ? field : "key";
+        this.fromField = Ut.isNotNil(field) ? field : "key";
     }
 
     void setTo(final String table, final String field) {
         this.toTable = table;
-        this.toField = Ut.notNil(field) ? field : "key";
+        this.toField = Ut.isNotNil(field) ? field : "key";
     }
 
     String getFromTable() {

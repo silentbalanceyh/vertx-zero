@@ -20,7 +20,7 @@ public class BridgeStomp {
          * To enable the bridge you need to configure the inbound and outbound addresses.
          */
         wsSock.forEach(remind -> {
-            if (Ut.notNil(remind.getAddress()) && Ut.notNil(remind.getSubscribe())) {
+            if (Ut.isNotNil(remind.getAddress()) && Ut.isNotNil(remind.getSubscribe())) {
                 /*
                  * From Stomp to EventBus
                  * Inbound addresses are STOMP destination that are transferred to the event bus.

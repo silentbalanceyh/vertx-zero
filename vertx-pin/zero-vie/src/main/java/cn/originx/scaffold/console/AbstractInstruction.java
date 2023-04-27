@@ -85,7 +85,7 @@ public abstract class AbstractInstruction extends AbstractCommander {
             .compose(categories -> Ux.future(categories.stream()
                 .filter(Objects::nonNull).map(XCategory::getIdentifier)
                 .filter(Objects::nonNull).filter(identifier -> !ignored.contains(identifier))
-                .filter(Ut::notNil).collect(Collectors.toSet())
+                .filter(Ut::isNotNil).collect(Collectors.toSet())
             ));
     }
 

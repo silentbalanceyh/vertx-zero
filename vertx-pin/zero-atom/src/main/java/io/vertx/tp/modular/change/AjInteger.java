@@ -29,11 +29,11 @@ final class AjInteger extends AbstractAdjuster {
         /*
          * 去掉 GB, TB, MB, G, T, M 等单位
          */
-        if (Ut.notNil(literal)) {
+        if (Ut.isNotNil(literal)) {
             final String normalized = literal.replaceAll(
                 "(GB|TB|MB|G|T|M)", ""
             ).trim();
-            return Ut.notNil(normalized) ? (int) Double.parseDouble(normalized) : 0;
+            return Ut.isNotNil(normalized) ? (int) Double.parseDouble(normalized) : 0;
         } else {
             return 0;
         }

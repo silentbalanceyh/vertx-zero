@@ -22,7 +22,7 @@ public class AptArray implements Serializable {
     }
 
     public void setField(final String field) {
-        if (Ut.notNil(field)) {
+        if (Ut.isNotNil(field)) {
             this.field = field;
         }
     }
@@ -102,7 +102,7 @@ public class AptArray implements Serializable {
     }
 
     public void update(final JsonObject inputData) {
-        if (Ut.notNil(inputData)) {
+        if (Ut.isNotNil(inputData)) {
             Ut.itJArray(this.replace).forEach(json -> json.mergeIn(inputData, true));
             Ut.itJArray(this.append).forEach(json -> json.mergeIn(inputData, true));
         }

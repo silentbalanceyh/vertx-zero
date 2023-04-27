@@ -163,14 +163,14 @@ public class DFabric {
                      */
                     final String inValue = item.getString(epsilon.getIn());
                     final String outValue = item.getString(epsilon.getOut());
-                    if (Ut.notNil(inValue) && Ut.notNil(outValue)) {
+                    if (Ut.isNotNil(inValue) && Ut.isNotNil(outValue)) {
                         dataItem.put(inValue, outValue);
                     }
                 });
                 /*
                  * Fill data in our data structure
                  */
-                if (Ut.notNil(dataItem)) {
+                if (Ut.isNotNil(dataItem)) {
 
                     /*
                      * From Data Map processing
@@ -183,7 +183,7 @@ public class DFabric {
                      */
                     if (Objects.nonNull(this.mapping)) {
                         final String hitField = this.mapping.to(fromField);
-                        if (Ut.notNil(hitField)) {
+                        if (Ut.isNotNil(hitField)) {
                             this.toData.put(hitField, item);
                         }
                     }

@@ -196,7 +196,7 @@ public final class Answer {
         final String field = Ut.invoke(annotation, KName.FIELD);
         // Data Storage
         Object reference = data;
-        if (Ut.isJObject(data) && Ut.notNil(field)) {
+        if (Ut.isJObject(data) && Ut.isNotNil(field)) {
             final JsonObject target = (JsonObject) data;
             reference = target.getValue(field);
         }

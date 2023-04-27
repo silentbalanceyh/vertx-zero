@@ -111,7 +111,7 @@ class Web {
              */
             final JsonObject metadata = mission.getMetadata();
             final String className = metadata.getString(KName.__.CLASS);
-            if (Ut.notNil(className)) {
+            if (Ut.isNotNil(className)) {
                 final Commercial commercial = Ut.instance(className);
                 commercial.fromJson(metadata);
                 return commercial;

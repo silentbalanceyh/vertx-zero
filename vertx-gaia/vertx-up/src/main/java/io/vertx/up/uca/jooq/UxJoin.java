@@ -29,9 +29,9 @@ public final class UxJoin {
     private transient Set<String> fieldSet = new HashSet<>();
 
     public UxJoin(final String file) {
-        if (Ut.notNil(file)) {
+        if (Ut.isNotNil(file)) {
             final JsonObject config = Ut.ioJObject(file);
-            if (Ut.notNil(config)) {
+            if (Ut.isNotNil(config)) {
                 /*
                  * Only one level for mapping configuration
                  * - field -> sourceTable

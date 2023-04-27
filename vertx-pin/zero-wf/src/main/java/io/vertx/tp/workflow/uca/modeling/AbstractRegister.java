@@ -61,7 +61,7 @@ public abstract class AbstractRegister implements Register {
 
     protected Future<JsonObject> outputAsync(final JsonObject params, final JsonObject record) {
         // Callback Operation On Record
-        if (Ut.notNil(record)) {
+        if (Ut.isNotNil(record)) {
             params.put(KName.RECORD, record);
         }
         return Ux.future(params);

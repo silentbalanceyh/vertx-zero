@@ -73,7 +73,7 @@ public class KAttribute implements HAttribute, Serializable {
             final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
             Ut.itJArray(fields).forEach(item -> {
                 final String field = item.getString(KName.FIELD);
-                if (Ut.notNil(field)) {
+                if (Ut.isNotNil(field)) {
                     final String fieldAlias = item.getString(KName.ALIAS, null);
                     final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
                     this.shapes.add(TypeField.create(field, fieldAlias, subType));

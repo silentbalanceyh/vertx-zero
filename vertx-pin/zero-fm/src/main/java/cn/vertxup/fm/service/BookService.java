@@ -65,7 +65,7 @@ public class BookService implements BookStub {
                 // Bills to fetch items
                 final Set<String> billIds = bills.stream()
                     .map(FBill::getKey)
-                    .filter(Ut::notNil)
+                    .filter(Ut::isNotNil)
                     .collect(Collectors.toSet());
                 // Bill items
                 return Ux.Jooq.on(FBillItemDao.class).<FBillItem>fetchInAsync("billId", Ut.toJArray(billIds)).compose(items -> {

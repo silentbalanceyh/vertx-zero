@@ -278,7 +278,7 @@ public class Envelop implements Serializable {
             return;
         }
         final JsonObject aclData = acl.acl();
-        if (Ut.notNil(aclData)) {
+        if (Ut.isNotNil(aclData)) {
             this.data.put(KName.Rbac.ACL, aclData);
         }
     }
@@ -325,7 +325,7 @@ public class Envelop implements Serializable {
                 final String found = KWeb.HEADER.PARAM_MAP.keySet()
                     .stream().filter(field::equalsIgnoreCase)
                     .findFirst().map(KWeb.HEADER.PARAM_MAP::get).orElse(null);
-                if (Ut.notNil(found)) {
+                if (Ut.isNotNil(found)) {
                     headerData.put(found, this.assist.headers().get(field));
                 }
             });

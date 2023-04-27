@@ -89,7 +89,7 @@ public class KHybrid implements Serializable {
             if (Objects.nonNull(reference)) {
                 final JsonObject referenceJ = reference.sourceReference();
                 final JsonObject rule = Ut.valueJObject(referenceJ, KName.RULE);
-                if (Ut.notNil(rule)) {
+                if (Ut.isNotNil(rule)) {
                     // reference `rule`
                     config.put(KName.RULE, rule);
                 }

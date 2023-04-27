@@ -25,13 +25,13 @@ public class SqlTypeProvider {
             "engine/database/sql/" + database.getCategory().name() + "/schema.json");
         final JsonObject definitions = schemaData.getJsonObject("definitions");
         for (final String field : definitions.fieldNames()) {
-            if (Ut.notNil(field) && null != definitions.getValue(field)) {
+            if (Ut.isNotNil(field) && null != definitions.getValue(field)) {
                 DB_MAPPING.put(field, definitions.getString(field));
             }
         }
         final JsonObject typeMappings = schemaData.getJsonObject("mappings");
         for (final String field : typeMappings.fieldNames()) {
-            if (Ut.notNil(field) && null != typeMappings.getValue(field)) {
+            if (Ut.isNotNil(field) && null != typeMappings.getValue(field)) {
                 DB_TYPE_MAPPING.put(field, typeMappings.getJsonArray(field));
             }
         }

@@ -155,7 +155,7 @@ class IsDir {
                         return right;
                     }
                 }).orElse(null);
-            if (Ut.notNil(found)) {
+            if (Ut.isNotNil(found)) {
                 condition.put(KName.STORE_PATH + ",s", found);
             }
         }

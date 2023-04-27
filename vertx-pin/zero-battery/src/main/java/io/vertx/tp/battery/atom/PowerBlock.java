@@ -55,7 +55,7 @@ public class PowerBlock implements Serializable {
              * storedType processing
              */
             final String typeStr = metadata.getString(field);
-            if (Ut.notNil(typeStr)) {
+            if (Ut.isNotNil(typeStr)) {
                 /*
                  * value processing
                  */

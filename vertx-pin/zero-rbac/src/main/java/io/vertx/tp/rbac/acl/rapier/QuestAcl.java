@@ -49,7 +49,7 @@ class QuestAcl implements Quest {
          */
         final List<SPacket> packetData = packets.stream()
             .filter(Objects::nonNull)
-            .filter(item -> Ut.notNil(item.getResource()))
+            .filter(item -> Ut.isNotNil(item.getResource()))
             .toList();
 
         final Set<String> restCodes = packetData.stream()

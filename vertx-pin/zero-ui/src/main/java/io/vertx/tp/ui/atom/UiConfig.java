@@ -80,7 +80,7 @@ public class UiConfig implements Serializable {
     }
 
     public boolean okCache() {
-        return Ut.notNil(this.cache);
+        return Ut.isNotNil(this.cache);
     }
 
     public String keyControl() {

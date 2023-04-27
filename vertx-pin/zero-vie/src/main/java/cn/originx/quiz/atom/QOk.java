@@ -44,7 +44,7 @@ public class QOk implements OkA {
         final OkB okB = this.ok.partyB(name).copy();
         if (Environment.Mockito == this.environment) {
             final JsonObject item = Ut.ioJObject(FILE_INTEGRATION + name + ".json");
-            if (Ut.notNil(item)) {
+            if (Ut.isNotNil(item)) {
                 okB.configIntegration().fromJson(item);
                 okB.configIntegration().mockOn();
             }
@@ -59,7 +59,7 @@ public class QOk implements OkA {
             final Database database = this.ok.configDatabase().copy();
             if (Environment.Mockito == this.environment) {
                 final JsonObject item = Ut.ioJObject(FILE_DATABASE);
-                if (Ut.notNil(item)) {
+                if (Ut.isNotNil(item)) {
                     database.fromJson(item);
                 }
             }

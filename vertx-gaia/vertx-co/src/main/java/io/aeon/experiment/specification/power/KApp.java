@@ -76,7 +76,7 @@ public class KApp implements Serializable {
 
         /* database */
         final JsonObject sourceJ = Ut.valueJObject(appJ, KName.SOURCE);
-        if (Ut.notNil(sourceJ)) {
+        if (Ut.isNotNil(sourceJ)) {
             this.database = new Database();
             this.database.fromJson(sourceJ);
         }

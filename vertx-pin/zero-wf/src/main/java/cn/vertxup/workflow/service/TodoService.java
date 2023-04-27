@@ -136,7 +136,7 @@ public class TodoService implements TodoStub {
              * WTodo Auditor setting
              */
             final String userId = params.getString(KName.USER_ID);
-            if (Ut.notNil(userId)) {
+            if (Ut.isNotNil(userId)) {
                 todo.setUpdatedBy(userId);
                 todo.setUpdatedAt(LocalDateTime.now());
                 /*

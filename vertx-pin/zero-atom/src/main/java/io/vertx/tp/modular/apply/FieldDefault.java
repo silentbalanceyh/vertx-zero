@@ -35,7 +35,7 @@ class FieldDefault implements AoDefault {
              */
             AoDefault.apply(field, "type", String.class.getName());
             final String name = field.getString("name");
-            if (Ut.notNil(name)) {
+            if (Ut.isNotNil(name)) {
                 AoDefault.apply(field, "columnName", name.toUpperCase(Locale.getDefault()));
             }
             AoDefault.apply(field, "isPrimary", Boolean.FALSE);

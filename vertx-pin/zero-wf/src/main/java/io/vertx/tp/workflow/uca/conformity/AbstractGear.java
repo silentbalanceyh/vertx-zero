@@ -46,7 +46,7 @@ public abstract class AbstractGear implements Gear {
 
     @Override
     public Gear configuration(final JsonObject config) {
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             this.configuration.mergeIn(config, true);
         }
         return this;

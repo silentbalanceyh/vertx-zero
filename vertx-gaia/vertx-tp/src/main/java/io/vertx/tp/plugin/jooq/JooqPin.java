@@ -48,7 +48,7 @@ public class JooqPin {
         Fn.outUp(Ut.isNil(config) || !config.containsKey(ZeroYml.lime.jooq.provider),
             LOGGER, JooqConfigurationException.class, JooqPin.class);
 
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             /*
              * provider / orbit
              * provider - 标准数据库

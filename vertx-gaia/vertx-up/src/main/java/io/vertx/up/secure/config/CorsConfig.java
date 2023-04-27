@@ -32,7 +32,7 @@ public class CorsConfig implements Serializable {
         final JsonObject config = visitor.read();
         if (config.containsKey(KEY)) {
             final JsonObject cors = config.getJsonObject(KEY);
-            if (Ut.notNil(cors)) {
+            if (Ut.isNotNil(cors)) {
                 INSTANCE = Ut.deserialize(cors, CorsConfig.class);
                 // Cors Connected
                 final JsonArray origins = MatureOn.envDomain(INSTANCE.getOrigin());

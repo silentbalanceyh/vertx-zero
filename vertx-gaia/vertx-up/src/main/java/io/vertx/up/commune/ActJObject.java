@@ -125,10 +125,10 @@ class ActJObject extends ActMapping implements Serializable {
                     });
             }
             // fill criteria field when query is not empty
-            if (Ut.notNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {
+            if (Ut.isNotNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {
                 this.query.put(Qr.KEY_CRITERIA, new JsonObject());
             }
-            if (Ut.notNil(body)) {
+            if (Ut.isNotNil(body)) {
                 /*
                  * Common data
                  */

@@ -63,14 +63,14 @@ public class DSource implements Serializable, TCopy<DSource> {
              */
             this.key = definition.getString("key");
             final String className = definition.getString("component");
-            if (Ut.notNil(className)) {
+            if (Ut.isNotNil(className)) {
                 this.component = Ut.clazz(className);
                 if (Objects.isNull(this.component)) {
                     LOGGER.warn("The component `{0}` could not be initialized", className);
                 }
             }
             final JsonObject componentConfig = definition.getJsonObject("componentConfig");
-            if (Ut.notNil(componentConfig)) {
+            if (Ut.isNotNil(componentConfig)) {
                 this.componentConfig.mergeIn(componentConfig);
             }
         }

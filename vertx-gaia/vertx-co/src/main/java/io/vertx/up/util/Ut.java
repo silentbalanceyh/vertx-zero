@@ -1321,24 +1321,54 @@ public final class Ut {
         return Types.isPrimary(clazz);
     }
 
+    @HLinking(refer = HH.class)
     public static boolean isNull(final Object... args) {
-        return 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
+        return HH.isNull(args); // 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
     }
 
+    @HLinking(refer = HH.class)
     public static boolean isNil(final String input) {
-        return StringUtil.isNil(input);
+        return HH.isNil(input); // StringUtil.isNil(input);
     }
 
+    @HLinking(refer = HH.class)
     public static boolean isNil(final String... inputs) {
-        return StringUtil.isNil(inputs);
+        return HH.isNil(inputs); // StringUtil.isNil(inputs);
     }
 
+    @HLinking(refer = HH.class)
     public static boolean isNil(final JsonObject json) {
-        return Types.isEmpty(json);
+        return HH.isNil(json); // Types.isEmpty(json);
     }
 
+    @HLinking(refer = HH.class)
     public static boolean isNil(final JsonArray jsonArray) {
-        return Types.isEmpty(jsonArray);
+        return HH.isNil(jsonArray); // Types.isEmpty(jsonArray);
+    }
+
+    @HLinking(refer = HH.class)
+    public static boolean isNotNil(final String input) {
+        return HH.isNotNil(input); // StringUtil.notNil(input);
+    }
+
+    @HLinking(refer = HH.class)
+    public static boolean isNotNil(final JsonObject json) {
+        return HH.isNotNil(json); // !isNil(json);
+    }
+
+    @HLinking(refer = HH.class)
+    public static boolean isNotNil(final JsonArray jsonArray) {
+        return HH.isNotNil(jsonArray); // !isNil(jsonArray);
+    }
+
+    @HLinking(refer = HH.class)
+    public static boolean isNotNull(final Object... objects) {
+        return HH.isNotNil(objects); // !isNull(objects);
+    }
+
+    @HLinking(refer = HH.class)
+    public static void requireNonNull(final Object... objects) {
+        HH.requireNonNull(objects); // Arrays.stream(objects).forEach(Objects::requireNonNull);
     }
 
     public static boolean isIn(final JsonObject input, final String... fields) {
@@ -1387,26 +1417,6 @@ public final class Ut {
 
     public static boolean isDiffStrict(final JsonArray left, final JsonArray right) {
         return isDiffStrict(left, right, new HashSet<>());
-    }
-
-    public static boolean notNil(final String input) {
-        return StringUtil.notNil(input);
-    }
-
-    public static boolean notNil(final JsonObject json) {
-        return !isNil(json);
-    }
-
-    public static boolean notNil(final JsonArray jsonArray) {
-        return !isNil(jsonArray);
-    }
-
-    public static boolean notNull(final Object... objects) {
-        return !isNull(objects);
-    }
-
-    public static void checkNull(final Object... objects) {
-        Arrays.stream(objects).forEach(Objects::requireNonNull);
     }
 
     /*

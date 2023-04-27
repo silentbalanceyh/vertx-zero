@@ -108,7 +108,7 @@ public class AclData implements Acl {
 
     @Override
     public void bind(final JsonObject record) {
-        if (Ut.notNil(record)) {
+        if (Ut.isNotNil(record)) {
             /*
              * Bind all fields here
              */
@@ -118,7 +118,7 @@ public class AclData implements Acl {
 
     @Override
     public Acl config(final JsonObject config) {
-        if (Ut.notNil(config)) {
+        if (Ut.isNotNil(config)) {
             this.config.mergeIn(config);
         }
         return this;
@@ -149,10 +149,10 @@ public class AclData implements Acl {
                 edition.add(field);
             }
         });
-        if (Ut.notNil(access)) {
+        if (Ut.isNotNil(access)) {
             acl.put("access", access);
         }
-        if (Ut.notNil(edition) && Ut.isNil(this.config)) {
+        if (Ut.isNotNil(edition) && Ut.isNil(this.config)) {
             acl.put("edition", edition);
         }
         /*

@@ -66,7 +66,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
         /*
          * Data refer processing
          */
-        if (isRefer && Ut.notNil(jsonBody.getJsonObject(FIELD_CONDITION))) {
+        if (isRefer && Ut.isNotNil(jsonBody.getJsonObject(FIELD_CONDITION))) {
             /*
              * Call refer here
              * cacheKey = dataKey here
@@ -109,7 +109,7 @@ abstract class AbstractL1Algorithm implements L1Algorithm {
          */
         key.append(type).append(":");
         key.append(prefix).append(":");
-        if (Ut.notNil(dataType)) {
+        if (Ut.isNotNil(dataType)) {
             key.append(dataType).append(":");
         }
         dataMap.forEach((k, v) -> key.append(k).append("=").append(v).append(CNODE_CONNECTOR));

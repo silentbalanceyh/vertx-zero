@@ -68,28 +68,28 @@ public abstract class AbstractRegion implements PlugRegion {
         if (Objects.isNull(matrix)) {
             return false;               // 禁用视图流程
         }
-        boolean isEnabled = Ut.notNil(Ut.valueJArray(matrix, Qr.KEY_PROJECTION));
+        boolean isEnabled = Ut.isNotNil(Ut.valueJArray(matrix, Qr.KEY_PROJECTION));
         if (isEnabled) {
             return true;                // 启用流程 projection 有值
         }
-        isEnabled = Ut.notNil(Ut.valueJArray(matrix, KName.Rbac.CREDIT));
+        isEnabled = Ut.isNotNil(Ut.valueJArray(matrix, KName.Rbac.CREDIT));
         if (isEnabled) {
             return true;                // 启用流程 credit 有值
         }
-        isEnabled = Ut.notNil(Ut.valueJObject(matrix, KName.Rbac.ROWS));
+        isEnabled = Ut.isNotNil(Ut.valueJObject(matrix, KName.Rbac.ROWS));
         if (isEnabled) {
             return true;                // 启用流程 rows 有值
         }
-        isEnabled = Ut.notNil(Ut.valueJObject(matrix, Qr.KEY_CRITERIA));
+        isEnabled = Ut.isNotNil(Ut.valueJObject(matrix, Qr.KEY_CRITERIA));
         if (isEnabled) {
             return true;                // 启用流程 criteria
         }
         // 最后检查 seeker 流程
-        final boolean seeker = Ut.notNil(Ut.valueJObject(matrix, KName.SEEKER));
+        final boolean seeker = Ut.isNotNil(Ut.valueJObject(matrix, KName.SEEKER));
         if (seeker) {
             // seeker = true, 检查 view 是否存在
             final JsonObject viewJ = Ut.valueJObject(matrix, KName.VIEW);
-            return Ut.notNil(viewJ);
+            return Ut.isNotNil(viewJ);
         }
         return false;
     }

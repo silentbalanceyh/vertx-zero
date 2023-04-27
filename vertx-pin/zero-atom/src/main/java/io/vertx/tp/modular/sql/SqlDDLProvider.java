@@ -61,7 +61,7 @@ public final class SqlDDLProvider {
                      * natural join 要求同名主键通常是位于最前边，所以把主键定义放到最前边执行
                      */
                     final String pkLine = this.sentence.segmentField(field);
-                    if (Ut.notNil(pkLine)) {
+                    if (Ut.isNotNil(pkLine)) {
                         lines.add(0, pkLine);
                     }
                 } else {
@@ -203,7 +203,7 @@ public final class SqlDDLProvider {
     }
 
     private void addLine(final List<String> sqls, final String line) {
-        if (Ut.notNil(line)) {
+        if (Ut.isNotNil(line)) {
             sqls.add(line);
         }
     }

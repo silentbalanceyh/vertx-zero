@@ -99,7 +99,7 @@ public class ActOut extends ActMapping implements Serializable {
     }
 
     private ActOut bind(final String identifier) {
-        if (Ut.notNil(identifier)) {
+        if (Ut.isNotNil(identifier)) {
             this.identifier = identifier;
         }
         return this;

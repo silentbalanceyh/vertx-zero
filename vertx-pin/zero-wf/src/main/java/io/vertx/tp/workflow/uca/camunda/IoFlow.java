@@ -117,7 +117,7 @@ public class IoFlow extends AbstractIo<JsonObject> {
 
     @Override
     public Future<JsonObject> out(final JsonObject response, final JsonObject workflow) {
-        if (Ut.notNil(workflow)) {
+        if (Ut.isNotNil(workflow)) {
             response.put(KName.Flow.WORKFLOW, workflow);
         }
         return Ux.future(response);

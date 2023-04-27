@@ -58,7 +58,7 @@ class WfFlow {
             } else if (value instanceof JsonObject) {
                 json = (JsonObject) value;
             }
-            if (Ut.notNil(json)) {
+            if (Ut.isNotNil(json)) {
                 assert json != null;
                 parsed.put(field, json.copy());
             }

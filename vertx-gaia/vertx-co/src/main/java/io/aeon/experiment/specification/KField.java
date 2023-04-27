@@ -223,7 +223,7 @@ public class KField implements Serializable {
         Ut.itJArray(attachments).forEach(attachment -> {
             final String field = attachment.getString(KName.FIELD);
             final Object value = attachment.getValue("condition");
-            if (Ut.notNil(field) && value instanceof JsonObject) {
+            if (Ut.isNotNil(field) && value instanceof JsonObject) {
                 fieldMap.put(field, (JsonObject) value);
             }
         });

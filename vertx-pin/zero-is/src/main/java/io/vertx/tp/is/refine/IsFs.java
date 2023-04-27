@@ -207,7 +207,7 @@ class IsFs {
         final ConcurrentMap<String, IDirectory> storeMap = Ut.elementMap(storeList, IDirectory::getStorePath);
         Ut.itJArray(queueUp).forEach(json -> {
             final String storePath = json.getString(KName.STORE_PATH);
-            if (Ut.notNil(storePath)) {
+            if (Ut.isNotNil(storePath)) {
                 final IDirectory store = storeMap.get(storePath);
                 if (Objects.nonNull(store)) {
                     // directoryId

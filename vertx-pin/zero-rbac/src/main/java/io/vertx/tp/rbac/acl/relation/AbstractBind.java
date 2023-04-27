@@ -40,10 +40,10 @@ public abstract class AbstractBind<T> implements IdcBinder<T> {
             final ConcurrentMap<String, List<T>> grouped = new ConcurrentHashMap<>();
             Ut.itJArray(inputData).forEach(user -> {
                 final String literal = user.getString(field);
-                if (Ut.notNil(literal)) {
+                if (Ut.isNotNil(literal)) {
                     final Set<String> validSet = Arrays.stream(literal.split(VString.COMMA))
                         .map(String::trim)
-                        .filter(Ut::notNil)
+                        .filter(Ut::isNotNil)
                         .filter(vector::containsKey)
                         .collect(Collectors.toSet());
                     final String username = user.getString(KName.USERNAME);

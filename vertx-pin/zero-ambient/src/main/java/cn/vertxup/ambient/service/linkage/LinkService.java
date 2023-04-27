@@ -23,7 +23,7 @@ public class LinkService implements LinkStub {
         Objects.requireNonNull(sigma);
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.SIGMA, sigma);
-        if (Ut.notNil(type)) {
+        if (Ut.isNotNil(type)) {
             criteria.put(KName.TYPE, type);
         }
         return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria);
@@ -35,10 +35,10 @@ public class LinkService implements LinkStub {
             return Ux.futureA();
         } else {
             final JsonObject criteria = Ux.whereOr();
-            if (Ut.notNil(sourceKey)) {
+            if (Ut.isNotNil(sourceKey)) {
                 criteria.put(KName.SOURCE_KEY, sourceKey);
             }
-            if (Ut.notNil(targetKey)) {
+            if (Ut.isNotNil(targetKey)) {
                 criteria.put(KName.TARGET_KEY, targetKey);
             }
             return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria);

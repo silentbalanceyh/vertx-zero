@@ -35,7 +35,7 @@ public class Vis extends JsonObject {
 
     private Vis(final JsonObject json) {
         super();
-        if (Ut.notNil(json)) {
+        if (Ut.isNotNil(json)) {
             this.mergeIn(json);
         }
     }

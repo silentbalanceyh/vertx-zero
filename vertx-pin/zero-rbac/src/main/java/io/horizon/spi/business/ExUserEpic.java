@@ -95,7 +95,7 @@ public class ExUserEpic implements ExUser {
             /*
              * Fix Issue of `null` modelKey in workflow
              */
-            if (Ut.notNil(modelKey)) {
+            if (Ut.isNotNil(modelKey)) {
                 if (mapData.containsKey(modelKey)) {
                     JsonObject objRef = mapData.get(modelKey);
                     objRef = objRef.copy();

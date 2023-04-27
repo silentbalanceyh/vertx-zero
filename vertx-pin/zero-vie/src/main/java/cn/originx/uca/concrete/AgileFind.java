@@ -33,7 +33,7 @@ public class AgileFind extends AbstractAgile {
         final List<String> keyList = Arrays.stream(recordsRef)
             .filter(Objects::nonNull)
             .map(record -> (String) record.key())
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .collect(Collectors.toList());
         LOG.Uca.info(this.getClass(), "（批）读取数据：identifier = {0}, key = {1}, data = {2}",
             this.identifier(), Ut.fromJoin(keyList), records.encode());

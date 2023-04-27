@@ -70,7 +70,7 @@ public class AdjustNumber extends AbstractStep {
     }
 
     private void report(final JsonArray numberData) {
-        if (Ut.notNil(numberData)) {
+        if (Ut.isNotNil(numberData)) {
             final StringBuilder content = new StringBuilder();
             final String width = "\t\t\t\t\t\t";
             content.append(Ut.fromAdjust("模型标识", 28)).append(width);

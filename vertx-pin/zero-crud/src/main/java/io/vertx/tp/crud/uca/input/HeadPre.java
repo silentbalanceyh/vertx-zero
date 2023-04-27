@@ -56,7 +56,7 @@ class HeadPre implements Pre {
         if (Objects.nonNull(config)) {
             Ut.<String>itJObject(config, (to, from) -> {
                 final String value = headers.get(to);
-                if (Ut.notNil(value)) {
+                if (Ut.isNotNil(value)) {
                     json.put(from, value);
                 }
             });

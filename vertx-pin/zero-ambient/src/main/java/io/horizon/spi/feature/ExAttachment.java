@@ -73,7 +73,7 @@ public class ExAttachment implements Attachment {
                 // Combine Update and Returned
                 .compose(added -> {
                     final JsonArray combine = compared.getOrDefault(ChangeFlag.UPDATE, new JsonArray());
-                    if (Ut.notNil(added)) {
+                    if (Ut.isNotNil(added)) {
                         combine.addAll(added);
                     }
                     return Ux.future(combine);
@@ -186,7 +186,7 @@ public class ExAttachment implements Attachment {
         return Ux.channel(ExIo.class, () -> files, io -> io.dirBy(keys).compose(map -> {
             Ut.itJArray(files).forEach(file -> {
                 final String directoryId = file.getString(KName.DIRECTORY_ID);
-                if (Ut.notNil(directoryId)) {
+                if (Ut.isNotNil(directoryId)) {
                     final JsonObject directoryJ = map.getOrDefault(directoryId, new JsonObject());
                     final JsonObject visitJ = Ut.elementSubset(directoryJ,
                         KName.VISIT_ROLE,

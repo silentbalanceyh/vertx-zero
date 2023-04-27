@@ -43,7 +43,7 @@ public class ActionService implements ActionStub {
         final JsonObject actionFilters = new JsonObject();
         actionFilters.put(VString.EMPTY, Boolean.TRUE);
         actionFilters.put(KName.URI, normalizedUri);
-        if (Ut.notNil(sigma)) {
+        if (Ut.isNotNil(sigma)) {
             actionFilters.put(KName.SIGMA, sigma);
         }
         actionFilters.put(KName.METHOD, method.name());

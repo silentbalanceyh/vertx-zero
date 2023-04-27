@@ -140,7 +140,7 @@ public abstract class ActiveRecord implements HRecord {
      */
     @Override
     public HRecord add(final JsonObject data) {
-        if (Ut.notNil(data)) {
+        if (Ut.isNotNil(data)) {
             data.stream().filter(Objects::nonNull)
                 .forEach(entry -> this.add(entry.getKey(), entry.getValue()));
         }
@@ -207,7 +207,7 @@ public abstract class ActiveRecord implements HRecord {
 
     @Override
     public void fromJson(final JsonObject json) {
-        if (Ut.notNil(json)) {
+        if (Ut.isNotNil(json)) {
             this.data.mergeIn(json);
         }
     }

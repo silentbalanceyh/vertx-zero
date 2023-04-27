@@ -57,7 +57,7 @@ public class WTransition {
          * Fix Issue: 「Camunda Exception」
          * org.camunda.bpm.engine.exception.NullValueException: Process instance id is null
          */
-        if (Ut.notNil(workflow.instanceId())) {
+        if (Ut.isNotNil(workflow.instanceId())) {
             this.instance = io.inInstance(workflow.instanceId());
         }
     }

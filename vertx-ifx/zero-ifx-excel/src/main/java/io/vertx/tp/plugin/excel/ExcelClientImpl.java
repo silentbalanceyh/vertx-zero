@@ -50,7 +50,7 @@ public class ExcelClientImpl implements ExcelClient {
         }
         if (config.containsKey(ExcelClient.TENANT)) {
             final JsonObject tenantJson = Ut.ioJObject(config.getString(ExcelClient.TENANT));
-            if (Ut.notNil(tenantJson)) {
+            if (Ut.isNotNil(tenantJson)) {
                 final ExTenant tenant = ExTenant.create(tenantJson);
                 this.helper.initTenant(tenant);
                 LOGGER.debug("[ Έξοδος ] Configuration tenant for Importing: {0}", tenantJson.encode());

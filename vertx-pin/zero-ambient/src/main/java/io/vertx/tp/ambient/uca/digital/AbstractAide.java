@@ -58,7 +58,7 @@ public abstract class AbstractAide implements Aide {
             final String firstArg = typeArray.getString(VValue.IDX);
             // ACTIVE = TRUE AND TYPE = ?
             criteria.put(KName.TYPE, firstArg);
-            if (Ut.notNil(code)) {
+            if (Ut.isNotNil(code)) {
                 /*
                  * Conflict to multi types, this code logical is
                  * available when you fetch one record only

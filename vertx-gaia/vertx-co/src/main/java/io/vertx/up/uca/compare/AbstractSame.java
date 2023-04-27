@@ -91,7 +91,7 @@ public abstract class AbstractSame implements VsSame {
          *
          * [NOT NULL]
          */
-        return Objects.nonNull(value) && Ut.notNil(value.toString());
+        return Objects.nonNull(value) && Ut.isNotNil(value.toString());
     }
 
     public boolean isAnd(final Object valueOld, final Object valueNew) {

@@ -72,7 +72,7 @@ final class Norm {
                         // Found Must
                         // record = New
                         final JsonObject found = Ut.elementFind(previous, field, record.getValue(field));
-                        if (Ut.notNil(found)) {
+                        if (Ut.isNotNil(found)) {
                             final JsonObject combine = effectInternal(found, record);
                             response.add(combine);
                         }
@@ -113,7 +113,7 @@ final class Norm {
 
     private static Future<JsonObject> combine(final JsonObject input, final JsonObject processed) {
         final JsonObject response = processed.copy();
-        if (Ut.notNil(input)) {
+        if (Ut.isNotNil(input)) {
             response.put(KName.__.INPUT, input);
         }
         return Ux.future(response);
@@ -126,7 +126,7 @@ final class Norm {
             final JsonObject responseJ = item.copy();
             if (index < size) {
                 final JsonObject inputJ = input.getJsonObject(index);
-                if (Ut.notNil(inputJ)) {
+                if (Ut.isNotNil(inputJ)) {
                     responseJ.put(KName.__.INPUT, inputJ);
                 }
             }

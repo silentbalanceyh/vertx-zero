@@ -141,7 +141,7 @@ final class ArrayL {
         final JsonArray updated = new JsonArray();
         Ut.itJArray(array).filter(Objects::nonNull)
             .map(item -> subset(item, pickedKeys))
-            .filter(Ut::notNil)
+            .filter(Ut::isNotNil)
             .forEach(updated::add);
         return updated;
     }
@@ -304,7 +304,7 @@ final class ArrayL {
         final ConcurrentMap<String, JsonObject> mapped = new ConcurrentHashMap<>();
         It.itJArray(data).forEach(json -> {
             final String key = json.getString(field);
-            if (Ut.notNil(key)) {
+            if (Ut.isNotNil(key)) {
                 mapped.put(key, json);
             }
         });
@@ -322,7 +322,7 @@ final class ArrayL {
              *      at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
              *      at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
              */
-            if (Ut.notNil(key) && Objects.nonNull(json.getValue(to))) {
+            if (Ut.isNotNil(key) && Objects.nonNull(json.getValue(to))) {
                 mapped.put(key, (T) json.getValue(to));
             }
         });

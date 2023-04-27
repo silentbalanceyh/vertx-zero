@@ -21,7 +21,7 @@ public class HOneHybrid implements HOne<BiFunction<JsonObject, JsonObject, JsonO
             JsonObject connectV = Ut.valueJObject(connectJ).copy();
 
             final JsonObject result = new JsonObject();
-            if (Ut.notNil(connectV)) {
+            if (Ut.isNotNil(connectV)) {
                 connectV = this.loadAttribute(connectV, connect);
                 // Point Target Process for synonym
                 final KPoint target = module.getConnect(connect.identifier());

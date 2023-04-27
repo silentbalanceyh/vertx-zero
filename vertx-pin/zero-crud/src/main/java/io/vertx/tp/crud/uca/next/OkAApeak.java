@@ -52,7 +52,7 @@ class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
                 this.add(filtered, value, fieldSet);
             }
         }
-        if (append && Ut.notNil(linked)) {
+        if (append && Ut.isNotNil(linked)) {
             // Append `linked`
             linked.forEach(item -> this.add(filtered, item, majorSet));
         }

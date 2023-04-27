@@ -41,22 +41,22 @@ public class ComplexIn extends AbstractExIn {
                 /* Parent / Child */
                 final String parent = first.getStringCellValue();
                 final String child = second.getStringCellValue();
-                if (Ut.notNil(parent) || Ut.notNil(child)) {
+                if (Ut.isNotNil(parent) || Ut.isNotNil(child)) {
                     /*
                      * field calculation
                      */
-                    if (Ut.isNil(child) && Ut.notNil(parent)) {
+                    if (Ut.isNil(child) && Ut.isNotNil(parent)) {
                         /*
                          * Single field here
                          */
                         table.add(parent);
-                    } else if (Ut.notNil(child) && Ut.notNil(parent)) {
+                    } else if (Ut.isNotNil(child) && Ut.isNotNil(parent)) {
                         /*
                          * Parent found and set the first child
                          */
                         foundParent.add(parent);
                         table.add(parent, child);
-                    } else if (Ut.notNil(child) && Ut.isNil(parent)) {
+                    } else if (Ut.isNotNil(child) && Ut.isNil(parent)) {
                         /*
                          * Add left all child
                          */

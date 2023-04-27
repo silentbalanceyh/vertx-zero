@@ -54,7 +54,7 @@ public class EsAmbitUpdate extends AbstractEsClient implements EsAmbit {
             final BulkRequest request = new BulkRequest();
             Ut.itJArray(documents).forEach(json -> {
                 final String documentId = json.getString(idField);
-                if (Ut.notNil(documentId)) {
+                if (Ut.isNotNil(documentId)) {
                     final UpdateRequest indexRequest = new UpdateRequest()
                         .index(this.index)
                         .id(documentId)

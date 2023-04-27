@@ -99,7 +99,7 @@ class AptBatch implements AptOp<JsonArray> {
     @Override
     public AptOp<JsonArray> update(final JsonObject input) {
         final JsonObject inputData = Ut.valueJObject(input);
-        if (Ut.notNil(inputData)) {
+        if (Ut.isNotNil(inputData)) {
             /* DELETE -> UPDATE */
             // if (this.current.isEmpty()) {
             // this.flag = ChangeFlag.UPDATE;

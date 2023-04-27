@@ -47,7 +47,7 @@ public class BTree implements Serializable {
     }
 
     public BTree init(final JsonObject input) {
-        if (Ut.notNil(input)) {
+        if (Ut.isNotNil(input)) {
             /*
              * Mix data structure for
              * {
@@ -66,7 +66,7 @@ public class BTree implements Serializable {
                 .forEach(field -> {
                     final JsonObject fieldValue = input.getJsonObject(field);
                     /* Init here */
-                    if (Ut.notNil(fieldValue)) {
+                    if (Ut.isNotNil(fieldValue)) {
                         /* Json mapping here */
                         final BMapping item = new BMapping(fieldValue);
                         this.mapping.put(field, item);

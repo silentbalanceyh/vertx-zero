@@ -47,7 +47,7 @@ class AresWs extends AbstractAres {
             this.sockOptions = ZeroGrid.getSockOptions().getOrDefault(options.getPort(), null);
             if (Objects.nonNull(this.sockOptions)) {
                 final String publish = this.sockOptions.getPublish();
-                if (Ut.notNil(publish)) {
+                if (Ut.isNotNil(publish)) {
                     this.publish.configure(options);
                     if (LOG_PUBLISH.getAndSet(Boolean.FALSE)) {
                         this.logger().info(Info.WS_PUBLISH, String.valueOf(options.getPort()),
@@ -87,7 +87,7 @@ class AresWs extends AbstractAres {
              * 1. Whether the `publish` has been enabled
              */
             final String publish = this.sockOptions.getPublish();
-            if (Ut.notNil(publish)) {
+            if (Ut.isNotNil(publish)) {
                 this.publish.mount(router, this.sockOptions.configSockJs());
             }
             /*

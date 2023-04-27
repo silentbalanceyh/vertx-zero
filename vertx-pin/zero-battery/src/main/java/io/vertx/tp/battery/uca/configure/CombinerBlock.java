@@ -32,7 +32,7 @@ class CombinerBlock implements Combiner<BBag, List<BBlock>> {
         // major data
         final Combiner<JsonObject, BBag> combiner = Combiner.outDao();
         return combiner.configure(data, bag).compose(recordData -> {
-            if (Ut.notNil(recordData)) {
+            if (Ut.isNotNil(recordData)) {
                 data.mergeIn(recordData);
             }
             return Ux.future(data);

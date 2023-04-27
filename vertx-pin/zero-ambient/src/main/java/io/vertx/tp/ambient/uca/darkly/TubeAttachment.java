@@ -61,13 +61,13 @@ public class TubeAttachment extends AbstractTube {
                            final JsonObject ruleConfig) {
         final JsonArray added = diffMap.get(ChangeFlag.ADD);
         final StringBuilder message = new StringBuilder();
-        if (Ut.notNil(added)) {
+        if (Ut.isNotNil(added)) {
             final String prefix = Ut.valueString(ruleConfig, ChangeFlag.ADD.name());
             this.messageFormat(message, added, prefix);
         }
         message.append(VString.COMMA);
         final JsonArray deleted = diffMap.get(ChangeFlag.DELETE);
-        if (Ut.notNil(deleted)) {
+        if (Ut.isNotNil(deleted)) {
             final String prefix = Ut.valueString(ruleConfig, ChangeFlag.DELETE.name());
             this.messageFormat(message, deleted, prefix);
         }
@@ -76,11 +76,11 @@ public class TubeAttachment extends AbstractTube {
 
     private void messageFormat(final StringBuilder message,
                                final JsonArray queue, final String prefix) {
-        if (Ut.notNil(queue)) {
+        if (Ut.isNotNil(queue)) {
             final Set<String> files = new HashSet<>();
             Ut.itJArray(queue).forEach(json -> {
                 final String filename = Ut.valueString(json, KName.NAME);
-                if (Ut.notNil(filename)) {
+                if (Ut.isNotNil(filename)) {
                     files.add(filename);
                 }
             });

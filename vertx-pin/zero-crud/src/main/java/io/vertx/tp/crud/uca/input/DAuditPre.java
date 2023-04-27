@@ -47,7 +47,7 @@ class DAuditPre implements Pre {
                                       final ConcurrentMap<String, String> map) {
         Ut.itJArray(data).forEach(each -> keys.forEach(field -> {
             final String value = each.getString(field);
-            if (Ut.notNil(value)) {
+            if (Ut.isNotNil(value)) {
                 final String toValue = map.getOrDefault(value, value);
                 each.put(field, toValue);
             }

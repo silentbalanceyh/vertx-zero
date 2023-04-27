@@ -68,7 +68,7 @@ public class AresGrid {
         if (TOPIC_MAP.isEmpty()) {
             SOCKS.forEach(remind -> {
                 final String subscribe = remind.getSubscribe();
-                if (Ut.notNil(subscribe)) {
+                if (Ut.isNotNil(subscribe)) {
                     TOPIC_MAP.put(subscribe, Objects.isNull(remind.getType()) ? RemindType.TOPIC : remind.getType());
                 }
             });
@@ -93,7 +93,7 @@ public class AresGrid {
             SOCKS.forEach(remind -> {
                 final String wAddress = remind.getSubscribe();
                 final String eAddress = remind.getAddress();
-                if (Ut.notNil(wAddress) && Ut.notNil(eAddress)) {
+                if (Ut.isNotNil(wAddress) && Ut.isNotNil(eAddress)) {
                     // Web Socket = Event Bus
                     W2E.put(wAddress, eAddress);
                     // Event Bus = Web Socket

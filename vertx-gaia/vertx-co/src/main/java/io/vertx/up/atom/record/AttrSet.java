@@ -57,7 +57,7 @@ public class AttrSet implements Serializable {
             attr = new Attr(name);
         }
         attr.bind(Objects.isNull(type) ? String.class : type);
-        if (Ut.notNil(alias)) {
+        if (Ut.isNotNil(alias)) {
             attr.bind(alias);
         }
         attr.value(value);

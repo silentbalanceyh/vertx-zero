@@ -39,7 +39,7 @@ class DirectId extends AbstractId {
         this.ensure(model);
         // 查找唯一的主键
         final String keyField = Ao.joinKey(model);
-        if (Ut.notNil(keyField)) {
+        if (Ut.isNotNil(keyField)) {
             record.set(keyField, Ao.toKey(id));
         }
     }

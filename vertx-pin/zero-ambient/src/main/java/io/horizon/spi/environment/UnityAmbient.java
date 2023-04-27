@@ -182,7 +182,7 @@ public class UnityAmbient implements UnityApp {
             sourceJson.put(KName.PASSWORD, source.getPassword());
             sourceJson.put("driverClassName", source.getDriverClassName());
             final String jdbcConfig = source.getJdbcConfig();
-            if (Ut.notNil(jdbcConfig)) {
+            if (Ut.isNotNil(jdbcConfig)) {
                 sourceJson.put(KName.OPTIONS, Ut.toJObject(jdbcConfig));
             }
             normalized.put(KName.SOURCE, sourceJson);

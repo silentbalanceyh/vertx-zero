@@ -36,7 +36,7 @@ class HOneJoin implements HOne<UxJoin> {
             dao.add(module.getDaoCls(), keyJoin);
         }
         final String pojoS = module.getPojo();
-        if (Ut.notNil(pojoS)) {
+        if (Ut.isNotNil(pojoS)) {
             dao.pojo(module.getDaoCls(), pojoS);
         }
 
@@ -48,13 +48,13 @@ class HOneJoin implements HOne<UxJoin> {
 
         // 5. Alias
         final JsonObject synonym = target.getSynonym();
-        if (Ut.notNil(synonym)) {
+        if (Ut.isNotNil(synonym)) {
             Ut.<String>itJObject(synonym, (aliasField, field) -> dao.alias(daoCls, field, aliasField));
         }
 
         // 6. Connect Joined pojo
         final String pojoT = connect.getPojo();
-        if (Ut.notNil(pojoT)) {
+        if (Ut.isNotNil(pojoT)) {
             dao.pojo(connect.getDaoCls(), pojoT);
         }
         return dao;
