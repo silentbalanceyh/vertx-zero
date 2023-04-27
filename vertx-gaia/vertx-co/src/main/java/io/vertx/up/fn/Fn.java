@@ -1,9 +1,11 @@
 package io.vertx.up.fn;
 
+import io.horizon.annotations.HLinking;
 import io.horizon.eon.info.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.*;
+import io.horizon.util.fn.HFn;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
@@ -264,8 +266,9 @@ public final class Fn extends _Then {
     }
 
     // ------ Must throw out exception in these two methods
-    public static void safeRun(final Actuator actuator, final Annal logger) {
-        Warning.outRun(actuator, logger);
+    @HLinking(HFn.class)
+    public static void runAt(final Actuator actuator, final Annal logger) {
+        HFn.runAt(actuator, logger);
     }
 
     public static void safeZero(final ProgramActuator actuator, final Object... input) throws ProgramException {

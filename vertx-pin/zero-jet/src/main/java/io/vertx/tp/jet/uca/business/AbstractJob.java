@@ -2,7 +2,7 @@ package io.vertx.tp.jet.uca.business;
 
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.specification.zero.action.Service;
+import io.horizon.specification.meta.action.Service;
 import io.horizon.spi.environment.Ambient;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

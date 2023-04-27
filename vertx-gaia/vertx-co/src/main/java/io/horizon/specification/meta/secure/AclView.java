@@ -1,4 +1,4 @@
-package io.horizon.specification.zero.secure;
+package io.horizon.specification.meta.secure;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;

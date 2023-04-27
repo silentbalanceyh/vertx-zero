@@ -1,7 +1,7 @@
 package io.vertx.tp.jet.uca.tunnel;
 
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtComponent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

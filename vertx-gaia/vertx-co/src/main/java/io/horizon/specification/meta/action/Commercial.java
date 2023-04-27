@@ -1,8 +1,8 @@
-package io.horizon.specification.zero.action;
+package io.horizon.specification.meta.action;
 
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.container.ChannelType;
-import io.horizon.specification.zero.object.TJson;
+import io.horizon.specification.meta.typed.TJson;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 

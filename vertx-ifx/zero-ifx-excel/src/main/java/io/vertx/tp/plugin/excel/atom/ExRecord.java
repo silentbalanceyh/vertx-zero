@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel.atom;
 
 import io.horizon.eon.VString;
-import io.horizon.specification.zero.object.TJson;
+import io.horizon.specification.meta.typed.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.cell.ExValue;
 import io.vertx.up.util.Ut;

@@ -1,6 +1,6 @@
 package io.vertx.up.unity;
 
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;

@@ -1,6 +1,6 @@
 package io.horizon.spi.jet;
 
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.up.commune.Envelop;
 

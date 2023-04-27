@@ -1,7 +1,7 @@
 package io.vertx.up.commune;
 
 import io.horizon.eon.em.ValueBool;
-import io.horizon.specification.zero.secure.Acl;
+import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;

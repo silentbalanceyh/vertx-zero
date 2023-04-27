@@ -2,7 +2,7 @@ package cn.originx.quiz;
 
 import cn.originx.quiz.atom.QRequest;
 import io.horizon.eon.VString;
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.environment.Ambient;
 import io.horizon.spi.environment.AmbientEnvironment;
 import io.horizon.spi.jet.JtChannel;

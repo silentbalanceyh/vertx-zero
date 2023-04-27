@@ -1,4 +1,4 @@
-package io.horizon.specification.zero.object;
+package io.horizon.specification.meta.typed;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;

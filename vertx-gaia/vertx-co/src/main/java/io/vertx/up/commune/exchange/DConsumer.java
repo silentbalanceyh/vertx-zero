@@ -1,7 +1,7 @@
 package io.vertx.up.commune.exchange;
 
-import io.horizon.specification.zero.object.TCopy;
-import io.horizon.specification.zero.object.TJson;
+import io.horizon.specification.meta.typed.TCopy;
+import io.horizon.specification.meta.typed.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 

@@ -1,7 +1,7 @@
 package io.vertx.tp.rbac.refine;
 
 import cn.vertxup.rbac.domain.tables.pojos.*;
-import io.horizon.specification.zero.secure.Acl;
+import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;

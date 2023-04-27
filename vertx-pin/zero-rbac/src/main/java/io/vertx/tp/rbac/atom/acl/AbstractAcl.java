@@ -1,6 +1,6 @@
 package io.vertx.tp.rbac.atom.acl;
 
-import io.horizon.specification.zero.secure.AclView;
+import io.horizon.specification.meta.secure.AclView;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

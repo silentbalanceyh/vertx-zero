@@ -4,7 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.SVisitantDao;
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.secure.ActPhase;
-import io.horizon.specification.zero.secure.Acl;
+import io.horizon.specification.meta.secure.Acl;
 import io.horizon.spi.modeler.Confine;
 import io.horizon.spi.secure.ConfineBuiltIn;
 import io.vertx.core.Future;

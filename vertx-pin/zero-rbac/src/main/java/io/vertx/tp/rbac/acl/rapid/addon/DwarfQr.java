@@ -1,6 +1,6 @@
 package io.vertx.tp.rbac.acl.rapid.addon;
 
-import io.horizon.specification.zero.secure.Acl;
+import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.acl.rapid.Dwarf;
 import io.vertx.up.atom.query.engine.Qr;

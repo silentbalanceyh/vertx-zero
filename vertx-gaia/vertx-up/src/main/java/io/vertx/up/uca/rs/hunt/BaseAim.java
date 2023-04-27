@@ -1,6 +1,7 @@
 package io.vertx.up.uca.rs.hunt;
 
 import io.horizon.fn.Actuator;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.Cookie;
@@ -17,7 +18,6 @@ import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.validation.Validator;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
 import io.vertx.up.uca.rs.mime.MediaAnalyzer;

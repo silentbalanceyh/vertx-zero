@@ -1,6 +1,6 @@
 package io.vertx.up.commune.config;
 
-import io.horizon.specification.zero.object.TJson;
+import io.horizon.specification.meta.typed.TJson;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KWeb;

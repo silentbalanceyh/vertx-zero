@@ -45,7 +45,7 @@ public class RxApplication {
     }
 
     public static void run(final Class<?> clazz, final Object... args) {
-        Fn.safeRun(() -> {
+        Fn.runAt(() -> {
             // Run Rx application.
             new RxApplication(clazz).run(args);
         }, LOGGER);

@@ -1,4 +1,4 @@
-package io.horizon.specification.zero.action;
+package io.horizon.specification.meta.action;
 
 import io.aeon.experiment.rule.RuleUnique;
 import io.vertx.core.json.JsonObject;

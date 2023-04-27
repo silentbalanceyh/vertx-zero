@@ -1,6 +1,6 @@
 package io.vertx.tp.jet.uca.micro;
 
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.up.annotations.On;

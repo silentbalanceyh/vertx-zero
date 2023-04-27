@@ -1,4 +1,4 @@
-package io.horizon.specification.zero.secure;
+package io.horizon.specification.meta.secure;
 
 import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.core.json.JsonObject;

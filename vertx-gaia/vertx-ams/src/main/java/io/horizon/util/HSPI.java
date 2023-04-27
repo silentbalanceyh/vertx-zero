@@ -40,24 +40,21 @@ final class HSPI {
         }
     }
 
-    static <T> T service(final Class<T> interfaceCls) {
-        final T service = serviceOr(interfaceCls);
+    static <T> T service(final Class<T> interfaceCls, final ClassLoader loader) {
+        final Collection<T> collection = services(interfaceCls, loader);
+        final T service;
+        if (!collection.isEmpty()) {
+            service = collection.iterator().next();
+        } else {
+            service = null;
+        }
         if (Objects.isNull(service)) {
             throw new SPINullException(HSPI.class);
         }
         return service;
     }
 
-    static <T> T serviceOr(final Class<T> clazz) {
-        return serviceOr(clazz, null);
-    }
-
-    static <T> T serviceOr(final Class<T> clazz, final T defaultReference) {
-        final Collection<T> collection = services(clazz, null);
-        if (!collection.isEmpty()) {
-            return collection.iterator().next();
-        } else {
-            return defaultReference;
-        }
+    static <T> T service(final Class<T> interfaceCls) {
+        return service(interfaceCls, null);
     }
 }

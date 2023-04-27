@@ -1,7 +1,7 @@
 package io.vertx.tp.jet.uca.micro;
 
 import io.horizon.eon.em.container.ChannelType;
-import io.horizon.specification.zero.action.Commercial;
+import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtChannel;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
