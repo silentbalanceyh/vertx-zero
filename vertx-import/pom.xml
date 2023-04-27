@@ -53,6 +53,11 @@
                 <artifactId>jooq</artifactId>
                 <version>${jooq.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.zero</groupId>
+                <artifactId>vertx-ams</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- Zero Core -->
             <dependency>
                 <groupId>cn.vertxup</groupId>

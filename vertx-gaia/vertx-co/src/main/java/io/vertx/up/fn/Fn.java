@@ -5,7 +5,7 @@ import io.horizon.eon.info.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.*;
-import io.horizon.util.HMs;
+import io.horizon.util.HH;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -664,19 +664,19 @@ public final class Fn {
         return Atomic.passion(input, Arrays.asList(executors));
     }
 
-    @HLinking(refer = HMs.class)
+    @HLinking(refer = HH.class)
     public static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
-        return HMs.pool(pool, key, poolFn);
+        return HH.pool(pool, key, poolFn);
     }
 
-    @HLinking(refer = HMs.class)
+    @HLinking(refer = HH.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
-        return HMs.poolThread(pool, poolFn);
+        return HH.poolThread(pool, poolFn);
     }
 
-    @HLinking(refer = HMs.class)
+    @HLinking(refer = HH.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
-        return HMs.poolThread(pool, poolFn, key);
+        return HH.poolThread(pool, poolFn, key);
     }
 
     // ---------------------------------------------------- 响应函数 ----------------------------------------------------

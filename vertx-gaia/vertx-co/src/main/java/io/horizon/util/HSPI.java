@@ -7,13 +7,15 @@ import java.util.*;
 /**
  * @author lang : 2023/4/27
  */
-public final class HSPI {
+final class HSPI {
+    private HSPI() {
+    }
 
-    public static <T> Collection<T> services(final Class<T> clazz) {
+    static <T> Collection<T> services(final Class<T> clazz) {
         return services(clazz, null);
     }
 
-    public static <T> Collection<T> services(final Class<T> clazz, final ClassLoader classLoader) {
+    static <T> Collection<T> services(final Class<T> clazz, final ClassLoader classLoader) {
         final List<T> list = new ArrayList<>();
         ServiceLoader<T> factories;
         if (classLoader != null) {
@@ -38,7 +40,7 @@ public final class HSPI {
         }
     }
 
-    public static <T> T service(final Class<T> interfaceCls) {
+    static <T> T service(final Class<T> interfaceCls) {
         final T service = serviceOr(interfaceCls);
         if (Objects.isNull(service)) {
             throw new SPINullException(HSPI.class);
@@ -46,11 +48,11 @@ public final class HSPI {
         return service;
     }
 
-    public static <T> T serviceOr(final Class<T> clazz) {
+    static <T> T serviceOr(final Class<T> clazz) {
         return serviceOr(clazz, null);
     }
 
-    public static <T> T serviceOr(final Class<T> clazz, final T defaultReference) {
+    static <T> T serviceOr(final Class<T> clazz, final T defaultReference) {
         final Collection<T> collection = services(clazz, null);
         if (!collection.isEmpty()) {
             return collection.iterator().next();

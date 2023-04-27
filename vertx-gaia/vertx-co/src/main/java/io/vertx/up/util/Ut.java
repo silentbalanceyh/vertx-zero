@@ -13,7 +13,7 @@ import io.horizon.eon.runtime.VEnv;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.runtime.internal.HService;
-import io.horizon.util.HMs;
+import io.horizon.util.HH;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -1848,9 +1848,9 @@ public final class Ut {
         return Format.formatBold(pattern, args);
     }
 
-    @HLinking(refer = HMs.class)
+    @HLinking(refer = HH.class)
     public static String fromMessage(final String pattern, final Object... args) {
-        return HMs.fromMessage(pattern, args);
+        return HH.fromMessage(pattern, args);
     }
 
     public static <T> T fromExpressionT(final String expr, final JsonObject params) {

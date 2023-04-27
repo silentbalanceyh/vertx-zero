@@ -8,9 +8,9 @@ import java.util.function.Supplier;
  *
  * @author lang : 2023/4/27
  */
-public final class HMs {
+public final class HH {
 
-    private HMs() {
+    private HH() {
     }
 
     // ---------------- 格式化函数
@@ -44,11 +44,11 @@ public final class HMs {
     }
 
     // ---------------- 判断函数
-    public static boolean isEmpty(final String input) {
+    public static boolean isNil(final String input) {
         return HString.isEmpty(input);
     }
 
-    public static boolean isNotEmpty(final String input) {
-        return !isEmpty(input);
+    public static boolean isNotNil(final String input) {
+        return !isNil(input);
     }
 }

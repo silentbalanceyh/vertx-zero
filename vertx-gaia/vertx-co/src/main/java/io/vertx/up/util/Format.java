@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HMs;
+import io.horizon.util.HH;
 
 /**
  * @author lang : 2023/4/24
@@ -40,7 +40,7 @@ class Format {
 
     static String formatBold(final String message, final Object... args) {
         if (0 < args.length) {
-            return BOLD_FLAG + HMs.fromMessage(message, args);
+            return BOLD_FLAG + HH.fromMessage(message, args);
         } else {
             return BOLD_FLAG + message;
         }

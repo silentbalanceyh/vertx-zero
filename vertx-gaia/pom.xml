@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <name>「vertx-gaia」Zero Kernel Engine</name>
     <modules>
+        <module>vertx-ams</module>
         <module>vertx-co</module>
         <module>vertx-tp</module>
         <module>vertx-up</module>
