@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.stomp.websocket;
 
 import io.vertx.ext.stomp.StompServerHandler;
 import io.vertx.ext.stomp.StompServerOptions;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /**

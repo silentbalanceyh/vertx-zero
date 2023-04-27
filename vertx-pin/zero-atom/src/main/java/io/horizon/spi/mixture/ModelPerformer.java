@@ -10,7 +10,7 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoModeler;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

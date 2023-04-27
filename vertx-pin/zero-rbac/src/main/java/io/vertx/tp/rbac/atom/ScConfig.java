@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.aeon.experiment.specification.KQr;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

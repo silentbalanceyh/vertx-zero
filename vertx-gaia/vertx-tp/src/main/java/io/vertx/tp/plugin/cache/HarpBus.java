@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.l1.L1Config;
 import io.vertx.up.log.DevOps;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

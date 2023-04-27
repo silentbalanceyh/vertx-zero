@@ -7,7 +7,7 @@ import io.vertx.tp.workflow.uca.central.Behaviour;
 import io.vertx.tp.workflow.uca.component.MoveOn;
 import io.vertx.tp.workflow.uca.deployment.DeployOn;
 import io.vertx.tp.workflow.uca.modeling.ActionOn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 /**

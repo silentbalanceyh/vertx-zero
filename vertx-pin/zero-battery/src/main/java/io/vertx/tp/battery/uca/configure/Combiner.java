@@ -4,7 +4,7 @@ import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.Collection;
 import java.util.List;

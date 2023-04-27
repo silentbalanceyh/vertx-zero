@@ -9,7 +9,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.DefaultValue;

@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.io.Serializable;
 import java.util.Comparator;

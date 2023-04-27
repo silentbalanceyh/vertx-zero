@@ -13,7 +13,7 @@ import io.vertx.rx.rs.router.RouterAxis;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
 

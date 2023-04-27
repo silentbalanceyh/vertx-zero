@@ -12,7 +12,7 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500SharedDataModeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;

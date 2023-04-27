@@ -9,7 +9,7 @@ import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 

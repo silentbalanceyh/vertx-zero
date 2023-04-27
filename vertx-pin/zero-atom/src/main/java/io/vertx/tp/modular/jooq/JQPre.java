@@ -9,7 +9,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.HashSet;
 import java.util.Objects;

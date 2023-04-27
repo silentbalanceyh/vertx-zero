@@ -17,7 +17,7 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.element.DataKey;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.up.eon.KName;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

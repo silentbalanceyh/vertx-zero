@@ -7,7 +7,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;

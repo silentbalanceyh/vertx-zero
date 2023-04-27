@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.tpl;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;
 

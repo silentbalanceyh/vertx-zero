@@ -1,9 +1,9 @@
-package io.vertx.up.uca.cache;
+package io.horizon.uca.cache;
 
 import io.horizon.eon.em.CcMode;
+import io.horizon.exception.internal.CcModeNullException;
+import io.horizon.util.HaS;
 import io.vertx.core.Future;
-import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -29,12 +29,12 @@ import java.util.function.Supplier;
 public interface Cc<K, V> {
 
     static <K, V> V pool(final ConcurrentMap<K, V> input, final K key, final Supplier<V> supplier) {
-        return Fn.pool(input, key, supplier);
+        return HaS.pool(input, key, supplier);
     }
 
 
     static <V> V pool(final ConcurrentMap<String, V> input, final Supplier<V> supplier) {
-        return Fn.poolThread(input, supplier);
+        return HaS.poolThread(input, supplier);
     }
 
     static <V> Cc<String, V> openThread() {
@@ -45,11 +45,11 @@ public interface Cc<K, V> {
         return open(CcMode.STANDARD);
     }
 
-    static <K, V> Cc<K, Future<V>> openA(){
+    static <K, V> Cc<K, Future<V>> openA() {
         return new CcAsync<>(CcMode.STANDARD);
     }
 
-    static <K, V> Cc<K, Future<V>> openThreadA(){
+    static <K, V> Cc<K, Future<V>> openThreadA() {
         return new CcAsync<>(CcMode.THREAD);
     }
 
@@ -73,7 +73,7 @@ public interface Cc<K, V> {
          * - Zero Based Application
          */
         if (Objects.isNull(mode)) {
-            throw new _501NotSupportException(Cc.class);
+            throw new CcModeNullException(Cc.class);
         }
         return switch (mode) {
             case THREAD ->

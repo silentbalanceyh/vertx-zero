@@ -1,6 +1,6 @@
 package io.vertx.up.log;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.function.Function;

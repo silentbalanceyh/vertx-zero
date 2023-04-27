@@ -15,7 +15,7 @@ import io.vertx.tp.rbac.acl.rapid.DmxQr;
 import io.vertx.tp.rbac.acl.rapid.DmxRow;
 import io.vertx.tp.rbac.atom.acl.AclData;
 import io.vertx.up.eon.KName;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

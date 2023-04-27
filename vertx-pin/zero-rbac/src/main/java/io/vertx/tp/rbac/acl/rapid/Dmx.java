@@ -2,7 +2,7 @@ package io.vertx.tp.rbac.acl.rapid;
 
 import cn.vertxup.rbac.domain.tables.pojos.SVisitant;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /**

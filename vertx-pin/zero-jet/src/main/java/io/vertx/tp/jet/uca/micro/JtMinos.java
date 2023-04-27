@@ -9,7 +9,7 @@ import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

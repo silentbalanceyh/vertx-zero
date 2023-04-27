@@ -11,7 +11,7 @@ import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;

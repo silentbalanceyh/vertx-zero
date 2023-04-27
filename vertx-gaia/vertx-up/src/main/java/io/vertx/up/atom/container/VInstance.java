@@ -1,6 +1,6 @@
 package io.vertx.up.atom.container;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.lang.reflect.Proxy;
 

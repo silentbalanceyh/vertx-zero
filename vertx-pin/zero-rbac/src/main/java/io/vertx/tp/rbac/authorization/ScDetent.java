@@ -20,7 +20,7 @@ import io.vertx.tp.rbac.authorization.parent.GpHorizon;
 import io.vertx.tp.rbac.authorization.parent.GpOverlook;
 import io.vertx.tp.rbac.logged.ProfileGroup;
 import io.vertx.tp.rbac.logged.ProfileRole;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;

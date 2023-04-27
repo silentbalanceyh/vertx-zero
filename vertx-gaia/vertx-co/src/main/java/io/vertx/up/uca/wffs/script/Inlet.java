@@ -1,7 +1,7 @@
 package io.vertx.up.uca.wffs.script;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import org.apache.commons.jexl3.JexlContext;
 
 /**

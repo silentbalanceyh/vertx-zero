@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.plugin.session.SessionInfix;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.plugin.Infix;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 @Plugin
 @SuppressWarnings("unchecked")

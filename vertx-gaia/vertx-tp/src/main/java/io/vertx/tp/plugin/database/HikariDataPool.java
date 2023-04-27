@@ -3,7 +3,7 @@ package io.vertx.tp.plugin.database;
 import com.zaxxer.hikari.HikariDataSource;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;

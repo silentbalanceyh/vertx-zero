@@ -4,7 +4,7 @@ import io.vertx.tp.crud.uca.input.Pre;
 import io.vertx.tp.crud.uca.next.Co;
 import io.vertx.tp.crud.uca.op.Agonic;
 import io.vertx.tp.crud.uca.trans.Tran;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

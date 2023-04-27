@@ -1,7 +1,7 @@
-package io.vertx.up.uca.cache;
+package io.horizon.uca.cache;
 
-import io.vertx.up.exception.web._501NotSupportException;
-import io.vertx.up.fn.Fn;
+import io.horizon.exception.internal.NotImplementException;
+import io.horizon.util.HaS;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  */
 class CcMemory<K, V> implements Cc<K, V> {
     private final transient ConcurrentMap<K, V> store = new ConcurrentHashMap<>();
-//    private final transient Cd<K, V> store = new CdMap<>();
+    //    private final transient Cd<K, V> store = new CdMap<>();
 
     @Override
     public ConcurrentMap<K, V> store() {
@@ -26,13 +26,13 @@ class CcMemory<K, V> implements Cc<K, V> {
 
     @Override
     public V pick(final Supplier<V> supplier) {
-        throw new _501NotSupportException(this.getClass());
+        throw new NotImplementException(this.getClass());
     }
 
     @Override
     public V pick(final Supplier<V> supplier, final K key) {
-//        final ConcurrentMap<K, V> pool = this.store.data();
-        return Fn.pool(this.store, key, supplier);
+        //        final ConcurrentMap<K, V> pool = this.store.data();
+        return HaS.pool(this.store, key, supplier);
     }
 
     @Override

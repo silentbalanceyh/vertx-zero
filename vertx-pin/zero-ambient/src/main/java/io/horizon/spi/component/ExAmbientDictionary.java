@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;

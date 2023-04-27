@@ -1,7 +1,7 @@
 package io.horizon.spi.ambient;
 
 import io.horizon.spi.extension.Init;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /*
  * OOB数据初始化专用接口

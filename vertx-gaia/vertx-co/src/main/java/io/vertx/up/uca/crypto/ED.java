@@ -1,7 +1,7 @@
 package io.vertx.up.uca.crypto;
 
 import io.aeon.experiment.specification.KPair;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * Encrypt / Decrypt Interface for

@@ -12,7 +12,7 @@ import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.secure.Lee;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;

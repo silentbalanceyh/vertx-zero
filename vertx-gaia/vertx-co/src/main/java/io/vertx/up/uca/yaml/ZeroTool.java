@@ -4,7 +4,7 @@ import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

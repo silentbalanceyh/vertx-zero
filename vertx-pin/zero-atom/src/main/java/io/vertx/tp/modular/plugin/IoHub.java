@@ -3,7 +3,7 @@ package io.vertx.tp.modular.plugin;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.Future;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * ## Nerve System

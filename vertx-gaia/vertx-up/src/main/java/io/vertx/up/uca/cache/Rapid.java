@@ -1,5 +1,6 @@
 package io.vertx.up.uca.cache;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.auth.User;

@@ -1,6 +1,6 @@
 package io.vertx.up.unity;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
 
 interface Info {

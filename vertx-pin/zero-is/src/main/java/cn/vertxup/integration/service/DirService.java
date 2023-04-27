@@ -11,7 +11,7 @@ import io.vertx.tp.is.uca.updater.StoreRename;
 import io.vertx.tp.is.uca.updater.StoreUp;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

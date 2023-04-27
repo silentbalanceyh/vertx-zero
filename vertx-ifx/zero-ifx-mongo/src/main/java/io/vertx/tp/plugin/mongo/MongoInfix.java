@@ -5,7 +5,7 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroYml;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  *

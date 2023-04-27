@@ -8,7 +8,7 @@ import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HModel;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

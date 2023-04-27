@@ -2,7 +2,7 @@ package io.aeon.experiment.mixture;
 
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.up.extension.pointer.PluginExtension;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 

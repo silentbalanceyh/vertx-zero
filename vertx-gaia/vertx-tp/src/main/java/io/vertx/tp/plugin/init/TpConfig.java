@@ -6,7 +6,7 @@ import io.vertx.up.exception.zero.DynamicConfigTypeException;
 import io.vertx.up.exception.zero.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 
 import java.io.Serializable;

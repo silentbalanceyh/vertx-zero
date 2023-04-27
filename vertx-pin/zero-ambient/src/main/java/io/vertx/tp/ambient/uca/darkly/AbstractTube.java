@@ -9,7 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.eon.KName;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.uca.wffs.Playbook;
 import io.vertx.up.unity.Ux;

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.yaml;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * Read options and set default values

@@ -7,7 +7,7 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;

@@ -2,7 +2,7 @@ package io.vertx.up.uca.cosmic;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

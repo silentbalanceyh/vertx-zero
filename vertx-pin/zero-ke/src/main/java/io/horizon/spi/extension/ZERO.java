@@ -1,6 +1,6 @@
 package io.horizon.spi.extension;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 interface Pool {
 

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.rs.router;
 
 import io.vertx.ext.web.Route;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 interface Info {
 

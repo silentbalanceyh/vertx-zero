@@ -3,7 +3,7 @@ package cn.originx.quiz.develop;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

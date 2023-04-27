@@ -2,7 +2,7 @@ package io.vertx.up.extension.pointer;
 
 import io.aeon.experiment.mixture.HLoad;
 import io.horizon.specification.modeler.HAtom;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /**

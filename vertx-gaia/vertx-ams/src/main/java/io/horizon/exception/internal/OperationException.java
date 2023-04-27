@@ -5,9 +5,12 @@ import io.horizon.exception.InternalException;
 import io.horizon.util.HaS;
 
 public class OperationException extends InternalException {
+    public OperationException(final Class<?> caller, final String method) {
+        super(caller, HaS.fromMessage(ErrorCode._11005.M(), method, caller.getName()));
+    }
 
     public OperationException(final Class<?> caller, final String method, final Class<?> clazz) {
-        super(caller, HaS.fromMessage(ErrorCode._11005.M(), method, clazz));
+        super(caller, HaS.fromMessage(ErrorCode._11005.M(), method, clazz.getName()));
     }
 
     @Override

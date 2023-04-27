@@ -5,7 +5,7 @@ import io.aeon.atom.secure.HSemi;
 import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.power.KApp;
 import io.horizon.cloud.action.HCombiner;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * 「运行时系统级数据缓存」

@@ -4,7 +4,7 @@ import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
 import io.horizon.cloud.action.HEvent;
 import io.horizon.cloud.app.HFS;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 /**
  * 「运行时组件缓存」

@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.concurrent.ConcurrentHashMap;

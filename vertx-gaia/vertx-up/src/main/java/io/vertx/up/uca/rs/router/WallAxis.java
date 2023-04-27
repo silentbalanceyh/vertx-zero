@@ -10,7 +10,7 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 

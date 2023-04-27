@@ -6,7 +6,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.log.Annal;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
 import io.vertx.up.uca.rs.mime.resolver.SolveResolver;

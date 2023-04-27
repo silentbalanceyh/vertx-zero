@@ -2,7 +2,7 @@ package io.vertx.up.runtime.soul;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 
 import java.util.List;
 import java.util.Objects;

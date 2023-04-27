@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.uca.adminicle.FieldMapper;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

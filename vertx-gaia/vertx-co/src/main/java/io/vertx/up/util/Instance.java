@@ -11,7 +11,7 @@ import io.vertx.up.exception.web._500InvokeErrorException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

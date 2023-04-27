@@ -14,7 +14,7 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.cache.Cc;
+import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

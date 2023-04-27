@@ -22,6 +22,8 @@ public enum ErrorCode {
         "Input `pool` argument is null, may cause NullPointerException / Terminal")        // PoolNullException
     , _11008(-11008,
         "The input key of `Pool` is null, it''s conflict in current environment")          // PoolKeyNullException
+    , _11009(-11009,
+        "The input cache mode should not be null, please check your code")                 // CcModeNullException
     ;
     private final String message;
     private final int code;
