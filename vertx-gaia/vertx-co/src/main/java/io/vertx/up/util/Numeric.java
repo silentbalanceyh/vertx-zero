@@ -7,7 +7,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -47,38 +46,12 @@ final class Numeric {
         return StringUtil.isMatch(VString.REGEX.POSITIVE, original);
     }
 
-    static boolean isPositive(final int number) {
-        return 0 < number;
-    }
-
-    static boolean isPositive(final int[] numbers) {
-        final long counter = Arrays.stream(numbers)
-            .filter(Numeric::isPositive)
-            .count();
-        return counter == numbers.length;
-    }
-
-    static boolean isPositive(final Integer[] numbers) {
-        final long counter = Arrays.stream(numbers)
-            .filter(Numeric::isPositive)
-            .count();
-        return counter == numbers.length;
-    }
-
     static boolean isNegative(final String original) {
         return StringUtil.isMatch(VString.REGEX.NEGATIVE, original);
     }
 
     static boolean isInteger(final String original) {
         return StringUtil.isMatch(VString.REGEX.INTEGER, original) || isPositive(original) || isNegative(original);
-    }
-
-    static boolean isDecimal(final String original) {
-        return StringUtil.isMatch(VString.REGEX.DECIMAL, original);
-    }
-
-    static boolean isReal(final String original) {
-        return isInteger(original) || isDecimal(original);
     }
 
     static Integer randomNumber(final int length) {
@@ -107,17 +80,6 @@ final class Numeric {
         } else {
             return ((null != min) && min <= value) ||
                 ((null != max) && value <= max);
-        }
-    }
-
-    static class Decimal {
-
-        static boolean isPositive(final String original) {
-            return StringUtil.isMatch(VString.REGEX.DECIMAL_POSITIVE, original);
-        }
-
-        static boolean isNegative(final String original) {
-            return StringUtil.isMatch(VString.REGEX.DECIMAL_NEGATIVE, original);
         }
     }
 }

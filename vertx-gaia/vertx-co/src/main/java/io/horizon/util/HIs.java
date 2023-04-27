@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -25,14 +24,6 @@ class HIs {
 
     static boolean isNil(final JsonArray inputA) {
         return Objects.isNull(inputA) || inputA.isEmpty();
-    }
-
-    static boolean isNull(final Object... args) {
-        return 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
-    }
-
-    static boolean isNotNull(final Object... args) {
-        return 0 == args.length || Arrays.stream(args).noneMatch(Objects::isNull);
     }
 
     static boolean isUUID(final String literal) {
@@ -88,5 +79,4 @@ class HIs {
             return matcher.matches();
         }, regex, value);
     }
-
 }

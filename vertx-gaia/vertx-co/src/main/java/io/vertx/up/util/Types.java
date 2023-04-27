@@ -142,18 +142,6 @@ final class Types {
         }
     }
 
-    static boolean isInteger(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
-            () -> false,
-            () -> Numeric.isInteger(value.toString()));
-    }
-
-    static boolean isDecimal(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
-            () -> false,
-            () -> Numeric.isDecimal(value.toString()));
-    }
-
     static boolean isDate(final Object value) {
         if (Objects.isNull(value)) {
             return false;

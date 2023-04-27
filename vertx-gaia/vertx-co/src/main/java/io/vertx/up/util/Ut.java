@@ -3,7 +3,6 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.experiment.specification.KPair;
-import io.horizon.annotations.HLinking;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
@@ -43,11 +42,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-/**
- * Uniform Tool
- */
 @SuppressWarnings("all")
-public final class Ut {
+public final class Ut extends HH {
     private Ut() {
     }
 
@@ -1191,79 +1187,6 @@ public final class Ut {
         return Period.equalDate(left, right);
     }
 
-    @HLinking(HH.class)
-    public static boolean isUUID(final String literal) {
-        return HH.isUUID(literal); // Types.isUUID(literal);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isBoolean(final Class<?> clazz) {
-        return HH.isBoolean(clazz); // Types.isBoolean(clazz);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isBoolean(final Object value) {
-        return Objects.nonNull(value) && HH.isBoolean(value.toString(), true); // Types.isBoolean(value);
-    }
-
-    public static boolean isPositive(final String original) {
-        return Numeric.isPositive(original);
-    }
-
-    public static boolean isPositive(final int number) {
-        return Numeric.isPositive(number);
-    }
-
-    public static boolean isPositive(final int[] numbers) {
-        return Numeric.isPositive(numbers);
-    }
-
-    public static boolean isPositive(final Integer[] numbers) {
-        return Numeric.isPositive(numbers);
-    }
-
-    public static boolean isNegative(final String original) {
-        return Numeric.isNegative(original);
-    }
-
-    public static boolean isInteger(final String original) {
-        return Numeric.isInteger(original);
-    }
-
-    public static boolean isInteger(final Object value) {
-        return Types.isInteger(value);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isInteger(final Class<?> clazz) {
-        return HH.isInteger(clazz); // Types.isInteger(clazz);
-    }
-
-    public static boolean isDecimal(final Object value) {
-        return Types.isDecimal(value);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isDecimal(final Class<?> clazz) {
-        return HH.isDecimal(clazz); // Types.isDecimal(clazz);
-    }
-
-    public static boolean isDecimal(final String original) {
-        return Numeric.isDecimal(original);
-    }
-
-    public static boolean isReal(final String original) {
-        return Numeric.isReal(original);
-    }
-
-    public static boolean isDecimalPositive(final String original) {
-        return Numeric.Decimal.isPositive(original);
-    }
-
-    public static boolean isDecimalNegative(final String original) {
-        return Numeric.Decimal.isNegative(original);
-    }
-
     // isFileName
     public static boolean isFileName(final String original) {
         return StringUtil.isMatch(io.horizon.eon.VString.REGEX.FILENAME, original);
@@ -1271,11 +1194,6 @@ public final class Ut {
 
     public static boolean isDate(final Object value) {
         return Types.isDate(value);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isDate(final Class<?> type) {
-        return HH.isDate(type); // Types.isDate(type);
     }
 
     public static boolean isSubset(final JsonObject cond, final JsonObject record) {
@@ -1314,79 +1232,8 @@ public final class Ut {
         return Types.isJObject(clazz);
     }
 
-
-    @HLinking(HH.class)
-    public static boolean isVoid(final Class<?> clazz) {
-        return HH.isVoid(clazz); // Types.isVoid(clazz);
-    }
-
     public static boolean isClass(final Object value) {
         return Types.isClass(value);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isPrimary(final Class<?> clazz) {
-        return HH.isPrimary(clazz); // Types.isPrimary(clazz);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNull(final Object... args) {
-        return HH.isNull(args); // 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNil(final String input) {
-        return HH.isNil(input); // StringUtil.isNil(input);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNil(final String... inputs) {
-        return HH.isNil(inputs); // StringUtil.isNil(inputs);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNil(final JsonObject json) {
-        return HH.isNil(json); // Types.isEmpty(json);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNil(final JsonArray jsonArray) {
-        return HH.isNil(jsonArray); // Types.isEmpty(jsonArray);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNotNil(final String input) {
-        return HH.isNotNil(input); // StringUtil.notNil(input);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNotNil(final JsonObject json) {
-        return HH.isNotNil(json); // !isNil(json);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNotNil(final JsonArray jsonArray) {
-        return HH.isNotNil(jsonArray); // !isNil(jsonArray);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isNotNull(final Object... objects) {
-        return HH.isNotNil(objects); // !isNull(objects);
-    }
-
-    @HLinking(HH.class)
-    public static void requireNonNull(final Object... objects) {
-        HH.requireNonNull(objects); // Arrays.stream(objects).forEach(Objects::requireNonNull);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isEqual(final String left, final String right) {
-        return HH.isEqual(left, right);         // Types.isEqual(left, right);
-    }
-
-    @HLinking(HH.class)
-    public static boolean isDiff(final String left, final String right) {
-        return HH.isDiff(left, right); // !isEqual(left, right);
     }
 
     public static boolean isIn(final JsonObject input, final String... fields) {
@@ -1866,11 +1713,6 @@ public final class Ut {
 
     public static String fromMessageB(final String pattern, final Object... args) {
         return Format.formatBold(pattern, args);
-    }
-
-    @HLinking(HH.class)
-    public static String fromMessage(final String pattern, final Object... args) {
-        return HH.fromMessage(pattern, args);
     }
 
     public static <T> T fromExpressionT(final String expr, final JsonObject params) {
