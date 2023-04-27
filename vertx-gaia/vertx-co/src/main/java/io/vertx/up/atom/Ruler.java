@@ -2,7 +2,7 @@ package io.vertx.up.atom;
 
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -34,9 +34,9 @@ public class Ruler {
      * @param file The rule up.god.file that input into this method.
      * @param data The data that will be verified.
      *
-     * @throws ZeroException Error when verified failure.
+     * @throws ProgramException Error when verified failure.
      */
-    public static void verify(final String file, final JsonObject data) throws ZeroException {
+    public static void verify(final String file, final JsonObject data) throws ProgramException {
         Fn.safeZero(() -> {
             // 1. Rule for json object
             final JsonObject rule = getRule(file);
@@ -66,9 +66,9 @@ public class Ruler {
      * @param file The file that current object bind
      * @param data The data that will be verified
      *
-     * @throws ZeroException Whether here throw validated exception
+     * @throws ProgramException Whether here throw validated exception
      */
-    public static void verify(final String file, final JsonArray data) throws ZeroException {
+    public static void verify(final String file, final JsonArray data) throws ProgramException {
         Fn.safeZero(() -> {
             // 1. Rule for json array
             final JsonObject rule = getRule(file);
@@ -88,7 +88,7 @@ public class Ruler {
         }, file, data);
     }
 
-    private static <T> void verifyItem(final T input, final JsonObject rule) throws ZeroException {
+    private static <T> void verifyItem(final T input, final JsonObject rule) throws ProgramException {
         Fn.safeZero(() -> {
 
             if (Ut.isJArray(input)) {

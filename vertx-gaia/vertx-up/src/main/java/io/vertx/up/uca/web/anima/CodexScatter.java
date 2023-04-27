@@ -4,9 +4,9 @@ import io.aeon.runtime.H2H;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.eon.info.VMessage;
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +35,7 @@ public class CodexScatter implements Scatter<Vertx> {
                     store.put(rule.substring(0, rule.lastIndexOf(VString.DOT)), ruleData);
                     // ZeroCodex.getCodex().put(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
                 }
-            } catch (final EmptyStreamException ex) {
+            } catch (final EmptyIoException ex) {
                 LOGGER.fatal(ex);
             }
         }

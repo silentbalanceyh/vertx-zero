@@ -3,7 +3,7 @@ package io.vertx.up.uca.options;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.horizon.eon.info.VMessage;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -23,7 +23,7 @@ public class DynamicVisitor extends HttpServerVisitor {
 
     @Override
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
-        throws ZeroException {
+        throws ProgramException {
         final JsonArray serverData = this.serverPre(1, key);
         this.type = ServerType.valueOf(key[VValue.IDX]);
         this.logger().info(VMessage.VISITOR_V_BEFORE, KName.SERVER, this.type, serverData.encode());

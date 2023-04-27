@@ -1,0 +1,61 @@
+package io.horizon.util;
+
+import io.horizon.exception.internal.SPINullException;
+
+import java.util.*;
+
+/**
+ * @author lang : 2023/4/27
+ */
+public final class HSPI {
+
+    public static <T> Collection<T> services(final Class<T> clazz) {
+        return services(clazz, null);
+    }
+
+    public static <T> Collection<T> services(final Class<T> clazz, final ClassLoader classLoader) {
+        final List<T> list = new ArrayList<>();
+        ServiceLoader<T> factories;
+        if (classLoader != null) {
+            factories = ServiceLoader.load(clazz, classLoader);
+        } else {
+            // 等价代码：ServiceLoader.load(clazz, TCCL);
+            factories = ServiceLoader.load(clazz);
+        }
+        if (factories.iterator().hasNext()) {
+            factories.iterator().forEachRemaining(list::add);
+            return list;
+        } else {
+            // 默认使用 TCCL，但在 OSGi 环境中可能不够，因此尝试使用加载此类的类加载器，所以为了兼容 osgi 环境，需要使用
+            // ServiceLoader.load(clazz, Spi.class.getClassLoader()) 加载
+            factories = ServiceLoader.load(clazz, HSPI.class.getClassLoader());
+            if (factories.iterator().hasNext()) {
+                factories.iterator().forEachRemaining(list::add);
+                return list;
+            } else {
+                return Collections.emptyList();
+            }
+        }
+    }
+
+    public static <T> T service(final Class<T> interfaceCls) {
+        final T service = serviceOr(interfaceCls);
+        if (Objects.isNull(service)) {
+            throw new SPINullException(HSPI.class);
+        }
+        return service;
+    }
+
+    public static <T> T serviceOr(final Class<T> clazz) {
+        return serviceOr(clazz, null);
+    }
+
+    public static <T> T serviceOr(final Class<T> clazz, final T defaultReference) {
+        final Collection<T> collection = services(clazz, null);
+        if (!collection.isEmpty()) {
+            return collection.iterator().next();
+        } else {
+            return defaultReference;
+        }
+    }
+}

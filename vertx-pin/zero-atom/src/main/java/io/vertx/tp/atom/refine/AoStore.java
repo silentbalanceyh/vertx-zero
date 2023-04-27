@@ -2,12 +2,12 @@ package io.vertx.tp.atom.refine;
 
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
+import io.horizon.exception.internal.EmptyIoException;
 import io.horizon.specification.modeler.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
-import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -76,7 +76,7 @@ class AoStore {
          */
         try {
             return Ut.ioJObject(name);
-        } catch (final EmptyStreamException ex) {
+        } catch (final EmptyIoException ex) {
             return new JsonObject();
         }
     }

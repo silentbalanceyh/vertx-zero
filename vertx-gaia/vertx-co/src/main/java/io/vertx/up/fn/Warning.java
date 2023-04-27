@@ -1,7 +1,7 @@
 package io.vertx.up.fn;
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.AbstractException;
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.Actuator;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
@@ -30,13 +30,13 @@ final class Warning {
      * @param zeroClass ZeroException class
      * @param args      Arguments of zero
      *
-     * @throws ZeroException Whether throw out exception of zero defined.
+     * @throws ProgramException Whether throw out exception of zero defined.
      */
     static void outZero(final Annal logger,
-                        final Class<? extends ZeroException> zeroClass,
+                        final Class<? extends ProgramException> zeroClass,
                         final Object... args)
-        throws ZeroException {
-        final ZeroException error = Ut.instance(zeroClass, args);
+        throws ProgramException {
+        final ProgramException error = Ut.instance(zeroClass, args);
         if (null != error) {
             logger.fatal(error);
             //            Annal.sure(logger, () -> logger.checked(error));
@@ -52,9 +52,9 @@ final class Warning {
      * @param args    Arguments of zero
      */
     static void outUp(final Annal logger,
-                      final Class<? extends ZeroRunException> upClass,
+                      final Class<? extends AbstractException> upClass,
                       final Object... args) {
-        final ZeroRunException error = Ut.instance(upClass, args);
+        final AbstractException error = Ut.instance(upClass, args);
         if (null != error) {
             logger.fatal(error);
             //            Annal.sure(logger, () -> logger.runtime(error));
@@ -148,7 +148,7 @@ final class Warning {
     static void outRun(final Actuator actuator, final Annal logger) {
         try {
             actuator.execute();
-        } catch (final ZeroRunException ex) {
+        } catch (final AbstractException ex) {
             logger.fatal(ex);
             //            Annal.sure(logger, () -> logger.runtime(ex));
             throw ex;
@@ -167,13 +167,13 @@ final class Warning {
      *
      * @return Final T or throw our exception
      */
-    static <T> T execRun(final Supplier<T> supplier, final Class<? extends ZeroRunException> runCls, final Object... args) {
+    static <T> T execRun(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
         T ret = null;
         try {
             ret = supplier.get();
         } catch (final Throwable ex) {
             final Object[] argument = Ut.elementAdd(args, ex);
-            final ZeroRunException error = Ut.instance(runCls, argument);
+            final AbstractException error = Ut.instance(runCls, argument);
             if (null != error) {
                 throw error;
             }

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.options;
 
 import io.horizon.eon.info.VMessage;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -25,11 +25,11 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
 
     /**
      * @return Server config to generate HttpServerOptions by port
-     * @throws ZeroException ServerConfigException
+     * @throws ProgramException ServerConfigException
      */
     @Override
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
-        throws ZeroException {
+        throws ProgramException {
         final JsonArray serverData = this.serverPre(0, key);
         this.logger().info(VMessage.VISITOR_V_BEFORE, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);

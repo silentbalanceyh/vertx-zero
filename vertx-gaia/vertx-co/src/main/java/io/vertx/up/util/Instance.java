@@ -2,10 +2,10 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.exception.internal.OperationException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.exception.heart.OperationException;
 import io.vertx.up.exception.web._500InvokeErrorException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
@@ -304,7 +304,7 @@ final class Instance {
                 // 0, 1 直接构造
                 final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
                     .filter(item -> length == item.getParameterTypes().length)
-                    .findAny().orElseThrow(() -> new OperationException("Constructor / 0 / 1", clazz));
+                    .findAny().orElseThrow(() -> new OperationException(Instance.class, "Constructor / 0 / 1", clazz));
                 constructor.setAccessible(Boolean.TRUE);
                 return Fn.orJvm(() -> ((T) constructor.newInstance(params)), constructor);
             } else {
@@ -317,7 +317,7 @@ final class Instance {
                     final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
                         .filter(item -> length == item.getParameterTypes().length)
                         .filter(item -> typeMatch(item.getParameterTypes(), types))
-                        .findAny().orElseThrow(() -> new OperationException("Constructor / N", clazz));
+                        .findAny().orElseThrow(() -> new OperationException(Instance.class, "Constructor / N", clazz));
                     constructor.setAccessible(Boolean.TRUE);
                     return Fn.orJvm(() -> ((T) constructor.newInstance(params)), constructor);
                 }

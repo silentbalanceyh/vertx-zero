@@ -1,7 +1,7 @@
 package io.vertx.up.uca.stable;
 
 import io.horizon.eon.VValue;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.demon.JObjectElementException;
@@ -17,7 +17,7 @@ public abstract class AbstractInsurer implements Insurer {
     @Override
     public void flumen(final JsonArray array,
                        final JsonObject elementRule)
-        throws ZeroException {
+        throws ProgramException {
         Fn.safeZero(() -> {
             // 1. Verify the element must be json object for each
             final int size = array.size();

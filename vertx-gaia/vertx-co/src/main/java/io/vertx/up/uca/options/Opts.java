@@ -1,9 +1,9 @@
 package io.vertx.up.uca.options;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.exception.heart.LimeFileException;
+import io.vertx.up.exception.internal.LimeMissingException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroTool;
@@ -28,9 +28,9 @@ public interface Opts<T> {
      * Read data from files
      *
      * @return The config data
-     * @throws ZeroException zero exception that prevent start up
+     * @throws ProgramException zero exception that prevent start up
      */
-    T ingest(String node) throws ZeroException;
+    T ingest(String node) throws ProgramException;
 }
 
 class YamlOpts implements Opts<JsonObject> {
@@ -66,9 +66,9 @@ class YamlOpts implements Opts<JsonObject> {
         final JsonObject data = new JsonObject();
         try {
             data.mergeIn(node.read());
-        } catch (final EmptyStreamException ex) {
+        } catch (final EmptyIoException ex) {
             if (data.isEmpty()) {
-                throw new LimeFileException(ZeroTool.nameZero(key));
+                throw new LimeMissingException(this.getClass(), ZeroTool.nameZero(key));
             }
         }
         return data;

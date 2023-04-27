@@ -1,17 +1,15 @@
 package io.vertx.up.fn;
 
 import io.horizon.eon.VValue;
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.AbstractException;
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.PoolKeyNullException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -66,13 +64,13 @@ final class Wall {
      * @param actuator Zero executor
      * @param logger   Zero logger
      */
-    static void zeroVoid(final ZeroActuator actuator, final Annal logger) {
+    static void zeroVoid(final ProgramActuator actuator, final Annal logger) {
         try {
             actuator.execute();
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             logger.fatal(ex);
             //            Annal.sure(logger, () -> logger.checked(ex));
-        } catch (final ZeroRunException ex) {
+        } catch (final AbstractException ex) {
             logger.fatal(ex);
             //            Annal.sure(logger, () -> logger.runtime(ex));
         } catch (final Throwable ex) {
@@ -90,14 +88,14 @@ final class Wall {
      *
      * @return T or throw out zero run exception
      */
-    static <T> T zeroReturn(final ZeroSupplier<T> supplier, final Annal logger) {
+    static <T> T zeroReturn(final ProgramSupplier<T> supplier, final Annal logger) {
         T ret = null;
         try {
             ret = supplier.get();
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             logger.fatal(ex);
             //            Annal.sure(logger, () -> logger.checked(ex));
-        } catch (final ZeroRunException ex) {
+        } catch (final AbstractException ex) {
             logger.fatal(ex);
             throw ex;
         } catch (final Throwable ex) {
@@ -144,8 +142,8 @@ final class Wall {
     }
 
     @SuppressWarnings("all")
-    static <T> T execZero(final boolean condition, final ZeroSupplier<T> tSupplier, final ZeroSupplier<T> fSupplier)
-        throws ZeroException {
+    static <T> T execZero(final boolean condition, final ProgramSupplier<T> tSupplier, final ProgramSupplier<T> fSupplier)
+        throws ProgramException {
         T ret = null;
         if (condition) {
             if (null != tSupplier) {
@@ -160,8 +158,8 @@ final class Wall {
     }
 
     @SuppressWarnings("all")
-    static <T> void execZero(final JsonObject data, final ZeroBiConsumer<T, String> fnIt)
-        throws ZeroException {
+    static <T> void execZero(final JsonObject data, final ProgramBiConsumer<T, String> fnIt)
+        throws ProgramException {
         for (final String name : data.fieldNames()) {
             final Object item = data.getValue(name);
             if (null != item) {
@@ -175,8 +173,8 @@ final class Wall {
      * @param fnIt      iterator
      * @param <T>       element type
      */
-    static <T> void execZero(final JsonArray dataArray, final ZeroBiConsumer<T, String> fnIt)
-        throws ZeroException {
+    static <T> void execZero(final JsonArray dataArray, final ProgramBiConsumer<T, String> fnIt)
+        throws ProgramException {
         execZero(dataArray, JsonObject.class, (element, index) -> execZero(element, fnIt));
     }
 
@@ -186,11 +184,11 @@ final class Wall {
      * @param fnIt      iterator
      * @param <T>       element type T ( generic )
      *
-     * @throws ZeroException element zero here
+     * @throws ProgramException element zero here
      */
     @SuppressWarnings("all")
-    static <T> void execZero(final JsonArray dataArray, final Class<T> clazz, final ZeroBiConsumer<T, Integer> fnIt)
-        throws ZeroException {
+    static <T> void execZero(final JsonArray dataArray, final Class<T> clazz, final ProgramBiConsumer<T, Integer> fnIt)
+        throws ProgramException {
         final int size = dataArray.size();
         for (int idx = VValue.IDX; idx < size; idx++) {
             final Object value = dataArray.getValue(idx);
@@ -201,30 +199,5 @@ final class Wall {
                 }
             }
         }
-    }
-
-    /**
-     * Memory cache pool implemented by ConcurrentMap( k = v ) instead of create new each time
-     *
-     * @param pool   Memory concurrent hash map
-     * @param key    Input key for cache
-     * @param poolFn Supplier of value when create new ( If not in cache )
-     * @param <K>    key type
-     * @param <V>    value type
-     *
-     * @return Get or Created V for value
-     */
-    static <K, V> V execPool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
-        if (Objects.isNull(key)) {
-            throw new PoolKeyNullException();
-        }
-        V reference = pool.get(key);
-        if (null == reference) {
-            reference = poolFn.get();
-            if (null != reference) {
-                pool.put(key, reference);
-            }
-        }
-        return reference;
     }
 }

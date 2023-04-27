@@ -3,10 +3,10 @@ package io.vertx.up.util;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.exception.internal.EmptyIoException;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.runtime.Macrocosm;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import org.slf4j.Logger;
@@ -201,7 +201,7 @@ final class Stream {
             in = readJar(filename);
         }
         if (null == in) {
-            throw new EmptyStreamException(filename);
+            throw new EmptyIoException(Stream.class, filename);
         }
         return in;
     }

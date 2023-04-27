@@ -1,7 +1,7 @@
 package io.vertx.up.uca.options;
 
 import io.horizon.eon.info.VMessage;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonArray;
@@ -34,7 +34,7 @@ public class VertxVisitor implements NodeVisitor {
 
     @Override
     public ConcurrentMap<String, VertxOptions> visit(final String... keys)
-        throws ZeroException {
+        throws ProgramException {
         // 1. Must be the first line, fixed position.
         //        Fn.verifyLenEq(this.getClass(), 0, (Object[]) keys);
         // 2. Visit the node for vertx
@@ -56,7 +56,7 @@ public class VertxVisitor implements NodeVisitor {
 
     private ConcurrentMap<String, VertxOptions> visit(
         final JsonArray vertxData)
-        throws ZeroException {
+        throws ProgramException {
         final ConcurrentMap<String, VertxOptions> map =
             new ConcurrentHashMap<>();
         final boolean clustered = this.clusterOptions.isEnabled();

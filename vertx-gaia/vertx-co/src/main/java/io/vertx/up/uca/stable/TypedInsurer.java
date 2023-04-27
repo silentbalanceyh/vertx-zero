@@ -1,7 +1,7 @@
 package io.vertx.up.uca.stable;
 
 import io.horizon.eon.em.typed.JsonType;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.demon.DataTypeWrongException;
 import io.vertx.up.fn.Fn;
@@ -34,12 +34,12 @@ public class TypedInsurer extends AbstractInsurer {
      * @param data input data that should be verified.
      * @param rule rule config data
      *
-     * @throws ZeroException Insure exception
+     * @throws ProgramException Insure exception
      * @see "STRING | INTEGER | DECIMAL | BOOLEAN | JOBJECT | JARRAY | DATE"
      */
     @Override
     public void flumen(final JsonObject data, final JsonObject rule)
-        throws ZeroException {
+        throws ProgramException {
         // 1. If rule is null, skip
         Fn.safeZero(() -> {
             // 2. extract rule from rule, only required accept

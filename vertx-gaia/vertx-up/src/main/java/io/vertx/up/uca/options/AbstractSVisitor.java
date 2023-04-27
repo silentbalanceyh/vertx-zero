@@ -1,6 +1,6 @@
 package io.vertx.up.uca.options;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -18,7 +18,7 @@ public abstract class AbstractSVisitor {
     private transient final Node<JsonObject> NODE = Node.infix(ZeroYml._server);
 
     protected JsonArray serverPre(final int expected, final String... key)
-        throws ZeroException {
+        throws ProgramException {
         // 1. Must be the first line, fixed position.
         //        Fn.verifyLenEq(this.getClass(), expected, (Object[]) key);
         // 2. Visit the node for server, http

@@ -1,6 +1,6 @@
 package io.vertx.up.uca.options;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroVertx;
@@ -13,7 +13,7 @@ public class JObjectOpts implements Visitor<JsonObject> {
 
     @Override
     public JsonObject visit(final String... nodes)
-        throws ZeroException {
+        throws ProgramException {
         // Tree Data
         final JsonObject tree = NODE.read();
         return Ut.visitJObject(tree, nodes);

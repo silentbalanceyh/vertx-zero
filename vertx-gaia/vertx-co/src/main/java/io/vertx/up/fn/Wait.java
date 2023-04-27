@@ -1,10 +1,9 @@
 package io.vertx.up.fn;
 
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.ErrorSupplier;
-import io.horizon.fn.ZeroActuator;
+import io.horizon.fn.ProgramActuator;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -60,14 +59,14 @@ final class Wait {
         }
     }
 
-    static void wrapper(final Annal logger, final ZeroActuator actuator) {
+    static void wrapper(final Annal logger, final ProgramActuator actuator) {
         try {
             actuator.execute();
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             logger.fatal(ex);
             //            Annal.?ure(logger, () -> logger.checked(ex));
-            throw new ZeroRunException(ex.getMessage()) {
-            };
+            //            throw new AbstractException(ex.getMessage()) {
+            //            };
         } catch (final Throwable ex) {
             logger.fatal(ex);
             //            Annal.?ure(logger, () -> logger.jvm(ex));

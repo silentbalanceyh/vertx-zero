@@ -1,6 +1,6 @@
 package io.vertx.up.atom.config;
 
-import io.vertx.up.exception.heart.EmptyStreamException;
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -33,7 +33,7 @@ public class HugeFile {
         Fn.safeJvm(() -> {
             final File file = Ut.ioFile(fileName);
             if (Objects.isNull(file)) {
-                throw new EmptyStreamException(fileName);
+                throw new EmptyIoException(this.getClass(), fileName);
             } else {
                 this.inputStream = new FileInputStream(file);
                 this.fileChannel = this.inputStream.getChannel();

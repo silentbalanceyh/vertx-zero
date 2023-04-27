@@ -1,6 +1,6 @@
 package io.vertx.up.uca.stable;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.demon.ForbiddenFieldException;
@@ -12,10 +12,10 @@ public class ForbiddenInsurer extends AbstractInsurer {
      * @param data input data that should be verified.
      * @param rule rule config data
      *
-     * @throws ZeroException Insure exception
+     * @throws ProgramException Insure exception
      */
     @Override
-    public void flumen(final JsonObject data, final JsonObject rule) throws ZeroException {
+    public void flumen(final JsonObject data, final JsonObject rule) throws ProgramException {
         // 1. If rule is null, skip
         Fn.safeZero(() -> {
             // 2. Extract rule from config.

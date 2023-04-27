@@ -1,8 +1,8 @@
 package io.vertx.up.runtime;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.LimeFileException;
+import io.vertx.up.exception.internal.LimeMissingException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.internal.Log4JAnnal;
 import io.vertx.up.uca.options.Opts;
@@ -37,7 +37,7 @@ public final class ZeroAmbient {
         try {
             final JsonObject opt = OPTS.ingest(KEY);
             injectOpt.mergeIn(opt);
-        } catch (final ZeroException | LimeFileException ex) {
+        } catch (final ProgramException | LimeMissingException ex) {
             LOGGER.warn(ex.getMessage());
         }
         /*

@@ -2,8 +2,8 @@ package io.vertx.up.uca.yaml;
 
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
@@ -98,7 +98,7 @@ public class ZeroTool {
                 if (Ut.notNil(yamlData)) {
                     data.mergeIn(yamlData);
                 }
-            } catch (final EmptyStreamException ex) {
+            } catch (final EmptyIoException ex) {
                 // LOGGER.warn(ex.getMessage());
                 // Here do nothing to avoid useless log out
                 // ex.printStackTrace();

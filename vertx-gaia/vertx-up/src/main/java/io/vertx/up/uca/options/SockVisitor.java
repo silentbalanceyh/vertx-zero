@@ -2,7 +2,7 @@ package io.vertx.up.uca.options;
 
 import io.horizon.eon.em.container.ServerType;
 import io.horizon.eon.info.VMessage;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.SockOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -24,7 +24,7 @@ public class SockVisitor extends AbstractSVisitor implements ServerVisitor<SockO
 
     @Override
     public ConcurrentMap<Integer, SockOptions> visit(final String... key)
-        throws ZeroException {
+        throws ProgramException {
         final JsonArray serverData = this.serverPre(0, key);
         this.logger().info(VMessage.VISITOR_V_BEFORE, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);

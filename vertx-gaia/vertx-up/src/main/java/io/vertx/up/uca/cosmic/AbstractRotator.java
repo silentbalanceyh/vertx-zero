@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.config.IntegrationRequest;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.exception.heart.JexlExpressionException;
+import io.vertx.up.exception.internal.JexlExpressionException;
 import io.vertx.up.exception.web._500RequestConfigException;
 import io.vertx.up.exception.web._501HttpClientNullException;
 import io.vertx.up.fn.Fn;

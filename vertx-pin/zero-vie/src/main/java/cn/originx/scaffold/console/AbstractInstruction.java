@@ -5,6 +5,7 @@ import cn.originx.stellaris.Ok;
 import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import cn.vertxup.ambient.domain.tables.pojos.XCategory;
 import io.horizon.eon.em.Environment;
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._501EnvironmentException;
@@ -14,7 +15,6 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
 import io.vertx.up.eon.KName;
-import io.vertx.up.exception.heart.EmptyStreamException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -46,7 +46,7 @@ public abstract class AbstractInstruction extends AbstractCommander {
                 final JtApp app = okB.configApp();
                 return executor.apply(app, config);
             });
-        } catch (final EmptyStreamException ex) {
+        } catch (final EmptyIoException ex) {
             Sl.output("文件不存在：file = {0}, details = {1}", filename, ex.getMessage());
             return Ux.future(TermStatus.FAILURE);
         }

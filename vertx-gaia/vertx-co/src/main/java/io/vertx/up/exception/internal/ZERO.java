@@ -3,7 +3,7 @@
  * 1. This kind of exceptions won't connect any Annal Logger
  * 2. This error messages use vertx logger directly.
  */
-package io.vertx.up.exception.heart;
+package io.vertx.up.exception.internal;
 
 interface Info {
 
@@ -18,7 +18,7 @@ interface Info {
         "({3} {2}) arguments only, the length is conflict";
     String LIME_FILE = "Lime node configured up.god.file = \"{0}\"" + " is missing, please check the missed up.god.file";
 
-    String OP_MSG = "This operation is not supported! " + "( method = {0}, class = {1} )";
+    String OP_MSG = "This operation is not supported! ( method = {0}, class = {1} )";
 
     String JEXL_MSG = "The expression \"{0}\" could not be parsed, details = {1}";
 

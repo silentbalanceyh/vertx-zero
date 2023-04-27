@@ -1,10 +1,10 @@
 package io.vertx.up.fn;
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.ProgramException;
+import io.horizon.exception.AbstractException;
 import io.horizon.fn.Actuator;
 import io.horizon.fn.ExceptionSupplier;
-import io.horizon.fn.ZeroActuator;
+import io.horizon.fn.ProgramActuator;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.log.Log;
 import io.vertx.up.util.Ut;
@@ -18,10 +18,10 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-final class Zero {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Zero.class);
+final class ZeroErr {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZeroErr.class);
 
-    private Zero() {
+    private ZeroErr() {
     }
 
     static <T> void exec(final Consumer<T> consumer, final T input) {
@@ -31,14 +31,14 @@ final class Zero {
     }
 
     static void exec(final Actuator actuator, final Object... input) {
-        if (Zero.isSatisfy(input)) {
+        if (ZeroErr.isSatisfy(input)) {
             actuator.execute();
         }
     }
 
-    static void execZero(final ZeroActuator actuator, final Object... input)
-        throws ZeroException {
-        if (Zero.isSatisfy(input)) {
+    static void execZero(final ProgramActuator actuator, final Object... input)
+        throws ProgramException {
+        if (ZeroErr.isSatisfy(input)) {
             actuator.execute();
         }
     }
@@ -49,12 +49,12 @@ final class Zero {
             if (Arrays.stream(input).allMatch(Objects::nonNull)) {
                 ret = supplier.get();
             }
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             Log.fatal(LOGGER, ex);
             //            Zero.LOGGER.fatal(ex);
             // TODO: Debug Trace for JVM
             ex.printStackTrace();
-        } catch (final ZeroRunException ex) {
+        } catch (final AbstractException ex) {
             throw ex;
         } catch (final Throwable ex) {
             /*

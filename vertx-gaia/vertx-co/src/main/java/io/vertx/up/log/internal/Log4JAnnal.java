@@ -1,7 +1,7 @@
 package io.vertx.up.log.internal;
 
-import io.horizon.exception.ZeroException;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.ProgramException;
+import io.horizon.exception.AbstractException;
 import io.vertx.up.log.Annal;
 import io.vertx.up.log.DevEnv;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class Log4JAnnal extends AbstractAnnal implements Annal {
     @Override
     public void fatal(final Throwable ex) {
         Objects.requireNonNull(ex);
-        if (ex instanceof ZeroException || ex instanceof ZeroRunException) {
+        if (ex instanceof ProgramException || ex instanceof AbstractException) {
             this.logger.warn(ex.getMessage());
         } else {
             this.logger.error(ex.getMessage());

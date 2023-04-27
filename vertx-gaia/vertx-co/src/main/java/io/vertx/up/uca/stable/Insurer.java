@@ -1,6 +1,6 @@
 package io.vertx.up.uca.stable;
 
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -12,9 +12,9 @@ public interface Insurer {
      * @param data        input data
      * @param elementRule rule element
      *
-     * @throws ZeroException returned checked error
+     * @throws ProgramException returned checked error
      */
-    void flumen(JsonObject data, JsonObject elementRule) throws ZeroException;
+    void flumen(JsonObject data, JsonObject elementRule) throws ProgramException;
 
     /**
      * Verify json array for each element.
@@ -22,7 +22,7 @@ public interface Insurer {
      * @param array       input data array
      * @param elementRule rule element
      *
-     * @throws ZeroException returned checked error
+     * @throws ProgramException returned checked error
      */
-    void flumen(JsonArray array, JsonObject elementRule) throws ZeroException;
+    void flumen(JsonArray array, JsonObject elementRule) throws ProgramException;
 }

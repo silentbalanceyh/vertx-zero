@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.experiment.specification.KPair;
+import io.horizon.annotations.HLinking;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
@@ -12,6 +13,7 @@ import io.horizon.eon.runtime.VEnv;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.runtime.internal.HService;
+import io.horizon.util.HMs;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -1846,8 +1848,9 @@ public final class Ut {
         return Format.formatBold(pattern, args);
     }
 
+    @HLinking(refer = HMs.class)
     public static String fromMessage(final String pattern, final Object... args) {
-        return Format.message(pattern, args);
+        return HMs.fromMessage(pattern, args);
     }
 
     public static <T> T fromExpressionT(final String expr, final JsonObject params) {

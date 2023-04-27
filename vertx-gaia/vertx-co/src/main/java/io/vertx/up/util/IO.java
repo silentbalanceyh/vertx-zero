@@ -6,11 +6,11 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.YamlType;
+import io.horizon.exception.internal.EmptyIoException;
+import io.horizon.exception.internal.JsonFormatException;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.EmptyStreamException;
-import io.vertx.up.exception.heart.JsonFormatException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Log;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ final class IO {
      */
     static JsonArray getJArray(final String filename) {
         return Fn.outRun(() -> new JsonArray(getString(filename)),
-            JsonFormatException.class, filename);
+            JsonFormatException.class, IO.class, filename);
     }
 
     /**
@@ -67,7 +67,7 @@ final class IO {
         final String content = getString(filename);
         // TODO: For debug
         return Fn.outRun(() -> new JsonObject(content),
-            JsonFormatException.class, filename);
+            JsonFormatException.class, IO.class, filename);
     }
 
     /**
@@ -145,12 +145,12 @@ final class IO {
         final InputStream in = Stream.read(filename);
         final JsonNode node = Fn.safeJvm(() -> {
             if (null == in) {
-                throw new EmptyStreamException(filename);
+                throw new EmptyIoException(IO.class, filename);
             }
             return YAML.readTree(in);
         }, null);
         if (null == node) {
-            throw new EmptyStreamException(filename);
+            throw new EmptyIoException(IO.class, filename);
         }
         return node;
     }
@@ -240,7 +240,7 @@ final class IO {
                 () -> {
                     final URL url = getURL(filename);
                     if (null == url) {
-                        throw new EmptyStreamException(filename);
+                        throw new EmptyIoException(IO.class, filename);
                     }
                     return new File(url.getFile());
                 });

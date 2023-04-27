@@ -1,13 +1,13 @@
 package io.vertx.up.exception;
 
 import io.horizon.eon.VString;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.AbstractException;
 import io.vertx.up.log.Errors;
 
 /**
  * Top Exception for error code mapping ( Runtime )
  */
-public abstract class UpException extends ZeroRunException {
+public abstract class UpException extends AbstractException {
     private final String message;
     private final Class<?> target;
 

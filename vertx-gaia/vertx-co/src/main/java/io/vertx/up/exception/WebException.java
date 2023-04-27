@@ -1,7 +1,7 @@
 package io.vertx.up.exception;
 
 import io.horizon.eon.VString;
-import io.horizon.exception.ZeroRunException;
+import io.horizon.exception.AbstractException;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 /**
  *
  */
-public abstract class WebException extends ZeroRunException {
+public abstract class WebException extends AbstractException {
 
     protected static final String INFO = "info";
     protected static final String CODE = "code";

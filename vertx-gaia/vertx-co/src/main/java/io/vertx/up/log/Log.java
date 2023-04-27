@@ -7,31 +7,6 @@ import org.slf4j.Logger;
 import java.util.Objects;
 
 public final class Log {
-    /*
-     * The color for console output
-     */
-    public static final int COLOR_RED = 31;
-    public static final int COLOR_GREEN = 32;
-    public static final int COLOR_YELLOW = 33;
-    public static final int COLOR_BLUE = 34;
-    public static final int COLOR_CYAN = 36;
-    public static final int COLOR_GRAY = 37;
-    public static final int COLOR_BLANK = 30;
-    private static final int NORMAL = 0;
-    private static final int WEIGHT = 1;
-    private static final String PREFIX = "\u001b[";
-    private static final String SUFFIX = "m";
-    private static final char SEPARATOR = ';';
-    private static final String END_COLOUR = PREFIX + SUFFIX;
-    private static final String BOLD_FLAG = PREFIX + WEIGHT + SEPARATOR + COLOR_BLANK + SUFFIX + "[ μηδέν ] " + END_COLOUR;
-
-    public static String blue(final String flag) {
-        return PREFIX + NORMAL + SEPARATOR + COLOR_BLUE + SUFFIX + "[ " + flag + " ] " + END_COLOUR;
-    }
-
-    public static String green(final String flag) {
-        return PREFIX + NORMAL + SEPARATOR + COLOR_GREEN + SUFFIX + "[ " + flag + " ] " + END_COLOUR;
-    }
 
     // -------------- 扩展日志
     public static LogFactory modulat(final String module) {

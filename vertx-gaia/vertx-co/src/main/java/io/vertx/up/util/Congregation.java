@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
-import io.horizon.exception.ZeroException;
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.Actuator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -98,7 +98,7 @@ final class Congregation {
                          final BiConsumer<T, String> consumer) {
         try {
             Fn.verifyJObject(data, consumer::accept);
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             LOGGER.fatal(ex);
         }
     }
@@ -137,7 +137,7 @@ final class Congregation {
     static <T> void exec(final JsonArray dataArray, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
         try {
             Fn.verifyJArray(dataArray, clazz, consumer::accept);
-        } catch (final ZeroException ex) {
+        } catch (final ProgramException ex) {
             LOGGER.fatal(ex);
         }
     }

@@ -1,7 +1,7 @@
 package io.vertx.up.log;
 
+import io.horizon.exception.internal.ErrorMissingException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.heart.ErrorMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
@@ -48,7 +48,7 @@ public final class Errors {
                     error
                 );
             } else {
-                throw new ErrorMissingException(code, clazz.getName());
+                throw new ErrorMissingException(clazz, code);
             }
         }, clazz);
     }
