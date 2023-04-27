@@ -211,30 +211,37 @@ public final class Fn extends _Then {
     }
 
     // ------ Semi Safe
+    @Deprecated
     public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
         Wall.exec(condition, logger, tSupplier, fSupplier);
     }
 
+    @Deprecated
     public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier) {
         Wall.exec(condition, logger, tSupplier, null);
     }
 
+    @Deprecated
     public static void safeSemi(final boolean condition, final Actuator tSupplier) {
         Wall.exec(condition, null, tSupplier, null);
     }
 
+    @Deprecated
     public static <T> void safeSemi(final Supplier<T> supplier, final Consumer<T> consumer) {
         Wall.safeT(supplier, consumer);
     }
 
+    @Deprecated
     public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, fSupplier::get), logger);
     }
 
+    @Deprecated
     public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
         return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, null), logger);
     }
 
+    @Deprecated
     public static <T> T orSemi(final boolean condition, final ProgramSupplier<T> tSupplier, final ProgramSupplier<T> fSupplier) throws ProgramException {
         return Wall.execZero(condition, tSupplier, fSupplier);
     }
@@ -279,10 +286,6 @@ public final class Fn extends _Then {
 
     public static <T> Future<T> error(final Class<? extends WebException> clazz, final Object... args) {
         return War.thenError(clazz, args);
-    }
-
-    public static <T> Future<T> error(final Class<?> clazz, final String sigma, final Supplier<Future<T>> supplier) {
-        return War.thenError(clazz, sigma, supplier);
     }
 
     // ---------------- Arrange Async Future ----------------------

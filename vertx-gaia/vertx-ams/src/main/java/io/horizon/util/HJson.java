@@ -1,7 +1,6 @@
 package io.horizon.util;
 
 import io.vertx.core.json.DecodeException;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -24,7 +23,8 @@ class HJson {
             return false;
         }
         try {
-            Json.CODEC.fromString(literal, JsonArray.class);
+            //            Json.CODEC.fromString(literal, JsonArray.class);
+            new JsonArray(literal);
             return true;
         } catch (final DecodeException ex) {
             return false;
@@ -41,7 +41,7 @@ class HJson {
             return false;
         }
         try {
-            Json.CODEC.fromString(literal, JsonObject.class);
+            new JsonObject(literal);
             return true;
         } catch (final DecodeException ex) {
             return false;
